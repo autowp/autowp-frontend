@@ -1,6 +1,5 @@
 import 'bootstrap-notify';
 import * as $ from 'jquery';
-import 'animate.css';
 import { HttpResponse } from '@angular/common/http';
 
 class Notify {
