@@ -14,7 +14,7 @@ class Notify {
       align: 'right',
       from: 'bottom'
     };
-    $.notify(options, settings);
+    ($ as any).notify(options, settings);
   }
 
   public static custom(options: any, settings: any) {

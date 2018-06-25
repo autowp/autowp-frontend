@@ -18,6 +18,7 @@ import {
 } from 'rxjs/operators';
 import { PictureService } from '../../../../services/picture';
 import { TranslateService } from '@ngx-translate/core';
+import { sprintf } from 'sprintf-js';
 
 // Acl.inheritsRole( 'moder', 'unauthorized' );
 
