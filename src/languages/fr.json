@@ -141,7 +141,7 @@
   "test": "test est ok",
   "and": "et",
   "ng/%1$s-pictures": "{count, plural, one {{count} image} other {{count} images}}",
-  "ng/%1$s-items": "{count, plural, one {{count} item} {{count} items}}",
+  "ng/%1$s-items": "{count, plural, one {{count} item} other {{count} items}}",
   "ng/%1$s-comments": "{count, plural, one {{count} comment} other {{count} comments}}",
   "{count} messages": "{count, plural, one {{count} message} other {{count} messages}}",
   "{topics} topics and {messages} messages": "{topics, plural, one {{topics} sujet} other {{topics} sujets}} et {messages, plural, one {{messages} message} other {{messages} messages}}",

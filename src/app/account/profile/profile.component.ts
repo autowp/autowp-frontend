@@ -97,6 +97,14 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.languages = [];
+    for (const language of this.language.getLanguages()) {
+      this.languages.push({
+        name: language.name,
+        value: language.code
+      });
+    }
+
     this.sub = this.auth
       .getUser()
       .pipe(
@@ -118,8 +126,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
               }
             }),
             this.timezone.getTimezones(),
-            this.language.getLanguages(),
-            (user, timezones, languages) => ({ user, timezones, languages })
+            (user, timezones) => ({ user, timezones })
           )
         )
       )
@@ -133,16 +140,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           this.photo = data.user.img;
 
           this.timezones = data.timezones;
-
-          this.languages = [];
-          for (const key in data.languages.items) {
-            if (data.languages.items.hasOwnProperty(key)) {
-              this.languages.push({
-                name: data.languages.items[key],
-                value: key
-              });
-            }
-          }
         },
         response => {
           Notify.response(response);

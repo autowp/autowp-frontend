@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
@@ -10,7 +10,8 @@ import { MessageService } from './services/message';
 import { Page, PageService } from './services/page';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
-import { LanguageService } from './services/language';
+import { LanguageService, Language } from './services/language';
+import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 
 @Component({
   selector: 'app-root',
@@ -18,47 +19,9 @@ import { LanguageService } from './services/language';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
-  private hosts = {
-    en: {
-      hostname: 'en.wheelsage.org',
-      name: 'English',
-      flag: 'flag-icon flag-icon-gb'
-    },
-    zh: {
-      hostname: 'zh.wheelsage.org',
-      name: '中文 (beta)',
-      flag: 'flag-icon flag-icon-cn'
-    },
-    ru: {
-      hostname: 'www.autowp.ru',
-      name: 'Русский',
-      flag: 'flag-icon flag-icon-ru'
-    },
-    'pt-br': {
-      hostname: 'br.wheelsage.org',
-      name: 'Português brasileiro',
-      flag: 'flag-icon flag-icon-br'
-    },
-    fr: {
-      hostname: 'fr.wheelsage.org',
-      name: 'Français (beta)',
-      flag: 'flag-icon flag-icon-fr'
-    },
-    be: {
-      hostname: 'be.wheelsage.org',
-      name: 'Беларуская',
-      flag: 'flag-icon flag-icon-by'
-    },
-    uk: {
-      hostname: 'uk.wheelsage.org',
-      name: 'Українська (beta)',
-      flag: 'flag-icon flag-icon-ua'
-    }
-  };
+  private languages: Language[] = [];
   public layoutParams$: Observable<LayoutParams>;
   public loginInvalidParams: any;
-  public languages;
-  public path; // = $location.path();
   public user: APIUser;
   public isModer; // = opt.isModer;
   public newPersonalMessages; // = opt.sidebar.newPersonalMessages;
@@ -74,6 +37,7 @@ export class AppComponent implements OnInit {
     remember: false
   };
   public language: string;
+  public urlPath = '/';
 
   constructor(
     public auth: AuthService,
@@ -86,10 +50,14 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService
   ) {
     this.language = this.languageService.getLanguage();
-    this.translate.setTranslation('en', require('../languages/en.json'));
-    this.translate.setDefaultLang('en');
+    console.log(this.language);
+    this.translate.setTranslation(
+      this.language,
+      require('../languages/' + this.language + '.json')
+    );
+    this.translate.setDefaultLang(this.language);
 
-    this.translate.use('en');
+    this.translate.use(this.language);
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
@@ -99,14 +67,19 @@ export class AppComponent implements OnInit {
       this.user = user;
     });
 
+    this.languages = this.languageService.getLanguages();
     let searchHostname = 'wheelsage.org';
-    for (const itemLanguage in this.hosts) {
-      if (itemLanguage === this.language) {
-        searchHostname = this.hosts[itemLanguage]['hostname'];
+    for (const itemLanguage of this.languages) {
+      if (itemLanguage.code === this.language) {
+        searchHostname = itemLanguage.hostname;
       }
     }
 
     this.searchHostname = searchHostname;
+
+    router.events.subscribe((val: RouterEvent) => {
+      this.urlPath = val.url;
+    });
   }
 
   ngOnInit() {
