@@ -46,3 +46,4 @@ crt/*.key
 crt/*.crt
 
 package-lock.json
+/oneskyapp.sh
