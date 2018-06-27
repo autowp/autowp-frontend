@@ -22,6 +22,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
   public limit: number;
   public user: APIUser;
+  public page: number;
 
   constructor(
     private http: HttpClient,
@@ -44,11 +45,11 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
       switchMap(data => {
         this.user = data.user;
         const topicID = parseInt(data.route.topic_id, 10);
-        const page = parseInt(data.query.page, 10);
+        this.page = parseInt(data.query.page, 10);
         return this.forumService
           .getTopic(topicID, {
             fields: 'author,theme,subscription',
-            page: page
+            page: this.page
           });
       })
     ).subscribe(topic => {

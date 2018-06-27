@@ -11,6 +11,7 @@ import { Page, PageService } from './services/page';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
 import { LanguageService, Language } from './services/language';
+import { ItemService } from './services/item';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,8 @@ export class AppComponent implements OnInit {
     private pages: PageService,
     private messageService: MessageService,
     private pageEnv: PageEnvService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private itemService: ItemService
   ) {
     this.language = this.languageService.getLanguage();
     const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
@@ -100,6 +102,17 @@ export class AppComponent implements OnInit {
     this.messageService.getNew().subscribe(value => {
       this.newPersonalMessages = value;
     });
+
+    this.itemService
+      .getItems({
+        type_id: 3,
+        no_parent: true,
+        fields: 'name_text,url',
+        limit: 20
+      })
+      .subscribe(response => {
+        this.categories = response.items;
+      });
   }
 
   isSecondaryMenuItem(page: Page): boolean {

@@ -15,8 +15,9 @@
         <h4>
           <a [href]="brand.url" [textContent]="brand.name"></a>
           <small>({{brand.totalCars - brand.newCars}}
-            <span *ngIf="brand.newCars > 0" [data-href[="brand.new_cars_url" data-toggle="popover" data-container="body" class="popover-handler"
-              [title]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
+            <!-- data-href="brand.new_cars_url"  -->
+            <span *ngIf="brand.newCars > 0" data-toggle="popover" data-container="body" class="popover-handler"
+               [title]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
         </h4>
         <p>
           <small>{{'brands/pictures:'|translate}} {{brand.totalPictures}}</small>

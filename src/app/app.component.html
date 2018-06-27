@@ -21,21 +21,27 @@
 
     <div class="collapse navbar-collapse" id="navbarToggler">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngIf="mainMenuItems">
-        <li class="nav-item" *ngFor="let page of mainMenuItems" [class.dropdown]="page.id == 22" [ngClass]="{'d-md-none d-lg-block': [25, 117].indexOf(+page.id) != -1, 'd-md-none d-lg-none d-xl-block': page.id == 42}">
-          <a class="nav-link" [href]="page.url" [textContent]="page.name | translate" *ngIf="page.id != 22 && !page.routerLink"></a>
-          <a class="nav-link" [routerLink]="page.routerLink" [textContent]="page.name | translate" *ngIf="page.id != 22 && page.routerLink"></a>
-          <a href="#" *ngIf="page.id == 22" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            {{page.name | translate}}
-            <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu" *ngIf="page.id == 22">
-            <a [href]="category.url" class="dropdown-item" *ngFor="let category of categories">
-              {{category.name}}&#xa0;
-              <span class="count">({{category.cars_count - category.new_cars_count}}
-                <span *ngIf="category.new_cars_count > 0">+{{category.new_cars_count}}</span>)</span>
-            </a>
-          </ul>
-        </li>
+        <ng-container *ngFor="let page of mainMenuItems">
+          <li class="nav-item" *ngIf="page.id != 22" [ngClass]="{'d-md-none d-lg-block': [25, 117].indexOf(+page.id) != -1, 'd-md-none d-lg-none d-xl-block': page.id == 42}">
+            <a class="nav-link" [href]="page.url" [textContent]="page.name | translate" *ngIf="!page.routerLink"></a>
+            <a class="nav-link" [routerLink]="page.routerLink" [textContent]="page.name | translate" *ngIf="page.routerLink"></a>
+          </li>
+          <li class="nav-item" *ngIf="page.id == 22" ngbDropdown>
+            <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
+              {{page.name | translate}}
+              <b class="caret"></b>
+            </button>
+            <div ngbDropdownMenu>
+              <a [href]="category.url" class="dropdown-item" *ngFor="let category of categories">
+                {{category.name_text}}&#xa0;
+                <span class="count">
+                  ({{category.cars_count - category.new_cars_count}}
+                  <span *ngIf="category.new_cars_count > 0">+{{category.new_cars_count}}</span>)
+                </span>
+              </a>
+            </div>
+          </li>
+        </ng-container>
       </ul>
       <form action="//www.google.com/search" method="get" class="form-inline my-2 my-lg-0 mr-4" *ngIf="searchHostname" ngNoForm>
         <input type="hidden" name="ie" value="utf-8" />
@@ -94,9 +100,9 @@
             </ng-container>
           </a>
           <div ngbDropdownMenu>
-            <a class="dropdown-item" [href]="'//' + language.hostname + urlPath" [class.active]="language.active" *ngFor="let language of languages">
-              <i class="{{language.flag}}"></i>
-              {{language.name}}
+            <a class="dropdown-item" [href]="'//' + lang.hostname + urlPath" [class.active]="lang.code == language" *ngFor="let lang of languages">
+              <i [ngClass]="lang.flag"></i>
+              {{lang.name}}
             </a>
             <a class="dropdown-item" href="https://github.com/autowp/autowp/tree/master/module/Application/language" translate>layout/language-contributing</a>
           </div>
