@@ -11,7 +11,6 @@ import { Page, PageService } from './services/page';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
 import { LanguageService, Language } from './services/language';
-import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 
 @Component({
   selector: 'app-root',
@@ -50,14 +49,15 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService
   ) {
     this.language = this.languageService.getLanguage();
-    console.log(this.language);
+    const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
+
     this.translate.setTranslation(
-      this.language,
+      ngxTranslateCode,
       require('../languages/' + this.language + '.json')
     );
-    this.translate.setDefaultLang(this.language);
+    this.translate.setDefaultLang(ngxTranslateCode);
 
-    this.translate.use(this.language);
+    this.translate.use(ngxTranslateCode);
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
