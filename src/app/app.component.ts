@@ -18,7 +18,7 @@ import { LanguageService, Language } from './services/language';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
-  private languages: Language[] = [];
+  public languages: Language[] = [];
   public layoutParams$: Observable<LayoutParams>;
   public loginInvalidParams: any;
   public user: APIUser;
