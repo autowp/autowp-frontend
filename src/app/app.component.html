@@ -8,8 +8,8 @@
 
 <div class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container">
-    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="/" [title]="'page/1/title'|translate">
@@ -21,27 +21,33 @@
 
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngIf="mainMenuItems">
-        <ng-container *ngFor="let page of mainMenuItems">
-          <li class="nav-item" *ngIf="page.id != 22" [ngClass]="{'d-md-none': [25, 117, 42].indexOf(+page.id) != -1, 'd-lg-block': [25, 117].indexOf(+page.id) != -1, 'd-sm-none d-lg-none d-xl-block': page.id == 42}">
-            <a class="nav-link" [href]="page.url" [textContent]="page.name | translate" *ngIf="!page.routerLink"></a>
-            <a class="nav-link" [routerLink]="page.routerLink" [textContent]="page.name | translate" *ngIf="page.routerLink"></a>
-          </li>
-          <li class="nav-item" *ngIf="page.id == 22" ngbDropdown>
-            <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
-              {{page.name | translate}}
-              <b class="caret"></b>
-            </button>
-            <div ngbDropdownMenu>
-              <a [href]="category.url" class="dropdown-item" *ngFor="let category of categories">
-                {{category.name_text}}&#xa0;
-                <span class="count">
-                  ({{category.cars_count - category.new_cars_count}}
-                  <span *ngIf="category.new_cars_count > 0">+{{category.new_cars_count}}</span>)
-                </span>
-              </a>
-            </div>
-          </li>
-        </ng-container>
+        <li class="nav-item d-md-none d-lg-block">
+          <a class="nav-link" href="/twins" translate>page/25/name</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/mosts" translate>page/21/name</a>
+        </li>
+        <li class="nav-item" ngbDropdown>
+          <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
+            {{'page/22/name' | translate}}
+            <b class="caret"></b>
+          </button>
+          <div ngbDropdownMenu>
+            <a [href]="category.url" class="dropdown-item" *ngFor="let category of categories">
+              {{category.name_text}}&#xa0;
+              <span class="count">
+                ({{category.descendants_count}}
+                <!--<span *ngIf="category.new_cars_count > 0">+{{category.new_cars_count}}</span>) -->
+              </span>
+            </a>
+          </div>
+        </li>
+        <li class="nav-item d-md-none d-lg-block">
+          <a class="nav-link" routerLink="/map" translate>page/117/name</a>
+        </li>
+        <li class="nav-item d-sm-none d-lg-none d-xl-block">
+          <a class="nav-link" routerLink="/forums" translate>page/42/name</a>
+        </li>
       </ul>
       <form action="//www.google.com/search" method="get" class="form-inline my-2 my-lg-0 mr-4" *ngIf="searchHostname" ngNoForm>
         <input type="hidden" name="ie" value="utf-8" />
@@ -68,13 +74,39 @@
             <b class="caret"></b>
           </button>
           <div ngbDropdownMenu>
-            <ng-container *ngFor="let page of mainInSecondaryItems">
-              <ng-container *ngIf="(!page.registered_only || user) && (!page.guest_only || !user)">
-                <a class="dropdown-item" *ngIf="!page.routerLink" [href]="page.url" [textContent]="page.name | translate" [ngClass]="{'d-block d-sm-block d-md-block d-lg-none': [25, 117].indexOf(+page.id) !== -1, 'd-block d-sm-block d-md-block d-lg-block d-xl-none': page.id == 42}"></a>
-                <a class="dropdown-item" *ngIf="page.routerLink" [routerLink]="page.routerLink" [textContent]="page.name | translate" [ngClass]="{'d-block d-sm-block d-md-block d-lg-none': [25, 117].indexOf(+page.id) !== -1, 'd-block d-sm-block d-md-block d-lg-block d-xl-none': page.id == 42}"></a>
-              </ng-container>
-            </ng-container>
+
+            <a class="dropdown-item d-lg-none" href="/twins" translate>page/25/name</a>
+            <a class="dropdown-item d-lg-none" routerLink="/map" translate>page/117/name</a>
+            <a class="dropdown-item d-xl-none" routerLink="/forums" translate>page/42/name</a>
+
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
+
+            <a routerLink="/signup" class="dropdown-item" *ngIf="!user">
+              <i class="fa fa-fw fa fa-pencil"></i>
+              {{'page/91/name' | translate}}
+            </a>
+            <a routerLink="/upload" class="dropdown-item">
+              <i class="fa fa-fw fa-upload"></i>
+              {{'page/29/name' | translate}}
+            </a>
+            <a routerLink="/feedback" class="dropdown-item">
+              <i class="fa fa-fw fa-comment"></i>
+              {{'page/89/name' | translate}}
+            </a>
+            <a href="/users/online" class="dropdown-item">
+              <i class="fa fa-fw fa fa-users"></i>
+              {{'page/124/name' | translate}}
+            </a>
+            <a routerLink="/account/contacts" class="dropdown-item" *ngIf="!user">
+              <i class="fa fa-fw fa-address-book"></i>
+              {{'page/211/name' | translate}}
+            </a>
+            <a routerLink="/account" class="dropdown-item" *ngIf="!user">
+              <i class="fa fa-fw fa-user"></i>
+              {{'page/48/name' | translate}}
+            </a>
+
+
             <ng-container *ngFor="let page of secondaryMenuItems">
               <ng-container *ngIf="(!page.registered_only || user) &amp;&amp; (!page.guest_only || !user)">
                 <a href="#" *ngIf="page.id == 90" class="dropdown-item" (click)="signOut($event)">

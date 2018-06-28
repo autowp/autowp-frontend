@@ -25,9 +25,7 @@ export class AppComponent implements OnInit {
   public user: APIUser;
   public newPersonalMessages; // = opt.sidebar.newPersonalMessages;
   public searchHostname: string;
-  public mainMenuItems: Page[] = [];
   public secondaryMenuItems: Page[] = [];
-  public mainInSecondaryItems: Page[] = [];
   public categories = [];
   public loginForm = {
     login: '',
@@ -84,16 +82,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.mainInSecondaryItems = [];
-    this.pages.getMenu(2).subscribe(items => {
-      this.mainMenuItems = items;
-      for (const page of this.mainMenuItems) {
-        if (this.isSecondaryMenuItem(page)) {
-          this.mainInSecondaryItems.push(page);
-        }
-      }
-    });
-
     this.pages.getMenu(87).subscribe(items => {
       this.secondaryMenuItems = items;
     });
@@ -106,7 +94,7 @@ export class AppComponent implements OnInit {
       .getItems({
         type_id: 3,
         no_parent: true,
-        fields: 'name_text,url',
+        fields: 'name_text,url,descendants_count',
         limit: 20
       })
       .subscribe(response => {
