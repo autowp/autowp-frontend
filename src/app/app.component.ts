@@ -23,14 +23,12 @@ export class AppComponent implements OnInit {
   public layoutParams$: Observable<LayoutParams>;
   public loginInvalidParams: any;
   public user: APIUser;
-  public isModer; // = opt.isModer;
   public newPersonalMessages; // = opt.sidebar.newPersonalMessages;
   public searchHostname: string;
   public mainMenuItems: Page[] = [];
   public secondaryMenuItems: Page[] = [];
   public mainInSecondaryItems: Page[] = [];
   public categories = [];
-  public moderMenu; // = opt.moderMenu;
   public loginForm = {
     login: '',
     password: '',
@@ -38,6 +36,7 @@ export class AppComponent implements OnInit {
   };
   public language: string;
   public urlPath = '/';
+  public isNavbarCollapsed = true;
 
   constructor(
     public auth: AuthService,

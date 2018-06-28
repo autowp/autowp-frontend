@@ -8,7 +8,7 @@
 
 <div class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
+    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,10 +19,10 @@
       </svg>
     </a>
 
-    <div class="collapse navbar-collapse" id="navbarToggler">
+    <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngIf="mainMenuItems">
         <ng-container *ngFor="let page of mainMenuItems">
-          <li class="nav-item" *ngIf="page.id != 22" [ngClass]="{'d-md-none d-lg-block': [25, 117].indexOf(+page.id) != -1, 'd-md-none d-lg-none d-xl-block': page.id == 42}">
+          <li class="nav-item" *ngIf="page.id != 22" [ngClass]="{'d-md-none': [25, 117, 42].indexOf(+page.id) != -1, 'd-lg-block': [25, 117].indexOf(+page.id) != -1, 'd-sm-none d-lg-none d-xl-block': page.id == 42}">
             <a class="nav-link" [href]="page.url" [textContent]="page.name | translate" *ngIf="!page.routerLink"></a>
             <a class="nav-link" [routerLink]="page.routerLink" [textContent]="page.name | translate" *ngIf="page.routerLink"></a>
           </li>
@@ -50,13 +50,13 @@
         <input type="text" class="form-control" [placeholder]="'layout/search'|translate" name="q" />
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item<?=$this->pageEnv()->isOnPath(49) ? ' active' : ''?>" *ngIf="user">
+        <li class="nav-item" *ngIf="user">
           <a class="nav-link" routerLink="/account/messages">
             <i class="fa fa-comment"></i>
             <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages" *ngIf="newPersonalMessages"></span>
           </a>
         </li>
-        <li class="nav-item<?=$this->pageEnv()->isOnPath(79) ? ' active' : ''?>" *ngIf="!user">
+        <li class="nav-item" *ngIf="!user">
           <a routerLink="/login" class="nav-link">
             <i class="fa fa-sign-in"></i>
             {{'login/sign-in'|translate}}
