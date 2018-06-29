@@ -204,6 +204,7 @@ import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
 import { UploadCropComponent } from './upload/crop/crop.component';
+import { UsersOnlineComponent } from './users/online/online.component';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -848,7 +849,8 @@ const appRoutes: Routes = [
     MapPopupComponent,
     Error403Component,
     Error404Component,
-    UploadCropComponent
+    UploadCropComponent,
+    UsersOnlineComponent
   ],
   entryComponents: [
     ModalMessageComponent,
@@ -857,7 +859,8 @@ const appRoutes: Routes = [
     VehicleTypesModalComponent,
     VotingVotesComponent,
     MapPopupComponent,
-    UploadCropComponent
+    UploadCropComponent,
+    UsersOnlineComponent
   ],
   imports: [
     BrowserModule,

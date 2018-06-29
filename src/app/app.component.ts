@@ -11,6 +11,8 @@ import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
 import { LanguageService, Language } from './services/language';
 import { ItemService } from './services/item';
+import { UsersOnlineComponent } from './users/online/online.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +44,8 @@ export class AppComponent implements OnInit {
     private messageService: MessageService,
     private pageEnv: PageEnvService,
     private languageService: LanguageService,
-    private itemService: ItemService
+    private itemService: ItemService,
+    private modalService: NgbModal
   ) {
     this.language = this.languageService.getLanguage();
     const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
@@ -129,5 +132,14 @@ export class AppComponent implements OnInit {
 
   public isActive(id: number): Observable<boolean> {
     return this.pageEnv.isActive(id);
+  }
+
+  public showOnlineUsers() {
+    const modalRef = this.modalService.open(UsersOnlineComponent, {
+      size: 'lg',
+      centered: true
+    });
+
+    return false;
   }
 }
