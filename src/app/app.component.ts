@@ -13,6 +13,7 @@ import { LanguageService, Language } from './services/language';
 import { ItemService } from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,7 @@ export class AppComponent implements OnInit {
     remember: false
   };
   public language: string;
-  public urlPath = '/';
+  public urlPath = '/ng/';
   public isNavbarCollapsed = true;
 
   constructor(
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang(ngxTranslateCode);
 
     this.translate.use(ngxTranslateCode);
+    moment.locale(this.languageService.getMomentLocale());
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
@@ -77,7 +79,7 @@ export class AppComponent implements OnInit {
     this.searchHostname = searchHostname;
 
     router.events.subscribe((val: RouterEvent) => {
-      this.urlPath = val.url;
+      this.urlPath = '/ng' + val.url;
     });
   }
 

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { shareReplay, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface APILanguageGetResponse {
   items: {
@@ -15,62 +13,13 @@ export interface Language {
   hostname: string;
   name: string;
   flag: string;
+  momentLocale: string;
 }
 
 @Injectable()
 export class LanguageService {
   private language = 'en';
-  private languages: Language[] = [
-    {
-      code: 'en',
-      ngxTranslateCode: 'en',
-      hostname: 'en.wheelsage.org',
-      name: 'English',
-      flag: 'flag-icon flag-icon-gb'
-    },
-    {
-      code: 'zh',
-      ngxTranslateCode: 'zh',
-      hostname: 'zh.wheelsage.org',
-      name: '中文 (beta)',
-      flag: 'flag-icon flag-icon-cn'
-    },
-    {
-      code: 'ru',
-      ngxTranslateCode: 'ru',
-      hostname: 'www.autowp.ru',
-      name: 'Русский',
-      flag: 'flag-icon flag-icon-ru'
-    },
-    {
-      code: 'pt-br',
-      ngxTranslateCode: 'br',
-      hostname: 'br.wheelsage.org',
-      name: 'Português brasileiro',
-      flag: 'flag-icon flag-icon-br'
-    },
-    {
-      code: 'fr',
-      ngxTranslateCode: 'fr',
-      hostname: 'fr.wheelsage.org',
-      name: 'Français (beta)',
-      flag: 'flag-icon flag-icon-fr'
-    },
-    {
-      code: 'be',
-      ngxTranslateCode: 'be',
-      hostname: 'be.wheelsage.org',
-      name: 'Беларуская',
-      flag: 'flag-icon flag-icon-by'
-    },
-    {
-      code: 'uk',
-      ngxTranslateCode: 'uk',
-      hostname: 'uk.wheelsage.org',
-      name: 'Українська (beta)',
-      flag: 'flag-icon flag-icon-ua'
-    }
-  ];
+  private languages: Language[] = environment.languages;
 
   constructor() {
     for (const lang of this.languages) {
@@ -89,6 +38,16 @@ export class LanguageService {
     for (const lang of this.languages) {
       if (lang.code === this.language) {
         return lang.ngxTranslateCode;
+      }
+    }
+
+    return this.language;
+  }
+
+  public getMomentLocale() {
+    for (const lang of this.languages) {
+      if (lang.code === this.language) {
+        return lang.momentLocale;
       }
     }
 

@@ -63,7 +63,9 @@
           </span>
         </td>
         <td>
-          <app-past-time-indicator [date]="topic.add_datetime"></app-past-time-indicator>
+          <small>
+            <app-past-time-indicator [date]="topic.add_datetime"></app-past-time-indicator>
+          </small>
           <br />
           <app-user [user]="topic.author" *ngIf="topic.author"></app-user>
         </td>
