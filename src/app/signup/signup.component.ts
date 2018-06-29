@@ -37,35 +37,29 @@ export class SignupComponent {
         Notify.response(response);
       }
     );
-    setTimeout(
-      () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          name: 'page/52/name',
-          pageId: 52
-        }),
-      0
-    );
+    this.pageEnv.set({
+      layout: {
+        needRight: true
+      },
+      name: 'page/52/name',
+      pageId: 52
+    });
   }
 
   public submit() {
-    this.http
-      .post<void>('/api/user', this.form)
-      .subscribe(
-        () => {
-          this.router.navigate(['/signup/ok']);
-        },
-        response => {
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
+    this.http.post<void>('/api/user', this.form).subscribe(
+      () => {
+        this.router.navigate(['/signup/ok']);
+      },
+      response => {
+        if (response.status === 400) {
+          this.invalidParams = response.error.invalid_params;
 
-            this.showCaptcha = response.error.invalid_params.captcha;
-          } else {
-            Notify.response(response);
-          }
+          this.showCaptcha = response.error.invalid_params.captcha;
+        } else {
+          Notify.response(response);
         }
-      );
+      }
+    );
   }
 }

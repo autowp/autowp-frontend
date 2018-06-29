@@ -7,7 +7,6 @@ import { ACLService } from './services/acl.service';
 import Notify from './notify';
 import { APIUser } from './services/user';
 import { MessageService } from './services/message';
-import { Page, PageService } from './services/page';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
 import { LanguageService, Language } from './services/language';
@@ -25,7 +24,6 @@ export class AppComponent implements OnInit {
   public user: APIUser;
   public newPersonalMessages; // = opt.sidebar.newPersonalMessages;
   public searchHostname: string;
-  public secondaryMenuItems: Page[] = [];
   public categories = [];
   public loginForm = {
     login: '',
@@ -41,7 +39,6 @@ export class AppComponent implements OnInit {
     public acl: ACLService,
     private router: Router,
     private translate: TranslateService,
-    private pages: PageService,
     private messageService: MessageService,
     private pageEnv: PageEnvService,
     private languageService: LanguageService,
@@ -82,10 +79,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pages.getMenu(87).subscribe(items => {
-      this.secondaryMenuItems = items;
-    });
-
     this.messageService.getNew().subscribe(value => {
       this.newPersonalMessages = value;
     });
@@ -102,11 +95,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  isSecondaryMenuItem(page: Page): boolean {
-    return [25, 117, 42].indexOf(page.id) !== -1;
-  }
-
-  doLogin() {
+  public doLogin() {
     this.auth
       .login(
         this.loginForm.login,
@@ -127,7 +116,7 @@ export class AppComponent implements OnInit {
       );
   }
 
-  signOut(event) {
+  public signOut(event) {
     event.preventDefault();
 
     this.auth.signOut().subscribe(
@@ -136,5 +125,9 @@ export class AppComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  public isActive(id: number): Observable<boolean> {
+    return this.pageEnv.isActive(id);
   }
 }

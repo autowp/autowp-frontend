@@ -20,14 +20,14 @@
     </a>
 
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngIf="mainMenuItems">
-        <li class="nav-item d-md-none d-lg-block">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item d-md-none d-lg-block" [class.active]="isActive(25)|async">
           <a class="nav-link" href="/twins" translate>page/25/name</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [class.active]="isActive(21)|async">
           <a class="nav-link" routerLink="/mosts" translate>page/21/name</a>
         </li>
-        <li class="nav-item" ngbDropdown>
+        <li class="nav-item" ngbDropdown [class.active]="isActive(22)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
             {{'page/22/name' | translate}}
             <b class="caret"></b>
@@ -42,10 +42,10 @@
             </a>
           </div>
         </li>
-        <li class="nav-item d-md-none d-lg-block">
+        <li class="nav-item d-md-none d-lg-block" [class.active]="isActive(117)|async">
           <a class="nav-link" routerLink="/map" translate>page/117/name</a>
         </li>
-        <li class="nav-item d-sm-none d-lg-none d-xl-block">
+        <li class="nav-item d-sm-none d-lg-none d-xl-block" [class.active]="isActive(42)|async">
           <a class="nav-link" routerLink="/forums" translate>page/42/name</a>
         </li>
       </ul>
@@ -56,73 +56,63 @@
         <input type="text" class="form-control" [placeholder]="'layout/search'|translate" name="q" />
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item" *ngIf="user">
+        <li class="nav-item" *ngIf="user" [class.active]="isActive(49)|async">
           <a class="nav-link" routerLink="/account/messages">
             <i class="fa fa-comment"></i>
             <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages" *ngIf="newPersonalMessages"></span>
           </a>
         </li>
-        <li class="nav-item" *ngIf="!user">
+        <li class="nav-item" *ngIf="!user" [class.active]="isActive(79)|async">
           <a routerLink="/login" class="nav-link">
             <i class="fa fa-sign-in"></i>
             {{'login/sign-in'|translate}}
           </a>
         </li>
-        <li class="nav-item btn-group" ngbDropdown>
+        <li class="nav-item btn-group" ngbDropdown [class.active]="isActive(87)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
             {{'page/87/name'|translate}}
             <b class="caret"></b>
           </button>
           <div ngbDropdownMenu>
 
-            <a class="dropdown-item d-lg-none" href="/twins" translate>page/25/name</a>
-            <a class="dropdown-item d-lg-none" routerLink="/map" translate>page/117/name</a>
-            <a class="dropdown-item d-xl-none" routerLink="/forums" translate>page/42/name</a>
+            <a class="dropdown-item d-lg-none" [class.active]="isActive(25)|async" href="/twins" translate>page/25/name</a>
+            <a class="dropdown-item d-lg-none" [class.active]="isActive(117)|async" routerLink="/map" translate>page/117/name</a>
+            <a class="dropdown-item d-xl-none" [class.active]="isActive(42)|async" routerLink="/forums" translate>page/42/name</a>
 
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
 
-            <a routerLink="/signup" class="dropdown-item" *ngIf="!user">
+            <a routerLink="/signup" class="dropdown-item" *ngIf="!user" [class.active]="isActive(52)|async">
               <i class="fa fa-fw fa fa-pencil"></i>
               {{'page/91/name' | translate}}
             </a>
-            <a routerLink="/upload" class="dropdown-item">
+            <a routerLink="/upload" class="dropdown-item" [class.active]="isActive(29)|async">
               <i class="fa fa-fw fa-upload"></i>
               {{'page/29/name' | translate}}
             </a>
-            <a routerLink="/feedback" class="dropdown-item">
+            <a routerLink="/feedback" class="dropdown-item" [class.active]="isActive(89)|async">
               <i class="fa fa-fw fa-comment"></i>
               {{'page/89/name' | translate}}
             </a>
-            <a href="/users/online" class="dropdown-item">
+            <a href="/users/online" class="dropdown-item" [class.active]="isActive(124)|async">
               <i class="fa fa-fw fa fa-users"></i>
               {{'page/124/name' | translate}}
             </a>
-            <a routerLink="/account/contacts" class="dropdown-item" *ngIf="!user">
+            <a routerLink="/account/contacts" class="dropdown-item" *ngIf="user" [class.active]="isActive(211)|async">
               <i class="fa fa-fw fa-address-book"></i>
               {{'page/211/name' | translate}}
             </a>
-            <a routerLink="/account" class="dropdown-item" *ngIf="!user">
+            <a routerLink="/account" class="dropdown-item" *ngIf="user" [class.active]="isActive(48)|async">
               <i class="fa fa-fw fa-user"></i>
               {{'page/48/name' | translate}}
             </a>
-
-
-            <ng-container *ngFor="let page of secondaryMenuItems">
-              <ng-container *ngIf="(!page.registered_only || user) &amp;&amp; (!page.guest_only || !user)">
-                <a href="#" *ngIf="page.id == 90" class="dropdown-item" (click)="signOut($event)">
-                  <i [ngClass]="page.icon" *ngIf="page.icon"></i>
-                  {{page.name | translate}}
-                </a>
-                <a *ngIf="!page.routerLink" [href]="page.url" class="dropdown-item {{page.class}}">
-                  <i [ngClass]="page.icon" *ngIf="page.icon"></i>
-                  {{page.name | translate}}
-                </a>
-                <a *ngIf="page.id != 90 && page.routerLink" [routerLink]="page.routerLink" class="dropdown-item {{page.class}}">
-                  <i [ngClass]="page.icon" *ngIf="page.icon"></i>
-                  {{page.name | translate}}
-                </a>
-              </ng-container>
-            </ng-container>
+            <a routerLink="/about" class="dropdown-item" [class.active]="isActive(136)|async">
+              <i class="fa fa-fw fa-info"></i>
+              {{'page/136/name' | translate}}
+            </a>
+            <a routerLink="/login/logout" class="dropdown-item" *ngIf="user">
+              <i class="fa fa-fw fa-sign-out"></i>
+              {{'page/90/name' | translate}}
+            </a>
           </div>
         </li>
         <li class="nav-item " ngbDropdown placement="bottom-right">
@@ -172,7 +162,7 @@
       </div>
 
       <h3 *ngIf="!user" translate>login/sign-in</h3>
-      <div class="card card-body" *ngIf="!user">
+      <div class="card card-body mb-4" *ngIf="!user">
         <form (submit)="doLogin()">
           <p>
             <input type="text" name="login" placeholder="{{'login/login-or-email'|translate}}" class="form-control" [(ngModel)]="loginForm.login"
@@ -191,9 +181,9 @@
           </div>
           <div>
             <div class="float-right text-right">
-              <a href="/ng/signup" translate>login/registration</a>
+              <a routerLink="/signup" translate>login/registration</a>
               <br />
-              <a href="/ng/restore-password" translate>login/forgot-password?</a>
+              <a routerLink="/restore-password" translate>login/forgot-password?</a>
             </div>
             <input type="submit" value="{{'login/sign-in'|translate}}" class="btn btn-primary" />
           </div>
@@ -233,10 +223,10 @@
           <a href="https://play.google.com/store/apps/details?id=com.autowp.wallpaper" placement="top" ngbTooltip="Android wallpaper">
             <i class="fa fa-android"></i>
           </a>
-          <a href="/ng/telegram" placement="top" ngbTooltip="Telegram">
+          <a routerLink="/telegram" placement="top" ngbTooltip="Telegram">
             <i class="fa fa-telegram"></i>
           </a>
-          <a href="/ng/feedback" placement="top" [ngbTooltip]="'feedback/title'|translate">
+          <a routerLink="/feedback" placement="top" [ngbTooltip]="'feedback/title'|translate">
             <i class="fa fa-comment"></i>
           </a>
         </p>
