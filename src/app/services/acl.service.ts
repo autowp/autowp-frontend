@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, of, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, shareReplay } from 'rxjs/operators';
+import { catchError, map, shareReplay, switchMapTo } from 'rxjs/operators';
 
 export interface APIACLRule {
   role: string;
@@ -103,11 +103,7 @@ export class ACLService {
   private cache = new Map<string, Observable<boolean>>();
   private isAllowedCache = new Map<string, Observable<boolean>>();
 
-  constructor(private apiACL: APIACL, private auth: AuthService) {
-    this.auth.getUser().subscribe(() => {
-      this.flush();
-    });
-  }
+  constructor(private apiACL: APIACL, private auth: AuthService) {}
 
   public isAllowed(resource: string, privilege: string): Observable<boolean> {
     const key = resource + '/' + privilege;
@@ -116,7 +112,9 @@ export class ACLService {
       return this.isAllowedCache.get(key);
     }
 
-    const o = this.apiACL.isAllowed(resource, privilege);
+    const o = this.auth
+      .getUser()
+      .pipe(switchMapTo(this.apiACL.isAllowed(resource, privilege)));
     this.isAllowedCache.set(key, o);
     return o;
   }
@@ -126,13 +124,10 @@ export class ACLService {
       return this.cache.get(role);
     }
 
-    const o = this.apiACL.inheritsRole(role);
+    const o = this.auth
+      .getUser()
+      .pipe(switchMapTo(this.apiACL.inheritsRole(role)));
     this.cache.set(role, o);
     return o;
-  }
-
-  public flush() {
-    this.cache.clear();
-    this.isAllowedCache.clear();
   }
 }

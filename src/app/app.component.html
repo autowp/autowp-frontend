@@ -109,7 +109,7 @@
               <i class="fa fa-fw fa-info"></i>
               {{'page/136/name' | translate}}
             </a>
-            <a routerLink="/login/logout" class="dropdown-item" *ngIf="user">
+            <a href="#" (click)="signOut()" class="dropdown-item" *ngIf="user">
               <i class="fa fa-fw fa-sign-out"></i>
               {{'page/90/name' | translate}}
             </a>

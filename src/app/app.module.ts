@@ -205,6 +205,7 @@ import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
 import { UploadCropComponent } from './upload/crop/crop.component';
 import { UsersOnlineComponent } from './users/online/online.component';
+import { ModerGuard } from './moder.guard';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -400,51 +401,61 @@ const appRoutes: Routes = [
     children: [
       {
         path: 'comments',
-        component: ModerCommentsComponent
+        component: ModerCommentsComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'item-parent/:item_id/:parent_id',
-        component: ModerItemParentComponent
+        component: ModerItemParentComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'items',
         children: [
           {
             path: 'alpha',
-            component: ModerItemsAlphaComponent
+            component: ModerItemsAlphaComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: 'too-big',
-            component: ModerItemsTooBigComponent
+            component: ModerItemsTooBigComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: 'new',
-            component: ModerItemsNewComponent
+            component: ModerItemsNewComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: 'item/:id',
             children: [
               {
                 path: 'organize',
-                component: ModerItemsItemOrganizeComponent
+                component: ModerItemsItemOrganizeComponent,
+                canActivate: [ModerGuard]
               },
               {
                 path: 'organize-pictures',
-                component: ModerItemsItemPicturesOrganizeComponent
+                component: ModerItemsItemPicturesOrganizeComponent,
+                canActivate: [ModerGuard]
               },
               {
                 path: 'select-parent',
-                component: ModerItemsItemSelectParentComponent
+                component: ModerItemsItemSelectParentComponent,
+                canActivate: [ModerGuard]
               },
               {
                 path: '',
-                component: ModerItemsItemComponent
+                component: ModerItemsItemComponent,
+                canActivate: [ModerGuard]
               }
             ]
           },
           {
             path: '',
-            component: ModerItemsComponent
+            component: ModerItemsComponent,
+            canActivate: [ModerGuard]
           }
         ]
       },
@@ -453,25 +464,30 @@ const appRoutes: Routes = [
         children: [
           {
             path: 'add',
-            component: ModerPagesAddComponent
+            component: ModerPagesAddComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: 'edit',
-            component: ModerPagesEditComponent
+            component: ModerPagesEditComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: '',
-            component: ModerPagesComponent
+            component: ModerPagesComponent,
+            canActivate: [ModerGuard]
           }
         ]
       },
       {
         path: 'perspectives',
-        component: ModerPerspectivesComponent
+        component: ModerPerspectivesComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'picture-vote-templates',
-        component: ModerPictureVoteTemplatesComponent
+        component: ModerPictureVoteTemplatesComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'pictures',
@@ -481,77 +497,92 @@ const appRoutes: Routes = [
             children: [
               {
                 path: 'area',
-                component: ModerPicturesItemAreaComponent
+                component: ModerPicturesItemAreaComponent,
+                canActivate: [ModerGuard]
               },
               {
                 path: 'crop',
-                component: ModerPicturesItemCropComponent
+                component: ModerPicturesItemCropComponent,
+                canActivate: [ModerGuard]
               },
               {
                 path: 'move',
-                component: ModerPicturesItemMoveComponent
+                component: ModerPicturesItemMoveComponent,
+                canActivate: [ModerGuard]
               },
               {
                 path: '',
-                component: ModerPicturesItemComponent
+                component: ModerPicturesItemComponent,
+                canActivate: [ModerGuard]
               }
             ]
           },
           {
             path: '',
-            component: ModerPicturesComponent
+            component: ModerPicturesComponent,
+            canActivate: [ModerGuard]
           }
         ]
       },
       {
         path: 'rights',
-        component: ModerRightsComponent
+        component: ModerRightsComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'stat',
-        component: ModerStatComponent
+        component: ModerStatComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'traffic',
         children: [
           {
             path: 'whitelist',
-            component: ModerTrafficWhitelistComponent
+            component: ModerTrafficWhitelistComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: '',
-            component: ModerTrafficComponent
+            component: ModerTrafficComponent,
+            canActivate: [ModerGuard]
           }
         ]
       },
       {
         path: 'users',
-        component: ModerUsersComponent
+        component: ModerUsersComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'hotlinks',
-        component: ModerHotlinksComponent
+        component: ModerHotlinksComponent,
+        canActivate: [ModerGuard]
       },
       {
         path: 'attrs',
         children: [
           {
             path: 'attribute/:id',
-            component: ModerAttrsAttributeComponent
+            component: ModerAttrsAttributeComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: 'zone/:id',
-            component: ModerAttrsZoneComponent
+            component: ModerAttrsZoneComponent,
+            canActivate: [ModerGuard]
           },
           {
             path: '',
-            component: ModerAttrsComponent
+            component: ModerAttrsComponent,
+            canActivate: [ModerGuard]
           }
         ]
       },
       {
         path: '',
-        component: ModerIndexComponent
+        component: ModerIndexComponent,
+        canActivate: [ModerGuard]
       }
     ]
   },
@@ -896,6 +927,7 @@ const appRoutes: Routes = [
     APIACL,
     AuthService,
     AuthGuard,
+    ModerGuard,
     ACLService,
     PictureService,
     ItemService,

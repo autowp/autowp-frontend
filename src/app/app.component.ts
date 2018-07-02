@@ -121,15 +121,15 @@ export class AppComponent implements OnInit {
       );
   }
 
-  public signOut(event) {
-    event.preventDefault();
-
+  public signOut() {
     this.auth.signOut().subscribe(
       () => {},
       error => {
         console.log(error);
       }
     );
+
+    return false;
   }
 
   public isActive(id: number): Observable<boolean> {
@@ -137,7 +137,7 @@ export class AppComponent implements OnInit {
   }
 
   public showOnlineUsers() {
-    const modalRef = this.modalService.open(UsersOnlineComponent, {
+    this.modalService.open(UsersOnlineComponent, {
       size: 'lg',
       centered: true
     });
