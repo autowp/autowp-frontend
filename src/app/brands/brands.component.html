@@ -1,17 +1,17 @@
 <div *ngFor="let line of items">
   <div *ngIf="line">
     <div class="btn-group">
-      <a class="btn btn-secondary" [href]="'#char' + info.id" [textContent]="info.char" *ngFor="let info of line"></a>
+      <a class="btn btn-secondary" [href]="'#char' + info.id" (click)="scrollTo(info)" [textContent]="info.char" *ngFor="let info of line"></a>
     </div>
   </div>
 </div>
 
 <div *ngFor="let line of items">
   <div *ngFor="let info of line">
-    <h2 id="char{{info.id}}">→ {{info.char}}</h2>
+    <h2 [id]="'char' + info.id">→ {{info.char}}</h2>
     <div class="brand-icons row">
       <div *ngFor="let brand of info.brands" class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a [href]="brand.url" class="brandicon" [ngClass]="'brandicon-' + brand.cssClass"></a>
+        <a [href]="brand.url" class="brandicon" [ngClass]="'brandicon-' + brand.cssClass" [ngStyle]="{'background-image': 'url(' + icons + ')'}"></a>
         <h4>
           <a [href]="brand.url" [textContent]="brand.name"></a>
           <small>({{brand.totalCars - brand.newCars}}

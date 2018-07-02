@@ -16,6 +16,7 @@ import { PageEnvService } from '../services/page-env.service';
 @Injectable()
 export class BrandsComponent {
   public items: APIBrandsLines;
+  public icons: string;
 
   constructor(private http: HttpClient, private pageEnv: PageEnvService) {
     setTimeout(
@@ -32,19 +33,26 @@ export class BrandsComponent {
 
     this.http.get<APIBrandsGetResponse>('/api/brands').subscribe(
       response => {
+        this.icons = response.icons;
         this.items = response.items;
-        Object.entries(this.items).forEach((line, key) => {
+        for (const line of this.items) {
           for (const info of line) {
             for (const item of info.brands) {
               item.cssClass = item.catname.replace(/\./g, '_');
             }
           }
-        });
+        }
         // BrandPopover.apply('.popover-handler');
       },
       response => {
         Notify.response(response);
       }
     );
+  }
+
+  public scrollTo(info) {
+    const element = document.getElementById('char' + info.id);
+    element.scrollIntoView({ behavior: 'smooth' });
+    return false;
   }
 }
