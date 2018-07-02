@@ -3,8 +3,8 @@ import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
 import { PictureService } from './services/picture';
 import { CommentService } from './services/comment';
-import { Subscription, combineLatest, Observable, of } from 'rxjs';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { Subscription, combineLatest } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 interface MenuItem {
   routerLink: string[];
@@ -22,67 +22,55 @@ interface MenuItem {
 export class ModerMenuComponent implements OnInit, OnDestroy {
   public items: MenuItem[] = [];
   private sub: Subscription;
-  private inboxSize$: Observable<number>;
-  private commentsCount$: Observable<number>;
 
   constructor(
     public auth: AuthService,
     public acl: ACLService,
     private pictureService: PictureService,
     private commentService: CommentService
-  ) {
-    this.inboxSize$ = this.pictureService
-      .getPictures({
-        status: 'inbox',
-        limit: 0
-      })
-      .pipe(map(response => response.paginator.totalItemCount));
-
-    this.commentsCount$ = this.commentService
-      .getComments({
-        moderator_attention: '1',
-        limit: 0
-      })
-      .pipe(map(response => response.paginator.totalItemCount));
-  }
+  ) {}
 
   ngOnInit() {
     this.sub = combineLatest(
       this.acl.inheritsRole('moder'),
       this.acl.inheritsRole('pages-moder'),
-      (isModer, isPagesModer) => ({ isModer, isPagesModer })
+      this.pictureService.getInboxSize(),
+      this.commentService.getAttentionCommentsCount(),
+      (isModer, isPagesModer, inboxCount, attentionItemCount) => ({
+        isModer,
+        isPagesModer,
+        inboxCount,
+        attentionItemCount
+      })
     )
       .pipe(
-        switchMap(data => {
-          console.log(data);
+        tap(data => {
           this.items = [];
 
           if (!data.isModer) {
-            return of(null);
+            return;
           }
 
-          const inboxItem = {
+          this.items.push({
             routerLink: ['/moder/pictures'],
             queryParams: {
               order: '1',
               status: 'inbox'
             },
             label: 'moder-menu/inbox',
-            count: 0,
+            count: data.inboxCount,
             icon: 'fa fa-th'
-          };
-          this.items.push(inboxItem);
+          });
 
-          const attentionItem = {
+          this.items.push({
             routerLink: ['/moder/comments'],
             queryParams: {
               moderator_attention: '1'
             },
             label: 'page/110/name',
-            count: 0,
+            count: data.attentionItemCount,
             icon: 'fa fa-comment'
-          };
-          this.items.push(attentionItem);
+          });
 
           if (data.isPagesModer) {
             this.items.push({
@@ -97,16 +85,9 @@ export class ModerMenuComponent implements OnInit, OnDestroy {
             label: 'page/131/name',
             icon: 'fa fa-car'
           });
-
-          return combineLatest(
-            this.inboxSize$.pipe(tap(count => (inboxItem.count = count))),
-            this.commentsCount$.pipe(
-              tap(count => (attentionItem.count = count))
-            )
-          );
         })
       )
-      .subscribe(() => {});
+      .subscribe();
   }
 
   ngOnDestroy(): void {

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { APIPaginator } from './api.service';
 import { APIUser } from './user';
+import { map, switchMap, shareReplay } from 'rxjs/operators';
+import { ACLService } from './acl.service';
 
 export interface APICommentItemGetOptions {
   fields?: string;
@@ -47,7 +49,23 @@ export interface APIComment {
 
 @Injectable()
 export class CommentService {
-  constructor(private http: HttpClient) {}
+  private attentionCommentsCount$: Observable<number>;
+
+  constructor(private http: HttpClient, private acl: ACLService) {
+    this.attentionCommentsCount$ = this.acl.inheritsRole('moder').pipe(
+      switchMap(isModer => {
+        if (!isModer) {
+          return of(null as number);
+        }
+
+        return this.getComments({
+          moderator_attention: '1',
+          limit: 0
+        }).pipe(map(response => response.paginator.totalItemCount));
+      }),
+      shareReplay(1)
+    );
+  }
 
   public getComments(
     options: APICommentGetOptions
@@ -154,5 +172,9 @@ export class CommentService {
       },
       responseType: 'text'
     });
+  }
+
+  public getAttentionCommentsCount(): Observable<number> {
+    return this.attentionCommentsCount$;
   }
 }

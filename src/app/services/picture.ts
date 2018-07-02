@@ -5,8 +5,9 @@ import { Observable, of } from 'rxjs';
 import { APIUser } from './user';
 import { APIPictureItem } from './picture-item';
 import { APIIP } from './ip';
-import { switchMap, shareReplay } from 'rxjs/operators';
+import { switchMap, shareReplay, map, switchMapTo } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { ACLService } from './acl.service';
 
 export interface APIPictureGetResponse {
   pictures: APIPicture[];
@@ -138,8 +139,13 @@ export interface APIPictureUserSummary {
 @Injectable()
 export class PictureService {
   private summary$: Observable<APIPictureUserSummary>;
+  private inboxSize$: Observable<number>;
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService,
+    private acl: ACLService
+  ) {
     this.summary$ = this.auth.getUser().pipe(
       switchMap(user => {
         if (!user) {
@@ -148,6 +154,20 @@ export class PictureService {
         return this.http.get<APIPictureUserSummary>(
           '/api/picture/user-summary'
         );
+      }),
+      shareReplay(1)
+    );
+
+    this.inboxSize$ = this.acl.inheritsRole('moder').pipe(
+      switchMap(isModer => {
+        if (!isModer) {
+          return of(null as number);
+        }
+
+        return this.getPictures({
+          status: 'inbox',
+          limit: 0
+        }).pipe(map(response => response.paginator.totalItemCount));
       }),
       shareReplay(1)
     );
@@ -291,5 +311,9 @@ export class PictureService {
 
   public getSummary(): Observable<APIPictureUserSummary> {
     return this.summary$;
+  }
+
+  public getInboxSize(): Observable<number> {
+    return this.inboxSize$;
   }
 }

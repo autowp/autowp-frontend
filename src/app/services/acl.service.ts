@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, of, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, shareReplay, switchMapTo } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  shareReplay,
+  switchMapTo,
+  switchMap
+} from 'rxjs/operators';
 
 export interface APIACLRule {
   role: string;
@@ -124,9 +130,14 @@ export class ACLService {
       return this.cache.get(role);
     }
 
-    const o = this.auth
-      .getUser()
-      .pipe(switchMapTo(this.apiACL.inheritsRole(role)));
+    const o = this.auth.getUser().pipe(
+      switchMap(user => {
+        if (!user) {
+          return of(false);
+        }
+        return this.apiACL.inheritsRole(role);
+      })
+    );
     this.cache.set(role, o);
     return o;
   }

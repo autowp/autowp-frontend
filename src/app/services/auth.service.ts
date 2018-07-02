@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, of } from 'rxjs';
 import { APIService } from './api.service';
 import { APIUser } from './user';
 import { catchError, switchMap, tap } from 'rxjs/operators';
@@ -47,6 +47,11 @@ export class AuthService {
   public loadMe(): Observable<APIUser> {
     return this.api
       .request<APIUser>('GET', 'user/me')
-      .pipe(tap(user => this.setUser(user)));
+      .pipe(
+        catchError(response => {
+          return of(null);
+        }),
+        tap(user => this.setUser(user))
+      );
   }
 }
