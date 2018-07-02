@@ -65,6 +65,16 @@
         </div>
       </div>
 
+      <div class="input-group mb-3">
+        <input [ngbTypeahead]="itemsDataSource" name="exclude_item" [(ngModel)]="excludeItemQuery" [inputFormatter]="itemFormatter" (selectItem)="excludeItemOnSelect($event)"
+          [resultTemplate]="itemTemplate" placeholder="Exclude item" class="form-control" [class.border-primary]="excludeItemID">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" [disabled]="!excludeItemID" (click)="clearExcludeItem()">
+            <span class="fa fa-close"></span>
+          </button>
+        </div>
+      </div>
+
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="comments !== null" [class.btn-outline-secondary]="comments === null"
           type="button" id="dropdownMenuButton">
@@ -121,8 +131,14 @@
         </ul>
       </div>
 
-      <a class="btn mb-3" [class.btn-primary]="specialName" [class.btn-outline-secondary]="!specialName" routerLink="."
-        [queryParams]="{special_name: specialName ? null : 'true'}" queryParamsHandling="merge">
+      <div class="form-group">
+        <label>Added from (date)</label>
+        <input type="text" name="added_from" class="form-control" placeholder="2010-01-28" (input)="onAddedFromInput()" [(ngModel)]="addedFrom"
+        />
+      </div>
+
+      <a class="btn mb-3" [class.btn-primary]="specialName" [class.btn-outline-secondary]="!specialName" routerLink="." [queryParams]="{special_name: specialName ? null : 'true'}"
+        queryParamsHandling="merge">
         {{'moder/picture/filter/special-name'|translate}}
       </a>
 
@@ -136,8 +152,8 @@
         {{'moder/picture/filter/gps'|translate}}
       </a>
 
-      <a class="btn mb-3" [class.btn-primary]="similar" [class.btn-outline-secondary]="!similar" routerLink="."
-        [queryParams]="{similar: similar ? null : 'true'}" queryParamsHandling="merge">
+      <a class="btn mb-3" [class.btn-primary]="similar" [class.btn-outline-secondary]="!similar" routerLink="." [queryParams]="{similar: similar ? null : 'true'}"
+        queryParamsHandling="merge">
         {{'moder/picture/filter/similar'|translate}}
       </a>
 

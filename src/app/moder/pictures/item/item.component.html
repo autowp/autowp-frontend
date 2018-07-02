@@ -122,7 +122,7 @@
     </tbody>
   </table>
   <div *ngIf="picture.rights.move">
-    <div *ngIf="last_item && !hasItem(last_item.id)">
+    <div *ngIf="last_item && !hasItem(last_item.id) && last_item.item_type_id != 9">
       <button class="btn btn-secondary" (click)="addItem(last_item, 1)">
         <i class="fa fa-plus"></i>
         {{'moder/picture/catalogue/add-to'|translate}} (content)
@@ -133,6 +133,13 @@
       <button class="btn btn-secondary" (click)="addItem(last_item, 2)">
         <i class="fa fa-plus"></i>
         {{'moder/picture/catalogue/add-to'|translate}} (author)
+        <span [innerHTML]="last_item.name_html"></span>
+      </button>
+    </div>
+    <div *ngIf="last_item && !hasItem(last_item.id) && last_item.item_type_id == 9">
+      <button class="btn btn-secondary" (click)="addItem(last_item, 3)">
+        <i class="fa fa-plus"></i>
+        {{'moder/picture/catalogue/add-to'|translate}} (copyrights)
         <span [innerHTML]="last_item.name_html"></span>
       </button>
     </div>

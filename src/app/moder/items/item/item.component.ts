@@ -170,12 +170,12 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
           this.metaTab.visible = true;
           this.nameTab.visible = true;
-          this.catalogueTab.visible = typeID !== 7;
-          this.treeTab.visible = typeID !== 7;
+          this.catalogueTab.visible = [7, 9].indexOf(typeID) === -1;
+          this.treeTab.visible = [7, 9].indexOf(typeID) === -1;
           this.linksTab.visible = [5, 7, 8].indexOf(typeID) !== -1;
           this.logoTab.visible = typeID === 5;
           this.vehiclesTab.visible = typeID === 2;
-          this.picturesTab.visible = [2, 1, 5, 6, 7, 8].indexOf(typeID) !== -1;
+          this.picturesTab.visible = [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
         }),
         switchMap(
           item => {

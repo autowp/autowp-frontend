@@ -114,6 +114,7 @@ export interface APIGetPicturesOptions {
   order?: number;
   exact_item_id?: number;
   item_id?: number;
+  exclude_item_id?: number;
   add_date?: string;
   car_type_id?: number;
   comments?: null | boolean;
@@ -126,6 +127,7 @@ export interface APIGetPicturesOptions {
   similar?: boolean;
   accept_date?: string;
   exact_item_link_type?: number;
+  added_from?: string;
 }
 
 export interface APIPictureUserSummary {
@@ -213,6 +215,10 @@ export class PictureService {
       params.item_id = options.item_id.toString();
     }
 
+    if (options.exclude_item_id) {
+      params.exclude_item_id = options.exclude_item_id.toString();
+    }
+
     if (options.add_date) {
       params.add_date = options.add_date;
     }
@@ -259,6 +265,10 @@ export class PictureService {
 
     if (options.exact_item_link_type) {
       params.exact_item_link_type = options.exact_item_link_type.toString();
+    }
+
+    if (options.added_from) {
+      params.added_from = options.added_from;
     }
 
     return params;

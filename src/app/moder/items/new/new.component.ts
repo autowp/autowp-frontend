@@ -95,7 +95,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         switchMap(params => {
           this.item.item_type_id = parseInt(params.item_type_id, 10);
 
-          if ([1, 2, 3, 4, 5, 6, 7, 8].indexOf(this.item.item_type_id) === -1) {
+          if ([1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1) {
             this.router.navigate(['/error-404']);
             return empty();
           }

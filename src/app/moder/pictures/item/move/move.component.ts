@@ -39,24 +39,28 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   public concepts_expanded = false;
   public srcItemID: number;
   public srcType: number;
-  public show_museums: boolean;
-  public show_factories: boolean;
-  public show_persons: boolean;
-  public show_authors: boolean;
-  public museums_paginator: APIPaginator;
-  public factories_paginator: APIPaginator;
-  public brands_paginator: APIPaginator;
-  public authors_paginator: APIPaginator;
-  public brand_id: number;
+  public showMuseums: boolean;
+  public showFactories: boolean;
+  public showPersons: boolean;
+  public showAuthors: boolean;
+  public museumsPaginator: APIPaginator;
+  public factoriesPaginator: APIPaginator;
+  public brandsPaginator: APIPaginator;
+  public authorsPaginator: APIPaginator;
+  public brandID: number;
   public museums: APIItem[] = [];
   public factories: APIItem[] = [];
   public vehicles: APIItemParent[] = [];
   public engines: APIItemParent[] = [];
   public authors: APIItem[] = [];
-  public persons_paginator: APIPaginator;
+  public personsPaginator: APIPaginator;
   public persons: APIItem[] = [];
   public concepts: APIItemParent[] = [];
   public brands: APIItem[][] = [];
+
+  public showCopyrights: boolean;
+  public copyrights: APIItem[] = [];
+  public copyrightsPaginator: APIPaginator;
 
   public searchBrand: string;
   public searchBrand$ = new BehaviorSubject<string>('');
@@ -111,18 +115,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           this.srcItemID = params.src_item_id;
           this.srcType = params.src_type;
 
-          this.show_museums = params.show_museums;
-          this.show_factories = params.show_factories;
-          this.show_persons = params.show_persons;
-          this.show_authors = params.show_authors;
-          this.brand_id = params.brand_id;
+          this.showMuseums = params.show_museums;
+          this.showFactories = params.show_factories;
+          this.showPersons = params.show_persons;
+          this.showAuthors = params.show_authors;
+          this.brandID = params.brand_id;
 
           if (this.srcType === 2) {
-            this.show_authors = true;
+            this.showAuthors = true;
           }
 
           let museums$ = of(null);
-          if (this.show_museums) {
+          if (this.showMuseums) {
             museums$ = this.itemService
               .getItems({
                 type_id: 7,
@@ -133,13 +137,13 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               .pipe(
                 tap(response => {
                   this.museums = response.items;
-                  this.museums_paginator = response.paginator;
+                  this.museumsPaginator = response.paginator;
                 })
               );
           }
 
           let factories$ = of(null);
-          if (this.show_factories) {
+          if (this.showFactories) {
             factories$ = this.itemService
               .getItems({
                 type_id: 6,
@@ -150,13 +154,13 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               .pipe(
                 tap(response => {
                   this.factories = response.items;
-                  this.factories_paginator = response.paginator;
+                  this.factoriesPaginator = response.paginator;
                 })
               );
           }
 
           let persons$ = of(null);
-          if (this.show_persons) {
+          if (this.showPersons) {
             persons$ = this.searchPerson$.pipe(
               distinctUntilChanged(),
               debounceTime(30),
@@ -171,13 +175,13 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               ),
               tap(response => {
                 this.persons = response.items;
-                this.persons_paginator = response.paginator;
+                this.personsPaginator = response.paginator;
               })
             );
           }
 
           let authors$ = of(null);
-          if (this.show_authors) {
+          if (this.showAuthors) {
             authors$ = this.searchAuthor$.pipe(
               distinctUntilChanged(),
               debounceTime(30),
@@ -192,7 +196,22 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               ),
               tap(response => {
                 this.authors = response.items;
-                this.authors_paginator = response.paginator;
+                this.authorsPaginator = response.paginator;
+              })
+            );
+          }
+
+          let copyrights$ = of(null);
+          if (this.showCopyrights) {
+            copyrights$ = this.itemService.getItems({
+              type_id: 9,
+              fields: 'name_html',
+              limit: 50,
+              page: params.page
+            }).pipe(
+              tap(response => {
+                this.copyrights = response.items;
+                this.copyrightsPaginator = response.paginator;
               })
             );
           }
@@ -200,17 +219,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           let brandItems$ = of(null);
           let brands$ = of(null);
           if (
-            !this.show_museums &&
-            !this.show_factories &&
-            !this.show_persons &&
-            !this.show_authors
+            !this.showMuseums &&
+            !this.showFactories &&
+            !this.showPersons &&
+            !this.showAuthors &&
+            !this.showCopyrights
           ) {
-            if (this.brand_id) {
+            if (this.brandID) {
               brandItems$ = combineLatest(
                 this.itemParentService
                   .getItems({
                     item_type_id: 1,
-                    parent_id: this.brand_id,
+                    parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
                     page: 1
@@ -219,7 +239,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 this.itemParentService
                   .getItems({
                     item_type_id: 2,
-                    parent_id: this.brand_id,
+                    parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
                     page: 1
@@ -230,7 +250,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                   .getItems({
                     item_type_id: 1,
                     concept: true,
-                    ancestor_id: this.brand_id,
+                    ancestor_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
                     page: 1
@@ -252,7 +272,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 ),
                 tap(response => {
                   this.brands = chunk<APIItem>(response.items, 6);
-                  this.brands_paginator = response.paginator;
+                  this.brandsPaginator = response.paginator;
                 })
               );
             }
@@ -263,6 +283,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             factories$,
             persons$,
             authors$,
+            copyrights$,
             brandItems$,
             brands$
           );

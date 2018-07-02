@@ -14,12 +14,18 @@ export interface APIPerspectiveGetResponse {
 
 @Injectable()
 export class PerspectiveService {
-  constructor(private http: HttpClient) {}
+  perspectives$: Observable<APIPerspective[]>;
+
+  constructor(private http: HttpClient) {
+    this.perspectives$ = this.http
+      .get<APIPerspectiveGetResponse>('/go-api/perspective')
+      .pipe(
+        map(response => response.items),
+        shareReplay(1)
+      );
+  }
 
   public getPerspectives(): Observable<APIPerspective[]> {
-    return this.http.get<APIPerspectiveGetResponse>('/go-api/perspective').pipe(
-      map(response => response.items),
-      shareReplay(1)
-    );
+    return this.perspectives$;
   }
 }

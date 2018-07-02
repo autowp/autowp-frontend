@@ -264,6 +264,13 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   private change$ = new BehaviorSubject<null>(null);
 
+  public addedFrom: string;
+  private addedFrom$ = new BehaviorSubject<string>('');
+  private addedFromSub: Subscription;
+
+  public excludeItemID: number;
+  public excludeItemQuery = '';
+
   constructor(
     private http: HttpClient,
     private perspectiveService: PerspectiveService,
@@ -380,6 +387,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => {
+          this.addedFrom = params.added_from ? params.added_from : null;
           this.status = params.status ? params.status : null;
           this.vehicleTypeID = params.vehicle_type_id
             ? parseInt(params.vehicle_type_id, 10)
@@ -392,6 +400,12 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           this.itemID = params.item_id ? parseInt(params.item_id, 10) : 0;
           if (this.itemID && !this.itemQuery) {
             this.itemQuery = '#' + this.itemID;
+          }
+          this.excludeItemID = params.exclude_item_id
+            ? parseInt(params.exclude_item_id, 10)
+            : 0;
+          if (this.excludeItemID && !this.excludeItemQuery) {
+            this.excludeItemQuery = '#' + this.excludeItemID;
           }
           switch (params.comments) {
             case 'true':
@@ -427,8 +441,8 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           this.gps = !!params.gps;
           this.similar = !!params.similar;
           this.order = params.order ? parseInt(params.order, 10) : 1;
+          this.addedFrom = params.added_from || '';
 
-          this.loading++;
           this.pictures = [];
 
           this.selected = [];
@@ -438,12 +452,14 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             car_type_id: this.vehicleTypeID,
             perspective_id: this.perspectiveID,
             item_id: this.itemID,
+            exclude_item_id: this.excludeItemID,
             owner_id: this.ownerID,
             requests: this.requests,
             special_name: this.specialName,
             lost: this.lost,
             gps: this.gps,
             similar: this.similar,
+            added_from: this.addedFrom ? this.addedFrom : null,
             order: this.order,
             page: params.page,
             comments: this.comments,
@@ -454,21 +470,50 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           };
 
           return this.change$.pipe(
-            switchMapTo(this.pictureService.getPictures(qParams))
+            switchMap(() => {
+              this.loading = 1;
+              return this.pictureService.getPictures(qParams).pipe(
+                catchError(response => {
+                  console.log('catchError', response);
+                  return of(null);
+                })
+              );
+            })
           );
         })
       )
       .subscribe(
         response => {
-          this.pictures = response.pictures;
-          this.chunks = chunkBy<APIPicture>(this.pictures, 3);
-          this.paginator = response.paginator;
-          this.loading--;
+          if (response) {
+            this.pictures = response.pictures;
+            this.chunks = chunkBy<APIPicture>(this.pictures, 3);
+            this.paginator = response.paginator;
+          } else {
+            this.pictures = [];
+            this.chunks = [];
+            this.paginator = null;
+          }
+          this.loading = 0;
         },
         () => {
-          this.loading--;
+          this.loading = 0;
         }
       );
+
+    this.addedFromSub = this.addedFrom$
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(30)
+      )
+      .subscribe(value => {
+        console.log('subscribe', value);
+        this.router.navigate([], {
+          queryParams: {
+            added_from: value ? value : null
+          },
+          queryParamsHandling: 'merge'
+        });
+      });
   }
 
   ngOnDestroy(): void {
@@ -476,6 +521,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     this.querySub.unsubscribe();
     this.mvtSub.unsubscribe();
     this.perspectiveSub.unsubscribe();
+    this.addedFromSub.unsubscribe();
   }
 
   public onPictureSelect(active: boolean, picture: APIPicture) {
@@ -507,12 +553,31 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
+  public excludeItemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+    this.router.navigate([], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        exclude_item_id: e.item.id
+      }
+    });
+  }
+
   public clearItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
         item_id: null
+      }
+    });
+  }
+
+  public clearExcludeItem(): void {
+    this.itemQuery = '';
+    this.router.navigate([], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        exclude_item_id: null
       }
     });
   }
@@ -575,5 +640,10 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     }
     this.selected = [];
     this.hasSelectedItem = false;
+  }
+
+  public onAddedFromInput() {
+    console.log('this.addedFrom', this.addedFrom);
+    this.addedFrom$.next(this.addedFrom);
   }
 }
