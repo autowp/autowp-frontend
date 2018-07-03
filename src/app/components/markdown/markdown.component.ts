@@ -11,7 +11,7 @@ import * as showdown from 'showdown';
 @Component({
   selector: 'app-markdown',
   templateUrl: './markdown.component.html',
-  styleUrls: ['./styles.scss']
+  styleUrls: ['markdown.component.scss']
 })
 @Injectable()
 export class MarkdownComponent implements OnChanges, OnInit {

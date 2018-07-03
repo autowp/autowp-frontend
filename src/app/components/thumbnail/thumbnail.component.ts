@@ -20,8 +20,7 @@ interface ThumbnailAPIPicture extends APIPicture {
 
 @Component({
   selector: 'app-thumbnail',
-  templateUrl: './thumbnail.component.html',
-  styleUrls: ['./styles.scss']
+  templateUrl: './thumbnail.component.html'
 })
 @Injectable()
 export class ThumbnailComponent implements OnInit, OnDestroy {

@@ -50,13 +50,17 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.pageEnv.set({
-      layout: {
-        needRight: false
-      },
-      name: 'page/188/name',
-      pageId: 188
-    });
+    setTimeout(
+      () =>
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          name: 'page/188/name',
+          pageId: 188
+        }),
+      0
+    );
 
     this.querySub = combineLatest(
       this.route.queryParams.pipe(
