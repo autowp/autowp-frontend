@@ -1,6 +1,5 @@
 <form class="spec-editor-form" (submit)="saveSpecs()">
-  <p class="alert alert-danger">
-    <!--  TODO: *ngIf="form.getMessages()" -->
+  <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items.length > 0">
     <i class="fa fa-exclamation-triangle"></i>
     {{'specifications-editor/not-save'|translate}}
   </p>
@@ -23,33 +22,33 @@
           <label [ngStyle]="{'padding-left': (attribute.deep * 20) + 'px'}" [textContent]="attribute.name | translate"></label>
         </td>
         <td *ngIf="!attribute.childs.length">
-          <div class="input-group" *ngIf="currentUserValues[attribute.id]">
+          <div class="input-group input-group-sm" *ngIf="currentUserValues[attribute.id]">
             <!--  [class.has-error]="element.getMessages()" -->
             <div class="input-group-prepend">
-              <button type="button" class="btn btn-secondary" (click)="currentUserValues[attribute.id].empty = !currentUserValues[attribute.id].empty"
+              <button type="button" class="btn btn-secondary btn-sm" (click)="currentUserValues[attribute.id].empty = !currentUserValues[attribute.id].empty"
                 [class.active]="attribute.disabled">
                 <span class="fa fa-remove"></span>
               </button>
             </div>
-            <select class="form-control input-sm" *ngIf="attribute.type_id == 5" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <select class="form-control form-control-sm" *ngIf="attribute.type_id == 5" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [disabled]="currentUserValues[attribute.id].empty">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
-            <select class="form-control input-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && !attribute.is_multiple"
+            <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && !attribute.is_multiple"
               [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
-            <select class="form-control input-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && attribute.is_multiple"
+            <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && attribute.is_multiple"
               [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty"
               multiple>
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
-            <input type="number" *ngIf="attribute.type_id == 2" class="form-control input-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <input type="number" *ngIf="attribute.type_id == 2" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [disabled]="currentUserValues[attribute.id].empty" min="-2147483649" max="2147483648" />
-            <input type="number" *ngIf="attribute.type_id == 3" class="form-control input-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <input type="number" *ngIf="attribute.type_id == 3" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [step]="getStep(attribute)" min="-2147483649" max="2147483648" [disabled]="currentUserValues[attribute.id].empty"
             />
-            <input type="text" *ngIf="attribute.type_id == 1" class="form-control input-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <input type="text" *ngIf="attribute.type_id == 1" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [disabled]="currentUserValues[attribute.id].empty" />
             <div class="input-group-append" *ngIf="attribute.unit">
               <span [title]="attribute.unit.name|translate" class="unit input-group-text" [textContent]="attribute.unit.abbr|translate"></span>
