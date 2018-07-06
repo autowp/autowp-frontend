@@ -506,7 +506,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         debounceTime(30)
       )
       .subscribe(value => {
-        console.log('subscribe', value);
         this.router.navigate([], {
           queryParams: {
             added_from: value ? value : null
@@ -643,7 +642,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   }
 
   public onAddedFromInput() {
-    console.log('this.addedFrom', this.addedFrom);
     this.addedFrom$.next(this.addedFrom);
   }
 }

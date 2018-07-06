@@ -27,3 +27,8 @@ export interface APIBrandsBrand {
   url: string;
   cssClass?: string;
 }
+
+export interface APIBrandsIconsResponse {
+  image: string;
+  css: string;
+}

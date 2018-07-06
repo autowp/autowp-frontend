@@ -147,8 +147,8 @@ export class UploadComponent implements OnInit, OnDestroy {
     }
 
     concat(...xhrs).subscribe(
-      a => {
-        console.log('a', a);
+      () => {
+
       },
       undefined,
       () => {

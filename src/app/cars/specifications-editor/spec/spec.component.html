@@ -1,5 +1,6 @@
 <form class="spec-editor-form" (submit)="saveSpecs()">
-  <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items.length > 0">
+  {{invalidParams|json}}
+  <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items">
     <i class="fa fa-exclamation-triangle"></i>
     {{'specifications-editor/not-save'|translate}}
   </p>
@@ -31,30 +32,33 @@
               </button>
             </div>
             <select class="form-control form-control-sm" *ngIf="attribute.type_id == 5" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
-              [disabled]="currentUserValues[attribute.id].empty">
+              [disabled]="currentUserValues[attribute.id].empty" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
             <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && !attribute.is_multiple"
-              [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty">
+              [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty"
+              [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
             <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && attribute.is_multiple"
               [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty"
-              multiple>
+              multiple [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
             <input type="number" *ngIf="attribute.type_id == 2" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
-              [disabled]="currentUserValues[attribute.id].empty" min="-2147483649" max="2147483648" />
+              [disabled]="currentUserValues[attribute.id].empty" min="-2147483649" max="2147483648" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+            />
             <input type="number" *ngIf="attribute.type_id == 3" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [step]="getStep(attribute)" min="-2147483649" max="2147483648" [disabled]="currentUserValues[attribute.id].empty"
-            />
+              [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]" />
             <input type="text" *ngIf="attribute.type_id == 1" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
-              [disabled]="currentUserValues[attribute.id].empty" />
+              [disabled]="currentUserValues[attribute.id].empty" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+            />
             <div class="input-group-append" *ngIf="attribute.unit">
               <span [title]="attribute.unit.name|translate" class="unit input-group-text" [textContent]="attribute.unit.abbr|translate"></span>
             </div>
           </div>
-          <!--TODO: p class="help-block" *ngFor="let error of $element.getMessages()" [textContent]="error"></p-->
+          <p *ngFor="let message of getInvalidParams(attribute.id)" [textContent]="message" class="invalid-feedback" [class.d-block]="invalidParams && invalidParams.items[attribute.id]"></p>
           <small *ngIf="attribute.description" [textContent]="attribute.description|translate"></small>
         </td>
         <td class="actual" *ngIf="!attribute.childs.length">

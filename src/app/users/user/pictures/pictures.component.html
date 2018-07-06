@@ -1,6 +1,6 @@
 <div class="brand-icons row">
   <div *ngFor="let brand of brands" class="col-12 col-sm-6 col-md-4 col-lg-3">
-    <a [routerLink]="['/users', identity, 'pictures', brand.catname]" [ngClass]="'brandicon brandicon-' + cssClass(brand)"></a>
+    <a [routerLink]="['/users', identity, 'pictures', brand.catname]" [ngClass]="'brandicon brandicon-' + cssClass(brand)" [ngStyle]="{'background-image': 'url(' + icons.image + ')'}"></a>
     <h4>
       <a [routerLink]="['/users', identity, 'pictures', brand.catname]" [textContent]="brand.name_only"></a>
       <small>({{brand.current_pictures_count}})</small>

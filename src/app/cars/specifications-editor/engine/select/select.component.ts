@@ -134,7 +134,6 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         data => {
-          console.log('this.brandId', this.brandId);
           if (this.brandId) {
             this.items = data.items.items;
             this.paginator = data.items.paginator;

@@ -292,19 +292,22 @@ export class CarsSpecificationsEditorSpecComponent
     }
 
     this.loading++;
+    this.invalidParams = null;
     this.http
       .patch<APIAttrUserValuePatchResponse>('/api/attr/user-value', {
         items: items
       })
       .subscribe(
-        response => {
-          console.log(response);
-          this.invalidParams = response.invalid_params;
+        () => {
           this.change$.next(null);
           this.loading--;
         },
         response => {
-          Notify.response(response);
+          if (response.status === 400) {
+            this.invalidParams = response.error.invalid_params;
+          } else {
+            Notify.response(response);
+          }
           this.loading--;
         }
       );
@@ -344,5 +347,30 @@ export class CarsSpecificationsEditorSpecComponent
     }
 
     return false;
+  }
+
+  public getInvalidParams(id: number): string[] {
+    if (!this.invalidParams || !this.invalidParams.items) {
+      return [];
+    }
+
+    const items = this.invalidParams.items;
+
+    if (!items[id]) {
+      return [];
+    }
+
+    const result = [];
+    for (const field in items[id]) {
+      if (items[id].hasOwnProperty(field)) {
+        for (const code in items[id][field]) {
+          if (items[id][field].hasOwnProperty(code)) {
+            result.push(items[id][field][code]);
+          }
+        }
+      }
+    }
+
+    return result;
   }
 }

@@ -107,7 +107,6 @@ export class UploadSelectComponent implements OnInit {
         tap(() => (this.loading = 0))
       )
       .subscribe(data => {
-        console.log('total', data);
         if (data.brands) {
           this.brands = chunk(data.brands.items, 6);
           this.paginator = data.brands.paginator;

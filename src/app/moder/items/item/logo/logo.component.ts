@@ -61,7 +61,6 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
       })
       .pipe(
         catchError(response => {
-          console.log(response);
           this.progress.percentage = 100;
           this.progress.failed = true;
 

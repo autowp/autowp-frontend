@@ -6,7 +6,7 @@
     </button>
     <div class="dropdown-menu-right" ngbDropdownMenu>
       <a [routerLink]="item.routerLink" [queryParams]="item.queryParams" class="dropdown-item" *ngFor="let item of items">
-        <i class="fa-fw {{item.icon}}" *ngIf="item.icon"></i>
+        <i class="fa-fw" [ngClass]="item.icon" *ngIf="item.icon"></i>
         {{item.label|translate}}
         <span class="badge badge-pill badge-secondary" *ngIf="item.count" [textContent]="item.count"></span>
       </a>

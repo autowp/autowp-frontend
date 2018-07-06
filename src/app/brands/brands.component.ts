@@ -1,11 +1,13 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../notify';
 import {
   APIBrandsGetResponse,
-  APIBrandsLines
+  APIBrandsLines,
+  APIBrandsIconsResponse
 } from '../services/brands.service';
 import { PageEnvService } from '../services/page-env.service';
+import { combineLatest, Subscription } from 'rxjs';
 
 // import { BrandPopover } from '../brand-popover';
 
@@ -14,11 +16,14 @@ import { PageEnvService } from '../services/page-env.service';
   templateUrl: './brands.component.html'
 })
 @Injectable()
-export class BrandsComponent {
+export class BrandsComponent implements OnInit, OnDestroy {
   public items: APIBrandsLines;
-  public icons: string;
+  public icons: APIBrandsIconsResponse;
+  private sub: Subscription;
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService) {
+  constructor(private http: HttpClient, private pageEnv: PageEnvService) {}
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -31,10 +36,14 @@ export class BrandsComponent {
       0
     );
 
-    this.http.get<APIBrandsGetResponse>('/api/brands').subscribe(
-      response => {
-        this.icons = response.icons;
-        this.items = response.items;
+    this.sub = combineLatest(
+      this.http.get<APIBrandsGetResponse>('/api/brands'),
+      this.http.get<APIBrandsIconsResponse>('/api/brands/icons')
+    ).subscribe(
+      data => {
+        this.icons = data[1];
+        this.addCSS(this.icons.css);
+        this.items = data[0].items;
         for (const line of this.items) {
           for (const info of line) {
             for (const item of info.brands) {
@@ -49,10 +58,27 @@ export class BrandsComponent {
       }
     );
   }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   public scrollTo(info) {
     const element = document.getElementById('char' + info.id);
     element.scrollIntoView({ behavior: 'smooth' });
     return false;
+  }
+
+  private addCSS(url: string) {
+    const cssId = 'brands-css';
+    if (!document.getElementById(cssId)) {
+      const head = document.getElementsByTagName('head')[0];
+      const link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = url;
+      link.media = 'all';
+      head.appendChild(link);
+    }
   }
 }
