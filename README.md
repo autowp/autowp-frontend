@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/autowp/autowp-frontend.svg?branch=master)](https://travis-ci.org/autowp/autowp-frontend)
 [![Code Climate](https://codeclimate.com/github/autowp/autowp-frontend/badges/gpa.svg)](https://codeclimate.com/github/autowp/autowp-frontend)
 [![Dependencies](https://david-dm.org/autowp/autowp-frontend.svg)](https://david-dm.org/autowp/autowp-frontend)&nbsp;
 [![Dependencies](https://david-dm.org/autowp/autowp-frontend/dev-status.svg)](https://david-dm.org/autowp/autowp-frontend)
