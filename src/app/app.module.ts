@@ -206,6 +206,7 @@ import { Error404Component } from './error/404/404.component';
 import { UploadCropComponent } from './upload/crop/crop.component';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { ModerGuard } from './moder.guard';
+import { BrandsItemComponent } from './brands/item/item.component';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -881,7 +882,8 @@ const appRoutes: Routes = [
     Error403Component,
     Error404Component,
     UploadCropComponent,
-    UsersOnlineComponent
+    UsersOnlineComponent,
+    BrandsItemComponent
   ],
   entryComponents: [
     ModalMessageComponent,

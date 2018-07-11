@@ -11,17 +11,7 @@
     <h2 [id]="'char' + info.id">→ {{info.char}}</h2>
     <div class="brand-icons row">
       <div *ngFor="let brand of info.brands" class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a [href]="brand.url" class="brandicon" [ngClass]="'brandicon-' + brand.cssClass" [ngStyle]="{'background-image': 'url(' + icons.image + ')'}"></a>
-        <h4>
-          <a [href]="brand.url" [textContent]="brand.name"></a>
-          <small>({{brand.totalCars - brand.newCars}}
-            <!-- data-href="brand.new_cars_url"  -->
-            <span *ngIf="brand.newCars > 0" data-toggle="popover" data-container="body" class="popover-handler"
-               [title]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
-        </h4>
-        <p>
-          <small>{{'brands/pictures:'|translate}} {{brand.totalPictures}}</small>
-        </p>
+        <app-brands-item [brand]="brand" [icons]="icons"></app-brands-item>
       </div>
     </div>
   </div>
