@@ -1,8 +1,18 @@
-<!-- script>
-    (function (i, s, o, g, r, a, m) {i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {(i[r].q = i[r].q || []).push(arguments)}, i[r].l = 1 * new Date(); a = s.createElement(o),m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-24654784-1', <?=\Zend\Json\Json:: encode($this -> hostManager() -> getCookieDomain($this -> language())) ?>);
-    ga('send', 'pageview');
-  </script -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-24654784-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 <app-moder-menu></app-moder-menu>
 
@@ -241,11 +251,12 @@
       </div>
     </div>
     <p class="language-picker">
-      <a [href]="'//' + language.hostname + urlPath" *ngFor="let language of languages">
-        <!--  | filter: { active: false } -->
-        <i [ngClass]="language.flag"></i>
-        {{language.name}}
-      </a>
+      <ng-container *ngFor="let lang of languages">
+        <a [href]="'//' + lang.hostname + urlPath" *ngIf="lang.code !== language">
+          <i [ngClass]="lang.flag"></i>
+          {{lang.name}}
+        </a>
+      </ng-container>
       <a href="https://github.com/autowp/autowp/tree/master/module/Application/language" translate>layout/language-contributing</a>
     </p>
   </footer>
