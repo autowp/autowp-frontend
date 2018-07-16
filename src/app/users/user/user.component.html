@@ -33,12 +33,12 @@
 
     <p translate [translateParams]="{id: user.id}">ng/moder/database-id-n</p>
 
-    <p *ngIf="user && !isMe">
+    <p *ngIf="user && !isMe" ngPreserveWhitespaces>
       <i class="fa fa-reply"></i>
       <a href="#" (click)="openMessageForm()" translate>users/user/send-personal-message</a>
     </p>
 
-    <p *ngFor="let account of user.accounts">
+    <p *ngFor="let account of user.accounts" ngPreserveWhitespaces>
       <i class="{{account.icon}} fa-fw"></i>
       <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
       <span *ngIf="!account.link" [textContent]="account.name"></span>

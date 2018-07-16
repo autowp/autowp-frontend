@@ -54,7 +54,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
           combineLatest(
             this.itemService.getItems({
               type_id: 5,
-              limit: 500,
+              limit: 3000,
               order: 'name_nat',
               fields: 'name_only,catname,current_pictures_count',
               descendant_pictures: {
