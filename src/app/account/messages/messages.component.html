@@ -15,7 +15,7 @@
           <span translate *ngIf="! message.author">account/personal-message/system-notification</span>
         </div>
         <div class="photo">
-          <a [href]="message.author.url" *ngIf="! message.author.deleted">
+          <a [href]="message.author.url" *ngIf="message.author && ! message.author.deleted">
             <img [src]="message.author.avatar.src" *ngIf="message.author.avatar" class="rounded" />
             <img [src]="message.author.gravatar" *ngIf="message.author.gravatar && ! message.author.avatar" class="rounded" />
           </a>
