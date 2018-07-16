@@ -36,40 +36,40 @@
 </div>
 
 <div class="nav nav-pills" style="margin-bottom:10px" *ngIf="item">
-  <a [class.active]="activeTab == 'meta'" class="nav-link" routerLink="." [queryParams]="{tab: 'meta'}">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'meta'" class="nav-link" routerLink="." [queryParams]="{tab: 'meta'}">
     <span class="glyphicon glyphicon-pencil"></span>
     <span translate>moder/vehicle/tabs/meta</span>
     <span class="badge badge-pill badge-secondary" *ngIf="metaTab.count" [textContent]="metaTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'name'" class="nav-link" routerLink="." [queryParams]="{tab: 'name'}">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'name'" class="nav-link" routerLink="." [queryParams]="{tab: 'name'}">
     <span class="glyphicon glyphicon-align-left"></span>
     <span translate>moder/vehicle/tabs/name</span>
     <span class="badge badge-pill badge-secondary" *ngIf="nameTab.count" [textContent]="nameTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'logo'" class="nav-link" routerLink="." [queryParams]="{tab: 'logo'}" *ngIf="logoTab.visible">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'logo'" class="nav-link" routerLink="." [queryParams]="{tab: 'logo'}" *ngIf="logoTab.visible">
     <span class="glyphicon glyphicon-align-left"></span>
     <span translate>brand/logo</span>
     <span class="badge badge-pill badge-secondary" *ngIf="logoTab.count" [textContent]="logoTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'catalogue'" class="nav-link" routerLink="." [queryParams]="{tab: 'catalogue'}" *ngIf="catalogueTab.visible">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'catalogue'" class="nav-link" routerLink="." [queryParams]="{tab: 'catalogue'}" *ngIf="catalogueTab.visible">
     <span translate>moder/vehicle/tabs/catalogue</span>
     <span class="badge badge-pill badge-secondary" *ngIf="catalogueTab.count" [textContent]="catalogueTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'vehicles'" class="nav-link" routerLink="." [queryParams]="{tab: 'vehicles'}" *ngIf="vehiclesTab.visible">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'vehicles'" class="nav-link" routerLink="." [queryParams]="{tab: 'vehicles'}" *ngIf="vehiclesTab.visible">
     <span translate>moder/vehicle/tabs/vehicles</span>
     <span class="badge badge-pill badge-secondary" *ngIf="vehiclesTab.count" [textContent]="vehiclesTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'tree'" class="nav-link" routerLink="." [queryParams]="{tab: 'tree'}" *ngIf="treeTab.visible">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'tree'" class="nav-link" routerLink="." [queryParams]="{tab: 'tree'}" *ngIf="treeTab.visible">
     <span class="fa fa-tree"></span>
     <span translate>moder/vehicle/tabs/tree</span>
     <span class="badge badge-pill badge-secondary" *ngIf="treeTab.count" [textContent]="treeTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'pictures'" class="nav-link" routerLink="." [queryParams]="{tab: 'pictures'}" *ngIf="picturesTab.visible">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'pictures'" class="nav-link" routerLink="." [queryParams]="{tab: 'pictures'}" *ngIf="picturesTab.visible">
     <span class="glyphicon glyphicon-th"></span>
     <span translate>moder/vehicle/tabs/pictures</span>
     <span class="badge badge-pill badge-secondary" *ngIf="picturesTab.count" [textContent]="picturesTab.count"></span>
   </a>
-  <a [class.active]="activeTab == 'links'" class="nav-link" routerLink="." [queryParams]="{tab: 'links'}" *ngIf="linksTab.visible">
+  <a ngPreserveWhitespaces [class.active]="activeTab == 'links'" class="nav-link" routerLink="." [queryParams]="{tab: 'links'}" *ngIf="linksTab.visible">
     <span class="glyphicon glyphicon-globe"></span>
     <span translate>moder/brands/links</span>
     <span class="badge badge-pill badge-secondary" *ngIf="linksTab.count" [textContent]="linksTab.count"></span>
