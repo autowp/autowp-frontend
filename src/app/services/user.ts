@@ -169,17 +169,19 @@ export class UserService {
 
   private converUsersOptions(
     options: APIGetUsersOptions
-  ): { [param: string]: string } {
-    const params: { [param: string]: string } = {};
+  ): { [param: string]: string | string[] } {
+    const params: { [param: string]: string | string[] } = {};
 
     if (options.limit) {
       params.limit = options.limit.toString();
     }
 
     if (options.id) {
+      const a: string[] = [];
       for (let i = 0; i < options.id.length; i++) {
-        params.id = options.id[i].toString();
+        a.push(options.id[i].toString());
       }
+      params['id[]'] = a;
     }
 
     if (options.search) {
