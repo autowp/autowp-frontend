@@ -55,7 +55,7 @@
         </td>
       </tr>
       <tr *ngFor="let item of parents">
-        <td>
+        <td ngPreserveWhitespaces>
           <i class="fa fa-arrow-up"></i>
           <a [routerLink]="['/moder/items/item', item.parent_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.parent.name_html"></a>
           <div class="text-warning" *ngIf="item.duplicate_parent">
@@ -84,7 +84,7 @@
         </td>
       </tr>
       <tr class="success">
-        <td colspan="2">
+        <td colspan="2" ngPreserveWhitespaces>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <i class="fa fa-arrow-right"></i>
           <span [innerHTML]="item.name_html"></span>
