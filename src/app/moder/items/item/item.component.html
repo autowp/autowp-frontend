@@ -7,7 +7,7 @@
     <div class="card card-body mb-4">
       <p translate [translateParams]="{id: item.id}">ng/moder/database-id-n</p>
 
-      <p *ngIf="specsAllowed && canEditSpecifications">
+      <p *ngIf="specsAllowed && canEditSpecifications" ngPreserveWhitespaces>
         <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" translate>carlist/edit-specs</a>
         <span class="badge badge-pill badge-secondary" *ngIf="item.specifications_count" [textContent]="item.specifications_count"></span>
       </p>
