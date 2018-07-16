@@ -67,7 +67,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item" *ngIf="user" [class.active]="isActive(49)|async">
-          <a class="nav-link" routerLink="/account/messages">
+          <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
             <i class="fa fa-comment"></i>
             <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages" *ngIf="newPersonalMessages"></span>
           </a>
@@ -156,7 +156,7 @@
     </div>
     <div class="col-sm-4" *ngIf="(layoutParams$|async).sidebar">
       <div class="card card-body" *ngIf="user">
-        <div>
+        <div ngPreserveWhitespaces>
           <app-user [user]="user"></app-user>
           <br />
           <a routerLink="/account/profile" translate>page/48/name</a>
@@ -164,7 +164,7 @@
           <i class="fa fa-sign-out"></i>
           <a href="#" (click)="signOut()" translate>login/sign-out</a>
         </div>
-        <p>
+        <p ngPreserveWhitespaces>
           <i class="fa fa-comment"></i>
           <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" translate [translateParams]="{ messages: newPersonalMessages }">ng-layout/you-have-new-messages</a>
           <a routerLink="/account/messages" translate *ngIf="!newPersonalMessages">layout/personal-messages</a>
