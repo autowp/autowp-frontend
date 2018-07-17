@@ -62,7 +62,7 @@
     </select>
     <p class="alert alert-warning" role="alert" *ngIf="picture.similar">
       <span class="fa fa-file-image-o"></span>
-      <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">Similar picture: {{picture.similar.distance}}</a>
+      <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces>Similar picture: {{picture.similar.distance}}</a>
     </p>
   </div>
 </div>

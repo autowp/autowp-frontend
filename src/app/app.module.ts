@@ -14,6 +14,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AutosizeModule } from 'ngx-autosize';
 
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
@@ -922,7 +923,8 @@ const appRoutes: Routes = [
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     BrowserAnimationsModule,
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
+    AutosizeModule
   ],
   providers: [
     APIService,

@@ -306,7 +306,7 @@
 
     <h3 *ngIf="picture.similar">Similar picture</h3>
     <div class="card card-body mb-4" *ngIf="picture.similar">
-      <p class="alert alert-warning" role="alert">
+      <p class="alert alert-warning" role="alert" ngPreserveWhitespaces>
         <span class="fa fa-file-image-o"></span>
         <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">
           Similar picture: {{picture.similar.distance}}
