@@ -24,7 +24,7 @@
           <div class="text">
             <p [innerHTML]="message.text_html"></p>
           </div>
-          <div>
+          <div ngPreserveWhitespaces>
             <span class="badge badge-info" *ngIf="message.is_new" translate>account/personal-message/new</span>
             <a href="#" class="float-right" (click)="deleteMessage(message.id)" *ngIf="message.can_delete">
               <i class="fa fa-trash"></i> {{'account/personal-message/delete'|translate}}
@@ -40,8 +40,7 @@
               <small>({{message.dialog_count}})</small>
               &nbsp;
             </span>
-            <i class="fa fa-clock-o"></i>
-            <span [textContent]="message.date | amTimeAgo"></span>
+            <app-past-time-indicator [date]="message.date"></app-past-time-indicator>
           </div>
         </div>
       </div>
