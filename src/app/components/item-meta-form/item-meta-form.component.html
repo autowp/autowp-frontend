@@ -37,7 +37,7 @@
       <div class="col-md-10">
         <select [class.is-invalid]="invalidParams && invalidParams.spec_id" name="spec_id" [(ngModel)]="item.spec_id" style="width: 30%"
           class="form-control">
-          <option *ngFor="let spec of getSpecOptions(specOptions)" [value]="spec.id">{{'…'.repeat(spec.deep) + spec.short_name}}</option>
+          <option *ngFor="let spec of getSpecOptions(specOptions)" [ngValue]="spec.id">{{'…'.repeat(spec.deep) + spec.short_name}}</option>
         </select>
         <p *ngFor="let message of invalidParams | invalidParams : 'spec_id'" [textContent]="message" class="invalid-feedback"></p>
       </div>
@@ -114,7 +114,7 @@
           <div class="form-group col-md-4 col-sm-3 mb-0">
             <select name="today" [class.is-invalid]="invalidParams && invalidParams.today" [(ngModel)]="item.today" title="{{'moder/vehicle/today'|translate}}"
               class="form-control">
-              <option *ngFor="let option of todayOptions" [value]="option.value">{{option.name|translate}}</option>
+              <option *ngFor="let option of todayOptions" [ngValue]="option.value">{{option.name|translate}}</option>
             </select>
           </div>
         </div>
@@ -134,7 +134,7 @@
           <div class="form-group col-md-4 col-sm-4 mb-0">
             <select name="produced_exactly" [class.is-invalid]="invalidParams && invalidParams.produced_exactly" [(ngModel)]="item.produced_exactly"
               class="form-control">
-              <option *ngFor="let option of producedOptions" [value]="option.value">{{option.name|translate}}</option>
+              <option *ngFor="let option of producedOptions" [ngValue]="option.value">{{option.name|translate}}</option>
             </select>
           </div>
         </div>
@@ -147,7 +147,7 @@
       <div class="col-md-10">
         <select name="is_concept" [class.is-invalid]="invalidParams && invalidParams.is_concept" [(ngModel)]="item.is_concept" style="width: 20%"
           class="form-control">
-          <option *ngFor="let option of getIsConceptOptions(parent)" [value]="option.value">{{option.name|translate}}</option>
+          <option *ngFor="let option of getIsConceptOptions(parent)" [ngValue]="option.value">{{option.name|translate}}</option>
         </select>
         <p *ngFor="let message of invalidParams | invalidParams : 'is_concept'" [textContent]="message" class="invalid-feedback"></p>
       </div>
