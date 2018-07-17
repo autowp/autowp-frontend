@@ -151,7 +151,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       'href',
       this.router
         .createUrlTree([
-          '/users/user',
+          '/ng/users',
           user.identity ? user.identity : 'user' + user.id
         ])
         .toString()
