@@ -45,7 +45,7 @@
         <b>{{picture.dpi_x}}×{{picture.dpi_y}}</b>
       </div>
       <div>{{'moder/picture/filesize:'|translate}}
-        <b [textContent]="picture.filesize | bytes"></b>
+        <b [textContent]="picture.filesize | bytes : 2"></b>
       </div>
       <div>{{'moder/picture/upload-date:'|translate}}
         <b [textContent]="picture.add_date | amTimeAgo"></b>
