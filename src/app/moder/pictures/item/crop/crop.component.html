@@ -7,7 +7,7 @@
     <span translate [translateParams]="{resolution: resolution, aspect: aspect}">crop-dialog/resolution-x-aspect-y</span>
     <button (click)="selectAll()" class="btn btn-secondary" translate>crop-dialog/select-all</button>
     <span class="float-right">
-      <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary" translate>crop-dialog/close</a>
+      <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary" translate>dialog/close</a>
       <button (click)="saveCrop()" class="btn btn-primary" translate>crop-dialog/save</button>
     </span>
   </div>
