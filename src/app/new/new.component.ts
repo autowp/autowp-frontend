@@ -4,10 +4,11 @@ import { APIPaginator } from '../services/api.service';
 import { chunkBy } from '../chunk';
 import Notify from '../notify';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { query } from '@angular/core/src/render3/query';
 
 export interface APINewGroup {
   type: string;
@@ -62,16 +63,20 @@ export class NewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = combineLatest(
+      this.route.queryParams,
+      this.route.params,
+      (query, route) => ({query, route})
+    )
       .pipe(
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(
           params => {
-            const query: {
+            const q: {
               date?: string;
-              page?: string;
               fields: string;
+              page?: string;
             } = {
               fields:
                 'pictures.owner,pictures.thumb_medium,pictures.votes,pictures.views,' +
@@ -81,14 +86,14 @@ export class NewComponent implements OnInit, OnDestroy {
                 'item.design,item.url,item.spec_editor_url,item.specs_url,' +
                 'item.categories.url,item.categories.name_html,item.twins_groups'
             };
-            if (params.date) {
-              query.date = params.date;
+            if (params.route.date) {
+              q.date = params.route.date;
             }
-            if (params.page) {
-              query.page = params.page;
+            if (params.query.page) {
+              q.page = params.query.page;
             }
             return this.http.get<APINewGetResponse>('/api/new', {
-              params: query
+              params: q
             });
           },
           (params, response) => ({ params, response })
@@ -96,12 +101,12 @@ export class NewComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         data => {
-          if (data.params.date !== data.response.current.date) {
+          if (data.params.route.date !== data.response.current.date) {
             this.router.navigate(['/new', data.response.current.date]);
             return;
           }
 
-          this.date = data.params.date;
+          this.date = data.params.route.date;
 
           this.pageEnv.set({
             layout: {
