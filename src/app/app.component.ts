@@ -109,7 +109,7 @@ export class AppComponent implements OnInit {
       )
       .subscribe(
         () => {
-          this.router.navigate(['/login/ok']);
+          this.router.navigate(['/login']);
         },
         response => {
           if (response.status === 400) {
