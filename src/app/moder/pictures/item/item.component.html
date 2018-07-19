@@ -326,7 +326,7 @@
     <div class="card card-body mb-4">
       <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
       <span *ngIf="!picture.owner" translate>moder/picture/uploader/unknown</span>
-      <div *ngIf="picture.ip.address">
+      <div *ngIf="picture.ip && picture.ip.address">
         {{'moder/picture/uploader/id-address:'|translate}}
         <b [textContent]="picture.ip.address"></b>
         <br />
