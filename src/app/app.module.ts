@@ -209,6 +209,7 @@ import { ModerGuard } from './moder.guard';
 import { BrandsItemComponent } from './brands/item/item.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { IpService } from './services/ip';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -448,7 +449,8 @@ import { AppRoutingModule } from './app-routing.module';
     ContentLanguageService,
     LanguageService,
     MostsService,
-    TimezoneService
+    TimezoneService,
+    IpService
   ],
   bootstrap: [AppComponent]
 })
