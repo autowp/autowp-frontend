@@ -69,7 +69,7 @@
   <app-paginator [data]="authorsPaginator" *ngIf="authorsPaginator"></app-paginator>
 </div>
 
-<div ng-if="ctrl.showCopyrights && !srcItem && (!srcType || srcType == 3)">
+<div *ngIf="showCopyrights && !srcItem && (!srcType || srcType == 3)">
   <div class="card card-body">
     <ng-container *ngFor="let item of copyrights">
       <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 3})" [innerHTML]="item.name_html"></a>
@@ -81,7 +81,7 @@
 </div>
 
 <div *ngIf="!showFactories && !showMuseums && !showPersons && !showAuthors && (!srcType || srcType == 1)">
-  <div *ngIf="!brand_id">
+  <div *ngIf="!brandID">
 
     <div class="card card-body">
       <div style="margin-bottom:20px">
