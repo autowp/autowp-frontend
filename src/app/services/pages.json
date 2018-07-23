@@ -401,7 +401,8 @@
                   {
                     "id": 215,
                     "is_group_node": false,
-                    "childs": []
+                    "childs": [],
+                    "name": "moder/vehicle/catalogue/turbo-group-creator"
                   }
                 ],
                 "routerLink": ["/moder/items/item/%CAR_ID%"]
