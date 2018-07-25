@@ -1,5 +1,5 @@
 <span ngPreserveWhitespaces>
   <i class="fa fa-clock-o" [hidden]="past"></i>
   <i class="fa fa-calendar" [hidden]="!past"></i>
-  <span *ngIf="date" [textContent]="date | amTimeAgo"></span>
+  <span *ngIf="date" [textContent]="date | amTimeAgo" [ngbTooltip]="date | date: 'medium'"></span>
 </span>

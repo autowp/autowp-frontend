@@ -48,7 +48,7 @@
         <b [textContent]="picture.filesize | bytes : 2"></b>
       </div>
       <div>{{'moder/picture/upload-date:'|translate}}
-        <b [textContent]="picture.add_date | amTimeAgo"></b>
+        <b [textContent]="picture.add_date | amTimeAgo" [ngbTooltip]="picture.add_date | date: 'medium'"></b>
       </div>
     </div>
   </div>
