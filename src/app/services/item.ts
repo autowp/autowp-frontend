@@ -118,7 +118,7 @@ export interface GetItemsServiceOptions {
   page?: number;
   have_childs_of_type?: number;
   autocomplete?: string;
-  vehicle_type_id?: number;
+  vehicle_type_id?: number | string;
   vehicle_childs_type_id?: number;
   spec?: number;
   no_parent?: boolean;

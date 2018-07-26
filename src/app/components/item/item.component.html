@@ -54,7 +54,7 @@
     </div>
   </div>
 
-  <app-markdown class="text" *ngIf="item.description.length" [markdown]="item.description"></app-markdown>
+  <app-markdown class="text" *ngIf="item.description && item.description.length" [markdown]="item.description"></app-markdown>
 
   <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
     <p translate>catalogue/engine/mounted-on:</p>

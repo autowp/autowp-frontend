@@ -13,8 +13,6 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subscription,
-  combineLatest,
-  BehaviorSubject,
   Observable,
   of,
   empty
@@ -67,20 +65,6 @@ function toPlainSpec(options: APISpecInItems[], deep: number): any[] {
   return result;
 }
 
-interface IFilter {
-  name: string | null;
-  name_exclude: string | null;
-  item_type_id: number | null;
-  vehicle_type_id: number | null;
-  vehicle_childs_type_id: number | null;
-  spec: any;
-  no_parent: boolean;
-  text: string | null;
-  from_year: number | null;
-  to_year: number | null;
-  order: string;
-}
-
 const DEFAULT_ORDER = 'id_desc';
 
 @Component({
@@ -90,33 +74,42 @@ const DEFAULT_ORDER = 'id_desc';
 @Injectable()
 export class ModerItemsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
-  public listMode: boolean;
 
   public loading = 0;
   public items: APIItem[] = [];
   public paginator: APIPaginator;
   public vehicleTypeOptions: APIVehicleTypeInItems[] = [];
   public specOptions: APISpecInItems[] = [];
-  public filter: IFilter = {
-    name: null,
-    name_exclude: null,
-    item_type_id: null,
-    vehicle_type_id: null,
-    vehicle_childs_type_id: null,
-    spec: null,
-    no_parent: false,
-    text: null,
-    from_year: null,
-    to_year: null,
-    order: DEFAULT_ORDER
-  };
   private vehicleTypeSub: Subscription;
   private specsSub: Subscription;
-  private load$ = new BehaviorSubject<null>(null);
+
+  public name = '';
+
+  public nameExclude = '';
+
+  public itemTypeID = 0;
+
+  public vehicleTypeID: number | null | string = null;
+
+  public vehicleChildsTypeID: number | null = null;
+
+  public specID: number | null = null;
+
+  public noParent: boolean = null;
+
+  public text = '';
+
+  public fromYear: number | null = null;
+
+  public toYear: number | null = null;
+
+  public order: string = DEFAULT_ORDER;
 
   public ancestorID: number;
   public ancestorQuery = '';
   public ancestorsDataSource: (text$: Observable<string>) => Observable<any[]>;
+
+  public listMode: boolean;
 
   constructor(
     private vehicleTypeService: VehicleTypeService,
@@ -181,33 +174,45 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       this.specOptions = toPlainSpec(types, 0);
     });
 
-    this.querySub = combineLatest(
-      this.route.queryParams.pipe(
-        distinctUntilChanged(),
+    this.querySub = this.route.queryParams
+      .pipe(
+        map(params => ({
+          name: params.name || ('' as string),
+          nameExclude: params.name_exclude || ('' as string),
+          itemTypeID: parseInt(params.item_type_id, 10) as number,
+          vehicleTypeID:
+            params.vehicle_type_id === 'empty'
+              ? 'empty'
+              : parseInt(params.vehicle_type_id, 10) || null,
+          vehicleChildsTypeID:
+            parseInt(params.vehicle_childs_type_id, 10) || null,
+          specID: parseInt(params.spec_id, 10) || null,
+          noParent: params.no_parent ? true : false,
+          text: params.text || '',
+          fromYear: parseInt(params.from_year, 10) || null,
+          toYear: parseInt(params.to_year, 10) || null,
+          order: params.order || DEFAULT_ORDER,
+          ancestorID: parseInt(params.ancestor_id, 10) || null,
+          listMode: params.list_mode ? true : false,
+          page: parseInt(params.page, 10) || 1
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         tap(params => {
-          this.filter = {
-            name: params.name || null,
-            name_exclude: params.name_exclude || null,
-            item_type_id: parseInt(params.item_type_id, 10) || null,
-            vehicle_type_id: params.vehicle_type_id || null,
-            vehicle_childs_type_id:
-              parseInt(params.vehicle_childs_type_id, 10) || null,
-            spec: params.spec || null,
-            no_parent: params.no_parent ? true : false,
-            text: params.text || null,
-            from_year: params.from_year || null,
-            to_year: params.to_year || null,
-            order: params.order || DEFAULT_ORDER
-          };
-          this.ancestorID = params.ancestor_id || null;
-          this.listMode = !!params.list;
-        })
-      ),
-      this.load$,
-      (params, load) => params
-    )
-      .pipe(
+          this.name = params.name;
+          this.nameExclude = params.nameExclude;
+          this.itemTypeID = params.itemTypeID;
+          this.vehicleTypeID = params.vehicleTypeID;
+          this.vehicleChildsTypeID = params.vehicleChildsTypeID;
+          this.specID = params.specID;
+          this.noParent = params.noParent;
+          this.text = params.text;
+          this.fromYear = params.fromYear;
+          this.toYear = params.toYear;
+          this.order = params.order;
+          this.ancestorID = params.ancestorID;
+          this.listMode = params.listMode;
+        }),
         switchMap(params => {
           this.loading = 1;
           this.items = [];
@@ -226,20 +231,18 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           }
 
           return this.itemService.getItems({
-            name: this.filter.name ? this.filter.name + '%' : null,
-            name_exclude: this.filter.name_exclude
-              ? this.filter.name_exclude + '%'
-              : null,
-            type_id: this.filter.item_type_id,
-            vehicle_type_id: this.filter.vehicle_type_id,
-            vehicle_childs_type_id: this.filter.vehicle_childs_type_id,
-            spec: this.filter.spec,
-            order: this.filter.order,
-            no_parent: this.filter.no_parent ? true : null,
-            text: this.filter.text ? this.filter.text : null,
-            from_year: this.filter.from_year ? this.filter.from_year : null,
-            to_year: this.filter.to_year ? this.filter.to_year : null,
-            ancestor_id: this.ancestorID ? this.ancestorID : null,
+            name: params.name ? params.name + '%' : null,
+            name_exclude: params.nameExclude ? params.nameExclude + '%' : null,
+            type_id: params.itemTypeID,
+            vehicle_type_id: params.vehicleTypeID,
+            vehicle_childs_type_id: params.vehicleChildsTypeID,
+            spec: params.specID,
+            order: params.order,
+            no_parent: params.noParent ? true : null,
+            text: params.text ? params.text : null,
+            from_year: params.fromYear ? params.fromYear : null,
+            to_year: params.toYear ? params.toYear : null,
+            ancestor_id: params.ancestorID ? params.ancestorID : null,
             page: params.page,
             fields: fields,
             limit: limit
@@ -282,7 +285,115 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public load() {
-    this.load$.next(null);
+  public onNameChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        name: this.name.length ? this.name : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onNameExcludeChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        name_exclude: this.nameExclude.length ? this.nameExclude : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onItemTypeChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        item_type_id: this.itemTypeID ? this.itemTypeID : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onVehicleTypeChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        vehicle_type_id: this.vehicleTypeID ? this.vehicleTypeID : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onVehicleChildsTypeChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        vehicle_childs_type_id: this.vehicleChildsTypeID
+          ? this.vehicleChildsTypeID
+          : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onSpecChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        spec_id: this.specID ? this.specID : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onNoParentChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        no_parent: this.noParent ? '1' : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onTextChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        text: this.text ? this.text : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onFromYearChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        from_year: this.fromYear ? this.fromYear : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onToYearChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        to_year: this.toYear ? this.toYear : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  public onOrderChanged() {
+    this.router.navigate([], {
+      queryParams: {
+        order: this.order ? this.order : null,
+        page: null
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 }

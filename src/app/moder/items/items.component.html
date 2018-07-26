@@ -8,58 +8,58 @@
     <form class="card card-body form-vertical">
       <div class="form-group">
         <label translate>moder/items/filter/name</label>
-        <input placeholder="% - any characters" type="text" name="name" class="form-control" [(ngModel)]="filter.name" (input)="load()"
+        <input placeholder="% - any characters" type="text" name="name" class="form-control" [(ngModel)]="name" (input)="onNameChanged()"
         />
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/name-exclude</label>
-        <input placeholder="_ - any single character" type="text" name="name_exclude" class="form-control" [(ngModel)]="filter.name_exclude"
-          (input)="load()" />
+        <input placeholder="_ - any single character" type="text" name="name_exclude" class="form-control" [(ngModel)]="nameExclude"
+          (input)="onNameExcludeChanged()" />
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/item-type</label>
-        <select name="item_type_id" class="form-control" [(ngModel)]="filter.item_type_id" (change)="load()">
-          <option value="">Any</option>
-          <option value="1" translate>item/type/1/name</option>
-          <option value="2" translate>item/type/2/name</option>
-          <option value="3" translate>item/type/3/name</option>
-          <option value="4" translate>item/type/4/name</option>
-          <option value="5" translate>item/type/5/name</option>
-          <option value="6" translate>item/type/6/name</option>
-          <option value="7" translate>item/type/7/name</option>
-          <option value="8" translate>item/type/8/name</option>
-          <option value="9" translate>item/type/9/name</option>
+        <select name="item_type_id" class="form-control" [(ngModel)]="itemTypeID" (change)="onItemTypeChanged()">
+          <option [ngValue]="null">Any</option>
+          <option [ngValue]="1" translate>item/type/1/name</option>
+          <option [ngValue]="2" translate>item/type/2/name</option>
+          <option [ngValue]="3" translate>item/type/3/name</option>
+          <option [ngValue]="4" translate>item/type/4/name</option>
+          <option [ngValue]="5" translate>item/type/5/name</option>
+          <option [ngValue]="6" translate>item/type/6/name</option>
+          <option [ngValue]="7" translate>item/type/7/name</option>
+          <option [ngValue]="8" translate>item/type/8/name</option>
+          <option [ngValue]="9" translate>item/type/9/name</option>
         </select>
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/vehicle-type</label>
-        <select name="vehicle_type_id" class="form-control" [(ngModel)]="filter.vehicle_type_id" (change)="load()">
-          <option value="">Any</option>
-          <option value="empty" translate>moder/items/filter/vehicle-type/empty</option>
-          <option value="{{item.id}}" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name|translate}}</option>
+        <select name="vehicle_type_id" class="form-control" [(ngModel)]="vehicleTypeID" (change)="onVehicleTypeChanged()">
+          <option [ngValue]="null">Any</option>
+          <option [ngValue]="'empty'" translate>moder/items/filter/vehicle-type/empty</option>
+          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name|translate}}</option>
         </select>
       </div>
       <div class="form-group">
         <label>Have childs with type</label>
-        <select name="vehicle_childs_type_id" class="form-control" [(ngModel)]="filter.vehicle_childs_type_id" (change)="load()">
-          <option value="">Any</option>
-          <option value="{{item.id}}" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name|translate}}</option>
+        <select name="vehicle_childs_type_id" class="form-control" [(ngModel)]="vehicleChildsTypeID" (change)="onVehicleChildsTypeChanged()">
+          <option [ngValue]="null">Any</option>
+          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name|translate}}</option>
         </select>
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/spec</label>
-        <select name="spec" class="form-control" [(ngModel)]="filter.spec" (change)="load()">
-          <option value="">Any</option>
-          <option value="{{item.id}}" *ngFor="let item of specOptions">{{'...'.repeat(item.deep)}}{{item.short_name}}</option>
+        <select name="spec" class="form-control" [(ngModel)]="specID" (change)="onSpecChanged()">
+          <option [ngValue]="null">Any</option>
+          <option [ngValue]="item.id" *ngFor="let item of specOptions">{{'...'.repeat(item.deep)}}{{item.short_name}}</option>
         </select>
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/from-year</label>
-        <input type="text" name="from_year" class="form-control" [(ngModel)]="filter.from_year" (input)="load()" maxlength="4" />
+        <input type="text" name="from_year" class="form-control" [(ngModel)]="fromYear" (input)="onFromYearChanged()" maxlength="4" />
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/to-year</label>
-        <input type="text" name="to_year" class="form-control" [(ngModel)]="filter.to_year" (input)="load()" maxlength="4" />
+        <input type="text" name="to_year" class="form-control" [(ngModel)]="toYear" (input)="onToYearChanged()" maxlength="4" />
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/parent</label>
@@ -78,20 +78,20 @@
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/text</label>
-        <input type="text" name="text" class="form-control" [(ngModel)]="filter.text" (input)="load()" />
+        <input type="text" name="text" class="form-control" [(ngModel)]="text" (input)="onTextChanged()" />
       </div>
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="no_parent" value="1" [(ngModel)]="filter.no_parent" (change)="load()" /> {{'moder/items/filter/no-parents'|translate}}
+          <input type="checkbox" name="no_parent" value="1" [(ngModel)]="noParent" (change)="onNoParentChanged()" /> {{'moder/items/filter/no-parents'|translate}}
         </label>
       </div>
       <div class="form-group">
         <label translate>moder/items/filter/order</label>
-        <select name="order" class="form-control" [(ngModel)]="filter.order" (change)="load()">
-          <option value="id_desc">id desc</option>
-          <option value="id_asc">id asc</option>
-          <option value="childs_count">childs count</option>
-          <option value="name">name</option>
+        <select name="order" class="form-control" [(ngModel)]="order" (change)="onOrderChanged()">
+          <option ngValue="id_desc">id desc</option>
+          <option ngValue="id_asc">id asc</option>
+          <option ngValue="childs_count">childs count</option>
+          <option ngValue="name">name</option>
         </select>
       </div>
     </form>

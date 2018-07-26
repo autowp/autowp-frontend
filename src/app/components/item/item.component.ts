@@ -30,9 +30,11 @@ export class ItemComponent implements OnInit, OnDestroy {
   }
 
   public havePhoto(item: APIItem) {
-    for (const picture of item.preview_pictures) {
-      if (picture.picture) {
-        return true;
+    if (item.preview_pictures) {
+      for (const picture of item.preview_pictures) {
+        if (picture.picture) {
+          return true;
+        }
       }
     }
     return false;
