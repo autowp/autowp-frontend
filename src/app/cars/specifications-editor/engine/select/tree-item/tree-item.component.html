@@ -1,10 +1,10 @@
 <div *ngIf="item.item.childs_count > 0">
-  <i class="fa fa-folder-o" [hidden]="open"></i>
-  <i class="fa fa-folder-open-o" [hidden]="!open"></i>
+  <i class="fa fa-folder-o mr-2" [hidden]="open"></i>
+  <i class="fa fa-folder-open-o mr-2" [hidden]="!open"></i>
   <span *ngIf="item.type_id == 1" translate>catalogue/related</span>
   <span *ngIf="item.type_id == 2" translate>catalogue/sport</span>
   <span *ngIf="item.type_id == 3" translate>catalogue/design</span>
-  <a href="#" class="toggle" (click)="open = !open; open && loadChildCatalogues()" [innerHTML]="item.item.name_html"></a>
+  <a href="#" class="toggle" (click)="toggle()" [innerHTML]="item.item.name_html"></a>
   <ul [hidden]="!open" class="list-unstyled">
     <li [hidden]="!open && !childs && loading" style="margin-left:16px">
       <span>

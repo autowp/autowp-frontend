@@ -21,7 +21,7 @@ export class CarsSelectEngineTreeItemComponent {
 
   constructor(private itemParentService: ItemParentService) {}
 
-  public loadChildCatalogues() {
+  private loadChildCatalogues() {
     this.loading = true;
     this.itemParentService
       .getItems({
@@ -45,6 +45,14 @@ export class CarsSelectEngineTreeItemComponent {
 
   public selectEngine(engineId: number) {
     this.selected.emit(engineId);
+    return false;
+  }
+
+  public toggle(): boolean {
+    this.open = !this.open;
+    if (this.open) {
+      this.loadChildCatalogues();
+    }
     return false;
   }
 }
