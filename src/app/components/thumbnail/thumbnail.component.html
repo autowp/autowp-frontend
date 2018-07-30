@@ -24,8 +24,8 @@
       <br />
 
       <span [title]="'Views'|translate" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
-        <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:1}}K</span>
-        <span *ngIf="picture.views < 1000">{{picture.views | number:0}}</span>
+        <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
+        <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
         <i class="fa fa-eye"></i>
       </span>
 
@@ -61,7 +61,7 @@
       <option *ngFor="let item of perspectiveOptions" [ngValue]="item.id">{{item.name|translate}}</option>
     </select>
     <p class="alert alert-warning" role="alert" *ngIf="picture.similar">
-      <span class="fa fa-file-image-o"></span>
+      <span class="fa fa-file-image-o mr-1"></span>
       <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces>Similar picture: {{picture.similar.distance}}</a>
     </p>
   </div>

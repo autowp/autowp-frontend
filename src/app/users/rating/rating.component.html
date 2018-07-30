@@ -50,9 +50,9 @@
           …
         </small>
       </td>
-      <td class="text-right" [textContent]="row.volume | number: 0"></td>
+      <td class="text-right" [textContent]="row.volume | number: '1.0-0'"></td>
       <td class="text-right" [class.danger]="row.weight < 0.50" [class.warning]="row.weight >= 0.50 && row.weight < 1.50" *ngIf="rating == 'specs'"
-        [textContent]="row.weight | number : '.2'"></td>
+        [textContent]="row.weight | number : '1.2-2'"></td>
     </tr>
   </tbody>
 </table>
