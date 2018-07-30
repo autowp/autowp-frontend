@@ -67,62 +67,62 @@
 
   <ul class="list-inline" ngPreserveWhitespaces>
 
-    <li *ngIf="(item.has_text || item.childs_count) && item.url" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-align-left"></i>
+    <li *ngIf="(item.has_text || item.childs_count) && item.url" class="list-inline-item">
+      <i class="fa fa-align-left mr-1"></i>
       <a [href]="item.url">{{'carlist/details'|translate}}
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
 
-    <li *ngIf="item.item_type_id == 8" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-align-left"></i>
+    <li *ngIf="item.item_type_id == 8" class="list-inline-item">
+      <i class="fa fa-align-left mr-1"></i>
       <a [routerLink]="['/persons', item.id]">{{'carlist/details'|translate}}</a>
     </li>
 
-    <li *ngIf="item.tuning" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-align-left"></i>
+    <li *ngIf="item.tuning" class="list-inline-item">
+      <i class="fa fa-align-left mr-1"></i>
       <a [href]="item.tuning.url">{{'catalogue/related'|translate|lowercase}} ({{item.tuning.count}})</a>
     </li>
 
-    <li *ngIf="item.sport" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-align-left"></i>
+    <li *ngIf="item.sport" class="list-inline-item">
+      <i class="fa fa-align-left mr-1"></i>
       <a [href]="item.sport.url">{{'catalogue/sport'|translate|lowercase}} ({{item.sport.count}})</a>
     </li>
 
-    <li *ngIf="item.more_pictures_url" class="list-inline-item" ngPreserveWhitespaces>
-      <span class="fa fa-th"></span>
+    <li *ngIf="item.more_pictures_url" class="list-inline-item">
+      <span class="fa fa-th mr-1"></span>
       <a [href]="item.more_pictures_url">{{'carlist/all pictures'|translate}} ({{item.total_pictures}})</a>
     </li>
 
     <!--
         <li *ngIf="item.specsLinks.length > 1" class="list-inline-item">
-            <i class="fa fa-list-alt"></i>
+            <i class="fa fa-list-alt mr-1"></i>
             {{'carlist/specifications'|translate}}
             <a [href]="specLink.url" [textContent]="specLink.name" *ngFor="let specLink of item.specsLinks"></a>
         </li>
          -->
-    <li *ngIf="item.specs_url" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-list-alt"></i>
+    <li *ngIf="item.specs_url" class="list-inline-item">
+      <i class="fa fa-list-alt mr-1"></i>
       <a [href]="item.specs_url" translate>carlist/specifications</a>
     </li>
 
-    <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-adjust"></i>
+    <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
+      <i class="fa fa-adjust mr-1"></i>
       <a [href]="twinsGroup.url" translate>carlist/twins</a>
     </li>
 
-    <li *ngFor="let category of item.categories" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-tag"></i>
+    <li *ngFor="let category of item.categories" class="list-inline-item">
+      <i class="fa fa-tag mr-1"></i>
       <a [href]="category.url" [innerHTML]="category.name_html"></a>
     </li>
 
-    <li *ngIf="isModer" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-cog"></i>
+    <li *ngIf="isModer" class="list-inline-item">
+      <i class="fa fa-cog mr-1"></i>
       <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
     </li>
 
-    <li *ngIf="item.spec_editor_url" class="list-inline-item" ngPreserveWhitespaces>
-      <i class="fa fa-pencil"></i>
+    <li *ngIf="item.spec_editor_url" class="list-inline-item">
+      <i class="fa fa-pencil mr-1"></i>
       <a [href]="item.spec_editor_url" translate>carlist/edit-specs</a>
     </li>
   </ul>
