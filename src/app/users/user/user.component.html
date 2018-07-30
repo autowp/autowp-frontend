@@ -101,11 +101,11 @@
     <div class="card card-body mb-4" *ngIf="canBeInContacts">
       <button type="submit" class="btn btn-lg btn-contact" [class.in-contacts]="inContacts" (click)="toggleInContacts()">
         <span class="not-in-contacts">
-          <span class="fa fa-plus-circle"></span>
+          <span class="fa fa-plus-circle mr-1"></span>
           {{'user/add-to-contacts'|translate}}
         </span>
         <span class="in-contacts">
-          <span class="fa fa-minus-circle"></span>
+          <span class="fa fa-minus-circle mr-1"></span>
           {{'user/remove-from-contacts'|translate}}
         </span>
       </button>
