@@ -136,7 +136,8 @@ export class ACLService {
           return of(false);
         }
         return this.apiACL.inheritsRole(role);
-      })
+      }),
+      shareReplay(1)
     );
     this.cache.set(role, o);
     return o;
