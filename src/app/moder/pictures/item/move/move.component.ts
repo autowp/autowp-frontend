@@ -36,7 +36,7 @@ export interface PictureItemMoveSelection {
 export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private id: number;
-  public concepts_expanded = false;
+  public conceptsExpanded = false;
   public srcItemID: number;
   public srcType: number;
   public showMuseums: boolean;
@@ -333,7 +333,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   }
 
   public toggleConcepts() {
-    this.concepts_expanded = !this.concepts_expanded;
+    this.conceptsExpanded = !this.conceptsExpanded;
     return false;
   }
 
