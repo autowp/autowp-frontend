@@ -53,12 +53,10 @@ export class PictureItemService {
     type: number,
     perspectiveId: number
   ): Observable<void> {
-    return this.http.put<void>(
-      '/api/picture-item/' + pictureId + '/' + itemId + '/' + type,
-      {
-        perspective_id: perspectiveId.toString()
-      }
-    );
+    const url = '/api/picture-item/' + pictureId + '/' + itemId + '/' + type;
+    return this.http.put<void>(url, {
+      perspective_id: perspectiveId.toString()
+    });
   }
 
   public setArea(
@@ -103,12 +101,10 @@ export class PictureItemService {
     srcItemId: number,
     dstItemId: number
   ): Observable<void> {
-    return this.http.put<void>(
-      '/api/picture-item/' + pictureId + '/' + srcItemId + '/' + type,
-      {
-        item_id: dstItemId
-      }
-    );
+    const url = '/api/picture-item/' + pictureId + '/' + srcItemId + '/' + type;
+    return this.http.put<void>(url, {
+      item_id: dstItemId
+    });
   }
 
   public get(
@@ -123,12 +119,11 @@ export class PictureItemService {
       params.fields = options.fields;
     }
 
-    return this.http.get<APIPictureItem>(
-      '/api/picture-item/' + pictureId + '/' + itemId + '/' + type,
-      {
-        params: params
-      }
-    );
+    const url = '/api/picture-item/' + pictureId + '/' + itemId + '/' + type;
+
+    return this.http.get<APIPictureItem>(url, {
+      params: params
+    });
   }
 
   public getItems(

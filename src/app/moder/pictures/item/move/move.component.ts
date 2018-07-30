@@ -297,20 +297,23 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   }
 
   public selectItem(selection: PictureItemMoveSelection) {
+    const dstItemID = selection.itemId;
+    const dstPerspectiveID = selection.perspectiveId;
+
     if (this.srcItemID && this.srcType) {
       this.pictureItemService
-        .changeItem(this.id, this.srcType, this.srcItemID, selection.itemId)
+        .changeItem(this.id, this.srcType, this.srcItemID, dstItemID)
         .pipe(
           switchMap(() => {
-            if (!selection.perspectiveId) {
+            if (!dstPerspectiveID) {
               return of(null);
             }
 
             return this.pictureItemService.setPerspective(
               this.id,
-              selection.itemId,
+              dstItemID,
               this.srcType,
-              selection.perspectiveId
+              dstPerspectiveID
             );
           })
         )
@@ -319,11 +322,11 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         });
     } else {
       const data = {
-        perspective_id: selection.perspectiveId ? selection.perspectiveId : null
+        perspective_id: dstPerspectiveID ? dstPerspectiveID : null
       };
 
       this.pictureItemService
-        .create(this.id, selection.itemId, selection.type, data)
+        .create(this.id, dstItemID, selection.type, data)
         .subscribe(() => {
           this.router.navigate(['/moder/pictures', this.id]);
         });
