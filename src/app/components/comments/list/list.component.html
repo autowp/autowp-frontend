@@ -37,34 +37,34 @@
       </span>
 
       <button class="btn btn-sm btn-primary reply" *ngIf="user && deep < 21 && !message.deleted" (click)="reply(message, false)">
-        <i class="fa fa-reply"></i>
+        <i class="fa fa-reply mr-1"></i>
         <span class="d-none d-md-inline">{{'comments/reply'|translate}}</span>
       </button>
 
       <button class="btn btn-sm btn-success resolve" *ngIf="message.moder_attention && isModer" (click)="reply(message, true)">
-        <i class="fa fa-reply"></i>
+        <i class="fa fa-reply mr-1"></i>
         {{'comments/reply'|translate}} &amp; resolve
       </button>
 
       <button class="btn btn-danger btn-sm float-right comment-remove-button" *ngIf="canRemoveComments" (click)="setIsDeleted(message, true)">
-        <i class="fa fa-trash"></i>
+        <i class="fa fa-trash mr-1"></i>
         <span class="d-none d-md-inline">{{'comments/message/delete'|translate}}</span>
       </button>
       <button class="btn btn-success btn-sm float-right comment-restore-button" *ngIf="canRemoveComments" (click)="setIsDeleted(message, false)">
-        <i class="fa fa-arrow-up"></i>
+        <i class="fa fa-arrow-up mr-1"></i>
         {{'comments/message/restore'|translate}}
       </button>
 
       <a routerLink="/forums/move-message" [queryParams]="{message_id: message.id}" class="btn btn-secondary btn-sm float-right"
         *ngIf="typeID == 5 && canMoveMessage">
-        <i class="fa fa-arrows"></i>
+        <i class="fa fa-arrows mr-1"></i>
         <span class="d-none d-md-inline">{{'comments/message/move'|translate}}</span>
       </a>
 
       <i class="float-right fa fa-eye" [ngbTooltip]="message.ip" style="margin-right:20px" *ngIf="message.ip"></i>
 
       <div class="moderator-attention-sign" *ngIf="message.moder_attention">
-        <i class="fa fa-info-circle"></i>
+        <i class="fa fa-info-circle mr-1"></i>
         {{'comments/it-requires-attention-of-moderators'|translate}}
       </div>
 
