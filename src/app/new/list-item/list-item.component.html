@@ -28,32 +28,32 @@
 
   <ul class="list-inline">
     <li *ngIf="totalPictures > 6" class="list-inline-item">
-      <span class="fa fa-th"></span>
+      <span class="fa fa-th mr-1"></span>
       <a [routerLink]="['/new', date, 'item', item.id]">{{'carlist/all pictures'|translate}} ({{totalPictures}})</a>
     </li>
 
     <li *ngIf="item.specs_url" class="list-inline-item">
-      <i class="fa fa-list-alt"></i>
+      <i class="fa fa-list-alt mr-1"></i>
       <a [href]="item.specs_url" translate>carlist/specifications</a>
     </li>
 
     <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
-      <i class="fa fa-adjust"></i>
+      <i class="fa fa-adjust mr-1"></i>
       <a [href]="'/twins/group' + twinsGroup.id" translate>carlist/twins</a>
     </li>
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
-      <i class="fa fa-tag"></i>
+      <i class="fa fa-tag mr-1"></i>
       <a [href]="category.url" [innerHTML]="category.name_html"></a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">
-      <i class="fa fa-cog"></i>
+      <i class="fa fa-cog mr-1"></i>
       <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
     </li>
 
     <li *ngIf="item.spec_editor_url" class="list-inline-item">
-      <i class="fa fa-pencil"></i>
+      <i class="fa fa-pencil mr-1"></i>
       <a [href]="item.spec_editor_url" translate>carlist/edit-specs</a>
     </li>
   </ul>
