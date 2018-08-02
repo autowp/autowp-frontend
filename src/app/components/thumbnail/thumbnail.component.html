@@ -52,7 +52,7 @@
       <i class="fa fa-check"></i>
     </label>
 
-    <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary btn-sm settings mr-1 mb-2" title="Settings" *ngIf="isModer">
+    <a [routerLink]="['/moder/pictures', picture.id]" [class.float-right]="selectable"  class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer">
       <i class="fa fa-cog"></i>
     </a>
     <select *ngIf="picture.perspective_item" class="form-control form-control-sm mr-1 mb-2" [(ngModel)]="picture.perspective_item.perspective_id"
