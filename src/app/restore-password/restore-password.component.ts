@@ -51,9 +51,7 @@ export class RestorePasswordComponent {
 
   public submit() {
     this.http
-      .post('/api/restore-password/request', {
-        data: this.form
-      })
+      .post('/api/restore-password/request', this.form)
       .subscribe(
         () => {
           this.router.navigate(['/restore-password/sent']);
