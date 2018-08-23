@@ -40,7 +40,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
         }),
       0
     );
-    this.routeSub = this.route.params
+    this.routeSub = this.route.queryParams
       .pipe(
         distinctUntilChanged(),
         debounceTime(30),
