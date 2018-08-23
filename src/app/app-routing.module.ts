@@ -548,7 +548,7 @@ const appRoutes: Routes = [
   },
   { path: 'pulse', component: PulseComponent },
   {
-    path: 'resore-password',
+    path: 'restore-password',
     children: [
       {
         path: 'new',
