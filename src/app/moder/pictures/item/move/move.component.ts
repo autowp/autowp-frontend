@@ -119,6 +119,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           this.showFactories = params.show_factories;
           this.showPersons = params.show_persons;
           this.showAuthors = params.show_authors;
+          this.showCopyrights = params.show_copyrights;
           this.brandID = params.brand_id;
 
           if (this.srcType === 2) {
