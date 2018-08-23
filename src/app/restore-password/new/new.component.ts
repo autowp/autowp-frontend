@@ -54,7 +54,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
           });
         })
       )
-      .subscribe(() => {}, () => this.router.navigate(['/error-404']));
+      .subscribe();
   }
 
   ngOnDestroy(): void {
