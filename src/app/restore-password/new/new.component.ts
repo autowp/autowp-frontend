@@ -62,23 +62,19 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
   }
 
   public submit() {
-    this.http
-      .post('/api/restore-password/new', {
-        data: this.form
-      })
-      .subscribe(
-        () => {
-          this.router.navigate(['/restore-password/new/ok']);
-        },
-        response => {
-          this.failure = response.status === 404;
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
-          } else if (response.status === 404) {
-          } else {
-            Notify.response(response);
-          }
+    this.http.post('/api/restore-password/new', this.form).subscribe(
+      () => {
+        this.router.navigate(['/restore-password/new/ok']);
+      },
+      response => {
+        this.failure = response.status === 404;
+        if (response.status === 400) {
+          this.invalidParams = response.error.invalid_params;
+        } else if (response.status === 404) {
+        } else {
+          Notify.response(response);
         }
-      );
+      }
+    );
   }
 }
