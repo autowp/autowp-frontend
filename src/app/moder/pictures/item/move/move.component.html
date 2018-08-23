@@ -80,7 +80,7 @@
   <app-paginator [data]="copyrightsPaginator" *ngIf="copyrightsPaginator"></app-paginator>
 </div>
 
-<div *ngIf="!showFactories && !showMuseums && !showPersons && !showAuthors && (!srcType || srcType == 1)">
+<div *ngIf="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights && (!srcType || srcType == 1)">
   <div *ngIf="!brandID">
 
     <div class="card card-body">
