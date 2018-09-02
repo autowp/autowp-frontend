@@ -119,11 +119,11 @@ export class DonateVodComponent implements OnInit, OnDestroy {
         { name: 'need-fio', value: 'false' },
         { name: 'need-phone', value: 'false' },
         { name: 'need-address', value: 'false' },
-        { name: 'formcomment', value: data.translations[0] },
-        { name: 'short-dest', value: data.translations[0] },
+        { name: 'formcomment', value: data.translations['donate/vod/order-message'] },
+        { name: 'short-dest', value: data.translations['donate/vod/order-message'] },
         { name: 'label', value: label },
         { name: 'quickpay-form', value: 'donate' },
-        { name: 'targets', value: sprintf(data.translations[1], label) },
+        { name: 'targets', value: sprintf(data.translations['donate/vod/order-target'], label) },
         {
           name: 'successURL',
           value: 'https://' + window.location.host + '/ng/donate/vod/success'
