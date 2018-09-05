@@ -1,7 +1,7 @@
 <div class="car item-list-item">
   <h3>
     <span [innerHTML]="item.name_html"></span>
-    <sup class="design-brand" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
+    <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
       <a [href]="item.design.url" [textContent]="item.design.name"></a>
     </sup>
 
