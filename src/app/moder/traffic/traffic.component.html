@@ -30,7 +30,7 @@
     <div>
       <button *ngIf="item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.ip)">{{'ban/unban'|translate}}</button>
       <button class="btn btn-danger" *ngIf="!item.ban" (click)="addToBlacklist(item.ip)">{{'ban/ban'|translate}}</button>
-      <button *ngIf="!item.whitelist" class="btn btn-success" (click)="addToWhitelist(item.ip)">Whitelist</button>
+      <button *ngIf="!item.in_whitelist" class="btn btn-success" (click)="addToWhitelist(item.ip)">Whitelist</button>
     </div>
   </div>
 </div>
