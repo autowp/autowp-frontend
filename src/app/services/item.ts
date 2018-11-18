@@ -34,6 +34,8 @@ export interface APIItem {
   end_year: number;
   begin_model_year: number;
   end_model_year: number;
+  begin_model_year_fraction: string;
+  end_model_year_fraction: string;
   produced: number;
   produced_exactly: boolean;
   spec_id: number | string | null;
