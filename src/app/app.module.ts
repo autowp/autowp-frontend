@@ -210,6 +210,7 @@ import { BrandsItemComponent } from './brands/item/item.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
+import { TwinsComponent } from './twins/twins.component';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -373,7 +374,8 @@ import { IpService } from './services/ip';
     Error404Component,
     UploadCropComponent,
     UsersOnlineComponent,
-    BrandsItemComponent
+    BrandsItemComponent,
+    TwinsComponent
   ],
   entryComponents: [
     ModalMessageComponent,

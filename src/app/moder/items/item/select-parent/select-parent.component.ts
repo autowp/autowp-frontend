@@ -16,7 +16,7 @@ import { PageEnvService } from '../../../../services/page-env.service';
 // Acl.isAllowed('car', 'edit_meta', 'unauthorized');
 
 export interface APIItemInSelectParent extends APIItem {
-  childs: APIItemParent[];
+  childLinks: APIItemParent[];
   open: boolean;
 }
 
@@ -63,7 +63,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         response => {
-          parent.childs = response.items;
+          parent.childLinks = response.items;
         },
         response => {
           Notify.response(response);
@@ -82,7 +82,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         response => {
-          parent.childs = response.items;
+          parent.childLinks = response.items;
         },
         response => {
           Notify.response(response);

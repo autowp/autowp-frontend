@@ -10,7 +10,7 @@
           {
             "id": 25,
             "is_group_node": false,
-            "url": "/twins",
+            "routerLink": ["/twins"],
             "name": "page/25/name",
             "childs": [
               {
@@ -44,7 +44,7 @@
                 "id": 153,
                 "is_group_node": false,
                 "childs": [],
-                "url": "/twins/%BRAND_CATNAME%"
+                "routerLink": ["/twins/%BRAND_CATNAME%"]
               }
             ]
           },

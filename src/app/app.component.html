@@ -32,7 +32,7 @@
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item d-md-none d-lg-block" [class.active]="isActive(25)|async">
-          <a class="nav-link" href="/twins" translate>page/25/name</a>
+          <a class="nav-link" routerLink="/twins" translate>page/25/name</a>
         </li>
         <li class="nav-item" [class.active]="isActive(21)|async">
           <a class="nav-link" routerLink="/mosts" translate>page/21/name</a>
@@ -85,7 +85,7 @@
           </button>
           <div ngbDropdownMenu>
 
-            <a class="dropdown-item d-lg-none" [class.active]="isActive(25)|async" href="/twins" translate>page/25/name</a>
+            <a class="dropdown-item d-lg-none" [class.active]="isActive(25)|async" routerLink="/twins" translate>page/25/name</a>
             <a class="dropdown-item d-lg-none" [class.active]="isActive(117)|async" routerLink="/map" translate>page/117/name</a>
             <a class="dropdown-item d-xl-none" [class.active]="isActive(42)|async" routerLink="/forums" translate>page/42/name</a>
 

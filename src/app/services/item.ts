@@ -59,12 +59,15 @@ export interface APIItem {
   name_default: string;
   specs_url: string;
   twins_groups: APIItem[];
-  categories: APIItem[];
+  categories?: APIItem[];
+  childs?: APIItem[];
   url: string;
   spec_editor_url: string;
   name_only: string;
-  current_pictures_count: number;
-  specifications_count: number;
+  current_pictures_count?: number;
+  accepted_pictures_count?: number;
+  specifications_count?: number;
+  has_child_specs?: boolean;
   brands: APIItem[];
   public_urls?: string[];
 
@@ -92,6 +95,9 @@ export interface APIItem {
   };
   more_pictures_url?: string;
   total_pictures?: number;
+  comments_topic_stat?: {
+    messages: number;
+  };
 }
 
 export interface APIItemRelatedGroupItem {
