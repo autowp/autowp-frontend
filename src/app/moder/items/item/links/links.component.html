@@ -10,15 +10,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let link of links">
+        <tr *ngFor="let link of links; let i = index">
           <td>
-            <input type="text" name="name" [(ngModel)]="link.name" class="form-control" />
+            <input type="text" name="name{{i}}" [(ngModel)]="link.name" class="form-control" />
           </td>
           <td>
-            <input type="text" name="url" [(ngModel)]="link.url" class="form-control" />
+            <input type="text" name="url{{i}}" [(ngModel)]="link.url" class="form-control" />
           </td>
           <td>
-            <select name="type" [(ngModel)]="link.type_id" class="form-control">
+            <select name="type{{i}}" [(ngModel)]="link.type_id" class="form-control">
               <option value="default" translate>moder/brands/links/type/interest-link</option>
               <option value="official" translate>moder/brands/links/type/official</option>
               <option value="club" translate>moder/brands/links/type/club</option>
