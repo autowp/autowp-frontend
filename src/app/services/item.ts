@@ -100,6 +100,7 @@ export interface APIItem {
   comments_topic_stat?: {
     messages: number;
   };
+  front_picture?: APIPicture;
 }
 
 export interface APIItemRelatedGroupItem {

@@ -57,7 +57,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
           const key = 'page/' + bItem.id + '/breadcrumbs';
           this.translate.get(key).subscribe(
             (translation: string) => {
-              if (translation === key) {
+              if (translation === key || translation === '') {
                 this.translatePage(
                   bItem,
                   'page/' + bItem.id + '/name',

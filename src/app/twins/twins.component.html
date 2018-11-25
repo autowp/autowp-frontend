@@ -1,41 +1,65 @@
-<div *ngFor="let group of groups">
-  <h3 [innerHtml]="group.name_html"></h3>
+<div class="row">
+  <div class="col-sm-8 order-2">
+    <div *ngFor="let group of groups">
+      <h3 [innerHtml]="group.name_html"></h3>
 
-  <div class="twins row" *ngFor="let chunk of chunk(group.childs)">
-    <div class="col-lg-3 col-md-3" *ngFor="let car of chunk">
-      <div class="card mb-4">
-        <a [href]="car.picture.url" *ngIf="car.picture">
-          <img [src]="car.picture.src" [alt]="car.name_text" [title]="car.name_text" class="card-img-top">
-        </a>
-        <span *ngIf="!car.picture">&#xa0;</span>
-        <div class="card-body">
-          <p class="card-title" [innerHtml]="car.name_html"></p>
+      <div *ngIf="group.childs">
+        <div class="twins row" *ngFor="let ch of chunk(group.childs)">
+          <div class="col-lg-4 col-md-4" *ngFor="let car of ch">
+            <div class="card mb-4">
+              <a [href]="'/twins/group' + group.id + '/pictures/' + car.front_picture.identity" *ngIf="car.front_picture">
+                <img
+                  [src]="car.front_picture.thumb_medium.src"
+                  [alt]="car.name_text"
+                  [title]="car.name_text"
+                  class="card-img-top"
+                />
+              </a>
+              <span *ngIf="!car.front_picture">&#xa0;</span>
+              <div class="card-body">
+                <p class="card-title" [innerHtml]="car.name_html"></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <ul class="carLinks">
+        <li>
+          <i class="fa fa-file mr-1"></i>
+          <a [href]="'/twins/group' + group.id">
+            {{ 'carlist/details' | translate }} …
+            <span *ngIf="group.comments_topic_stat.messages > 0">(<span translate [translateParams]="{count: group.comments_topic_stat.messages}">{{ '%1$s comments' }}</span></span>
+          </a>
+        </li>
+        <li *ngIf="group.has_child_specs">
+          <i class="fa fa-list-alt mr-1"></i>
+          <a [href]="'/twins/group' + group.id + '/specifications'" translate>carlist/specifications</a>
+        </li>
+        <li *ngIf="hasMoreImages(group)">
+          <span class="fa fa-th mr-1"></span>
+          <a [href]="'/twins/group' + group.id + '/pictures'">{{ 'carlist/all pictures' | translate }} ({{group.accepted_pictures_count}})</a>
+        </li>
+        <li *ngIf="canEdit">
+          <i class="fa fa-cog mr-1"></i>
+          <a [routerLink]="['/moder/items/item', group.id]" translate>moder/edit-object</a>
+        </li>
+      </ul>
+    </div>
+
+    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  </div>
+  <div class="col-sm-4 order-1">
+    <div class="card card-body">
+      <ul class="nav flex-column nav-pills">
+        <li class="nav-item" *ngFor="let item of brands">
+          <a [routerLink]="['/twins', item.catname]" class="nav-link" [class.active]="item.catname == currentBrandCatname">
+            {{ item.name }}
+            <span *ngIf="item.new_count <= 0" class="count">({{ item.count }})</span>
+            <span *ngIf="item.new_count > 0" class="count">({{ item.count - item.new_count }}+<span>{{ item.new_count }}</span>)</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
-
-  <ul class="carLinks">
-    <li>
-      <i class="fa fa-file mr-1"></i>
-      <a [href]="'/twins/group' + group.id">
-        {{'carlist/details'|translate}} …
-        <span *ngIf="group.comments_topic_stat.messages > 0">(<span translate [translateParams]="{count: group.comments_topic_stat.messages}">{{'%1$s comments'}}</span></span>
-      </a>
-    </li>
-    <li *ngIf="group.has_child_specs">
-      <i class="fa fa-list-alt mr-1"></i>
-      <a [href]="'/twins/group' + group.id + '/specifications'" translate>carlist/specifications</a>
-    </li>
-    <li *ngIf="group.accepted_pictures_count > group.picturesShown">
-      <span class="fa fa-th mr-1"></span>
-      <a [href]="'/twins/group' + group.id + '/pictures'">{{'carlist/all pictures'|translate}} ({{group.accepted_pictures_count}})</a>
-    </li>
-    <li *ngIf="canEdit">
-      <i class="fa fa-cog mr-1"></i>
-      <a [routerLink]="['/moder/items/item', group.id]" translate>moder/edit-object</a>
-    </li>
-  </ul>
 </div>
-
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

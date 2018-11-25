@@ -11,7 +11,6 @@
             "id": 25,
             "is_group_node": false,
             "routerLink": ["/twins"],
-            "name": "page/25/name",
             "childs": [
               {
                 "id": 26,

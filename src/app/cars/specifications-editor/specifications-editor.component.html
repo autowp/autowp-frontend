@@ -20,7 +20,7 @@
       {{'specifications-editor/tabs/info' | translate}}
     </a>
   </li>
-  <li class="nav-item" *ngIf="item">
+  <li class="nav-item" *ngIf="item && item.item_type_id == 1">
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'engine'}" [class.active]="tab == 'engine'"
       class="nav-link">
       <span class="glyphicon glyphicon-align-left"></span>
