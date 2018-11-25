@@ -107,6 +107,7 @@ import { UsersUserPicturesComponent } from './users/user/pictures/pictures.compo
 import { UsersUserComponent } from './users/user/user.component';
 import { VotingComponent } from './voting/voting.component';
 import { IndexComponent } from './index/index.component';
+import { TwinsComponent } from './twins/twins.component';
 
 const appRoutes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -576,6 +577,13 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'telegram', component: TelegramComponent },
+  {
+    path: 'twins',
+    children: [
+      { path: ':brand', component: TwinsComponent },
+      { path: '', component: TwinsComponent }
+    ]
+  },
   { path: 'top-view', component: TopViewComponent },
   {
     path: 'upload',
