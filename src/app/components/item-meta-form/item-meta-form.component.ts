@@ -119,6 +119,25 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     }
   ];
 
+  public modelYearFractionOptions = [
+    {
+      value: null,
+      name: '-'
+    },
+    {
+      value: '¼',
+      name: '¼'
+    },
+    {
+      value: '½',
+      name: '½'
+    },
+    {
+      value: '¾',
+      name: '¾'
+    }
+  ];
+
   public markers: Marker[] = [];
 
   public center = latLng(55.7423627, 37.6786422);

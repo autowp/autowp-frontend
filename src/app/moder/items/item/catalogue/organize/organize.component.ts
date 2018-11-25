@@ -185,6 +185,8 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
       spec_id: this.newItem.spec_id,
       begin_model_year: this.newItem.begin_model_year,
       end_model_year: this.newItem.end_model_year,
+      begin_model_year_fraction: this.newItem.begin_model_year_fraction,
+      end_model_year_fraction: this.newItem.end_model_year_fraction,
       begin_year: this.newItem.begin_year,
       begin_month: this.newItem.begin_month,
       end_year: this.newItem.end_year,

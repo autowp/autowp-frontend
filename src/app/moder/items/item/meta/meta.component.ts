@@ -87,6 +87,8 @@ export class ModerItemsItemMetaComponent
       spec_id: this.item.spec_id,
       begin_model_year: this.item.begin_model_year,
       end_model_year: this.item.end_model_year,
+      begin_model_year_fraction: this.item.begin_model_year_fraction,
+      end_model_year_fraction: this.item.end_model_year_fraction,
       begin_year: this.item.begin_year,
       begin_month: this.item.begin_month,
       end_year: this.item.end_year,
