@@ -16,7 +16,7 @@
         <i class="fa fa-spinner fa-spin fa-fw"></i>
       </span>
     </li>
-    <li class="car-node" *ngFor="let child of item.childs">
+    <li class="car-node" *ngFor="let child of item.childLinks">
       <app-moder-items-item-select-parent-tree [item]="child" (select)="onSelect($event)" (loadChilds)="onLoadChilds($event)" [disableItemID]="disableItemID">
       </app-moder-items-item-select-parent-tree>
     </li>
