@@ -7,7 +7,6 @@ import { tap, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
 import { ACLService } from '../services/acl.service';
-import { TwinsService, APITwinsBrand } from '../services/twins';
 
 @Component({
   selector: 'app-twins',
@@ -19,16 +18,13 @@ export class TwinsComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
   public groups: APIItem[] = [];
   public canEdit = false;
-  public brands: APITwinsBrand[] = [];
-  private brandsSub: Subscription;
   public currentBrandCatname: string;
 
   constructor(
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private acl: ACLService,
-    private twins: TwinsService
+    private acl: ACLService
   ) {}
 
   ngOnInit(): void {
@@ -47,10 +43,6 @@ export class TwinsComponent implements OnInit, OnDestroy {
     this.acl
       .isAllowed('twins', 'edit')
       .subscribe(canEdit => (this.canEdit = canEdit));
-
-    this.brandsSub = this.twins.getBrands().subscribe(brands => {
-      this.brands = brands;
-    });
 
     this.sub = this.route.params
       .pipe(
@@ -73,7 +65,6 @@ export class TwinsComponent implements OnInit, OnDestroy {
         tap(brand => {
           setTimeout(() => {
             if (brand) {
-              console.log(brand.name_only);
               this.pageEnv.set({
                 layout: {
                   needRight: false
@@ -124,7 +115,6 @@ export class TwinsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.brandsSub.unsubscribe();
   }
 
   public chunk(items: APIItem[]): APIItem[][] {

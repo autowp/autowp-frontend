@@ -1,0 +1,65 @@
+<div class="car item-list-item" *ngIf="group">
+
+  <h3>
+    <span [innerHTML]="item.name_html"></span>
+    <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
+      <a [href]="item.design.url" [textContent]="item.design.name"></a>
+    </sup>
+
+    <small *ngIf="item.produced > 1" class="ml-2">
+      <span *ngIf="item.produced_exactly" translate [translateParams]="{count: item.produced}">ng/carlist/produced/%1$s</span>
+      <span *ngIf="!item.produced_exactly" translate [translateParams]="{count: item.produced}">ng/carlist/produced-about/%1$s</span>
+    </small>
+    <small translate *ngIf="item.produced == 1" class="ml-2">carlist/produced/one</small>
+  </h3>
+
+  <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
+
+  <div class="row" *ngIf="havePhoto(item)">
+    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
+      <a [href]="'/twins/group' + group.id + '/pictures/' + picture.picture.identity" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
+        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
+        />
+      </a>
+      <span *ngIf="!picture">&#xa0;</span>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
+    <div class="col-6 col-lg-3">
+      <div class="no-photo rounded w-100 border border-light mb-4" [title]="'carlist/no-photo'|translate">
+        <a routerLink="/upload" [queryParams]="{item_id: item.id}" [title]="'carlist/no-photo/add'|translate" class="fa fa-plus-circle text-success"></a>
+        <span class="fa fa-camera fa-lg fa-4x" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <app-markdown class="text" *ngIf="item.description && item.description.length" [markdown]="item.description"></app-markdown>
+
+  <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
+    <p translate>catalogue/engine/mounted-on:</p>
+    <ul>
+      <li *ngFor="let vehicle of item.engine_vehicles">
+        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+      </li>
+    </ul>
+  </div>
+
+  <ul class="list-inline" ngPreserveWhitespaces>
+
+    <li *ngFor="let category of item.categories" class="list-inline-item">
+      <i class="fa fa-tag mr-1"></i>
+      <a [href]="category.url" [innerHTML]="category.name_html"></a>
+    </li>
+
+    <li *ngIf="isModer" class="list-inline-item">
+      <i class="fa fa-cog mr-1"></i>
+      <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
+    </li>
+
+    <li *ngIf="item.spec_editor_url" class="list-inline-item">
+      <i class="fa fa-pencil mr-1"></i>
+      <a [href]="item.spec_editor_url" translate>carlist/edit-specs</a>
+    </li>
+  </ul>
+</div>

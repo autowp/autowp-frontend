@@ -16,6 +16,7 @@ export interface APIPictureGetResponse {
 
 export interface APIPicture {
   id: number;
+  identity: string;
   crop: {
     left: number | null;
     top: number | null;

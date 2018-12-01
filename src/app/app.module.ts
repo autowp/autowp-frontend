@@ -212,6 +212,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
 import { TwinsComponent } from './twins/twins.component';
 import { TwinsService } from './services/twins';
+import { TwinsGroupComponent } from './twins/twins-group.component';
+import { TwinsSidebarComponent } from './twins/sidebar.component';
+import { TwinsItemComponent } from './twins/item/item.component';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -376,7 +379,10 @@ import { TwinsService } from './services/twins';
     UploadCropComponent,
     UsersOnlineComponent,
     BrandsItemComponent,
-    TwinsComponent
+    TwinsComponent,
+    TwinsGroupComponent,
+    TwinsSidebarComponent,
+    TwinsItemComponent
   ],
   entryComponents: [
     ModalMessageComponent,

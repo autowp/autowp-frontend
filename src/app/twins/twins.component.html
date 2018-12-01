@@ -27,7 +27,7 @@
       <ul class="carLinks">
         <li>
           <i class="fa fa-file mr-1"></i>
-          <a [href]="'/twins/group' + group.id">
+          <a [routerLink]="['/twins/group', group.id]">
             {{ 'carlist/details' | translate }} …
             <span *ngIf="group.comments_topic_stat.messages > 0">(<span translate [translateParams]="{count: group.comments_topic_stat.messages}">{{ '%1$s comments' }}</span></span>
           </a>
@@ -50,16 +50,6 @@
     <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
   </div>
   <div class="col-sm-4 order-1">
-    <div class="card card-body">
-      <ul class="nav flex-column nav-pills">
-        <li class="nav-item" *ngFor="let item of brands">
-          <a [routerLink]="['/twins', item.catname]" class="nav-link" [class.active]="item.catname == currentBrandCatname">
-            {{ item.name }}
-            <span *ngIf="item.new_count <= 0" class="count">({{ item.count }})</span>
-            <span *ngIf="item.new_count > 0" class="count">({{ item.count - item.new_count }}+<span>{{ item.new_count }}</span>)</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <app-twins-sidebar [selected]="[currentBrandCatname]"></app-twins-sidebar>
   </div>
 </div>

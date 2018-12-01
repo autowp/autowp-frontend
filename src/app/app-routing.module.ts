@@ -108,6 +108,7 @@ import { UsersUserComponent } from './users/user/user.component';
 import { VotingComponent } from './voting/voting.component';
 import { IndexComponent } from './index/index.component';
 import { TwinsComponent } from './twins/twins.component';
+import { TwinsGroupComponent } from './twins/twins-group.component';
 
 const appRoutes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -580,6 +581,12 @@ const appRoutes: Routes = [
   {
     path: 'twins',
     children: [
+      {
+        path: 'group',
+        children: [
+          { path: ':group', component: TwinsGroupComponent }
+        ]
+      },
       { path: ':brand', component: TwinsComponent },
       { path: '', component: TwinsComponent }
     ]

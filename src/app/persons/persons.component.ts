@@ -44,7 +44,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
             fields: [
               'name_html,name_default,description,has_text',
               'url,more_pictures_url',
-              'preview_pictures.picture.thumb_medium,total_pictures'
+              'preview_pictures.picture.thumb_medium,preview_pictures.url,total_pictures'
             ].join(','),
             descendant_pictures: {
               status: 'accepted',
