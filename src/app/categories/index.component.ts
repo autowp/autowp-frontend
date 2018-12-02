@@ -36,8 +36,7 @@ export class CategoriesIndexComponent implements OnInit, OnDestroy {
         fields: 'name_html,catname,front_picture.thumb_medium,descendants_count',
         limit: 30,
         type_id: 3, // category
-        no_parent: true,
-        order: 'name_nat'
+        no_parent: true
       })
       .subscribe(response => {
         this.items = chunkBy(response.items, 4);

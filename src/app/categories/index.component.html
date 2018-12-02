@@ -5,9 +5,9 @@
         <img [src]="category.front_picture.thumb_medium.src" class="card-img-top" />
       </a>
       <div class="card-body">
-        <h4 class="card-title">
+        <h5 class="card-title">
           <a [href]="'/categories/' + category.catname" [innerHTML]="category.name_html"></a>
-        </h4>
+        </h5>
         <p translate [translateParams]="{count: category.descendants_count}">{{'{count} vehicles'}}</p>
       </div>
     </div>
