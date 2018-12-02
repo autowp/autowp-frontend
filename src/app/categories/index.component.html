@@ -1,6 +1,6 @@
 <div class="row" *ngFor="let chunk of items">
   <div class="col-md-3" *ngFor="let category of chunk">
-    <div class="card">
+    <div class="card mb-4">
       <a [href]="'/category/' + category.catname" *ngIf="category.front_picture && category.front_picture.thumb_medium">
         <img [src]="category.front_picture.thumb_medium.src" class="card-img-top" />
       </a>
