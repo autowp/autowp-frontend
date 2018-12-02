@@ -10,7 +10,7 @@
       </li>
       <li *ngIf="group.accepted_pictures_count > 0">
           <i class="fa fa-th"></i>
-          <a [href]="'/twins/group' + group.id + '/pictures'">{{'carlist/all pictures'|translate}} ({{group.accepted_pictures_count}})</a>
+          <a [routerLink]="['/twins/group', group.id, 'pictures']">{{'carlist/all pictures'|translate}} ({{group.accepted_pictures_count}})</a>
       </li>
     </ul>
 

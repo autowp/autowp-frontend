@@ -215,6 +215,8 @@ import { TwinsService } from './services/twins';
 import { TwinsGroupComponent } from './twins/twins-group.component';
 import { TwinsSidebarComponent } from './twins/sidebar.component';
 import { TwinsItemComponent } from './twins/item/item.component';
+import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.component';
+import { TwinsGroupPicturesThumbnailComponent } from './twins/thumbnail/thumbnail.component';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -382,7 +384,9 @@ import { TwinsItemComponent } from './twins/item/item.component';
     TwinsComponent,
     TwinsGroupComponent,
     TwinsSidebarComponent,
-    TwinsItemComponent
+    TwinsItemComponent,
+    TwinsGroupPicturesComponent,
+    TwinsGroupPicturesThumbnailComponent
   ],
   entryComponents: [
     ModalMessageComponent,

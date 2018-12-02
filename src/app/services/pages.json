@@ -15,20 +15,20 @@
               {
                 "id": 26,
                 "is_group_node": false,
+                "routerLink": ["/twins/group/%TWINS_GROUP_ID%"],
                 "childs": [
                   {
                     "id": 28,
                     "is_group_node": false,
+                    "routerLink": ["/twins/group/%TWINS_GROUP_ID%/pictures"],
                     "childs": [
                       {
                         "id": 183,
                         "is_group_node": false,
                         "childs": [],
-                        "url":
-                          "/twins/group%TWINS_GROUP_ID%/pictures/%PICTURE_ID%"
+                        "url": "/twins/group%TWINS_GROUP_ID%/pictures/%PICTURE_ID%"
                       }
-                    ],
-                    "url": "/twins/group%TWINS_GROUP_ID%/pictures"
+                    ]
                   },
                   {
                     "id": 27,
@@ -36,8 +36,7 @@
                     "childs": [],
                     "url": "/twins/group%TWINS_GROUP_ID%/specifications"
                   }
-                ],
-                "url": "/twins/group%TWINS_GROUP_ID%"
+                ]
               },
               {
                 "id": 153,

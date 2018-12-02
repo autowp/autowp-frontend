@@ -39,7 +39,7 @@
 
     <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
       <i class="fa fa-adjust mr-1"></i>
-      <a [href]="'/twins/group' + twinsGroup.id" translate>carlist/twins</a>
+      <a [routerLink]="['/twins/group', twinsGroup.id]" translate>carlist/twins</a>
     </li>
 
     <li *ngFor="let category of item.categories" class="list-inline-item">

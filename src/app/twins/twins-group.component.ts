@@ -4,7 +4,6 @@ import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { chunkBy } from '../chunk';
 import { ACLService } from '../services/acl.service';
 
 @Component({
@@ -80,19 +79,5 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public chunk(items: APIItem[]): APIItem[][] {
-    return chunkBy(items, 3);
-  }
-
-  public hasMoreImages(group: APIItem): boolean {
-    let count = 0;
-    for (const item of group.childs) {
-      if (item.front_picture) {
-        count++;
-      }
-    }
-    return group.accepted_pictures_count > count;
   }
 }

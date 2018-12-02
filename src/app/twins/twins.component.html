@@ -38,7 +38,7 @@
         </li>
         <li *ngIf="hasMoreImages(group)">
           <span class="fa fa-th mr-1"></span>
-          <a [href]="'/twins/group' + group.id + '/pictures'">{{ 'carlist/all pictures' | translate }} ({{group.accepted_pictures_count}})</a>
+          <a [routerLink]="['/twins/group', group.id, 'pictures']">{{ 'carlist/all pictures' | translate }} ({{group.accepted_pictures_count}})</a>
         </li>
         <li *ngIf="canEdit">
           <i class="fa fa-cog mr-1"></i>

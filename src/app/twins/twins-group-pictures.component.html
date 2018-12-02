@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-sm-8 order-2">
+    <div class="row" *ngIf="group">
+      <div class="col-lg-3 col-md-3" *ngFor="let picture of pictures">
+        <app-twins-group-pictures-thumbnail [group]="group" [picture]="picture"></app-twins-group-pictures-thumbnail>
+      </div>
+    </div>
+    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  </div>
+  <div class="col-sm-4 order-1">
+    <app-twins-sidebar [selected]="selectedBrands"></app-twins-sidebar>
+  </div>
+</div>
