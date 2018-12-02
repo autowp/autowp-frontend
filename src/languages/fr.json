@@ -1,4 +1,5 @@
 {
+  "{count} vehicles": "{count, plural, one {{count} vehicle} other {{count} vehicles}}",
   "select": "select",
   "picture/text": "Toutes les images ont leurs propriétaires.\n\nSi vous pensez que les utilisateurs du site se sont trompés en affichant cette image dans cette section, ce serait bien si vous en parliez dans les commentaires et si vous indiquiez où se trouve l'erreur.\n\nQue vous vouliez bavarder d'automobiles ou tout autre chose, vous pouvez le faire sur [notre forum](/ng/forums/).",
   "specs/attrs/157/options/euro-6d": "Euro 6d",

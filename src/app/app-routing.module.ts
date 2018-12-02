@@ -111,6 +111,7 @@ import { TwinsComponent } from './twins/twins.component';
 import { TwinsGroupComponent } from './twins/twins-group.component';
 import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.component';
 import { TwinsGroupSpecificationsComponent } from './twins/twins-group-specifications.component';
+import { CategoriesIndexComponent } from './categories/index.component';
 
 const appRoutes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -205,6 +206,15 @@ const appRoutes: Routes = [
       {
         path: 'specs-admin',
         component: CarsSpecsAdminComponent
+      }
+    ]
+  },
+  {
+    path: 'category',
+    children: [
+      {
+        path: '',
+        component: CategoriesIndexComponent
       }
     ]
   },

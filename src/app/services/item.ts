@@ -101,6 +101,7 @@ export interface APIItem {
     messages: number;
   };
   front_picture?: APIPicture;
+  descendants_count: number;
 }
 
 export interface APIItemRelatedGroupItem {
