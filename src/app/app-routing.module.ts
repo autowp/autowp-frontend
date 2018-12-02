@@ -110,6 +110,7 @@ import { IndexComponent } from './index/index.component';
 import { TwinsComponent } from './twins/twins.component';
 import { TwinsGroupComponent } from './twins/twins-group.component';
 import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.component';
+import { TwinsGroupSpecificationsComponent } from './twins/twins-group-specifications.component';
 
 const appRoutes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -589,6 +590,7 @@ const appRoutes: Routes = [
             path: ':group',
             children: [
               { path: 'pictures', component: TwinsGroupPicturesComponent },
+              { path: 'specifications', component: TwinsGroupSpecificationsComponent },
               { path: '', component: TwinsGroupComponent }
             ]
           }

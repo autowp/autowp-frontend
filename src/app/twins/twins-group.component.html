@@ -6,7 +6,7 @@
     <ul class="carLinks">
       <li *ngIf="group.has_child_specs">
           <i class="fa fa-list-alt"></i>
-          <a [href]="'/twins/group' + group.id + '/specifications'">{{'carlist/specifications'|translate}}</a>
+          <a [routerLink]="['/twins/group', group.id, 'specifications']">{{'carlist/specifications'|translate}}</a>
       </li>
       <li *ngIf="group.accepted_pictures_count > 0">
           <i class="fa fa-th"></i>
