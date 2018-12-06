@@ -123,9 +123,11 @@ export class TwinsComponent implements OnInit, OnDestroy {
 
   public hasMoreImages(group: APIItem): boolean {
     let count = 0;
-    for (const item of group.childs) {
-      if (item.front_picture) {
-        count++;
+    if (group.childs) {
+      for (const item of group.childs) {
+        if (item.front_picture) {
+          count++;
+        }
       }
     }
     return group.accepted_pictures_count > count;
