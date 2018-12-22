@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
       .getItems({
         type_id: 3,
         no_parent: true,
-        fields: 'name_text,url,descendants_count',
+        fields: 'name_text,catname,descendants_count',
         limit: 20
       })
       .subscribe(response => {

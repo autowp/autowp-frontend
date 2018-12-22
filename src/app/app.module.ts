@@ -219,6 +219,8 @@ import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.compon
 import { TwinsGroupPicturesThumbnailComponent } from './twins/thumbnail/thumbnail.component';
 import { TwinsGroupSpecificationsComponent } from './twins/twins-group-specifications.component';
 import { CategoriesIndexComponent } from './categories/index.component';
+import { CategoriesCategoryComponent } from './categories/category.component';
+import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -390,7 +392,9 @@ import { CategoriesIndexComponent } from './categories/index.component';
     TwinsGroupPicturesComponent,
     TwinsGroupPicturesThumbnailComponent,
     TwinsGroupSpecificationsComponent,
-    CategoriesIndexComponent
+    CategoriesIndexComponent,
+    CategoriesCategoryComponent,
+    CategoriesCategoryPicturesComponent
   ],
   entryComponents: [
     ModalMessageComponent,

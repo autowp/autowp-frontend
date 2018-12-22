@@ -64,7 +64,7 @@ export interface APIItem {
   categories?: APIItem[];
   childs?: APIItem[];
   url: string;
-  spec_editor_url: string;
+  can_edit_specs?: boolean;
   name_only: string;
   current_pictures_count?: number;
   accepted_pictures_count?: number;

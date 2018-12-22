@@ -112,6 +112,8 @@ import { TwinsGroupComponent } from './twins/twins-group.component';
 import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.component';
 import { TwinsGroupSpecificationsComponent } from './twins/twins-group-specifications.component';
 import { CategoriesIndexComponent } from './categories/index.component';
+import { CategoriesCategoryComponent } from './categories/category.component';
+import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
 
 const appRoutes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -213,7 +215,23 @@ const appRoutes: Routes = [
     path: 'category',
     children: [
       {
+        path: ':category',
+        children: [
+          {
+            path: 'pictures',
+            pathMatch: 'full',
+            component: CategoriesCategoryPicturesComponent
+          },
+          {
+            path: '',
+            pathMatch: 'full',
+            component: CategoriesCategoryComponent
+          }
+        ]
+      },
+      {
         path: '',
+        pathMatch: 'full',
         component: CategoriesIndexComponent
       }
     ]

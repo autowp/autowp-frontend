@@ -43,7 +43,7 @@
             <b class="caret"></b>
           </button>
           <div ngbDropdownMenu>
-            <a [href]="category.url" class="dropdown-item" *ngFor="let category of categories">
+            <a [routerLink]="['/category', category.catname]" class="dropdown-item" *ngFor="let category of categories">
               {{category.name_text}}&#xa0;
               <span class="count">
                 ({{category.descendants_count}})
