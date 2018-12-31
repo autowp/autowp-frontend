@@ -78,51 +78,8 @@
             "id": 22,
             "is_group_node": false,
             "name": "page/22/name",
-            "childs": [
-              {
-                "id": 23,
-                "is_group_node": false,
-                "childs": [
-                  {
-                    "id": 185,
-                    "is_group_node": false,
-                    "childs": [
-                      {
-                        "id": 186,
-                        "is_group_node": false,
-                        "childs": [
-                          {
-                            "id": 187,
-                            "is_group_node": false,
-                            "childs": [],
-                            "url":
-                              "/category/%CATEGORY_CATNAME%/%CAR_ID%/pictures/%PICTURE_ID%"
-                          }
-                        ],
-                        "url": "/category/%CATEGORY_CATNAME%/%CAR_ID%/pictures"
-                      }
-                    ],
-                    "url": "/category/%CATEGORY_CATNAME%/%CAR_ID%"
-                  },
-                  {
-                    "id": 162,
-                    "is_group_node": false,
-                    "childs": [
-                      {
-                        "id": 184,
-                        "is_group_node": false,
-                        "childs": [],
-                        "url":
-                          "/category/%CATEGORY_CATNAME%/pictures/%PICTURE_ID%"
-                      }
-                    ],
-                    "url": "/category/%CATEGORY_CATNAME%/pictures"
-                  }
-                ],
-                "url": "/category/%CATEGORY_CATNAME%"
-              }
-            ],
-            "url": "/category"
+            "routerLink": ["/category"],
+            "childs": []
           },
           {
             "id": 117,

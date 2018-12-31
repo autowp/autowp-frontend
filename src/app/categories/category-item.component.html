@@ -1,0 +1,84 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/category" translate>page/22/name</a>
+    </li>
+    <ng-container *ngFor="let item of path; let last = last">
+      <li class="breadcrumb-item" *ngIf="!last">
+        <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id != 3"></a>
+        <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id == 3">
+          <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
+          <a ngbDropdownToggle style="cursor:pointer"></a>
+          <div ngbDropdownMenu>
+            <div class="dropdown-item" *ngIf="!item.loaded">
+              <i class="fa fa-spinner fa-spin fa-fw"></i>
+            </div>
+            <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id == item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
+          </div>
+        </div>
+      </li>
+    </ng-container>
+  </ol>
+</nav>
+<div class="page-header" *ngIf="current">
+  <h1 [innerHtml]="current.name_html"></h1>
+</div>
+
+<div *ngIf="current">
+
+  <p *ngIf="isModer" class="mb-4">
+    <i class="fa fa-cog"></i>
+    <a [routerLink]="['/moder/items/item', current.id]" translate>moder/edit-object</a>
+
+    <span *ngIf="canAddCar">
+      <i class="fa fa-plus"></i>
+      <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{'item/type/' + current.item_type_id + '/add-sub-item' | translate}}</a>
+    </span>
+  </p>
+
+  <app-markdown markdown="category.description" *ngIf="current.description && current.description.length > 0"></app-markdown>
+
+  <app-categories-list-item [item]="itemParent.item" [urlPrefix]="itemUrlPrefix(itemParent)" [routerLink]="itemRouterLink(itemParent)" *ngFor="let itemParent of items"></app-categories-list-item>
+
+  <app-categories-list-item [item]="item" [urlPrefix]="currentUrlPrefix()" [routerLink]="currentRouterLink()" *ngIf="item"></app-categories-list-item>
+
+  <div class="twins row" *ngIf="pictures">
+    <div class="col-lg-3 col-md-3" *ngFor="let picture of pictures">
+      <div class="card mb-4">
+        <a [href]="pictureUrl(picture)">
+          <img
+            [src]="picture.thumb_medium.src"
+            [title]="picture.name_text"
+            class="card-img-top"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!--div *ngIf="otherItemsCount > 0">
+    <h3 translate>categories/other</h3>
+    <div class="row">
+      <div class="col-md-3" *ngFor="let picture of otherPictures">
+        <a [href]="picture.url" class="d-block rounded mb-4">
+          <img [src]="picture.src" [title]="picure.name_text" class="rounded w-100 border border-light" />
+        </a>
+      </div>
+    </div>
+    <span class="canAddCar">
+      <i class="fa fa-align-left"></i>
+      <a [routerLink]="['/category', category.catname, 'other']">{{'carlist/details'|translate}} ({{otherItemsCount}})</a>
+    </span>
+  </div>-->
+
+  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <!--
+  <p *ngIf="contributors.length > 0">
+      {{'catalogue/specifications/contributors:'|translate}}
+      <app-user [user]="user" *ngFor="let user of contributors"></app-user>
+  </p>
+  -->
+</div>

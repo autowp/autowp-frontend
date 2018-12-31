@@ -8,7 +8,6 @@ import { Subscription, combineLatest } from 'rxjs';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { query } from '@angular/core/src/render3/query';
 
 export interface APINewGroup {
   type: string;
@@ -83,7 +82,7 @@ export class NewComponent implements OnInit, OnDestroy {
                 'pictures.comments_count,pictures.name_html,pictures.name_text,' +
                 'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
                 'item.name_html,item.name_default,item.description,item.produced,' +
-                'item.design,item.url,item.spec_editor_url,item.specs_url,' +
+                'item.design,item.url,item.can_edit_specs,item.specs_url,' +
                 'item.categories.url,item.categories.name_html,item.twins_groups'
             };
             if (params.route.date) {

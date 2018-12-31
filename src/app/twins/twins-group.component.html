@@ -5,12 +5,12 @@
 
     <ul class="carLinks">
       <li *ngIf="group.has_child_specs">
-          <i class="fa fa-list-alt"></i>
-          <a [routerLink]="['/twins/group', group.id, 'specifications']">{{'carlist/specifications'|translate}}</a>
+        <i class="fa fa-list-alt"></i>
+        <a [routerLink]="['/twins/group', group.id, 'specifications']">{{'carlist/specifications'|translate}}</a>
       </li>
       <li *ngIf="group.accepted_pictures_count > 0">
-          <i class="fa fa-th"></i>
-          <a [routerLink]="['/twins/group', group.id, 'pictures']">{{'carlist/all pictures'|translate}} ({{group.accepted_pictures_count}})</a>
+        <i class="fa fa-th"></i>
+        <a [routerLink]="['/twins/group', group.id, 'pictures']">{{'carlist/all pictures'|translate}} ({{group.accepted_pictures_count}})</a>
       </li>
     </ul>
 

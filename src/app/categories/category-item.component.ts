@@ -1,0 +1,258 @@
+import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { ItemService, APIItem, APIPathItem } from '../services/item';
+import { Subscription, of, combineLatest } from 'rxjs';
+import { PageEnvService } from '../services/page-env.service';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap, tap, switchMapTo, map } from 'rxjs/operators';
+import { ACLService } from '../services/acl.service';
+import { APIPaginator } from '../services/api.service';
+import { APIItemParent, ItemParentService } from '../services/item-parent';
+import { PictureService, APIPicture } from '../services/picture';
+
+interface PathItem {
+  routerLink: string[];
+  item: APIItem;
+  loaded: boolean;
+  childs: APIItem[];
+  parent_id: number;
+}
+
+@Component({
+  selector: 'app-categories-category-item',
+  templateUrl: './category-item.component.html'
+})
+@Injectable()
+export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
+  private sub: Subscription;
+  public current: APIItem;
+  public category: APIItem;
+  private pathCatnames: string[] = [];
+  public items: APIItemParent[] = [];
+  public isModer = false;
+  public canAddCar = false;
+  public paginator: APIPaginator;
+  public path: PathItem[];
+  public pictures: APIPicture[];
+  public item: APIItem;
+
+  constructor(
+    private itemService: ItemService,
+    private itemParentService: ItemParentService,
+    private pictureService: PictureService,
+    private pageEnv: PageEnvService,
+    private route: ActivatedRoute,
+    private acl: ACLService
+  ) {}
+
+  ngOnInit(): void {
+    this.acl
+      .inheritsRole('moder')
+      .subscribe(isModer => (this.isModer = isModer));
+    this.acl
+      .isAllowed('car', 'add')
+      .subscribe(canAddCar => (this.canAddCar = canAddCar));
+
+    this.sub = this.route.paramMap
+      .pipe(
+        switchMap(params => {
+          const path = params.get('path');
+          return this.itemService.getPath({
+            catname: params.get('category'),
+            path: path ? path : ''
+          });
+        }),
+        map(response => {
+          let category: APIItem = null;
+          for (const item of response.path) {
+            if (item.item.item_type_id !== 3) {
+              break;
+            }
+            category = item.item;
+          }
+          return {
+            current: response.path[response.path.length - 1].item,
+            category: category,
+            path: response.path
+          };
+        }),
+        tap(data => {
+          let catname = '';
+          const pathCatnames: string[] = [];
+          const pathItems: PathItem[] = [];
+          for (const item of data.path) {
+            if (item.item.item_type_id === 3) {
+              catname = item.item.catname;
+            }
+            if (item.item.item_type_id !== 3) {
+              pathCatnames.push(item.catname);
+            }
+            pathItems.push({
+              routerLink: ['/category', catname].concat(pathCatnames),
+              item: item.item,
+              loaded: false,
+              childs: [],
+              parent_id: item.parent_id
+            });
+          }
+
+          this.current = data.current;
+          this.category = data.category;
+          this.path = pathItems;
+          this.pathCatnames = pathCatnames;
+          this.pageEnv.set({
+            layout: {
+              needRight: false,
+              header: false
+            },
+            nameTranslated: data.current.name_text,
+            pageId: 22
+          });
+        }),
+        switchMapTo(this.route.queryParamMap, (data, query) => ({
+          current: data.current,
+          page: parseInt(query.get('page'), 10)
+        })),
+        switchMap(
+          data =>
+            this.itemParentService
+              .getItems({
+                fields: [
+                  'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced',
+                  'item.design,item.engine_vehicles',
+                  'item.can_edit_specs,item.specs_url,item.more_pictures_url',
+                  'item.twins_groups',
+                  'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
+                ].join(','),
+                limit: 7,
+                page: data.page,
+                parent_id: data.current.id,
+                order: 'categories_first'
+              })
+              .pipe(
+                tap(response => {
+                  this.items = response.items;
+                  this.paginator = response.paginator;
+                })
+              ),
+          (data, response) => ({
+            items: response.items,
+            current: data.current
+          })
+        ),
+        switchMap(data => {
+          this.pictures = null;
+          this.item = null;
+
+          if (data.current.item_type_id === 3) {
+            return of(null);
+          }
+
+          if (data.items.length > 0) {
+            return this.pictureService
+              .getPictures({
+                exact_item_id: data.current.id,
+                limit: 4,
+                fields: 'thumb_medium,name_text'
+              })
+              .pipe(
+                tap(response => {
+                  this.pictures = response.pictures;
+                })
+              );
+          }
+
+          return this.itemService
+            .getItem(data.current.id, {
+              fields: [
+                'catname,name_html,name_default,description,has_text,produced',
+                'design,engine_vehicles',
+                'can_edit_specs,specs_url,more_pictures_url',
+                'twins_groups',
+                'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
+              ].join(',')
+            })
+            .pipe(
+              tap(item => {
+                this.item = item;
+              })
+            );
+        })
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  public pictureUrl(picture: APIPicture): string {
+    if (!this.category) {
+      return null;
+    }
+
+    return this.currentUrlPrefix() + '/pictures/' + picture.identity;
+  }
+
+  public currentRouterLink(): string[] {
+    if (this.current.item_type_id === 3) {
+      return ['/category', this.current.catname];
+    }
+
+    return ['/category', this.category.catname].concat(this.pathCatnames);
+  }
+
+  public itemRouterLink(itemParent: APIItemParent): string[] {
+    if (itemParent.item.item_type_id === 3) {
+      return ['/category', itemParent.item.catname];
+    }
+
+    return ['/category', this.category.catname].concat(this.pathCatnames, [
+      itemParent.catname
+    ]);
+  }
+
+  public currentUrlPrefix(): string {
+    if (!this.category) {
+      return null;
+    }
+
+    if (this.current.item_type_id === 3) {
+      return '/category/' + this.current.catname;
+    }
+
+    return (
+      '/category/' +
+      this.category.catname +
+      (this.pathCatnames.length ? '/' + this.pathCatnames.join('/') : '')
+    );
+  }
+
+  public itemUrlPrefix(item: APIItemParent): string {
+    if (!this.category) {
+      return null;
+    }
+
+    if (item.item.item_type_id === 3) {
+      return '/category/' + item.item.catname;
+    }
+
+    return this.currentUrlPrefix() + '/' + item.catname;
+  }
+
+  public dropdownOpenChange(item: PathItem) {
+    if (!item.loaded) {
+
+      this.itemService.getItems({
+        fields: 'catname,name_html',
+        parent_id: item.parent_id,
+        no_parent: item.parent_id ? null : true,
+        limit: 50,
+        type_id: 3
+      }).subscribe(response => {
+        item.loaded = true;
+        item.childs = response.items;
+      });
+    }
+  }
+
+}

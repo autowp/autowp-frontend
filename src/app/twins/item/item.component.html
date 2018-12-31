@@ -57,9 +57,9 @@
       <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
     </li>
 
-    <li *ngIf="item.spec_editor_url" class="list-inline-item">
+    <li *ngIf="item.can_edit_specs" class="list-inline-item">
       <i class="fa fa-pencil mr-1"></i>
-      <a [href]="item.spec_editor_url" translate>carlist/edit-specs</a>
+      <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" translate>carlist/edit-specs</a>
     </li>
   </ul>
 </div>
