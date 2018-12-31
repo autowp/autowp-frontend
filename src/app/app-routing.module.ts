@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import { AboutComponent } from './about/about.component';
 import { AccountAccessComponent } from './account/access/access.component';
 import { AuthGuard } from './auth.guard';
 import { AccountAccountsComponent } from './account/accounts/accounts.component';
@@ -24,12 +23,6 @@ import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { ChartComponent } from './chart/chart.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { DonateLogComponent } from './donate/log/log.component';
-import { DonateSuccessComponent } from './donate/success/success.component';
-import { DonateVodSelectComponent } from './donate/vod/select/select.component';
-import { DonateVodSuccessComponent } from './donate/vod/success/success.component';
-import { DonateVodComponent } from './donate/vod/vod.component';
-import { DonateComponent } from './donate/donate.component';
 import { FactoryItemsComponent } from './factories/items/items.component';
 import { FactoryComponent } from './factories/factories.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
@@ -108,7 +101,7 @@ import { categoriesPathMatcher, categoriesPicturesPathMatcher } from './categori
 import { CategoriesCategoryItemComponent } from './categories/category-item.component';
 
 const appRoutes: Routes = [
-  { path: 'about', component: AboutComponent },
+  { path: 'about', loadChildren: './about/about.module#AboutModule' },
   {
     path: 'account',
     children: [
@@ -232,19 +225,7 @@ const appRoutes: Routes = [
   { path: 'cutaway', component: CutawayComponent },
   {
     path: 'donate',
-    children: [
-      { path: 'log', component: DonateLogComponent },
-      { path: 'success', component: DonateSuccessComponent },
-      {
-        path: 'vod',
-        children: [
-          { path: 'select', component: DonateVodSelectComponent },
-          { path: 'success', component: DonateVodSuccessComponent },
-          { path: '', component: DonateVodComponent }
-        ]
-      },
-      { path: '', component: DonateComponent }
-    ]
+    loadChildren: './donate/donate.module#DonateModule'
   },
   {
     path: 'factories/:id',

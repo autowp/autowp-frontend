@@ -5,7 +5,6 @@ import {
   ItemService,
   APIItemsGetResponse
 } from '../../../services/item';
-import Notify from '../../../notify';
 import { chunk } from '../../../chunk';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, of } from 'rxjs';

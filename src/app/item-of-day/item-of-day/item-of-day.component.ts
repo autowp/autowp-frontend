@@ -1,19 +1,12 @@
+import { Component, OnInit, SimpleChanges, OnChanges, Input } from '@angular/core';
 import { APIItem } from '../../services/item';
 import { APIUser } from '../../services/user';
 import { APIPicture } from '../../services/picture';
-import {
-  Component,
-  Injectable,
-  Input,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
 
 @Component({
   selector: 'app-item-of-day',
   templateUrl: './item-of-day.component.html'
 })
-@Injectable()
 export class ItemOfDayComponent implements OnChanges {
   @Input() item: APIItem;
   @Input() user: APIUser;

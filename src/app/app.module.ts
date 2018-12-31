@@ -30,7 +30,6 @@ import { ModerTrafficComponent } from './moder/traffic/traffic.component';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { AboutComponent } from './about/about.component';
 import { ModerCommentsComponent } from './moder/comments/comments.component';
 import { ModerItemParentComponent } from './moder/item-parent/item-parent.component';
 import { ModerItemsAlphaComponent } from './moder/items/alpha/alpha.component';
@@ -71,12 +70,6 @@ import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { ChartComponent } from './chart/chart.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { DonateComponent } from './donate/donate.component';
-import { DonateLogComponent } from './donate/log/log.component';
-import { DonateSuccessComponent } from './donate/success/success.component';
-import { DonateVodComponent } from './donate/vod/vod.component';
-import { DonateVodSelectComponent } from './donate/vod/select/select.component';
-import { DonateVodSuccessComponent } from './donate/vod/success/success.component';
 import { FactoryComponent } from './factories/factories.component';
 import { FactoryItemsComponent } from './factories/items/items.component';
 import { FeedbackComponent } from './feedback/feedback.component';
@@ -113,7 +106,6 @@ import { UsersUserPicturesComponent } from './users/user/pictures/pictures.compo
 import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
 import { VotingComponent } from './voting/voting.component';
 import { NewListItemComponent } from './new/list-item/list-item.component';
-import { DonateVodSelectItemComponent } from './donate/vod/select/item/item.component';
 import { ModerPictureMoveItemComponent } from './moder/pictures/item/move/item/item.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
@@ -137,7 +129,6 @@ import { UploadSelectTreeItemComponent } from './upload/select/tree-item/tree-it
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 import { VotingService } from './services/voting';
 import { MarkdownEditComponent } from './components/markdown-edit/markdown-edit.component';
-import { ItemOfDayComponent } from './components/item-of-day/item-of-day.component';
 import { ItemComponent } from './components/item/item.component';
 import { PictureModerVoteComponent } from './components/picture-moder-vote/picture-moder-vote.component';
 import { ItemMetaFormComponent } from './components/item-meta-form/item-meta-form.component';
@@ -214,7 +205,6 @@ import { UtilsModule } from './utils/utils.module';
 
 @NgModule({
   declarations: [
-    AboutComponent,
     AccountComponent,
     AccountAccessComponent,
     AccountAccountsComponent,
@@ -237,12 +227,6 @@ import { UtilsModule } from './utils/utils.module';
     CarsSpecsAdminComponent,
     ChartComponent,
     CutawayComponent,
-    DonateComponent,
-    DonateLogComponent,
-    DonateSuccessComponent,
-    DonateVodComponent,
-    DonateVodSelectComponent,
-    DonateVodSuccessComponent,
     FactoryComponent,
     FactoryItemsComponent,
     FeedbackComponent,
@@ -309,7 +293,6 @@ import { UtilsModule } from './utils/utils.module';
     ModerTrafficComponent,
     ModerTrafficWhitelistComponent,
     NewListItemComponent,
-    DonateVodSelectItemComponent,
     ModerPictureMoveItemComponent,
     ModerRightsTreeComponent,
     ModerItemsTooBigComponent,
@@ -325,7 +308,6 @@ import { UtilsModule } from './utils/utils.module';
     UploadSelectTreeItemComponent,
     ThumbnailComponent,
     MarkdownEditComponent,
-    ItemOfDayComponent,
     CarsSelectEngineTreeItemComponent,
     ItemComponent,
     PictureModerVoteComponent,

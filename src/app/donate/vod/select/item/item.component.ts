@@ -1,12 +1,9 @@
 import {
   Component,
   Injectable,
-  Input,
-  EventEmitter,
-  Output
+  Input
 } from '@angular/core';
 import Notify from '../../../../notify';
-import { APIItem } from '../../../../services/item';
 import {
   ItemParentService,
   APIItemParent
