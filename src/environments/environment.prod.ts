@@ -8,7 +8,7 @@ export const environment = {
       hostname: 'en.wheelsage.org',
       name: 'English',
       flag: 'flag-icon flag-icon-gb',
-      momentLocale: 'en'
+      momentLocale: 'en-gb'
     },
     {
       code: 'zh',

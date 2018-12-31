@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router, RouterEvent } from '@angular/router';
+import { Router, RouterEvent, NavigationStart } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
@@ -79,7 +79,9 @@ export class AppComponent implements OnInit {
     this.searchHostname = searchHostname;
 
     router.events.subscribe((val: RouterEvent) => {
-      this.urlPath = '/ng' + val.url;
+      if (val instanceof NavigationStart) {
+        this.urlPath = '/ng' + val.url;
+      }
     });
   }
 

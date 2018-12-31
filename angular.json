@@ -9,7 +9,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:build",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
@@ -47,7 +47,9 @@
               "src/app/jcrop/jquery.Jcrop.scss",
               "src/assets/flags/flags.scss"
             ],
-            "scripts": ["node_modules/jquery/dist/jquery.js"]
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js"
+            ]
           },
           "configurations": {
             "test": {
@@ -87,7 +89,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "support:build"
           },
@@ -109,8 +111,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

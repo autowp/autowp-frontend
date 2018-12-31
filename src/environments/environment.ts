@@ -13,7 +13,7 @@ export const environment = {
       hostname: 'en.localhost',
       name: 'English',
       flag: 'flag-icon flag-icon-gb',
-      momentLocale: 'en'
+      momentLocale: 'en-gb'
     },
     {
       code: 'zh',
