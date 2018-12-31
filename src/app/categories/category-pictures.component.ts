@@ -9,6 +9,14 @@ import { APIPaginator } from '../services/api.service';
 import { PictureService, APIPicture } from '../services/picture';
 import { chunkBy } from '../chunk';
 
+interface PathItem {
+  routerLink: string[];
+  item: APIItem;
+  loaded: boolean;
+  childs: APIItem[];
+  parent_id: number;
+}
+
 @Component({
   selector: 'app-categories-category-pictures',
   templateUrl: './category-pictures.component.html'
@@ -17,10 +25,13 @@ import { chunkBy } from '../chunk';
 export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public category: APIItem;
+  public current: APIItem;
   public pictures: APIPicture[][] = [];
   public isModer = false;
   public canAddCar = false;
   public paginator: APIPaginator;
+  public path: PathItem[];
+  private pathCatnames: string[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -31,64 +42,128 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.acl
+      .inheritsRole('moder')
+      .subscribe(isModer => (this.isModer = isModer));
+    this.acl
+      .isAllowed('car', 'add')
+      .subscribe(canAddCar => (this.canAddCar = canAddCar));
 
-    this.acl.inheritsRole('moder').subscribe(isModer => this.isModer = isModer);
-    this.acl.isAllowed('car', 'add').subscribe(canAddCar => this.canAddCar = canAddCar);
-
-    this.sub = this.route.paramMap.pipe(
-      switchMap(params => {
-        return this.itemService
-          .getItems({
-            fields: 'name_html,name_only,catname',
-            limit: 1,
-            type_id: 3, // category
-            catname: params.get('category')
+    this.sub = this.route.paramMap
+      .pipe(
+        switchMap(params => {
+          const path = params.get('path');
+          return this.itemService.getPath({
+            catname: params.get('category'),
+            path: path ? path : ''
           });
-      }),
-      map(response => response.items.length > 0 ? response.items[0] : null),
-      tap(category => {
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          name: 'page/162/name',
-          title: category.name_text,
-          pageId: 162,
-          args: {
-            CATEGORY_SHORT_NAME: category.name_only,
-            CATEGORY_NAME: category.name_only,
-            CATEGORY_CATNAME: category.catname
+        }),
+        map(response => {
+          let category: APIItem = null;
+          for (const item of response.path) {
+            if (item.item.item_type_id !== 3) {
+              break;
+            }
+            category = item.item;
           }
-        });
-      }),
-      switchMapTo(this.route.queryParamMap,
-        (category, query) => ({category, query})
-      ),
-      switchMap(data => {
-        return this.pictureService
-          .getPictures({
-            fields: [
-              'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
-            ].join(','),
-            limit: 20,
-            page: parseInt(data.query.get('page'), 10),
-            item_id: data.category.id,
-            order: 3
+          return {
+            current: response.path[response.path.length - 1].item,
+            category: category,
+            path: response.path
+          };
+        }),
+        tap(data => {
+          let catname = '';
+          const pathCatnames: string[] = [];
+          const pathItems: PathItem[] = [];
+          for (const item of data.path) {
+            if (item.item.item_type_id === 3) {
+              catname = item.item.catname;
+            }
+            if (item.item.item_type_id !== 3) {
+              pathCatnames.push(item.catname);
+            }
+            pathItems.push({
+              routerLink: ['/category', catname].concat(pathCatnames),
+              item: item.item,
+              loaded: false,
+              childs: [],
+              parent_id: item.parent_id
+            });
+          }
+
+          this.current = data.current;
+          this.category = data.category;
+          this.path = pathItems;
+          this.pathCatnames = pathCatnames;
+          this.pageEnv.set({
+            layout: {
+              needRight: false,
+              header: false
+            },
+            name: 'page/186/title',
+            pageId: 22
           });
-      }, (data, response) => ({
-        category: data.category,
-        pictures: response.pictures,
-        paginator: response.paginator
-      }))
-    ).subscribe(data => {
-      this.category = data.category;
-      this.pictures = chunkBy(data.pictures, 4);
-      this.paginator = data.paginator;
-    });
+        }),
+        switchMapTo(this.route.queryParamMap, (data, query) => ({
+          current: data.current,
+          page: parseInt(query.get('page'), 10)
+        })),
+        switchMap(
+          data => {
+            return this.pictureService.getPictures({
+              fields: [
+                'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
+              ].join(','),
+              limit: 20,
+              page: data.page,
+              item_id: data.current.id,
+              order: 3
+            });
+          },
+          (data, response) => ({
+            pictures: response.pictures,
+            paginator: response.paginator
+          })
+        )
+      )
+      .subscribe(data => {
+        this.pictures = chunkBy(data.pictures, 4);
+        this.paginator = data.paginator;
+      });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
+  public pictureUrl(picture: APIPicture): string {
+    if (!this.category) {
+      return null;
+    }
+
+    return (
+      '/category/' +
+      this.category.catname +
+      (this.pathCatnames.length ? '/' + this.pathCatnames.join('/') : '') +
+      '/pictures/' +
+      picture.identity
+    );
+  }
+
+  public dropdownOpenChange(item: PathItem) {
+    if (!item.loaded) {
+
+      this.itemService.getItems({
+        fields: 'catname,name_html',
+        parent_id: item.parent_id,
+        no_parent: item.parent_id ? null : true,
+        limit: 50,
+        type_id: 3
+      }).subscribe(response => {
+        item.loaded = true;
+        item.childs = response.items;
+      });
+    }
+  }
 }

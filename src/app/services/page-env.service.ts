@@ -10,15 +10,18 @@ export interface LayoutParams {
   isAdminPage: boolean;
   sidebar: boolean;
   disablePageName: boolean;
+  header: boolean;
 }
 
 export interface PageEnv {
   pageId?: number;
   title?: string;
   name?: string;
+  nameTranslated?: string;
   layout: {
     needRight: boolean;
     isAdminPage?: boolean;
+    header?: boolean;
   };
   disablePageName?: boolean;
   args?: { [key: string]: string };
@@ -31,7 +34,8 @@ export class PageEnvService {
     name: '',
     isAdminPage: false,
     sidebar: false,
-    disablePageName: false
+    disablePageName: false,
+    header: false
   });
 
   public constructor(
@@ -43,6 +47,17 @@ export class PageEnvService {
       if (data && data.pageId) {
         const args = data.args ? data.args : {};
 
+        if (data.nameTranslated) {
+          this.titleService.setTitle(data.nameTranslated);
+          this.layoutParams$.next({
+            name: data.nameTranslated,
+            isAdminPage: data.layout.isAdminPage,
+            sidebar: data.layout.needRight,
+            disablePageName: data.disablePageName,
+            header: data.layout && data.layout.header !== false
+          });
+          return;
+        }
 
         let nameKey: string;
         let titleKey: string;
@@ -64,7 +79,8 @@ export class PageEnvService {
               name: name,
               isAdminPage: data.layout.isAdminPage,
               sidebar: data.layout.needRight,
-              disablePageName: data.disablePageName
+              disablePageName: data.disablePageName,
+              header: data.layout && data.layout.header !== false
             });
           },
           () => {
@@ -73,7 +89,8 @@ export class PageEnvService {
               name: nameKey,
               isAdminPage: data.layout.isAdminPage,
               sidebar: data.layout.needRight,
-              disablePageName: data.disablePageName
+              disablePageName: data.disablePageName,
+              header: data.layout && data.layout.header !== false
             });
           }
         );
@@ -83,7 +100,8 @@ export class PageEnvService {
           name: '',
           isAdminPage: data ? data.layout.isAdminPage : false,
           sidebar: data ? data.layout.needRight : false,
-          disablePageName: data ? data.disablePageName : false
+          disablePageName: data ? data.disablePageName : false,
+          header: data ? data.layout.header !== false : true
         });
       }
     });
@@ -104,7 +122,11 @@ export class PageEnvService {
     );
   }
 
-  public replaceArgs(str: string, args: { [key: string]: string }, url: boolean): string {
+  public replaceArgs(
+    str: string,
+    args: { [key: string]: string },
+    url: boolean
+  ): string {
     const preparedArgs: { [key: string]: string } = {};
     for (const key in args) {
       if (args.hasOwnProperty(key)) {

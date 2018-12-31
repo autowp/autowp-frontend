@@ -19,6 +19,7 @@ export interface APIItemParent {
   duplicate_child?: APIItem;
   parent?: APIItem;
   name?: string;
+  catname: string;
 }
 
 export interface APIItemParentGetItemsOptions {

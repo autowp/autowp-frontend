@@ -1,11 +1,29 @@
-<?php
-    $this->pageEnv([
-        'breadcrumbsReplace' => [
-            'pageId'      => 23,
-            'breadcrumbs' => $this->breadcrumbs
-        ]
-    ]);
-?>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/category" translate>page/22/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngFor="let item of path">
+      <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id != 3"></a>
+      <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id == 3">
+        <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
+        <a ngbDropdownToggle style="cursor:pointer"></a>
+        <div ngbDropdownMenu>
+          <div class="dropdown-item" *ngIf="!item.loaded">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+          </div>
+          <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id == item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
+        </div>
+      </div>
+    </li>
+  </ol>
+</nav>
+<div class="page-header" *ngIf="current">
+  <h1 translate>page/186/title</h1>
+</div>
 
 <div *ngIf="category">
 
@@ -13,12 +31,12 @@
     <div class="col-sm-3" *ngFor="let picture of chunk">
         <div class="card mb-4" [class.vote-accept]="picture.moder_vote && picture.moder_vote.vote > 0" [class.vote-remove]="picture.moder_vote && picture.moder_vote.vote < 0"
           [class.vote-neutral]="picture.moder_vote && picture.moder_vote.count > 0 && picture.moder_vote.vote == 0">
-          <a [href]="'/category/' + category.catname + '/pictures/' + picture.identity" *ngIf="picture.thumb_medium">
+          <a [href]="pictureUrl(picture)" *ngIf="picture.thumb_medium">
             <img class="card-img-top" [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text">
           </a>
           <div class="card-body">
             <h6 class="card-title">
-              <a [href]="'/category/' + category.catname + '/pictures/' + picture.identity" [innerHtml]="picture.name_html"></a>
+              <a [href]="pictureUrl(picture)" [innerHtml]="picture.name_html"></a>
             </h6>
 
             <p class="picture-behaviour clearfix">
@@ -48,9 +66,9 @@
               </span>
 
               <span [title]="'Comments count'|translate" *ngIf="picture.comments_count.total > 0" class="mr-2">
-                <a [href]="picture.url" *ngIf="picture.comments_count.new > 0">
+                <a [href]="pictureUrl(picture)" *ngIf="picture.comments_count.new > 0">
                   {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger"></i></a>
-                <a [href]="picture.url" *ngIf="picture.comments_count.new == 0">
+                <a [href]="pictureUrl(picture)" *ngIf="picture.comments_count.new == 0">
                   {{picture.comments_count.total}}
                   <i class="fa fa-comment"></i>
                 </a>

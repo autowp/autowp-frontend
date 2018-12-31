@@ -14,6 +14,16 @@ export interface APIItemsGetResponse {
   paginator: APIPaginator;
 }
 
+export interface APIPathItem {
+  catname: string|null;
+  item: APIItem;
+  parent_id: number;
+}
+
+export interface APIItemsGetPathResponse {
+  path: APIPathItem[];
+}
+
 export interface APIItem {
   name: string;
   id: number;
@@ -153,6 +163,12 @@ export interface GetItemsServiceOptions {
   preview_pictures?: {
     type_id?: number;
   };
+}
+
+export interface GetPathServiceOptions {
+  [key: string]: string;
+  catname: string;
+  path: string;
 }
 
 @Injectable()
@@ -404,6 +420,14 @@ export class ItemService {
   ): Observable<APIItemsGetResponse> {
     return this.http.get<APIItemsGetResponse>('/api/item', {
       params: this.converItemsOptions(options)
+    });
+  }
+
+  public getPath(
+    options?: GetPathServiceOptions
+  ): Observable<APIItemsGetPathResponse> {
+    return this.http.get<APIItemsGetPathResponse>('/api/item/path', {
+      params: options
     });
   }
 }

@@ -147,8 +147,8 @@
 <div class="container">
   <div class="row">
     <div [ngClass]="'col-sm-' + ((layoutParams$|async).sidebar ? 8 : 12)">
-      <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-header" *ngIf="(layoutParams$|async).name && !(layoutParams$|async).disablePageName">
+      <app-breadcrumbs *ngIf="(layoutParams$|async).header"></app-breadcrumbs>
+      <div class="page-header" *ngIf="(layoutParams$|async).name && !(layoutParams$|async).disablePageName && (layoutParams$|async).header">
         <h1 [textContent]="(layoutParams$|async).name"></h1>
       </div>
 
