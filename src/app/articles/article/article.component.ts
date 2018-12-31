@@ -2,9 +2,9 @@ import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OnInit, OnDestroy, Injectable, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ArticleService, APIArticle } from '../../services/article';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { APIArticle, ArticleService } from '../article.service';
 
 @Component({
   selector: 'app-articles-article',

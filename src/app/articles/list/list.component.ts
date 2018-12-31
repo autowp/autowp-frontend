@@ -1,19 +1,19 @@
-import { APIPaginator } from '../services/api.service';
-import Notify from '../notify';
-import { OnInit, OnDestroy, Component, Injectable } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { APIPaginator } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
-import { ArticleService, APIArticle } from '../services/article';
-import { PageEnvService } from '../services/page-env.service';
+import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import Notify from '../../notify';
+import { APIArticle, ArticleService } from '../article.service';
 
 @Component({
-  selector: 'app-articles',
-  templateUrl: './articles.component.html',
-  styleUrls: ['./styles.scss']
+  selector: 'app-articles-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
-@Injectable()
-export class ArticlesComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit, OnDestroy {
+
   private querySub: Subscription;
   public articles: APIArticle[];
   public paginator: APIPaginator;
@@ -63,4 +63,5 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.querySub.unsubscribe();
   }
+
 }

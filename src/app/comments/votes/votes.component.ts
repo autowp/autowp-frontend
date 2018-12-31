@@ -7,8 +7,8 @@ import {
   OnInit
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommentService } from '../../../services/comment';
-import Notify from '../../../notify';
+import { CommentService } from '../../services/comment';
+import Notify from '../../notify';
 
 @Component({
   selector: 'app-comments-votes',

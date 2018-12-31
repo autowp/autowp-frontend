@@ -1,6 +1,6 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Input, Component, Injectable, EventEmitter, Output } from '@angular/core';
-import Notify from '../../../notify';
+import Notify from '../../notify';
 
 @Component({
   selector: 'app-comments-form',

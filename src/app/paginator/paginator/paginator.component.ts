@@ -1,4 +1,4 @@
-import { Component, Input, Injectable } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as leftPad from 'left-pad';
 import { APIPaginator } from '../../services/api.service';
 
@@ -6,7 +6,6 @@ import { APIPaginator } from '../../services/api.service';
   selector: 'app-paginator',
   templateUrl: './paginator.component.html'
 })
-@Injectable()
 export class PaginatorComponent {
   @Input() data: APIPaginator;
 

@@ -16,8 +16,6 @@ import { AccountMessagesComponent } from './account/messages/messages.component'
 import { AccountProfileComponent } from './account/profile/profile.component';
 import { AccountComponent } from './account/account.component';
 import { AccountSpecsConflictsComponent } from './account/specs-conflicts/specs-conflicts.component';
-import { ArticlesArticleComponent } from './articles/article/article.component';
-import { ArticlesComponent } from './articles/articles.component';
 import { BrandsComponent } from './brands/brands.component';
 import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
 import { CarsDatelessComponent } from './cars/dateless/dateless.component';
@@ -181,10 +179,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'articles',
-    children: [
-      { path: ':catname', component: ArticlesArticleComponent },
-      { path: '', component: ArticlesComponent }
-    ]
+    loadChildren: './articles/articles.module#ArticlesModule'
   },
   { path: 'brands', component: BrandsComponent },
   {

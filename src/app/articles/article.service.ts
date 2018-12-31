@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { APIUser } from '../services/user';
+import { APIPaginator } from '../services/api.service';
 import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from './api.service';
-import { APIUser } from './user';
 import { Observable } from 'rxjs';
 
 export interface APIArticle {
@@ -28,8 +28,11 @@ export interface APIArticlesGetOptions {
   catname?: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ArticleService {
+
   constructor(private http: HttpClient) {}
 
   public getArticles(

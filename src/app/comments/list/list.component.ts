@@ -1,4 +1,3 @@
-import { ACLService } from '../../../services/acl.service';
 import {
   Component,
   Injectable,
@@ -8,13 +7,14 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import Notify from '../../../notify';
-import { CommentService, APIComment } from '../../../services/comment';
-import { AuthService } from '../../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentsVotesComponent } from '../votes/votes.component';
 import { Subscription, combineLatest } from 'rxjs';
-import { APIUser } from '../../../services/user';
+import { APIComment, CommentService } from '../../services/comment';
+import { APIUser } from '../../services/user';
+import { AuthService } from '../../services/auth.service';
+import Notify from '../../notify';
+import { ACLService } from '../../services/acl.service';
 
 export interface APICommentInList extends APIComment {
   showReply: boolean;

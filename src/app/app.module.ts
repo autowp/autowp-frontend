@@ -25,8 +25,6 @@ import { ModerMenuComponent } from './moder-menu.component';
 import { AuthGuard } from './auth.guard';
 import { ModerPerspectivesComponent } from './moder/perspectives/perspectives.component';
 import { ModerUsersComponent } from './moder/users/users.component';
-import { PaginatorComponent } from './components/paginator/paginator.component';
-import { UserComponent } from './components/user/user.component';
 import { ModerHotlinksComponent } from './moder/hotlinks/hotlinks.component';
 import { ModerTrafficComponent } from './moder/traffic/traffic.component';
 import { APIService } from './services/api.service';
@@ -66,8 +64,6 @@ import { AccountMessagesComponent } from './account/messages/messages.component'
 import { AccountProfileComponent } from './account/profile/profile.component';
 import { AccountSidebarComponent } from './account/sidebar/sidebar.component';
 import { AccountSpecsConflictsComponent } from './account/specs-conflicts/specs-conflicts.component';
-import { ArticlesComponent } from './articles/articles.component';
-import { ArticlesArticleComponent } from './articles/article/article.component';
 import { BrandsComponent } from './brands/brands.component';
 import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
 import { CarsDatelessComponent } from './cars/dateless/dateless.component';
@@ -132,7 +128,6 @@ import { MessageComponent } from './forums/message/message.component';
 import { ReCaptchaService } from './services/recaptcha';
 import { DonateService } from './services/donate';
 import { ItemParentService } from './services/item-parent';
-import { ArticleService } from './services/article';
 import { ItemLinkService } from './services/item-link';
 import { ModerRightsTreeComponent } from './moder/rights/tree/tree.component';
 import { ModerItemsTooBigComponent } from './moder/items/too-big/too-big.component';
@@ -149,9 +144,6 @@ import { PastTimeIndicatorComponent } from './components/past-time-indicator/pas
 import { UploadSelectTreeItemComponent } from './upload/select/tree-item/tree-item.component';
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 import { VotingService } from './services/voting';
-import { CommentsListComponent } from './components/comments/list/list.component';
-import { CommentsComponent } from './components/comments/comments.component';
-import { CommentsFormComponent } from './components/comments/form/form.component';
 import { MarkdownEditComponent } from './components/markdown-edit/markdown-edit.component';
 import { ItemOfDayComponent } from './components/item-of-day/item-of-day.component';
 import { ItemComponent } from './components/item/item.component';
@@ -170,15 +162,12 @@ import { VehicleTypeService } from './services/vehicle-type';
 import { SpecService } from './services/spec';
 import { PictureItemService } from './services/picture-item';
 import { ContactsService } from './services/contacts';
-import { InvalidParamsPipe } from './invalid-params.pipe';
 import { MessageDialogService } from './services/message-dialog';
 import { AttrsService } from './services/attrs';
 import { ModalMessageComponent } from './components/modal-message/modal-message.component';
 import { ModerStatComponent } from './moder/stat/stat.component';
 import { PageEnvService } from './services/page-env.service';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
-import { MarkdownComponent } from './components/markdown/markdown.component';
-import { CommentsVotesComponent } from './components/comments/votes/votes.component';
 import { PictureModerVoteModalComponent } from './components/picture-moder-vote/modal/modal.component';
 import { ContentLanguageService } from './services/content-language';
 import { LanguageService } from './services/language';
@@ -222,6 +211,10 @@ import { CategoriesIndexComponent } from './categories/index.component';
 import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
 import { CategoriesCategoryItemComponent } from './categories/category-item.component';
 import { CategoriesListItemComponent } from './categories/list-item.component';
+import { PaginatorModule } from './paginator/paginator.module';
+import { UserModule } from './user/user.module';
+import { CommentsModule } from './comments/comments.module';
+import { UtilsModule } from './utils/utils.module';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -245,8 +238,6 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     AccountSidebarComponent,
     AccountSpecsConflictsComponent,
     AppComponent,
-    ArticlesComponent,
-    ArticlesArticleComponent,
     BrandsComponent,
     CarsAttrsChangeLogComponent,
     CarsDatelessComponent,
@@ -293,7 +284,6 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     RestorePasswordSentComponent,
     RulesComponent,
     ModerIndexComponent,
-    MarkdownComponent,
     ModerMenuComponent,
     SignInComponent,
     SignupComponent,
@@ -310,8 +300,6 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     VotingComponent,
     ModerPerspectivesComponent,
     ModerUsersComponent,
-    PaginatorComponent,
-    UserComponent,
     ModerAttrsComponent,
     ModerAttrsAttributeComponent,
     ModerAttrsZoneComponent,
@@ -353,20 +341,15 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     PastTimeIndicatorComponent,
     UploadSelectTreeItemComponent,
     ThumbnailComponent,
-    CommentsComponent,
-    CommentsListComponent,
-    CommentsFormComponent,
     MarkdownEditComponent,
     ItemOfDayComponent,
     CarsSelectEngineTreeItemComponent,
     ItemComponent,
     PictureModerVoteComponent,
     ItemMetaFormComponent,
-    InvalidParamsPipe,
     ModalMessageComponent,
     ModerStatComponent,
     BreadcrumbsComponent,
-    CommentsVotesComponent,
     PictureModerVoteModalComponent,
     VehicleTypesModalComponent,
     ModerItemsItemCatalogueComponent,
@@ -400,7 +383,6 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
   ],
   entryComponents: [
     ModalMessageComponent,
-    CommentsVotesComponent,
     PictureModerVoteModalComponent,
     VehicleTypesModalComponent,
     VotingVotesComponent,
@@ -409,6 +391,9 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     UsersOnlineComponent
   ],
   imports: [
+    CommentsModule,
+    PaginatorModule,
+    UserModule,
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
@@ -433,7 +418,8 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     RecaptchaFormsModule,
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
-    AutosizeModule
+    AutosizeModule,
+    UtilsModule
   ],
   providers: [
     APIService,
@@ -448,7 +434,6 @@ import { CategoriesListItemComponent } from './categories/list-item.component';
     ReCaptchaService,
     DonateService,
     ItemParentService,
-    ArticleService,
     ItemLinkService,
     ItemLanguageService,
     VotingService,
