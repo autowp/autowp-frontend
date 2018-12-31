@@ -85,14 +85,14 @@
       <a [routerLink]="['/persons', item.id]">{{'carlist/details'|translate}}</a>
     </li>
 
-    <li *ngIf="item.total_pictures > 4 && item.item_type_id == 3" class="list-inline-item">
+    <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id == 3" class="list-inline-item">
       <span class="fa fa-th mr-1"></span>
-      <a [routerLink]="routerLink.concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.total_pictures}})</a>
+      <a [routerLink]="routerLink.concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
     </li>
 
-    <li *ngIf="item.total_pictures > 4 && item.item_type_id != 3" class="list-inline-item">
+    <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id != 3" class="list-inline-item">
       <span class="fa fa-th mr-1"></span>
-      <a [routerLink]="routerLink.concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.total_pictures}})</a>
+      <a [routerLink]="routerLink.concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">
