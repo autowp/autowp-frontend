@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
 import Notify from '../../notify';
-import { ForumService, APIForumTopic } from '../../services/forum';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +9,7 @@ import { PageEnvService } from '../../services/page-env.service';
 import { AuthService } from '../../services/auth.service';
 import { switchMap } from 'rxjs/operators';
 import { APIUser } from '../../services/user';
+import { APIForumTopic, ForumsService } from '../forums.service';
 
 @Component({
   selector: 'app-forums-topic',
@@ -27,7 +27,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     public auth: AuthService

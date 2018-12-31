@@ -1,13 +1,12 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message';
-import { ForumService } from '../../services/forum';
-import { PageService } from '../../services/page';
 import Notify from '../../notify';
 import { AuthService } from '../../services/auth.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { PictureService } from '../../services/picture';
 import { PageEnvService } from '../../services/page-env.service';
+import { ForumsService } from '../../forums/forums.service';
 
 interface SidebarItem {
   pageId?: number;
@@ -31,8 +30,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
 
   constructor(
     private messageService: MessageService,
-    private forumService: ForumService,
-    private pageService: PageService,
+    private forumService: ForumsService,
     private auth: AuthService,
     private pictureService: PictureService,
     private pageEnv: PageEnvService

@@ -6,7 +6,6 @@ import Notify from '../notify';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ForumService, APIForumTopic, APIForumTheme } from '../services/forum';
 import { PageEnvService } from '../services/page-env.service';
 import {
   debounceTime,
@@ -14,6 +13,7 @@ import {
   switchMap,
   map
 } from 'rxjs/operators';
+import { APIForumTheme, ForumsService, APIForumTopic } from './forums.service';
 
 @Component({
   selector: 'app-forums',
@@ -33,7 +33,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     private pageEnv: PageEnvService
   ) {}
 

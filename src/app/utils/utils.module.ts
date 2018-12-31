@@ -2,18 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InvalidParamsPipe } from './invalid-params.pipe';
 import { MarkdownComponent } from './markdown/markdown.component';
+import { PastTimeIndicatorComponent } from './past-time-indicator/past-time-indicator.component';
+import { MomentModule } from 'ngx-moment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     InvalidParamsPipe,
-    MarkdownComponent
+    MarkdownComponent,
+    PastTimeIndicatorComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MomentModule,
+    NgbModule
   ],
   exports: [
     InvalidParamsPipe,
-    MarkdownComponent
+    MarkdownComponent,
+    PastTimeIndicatorComponent
   ]
 })
 export class UtilsModule { }

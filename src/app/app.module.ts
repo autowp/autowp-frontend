@@ -81,12 +81,6 @@ import { FactoryComponent } from './factories/factories.component';
 import { FactoryItemsComponent } from './factories/items/items.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
-import { ForumsComponent } from './forums/forums.component';
-import { ForumsMoveMessageComponent } from './forums/move-message/move-message.component';
-import { ForumsMoveTopicComponent } from './forums/move-topic/move-topic.component';
-import { ForumsNewTopicComponent } from './forums/new-topic/new-topic.component';
-import { ForumsSubscriptionsComponent } from './forums/subscriptions/subscriptions.component';
-import { ForumsTopicComponent } from './forums/topic/topic.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
@@ -124,7 +118,6 @@ import { ModerPictureMoveItemComponent } from './moder/pictures/item/move/item/i
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
 import { InboxService } from './services/inbox';
-import { MessageComponent } from './forums/message/message.component';
 import { ReCaptchaService } from './services/recaptcha';
 import { DonateService } from './services/donate';
 import { ItemParentService } from './services/item-parent';
@@ -140,7 +133,6 @@ import { ModerAttrsAttributeListComponent } from './moder/attrs/attribute-list/a
 import { ModerAttrsZoneAttributeListComponent } from './moder/attrs/zone/attribute-list/attribute-list.component';
 import { ModerAttrsAttributeListOptionsTreeComponent } from './moder/attrs/attribute/list-options-tree/list-options-tree.component';
 import { InfoSpecRowComponent } from './info/spec/row/row.component';
-import { PastTimeIndicatorComponent } from './components/past-time-indicator/past-time-indicator.component';
 import { UploadSelectTreeItemComponent } from './upload/select/tree-item/tree-item.component';
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 import { VotingService } from './services/voting';
@@ -154,7 +146,6 @@ import { CommentService } from './services/comment';
 import { PageService } from './services/page';
 import { UserService } from './services/user';
 import { DecimalPipe } from '@angular/common';
-import { ForumService } from './services/forum';
 import { PerspectiveService } from './services/perspective';
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { PictureModerVoteTemplateService } from './services/picture-moder-vote-template';
@@ -256,12 +247,6 @@ import { UtilsModule } from './utils/utils.module';
     FactoryItemsComponent,
     FeedbackComponent,
     FeedbackSentComponent,
-    ForumsComponent,
-    ForumsMoveMessageComponent,
-    ForumsMoveTopicComponent,
-    ForumsNewTopicComponent,
-    ForumsSubscriptionsComponent,
-    ForumsTopicComponent,
     InboxComponent,
     IndexComponent,
     InfoSpecComponent,
@@ -326,7 +311,6 @@ import { UtilsModule } from './utils/utils.module';
     NewListItemComponent,
     DonateVodSelectItemComponent,
     ModerPictureMoveItemComponent,
-    MessageComponent,
     ModerRightsTreeComponent,
     ModerItemsTooBigComponent,
     ModerItemsNewComponent,
@@ -338,7 +322,6 @@ import { UtilsModule } from './utils/utils.module';
     ModerAttrsZoneAttributeListComponent,
     ModerAttrsAttributeListOptionsTreeComponent,
     InfoSpecRowComponent,
-    PastTimeIndicatorComponent,
     UploadSelectTreeItemComponent,
     ThumbnailComponent,
     MarkdownEditComponent,
@@ -443,7 +426,6 @@ import { UtilsModule } from './utils/utils.module';
     UserService,
     DecimalPipe,
     BytesPipe,
-    ForumService,
     PerspectiveService,
     PictureModerVoteService,
     PictureModerVoteTemplateService,

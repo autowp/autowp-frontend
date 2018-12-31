@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { APIPaginator } from './api.service';
-import { Observable, of, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { APIUser } from './user';
-import { APIComment } from './comment';
-import { AuthService } from './auth.service';
-import {
-  switchMap,
-  share,
-  publish,
-  distinctUntilChanged,
-  shareReplay,
-  map
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { HttpResponse, HttpClient } from '@angular/common/http';
+import { APIComment } from '../services/comment';
+import { shareReplay, switchMap, map } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
+import { APIPaginator } from '../services/api.service';
+import { APIUser } from '../services/user';
 
 export interface APIForumGetTopicOptions {
   fields?: string;
@@ -98,8 +91,11 @@ export interface MessageStateParams {
 
 const LIMIT = 20;
 
-@Injectable()
-export class ForumService {
+@Injectable({
+  providedIn: 'root'
+})
+export class ForumsService {
+
   private summary$: Observable<APIForumUserSummaryGetResponse>;
 
   constructor(private http: HttpClient, private auth: AuthService) {

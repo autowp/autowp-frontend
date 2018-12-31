@@ -3,13 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {
-  ForumService,
-  APIForumTopic,
-  APIForumTheme
-} from '../../services/forum';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 
 @Component({
   selector: 'app-forums-move-topic',
@@ -26,7 +22,7 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     private pageEnv: PageEnvService
   ) {}
 

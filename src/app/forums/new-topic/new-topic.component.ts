@@ -2,11 +2,11 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { APIForumTheme, ForumService } from '../../services/forum';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
 import { APIUser } from '../../services/user';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { APIForumTheme, ForumsService } from '../forums.service';
 
 @Component({
   selector: 'app-forums-new-topic',
@@ -28,7 +28,7 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     public auth: AuthService,
     private pageEnv: PageEnvService
   ) { }

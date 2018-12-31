@@ -4,9 +4,9 @@ import { APIPaginator } from '../../services/api.service';
 import Notify from '../../notify';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ForumService, APIForumTopic } from '../../services/forum';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { APIForumTopic, ForumsService } from '../forums.service';
 
 @Component({
   selector: 'app-forums-subscriptions',
@@ -21,7 +21,7 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     private pageEnv: PageEnvService
   ) {}
 

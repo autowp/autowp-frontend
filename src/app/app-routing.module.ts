@@ -34,13 +34,6 @@ import { FactoryItemsComponent } from './factories/items/items.component';
 import { FactoryComponent } from './factories/factories.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
 import { FeedbackComponent } from './feedback/feedback.component';
-import { ForumsMoveMessageComponent } from './forums/move-message/move-message.component';
-import { ForumsMoveTopicComponent } from './forums/move-topic/move-topic.component';
-import { ForumsNewTopicComponent } from './forums/new-topic/new-topic.component';
-import { ForumsSubscriptionsComponent } from './forums/subscriptions/subscriptions.component';
-import { ForumsTopicComponent } from './forums/topic/topic.component';
-import { MessageComponent } from './forums/message/message.component';
-import { ForumsComponent } from './forums/forums.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
@@ -269,40 +262,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'forums',
-    children: [
-      {
-        path: 'move-message',
-        component: ForumsMoveMessageComponent
-      },
-      {
-        path: 'move-topic',
-        component: ForumsMoveTopicComponent
-      },
-      {
-        path: 'new-topic/:theme_id',
-        component: ForumsNewTopicComponent
-      },
-      {
-        path: 'subscriptions',
-        component: ForumsSubscriptionsComponent
-      },
-      {
-        path: 'topic/:topic_id',
-        component: ForumsTopicComponent
-      },
-      {
-        path: 'message/:message_id',
-        component: MessageComponent
-      },
-      {
-        path: ':theme_id',
-        component: ForumsComponent
-      },
-      {
-        path: '',
-        component: ForumsComponent
-      }
-    ]
+    loadChildren: './forums/forums.module#ForumsModule'
   },
   {
     path: 'inbox',

@@ -2,11 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  ForumService,
-  APIForumTheme,
-  APIForumTopic
-} from '../../services/forum';
 import { Subscription, empty, of, combineLatest } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -17,6 +12,7 @@ import {
   map,
   switchMapTo
 } from 'rxjs/operators';
+import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 
 @Component({
   selector: 'app-forums-move-message',
@@ -32,7 +28,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService

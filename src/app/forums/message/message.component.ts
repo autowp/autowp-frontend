@@ -1,9 +1,9 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import Notify from '../../notify';
-import { ForumService } from '../../services/forum';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { ForumsService } from '../forums.service';
 
 @Component({
   selector: 'app-forums-message',
@@ -15,7 +15,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private forumService: ForumService,
+    private forumService: ForumsService,
     private route: ActivatedRoute
   ) {}
 
