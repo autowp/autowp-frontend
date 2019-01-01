@@ -18,7 +18,12 @@ import { UtilsModule } from '../../utils/utils.module';
 import { UserModule } from '../../user/user.module';
 import { MarkdownEditModule } from '../../markdown-edit/markdown-edit.module';
 import { PictureModerVoteModule } from '../../picture-moder-vote/picture-moder-vote.module';
-import { NgbTypeaheadModule, NgbDropdownModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbTypeaheadModule,
+  NgbDropdownModule,
+  NgbProgressbarModule,
+  NgbTooltipModule
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -37,6 +42,7 @@ import { NgbTypeaheadModule, NgbDropdownModule, NgbProgressbarModule } from '@ng
     NgbTypeaheadModule,
     NgbDropdownModule,
     NgbProgressbarModule,
+    NgbTooltipModule,
     PaginatorModule,
     ThumbnailModule,
     NgPipesModule,
