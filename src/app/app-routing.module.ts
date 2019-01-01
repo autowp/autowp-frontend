@@ -18,17 +18,9 @@ import { MascotsComponent } from './mascots/mascots.component';
 import { MostsComponent } from './mosts/mosts.component';
 import { NewComponent } from './new/new.component';
 import { NewItemComponent } from './new/item/item.component';
-import { PersonsAuthorsComponent } from './persons/authors/authors.component';
-import { PersonsPersonComponent } from './persons/person/person.component';
-import { PersonsComponent } from './persons/persons.component';
 import { RulesComponent } from './rules/rules.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
-import { UsersRatingComponent } from './users/rating/rating.component';
-import { UsersUserCommentsComponent } from './users/user/comments/comments.component';
-import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
-import { UsersUserPicturesComponent } from './users/user/pictures/pictures.component';
-import { UsersUserComponent } from './users/user/user.component';
 import { IndexComponent } from './index/index.component';
 
 const appRoutes: Routes = [
@@ -161,20 +153,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'persons',
-    children: [
-      {
-        path: 'authors',
-        component: PersonsAuthorsComponent
-      },
-      {
-        path: ':id',
-        component: PersonsPersonComponent
-      },
-      {
-        path: '',
-        component: PersonsComponent
-      }
-    ]
+    loadChildren: './persons/persons.module#PersonsModule'
   },
   { path: 'pulse', loadChildren: './pulse/pulse.module#PulseModule' },
   {
@@ -196,35 +175,7 @@ const appRoutes: Routes = [
   { path: 'upload', loadChildren: './upload/upload.module#UploadModule' },
   {
     path: 'users',
-    children: [
-      {
-        path: 'rating',
-        children: [
-          {
-            path: ':rating',
-            component: UsersRatingComponent
-          },
-          {
-            path: '',
-            component: UsersRatingComponent
-          }
-        ]
-      },
-      {
-        path: ':identity',
-        children: [
-          { path: 'comments', component: UsersUserCommentsComponent },
-          {
-            path: 'pictures',
-            children: [
-              { path: ':brand', component: UsersUserPicturesBrandComponent },
-              { path: '', component: UsersUserPicturesComponent }
-            ]
-          },
-          { path: '', component: UsersUserComponent }
-        ]
-      }
-    ]
+    loadChildren: './users/users.module#UsersModule'
   },
   { path: 'voting', loadChildren: './voting/voting.module#VotingModule' },
   { path: '', component: IndexComponent },

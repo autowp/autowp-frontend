@@ -34,17 +34,9 @@ import { MascotsComponent } from './mascots/mascots.component';
 import { MostsComponent } from './mosts/mosts.component';
 import { NewComponent } from './new/new.component';
 import { NewItemComponent } from './new/item/item.component';
-import { PersonsComponent } from './persons/persons.component';
-import { PersonsAuthorsComponent } from './persons/authors/authors.component';
-import { PersonsPersonComponent } from './persons/person/person.component';
 import { RulesComponent } from './rules/rules.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
-import { UsersRatingComponent } from './users/rating/rating.component';
-import { UsersUserComponent } from './users/user/user.component';
-import { UsersUserCommentsComponent } from './users/user/comments/comments.component';
-import { UsersUserPicturesComponent } from './users/user/pictures/pictures.component';
-import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
 import { NewListItemComponent } from './new/list-item/list-item.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
@@ -121,19 +113,11 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     NewComponent,
     NewItemComponent,
     PageNotFoundComponent,
-    PersonsComponent,
-    PersonsAuthorsComponent,
-    PersonsPersonComponent,
     RulesComponent,
     ModerMenuComponent,
     SignInComponent,
     TelegramComponent,
     TopViewComponent,
-    UsersRatingComponent,
-    UsersUserComponent,
-    UsersUserCommentsComponent,
-    UsersUserPicturesComponent,
-    UsersUserPicturesBrandComponent,
     NewListItemComponent,
     InfoSpecRowComponent,
     CarsSelectEngineTreeItemComponent,
