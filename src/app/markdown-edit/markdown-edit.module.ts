@@ -5,6 +5,7 @@ import { UtilsModule } from '../utils/utils.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [MarkdownEditComponent],
@@ -13,8 +14,9 @@ import { FormsModule } from '@angular/forms';
     UtilsModule,
     NgbModule,
     TranslateModule,
-    FormsModule
+    FormsModule,
+    AutosizeModule
   ],
   exports: [MarkdownEditComponent]
 })
-export class MarkdownEditModule { }
+export class MarkdownEditModule {}

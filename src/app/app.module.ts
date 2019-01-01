@@ -8,7 +8,6 @@ import { MomentModule } from 'ngx-moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AutosizeModule } from 'ngx-autosize';
 
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
@@ -19,9 +18,6 @@ import { AuthGuard } from './auth.guard';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { MascotsComponent } from './mascots/mascots.component';
-import { RulesComponent } from './rules/rules.component';
-import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
@@ -73,11 +69,8 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
   declarations: [
     AppComponent,
     IndexComponent,
-    MascotsComponent,
     PageNotFoundComponent,
-    RulesComponent,
     ModerMenuComponent,
-    TelegramComponent,
     TopViewComponent,
     ModalMessageComponent,
     BreadcrumbsComponent,
@@ -113,7 +106,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     MomentModule,
     NgPipesModule,
     BrowserAnimationsModule,
-    AutosizeModule,
     UtilsModule,
     ThumbnailModule,
     MarkdownEditModule,

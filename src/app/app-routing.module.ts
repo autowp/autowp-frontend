@@ -2,12 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import { CutawayComponent } from './cutaway/cutaway.component';
-import { LogComponent } from './log/log.component';
-import { SignInComponent } from './signin/signin.component';
-import { MascotsComponent } from './mascots/mascots.component';
-import { RulesComponent } from './rules/rules.component';
-import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
 import { IndexComponent } from './index/index.component';
 
@@ -59,7 +53,7 @@ const appRoutes: Routes = [
   { path: 'log', loadChildren: './log/log.module#LogModule' },
   { path: 'login', loadChildren: './signin/signin.module#SigninModule' },
   { path: 'map', loadChildren: './map/map.module#MapModule' },
-  { path: 'mascots', component: MascotsComponent },
+  { path: 'mascots', loadChildren: './mascots/mascots.module#MascotsModule' },
   {
     path: 'moder',
     loadChildren: './moder/moder.module#ModerModule'
@@ -83,12 +77,15 @@ const appRoutes: Routes = [
     loadChildren:
       './restore-password/restore-password.module#RestorePasswordModule'
   },
-  { path: 'rules', component: RulesComponent },
+  { path: 'rules', loadChildren: './rules/rules.module#RulesModule' },
   {
     path: 'signup',
     loadChildren: './signup/signup.module#SignupModule'
   },
-  { path: 'telegram', component: TelegramComponent },
+  {
+    path: 'telegram',
+    loadChildren: './telegram/telegram.module#TelegramModule'
+  },
   {
     path: 'twins',
     loadChildren: './twins/twins.module#TwinsModule'
