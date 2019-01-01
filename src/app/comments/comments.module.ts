@@ -8,10 +8,10 @@ import { CommentsFormComponent } from './form/form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { UserModule } from '../user/user.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'ngx-moment';
 import { FormsModule } from '@angular/forms';
 import { UtilsModule } from '../utils/utils.module';
+import { NgbTooltipModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { UtilsModule } from '../utils/utils.module';
     TranslateModule.forChild(),
     RouterModule.forChild([]),
     UserModule,
-    NgbModule,
+    NgbTooltipModule,
+    NgbModalModule,
     MomentModule,
     FormsModule,
     UtilsModule

@@ -12,12 +12,12 @@ import { MomentModule } from 'ngx-moment';
 import { UserModule } from '../user/user.module';
 import { UtilsModule } from '../utils/utils.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { FormsModule } from '@angular/forms';
 import { ItemOfDayModule } from '../item-of-day/item-of-day.module';
 import { DonateComponent } from './donate.component';
 import { DonateService } from './donate.service';
+import { NgbTooltipModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,13 +36,12 @@ import { DonateService } from './donate.service';
     UserModule,
     UtilsModule,
     TranslateModule,
-    NgbModule,
+    NgbTooltipModule,
+    NgbButtonsModule,
     PaginatorModule,
     FormsModule,
     ItemOfDayModule
   ],
-  providers: [
-    DonateService
-  ]
+  providers: [DonateService]
 })
-export class DonateModule { }
+export class DonateModule {}

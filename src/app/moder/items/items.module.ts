@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { UtilsModule } from '../../utils/utils.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModerItemsItemCatalogueComponent } from './item/catalogue/catalogue.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModerItemsItemLinksComponent } from './item/links/links.component';
 import { ModerItemsItemLogoComponent } from './item/logo/logo.component';
 import { ModerItemsItemMetaComponent } from './item/meta/meta.component';
@@ -30,6 +29,7 @@ import { ItemMetaFormComponent } from './item-meta-form/item-meta-form.component
 import { ModerItemsComponent } from './items.component';
 import { ItemModule } from '../../item/item.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -61,7 +61,10 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     FormsModule,
     UtilsModule,
     TranslateModule,
-    NgbModule,
+    NgbTypeaheadModule,
+    NgbModalModule,
+    NgbProgressbarModule,
+    NgbTabsetModule,
     MarkdownEditModule,
     ThumbnailModule,
     ItemModule,

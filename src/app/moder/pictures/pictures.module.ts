@@ -5,7 +5,6 @@ import { PicturesRoutingModule } from './pictures-routing.module';
 import { ModerPicturesComponent } from './pictures.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginatorModule } from '../../paginator/paginator.module';
 import { ModerPicturesItemAreaComponent } from './item/area/area.component';
 import { ModerPicturesItemCropComponent } from './item/crop/crop.component';
@@ -19,6 +18,7 @@ import { UtilsModule } from '../../utils/utils.module';
 import { UserModule } from '../../user/user.module';
 import { MarkdownEditModule } from '../../markdown-edit/markdown-edit.module';
 import { PictureModerVoteModule } from '../../picture-moder-vote/picture-moder-vote.module';
+import { NgbTypeaheadModule, NgbDropdownModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,9 @@ import { PictureModerVoteModule } from '../../picture-moder-vote/picture-moder-v
     PicturesRoutingModule,
     TranslateModule,
     FormsModule,
-    NgbModule,
+    NgbTypeaheadModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
     PaginatorModule,
     ThumbnailModule,
     NgPipesModule,

@@ -11,7 +11,6 @@ import { AccountAccountsComponent } from './accounts/accounts.component';
 import { AccountContactsComponent } from './contacts/contacts.component';
 import { UserModule } from '../user/user.module';
 import { MomentModule } from 'ngx-moment';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountDeletedComponent } from './delete/deleted/deleted.component';
 import { AccountDeleteComponent } from './delete/delete.component';
 import { AccountEmailComponent } from './email/email.component';
@@ -24,6 +23,7 @@ import { AccountProfileComponent } from './profile/profile.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { AccountSpecsConflictsComponent } from './specs-conflicts/specs-conflicts.component';
 import { AccountComponent } from './account.component';
+import { NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,8 @@ import { AccountComponent } from './account.component';
     FormsModule,
     UserModule,
     MomentModule,
-    NgbModule,
+    NgbTooltipModule,
+    NgbProgressbarModule,
     PaginatorModule,
     ThumbnailModule,
     FileUploadModule

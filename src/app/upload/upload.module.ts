@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { UploadSelectTreeItemComponent } from './select/tree-item/tree-item.component';
 import { UploadComponent } from './upload.component';
 import { UtilsModule } from '../utils/utils.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
+import { NgbProgressbarModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import { ThumbnailModule } from '../thumbnail/thumbnail.module';
     PaginatorModule,
     FormsModule,
     UtilsModule,
-    NgbModule,
+    NgbProgressbarModule,
+    NgbModalModule,
     ThumbnailModule
   ],
   entryComponents: [UploadCropComponent]

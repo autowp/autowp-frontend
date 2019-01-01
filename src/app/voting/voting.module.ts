@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { VotingRoutingModule } from './voting-routing.module';
 import { VotingComponent } from './voting.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbProgressbarModule,
+  NgbModalModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'ngx-moment';
@@ -17,7 +20,8 @@ import { VotingService } from './voting.service';
   imports: [
     CommonModule,
     VotingRoutingModule,
-    NgbModule,
+    NgbProgressbarModule,
+    NgbModalModule,
     FormsModule,
     TranslateModule,
     MomentModule,
@@ -25,8 +29,6 @@ import { VotingService } from './voting.service';
     UserModule
   ],
   entryComponents: [VotingVotesComponent],
-  providers: [
-    VotingService
-  ]
+  providers: [VotingService]
 })
 export class VotingModule {}
