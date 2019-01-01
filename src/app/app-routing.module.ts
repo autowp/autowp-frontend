@@ -31,7 +31,7 @@ const appRoutes: Routes = [
     loadChildren: './categories/categories.module#CategoriesModule'
   },
   { path: 'chart', loadChildren: './chart/chart.module#ChartModule' },
-  { path: 'cutaway', component: CutawayComponent },
+  { path: 'cutaway', loadChildren: './cutaway/cutaway.module#CutawayModule' },
   {
     path: 'donate',
     loadChildren: './donate/donate.module#DonateModule'

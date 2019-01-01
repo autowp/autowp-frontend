@@ -20,7 +20,6 @@ import { AuthGuard } from './auth.guard';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { CutawayComponent } from './cutaway/cutaway.component';
 import { LogComponent } from './log/log.component';
 import { MascotsComponent } from './mascots/mascots.component';
 import { RulesComponent } from './rules/rules.component';
@@ -75,7 +74,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
 @NgModule({
   declarations: [
     AppComponent,
-    CutawayComponent,
     IndexComponent,
     LogComponent,
     MascotsComponent,
