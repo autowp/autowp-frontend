@@ -26,18 +26,15 @@ import { CarsDatelessComponent } from './cars/dateless/dateless.component';
 import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { InboxComponent } from './inbox/inbox.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { MascotsComponent } from './mascots/mascots.component';
-import { MostsComponent } from './mosts/mosts.component';
 import { RulesComponent } from './rules/rules.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
-import { InboxService } from './services/inbox';
 import { ReCaptchaService } from './services/recaptcha';
 import { ItemParentService } from './services/item-parent';
 import { ItemLinkService } from './services/item-link';
@@ -66,7 +63,6 @@ import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/s
 import { CarsSelectEngineTreeItemComponent } from './cars/specifications-editor/engine/select/tree-item/tree-item.component';
 import { CarsSpecificationsEditorResultComponent } from './cars/specifications-editor/result/result.component';
 import { CarsSpecificationsEditorSpecComponent } from './cars/specifications-editor/spec/spec.component';
-import { MostsService } from './services/mosts';
 import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
@@ -100,13 +96,11 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     CarsSpecificationsEditorComponent,
     CarsSpecsAdminComponent,
     CutawayComponent,
-    InboxComponent,
     IndexComponent,
     InfoSpecComponent,
     InfoTextComponent,
     LogComponent,
     MascotsComponent,
-    MostsComponent,
     PageNotFoundComponent,
     RulesComponent,
     ModerMenuComponent,
@@ -168,7 +162,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     ACLService,
     PictureService,
     ItemService,
-    InboxService,
     ReCaptchaService,
     ItemParentService,
     ItemLinkService,
@@ -191,7 +184,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     PageEnvService,
     ContentLanguageService,
     LanguageService,
-    MostsService,
     TimezoneService,
     IpService
   ],

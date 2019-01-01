@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription, of, combineLatest, empty } from 'rxjs';
 import { PictureService, APIPicture } from '../services/picture';
-import { InboxService, APIInbox } from '../services/inbox';
+import { InboxService } from './inbox.service';
 import { APIItem } from '../services/item';
 import { PageEnvService } from '../services/page-env.service';
 import {

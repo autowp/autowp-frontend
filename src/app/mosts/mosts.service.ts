@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APIItem } from './item';
-import { APIAttrUnit } from './attrs';
-import { APIPicture } from './picture';
-import { APIVehicleType } from './vehicle-type';
+import { APIItem } from '../services/item';
+import { APIAttrUnit } from '../services/attrs';
+import { APIPicture } from '../services/picture';
+import { APIVehicleType } from '../services/vehicle-type';
 
 export interface APIMostsItemsGetOptions {
   rating_catname: string;

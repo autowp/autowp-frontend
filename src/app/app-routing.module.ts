@@ -9,15 +9,11 @@ import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/s
 import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { InboxComponent } from './inbox/inbox.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { SignInComponent } from './signin/signin.component';
 import { MascotsComponent } from './mascots/mascots.component';
-import { MostsComponent } from './mosts/mosts.component';
-import { NewComponent } from './new/new.component';
-import { NewItemComponent } from './new/item/item.component';
 import { RulesComponent } from './rules/rules.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
@@ -83,11 +79,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'inbox',
-    children: [
-      { path: '', component: InboxComponent },
-      { path: ':brand', component: InboxComponent },
-      { path: ':brand/:date', component: InboxComponent }
-    ]
+    loadChildren: './inbox/inbox.module#InboxModule'
   },
   {
     path: 'info',
@@ -106,24 +98,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'mosts',
-    children: [
-      {
-        path: '',
-        component: MostsComponent
-      },
-      {
-        path: ':rating_catname',
-        component: MostsComponent
-      },
-      {
-        path: ':rating_catname/:type_catname',
-        component: MostsComponent
-      },
-      {
-        path: ':rating_catname/:type_catname/:years_catname',
-        component: MostsComponent
-      }
-    ]
+    loadChildren: './mosts/mosts.module#MostsModule'
   },
   { path: 'museums', loadChildren: './museum/museum.module#MuseumModule' },
   {

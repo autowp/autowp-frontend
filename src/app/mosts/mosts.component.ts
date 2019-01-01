@@ -7,7 +7,7 @@ import {
   APIMostsItem,
   APIMostsMenuRating,
   APIMostsMenuYear
-} from '../services/mosts';
+} from './mosts.service';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIVehicleType } from '../services/vehicle-type';
