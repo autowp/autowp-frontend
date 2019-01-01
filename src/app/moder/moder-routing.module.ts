@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'items',
-    loadChildren: './moder/items/items.module#ItemsModule'
+    loadChildren: './items/items.module#ItemsModule'
   },
   {
     path: 'pages',
@@ -63,7 +63,7 @@ const routes: Routes = [
   },
   {
     path: 'pictures',
-    loadChildren: './moder/pictures/pictures.module#PicturesModule'
+    loadChildren: './pictures/pictures.module#PicturesModule'
   },
   {
     path: 'rights',
@@ -77,7 +77,7 @@ const routes: Routes = [
   },
   {
     path: 'traffic',
-    loadChildren: './moder/traffic/traffic.module#TrafficModule'
+    loadChildren: './traffic/traffic.module#TrafficModule'
   },
   {
     path: 'users',
@@ -86,7 +86,7 @@ const routes: Routes = [
   },
   {
     path: 'hotlinks',
-    loadChildren: './moder/hotlinks/hotlinks.module#HotlinksModule'
+    loadChildren: './hotlinks/hotlinks.module#HotlinksModule'
   },
   {
     path: 'attrs',
