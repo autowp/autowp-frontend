@@ -23,8 +23,6 @@ import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { ChartComponent } from './chart/chart.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { FactoryItemsComponent } from './factories/items/items.component';
-import { FactoryComponent } from './factories/factories.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { InboxComponent } from './inbox/inbox.component';
@@ -50,7 +48,6 @@ import { ModerAttrsZoneComponent } from './moder/attrs/zone/zone.component';
 import { ModerAttrsComponent } from './moder/attrs/attrs.component';
 import { ModerIndexComponent } from './moder/index/index.component';
 import { MostsComponent } from './mosts/mosts.component';
-import { MuseumComponent } from './museum/museum.component';
 import { NewComponent } from './new/new.component';
 import { NewItemComponent } from './new/item/item.component';
 import { PersonsAuthorsComponent } from './persons/authors/authors.component';
@@ -212,11 +209,8 @@ const appRoutes: Routes = [
     loadChildren: './donate/donate.module#DonateModule'
   },
   {
-    path: 'factories/:id',
-    children: [
-      { path: 'items', component: FactoryItemsComponent },
-      { path: '', component: FactoryComponent }
-    ]
+    path: 'factories',
+    loadChildren: './factories/factories.module#FactoriesModule'
   },
   {
     path: 'feedback',
@@ -246,7 +240,7 @@ const appRoutes: Routes = [
   },
   { path: 'log', component: LogComponent },
   { path: 'login', component: SignInComponent },
-  { path: 'map', component: MapComponent },
+  { path: 'map', loadChildren: './map/map.module#MapModule' },
   { path: 'mascots', component: MascotsComponent },
   {
     path: 'moder',
@@ -370,7 +364,7 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'museums/:id', component: MuseumComponent },
+  { path: 'museums', loadChildren: './museum/museum.module#MuseumModule' },
   {
     path: 'new',
     children: [

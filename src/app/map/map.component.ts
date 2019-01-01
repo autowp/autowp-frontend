@@ -11,7 +11,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import Notify from '../notify';
 import { Subscription, BehaviorSubject, empty } from 'rxjs';
-import { APIItem } from '../services/item';
 import { PageEnvService } from '../services/page-env.service';
 import {
   tileLayer,

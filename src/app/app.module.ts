@@ -12,7 +12,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AutosizeModule } from 'ngx-autosize';
 
 import { AppComponent } from './app.component';
@@ -57,18 +56,14 @@ import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { ChartComponent } from './chart/chart.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { FactoryComponent } from './factories/factories.component';
-import { FactoryItemsComponent } from './factories/items/items.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
-import { MapComponent } from './map/map.component';
 import { MascotsComponent } from './mascots/mascots.component';
 import { MostsComponent } from './mosts/mosts.component';
-import { MuseumComponent } from './museum/museum.component';
 import { NewComponent } from './new/new.component';
 import { NewItemComponent } from './new/item/item.component';
 import { PersonsComponent } from './persons/persons.component';
@@ -134,7 +129,6 @@ import { CarsSelectEngineTreeItemComponent } from './cars/specifications-editor/
 import { CarsSpecificationsEditorResultComponent } from './cars/specifications-editor/result/result.component';
 import { CarsSpecificationsEditorSpecComponent } from './cars/specifications-editor/spec/spec.component';
 import { VotingVotesComponent } from './voting/votes/votes.component';
-import { MapPopupComponent } from './map/popup/popup.component';
 import { MostsService } from './services/mosts';
 import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
@@ -197,8 +191,6 @@ import { ItemModule } from './item/item.module';
     CarsSpecsAdminComponent,
     ChartComponent,
     CutawayComponent,
-    FactoryComponent,
-    FactoryItemsComponent,
     FeedbackComponent,
     FeedbackSentComponent,
     InboxComponent,
@@ -206,10 +198,8 @@ import { ItemModule } from './item/item.module';
     InfoSpecComponent,
     InfoTextComponent,
     LogComponent,
-    MapComponent,
     MascotsComponent,
     MostsComponent,
-    MuseumComponent,
     NewComponent,
     NewItemComponent,
     PageNotFoundComponent,
@@ -264,7 +254,6 @@ import { ItemModule } from './item/item.module';
     CarsSpecificationsEditorResultComponent,
     CarsSpecificationsEditorSpecComponent,
     VotingVotesComponent,
-    MapPopupComponent,
     Error403Component,
     Error404Component,
     UploadCropComponent,
@@ -287,7 +276,6 @@ import { ItemModule } from './item/item.module';
     ModalMessageComponent,
     VehicleTypesModalComponent,
     VotingVotesComponent,
-    MapPopupComponent,
     UploadCropComponent,
     UsersOnlineComponent
   ],
@@ -318,7 +306,6 @@ import { ItemModule } from './item/item.module';
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     BrowserAnimationsModule,
-    LeafletModule.forRoot(),
     AutosizeModule,
     UtilsModule,
     ThumbnailModule,
