@@ -7,7 +7,7 @@ import {
   VotingService,
   APIVoting,
   APIVotingVariant
-} from '../services/voting';
+} from './voting.service';
 import { AuthService } from '../services/auth.service';
 import { PageEnvService } from '../services/page-env.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

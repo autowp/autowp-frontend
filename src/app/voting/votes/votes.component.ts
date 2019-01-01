@@ -7,7 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { VotingService, APIVotingVariantVote } from '../../services/voting';
+import { VotingService, APIVotingVariantVote } from '../voting.service';
 import Notify from '../../notify';
 
 @Component({

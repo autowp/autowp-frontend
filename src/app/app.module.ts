@@ -67,7 +67,6 @@ import { UsersUserComponent } from './users/user/user.component';
 import { UsersUserCommentsComponent } from './users/user/comments/comments.component';
 import { UsersUserPicturesComponent } from './users/user/pictures/pictures.component';
 import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
-import { VotingComponent } from './voting/voting.component';
 import { NewListItemComponent } from './new/list-item/list-item.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
@@ -81,7 +80,6 @@ import { ModerAttrsAttributeListComponent } from './moder/attrs/attribute-list/a
 import { ModerAttrsZoneAttributeListComponent } from './moder/attrs/zone/attribute-list/attribute-list.component';
 import { ModerAttrsAttributeListOptionsTreeComponent } from './moder/attrs/attribute/list-options-tree/list-options-tree.component';
 import { InfoSpecRowComponent } from './info/spec/row/row.component';
-import { VotingService } from './services/voting';
 import { MessageService } from './services/message';
 import { CommentService } from './services/comment';
 import { PageService } from './services/page';
@@ -108,7 +106,6 @@ import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/s
 import { CarsSelectEngineTreeItemComponent } from './cars/specifications-editor/engine/select/tree-item/tree-item.component';
 import { CarsSpecificationsEditorResultComponent } from './cars/specifications-editor/result/result.component';
 import { CarsSpecificationsEditorSpecComponent } from './cars/specifications-editor/spec/spec.component';
-import { VotingVotesComponent } from './voting/votes/votes.component';
 import { MostsService } from './services/mosts';
 import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
@@ -125,7 +122,6 @@ import { CategoriesCategoryItemComponent } from './categories/category-item.comp
 import { CategoriesListItemComponent } from './categories/list-item.component';
 import { PaginatorModule } from './paginator/paginator.module';
 import { UserModule } from './user/user.module';
-import { CommentsModule } from './comments/comments.module';
 import { UtilsModule } from './utils/utils.module';
 import { ThumbnailModule } from './thumbnail/thumbnail.module';
 import { MarkdownEditModule } from './markdown-edit/markdown-edit.module';
@@ -180,7 +176,6 @@ import { ItemModule } from './item/item.module';
     UsersUserCommentsComponent,
     UsersUserPicturesComponent,
     UsersUserPicturesBrandComponent,
-    VotingComponent,
     ModerPerspectivesComponent,
     ModerUsersComponent,
     ModerAttrsComponent,
@@ -206,7 +201,6 @@ import { ItemModule } from './item/item.module';
     CarsSpecificationsEditorEngineComponent,
     CarsSpecificationsEditorResultComponent,
     CarsSpecificationsEditorSpecComponent,
-    VotingVotesComponent,
     Error403Component,
     Error404Component,
     UsersOnlineComponent,
@@ -220,11 +214,9 @@ import { ItemModule } from './item/item.module';
   entryComponents: [
     ModalMessageComponent,
     VehicleTypesModalComponent,
-    VotingVotesComponent,
     UsersOnlineComponent
   ],
   imports: [
-    CommentsModule,
     PaginatorModule,
     UserModule,
     AppRoutingModule,
@@ -269,7 +261,6 @@ import { ItemModule } from './item/item.module';
     ItemParentService,
     ItemLinkService,
     ItemLanguageService,
-    VotingService,
     MessageService,
     CommentService,
     PageService,

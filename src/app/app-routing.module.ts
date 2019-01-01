@@ -52,7 +52,6 @@ import { UsersUserCommentsComponent } from './users/user/comments/comments.compo
 import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
 import { UsersUserPicturesComponent } from './users/user/pictures/pictures.component';
 import { UsersUserComponent } from './users/user/user.component';
-import { VotingComponent } from './voting/voting.component';
 import { IndexComponent } from './index/index.component';
 import { CategoriesIndexComponent } from './categories/index.component';
 import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
@@ -399,7 +398,7 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'voting/:id', component: VotingComponent },
+  { path: 'voting', loadChildren: './voting/voting.module#VotingModule' },
   { path: '', component: IndexComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
