@@ -7,8 +7,6 @@ import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-comp
 import { MomentModule } from 'ngx-moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
-import { RecaptchaModule } from 'ng-recaptcha';
-import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AutosizeModule } from 'ngx-autosize';
 
@@ -108,10 +106,6 @@ import { BrandsItemComponent } from './brands/item/item.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
-import { CategoriesIndexComponent } from './categories/index.component';
-import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
-import { CategoriesCategoryItemComponent } from './categories/category-item.component';
-import { CategoriesListItemComponent } from './categories/list-item.component';
 import { PaginatorModule } from './paginator/paginator.module';
 import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
@@ -189,10 +183,6 @@ import { ItemModule } from './item/item.module';
     Error404Component,
     UsersOnlineComponent,
     BrandsItemComponent,
-    CategoriesIndexComponent,
-    CategoriesCategoryPicturesComponent,
-    CategoriesCategoryItemComponent,
-    CategoriesListItemComponent,
     ModerItemParentComponent
   ],
   entryComponents: [

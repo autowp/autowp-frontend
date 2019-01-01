@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
 import Notify from '../../notify';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription, of, Subject, combineLatest, BehaviorSubject } from 'rxjs';
+import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
 import { AttrsService, APIAttrUserValue } from '../../services/attrs';
 import { PageEnvService } from '../../services/page-env.service';
 import {

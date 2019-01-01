@@ -45,13 +45,6 @@ import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/bra
 import { UsersUserPicturesComponent } from './users/user/pictures/pictures.component';
 import { UsersUserComponent } from './users/user/user.component';
 import { IndexComponent } from './index/index.component';
-import { CategoriesIndexComponent } from './categories/index.component';
-import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
-import {
-  categoriesPathMatcher,
-  categoriesPicturesPathMatcher
-} from './categories/matcher';
-import { CategoriesCategoryItemComponent } from './categories/category-item.component';
 
 const appRoutes: Routes = [
   { path: 'about', loadChildren: './about/about.module#AboutModule' },
@@ -91,31 +84,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'category',
-    children: [
-      {
-        path: ':category',
-        children: [
-          {
-            matcher: categoriesPathMatcher,
-            component: CategoriesCategoryItemComponent
-          },
-          {
-            matcher: categoriesPicturesPathMatcher,
-            component: CategoriesCategoryPicturesComponent
-          },
-          {
-            path: '',
-            pathMatch: 'full',
-            component: CategoriesCategoryItemComponent
-          }
-        ]
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        component: CategoriesIndexComponent
-      }
-    ]
+    loadChildren: './categories/categories.module#CategoriesModule'
   },
   { path: 'chart', loadChildren: './chart/chart.module#ChartModule' },
   { path: 'cutaway', component: CutawayComponent },
