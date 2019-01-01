@@ -8,7 +8,6 @@ import { MomentModule } from 'ngx-moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { FileUploadModule } from 'ng2-file-upload';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -54,7 +53,6 @@ import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-chang
 import { CarsDatelessComponent } from './cars/dateless/dateless.component';
 import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
-import { ChartComponent } from './chart/chart.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
@@ -69,7 +67,6 @@ import { NewItemComponent } from './new/item/item.component';
 import { PersonsComponent } from './persons/persons.component';
 import { PersonsAuthorsComponent } from './persons/authors/authors.component';
 import { PersonsPersonComponent } from './persons/person/person.component';
-import { PulseComponent } from './pulse/pulse.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { RestorePasswordNewComponent } from './restore-password/new/new.component';
 import { RestorePasswordNewOkComponent } from './restore-password/new/ok/ok.component';
@@ -189,7 +186,6 @@ import { ItemModule } from './item/item.module';
     CarsEngineSelectComponent,
     CarsSpecificationsEditorComponent,
     CarsSpecsAdminComponent,
-    ChartComponent,
     CutawayComponent,
     FeedbackComponent,
     FeedbackSentComponent,
@@ -206,7 +202,6 @@ import { ItemModule } from './item/item.module';
     PersonsComponent,
     PersonsAuthorsComponent,
     PersonsPersonComponent,
-    PulseComponent,
     RestorePasswordComponent,
     RestorePasswordNewComponent,
     RestorePasswordNewOkComponent,
@@ -302,7 +297,6 @@ import { ItemModule } from './item/item.module';
     MomentModule,
     NgPipesModule,
     FileUploadModule,
-    ChartsModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     BrowserAnimationsModule,

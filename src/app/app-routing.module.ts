@@ -21,7 +21,6 @@ import { CarsDatelessComponent } from './cars/dateless/dateless.component';
 import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/select/select.component';
 import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
-import { ChartComponent } from './chart/chart.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
 import { FeedbackSentComponent } from './feedback/sent/sent.component';
 import { FeedbackComponent } from './feedback/feedback.component';
@@ -53,7 +52,6 @@ import { NewItemComponent } from './new/item/item.component';
 import { PersonsAuthorsComponent } from './persons/authors/authors.component';
 import { PersonsPersonComponent } from './persons/person/person.component';
 import { PersonsComponent } from './persons/persons.component';
-import { PulseComponent } from './pulse/pulse.component';
 import { RestorePasswordNewOkComponent } from './restore-password/new/ok/ok.component';
 import { RestorePasswordNewComponent } from './restore-password/new/new.component';
 import { RestorePasswordSentComponent } from './restore-password/sent/sent.component';
@@ -202,7 +200,7 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'chart', component: ChartComponent },
+  { path: 'chart', loadChildren: './chart/chart.module#ChartModule' },
   { path: 'cutaway', component: CutawayComponent },
   {
     path: 'donate',
@@ -407,7 +405,7 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'pulse', component: PulseComponent },
+  { path: 'pulse', loadChildren: './pulse/pulse.module#PulseModule' },
   {
     path: 'restore-password',
     children: [
