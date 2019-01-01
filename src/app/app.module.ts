@@ -35,19 +35,6 @@ import { ModerRightsComponent } from './moder/rights/rights.component';
 import { ModerAttrsAttributeComponent } from './moder/attrs/attribute/attribute.component';
 import { ModerAttrsZoneComponent } from './moder/attrs/zone/zone.component';
 import { ModerAttrsComponent } from './moder/attrs/attrs.component';
-import { AccountComponent } from './account/account.component';
-import { AccountAccessComponent } from './account/access/access.component';
-import { AccountAccountsComponent } from './account/accounts/accounts.component';
-import { AccountContactsComponent } from './account/contacts/contacts.component';
-import { AccountDeleteComponent } from './account/delete/delete.component';
-import { AccountDeletedComponent } from './account/delete/deleted/deleted.component';
-import { AccountEmailComponent } from './account/email/email.component';
-import { AccountEmailcheckComponent } from './account/emailcheck/emailcheck.component';
-import { AccountInboxPicturesComponent } from './account/inbox-pictures/inbox-pictures.component';
-import { AccountMessagesComponent } from './account/messages/messages.component';
-import { AccountProfileComponent } from './account/profile/profile.component';
-import { AccountSidebarComponent } from './account/sidebar/sidebar.component';
-import { AccountSpecsConflictsComponent } from './account/specs-conflicts/specs-conflicts.component';
 import { BrandsComponent } from './brands/brands.component';
 import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
 import { CarsDatelessComponent } from './cars/dateless/dateless.component';
@@ -166,19 +153,6 @@ import { ItemModule } from './item/item.module';
 
 @NgModule({
   declarations: [
-    AccountComponent,
-    AccountAccessComponent,
-    AccountAccountsComponent,
-    AccountContactsComponent,
-    AccountDeleteComponent,
-    AccountDeletedComponent,
-    AccountEmailComponent,
-    AccountEmailcheckComponent,
-    AccountInboxPicturesComponent,
-    AccountMessagesComponent,
-    AccountProfileComponent,
-    AccountSidebarComponent,
-    AccountSpecsConflictsComponent,
     AppComponent,
     BrandsComponent,
     CarsAttrsChangeLogComponent,
@@ -296,7 +270,6 @@ import { ItemModule } from './item/item.module';
     }),
     MomentModule,
     NgPipesModule,
-    FileUploadModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     BrowserAnimationsModule,

@@ -2,19 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import { AccountAccessComponent } from './account/access/access.component';
-import { AuthGuard } from './auth.guard';
-import { AccountAccountsComponent } from './account/accounts/accounts.component';
-import { AccountContactsComponent } from './account/contacts/contacts.component';
-import { AccountDeleteComponent } from './account/delete/delete.component';
-import { AccountDeletedComponent } from './account/delete/deleted/deleted.component';
-import { AccountEmailComponent } from './account/email/email.component';
-import { AccountInboxPicturesComponent } from './account/inbox-pictures/inbox-pictures.component';
-import { AccountEmailcheckComponent } from './account/emailcheck/emailcheck.component';
-import { AccountMessagesComponent } from './account/messages/messages.component';
-import { AccountProfileComponent } from './account/profile/profile.component';
-import { AccountComponent } from './account/account.component';
-import { AccountSpecsConflictsComponent } from './account/specs-conflicts/specs-conflicts.component';
 import { BrandsComponent } from './brands/brands.component';
 import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
 import { CarsDatelessComponent } from './cars/dateless/dateless.component';
@@ -29,7 +16,6 @@ import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { SignInComponent } from './signin/signin.component';
-import { MapComponent } from './map/map.component';
 import { MascotsComponent } from './mascots/mascots.component';
 import { ModerCommentsComponent } from './moder/comments/comments.component';
 import { ModerGuard } from './moder.guard';
@@ -83,64 +69,7 @@ const appRoutes: Routes = [
   { path: 'about', loadChildren: './about/about.module#AboutModule' },
   {
     path: 'account',
-    children: [
-      {
-        path: 'access',
-        component: AccountAccessComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'accounts',
-        component: AccountAccountsComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'contacts',
-        component: AccountContactsComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'delete',
-        children: [
-          { path: 'deleted', component: AccountDeletedComponent },
-          {
-            path: '',
-            component: AccountDeleteComponent,
-            canActivate: [AuthGuard]
-          }
-        ]
-      },
-      {
-        path: 'email',
-        component: AccountEmailComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'emailcheck/:token',
-        component: AccountEmailcheckComponent
-      },
-      {
-        path: 'inbox-pictures',
-        component: AccountInboxPicturesComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'messages',
-        component: AccountMessagesComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'profile',
-        component: AccountProfileComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'specs-conflicts',
-        component: AccountSpecsConflictsComponent,
-        canActivate: [AuthGuard]
-      },
-      { path: '', component: AccountComponent, canActivate: [AuthGuard] }
-    ]
+    loadChildren: './account/account.module#AccountModule'
   },
   {
     path: 'articles',
