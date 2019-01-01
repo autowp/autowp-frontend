@@ -1,27 +1,15 @@
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { APIPicture } from '../../services/picture';
-import {
-  Input,
-  Component,
-  Injectable,
-  OnInit,
-  EventEmitter,
-  Output,
-  OnDestroy
-} from '@angular/core';
+import { Subscription } from 'rxjs';
+import { APIPictureModerVoteTemplate, PictureModerVoteTemplateService } from '../../services/picture-moder-vote-template';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
-import {
-  PictureModerVoteTemplateService,
-  APIPictureModerVoteTemplate
-} from '../../services/picture-moder-vote-template';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PictureModerVoteModalComponent } from './modal/modal.component';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-picture-moder-vote',
   templateUrl: './picture-moder-vote.component.html'
 })
-@Injectable()
 export class PictureModerVoteComponent implements OnInit, OnDestroy {
 
   @Input() picture: APIPicture;
@@ -86,4 +74,5 @@ export class PictureModerVoteComponent implements OnInit, OnDestroy {
       this.changed.emit();
     });
   }
+
 }

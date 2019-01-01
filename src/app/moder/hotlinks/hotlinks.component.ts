@@ -1,13 +1,12 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {
-  APIHotlinksHostsGetResponse,
-  APIHotlinksHost
-} from '../../services/api.service';
 import { ACLService } from '../../services/acl.service';
 import { PageEnvService } from '../../services/page-env.service';
 import { combineLatest, Subscription, BehaviorSubject } from 'rxjs';
 import { switchMapTo } from 'rxjs/operators';
+import {
+  APIHotlinksHost,
+  HotlinksService
+} from './hotlinks.service';
 
 @Component({
   selector: 'app-moder-hotlinks',
@@ -21,7 +20,7 @@ export class ModerHotlinksComponent implements OnInit, OnDestroy {
   private change$ = new BehaviorSubject<null>(null);
 
   constructor(
-    private http: HttpClient,
+    private service: HotlinksService,
     private acl: ACLService,
     private pageEnv: PageEnvService
   ) {}
@@ -42,11 +41,7 @@ export class ModerHotlinksComponent implements OnInit, OnDestroy {
 
     this.sub = combineLatest(
       this.acl.isAllowed('hotlinks', 'manage'),
-      this.change$.pipe(
-        switchMapTo(
-          this.http.get<APIHotlinksHostsGetResponse>('/api/hotlinks/hosts')
-        )
-      )
+      this.change$.pipe(switchMapTo(this.service.getHosts()))
     )
       .pipe()
       .subscribe(data => {
@@ -60,27 +55,21 @@ export class ModerHotlinksComponent implements OnInit, OnDestroy {
   }
 
   public clearAll() {
-    this.http.delete('/api/hotlinks/hosts').subscribe(() => {
+    this.service.clearAll().subscribe(() => {
       this.change$.next(null);
     });
   }
 
   public clear(host: string) {
-    this.http
-      .delete('/api/hotlinks/hosts/' + encodeURIComponent(host))
-      .subscribe(() => {
-        this.change$.next(null);
-      });
+    this.service.clear(host).subscribe(() => {
+      this.change$.next(null);
+    });
   }
 
   public addToWhitelist(host: string) {
-    this.http
-      .post<void>('/api/hotlinks/whitelist', {
-        host: host
-      })
-      .subscribe(() => {
-        this.change$.next(null);
-      });
+    this.service.addToWhitelist(host).subscribe(() => {
+      this.change$.next(null);
+    });
   }
 
   public addToWhitelistAndClear(host: string) {
@@ -89,12 +78,8 @@ export class ModerHotlinksComponent implements OnInit, OnDestroy {
   }
 
   public addToBlacklist(host: string) {
-    this.http
-      .post<void>('/api/hotlinks/blacklist', {
-        host: host
-      })
-      .subscribe(() => {
-        this.change$.next(null);
-      });
+    this.service.addToBlacklist(host).subscribe(() => {
+      this.change$.next(null);
+    });
   }
 }

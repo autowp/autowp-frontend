@@ -13,8 +13,11 @@ export interface APIDonateVODGetResponse {
   dates: APIDonateCarOfDayDate[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DonateService {
+
   constructor(private http: HttpClient) {}
 
   public getVOD(): Observable<APIDonateVODGetResponse> {

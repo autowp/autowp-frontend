@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { DonateService, APIDonateCarOfDayDate } from '../../services/donate';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   debounceTime,
@@ -14,6 +13,7 @@ import {
 } from 'rxjs/operators';
 import { sprintf } from 'sprintf-js';
 import { APIUser } from '../../services/user';
+import { APIDonateCarOfDayDate, DonateService } from '../donate.service';
 
 @Component({
   selector: 'app-donate-vod',

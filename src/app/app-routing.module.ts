@@ -50,17 +50,9 @@ import { ModerPagesEditComponent } from './moder/pages/edit/edit.component';
 import { ModerPagesComponent } from './moder/pages/pages.component';
 import { ModerPerspectivesComponent } from './moder/perspectives/perspectives.component';
 import { ModerPictureVoteTemplatesComponent } from './moder/picture-vote-templates/picture-vote-templates.component';
-import { ModerPicturesItemAreaComponent } from './moder/pictures/item/area/area.component';
-import { ModerPicturesItemCropComponent } from './moder/pictures/item/crop/crop.component';
-import { ModerPicturesItemMoveComponent } from './moder/pictures/item/move/move.component';
-import { ModerPicturesItemComponent } from './moder/pictures/item/item.component';
-import { ModerPicturesComponent } from './moder/pictures/pictures.component';
 import { ModerRightsComponent } from './moder/rights/rights.component';
 import { ModerStatComponent } from './moder/stat/stat.component';
-import { ModerTrafficWhitelistComponent } from './moder/traffic/whitelist/whitelist.component';
-import { ModerTrafficComponent } from './moder/traffic/traffic.component';
 import { ModerUsersComponent } from './moder/users/users.component';
-import { ModerHotlinksComponent } from './moder/hotlinks/hotlinks.component';
 import { ModerAttrsAttributeComponent } from './moder/attrs/attribute/attribute.component';
 import { ModerAttrsZoneComponent } from './moder/attrs/zone/zone.component';
 import { ModerAttrsComponent } from './moder/attrs/attrs.component';
@@ -359,38 +351,7 @@ const appRoutes: Routes = [
       },
       {
         path: 'pictures',
-        children: [
-          {
-            path: ':id',
-            children: [
-              {
-                path: 'area',
-                component: ModerPicturesItemAreaComponent,
-                canActivate: [ModerGuard]
-              },
-              {
-                path: 'crop',
-                component: ModerPicturesItemCropComponent,
-                canActivate: [ModerGuard]
-              },
-              {
-                path: 'move',
-                component: ModerPicturesItemMoveComponent,
-                canActivate: [ModerGuard]
-              },
-              {
-                path: '',
-                component: ModerPicturesItemComponent,
-                canActivate: [ModerGuard]
-              }
-            ]
-          },
-          {
-            path: '',
-            component: ModerPicturesComponent,
-            canActivate: [ModerGuard]
-          }
-        ]
+        loadChildren: './moder/pictures/pictures.module#PicturesModule'
       },
       {
         path: 'rights',
@@ -404,18 +365,7 @@ const appRoutes: Routes = [
       },
       {
         path: 'traffic',
-        children: [
-          {
-            path: 'whitelist',
-            component: ModerTrafficWhitelistComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: '',
-            component: ModerTrafficComponent,
-            canActivate: [ModerGuard]
-          }
-        ]
+        loadChildren: './moder/traffic/traffic.module#TrafficModule'
       },
       {
         path: 'users',
@@ -424,8 +374,7 @@ const appRoutes: Routes = [
       },
       {
         path: 'hotlinks',
-        component: ModerHotlinksComponent,
-        canActivate: [ModerGuard]
+        loadChildren: './moder/hotlinks/hotlinks.module#HotlinksModule'
       },
       {
         path: 'attrs',

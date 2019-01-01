@@ -17,6 +17,7 @@ import { PaginatorModule } from '../paginator/paginator.module';
 import { FormsModule } from '@angular/forms';
 import { ItemOfDayModule } from '../item-of-day/item-of-day.module';
 import { DonateComponent } from './donate.component';
+import { DonateService } from './donate.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,9 @@ import { DonateComponent } from './donate.component';
     PaginatorModule,
     FormsModule,
     ItemOfDayModule
+  ],
+  providers: [
+    DonateService
   ]
 })
 export class DonateModule { }

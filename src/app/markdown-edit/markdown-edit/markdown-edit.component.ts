@@ -1,15 +1,14 @@
-import { Component, Injectable, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-markdown-edit',
-  templateUrl: './markdown-edit.component.html',
+  templateUrl: './markdown-edit.component.html'
 })
-@Injectable()
 export class MarkdownEditComponent {
   @Input() text: string;
   @Output() textChange = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   public onChange() {
     this.textChange.emit(this.text);

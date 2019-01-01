@@ -25,8 +25,6 @@ import { ModerMenuComponent } from './moder-menu.component';
 import { AuthGuard } from './auth.guard';
 import { ModerPerspectivesComponent } from './moder/perspectives/perspectives.component';
 import { ModerUsersComponent } from './moder/users/users.component';
-import { ModerHotlinksComponent } from './moder/hotlinks/hotlinks.component';
-import { ModerTrafficComponent } from './moder/traffic/traffic.component';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
@@ -40,13 +38,7 @@ import { ModerPagesAddComponent } from './moder/pages/add/add.component';
 import { ModerPagesEditComponent } from './moder/pages/edit/edit.component';
 import { ModerPagesComponent } from './moder/pages/pages.component';
 import { ModerPictureVoteTemplatesComponent } from './moder/picture-vote-templates/picture-vote-templates.component';
-import { ModerPicturesItemAreaComponent } from './moder/pictures/item/area/area.component';
-import { ModerPicturesItemCropComponent } from './moder/pictures/item/crop/crop.component';
-import { ModerPicturesItemMoveComponent } from './moder/pictures/item/move/move.component';
-import { ModerPicturesItemComponent } from './moder/pictures/item/item.component';
-import { ModerPicturesComponent } from './moder/pictures/pictures.component';
 import { ModerRightsComponent } from './moder/rights/rights.component';
-import { ModerTrafficWhitelistComponent } from './moder/traffic/whitelist/whitelist.component';
 import { ModerAttrsAttributeComponent } from './moder/attrs/attribute/attribute.component';
 import { ModerAttrsZoneComponent } from './moder/attrs/zone/zone.component';
 import { ModerAttrsComponent } from './moder/attrs/attrs.component';
@@ -106,12 +98,10 @@ import { UsersUserPicturesComponent } from './users/user/pictures/pictures.compo
 import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
 import { VotingComponent } from './voting/voting.component';
 import { NewListItemComponent } from './new/list-item/list-item.component';
-import { ModerPictureMoveItemComponent } from './moder/pictures/item/move/item/item.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
 import { InboxService } from './services/inbox';
 import { ReCaptchaService } from './services/recaptcha';
-import { DonateService } from './services/donate';
 import { ItemParentService } from './services/item-parent';
 import { ItemLinkService } from './services/item-link';
 import { ModerRightsTreeComponent } from './moder/rights/tree/tree.component';
@@ -126,11 +116,8 @@ import { ModerAttrsZoneAttributeListComponent } from './moder/attrs/zone/attribu
 import { ModerAttrsAttributeListOptionsTreeComponent } from './moder/attrs/attribute/list-options-tree/list-options-tree.component';
 import { InfoSpecRowComponent } from './info/spec/row/row.component';
 import { UploadSelectTreeItemComponent } from './upload/select/tree-item/tree-item.component';
-import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
 import { VotingService } from './services/voting';
-import { MarkdownEditComponent } from './components/markdown-edit/markdown-edit.component';
 import { ItemComponent } from './components/item/item.component';
-import { PictureModerVoteComponent } from './components/picture-moder-vote/picture-moder-vote.component';
 import { ItemMetaFormComponent } from './components/item-meta-form/item-meta-form.component';
 import { MessageService } from './services/message';
 import { CommentService } from './services/comment';
@@ -150,7 +137,6 @@ import { ModalMessageComponent } from './components/modal-message/modal-message.
 import { ModerStatComponent } from './moder/stat/stat.component';
 import { PageEnvService } from './services/page-env.service';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
-import { PictureModerVoteModalComponent } from './components/picture-moder-vote/modal/modal.component';
 import { ContentLanguageService } from './services/content-language';
 import { LanguageService } from './services/language';
 import { VehicleTypesModalComponent } from './components/vehicle-types-modal/vehicle-types-modal.component';
@@ -197,6 +183,9 @@ import { PaginatorModule } from './paginator/paginator.module';
 import { UserModule } from './user/user.module';
 import { CommentsModule } from './comments/comments.module';
 import { UtilsModule } from './utils/utils.module';
+import { ThumbnailModule } from './thumbnail/thumbnail.module';
+import { MarkdownEditModule } from './markdown-edit/markdown-edit.module';
+import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -284,38 +273,25 @@ import { UtilsModule } from './utils/utils.module';
     ModerPagesAddComponent,
     ModerPagesEditComponent,
     ModerPictureVoteTemplatesComponent,
-    ModerPicturesComponent,
-    ModerPicturesItemComponent,
-    ModerPicturesItemAreaComponent,
-    ModerPicturesItemCropComponent,
-    ModerPicturesItemMoveComponent,
     ModerRightsComponent,
-    ModerTrafficComponent,
-    ModerTrafficWhitelistComponent,
     NewListItemComponent,
-    ModerPictureMoveItemComponent,
     ModerRightsTreeComponent,
     ModerItemsTooBigComponent,
     ModerItemsNewComponent,
     ModerItemsItemTreeComponent,
     ModerItemsItemSelectParentTreeItemComponent,
     ModerItemsItemSelectParentTreeComponent,
-    ModerHotlinksComponent,
     ModerAttrsAttributeListComponent,
     ModerAttrsZoneAttributeListComponent,
     ModerAttrsAttributeListOptionsTreeComponent,
     InfoSpecRowComponent,
     UploadSelectTreeItemComponent,
-    ThumbnailComponent,
-    MarkdownEditComponent,
     CarsSelectEngineTreeItemComponent,
     ItemComponent,
-    PictureModerVoteComponent,
     ItemMetaFormComponent,
     ModalMessageComponent,
     ModerStatComponent,
     BreadcrumbsComponent,
-    PictureModerVoteModalComponent,
     VehicleTypesModalComponent,
     ModerItemsItemCatalogueComponent,
     ModerItemsItemMetaComponent,
@@ -348,7 +324,6 @@ import { UtilsModule } from './utils/utils.module';
   ],
   entryComponents: [
     ModalMessageComponent,
-    PictureModerVoteModalComponent,
     VehicleTypesModalComponent,
     VotingVotesComponent,
     MapPopupComponent,
@@ -384,7 +359,10 @@ import { UtilsModule } from './utils/utils.module';
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
     AutosizeModule,
-    UtilsModule
+    UtilsModule,
+    ThumbnailModule,
+    MarkdownEditModule,
+    PictureModerVoteModule
   ],
   providers: [
     APIService,
@@ -397,7 +375,6 @@ import { UtilsModule } from './utils/utils.module';
     ItemService,
     InboxService,
     ReCaptchaService,
-    DonateService,
     ItemParentService,
     ItemLinkService,
     ItemLanguageService,

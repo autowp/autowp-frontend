@@ -1,18 +1,10 @@
-import {
-  Component,
-  Injectable,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-  OnDestroy
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { APIPicture } from '../../services/picture';
+import { APIPerspective } from '../../services/api.service';
+import { Subscription } from 'rxjs';
 import { PerspectiveService } from '../../services/perspective';
 import { PictureItemService } from '../../services/picture-item';
-import { APIPerspective } from '../../services/api.service';
 import { ACLService } from '../../services/acl.service';
-import { Subscription } from 'rxjs';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;
@@ -22,8 +14,8 @@ interface ThumbnailAPIPicture extends APIPicture {
   selector: 'app-thumbnail',
   templateUrl: './thumbnail.component.html'
 })
-@Injectable()
 export class ThumbnailComponent implements OnInit, OnDestroy {
+
   @Input() picture: ThumbnailAPIPicture;
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
@@ -75,4 +67,5 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
     this.picture.selected = !this.picture.selected;
     this.selected.emit(this.picture.selected);
   }
+
 }

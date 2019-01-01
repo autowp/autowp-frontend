@@ -34,18 +34,6 @@ export interface APIItemVehicleTypeGetResponse {
   items: APIItemVehicleType[];
 }
 
-export interface APIHotlinksHost {
-  host: string;
-  count: number;
-  whitelisted: boolean;
-  blacklisted: boolean;
-  links: any[];
-}
-
-export interface APIHotlinksHostsGetResponse {
-  items: APIHotlinksHost[];
-}
-
 export interface APIImage {
   src: string;
   width: number;

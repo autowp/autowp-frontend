@@ -17,7 +17,6 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
-  map,
   tap,
   switchMapTo
 } from 'rxjs/operators';
