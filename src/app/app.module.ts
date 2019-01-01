@@ -40,8 +40,6 @@ import { CarsDatelessComponent } from './cars/dateless/dateless.component';
 import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
 import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { FeedbackComponent } from './feedback/feedback.component';
-import { FeedbackSentComponent } from './feedback/sent/sent.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
@@ -53,13 +51,7 @@ import { NewItemComponent } from './new/item/item.component';
 import { PersonsComponent } from './persons/persons.component';
 import { PersonsAuthorsComponent } from './persons/authors/authors.component';
 import { PersonsPersonComponent } from './persons/person/person.component';
-import { RestorePasswordComponent } from './restore-password/restore-password.component';
-import { RestorePasswordNewComponent } from './restore-password/new/new.component';
-import { RestorePasswordNewOkComponent } from './restore-password/new/ok/ok.component';
-import { RestorePasswordSentComponent } from './restore-password/sent/sent.component';
 import { RulesComponent } from './rules/rules.component';
-import { SignupComponent } from './signup/signup.component';
-import { SignupOkComponent } from './signup/ok/ok.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
 import { UsersRatingComponent } from './users/rating/rating.component';
@@ -144,8 +136,6 @@ import { ItemModule } from './item/item.module';
     CarsSpecificationsEditorComponent,
     CarsSpecsAdminComponent,
     CutawayComponent,
-    FeedbackComponent,
-    FeedbackSentComponent,
     InboxComponent,
     IndexComponent,
     InfoSpecComponent,
@@ -159,16 +149,10 @@ import { ItemModule } from './item/item.module';
     PersonsComponent,
     PersonsAuthorsComponent,
     PersonsPersonComponent,
-    RestorePasswordComponent,
-    RestorePasswordNewComponent,
-    RestorePasswordNewOkComponent,
-    RestorePasswordSentComponent,
     RulesComponent,
     ModerIndexComponent,
     ModerMenuComponent,
     SignInComponent,
-    SignupComponent,
-    SignupOkComponent,
     TelegramComponent,
     TopViewComponent,
     UsersRatingComponent,
@@ -237,8 +221,6 @@ import { ItemModule } from './item/item.module';
     }),
     MomentModule,
     NgPipesModule,
-    RecaptchaModule.forRoot(),
-    RecaptchaFormsModule,
     BrowserAnimationsModule,
     AutosizeModule,
     UtilsModule,
