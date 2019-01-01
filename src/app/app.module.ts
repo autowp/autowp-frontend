@@ -18,7 +18,6 @@ import { AuthGuard } from './auth.guard';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { TopViewComponent } from './top-view/top-view.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
 import { ReCaptchaService } from './services/recaptcha';
@@ -71,7 +70,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     IndexComponent,
     PageNotFoundComponent,
     ModerMenuComponent,
-    TopViewComponent,
     ModalMessageComponent,
     BreadcrumbsComponent,
     VehicleTypesModalComponent,

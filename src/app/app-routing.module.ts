@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import { TopViewComponent } from './top-view/top-view.component';
 import { IndexComponent } from './index/index.component';
 
 const appRoutes: Routes = [
@@ -90,7 +89,7 @@ const appRoutes: Routes = [
     path: 'twins',
     loadChildren: './twins/twins.module#TwinsModule'
   },
-  { path: 'top-view', component: TopViewComponent },
+  { path: 'top-view', loadChildren: './top-view/top-view.module#TopViewModule' },
   { path: 'upload', loadChildren: './upload/upload.module#UploadModule' },
   {
     path: 'users',
