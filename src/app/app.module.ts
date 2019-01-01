@@ -20,7 +20,6 @@ import { AuthGuard } from './auth.guard';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { LogComponent } from './log/log.component';
 import { MascotsComponent } from './mascots/mascots.component';
 import { RulesComponent } from './rules/rules.component';
 import { TelegramComponent } from './telegram/telegram.component';
@@ -75,7 +74,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
   declarations: [
     AppComponent,
     IndexComponent,
-    LogComponent,
     MascotsComponent,
     PageNotFoundComponent,
     RulesComponent,

@@ -56,7 +56,7 @@ const appRoutes: Routes = [
     path: 'info',
     loadChildren: './info/info.module#InfoModule'
   },
-  { path: 'log', component: LogComponent },
+  { path: 'log', loadChildren: './log/log.module#LogModule' },
   { path: 'login', component: SignInComponent },
   { path: 'map', loadChildren: './map/map.module#MapModule' },
   { path: 'mascots', component: MascotsComponent },
