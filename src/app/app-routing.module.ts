@@ -128,28 +128,7 @@ const appRoutes: Routes = [
   { path: 'museums', loadChildren: './museum/museum.module#MuseumModule' },
   {
     path: 'new',
-    children: [
-      {
-        path: ':date',
-        component: NewComponent
-      },
-      {
-        path: ':date/:page',
-        component: NewComponent
-      },
-      {
-        path: ':date/item/:item_id',
-        component: NewItemComponent
-      },
-      {
-        path: ':date/item/:item_id/:page',
-        component: NewItemComponent
-      },
-      {
-        path: '',
-        component: NewComponent
-      }
-    ]
+    loadChildren: './new/new.module#NewModule'
   },
   {
     path: 'persons',

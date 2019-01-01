@@ -32,12 +32,9 @@ import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { MascotsComponent } from './mascots/mascots.component';
 import { MostsComponent } from './mosts/mosts.component';
-import { NewComponent } from './new/new.component';
-import { NewItemComponent } from './new/item/item.component';
 import { RulesComponent } from './rules/rules.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
-import { NewListItemComponent } from './new/list-item/list-item.component';
 import { PictureService } from './services/picture';
 import { ItemService } from './services/item';
 import { InboxService } from './services/inbox';
@@ -110,15 +107,12 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     LogComponent,
     MascotsComponent,
     MostsComponent,
-    NewComponent,
-    NewItemComponent,
     PageNotFoundComponent,
     RulesComponent,
     ModerMenuComponent,
     SignInComponent,
     TelegramComponent,
     TopViewComponent,
-    NewListItemComponent,
     InfoSpecRowComponent,
     CarsSelectEngineTreeItemComponent,
     ModalMessageComponent,
