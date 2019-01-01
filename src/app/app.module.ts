@@ -13,7 +13,6 @@ import { AutosizeModule } from 'ngx-autosize';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import { PageNotFoundComponent } from './not-found.component';
-import { SignInComponent } from './signin/signin.component';
 
 import { ModerMenuComponent } from './moder-menu.component';
 import { AuthGuard } from './auth.guard';
@@ -78,7 +77,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     PageNotFoundComponent,
     RulesComponent,
     ModerMenuComponent,
-    SignInComponent,
     TelegramComponent,
     TopViewComponent,
     ModalMessageComponent,
