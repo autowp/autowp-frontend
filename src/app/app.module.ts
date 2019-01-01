@@ -21,13 +21,7 @@ import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
 import { BrandsComponent } from './brands/brands.component';
-import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
-import { CarsDatelessComponent } from './cars/dateless/dateless.component';
-import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
-import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { InfoSpecComponent } from './info/spec/spec.component';
-import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { MascotsComponent } from './mascots/mascots.component';
 import { RulesComponent } from './rules/rules.component';
@@ -39,7 +33,6 @@ import { ReCaptchaService } from './services/recaptcha';
 import { ItemParentService } from './services/item-parent';
 import { ItemLinkService } from './services/item-link';
 import { ItemLanguageService } from './services/item-language';
-import { InfoSpecRowComponent } from './info/spec/row/row.component';
 import { MessageService } from './services/message';
 import { CommentService } from './services/comment';
 import { PageService } from './services/page';
@@ -58,11 +51,6 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { ContentLanguageService } from './services/content-language';
 import { LanguageService } from './services/language';
 import { VehicleTypesModalComponent } from './components/vehicle-types-modal/vehicle-types-modal.component';
-import { CarsSpecificationsEditorEngineComponent } from './cars/specifications-editor/engine/engine.component';
-import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/select/select.component';
-import { CarsSelectEngineTreeItemComponent } from './cars/specifications-editor/engine/select/tree-item/tree-item.component';
-import { CarsSpecificationsEditorResultComponent } from './cars/specifications-editor/result/result.component';
-import { CarsSpecificationsEditorSpecComponent } from './cars/specifications-editor/spec/spec.component';
 import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
@@ -90,15 +78,8 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
   declarations: [
     AppComponent,
     BrandsComponent,
-    CarsAttrsChangeLogComponent,
-    CarsDatelessComponent,
-    CarsEngineSelectComponent,
-    CarsSpecificationsEditorComponent,
-    CarsSpecsAdminComponent,
     CutawayComponent,
     IndexComponent,
-    InfoSpecComponent,
-    InfoTextComponent,
     LogComponent,
     MascotsComponent,
     PageNotFoundComponent,
@@ -107,14 +88,9 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     SignInComponent,
     TelegramComponent,
     TopViewComponent,
-    InfoSpecRowComponent,
-    CarsSelectEngineTreeItemComponent,
     ModalMessageComponent,
     BreadcrumbsComponent,
     VehicleTypesModalComponent,
-    CarsSpecificationsEditorEngineComponent,
-    CarsSpecificationsEditorResultComponent,
-    CarsSpecificationsEditorSpecComponent,
     Error403Component,
     Error404Component,
     UsersOnlineComponent,

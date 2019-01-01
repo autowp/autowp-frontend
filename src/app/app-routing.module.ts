@@ -3,11 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
 import { BrandsComponent } from './brands/brands.component';
-import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
-import { CarsDatelessComponent } from './cars/dateless/dateless.component';
-import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/select/select.component';
-import { CarsSpecificationsEditorComponent } from './cars/specifications-editor/specifications-editor.component';
-import { CarsSpecsAdminComponent } from './cars/specs-admin/specs-admin.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
 import { InfoSpecComponent } from './info/spec/spec.component';
 import { InfoTextComponent } from './info/text/text.component';
@@ -32,28 +27,7 @@ const appRoutes: Routes = [
   { path: 'brands', component: BrandsComponent },
   {
     path: 'cars',
-    children: [
-      {
-        path: 'attrs-change-log',
-        component: CarsAttrsChangeLogComponent
-      },
-      {
-        path: 'dateless',
-        component: CarsDatelessComponent
-      },
-      {
-        path: 'select-engine',
-        component: CarsEngineSelectComponent
-      },
-      {
-        path: 'specifications-editor',
-        component: CarsSpecificationsEditorComponent
-      },
-      {
-        path: 'specs-admin',
-        component: CarsSpecsAdminComponent
-      }
-    ]
+    loadChildren: './cars/cars.module#CarsModule'
   },
   {
     path: 'category',
@@ -83,10 +57,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'info',
-    children: [
-      { path: 'spec', component: InfoSpecComponent },
-      { path: 'text/:id', component: InfoTextComponent }
-    ]
+    loadChildren: './info/info.module#InfoModule'
   },
   { path: 'log', component: LogComponent },
   { path: 'login', component: SignInComponent },
