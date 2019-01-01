@@ -20,7 +20,6 @@ import { AuthGuard } from './auth.guard';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { BrandsComponent } from './brands/brands.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
 import { LogComponent } from './log/log.component';
 import { MascotsComponent } from './mascots/mascots.component';
@@ -55,7 +54,6 @@ import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
 import { UsersOnlineComponent } from './users/online/online.component';
-import { BrandsItemComponent } from './brands/item/item.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
@@ -77,7 +75,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
 @NgModule({
   declarations: [
     AppComponent,
-    BrandsComponent,
     CutawayComponent,
     IndexComponent,
     LogComponent,
@@ -93,8 +90,7 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     VehicleTypesModalComponent,
     Error403Component,
     Error404Component,
-    UsersOnlineComponent,
-    BrandsItemComponent
+    UsersOnlineComponent
   ],
   entryComponents: [
     ModalMessageComponent,

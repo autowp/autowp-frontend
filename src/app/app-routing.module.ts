@@ -2,10 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import { BrandsComponent } from './brands/brands.component';
 import { CutawayComponent } from './cutaway/cutaway.component';
-import { InfoSpecComponent } from './info/spec/spec.component';
-import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { SignInComponent } from './signin/signin.component';
 import { MascotsComponent } from './mascots/mascots.component';
@@ -24,7 +21,7 @@ const appRoutes: Routes = [
     path: 'articles',
     loadChildren: './articles/articles.module#ArticlesModule'
   },
-  { path: 'brands', component: BrandsComponent },
+  { path: 'brands', loadChildren: './brands/brands.module#BrandsModule' },
   {
     path: 'cars',
     loadChildren: './cars/cars.module#CarsModule'
