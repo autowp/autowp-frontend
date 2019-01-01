@@ -47,8 +47,6 @@ import { SignupOkComponent } from './signup/ok/ok.component';
 import { SignupComponent } from './signup/signup.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
-import { UploadSelectComponent } from './upload/select/select.component';
-import { UploadComponent } from './upload/upload.component';
 import { UsersRatingComponent } from './users/rating/rating.component';
 import { UsersUserCommentsComponent } from './users/user/comments/comments.component';
 import { UsersUserPicturesBrandComponent } from './users/user/pictures/brand/brand.component';
@@ -56,13 +54,12 @@ import { UsersUserPicturesComponent } from './users/user/pictures/pictures.compo
 import { UsersUserComponent } from './users/user/user.component';
 import { VotingComponent } from './voting/voting.component';
 import { IndexComponent } from './index/index.component';
-import { TwinsComponent } from './twins/twins.component';
-import { TwinsGroupComponent } from './twins/twins-group.component';
-import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.component';
-import { TwinsGroupSpecificationsComponent } from './twins/twins-group-specifications.component';
 import { CategoriesIndexComponent } from './categories/index.component';
 import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
-import { categoriesPathMatcher, categoriesPicturesPathMatcher } from './categories/matcher';
+import {
+  categoriesPathMatcher,
+  categoriesPicturesPathMatcher
+} from './categories/matcher';
 import { CategoriesCategoryItemComponent } from './categories/category-item.component';
 
 const appRoutes: Routes = [
@@ -366,32 +363,10 @@ const appRoutes: Routes = [
   { path: 'telegram', component: TelegramComponent },
   {
     path: 'twins',
-    children: [
-      {
-        path: 'group',
-        children: [
-          {
-            path: ':group',
-            children: [
-              { path: 'pictures', component: TwinsGroupPicturesComponent },
-              { path: 'specifications', component: TwinsGroupSpecificationsComponent },
-              { path: '', component: TwinsGroupComponent }
-            ]
-          }
-        ]
-      },
-      { path: ':brand', component: TwinsComponent },
-      { path: '', component: TwinsComponent }
-    ]
+    loadChildren: './twins/twins.module#TwinsModule'
   },
   { path: 'top-view', component: TopViewComponent },
-  {
-    path: 'upload',
-    children: [
-      { path: 'select', component: UploadSelectComponent },
-      { path: '', component: UploadComponent }
-    ]
-  },
+  { path: 'upload', loadChildren: './upload/upload.module#UploadModule' },
   {
     path: 'users',
     children: [
@@ -433,7 +408,7 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      {  } // enableTracing: true <-- debugging purposes only
+      {} // enableTracing: true <-- debugging purposes only
     )
   ],
   exports: [RouterModule]

@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TwinsService, APITwinsBrand } from '../services/twins';
+import { TwinsService, APITwinsBrand } from './twins.service';
 
 @Component({
   selector: 'app-twins-sidebar',

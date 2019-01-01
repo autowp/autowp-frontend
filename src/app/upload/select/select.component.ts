@@ -1,11 +1,9 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem, APIItemsGetResponse } from '../../services/item';
 import { chunk } from '../../chunk';
 import Notify from '../../notify';
 import {
-  Subscription,
   Observable,
   empty,
   forkJoin,
@@ -45,7 +43,6 @@ export class UploadSelectComponent implements OnInit {
   public conceptsOpen = false;
 
   constructor(
-    private http: HttpClient,
     private itemService: ItemService,
     private route: ActivatedRoute,
     private router: Router,

@@ -7,7 +7,6 @@ import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-comp
 import { MomentModule } from 'ngx-moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
-import { FileUploadModule } from 'ng2-file-upload';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -63,8 +62,6 @@ import { SignupComponent } from './signup/signup.component';
 import { SignupOkComponent } from './signup/ok/ok.component';
 import { TelegramComponent } from './telegram/telegram.component';
 import { TopViewComponent } from './top-view/top-view.component';
-import { UploadComponent } from './upload/upload.component';
-import { UploadSelectComponent } from './upload/select/select.component';
 import { UsersRatingComponent } from './users/rating/rating.component';
 import { UsersUserComponent } from './users/user/user.component';
 import { UsersUserCommentsComponent } from './users/user/comments/comments.component';
@@ -84,7 +81,6 @@ import { ModerAttrsAttributeListComponent } from './moder/attrs/attribute-list/a
 import { ModerAttrsZoneAttributeListComponent } from './moder/attrs/zone/attribute-list/attribute-list.component';
 import { ModerAttrsAttributeListOptionsTreeComponent } from './moder/attrs/attribute/list-options-tree/list-options-tree.component';
 import { InfoSpecRowComponent } from './info/spec/row/row.component';
-import { UploadSelectTreeItemComponent } from './upload/select/tree-item/tree-item.component';
 import { VotingService } from './services/voting';
 import { MessageService } from './services/message';
 import { CommentService } from './services/comment';
@@ -117,21 +113,12 @@ import { MostsService } from './services/mosts';
 import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
-import { UploadCropComponent } from './upload/crop/crop.component';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { ModerGuard } from './moder.guard';
 import { BrandsItemComponent } from './brands/item/item.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
-import { TwinsComponent } from './twins/twins.component';
-import { TwinsService } from './services/twins';
-import { TwinsGroupComponent } from './twins/twins-group.component';
-import { TwinsSidebarComponent } from './twins/sidebar.component';
-import { TwinsItemComponent } from './twins/item/item.component';
-import { TwinsGroupPicturesComponent } from './twins/twins-group-pictures.component';
-import { TwinsGroupPicturesThumbnailComponent } from './twins/thumbnail/thumbnail.component';
-import { TwinsGroupSpecificationsComponent } from './twins/twins-group-specifications.component';
 import { CategoriesIndexComponent } from './categories/index.component';
 import { CategoriesCategoryPicturesComponent } from './categories/category-pictures.component';
 import { CategoriesCategoryItemComponent } from './categories/category-item.component';
@@ -188,8 +175,6 @@ import { ItemModule } from './item/item.module';
     SignupOkComponent,
     TelegramComponent,
     TopViewComponent,
-    UploadComponent,
-    UploadSelectComponent,
     UsersRatingComponent,
     UsersUserComponent,
     UsersUserCommentsComponent,
@@ -213,7 +198,6 @@ import { ItemModule } from './item/item.module';
     ModerAttrsZoneAttributeListComponent,
     ModerAttrsAttributeListOptionsTreeComponent,
     InfoSpecRowComponent,
-    UploadSelectTreeItemComponent,
     CarsSelectEngineTreeItemComponent,
     ModalMessageComponent,
     ModerStatComponent,
@@ -225,16 +209,8 @@ import { ItemModule } from './item/item.module';
     VotingVotesComponent,
     Error403Component,
     Error404Component,
-    UploadCropComponent,
     UsersOnlineComponent,
     BrandsItemComponent,
-    TwinsComponent,
-    TwinsGroupComponent,
-    TwinsSidebarComponent,
-    TwinsItemComponent,
-    TwinsGroupPicturesComponent,
-    TwinsGroupPicturesThumbnailComponent,
-    TwinsGroupSpecificationsComponent,
     CategoriesIndexComponent,
     CategoriesCategoryPicturesComponent,
     CategoriesCategoryItemComponent,
@@ -245,7 +221,6 @@ import { ItemModule } from './item/item.module';
     ModalMessageComponent,
     VehicleTypesModalComponent,
     VotingVotesComponent,
-    UploadCropComponent,
     UsersOnlineComponent
   ],
   imports: [
@@ -315,8 +290,7 @@ import { ItemModule } from './item/item.module';
     LanguageService,
     MostsService,
     TimezoneService,
-    IpService,
-    TwinsService
+    IpService
   ],
   bootstrap: [AppComponent]
 })
