@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
 import Notify from '../notify';
 import { Subscription } from 'rxjs';
@@ -19,7 +18,6 @@ export class CutawayComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
 
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
     private pictureService: PictureService,
     private pageEnv: PageEnvService

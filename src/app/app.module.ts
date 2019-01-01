@@ -14,24 +14,12 @@ import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { SignInComponent } from './signin/signin.component';
-import { ModerIndexComponent } from './moder/index/index.component';
 
 import { ModerMenuComponent } from './moder-menu.component';
 import { AuthGuard } from './auth.guard';
-import { ModerPerspectivesComponent } from './moder/perspectives/perspectives.component';
-import { ModerUsersComponent } from './moder/users/users.component';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
-import { ModerCommentsComponent } from './moder/comments/comments.component';
-import { ModerPagesAddComponent } from './moder/pages/add/add.component';
-import { ModerPagesEditComponent } from './moder/pages/edit/edit.component';
-import { ModerPagesComponent } from './moder/pages/pages.component';
-import { ModerPictureVoteTemplatesComponent } from './moder/picture-vote-templates/picture-vote-templates.component';
-import { ModerRightsComponent } from './moder/rights/rights.component';
-import { ModerAttrsAttributeComponent } from './moder/attrs/attribute/attribute.component';
-import { ModerAttrsZoneComponent } from './moder/attrs/zone/zone.component';
-import { ModerAttrsComponent } from './moder/attrs/attrs.component';
 import { BrandsComponent } from './brands/brands.component';
 import { CarsAttrsChangeLogComponent } from './cars/attrs-change-log/attrs-change-log.component';
 import { CarsDatelessComponent } from './cars/dateless/dateless.component';
@@ -64,11 +52,7 @@ import { InboxService } from './services/inbox';
 import { ReCaptchaService } from './services/recaptcha';
 import { ItemParentService } from './services/item-parent';
 import { ItemLinkService } from './services/item-link';
-import { ModerRightsTreeComponent } from './moder/rights/tree/tree.component';
 import { ItemLanguageService } from './services/item-language';
-import { ModerAttrsAttributeListComponent } from './moder/attrs/attribute-list/attribute-list.component';
-import { ModerAttrsZoneAttributeListComponent } from './moder/attrs/zone/attribute-list/attribute-list.component';
-import { ModerAttrsAttributeListOptionsTreeComponent } from './moder/attrs/attribute/list-options-tree/list-options-tree.component';
 import { InfoSpecRowComponent } from './info/spec/row/row.component';
 import { MessageService } from './services/message';
 import { CommentService } from './services/comment';
@@ -76,8 +60,6 @@ import { PageService } from './services/page';
 import { UserService } from './services/user';
 import { DecimalPipe } from '@angular/common';
 import { PerspectiveService } from './services/perspective';
-import { PictureModerVoteService } from './services/picture-moder-vote';
-import { PictureModerVoteTemplateService } from './services/picture-moder-vote-template';
 import { VehicleTypeService } from './services/vehicle-type';
 import { SpecService } from './services/spec';
 import { PictureItemService } from './services/picture-item';
@@ -85,7 +67,6 @@ import { ContactsService } from './services/contacts';
 import { MessageDialogService } from './services/message-dialog';
 import { AttrsService } from './services/attrs';
 import { ModalMessageComponent } from './components/modal-message/modal-message.component';
-import { ModerStatComponent } from './moder/stat/stat.component';
 import { PageEnvService } from './services/page-env.service';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ContentLanguageService } from './services/content-language';
@@ -101,7 +82,6 @@ import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
 import { UsersOnlineComponent } from './users/online/online.component';
-import { ModerGuard } from './moder.guard';
 import { BrandsItemComponent } from './brands/item/item.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -111,9 +91,10 @@ import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
 import { ThumbnailModule } from './thumbnail/thumbnail.module';
 import { MarkdownEditModule } from './markdown-edit/markdown-edit.module';
-import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
-import { ModerItemParentComponent } from './moder/item-parent/item-parent.component';
 import { ItemModule } from './item/item.module';
+import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
+import { PictureModerVoteService } from './services/picture-moder-vote';
+import { PictureModerVoteTemplateService } from './services/picture-moder-vote-template';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -144,7 +125,6 @@ import { ItemModule } from './item/item.module';
     PersonsAuthorsComponent,
     PersonsPersonComponent,
     RulesComponent,
-    ModerIndexComponent,
     ModerMenuComponent,
     SignInComponent,
     TelegramComponent,
@@ -154,26 +134,10 @@ import { ItemModule } from './item/item.module';
     UsersUserCommentsComponent,
     UsersUserPicturesComponent,
     UsersUserPicturesBrandComponent,
-    ModerPerspectivesComponent,
-    ModerUsersComponent,
-    ModerAttrsComponent,
-    ModerAttrsAttributeComponent,
-    ModerAttrsZoneComponent,
-    ModerCommentsComponent,
-    ModerPagesComponent,
-    ModerPagesAddComponent,
-    ModerPagesEditComponent,
-    ModerPictureVoteTemplatesComponent,
-    ModerRightsComponent,
     NewListItemComponent,
-    ModerRightsTreeComponent,
-    ModerAttrsAttributeListComponent,
-    ModerAttrsZoneAttributeListComponent,
-    ModerAttrsAttributeListOptionsTreeComponent,
     InfoSpecRowComponent,
     CarsSelectEngineTreeItemComponent,
     ModalMessageComponent,
-    ModerStatComponent,
     BreadcrumbsComponent,
     VehicleTypesModalComponent,
     CarsSpecificationsEditorEngineComponent,
@@ -182,8 +146,7 @@ import { ItemModule } from './item/item.module';
     Error403Component,
     Error404Component,
     UsersOnlineComponent,
-    BrandsItemComponent,
-    ModerItemParentComponent
+    BrandsItemComponent
   ],
   entryComponents: [
     ModalMessageComponent,
@@ -224,7 +187,6 @@ import { ItemModule } from './item/item.module';
     APIACL,
     AuthService,
     AuthGuard,
-    ModerGuard,
     ACLService,
     PictureService,
     ItemService,

@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PageService, APIPage, APIPageLinearized } from '../../../services/page';
 import { PageEnvService } from '../../../services/page-env.service';

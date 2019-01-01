@@ -15,21 +15,6 @@ import { InfoTextComponent } from './info/text/text.component';
 import { LogComponent } from './log/log.component';
 import { SignInComponent } from './signin/signin.component';
 import { MascotsComponent } from './mascots/mascots.component';
-import { ModerCommentsComponent } from './moder/comments/comments.component';
-import { ModerGuard } from './moder.guard';
-import { ModerItemParentComponent } from './moder/item-parent/item-parent.component';
-import { ModerPagesAddComponent } from './moder/pages/add/add.component';
-import { ModerPagesEditComponent } from './moder/pages/edit/edit.component';
-import { ModerPagesComponent } from './moder/pages/pages.component';
-import { ModerPerspectivesComponent } from './moder/perspectives/perspectives.component';
-import { ModerPictureVoteTemplatesComponent } from './moder/picture-vote-templates/picture-vote-templates.component';
-import { ModerRightsComponent } from './moder/rights/rights.component';
-import { ModerStatComponent } from './moder/stat/stat.component';
-import { ModerUsersComponent } from './moder/users/users.component';
-import { ModerAttrsAttributeComponent } from './moder/attrs/attribute/attribute.component';
-import { ModerAttrsZoneComponent } from './moder/attrs/zone/zone.component';
-import { ModerAttrsComponent } from './moder/attrs/attrs.component';
-import { ModerIndexComponent } from './moder/index/index.component';
 import { MostsComponent } from './mosts/mosts.component';
 import { NewComponent } from './new/new.component';
 import { NewItemComponent } from './new/item/item.component';
@@ -125,104 +110,7 @@ const appRoutes: Routes = [
   { path: 'mascots', component: MascotsComponent },
   {
     path: 'moder',
-    children: [
-      {
-        path: 'comments',
-        component: ModerCommentsComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'item-parent/:item_id/:parent_id',
-        component: ModerItemParentComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'items',
-        loadChildren: './moder/items/items.module#ItemsModule'
-      },
-      {
-        path: 'pages',
-        children: [
-          {
-            path: 'add',
-            component: ModerPagesAddComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: 'edit',
-            component: ModerPagesEditComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: '',
-            component: ModerPagesComponent,
-            canActivate: [ModerGuard]
-          }
-        ]
-      },
-      {
-        path: 'perspectives',
-        component: ModerPerspectivesComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'picture-vote-templates',
-        component: ModerPictureVoteTemplatesComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'pictures',
-        loadChildren: './moder/pictures/pictures.module#PicturesModule'
-      },
-      {
-        path: 'rights',
-        component: ModerRightsComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'stat',
-        component: ModerStatComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'traffic',
-        loadChildren: './moder/traffic/traffic.module#TrafficModule'
-      },
-      {
-        path: 'users',
-        component: ModerUsersComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'hotlinks',
-        loadChildren: './moder/hotlinks/hotlinks.module#HotlinksModule'
-      },
-      {
-        path: 'attrs',
-        children: [
-          {
-            path: 'attribute/:id',
-            component: ModerAttrsAttributeComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: 'zone/:id',
-            component: ModerAttrsZoneComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: '',
-            component: ModerAttrsComponent,
-            canActivate: [ModerGuard]
-          }
-        ]
-      },
-      {
-        path: '',
-        component: ModerIndexComponent,
-        canActivate: [ModerGuard]
-      }
-    ]
+    loadChildren: './moder/moder.module#ModerModule'
   },
   {
     path: 'mosts',
@@ -291,7 +179,8 @@ const appRoutes: Routes = [
   { path: 'pulse', loadChildren: './pulse/pulse.module#PulseModule' },
   {
     path: 'restore-password',
-    loadChildren: './restore-password/restore-password.module#RestorePasswordModule'
+    loadChildren:
+      './restore-password/restore-password.module#RestorePasswordModule'
   },
   { path: 'rules', component: RulesComponent },
   {

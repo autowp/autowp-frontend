@@ -1,10 +1,8 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {
   AttrsService,
   APIAttrAttribute,
-  APIAttrAttributeType,
-  APIAttrUnit,
   APIAttrAttributeGetResponse,
   APIAttrListOption
 } from '../../../services/attrs';
