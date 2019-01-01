@@ -11,16 +11,7 @@ import {
   NgZone,
   OnDestroy
 } from '@angular/core';
-import { APIItem } from '../../services/item';
-import {
-  APIVehicleType,
-  VehicleTypeService
-} from '../../services/vehicle-type';
-import { SpecService, APISpec } from '../../services/spec';
-import { LanguageService } from '../../services/language';
-import Notify from '../../notify';
 import { Subscription, BehaviorSubject } from 'rxjs';
-import { VehicleTypesModalComponent } from '../vehicle-types-modal/vehicle-types-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   tileLayer,
@@ -33,6 +24,12 @@ import {
   LeafletMouseEvent
 } from 'leaflet';
 import { finalize, switchMap } from 'rxjs/operators';
+import { APIVehicleType, VehicleTypeService } from '../../../services/vehicle-type';
+import { APISpec, SpecService } from '../../../services/spec';
+import { APIItem } from '../../../services/item';
+import { LanguageService } from '../../../services/language';
+import Notify from '../../../notify';
+import { VehicleTypesModalComponent } from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 
 function specsToPlain(
   options: ItemMetaFormAPISpec[],

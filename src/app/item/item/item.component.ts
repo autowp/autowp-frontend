@@ -1,15 +1,15 @@
-import { Component, Injectable, Input, OnInit, OnDestroy } from '@angular/core';
-import { ACLService } from '../../services/acl.service';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { APIItem } from '../../services/item';
 import { Subscription } from 'rxjs';
+import { ACLService } from '../../services/acl.service';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./styles.scss']
+  styleUrls: ['./item.component.scss']
 })
-@Injectable()
 export class ItemComponent implements OnInit, OnDestroy {
+
   @Input() item: APIItem;
   @Input() disableTitle: boolean;
   @Input() disableDescription: boolean;
@@ -43,4 +43,5 @@ export class ItemComponent implements OnInit, OnDestroy {
   public canHavePhoto(item: APIItem) {
     return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
   }
+
 }

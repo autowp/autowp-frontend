@@ -29,11 +29,6 @@ import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
 import { ModerCommentsComponent } from './moder/comments/comments.component';
-import { ModerItemParentComponent } from './moder/item-parent/item-parent.component';
-import { ModerItemsAlphaComponent } from './moder/items/alpha/alpha.component';
-import { ModerItemsItemSelectParentComponent } from './moder/items/item/select-parent/select-parent.component';
-import { ModerItemsItemComponent } from './moder/items/item/item.component';
-import { ModerItemsComponent } from './moder/items/items.component';
 import { ModerPagesAddComponent } from './moder/pages/add/add.component';
 import { ModerPagesEditComponent } from './moder/pages/edit/edit.component';
 import { ModerPagesComponent } from './moder/pages/pages.component';
@@ -105,20 +100,13 @@ import { ReCaptchaService } from './services/recaptcha';
 import { ItemParentService } from './services/item-parent';
 import { ItemLinkService } from './services/item-link';
 import { ModerRightsTreeComponent } from './moder/rights/tree/tree.component';
-import { ModerItemsTooBigComponent } from './moder/items/too-big/too-big.component';
-import { ModerItemsNewComponent } from './moder/items/new/new.component';
 import { ItemLanguageService } from './services/item-language';
-import { ModerItemsItemTreeComponent } from './moder/items/item/tree/tree.component';
-import { ModerItemsItemSelectParentTreeItemComponent } from './moder/items/item/select-parent/tree-item/tree-item.component';
-import { ModerItemsItemSelectParentTreeComponent } from './moder/items/item/select-parent/tree/tree.component';
 import { ModerAttrsAttributeListComponent } from './moder/attrs/attribute-list/attribute-list.component';
 import { ModerAttrsZoneAttributeListComponent } from './moder/attrs/zone/attribute-list/attribute-list.component';
 import { ModerAttrsAttributeListOptionsTreeComponent } from './moder/attrs/attribute/list-options-tree/list-options-tree.component';
 import { InfoSpecRowComponent } from './info/spec/row/row.component';
 import { UploadSelectTreeItemComponent } from './upload/select/tree-item/tree-item.component';
 import { VotingService } from './services/voting';
-import { ItemComponent } from './components/item/item.component';
-import { ItemMetaFormComponent } from './components/item-meta-form/item-meta-form.component';
 import { MessageService } from './services/message';
 import { CommentService } from './services/comment';
 import { PageService } from './services/page';
@@ -140,15 +128,6 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { ContentLanguageService } from './services/content-language';
 import { LanguageService } from './services/language';
 import { VehicleTypesModalComponent } from './components/vehicle-types-modal/vehicle-types-modal.component';
-import { ModerItemsItemCatalogueComponent } from './moder/items/item/catalogue/catalogue.component';
-import { ModerItemsItemMetaComponent } from './moder/items/item/meta/meta.component';
-import { ModerItemsItemLinksComponent } from './moder/items/item/links/links.component';
-import { ModerItemsItemNameComponent } from './moder/items/item/name/name.component';
-import { ModerItemsItemLogoComponent } from './moder/items/item/logo/logo.component';
-import { ModerItemsItemPicturesComponent } from './moder/items/item/pictures/pictures.component';
-import { ModerItemsItemVehiclesComponent } from './moder/items/item/vehicles/vehicles.component';
-import { ModerItemsItemOrganizeComponent } from './moder/items/item/catalogue/organize/organize.component';
-import { ModerItemsItemPicturesOrganizeComponent } from './moder/items/item/pictures/organize/organize.component';
 import { CarsSpecificationsEditorEngineComponent } from './cars/specifications-editor/engine/engine.component';
 import { CarsEngineSelectComponent } from './cars/specifications-editor/engine/select/select.component';
 import { CarsSelectEngineTreeItemComponent } from './cars/specifications-editor/engine/select/tree-item/tree-item.component';
@@ -186,6 +165,8 @@ import { UtilsModule } from './utils/utils.module';
 import { ThumbnailModule } from './thumbnail/thumbnail.module';
 import { MarkdownEditModule } from './markdown-edit/markdown-edit.module';
 import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
+import { ModerItemParentComponent } from './moder/item-parent/item-parent.component';
+import { ItemModule } from './item/item.module';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -262,13 +243,6 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
     ModerAttrsAttributeComponent,
     ModerAttrsZoneComponent,
     ModerCommentsComponent,
-    ModerItemParentComponent,
-    ModerItemsComponent,
-    ModerItemsAlphaComponent,
-    ModerItemsItemComponent,
-    ModerItemsItemOrganizeComponent,
-    ModerItemsItemPicturesOrganizeComponent,
-    ModerItemsItemSelectParentComponent,
     ModerPagesComponent,
     ModerPagesAddComponent,
     ModerPagesEditComponent,
@@ -276,30 +250,16 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
     ModerRightsComponent,
     NewListItemComponent,
     ModerRightsTreeComponent,
-    ModerItemsTooBigComponent,
-    ModerItemsNewComponent,
-    ModerItemsItemTreeComponent,
-    ModerItemsItemSelectParentTreeItemComponent,
-    ModerItemsItemSelectParentTreeComponent,
     ModerAttrsAttributeListComponent,
     ModerAttrsZoneAttributeListComponent,
     ModerAttrsAttributeListOptionsTreeComponent,
     InfoSpecRowComponent,
     UploadSelectTreeItemComponent,
     CarsSelectEngineTreeItemComponent,
-    ItemComponent,
-    ItemMetaFormComponent,
     ModalMessageComponent,
     ModerStatComponent,
     BreadcrumbsComponent,
     VehicleTypesModalComponent,
-    ModerItemsItemCatalogueComponent,
-    ModerItemsItemMetaComponent,
-    ModerItemsItemLinksComponent,
-    ModerItemsItemNameComponent,
-    ModerItemsItemLogoComponent,
-    ModerItemsItemPicturesComponent,
-    ModerItemsItemVehiclesComponent,
     CarsSpecificationsEditorEngineComponent,
     CarsSpecificationsEditorResultComponent,
     CarsSpecificationsEditorSpecComponent,
@@ -320,7 +280,8 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
     CategoriesIndexComponent,
     CategoriesCategoryPicturesComponent,
     CategoriesCategoryItemComponent,
-    CategoriesListItemComponent
+    CategoriesListItemComponent,
+    ModerItemParentComponent
   ],
   entryComponents: [
     ModalMessageComponent,
@@ -362,7 +323,8 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
     UtilsModule,
     ThumbnailModule,
     MarkdownEditModule,
-    PictureModerVoteModule
+    PictureModerVoteModule,
+    ItemModule
   ],
   providers: [
     APIService,

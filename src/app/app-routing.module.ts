@@ -37,14 +37,6 @@ import { MascotsComponent } from './mascots/mascots.component';
 import { ModerCommentsComponent } from './moder/comments/comments.component';
 import { ModerGuard } from './moder.guard';
 import { ModerItemParentComponent } from './moder/item-parent/item-parent.component';
-import { ModerItemsAlphaComponent } from './moder/items/alpha/alpha.component';
-import { ModerItemsTooBigComponent } from './moder/items/too-big/too-big.component';
-import { ModerItemsNewComponent } from './moder/items/new/new.component';
-import { ModerItemsItemOrganizeComponent } from './moder/items/item/catalogue/organize/organize.component';
-import { ModerItemsItemPicturesOrganizeComponent } from './moder/items/item/pictures/organize/organize.component';
-import { ModerItemsItemSelectParentComponent } from './moder/items/item/select-parent/select-parent.component';
-import { ModerItemsItemComponent } from './moder/items/item/item.component';
-import { ModerItemsComponent } from './moder/items/items.component';
 import { ModerPagesAddComponent } from './moder/pages/add/add.component';
 import { ModerPagesEditComponent } from './moder/pages/edit/edit.component';
 import { ModerPagesComponent } from './moder/pages/pages.component';
@@ -271,53 +263,7 @@ const appRoutes: Routes = [
       },
       {
         path: 'items',
-        children: [
-          {
-            path: 'alpha',
-            component: ModerItemsAlphaComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: 'too-big',
-            component: ModerItemsTooBigComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: 'new',
-            component: ModerItemsNewComponent,
-            canActivate: [ModerGuard]
-          },
-          {
-            path: 'item/:id',
-            children: [
-              {
-                path: 'organize',
-                component: ModerItemsItemOrganizeComponent,
-                canActivate: [ModerGuard]
-              },
-              {
-                path: 'organize-pictures',
-                component: ModerItemsItemPicturesOrganizeComponent,
-                canActivate: [ModerGuard]
-              },
-              {
-                path: 'select-parent',
-                component: ModerItemsItemSelectParentComponent,
-                canActivate: [ModerGuard]
-              },
-              {
-                path: '',
-                component: ModerItemsItemComponent,
-                canActivate: [ModerGuard]
-              }
-            ]
-          },
-          {
-            path: '',
-            component: ModerItemsComponent,
-            canActivate: [ModerGuard]
-          }
-        ]
+        loadChildren: './moder/items/items.module#ItemsModule'
       },
       {
         path: 'pages',

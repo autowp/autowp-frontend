@@ -16,7 +16,6 @@ import {
 } from '../../../../../services/picture-item';
 import { APIItem, ItemService } from '../../../../../services/item';
 import { PageEnvService } from '../../../../../services/page-env.service';
-import Notify from '../../../../../notify';
 import { APIItemVehicleTypeGetResponse } from '../../../../../services/api.service';
 import {
   switchMap,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIItem } from './item';
+import { APIPicture } from './picture';
 
 export interface APIPictureItemAreaPostData {
   left: number;
@@ -41,6 +42,7 @@ export interface APIPictureItem {
     width: number;
     height: number;
   };
+  picture?: APIPicture;
 }
 
 @Injectable()
