@@ -1,17 +1,12 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {
-  AttrsService,
-  APIAttrAttribute,
-  APIAttrAttributeGetResponse,
-  APIAttrListOption
-} from '../../../services/attrs';
 import Notify from '../../../notify';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap } from 'rxjs/operators';
+import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute',
@@ -77,7 +72,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private attrsService: AttrsService,
+    private attrsService: APIAttrsService,
     private translate: TranslateService,
     private router: Router,
     private route: ActivatedRoute,

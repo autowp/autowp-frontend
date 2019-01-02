@@ -1,15 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../../notify';
-import {
-  AttrsService,
-  APIAttrZone,
-  APIAttrAttribute
-} from '../../../services/attrs';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { APIAttrZone, APIAttrAttribute, APIAttrsService } from '../../../api/attrs/attrs.service';
 
 export interface APIAttrZoneAttributesGetResponse {
   items: {
@@ -38,7 +34,7 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private attrsService: AttrsService,
+    private attrsService: APIAttrsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService
   ) {}

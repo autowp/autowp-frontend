@@ -10,13 +10,6 @@ import {
 import { APIItem } from '../../../services/item';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../../notify';
-import {
-  AttrsService,
-  APIAttrUserValue,
-  APIAttrValue,
-  APIAttrAttribute,
-  APIAttrUserValueGetResponse
-} from '../../../services/attrs';
 import { TranslateService } from '@ngx-translate/core';
 import {
   Observable,
@@ -28,6 +21,13 @@ import {
 import { AuthService } from '../../../services/auth.service';
 import { tap, switchMap, distinctUntilChanged } from 'rxjs/operators';
 import { APIUser } from '../../../services/user';
+import {
+  APIAttrAttribute,
+  APIAttrValue,
+  APIAttrUserValue,
+  APIAttrsService,
+  APIAttrUserValueGetResponse
+} from '../../../api/attrs/attrs.service';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;
@@ -82,7 +82,7 @@ export class CarsSpecificationsEditorSpecComponent
 
   constructor(
     private http: HttpClient,
-    private attrsService: AttrsService,
+    private attrsService: APIAttrsService,
     private translate: TranslateService,
     private auth: AuthService
   ) {}

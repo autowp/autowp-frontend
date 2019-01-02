@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { APIPaginator } from './api.service';
+import { HttpResponse, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APIUser } from './user';
-import { APIItem } from './item';
-import { shareReplay, map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
+import { APIPaginator } from '../../services/api.service';
+import { APIItem } from '../../services/item';
+import { APIUser } from '../../services/user';
 
 export interface APIAttrListOption {
   id: number;
@@ -178,8 +178,10 @@ export interface APIAttrAttributePostOptions {
   is_multiple: boolean;
 }
 
-@Injectable()
-export class AttrsService {
+@Injectable({
+  providedIn: 'root'
+})
+export class APIAttrsService {
   private attributeTypes$: Observable<APIAttrAttributeType[]>;
   private zones$: Observable<APIAttrZone[]>;
   private units$: Observable<APIAttrUnit[]>;

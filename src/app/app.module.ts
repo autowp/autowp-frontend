@@ -35,7 +35,6 @@ import { SpecService } from './services/spec';
 import { PictureItemService } from './services/picture-item';
 import { ContactsService } from './services/contacts';
 import { MessageDialogService } from './services/message-dialog';
-import { AttrsService } from './services/attrs';
 import { ModalMessageComponent } from './components/modal-message/modal-message.component';
 import { PageEnvService } from './services/page-env.service';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -136,7 +135,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     PictureItemService,
     ContactsService,
     MessageDialogService,
-    AttrsService,
     PageEnvService,
     ContentLanguageService,
     LanguageService,

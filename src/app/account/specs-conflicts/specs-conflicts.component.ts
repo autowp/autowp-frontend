@@ -5,11 +5,6 @@ import { UserService, APIUser } from '../../services/user';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription, combineLatest } from 'rxjs';
-import {
-  AttrsService,
-  APIAttrConflict,
-  APIAttrConflictValue
-} from '../../services/attrs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
@@ -18,6 +13,7 @@ import {
   switchMap,
   switchMapTo
 } from 'rxjs/operators';
+import { APIAttrConflictValue, APIAttrConflict, APIAttrsService } from '../../api/attrs/attrs.service';
 
 interface APIAttrConflictValueInList extends APIAttrConflictValue {
   user?: APIUser;
@@ -45,7 +41,7 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    private attrService: AttrsService,
+    private attrService: APIAttrsService,
     private pageEnv: PageEnvService
   ) {}
 

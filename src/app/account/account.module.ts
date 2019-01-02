@@ -24,6 +24,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { AccountSpecsConflictsComponent } from './specs-conflicts/specs-conflicts.component';
 import { AccountComponent } from './account.component';
 import { NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { APIAttrsModule } from '../api/attrs/attrs.module';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstr
     NgbProgressbarModule,
     PaginatorModule,
     ThumbnailModule,
-    FileUploadModule
+    FileUploadModule,
+    APIAttrsModule
   ]
 })
 export class AccountModule {}

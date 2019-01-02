@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator, APIImage } from './api.service';
 import { Observable, from, forkJoin } from 'rxjs';
-import { APIAccount } from './account.service';
+import { APIAccount } from '../account/account.service';
 import { tap, map } from 'rxjs/operators';
 
 export interface APIGetUserOptions {

@@ -1,14 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../notify';
-import {
-  AttrsService,
-  APIAttrZone,
-  APIAttrAttribute
-} from '../../services/attrs';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { APIAttrAttribute, APIAttrZone, APIAttrsService } from '../../api/attrs/attrs.service';
 
 // Acl.isAllowed('attrs', 'edit', 'unauthorized');
 
@@ -26,7 +22,7 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private attrsService: AttrsService,
+    private attrsService: APIAttrsService,
     private pageEnv: PageEnvService
   ) {}
 

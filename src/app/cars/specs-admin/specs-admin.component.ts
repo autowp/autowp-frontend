@@ -4,7 +4,6 @@ import { APIPaginator } from '../../services/api.service';
 import Notify from '../../notify';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
-import { AttrsService, APIAttrUserValue } from '../../services/attrs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   debounceTime,
@@ -13,6 +12,7 @@ import {
   catchError,
   tap
 } from 'rxjs/operators';
+import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-cars-specs-admin',
@@ -33,7 +33,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private attrService: AttrsService,
+    private attrService: APIAttrsService,
     private pageEnv: PageEnvService
   ) {
     setTimeout(

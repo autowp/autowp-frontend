@@ -7,7 +7,7 @@ import {
   APIAccountStartPostResponse,
   APIAccountItemsGetResponse,
   APIAccount
-} from '../../services/account.service';
+} from '../account.service';
 import { PageEnvService } from '../../services/page-env.service';
 
 @Component({
