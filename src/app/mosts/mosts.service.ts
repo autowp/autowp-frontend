@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIItem } from '../services/item';
-import { APIAttrUnit } from '../services/attrs';
 import { APIPicture } from '../services/picture';
 import { APIVehicleType } from '../services/vehicle-type';
+import { APIAttrUnit } from '../api/attrs/attrs.service';
 
 export interface APIMostsItemsGetOptions {
   rating_catname: string;

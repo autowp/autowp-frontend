@@ -1,3 +1,8 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "../../variables";
+@import "~bootstrap/scss/mixins";
+
 .btn-contact {
   @include button-variant($primary, $primary);
   @include transition(color .2s, background-color .2s);
