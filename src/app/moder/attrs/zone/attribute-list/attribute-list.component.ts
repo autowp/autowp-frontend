@@ -1,7 +1,6 @@
 import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIAttrAttribute } from '../../../../services/attrs';
 import { APIAttrZoneAttributeChange } from '../zone.component';
+import { APIAttrAttribute } from '../../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-zone-attribute-list',

@@ -1,5 +1,5 @@
 import { Component, Injectable, Input } from '@angular/core';
-import { APIAttrListOption } from '../../../../services/attrs';
+import { APIAttrListOption } from '../../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute-list-options-tree',

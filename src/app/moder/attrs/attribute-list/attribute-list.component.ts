@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
-import { APIAttrAttribute } from '../../../services/attrs';
+import { APIAttrAttribute } from '../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute-list',
