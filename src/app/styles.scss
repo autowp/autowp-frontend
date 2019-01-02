@@ -56,16 +56,6 @@ $color-white: #fff;
     color: $color-white;
 }*/
 
-.page-header-small {
-    border-bottom: 1px solid $color-white;
-    margin: 18px 0;
-    padding-bottom: 8px;
-
-    h3 {
-        line-height: 1;
-    }
-}
-
 a {
     @include transition(color .2s);
 }
@@ -86,7 +76,7 @@ a {
     }
 }
 
-#google-map img, .jcrop-holder img, img#picture-to-crop {
+.jcrop-holder img, img#picture-to-crop {
     max-width: none;
 }
 
@@ -225,14 +215,6 @@ a {
 .avatar, .max-width { max-width: 100% }
 
 .popover-handler { cursor: help }
-
-#moderator-menu-container {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-}
-
 
 .copyrights {
     background-color: #d1cab8;
@@ -424,14 +406,6 @@ span.unit {
     color: #999999;
 }
 
-.user-photo {
-    margin-bottom: 15px;
-
-    img {
-        max-width: 100%;
-    }
-}
-
 .picture-preview-medium .languages sup {
     font-family: monospace;
 }
@@ -476,42 +450,6 @@ span.unit {
     white-space: nowrap;
 }
 
-.specs-log {
-    thead th {
-        text-align:center
-    }
-
-    tr td {
-        vertical-align: middle;
-    }
-
-    td.attribute {
-        text-align: center;
-        span {
-            white-space: nowrap;
-        }
-    }
-
-    td.link a {
-        white-space: nowrap;
-    }
-    tr.odd td {
-        background-color: #f8f8f8;
-    }
-}
-
-footer .links {
-    font-size: $h2-font-size;
-
-    a {
-        margin-right: 20px;
-
-        &:link, &:visited {
-            color: $body-color;
-        }
-    }
-}
-
 .diff {
     ins {
         background: #eaf2c2;
@@ -523,27 +461,6 @@ footer .links {
         text-decoration: none;
         color: #b30000;
         background: #fadad7;
-    }
-}
-
-.btn-contact {
-    @include button-variant($primary, $primary);
-    @include transition(color .2s, background-color .2s);
-
-    &.in-contacts {
-        @include button-variant($danger, $danger);
-
-        .in-contacts {
-            display: inline;
-        }
-
-        .not-in-contacts {
-            display: none;
-        }
-    }
-
-    .in-contacts {
-        display: none;
     }
 }
 
@@ -598,41 +515,6 @@ footer .links {
 .tt-hint:extend(.text-muted) {
 }
 
-.spec-editor-form {
-    table {
-        tr th {
-            text-align: left;
-            font-weight: normal;
-        }
-        thead tr th {
-            text-align: center;
-            font-weight: bold;
-        }
-    }
-    h2 {
-        margin-bottom: 2px;
-    }
-    .unit {
-        cursor: help;
-    }
-    .subform-header.hover,
-    tr.element-row.hover {
-        background-color: #eeeeee;
-    }
-
-    .date {
-        font-size: 10px;
-        color: #999999;
-        white-space: nowrap
-    }
-    .actual {
-        text-align: center;
-        background-color: #F0F0F0;
-        vertical-align: middle;
-        padding: 1px 2px;
-    }
-}
-
 .faq blockquote {
     margin-top: 30px;
     font-style: italic;
@@ -643,15 +525,6 @@ footer .links {
 
     a {
         white-space: nowrap;
-    }
-}
-
-.language-picker {
-    font-size: 90%;
-    margin-top: 15px;
-
-    a {
-        margin-right: 15px;
     }
 }
 

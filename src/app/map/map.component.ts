@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../notify';
-import { Subscription, BehaviorSubject, empty } from 'rxjs';
+import { BehaviorSubject, empty } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {
   tileLayer,
@@ -47,8 +47,6 @@ export interface MapItem {
 @Injectable()
 export class MapComponent implements OnInit {
   private compRef: ComponentRef<MapPopupComponent>;
-  private dataSub: Subscription;
-  private lmap: Map;
   public markers: Marker[] = [];
 
   private bounds$ = new BehaviorSubject<LatLngBounds>(null);
@@ -83,118 +81,6 @@ export class MapComponent implements OnInit {
         }),
       0
     );
-
-    let currentPopup: any = null;
-
-    let xhrTimeout: any = null;
-
-    const zoomStarted = false;
-
-    $('#google-map').each(() => {
-      const defaultZoom = 4;
-      /*
-
-
-      map.on('zoomstart', () => {
-        zoomStarted = true;
-        if (this.dataSub) {
-          this.dataSub.unsubscribe();
-          this.dataSub = undefined;
-        }
-      });
-      map.on('zoomend', () => {
-        zoomStarted = false;
-        queueLoadData(map.getZoom());
-        // heatmap.setSize(zoomToSize(map.getZoom()));
-      });
-
-      map.on('moveend', () => {
-        queueLoadData(map.getZoom());
-      });
-
-      leaflet
-        .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution:
-            'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-          // maxZoom: 18
-        })
-        .addTo(map);
-
-      heatmap = new leaflet.webGLHeatmap({
-        size: zoomToSize(defaultZoom),
-        opacity: 0.5,
-        alphaRange: 0.5
-      });
-      heatmap.addTo(map);
-
-      queueLoadData(defaultZoom);*/
-    });
-
-    function zoomToSize(zoom: number) {
-      return 2000000 / zoom;
-    }
-
-    function queueLoadData(zoom: number) {
-      if (xhrTimeout) {
-        clearTimeout(xhrTimeout);
-        xhrTimeout = null;
-      }
-
-      xhrTimeout = setTimeout(() => {
-        if (!zoomStarted) {
-          loadData(zoom);
-        }
-      }, 100);
-    }
-
-    function isHeatmap(zoom: number) {
-      return zoom < 6;
-    }
-
-    function loadData(zoom: number) {
-      if (this.canceler) {
-        this.canceler.resolve();
-        this.canceler = undefined;
-      }
-
-      /* const params = {
-        bounds: map
-          .getBounds()
-          .pad(0.1)
-          .toBBoxString(),
-        'points-only': isHeatmap(zoom) ? 1 : 0
-      };
-
-      if (this.dataSub) {
-        this.dataSub.unsubscrube();
-        this.dataSub = null;
-      }
-
-      this.dataSub = this.http
-        .get('/api/map/data', {
-          params: params
-        })
-        .subscribe(
-          response => {
-            if (map.getZoom() === zoom) {
-              renderData(response, zoom);
-            }
-          },
-          response => {
-            Notify.response(response);
-          }
-        );
-
-      closePopup(); */
-    }
-
-    function closePopup() {
-      if (currentPopup) {
-        // map.removeOverlay(currentPopup);
-        currentPopup = null;
-      }
-    }
   }
 
   ngOnInit(): void {

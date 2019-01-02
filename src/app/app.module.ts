@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
 import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
 import { MomentModule } from 'ngx-moment';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule, NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import { PageNotFoundComponent } from './not-found.component';
 
-import { ModerMenuComponent } from './moder-menu.component';
 import { AuthGuard } from './auth.guard';
 import { APIService } from './services/api.service';
 import { AuthService } from './services/auth.service';
@@ -57,6 +56,7 @@ import { ItemModule } from './item/item.module';
 import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { PictureModerVoteTemplateService } from './services/picture-moder-vote-template';
+import { ModerMenuModule } from './moder/menu/menu.module';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -68,7 +68,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     AppComponent,
     IndexComponent,
     PageNotFoundComponent,
-    ModerMenuComponent,
     ModalMessageComponent,
     BreadcrumbsComponent,
     VehicleTypesModalComponent,
@@ -88,7 +87,6 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    NgbModule.forRoot(),
     TranslateModule.forRoot({
       /*loader: {
         provide: TranslateLoader,
@@ -107,7 +105,11 @@ import { PictureModerVoteTemplateService } from './services/picture-moder-vote-t
     ThumbnailModule,
     MarkdownEditModule,
     PictureModerVoteModule,
-    ItemModule
+    ItemModule,
+    ModerMenuModule,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    NgbDropdownModule
   ],
   providers: [
     APIService,

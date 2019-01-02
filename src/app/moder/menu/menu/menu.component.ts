@@ -1,9 +1,9 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './services/auth.service';
-import { ACLService } from './services/acl.service';
-import { PictureService } from './services/picture';
-import { CommentService } from './services/comment';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, combineLatest } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
+import { ACLService } from '../../../services/acl.service';
+import { PictureService } from '../../../services/picture';
+import { CommentService } from '../../../services/comment';
 import { tap } from 'rxjs/operators';
 
 interface MenuItem {
@@ -16,10 +16,10 @@ interface MenuItem {
 
 @Component({
   selector: 'app-moder-menu',
-  templateUrl: './moder-menu.component.html'
+  templateUrl: './menu.component.html'
 })
-@Injectable()
-export class ModerMenuComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnInit, OnDestroy {
+
   public items: MenuItem[] = [];
   private sub: Subscription;
 
@@ -93,4 +93,5 @@ export class ModerMenuComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+
 }

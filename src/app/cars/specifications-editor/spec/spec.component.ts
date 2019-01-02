@@ -62,7 +62,8 @@ function toPlain(
 
 @Component({
   selector: 'app-cars-specifications-editor-spec',
-  templateUrl: './spec.component.html'
+  templateUrl: './spec.component.html',
+  styleUrls: ['./spec.component.scss']
 })
 @Injectable()
 export class CarsSpecificationsEditorSpecComponent

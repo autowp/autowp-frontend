@@ -1,0 +1,33 @@
+@import "./bootstrap";
+
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    form {
+        width: 300px;
+    }
+}
+
+.language-picker {
+  font-size: 90%;
+  margin-top: 15px;
+
+  a {
+      margin-right: 15px;
+  }
+}
+
+footer .links {
+  font-size: $h2-font-size;
+
+  a {
+      margin-right: 20px;
+
+      &:link, &:visited {
+          color: $body-color;
+      }
+  }
+}

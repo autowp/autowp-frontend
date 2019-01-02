@@ -17,7 +17,8 @@ import { APIAttrUserValue, APIAttrsService } from '../../api/attrs/attrs.service
 
 @Component({
   selector: 'app-cars-attrs-change-log',
-  templateUrl: './attrs-change-log.component.html'
+  templateUrl: './attrs-change-log.component.html',
+  styleUrls: ['./attrs-change-log.component.scss']
 })
 @Injectable()
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {

@@ -30,7 +30,8 @@ import {
 
 @Component({
   selector: 'app-users-user',
-  templateUrl: './user.component.html'
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss']
 })
 @Injectable()
 export class UsersUserComponent implements OnInit, OnDestroy {
