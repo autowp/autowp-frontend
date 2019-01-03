@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
-import { PerspectiveService } from '../../services/perspective';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
 import {
   VehicleTypeService,
@@ -42,6 +41,7 @@ import {
   APIPictureModerVoteTemplate,
   APIPictureModerVoteTemplateService
 } from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
+import { APIPerspectiveService } from '../../api/perspective/perspective.service';
 
 interface VehicleTypeInPictures {
   name: string;
@@ -272,7 +272,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private perspectiveService: PerspectiveService,
+    private perspectiveService: APIPerspectiveService,
     private moderVoteService: PictureModerVoteService,
     private moderVoteTemplateService: APIPictureModerVoteTemplateService,
     private vehicleTypeService: VehicleTypeService,

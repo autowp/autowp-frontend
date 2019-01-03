@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angu
 import { APIPicture } from '../../services/picture';
 import { APIPerspective } from '../../services/api.service';
 import { Subscription } from 'rxjs';
-import { PerspectiveService } from '../../services/perspective';
 import { PictureItemService } from '../../services/picture-item';
 import { ACLService } from '../../services/acl.service';
+import { APIPerspectiveService } from '../../api/perspective/perspective.service';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;
@@ -26,7 +26,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   private pserspectiveSub: Subscription;
 
   constructor(
-    private perspectiveService: PerspectiveService,
+    private perspectiveService: APIPerspectiveService,
     private pictureItemService: PictureItemService,
     private acl: ACLService
   ) {}

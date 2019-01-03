@@ -24,6 +24,7 @@ import {
   NgbProgressbarModule,
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { APIPerspectiveModule } from '../../api/perspective/perspective.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {
     UtilsModule,
     UserModule,
     MarkdownEditModule,
-    PictureModerVoteModule
+    PictureModerVoteModule,
+    APIPerspectiveModule
   ]
 })
 export class PicturesModule {}

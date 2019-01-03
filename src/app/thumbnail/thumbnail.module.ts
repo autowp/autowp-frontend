@@ -5,6 +5,7 @@ import { UserModule } from '../user/user.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { APIPerspectiveModule } from '../api/perspective/perspective.module';
 
 @NgModule({
   declarations: [ThumbnailComponent],
@@ -13,7 +14,8 @@ import { TranslateModule } from '@ngx-translate/core';
     UserModule,
     RouterModule.forChild([]),
     FormsModule,
-    TranslateModule
+    TranslateModule,
+    APIPerspectiveModule
   ],
   exports: [ThumbnailComponent]
 })

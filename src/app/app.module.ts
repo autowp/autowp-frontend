@@ -28,7 +28,6 @@ import { CommentService } from './services/comment';
 import { PageService } from './services/page';
 import { UserService } from './services/user';
 import { DecimalPipe } from '@angular/common';
-import { PerspectiveService } from './services/perspective';
 import { VehicleTypeService } from './services/vehicle-type';
 import { SpecService } from './services/spec';
 import { PictureItemService } from './services/picture-item';
@@ -124,7 +123,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     UserService,
     DecimalPipe,
     BytesPipe,
-    PerspectiveService,
     PictureModerVoteService,
     VehicleTypeService,
     SpecService,

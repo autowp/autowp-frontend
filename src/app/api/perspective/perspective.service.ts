@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { map, shareReplay } from 'rxjs/operators';
 
 export interface APIPerspective {
@@ -12,9 +12,11 @@ export interface APIPerspectiveGetResponse {
   items: APIPerspective[];
 }
 
-@Injectable()
-export class PerspectiveService {
-  perspectives$: Observable<APIPerspective[]>;
+@Injectable({
+  providedIn: 'root'
+})
+export class APIPerspectiveService {
+  private perspectives$: Observable<APIPerspective[]>;
 
   constructor(private http: HttpClient) {
     this.perspectives$ = this.http
