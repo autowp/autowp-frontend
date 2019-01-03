@@ -14,6 +14,7 @@ import { UserModule } from '../user/user.module';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
+import { MessageDialogModule } from '../message-dialog/message-dialog.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ThumbnailModule } from '../thumbnail/thumbnail.module';
     UserModule,
     FormsModule,
     PaginatorModule,
-    ThumbnailModule
+    ThumbnailModule,
+    MessageDialogModule
   ]
 })
 export class UsersModule {}

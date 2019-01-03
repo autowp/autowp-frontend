@@ -33,8 +33,6 @@ import { VehicleTypeService } from './services/vehicle-type';
 import { SpecService } from './services/spec';
 import { PictureItemService } from './services/picture-item';
 import { ContactsService } from './services/contacts';
-import { MessageDialogService } from './services/message-dialog';
-import { ModalMessageComponent } from './components/modal-message/modal-message.component';
 import { PageEnvService } from './services/page-env.service';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ContentLanguageService } from './services/content-language';
@@ -68,7 +66,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     AppComponent,
     IndexComponent,
     PageNotFoundComponent,
-    ModalMessageComponent,
     BreadcrumbsComponent,
     VehicleTypesModalComponent,
     Error403Component,
@@ -76,7 +73,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     UsersOnlineComponent
   ],
   entryComponents: [
-    ModalMessageComponent,
     VehicleTypesModalComponent,
     UsersOnlineComponent
   ],
@@ -136,7 +132,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     SpecService,
     PictureItemService,
     ContactsService,
-    MessageDialogService,
     PageEnvService,
     ContentLanguageService,
     LanguageService,

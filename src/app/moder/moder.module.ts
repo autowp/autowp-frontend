@@ -23,7 +23,7 @@ import { ModerStatComponent } from './stat/stat.component';
 import { ModerItemParentComponent } from './item-parent/item-parent.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTypeaheadModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeaheadModule, NgbProgressbarModule, NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModule } from '../user/user.module';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { UtilsModule } from '../utils/utils.module';
@@ -65,7 +65,8 @@ import { APIAttrsModule } from '../api/attrs/attrs.module';
     NgbProgressbarModule,
     NgbTooltipModule,
     MomentModule,
-    APIAttrsModule
+    APIAttrsModule,
+    NgbDropdownModule
   ],
   providers: [ModerGuard]
 })

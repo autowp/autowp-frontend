@@ -25,6 +25,7 @@ import { AccountSpecsConflictsComponent } from './specs-conflicts/specs-conflict
 import { AccountComponent } from './account.component';
 import { NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { APIAttrsModule } from '../api/attrs/attrs.module';
+import { MessageDialogModule } from '../message-dialog/message-dialog.module';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { APIAttrsModule } from '../api/attrs/attrs.module';
     PaginatorModule,
     ThumbnailModule,
     FileUploadModule,
-    APIAttrsModule
+    APIAttrsModule,
+    MessageDialogModule
   ]
 })
 export class AccountModule {}

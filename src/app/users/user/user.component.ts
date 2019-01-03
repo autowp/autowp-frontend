@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ContactsService } from '../../services/contacts';
-import { MessageDialogService } from '../../services/message-dialog';
 import { ACLService } from '../../services/acl.service';
 import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,6 +26,7 @@ import {
   switchMap,
   switchMapTo
 } from 'rxjs/operators';
+import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 
 @Component({
   selector: 'app-users-user',

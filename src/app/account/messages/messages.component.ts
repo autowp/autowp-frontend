@@ -1,12 +1,12 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { MessageService, APIMessage } from '../../services/message';
-import { MessageDialogService } from '../../services/message-dialog';
 import Notify from '../../notify';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 
 @Component({
   selector: 'app-account-messages',

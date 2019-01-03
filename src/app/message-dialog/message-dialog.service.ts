@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalMessageComponent } from '../components/modal-message/modal-message.component';
+import { ModalMessageComponent } from './modal-message/modal-message.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class MessageDialogService {
+
   constructor(private modalService: NgbModal) {}
 
   public showDialog(
