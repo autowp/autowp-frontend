@@ -1,4 +1,6 @@
-@import "./bootstrap";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "./variables";
 
 .loading-screen {
     display: flex;
@@ -29,5 +31,25 @@ footer .links {
       &:link, &:visited {
           color: $body-color;
       }
+  }
+}
+
+.bottom-line {
+  border-top: 1px solid #D1CAB8;
+  margin: 50px 0;
+
+  > p {
+      text-align: center;
+      margin-top: -0.7em;
+
+      strong { background-color: #EDE9DE; padding: 0 50px; }
+  }
+}
+
+.copyrights {
+  background-color: #d1cab8;
+
+  p {
+      margin-bottom: 0.25rem;
   }
 }

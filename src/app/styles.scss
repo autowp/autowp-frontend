@@ -213,14 +213,6 @@ a {
 
 .popover-handler { cursor: help }
 
-.copyrights {
-    background-color: #d1cab8;
-
-    p {
-        margin-bottom: 0.25rem;
-    }
-}
-
 img.avatar {
     border: 1px black solid;
 }
@@ -236,10 +228,6 @@ img.avatar {
 
 .hero-unit {
     background-color: #f5f5f5;
-}
-
-.login-page {
-    .nav { margin-bottom: 0; }
 }
 
 .no-photo {
@@ -276,69 +264,6 @@ img.avatar {
 
 .nav-tree .nav .nav {
     padding-left: 15px;
-}
-
-.checkbox-tree {
-    li {
-        list-style-type: none;
-
-        > .checkbox-tree {
-            display: none;
-        }
-
-        > .fa-plus-circle {
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        > .fa-minus-circle {
-            display: none;
-            cursor: pointer;
-        }
-
-        .radio.inline,
-        .checkbox.inline {
-            padding-top: 0px;
-        }
-
-        input[type="radio"],
-        input[type="checkbox"] {
-            margin-top: 2px;
-        }
-
-        &.active {
-            > .fa-plus-circle {
-                display: none;
-            }
-
-            > .fa-minus-circle {
-                display: inline-block;
-            }
-
-            > .checkbox-tree {
-                display: block;
-            }
-        }
-    }
-}
-
-.bottom-line {
-    border-top: 1px solid #D1CAB8;
-    margin: 50px 0;
-
-    p {
-        text-align: center;
-        margin-top: -0.7em;
-
-        strong { background-color: #EDE9DE; padding: 0 50px; }
-    }
-}
-
-.titlebar {
-    font-size: 18px;
-    font-weight: normal;
-    text-align: center;
-    margin: 3px 0;
 }
 
 sup.design-brand {
