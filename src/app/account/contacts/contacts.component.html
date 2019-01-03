@@ -4,7 +4,7 @@
       <div class="col-md-6" *ngFor="let chunk of chunks">
         <ul class="media-list">
           <li class="media" *ngFor="let user of chunk">
-            <div class="media-left media-middle">
+            <div class="align-self-start mr-3">
               <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]" *ngIf="!user.deleted" class="photo">
                 <img [src]="user.avatar.src" *ngIf="user.avatar" class="rounded" />
                 <img [src]="user.gravatar" *ngIf="user.gravatar && ! user.avatar" class="rounded" />
@@ -12,7 +12,7 @@
             </div>
             <div class="media-body">
               <a href="#" class="close" (click)="deleteContact(user.id)">&times;</a>
-              <h4 class="media-heading">
+              <h4>
                 <app-user [user]="user"></app-user>
               </h4>
               <p *ngIf="user.last_online" [textContent]="user.last_online | amTimeAgo" [ngbTooltip]="user.last_online | date: 'medium'"></p>
