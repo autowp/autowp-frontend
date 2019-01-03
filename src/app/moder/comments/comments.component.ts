@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
 import {
   ItemService,
@@ -36,7 +35,6 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
   public usersDataSource: (text$: Observable<string>) => Observable<any[]>;
 
   constructor(
-    private http: HttpClient,
     private itemService: ItemService,
     private userService: UserService,
     private route: ActivatedRoute,

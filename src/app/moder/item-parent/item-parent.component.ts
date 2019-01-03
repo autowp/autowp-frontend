@@ -4,7 +4,7 @@ import { APIItemParentLanguageGetResponse } from '../../services/api.service';
 import { ContentLanguageService } from '../../services/content-language';
 import { ItemService, APIItem } from '../../services/item';
 import { TranslateService } from '@ngx-translate/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, Observable, empty, forkJoin } from 'rxjs';
 import { APIItemParent } from '../../services/item-parent';
 import { PageEnvService } from '../../services/page-env.service';

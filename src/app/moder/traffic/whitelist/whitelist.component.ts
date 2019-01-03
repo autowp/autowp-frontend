@@ -1,6 +1,5 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IpService } from '../../../services/ip';
 import { Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 
@@ -27,7 +26,6 @@ export class ModerTrafficWhitelistComponent {
 
   constructor(
     private http: HttpClient,
-    private ipService: IpService,
     private router: Router,
     private pageEnv: PageEnvService
   ) {

@@ -3,7 +3,6 @@ import {
   ItemParentService,
   APIItemParent
 } from '../../../../../services/item-parent';
-import { APIItem } from '../../../../../services/item';
 import Notify from '../../../../../notify';
 
 @Component({

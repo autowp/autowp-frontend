@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { APIUser } from './user';
 import { APIPictureItem } from './picture-item';
 import { APIIP } from './ip';
-import { switchMap, shareReplay, map, switchMapTo } from 'rxjs/operators';
+import { switchMap, shareReplay, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { ACLService } from './acl.service';
 

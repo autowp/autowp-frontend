@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, Subject, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import { AuthService } from './auth.service';
 import { APIPaginator } from './api.service';
 import { APIUser } from './user';

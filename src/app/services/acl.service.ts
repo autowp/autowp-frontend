@@ -1,7 +1,7 @@
 import { APIService } from './api.service';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Observable, of, observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {
   catchError,
@@ -31,10 +31,6 @@ export interface APIACLResource {
 
 export interface APIACLResourcesGetResponse {
   items: APIACLResource[];
-}
-
-interface APIACLIsAllowedResponse {
-  result: boolean;
 }
 
 interface APIACLIsAllowed {

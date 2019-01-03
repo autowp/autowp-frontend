@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../../services/api.service';
 import { ItemService, APIItem } from '../../../services/item';
-import { Subscription, empty, combineLatest, of, forkJoin } from 'rxjs';
+import { Subscription, combineLatest, of, forkJoin } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, map } from 'rxjs/operators';

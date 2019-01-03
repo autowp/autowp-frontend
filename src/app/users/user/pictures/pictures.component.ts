@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import Notify from '../../../notify';
 import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute } from '@angular/router';
-import { UserService, APIUser } from '../../../services/user';
+import { UserService } from '../../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, tap } from 'rxjs/operators';

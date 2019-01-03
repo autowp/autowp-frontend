@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../services/api.service';
 import { ItemService, APIItem } from '../services/item';
-import { Subscription, combineLatest, of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { tap, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';

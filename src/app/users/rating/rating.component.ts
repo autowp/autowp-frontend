@@ -8,7 +8,6 @@ import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
   debounceTime,
-  tap,
   switchMap,
   catchError,
   finalize

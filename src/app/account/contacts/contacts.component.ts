@@ -2,7 +2,6 @@ import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { chunkBy } from '../../chunk';
 import Notify from '../../notify';
-import { Router } from '@angular/router';
 import { ContactsService } from '../../services/contacts';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
@@ -18,7 +17,6 @@ export class AccountContactsComponent {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private contactsService: ContactsService,
     private pageEnv: PageEnvService
   ) {

@@ -340,16 +340,6 @@ export class CarsSpecificationsEditorSpecComponent
     return undefined;
   }
 
-  private isMultipleAttribute(id: number): boolean {
-    for (const attribute of this.attributes) {
-      if (attribute.id === id) {
-        return attribute.is_multiple;
-      }
-    }
-
-    return false;
-  }
-
   public getInvalidParams(id: number): string[] {
     if (!this.invalidParams || !this.invalidParams.items) {
       return [];

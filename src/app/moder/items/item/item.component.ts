@@ -4,7 +4,7 @@ import { ACLService } from '../../../services/acl.service';
 import { ItemService, APIItem } from '../../../services/item';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, of, combineLatest } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { APIPicture, PictureService } from '../../../services/picture';
 import { PageEnvService } from '../../../services/page-env.service';
 import {

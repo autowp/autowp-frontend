@@ -1,8 +1,8 @@
-import { PageService, APIPage, Page } from '../../services/page';
+import { PageService, Page } from '../../services/page';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
-import { Subscription, of, empty } from 'rxjs';
+import { Subscription, empty } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
 interface PageInBreadcrumbs extends Page {

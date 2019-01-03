@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpResponse,
-  HttpErrorResponse,
-  HttpHeaders
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { APIPicture } from './picture';
@@ -53,7 +48,7 @@ export interface APIPaginator {
   last: number;
   next: number;
   previous: number;
-  pagesInRange: {[key: number]: number};
+  pagesInRange: { [key: number]: number };
   firstPageInRange: number;
   lastPageInRange: number;
   currentItemCount: number;

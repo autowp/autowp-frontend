@@ -17,7 +17,7 @@ import {
   concat,
   combineLatest
 } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
 import { AuthService } from '../services/auth.service';
 import { PageEnvService } from '../services/page-env.service';
@@ -65,7 +65,6 @@ export class UploadComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private router: Router,
     private pictureService: PictureService,
     public auth: AuthService,
     private pageEnv: PageEnvService,
@@ -146,17 +145,11 @@ export class UploadComponent implements OnInit, OnDestroy {
       xhrs.push(this.uploadFile(file));
     }
 
-    concat(...xhrs).subscribe(
-      () => {
-
-      },
-      undefined,
-      () => {
-        this.input.nativeElement.value = '';
-        this.formHidden = false;
-        this.files = undefined;
-      }
-    );
+    concat(...xhrs).subscribe(() => {}, undefined, () => {
+      this.input.nativeElement.value = '';
+      this.formHidden = false;
+      this.files = undefined;
+    });
 
     return false;
   }

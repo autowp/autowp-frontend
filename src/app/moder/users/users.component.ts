@@ -1,5 +1,4 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UserService, APIUser } from '../../services/user';
 import { APIPaginator } from '../../services/api.service';
 import { PageEnvService } from '../../services/page-env.service';
@@ -16,7 +15,6 @@ export class ModerUsersComponent {
   private page = 1;
 
   constructor(
-    private http: HttpClient,
     private userService: UserService,
     private pageEnv: PageEnvService
   ) {

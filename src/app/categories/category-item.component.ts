@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ItemService, APIItem, APIPathItem } from '../services/item';
-import { Subscription, of, combineLatest } from 'rxjs';
+import { ItemService, APIItem } from '../services/item';
+import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, switchMapTo, map } from 'rxjs/operators';

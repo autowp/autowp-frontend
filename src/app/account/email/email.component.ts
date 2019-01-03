@@ -1,7 +1,6 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../notify';
-import { Router } from '@angular/router';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 
@@ -18,7 +17,6 @@ export class AccountEmailComponent {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private pageEnv: PageEnvService
   ) {
     setTimeout(

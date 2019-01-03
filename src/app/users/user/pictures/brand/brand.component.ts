@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../../../services/api.service';
 import Notify from '../../../../notify';
 import { ItemService, APIItem } from '../../../../services/item';
@@ -27,7 +26,6 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
 
   constructor(
-    private http: HttpClient,
     private itemService: ItemService,
     private userService: UserService,
     private router: Router,

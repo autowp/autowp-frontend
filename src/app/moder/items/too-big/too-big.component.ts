@@ -1,5 +1,4 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ItemService, APIItem } from '../../../services/item';
 import { PageEnvService } from '../../../services/page-env.service';
 
@@ -15,7 +14,6 @@ export class ModerItemsTooBigComponent {
   public items: APIItem[];
 
   constructor(
-    private http: HttpClient,
     private itemService: ItemService,
     private pageEnv: PageEnvService
   ) {

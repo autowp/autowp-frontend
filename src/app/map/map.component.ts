@@ -173,11 +173,11 @@ export class MapComponent implements OnInit {
       this.markers.push(m);
     }
 
-    const points: any[] = [];
+    /*const points: any[] = [];
 
     // const zoomIsHeatmap = isHeatmap(zoom);
 
-    /*$.each(data, (key: any, factory: any) => {
+    $.each(data, (key: any, factory: any) => {
       if (factory.location) {
         if (zoomIsHeatmap) {
           points.push([factory.location.lat, factory.location.lng, 1]);

@@ -1,6 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import Notify from '../notify';
 import { TranslateService } from '@ngx-translate/core';
 import {
   MostsService,
@@ -50,7 +48,6 @@ export class MostsComponent implements OnInit, OnDestroy {
   public defaultTypeCatname: string;
 
   constructor(
-    private http: HttpClient,
     private mostsService: MostsService,
     private translate: TranslateService,
     private route: ActivatedRoute,

@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
@@ -18,7 +18,6 @@ export class PersonsAuthorsComponent implements OnInit, OnDestroy {
 
   constructor(
     private itemService: ItemService,
-    private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService
   ) {}

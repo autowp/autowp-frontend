@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges, OnChanges, Input } from '@angular/core';
+import { Component, SimpleChanges, OnChanges, Input } from '@angular/core';
 import { APIItem } from '../../services/item';
 import { APIUser } from '../../services/user';
 import { APIPicture } from '../../services/picture';

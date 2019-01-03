@@ -1,10 +1,9 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../../services/api.service';
 import Notify from '../../../notify';
 import { UserService, APIUser } from '../../../services/user';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription, empty, from, combineLatest } from 'rxjs';
+import { Subscription, empty, combineLatest } from 'rxjs';
 import { CommentService, APIComment } from '../../../services/comment';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
@@ -12,7 +11,6 @@ import {
   distinctUntilChanged,
   debounceTime,
   catchError,
-  map,
   tap
 } from 'rxjs/operators';
 
@@ -39,10 +37,8 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
     { value: 'vote_asc', name: 'users/comments/order/negative' }
   ];
   public order: string;
-  private page: number;
 
   constructor(
-    private http: HttpClient,
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,

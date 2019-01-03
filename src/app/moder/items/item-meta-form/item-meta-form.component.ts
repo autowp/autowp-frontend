@@ -46,25 +46,6 @@ function specsToPlain(
   return result;
 }
 
-function vehicleTypesToPlain(
-  options: ItemMetaFormAPIVehicleType[],
-  deep: number
-): ItemMetaFormAPIVehicleType[] {
-  const result: ItemMetaFormAPIVehicleType[] = [];
-  for (const item of options) {
-    item.deep = deep;
-    result.push(item);
-    for (const subitem of vehicleTypesToPlain(item.childs, deep + 1)) {
-      result.push(subitem);
-    }
-  }
-  return result;
-}
-
-interface ItemMetaFormAPIVehicleType extends APIVehicleType {
-  deep?: number;
-}
-
 interface ItemMetaFormAPISpec extends APISpec {
   deep?: number;
 }
