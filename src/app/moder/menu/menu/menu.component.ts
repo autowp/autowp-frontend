@@ -3,8 +3,8 @@ import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { ACLService } from '../../../services/acl.service';
 import { PictureService } from '../../../services/picture';
-import { CommentService } from '../../../services/comment';
 import { tap } from 'rxjs/operators';
+import { APICommentsService } from '../../../api/comments/comments.service';
 
 interface MenuItem {
   routerLink: string[];
@@ -28,7 +28,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     public acl: ACLService,
     private pictureService: PictureService,
-    private commentService: CommentService
+    private commentService: APICommentsService
   ) {}
 
   ngOnInit() {

@@ -9,10 +9,10 @@ import Notify from '../../notify';
 import { UserService, APIUser } from '../../services/user';
 import { Subscription, Observable, empty, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommentService } from '../../services/comment';
 import { PageEnvService } from '../../services/page-env.service';
 import { switchMap, debounceTime, catchError, map } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { APICommentsService } from '../../api/comments/comments.service';
 
 @Component({
   selector: 'app-moder-comments',
@@ -38,7 +38,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private commentService: CommentService,
+    private commentService: APICommentsService,
     private pageEnv: PageEnvService,
     private router: Router
   ) {

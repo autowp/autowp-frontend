@@ -4,7 +4,6 @@ import Notify from '../../../notify';
 import { UserService, APIUser } from '../../../services/user';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription, empty, combineLatest } from 'rxjs';
-import { CommentService, APIComment } from '../../../services/comment';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   switchMap,
@@ -13,6 +12,7 @@ import {
   catchError,
   tap
 } from 'rxjs/operators';
+import { APIComment, APICommentsService } from '../../../api/comments/comments.service';
 
 interface Order {
   name: string;
@@ -42,7 +42,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private commentService: CommentService,
+    private commentService: APICommentsService,
     private pageEnv: PageEnvService
   ) {}
 

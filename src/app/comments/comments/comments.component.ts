@@ -11,9 +11,9 @@ import {
 import { APIUser } from '../../services/user';
 import Notify from '../../notify';
 import { Router } from '@angular/router';
-import { CommentService, APIComment } from '../../services/comment';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { APIComment, APICommentsService } from '../../api/comments/comments.service';
 
 @Component({
   selector: 'app-comments',
@@ -34,7 +34,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private commentService: CommentService,
+    private commentService: APICommentsService,
     public auth: AuthService
   ) {}
 

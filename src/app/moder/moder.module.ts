@@ -31,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MomentModule } from 'ngx-moment';
 import { APIAttrsModule } from '../api/attrs/attrs.module';
 import { APIPictureModerVoteTemplateModule } from '../api/picture-moder-vote-template/picture-moder-vote-template.module';
+import { APICommentsModule } from '../api/comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { APIPictureModerVoteTemplateModule } from '../api/picture-moder-vote-tem
     MomentModule,
     APIAttrsModule,
     NgbDropdownModule,
-    APIPictureModerVoteTemplateModule
+    APIPictureModerVoteTemplateModule,
+    APICommentsModule
   ],
   providers: [ModerGuard]
 })

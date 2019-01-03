@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
 import { MessageDialogModule } from '../message-dialog/message-dialog.module';
+import { APICommentsModule } from '../api/comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MessageDialogModule } from '../message-dialog/message-dialog.module';
     FormsModule,
     PaginatorModule,
     ThumbnailModule,
-    MessageDialogModule
+    MessageDialogModule,
+    APICommentsModule
   ]
 })
 export class UsersModule {}

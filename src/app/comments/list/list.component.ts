@@ -10,11 +10,11 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentsVotesComponent } from '../votes/votes.component';
 import { Subscription, combineLatest } from 'rxjs';
-import { APIComment, CommentService } from '../../services/comment';
 import { APIUser } from '../../services/user';
 import { AuthService } from '../../services/auth.service';
 import Notify from '../../notify';
 import { ACLService } from '../../services/acl.service';
+import { APIComment, APICommentsService } from '../../api/comments/comments.service';
 
 export interface APICommentInList extends APIComment {
   showReply: boolean;
@@ -41,7 +41,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private acl: ACLService,
-    private commentService: CommentService,
+    private commentService: APICommentsService,
     public auth: AuthService,
     private modalService: NgbModal
   ) {}

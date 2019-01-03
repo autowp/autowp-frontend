@@ -15,7 +15,6 @@ import {
 } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { PictureService, APIPicture } from '../../services/picture';
-import { CommentService, APIComment } from '../../services/comment';
 import { APIIP } from '../../services/ip';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -27,6 +26,7 @@ import {
   switchMapTo
 } from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
+import { APIComment, APICommentsService } from '../../api/comments/comments.service';
 
 @Component({
   selector: 'app-users-user',
@@ -70,7 +70,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: AuthService,
     private pictureService: PictureService,
-    private commentService: CommentService,
+    private commentService: APICommentsService,
     private pageEnv: PageEnvService
   ) {}
 

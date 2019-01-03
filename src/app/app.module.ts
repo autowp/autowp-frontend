@@ -24,7 +24,6 @@ import { ItemParentService } from './services/item-parent';
 import { ItemLinkService } from './services/item-link';
 import { ItemLanguageService } from './services/item-language';
 import { MessageService } from './services/message';
-import { CommentService } from './services/comment';
 import { PageService } from './services/page';
 import { UserService } from './services/user';
 import { DecimalPipe } from '@angular/common';
@@ -118,7 +117,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     ItemLinkService,
     ItemLanguageService,
     MessageService,
-    CommentService,
     PageService,
     UserService,
     DecimalPipe,

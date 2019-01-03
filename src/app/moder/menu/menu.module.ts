@@ -4,6 +4,7 @@ import { MenuComponent } from './menu/menu.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { APICommentsModule } from '../../api/comments/comments.module';
 
 @NgModule({
   declarations: [MenuComponent],
@@ -11,7 +12,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     TranslateModule,
     RouterModule.forChild([]),
-    NgbDropdownModule
+    NgbDropdownModule,
+    APICommentsModule
   ],
   exports: [MenuComponent]
 })

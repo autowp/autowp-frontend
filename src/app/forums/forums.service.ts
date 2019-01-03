@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpResponse, HttpClient } from '@angular/common/http';
-import { APIComment } from '../services/comment';
 import { shareReplay, switchMap, map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { APIPaginator } from '../services/api.service';
 import { APIUser } from '../services/user';
+import { APIComment } from '../api/comments/comments.service';
 
 export interface APIForumGetTopicOptions {
   fields?: string;

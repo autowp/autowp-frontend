@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { APIPaginator } from './api.service';
-import { APIUser } from './user';
-import { map, switchMap, shareReplay } from 'rxjs/operators';
-import { ACLService } from './acl.service';
+import { APIPaginator } from '../../services/api.service';
+import { APIUser } from '../../services/user';
+import { HttpClient } from '@angular/common/http';
+import { ACLService } from '../../services/acl.service';
+import { switchMap, map, shareReplay } from 'rxjs/operators';
 
 export interface APICommentItemGetOptions {
   fields?: string;
@@ -47,8 +47,11 @@ export interface APIComment {
   preview: string;
 }
 
-@Injectable()
-export class CommentService {
+@Injectable({
+  providedIn: 'root'
+})
+export class APICommentsService {
+
   private attentionCommentsCount$: Observable<number>;
 
   constructor(private http: HttpClient, private acl: ACLService) {

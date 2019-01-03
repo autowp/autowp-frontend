@@ -1,7 +1,6 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { sprintf } from 'sprintf-js';
 import { HttpClient } from '@angular/common/http';
-import { PerspectiveService } from '../../../services/perspective';
 import {
   PictureItemService,
   APIPictureItem
@@ -20,6 +19,7 @@ import {
   tap,
   switchMapTo
 } from 'rxjs/operators';
+import { APIPerspectiveService } from '../../../api/perspective/perspective.service';
 
 // Acl.inheritsRole( 'moder', 'unauthorized' );
 
@@ -59,7 +59,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-    private perspectiveService: PerspectiveService,
+    private perspectiveService: APIPerspectiveService,
     private pictureItemService: PictureItemService,
     private itemService: ItemService,
     private route: ActivatedRoute,

@@ -7,8 +7,8 @@ import {
   OnInit
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommentService } from '../../services/comment';
 import Notify from '../../notify';
+import { APICommentsService } from '../../api/comments/comments.service';
 
 @Component({
   selector: 'app-comments-votes',
@@ -22,7 +22,7 @@ export class CommentsVotesComponent implements OnInit, OnChanges {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private commentService: CommentService
+    private commentService: APICommentsService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {

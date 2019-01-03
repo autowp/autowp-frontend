@@ -12,6 +12,7 @@ import { MomentModule } from 'ngx-moment';
 import { FormsModule } from '@angular/forms';
 import { UtilsModule } from '../utils/utils.module';
 import { NgbTooltipModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { APICommentsModule } from '../api/comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NgbTooltipModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModalModule,
     MomentModule,
     FormsModule,
-    UtilsModule
+    UtilsModule,
+    APICommentsModule
   ],
   entryComponents: [CommentsVotesComponent],
   exports: [CommentsComponent]
