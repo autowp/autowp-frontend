@@ -7,7 +7,7 @@ import { MostsService } from './mosts.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [MostsComponent],
@@ -17,7 +17,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     TranslateModule,
     UtilsModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    NgbDropdownModule
   ],
   providers: [MostsService]
 })
