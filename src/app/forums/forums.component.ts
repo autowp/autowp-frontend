@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
 import { ACLService } from '../services/acl.service';
 import Notify from '../notify';
-import { TranslateService } from '@ngx-translate/core';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
@@ -31,7 +30,6 @@ export class ForumsComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private acl: ACLService,
-    private translate: TranslateService,
     private route: ActivatedRoute,
     private forumService: ForumsService,
     private pageEnv: PageEnvService
@@ -94,48 +92,25 @@ export class ForumsComponent implements OnInit, OnDestroy {
         this.theme = data.theme;
         this.themes = data.themes;
 
-        if (this.theme) {
-          this.translate.get(this.theme.name).subscribe(
-            (translation: string) => {
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                name: 'page/43/name',
-                pageId: 43,
-                args: {
-                  THEME_NAME: translation,
-                  THEME_ID: this.theme.id + ''
-                }
-              });
-            },
-            () => {
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                name: 'page/43/name',
-                pageId: 43,
-                args: {
-                  THEME_NAME: this.theme.name,
-                  THEME_ID: this.theme.id + ''
-                }
-              });
-            }
-          );
-        } else {
-          setTimeout(
-            () =>
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                name: 'page/42/name',
-                pageId: 42
-              }),
-            0
-          );
-        }
+        setTimeout(() => {
+          if (this.theme) {
+            this.pageEnv.set({
+              layout: {
+                needRight: false
+              },
+              name: this.theme.name,
+              pageId: 43
+            });
+          } else {
+            this.pageEnv.set({
+              layout: {
+                needRight: false
+              },
+              name: 'page/42/name',
+              pageId: 42
+            });
+          }
+        }, 0);
       });
   }
 

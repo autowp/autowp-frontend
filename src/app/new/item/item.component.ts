@@ -24,6 +24,8 @@ export class NewItemComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
   public pictures: APIPicture[];
   public item: APIItem;
+  public date: string;
+  public dateStr: string;
 
   constructor(
     private itemService: ItemService,
@@ -85,18 +87,15 @@ export class NewItemComponent implements OnInit, OnDestroy {
       )
       .subscribe(data => {
         this.item = data.item;
+        this.date = data.params.date;
+        this.dateStr = moment(data.params.date).format('LL');
 
         this.pageEnv.set({
           layout: {
             needRight: false
           },
-          name: 'page/210/name',
-          pageId: 210,
-          args: {
-            DATE: moment(data.params.date).format('LL'),
-            DATE_STR: data.params.date,
-            ITEM_NAME: this.item.name_text
-          }
+          nameTranslated: this.item.name_text,
+          pageId: 210
         });
 
         this.pictures = data.pictures.pictures;

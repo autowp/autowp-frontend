@@ -56,12 +56,8 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
               layout: {
                 needRight: false
               },
-              name: 'page/26/name',
-              pageId: 26,
-              args: {
-                TWINS_GROUP_NAME: group.name_text,
-                TWINS_GROUP_ID: group.id
-              }
+              nameTranslated: group.name_text,
+              pageId: 25
             }),
           0
         );

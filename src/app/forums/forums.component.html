@@ -1,3 +1,19 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="theme">
+      <a routerLink="/forums" translate>page/42/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 *ngIf="theme">{{theme.name | translate}}</h1>
+  <h1 translate *ngIf="!theme">page/42/name</h1>
+</div>
+
 <div class="row" *ngFor="let theme of themes">
   <div class="col-md-6">
     <div class="card card-body mb-4">

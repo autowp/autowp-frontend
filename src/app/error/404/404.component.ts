@@ -15,7 +15,7 @@ export class Error404Component {
             isAdminPage: true,
             needRight: true
           },
-          title: '404 Not Found'
+          nameTranslated: '404 Not Found'
         }),
       0
     );

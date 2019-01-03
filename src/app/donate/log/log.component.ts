@@ -28,7 +28,7 @@ export class DonateLogComponent {
           layout: {
             needRight: true
           },
-          name: 'page/196/name',
+          nameTranslated: 'Donate log',
           pageId: 196
         }),
       0

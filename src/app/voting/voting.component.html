@@ -1,3 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="voting">
+  <h1>{{voting.name}}</h1>
+</div>
+
 <div class="card card-body mb-4" *ngIf="voting">
   <p style="white-space:pre-line" [textContent]="voting.text"></p>
   <hr />

@@ -1,3 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="item">
+  <h1 translate [translateParams]="{item_name: item.name_text}">page/102/ng-name</h1>
+</div>
+
 <div class="nav nav-pills" style="margin-bottom: 20px" *ngIf="item">
   <a class="nav-link" [routerLink]="['/moder/items/item', item.id]" *ngIf="isModer">
     <i class="fa fa-cog"></i>

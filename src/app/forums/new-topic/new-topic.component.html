@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/forums" translate>page/42/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="theme">
+      <a routerLink="['/forums', theme.id]">{{theme.name|translate}}</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 translate>page/45/name</h1>
+</div>
+
 <form method="post" class="form-horizontal" *ngIf="user" (submit)="submit()">
   <fieldset>
     <div class="form-group row">

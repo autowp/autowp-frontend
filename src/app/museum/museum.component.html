@@ -1,3 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/map" translate>page/117/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="item">
+  <h1>{{item.name}}</h1>
+</div>
+
 <p *ngIf="museumModer && item">
   <i class="fa fa-cog"></i>
   <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>

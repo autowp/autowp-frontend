@@ -1,3 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="user">
+      <a [routerLink]="['/users', identity]">{{user.name}}</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 translate>page/63/name</h1>
+</div>
+
 <div class="brand-icons row">
   <div *ngFor="let brand of brands" class="col-12 col-sm-6 col-md-4 col-lg-3">
     <a [routerLink]="['/users', identity, 'pictures', brand.catname]" [ngClass]="'brandicon brandicon-' + cssClass(brand)" [ngStyle]="{'background-image': 'url(' + icons.image + ')'}"></a>

@@ -130,14 +130,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
                 layout: {
                   needRight: false
                 },
-                name: 'page/62/name',
-                pageId: 62,
-                args: {
-                  USER_NAME: data.user.name,
-                  USER_IDENTITY: data.user.identity
-                    ? data.user.identity
-                    : 'user' + data.user.id
-                }
+                nameTranslated: data.user.name,
+                pageId: 62
               }),
             0
           );

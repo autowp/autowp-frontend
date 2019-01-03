@@ -43,9 +43,12 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
         }),
         switchMap(
           group => {
-            return this.http.get('/api/item/' + group.id + '/child-specifications', {
-              responseType: 'text'
-            });
+            return this.http.get(
+              '/api/item/' + group.id + '/child-specifications',
+              {
+                responseType: 'text'
+              }
+            );
           },
           (group, specsHtml) => ({
             group: group,
@@ -63,12 +66,9 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
               layout: {
                 needRight: false
               },
-              name: 'page/27/name',
+              name: 'page/27/ng-name',
               pageId: 27,
-              args: {
-                TWINS_GROUP_NAME: data.group.name_text,
-                TWINS_GROUP_ID: data.group.id + ''
-              }
+              args: { group_name: data.group.name_text }
             }),
           0
         );

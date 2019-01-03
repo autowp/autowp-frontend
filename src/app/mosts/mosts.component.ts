@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import {
   MostsService,
   APIMostsItem,
@@ -49,7 +48,6 @@ export class MostsComponent implements OnInit, OnDestroy {
 
   constructor(
     private mostsService: MostsService,
-    private translate: TranslateService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService
   ) {}
@@ -79,11 +77,7 @@ export class MostsComponent implements OnInit, OnDestroy {
             this.ratingCatname = this.ratings[0].catname;
           }
 
-          this.setPageEnv(
-            this.ratingCatname,
-            this.typeCatname,
-            this.yearsCatname
-          );
+          this.initPageEnv();
         }),
         switchMap(data =>
           this.mostsService.getItems({
@@ -96,129 +90,19 @@ export class MostsComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.items = response.items;
       });
-
-    /*
-      setTimeout(() => {
-          $('small.unit').tooltip({
-            placement: 'bottom'
-          });
-        }, 0);
-      */
-  }
-
-  private setPageEnv(
-    ratingCatname: string,
-    typeCatname: string,
-    yearsCatname: string
-  ) {
-    const ratingName = 'most/' + ratingCatname;
-    if (typeCatname) {
-      const typeName = this.getVehicleTypeName(typeCatname);
-
-      if (yearsCatname) {
-        let yearName = '';
-        for (const year of this.years) {
-          if (year.catname === yearsCatname) {
-            yearName = year.name;
-          }
-        }
-
-        this.translate.get([ratingName, typeName, yearName]).subscribe(
-          (translations: string[]) => {
-            this.initPageEnv(156, {
-              MOST_CATNAME: ratingCatname,
-              MOST_NAME: translations[0],
-              CAR_TYPE_CARNAME: typeCatname,
-              CAR_TYPE_NAME: translations[1],
-              YEAR_CATNAME: yearsCatname,
-              YEAR_NAME: translations[2]
-            });
-          },
-          () => {
-            this.initPageEnv(156, {
-              MOST_CATNAME: ratingCatname,
-              MOST_NAME: ratingName,
-              CAR_TYPE_CARNAME: typeCatname,
-              CAR_TYPE_NAME: typeName,
-              YEAR_CATNAME: yearsCatname,
-              YEAR_NAME: yearName
-            });
-          }
-        );
-      } else {
-        this.translate.get([ratingName, typeName]).subscribe(
-          (translations: string[]) => {
-            this.initPageEnv(155, {
-              MOST_CATNAME: ratingCatname,
-              MOST_NAME: translations[0],
-              CAR_TYPE_CARNAME: typeCatname,
-              CAR_TYPE_NAME: translations[1]
-            });
-          },
-          () => {
-            this.initPageEnv(155, {
-              MOST_CATNAME: ratingCatname,
-              MOST_NAME: ratingName,
-              CAR_TYPE_CARNAME: typeCatname,
-              CAR_TYPE_NAME: typeName
-            });
-          }
-        );
-      }
-    } else {
-      this.translate.get(ratingName).subscribe(
-        (translation: string) => {
-          this.initPageEnv(154, {
-            MOST_CATNAME: ratingCatname,
-            MOST_NAME: translation
-          });
-        },
-        () => {
-          this.initPageEnv(154, {
-            MOST_CATNAME: ratingCatname,
-            MOST_NAME: ratingName
-          });
-        }
-      );
-    }
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
 
-  private getVehicleTypeName(catname: string): string {
-    let result = '';
-    for (const vehilceType of this.vehilceTypes) {
-      if (vehilceType.catname === catname) {
-        result = vehilceType.name;
-        break;
-      }
-
-      for (const subVehilceType of vehilceType.childs) {
-        if (subVehilceType.catname === catname) {
-          result = subVehilceType.name;
-          break;
-        }
-      }
-
-      if (result) {
-        break;
-      }
-    }
-
-    return result;
-  }
-
-  private initPageEnv(pageId: number, args: any) {
+  private initPageEnv() {
     this.pageEnv.set({
       layout: {
         needRight: false
       },
-      disablePageName: true,
-      name: 'page/' + pageId + '/name',
-      pageId: pageId,
-      args: args
+      name: 'page/21/name',
+      pageId: 21
     });
   }
 }

@@ -23,6 +23,7 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
     this.routeSub = this.route.params
       .pipe(
         distinctUntilChanged(),
@@ -48,12 +49,8 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/32/name',
-            pageId: 32,
-            args: {
-              ARTICLE_NAME: this.article.name,
-              ARTICLE_CATNAME: this.article.catname
-            }
+            nameTranslated: this.article.name,
+            pageId: 32
           });
         },
         response => {

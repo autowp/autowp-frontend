@@ -98,8 +98,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           this.pathCatnames = pathCatnames;
           this.pageEnv.set({
             layout: {
-              needRight: false,
-              header: false
+              needRight: false
             },
             name: 'page/186/title',
             pageId: 22

@@ -15,7 +15,7 @@ export class Error403Component {
             isAdminPage: true,
             needRight: true
           },
-          title: '403 Forbidden'
+          nameTranslated: '403 Forbidden'
         }),
       0
     );

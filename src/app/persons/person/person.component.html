@@ -1,3 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/persons" translate>page/214/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 [innerHTML]="item.name_html"></h1>
+</div>
+
 <p *ngIf="isModer && item">
   <i class="fa fa-cog mr-1"></i>
   <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>

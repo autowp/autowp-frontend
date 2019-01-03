@@ -1,1 +1,19 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/twins" translate>page/25/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="group">
+      <a [routerLink]="['/twins/group', group.id]" [innerHTML]="group.name_html"></a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="group">
+  <h1 translate [translateParams]="{group_name: group.name_text}">page/28/ng-name</h1>
+</div>
+
 <div [innerHtml]="resultHtml"></div>

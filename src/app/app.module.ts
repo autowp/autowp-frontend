@@ -32,7 +32,6 @@ import { SpecService } from './services/spec';
 import { PictureItemService } from './services/picture-item';
 import { ContactsService } from './services/contacts';
 import { PageEnvService } from './services/page-env.service';
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ContentLanguageService } from './services/content-language';
 import { LanguageService } from './services/language';
 import { VehicleTypesModalComponent } from './components/vehicle-types-modal/vehicle-types-modal.component';
@@ -63,7 +62,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     AppComponent,
     IndexComponent,
     PageNotFoundComponent,
-    BreadcrumbsComponent,
     VehicleTypesModalComponent,
     Error403Component,
     Error404Component,

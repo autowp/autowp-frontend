@@ -2,17 +2,6 @@
 @import "~bootstrap/scss/variables";
 @import "./variables";
 
-.loading-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-
-    form {
-        width: 300px;
-    }
-}
-
 .language-picker {
   font-size: 90%;
   margin-top: 15px;

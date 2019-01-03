@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import Notify from '../notify';
 import { PageEnvService } from '../services/page-env.service';
 
-// const ChartJS = require('chart');
-
 export interface APIChartParameter {
   id: number;
   name: string;
@@ -72,8 +70,7 @@ export class ChartComponent {
           layout: {
             needRight: false
           },
-          name: 'page/1/name',
-          title: 'page/1/title',
+          nameTranslated: 'Charts',
           pageId: 1
         }),
       0

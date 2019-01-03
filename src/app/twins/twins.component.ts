@@ -19,6 +19,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
   public groups: APIItem[] = [];
   public canEdit = false;
   public currentBrandCatname: string;
+  public brand: APIItem;
 
   constructor(
     private itemService: ItemService,
@@ -63,18 +64,15 @@ export class TwinsComponent implements OnInit, OnDestroy {
           response && response.items.length > 0 ? response.items[0] : null
         ),
         tap(brand => {
+          this.brand = brand;
           setTimeout(() => {
             if (brand) {
               this.pageEnv.set({
                 layout: {
                   needRight: false
                 },
-                name: 'page/153/name',
-                pageId: 153,
-                args: {
-                  BRAND_NAME: brand.name_only,
-                  BRAND_CATNAME: brand.catname
-                }
+                nameTranslated: brand.name_only,
+                pageId: 153
               });
             } else {
               this.pageEnv.set({

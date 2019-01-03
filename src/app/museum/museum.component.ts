@@ -79,12 +79,8 @@ export class MuseumComponent implements OnInit, OnDestroy {
             layout: {
               needRight: true
             },
-            name: 'page/159/name',
-            pageId: 159,
-            args: {
-              MUSEUM_ID: item.id + '',
-              MUSEUM_NAME: item.name_text
-            }
+            nameTranslated: item.name_text,
+            pageId: 159
           });
         }),
         switchMap(

@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/map" translate>page/117/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="factory">
+      <a [routerLink]="['/factories', factory.id]">{{factory.name}}</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 translate>page/182/name</h1>
+</div>
+
 <ul class="nav nav-pills" style="margin-bottom:10px" *ngIf="factory">
 
   <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>

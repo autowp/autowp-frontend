@@ -24,6 +24,8 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public pictures: APIPicture[];
   public paginator: APIPaginator;
+  public brand: APIItem;
+  public user: APIUser;
 
   constructor(
     private itemService: ItemService,
@@ -68,21 +70,17 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
             return;
           }
 
-          const identity = data.user.identity
-            ? data.user.identity
-            : 'user' + data.user.id;
+          this.brand = data.brand;
+          this.user = data.user;
 
           this.pageEnv.set({
             layout: {
               needRight: false
             },
-            name: 'page/141/name',
+            name: 'page/141/ng-name',
             pageId: 141,
             args: {
-              USER_NAME: data.user.name,
-              USER_IDENTITY: identity,
-              BRAND_NAME: data.brand.name_only,
-              BRAND_CATNAME: data.brand.catname
+              brand: data.brand.name_only
             }
           });
         })

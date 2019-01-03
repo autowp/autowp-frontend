@@ -88,10 +88,7 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
               },
               name: 'page/28/name',
               pageId: 28,
-              args: {
-                TWINS_GROUP_NAME: data.group.name_text,
-                TWINS_GROUP_ID: data.group.id
-              }
+              args: { group_name: data.group.name_text }
             }),
           0
         );

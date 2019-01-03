@@ -75,7 +75,6 @@ export class MapComponent implements OnInit {
           layout: {
             needRight: false
           },
-          disablePageName: true,
           name: 'page/117/name',
           pageId: 117
         }),

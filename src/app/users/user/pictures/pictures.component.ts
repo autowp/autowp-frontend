@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import Notify from '../../../notify';
 import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../../services/user';
+import { UserService, APIUser } from '../../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, tap } from 'rxjs/operators';
@@ -19,6 +19,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
   public brands: APIItem[];
   public identity: string;
   public icons: APIBrandsIconsResponse;
+  public user: APIUser;
 
   constructor(
     private itemService: ItemService,
@@ -37,17 +38,14 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
           })
         ),
         tap(user => {
+          this.user = user;
           this.identity = user.identity ? user.identity : 'user' + user.id;
           this.pageEnv.set({
             layout: {
               needRight: false
             },
             name: 'page/63/name',
-            pageId: 63,
-            args: {
-              USER_NAME: user.name,
-              USER_IDENTITY: this.identity
-            }
+            pageId: 63
           });
         }),
         switchMap(user =>

@@ -1,3 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="user">
+      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{user.name}}</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 translate>page/205/name</h1>
+</div>
+
 <ul class="nav nav-pills" style="margin-bottom:10px">
   <li class="nav-item" *ngFor="let corder of orders">
     <a [class.active]="corder.value == order" class="nav-link" routerLink="." [queryParams]="{order: corder.value, page: null}"

@@ -1,3 +1,24 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/forums" translate>page/42/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="topic && topic.theme">
+      <a routerLink="['/forums', topic.theme.id]">{{topic.theme.name|translate}}</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="topic">
+      <a [routerLink]="['/forums/topic/topic/topic_id', topic.id]">{{topic.name}}</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1 translate>page/83/name</h1>
+</div>
+
 <div *ngFor="let theme of themes">
   <button class="btn btn-secondary" disabled [textContent]="theme.name|translate" *ngIf="topic.theme_id == theme.id"></button>
   <button class="btn btn-secondary" type="submit" name="theme_id" [textContent]="theme.name|translate" *ngIf="topic.theme_id != theme.id"

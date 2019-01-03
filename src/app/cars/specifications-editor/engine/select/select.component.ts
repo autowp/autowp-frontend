@@ -93,10 +93,10 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/102/name',
+            name: 'page/102/ng-name',
             pageId: 102,
             args: {
-              CAR_NAME: data.item.name_text
+              item_name: data.item.name_text
             }
           });
         }),

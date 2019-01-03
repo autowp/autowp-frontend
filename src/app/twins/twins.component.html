@@ -1,5 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a routerLink="/twins" translate>page/25/name</a>
+    </li>
+  </ol>
+</nav>
+
 <div class="row">
   <div class="col-sm-8 order-2">
+    <div class="page-header">
+      <h1 translate *ngIf="!brand">page/25/name</h1>
+      <h1 *ngIf="brand">{{brand.name_only}}</h1>
+    </div>
+
     <div *ngFor="let group of groups">
       <h3 [innerHtml]="group.name_html"></h3>
 

@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/forums" translate>page/42/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="topic && topic.theme">
+      <a routerLink="['/forums', topic.theme.id]">{{topic.theme.name|translate}}</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1>{{topic.name}}</h1>
+</div>
+
 <section class="forum-topic-page comments" *ngIf="topic">
   <app-comments [itemID]="topic.id" [typeID]="5" *ngIf="topic" [limit]="limit" [page]="page"></app-comments>
 

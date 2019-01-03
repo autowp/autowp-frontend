@@ -73,12 +73,8 @@ export class VotingComponent implements OnInit, OnDestroy {
           layout: {
             needRight: true
           },
-          name: 'page/157/name',
-          pageId: 157,
-          args: {
-            VOTING_NAME: this.voting.name,
-            VOTING_ID: this.voting.id + ''
-          }
+          nameTranslated: this.voting.name,
+          pageId: 157
         });
       });
     });

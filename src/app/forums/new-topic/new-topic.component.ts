@@ -31,9 +31,19 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
     private forumService: ForumsService,
     public auth: AuthService,
     private pageEnv: PageEnvService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false
+        },
+        name: 'page/45/name',
+        pageId: 45
+      });
+    }, 0);
+
     this.routeSub = combineLatest(
       this.route.params,
       this.auth.getUser(),
@@ -54,20 +64,8 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
         data => {
           this.theme = data.theme;
           this.user = data.user;
-
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            name: 'page/45/name',
-            pageId: 45,
-            args: {
-              THEME_NAME: this.theme.name,
-              THEME_ID: this.theme.id + ''
-            }
-          });
         },
-        response => {
+        () => {
           this.router.navigate(['/error-404']);
         }
       );

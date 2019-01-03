@@ -62,10 +62,22 @@ export class NewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    setTimeout(
+      () =>
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          name: 'page/51/name',
+          pageId: 51
+        }),
+      0
+    );
+
     this.routeSub = combineLatest(
       this.route.queryParams,
       this.route.params,
-      (query, route) => ({query, route})
+      (query, route) => ({ query, route })
     )
       .pipe(
         distinctUntilChanged(),
@@ -106,15 +118,6 @@ export class NewComponent implements OnInit, OnDestroy {
           }
 
           this.date = data.params.route.date;
-
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            name: 'page/51/name',
-            pageId: 51
-          });
-
           this.paginator = data.response.paginator;
           this.prev = data.response.prev;
           this.current = data.response.current;

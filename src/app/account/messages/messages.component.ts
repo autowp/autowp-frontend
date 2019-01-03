@@ -20,6 +20,8 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator | null;
   private change$ = new BehaviorSubject<null>(null);
 
+  public pageName = '';
+
   constructor(
     private messageService: MessageService,
     private messageDialogService: MessageDialogService,
@@ -35,25 +37,24 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
         switchMap(params => {
           this.folder = params.folder || 'inbox';
           let pageId = null;
-          let pageName = null;
           let userID = null;
 
           switch (this.folder) {
             case 'inbox':
               pageId = 128;
-              pageName = 'page/128/name';
+              this.pageName = 'page/128/name';
               break;
             case 'sent':
               pageId = 80;
-              pageName = 'page/80/name';
+              this.pageName = 'page/80/name';
               break;
             case 'system':
               pageId = 81;
-              pageName = 'page/81/name';
+              this.pageName = 'page/81/name';
               break;
             case 'dialog':
               pageId = 49;
-              pageName = 'page/49/name';
+              this.pageName = 'page/49/name';
               userID = params.user_id;
               break;
           }
@@ -62,7 +63,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: pageName,
+            name: this.pageName,
             pageId: pageId
           });
 

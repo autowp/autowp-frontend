@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
 import Notify from '../../notify';
-import { TranslateService } from '@ngx-translate/core';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -26,12 +25,11 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private forumService: ForumsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     public auth: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.limit = this.forumService.getLimit();
@@ -41,46 +39,29 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
       this.route.queryParams,
       this.auth.getUser(),
       (route, query, user) => ({ route, query, user })
-    ).pipe(
-      switchMap(data => {
-        this.user = data.user;
-        const topicID = parseInt(data.route.topic_id, 10);
-        this.page = parseInt(data.query.page, 10);
-        return this.forumService
-          .getTopic(topicID, {
+    )
+      .pipe(
+        switchMap(data => {
+          this.user = data.user;
+          const topicID = parseInt(data.route.topic_id, 10);
+          this.page = parseInt(data.query.page, 10);
+          return this.forumService.getTopic(topicID, {
             fields: 'author,theme,subscription',
             page: this.page
           });
-      })
-    ).subscribe(topic => {
+        })
+      )
+      .subscribe(topic => {
+        this.topic = topic;
 
-      this.topic = topic;
-
-      this.translate.get(this.topic.theme.name).subscribe(
-        (translation: string) => {
-          this.setPageEnv(translation);
-        },
-        () => {
-          this.setPageEnv(this.topic.theme.name);
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          nameTranslated: this.topic.name,
+          pageId: 44
         });
-
-    });
-  }
-
-  private setPageEnv(themeName: string) {
-    this.pageEnv.set({
-      layout: {
-        needRight: false
-      },
-      name: 'page/44/name',
-      pageId: 44,
-      args: {
-        THEME_NAME: themeName,
-        THEME_ID: this.topic.theme_id + '',
-        TOPIC_NAME: this.topic.name,
-        TOPIC_ID: this.topic.id + ''
-      }
-    });
+      });
   }
 
   ngOnDestroy(): void {

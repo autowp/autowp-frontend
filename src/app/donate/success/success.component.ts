@@ -14,7 +14,7 @@ export class DonateSuccessComponent {
           layout: {
             needRight: true
           },
-          name: 'page/196/name',
+          nameTranslated: 'Donate success',
           pageId: 196
         }),
       0

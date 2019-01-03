@@ -6,24 +6,18 @@ import { PageService } from './page';
 import { switchMap } from 'rxjs/operators';
 
 export interface LayoutParams {
-  name: string;
   isAdminPage: boolean;
   sidebar: boolean;
-  disablePageName: boolean;
-  header: boolean;
 }
 
 export interface PageEnv {
   pageId?: number;
-  title?: string;
   name?: string;
   nameTranslated?: string;
   layout: {
     needRight: boolean;
     isAdminPage?: boolean;
-    header?: boolean;
   };
-  disablePageName?: boolean;
   args?: { [key: string]: string };
 }
 
@@ -31,11 +25,8 @@ export interface PageEnv {
 export class PageEnvService {
   public pageEnv$ = new BehaviorSubject<PageEnv>(null);
   public layoutParams$ = new BehaviorSubject<LayoutParams>({
-    name: '',
     isAdminPage: false,
-    sidebar: false,
-    disablePageName: false,
-    header: false
+    sidebar: false
   });
 
   public constructor(
@@ -44,65 +35,29 @@ export class PageEnvService {
     private translate: TranslateService
   ) {
     this.pageEnv$.subscribe(data => {
-      if (data && data.pageId) {
-        const args = data.args ? data.args : {};
-
-        if (data.nameTranslated) {
-          this.titleService.setTitle(data.nameTranslated);
-          this.layoutParams$.next({
-            name: data.nameTranslated,
-            isAdminPage: data.layout.isAdminPage,
-            sidebar: data.layout.needRight,
-            disablePageName: data.disablePageName,
-            header: data.layout && data.layout.header !== false
-          });
-          return;
-        }
-
-        let nameKey: string;
-        let titleKey: string;
-        if (data.name) {
-          nameKey = data.name;
-          titleKey = data.title ? data.title : data.name;
-        } else {
-          nameKey = 'page/' + data.pageId + '/name';
-          titleKey = 'page/' + data.pageId + '/title';
-        }
-
-        this.translate.get([nameKey, titleKey]).subscribe(
-          (translations: string[]) => {
-            const name = this.replaceArgs(translations[nameKey], args, false);
-            const title = this.replaceArgs(translations[titleKey], args, false);
-
-            this.titleService.setTitle(title ? title : name);
-            this.layoutParams$.next({
-              name: name,
-              isAdminPage: data.layout.isAdminPage,
-              sidebar: data.layout.needRight,
-              disablePageName: data.disablePageName,
-              header: data.layout && data.layout.header !== false
-            });
-          },
-          () => {
-            this.titleService.setTitle(titleKey);
-            this.layoutParams$.next({
-              name: nameKey,
-              isAdminPage: data.layout.isAdminPage,
-              sidebar: data.layout.needRight,
-              disablePageName: data.disablePageName,
-              header: data.layout && data.layout.header !== false
-            });
-          }
-        );
-      } else {
-        this.titleService.setTitle(data && data.title ? data.title : '');
+      if (data) {
         this.layoutParams$.next({
-          name: '',
-          isAdminPage: data ? data.layout.isAdminPage : false,
-          sidebar: data ? data.layout.needRight : false,
-          disablePageName: data ? data.disablePageName : false,
-          header: data ? data.layout.header !== false : true
+          isAdminPage: data.layout.isAdminPage,
+          sidebar: data.layout.needRight
         });
+
+        if (data.pageId) {
+          const args = data.args ? data.args : {};
+
+          if (data.nameTranslated) {
+            this.titleService.setTitle(data.nameTranslated);
+            return;
+          }
+
+          this.translate.get([data.name], args).subscribe(
+            (translations: string[]) => {
+              this.titleService.setTitle(translations[data.name]);
+            },
+            () => {
+              this.titleService.setTitle(data.name);
+            }
+          );
+        }
       }
     });
   }
@@ -120,27 +75,5 @@ export class PageEnvService {
         return this.pageService.isDescendant(data.pageId, id);
       })
     );
-  }
-
-  public replaceArgs(
-    str: string,
-    args: { [key: string]: string },
-    url: boolean
-  ): string {
-    const preparedArgs: { [key: string]: string } = {};
-    for (const key in args) {
-      if (args.hasOwnProperty(key)) {
-        const value = args[key];
-        preparedArgs['%' + key + '%'] = url ? encodeURIComponent(value) : value;
-      }
-    }
-
-    for (const key in preparedArgs) {
-      if (preparedArgs.hasOwnProperty(key)) {
-        str = str.replace(key, preparedArgs[key]);
-      }
-    }
-
-    return str;
   }
 }
