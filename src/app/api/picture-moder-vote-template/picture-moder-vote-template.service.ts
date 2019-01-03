@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map, shareReplay, tap, switchMapTo } from 'rxjs/operators';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../services/auth.service';
+import { switchMapTo, map, shareReplay, tap } from 'rxjs/operators';
 
 export interface APIPictureModerVoteTemplatePostData {
   vote: number;
@@ -19,8 +19,11 @@ export class APIPictureModerVoteTemplateGetResponse {
   items: APIPictureModerVoteTemplate[];
 }
 
-@Injectable()
-export class PictureModerVoteTemplateService {
+@Injectable({
+  providedIn: 'root'
+})
+export class APIPictureModerVoteTemplateService {
+
   private change$ = new BehaviorSubject<null>(null);
   constructor(private http: HttpClient, private auth: AuthService) {}
 

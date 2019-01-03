@@ -1,10 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import {
-  PictureModerVoteTemplateService,
-  APIPictureModerVoteTemplate
-} from '../../services/picture-moder-vote-template';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription } from 'rxjs';
+import {
+  APIPictureModerVoteTemplate,
+  APIPictureModerVoteTemplateService
+} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 
@@ -20,7 +20,7 @@ export class ModerPictureVoteTemplatesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private voteTemplateService: PictureModerVoteTemplateService,
+    private voteTemplateService: APIPictureModerVoteTemplateService,
     private pageEnv: PageEnvService
   ) {}
 

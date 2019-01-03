@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PictureModerVoteService } from '../../../services/picture-moder-vote';
-import { PictureModerVoteTemplateService } from '../../../services/picture-moder-vote-template';
+import { APIPictureModerVoteTemplateService } from '../../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 @Component({
   selector: 'app-picture-moder-vote-modal',
@@ -25,7 +25,7 @@ export class PictureModerVoteModalComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private templateService: PictureModerVoteTemplateService,
+    private templateService: APIPictureModerVoteTemplateService,
     private moderVoteService: PictureModerVoteService
   ) {}
 

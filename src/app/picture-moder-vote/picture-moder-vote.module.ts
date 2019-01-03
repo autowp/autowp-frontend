@@ -5,7 +5,8 @@ import { PictureModerVoteModalComponent } from './picture-moder-vote/modal/modal
 import { TranslateModule } from '@ngx-translate/core';
 import { UserModule } from '../user/user.module';
 import { FormsModule } from '@angular/forms';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { APIPictureModerVoteTemplateModule } from '../api/picture-moder-vote-template/picture-moder-vote-template.module';
 
 @NgModule({
   declarations: [PictureModerVoteComponent, PictureModerVoteModalComponent],
@@ -14,7 +15,9 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     TranslateModule,
     UserModule,
     FormsModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    APIPictureModerVoteTemplateModule,
+    NgbModalModule
   ],
   entryComponents: [PictureModerVoteModalComponent],
   exports: [PictureModerVoteComponent]

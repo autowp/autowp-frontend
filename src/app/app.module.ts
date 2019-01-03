@@ -53,7 +53,6 @@ import { MarkdownEditModule } from './markdown-edit/markdown-edit.module';
 import { ItemModule } from './item/item.module';
 import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
 import { PictureModerVoteService } from './services/picture-moder-vote';
-import { PictureModerVoteTemplateService } from './services/picture-moder-vote-template';
 import { ModerMenuModule } from './moder/menu/menu.module';
 
 // AoT requires an exported function for factories
@@ -127,7 +126,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     BytesPipe,
     PerspectiveService,
     PictureModerVoteService,
-    PictureModerVoteTemplateService,
     VehicleTypeService,
     SpecService,
     PictureItemService,

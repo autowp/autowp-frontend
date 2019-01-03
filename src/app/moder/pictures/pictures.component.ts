@@ -1,12 +1,8 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
-import { PerspectiveService, APIPerspective } from '../../services/perspective';
+import { PerspectiveService } from '../../services/perspective';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
-import {
-  PictureModerVoteTemplateService,
-  APIPictureModerVoteTemplate
-} from '../../services/picture-moder-vote-template';
 import {
   VehicleTypeService,
   APIVehicleType
@@ -39,10 +35,13 @@ import {
   switchMap,
   catchError,
   tap,
-  distinctUntilChanged,
-  switchMapTo
+  distinctUntilChanged
 } from 'rxjs/operators';
 import { PageEnvService } from '../../services/page-env.service';
+import {
+  APIPictureModerVoteTemplate,
+  APIPictureModerVoteTemplateService
+} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 interface VehicleTypeInPictures {
   name: string;
@@ -275,7 +274,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private perspectiveService: PerspectiveService,
     private moderVoteService: PictureModerVoteService,
-    private moderVoteTemplateService: PictureModerVoteTemplateService,
+    private moderVoteTemplateService: APIPictureModerVoteTemplateService,
     private vehicleTypeService: VehicleTypeService,
     private itemService: ItemService,
     private userService: UserService,
