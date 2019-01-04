@@ -103,7 +103,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
 
       this.itemService
         .getItem(data.route.id, {
-          fields: 'name_text'
+          fields: 'name_text,name_html'
         })
         .subscribe(
           item => {
