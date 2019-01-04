@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder" translate>page/67/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder/items" translate>page/131/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="item">
+  <h1>{{'item/type/' + item.item_type_id + '/name'|translate}}: <span [innerHTML]="item.name_html"></span></h1>
+</div>
+
 <div class="row mb-4" *ngIf="item">
   <div class="col-md-2">
     <img *ngIf="randomPicture && randomPicture.thumb_medium" [src]="randomPicture.thumb_medium.src" alt="" class="mb-4 w-100 rounded border border-light"

@@ -139,23 +139,19 @@
         "childs": [
           {
             "id": 68,
-
             "childs": [
-              { "id": 69, "childs": [], "url": "" },
-              { "id": 70, "childs": [], "url": "" },
-              { "id": 120, "childs": [], "url": "" }
-            ],
-            "routerLink": ["/moder/pages"]
+              { "id": 69, "childs": [] },
+              { "id": 70, "childs": [] },
+              { "id": 120, "childs": [] }
+            ]
           },
           {
             "id": 71,
-            "childs": [],
-            "routerLink": ["/moder/rights"]
+            "childs": []
           },
           {
             "id": 74,
-            "childs": [],
-            "routerLink": ["/moder/cars/alpha"]
+            "childs": []
           },
           {
             "id": 75,
@@ -163,33 +159,21 @@
           },
           {
             "id": 77,
-
-            "childs": [],
-            "routerLink": ["/moder/trafic"]
+            "childs": []
           },
-          { "id": 97, "childs": [], "url": "" },
+          { "id": 97, "childs": [] },
           {
             "id": 100,
-            "childs": [
-              { "id": 101, "childs": [], "url": "" },
-              {
-                "id": 142,
-                "childs": [],
-                "routerLink": ["/moder/attrs/zone/zone_id/%ZONE_ID%"]
-              }
-            ],
-            "routerLink": ["/moder/attrs"]
+            "childs": [{ "id": 101, "childs": [] }, { "id": 142, "childs": [] }]
           },
-          { "id": 107, "childs": [], "url": "" },
+          { "id": 107, "childs": [] },
           {
             "id": 114,
-            "childs": [],
-            "routerLink": ["/moder/spec"]
+            "childs": []
           },
           {
             "id": 119,
-            "childs": [],
-            "routerLink": ["/moder/index/stat"]
+            "childs": []
           },
           {
             "id": 73,
@@ -199,29 +183,23 @@
                 "childs": [
                   {
                     "id": 148,
-                    "childs": [],
-                    "url": ""
+                    "childs": []
                   },
                   {
                     "id": 149,
-                    "childs": [],
-                    "url": ""
+                    "childs": []
                   }
-                ],
-                "routerLink": ["/moder/pictures/%PICTURE_ID%"]
+                ]
               }
-            ],
-            "routerLink": ["/moder/pictures"]
+            ]
           },
           {
             "id": 202,
-            "childs": [],
-            "routerLink": ["/moder/perspectives"]
+            "childs": []
           },
           {
             "id": 203,
-            "childs": [],
-            "routerLink": ["/moder/users"]
+            "childs": []
           },
           {
             "id": 131,
@@ -231,40 +209,32 @@
                 "childs": [
                   {
                     "id": 144,
-                    "childs": [],
-                    "url": ""
+                    "childs": []
                   },
                   {
                     "id": 178,
-                    "childs": [],
-                    "url": ""
+                    "childs": []
                   },
                   {
                     "id": 215,
-                    "childs": [],
-                    "name": "moder/vehicle/catalogue/turbo-group-creator"
+                    "childs": []
                   }
-                ],
-                "routerLink": ["/moder/items/item/%CAR_ID%"]
+                ]
               },
-              { "id": 163, "childs": [], "url": "" }
-            ],
-            "routerLink": ["/moder/items"]
+              { "id": 163, "childs": [] }
+            ]
           },
           {
             "id": 212,
-            "childs": [],
-            "routerLink": ["/moder/picture-vote-template"]
+            "childs": []
           },
           {
             "id": 110,
-            "childs": [],
-            "routerLink": ["/moder/comments"]
+            "childs": []
           }
-        ],
-        "routerLink": ["/moder"]
+        ]
       },
-      { "id": 105, "childs": [], "url": "" },
+      { "id": 105, "childs": [] },
       { "id": 106, "childs": [] },
       {
         "id": 87,
@@ -296,7 +266,7 @@
                 "id": 129,
                 "childs": []
               },
-              { "id": 54, "childs": [], "url": "" },
+              { "id": 54, "childs": [] },
               {
                 "id": 123,
                 "childs": []

@@ -1025,7 +1025,7 @@
   "moder/picture/edit-brand-%s": "Кіраванне брэндам %s",
   "moder/picture/edit-engine-%s": "Кіраванне рухавіком %s",
   "moder/picture/edit-factory-%s": "Кіраванне заводам %s",
-  "moder/picture/picture-n-%s": "Выява №%s",
+  "moder/picture/picture-n": "Выява №{id}",
   "moder/picture/previous": "<< папярэдняя",
   "moder/picture/next": "наступная >>",
   "moder/picture/previous-new": "<< папярэдняя ня апрацаваная",

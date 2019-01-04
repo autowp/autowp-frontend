@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
@@ -50,7 +49,6 @@ export class ModerItemsItemPicturesOrganizeComponent
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -95,49 +93,38 @@ export class ModerItemsItemPicturesOrganizeComponent
                   this.item = item;
                   this.newItem = Object.assign({}, item);
                   this.newItem.is_group = false;
+
+                  this.pageEnv.set({
+                    layout: {
+                      isAdminPage: true,
+                      needRight: false
+                    },
+                    nameTranslated: 'Organize pictures',
+                    pageId: 78
+                  });
                 }),
                 switchMap(item =>
-                  combineLatest(
-                    this.translate
-                      .get('item/type/' + item.item_type_id + '/name')
-                      .pipe(
-                        tap(translation =>
-                          this.pageEnv.set({
-                            layout: {
-                              isAdminPage: true,
-                              needRight: false
-                            },
-                            name: 'page/78/name',
-                            pageId: 78,
-                            args: {
-                              CAR_ID: item.id + '',
-                              CAR_NAME: translation + ': ' + item.name_text
+                  this.item.item_type_id === 1 || this.item.item_type_id === 4
+                    ? this.http
+                        .get<APIItemVehicleTypeGetResponse>(
+                          '/api/item-vehicle-type',
+                          {
+                            params: {
+                              item_id: this.item.id.toString()
                             }
+                          }
+                        )
+                        .pipe(
+                          tap(response => {
+                            const ids: number[] = [];
+                            for (const row of response.items) {
+                              ids.push(row.vehicle_type_id);
+                            }
+
+                            this.vehicleTypeIDs = ids;
                           })
                         )
-                      ),
-                    this.item.item_type_id === 1 || this.item.item_type_id === 4
-                      ? this.http
-                          .get<APIItemVehicleTypeGetResponse>(
-                            '/api/item-vehicle-type',
-                            {
-                              params: {
-                                item_id: this.item.id.toString()
-                              }
-                            }
-                          )
-                          .pipe(
-                            tap(response => {
-                              const ids: number[] = [];
-                              for (const row of response.items) {
-                                ids.push(row.vehicle_type_id);
-                              }
-
-                              this.vehicleTypeIDs = ids;
-                            })
-                          )
-                      : of(null)
-                  )
+                    : of(null)
                 )
               ),
             this.pictureItemService
@@ -217,38 +204,41 @@ export class ModerItemsItemPicturesOrganizeComponent
             {}
           )
         ),
-        switchMap(response => {
-          const subpromises: Observable<void>[] = [
-            this.itemService.setItemVehicleTypes(
-              response.id,
-              this.vehicleTypeIDs
-            ),
-            this.http.post<void>('/api/item-parent', {
-              parent_id: this.item.id,
-              item_id: response.id
-            })
-          ];
+        switchMap(
+          response => {
+            const subpromises: Observable<void>[] = [
+              this.itemService.setItemVehicleTypes(
+                response.id,
+                this.vehicleTypeIDs
+              ),
+              this.http.post<void>('/api/item-parent', {
+                parent_id: this.item.id,
+                item_id: response.id
+              })
+            ];
 
-          for (const picture of this.pictures) {
-            if (picture.selected) {
-              subpromises.push(
-                this.http.put<void>(
-                  '/api/picture-item/' +
-                    picture.picture_id +
-                    '/' +
-                    picture.item_id +
-                    '/' +
-                    picture.type,
-                  {
-                    item_id: response.id
-                  }
-                )
-              );
+            for (const picture of this.pictures) {
+              if (picture.selected) {
+                subpromises.push(
+                  this.http.put<void>(
+                    '/api/picture-item/' +
+                      picture.picture_id +
+                      '/' +
+                      picture.item_id +
+                      '/' +
+                      picture.type,
+                    {
+                      item_id: response.id
+                    }
+                  )
+                );
+              }
             }
-          }
 
-          return forkJoin(...subpromises);
-        }, response => response)
+            return forkJoin(...subpromises);
+          },
+          response => response
+        )
       )
       .subscribe(item => {
         this.loading--;

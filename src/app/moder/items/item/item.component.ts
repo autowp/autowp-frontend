@@ -2,8 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ACLService } from '../../../services/acl.service';
 import { ItemService, APIItem } from '../../../services/item';
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription, of, combineLatest } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { APIPicture, PictureService } from '../../../services/picture';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -92,7 +91,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private acl: ACLService,
     private itemService: ItemService,
     private route: ActivatedRoute,
@@ -175,24 +173,21 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.linksTab.visible = [5, 7, 8].indexOf(typeID) !== -1;
           this.logoTab.visible = typeID === 5;
           this.vehiclesTab.visible = typeID === 2;
-          this.picturesTab.visible = [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
+          this.picturesTab.visible =
+            [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
         }),
         switchMap(
           item => {
             this.loading++;
-            return combineLatest(
-              this.translate.get('item/type/' + item.item_type_id + '/name'),
-              this.pictureService.getPictures({
-                fields: 'thumb_medium',
-                limit: 1,
-                item_id: item.id
-              })
-            );
+            return this.pictureService.getPictures({
+              fields: 'thumb_medium',
+              limit: 1,
+              item_id: item.id
+            });
           },
-          (item, combined) => ({
+          (item, pictures) => ({
             item: item,
-            translation: combined[0],
-            pictures: combined[1].pictures
+            pictures: pictures.pictures
           })
         ),
         finalize(() => {
@@ -204,12 +199,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
               isAdminPage: true,
               needRight: false
             },
-            name: 'page/78/name',
-            pageId: 78,
-            args: {
-              CAR_ID: data.item.id + '',
-              CAR_NAME: data.translation + ': ' + data.item.name_text
-            }
+            nameTranslated: data.item.name_text,
+            pageId: 78
           });
           this.randomPicture =
             data.pictures.length > 0 ? data.pictures[0] : null;

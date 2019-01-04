@@ -1,7 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
@@ -50,7 +48,6 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -99,49 +96,38 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                 tap(item => {
                   this.item = item;
                   this.newItem = Object.assign({}, item);
+
+                  this.pageEnv.set({
+                    layout: {
+                      isAdminPage: true,
+                      needRight: false
+                    },
+                    nameTranslated: 'Organize',
+                    pageId: 215
+                  });
                 }),
                 switchMap(item =>
-                  combineLatest(
-                    this.translate
-                      .get('item/type/' + item.item_type_id + '/name')
-                      .pipe(
-                        tap(translation => {
-                          this.pageEnv.set({
-                            layout: {
-                              isAdminPage: true,
-                              needRight: false
-                            },
-                            name: 'page/215/name',
-                            pageId: 215,
-                            args: {
-                              CAR_ID: item.id + '',
-                              CAR_NAME: translation + ': ' + item.name_text
+                  item.item_type_id === 1 || item.item_type_id === 4
+                    ? this.http
+                        .get<APIItemVehicleTypeGetResponse>(
+                          '/api/item-vehicle-type',
+                          {
+                            params: {
+                              item_id: item.id.toString()
                             }
-                          });
-                        })
-                      ),
-                    item.item_type_id === 1 || item.item_type_id === 4
-                      ? this.http
-                          .get<APIItemVehicleTypeGetResponse>(
-                            '/api/item-vehicle-type',
-                            {
-                              params: {
-                                item_id: item.id.toString()
-                              }
+                          }
+                        )
+                        .pipe(
+                          tap(response => {
+                            const ids: number[] = [];
+                            for (const row of response.items) {
+                              ids.push(row.vehicle_type_id);
                             }
-                          )
-                          .pipe(
-                            tap(response => {
-                              const ids: number[] = [];
-                              for (const row of response.items) {
-                                ids.push(row.vehicle_type_id);
-                              }
 
-                              this.vehicleTypeIDs = ids;
-                            })
-                          )
-                      : of(null)
-                  )
+                            this.vehicleTypeIDs = ids;
+                          })
+                        )
+                    : of(null)
                 )
               ),
             this.itemParentService

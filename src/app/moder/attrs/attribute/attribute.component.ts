@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../../notify';
-import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -73,7 +72,6 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private attrsService: APIAttrsService,
-    private translate: TranslateService,
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService
@@ -138,12 +136,15 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(data => {
-        this.translate
-          .get(data.attribute.name)
-          .subscribe(
-            (translation: string) => this.setPageEnv(translation),
-            () => this.setPageEnv(data.attribute.name)
-          );
+
+        this.pageEnv.set({
+          layout: {
+            isAdminPage: true,
+            needRight: false
+          },
+          name: data.attribute.name,
+          pageId: 101
+        });
 
         this.attribute = data.attribute;
         this.typeOptions = this.typeOptionsDefaults.slice(0);
@@ -159,20 +160,6 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
 
         this.attributes = data.attributes.items;
       });
-  }
-
-  private setPageEnv(name: string) {
-    this.pageEnv.set({
-      layout: {
-        isAdminPage: true,
-        needRight: false
-      },
-      name: 'page/101/name',
-      pageId: 101,
-      args: {
-        ATTR_NAME: name
-      }
-    });
   }
 
   ngOnDestroy(): void {

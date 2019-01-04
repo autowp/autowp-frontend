@@ -1025,7 +1025,7 @@
   "moder/picture/edit-brand-%s": "编辑品牌%s",
   "moder/picture/edit-engine-%s": "编辑发动机%s",
   "moder/picture/edit-factory-%s": "编辑工厂%s",
-  "moder/picture/picture-n-%s": "图片№%s",
+  "moder/picture/picture-n": "图片№{id}",
   "moder/picture/previous": "<< 上一张",
   "moder/picture/next": "下一张>>",
   "moder/picture/previous-new": "<<上上张",

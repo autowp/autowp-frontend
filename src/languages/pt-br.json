@@ -1025,7 +1025,7 @@
   "moder/picture/edit-brand-%s": "Editar marca %s",
   "moder/picture/edit-engine-%s": "Editar motor %s",
   "moder/picture/edit-factory-%s": "Editar fábrica %s",
-  "moder/picture/picture-n-%s": "Imagem nº%s",
+  "moder/picture/picture-n": "Imagem nº{id}",
   "moder/picture/previous": "<< anterior",
   "moder/picture/next": "próxima >>",
   "moder/picture/previous-new": "<< anterior nova",

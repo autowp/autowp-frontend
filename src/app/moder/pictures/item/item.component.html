@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder" translate>page/67/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder/pictures" translate>page/73/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="picture">
+  <h1 translate [translateParams]="{id: picture.id}">moder/picture/picture-n</h1>
+</div>
+
 <div class="row mb-4" *ngIf="picture && picture.siblings">
   <div class="col-md-3">
     <a [routerLink]="['/moder/pictures', picture.siblings.prev_new.id]" [title]="picture.siblings.prev_new.name_text" *ngIf="picture.siblings.prev_new"

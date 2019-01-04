@@ -73,12 +73,8 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/142/name',
-          pageId: 142,
-          args: {
-            ZONE_NAME: data.zone.name,
-            ZONE_ID: data.zone.id + ''
-          }
+          nameTranslated: data.zone.name,
+          pageId: 142
         });
 
         this.attributes = data.attributes;

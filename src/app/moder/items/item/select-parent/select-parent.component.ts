@@ -4,7 +4,6 @@ import { APIPaginator } from '../../../../services/api.service';
 import { ItemService, APIItem } from '../../../../services/item';
 import { chunk } from '../../../../chunk';
 import Notify from '../../../../notify';
-import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import {
@@ -44,7 +43,6 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -111,22 +109,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
           item => {
             this.item = item;
 
-            this.translate
-              .get('item/type/' + this.item.item_type_id + '/name')
-              .subscribe((translation: string) => {
-                this.pageEnv.set({
-                  layout: {
-                    isAdminPage: true,
-                    needRight: false
-                  },
-                  name: 'page/144/name',
-                  pageId: 144,
-                  args: {
-                    CAR_ID: this.item.id + '',
-                    CAR_NAME: translation + ': ' + this.item.name_text
-                  }
-                });
-              });
+            this.pageEnv.set({
+              layout: {
+                isAdminPage: true,
+                needRight: false
+              },
+              name: 'page/144/name',
+              pageId: 144
+            });
 
             this.showCatalogueTab = [1, 2, 5].includes(this.item.item_type_id);
             this.showBrandsTab = [1, 2, 5].includes(this.item.item_type_id);

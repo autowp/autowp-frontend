@@ -1,3 +1,25 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder" translate>page/67/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder/items" translate>page/131/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="item">
+      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1>Organize pictures</h1>
+</div>
+
+
 <app-markdown [markdown]="'moder/vehicle/pictures/turbo-group-creator'|translate"></app-markdown>
 
 <app-item-meta-form class="mb-4" [hidden]="loading > 0" [hideSubmit]="true" [(item)]="newItem" (submit)="submit()" [(vehicleTypeIDs)]="vehicleTypeIDs"

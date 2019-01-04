@@ -1,3 +1,24 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder" translate>page/67/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder/items" translate>page/131/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="item">
+      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header">
+  <h1>Item parent</h1>
+</div>
+
 <p *ngIf="parent && item">
   <a [routerLink]="['/moder/items/item', parent.id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="parent.name_html"></a>
   &rarr;

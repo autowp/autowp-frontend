@@ -16,9 +16,7 @@ import {
   debounceTime,
   tap
 } from 'rxjs/operators';
-import { PictureService } from '../../../../services/picture';
-import { TranslateService } from '@ngx-translate/core';
-import { sprintf } from 'sprintf-js';
+import { PictureService, APIPicture } from '../../../../services/picture';
 
 // Acl.inheritsRole( 'moder', 'unauthorized' );
 
@@ -36,6 +34,7 @@ export interface PictureItemMoveSelection {
 export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private id: number;
+  public picture: APIPicture;
   public conceptsExpanded = false;
   public srcItemID: number;
   public srcType: number;
@@ -76,7 +75,6 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private itemParentService: ItemParentService,
     private pageEnv: PageEnvService,
-    private translate: TranslateService,
     private pictureService: PictureService
   ) {}
 
@@ -86,27 +84,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         tap(params => {
           this.id = params.id;
         }),
-        switchMap(params =>
-          combineLatest(
-            this.pictureService.getPicture(params.id),
-            this.translate.get('moder/picture/picture-n-%s'),
-            (picture, translation) => ({ picture, translation })
-          )
-        ),
-        tap(data =>
+        switchMap(params => this.pictureService.getPicture(params.id)),
+        tap(data => {
+          this.picture = data;
           this.pageEnv.set({
             layout: {
               isAdminPage: true,
               needRight: false
             },
             name: 'page/149/name',
-            pageId: 149,
-            args: {
-              PICTURE_ID: data.picture.id + '',
-              PICTURE_NAME: sprintf(data.translation, data.picture.id)
-            }
-          })
-        )
+            pageId: 149
+          });
+        })
       ),
       this.route.queryParams.pipe(
         distinctUntilChanged(),
@@ -204,17 +193,19 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
 
           let copyrights$ = of(null);
           if (this.showCopyrights) {
-            copyrights$ = this.itemService.getItems({
-              type_id: 9,
-              fields: 'name_html',
-              limit: 50,
-              page: params.page
-            }).pipe(
-              tap(response => {
-                this.copyrights = response.items;
-                this.copyrightsPaginator = response.paginator;
+            copyrights$ = this.itemService
+              .getItems({
+                type_id: 9,
+                fields: 'name_html',
+                limit: 50,
+                page: params.page
               })
-            );
+              .pipe(
+                tap(response => {
+                  this.copyrights = response.items;
+                  this.copyrightsPaginator = response.paginator;
+                })
+              );
           }
 
           let brandItems$ = of(null);

@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { SpecService, APISpec } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
 import Notify from '../../../notify';
-import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, empty, combineLatest, of, forkJoin } from 'rxjs';
+import { Subscription, empty, of, forkJoin } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   distinctUntilChanged,
@@ -57,7 +56,6 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private specService: SpecService,
     private itemService: ItemService,
     private router: Router,
@@ -95,81 +93,75 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         switchMap(params => {
           this.item.item_type_id = parseInt(params.item_type_id, 10);
 
-          if ([1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1) {
+          if (
+            [1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1
+          ) {
             this.router.navigate(['/error-404']);
             return empty();
           }
 
           this.loading++;
 
-          return combineLatest(
-            this.itemService
-              .getItem(params.parent_id, {
-                fields: 'is_concept,name_html,spec_id'
-              })
-              .pipe(
-                switchMap(
-                  parent => {
-                    const specId = parent ? parent.spec_id : null;
+          return this.itemService
+            .getItem(params.parent_id, {
+              fields: 'is_concept,name_html,spec_id'
+            })
+            .pipe(
+              switchMap(
+                parent => {
+                  const specId = parent ? parent.spec_id : null;
 
-                    return specId && Number.isInteger(specId as number)
-                      ? this.specService.getSpec(specId as number)
-                      : of(null as APISpec);
-                  },
-                  (item, spec) => ({ item, spec })
-                ),
-                switchMap(
-                  parent => {
-                    if (
-                      parent.item &&
-                      (parent.item.item_type_id === 1 ||
-                        parent.item.item_type_id === 4)
-                    ) {
-                      return this.http
-                        .get<APIItemVehicleTypeGetResponse>(
-                          '/api/item-vehicle-type',
-                          {
-                            params: {
-                              item_id: parent.item.id.toString()
-                            }
-                          }
-                        )
-                        .pipe(
-                          map(response => {
-                            const ids: number[] = [];
-                            for (const row of response.items) {
-                              ids.push(row.vehicle_type_id);
-                            }
-
-                            return ids;
-                          })
-                        );
-                    }
-                    return of([] as number[]);
-                  },
-                  (item, vehicleTypeIDs) => {
-                    return {
-                      item: item.item,
-                      spec: item.spec,
-                      vehicleTypeIDs: vehicleTypeIDs
-                    };
-                  }
-                ),
-                finalize(() => this.loading--)
+                  return specId && Number.isInteger(specId as number)
+                    ? this.specService.getSpec(specId as number)
+                    : of(null as APISpec);
+                },
+                (item, spec) => ({ item, spec })
               ),
-            this.translate.get(
-              'item/type/' + params.item_type_id + '/new-item'
-            ),
-            (parent, translation: string) => {
-              return {
-                item: parent.item,
-                spec: parent.spec,
-                vehicleTypeIDs: parent.vehicleTypeIDs,
-                translation: translation
-              };
-            }
-          );
-        })
+              switchMap(
+                parent => {
+                  if (
+                    parent.item &&
+                    (parent.item.item_type_id === 1 ||
+                      parent.item.item_type_id === 4)
+                  ) {
+                    return this.http
+                      .get<APIItemVehicleTypeGetResponse>(
+                        '/api/item-vehicle-type',
+                        {
+                          params: {
+                            item_id: parent.item.id.toString()
+                          }
+                        }
+                      )
+                      .pipe(
+                        map(response => {
+                          const ids: number[] = [];
+                          for (const row of response.items) {
+                            ids.push(row.vehicle_type_id);
+                          }
+
+                          return ids;
+                        })
+                      );
+                  }
+                  return of([] as number[]);
+                },
+                (item, vehicleTypeIDs) => {
+                  return {
+                    item: item.item,
+                    spec: item.spec,
+                    vehicleTypeIDs: vehicleTypeIDs
+                  };
+                }
+              ),
+              finalize(() => this.loading--)
+            );
+        }, (params, data) => ({
+          item: data.item,
+          spec: data.spec,
+          vehicleTypeIDs: data.vehicleTypeIDs,
+          itemTypeID: params.item_type_id
+        }))
       )
       .subscribe(data => {
         this.parent = data.item;
@@ -182,11 +174,8 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                 isAdminPage: true,
                 needRight: false
               },
-              name: 'page/163/name',
-              pageId: 163,
-              args: {
-                NEW_ITEM_OF_TYPE: data.translation
-              }
+              name: 'item/type/' + data.itemTypeID + '/new-item',
+              pageId: 163
             }),
           0
         );

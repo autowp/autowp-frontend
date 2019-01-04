@@ -1025,7 +1025,7 @@
   "moder/picture/edit-brand-%s": "Управління брендом %s",
   "moder/picture/edit-engine-%s": "Управління двигуном %s",
   "moder/picture/edit-factory-%s": "Управління заводом %s",
-  "moder/picture/picture-n-%s": "Зображення №%s",
+  "moder/picture/picture-n": "Зображення №{id}",
   "moder/picture/previous": "<< попереднє",
   "moder/picture/next": "наступне >>",
   "moder/picture/previous-new": "<< попереднє не оброблене",

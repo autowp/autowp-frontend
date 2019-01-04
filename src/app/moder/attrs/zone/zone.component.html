@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder" translate>page/67/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder/attrs" translate>page/100/name</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="zone">
+  <h1>{{zone.name}}</h1>
+</div>
+
 <h2 translate>moder/attrs/attributes</h2>
 <div class="card card-body">
   <app-moder-attrs-zone-attribute-list [attributes]="attributes" [map]="zoneAttribute" (changed)="change($event)"></app-moder-attrs-zone-attribute-list>

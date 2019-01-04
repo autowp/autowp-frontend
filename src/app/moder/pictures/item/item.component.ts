@@ -1,14 +1,12 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
-import { sprintf } from 'sprintf-js';
 import { HttpClient } from '@angular/common/http';
 import {
   PictureItemService,
   APIPictureItem
 } from '../../../services/picture-item';
 import { ItemService, APIItem } from '../../../services/item';
-import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { PictureService, APIPicture } from '../../../services/picture';
 import { APIPerspective } from '../../../services/api.service';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -58,7 +56,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private perspectiveService: APIPerspectiveService,
     private pictureItemService: PictureItemService,
     private itemService: ItemService,
@@ -73,33 +70,29 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       .getPerspectives()
       .subscribe(perspectives => (this.perspectives = perspectives));
 
-    this.routeSub = combineLatest(
-      this.route.params.pipe(
+    this.routeSub = this.route.params
+      .pipe(
         distinctUntilChanged(),
         debounceTime(30)
-      ),
-      this.translate.get('moder/picture/picture-n-%s'),
-      (params, translation) => ({ params, translation })
-    )
+      )
       .pipe(
-        tap(data =>
+        tap(params =>
           this.pageEnv.set({
             layout: {
               isAdminPage: true,
               needRight: false
             },
-            name: 'page/72/name',
+            name: 'moder/picture/picture-n',
             pageId: 72,
             args: {
-              PICTURE_ID: data.params.id + '',
-              PICTURE_NAME: sprintf(data.translation, data.params.id)
+              id: params.id
             }
           })
         ),
-        switchMap(data =>
+        switchMap(params =>
           this.change$.pipe(
             switchMapTo(
-              this.pictureService.getPicture(data.params.id, {
+              this.pictureService.getPicture(params.id, {
                 fields: [
                   'owner',
                   'thumb',
