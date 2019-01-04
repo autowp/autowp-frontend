@@ -7,7 +7,7 @@
       <a routerLink="/forums" translate>page/42/name</a>
     </li>
     <li class="breadcrumb-item" *ngIf="topic && topic.theme">
-      <a routerLink="['/forums', topic.theme.id]">{{topic.theme.name|translate}}</a>
+      <a [routerLink]="['/forums', topic.theme.id]">{{topic.theme.name|translate}}</a>
     </li>
     <li class="breadcrumb-item" *ngIf="topic">
       <a [routerLink]="['/forums/topic/topic/topic_id', topic.id]">{{topic.name}}</a>

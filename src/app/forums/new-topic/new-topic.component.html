@@ -7,7 +7,7 @@
       <a routerLink="/forums" translate>page/42/name</a>
     </li>
     <li class="breadcrumb-item" *ngIf="theme">
-      <a routerLink="['/forums', theme.id]">{{theme.name|translate}}</a>
+      <a [routerLink]="['/forums', theme.id]">{{theme.name|translate}}</a>
     </li>
   </ol>
 </nav>
