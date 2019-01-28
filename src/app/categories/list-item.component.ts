@@ -11,7 +11,7 @@ import { ACLService } from '../services/acl.service';
 export class CategoriesListItemComponent {
   @Input() item: APIItem;
   @Input() urlPrefix: string;
-  @Input() routerLink: string[];
+  @Input() parentRouterLink: string[];
 
   public isModer = false;
 
