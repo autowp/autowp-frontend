@@ -236,11 +236,11 @@ export class CarsSpecificationsEditorSpecComponent
                       id: null
                     },
                     {
-                      name: translations[1],
+                      name: translations['specifications/boolean/false'],
                       id: 0
                     },
                     {
-                      name: translations[2],
+                      name: translations['specifications/boolean/true'],
                       id: 1
                     }
                   ];
