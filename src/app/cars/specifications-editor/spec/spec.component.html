@@ -42,7 +42,7 @@
             </select>
             <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && attribute.is_multiple"
               [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty"
-              multiple [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]">
+              multiple [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]" size="5">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
             <input type="number" *ngIf="attribute.type_id == 2" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
