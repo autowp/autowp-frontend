@@ -71,12 +71,8 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/213/name',
-            pageId: 213,
-            args: {
-              PERSON_ID: item.id + '',
-              PERSON_NAME: item.name_text
-            }
+            name: item.name_text,
+            pageId: 213
           });
         }),
         switchMap(
