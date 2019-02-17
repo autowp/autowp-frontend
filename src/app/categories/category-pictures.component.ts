@@ -117,6 +117,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
               limit: 20,
               page: data.page,
               item_id: data.current.id,
+              status: 'accepted',
               order: 3
             });
           },
