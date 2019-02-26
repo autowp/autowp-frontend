@@ -59,9 +59,9 @@ export class RestorePasswordComponent {
         response => {
           this.failure = response.status === 404;
           if (response.status === 400) {
-            this.invalidParams = response.invalid_params;
+            this.invalidParams = response.error.invalid_params;
 
-            this.showCaptcha = response.invalid_params.captcha;
+            this.showCaptcha = response.error.invalid_params && response.error.invalid_params.captcha;
           } else if (response.status === 404) {
           } else {
             Notify.response(response);
