@@ -17,7 +17,7 @@
 
   <div class="row" *ngIf="havePhoto(item)">
     <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
-      <a [href]="'/twins/group' + group.id + '/pictures/' + picture.picture.identity" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
+      <a [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
         <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
         />
       </a>
@@ -49,7 +49,7 @@
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
       <i class="fa fa-tag mr-1"></i>
-      <a [href]="category.url" [innerHTML]="category.name_html"></a>
+      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">

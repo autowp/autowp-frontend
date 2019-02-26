@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { Router, RouterEvent, NavigationStart } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -46,7 +46,8 @@ export class AppComponent implements OnInit {
     private pageEnv: PageEnvService,
     private languageService: LanguageService,
     private itemService: ItemService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private renderer: Renderer2
   ) {
     this.language = this.languageService.getLanguage();
     const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
@@ -61,6 +62,13 @@ export class AppComponent implements OnInit {
     moment.locale(this.languageService.getMomentLocale());
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+    this.layoutParams$.subscribe(params => {
+      if (params.isGalleryPage) {
+        this.renderer.addClass(document.body, 'gallery');
+      } else {
+        this.renderer.removeClass(document.body, 'gallery');
+      }
+    });
 
     this.auth.loadMe().subscribe();
 

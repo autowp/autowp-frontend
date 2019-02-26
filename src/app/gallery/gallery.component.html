@@ -1,0 +1,42 @@
+<div class="gallery">
+  <div class="carousel slide">
+    <ol class="carousel-indicators"></ol>
+    <div class="carousel-numbers"></div>
+    <div class="carousel-inner">
+      z{{current}}z
+      {{images}}
+      <div class="carousel-item item" [class.loading]="!item" [class.active]="item && item.identity == current" *ngFor="let item of images">
+        <ng-container *ngIf="item">
+          <div class="area" [title]="area.name" *ngFor="let area of item.areas"></div>
+        </ng-container>
+        <div class="carousel-caption" *ngIf="item">
+          <h3 [innerHTML]="item.name"></h3>
+        </div>
+        <a class="download carousel-control" role="button" [href]="item.sourceUrl" *ngIf="item">
+          <i class="fa fa-download"></i>
+          <div class="badge badge-pill badge-info">{{item.filesize}}</div>
+        </a>
+        <a class="comments carousel-control" role="button" [href]="item.url + '#comments'" *ngIf="item">
+          <i class="fa fa-comment"></i>
+          <div class="badge badge-pill badge-info" *ngIf="item.messages">
+            {{item.messages - item.newMessages}}<span *ngIf="item.newMessages">+{{item.newMessages}}</span>
+          </div>
+        </a>
+        <a class="details carousel-control" role="button" [href]="item.url" *ngIf="item">
+          <i class="fa fa-picture-o"></i>
+        </a>
+        <div class="loading-icon" *ngIf="!item"><i class="fa fa-spinner fa-pulse"></i></div>
+        <span class="carousel-control-full" *ngIf="item"><i class="fa fa-arrows-alt"></i></span>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#" role="button" (click)="prevClick()">
+      <i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next" href="#" role="button" (click)="nextClick()">
+      <i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i>
+    </a>
+    <a class="carousel-control-close" href="#" role="button">
+      <i class="fa fa-times"></i>
+    </a>
+  </div>
+</div>

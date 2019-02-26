@@ -1,11 +1,11 @@
 <div class="card mb-4" [class.vote-accept]="picture.moder_vote && picture.moder_vote.vote > 0" [class.vote-remove]="picture.moder_vote && picture.moder_vote.vote < 0"
   [class.vote-neutral]="picture.moder_vote && picture.moder_vote.count > 0 && picture.moder_vote.vote == 0">
-  <a [href]="'/twins/group' + group.id + '/pictures/' + picture.identity" *ngIf="picture.thumb_medium">
+  <a [routerLink]="['/twins/group', group.id, 'pictures', picture.identity]" *ngIf="picture.thumb_medium">
     <img class="card-img-top" [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text">
   </a>
   <div class="card-body">
     <h6 class="card-title">
-      <a [href]="'/twins/group' + group.id + '/pictures/' + picture.identity" [innerHtml]="picture.name_html"></a>
+      <a [routerLink]="['/twins/group', group.id, 'pictures', picture.identity]" [innerHtml]="picture.name_html"></a>
     </h6>
 
     <p class="picture-behaviour clearfix">
