@@ -112,6 +112,7 @@ export interface APIItem {
   };
   front_picture?: APIPicture;
   descendants_count: number;
+  has_specs?: boolean;
 }
 
 export interface APIItemRelatedGroupItem {

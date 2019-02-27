@@ -51,7 +51,6 @@ export interface APIComment {
   providedIn: 'root'
 })
 export class APICommentsService {
-
   private attentionCommentsCount$: Observable<number>;
 
   constructor(private http: HttpClient, private acl: ACLService) {
@@ -179,5 +178,16 @@ export class APICommentsService {
 
   public getAttentionCommentsCount(): Observable<number> {
     return this.attentionCommentsCount$;
+  }
+
+  public setSubscribed(
+    itemID: number,
+    typeID: number,
+    value: boolean
+  ): Observable<void> {
+    return this.http.request<void>(
+      value ? 'PUT' : 'DELETE',
+      '/api/comment/subscribe/' + itemID + '/' + typeID
+    );
   }
 }

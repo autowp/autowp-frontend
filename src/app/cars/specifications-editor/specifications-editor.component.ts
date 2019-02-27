@@ -86,6 +86,11 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.isSpecsAdmin = data.isSpecsAdmin;
           this.isModer = data.isModer;
 
+          if (! data.item) {
+            this.router.navigate(['/error-404']);
+            return;
+          }
+
           this.item = data.item;
 
           this.pageEnv.set({
@@ -95,7 +100,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
             name: 'page/102/ng-name',
             pageId: 102,
             args: {
-              item_name: this.item.name_text
+              item_name: data.item.name_text
             }
           });
 
