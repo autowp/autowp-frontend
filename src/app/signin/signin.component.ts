@@ -102,5 +102,7 @@ export class SignInComponent {
           console.log(response);
         }
       );
+
+    return false;
   }
 }
