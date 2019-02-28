@@ -4,7 +4,6 @@ import { APIItem, ItemService } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { switchMap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-twins-group-gallery',

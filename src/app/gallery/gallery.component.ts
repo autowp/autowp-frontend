@@ -4,7 +4,7 @@ import { APIImage } from '../services/api.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { switchMap, tap, debounceTime, switchMapTo, map } from 'rxjs/operators';
 
-interface Dimension {
+/*interface Dimension {
   width: number;
   height: number;
 }
@@ -14,7 +14,7 @@ interface Bounds {
   top: number;
   width: number;
   height: number;
-}
+}*/
 
 interface Rectangle {
   left: number;
@@ -90,12 +90,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   private perPage = 10;
   private url: string;
 
-  private escHandler: (
+  /*private escHandler: (
     eventObject: JQueryEventObject,
     ...eventData: any[]
-  ) => any;
+  ) => any;*/
   private $e: JQuery;
-  private $carousel: JQuery;
+  //private $carousel: JQuery;
   private $inner: JQuery;
   private $indicators: JQuery;
   private $numbers: JQuery;
@@ -571,7 +571,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     $right.toggle(pos < this.count - 1);
   }
 
-  private bound(container: Dimension, content: Dimension): Dimension {
+  /*private bound(container: Dimension, content: Dimension): Dimension {
     const containerRatio = container.width / container.height;
     const contentRatio = content.width / content.height;
 
@@ -588,9 +588,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       width: width,
       height: height
     };
-  }
+  }*/
 
-  private boundCenter(container: Dimension, content: Dimension): Bounds {
+  /*private boundCenter(container: Dimension, content: Dimension): Bounds {
     return {
       left: (container.width - content.width) / 2,
       top: (container.height - content.height) / 2,
@@ -616,16 +616,16 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         height: area.height * offsetBounds.height
       });
     });
-  }
+  }*/
 
   private fixSize($items: JQuery) {
-    const w = this.$inner.width() || 0;
-    const h = this.$inner.height() || 0;
+    //const w = this.$inner.width() || 0;
+    //const h = this.$inner.height() || 0;
 
-    const cSize: Dimension = {
+    /*const cSize: Dimension = {
       width: w,
       height: h
-    };
+    };*/
 
     $items.each(() => {
       /*const $item: JQuery = $(this);
@@ -728,7 +728,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  private hide() {
+  /*private hide() {
     this.$e.hide();
     $(document.body).removeClass('gallery-shown');
 
@@ -747,9 +747,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     this.$e.find('a.carousel-control-next').focus();
 
     // this.carousel.show();
-  }
+  }*/
 
-  private rewindToPosition(position: number) {
+  /*private rewindToPosition(position: number) {
     this.position = position;
     this.refreshIndicator();
     this.$e.find('.item').each((idx) => {
@@ -772,7 +772,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         return false;
       }
     });
-  }
+  }*/
 
   private positionPage(index: number) {
     return Math.floor(index / this.perPage) + 1;
