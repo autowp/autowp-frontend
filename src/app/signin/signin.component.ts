@@ -12,6 +12,7 @@ interface SignInService {
   id: string;
   name: string;
   icon: string;
+  color: string;
 }
 
 @Component({
@@ -57,7 +58,8 @@ export class SignInComponent {
             this.services.push({
               id: key,
               name: item.name,
-              icon: item.icon
+              icon: item.icon,
+              color: item.color
             });
           }
         }
