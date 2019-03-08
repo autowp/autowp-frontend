@@ -77,6 +77,7 @@ const appRoutes: Routes = [
       './restore-password/restore-password.module#RestorePasswordModule'
   },
   { path: 'rules', loadChildren: './rules/rules.module#RulesModule' },
+  { path: 'policy', loadChildren: './policy/policy.module#PolicyModule' },
   {
     path: 'signup',
     loadChildren: './signup/signup.module#SignupModule'

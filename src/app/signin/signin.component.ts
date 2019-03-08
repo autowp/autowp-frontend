@@ -12,6 +12,7 @@ interface SignInService {
   id: string;
   name: string;
   icon: string;
+  color: string;
 }
 
 @Component({
@@ -35,7 +36,7 @@ export class SignInComponent {
     private http: HttpClient,
     private pageEnv: PageEnvService
   ) {
-    this.auth.getUser().subscribe(user => (this.user = user));
+    this.auth.getUser().subscribe((user) => (this.user = user));
 
     setTimeout(
       () =>
@@ -50,19 +51,20 @@ export class SignInComponent {
     );
 
     this.http.get<APILoginServicesGetResponse>('/api/login/services').subscribe(
-      response => {
+      (response) => {
         for (const key in response.items) {
           if (response.items.hasOwnProperty(key)) {
             const item = response.items[key];
             this.services.push({
               id: key,
               name: item.name,
-              icon: item.icon
+              icon: item.icon,
+              color: item.color
             });
           }
         }
       },
-      response => {
+      (response) => {
         console.log(response);
       }
     );
@@ -74,8 +76,8 @@ export class SignInComponent {
     this.auth
       .login(this.form.login, this.form.password, this.form.remember)
       .subscribe(
-        user => {},
-        response => {
+        (user) => {},
+        (response) => {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
@@ -83,6 +85,8 @@ export class SignInComponent {
           }
         }
       );
+
+    return false;
   }
 
   public start(serviceId: string) {
@@ -93,12 +97,14 @@ export class SignInComponent {
         }
       })
       .subscribe(
-        response => {
+        (response) => {
           window.location.href = response.url;
         },
-        response => {
+        (response) => {
           console.log(response);
         }
       );
+
+    return false;
   }
 }
