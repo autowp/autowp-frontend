@@ -39,6 +39,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   private current$ = new BehaviorSubject<string>(null);
   public items: GalleryItem[];
   public gallery: GalleryItem[] = [];
+  private status: string;
   public currentItemID: number;
   public currentItemIndex: number;
   public currentItem: APIGalleryItem;
@@ -217,9 +218,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe();
   }
 
-  private applyResponse(response) {
+  private applyResponse(response: APIGallery) {
     if (this.gallery.length < response.count) {
       this.gallery[response.count - 1] = null;
+      this.status = response.status;
     }
 
     for (let i = 0; i < response.items.length; i++) {
@@ -234,7 +236,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     return this.http
       .get<APIGallery>('/api/item/' + itemID + '/gallery', {
         params: {
-          page: page + ''
+          page: page + '',
+          status: this.status
         }
       })
       .pipe(
@@ -420,28 +423,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private renderItem(item: any) {
-    const $loading = $(
-      '<div class="loading-icon"><i class="fa fa-spinner fa-pulse"></i></div>'
-    );
 
-    const $caption: JQuery = $(
-      '<div class="carousel-caption">' +
-        '<h3></h3>' +
-        // '<p></p>' +
-        '</div>'
-    );
-
-    $caption.find('h3').html(item.name);
-    // $caption.find('[data-toggle="tooltip"]').tooltip();
-
-    const $item = $('<div class="carousel-item item loading"></div>')
-      .data({
-        id: item.id,
-        full: item.full,
-        crop: item.crop
-      })
-      .append($caption)
-      .append($loading);
+    const $item = $('<div class="carousel-item item loading"></div>');
 
     if (item.crop) {
       $(

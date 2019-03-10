@@ -44,6 +44,7 @@ export interface APIGallery {
   pages: number;
   count: number;
   items: APIGalleryItem[];
+  status: string;
 }
 
 export interface GalleryItem {

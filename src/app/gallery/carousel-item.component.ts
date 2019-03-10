@@ -216,7 +216,6 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
   private areasToBounds(offsetBounds: Bounds) {
     this.item.areas.forEach(area => {
-      console.log('area', area);
       area.styles = {
         'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
         'top.px': offsetBounds.top + area.area.top * offsetBounds.height,
