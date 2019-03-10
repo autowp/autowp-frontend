@@ -106,7 +106,6 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       height: h
     };
 
-    const $item = $inner.parent();
     const full = this.item.full;
     const crop = this.item.crop;
 
@@ -145,7 +144,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           'top.px': imgFullBounds.top
         };
 
-        this.areasToBounds($item, imgFullBounds);
+        this.areasToBounds(imgFullBounds);
       } else {
         const bounds = this.maxBounds(
           this.bound(cSize, {
@@ -171,7 +170,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           'height.px': bounds.height * crop.crop.height
         };
 
-        this.areasToBounds($item, offsetBounds);
+        this.areasToBounds(offsetBounds);
       }
     } else {
       if (!full) {
@@ -195,7 +194,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
         'top.px': offsetBounds.top
       };
 
-      this.areasToBounds($item, offsetBounds);
+      this.areasToBounds(offsetBounds);
     }
   }
 
@@ -215,15 +214,15 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
     return bounds;
   }
 
-  private areasToBounds($item: JQuery, offsetBounds: Bounds) {
-    $item.find('.area').each(() => {
-      const area = $(this).data('area');
-      $(this).css({
-        left: offsetBounds.left + area.left * offsetBounds.width,
-        top: offsetBounds.top + area.top * offsetBounds.height,
-        width: area.width * offsetBounds.width,
-        height: area.height * offsetBounds.height
-      });
+  private areasToBounds(offsetBounds: Bounds) {
+    this.item.areas.forEach(area => {
+      console.log('area', area);
+      area.styles = {
+        'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
+        'top.px': offsetBounds.top + area.area.top * offsetBounds.height,
+        'width.px': area.area.width * offsetBounds.width,
+        'height.px': area.area.height * offsetBounds.height
+      };
     });
   }
 

@@ -17,6 +17,7 @@ export interface APIGalleryResponse {
 export interface APIGalleryItemArea {
   area: Rectangle;
   name: string;
+  styles?: {};
 }
 
 export interface APIGalleryItem {

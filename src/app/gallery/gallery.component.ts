@@ -434,36 +434,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     $caption.find('h3').html(item.name);
     // $caption.find('[data-toggle="tooltip"]').tooltip();
 
-    const areas: JQuery[] = [];
-    $.map(item.areas, (area) => {
-      const $area: JQuery = $('<div class="area"></div>');
-      $area.data('area', area.area);
-      /*$area.tooltip({
-        title: area.name,
-        html: true,
-        placement: (tooptip: any, node: any) => {
-          const winHeight = $(window).height();
-          const nodeOffset = $(node).offset();
-          const nodeHeight = $(node).height();
-          const winCenter = winHeight === undefined ? 0 : winHeight / 2;
-          const nodeCenter =
-            nodeOffset === undefined || nodeHeight === undefined
-              ? 0
-              : nodeOffset.top + nodeHeight / 2;
-
-          return winCenter > nodeCenter ? 'bottom' : 'top';
-        }
-      });*/
-      areas.push($area);
-    });
-
     const $item = $('<div class="carousel-item item loading"></div>')
       .data({
         id: item.id,
         full: item.full,
         crop: item.crop
       })
-      .append(areas)
       .append($caption)
       .append($loading);
 

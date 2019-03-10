@@ -5,13 +5,16 @@ import { GalleryComponent } from './gallery.component';
 import { CarouselItemComponent } from './carousel-item.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { RouterModule } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AreaComponent } from './area.component';
 
 @NgModule({
-  declarations: [GalleryComponent, CarouselItemComponent],
+  declarations: [GalleryComponent, CarouselItemComponent, AreaComponent],
   imports: [
     CommonModule,
     NgPipesModule,
-    RouterModule
+    RouterModule,
+    NgbTooltipModule
   ],
   exports: [
     GalleryComponent

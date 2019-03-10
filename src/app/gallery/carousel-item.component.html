@@ -2,7 +2,8 @@
   <img [src]="item.full.src" *ngIf="item.full" class="full" [ngStyle]="fullStyle" (load)="fullLoaded()" />
   <img [src]="item.crop.src" *ngIf="item.crop" class="crop" [ngStyle]="cropStyle" (load)="cropLoaded()" />
   <ng-container *ngIf="item">
-    <div class="area" [title]="area.name" *ngFor="let area of item.areas"></div>
+    <app-gallery-carousel-item-area [area]="area" [styles]="area.styles" *ngFor="let area of item.areas">
+    </app-gallery-carousel-item-area>
   </ng-container>
   <div class="carousel-caption" *ngIf="item">
     <h3 [innerHTML]="item.name"></h3>
