@@ -1,72 +1,29 @@
-import { Component, Injectable, Input, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Injectable,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  OnInit,
+  OnDestroy,
+  HostListener
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { APIImage } from '../services/api.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { switchMap, tap, debounceTime, switchMapTo, map } from 'rxjs/operators';
-
-/*interface Dimension {
-  width: number;
-  height: number;
-}
-
-interface Bounds {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-}*/
-
-interface Rectangle {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-}
-
-interface APIGalleryResponse {
-  pages: number;
-  count: number;
-  page: number;
-  items: APIGalleryItem[];
-}
-
-interface APIGalleryItemArea {
-  area: Rectangle;
-  name: string;
-}
-
-interface APIGalleryItem {
-  id: number;
-  identity: string;
-  url: string;
-  sourceUrl: string;
-  crop: Rectangle;
-  full: APIImage;
-  messages: number;
-  newMessages: number;
-  name: string;
-  filesize: number;
-  areas: APIGalleryItemArea[];
-}
-
-interface APIGallery {
-  page: number;
-  pages: number;
-  count: number;
-  items: APIGalleryItem[];
-}
-
-interface ItemCache {
-  itemID: number;
-  pages: Map<number, ItemPageCache>;
-  pagesCount: number;
-  count: number;
-  pictures: Map<number, APIGalleryItem>;
-}
-
-interface ItemPageCache {
-  loading: boolean;
-}
+import { BehaviorSubject, Subscription, of, Observable } from 'rxjs';
+import {
+  switchMap,
+  tap,
+  debounceTime,
+  switchMapTo,
+  distinctUntilChanged
+} from 'rxjs/operators';
+import {
+  APIGalleryItem,
+  APIGalleryResponse,
+  GalleryItem,
+  APIGallery
+} from './definitions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gallery',
@@ -80,50 +37,61 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   private itemID$ = new BehaviorSubject<number>(null);
   private current$ = new BehaviorSubject<string>(null);
+  public items: GalleryItem[];
+  public gallery: GalleryItem[] = [];
+  public currentItemID: number;
+  public currentItemIndex: number;
+  public currentItem: APIGalleryItem;
+  public prevGalleryItem: APIGalleryItem;
+  public nextGalleryItem: APIGalleryItem;
+  public indicators = [];
 
-  private cache = new Map<number, ItemCache>();
-
-  private MAX_INDICATORS = 30;
+  private PER_PAGE = 10;
+  public MAX_INDICATORS = 30;
   private count = 0;
   private pages = 0;
   private pageStatus: any[] = [];
-  private perPage = 10;
   private url: string;
 
-  /*private escHandler: (
-    eventObject: JQueryEventObject,
-    ...eventData: any[]
-  ) => any;*/
   private $e: JQuery;
-  //private $carousel: JQuery;
+  // private $carousel: JQuery;
   private $inner: JQuery;
-  private $indicators: JQuery;
-  private $numbers: JQuery;
   // private carousel: Carousel;
-  private position: number;
-  private indicatorRendered = false;
   public images: APIGalleryItem[] = [];
   private sub: Subscription;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    this.router.navigate([
+      '/twins/group',
+      this.currentItemID,
+      'pictures',
+      this.current
+    ]);
+  }
+
+  @HostListener('document:keydown.arrowright', ['$event'])
+  onRightKeydownHandler(event: KeyboardEvent) {
+    if (this.currentItemIndex + 1 < this.gallery.length) {
+      this.navigateToIndex(this.currentItemIndex + 1);
+    }
+  }
+
+  @HostListener('document:keydown.arrowleft', ['$event'])
+  onLeftKeydownHandler(event: KeyboardEvent) {
+    if (this.currentItemIndex > 0) {
+      this.navigateToIndex(this.currentItemIndex - 1);
+    }
+  }
 
   ngOnInit(): void {
     console.log('ngOnInit');
-    /*this.escHandler = (event) => {
-      if (event.keyCode === 27) {
-        // esc
-        // this.hide();
-      }
-    };*/
 
     // this.$carousel = this.$e.find('.carousel');
 
     // this.$inner = this.$carousel.find('.carousel-inner');
-
-    // this.$e.appendTo(document.body);
-
-    // this.$indicators = this.$e.find('.carousel-indicators');
-    // this.$numbers = this.$e.find('.carousel-numbers');
 
     /* this.carousel = new Carousel(
       this.$carousel[0],
@@ -149,13 +117,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       }
     ); */
 
-    /* this.$carousel
-      .find('.carousel-control-close')
-      .on('click', (event: JQueryEventObject) => {
-        event.preventDefault();
-
-        this.hide();
-      });
+    /*
 
     this.$carousel.on(
       'click',
@@ -207,70 +169,143 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       }
     );
 
-    this.$carousel.on('click', '.carousel-indicators li', (event) => {
-      event.preventDefault();
-
-      const position = $(event.currentTarget).data('target');
-
-      const page = this.positionPage(position);
-
-      this.load(null, page, () => {
-        this.rewindToPosition(position);
-      });
-    });
-
-    $(window).on('resize', () => {
-      this.fixSize(this.$e.find('.item'));
-    });
-    this.fixSize(this.$e.find('.item'));
 
     */
     // this.load(this.current);
 
     this.sub = this.itemID$
       .pipe(
+        distinctUntilChanged(),
         debounceTime(50),
-        map(itemID => {
-          if (!this.cache.has(itemID)) {
-            const cacheItem = {
-              itemID: itemID,
-              pages: new Map<number, ItemPageCache>(),
-              pagesCount: null,
-              count: null,
-              pictures: new Map<number, APIGalleryItem>(),
-            };
-            this.cache.set(itemID, cacheItem);
-          }
-          return this.cache.get(itemID);
+        tap((itemID) => {
+          this.gallery = [];
         }),
-        switchMapTo(this.current$, (item, current) => ({item, current})),
-        switchMap(data => {
-          return this.http.get<APIGallery>(
-            '/api/item/' + data.item.itemID + '/gallery', {
-              params: {
-                picture_identity: data.current
-              }
+        tap((itemID) => {
+          this.currentItemID = itemID;
+        }),
+        switchMapTo(this.current$, (itemID, current) => ({ itemID, current })),
+        distinctUntilChanged(),
+        switchMap(
+          (data) => {
+            this.current = data.current;
+            if (!this.getGalleryItem(data.current)) {
+              return this.http
+                .get<APIGallery>('/api/item/' + data.itemID + '/gallery', {
+                  params: {
+                    picture_identity: data.current
+                  }
+                })
+                .pipe(
+                  tap((response) => {
+                    this.applyResponse(response);
+                  })
+                );
             }
-          );
-        }, (data, response) => ({item: data.item, response: response})),
-        tap(data => {
-          data.item.pagesCount = data.response.pages;
-          data.item.count = data.response.count;
-          data.item.pages.set(data.response.page, {
-            loading: true
-          });
-          data.response.items.forEach((item, idx) => {
-            data.item.pictures.set(idx, item);
-          });
-          const images = [];
-          for (let i = 0; i < data.item.count; i++) {
-            const img = data.item.pictures.get(i);
-            images.push(img);
-          }
-          this.images = images;
+            return of(null);
+          },
+          (data) => ({ itemID: data.itemID, identity: data.current })
+        ),
+        tap((data) => {
+          const index = this.getGalleryItemIndex(data.identity);
+          this.currentItemIndex = index;
+
+          this.prevGalleryItem = this.getGalleryItemByIndex(index - 1);
+          this.currentItem = this.getGalleryItemByIndex(index);
+          this.nextGalleryItem = this.getGalleryItemByIndex(index + 1);
         })
       )
       .subscribe();
+  }
+
+  private applyResponse(response) {
+    if (this.gallery.length < response.count) {
+      this.gallery[response.count - 1] = null;
+    }
+
+    for (let i = 0; i < response.items.length; i++) {
+      const index = (response.page - 1) * this.PER_PAGE + i;
+      this.gallery[index] = {
+        item: response.items[i]
+      };
+    }
+  }
+
+  private loadPage(itemID: number, page: number): Observable<APIGallery> {
+    return this.http
+      .get<APIGallery>('/api/item/' + itemID + '/gallery', {
+        params: {
+          page: page + ''
+        }
+      })
+      .pipe(
+        tap((response) => {
+          this.applyResponse(response);
+        })
+      );
+  }
+
+  private getGalleryPageNumberByIndex(index) {
+    return Math.floor(index / this.PER_PAGE) + 1;
+  }
+
+  public navigateToIndex(index) {
+    const item = this.getGalleryItemByIndex(index);
+    if (!item) {
+      const page = this.getGalleryPageNumberByIndex(index);
+      this.loadPage(this.currentItemID, page).subscribe(() => {
+        const sitem = this.getGalleryItemByIndex(index);
+        if (sitem) {
+          this.router.navigate([
+            '/twins/group',
+            this.currentItemID,
+            'gallery',
+            sitem.identity
+          ]);
+        }
+      });
+      return false;
+    }
+
+    this.router.navigate([
+      '/twins/group',
+      this.currentItemID,
+      'gallery',
+      item.identity
+    ]);
+
+    return false;
+  }
+
+  private getGalleryItemIndex(identity: string): number {
+    for (let index = 0; index < this.gallery.length; index++) {
+      const item = this.gallery[index];
+      if (item && item.item.identity === identity) {
+        return index;
+      }
+    }
+
+    return -1;
+  }
+
+  private getGalleryItemByIndex(index: number): APIGalleryItem {
+    if (index < 0 || index >= this.gallery.length) {
+      return null;
+    }
+
+    if (!this.gallery[index]) {
+      return null;
+    }
+
+    return this.gallery[index].item;
+  }
+
+  private getGalleryItem(identity: string): APIGalleryItem {
+    const index = this.getGalleryItemIndex(identity);
+    if (index < 0) {
+      return null;
+    }
+
+    return this.getGalleryItemByIndex(index);
   }
 
   ngOnDestroy(): void {
@@ -278,37 +313,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (changes.itemID) {
       this.itemID$.next(changes.itemID.currentValue);
     }
 
     if (changes.current) {
-      console.log('changes.current', changes.current);
       this.current$.next(changes.current.currentValue);
-    }
-  }
-
-  public prevClick() {
-    // this.carousel.prev();
-  }
-
-  public nextClick() {
-    // this.carousel.next();
-  }
-
-  private renderIndicator() {
-    if (this.count < this.MAX_INDICATORS) {
-      if (!this.indicatorRendered) {
-        for (let i = 0; i < this.count; i++) {
-          $('<li></li>', {
-            'data-target': i,
-            appendTo: this.$indicators
-          });
-        }
-
-        this.indicatorRendered = true;
-      }
     }
   }
 
@@ -360,7 +370,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
         let $activeItem: JQuery | undefined;
 
-        const offset = this.perPage * (json.page - 1);
+        const offset = this.PER_PAGE * (json.page - 1);
         for (const idx in json.items) {
           if (json.hasOwnProperty(idx)) {
             const item = json.items[idx];
@@ -389,23 +399,14 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
             if (active) {
               $activeItem = $item;
-              this.position = position;
             }
           }
         }
-
-        this.renderIndicator();
-        this.refreshIndicator();
 
         if ($activeItem !== undefined) {
           $activeItem.addClass('active');
           this.activateItem($activeItem, true);
           this.fixArrows($activeItem);
-
-          this.$indicators
-            .find('li')
-            .eq($activeItem.data('position'))
-            .addClass('active');
         }
 
         this.loadSiblingPages(
@@ -422,42 +423,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     const $loading = $(
       '<div class="loading-icon"><i class="fa fa-spinner fa-pulse"></i></div>'
     );
-
-    const $source = $(
-      '<a class="download carousel-control" role="button">' +
-        '<i class="fa fa-download"></i>' +
-        '<div class="badge badge-pill badge-info"></div>' +
-        '</a>'
-    ).attr('href', item.sourceUrl);
-
-    // $source.find('.badge').text(filesize(item.filesize));
-
-    const $details = $(
-      '<a class="details carousel-control" role="button">' +
-        '<i class="fa fa-picture-o"></i>' +
-        '</a>'
-    ).attr('href', item.url);
-
-    const $comments = $(
-      '<a class="comments carousel-control" role="button">' +
-        '<i class="fa fa-comment"></i>' +
-        '</a>'
-    ).attr('href', item.url + '#comments');
-
-    if (item.messages) {
-      const $badge = $('<div class="badge badge-pill badge-info"></div>');
-      if (item.newMessages > 0) {
-        $badge.text(item.messages - item.newMessages);
-        $badge.append(
-          $('<span />', {
-            text: '+' + item.newMessages
-          })
-        );
-      } else {
-        $badge.text(item.messages);
-      }
-      $comments.append($badge);
-    }
 
     const $caption: JQuery = $(
       '<div class="carousel-caption">' +
@@ -500,9 +465,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       })
       .append(areas)
       .append($caption)
-      .append($source)
-      .append($comments)
-      .append($details)
       .append($loading);
 
     if (item.crop) {
@@ -541,9 +503,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         class: 'full'
       });
 
-      $img.bind('load', () => {
-        $img.closest('.item').removeClass('loading');
-      });
       $item.prepend($img);
     }
 
@@ -557,8 +516,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.activateItem($next, false);
       }
     }
-
-    this.fixSize($item);
   }
 
   private fixArrows($item: JQuery) {
@@ -571,216 +528,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     $right.toggle(pos < this.count - 1);
   }
 
-  /*private bound(container: Dimension, content: Dimension): Dimension {
-    const containerRatio = container.width / container.height;
-    const contentRatio = content.width / content.height;
-
-    let width, height;
-    if (contentRatio > containerRatio) {
-      width = container.width;
-      height = width / contentRatio;
-    } else {
-      height = container.height;
-      width = height * contentRatio;
-    }
-
-    return {
-      width: width,
-      height: height
-    };
-  }*/
-
-  /*private boundCenter(container: Dimension, content: Dimension): Bounds {
-    return {
-      left: (container.width - content.width) / 2,
-      top: (container.height - content.height) / 2,
-      width: content.width,
-      height: content.height
-    };
-  }
-
-  private maxBounds(bounds: Dimension, maxBounds: Dimension): Dimension {
-    if (bounds.height > maxBounds.height || bounds.width > maxBounds.width) {
-      return maxBounds;
-    }
-    return bounds;
-  }
-
-  private areasToBounds($item: JQuery, offsetBounds: Bounds) {
-    $item.find('.area').each(() => {
-      const area = $(this).data('area');
-      $(this).css({
-        left: offsetBounds.left + area.left * offsetBounds.width,
-        top: offsetBounds.top + area.top * offsetBounds.height,
-        width: area.width * offsetBounds.width,
-        height: area.height * offsetBounds.height
-      });
-    });
-  }*/
-
-  private fixSize($items: JQuery) {
-    //const w = this.$inner.width() || 0;
-    //const h = this.$inner.height() || 0;
-
-    /*const cSize: Dimension = {
-      width: w,
-      height: h
-    };*/
-
-    $items.each(() => {
-      /*const $item: JQuery = $(this);
-      const $imgFull: JQuery = $item.find('img.full');
-      const $imgCrop: JQuery = $item.find('img.crop');
-      const full = $item.data('full');
-      const crop: any = $item.data('crop');
-      const cropMode: any = $item.data('cropMode');
-
-      let bounds: Dimension;
-      let offsetBounds: Bounds;
-
-      if (crop) {
-        if (cropMode) {
-          bounds = this.maxBounds(
-            this.bound(cSize, {
-              width: crop.width,
-              height: crop.height
-            }),
-            {
-              width: crop.width,
-              height: crop.height
-            }
-          );
-
-          offsetBounds = this.boundCenter(cSize, bounds);
-          $imgCrop.css({
-            width: offsetBounds.width,
-            height: offsetBounds.height,
-            left: offsetBounds.left,
-            top: offsetBounds.top
-          });
-          const fullWidth = bounds.width / crop.crop.width;
-          const fullHeight = bounds.height / crop.crop.height;
-          const imgFullBounds = {
-            left: offsetBounds.left - crop.crop.left * fullWidth,
-            top: offsetBounds.top - crop.crop.top * fullHeight,
-            width: fullWidth,
-            height: fullHeight
-          };
-          $imgFull.css({
-            width: imgFullBounds.width,
-            height: imgFullBounds.height,
-            left: imgFullBounds.left,
-            top: imgFullBounds.top
-          });
-
-          this.areasToBounds($item, imgFullBounds);
-        } else {
-          bounds = this.maxBounds(
-            this.bound(cSize, {
-              width: full.width,
-              height: full.height
-            }),
-            {
-              width: full.width,
-              height: full.height
-            }
-          );
-          offsetBounds = this.boundCenter(cSize, bounds);
-          $imgFull.css({
-            width: offsetBounds.width,
-            height: offsetBounds.height,
-            left: offsetBounds.left,
-            top: offsetBounds.top
-          });
-          $imgCrop.css({
-            left: offsetBounds.left + crop.crop.left * bounds.width,
-            top: offsetBounds.top + crop.crop.top * bounds.height,
-            width: bounds.width * crop.crop.width,
-            height: bounds.height * crop.crop.height
-          });
-
-          this.areasToBounds($item, offsetBounds);
-        }
-      } else {
-        if (!full) {
-          throw new Error('Full is undefined');
-        }
-        bounds = this.maxBounds(
-          this.bound(cSize, {
-            width: full.width,
-            height: full.height
-          }),
-          {
-            width: full.width,
-            height: full.height
-          }
-        );
-        offsetBounds = this.boundCenter(cSize, bounds);
-        $imgFull.css({
-          width: offsetBounds.width,
-          height: offsetBounds.height,
-          left: offsetBounds.left,
-          top: offsetBounds.top
-        });
-
-        this.areasToBounds($item, offsetBounds);
-      }*/
-    });
-  }
-
-  /*private hide() {
-    this.$e.hide();
-    $(document.body).removeClass('gallery-shown');
-
-    // this.carousel.hide();
-
-    $(document).off('keyup' as any, this.escHandler as any);
-  }
-
-  private show() {
-    $(document.body).addClass('gallery-shown');
-    this.$e.show();
-    this.fixSize(this.$e.find('.item'));
-
-    $(document).on('keyup', this.escHandler);
-
-    this.$e.find('a.carousel-control-next').focus();
-
-    // this.carousel.show();
-  }*/
-
-  /*private rewindToPosition(position: number) {
-    this.position = position;
-    this.refreshIndicator();
-    this.$e.find('.item').each((idx) => {
-      if ($(this).data('position') === position) {
-        // this.carousel.to(idx);
-        return false;
-      }
-    });
-  }
-
-  private rewindToId(id: number) {
-    this.$carousel.find('.item').each((idx: number) => {
-      if ($(this).data().id === id) {
-        // this.$carousel.carousel(Number(idx));
-
-        this.position = $(this).data('position');
-        this.refreshIndicator();
-        // this.fixArrows($(this));
-
-        return false;
-      }
-    });
-  }*/
-
   private positionPage(index: number) {
-    return Math.floor(index / this.perPage) + 1;
-  }
-
-  private refreshIndicator() {
-    if (this.count >= this.MAX_INDICATORS) {
-      this.$numbers.text(this.position + 1 + ' of ' + this.count);
-    }
+    return Math.floor(index / this.PER_PAGE) + 1;
   }
 }

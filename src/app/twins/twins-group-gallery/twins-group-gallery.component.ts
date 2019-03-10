@@ -3,7 +3,12 @@ import { Subscription, of } from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { switchMap } from 'rxjs/operators';
+import {
+  switchMap,
+  distinctUntilChanged,
+  map,
+  switchMapTo
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-twins-group-gallery',
@@ -21,37 +26,42 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private router: Router
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.sub = this.route.paramMap
+    const groupPipe = this.route.paramMap.pipe(
+      map((route) => parseInt(route.get('group'), 10)),
+      distinctUntilChanged(),
+      switchMap((groupID) => {
+        if (!groupID) {
+          return of(null as APIItem);
+        }
+        return this.itemService.getItem(groupID, {
+          fields: 'name_text,name_html,childs.brands.catname'
+        });
+      })
+    );
+
+    const identityPipe = this.route.paramMap.pipe(
+      map((route) => route.get('identity')),
+      distinctUntilChanged()
+    );
+
+    this.sub = groupPipe
       .pipe(
-        switchMap(
-          (route) => {
-            const groupID = parseInt(route.get('group'), 10);
-            if (!groupID) {
-              return of(null as APIItem);
-            }
-            return this.itemService.getItem(groupID, {
-              fields: 'name_text,name_html,childs.brands.catname'
-            });
-          },
-          (route, group) => ({
-            group: group,
-            route: route
-          })
-        )
+        switchMapTo(identityPipe, (group, identity) => ({
+          group: group,
+          identity: identity
+        }))
       )
       .subscribe((data) => {
-
         if (!data.group) {
           this.router.navigate(['/error-404']);
           return;
         }
 
         this.group = data.group;
+        this.current = data.identity;
 
         setTimeout(
           () =>
