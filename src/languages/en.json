@@ -1,4 +1,5 @@
 {
+  "perspective/model": "Model",
   "catalogue/specifications-of-{name}": "Specifications of {name}",
   "moder/picture/edit-item": "Edit item",
   "moder/picture/edit-picture-{id}": "Edit picture №{id}",

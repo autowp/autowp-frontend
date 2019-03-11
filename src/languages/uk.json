@@ -1,4 +1,5 @@
 {
+  "perspective/model": "Макет",
   "catalogue/specifications-of-{name}": "Технічні характеристики {name}",
   "moder/picture/edit-item": "Управління",
   "moder/picture/edit-picture-{id}": "Управління зображенням №{id}",
