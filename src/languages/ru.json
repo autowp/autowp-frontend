@@ -1,5 +1,5 @@
 {
-  "perspective/model": "Макет",
+  "perspective/mockup": "Макет",
   "catalogue/specifications-of-{name}": "Технические характеристики {name}",
   "moder/picture/edit-item": "Управление",
   "moder/picture/edit-picture-{id}": "Управление изображением №{id}",
