@@ -3,10 +3,15 @@
 @import '../variables';
 @import '~bootstrap/scss/mixins';
 
-.carousel-item {
+:host {
   text-align: center;
   height: 100%;
   overflow: hidden;
+  display: none;
+
+  &.active {
+    display: block;
+  }
 
   img {
     margin: 0 auto;
@@ -21,22 +26,19 @@
       0.6s ease-in-out top,
       0.6s ease-in-out opacity
     );
-  }
 
-  img.full {
-    opacity: 1;
-  }
-
-  img.crop {
-    opacity: 0;
-  }
-
-  &.crop {
-    img.full {
-      opacity: 0;
-    }
-    img.crop {
+    &.full {
       opacity: 1;
+      &.crop-mode {
+        opacity: 0;
+      }
+    }
+
+    &.crop {
+      opacity: 0;
+      &.crop-mode {
+        opacity: 1;
+      }
     }
   }
 
@@ -46,17 +48,7 @@
     }
   }
 
-  &.loading {
-    .carousel-control.full {
-      display: none;
-    }
-    .loading-icon {
-      display: block;
-    }
-  }
-
   .loading-icon {
-    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -69,11 +61,11 @@
 }
 
 .carousel-control-full {
+  display: none;
   cursor: pointer;
   position: absolute;
   text-align: center;
   color: #fff;
-  display: none;
   left: 50%;
   top: 50%;
   right: auto;

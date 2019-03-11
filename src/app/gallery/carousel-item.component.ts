@@ -3,7 +3,6 @@ import {
   Injectable,
   Input,
   HostListener,
-  ViewChild,
   ElementRef,
   AfterViewInit,
   OnChanges,
@@ -32,11 +31,7 @@ interface Bounds {
 @Injectable()
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
   @Input() item: APIGalleryItem;
-  @Input() active = false;
   @Input() prefix: string[] = [];
-
-  @ViewChild('root')
-  private itemElement: ElementRef;
 
   public fullStyle;
 
@@ -47,6 +42,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   public fullLoading = true;
   public cropLoading = true;
 
+  constructor(private el: ElementRef) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
       this.cropLoading = true;
@@ -54,11 +51,11 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       this.cropMode = !!changes.item.currentValue.crop;
       this.fixSize();
 
-      if (! changes.item.currentValue.crop) {
+      if (!changes.item.currentValue.crop) {
         this.cropLoading = false;
       }
 
-      if (! changes.item.currentValue.full) {
+      if (!changes.item.currentValue.full) {
         this.fullLoading = false;
       }
     }
@@ -74,12 +71,10 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   public fullLoaded() {
-    console.log('fullLoaded');
     this.fullLoading = false;
   }
 
   public cropLoaded() {
-    console.log('cropLoaded');
     this.cropLoading = false;
   }
 
@@ -89,15 +84,10 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   private fixSize() {
-    if (!this.itemElement) {
-      return;
+    if (! this.el) {
+      console.log('this.el is undefined', this.el);
     }
-
-    if (!this.itemElement.nativeElement) {
-      return;
-    }
-
-    const $inner = $(this.itemElement.nativeElement);
+    const $inner = $(this.el.nativeElement);
     const w = $inner.width() || 0;
     const h = $inner.height() || 0;
 
@@ -173,28 +163,27 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
         this.areasToBounds(offsetBounds);
       }
     } else {
-      if (!full) {
-        throw new Error('Full is undefined');
-      }
-      const bounds = this.maxBounds(
-        this.bound(cSize, {
-          width: full.width,
-          height: full.height
-        }),
-        {
-          width: full.width,
-          height: full.height
-        }
-      );
-      const offsetBounds = this.boundCenter(cSize, bounds);
-      this.fullStyle = {
-        'width.px': offsetBounds.width,
-        'height.px': offsetBounds.height,
-        'left.px': offsetBounds.left,
-        'top.px': offsetBounds.top
-      };
+      if (full) {
+        const bounds = this.maxBounds(
+          this.bound(cSize, {
+            width: full.width,
+            height: full.height
+          }),
+          {
+            width: full.width,
+            height: full.height
+          }
+        );
+        const offsetBounds = this.boundCenter(cSize, bounds);
+        this.fullStyle = {
+          'width.px': offsetBounds.width,
+          'height.px': offsetBounds.height,
+          'left.px': offsetBounds.left,
+          'top.px': offsetBounds.top
+        };
 
-      this.areasToBounds(offsetBounds);
+        this.areasToBounds(offsetBounds);
+      }
     }
   }
 
@@ -215,7 +204,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   private areasToBounds(offsetBounds: Bounds) {
-    this.item.areas.forEach(area => {
+    this.item.areas.forEach((area) => {
       area.styles = {
         'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
         'top.px': offsetBounds.top + area.area.top * offsetBounds.height,

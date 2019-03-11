@@ -7,8 +7,10 @@
       {{currentItemIndex + 1}} of {{gallery.length}}
     </div>
     <div class="carousel-inner">
-      <app-gallery-carousel-item [item]="currentItem" [active]="true" *ngIf="currentItem" [prefix]="['/twins/group', currentItemID, 'pictures']">
-      </app-gallery-carousel-item>
+      <ng-container *ngFor="let item of gallery">
+        <app-gallery-carousel-item class="carousel-item" [class.active]="current == item.item.identity" [item]="item.item" *ngIf="item && item.item" [prefix]="['/twins/group', currentItemID, 'pictures']">
+        </app-gallery-carousel-item>
+      </ng-container>
     </div>
     <a class="carousel-control-prev" href="#" role="button" (click)="navigateToIndex(currentItemIndex - 1)" *ngIf="currentItemIndex > 0">
       <i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i>
