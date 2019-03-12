@@ -1,0 +1,32 @@
+<div class="gallery">
+  <div class="carousel slide">
+    <ol class="carousel-indicators" *ngIf="MAX_INDICATORS >= gallery.length">
+      <li *ngFor="let item of gallery; let i = index" (click)="navigateToIndex(i)" [class.active]="currentItemIndex == i"></li>
+    </ol>
+    <div class="carousel-numbers" *ngIf="gallery.length > MAX_INDICATORS">
+      {{currentItemIndex + 1}} of {{gallery.length}}
+    </div>
+    <div class="carousel-inner">
+      <ng-container *ngFor="let item of gallery; let i = index">
+        <app-gallery-carousel-item
+          class="carousel-item"
+          [class.active]="current == item.identity"
+          [class.previous]="currentItemIndex > i"
+          [class.next]="i > currentItemIndex"
+          [item]="item"
+          *ngIf="item && i >= currentItemIndex-1 && currentItemIndex + 1 >= i"
+          [prefix]="['/twins/group', currentItemID, 'pictures']">
+        </app-gallery-carousel-item>
+      </ng-container>
+    </div>
+    <a class="carousel-control-prev" href="#" role="button" (click)="navigateToIndex(currentItemIndex - 1)" *ngIf="currentItemIndex > 0">
+      <i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next" href="#" role="button" (click)="navigateToIndex(currentItemIndex + 1)" *ngIf="gallery.length - 1 > currentItemIndex">
+      <i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i>
+    </a>
+    <a class="carousel-control-close" [routerLink]="['/twins/group', currentItemID, 'pictures', currentItem.identity]" role="button" *ngIf="currentItem">
+      <i class="fa fa-times"></i>
+    </a>
+  </div>
+</div>

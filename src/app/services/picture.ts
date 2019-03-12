@@ -5,13 +5,21 @@ import { Observable, of } from 'rxjs';
 import { APIUser } from './user';
 import { APIPictureItem } from './picture-item';
 import { APIIP } from './ip';
-import { switchMap, shareReplay, map } from 'rxjs/operators';
+import { switchMap, shareReplay, map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { ACLService } from './acl.service';
+import { APIItem } from './item';
+import { APIItemLink } from './item-link';
 
 export interface APIPictureGetResponse {
   pictures: APIPicture[];
   paginator: APIPaginator;
+}
+
+export interface APIPictureVotes {
+  positive: number;
+  negative: number;
+  value: number;
 }
 
 export interface APIPicture {
@@ -40,9 +48,7 @@ export interface APIPicture {
     total: number;
     new: number;
   };
-  votes: {
-    positive: number;
-  };
+  votes: APIPictureVotes;
   owner: APIUser;
   crop_resolution: string;
   similar: {
@@ -85,9 +91,7 @@ export interface APIPicture {
   copyrights_text_id: number;
   iptc: string;
   exif: string;
-  replaceable: {
-    url: string;
-  };
+  replaceable: APIPicture;
   change_status_user: APIUser;
   ip: APIIP;
   add_date: string;
@@ -95,6 +99,21 @@ export interface APIPicture {
     vote: number;
     count: number;
   };
+  preview_large: APIImage;
+  point: null | {
+    lat: number;
+    lng: number;
+  };
+  authors?: {
+    id: number;
+    name: string;
+  }[];
+  categories?: APIItem[];
+  twins?: APIItem[];
+  factories?: APIItem[];
+  copyright_blocks?: APIItem[];
+  subscribed?: boolean;
+  of_links?: APIItemLink[];
 }
 
 export interface APIPictureModerVote {
@@ -108,6 +127,7 @@ export interface APIGetPictureOptions {
 }
 
 export interface APIGetPicturesOptions {
+  identity?: string;
   fields?: string;
   status?: string;
   limit?: number;
@@ -130,6 +150,9 @@ export interface APIGetPicturesOptions {
   accept_date?: string;
   exact_item_link_type?: number;
   added_from?: string;
+  items?: {
+    type_id?: number;
+  };
 }
 
 export interface APIPictureUserSummary {
@@ -203,6 +226,10 @@ export class PictureService {
     options: APIGetPicturesOptions
   ): { [param: string]: string } {
     const params: { [param: string]: string } = {};
+
+    if (options.identity) {
+      params.identity = options.identity;
+    }
 
     if (options.fields) {
       params.fields = options.fields;
@@ -292,6 +319,12 @@ export class PictureService {
       params.added_from = options.added_from;
     }
 
+    if (options.items) {
+      if (options.items.type_id) {
+        params['items[type_id]'] = options.items.type_id.toString();
+      }
+    }
+
     return params;
   }
 
@@ -316,5 +349,17 @@ export class PictureService {
 
   public getInboxSize(): Observable<number> {
     return this.inboxSize$;
+  }
+
+  public vote(pictureID: number, value: number): Observable<APIPictureVotes> {
+    return this.http
+      .put<APIPictureVotes>('/api/picture-vote/' + pictureID, {
+        value: value
+      })
+      .pipe(
+        tap(() => {
+          // ga('send', 'event', 'vote', value > 0 ? 'like' : 'dislike');
+        })
+      );
   }
 }

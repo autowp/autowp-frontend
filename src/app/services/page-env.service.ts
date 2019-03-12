@@ -8,6 +8,7 @@ import { switchMap } from 'rxjs/operators';
 export interface LayoutParams {
   isAdminPage: boolean;
   sidebar: boolean;
+  isGalleryPage: boolean;
 }
 
 export interface PageEnv {
@@ -17,6 +18,7 @@ export interface PageEnv {
   layout: {
     needRight: boolean;
     isAdminPage?: boolean;
+    isGalleryPage?: boolean;
   };
   args?: { [key: string]: string };
 }
@@ -26,7 +28,8 @@ export class PageEnvService {
   public pageEnv$ = new BehaviorSubject<PageEnv>(null);
   public layoutParams$ = new BehaviorSubject<LayoutParams>({
     isAdminPage: false,
-    sidebar: false
+    sidebar: false,
+    isGalleryPage: false
   });
 
   public constructor(
@@ -38,7 +41,8 @@ export class PageEnvService {
       if (data) {
         this.layoutParams$.next({
           isAdminPage: data.layout.isAdminPage,
-          sidebar: data.layout.needRight
+          sidebar: data.layout.needRight,
+          isGalleryPage: data.layout.isGalleryPage
         });
 
         if (data.pageId) {
@@ -49,14 +53,18 @@ export class PageEnvService {
             return;
           }
 
-          this.translate.get([data.name], args).subscribe(
-            (translations: string[]) => {
-              this.titleService.setTitle(translations[data.name]);
-            },
-            () => {
-              this.titleService.setTitle(data.name);
-            }
-          );
+          if (data.name) {
+            this.translate.get([data.name], args).subscribe(
+              (translations: string[]) => {
+                this.titleService.setTitle(translations[data.name]);
+              },
+              () => {
+                this.titleService.setTitle(data.name);
+              }
+            );
+          } else {
+            this.titleService.setTitle('');
+          }
         }
       }
     });
