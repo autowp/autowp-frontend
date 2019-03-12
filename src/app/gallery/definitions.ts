@@ -47,6 +47,3 @@ export interface APIGallery {
   status: string;
 }
 
-export interface GalleryItem {
-  item: APIGalleryItem;
-}
