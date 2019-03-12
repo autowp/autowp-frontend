@@ -7,8 +7,15 @@
       {{currentItemIndex + 1}} of {{gallery.length}}
     </div>
     <div class="carousel-inner">
-      <ng-container *ngFor="let item of gallery">
-        <app-gallery-carousel-item class="carousel-item" [class.active]="current == item.item.identity" [item]="item.item" *ngIf="item && item.item" [prefix]="['/twins/group', currentItemID, 'pictures']">
+      <ng-container *ngFor="let item of gallery; let i = index">
+        <app-gallery-carousel-item
+          class="carousel-item"
+          [class.active]="current == item.identity"
+          [class.previous]="currentItemIndex > i"
+          [class.next]="i > currentItemIndex"
+          [item]="item"
+          *ngIf="item && i >= currentItemIndex-1 && currentItemIndex + 1 >= i"
+          [prefix]="['/twins/group', currentItemID, 'pictures']">
         </app-gallery-carousel-item>
       </ng-container>
     </div>

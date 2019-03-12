@@ -20,7 +20,6 @@ import {
 import {
   APIGalleryItem,
   APIGalleryResponse,
-  GalleryItem,
   APIGallery
 } from './definitions';
 import { Router } from '@angular/router';
@@ -37,8 +36,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   private itemID$ = new BehaviorSubject<number>(null);
   private current$ = new BehaviorSubject<string>(null);
-  public items: GalleryItem[];
-  public gallery: GalleryItem[] = [];
+  public gallery: APIGalleryItem[] = [];
   private status: string;
   public currentItemID: number;
   public currentItemIndex: number;
@@ -226,9 +224,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     for (let i = 0; i < response.items.length; i++) {
       const index = (response.page - 1) * this.PER_PAGE + i;
-      this.gallery[index] = {
-        item: response.items[i]
-      };
+      this.gallery[index] = response.items[i];
     }
   }
 
@@ -282,7 +278,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   private getGalleryItemIndex(identity: string): number {
     for (let index = 0; index < this.gallery.length; index++) {
       const item = this.gallery[index];
-      if (item && item.item.identity === identity) {
+      if (item && item.identity === identity) {
         return index;
       }
     }
@@ -299,7 +295,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       return null;
     }
 
-    return this.gallery[index].item;
+    return this.gallery[index];
   }
 
   private getGalleryItem(identity: string): APIGalleryItem {
