@@ -23,7 +23,6 @@ export interface APIGalleryItemArea {
 export interface APIGalleryItem {
   id: number;
   identity: string;
-  url: string;
   sourceUrl: string;
   crop: {
     crop: Rectangle;
