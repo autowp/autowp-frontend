@@ -98,7 +98,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
             limit: 20,
             fields:
               'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
-              'childs.front_picture.thumb_medium',
+              'childs.front_picture.thumb_medium,childs.front_picture.name_text',
             page: params.query.page,
             have_common_childs_with: params.brand ? params.brand.id : null
           });

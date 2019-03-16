@@ -23,7 +23,7 @@
         <div class="twins row" *ngFor="let ch of chunk(group.childs)">
           <div class="col-lg-4 col-md-4" *ngFor="let car of ch">
             <div class="card mb-4">
-              <a [href]="'/twins/group' + group.id + '/pictures/' + car.front_picture.identity" *ngIf="car.front_picture">
+              <a [routerLink]="['/twins/group', group.id, 'pictures', car.front_picture.identity]" *ngIf="car.front_picture">
                 <img
                   [src]="car.front_picture.thumb_medium.src"
                   [alt]="car.name_text"
