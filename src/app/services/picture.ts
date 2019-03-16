@@ -114,6 +114,25 @@ export interface APIPicture {
   copyright_blocks?: APIItem[];
   subscribed?: boolean;
   of_links?: APIItemLink[];
+  paginator?: {
+    pageCount: number;
+    itemCountPerPage: number;
+    first: string;
+    current: string;
+    last: string;
+    previous: string;
+    next: string;
+    pagesInRange: {
+      page: number;
+      identity: string;
+    }[],
+    firstPageInRange: number;
+    lastPageInRange: number;
+    currentItemCount: number;
+    totalItemCount: number;
+    firstItemNumber: number;
+    lastItemNumber: number;
+  }
 }
 
 export interface APIPictureModerVote {
@@ -153,6 +172,9 @@ export interface APIGetPicturesOptions {
   items?: {
     type_id?: number;
   };
+  paginator?: {
+    item_id: number;
+  }
 }
 
 export interface APIPictureUserSummary {
@@ -322,6 +344,12 @@ export class PictureService {
     if (options.items) {
       if (options.items.type_id) {
         params['items[type_id]'] = options.items.type_id.toString();
+      }
+    }
+
+    if (options.paginator) {
+      if (options.paginator.item_id) {
+        params['paginator[item_id]'] = options.paginator.item_id.toString();
       }
     }
 

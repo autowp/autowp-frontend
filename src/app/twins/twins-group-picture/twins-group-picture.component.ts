@@ -10,10 +10,17 @@ import { APIPaginator } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { ACLService } from '../../services/acl.service';
-import { switchMap, tap } from 'rxjs/operators';
+import {
+  switchMap,
+  tap,
+  distinctUntilChanged,
+  map,
+  switchMapTo
+} from 'rxjs/operators';
 import { APIUser } from '../../services/user';
 import { AuthService } from '../../services/auth.service';
 import { APICommentsService } from '../../api/comments/comments.service';
+import * as leftPad from 'left-pad';
 
 @Component({
   selector: 'app-twins-group-picture',
@@ -49,57 +56,62 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
     this.location = location;
 
     this.acl
       .isAllowed('twins', 'edit')
-      .subscribe(canEdit => (this.canEdit = canEdit));
+      .subscribe((canEdit) => (this.canEdit = canEdit));
 
     this.acl
       .inheritsRole('moder')
-      .subscribe(isModer => (this.isModer = isModer));
+      .subscribe((isModer) => (this.isModer = isModer));
 
     this.acl
       .isAllowed('specifications', 'edit')
-      .subscribe(canEditSpecs => (this.canEditSpecs = canEditSpecs));
+      .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
+
+    const groupPipe = this.route.paramMap.pipe(
+      map((route) => parseInt(route.get('group'), 10)),
+      distinctUntilChanged(),
+      switchMap((groupID) => {
+        if (!groupID) {
+          return of(null as APIItem);
+        }
+        return this.itemService.getItem(groupID, {
+          fields: 'name_text,name_html,childs.brands.catname'
+        });
+      })
+    );
+
+    const identityPipe = this.route.paramMap.pipe(
+      map((route) => route.get('identity')),
+      distinctUntilChanged()
+    );
 
     this.sub = combineLatest(
-      this.route.paramMap,
-      this.auth.getUser().pipe(tap(user => (this.user = user))),
+      groupPipe,
+      this.auth.getUser().pipe(tap((user) => (this.user = user))),
       this.acl.isAllowed('specifications', 'edit'),
-      (route, user, isModer) => ({ route, isModer })
+      (group, user, isModer) => ({ group, isModer })
     )
       .pipe(
+        switchMapTo(identityPipe, (data, identity) => ({
+          group: data.group,
+          isModer: data.isModer,
+          identity: identity
+        })),
         switchMap(
-          data => {
-            const groupID = parseInt(data.route.get('group'), 10);
-            if (!groupID) {
-              return of(null as APIItem);
-            }
-            return this.itemService.getItem(groupID, {
-              fields: 'name_text,name_html,childs.brands.catname'
-            });
-          },
-          (data, group) => ({
-            group: group,
-            route: data.route,
-            isModer: data.isModer
-          })
-        ),
-        switchMap(
-          data => {
+          (data) => {
             if (!data.group) {
               return of(null as APIPictureGetResponse);
             }
 
-            const identity = data.route.get('identity');
-            if (!identity) {
+            if (!data.identity) {
               return of(null as APIPictureGetResponse);
             }
 
             let fields =
-              'owner,name_html,name_text,image,preview_large,add_date,dpi,point,' +
+              'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
               'items.item.design,items.item.description,items.item.specs_url,items.item.has_specs,items.item.alt_names,' +
               'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
               'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
@@ -109,13 +121,16 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
             }
 
             return this.pictureService.getPictures({
-              identity: identity,
+              identity: data.identity,
               // status: 'accepted',
               item_id: data.group.id,
               fields: fields,
               limit: 1,
               items: {
                 type_id: 1
+              },
+              paginator: {
+                item_id: data.group.id
               }
             });
           },
@@ -126,7 +141,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
           })
         )
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         if (!data.picture || !data.group) {
           this.router.navigate(['/error-404']);
           return;
@@ -165,7 +180,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   public pictureVoted() {}
 
   public vote(value) {
-    this.pictureService.vote(this.picture.id, value).subscribe(votes => {
+    this.pictureService.vote(this.picture.id, value).subscribe((votes) => {
       this.picture.votes = votes;
     });
     return false;
@@ -180,7 +195,13 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   }
 
   public toggleShareDialog(): false {
-    this.showShareDialog = ! this.showShareDialog;
+    this.showShareDialog = !this.showShareDialog;
     return false;
+  }
+
+  public format(page, count) {
+    const size = Math.max(2, count.toString().length);
+
+    return leftPad(page, size, '0');
   }
 }

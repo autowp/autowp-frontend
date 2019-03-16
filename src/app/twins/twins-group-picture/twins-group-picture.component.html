@@ -266,20 +266,38 @@
             </a>
           </li>
         </ul>
-<!--
-        <?php if ($this->paginator && $this->paginator->count() > 1) { ?>
-            <h4 class="text-right"><?=$this->escapeHtml($this->translate('catalogue/other-photos'))?></h4>
-            <?=$this->paginationControl(
-                $this->paginator,
-                'Sliding',
-                'application/picture/paginator',
-                [
-                    'pictures'  => $this->paginatorPictures,
-                    'picture'   => $this->picture
-                ]
-            )?>
-        <?php } ?>
--->
+        <div *ngIf="picture.paginator && picture.paginator.pageCount &gt; 1">
+          <h4 class="text-right" translate>catalogue/other-photos</h4>
+          <div id="pager" class="clearfix text-right">
+            <div class="nearLinks">
+              <a [routerLink]="['/twins/group', group.id, 'pictures', picture.paginator.previous]" *ngIf="picture.paginator.previous">
+                <i class="fa fa-chevron-left"></i>
+                {{'previous'|translate}}
+              </a>
+              <span *ngIf="!picture.paginator.previous">
+                <i class="fa fa-chevron-left"></i>
+                {{'previous'|translate}}
+              </span>
+
+              <a [routerLink]="['/twins/group', group.id, 'pictures', picture.paginator.next]" *ngIf="picture.paginator.next">
+                {{'next'|translate}}
+                <i class="fa fa-chevron-right"></i>
+              </a>
+              <span *ngIf="!picture.paginator.next">
+                {{'next'|translate}}
+                <i class="fa fa-chevron-right"></i>
+              </span>
+            </div>
+            <div class="numberLinks">
+              <ng-container *ngFor="let item of picture.paginator.pagesInRange">
+                <a [routerLink]="['/twins/group', group.id, 'pictures', item.identity]" *ngIf="item.identity != picture.paginator.current">
+                  {{format(item.page, picture.paginator.pageCount)}}
+                </a>
+                <strong style="font-size:1.5em" *ngIf="item.identity == picture.paginator.current">{{format(item.page, picture.paginator.pageCount)}}</strong>
+              </ng-container>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
