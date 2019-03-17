@@ -16,6 +16,7 @@ import {
   tap
 } from 'rxjs/operators';
 import { PathItem } from '../definitions';
+import { CatagoriesService } from '../service';
 
 @Component({
   selector: 'app-category-picture',
@@ -35,7 +36,8 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private pictureService: PictureService,
-    private router: Router
+    private router: Router,
+    private categoriesService: CatagoriesService
   ) {}
 
   ngOnInit(): void {
@@ -44,53 +46,14 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     );
 
-    this.sub = this.route.paramMap
+    this.sub = this.categoriesService
+      .categoryPipe(this.route)
       .pipe(
-        switchMap((params) => {
-          const path = params.get('path');
-          return this.itemService.getPath({
-            catname: params.get('category'),
-            path: path ? path : ''
-          });
-        }),
-        map((response) => {
-          let category: APIItem = null;
-          for (const item of response.path) {
-            if (item.item.item_type_id !== 3) {
-              break;
-            }
-            category = item.item;
-          }
-          return {
-            current: response.path[response.path.length - 1].item,
-            category: category,
-            path: response.path
-          };
-        }),
         tap((data) => {
-          let catname = '';
-          const pathCatnames: string[] = [];
-          const pathItems: PathItem[] = [];
-          for (const item of data.path) {
-            if (item.item.item_type_id === 3) {
-              catname = item.item.catname;
-            }
-            if (item.item.item_type_id !== 3) {
-              pathCatnames.push(item.catname);
-            }
-            pathItems.push({
-              routerLink: ['/category', catname].concat(pathCatnames),
-              item: item.item,
-              loaded: false,
-              childs: [],
-              parent_id: item.parent_id
-            });
-          }
-
           this.current = data.current;
           this.category = data.category;
-          this.path = pathItems;
-          this.pathCatnames = pathCatnames;
+          this.path = data.pathItems;
+          this.pathCatnames = data.pathCatnames;
         }),
         switchMapTo(identityPipe, (data, identity) => ({
           current: data.current,
@@ -107,7 +70,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
               return of(null as APIPictureGetResponse);
             }
 
-            let fields =
+            const fields =
               'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
               'items.item.design,items.item.description,items.item.specs_url,items.item.has_specs,items.item.alt_names,' +
               'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
@@ -182,9 +145,8 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
       return ['/category', this.current.catname, 'pictures'];
     }
 
-    return [
-      '/category',
-      this.category.catname
-    ].concat(this.pathCatnames).concat(['pictures']);
+    return ['/category', this.category.catname]
+      .concat(this.pathCatnames)
+      .concat(['pictures']);
   }
 }

@@ -15,7 +15,7 @@
           [class.next]="i > currentItemIndex"
           [item]="item"
           *ngIf="item && i >= currentItemIndex-1 && currentItemIndex + 1 >= i"
-          [prefix]="['/twins/group', currentItemID, 'pictures']">
+          [prefix]="picturePrefix">
         </app-gallery-carousel-item>
       </ng-container>
     </div>
@@ -25,7 +25,7 @@
     <a class="carousel-control-next" href="#" role="button" (click)="navigateToIndex(currentItemIndex + 1)" *ngIf="gallery.length - 1 > currentItemIndex">
       <i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i>
     </a>
-    <a class="carousel-control-close" [routerLink]="['/twins/group', currentItemID, 'pictures', currentItem.identity]" role="button" *ngIf="currentItem">
+    <a class="carousel-control-close" [routerLink]="picturePrefix.concat([currentItem.identity])" role="button" *ngIf="currentItem">
       <i class="fa fa-times"></i>
     </a>
   </div>
