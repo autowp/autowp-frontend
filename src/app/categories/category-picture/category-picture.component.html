@@ -1,0 +1,32 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/category" translate>page/22/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngFor="let item of path">
+      <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id != 3"></a>
+      <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id == 3">
+        <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
+        <a ngbDropdownToggle style="cursor:pointer"></a>
+        <div ngbDropdownMenu>
+          <div class="dropdown-item" *ngIf="!item.loaded">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+          </div>
+          <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id == item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
+        </div>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div *ngIf="category">
+  <app-picture [picture]="picture" [prefix]="currentRouterLinkPrefix()" *ngIf="picture"></app-picture>
+
+  <div id="comments" *ngIf="picture">
+    <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
+  </div>
+
+</div>

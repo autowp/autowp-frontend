@@ -11,13 +11,17 @@ import { UtilsModule } from '../utils/utils.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { UserModule } from '../user/user.module';
+import { CategoryPictureComponent } from './category-picture/category-picture.component';
+import { PictureModule } from '../picture/picture.module';
+import { CommentsModule } from '../comments/comments.module';
 
 @NgModule({
   declarations: [
     CategoriesCategoryItemComponent,
     CategoriesCategoryPicturesComponent,
     CategoriesIndexComponent,
-    CategoriesListItemComponent
+    CategoriesListItemComponent,
+    CategoryPictureComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +30,9 @@ import { UserModule } from '../user/user.module';
     UtilsModule,
     TranslateModule,
     PaginatorModule,
-    UserModule
+    UserModule,
+    PictureModule,
+    CommentsModule
   ]
 })
 export class CategoriesModule {}

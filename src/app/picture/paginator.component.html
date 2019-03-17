@@ -1,0 +1,32 @@
+<div *ngIf="paginator && paginator.pageCount &gt; 1">
+  <h4 class="text-right" translate>catalogue/other-photos</h4>
+  <div id="pager" class="clearfix text-right">
+    <div class="nearLinks">
+      <a [routerLink]="prefix.concat([paginator.previous])" *ngIf="paginator.previous">
+        <i class="fa fa-chevron-left"></i>
+        {{'previous'|translate}}
+      </a>
+      <span *ngIf="!paginator.previous">
+        <i class="fa fa-chevron-left"></i>
+        {{'previous'|translate}}
+      </span>
+
+      <a [routerLink]="prefix.concat([paginator.next])" *ngIf="paginator.next">
+        {{'next'|translate}}
+        <i class="fa fa-chevron-right"></i>
+      </a>
+      <span *ngIf="!paginator.next">
+        {{'next'|translate}}
+        <i class="fa fa-chevron-right"></i>
+      </span>
+    </div>
+    <div class="numberLinks">
+      <ng-container *ngFor="let item of paginator.pagesInRange">
+        <a [routerLink]="prefix.concat([item.identity])" *ngIf="item.identity != paginator.current">
+          {{format(item.page, paginator.pageCount)}}
+        </a>
+        <strong style="font-size:1.5em" *ngIf="item.identity == paginator.current">{{format(item.page, paginator.pageCount)}}</strong>
+      </ng-container>
+    </div>
+  </div>
+</div>

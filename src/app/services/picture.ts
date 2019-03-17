@@ -114,25 +114,27 @@ export interface APIPicture {
   copyright_blocks?: APIItem[];
   subscribed?: boolean;
   of_links?: APIItemLink[];
-  paginator?: {
-    pageCount: number;
-    itemCountPerPage: number;
-    first: string;
-    current: string;
-    last: string;
-    previous: string;
-    next: string;
-    pagesInRange: {
-      page: number;
-      identity: string;
-    }[],
-    firstPageInRange: number;
-    lastPageInRange: number;
-    currentItemCount: number;
-    totalItemCount: number;
-    firstItemNumber: number;
-    lastItemNumber: number;
-  }
+  paginator?: APIPicturePaginator;
+}
+
+export interface APIPicturePaginator {
+  pageCount: number;
+  itemCountPerPage: number;
+  first: string;
+  current: string;
+  last: string;
+  previous: string;
+  next: string;
+  pagesInRange: {
+    page: number;
+    identity: string;
+  }[],
+  firstPageInRange: number;
+  lastPageInRange: number;
+  currentItemCount: number;
+  totalItemCount: number;
+  firstItemNumber: number;
+  lastItemNumber: number;
 }
 
 export interface APIPictureModerVote {

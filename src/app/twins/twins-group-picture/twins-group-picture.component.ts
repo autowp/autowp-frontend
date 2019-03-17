@@ -19,30 +19,21 @@ import {
 } from 'rxjs/operators';
 import { APIUser } from '../../services/user';
 import { AuthService } from '../../services/auth.service';
-import { APICommentsService } from '../../api/comments/comments.service';
-import * as leftPad from 'left-pad';
 
 @Component({
   selector: 'app-twins-group-picture',
-  templateUrl: './twins-group-picture.component.html',
-  styleUrls: ['./twins-group-picture.component.scss']
+  templateUrl: './twins-group-picture.component.html'
 })
 @Injectable()
 export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
   public canEdit = false;
-  public canEditSpecs = false;
   public selectedBrands: string[] = [];
   public picture: APIPicture;
   public paginator: APIPaginator;
-  public isModer = false;
   public user: APIUser;
   public currentURL: string;
-  public showShareDialog = false;
-  public location;
-
-  public engines: APIItem[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -51,24 +42,13 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private pictureService: PictureService,
     private auth: AuthService,
-    private router: Router,
-    private commentsService: APICommentsService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.location = location;
-
     this.acl
       .isAllowed('twins', 'edit')
       .subscribe((canEdit) => (this.canEdit = canEdit));
-
-    this.acl
-      .inheritsRole('moder')
-      .subscribe((isModer) => (this.isModer = isModer));
-
-    this.acl
-      .isAllowed('specifications', 'edit')
-      .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
 
     const groupPipe = this.route.paramMap.pipe(
       map((route) => parseInt(route.get('group'), 10)),
@@ -114,7 +94,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
               'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
               'items.item.design,items.item.description,items.item.specs_url,items.item.has_specs,items.item.alt_names,' +
               'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
-              'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
+              'factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
 
             if (data.isModer) {
               fields += ',items.item.brands.name_html';
@@ -175,33 +155,5 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public pictureVoted() {}
-
-  public vote(value) {
-    this.pictureService.vote(this.picture.id, value).subscribe((votes) => {
-      this.picture.votes = votes;
-    });
-    return false;
-  }
-
-  public setSubscribed(value: boolean) {
-    this.commentsService
-      .setSubscribed(this.picture.id, 1, value)
-      .subscribe(() => {
-        this.picture.subscribed = value;
-      });
-  }
-
-  public toggleShareDialog(): false {
-    this.showShareDialog = !this.showShareDialog;
-    return false;
-  }
-
-  public format(page, count) {
-    const size = Math.max(2, count.toString().length);
-
-    return leftPad(page, size, '0');
   }
 }

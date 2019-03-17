@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { categoriesPathMatcher, categoriesPicturesPathMatcher } from './matcher';
+import { categoriesPathMatcher } from './matcher';
 import { CategoriesCategoryItemComponent } from './category-item.component';
 import { CategoriesCategoryPicturesComponent } from './category-pictures.component';
 import { CategoriesIndexComponent } from './index.component';
+import { CategoryPictureComponent } from './category-picture/category-picture.component';
 
 const routes: Routes = [
   {
@@ -11,11 +12,27 @@ const routes: Routes = [
     children: [
       {
         matcher: categoriesPathMatcher,
-        component: CategoriesCategoryItemComponent
-      },
-      {
-        matcher: categoriesPicturesPathMatcher,
-        component: CategoriesCategoryPicturesComponent
+        children: [
+          {
+            path: 'pictures',
+            children: [
+              {
+                path: ':identity',
+                component: CategoryPictureComponent,
+              },
+              {
+                path: '',
+                pathMatch: 'full',
+                component: CategoriesCategoryPicturesComponent,
+              }
+            ]
+          },
+          {
+            path: '',
+            pathMatch: 'full',
+            component: CategoriesCategoryItemComponent
+          }
+        ]
       },
       {
         path: '',

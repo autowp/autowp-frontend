@@ -16,18 +16,16 @@
 
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length > 4">
     <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.slice(0, 1)">
-      <a [href]="itemPictureUrl(picture.picture)" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light"
-        />
+      <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
+        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
     <div class="col-12 col-lg-6">
       <div class="row">
         <div class="col-6" *ngFor="let picture of item.preview_pictures.slice(1)">
-          <a [href]="itemPictureUrl(picture.picture)" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-            <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light"
-            />
+          <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
+            <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
           </a>
           <span *ngIf="!picture">&#xa0;</span>
         </div>
@@ -36,9 +34,8 @@
   </div>
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length &lt;= 4">
     <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
-      <a [href]="itemPictureUrl(picture.picture)" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light"
-        />
+      <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
+        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>

@@ -8,14 +8,7 @@ import { ACLService } from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { PictureService, APIPicture } from '../services/picture';
 import { chunkBy } from '../chunk';
-
-interface PathItem {
-  routerLink: string[];
-  item: APIItem;
-  loaded: boolean;
-  childs: APIItem[];
-  parent_id: number;
-}
+import { PathItem } from './definitions';
 
 @Component({
   selector: 'app-categories-category-pictures',
@@ -44,21 +37,21 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.acl
       .inheritsRole('moder')
-      .subscribe(isModer => (this.isModer = isModer));
+      .subscribe((isModer) => (this.isModer = isModer));
     this.acl
       .isAllowed('car', 'add')
-      .subscribe(canAddCar => (this.canAddCar = canAddCar));
+      .subscribe((canAddCar) => (this.canAddCar = canAddCar));
 
     this.sub = this.route.paramMap
       .pipe(
-        switchMap(params => {
+        switchMap((params) => {
           const path = params.get('path');
           return this.itemService.getPath({
             catname: params.get('category'),
             path: path ? path : ''
           });
         }),
-        map(response => {
+        map((response) => {
           let category: APIItem = null;
           for (const item of response.path) {
             if (item.item.item_type_id !== 3) {
@@ -72,7 +65,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
             path: response.path
           };
         }),
-        tap(data => {
+        tap((data) => {
           let catname = '';
           const pathCatnames: string[] = [];
           const pathItems: PathItem[] = [];
@@ -109,7 +102,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           page: parseInt(query.get('page'), 10)
         })),
         switchMap(
-          data => {
+          (data) => {
             return this.pictureService.getPictures({
               fields: [
                 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
@@ -127,7 +120,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           })
         )
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.pictures = chunkBy(data.pictures, 4);
         this.paginator = data.paginator;
       });
@@ -137,33 +130,34 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public pictureUrl(picture: APIPicture): string {
+  public pictureRouterLink(picture: APIPicture): string[] {
     if (!this.category) {
       return null;
     }
 
-    return (
-      '/category/' +
-      this.category.catname +
-      (this.pathCatnames.length ? '/' + this.pathCatnames.join('/') : '') +
-      '/pictures/' +
+    return [
+      '/category',
+      this.category.catname,
+      this.pathCatnames.length ? this.pathCatnames.join('/') : '',
+      'pictures',
       picture.identity
-    );
+    ];
   }
 
   public dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
-
-      this.itemService.getItems({
-        fields: 'catname,name_html',
-        parent_id: item.parent_id,
-        no_parent: item.parent_id ? null : true,
-        limit: 50,
-        type_id: 3
-      }).subscribe(response => {
-        item.loaded = true;
-        item.childs = response.items;
-      });
+      this.itemService
+        .getItems({
+          fields: 'catname,name_html',
+          parent_id: item.parent_id,
+          no_parent: item.parent_id ? null : true,
+          limit: 50,
+          type_id: 3
+        })
+        .subscribe((response) => {
+          item.loaded = true;
+          item.childs = response.items;
+        });
     }
   }
 }

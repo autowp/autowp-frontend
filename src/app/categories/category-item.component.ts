@@ -184,12 +184,12 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public pictureUrl(picture: APIPicture): string {
+  public pictureRouterLink(picture: APIPicture): string[] {
     if (!this.category) {
       return null;
     }
 
-    return this.currentUrlPrefix() + '/pictures/' + picture.identity;
+    return this.currentRouterLink().concat(['pictures', picture.identity]);
   }
 
   public currentRouterLink(): string[] {
@@ -210,32 +210,19 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public currentUrlPrefix(): string {
-    if (!this.category) {
+  public currentRouterLinkPrefix(): string[] {
+    if (! this.category) {
       return null;
     }
 
     if (this.current.item_type_id === 3) {
-      return '/category/' + this.current.catname;
+      return ['/category', this.current.catname];
     }
 
-    return (
-      '/category/' +
-      this.category.catname +
-      (this.pathCatnames.length ? '/' + this.pathCatnames.join('/') : '')
-    );
-  }
-
-  public itemUrlPrefix(item: APIItemParent): string {
-    if (!this.category) {
-      return null;
-    }
-
-    if (item.item.item_type_id === 3) {
-      return '/category/' + item.item.catname;
-    }
-
-    return this.currentUrlPrefix() + '/' + item.catname;
+    return [
+      '/category',
+      this.category.catname
+    ].concat(this.pathCatnames);
   }
 
   public dropdownOpenChange(item: PathItem) {

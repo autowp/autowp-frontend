@@ -29,60 +29,60 @@
 
   <div class="row" *ngFor="let chunk of pictures">
     <div class="col-sm-3" *ngFor="let picture of chunk">
-        <div class="card mb-4" [class.vote-accept]="picture.moder_vote && picture.moder_vote.vote > 0" [class.vote-remove]="picture.moder_vote && picture.moder_vote.vote < 0"
-          [class.vote-neutral]="picture.moder_vote && picture.moder_vote.count > 0 && picture.moder_vote.vote == 0">
-          <a [href]="pictureUrl(picture)" *ngIf="picture.thumb_medium">
-            <img class="card-img-top" [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text">
+      <div class="card mb-4" [class.vote-accept]="picture.moder_vote && picture.moder_vote.vote > 0" [class.vote-remove]="picture.moder_vote && picture.moder_vote.vote < 0"
+        [class.vote-neutral]="picture.moder_vote && picture.moder_vote.count > 0 && picture.moder_vote.vote == 0">
+        <a [routerLink]="pictureRouterLink(picture)" *ngIf="picture.thumb_medium">
+          <img class="card-img-top" [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text">
+        </a>
+        <div class="card-body">
+          <h6 class="card-title">
+            <a [routerLink]="pictureRouterLink(picture)" [innerHtml]="picture.name_html"></a>
+          </h6>
+
+          <p class="picture-behaviour clearfix">
+            <span title="Status" *ngIf="picture.status">
+              <i class="fa fa-check text-success" *ngIf="picture.status=='accepted'"></i>
+              <i class="fa fa-hourglass text-warning" *ngIf="picture.status=='inbox'"></i>
+              <i class="fa fa-trash text-danger" *ngIf="picture.status=='removed'"></i>
+              <i class="fa fa-trash text-danger" *ngIf="picture.status=='removing'"></i>
+            </span>
+
+            <span [title]="'Resolution'|translate" ngPreserveWhitespaces>
+              {{picture.resolution}}
+              <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" style="cursor:help" title="{{'picture-preview/crop-desc'|translate}} ({{picture.crop_resolution}})"></i>
+            </span>
+
+            <br />
+
+            <span [title]="'Views'|translate" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
+              <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
+              <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
+              <i class="fa fa-eye"></i>
+            </span>
+
+            <span class="mr-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>
+              {{picture.votes.positive}}
+              <i class="fa fa-thumbs-up"></i>
+            </span>
+
+            <span [title]="'Comments count'|translate" *ngIf="picture.comments_count.total > 0" class="mr-2">
+              <a [routerLink]="pictureRouterLink(picture)" *ngIf="picture.comments_count.new > 0">
+                {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger"></i></a>
+              <a [routerLink]="pictureRouterLink(picture)" *ngIf="picture.comments_count.new == 0">
+                {{picture.comments_count.total}}
+                <i class="fa fa-comment"></i>
+              </a>
+            </span>
+
+            <br *ngIf="picture.owner" />
+            <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
+          </p>
+
+          <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer">
+            <i class="fa fa-cog"></i>
           </a>
-          <div class="card-body">
-            <h6 class="card-title">
-              <a [href]="pictureUrl(picture)" [innerHtml]="picture.name_html"></a>
-            </h6>
-
-            <p class="picture-behaviour clearfix">
-              <span title="Status" *ngIf="picture.status">
-                <i class="fa fa-check text-success" *ngIf="picture.status=='accepted'"></i>
-                <i class="fa fa-hourglass text-warning" *ngIf="picture.status=='inbox'"></i>
-                <i class="fa fa-trash text-danger" *ngIf="picture.status=='removed'"></i>
-                <i class="fa fa-trash text-danger" *ngIf="picture.status=='removing'"></i>
-              </span>
-
-              <span [title]="'Resolution'|translate" ngPreserveWhitespaces>
-                {{picture.resolution}}
-                <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" style="cursor:help" title="{{'picture-preview/crop-desc'|translate}} ({{picture.crop_resolution}})"></i>
-              </span>
-
-              <br />
-
-              <span [title]="'Views'|translate" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
-                <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
-                <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
-                <i class="fa fa-eye"></i>
-              </span>
-
-              <span class="mr-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>
-                {{picture.votes.positive}}
-                <i class="fa fa-thumbs-up"></i>
-              </span>
-
-              <span [title]="'Comments count'|translate" *ngIf="picture.comments_count.total > 0" class="mr-2">
-                <a [href]="pictureUrl(picture)" *ngIf="picture.comments_count.new > 0">
-                  {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger"></i></a>
-                <a [href]="pictureUrl(picture)" *ngIf="picture.comments_count.new == 0">
-                  {{picture.comments_count.total}}
-                  <i class="fa fa-comment"></i>
-                </a>
-              </span>
-
-              <br *ngIf="picture.owner" />
-              <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
-            </p>
-
-            <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer">
-              <i class="fa fa-cog"></i>
-            </a>
-          </div>
         </div>
+      </div>
     </div>
   </div>
 

@@ -10,7 +10,6 @@ import { ACLService } from '../services/acl.service';
 @Injectable()
 export class CategoriesListItemComponent {
   @Input() item: APIItem;
-  @Input() urlPrefix: string;
   @Input() parentRouterLink: string[];
 
   public isModer = false;
@@ -36,7 +35,7 @@ export class CategoriesListItemComponent {
     return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
   }
 
-  public itemPictureUrl(picture: APIPicture): string {
-    return this.urlPrefix + '/pictures/' + picture.identity;
+  public itemPictureRouterLink(picture: APIPicture): string[] {
+    return this.parentRouterLink.concat(['pictures', picture.identity]);
   }
 }
