@@ -5,6 +5,7 @@ import { CategoriesCategoryItemComponent } from './category-item.component';
 import { CategoriesCategoryPicturesComponent } from './category-pictures.component';
 import { CategoriesIndexComponent } from './index.component';
 import { CategoryPictureComponent } from './category-picture/category-picture.component';
+import { CategoryGalleryComponent } from './category-gallery/category-gallery.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
                 component: CategoriesCategoryPicturesComponent,
               }
             ]
+          },
+          {
+            path: 'gallery/:identity',
+            pathMatch: 'full',
+            component: CategoryGalleryComponent,
           },
           {
             path: '',

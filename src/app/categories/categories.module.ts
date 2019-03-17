@@ -14,6 +14,9 @@ import { UserModule } from '../user/user.module';
 import { CategoryPictureComponent } from './category-picture/category-picture.component';
 import { PictureModule } from '../picture/picture.module';
 import { CommentsModule } from '../comments/comments.module';
+import { CategoryGalleryComponent } from './category-gallery/category-gallery.component';
+import { CatagoriesService } from './service';
+import { GalleryModule } from '../gallery/gallery.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { CommentsModule } from '../comments/comments.module';
     CategoriesCategoryPicturesComponent,
     CategoriesIndexComponent,
     CategoriesListItemComponent,
-    CategoryPictureComponent
+    CategoryPictureComponent,
+    CategoryGalleryComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,9 @@ import { CommentsModule } from '../comments/comments.module';
     PaginatorModule,
     UserModule,
     PictureModule,
-    CommentsModule
-  ]
+    CommentsModule,
+    GalleryModule
+  ],
+  providers: [CatagoriesService]
 })
 export class CategoriesModule {}

@@ -29,6 +29,8 @@ import { Router } from '@angular/router';
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @Input() itemID: number = undefined;
   @Input() current: string;
+  @Input() galleryPrefix: string[];
+  @Input() picturePrefix: string[];
 
   private itemID$ = new BehaviorSubject<number>(null);
   private current$ = new BehaviorSubject<string>(null);
@@ -50,12 +52,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
-    this.router.navigate([
-      '/twins/group',
-      this.currentItemID,
-      'pictures',
-      this.current
-    ]);
+    this.router.navigate(this.picturePrefix.concat([this.current]));
   }
 
   @HostListener('document:keydown.arrowright', ['$event'])
@@ -155,23 +152,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       this.loadPage(this.currentItemID, page).subscribe(() => {
         const sitem = this.getGalleryItemByIndex(index);
         if (sitem) {
-          this.router.navigate([
-            '/twins/group',
-            this.currentItemID,
-            'gallery',
-            sitem.identity
-          ]);
+          this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
         }
       });
       return false;
     }
 
-    this.router.navigate([
-      '/twins/group',
-      this.currentItemID,
-      'gallery',
-      item.identity
-    ]);
+    this.router.navigate(this.galleryPrefix.concat([item.identity]));
 
     return false;
   }

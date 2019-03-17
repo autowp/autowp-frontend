@@ -11,17 +11,19 @@ export function categoriesPathMatcher(url: UrlSegment[]) {
     if (url[i].path === 'pictures') {
       break;
     }
+    if (url[i].path === 'gallery') {
+      break;
+    }
     consumed.push(url[i]);
     path.push(url[i].path);
   }
 
-  if (consumed.length > 0) {
-    return {
-      consumed: consumed,
-      posParams: {
-        path: new UrlSegment(path.join('/'), {})
-      }
-    };
-  }
+  return {
+    consumed: consumed,
+    posParams: {
+      path: new UrlSegment(path.join('/'), {})
+    }
+  };
+
   return null;
 }

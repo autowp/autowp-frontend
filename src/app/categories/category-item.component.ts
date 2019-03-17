@@ -3,11 +3,12 @@ import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, switchMapTo, map } from 'rxjs/operators';
+import { switchMap, tap, switchMapTo } from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { APIItemParent, ItemParentService } from '../services/item-parent';
 import { PictureService, APIPicture } from '../services/picture';
+import { CatagoriesService } from './service';
 
 interface PathItem {
   routerLink: string[];
@@ -41,7 +42,8 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
     private route: ActivatedRoute,
-    private acl: ACLService
+    private acl: ACLService,
+    private categoriesService: CatagoriesService
   ) {}
 
   ngOnInit(): void {
@@ -52,53 +54,13 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
       .isAllowed('car', 'add')
       .subscribe(canAddCar => (this.canAddCar = canAddCar));
 
-    this.sub = this.route.paramMap
+    this.sub = this.categoriesService.categoryPipe(this.route)
       .pipe(
-        switchMap(params => {
-          const path = params.get('path');
-          return this.itemService.getPath({
-            catname: params.get('category'),
-            path: path ? path : ''
-          });
-        }),
-        map(response => {
-          let category: APIItem = null;
-          for (const item of response.path) {
-            if (item.item.item_type_id !== 3) {
-              break;
-            }
-            category = item.item;
-          }
-          return {
-            current: response.path[response.path.length - 1].item,
-            category: category,
-            path: response.path
-          };
-        }),
         tap(data => {
-          let catname = '';
-          const pathCatnames: string[] = [];
-          const pathItems: PathItem[] = [];
-          for (const item of data.path) {
-            if (item.item.item_type_id === 3) {
-              catname = item.item.catname;
-            }
-            if (item.item.item_type_id !== 3) {
-              pathCatnames.push(item.catname);
-            }
-            pathItems.push({
-              routerLink: ['/category', catname].concat(pathCatnames),
-              item: item.item,
-              loaded: false,
-              childs: [],
-              parent_id: item.parent_id
-            });
-          }
-
           this.current = data.current;
           this.category = data.category;
-          this.path = pathItems;
-          this.pathCatnames = pathCatnames;
+          this.path = data.pathItems;
+          this.pathCatnames = data.pathCatnames;
           this.pageEnv.set({
             layout: {
               needRight: false
