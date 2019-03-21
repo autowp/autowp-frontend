@@ -113,6 +113,7 @@ export interface APIItem {
   front_picture?: APIPicture;
   descendants_count: number;
   has_specs?: boolean;
+  alt_names: any[];
 }
 
 export interface APIItemRelatedGroupItem {
@@ -172,6 +173,181 @@ export interface GetPathServiceOptions {
   path: string;
 }
 
+function convertItemOptions(
+  options: GetItemServiceOptions
+): { [param: string]: string } {
+  const params: { [param: string]: string } = {};
+
+  if (!options) {
+    options = {};
+  }
+
+  if (options.fields) {
+    params.fields = options.fields;
+  }
+
+  return params;
+}
+
+function converItemsOptions(
+  options: GetItemsServiceOptions
+): { [param: string]: string } {
+  const params: { [param: string]: string } = {};
+
+  if (options.id) {
+    params.id = options.id.toString();
+  }
+
+  if (options.fields) {
+    params.fields = options.fields;
+  }
+
+  if (options.type_id) {
+    params.type_id = options.type_id.toString();
+  }
+
+  if (options.parent_id) {
+    params.parent_id = options.parent_id.toString();
+  }
+
+  if (options.order) {
+    params.order = options.order;
+  }
+
+  if (options.limit) {
+    params.limit = options.limit.toString();
+  }
+
+  if (options.name) {
+    params.name = options.name;
+  }
+
+  if (options.name_exclude) {
+    params.name_exclude = options.name_exclude;
+  }
+
+  if (options.dateless) {
+    params.dateless = '1';
+  }
+
+  if (options.page) {
+    params.page = options.page.toString();
+  }
+
+  if (options.have_childs_of_type) {
+    params.have_childs_of_type = options.have_childs_of_type.toString();
+  }
+
+  if (options.name) {
+    params.name = options.name;
+  }
+
+  if (options.autocomplete) {
+    params.autocomplete = options.autocomplete;
+  }
+
+  if (options.vehicle_type_id) {
+    params.vehicle_type_id = options.vehicle_type_id.toString();
+  }
+
+  if (options.vehicle_childs_type_id) {
+    params.vehicle_childs_type_id = options.vehicle_childs_type_id.toString();
+  }
+
+  if (options.spec) {
+    params.spec = options.spec.toString();
+  }
+
+  if (options.no_parent) {
+    params.no_parent = '1';
+  }
+
+  if (options.text) {
+    params.text = options.text;
+  }
+
+  if (options.from_year) {
+    params.from_year = options.from_year.toString();
+  }
+
+  if (options.to_year) {
+    params.to_year = options.to_year.toString();
+  }
+
+  if (options.ancestor_id) {
+    params.ancestor_id = options.ancestor_id.toString();
+  }
+
+  if (options.suggestions_to) {
+    params.suggestions_to = options.suggestions_to.toString();
+  }
+
+  if (options.engine_id) {
+    params.engine_id = options.engine_id.toString();
+  }
+
+  if (options.exclude_self_and_childs) {
+    params.exclude_self_and_childs = options.exclude_self_and_childs.toString();
+  }
+
+  if (options.parent_types_of) {
+    params.parent_types_of = options.parent_types_of.toString();
+  }
+
+  if (options.is_group) {
+    params.is_group = '1';
+  }
+
+  if (options.have_common_childs_with) {
+    params.have_common_childs_with = options.have_common_childs_with.toString();
+  }
+
+  if (options.have_childs_with_parent_of_type) {
+    params.have_childs_with_parent_of_type = options.have_childs_with_parent_of_type.toString();
+  }
+
+  if (options.last_item) {
+    params.last_item = '1';
+  }
+
+  if (options.related_groups_of) {
+    params.related_groups_of = options.related_groups_of.toString();
+  }
+
+  if (options.catname) {
+    params.catname = options.catname;
+  }
+
+  if (options.descendant_pictures) {
+    if (options.descendant_pictures.status) {
+      params['descendant_pictures[status]'] =
+        options.descendant_pictures.status;
+    }
+
+    if (options.descendant_pictures.type_id) {
+      params[
+        'descendant_pictures[type_id]'
+        ] = options.descendant_pictures.type_id.toString();
+    }
+
+    if (options.descendant_pictures.owner_id) {
+      params[
+        'descendant_pictures[owner_id]'
+        ] = options.descendant_pictures.owner_id.toString();
+    }
+  }
+
+  if (options.preview_pictures) {
+    if (options.preview_pictures.type_id) {
+      params[
+        'preview_pictures[type_id]'
+        ] = options.preview_pictures.type_id.toString();
+    }
+  }
+
+  return params;
+}
+
 @Injectable()
 export class ItemService {
   constructor(private http: HttpClient) {}
@@ -227,7 +403,7 @@ export class ItemService {
     options: GetItemServiceOptions
   ): Observable<APIItem> {
     return this.http.get<APIItem>(url, {
-      params: this.convertItemOptions(options)
+      params: convertItemOptions(options)
     });
   }
 
@@ -241,186 +417,11 @@ export class ItemService {
     return this.getItemByLocation('/api/item/' + id, options);
   }
 
-  private convertItemOptions(
-    options: GetItemServiceOptions
-  ): { [param: string]: string } {
-    const params: { [param: string]: string } = {};
-
-    if (!options) {
-      options = {};
-    }
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    return params;
-  }
-
-  private converItemsOptions(
-    options: GetItemsServiceOptions
-  ): { [param: string]: string } {
-    const params: { [param: string]: string } = {};
-
-    if (options.id) {
-      params.id = options.id.toString();
-    }
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.type_id) {
-      params.type_id = options.type_id.toString();
-    }
-
-    if (options.parent_id) {
-      params.parent_id = options.parent_id.toString();
-    }
-
-    if (options.order) {
-      params.order = options.order;
-    }
-
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
-    if (options.name) {
-      params.name = options.name;
-    }
-
-    if (options.name_exclude) {
-      params.name_exclude = options.name_exclude;
-    }
-
-    if (options.dateless) {
-      params.dateless = '1';
-    }
-
-    if (options.page) {
-      params.page = options.page.toString();
-    }
-
-    if (options.have_childs_of_type) {
-      params.have_childs_of_type = options.have_childs_of_type.toString();
-    }
-
-    if (options.name) {
-      params.name = options.name;
-    }
-
-    if (options.autocomplete) {
-      params.autocomplete = options.autocomplete;
-    }
-
-    if (options.vehicle_type_id) {
-      params.vehicle_type_id = options.vehicle_type_id.toString();
-    }
-
-    if (options.vehicle_childs_type_id) {
-      params.vehicle_childs_type_id = options.vehicle_childs_type_id.toString();
-    }
-
-    if (options.spec) {
-      params.spec = options.spec.toString();
-    }
-
-    if (options.no_parent) {
-      params.no_parent = '1';
-    }
-
-    if (options.text) {
-      params.text = options.text;
-    }
-
-    if (options.from_year) {
-      params.from_year = options.from_year.toString();
-    }
-
-    if (options.to_year) {
-      params.to_year = options.to_year.toString();
-    }
-
-    if (options.ancestor_id) {
-      params.ancestor_id = options.ancestor_id.toString();
-    }
-
-    if (options.suggestions_to) {
-      params.suggestions_to = options.suggestions_to.toString();
-    }
-
-    if (options.engine_id) {
-      params.engine_id = options.engine_id.toString();
-    }
-
-    if (options.exclude_self_and_childs) {
-      params.exclude_self_and_childs = options.exclude_self_and_childs.toString();
-    }
-
-    if (options.parent_types_of) {
-      params.parent_types_of = options.parent_types_of.toString();
-    }
-
-    if (options.is_group) {
-      params.is_group = '1';
-    }
-
-    if (options.have_common_childs_with) {
-      params.have_common_childs_with = options.have_common_childs_with.toString();
-    }
-
-    if (options.have_childs_with_parent_of_type) {
-      params.have_childs_with_parent_of_type = options.have_childs_with_parent_of_type.toString();
-    }
-
-    if (options.last_item) {
-      params.last_item = '1';
-    }
-
-    if (options.related_groups_of) {
-      params.related_groups_of = options.related_groups_of.toString();
-    }
-
-    if (options.catname) {
-      params.catname = options.catname;
-    }
-
-    if (options.descendant_pictures) {
-      if (options.descendant_pictures.status) {
-        params['descendant_pictures[status]'] =
-          options.descendant_pictures.status;
-      }
-
-      if (options.descendant_pictures.type_id) {
-        params[
-          'descendant_pictures[type_id]'
-        ] = options.descendant_pictures.type_id.toString();
-      }
-
-      if (options.descendant_pictures.owner_id) {
-        params[
-          'descendant_pictures[owner_id]'
-        ] = options.descendant_pictures.owner_id.toString();
-      }
-    }
-
-    if (options.preview_pictures) {
-      if (options.preview_pictures.type_id) {
-        params[
-          'preview_pictures[type_id]'
-        ] = options.preview_pictures.type_id.toString();
-      }
-    }
-
-    return params;
-  }
-
   public getItems(
     options?: GetItemsServiceOptions
   ): Observable<APIItemsGetResponse> {
     return this.http.get<APIItemsGetResponse>('/api/item', {
-      params: this.converItemsOptions(options)
+      params: converItemsOptions(options)
     });
   }
 

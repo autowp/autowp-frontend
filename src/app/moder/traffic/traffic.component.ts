@@ -19,6 +19,7 @@ export interface APITrafficItem {
     reason: string;
     up_to: string;
   };
+  in_whitelist: boolean;
 }
 
 export interface APITrafficGetResponse {

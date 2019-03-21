@@ -46,7 +46,7 @@
           <i class="fa fa-times"></i>
           {{'account/profile/photo/delete'|translate}}
         </button>
-        <button type="button" class="btn btn-primary" translate type="file" (click)="showFileSelectDialog()">account/profile/select-photo</button>
+        <button type="button" class="btn btn-primary" translate (click)="showFileSelectDialog()">account/profile/select-photo</button>
       </div>
       <ngb-progressbar type="success" [value]="uploader.progress" [hidden]="uploader.progress <= 0" *ngIf="file"></ngb-progressbar>
     </div>

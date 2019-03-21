@@ -58,6 +58,54 @@ export class APIUser {
   }[];
 }
 
+function converUserOptions(
+  options: APIGetUserOptions
+): { [param: string]: string } {
+  const params: { [param: string]: string } = {};
+
+  if (options.fields) {
+    params.fields = options.fields;
+  }
+
+  return params;
+}
+
+function converUsersOptions(
+  options: APIGetUsersOptions
+): { [param: string]: string | string[] } {
+  const params: { [param: string]: string | string[] } = {};
+
+  if (options.limit) {
+    params.limit = options.limit.toString();
+  }
+
+  if (options.id) {
+    const a: string[] = [];
+    for (let i = 0; i < options.id.length; i++) {
+      a.push(options.id[i].toString());
+    }
+    params['id[]'] = a;
+  }
+
+  if (options.search) {
+    params.search = options.search;
+  }
+
+  if (options.page) {
+    params.page = options.page.toString();
+  }
+
+  if (options.fields) {
+    params.fields = options.fields;
+  }
+
+  if (options.identity) {
+    params.identity = options.identity;
+  }
+
+  return params;
+}
+
 @Injectable()
 export class UserService {
   private cache: Map<number, APIUser> = new Map<number, APIUser>();
@@ -137,7 +185,7 @@ export class UserService {
   }
 
   public getUser(id: number, options: APIGetUserOptions): Observable<APIUser> {
-    const params = this.converUserOptions(options);
+    const params = converUserOptions(options);
 
     if (Object.keys(params).length) {
       return this.http.get<APIUser>('/api/user/' + id, {
@@ -155,57 +203,9 @@ export class UserService {
     );
   }
 
-  private converUserOptions(
-    options: APIGetUserOptions
-  ): { [param: string]: string } {
-    const params: { [param: string]: string } = {};
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    return params;
-  }
-
-  private converUsersOptions(
-    options: APIGetUsersOptions
-  ): { [param: string]: string | string[] } {
-    const params: { [param: string]: string | string[] } = {};
-
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
-    if (options.id) {
-      const a: string[] = [];
-      for (let i = 0; i < options.id.length; i++) {
-        a.push(options.id[i].toString());
-      }
-      params['id[]'] = a;
-    }
-
-    if (options.search) {
-      params.search = options.search;
-    }
-
-    if (options.page) {
-      params.page = options.page.toString();
-    }
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.identity) {
-      params.identity = options.identity;
-    }
-
-    return params;
-  }
-
   public get(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
     return this.http.get<APIUserGetResponse>('/api/user', {
-      params: this.converUsersOptions(options)
+      params: converUsersOptions(options)
     });
   }
 

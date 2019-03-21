@@ -111,11 +111,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   }
 
   public reply(message: APICommentInList, resolve: boolean) {
-    if (message.showReply) {
-      message.showReply = false;
-    } else {
-      message.showReply = true;
-    }
+    message.showReply = !message.showReply;
   }
 
   public showVotes(message: APIComment) {

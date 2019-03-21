@@ -6,8 +6,6 @@ import { APIPaginator } from './api.service';
 import { APIUser } from './user';
 import { switchMap, map, debounceTime, shareReplay, tap } from 'rxjs/operators';
 
-export type MessageCallbackType = () => void;
-
 export interface APIMessagesGetOptions {
   folder: string;
   page: number;
@@ -53,8 +51,8 @@ export interface APIMessageNewGetResponse {
 
 @Injectable()
 export class MessageService {
-  private summary$: Observable<APIMessageSummaryGetResponse>;
-  private new$: Observable<number>;
+  private readonly summary$: Observable<APIMessageSummaryGetResponse>;
+  private readonly new$: Observable<number>;
   private deleted$ = new BehaviorSubject<void>(null);
   private sent$ = new BehaviorSubject<void>(null);
   private seen$ = new BehaviorSubject<void>(null);

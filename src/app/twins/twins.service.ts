@@ -19,7 +19,7 @@ export interface APITwinsGetBrandsResponse {
 @Injectable()
 export class TwinsService {
 
-  private brands$: Observable<APITwinsBrand[]>;
+  private readonly brands$: Observable<APITwinsBrand[]>;
 
   constructor(private http: HttpClient) {
     this.brands$ = this.http.get<APITwinsGetBrandsResponse>('/api/twins/brands')

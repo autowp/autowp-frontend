@@ -75,7 +75,6 @@ export class CarsSpecificationsEditorSpecComponent
   public values = new Map<number, APIAttrValue>();
   public userValues = new Map<number, APIAttrUserValue[]>();
   public currentUserValues: { [key: number]: APIAttrUserValue } = {};
-  public userValuesLoading = 0;
   private user: APIUser;
   private sub: Subscription;
   private change$ = new BehaviorSubject<null>(null);

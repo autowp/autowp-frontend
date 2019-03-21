@@ -35,7 +35,7 @@
           <a href="#" class="fa fa-2x vote-up" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value &lt;= 0" *ngIf="user" (click)="vote(1)"></a>
           <i class="fa fa-2x fa-thumbs-o-up" *ngIf="!user"></i>
           <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
-          <a href="#" class="fa fa-2x vote-down" [class.fa-thumbs-down]="picture.votes.value &lt; 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
+          <a href="#" class="fa fa-2x vote-down" [class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
           <i class="fa fa-2x fa-thumbs-o-down" *ngIf="!user"></i>
           <span class="negative" [class.zero]="picture.votes.negative">{{picture.votes.negative}}</span>
         </div>

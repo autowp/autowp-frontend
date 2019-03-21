@@ -39,6 +39,17 @@ export interface MapItem {
 // require('leaflet-webgl-heatmap/src/webgl-heatmap/webgl-heatmap');
 // require('leaflet-webgl-heatmap/dist/leaflet-webgl-heatmap.min');
 
+function createMarker(lat, lng): Marker {
+  return marker([lat, lng], {
+    icon: icon({
+      iconSize: [25, 41],
+      iconAnchor: [13, 41],
+      iconUrl: 'assets/marker-icon.png',
+      shadowUrl: 'assets/marker-shadow.png'
+    })
+  });
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -122,17 +133,6 @@ export class MapComponent implements OnInit {
     });
   }
 
-  private createMarker(lat, lng): Marker {
-    return marker([lat, lng], {
-      icon: icon({
-        iconSize: [25, 41],
-        iconAnchor: [13, 41],
-        iconUrl: 'assets/marker-icon.png',
-        shadowUrl: 'assets/marker-shadow.png'
-      })
-    });
-  }
-
   renderData(data: MapItem[]) {
     for (const m of this.markers) {
       m.remove();
@@ -140,7 +140,7 @@ export class MapComponent implements OnInit {
     this.markers = [];
 
     for (const item of data) {
-      const m = this.createMarker(item.location.lat, item.location.lng);
+      const m = createMarker(item.location.lat, item.location.lng);
 
       const popup = new Popup();
       m.on('click', () => {

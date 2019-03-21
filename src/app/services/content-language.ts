@@ -9,7 +9,7 @@ export interface APIContentLanguageGetResponse {
 
 @Injectable()
 export class ContentLanguageService {
-  private languages$: Observable<string[]>;
+  private readonly languages$: Observable<string[]>;
 
   constructor(private http: HttpClient) {
     this.languages$ = this.http.get<APIContentLanguageGetResponse>('/api/content-language').pipe(

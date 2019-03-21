@@ -33,7 +33,6 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   public picture: APIPicture;
   public paginator: APIPaginator;
   public user: APIUser;
-  public currentURL: string;
 
   constructor(
     private itemService: ItemService,

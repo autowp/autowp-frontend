@@ -51,7 +51,7 @@ export interface APIComment {
   providedIn: 'root'
 })
 export class APICommentsService {
-  private attentionCommentsCount$: Observable<number>;
+  private readonly attentionCommentsCount$: Observable<number>;
 
   constructor(private http: HttpClient, private acl: ACLService) {
     this.attentionCommentsCount$ = this.acl.inheritsRole('moder').pipe(

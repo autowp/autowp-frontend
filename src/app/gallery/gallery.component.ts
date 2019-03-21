@@ -41,7 +41,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   public currentItem: APIGalleryItem;
   public prevGalleryItem: APIGalleryItem;
   public nextGalleryItem: APIGalleryItem;
-  public indicators = [];
 
   private PER_PAGE = 10;
   public MAX_INDICATORS = 30;

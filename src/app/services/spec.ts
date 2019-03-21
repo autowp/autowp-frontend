@@ -16,7 +16,7 @@ export interface APISpec {
 
 @Injectable()
 export class SpecService {
-  private specs$: Observable<APISpec[]>;
+  private readonly specs$: Observable<APISpec[]>;
 
   constructor(private http: HttpClient) {
     this.specs$ = this.http.get<APISpecGetResponse>('/api/spec').pipe(

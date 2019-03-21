@@ -18,7 +18,7 @@ export interface Language {
 
 @Injectable()
 export class LanguageService {
-  private language = 'en';
+  private readonly language: string = 'en';
   private languages: Language[] = environment.languages;
 
   constructor() {

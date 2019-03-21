@@ -37,7 +37,7 @@ export class CatagoriesService {
         });
       }),
       map((response) => {
-        let category: APIItem = null;
+        let category: APIItem;
         for (const item of response.path) {
           if (item.item.item_type_id !== 3) {
             break;

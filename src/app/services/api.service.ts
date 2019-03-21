@@ -4,14 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { APIPicture } from './picture';
 
-export class APIAPIClient {
-  constructor(
-    public client_id: string,
-    public client_secret: string,
-    public redirect_uri: string
-  ) {}
-}
-
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
 }
@@ -65,7 +57,7 @@ export interface APIPerspective {
 export interface APIPerspectiveGroup {
   id: number;
   name: string;
-  groups: APIPerspective[];
+  perspectives: APIPerspective[];
 }
 
 export interface APIPerspectivePage {

@@ -23,6 +23,41 @@ interface Bounds {
   height: number;
 }
 
+function boundCenter(container: Dimension, content: Dimension): Bounds {
+  return {
+    left: (container.width - content.width) / 2,
+    top: (container.height - content.height) / 2,
+    width: content.width,
+    height: content.height
+  };
+}
+
+function bound(container: Dimension, content: Dimension): Dimension {
+  const containerRatio = container.width / container.height;
+  const contentRatio = content.width / content.height;
+
+  let width: number, height: number;
+  if (contentRatio > containerRatio) {
+    width = container.width;
+    height = width / contentRatio;
+  } else {
+    height = container.height;
+    width = height * contentRatio;
+  }
+
+  return {
+    width: width,
+    height: height
+  };
+}
+
+function maxBounds(bounds: Dimension, max: Dimension): Dimension {
+  if (bounds.height > max.height || bounds.width > max.width) {
+    return max;
+  }
+  return bounds;
+}
+
 @Component({
   selector: 'app-gallery-carousel-item',
   templateUrl: './carousel-item.component.html',
@@ -101,8 +136,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
     if (crop) {
       if (this.cropMode) {
-        const bounds = this.maxBounds(
-          this.bound(cSize, {
+        const bounds = maxBounds(
+          bound(cSize, {
             width: crop.width,
             height: crop.height
           }),
@@ -112,7 +147,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           }
         );
 
-        const offsetBounds = this.boundCenter(cSize, bounds);
+        const offsetBounds = boundCenter(cSize, bounds);
         this.cropStyle = {
           'width.px': offsetBounds.width,
           'height.px': offsetBounds.height,
@@ -136,8 +171,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
         this.areasToBounds(imgFullBounds);
       } else {
-        const bounds = this.maxBounds(
-          this.bound(cSize, {
+        const bounds = maxBounds(
+          bound(cSize, {
             width: full.width,
             height: full.height
           }),
@@ -146,7 +181,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
             height: full.height
           }
         );
-        const offsetBounds = this.boundCenter(cSize, bounds);
+        const offsetBounds = boundCenter(cSize, bounds);
         this.fullStyle = {
           'width.px': offsetBounds.width,
           'height.px': offsetBounds.height,
@@ -164,8 +199,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       }
     } else {
       if (full) {
-        const bounds = this.maxBounds(
-          this.bound(cSize, {
+        const bounds = maxBounds(
+          bound(cSize, {
             width: full.width,
             height: full.height
           }),
@@ -174,7 +209,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
             height: full.height
           }
         );
-        const offsetBounds = this.boundCenter(cSize, bounds);
+        const offsetBounds = boundCenter(cSize, bounds);
         this.fullStyle = {
           'width.px': offsetBounds.width,
           'height.px': offsetBounds.height,
@@ -187,22 +222,6 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private boundCenter(container: Dimension, content: Dimension): Bounds {
-    return {
-      left: (container.width - content.width) / 2,
-      top: (container.height - content.height) / 2,
-      width: content.width,
-      height: content.height
-    };
-  }
-
-  private maxBounds(bounds: Dimension, maxBounds: Dimension): Dimension {
-    if (bounds.height > maxBounds.height || bounds.width > maxBounds.width) {
-      return maxBounds;
-    }
-    return bounds;
-  }
-
   private areasToBounds(offsetBounds: Bounds) {
     this.item.areas.forEach((area) => {
       area.styles = {
@@ -212,24 +231,5 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
         'height.px': area.area.height * offsetBounds.height
       };
     });
-  }
-
-  private bound(container: Dimension, content: Dimension): Dimension {
-    const containerRatio = container.width / container.height;
-    const contentRatio = content.width / content.height;
-
-    let width: number, height: number;
-    if (contentRatio > containerRatio) {
-      width = container.width;
-      height = width / contentRatio;
-    } else {
-      height = container.height;
-      width = height * contentRatio;
-    }
-
-    return {
-      width: width,
-      height: height
-    };
   }
 }

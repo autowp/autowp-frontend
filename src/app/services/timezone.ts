@@ -9,7 +9,7 @@ export interface APITimezoneGetResponse {
 
 @Injectable()
 export class TimezoneService {
-  private timezones$: Observable<string[]>;
+  private readonly timezones$: Observable<string[]>;
 
   constructor(private http: HttpClient) {
     this.timezones$ = this.http.get<APITimezoneGetResponse>('/api/timezone')

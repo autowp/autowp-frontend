@@ -42,7 +42,7 @@ export interface APIMostsMenuGetResponse {
 
 @Injectable()
 export class MostsService {
-  private menu$: Observable<APIMostsMenuGetResponse>;
+  private readonly menu$: Observable<APIMostsMenuGetResponse>;
 
   constructor(private http: HttpClient) {
     this.menu$ = this.http.get<APIMostsMenuGetResponse>('/api/mosts/menu');

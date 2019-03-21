@@ -187,7 +187,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           vehicleChildsTypeID:
             parseInt(params.vehicle_childs_type_id, 10) || null,
           specID: parseInt(params.spec_id, 10) || null,
-          noParent: params.no_parent ? true : false,
+          noParent: !!params.no_parent,
           text: params.text || '',
           fromYear: parseInt(params.from_year, 10) || null,
           toYear: parseInt(params.to_year, 10) || null,

@@ -16,7 +16,7 @@ export interface APIPerspectiveGetResponse {
   providedIn: 'root'
 })
 export class APIPerspectiveService {
-  private perspectives$: Observable<APIPerspective[]>;
+  private readonly perspectives$: Observable<APIPerspective[]>;
 
   constructor(private http: HttpClient) {
     this.perspectives$ = this.http

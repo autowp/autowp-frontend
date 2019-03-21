@@ -18,7 +18,7 @@ export interface APIVehicleTypesGetResponse {
 
 @Injectable()
 export class VehicleTypeService {
-  private types$: Observable<APIVehicleType[]>;
+  private readonly types$: Observable<APIVehicleType[]>;
 
   constructor(private http: HttpClient, private translate: TranslateService) {
     this.types$ = this.http

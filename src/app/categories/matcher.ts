@@ -24,6 +24,4 @@ export function categoriesPathMatcher(url: UrlSegment[]) {
       path: new UrlSegment(path.join('/'), {})
     }
   };
-
-  return null;
 }

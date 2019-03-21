@@ -28,6 +28,7 @@ export interface APIAttrConflicsGetOptions {
 
 export interface APIAttrConflictValue {
   user_id: number;
+  value: string|number|null;
 }
 
 export interface APIAttrConflict {
@@ -182,8 +183,8 @@ export interface APIAttrAttributePostOptions {
   providedIn: 'root'
 })
 export class APIAttrsService {
-  private attributeTypes$: Observable<APIAttrAttributeType[]>;
-  private zones$: Observable<APIAttrZone[]>;
+  private readonly attributeTypes$: Observable<APIAttrAttributeType[]>;
+  private readonly zones$: Observable<APIAttrZone[]>;
   private units$: Observable<APIAttrUnit[]>;
 
   constructor(private http: HttpClient) {

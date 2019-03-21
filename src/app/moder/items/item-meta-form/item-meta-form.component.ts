@@ -50,6 +50,17 @@ interface ItemMetaFormAPISpec extends APISpec {
   deep?: number;
 }
 
+function createMarker(lat, lng): Marker {
+  return marker([lat, lng], {
+    icon: icon({
+      iconSize: [25, 41],
+      iconAnchor: [13, 41],
+      iconUrl: 'assets/marker-icon.png',
+      shadowUrl: 'assets/marker-shadow.png'
+    })
+  });
+}
+
 @Component({
   selector: 'app-item-meta-form',
   templateUrl: './item-meta-form.component.html',
@@ -173,7 +184,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     private zone: NgZone
   ) {
     if (this.item && this.item.lat && this.item.lng) {
-      this.markers = [this.createMarker(this.item.lat, this.item.lng)];
+      this.markers = [createMarker(this.item.lat, this.item.lng)];
     }
 
     this.model_year_max = new Date().getFullYear() + 10;
@@ -230,13 +241,6 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  public matchingFn(value: string, target: APIVehicleType): boolean {
-    const targetValue = target['nameTranslated'].toString();
-    return (
-      targetValue && targetValue.toLowerCase().indexOf(value.toLowerCase()) >= 0
-    );
-  }
-
   public coordsChanged() {
     const lat = this.item ? this.item.lat : NaN;
     const lng = this.item ? this.item.lng : NaN;
@@ -246,7 +250,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
       if (this.markers.length) {
         this.markers[0].setLatLng(ll);
       } else {
-        this.markers = [this.createMarker(ll.lat, ll.lng)];
+        this.markers = [createMarker(ll.lat, ll.lng)];
       }
       this.center = ll;
       this.leafletOptions.center = ll;
@@ -292,21 +296,10 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     lmap.on('click', (event: LeafletMouseEvent) => {
       this.zone.run(() => {
         const ll: LatLng = event.latlng;
-        this.markers = [this.createMarker(ll.lat, ll.lng)];
+        this.markers = [createMarker(ll.lat, ll.lng)];
         this.item.lat = ll.lat;
         this.item.lng = ll.lng;
       });
-    });
-  }
-
-  private createMarker(lat, lng): Marker {
-    return marker([lat, lng], {
-      icon: icon({
-        iconSize: [25, 41],
-        iconAnchor: [13, 41],
-        iconUrl: 'assets/marker-icon.png',
-        shadowUrl: 'assets/marker-shadow.png'
-      })
     });
   }
 }

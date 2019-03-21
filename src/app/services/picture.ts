@@ -128,7 +128,7 @@ export interface APIPicturePaginator {
   pagesInRange: {
     page: number;
     identity: string;
-  }[],
+  }[];
   firstPageInRange: number;
   lastPageInRange: number;
   currentItemCount: number;
@@ -176,7 +176,7 @@ export interface APIGetPicturesOptions {
   };
   paginator?: {
     item_id: number;
-  }
+  };
 }
 
 export interface APIPictureUserSummary {
@@ -184,10 +184,138 @@ export interface APIPictureUserSummary {
   acceptedCount: number;
 }
 
+function convertPictureOptions(
+  options: APIGetPictureOptions
+): { [param: string]: string } {
+  const params: { [param: string]: string } = {};
+
+  if (!options) {
+    options = {};
+  }
+
+  if (options.fields) {
+    params.fields = options.fields;
+  }
+
+  return params;
+}
+
+function converPicturesOptions(
+  options: APIGetPicturesOptions
+): { [param: string]: string } {
+  const params: { [param: string]: string } = {};
+
+  if (options.identity) {
+    params.identity = options.identity;
+  }
+
+  if (options.fields) {
+    params.fields = options.fields;
+  }
+
+  if (options.status) {
+    params.status = options.status;
+  }
+
+  if (options.limit) {
+    params.limit = options.limit.toString();
+  }
+
+  if (options.page) {
+    params.page = options.page.toString();
+  }
+
+  if (options.perspective_id) {
+    params.perspective_id = options.perspective_id.toString();
+  }
+
+  if (options.order) {
+    params.order = options.order.toString();
+  }
+
+  if (options.exact_item_id) {
+    params.exact_item_id = options.exact_item_id.toString();
+  }
+
+  if (options.item_id) {
+    params.item_id = options.item_id.toString();
+  }
+
+  if (options.exclude_item_id) {
+    params.exclude_item_id = options.exclude_item_id.toString();
+  }
+
+  if (options.add_date) {
+    params.add_date = options.add_date;
+  }
+
+  if (options.car_type_id) {
+    params.car_type_id = options.car_type_id.toString();
+  }
+
+  if (options.comments !== null && options.comments !== undefined) {
+    params.comments = options.comments ? '1' : '0';
+  }
+
+  if (options.replace !== null && options.replace !== undefined) {
+    params.replace = options.replace ? '1' : '0';
+  }
+
+  if (options.owner_id) {
+    params.owner_id = options.owner_id.toString();
+  }
+
+  if (options.requests !== null && options.requests !== undefined) {
+    params.requests = options.requests.toString();
+  }
+
+  if (options.special_name !== null && options.special_name !== undefined) {
+    params.special_name = options.special_name ? '1' : '0';
+  }
+
+  if (options.lost !== null && options.lost !== undefined) {
+    params.lost = options.lost ? '1' : '0';
+  }
+
+  if (options.gps !== null && options.gps !== undefined) {
+    params.gps = options.gps ? '1' : '0';
+  }
+
+  if (options.similar) {
+    params.similar = '1';
+  }
+
+  if (options.accept_date) {
+    params.accept_date = options.accept_date;
+  }
+
+  if (options.exact_item_link_type) {
+    params.exact_item_link_type = options.exact_item_link_type.toString();
+  }
+
+  if (options.added_from) {
+    params.added_from = options.added_from;
+  }
+
+  if (options.items) {
+    if (options.items.type_id) {
+      params['items[type_id]'] = options.items.type_id.toString();
+    }
+  }
+
+  if (options.paginator) {
+    if (options.paginator.item_id) {
+      params['paginator[item_id]'] = options.paginator.item_id.toString();
+    }
+  }
+
+  return params;
+}
+
 @Injectable()
 export class PictureService {
-  private summary$: Observable<APIPictureUserSummary>;
-  private inboxSize$: Observable<number>;
+  private readonly summary$: Observable<APIPictureUserSummary>;
+  private readonly inboxSize$: Observable<number>;
 
   constructor(
     private http: HttpClient,
@@ -226,136 +354,8 @@ export class PictureService {
     options?: APIGetPictureOptions
   ): Observable<APIPicture> {
     return this.http.get<APIPicture>(url, {
-      params: this.convertPictureOptions(options)
+      params: convertPictureOptions(options)
     });
-  }
-
-  private convertPictureOptions(
-    options: APIGetPictureOptions
-  ): { [param: string]: string } {
-    const params: { [param: string]: string } = {};
-
-    if (!options) {
-      options = {};
-    }
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    return params;
-  }
-
-  private converPicturesOptions(
-    options: APIGetPicturesOptions
-  ): { [param: string]: string } {
-    const params: { [param: string]: string } = {};
-
-    if (options.identity) {
-      params.identity = options.identity;
-    }
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.status) {
-      params.status = options.status;
-    }
-
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
-    if (options.page) {
-      params.page = options.page.toString();
-    }
-
-    if (options.perspective_id) {
-      params.perspective_id = options.perspective_id.toString();
-    }
-
-    if (options.order) {
-      params.order = options.order.toString();
-    }
-
-    if (options.exact_item_id) {
-      params.exact_item_id = options.exact_item_id.toString();
-    }
-
-    if (options.item_id) {
-      params.item_id = options.item_id.toString();
-    }
-
-    if (options.exclude_item_id) {
-      params.exclude_item_id = options.exclude_item_id.toString();
-    }
-
-    if (options.add_date) {
-      params.add_date = options.add_date;
-    }
-
-    if (options.car_type_id) {
-      params.car_type_id = options.car_type_id.toString();
-    }
-
-    if (options.comments !== null && options.comments !== undefined) {
-      params.comments = options.comments ? '1' : '0';
-    }
-
-    if (options.replace !== null && options.replace !== undefined) {
-      params.replace = options.replace ? '1' : '0';
-    }
-
-    if (options.owner_id) {
-      params.owner_id = options.owner_id.toString();
-    }
-
-    if (options.requests !== null && options.requests !== undefined) {
-      params.requests = options.requests.toString();
-    }
-
-    if (options.special_name !== null && options.special_name !== undefined) {
-      params.special_name = options.special_name ? '1' : '0';
-    }
-
-    if (options.lost !== null && options.lost !== undefined) {
-      params.lost = options.lost ? '1' : '0';
-    }
-
-    if (options.gps !== null && options.gps !== undefined) {
-      params.gps = options.gps ? '1' : '0';
-    }
-
-    if (options.similar) {
-      params.similar = '1';
-    }
-
-    if (options.accept_date) {
-      params.accept_date = options.accept_date;
-    }
-
-    if (options.exact_item_link_type) {
-      params.exact_item_link_type = options.exact_item_link_type.toString();
-    }
-
-    if (options.added_from) {
-      params.added_from = options.added_from;
-    }
-
-    if (options.items) {
-      if (options.items.type_id) {
-        params['items[type_id]'] = options.items.type_id.toString();
-      }
-    }
-
-    if (options.paginator) {
-      if (options.paginator.item_id) {
-        params['paginator[item_id]'] = options.paginator.item_id.toString();
-      }
-    }
-
-    return params;
   }
 
   public getPicture(
@@ -369,7 +369,7 @@ export class PictureService {
     options?: APIGetPicturesOptions
   ): Observable<APIPictureGetResponse> {
     return this.http.get<APIPictureGetResponse>('/api/picture', {
-      params: this.converPicturesOptions(options)
+      params: converPicturesOptions(options)
     });
   }
 

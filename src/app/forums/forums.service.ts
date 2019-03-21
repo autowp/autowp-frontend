@@ -69,6 +69,8 @@ export interface APIForumTheme {
     paginator: APIPaginator;
   };
   disable_topics: boolean;
+  topics_count: number;
+  messages_count: number;
 }
 
 export interface APIForumTopicsGetResponse {
@@ -96,7 +98,7 @@ const LIMIT = 20;
 })
 export class ForumsService {
 
-  private summary$: Observable<APIForumUserSummaryGetResponse>;
+  private readonly summary$: Observable<APIForumUserSummaryGetResponse>;
 
   constructor(private http: HttpClient, private auth: AuthService) {
     this.summary$ = this.auth.getUser().pipe(

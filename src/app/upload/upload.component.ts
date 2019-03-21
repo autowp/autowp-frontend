@@ -129,9 +129,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   }
 
   public onChange(event: any, input: any) {
-    const files = [].slice.call(event.target.files);
-
-    this.files = files;
+    this.files = [].slice.call(event.target.files);
   }
 
   public submit() {

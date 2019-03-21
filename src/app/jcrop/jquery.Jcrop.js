@@ -334,7 +334,7 @@ function Jcrop(obj, opt) {
   var $origimg = $(obj),
     img_mode = true;
 
-  if (obj.tagName == 'IMG') {
+  if (obj.tagName === 'IMG') {
     // Fix size of crop image.
     // Necessary when crop image is within a hidden element when page is loaded.
     if ($origimg[0].width != 0 && $origimg[0].height != 0) {
@@ -411,12 +411,12 @@ function Jcrop(obj, opt) {
       .append($img_holder, $hdl_holder);
 
   if (img_mode) {
-    ($img2 = $('<img />')
+    $img2 = $('<img />')
       .attr('src', $img.attr('src'))
       .css(img_css)
       .width(boundx)
-      .height(boundy)),
-      $img_holder.append($img2);
+      .height(boundy);
+    $img_holder.append($img2);
   }
 
   if (ie6mode) {
@@ -1304,7 +1304,7 @@ function Jcrop(obj, opt) {
       if (e.ctrlKey || e.metaKey) {
         return true;
       }
-      shift_down = e.shiftKey ? true : false;
+      shift_down = !!e.shiftKey;
       var nudge = shift_down ? 10 : 1;
 
       switch (e.keyCode) {
