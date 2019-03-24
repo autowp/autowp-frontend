@@ -1,0 +1,8 @@
+<h4>{{'page/22/name'|translate}} <small><a routerLink="/category" translate>all-link</a></small></h4>
+<div class="spinner-border" role="status" *ngIf="!categories">
+  <span class="sr-only">Loading...</span>
+</div>
+<p *ngIf="categories">
+  <app-index-categories-category [category]="category" *ngFor="let category of categories"></app-index-categories-category>
+</p>
+<app-markdown [markdown]="'index/categories/description'|translate" *ngIf="['ru', 'zh', 'fr', 'be', 'pt-br', 'uk'].includes(language)"></app-markdown>

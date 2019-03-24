@@ -1,7 +1,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <a href="/" translate>page/1/name</a>
+      <a routerLink="/" translate>page/1/name</a>
     </li>
     <li class="breadcrumb-item">
       <a routerLink="/persons" translate>page/214/name</a>
@@ -9,7 +9,7 @@
   </ol>
 </nav>
 
-<div class="page-header">
+<div class="page-header" *ngIf="item">
   <h1 [innerHTML]="item.name_html"></h1>
 </div>
 

@@ -1,0 +1,65 @@
+<div class="spinner-border" role="status" *ngIf="!itemOfDayLoaded">
+  <span class="sr-only">Loading...</span>
+</div>
+<app-item-of-day [item]="itemOfDay.item" [user]="itemOfDay.user" *ngIf="itemOfDay"></app-item-of-day>
+
+<app-index-brands></app-index-brands>
+
+<app-index-pictures></app-index-pictures>
+
+<div class="row">
+  <div class="col-md-6">
+    <app-index-twins></app-index-twins>
+  </div>
+  <div class="col-md-6">
+    <app-index-categories></app-index-categories>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <h4>{{'page/21/name'|translate}} <small><a routerLink="/mosts" translate="">all-link</a></small></h4>
+    <p>
+      <ng-container *ngFor="let most of mosts">
+        <a [routerLink]="most.url">{{most.name|translate}}</a>,
+      </ng-container>
+      …
+    </p>
+    <app-markdown [markdown]="'index/categories/mosts'|translate"></app-markdown>
+  </div>
+
+  <div class="col-md-6">
+    <app-index-factories></app-index-factories>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h4>{{'persons/content-persons'|translate}} <small><a routerLink="/persons" translate="">all-link</a></small></h4>
+    <div class="spinner-border" role="status" *ngIf="!contentPersonsLoaded">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <p *ngIf="contentPersonsLoaded">
+      <ng-container *ngFor="let person of contentPersons">
+        <a [routerLink]="['/persons', person.id]">{{person.name}}</a>,
+      </ng-container>
+      …
+    </p>
+  </div>
+
+  <div class="col-md-6">
+    <h4>{{'persons/author-persons'|translate}} <small><a routerLink="/persons/authors" translate="">all-link</a></small></h4>
+    <div class="spinner-border" role="status" *ngIf="!personsLoaded">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <p *ngIf="personsLoaded">
+      <ng-container *ngFor="let person of persons">
+        <a [routerLink]="['/persons', person.id]">{{person.name}}</a>,
+      </ng-container>
+      …
+    </p>
+  </div>
+</div>
+
+<app-index-specs-cars></app-index-specs-cars>
+

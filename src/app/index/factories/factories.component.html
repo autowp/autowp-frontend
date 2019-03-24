@@ -1,0 +1,7 @@
+<h4>{{'index/factories'|translate}} <small><a routerLink="/map" translate>all-link</a></small></h4>
+<div class="spinner-border" role="status" *ngIf="!factories">
+  <span class="sr-only">Loading...</span>
+</div>
+<p *ngIf="factories">
+  <app-index-factories-factory [factory]="factory" *ngFor="let factory of factories"></app-index-factories-factory>
+</p>

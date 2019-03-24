@@ -177,6 +177,7 @@ export interface APIGetPicturesOptions {
   paginator?: {
     item_id: number;
   };
+  accepted_in_days?: number;
 }
 
 export interface APIPictureUserSummary {
@@ -295,6 +296,10 @@ function converPicturesOptions(
 
   if (options.added_from) {
     params.added_from = options.added_from;
+  }
+
+  if (options.accepted_in_days) {
+    params.accepted_in_days = options.accepted_in_days.toString();
   }
 
   if (options.items) {

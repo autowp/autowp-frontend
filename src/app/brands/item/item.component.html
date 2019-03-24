@@ -8,7 +8,7 @@
 <h4 ngPreserveWhitespaces>
   <a [href]="brand.url" [textContent]="brand.name"></a>
   <small>({{brand.totalCars - brand.newCars}}<span *ngIf="brand.newCars > 0" [ngbPopover]="popover" (shown)="shown()" triggers="mouseenter:mouseleave"
-      [popoverTitle]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
+    [popoverTitle]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
 </h4>
 <p>
   <small>{{'brands/pict ures:'|translate}} {{brand.totalPictures}}</small>

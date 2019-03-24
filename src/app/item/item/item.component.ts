@@ -44,4 +44,11 @@ export class ItemComponent implements OnInit, OnDestroy {
     return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
   }
 
+  public thumbnailColClass() {
+    if (this.item.preview_pictures.length === 3) {
+      return 'col-sm-4';
+    }
+
+    return 'col-6 col-lg-3';
+  }
 }

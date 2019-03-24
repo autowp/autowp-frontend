@@ -10,7 +10,6 @@ import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { IndexComponent } from './index/index.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { AuthGuard } from './auth.guard';
@@ -51,6 +50,7 @@ import { ItemModule } from './item/item.module';
 import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.module';
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { ModerMenuModule } from './moder/menu/menu.module';
+import { IndexModule } from './index/index.module';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -60,7 +60,6 @@ import { ModerMenuModule } from './moder/menu/menu.module';
 @NgModule({
   declarations: [
     AppComponent,
-    IndexComponent,
     PageNotFoundComponent,
     VehicleTypesModalComponent,
     Error403Component,
@@ -100,7 +99,8 @@ import { ModerMenuModule } from './moder/menu/menu.module';
     ModerMenuModule,
     NgbTooltipModule,
     NgbCollapseModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    IndexModule
   ],
   providers: [
     APIService,

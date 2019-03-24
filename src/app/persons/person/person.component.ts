@@ -130,7 +130,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           (data, responses) => ({
             item: data.item,
             links: responses[0].items,
-            authorPicures: responses[1],
+            authorPictures: responses[1],
             contentPictures: responses[2]
           })
         )
@@ -139,8 +139,8 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.item = data.item;
         this.links = data.links;
-        this.authorPictures = data.authorPicures.pictures;
-        this.authorPicturesPaginator = data.authorPicures.paginator;
+        this.authorPictures = data.authorPictures.pictures;
+        this.authorPicturesPaginator = data.authorPictures.paginator;
         this.contentPictures = data.contentPictures.pictures;
         this.contentPicturesPaginator = data.contentPictures.paginator;
       });

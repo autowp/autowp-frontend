@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import { IndexComponent } from './index/index.component';
 
 const appRoutes: Routes = [
   { path: 'about', loadChildren: './about/about.module#AboutModule' },
@@ -97,7 +96,7 @@ const appRoutes: Routes = [
     loadChildren: './users/users.module#UsersModule'
   },
   { path: 'voting', loadChildren: './voting/voting.module#VotingModule' },
-  { path: '', component: IndexComponent },
+  { path: '', loadChildren: './index/index.module#IndexModule' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

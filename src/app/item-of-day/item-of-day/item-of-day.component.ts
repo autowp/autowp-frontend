@@ -23,8 +23,13 @@ export class ItemOfDayComponent implements OnChanges {
     if (changes.item) {
       this.item = changes.item.currentValue;
 
-      this.first = this.item.item_of_day_pictures.slice(0, 1);
-      this.others = this.item.item_of_day_pictures.slice(1, 5);
+      if (this.item) {
+        this.first = this.item.item_of_day_pictures.slice(0, 1);
+        this.others = this.item.item_of_day_pictures.slice(1, 5);
+      } else {
+        this.first = [];
+        this.others = [];
+      }
     }
   }
 }

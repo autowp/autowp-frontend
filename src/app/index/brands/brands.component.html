@@ -1,0 +1,19 @@
+<h4>
+  {{'index/brands'|translate}}
+  <small><a routerLink="/brands" translate>all-link</a></small>
+</h4>
+
+<div class="spinner-border" role="status" *ngIf="!brands">
+  <span class="sr-only">Loading...</span>
+</div>
+
+<!--<?php
+'<span data-href="'.$this->escapeHtmlAttr($brand['new_cars_url']).'" data-toggle="popover" data-container="body" class="popover-handler" title="'.$this->escapeHtmlAttr(str_replace('{brand}', $brand['name'], $this->translate('brands/new-cars-of-brand'))).'">+'.$brand['new_cars_count'].'</span>'
+
+?>-->
+<p class="index-brands" *ngIf="brands">
+  <app-index-brands-brand [brand]="brand" *ngFor="let brand of brands.brands"></app-index-brands-brand>
+  <ng-container *ngIf="more > 0">
+    …&#xa0;{{'and'|translate}}&#xa0;<a routerLink="/brands" translate translateParams="{more: more}">brands/more-companies</a>
+  </ng-container>
+</p>

@@ -1,0 +1,18 @@
+<ng-container *ngIf="items && items.length > 0">
+  <h4>
+    {{'index/specifications'|translate}}
+    <small><a routerLink="/users/rating" translate>page/173/name</a></small>
+  </h4>
+  <div class="row" *ngFor="let chunk of items">
+    <div class="col-md-6" *ngFor="let item of chunk">
+      <app-item [item]="item"></app-item>
+
+      <p *ngIf="item.contributors">
+        <ng-container translate *ngIf="item.contributors.length > 1">contributors</ng-container>
+        <ng-container *ngIf="item.contributors.length <= 1">{{'contributor'|translate}}</ng-container>
+        <app-user [user]="contributor" *ngFor="let contributor of item.contributors"></app-user>
+      </p>
+    </div>
+  </div>
+
+</ng-container>

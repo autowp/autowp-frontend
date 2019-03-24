@@ -11,11 +11,11 @@
   </small>
 </h2>
 
-<div class="row mb-4" *ngIf="item.item_of_day_pictures">
+<div class="row" *ngIf="item.item_of_day_pictures">
   <div class="col-sm-6">
     <ng-container *ngFor="let picture of first">
       <a [href]="picture.url" class="d-block rounded mb-4" *ngIf="picture">
-        <img [src]="picture.thumb.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light"
+        <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
         />
       </a>
     </ng-container>
@@ -24,7 +24,7 @@
     <div class="row">
       <ng-container *ngFor="let picture of others">
         <a [href]="picture.url" class="d-block rounded mb-3 col-6" *ngIf="picture">
-          <img [src]="picture.thumb.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light"
+          <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
           />
         </a>
       </ng-container>
