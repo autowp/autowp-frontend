@@ -3,12 +3,17 @@ import { APIItem } from '../../services/item';
 import { APIUser } from '../../services/user';
 import { APIPicture } from '../../services/picture';
 
+interface ItemOfDayItem extends APIItem {
+  public_url?: string;
+}
+
 @Component({
   selector: 'app-item-of-day',
-  templateUrl: './item-of-day.component.html'
+  templateUrl: './item-of-day.component.html',
+  styleUrls: ['./item-of-day.component.scss']
 })
 export class ItemOfDayComponent implements OnChanges {
-  @Input() item: APIItem;
+  @Input() item: ItemOfDayItem;
   @Input() user: APIUser;
   @Input() pictures: APIPicture; // TODO: remove
 

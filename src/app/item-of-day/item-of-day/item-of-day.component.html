@@ -32,6 +32,39 @@
   </div>
 </div>
 <p>
-  <span class="fa fa-trophy"></span>
-  <a routerLink="/donate/vod" translate>donate/vod/wants-to-select?</a>
+  <ng-container *ngIf="item.item_type_id == 3">
+    <span>
+      <span class="fa fa-align-left"></span>
+      <a [routerLink]="['/category', item.catname]" translate>carlist/details</a>
+    </span>
+
+    <span *ngIf="item.accepted_pictures_count > 6">
+      <span class="fa fa-th"></span>
+      <a [routerLink]="['/category', item.catname, '/pictures']">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+    </span>
+  </ng-container>
+
+  <span *ngIf="item.item_type_id != 3 && item.accepted_pictures_count > 6 && item.public_url">
+    <span class="fa fa-th"></span>
+    <a [href]="item.public_url">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+  </span>
+
+  <ng-container *ngIf="item.twins_groups">
+    <span *ngFor="let group of item.twins_groups">
+      <span class="fa fa-adjust"></span>
+      <a [routerLink]="['/twins/group', group.id]" translate>carlist/twins</a>
+    </span>
+  </ng-container>
+
+  <ng-container *ngIf="item.categories">
+    <span *ngFor="let category of item.categories">
+      <span class="fa fa-th"></span>
+      <a [routerLink]="['/category', category.catname]">{{category.name_html}}</a>
+    </span>
+  </ng-container>
+
+  <span>
+    <span class="fa fa-trophy"></span>
+    <a routerLink="/donate/vod" translate>donate/vod/wants-to-select?</a>
+  </span>
 </p>
