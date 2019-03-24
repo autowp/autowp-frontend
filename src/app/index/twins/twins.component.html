@@ -5,11 +5,11 @@
 <p *ngIf="twins">
   <ng-container *ngFor="let brand of twins.brands">
     <a [routerLink]="['/twins', brand.catname]">{{brand.name}}</a>&#xa0;<span class="count">({{brand.count - brand.new_count}}<span *ngIf="brand.new_count > 0">+{{brand.new_count}}</span>)</span>
-    <ng-container *ngIf="twins.brands_count > twins.brands.length">
-      …
-      {{'and'|translate}}
-      <a routerLink="/twins" translate translateParams="{more: twins.brands_count - twins.brands.length}">brands/more-companies</a>
-    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="twins.brands_count > twins.brands.length">
+    …
+    {{'and'|translate}}
+    <a routerLink="/twins" translate translateParams="{more: twins.brands_count - twins.brands.length}">brands/more-companies</a>
   </ng-container>
 </p>
 <app-markdown [markdown]="'index/twins/description'|translate"></app-markdown>
