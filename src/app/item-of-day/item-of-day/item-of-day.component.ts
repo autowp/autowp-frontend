@@ -15,15 +15,11 @@ export class ItemOfDayComponent implements OnChanges {
   public first: APIPicture[];
   public others: APIPicture[];
 
-  public slice(from: number, limit: number) {
-    return this.item.item_of_day_pictures.slice(from, limit);
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.item) {
       this.item = changes.item.currentValue;
 
-      if (this.item) {
+      if (this.item && this.item.item_of_day_pictures) {
         this.first = this.item.item_of_day_pictures.slice(0, 1);
         this.others = this.item.item_of_day_pictures.slice(1, 5);
       } else {
