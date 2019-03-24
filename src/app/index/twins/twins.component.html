@@ -9,7 +9,7 @@
   <ng-container *ngIf="twins.brands_count > twins.brands.length">
     …
     {{'and'|translate}}
-    <a routerLink="/twins" translate translateParams="{more: twins.brands_count - twins.brands.length}">brands/more-companies</a>
+    <a routerLink="/twins" translate [translateParams]="{count: twins.brands_count - twins.brands.length}">{{'brands/more-{count}-companies'}}</a>
   </ng-container>
 </p>
 <app-markdown [markdown]="'index/twins/description'|translate"></app-markdown>

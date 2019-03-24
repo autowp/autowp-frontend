@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 
 interface APIIndexTwinsBrand {
   id: number;
+  name: string;
   catname: string;
   count: number;
   new_count: number;
