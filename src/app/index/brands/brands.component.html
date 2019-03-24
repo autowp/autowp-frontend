@@ -14,6 +14,6 @@
 <p class="index-brands" *ngIf="brands">
   <app-index-brands-brand [brand]="brand" *ngFor="let brand of brands.brands"></app-index-brands-brand>
   <ng-container *ngIf="more > 0">
-    …&#xa0;{{'and'|translate}}&#xa0;<a routerLink="/brands" translate translateParams="{more: more}">brands/more-companies</a>
+    …&#xa0;{{'and'|translate}}&#xa0;<a routerLink="/brands" translate [translateParams]="{more: more}">brands/more-companies</a>
   </ng-container>
 </p>
