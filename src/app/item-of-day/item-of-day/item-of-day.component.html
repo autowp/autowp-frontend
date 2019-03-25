@@ -44,7 +44,12 @@
     </span>
   </ng-container>
 
-  <span *ngIf="item.item_type_id != 3 && item.accepted_pictures_count > 6 && item.public_url">
+  <span *ngIf="item.item_type_id == 5 && item.accepted_pictures_count > 6 && item.public_url">
+    <span class="fa fa-th"></span>
+    <a [href]="item.public_url">{{'carlist/details'|translate}} ({{item.accepted_pictures_count}})</a>
+  </span>
+
+  <span *ngIf="item.item_type_id != 3 && item.item_type_id != 5 && item.accepted_pictures_count > 6 && item.public_url">
     <span class="fa fa-th"></span>
     <a [href]="item.public_url">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
   </span>
