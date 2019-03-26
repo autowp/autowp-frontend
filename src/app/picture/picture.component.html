@@ -14,7 +14,7 @@
   <div class="col-md-6">
     <div class="picture-preview-medium">
       <a [routerLink]="['../../gallery', picture.identity]" class="d-block rounded mb-4">
-        <img class="rounded border border-light w-100" [src]="picture.preview_large.src" />
+        <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" />
       </a>
       <ng-container *ngIf="picture.items.length == 1">
         <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">

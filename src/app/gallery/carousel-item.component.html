@@ -1,5 +1,5 @@
-<img [src]="item.full.src" [class.crop-mode]="cropMode" *ngIf="item.full" class="full" [ngStyle]="fullStyle" (load)="fullLoaded()" />
-<img [src]="item.crop.src" [class.crop-mode]="cropMode" *ngIf="item.crop" class="crop" [ngStyle]="cropStyle" (load)="cropLoaded()" />
+<img alt="" [src]="item.full.src" [class.crop-mode]="cropMode" *ngIf="item.full" class="full" [ngStyle]="fullStyle" (load)="fullLoaded()" />
+<img alt="" [src]="item.crop.src" [class.crop-mode]="cropMode" *ngIf="item.crop" class="crop" [ngStyle]="cropStyle" (load)="cropLoaded()" />
 <ng-container *ngIf="item">
   <app-gallery-carousel-item-area [area]="area" [styles]="area.styles" *ngFor="let area of item.areas">
   </app-gallery-carousel-item-area>

@@ -49,7 +49,7 @@
     <div class="col-lg-3 col-md-3" *ngFor="let picture of pictures">
       <div class="card mb-4">
         <a [routerLink]="pictureRouterLink(picture)">
-          <img
+          <img alt=""
             [src]="picture.thumb_medium.src"
             [title]="picture.name_text"
             class="card-img-top"

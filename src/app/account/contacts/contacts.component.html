@@ -17,8 +17,8 @@
           <li class="media" *ngFor="let user of chunk">
             <div class="align-self-start mr-3">
               <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]" *ngIf="!user.deleted" class="photo">
-                <img [src]="user.avatar.src" *ngIf="user.avatar" class="rounded" />
-                <img [src]="user.gravatar" *ngIf="user.gravatar && ! user.avatar" class="rounded" />
+                <img alt="" [src]="user.avatar.src" *ngIf="user.avatar" class="rounded" />
+                <img alt="" [src]="user.gravatar" *ngIf="user.gravatar && ! user.avatar" class="rounded" />
               </a>
             </div>
             <div class="media-body">

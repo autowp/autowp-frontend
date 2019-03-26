@@ -28,8 +28,8 @@
         </div>
         <div class="photo">
           <a [href]="message.author.url" *ngIf="message.author && ! message.author.deleted">
-            <img [src]="message.author.avatar.src" *ngIf="message.author.avatar" class="rounded" />
-            <img [src]="message.author.gravatar" *ngIf="message.author.gravatar && ! message.author.avatar" class="rounded" />
+            <img alt="" [src]="message.author.avatar.src" *ngIf="message.author.avatar" class="rounded" />
+            <img alt="" [src]="message.author.gravatar" *ngIf="message.author.gravatar && ! message.author.avatar" class="rounded" />
           </a>
         </div>
         <div class="content">

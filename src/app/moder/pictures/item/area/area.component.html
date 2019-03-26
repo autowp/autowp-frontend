@@ -20,7 +20,7 @@
 </div>
 
 <div class="crop-area mb-3" *ngIf="picture">
-  <img [src]="picture.image.src" (load)="onLoad($event)" />
+  <img alt="" [src]="picture.image.src" (load)="onLoad($event)" />
 </div>
 
 <div class="mb-4" *ngIf="picture">

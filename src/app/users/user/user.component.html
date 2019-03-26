@@ -14,7 +14,7 @@
   <div class="col-md-6">
 
     <div class="user-photo">
-      <img *ngIf="user.photo" [src]="user.photo.src" alt="" />
+      <img alt="" *ngIf="user.photo" [src]="user.photo.src" alt="" />
       <img *ngIf="!user.photo && user.gravatar_hash" [src]="'https://www.gravatar.com/avatar/' + user.gravatar_hash + '?s=270&d=https://www.autowp.ru/_.gif&r=g'"
         alt="" />
     </div>

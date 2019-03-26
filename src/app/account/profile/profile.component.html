@@ -37,7 +37,7 @@
     <div class="card card-body mb-4">
       <app-markdown [markdown]="'account/profile/use-gravatar'|translate"></app-markdown>
       <div *ngIf="photo">
-        <img [src]="photo.src" class="mb-4" />
+        <img alt="" [src]="photo.src" class="mb-4" />
         <p *ngFor="let message of photoInvalidParams | invalidParams : 'file'" [textContent]="message" class="invalid-feedback" style="display:block"></p>
       </div>
       <input type="file" accept="image/*" style="display:none" #fileInput ng2FileSelect [uploader]="uploader" />

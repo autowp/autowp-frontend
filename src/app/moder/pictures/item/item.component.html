@@ -37,7 +37,7 @@
 
 <div class="row mb-4" *ngIf="picture">
   <div class="col-md-2">
-    <img [src]="picture.thumb.src" *ngIf="picture.thumb" class="rounded border border-light w-100" />
+    <img alt="" [src]="picture.thumb.src" *ngIf="picture.thumb" class="rounded border border-light w-100" />
   </div>
   <div class="col-md-6">
     <div class="card card-body">
@@ -332,7 +332,7 @@
       </p>
       <p *ngIf="picture.similar.picture.thumb">
         <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">
-          <img [src]="picture.similar.picture.thumb.src" class="rounded border border-light" />
+          <img alt="" [src]="picture.similar.picture.thumb.src" class="rounded border border-light" />
         </a>
       </p>
       <button (click)="cancelSimilar()" class="btn btn-warning">That is not similar</button>

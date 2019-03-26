@@ -14,7 +14,7 @@
   <div class="col-md-3" *ngFor="let category of chunk">
     <div class="card mb-4">
       <a [routerLink]="['/category', category.catname]" *ngIf="category.front_picture && category.front_picture.thumb_medium">
-        <img [src]="category.front_picture.thumb_medium.src" class="card-img-top" />
+        <img alt="" [src]="category.front_picture.thumb_medium.src" class="card-img-top" />
       </a>
       <div class="card-body">
         <h5 class="card-title">

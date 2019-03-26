@@ -34,7 +34,7 @@
     <tr *ngFor="let user of users">
       <td [textContent]="user.id"></td>
       <td>
-        <img [src]="user.image.src" *ngIf="user.image" style="max-width:300px;max-height:300px" />
+        <img alt="" [src]="user.image.src" *ngIf="user.image" style="max-width:300px;max-height:300px" />
       </td>
       <td [textContent]="user.login"></td>
       <td [textContent]="user.email"></td>

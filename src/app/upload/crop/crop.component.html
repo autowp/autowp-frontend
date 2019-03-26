@@ -4,7 +4,7 @@
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
-    <img [src]="picture.image_gallery_full.src" (load)="onLoad($event)" *ngIf="picture && picture.image_gallery_full" />
+    <img alt="" [src]="picture.image_gallery_full.src" (load)="onLoad($event)" *ngIf="picture && picture.image_gallery_full" />
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary float-left select-all" (click)="selectAll()">
