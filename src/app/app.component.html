@@ -40,7 +40,7 @@
         <li class="nav-item" ngbDropdown [class.active]="isActive(22)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
             {{'page/22/name' | translate}}
-            <b class="caret"></b>
+            <b class="caret" aria-hidden="true"></b>
           </button>
           <div ngbDropdownMenu>
             <a [routerLink]="['/category', category.catname]" class="dropdown-item" *ngFor="let category of categories">
@@ -81,7 +81,7 @@
         <li class="nav-item btn-group" ngbDropdown [class.active]="isActive(87)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
             {{'page/87/name'|translate}}
-            <b class="caret"></b>
+            <b class="caret" aria-hidden="true"></b>
           </button>
           <div ngbDropdownMenu>
 
@@ -128,12 +128,12 @@
         <li class="nav-item " ngbDropdown placement="bottom-right">
           <a href="#" class="nav-link" ngbDropdownToggle (click)="false">
             <ng-container *ngFor="let lang of languages">
-              <i [ngClass]="lang.flag" *ngIf="lang.code == language"></i>
+              <i [ngClass]="lang.flag" aria-hidden="true" *ngIf="lang.code == language"></i>
             </ng-container>
           </a>
           <div ngbDropdownMenu>
             <a class="dropdown-item" [href]="'//' + lang.hostname + urlPath" [class.active]="lang.code == language" *ngFor="let lang of languages">
-              <i [ngClass]="lang.flag"></i>
+              <i [ngClass]="lang.flag" aria-hidden="true"></i>
               {{lang.name}}
             </a>
             <a class="dropdown-item" href="https://github.com/autowp/autowp/tree/master/module/Application/language" translate>layout/language-contributing</a>
@@ -248,7 +248,7 @@
     <p class="language-picker">
       <ng-container *ngFor="let lang of languages">
         <a [href]="'//' + lang.hostname + urlPath" *ngIf="lang.code !== language">
-          <i [ngClass]="lang.flag"></i>
+          <i [ngClass]="lang.flag" aria-hidden="true"></i>
           {{lang.name}}
         </a>
       </ng-container>

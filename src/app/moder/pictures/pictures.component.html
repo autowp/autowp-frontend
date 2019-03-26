@@ -205,7 +205,7 @@
         <div class="btn-group" ngbDropdown>
           <button class="btn btn-success" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem">
             {{'moder/picture/acceptance/want-accept'|translate}}
-            <span class="caret"></span>
+            <span class="caret" aria-hidden="true"></span>
           </button>
           <div ngbDropdownMenu>
             <li role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
@@ -216,7 +216,7 @@
         <div class="btn-group" ngbDropdown>
           <button class="btn btn-danger" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem">
             {{'moder/picture/acceptance/want-delete'|translate}}
-            <span class="caret"></span>
+            <span class="caret" aria-hidden="true"></span>
           </button>
           <div ngbDropdownMenu>
             <li role="menuitem" *ngFor="let template of moderVoteTemplateOptions">

@@ -56,17 +56,17 @@
     <div class="card card-body">
       <div translate [translateParams]="{id: picture.id}">ng/moder/database-id-n</div>
       <div>{{'moder/picture/resolution:'|translate}}
-        <b>{{picture.width}}×{{picture.height}}</b>
+        <strong>{{picture.width}}×{{picture.height}}</strong>
       </div>
       <div *ngIf="picture.dpi_x || picture.dpi_y">
         DPI:
-        <b>{{picture.dpi_x}}×{{picture.dpi_y}}</b>
+        <strong>{{picture.dpi_x}}×{{picture.dpi_y}}</strong>
       </div>
       <div>{{'moder/picture/filesize:'|translate}}
-        <b [textContent]="picture.filesize | bytes : 2"></b>
+        <strong [textContent]="picture.filesize | bytes : 2"></strong>
       </div>
       <div>{{'moder/picture/upload-date:'|translate}}
-        <b [textContent]="picture.add_date | amTimeAgo" [ngbTooltip]="picture.add_date | date: 'medium'"></b>
+        <strong [textContent]="picture.add_date | amTimeAgo" [ngbTooltip]="picture.add_date | date: 'medium'"></strong>
       </div>
     </div>
   </div>
@@ -113,7 +113,7 @@
             </a>
             <div class="btn-group" ngbDropdown role="group" placement="bottom-right">
               <button class="btn btn-secondary" ngbDropdownToggle *ngIf="item.type == 1">
-                <span class="caret"></span>
+                <span class="caret" aria-hidden="true"></span>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu" *ngIf="item.type == 1" ngbDropdownMenu>

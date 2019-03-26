@@ -156,7 +156,7 @@
       <li ngbDropdown *ngIf="user && picture.items.length > 1">
         <button ngbDropdownToggle class="btn btn-link" style="padding:0">
           {{'page/29/name' | translate}}
-          <span class="caret"></span>
+          <span class="caret" aria-hidden="true"></span>
         </button>
         <div ngbDropdownMenu>
           <ng-container *ngFor="let item of picture.items">

@@ -2,7 +2,7 @@
   <div class="btn-group" ngbDropdown placement="top-right">
     <button ngbDropdownToggle class="btn btn-secondary">
       {{'moder-menu/title'|translate}}
-      <span class="caret"></span>
+      <span class="caret" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu-right" ngbDropdownMenu>
       <a [routerLink]="item.routerLink" [queryParams]="item.queryParams" class="dropdown-item" *ngFor="let item of items">
