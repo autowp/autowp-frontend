@@ -8,18 +8,18 @@
   <h3 [innerHTML]="item.name"></h3>
 </div>
 <a class="download carousel-control" role="button" [href]="item.sourceUrl" *ngIf="item">
-  <i class="fa fa-download"></i>
+  <i class="fa fa-download" aria-hidden="true"></i>
   <div class="badge badge-pill badge-info">{{item.filesize | bytes : 2}}</div>
 </a>
 <a class="comments carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
-  <i class="fa fa-comment"></i>
+  <i class="fa fa-comment" aria-hidden="true"></i>
   <div class="badge badge-pill badge-info" *ngIf="item.messages">
     {{item.messages - item.newMessages}}<span *ngIf="item.newMessages">+{{item.newMessages}}</span>
   </div>
 </a>
 <a class="details carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
-  <i class="fa fa-picture-o"></i>
+  <i class="fa fa-picture-o" aria-hidden="true"></i>
 </a>
-<div class="loading-icon" *ngIf="cropLoading || fullLoading"><i class="fa fa-spinner fa-pulse"></i></div>
-<span class="carousel-control-full" *ngIf="item && item.crop && !cropLoading && !fullLoading" (click)="toggleCrop()"><i class="fa fa-arrows-alt"></i></span>
+<div class="loading-icon" *ngIf="cropLoading || fullLoading"><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i></div>
+<span class="carousel-control-full" *ngIf="item && item.crop && !cropLoading && !fullLoading" (click)="toggleCrop()"><i class="fa fa-arrows-alt" aria-hidden="true"></i></span>
 

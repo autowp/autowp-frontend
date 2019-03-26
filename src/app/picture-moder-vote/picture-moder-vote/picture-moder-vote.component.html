@@ -34,8 +34,8 @@
   {{'moder/picture/acceptance/already-voted'|translate}}
   <ul class="list-unstyled">
     <li *ngFor="let moder_vote of picture.moder_votes">
-      <i style="color:green" class="fa fa-thumbs-up" *ngIf="moder_vote.vote > 0"></i>
-      <i style="color:red" class="fa fa-thumbs-down" *ngIf="moder_vote.vote <= 0"></i>
+      <i style="color:green" class="fa fa-thumbs-up" aria-hidden="true" *ngIf="moder_vote.vote > 0"></i>
+      <i style="color:red" class="fa fa-thumbs-down" aria-hidden="true" *ngIf="moder_vote.vote <= 0"></i>
       <app-user [user]="moder_vote.user"></app-user>
       <span [ngStyle]="{color:moder_vote.vote > 0 ? 'green' : 'red'}" [textContent]="moder_vote.reason"></span>
     </li>

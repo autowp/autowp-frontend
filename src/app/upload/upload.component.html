@@ -75,7 +75,7 @@
         <app-thumbnail [picture]="picture"></app-thumbnail>
         <p>
           <a href="#" (click)="crop(picture)">
-            <i class="fa fa-crop"></i>
+            <i class="fa fa-crop" aria-hidden="true"></i>
             <span *ngIf="!picture.crop" translate>upload/picture/crop</span>
             <span *ngIf="picture.crop" translate [translateParams]="{resolution: picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' +picture.crop.top}">upload/picture/cropped-to</span>
           </a>
@@ -88,7 +88,7 @@
     <app-markdown [markdown]="'upload/description'|translate"></app-markdown>
     <p style="margin:10px">
       <a routerLink="/upload/select" class="btn btn-primary btn-lg">
-        <i class="fa fa-upload"></i>
+        <i class="fa fa-upload" aria-hidden="true"></i>
         {{'upload/add-picture'|translate}}
       </a>
     </p>

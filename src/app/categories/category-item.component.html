@@ -14,7 +14,7 @@
           <a ngbDropdownToggle style="cursor:pointer"></a>
           <div ngbDropdownMenu>
             <div class="dropdown-item" *ngIf="!item.loaded">
-              <i class="fa fa-spinner fa-spin fa-fw"></i>
+              <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
             </div>
             <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id == item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
           </div>
@@ -30,11 +30,11 @@
 <div *ngIf="current">
 
   <p *ngIf="isModer" class="mb-4">
-    <i class="fa fa-cog"></i>
+    <i class="fa fa-cog" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', current.id]" translate>moder/edit-object</a>
 
     <span *ngIf="canAddCar">
-      <i class="fa fa-plus"></i>
+      <i class="fa fa-plus" aria-hidden="true"></i>
       <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{'item/type/' + current.item_type_id + '/add-sub-item' | translate}}</a>
     </span>
   </p>
@@ -69,7 +69,7 @@
       </div>
     </div>
     <span class="canAddCar">
-      <i class="fa fa-align-left"></i>
+      <i class="fa fa-align-left" aria-hidden="true"></i>
       <a [routerLink]="['/category', category.catname, 'other']">{{'carlist/details'|translate}} ({{otherItemsCount}})</a>
     </span>
   </div>-->

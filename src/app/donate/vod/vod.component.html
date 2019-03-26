@@ -22,7 +22,7 @@
       <span *ngIf="date.free">
         <span *ngIf="date.value == selectedDate">
           <strong [textContent]="date.name"></strong>
-          <span class="fa fa-check"></span>
+          <span class="fa fa-check" aria-hidden="true"></span>
         </span>
         <span *ngIf="date.value != selectedDate">
           <a routerLink="." [queryParams]="{date: date.value}" queryParamsHandling="merge" [textContent]="date.name"></a>
@@ -84,12 +84,12 @@
       <div class="btn-group btn-group-toggle" ngbRadioGroup name="paymentType" [(ngModel)]="paymentType">
         <label class="btn btn-secondary" ngbButtonLabel>
           <input type="radio" ngbButton name="paymentType" value="AC" autocomplete="off">
-          <span class="fa fa-credit-card"></span>
+          <span class="fa fa-credit-card" aria-hidden="true"></span>
           {{'donate/vod/method/credit-card'|translate}}
         </label>
         <label class="btn btn-secondary" ngbButtonLabel>
           <input type="radio" ngbButton name="paymentType" value="MC" autocomplete="off">
-          <span class="fa fa-mobile"></span>
+          <span class="fa fa-mobile" aria-hidden="true"></span>
           {{'donate/vod/method/mobile'|translate}}
         </label>
         <label class="btn btn-secondary" ngbButtonLabel>
@@ -101,11 +101,11 @@
   </div>
   <div *ngIf="!selectedDate || !selectedItem">
     <button class="btn btn-secondary" disabled>
-      <span class="fa fa-credit-card"></span>
+      <span class="fa fa-credit-card" aria-hidden="true"></span>
       {{'donate/vod/method/credit-card'|translate}}
     </button>
     <button class="btn btn-secondary" disabled>
-      <span class="fa fa-mobile"></span>
+      <span class="fa fa-mobile" aria-hidden="true"></span>
       {{'donate/vod/method/mobile'|translate}}
     </button>
     <button class="btn btn-secondary" disabled translate>donate/vod/method/yandex.money</button>

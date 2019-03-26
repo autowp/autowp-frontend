@@ -9,8 +9,8 @@
   <span class="text-muted" *ngIf="item.type_id == 1" translate>catalogue/related</span>
   <span class="text-muted" *ngIf="item.type_id == 2" translate>catalogue/sport</span>
   <a href="" class="arrow" (click)="toggleItem()">
-    <i class="fa fa-plus-circle mr-1" [hidden]="item.expanded"></i>
-    <i class="fa fa-minus-circle mr-1" [hidden]="!item.expanded"></i>
+    <i class="fa fa-plus-circle mr-1" aria-hidden="true" [hidden]="item.expanded"></i>
+    <i class="fa fa-minus-circle mr-1" aria-hidden="true" [hidden]="!item.expanded"></i>
     <span [innerHTML]="item.item.name_html"></span>
   </a>
   <a routerLink="/donate/vod" [queryParams]="{item_id: item.item_id, brand_id: null}" queryParamsHandling="merge" *ngIf="item.item.is_compiles_item_of_day" class="mx-2">[{{'select'|translate}}]</a>

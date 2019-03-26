@@ -30,8 +30,8 @@
       <td [textContent]="rule.resource"></td>
       <td [textContent]="rule.privilege"></td>
       <td>
-        <i class="fa fa-check-circle" *ngIf="rule.allowed"></i>
-        <i class="fa fa-times-circle" *ngIf="!rule.allowed"></i>
+        <i class="fa fa-check-circle" aria-hidden="true" *ngIf="rule.allowed"></i>
+        <i class="fa fa-times-circle" aria-hidden="true" *ngIf="!rule.allowed"></i>
       </td>
     </tr>
   </tbody>

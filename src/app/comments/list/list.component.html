@@ -21,50 +21,50 @@
     <div>
       <span class="vote" *ngIf="user && (message.vote !== undefined)">
         <a href="#" class="vote-up" [class.active]="message.user_vote > 0" (click)="vote(message, 1)">
-          <i class="fa fa-thumbs-o-up"></i>
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
         </a>
         <a href="#" class="value" [class.zero]="message.vote == 0" (click)="showVotes(message)">
           {{(message.vote > 0 ? '+' : '') + message.vote}}
         </a>
         <a href="#" class="vote-down" [class.active]="message.user_vote > 0" (click)="vote(message, -1)">
-          <i class="fa fa-thumbs-o-down"></i>
+          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
         </a>
       </span>
       <span class="vote" *ngIf="!user && (message.vote !== undefined)">
-        <i class="fa fa-thumbs-o-up"></i>
+        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
         <span class="value" [textContent]="message.vote" (click)="showVotes(message)"></span>
-        <i class="fa fa-thumbs-o-down"></i>
+        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
       </span>
 
       <button class="btn btn-sm btn-primary reply" *ngIf="user && deep < 21 && !message.deleted" (click)="reply(message, false)">
-        <i class="fa fa-reply mr-1"></i>
+        <i class="fa fa-reply mr-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline">{{'comments/reply'|translate}}</span>
       </button>
 
       <button class="btn btn-sm btn-success resolve" *ngIf="message.moder_attention && isModer" (click)="reply(message, true)">
-        <i class="fa fa-reply mr-1"></i>
+        <i class="fa fa-reply mr-1" aria-hidden="true"></i>
         {{'comments/reply'|translate}} &amp; resolve
       </button>
 
       <button class="btn btn-danger btn-sm float-right comment-remove-button" *ngIf="canRemoveComments" (click)="setIsDeleted(message, true)">
-        <i class="fa fa-trash mr-1"></i>
+        <i class="fa fa-trash mr-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline">{{'comments/message/delete'|translate}}</span>
       </button>
       <button class="btn btn-success btn-sm float-right comment-restore-button" *ngIf="canRemoveComments" (click)="setIsDeleted(message, false)">
-        <i class="fa fa-arrow-up mr-1"></i>
+        <i class="fa fa-arrow-up mr-1" aria-hidden="true"></i>
         {{'comments/message/restore'|translate}}
       </button>
 
       <a routerLink="/forums/move-message" [queryParams]="{message_id: message.id}" class="btn btn-secondary btn-sm float-right"
         *ngIf="typeID == 5 && canMoveMessage">
-        <i class="fa fa-arrows mr-1"></i>
+        <i class="fa fa-arrows mr-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline">{{'comments/message/move'|translate}}</span>
       </a>
 
       <i class="float-right fa fa-eye" [ngbTooltip]="message.ip" style="margin-right:20px" *ngIf="message.ip"></i>
 
       <div class="moderator-attention-sign" *ngIf="message.moder_attention">
-        <i class="fa fa-info-circle mr-1"></i>
+        <i class="fa fa-info-circle mr-1" aria-hidden="true"></i>
         {{'comments/it-requires-attention-of-moderators'|translate}}
       </div>
 

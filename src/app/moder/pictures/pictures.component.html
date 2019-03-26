@@ -75,7 +75,7 @@
           [resultTemplate]="itemTemplate" [placeholder]="'moder/picture/filter/item'|translate" class="form-control" [class.border-primary]="itemID">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
-            <span class="fa fa-close"></span>
+            <span class="fa fa-close" aria-hidden="true"></span>
           </button>
         </div>
       </div>
@@ -85,7 +85,7 @@
           [resultTemplate]="itemTemplate" placeholder="Exclude item" class="form-control" [class.border-primary]="excludeItemID">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" [disabled]="!excludeItemID" (click)="clearExcludeItem()">
-            <span class="fa fa-close"></span>
+            <span class="fa fa-close" aria-hidden="true"></span>
           </button>
         </div>
       </div>
@@ -112,7 +112,7 @@
           [resultTemplate]="ownerTemplate" [placeholder]="'moder/picture/filter/owner'|translate" class="form-control" [class.border-primary]="ownerID">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" [disabled]="!ownerID" (click)="clearOwner()">
-            <span class="fa fa-close"></span>
+            <span class="fa fa-close" aria-hidden="true"></span>
           </button>
         </div>
       </div>
@@ -192,7 +192,7 @@
     <h2>
       {{'page/73/name'|translate}}
       <span [hidden]="loading <= 0">
-        <i class="fa fa-spinner fa-spin fa-fw"></i>
+        <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
       </span>
       <small *ngIf="paginator && paginator.totalItemCount" [translate] [translateParams]="{count: paginator.totalItemCount}">ng/%1$s-pictures</small>
     </h2>

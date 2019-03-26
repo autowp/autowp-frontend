@@ -68,13 +68,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item" *ngIf="user" [class.active]="isActive(49)|async">
           <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
-            <i class="fa fa-comment"></i>
+            <i class="fa fa-comment" aria-hidden="true"></i>
             <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages" *ngIf="newPersonalMessages"></span>
           </a>
         </li>
         <li class="nav-item" *ngIf="!user" [class.active]="isActive(79)|async">
           <a routerLink="/login" class="nav-link">
-            <i class="fa fa-sign-in"></i>
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
             {{'login/sign-in'|translate}}
           </a>
         </li>
@@ -92,35 +92,35 @@
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
 
             <a routerLink="/signup" class="dropdown-item" *ngIf="!user" [class.active]="isActive(52)|async">
-              <i class="fa fa-fw fa fa-pencil"></i>
+              <i class="fa fa-fw fa fa-pencil" aria-hidden="true"></i>
               {{'page/91/name' | translate}}
             </a>
             <a routerLink="/upload" class="dropdown-item" [class.active]="isActive(29)|async">
-              <i class="fa fa-fw fa-upload"></i>
+              <i class="fa fa-fw fa-upload" aria-hidden="true"></i>
               {{'page/29/name' | translate}}
             </a>
             <a routerLink="/feedback" class="dropdown-item" [class.active]="isActive(89)|async">
-              <i class="fa fa-fw fa-comment"></i>
+              <i class="fa fa-fw fa-comment" aria-hidden="true"></i>
               {{'page/89/name' | translate}}
             </a>
             <a href="#" (click)="showOnlineUsers()" class="dropdown-item">
-              <i class="fa fa-fw fa fa-users"></i>
+              <i class="fa fa-fw fa fa-users" aria-hidden="true"></i>
               {{'page/124/name' | translate}}
             </a>
             <a routerLink="/account/contacts" class="dropdown-item" *ngIf="user" [class.active]="isActive(211)|async">
-              <i class="fa fa-fw fa-address-book"></i>
+              <i class="fa fa-fw fa-address-book" aria-hidden="true"></i>
               {{'page/211/name' | translate}}
             </a>
             <a routerLink="/account" class="dropdown-item" *ngIf="user" [class.active]="isActive(48)|async">
-              <i class="fa fa-fw fa-user"></i>
+              <i class="fa fa-fw fa-user" aria-hidden="true"></i>
               {{'page/48/name' | translate}}
             </a>
             <a routerLink="/about" class="dropdown-item" [class.active]="isActive(136)|async">
-              <i class="fa fa-fw fa-info"></i>
+              <i class="fa fa-fw fa-info" aria-hidden="true"></i>
               {{'page/136/name' | translate}}
             </a>
             <a href="#" (click)="signOut()" class="dropdown-item" *ngIf="user">
-              <i class="fa fa-fw fa-sign-out"></i>
+              <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
               {{'page/90/name' | translate}}
             </a>
           </div>
@@ -156,11 +156,11 @@
           <br />
           <a routerLink="/account/profile" translate>page/48/name</a>
           <br />
-          <i class="fa fa-sign-out"></i>
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
           <a href="#" (click)="signOut()" translate>login/sign-out</a>
         </div>
         <p ngPreserveWhitespaces>
-          <i class="fa fa-comment"></i>
+          <i class="fa fa-comment" aria-hidden="true"></i>
           <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" translate [translateParams]="{ messages: newPersonalMessages }">ng-layout/you-have-new-messages</a>
           <a routerLink="/account/messages" translate *ngIf="!newPersonalMessages">layout/personal-messages</a>
         </p>
@@ -214,25 +214,25 @@
       <div class="col-md-6">
         <p class="links">
           <a href="https://twitter.com/autowp_ru" placement="top" ngbTooltip="Twitter">
-            <i class="fa fa-twitter"></i>
+            <i class="fa fa-twitter" aria-hidden="true"></i>
           </a>
           <a href="https://www.facebook.com/WheelsAge" placement="top" ngbTooltip="Facebook">
-            <i class="fa fa-facebook"></i>
+            <i class="fa fa-facebook" aria-hidden="true"></i>
           </a>
           <a href="https://vk.com/wheelsage" placement="top" ngbTooltip="VK">
             <i class="fa fa-vk" aria-hidden="true"></i>
           </a>
           <a href="https://github.com/autowp/autowp" placement="top" ngbTooltip="GitHub">
-            <i class="fa fa-github"></i>
+            <i class="fa fa-github" aria-hidden="true"></i>
           </a>
           <a href="https://play.google.com/store/apps/details?id=com.autowp.wallpaper" placement="top" ngbTooltip="Android wallpaper">
-            <i class="fa fa-android"></i>
+            <i class="fa fa-android" aria-hidden="true"></i>
           </a>
           <a routerLink="/telegram" placement="top" ngbTooltip="Telegram">
-            <i class="fa fa-telegram"></i>
+            <i class="fa fa-telegram" aria-hidden="true"></i>
           </a>
           <a routerLink="/feedback" placement="top" [ngbTooltip]="'feedback/title'|translate">
-            <i class="fa fa-comment"></i>
+            <i class="fa fa-comment" aria-hidden="true"></i>
           </a>
         </p>
         <p>

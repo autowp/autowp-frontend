@@ -22,7 +22,7 @@
 </p>
 
 <span [hidden]="loading <= 0">
-  <i class="fa fa-spinner fa-spin fa-fw"></i>
+  <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
 </span>
 
 <app-item-meta-form [item]="item" (submit)="submit()" [parent]="parent" [vehicleTypeIDs]="vehicleTypeIDs" [invalidParams]="invalidParams"></app-item-meta-form>

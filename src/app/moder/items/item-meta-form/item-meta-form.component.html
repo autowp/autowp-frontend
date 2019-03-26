@@ -47,7 +47,7 @@
       <div class="col-md-10">
         <button class="btn btn-sm btn-info" type="button" *ngFor="let type of vehicleTypes" (click)="showVehicleTypesModal()">{{type.nameTranslated}}</button>
         <button class="btn btn-sm btn-success" type="button" (click)="showVehicleTypesModal()">
-          <span class="fa fa-plus"></span>
+          <span class="fa fa-plus" aria-hidden="true"></span>
         </button>
       </div>
       <script type="text/ng-template" id="vehicle-type-tag-template">

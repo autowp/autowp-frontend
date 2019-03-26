@@ -23,10 +23,10 @@
 <ul>
   <li *ngFor="let comment of comments">
     <strong *ngIf="comment.vote > 0">+{{comment.vote}}
-      <span class="fa fa-thumbs-o-up"></span>
+      <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
     </strong>
     <strong *ngIf="comment.vote < 0">{{comment.vote}}
-      <span class="fa fa-thumbs-o-down"></span>
+      <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
     </strong>
     <a [href]="comment.url" [textContent]="comment.preview"></a>
   </li>

@@ -16,9 +16,9 @@
         <p>
           <button type="submit" class="btn btn-sm btn-danger" [title]="'account/accounts/remove'|translate" *ngIf="account.can_remove"
             style="margin-right:16px" (click)="remove(account)">
-            <i class="fa fa-times"></i>
+            <i class="fa fa-times" aria-hidden="true"></i>
           </button>
-          <i class="fa-fw {{account.icon}}"></i>
+          <i class="fa-fw {{account.icon}}" aria-hidden="true"></i>
           <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
           <span [textContent]="account.name" *ngIf="!account.link"></span>
         </p>

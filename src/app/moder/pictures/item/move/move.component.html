@@ -135,8 +135,8 @@
 
       <div class="my-1" *ngIf="concepts.length > 0">
         <a href="" class="arrow" (click)="toggleConcepts()">
-          <i class="fa fa-plus-circle mr-1" [hidden]="conceptsExpanded"></i>
-          <i class="fa fa-minus-circle mr-1" [hidden]="!conceptsExpanded"></i>
+          <i class="fa fa-plus-circle mr-1" aria-hidden="true" [hidden]="conceptsExpanded"></i>
+          <i class="fa fa-minus-circle mr-1" aria-hidden="true" [hidden]="!conceptsExpanded"></i>
           {{'upload/select/concepts'|translate}}
         </a>
         <div style="margin:0 0 4px 18px" [hidden]="!conceptsExpanded">

@@ -43,7 +43,7 @@
       <input type="file" accept="image/*" style="display:none" #fileInput ng2FileSelect [uploader]="uploader" />
       <div class="btn-group">
         <button type="submit" class="btn btn-danger" (click)="resetPhoto()" *ngIf="photo">
-          <i class="fa fa-times"></i>
+          <i class="fa fa-times" aria-hidden="true"></i>
           {{'account/profile/photo/delete'|translate}}
         </button>
         <button type="button" class="btn btn-primary" translate (click)="showFileSelectDialog()">account/profile/select-photo</button>

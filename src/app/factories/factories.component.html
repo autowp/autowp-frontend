@@ -17,7 +17,7 @@
   <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
   <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" translate>factories/factory-items</a>
   <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]" *ngIf="isModer">
-    <i class="fa fa-cog"></i>
+    <i class="fa fa-cog" aria-hidden="true"></i>
     {{'moder/edit-object'|translate}}
   </a>
 </div>

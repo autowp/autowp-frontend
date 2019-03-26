@@ -30,10 +30,10 @@
     <tr class="data-row" *ngFor="let page of items">
       <td style="white-space:nowrap">
         <button class="btn btn-secondary btn-sm" [disabled]="!page.moveUp" aria-label="move up" (click)="move(page, 'up')">
-          <i class="fa fa-arrow-up"></i>
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </button>
         <button class="btn btn-secondary btn-sm" [disabled]="!page.moveDown" aria-label="move down" (click)="move(page, 'down')">
-          <i class="fa fa-arrow-down"></i>
+          <i class="fa fa-arrow-down" aria-hidden="true"></i>
         </button>
       </td>
       <td [textContent]="page.id"></td>
@@ -42,13 +42,13 @@
       <td>{{page.is_group_node ? 'yes' : 'no'}}</td>
       <td style="white-space:nowrap">
         <a class="btn btn-success btn-sm" routerLink="/moder/pages/add" [queryParams]="{parent_id: page.id}" aria-label="add">
-          <i class="fa fa-plus"></i>
+          <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
         <a class="btn btn-secondary btn-sm" routerLink="/moder/pages/edit" [queryParams]="{id: page.id}" aria-label="edit">
-          <i class="fa fa-pencil"></i>
+          <i class="fa fa-pencil" aria-hidden="true"></i>
         </a>
         <button class="btn btn-danger btn-sm" (click)="deletePage($event, page)" aria-label="delete" *ngIf="page.childs.length == 0">
-          <i class="fa fa-times"></i>
+          <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </td>
     </tr>

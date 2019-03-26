@@ -40,11 +40,11 @@
       <p class="subscription">
         <button class="btn" [class.btn-success]="item.subscription" [class.btn-secondary]="!item.subscription" (click)="toggleSubscription()">
           <span [hidden]="!item.subscription">
-            <i class="fa fa-check"></i>
+            <i class="fa fa-check" aria-hidden="true"></i>
             {{'moder/vehicle/subscription/subscribed'|translate}}
           </span>
           <span [hidden]="item.subscription">
-            <i class="fa fa-times"></i>
+            <i class="fa fa-times" aria-hidden="true"></i>
             {{'moder/vehicle/subscription/not-subscribed'|translate}}
           </span>
         </button>
@@ -78,7 +78,7 @@
     <span class="badge badge-pill badge-secondary" *ngIf="vehiclesTab.count" [textContent]="vehiclesTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab == 'tree'" class="nav-link" routerLink="." [queryParams]="{tab: 'tree'}" *ngIf="treeTab.visible">
-    <span class="fa fa-tree"></span>
+    <span class="fa fa-tree" aria-hidden="true"></span>
     <span translate>moder/vehicle/tabs/tree</span>
     <span class="badge badge-pill badge-secondary" *ngIf="treeTab.count" [textContent]="treeTab.count"></span>
   </a>

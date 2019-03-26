@@ -42,22 +42,22 @@
 
       <ul class="carLinks">
         <li>
-          <i class="fa fa-file mr-1"></i>
+          <i class="fa fa-file mr-1" aria-hidden="true"></i>
           <a [routerLink]="['/twins/group', group.id]">
             {{ 'carlist/details' | translate }} …
             <span *ngIf="group.comments_topic_stat.messages > 0">(<span translate [translateParams]="{count: group.comments_topic_stat.messages}">{{'ng/%1$s-comments'}}</span>)</span>
           </a>
         </li>
         <li *ngIf="group.has_child_specs">
-          <i class="fa fa-list-alt mr-1"></i>
+          <i class="fa fa-list-alt mr-1" aria-hidden="true"></i>
           <a [routerLink]="['/twins/group', group.id, 'specifications']" translate>carlist/specifications</a>
         </li>
         <li *ngIf="hasMoreImages(group)">
-          <span class="fa fa-th mr-1"></span>
+          <span class="fa fa-th mr-1" aria-hidden="true"></span>
           <a [routerLink]="['/twins/group', group.id, 'pictures']">{{ 'carlist/all pictures' | translate }} ({{group.accepted_pictures_count}})</a>
         </li>
         <li *ngIf="canEdit">
-          <i class="fa fa-cog mr-1"></i>
+          <i class="fa fa-cog mr-1" aria-hidden="true"></i>
           <a [routerLink]="['/moder/items/item', group.id]" translate>moder/edit-object</a>
         </li>
       </ul>

@@ -8,11 +8,11 @@
           <span *ngIf="item.count > 0 && item.newCount !== undefined && item.newCount <= 0">{{item.count}}</span>
           <span *ngIf="item.count > 0 && item.newCount !== undefined && item.newCount > 0">{{item.count - item.newCount}}+{{item.newCount}}</span>
         </span>
-        <i class="fa fa-fw fa-{{item.icon}}" *ngIf="item.icon"></i>
+        <i class="fa fa-fw fa-{{item.icon}}" aria-hidden="true" *ngIf="item.icon"></i>
         {{item.name|translate}}
       </a>
       <span class="nav-link" *ngIf="!item.routerLink">
-        <i class="fa fa-fw fa-{{item.icon}}" *ngIf="item.icon"></i>
+        <i class="fa fa-fw fa-{{item.icon}}" aria-hidden="true" *ngIf="item.icon"></i>
         {{item.name|translate}}
       </span>
     </ng-container>

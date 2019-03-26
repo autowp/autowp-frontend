@@ -13,7 +13,7 @@
         <a ngbDropdownToggle style="cursor:pointer"></a>
         <div ngbDropdownMenu>
           <div class="dropdown-item" *ngIf="!item.loaded">
-            <i class="fa fa-spinner fa-spin fa-fw"></i>
+            <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
           </div>
           <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id == item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
         </div>
@@ -41,15 +41,15 @@
 
           <p class="picture-behaviour clearfix">
             <span title="Status" *ngIf="picture.status">
-              <i class="fa fa-check text-success" *ngIf="picture.status=='accepted'"></i>
-              <i class="fa fa-hourglass text-warning" *ngIf="picture.status=='inbox'"></i>
-              <i class="fa fa-trash text-danger" *ngIf="picture.status=='removed'"></i>
-              <i class="fa fa-trash text-danger" *ngIf="picture.status=='removing'"></i>
+              <i class="fa fa-check text-success" aria-hidden="true" *ngIf="picture.status=='accepted'"></i>
+              <i class="fa fa-hourglass text-warning" aria-hidden="true" *ngIf="picture.status=='inbox'"></i>
+              <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status=='removed'"></i>
+              <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status=='removing'"></i>
             </span>
 
             <span [title]="'Resolution'|translate" ngPreserveWhitespaces>
               {{picture.resolution}}
-              <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" style="cursor:help" title="{{'picture-preview/crop-desc'|translate}} ({{picture.crop_resolution}})"></i>
+              <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" title="{{'picture-preview/crop-desc'|translate}} ({{picture.crop_resolution}})"></i>
             </span>
 
             <br />
@@ -57,20 +57,20 @@
             <span [title]="'Views'|translate" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
               <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
               <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
-              <i class="fa fa-eye"></i>
+              <i class="fa fa-eye" aria-hidden="true"></i>
             </span>
 
             <span class="mr-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>
               {{picture.votes.positive}}
-              <i class="fa fa-thumbs-up"></i>
+              <i class="fa fa-thumbs-up" aria-hidden="true" aria-hidden="true"></i>
             </span>
 
             <span [title]="'Comments count'|translate" *ngIf="picture.comments_count.total > 0" class="mr-2">
               <a [routerLink]="pictureRouterLink(picture)" *ngIf="picture.comments_count.new > 0">
-                {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger"></i></a>
+                {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger" aria-hidden="true"></i></a>
               <a [routerLink]="pictureRouterLink(picture)" *ngIf="picture.comments_count.new == 0">
                 {{picture.comments_count.total}}
-                <i class="fa fa-comment"></i>
+                <i class="fa fa-comment" aria-hidden="true"></i>
               </a>
             </span>
 
@@ -79,7 +79,7 @@
           </p>
 
           <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer">
-            <i class="fa fa-cog"></i>
+            <i class="fa fa-cog" aria-hidden="true"></i>
           </a>
         </div>
       </div>

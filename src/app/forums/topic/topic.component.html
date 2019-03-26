@@ -21,11 +21,11 @@
 
   <div class="text-right" *ngIf="user" style="margin-bottom:10px">
     <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe()">
-      <i class="fa fa-envelope"></i>
+      <i class="fa fa-envelope" aria-hidden="true"></i>
       {{'comments/subscribe'|translate}}
     </button>
     <button class="btn btn-link subscription" *ngIf="topic.subscription" (click)="unsubscribe()">
-      <i class="fa fa-envelope"></i>
+      <i class="fa fa-envelope" aria-hidden="true"></i>
       {{'comments/unsubscribe'|translate}}
     </button>
   </div>

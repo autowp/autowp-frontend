@@ -32,20 +32,20 @@
     <div class="row">
       <div class="col-xs-6">
         <div class="picture-vote">
-          <a href="#" class="fa fa-2x vote-up" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value &lt;= 0" *ngIf="user" (click)="vote(1)"></a>
-          <i class="fa fa-2x fa-thumbs-o-up" *ngIf="!user"></i>
+          <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value &lt;= 0" *ngIf="user" (click)="vote(1)"></a>
+          <i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true" *ngIf="!user"></i>
           <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
-          <a href="#" class="fa fa-2x vote-down" [class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
-          <i class="fa fa-2x fa-thumbs-o-down" *ngIf="!user"></i>
+          <a href="#" class="fa fa-2x vote-down"  aria-hidden="true"[class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
+          <i class="fa fa-2x fa-thumbs-o-down" aria-hidden="true" *ngIf="!user"></i>
           <span class="negative" [class.zero]="picture.votes.negative">{{picture.votes.negative}}</span>
         </div>
       </div>
         <div class="col-xs-6 text-right">
           <ng-container *ngIf="user">
-            <button class="picture-subscription" [title]="'comments/subscribe'|translate" *ngIf="!picture.subscribed" (click)="setSubscribed(true)"><i class="fa fa-2x fa-envelope-o"></i></button>
-            <button class="picture-subscription" [title]="'comments/unsubscribe'|translate" *ngIf="picture.subscribed" (click)="setSubscribed(false)"><i class="fa fa-2x fa-envelope"></i></button>
+            <button class="picture-subscription" [title]="'comments/subscribe'|translate" *ngIf="!picture.subscribed" (click)="setSubscribed(true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
+            <button class="picture-subscription" [title]="'comments/unsubscribe'|translate" *ngIf="picture.subscribed" (click)="setSubscribed(false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
           </ng-container>
-          <a href="#" class="fa fa-2x fa-share-alt btn-share-dialog" title="Share ..." (click)="toggleShareDialog()"></a>
+          <a href="#" class="fa fa-2x fa-share-alt btn-share-dialog" aria-hidden="true" title="Share ..." (click)="toggleShareDialog()"></a>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
     <ng-container *ngFor="let item of picture.items">
       <app-markdown [markdown]="item.item.description" *ngIf="item.type == 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
       <!--<p *ngIf="item.detailsUrl">
-        <i class="fa fa-align-left"></i>
+        <i class="fa fa-align-left" aria-hidden="true"></i>
         <a [href]="item.detailsUrl" translate>carlist/details</a>
       </p>
       -->
@@ -100,7 +100,7 @@
         <span [ngbTooltip]="picture.add_date | date: 'medium'">{{picture.add_date|amTimeAgo}}</span>
       </li>
       <li *ngIf="picture.point">
-        <span class="fa fa-map-pin"></span>
+        <span class="fa fa-map-pin" aria-hidden="true"></span>
         <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" translate>picture/location</a>
       </li>
       <li>
@@ -114,34 +114,34 @@
 
     <ul class="unstyled">
       <li *ngFor="let link of picture.of_links">
-        <a [href]="link.url"><i class="fa fa-globe"></i> {{link.name}}</a>
+        <a [href]="link.url"><i class="fa fa-globe" aria-hidden="true"></i> {{link.name}}</a>
       </li>
 
       <li *ngFor="let category of picture.categories">
         <a [routerLink]="['/category', category.catname]">
-          <i class="fa fa-tag"></i> <span [innerHTML]="category.name_html"></span>
+          <i class="fa fa-tag" aria-hidden="true"></i> <span [innerHTML]="category.name_html"></span>
         </a>
       </li>
 
       <li *ngFor="let group of picture.twins">
         <a [routerLink]="['/twins/group', group.id]">
-          <i class="fa fa-adjust"></i> <span [innerHTML]="group.name_html"></span>
+          <i class="fa fa-adjust" aria-hidden="true"></i> <span [innerHTML]="group.name_html"></span>
         </a>
       </li>
 
       <li *ngFor="let factory of picture.factories">
         <a [routerLink]="['/factories', factory.id]">
-          <i class="fa fa-cogs"></i> <span [innerHTML]="factory.name_html"></span>
+          <i class="fa fa-cogs" aria-hidden="true"></i> <span [innerHTML]="factory.name_html"></span>
         </a>
       </li>
 
       <ng-container *ngFor="let item of picture.items">
         <li *ngIf="canEditSpecs">
-          <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil"></i> {{'carlist/edit-specs'|translate}}</a>
+          <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> {{'carlist/edit-specs'|translate}}</a>
         </li>
         <li *ngIf="item.item.has_specs && item.item.specs_url">
           <a [href]="item.item.specs_url">
-            <i class="fa fa-list-alt"></i>
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
             <span [innerHTML]="'catalogue/specifications-of-\{name\}'|translate:{name: item.item.name_html}"></span>
           </a>
         </li>
@@ -161,7 +161,7 @@
         <div ngbDropdownMenu>
           <ng-container *ngFor="let item of picture.items">
             <a *ngIf="item.type == 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
-              <i class="fa fa-upload"></i>
+              <i class="fa fa-upload" aria-hidden="true"></i>
               {{'page/29/name' | translate}}
               <span [innerHTML]="item.item.name_html"></span>
             </a>
@@ -172,7 +172,7 @@
       <ng-container *ngIf="user && picture.items.length == 1">
         <li *ngFor="let item of picture.items">
           <a *ngIf="item.type == 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
-            <i class="fa fa-upload"></i>
+            <i class="fa fa-upload" aria-hidden="true"></i>
             {{'page/29/name' | translate}}
             <span [innerHTML]="item.item.name_html"></span>
           </a>
@@ -200,7 +200,7 @@
       <!--<ng-container *ngFor="let engine of engines">
         <li *ngIf="engine.hasSpecs">
           <a [href]="engine.specsUrl">
-            <i class="fa fa-list-alt"></i>
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
             sprintf(
               $this->escapeHtml($this->translate('catalogue/specifications-of-%1$s')),
               $this->escapeHtml($engine['name'])
@@ -209,7 +209,7 @@
         </li>
         <li *ngIf="engine.specsEditUrl">
           <a [href]="engine.specsEditUrl">
-            <i class="fa fa-pencil"></i>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
             {{'carlist/edit-specs'|translate}}
           </a>
         </li>
@@ -243,7 +243,7 @@
 
       <li *ngIf="user && (picture.items && picture.items.length > 0 || engines && engines.length > 0)">
         <a routerLink="/upload" [queryParams]="{replace: picture.id}">
-          <i class="fa fa-exchange"></i> {{'picture/propose-image-replacement'|translate}}
+          <i class="fa fa-exchange" aria-hidden="true"></i> {{'picture/propose-image-replacement'|translate}}
         </a>
       </li>
     </ul>
@@ -258,12 +258,12 @@
   <ul class="list-unstyled">
     <li *ngFor="let moderVote of picture.moder_votes">
       <span *ngIf="moderVote.vote">
-        <i style="color:green" class="fa fa-thumbs-up"></i>
+        <i style="color:green" class="fa fa-thumbs-up" aria-hidden="true"></i>
         <app-user [user]="moderVote.user"></app-user>
         <span style="color:green">{{moderVote.reason}}</span>
       </span>
       <span *ngIf="!moderVote.vote">
-        <i style="color:red" class="fa fa-thumbs-down"></i>
+        <i style="color:red" class="fa fa-thumbs-down" aria-hidden="true"></i>
         <app-user [user]="moderVote.user"></app-user>
         <span style="color:red">{{moderVote.reason}}</span>
       </span>
@@ -280,18 +280,18 @@
           </div>
           <div class="col-md-6">
             <p>
-              <i class="fa fa-cog"></i>
+              <i class="fa fa-cog" aria-hidden="true"></i>
               <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">{{'moder/picture/edit-picture-{id}'}}</a>
             </p>
 
             <p *ngFor="let item of picture.items">
-              <i class="fa fa-cog"></i>
+              <i class="fa fa-cog" aria-hidden="true"></i>
               <a [routerLink]="['/moder/items/item', item.item_id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="item.item.name_html"></span></a>
             </p>
 
             <ng-container *ngFor="let item of picture.items">
               <p *ngFor="let brand of item.item.brands">
-                <i class="fa fa-cog"></i>
+                <i class="fa fa-cog" aria-hidden="true"></i>
                 <a [routerLink]="['/moder/items/item', brand.id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="brand.name_html"></span></a>
               </p>
             </ng-container>

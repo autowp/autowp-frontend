@@ -112,7 +112,7 @@ export class AboutComponent implements OnInit, OnDestroy {
           '%total-users%': data.about.total_users.toString(),
           '%total-comments%': data.about.total_comments.toString(),
           '%github%':
-            '<i class="fa fa-github"></i> <a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
+            '<i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
           '%developer%': this.userHtml(data.users.get(data.about.developer)),
           '%fr-translator%': this.userHtml(
             data.users.get(data.about.fr_translator)
@@ -158,6 +158,6 @@ export class AboutComponent implements OnInit, OnDestroy {
     );
     a.innerText = user.name;
 
-    return '<i class="fa fa-user"></i> ' + span.appendChild(a).outerHTML;
+    return '<i class="fa fa-user" aria-hidden="true"></i> ' + span.appendChild(a).outerHTML;
   }
 }

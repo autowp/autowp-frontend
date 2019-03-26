@@ -46,7 +46,7 @@
     <p translate [translateParams]="{id: user.id}">ng/moder/database-id-n</p>
 
     <p *ngIf="user && !isMe" ngPreserveWhitespaces>
-      <i class="fa fa-reply"></i>
+      <i class="fa fa-reply" aria-hidden="true"></i>
       <a href="#" (click)="openMessageForm()" translate>users/user/send-personal-message</a>
     </p>
 
@@ -113,11 +113,11 @@
     <div class="card card-body mb-4" *ngIf="canBeInContacts">
       <button type="submit" class="btn btn-lg btn-contact" [class.in-contacts]="inContacts" (click)="toggleInContacts()">
         <span class="not-in-contacts">
-          <span class="fa fa-plus-circle mr-1"></span>
+          <span class="fa fa-plus-circle mr-1" aria-hidden="true"></span>
           {{'user/add-to-contacts'|translate}}
         </span>
         <span class="in-contacts">
-          <span class="fa fa-minus-circle mr-1"></span>
+          <span class="fa fa-minus-circle mr-1" aria-hidden="true"></span>
           {{'user/remove-from-contacts'|translate}}
         </span>
       </button>

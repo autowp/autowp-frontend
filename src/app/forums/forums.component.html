@@ -18,7 +18,7 @@
   <div class="col-md-6">
     <div class="card card-body mb-4">
       <p ngPreserveWhitespaces>
-        <i class="fa fa-th-list"></i>
+        <i class="fa fa-th-list" aria-hidden="true"></i>
         <strong>
           <a [routerLink]="['/forums', theme.id]" [textContent]="theme.name|translate"></a>
         </strong>
@@ -38,14 +38,14 @@
     <div class="m-4 transparent">
       <div *ngIf="theme.last_message" ngPreserveWhitespaces>
         <p>
-          <i class="fa fa-comment"></i>
+          <i class="fa fa-comment" aria-hidden="true"></i>
           <a [routerLink]="['/forums/topic', theme.last_topic.id]" [translateParams]="{topic_name: theme.last_topic.name}" translate>{{'forums/last-message-in-topic-{topic_name}'}}</a>
         </p>
         <p>
           <app-past-time-indicator [date]="theme.last_message.datetime"></app-past-time-indicator>
           <app-user [user]="theme.last_message.user" *ngIf="theme.last_message.user"></app-user>
           <a [routerLink]="['/forums/message', theme.last_message.id]" [title]="'forums/go-to-last-message'|translate">
-            <i class="fa fa-share"></i>
+            <i class="fa fa-share" aria-hidden="true"></i>
           </a>
         </p>
       </div>
@@ -56,7 +56,7 @@
 <div *ngIf="theme && !theme.disable_topics">
 
   <a [routerLink]="['/forums/new-topic', theme.id]" class="btn btn-info">
-    <i class="fa fa-comment"></i>
+    <i class="fa fa-comment" aria-hidden="true"></i>
     {{'forums/create-new-topic'|translate}}
   </a>
 
@@ -72,7 +72,7 @@
     <tbody *ngIf="theme">
       <tr *ngFor="let topic of theme.topics.items">
         <td ngPreserveWhitespaces>
-          <span class="fa fa-lock" *ngIf="topic.status == 'closed'"></span>
+          <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status == 'closed'"></span>
           <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name"></a>
           <span class="badge badge-pill badge-secondary">
             {{topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '')}}
@@ -95,7 +95,7 @@
             </ng-container>
             <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
             <a [routerLink]="['/forums/message', topic.last_message.id]" [title]="'forums/go-to-last-message'|translate">
-              <i class="fa fa-share"></i>
+              <i class="fa fa-share" aria-hidden="true"></i>
             </a>
           </div>
           <span *ngIf="!topic.last_message">&#x2014;</span>
@@ -103,16 +103,16 @@
         <td *ngIf="forumAdmin" ngPreserveWhitespaces>
           <div class="btn-group">
             <button [title]="'forums/topic/open'|translate" class="btn btn-sm btn-warning open" (click)="openTopic(topic)" *ngIf="topic.status == 'closed'">
-              <i class="fa fa-check-circle"></i>
+              <i class="fa fa-check-circle" aria-hidden="true"></i>
             </button>
             <button [title]="'forums/topic/close'|translate" class="btn btn-sm btn-warning close-topic" (click)="closeTopic(topic)" *ngIf="topic.status != 'closed'">
-              <i class="fa fa-times-circle"></i>
+              <i class="fa fa-times-circle" aria-hidden="true"></i>
             </button>
             <a routerLink="/forums/move-topic" [queryParams]="{topic_id: topic.id}" class="btn btn-secondary btn-sm" [title]="'forums/topic/move'|translate">
-              <i class="fa fa-share"></i>
+              <i class="fa fa-share" aria-hidden="true"></i>
             </a>
             <button [title]="'forums/topic/delete'|translate" class="btn btn-sm btn-danger delete" (click)="deleteTopic(topic)">
-              <i class="fa fa-ban"></i>
+              <i class="fa fa-ban" aria-hidden="true"></i>
             </button>
           </div>
         </td>

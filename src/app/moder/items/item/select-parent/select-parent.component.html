@@ -22,18 +22,18 @@
 <div class="nav nav-pills" style="margin-bottom:10px" *ngIf="item">
   <a [class.active]="tab == 'catalogue'" *ngIf="showCatalogueTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
     [queryParams]="{tab: 'catalogue'}">
-    <i class="fa fa-list"></i> Catalogue</a>
+    <i class="fa fa-list" aria-hidden="true"></i> Catalogue</a>
   <a [class.active]="tab == 'brands'" *ngIf="showBrandsTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
     [queryParams]="{tab: 'brands'}">
-    <i class="fa fa-list"></i> Brands</a>
+    <i class="fa fa-list" aria-hidden="true"></i> Brands</a>
   <a [class.active]="tab == 'categories'" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'categories'}">
-    <i class="fa fa-tag"></i> Categories</a>
+    <i class="fa fa-tag" aria-hidden="true"></i> Categories</a>
   <a [class.active]="tab == 'twins'" *ngIf="showTwinsTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
     [queryParams]="{tab: 'twins'}">
-    <i class="fa fa-adjust"></i> Twins</a>
+    <i class="fa fa-adjust" aria-hidden="true"></i> Twins</a>
   <a [class.active]="tab == 'factories'" *ngIf="showFactoriesTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
     [queryParams]="{tab: 'factories'}">
-    <i class="fa fa-cogs"></i> {{'moder/vehicle/tabs/factories'|translate}}</a>
+    <i class="fa fa-cogs" aria-hidden="true"></i> {{'moder/vehicle/tabs/factories'|translate}}</a>
 </div>
 
 <div class="card card-body" *ngIf="tab == 'catalogue'">
