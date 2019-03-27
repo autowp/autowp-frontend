@@ -346,7 +346,7 @@
       <span *ngIf="!picture.owner" translate>moder/picture/uploader/unknown</span>
       <div *ngIf="picture.ip && picture.ip.address">
         {{'moder/picture/uploader/id-address:'|translate}}
-        <b [textContent]="picture.ip.address"></b>
+        <strong [textContent]="picture.ip.address"></strong>
         <br />
         <p *ngIf="picture.ip.blacklist">
           {{'ban/that-address-is-banned'|translate}}
