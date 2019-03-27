@@ -61,7 +61,7 @@
         <span class="d-none d-md-inline">{{'comments/message/move'|translate}}</span>
       </a>
 
-      <i class="float-right fa fa-eye" [ngbTooltip]="message.ip" style="margin-right:20px" *ngIf="message.ip"></i>
+      <i class="float-right fa fa-eye" aria-hidden="true" [ngbTooltip]="message.ip" style="margin-right:20px" *ngIf="message.ip"></i>
 
       <div class="moderator-attention-sign" *ngIf="message.moder_attention">
         <i class="fa fa-info-circle mr-1" aria-hidden="true"></i>

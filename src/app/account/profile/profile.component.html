@@ -56,31 +56,29 @@
       <p [hidden]="votesLeft < 0">
         {{'account/profile/votes-left'|translate}}: {{votesLeft}}</p>
       <form method="post" class="form-horizontal" (submit)="sendSettings()">
-        <fieldset>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="language" translate>account/profile/language</label>
-            <div class="col-md-9">
-              <select name="language" class="form-control" [class.is-invalid]="settingsInvalidParams.language" [(ngModel)]="settings.language">
-                <option *ngFor="let language of languages" [value]="language.value">{{language.name}}</option>
-              </select>
-              <p *ngFor="let message of settingsInvalidParams | invalidParams : 'language'" [textContent]="message" class="invalid-feedback"></p>
-            </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="language" translate>account/profile/language</label>
+          <div class="col-md-9">
+            <select name="language" class="form-control" [class.is-invalid]="settingsInvalidParams.language" [(ngModel)]="settings.language">
+              <option *ngFor="let language of languages" [value]="language.value">{{language.name}}</option>
+            </select>
+            <p *ngFor="let message of settingsInvalidParams | invalidParams : 'language'" [textContent]="message" class="invalid-feedback"></p>
           </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="timezone" translate>account/profile/timezone</label>
-            <div class="col-md-9">
-              <select name="timezone" class="form-control" [(ngModel)]="settings.timezone" [class.is-invalid]="settingsInvalidParams.timezone">
-                <option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</option>
-              </select>
-              <p *ngFor="let message of settingsInvalidParams | invalidParams : 'timezone'" [textContent]="message" class="invalid-feedback"></p>
-            </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="timezone" translate>account/profile/timezone</label>
+          <div class="col-md-9">
+            <select name="timezone" class="form-control" [(ngModel)]="settings.timezone" [class.is-invalid]="settingsInvalidParams.timezone">
+              <option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</option>
+            </select>
+            <p *ngFor="let message of settingsInvalidParams | invalidParams : 'timezone'" [textContent]="message" class="invalid-feedback"></p>
           </div>
-          <div class="row">
-            <div class="col-md-9 offset-md-3">
-              <button type="submit" class="btn btn-primary" translate>send</button>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-9 offset-md-3">
+            <button type="submit" class="btn btn-primary" translate>send</button>
           </div>
-        </fieldset>
+        </div>
       </form>
     </div>
   </div>

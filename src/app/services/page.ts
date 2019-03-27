@@ -119,7 +119,7 @@ export class PageService {
     );
   }
 
-  public getPages(): Observable<APIPagesGetResponse> {
+  public getPagesPipe(): Observable<APIPagesGetResponse> {
     return this.http.get<APIPagesGetResponse>('/api/page');
   }
 

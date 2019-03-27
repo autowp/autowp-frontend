@@ -35,7 +35,7 @@ export class ModerPagesAddComponent {
       0
     );
 
-    this.pageService.getPages().subscribe(response => {
+    this.pageService.getPagesPipe().subscribe(response => {
       this.pages = this.pageService.toPlainArray(response.items, 0);
     });
   }
