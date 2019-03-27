@@ -51,7 +51,7 @@
     </p>
 
     <p *ngFor="let account of user.accounts" ngPreserveWhitespaces>
-      <i class="{{account.icon}} fa-fw"></i>
+      <i class="{{account.icon}} fa-fw" aria-hidden="true"></i>
       <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
       <span *ngIf="!account.link" [textContent]="account.name"></span>
     </p>

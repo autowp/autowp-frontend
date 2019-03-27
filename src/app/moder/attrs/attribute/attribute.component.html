@@ -26,33 +26,31 @@
     </h2>
     <div class="card card-body mb-4">
       <form class="form-vertical" (submit)="saveAttribute()" *ngIf="attribute">
-        <fieldset>
-          <div class="form-group">
-            <label for="name" translate>attrs/attribute/name</label>
-            <input type="text" name="name" class="form-control" [(ngModel)]="attribute.name" />
-          </div>
-          <div class="form-group">
-            <label for="type_id" translate>attrs/attribute/type</label>
-            <select name="type_id" class="form-control" [(ngModel)]="attribute.type_id">
-              <option *ngFor="let option of typeOptions" [ngValue]="option.id">{{option.name|translate}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="precision" translate>attrs/attribute/precision</label>
-            <input type="text" name="precision" class="form-control" [(ngModel)]="attribute.precision">
-          </div>
-          <div class="form-group">
-            <label for="unit_id" translate>attrs/attribute/unit</label>
-            <select name="unit_id" class="form-control" [(ngModel)]="attribute.unit_id">
-              <option *ngFor="let option of unitOptions" [ngValue]="option.id">{{option.name|translate}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="description" translate>attrs/attribute/description</label>
-            <textarea name="description" class="form-control" [(ngModel)]="attribute.description"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" translate>send</button>
-        </fieldset>
+        <div class="form-group">
+          <label for="name" translate>attrs/attribute/name</label>
+          <input type="text" name="name" class="form-control" [(ngModel)]="attribute.name" />
+        </div>
+        <div class="form-group">
+          <label for="type_id" translate>attrs/attribute/type</label>
+          <select name="type_id" class="form-control" [(ngModel)]="attribute.type_id">
+            <option *ngFor="let option of typeOptions" [ngValue]="option.id">{{option.name|translate}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="precision" translate>attrs/attribute/precision</label>
+          <input type="text" name="precision" class="form-control" [(ngModel)]="attribute.precision">
+        </div>
+        <div class="form-group">
+          <label for="unit_id" translate>attrs/attribute/unit</label>
+          <select name="unit_id" class="form-control" [(ngModel)]="attribute.unit_id">
+            <option *ngFor="let option of unitOptions" [ngValue]="option.id">{{option.name|translate}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="description" translate>attrs/attribute/description</label>
+          <textarea name="description" class="form-control" [(ngModel)]="attribute.description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" translate>send</button>
       </form>
     </div>
 
@@ -69,19 +67,17 @@
     </h2>
     <div class="card card-body mb-4">
       <form class="form-vertical" (submit)="addListOption()">
-        <fieldset>
-          <div class="form-group">
-            <label for="parent_id" translate>attrs/list-options/parent</label>
-            <select name="parent_id" class="form-control" [(ngModel)]="newListOption.parent_id">
-              <option *ngFor="let option of listOptionsOptions" [ngValue]="option.id">{{option.name}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="name" translate>attrs/list-options/name</label>
-            <input type="text" name="name" class="form-control" [(ngModel)]="newListOption.name" />
-          </div>
-          <button type="submit" name="submit" class="btn btn-primary" translate>send</button>
-        </fieldset>
+        <div class="form-group">
+          <label for="parent_id" translate>attrs/list-options/parent</label>
+          <select name="parent_id" class="form-control" [(ngModel)]="newListOption.parent_id">
+            <option *ngFor="let option of listOptionsOptions" [ngValue]="option.id">{{option.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="name" translate>attrs/list-options/name</label>
+          <input type="text" name="name" class="form-control" [(ngModel)]="newListOption.name" />
+        </div>
+        <button type="submit" name="submit" class="btn btn-primary" translate>send</button>
       </form>
     </div>
   </div>

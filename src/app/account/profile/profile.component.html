@@ -15,21 +15,19 @@
     <h2 translate>account/profile/personal</h2>
     <div class="card card-body mb-4">
       <form method="post" class="form-horizontal" (submit)="sendProfile()">
-        <fieldset>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="name" translate>user/name</label>
-            <div class="col-md-9">
-              <input type="text" maxlength="50" size="50" name="name" class="form-control" [(ngModel)]="profile.name" [class.is-invalid]="profileInvalidParams && profileInvalidParams.name"
-              />
-              <p *ngFor="let message of profileInvalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
-            </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="name" translate>user/name</label>
+          <div class="col-md-9">
+            <input type="text" maxlength="50" size="50" name="name" class="form-control" [(ngModel)]="profile.name" [class.is-invalid]="profileInvalidParams && profileInvalidParams.name"
+            />
+            <p *ngFor="let message of profileInvalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
           </div>
-          <div class="row">
-            <div class="col-md-9 offset-md-3">
-              <button type="submit" class="btn btn-primary" translate>send</button>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-9 offset-md-3">
+            <button type="submit" class="btn btn-primary" translate>send</button>
           </div>
-        </fieldset>
+        </div>
       </form>
     </div>
 
