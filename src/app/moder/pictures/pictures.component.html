@@ -208,9 +208,9 @@
             <span class="caret" aria-hidden="true"></span>
           </button>
           <div ngbDropdownMenu>
-            <li role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
+            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
               <button *ngIf="template.vote > 0" class="btn btn-link dropdown-item" [textContent]="template.name" (click)="votePictures(template.vote, template.name);"></button>
-            </li>
+            </div>
           </div>
         </div>
         <div class="btn-group" ngbDropdown>
@@ -219,9 +219,9 @@
             <span class="caret" aria-hidden="true"></span>
           </button>
           <div ngbDropdownMenu>
-            <li role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
+            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
               <a *ngIf="template.vote < 0" class="dropdown-item" [textContent]="template.name" (click)="votePictures(template.vote, template.name);"></a>
-            </li>
+            </div>
           </div>
         </div>
       </div>
