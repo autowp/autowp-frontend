@@ -8,6 +8,16 @@
   height: 100%;
   overflow: hidden;
   display: none;
+  width: 100%;;
+  margin: 0;
+
+  &.previous {
+    margin-left: -100%;
+  }
+
+  &.next {
+    margin-right: -100%;
+  }
 
   &.active {
     display: block;

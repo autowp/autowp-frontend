@@ -1,3 +1,9 @@
-app-item-meta-form {
-    display: block;
+:host {
+  display: block;
+
+  .coords > .form-control {
+    display: inline-block;
+    margin-bottom: 20px;
+    max-width: 200px;
+  }
 }
