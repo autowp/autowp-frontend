@@ -211,13 +211,11 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         tap(params => {
           this.activeTab = params.tab ? params.tab : 'meta';
 
-          switch (this.activeTab) {
-            case 'tree':
-              if (!this.treeTab.initialized) {
-                this.treeTab.initialized = true;
-                this.initTreeTab();
-              }
-              break;
+          if (this.activeTab === 'tree') {
+            if (!this.treeTab.initialized) {
+              this.treeTab.initialized = true;
+              this.initTreeTab();
+            }
           }
         })
       )

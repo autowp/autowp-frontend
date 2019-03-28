@@ -177,9 +177,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     this.querySub = this.route.queryParams
       .pipe(
         map(params => ({
-          name: params.name || ('' as string),
-          nameExclude: params.name_exclude || ('' as string),
-          itemTypeID: parseInt(params.item_type_id, 10) as number,
+          name: params.name || '',
+          nameExclude: params.name_exclude || '',
+          itemTypeID: parseInt(params.item_type_id, 10),
           vehicleTypeID:
             params.vehicle_type_id === 'empty'
               ? 'empty'
@@ -193,7 +193,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           toYear: parseInt(params.to_year, 10) || null,
           order: params.order || DEFAULT_ORDER,
           ancestorID: parseInt(params.ancestor_id, 10) || null,
-          listMode: params.list_mode ? true : false,
+          listMode: !!params.list_mode,
           page: parseInt(params.page, 10) || 1
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),

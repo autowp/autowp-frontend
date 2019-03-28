@@ -18,7 +18,7 @@
       </td>
     </tr>
     <tr>
-      <td valign="top">{{'moder/vehicle/end'|translate}}:</td>
+      <td>{{'moder/vehicle/end'|translate}}:</td>
       <td>
         {{item.end_year > 0 ? item.end_year : '????'}} {{item.end_month > 0 ? item.end_month : '??'}}
         <span *ngIf="item.today === true" translate>moder/vehicle/today/continue</span>
@@ -34,7 +34,7 @@
       </td>
     </tr>
     <tr>
-      <td valign="top">{{'moder/vehicle/concept'|translate}}:</td>
+      <td>{{'moder/vehicle/concept'|translate}}:</td>
       <td>{{item.is_concept ? 'Yes' : 'No'}}</td>
     </tr>
   </table>

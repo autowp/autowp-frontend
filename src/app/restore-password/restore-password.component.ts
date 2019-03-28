@@ -62,8 +62,7 @@ export class RestorePasswordComponent {
             this.invalidParams = response.error.invalid_params;
 
             this.showCaptcha = response.error.invalid_params && response.error.invalid_params.captcha;
-          } else if (response.status === 404) {
-          } else {
+          } else if (response.status !== 404) {
             Notify.response(response);
           }
         }

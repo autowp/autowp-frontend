@@ -64,10 +64,10 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
     this.attributesSub.unsubscribe();
   }
 
-  public moveUp(id: number) {
+  private move(id: number, dir: string) {
     this.http
       .patch<void>('/api/attr/attribute/' + id, {
-        move: 'up'
+        move: dir
       })
       .subscribe(
         () => this.attributesChange$.next(null),
@@ -75,15 +75,12 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
       );
   }
 
+  public moveUp(id: number) {
+    this.move(id, 'up');
+  }
+
   public moveDown(id: number) {
-    this.http
-      .patch<void>('/api/attr/attribute/' + id, {
-        move: 'down'
-      })
-      .subscribe(
-        () => this.attributesChange$.next(null),
-        response => Notify.response(response)
-      );
+    this.move(id, 'down');
   }
 
   private loadAttributes() {}

@@ -144,17 +144,19 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     return Math.floor(index / this.PER_PAGE) + 1;
   }
 
-  public navigateToIndex(index) {
+  public navigateToIndex(index): boolean {
     const item = this.getGalleryItemByIndex(index);
     if (!item) {
       const page = this.getGalleryPageNumberByIndex(index);
+      let success = false;
       this.loadPage(this.currentItemID, page).subscribe(() => {
         const sitem = this.getGalleryItemByIndex(index);
         if (sitem) {
           this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
+          success = true;
         }
       });
-      return false;
+      return success;
     }
 
     this.router.navigate(this.galleryPrefix.concat([item.identity]));

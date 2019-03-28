@@ -100,10 +100,8 @@ export class ModerItemsItemCatalogueComponent
       this.canHaveParents = ![4, 6].includes(this.item.item_type_id);
 
       this.organizeTypeId = this.item.item_type_id;
-      switch (this.organizeTypeId) {
-        case 5:
+      if (this.organizeTypeId === 5) {
           this.organizeTypeId = 1;
-          break;
       }
 
       this.loadChilds();

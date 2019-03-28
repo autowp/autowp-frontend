@@ -75,13 +75,6 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
             }),
           0
         );
-
-        const result = [];
-        for (const item of data.group.childs) {
-          for (const brand of item.brands) {
-            result.push(brand.catname);
-          }
-        }
       });
   }
 

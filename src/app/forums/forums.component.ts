@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
 import { ACLService } from '../services/acl.service';
 import Notify from '../notify';
-import { Subscription, combineLatest } from 'rxjs';
+import {Subscription, combineLatest, Observable} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
 import {
@@ -118,53 +118,40 @@ export class ForumsComponent implements OnInit, OnDestroy {
     this.paramsSub.unsubscribe();
   }
 
+  private setTopicStatus(topic: APIForumTopic, status: string): Observable<void> {
+    const o = this.http.put<void>('/api/forum/topic/' + topic.id, {
+      status: status
+    });
+    o.subscribe(
+      () => {
+        topic.status = status;
+      },
+      response => {
+        Notify.response(response);
+      }
+    );
+
+    return o;
+  }
+
   public openTopic(topic: APIForumTopic) {
-    this.http
-      .put<void>('/api/forum/topic/' + topic.id, {
-        status: 'normal'
-      })
-      .subscribe(
-        response => {
-          topic.status = 'normal';
-        },
-        response => {
-          Notify.response(response);
-        }
-      );
+    this.setTopicStatus(topic, 'normal');
   }
 
   public closeTopic(topic: APIForumTopic) {
-    this.http
-      .put<void>('/api/forum/topic/' + topic.id, {
-        status: 'closed'
-      })
-      .subscribe(
-        response => {
-          topic.status = 'closed';
-        },
-        response => {
-          Notify.response(response);
-        }
-      );
+    this.setTopicStatus(topic, 'closed');
   }
 
   public deleteTopic(topic: APIForumTopic) {
-    this.http
-      .put<void>('/api/forum/topic/' + topic.id, {
-        status: 'deleted'
-      })
-      .subscribe(
-        response => {
-          for (let i = this.theme.topics.items.length - 1; i >= 0; i--) {
-            if (this.theme.topics.items[i].id === topic.id) {
-              this.theme.topics.items.splice(i, 1);
-              break;
-            }
+    this.setTopicStatus(topic, 'deleted').subscribe(
+      () => {
+        for (let i = this.theme.topics.items.length - 1; i >= 0; i--) {
+          if (this.theme.topics.items[i].id === topic.id) {
+            this.theme.topics.items.splice(i, 1);
+            break;
           }
-        },
-        response => {
-          Notify.response(response);
         }
-      );
+      }
+    );
   }
 }

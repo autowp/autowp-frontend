@@ -29,18 +29,4 @@ export class NewListItemComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public canHavePhoto(item: APIItem) {
-    return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
-  }
-
-  public havePhoto() {
-    let found = false;
-    for (const picture of this.pictures) {
-      if (picture.thumb) {
-        found = true;
-        return false;
-      }
-    }
-    return found;
-  }
 }

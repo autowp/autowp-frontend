@@ -70,8 +70,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
         this.failure = response.status === 404;
         if (response.status === 400) {
           this.invalidParams = response.error.invalid_params;
-        } else if (response.status === 404) {
-        } else {
+        } else if (response.status !== 404) {
           Notify.response(response);
         }
       }

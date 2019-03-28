@@ -69,10 +69,10 @@ export class CarsSpecificationsEditorEngineComponent
     }
   }
 
-  public inheritEngine() {
+  private setEngineID(value: string) {
     this.http
       .put<void>('/api/item/' + this.item.id, {
-        engine_id: 'inherited'
+        engine_id: value
       })
       .subscribe(
         response => this.changed.emit(),
@@ -80,14 +80,11 @@ export class CarsSpecificationsEditorEngineComponent
       );
   }
 
+  public inheritEngine() {
+    this.setEngineID('inherited');
+  }
+
   public cancelInheritance() {
-    this.http
-      .put<void>('/api/item/' + this.item.id, {
-        engine_id: ''
-      })
-      .subscribe(
-        response => this.changed.emit(),
-        response => Notify.response(response)
-      );
+    this.setEngineID('');
   }
 }
