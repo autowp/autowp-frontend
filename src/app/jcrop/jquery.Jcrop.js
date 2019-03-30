@@ -238,8 +238,7 @@ function Jcrop(obj, opt) {
       hdep = 370,
       borders = {},
       handle = {},
-      dragbar = {},
-      seehandles = false;
+      dragbar = {};
 
     // Private Methods
     function insertBorder(type) {
@@ -407,7 +406,6 @@ function Jcrop(obj, opt) {
     }
 
     function enableHandles() {
-      seehandles = true;
       if (options.allowResize) {
         $hdl_holder.show();
         return true;
@@ -415,16 +413,13 @@ function Jcrop(obj, opt) {
     }
 
     function disableHandles() {
-      seehandles = false;
       $hdl_holder.hide();
     }
 
     function animMode(v) {
       if (v) {
-        animating = true;
         disableHandles();
       } else {
-        animating = false;
         enableHandles();
       }
     }
@@ -476,9 +471,7 @@ function Jcrop(obj, opt) {
         $track.css('cursor', cursor);
       },
       enableHandles: enableHandles,
-      enableOnly: function() {
-        seehandles = true;
-      },
+      enableOnly: function() {},
       disableHandles: disableHandles,
       setBgOpacity: setBgOpacity,
       done: done
@@ -603,9 +596,7 @@ function Jcrop(obj, opt) {
     let x1 = 0,
       y1 = 0,
       x2 = 0,
-      y2 = 0,
-      ox,
-      oy;
+      y2 = 0;
 
     function setPressed(pos) {
       pos = rebound(pos);
@@ -615,15 +606,13 @@ function Jcrop(obj, opt) {
 
     function setCurrent(pos) {
       pos = rebound(pos);
-      ox = pos[0] - x2;
-      oy = pos[1] - y2;
       x2 = pos[0];
       y2 = pos[1];
     }
 
     function moveOffset(offset) {
       let ox = offset[0],
-        oy = offset[1];
+          oy = offset[1];
 
       if (0 > x1 + ox) {
         ox -= ox + x1;
@@ -1095,8 +1084,7 @@ function Jcrop(obj, opt) {
     xlimit,
     ylimit,
     xmin,
-    ymin,
-    animating;
+    ymin;
 
   docOffset = getPos($img);
   // }}}
@@ -1325,7 +1313,7 @@ function Jcrop(obj, opt) {
     if (options.bgColor !== bgcolor) {
       colorChangeMacro(
         options.shade ? Shade.getShades() : $div,
-        options.shade ? options.bgColor : options.bgColor
+        options.bgColor
       );
       bgcolor = options.bgColor;
     }

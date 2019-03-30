@@ -150,6 +150,22 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  private showSavedMessage() {
+    this.translate
+      .get('account/profile/saved')
+      .subscribe((translation: string) => {
+        Notify.custom(
+          {
+            icon: 'fa fa-check',
+            message: translation
+          },
+          {
+            type: 'success'
+          }
+        );
+      });
+  }
+
   public sendProfile() {
     this.profileInvalidParams = {};
 
@@ -157,19 +173,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       () => {
         this.user.name = this.profile.name;
 
-        this.translate
-          .get('account/profile/saved')
-          .subscribe((translation: string) => {
-            Notify.custom(
-              {
-                icon: 'fa fa-check',
-                message: translation
-              },
-              {
-                type: 'success'
-              }
-            );
-          });
+        this.showSavedMessage();
       },
       response => {
         if (response.status === 400) {
@@ -186,19 +190,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
     this.http.put<void>('/api/user/me', this.settings).subscribe(
       () => {
-        this.translate
-          .get('account/profile/saved')
-          .subscribe((translation: string) => {
-            Notify.custom(
-              {
-                icon: 'fa fa-check',
-                message: translation
-              },
-              {
-                type: 'success'
-              }
-            );
-          });
+        this.showSavedMessage();
       },
       response => {
         if (response.status === 400) {
