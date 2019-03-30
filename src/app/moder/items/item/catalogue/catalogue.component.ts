@@ -200,11 +200,10 @@ export class ModerItemsItemCatalogueComponent
 
     return false;
   }
-
-  public deleteChild(itemId: number) {
+  private deleteItemParent(itemID: number, parentID: number) {
     this.loading++;
     this.http
-      .delete<void>('/api/item-parent/' + itemId + '/' + this.item.id)
+      .delete<void>('/api/item-parent/' + itemID + '/' + parentID)
       .subscribe(
         () => {
           this.loadChilds();
@@ -218,20 +217,11 @@ export class ModerItemsItemCatalogueComponent
       );
   }
 
+  public deleteChild(itemId: number) {
+    this.deleteItemParent(itemId, this.item.id);
+  }
+
   public deleteParent(parentId: number) {
-    this.loading++;
-    this.http
-      .delete<void>('/api/item-parent/' + this.item.id + '/' + parentId)
-      .subscribe(
-        () => {
-          this.loadChilds();
-          this.loadParents();
-          this.loadSuggestions();
-          this.loading--;
-        },
-        () => {
-          this.loading--;
-        }
-      );
+    this.deleteItemParent(this.item.id, parentId);
   }
 }

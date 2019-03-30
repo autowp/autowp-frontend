@@ -50,14 +50,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService
   ) {}
 
-  public loadChildCategories(parent: APIItemInSelectParent) {
+  private loadChildItems(parent: APIItemInSelectParent, order: string) {
     this.itemParentService
       .getItems({
         limit: 100,
         fields: 'item.name_html,item.childs_count',
         parent_id: parent.id,
         is_group: true,
-        order: 'categories_first'
+        order: order
       })
       .subscribe(
         response => {
@@ -69,23 +69,12 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
       );
   }
 
+  public loadChildCategories(parent: APIItemInSelectParent) {
+    this.loadChildItems(parent, 'categories_first');
+  }
+
   public loadChildCatalogues(parent: APIItemInSelectParent) {
-    this.itemParentService
-      .getItems({
-        limit: 100,
-        fields: 'item.name_html,item.childs_count',
-        parent_id: parent.id,
-        is_group: true,
-        order: 'type_auto'
-      })
-      .subscribe(
-        response => {
-          parent.childLinks = response.items;
-        },
-        response => {
-          Notify.response(response);
-        }
-      );
+    this.loadChildItems(parent, 'type_auto');
   }
 
   ngOnInit(): void {

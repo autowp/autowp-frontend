@@ -230,7 +230,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       );
   }
 
-  public unacceptPicture() {
+  private setPictureStatus(status: string) {
     this.statusLoading = true;
     this.http
       .put<void>('/api/picture/' + this.id, {
@@ -245,57 +245,22 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           this.statusLoading = false;
         }
       );
+  }
+
+  public unacceptPicture() {
+    this.setPictureStatus('inbox');
   }
 
   public acceptPicture() {
-    this.statusLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id, {
-        status: 'accepted'
-      })
-      .subscribe(
-        response => {
-          this.change$.next(null);
-          this.statusLoading = false;
-        },
-        () => {
-          this.statusLoading = false;
-        }
-      );
+    this.setPictureStatus('accepted');
   }
 
   public deletePicture() {
-    this.statusLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id, {
-        status: 'removing'
-      })
-      .subscribe(
-        response => {
-          this.change$.next(null);
-          this.statusLoading = false;
-        },
-        () => {
-          this.statusLoading = false;
-        }
-      );
+    this.setPictureStatus('removing');
   }
 
   public restorePicture() {
-    this.statusLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id, {
-        status: 'inbox'
-      })
-      .subscribe(
-        response => {
-          this.change$.next(null);
-          this.statusLoading = false;
-        },
-        () => {
-          this.statusLoading = false;
-        }
-      );
+    this.setPictureStatus('inbox');
   }
 
   public normalizePicture() {
