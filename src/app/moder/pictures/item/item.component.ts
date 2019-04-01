@@ -234,7 +234,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.statusLoading = true;
     this.http
       .put<void>('/api/picture/' + this.id, {
-        status: 'inbox'
+        status: status
       })
       .subscribe(
         response => {
