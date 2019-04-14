@@ -107,10 +107,10 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
               pageId: 144
             });
 
-            this.showCatalogueTab = [1, 2, 5].includes(this.item.item_type_id);
-            this.showBrandsTab = [1, 2, 5].includes(this.item.item_type_id);
+            this.showCatalogueTab = [1, 2, 5].indexOf(this.item.item_type_id) > -1;
+            this.showBrandsTab = [1, 2, 5].indexOf(this.item.item_type_id) > -1;
             this.showTwinsTab = this.item.item_type_id === 1;
-            this.showFactoriesTab = [1, 2].includes(this.item.item_type_id);
+            this.showFactoriesTab = [1, 2].indexOf(this.item.item_type_id) > -1;
 
             if (this.tab === 'catalogue') {
               if (this.brand_id) {
