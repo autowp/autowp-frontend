@@ -175,7 +175,7 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && (![4, 6, 3].includes(item.item_type_id))">
+      <tr *ngIf="item.is_group && canMove && ([4, 6, 3].indexOf(item.item_type_id) == -1)">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">
