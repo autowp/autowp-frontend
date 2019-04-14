@@ -5,4 +5,4 @@
 <p *ngIf="categories">
   <app-index-categories-category [category]="category" *ngFor="let category of categories"></app-index-categories-category>
 </p>
-<app-markdown [markdown]="'index/categories/description'|translate" *ngIf="['ru', 'zh', 'fr', 'be', 'pt-br', 'uk'].includes(language)"></app-markdown>
+<app-markdown [markdown]="'index/categories/description'|translate" *ngIf="['ru', 'zh', 'fr', 'be', 'pt-br', 'uk'].indexOf(language) > -1"></app-markdown>
