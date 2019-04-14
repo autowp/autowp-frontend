@@ -43,11 +43,11 @@ export class VehicleTypesModalComponent implements OnInit, OnDestroy {
   }
 
   public isActive(id: number): boolean {
-    return this.ids.includes(id);
+    return this.ids.indexOf(id) > -1;
   }
 
   public toggle(id: number) {
-    if (this.ids.includes(id)) {
+    if (this.ids.indexOf(id) > -1) {
       const index = this.ids.indexOf(id, 0);
       if (index > -1) {
         this.ids.splice(index, 1);
