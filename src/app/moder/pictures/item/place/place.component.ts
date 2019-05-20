@@ -86,13 +86,11 @@ export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
           if (picture && picture.point) {
             this.lat = picture.point.lat;
             this.lng = picture.point.lng;
-            console.log(this.lat, this.lng);
             if (this.lat && this.lng) {
               this.markers = [createMarker(this.lat, this.lng)];
               const ll = latLng(this.lat, this.lng);
               this.center = ll;
               this.leafletOptions.center = ll;
-              console.log(this.markers);
             }
           }
         },
