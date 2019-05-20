@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator, APIImage } from './api.service';
-import { Observable, from, forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { APIAccount } from '../account/account.service';
 import { tap, map } from 'rxjs/operators';
 
@@ -216,7 +216,7 @@ export class UserService {
     const result = identity.match(/^user([0-9]+)$/);
 
     if (result) {
-      return from<APIUser>(this.getUser(parseInt(result[1], 10), options));
+      return this.getUser(parseInt(result[1], 10), options);
     }
 
     const params: APIGetUsersOptions = {

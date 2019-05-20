@@ -19,8 +19,6 @@ import {
 } from 'rxjs/operators';
 import { APIPerspectiveService } from '../../../api/perspective/perspective.service';
 
-// Acl.inheritsRole( 'moder', 'unauthorized' );
-
 @Component({
   selector: 'app-moder-pictures-item',
   templateUrl: './item.component.html'
@@ -116,7 +114,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
                   'replaceable',
                   'siblings.name_text',
                   'ip.rights',
-                  'ip.blacklist'
+                  'ip.blacklist',
+                  'point'
                 ].join(',')
               })
             )

@@ -100,7 +100,7 @@ export interface APIPicture {
     count: number;
   };
   preview_large: APIImage;
-  point: null | {
+  point?: {
     lat: number;
     lng: number;
   };

@@ -49,7 +49,15 @@
         {{'moder/picture/image:'|translate}}
         <a [href]="picture.image.src" [textContent]="picture.image.src"></a>
       </div>
-      <a routerLink="/log" [queryParams]="{picture_id: picture.id}" translate>moder/log-of-events</a>
+      <div>
+        <a routerLink="/log" [queryParams]="{picture_id: picture.id}" translate>moder/log-of-events</a>
+      </div>
+      <div>
+        <a [routerLink]="['/moder/pictures', picture.id, 'place']">
+          <span class="fa fa-map-marker" aria-hidden="true"></span>
+          Location<span *ngIf="picture.point">: {{picture.point.lat}},{{picture.point.lng}}</span>
+        </a>
+      </div>
     </div>
   </div>
   <div class="col-md-4">
