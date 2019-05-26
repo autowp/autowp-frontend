@@ -8,7 +8,7 @@ import { APIIP } from './ip';
 import { switchMap, shareReplay, map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { ACLService } from './acl.service';
-import { APIItem } from './item';
+import {APIItem, APIPathTreeItem} from './item';
 import { APIItemLink } from './item-link';
 
 export interface APIPictureGetResponse {
@@ -20,6 +20,12 @@ export interface APIPictureVotes {
   positive: number;
   negative: number;
   value: number;
+}
+
+export interface APIPathTreePictureItem {
+  type: number;
+  perspective_id?: number;
+  item: APIPathTreeItem;
 }
 
 export interface APIPicture {
@@ -115,6 +121,7 @@ export interface APIPicture {
   subscribed?: boolean;
   of_links?: APIItemLink[];
   paginator?: APIPicturePaginator;
+  path: APIPathTreePictureItem[];
 }
 
 export interface APIPicturePaginator {

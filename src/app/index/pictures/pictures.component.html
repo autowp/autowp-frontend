@@ -7,7 +7,7 @@
 
 <div class="row" *ngIf="items">
   <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-2" *ngFor="let picture of items">
-    <app-thumbnail [picture]="picture"></app-thumbnail>
+    <app-thumbnail [picture]="picture" [url]="picture.url"></app-thumbnail>
   </div>
 </div>
 

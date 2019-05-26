@@ -9,6 +9,17 @@ import { Observable, of, forkJoin } from 'rxjs';
 import { APIPicture } from './picture';
 import { switchMap } from 'rxjs/operators';
 
+export interface APIPathTreeItemParent {
+  catname: string;
+  item: APIPathTreeItem;
+}
+
+export interface APIPathTreeItem {
+  catname: string;
+  item_type_id: number;
+  parents: APIPathTreeItemParent[];
+}
+
 export interface APIItemsGetResponse {
   items: APIItem[];
   paginator: APIPaginator;
@@ -78,6 +89,7 @@ export interface APIItem {
   name_only: string;
   current_pictures_count?: number;
   accepted_pictures_count?: number;
+  inbox_pictures_count?: number;
   specifications_count?: number;
   has_child_specs?: boolean;
   brands: APIItem[];
@@ -111,9 +123,13 @@ export interface APIItem {
     messages: number;
   };
   front_picture?: APIPicture;
+  exact_picture?: APIPicture;
   descendants_count: number;
   has_specs?: boolean;
   alt_names: any[];
+  descendant_twins_groups_count?: number;
+  comments_attentions_count?: number;
+  mosts_active?: boolean;
 }
 
 export interface APIItemRelatedGroupItem {
@@ -165,6 +181,7 @@ export interface GetItemsServiceOptions {
   preview_pictures?: {
     type_id?: number;
   };
+  factories_of_brand?: number;
 }
 
 export interface GetPathServiceOptions {
@@ -316,6 +333,10 @@ function converItemsOptions(
 
   if (options.catname) {
     params.catname = options.catname;
+  }
+
+  if (options.factories_of_brand) {
+    params.factories_of_brand = options.factories_of_brand.toString();
   }
 
   if (options.descendant_pictures) {

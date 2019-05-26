@@ -1,0 +1,135 @@
+<header class="mb-4" *ngIf="brand">
+  <div class="jumbotron brand-hero-unit clearfix">
+    <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
+    <img [src]="brand.logo.src" alt="" class="logo" *ngIf="brand.logo" />
+    <div class="content">
+      <h1 class="display-4">{{brand.name_text}}</h1>
+      <p *ngIf="brand.full_name && brand.full_name != brand.name_only" class="lead">({{brand.full_name}})</p>
+      <ng-container *ngIf="brand.description">
+        <hr class="my-4" />
+        <app-markdown [markdown]="brand.description"></app-markdown>
+      </ng-container>
+    </div>
+  </div>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="[brand.catname, 'cars']">
+        <i class="fa fa-road" aria-hidden="true"></i> {{'catalogue/chronological'|translate}}
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="[brand.catname, 'recent']">
+        <i class="fa fa-th" aria-hidden="true"></i> {{'catalogue/brand/new-pictures'|translate}}
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="brand.descendant_twins_groups_count">
+      <a class="nav-link" [routerLink]="['/twins', brand.catname]">
+        <i class="fa fa-adjust" aria-hidden="true"></i> {{'page/25/name'|translate}}
+        <span class="badge badge-pill badge-secondary">{{brand.descendant_twins_groups_count}}</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="brand.mosts_active">
+      <a class="nav-link" [routerLink]="[brand.catname, 'brand-mosts']">
+        <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> {{'page/21/name'|translate}}
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="brand.inbox_pictures_count">
+      <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{status: 'inbox', item_id: brand.id}">
+        <i class="fa-fw fa fa-th" aria-hidden="true"></i>
+        {{'catalogue/brand/inbox/by-brand'|translate}}
+        <span class="badge badge-pill badge-secondary">{{brand.inbox_pictures_count}}</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="brand.comments_attentions_count">
+      <a class="nav-link" routerLink="/moder/comments" [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}">
+        <i class="fa fa-comment" aria-hidden="true"></i>
+        {{'catalogue/vehicle/comments'|translate}}
+        <span class="badge badge-pill badge-secondary">{{brand.comments_attentions_count}}</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isModer">
+      <a class="nav-link" [routerLink]="['/moder/items/item', brand.id]">
+        <i class="fa fa-cog" aria-hidden="true"></i> {{'moder/edit-object'|translate}}
+      </a>
+    </li>
+  </ul>
+</header>
+
+<!--
+<?php foreach ($this->sections as $section) { ?>
+<?php if (count($section['groups'])) { ?>
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title" *ngIf="section.name">{{section.name|translate}}</h5>
+    <div class="row">
+      <?php
+        $outerColumns = 2;
+        $innerColumns = 2;
+        $columns = $outerColumns * $innerColumns;
+        $perColumn = ceil(count($section['groups']) / $columns);
+      ?>
+      <?php for($oCol=0; $oCol<$outerColumns; $oCol++) { ?>
+      <div class="col-12 col-md-6">
+        <div class="row">
+          <?php for($iCol=0; $iCol<$innerColumns; $iCol++) { ?>
+          <div class="col-12 col-lg-6">
+            <?php foreach (array_slice($section['groups'], ($oCol*$innerColumns+$iCol)*$perColumn, $perColumn) as $group) { ?>
+              <a class="nav-link" [href]="group.url">
+                {{group.name}}
+                <span *ngIf="group.count" class="badge badge-pill badge-secondary">{{group.count}}</span>
+              </a>
+            <?php } ?>
+          </div>
+          <?php } ?>
+        </div>
+      </div>
+      <?php } ?>
+    </div>
+    <a [href]="section.url" translate *ngIf="section.url && section.name">carlist/details</a>
+  </div>
+</div>
+<?php } ?>
+<?php } ?>
+-->
+<section *ngIf="factories && factories.length">
+  <h2 translate>catalogue/brand/factories</h2>
+  <div class="row">
+    <div class="col-6 col-lg-3" *ngFor="let factory of factories">
+      <a class="d-block rounded mb-4" [routerLink]="['/factories', factory.id]" *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium">
+        <img class="rounded w-100 border border-light" [src]="factory.exact_picture.thumb_medium.src" />
+      </a>
+      <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="pictures && pictures.length">
+  <h2 translate>catalogue/brand/popular-images</h2>
+  <div class="row" *ngFor="let chunk of pictures">
+    <div class="col-sm-3" *ngFor="let picture of chunk">
+      <app-thumbnail [picture]="picture" [url]="pictureRouterUrl(picture)"></app-thumbnail>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="officialLinks.length + clubLinks.length + otherLinks.length > 0">
+  <h2 translate>catalogue/brand/links</h2>
+  <p *ngIf="officialLinks.length > 0">
+    <strong translate>catalogue/link-category/official</strong><br />
+    <ng-container *ngFor="let link of officialLinks">
+      <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+    </ng-container>
+  </p>
+  <p *ngIf="clubLinks.length > 0">
+    <strong translate>catalogue/link-category/club</strong><br />
+    <ng-container *ngFor="let link of clubLinks">
+      <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+    </ng-container>
+  </p>
+  <p *ngIf="otherLinks.length > 0">
+    <strong translate>catalogue/link-category/default</strong><br />
+    <ng-container *ngFor="let link of otherLinks">
+      <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+    </ng-container>
+  </p>
+</section>

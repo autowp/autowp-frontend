@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
+import {CanActivateCatalogue} from './catalogue/can-activate';
+import {CatalogueIndexComponent} from './catalogue/index/index.component';
 
 const appRoutes: Routes = [
   { path: 'about', loadChildren: './about/about.module#AboutModule' },
@@ -97,6 +99,17 @@ const appRoutes: Routes = [
   },
   { path: 'voting', loadChildren: './voting/voting.module#VotingModule' },
   { path: '', loadChildren: './index/index.module#IndexModule' },
+  {
+    // matcher: cataloguePathMatcher,
+    path: ':brand',
+    canActivate: [CanActivateCatalogue],
+    children: [
+      {
+        path: '',
+        component: CatalogueIndexComponent
+      }
+    ]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 

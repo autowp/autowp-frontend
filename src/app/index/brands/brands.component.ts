@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 
 export interface APIIndexBrandsBrand {
   name: string;
-  url: string;
+  catname: string;
   cars_count: number;
   new_cars_count: number;
   new_cars_url: string;

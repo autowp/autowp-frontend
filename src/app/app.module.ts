@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
@@ -51,6 +51,8 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { ModerMenuModule } from './moder/menu/menu.module';
 import { IndexModule } from './index/index.module';
+import {ConfigurationService} from './services/configuration.service';
+import {CanActivateCatalogue} from './catalogue/can-activate';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -103,6 +105,7 @@ import { IndexModule } from './index/index.module';
     IndexModule
   ],
   providers: [
+    ConfigurationService,
     APIService,
     APIACL,
     AuthService,
@@ -128,7 +131,8 @@ import { IndexModule } from './index/index.module';
     ContentLanguageService,
     LanguageService,
     TimezoneService,
-    IpService
+    IpService,
+    CanActivateCatalogue
   ],
   bootstrap: [AppComponent]
 })

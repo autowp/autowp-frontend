@@ -13,7 +13,7 @@
     </div>
     <div class="row">
       <div class="col-12 cols-sm-6 col-md-6 col-lg-4" *ngFor="let picture of pictures">
-        <app-thumbnail [picture]="picture"></app-thumbnail>
+        <app-thumbnail [picture]="picture" [url]="picture.url"></app-thumbnail>
       </div>
     </div>
     <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

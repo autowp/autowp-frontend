@@ -18,13 +18,15 @@ interface ThumbnailAPIPicture extends APIPicture {
 export class ThumbnailComponent implements OnInit, OnDestroy {
 
   @Input() picture: ThumbnailAPIPicture;
+  @Input() url: string;
+  @Input() route: string[];
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
   public perspectiveOptions: APIPerspective[] = [];
   public isModer = false;
   private sub: Subscription;
-  private pserspectiveSub: Subscription;
+  private perspectiveSub: Subscription;
 
   constructor(
     private perspectiveService: APIPerspectiveService,
@@ -38,7 +40,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
       .subscribe(isModer => (this.isModer = isModer));
 
     if (this.picture.perspective_item) {
-      this.pserspectiveSub = this.perspectiveService
+      this.perspectiveSub = this.perspectiveService
         .getPerspectives()
         .subscribe(perspectives => (this.perspectiveOptions = perspectives));
     }
@@ -46,8 +48,8 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    if (this.pserspectiveSub) {
-      this.pserspectiveSub.unsubscribe();
+    if (this.perspectiveSub) {
+      this.perspectiveSub.unsubscribe();
     }
   }
 
