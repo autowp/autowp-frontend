@@ -64,7 +64,7 @@
   <ng-container *ngIf="item.categories">
     <span *ngFor="let category of item.categories">
       <span class="fa fa-th" aria-hidden="true"></span>
-      <a [routerLink]="['/category', category.catname]">{{category.name_html}}</a>
+      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </span>
   </ng-container>
 
