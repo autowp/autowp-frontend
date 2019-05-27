@@ -22,7 +22,6 @@ export class CanActivateCatalogue implements CanActivate {
 
     return this.config.loadConfigurationData().pipe(
       map(config => {
-        console.log(config);
         return config.brands.includes(brand);
       })
     );

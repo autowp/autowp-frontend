@@ -6,8 +6,9 @@ import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/oper
 import {EMPTY, Subscription, combineLatest} from 'rxjs';
 import {ACLService} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
-import {chunkBy} from '../../chunk';
+import {chunk, chunkBy} from '../../chunk';
 import {ItemLinkService, APIItemLink} from '../../services/item-link';
+import {HttpClient} from '@angular/common/http';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   public clubLinks: APIItemLink[] = [];
   public otherLinks: APIItemLink[] = [];
   public factories: APIItem[] = [];
+  public sections: any;
 
   constructor(
     private pageEnv: PageEnvService,
@@ -32,7 +34,8 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private pictureService: PictureService,
     private acl: ACLService,
-    private itemLinkService: ItemLinkService
+    private itemLinkService: ItemLinkService,
+    private http: HttpClient
   ) {
   }
 
@@ -54,7 +57,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         }
         return this.itemService.getItems({
           catname: catname,
-          fields: 'catname,description,inbox_pictures_count,full_name,logo,descendant_twins_groups_count,name_text,name_only',
+          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only',
           limit: 1
         });
       }),
@@ -76,7 +79,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         }
       }),
       switchMap(brand =>
-        combineLatest(
+        combineLatest([
           this.pictureService.getPictures({
             limit: 12,
             status: 'accepted',
@@ -116,8 +119,13 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
             tap(response => {
               this.factories = response.items;
             })
+          ),
+          this.http.get('/api/brands/' + brand.id + '/sections').pipe(
+            tap(response => {
+              this.sections = response;
+            })
           )
-        )
+        ])
 
       )
     ).subscribe();
@@ -178,5 +186,9 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
     this.aclSub.unsubscribe();
+  }
+
+  public chunk<T>(a: T[], count: number) {
+    return chunk(a, count);
   }
 }

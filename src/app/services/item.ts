@@ -61,6 +61,7 @@ export interface APIItem {
   produced_exactly: boolean;
   spec_id: number | string | null;
   logo: APIImage;
+  logo120?: APIImage;
   engine_id: number | null;
   engine_inherit: boolean | null;
   attr_zone_id: number;

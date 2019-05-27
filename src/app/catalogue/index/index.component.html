@@ -1,7 +1,7 @@
 <header class="mb-4" *ngIf="brand">
   <div class="jumbotron brand-hero-unit clearfix">
     <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
-    <img [src]="brand.logo.src" alt="" class="logo" *ngIf="brand.logo" />
+    <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" />
     <div class="content">
       <h1 class="display-4">{{brand.name_text}}</h1>
       <p *ngIf="brand.full_name && brand.full_name != brand.name_only" class="lead">({{brand.full_name}})</p>
@@ -55,42 +55,27 @@
   </ul>
 </header>
 
-<!--
-<?php foreach ($this->sections as $section) { ?>
-<?php if (count($section['groups'])) { ?>
-<div class="card mb-4">
-  <div class="card-body">
-    <h5 class="card-title" *ngIf="section.name">{{section.name|translate}}</h5>
-    <div class="row">
-      <?php
-        $outerColumns = 2;
-        $innerColumns = 2;
-        $columns = $outerColumns * $innerColumns;
-        $perColumn = ceil(count($section['groups']) / $columns);
-      ?>
-      <?php for($oCol=0; $oCol<$outerColumns; $oCol++) { ?>
-      <div class="col-12 col-md-6">
-        <div class="row">
-          <?php for($iCol=0; $iCol<$innerColumns; $iCol++) { ?>
-          <div class="col-12 col-lg-6">
-            <?php foreach (array_slice($section['groups'], ($oCol*$innerColumns+$iCol)*$perColumn, $perColumn) as $group) { ?>
-              <a class="nav-link" [href]="group.url">
+<ng-container *ngFor="let section of sections">
+  <div class="card mb-4" *ngIf="section.groups.length">
+    <div class="card-body">
+      <h5 class="card-title" *ngIf="section.name">{{section.name|translate}}</h5>
+      <div class="row">
+        <div class="col-12 col-md-6" *ngFor="let halfChunk of chunk(section.groups, 2)">
+          <div class="row">
+            <div class="col-12 col-lg-6" *ngFor="let chunk of chunk(halfChunk, 2)">
+              <a class="nav-link" [href]="group.url" *ngFor="let group of chunk">
                 {{group.name}}
                 <span *ngIf="group.count" class="badge badge-pill badge-secondary">{{group.count}}</span>
               </a>
-            <?php } ?>
+            </div>
           </div>
-          <?php } ?>
         </div>
       </div>
-      <?php } ?>
+      <a [href]="section.url" translate *ngIf="section.url && section.name">carlist/details</a>
     </div>
-    <a [href]="section.url" translate *ngIf="section.url && section.name">carlist/details</a>
   </div>
-</div>
-<?php } ?>
-<?php } ?>
--->
+</ng-container>
+
 <section *ngIf="factories && factories.length">
   <h2 translate>catalogue/brand/factories</h2>
   <div class="row">
