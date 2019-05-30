@@ -1,4 +1,5 @@
 {
+  "perspective/chassis": "机箱",
   "brands/more-{count}-companies": "全部{count}个品牌",
   "perspective/mockup": "mockup",
   "catalogue/specifications-of-{name}": "{name}的性能参数",

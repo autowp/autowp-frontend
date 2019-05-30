@@ -1,4 +1,5 @@
 {
+  "perspective/chassis": "Chassi",
   "brands/more-{count}-companies": "mais {count, plural, one {{count} empresa} other {de {count} empresas}}",
   "perspective/mockup": "mockup",
   "catalogue/specifications-of-{name}": "Especificações de {name}",

@@ -1,4 +1,5 @@
 {
+  "perspective/chassis": "Шасі",
   "brands/more-{count}-companies": "ще {count, plural, one {{count} компанія} few {{count} компанії} many {{count} компаній} other {{count} компаній}}",
   "perspective/mockup": "макет",
   "catalogue/specifications-of-{name}": "Технічні характеристики {name}",
