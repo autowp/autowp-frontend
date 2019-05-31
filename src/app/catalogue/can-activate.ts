@@ -16,6 +16,8 @@ export class CanActivateCatalogue implements CanActivate {
 
     const brand = route.paramMap.get('brand');
 
+    console.log('brand', brand);
+
     if (!brand) {
       return false;
     }

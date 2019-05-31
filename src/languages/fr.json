@@ -1,4 +1,6 @@
 {
+  "page/15/ng-name": "Les dernières photos de {brand}",
+  "perspective/chassis": "Le châssis",
   "brands/more-{count}-companies": "plus {count, plural, one {d'{count} marque} other {de {count} marques}}",
   "perspective/mockup": "mockup",
   "catalogue/specifications-of-{name}": "Caractéristiques de {name}",

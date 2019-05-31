@@ -7,6 +7,9 @@ import {EMPTY, Subscription, combineLatest} from 'rxjs';
 import {ACLService} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
+import {ItemLinkService, APIItemLink} from '../../services/item-link';
+import {HttpClient} from '@angular/common/http';
+
 
 @Component({
   selector: 'app-catalogue-index',
@@ -19,13 +22,20 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private aclSub: Subscription;
   public pictures: APIPicture[][];
+  public officialLinks: APIItemLink[] = [];
+  public clubLinks: APIItemLink[] = [];
+  public otherLinks: APIItemLink[] = [];
+  public factories: APIItem[] = [];
+  public sections: any;
 
   constructor(
     private pageEnv: PageEnvService,
     private itemService: ItemService,
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     private pictureService: PictureService,
-    private acl: ACLService
+    private acl: ACLService,
+    private itemLinkService: ItemLinkService,
+    private http: HttpClient
   ) {
   }
 
@@ -35,7 +45,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.sub = this.activatedRoute.paramMap.pipe(
+    this.sub = this.route.paramMap.pipe(
       map(params => {
         return params.get('brand');
       }),
@@ -47,7 +57,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         }
         return this.itemService.getItems({
           catname: catname,
-          fields: 'catname,name_text',
+          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only',
           limit: 1
         });
       }),
@@ -60,7 +70,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
               needRight: false
             },
             nameTranslated: brand.name_text,
-            pageId: 15,
+            pageId: 10,
             args: {
               BRAND_CATNAME: brand.catname,
               BRAND_NAME: brand.name,
@@ -79,6 +89,40 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
           }).pipe(
             tap(response => {
               this.pictures = chunkBy(response.pictures, 4);
+            })
+          ),
+          this.itemLinkService.getItems({item_id: brand.id}).pipe(
+            tap(response => {
+              this.officialLinks = [];
+              this.clubLinks = [];
+              this.otherLinks = [];
+              response.items.forEach(item => {
+                switch (item.type_id) {
+                  case 'official':
+                    this.officialLinks.push(item);
+                    break;
+                  case 'club':
+                    this.clubLinks.push(item);
+                    break;
+                  default:
+                    this.otherLinks.push(item);
+                    break;
+                }
+              });
+            })
+          ),
+          this.itemService.getItems({
+            limit: 4,
+            factories_of_brand: brand.id,
+            fields: 'name_html,exact_picture.thumb_medium'
+          }).pipe(
+            tap(response => {
+              this.factories = response.items;
+            })
+          ),
+          this.http.get('/api/brands/' + brand.id + '/sections').pipe(
+            tap(response => {
+              this.sections = response;
             })
           )
         ])

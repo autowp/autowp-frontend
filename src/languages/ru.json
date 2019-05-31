@@ -1,4 +1,6 @@
 {
+  "page/15/ng-name": "Последние картинки {brand}",
+  "perspective/chassis": "Шасси",
   "brands/more-{count}-companies": "ещё {count, plural, one {{count} компания} few {{count} компании} many {{count} компаний} other {{count} компаний}}",
   "perspective/mockup": "макет",
   "catalogue/specifications-of-{name}": "Технические характеристики {name}",
