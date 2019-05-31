@@ -3,7 +3,7 @@ import { APIItem } from '../../../../services/item';
 import { ACLService } from '../../../../services/acl.service';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { APIImage } from '../../../../services/api.service';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import Notify from '../../../../notify';
 
@@ -66,21 +66,21 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
 
           this.progress.invalidParams = response.error.invalid_params;
 
-          return empty();
+          return EMPTY;
         }),
         switchMap(httpEvent => {
           if (httpEvent.type === HttpEventType.DownloadProgress) {
             this.progress.percentage = Math.round(
               50 + 25 * (httpEvent.loaded / httpEvent.total)
             );
-            return empty();
+            return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               50 * (httpEvent.loaded / httpEvent.total)
             );
-            return empty();
+            return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.Response) {
@@ -97,12 +97,12 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
                 catchError((response, caught) => {
                   Notify.response(response);
 
-                  return empty();
+                  return EMPTY;
                 })
               );
           }
 
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe();

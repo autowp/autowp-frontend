@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, empty, of, combineLatest } from 'rxjs';
+import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
@@ -63,7 +63,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
               .pipe(
                 catchError(response => {
                   Notify.response(response);
-                  return empty();
+                  return EMPTY;
                 }),
                 map(response => response.items)
               );
@@ -71,7 +71,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
             themes = this.forumService.getThemes({}).pipe(
               catchError(response => {
                 Notify.response(response);
-                return empty();
+                return EMPTY;
               }),
               map(response => response.items)
             );

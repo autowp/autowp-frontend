@@ -3,7 +3,7 @@ import { APIPaginator } from '../../../services/api.service';
 import Notify from '../../../notify';
 import { UserService, APIUser } from '../../../services/user';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription, empty, combineLatest } from 'rxjs';
+import {Subscription, combineLatest, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   switchMap,
@@ -55,7 +55,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
           return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
             catchError((err, caught) => {
               Notify.response(err);
-              return empty();
+              return EMPTY;
             })
           );
         }),
@@ -110,7 +110,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
             .pipe(
               catchError((err, caught) => {
                 Notify.response(err);
-                return empty();
+                return EMPTY;
               }),
               tap(response => {
                 this.comments = response.items;

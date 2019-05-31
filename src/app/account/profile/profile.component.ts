@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 import { APIUser } from '../../services/user';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { PageEnvService } from '../../services/page-env.service';
-import { combineLatest, empty, of, Subscription } from 'rxjs';
+import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import { switchMapTo, switchMap } from 'rxjs/operators';
 import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
@@ -111,7 +111,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         switchMap(user => {
           if (!user) {
             this.router.navigate(['/signin']);
-            return empty();
+            return EMPTY;
           }
 
           this.user = user;

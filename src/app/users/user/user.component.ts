@@ -7,11 +7,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService, APIUser } from '../../services/user';
 import {
   Subscription,
-  empty,
   of,
   forkJoin,
   Observable,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { PictureService, APIPicture } from '../../services/picture';
@@ -99,7 +98,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
                 .pipe(
                   catchError((err, caught) => {
                     Notify.response(err);
-                    return empty();
+                    return EMPTY;
                   })
                 ),
               this.acl.isAllowed('user', 'ip'),
@@ -296,12 +295,12 @@ export class UsersUserComponent implements OnInit, OnDestroy {
       .pipe(
         catchError((err, caught) => {
           Notify.response(err);
-          return empty();
+          return EMPTY;
         }),
         switchMap(() => this.loadBan(this.user.last_ip)),
         catchError((err, caught) => {
           Notify.response(err);
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe(data => {

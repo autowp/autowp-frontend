@@ -1,1 +1,1 @@
-./node_modules/.bin/ng build --output-path=../autowp/frontend/ng/ --base-href=/ng/ --extra-webpack-config webpack.extra.js --aot --vendor-chunk --build-optimizer=false --source-map=false
+./node_modules/.bin/ng build --output-path=/home/dvp/eclipse-workspace/autowp/frontend/ng/ --base-href=/ng/ --extra-webpack-config webpack.extra.js --aot --vendor-chunk --build-optimizer=false --source-map=false

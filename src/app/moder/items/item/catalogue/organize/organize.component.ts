@@ -4,10 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
   Observable,
-  empty,
   forkJoin,
   combineLatest,
-  of
+  of, EMPTY
 } from 'rxjs';
 import {
   APIItemParent,
@@ -195,7 +194,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
           this.invalidParams = response.error.invalid_params;
           this.loading--;
 
-          return empty();
+          return EMPTY;
         }),
         switchMap(response =>
           this.itemService.getItemByLocation(

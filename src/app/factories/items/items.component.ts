@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
 import Notify from '../../notify';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACLService } from '../../services/acl.service';
 import { PageEnvService } from '../../services/page-env.service';
@@ -58,7 +58,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
         catchError((err, caught) => {
           Notify.response(err);
           this.router.navigate(['/error-404']);
-          return empty();
+          return EMPTY;
         }),
         tap(factory => {
           if (factory.item_type_id !== 6) {
@@ -108,7 +108,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
         ),
         catchError((err, caught) => {
           Notify.response(err);
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe(data => {

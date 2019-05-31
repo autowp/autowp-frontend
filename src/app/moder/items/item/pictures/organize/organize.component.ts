@@ -5,9 +5,8 @@ import {
   Subscription,
   Observable,
   of,
-  empty,
   forkJoin,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import {
   APIPictureItem,
@@ -196,7 +195,7 @@ export class ModerItemsItemPicturesOrganizeComponent
         catchError(response => {
           this.invalidParams = response.error.invalid_params;
           this.loading--;
-          return empty();
+          return EMPTY;
         }),
         switchMap(responses =>
           this.itemService.getItemByLocation(

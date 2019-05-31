@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, empty, combineLatest, of } from 'rxjs';
+import {Subscription, combineLatest, of, EMPTY} from 'rxjs';
 import Notify from '../../notify';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ItemLinkService, APIItemLink } from '../../services/item-link';
@@ -59,7 +59,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
         catchError((err, caught) => {
           Notify.response(err);
           this.router.navigate(['/error-404']);
-          return empty();
+          return EMPTY;
         }),
         tap(item => {
           if (item.item_type_id !== 8) {

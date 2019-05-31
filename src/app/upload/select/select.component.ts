@@ -5,11 +5,10 @@ import { chunk } from '../../chunk';
 import Notify from '../../notify';
 import {
   Observable,
-  empty,
   forkJoin,
   of,
   BehaviorSubject,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { ItemParentService, APIItemParent } from '../../services/item-parent';
@@ -132,7 +131,7 @@ export class UploadSelectComponent implements OnInit {
           if (err.status !== -1) {
             Notify.response(err);
           }
-          return empty();
+          return EMPTY;
         })
       );
   }
@@ -148,7 +147,7 @@ export class UploadSelectComponent implements OnInit {
     return this.itemService.getItem(brandId).pipe(
       catchError((err, caught) => {
         this.router.navigate(['/error-404']);
-        return empty();
+        return EMPTY;
       }),
       switchMap((item, sindex) => {
         return this.brandItemsObservable(item);
@@ -171,7 +170,7 @@ export class UploadSelectComponent implements OnInit {
           map(response => response.items),
           catchError((err, caught) => {
             Notify.response(err);
-            return empty();
+            return EMPTY;
           })
         ),
       this.itemParentService
@@ -187,7 +186,7 @@ export class UploadSelectComponent implements OnInit {
           map(response => response.items),
           catchError((err, caught) => {
             Notify.response(err);
-            return empty();
+            return EMPTY;
           })
         ),
       this.itemParentService
@@ -202,7 +201,7 @@ export class UploadSelectComponent implements OnInit {
           map(response => response.items),
           catchError((err, caught) => {
             Notify.response(err);
-            return empty();
+            return EMPTY;
           })
         )
     ).pipe(

@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIItem, ItemService } from '../services/item';
 import { ACLService } from '../services/acl.service';
 import Notify from '../notify';
-import { Subscription, empty, combineLatest, of } from 'rxjs';
+import {Subscription, combineLatest, of, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
 import { ItemLinkService, APIItemLink } from '../services/item-link';
@@ -67,7 +67,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
         catchError((err, caught) => {
           Notify.response(err);
           this.router.navigate(['/error-404']);
-          return empty();
+          return EMPTY;
         }),
         tap(item => {
           if (item.item_type_id !== 7) {

@@ -4,7 +4,7 @@ import { SpecService, APISpec } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
 import Notify from '../../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, empty, of, forkJoin } from 'rxjs';
+import {Subscription, of, forkJoin, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   distinctUntilChanged,
@@ -97,7 +97,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
             [1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1
           ) {
             this.router.navigate(['/error-404']);
-            return empty();
+            return EMPTY;
           }
 
           this.loading++;
@@ -222,7 +222,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
           } else {
             Notify.response(response);
           }
-          return empty();
+          return EMPTY;
         }),
         switchMap(response =>
           this.itemService.getItemByLocation(

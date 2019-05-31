@@ -5,7 +5,7 @@ import {
   APIItemRelatedGroupItem
 } from '../services/item';
 import Notify from '../notify';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
@@ -76,7 +76,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
         catchError((err, caught) => {
           Notify.response(err);
           this.router.navigate(['/error-404']);
-          return empty();
+          return EMPTY;
         }),
         tap(factory => {
           if (factory.item_type_id !== 6) {
@@ -97,7 +97,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
         ),
         catchError((err, caught) => {
           Notify.response(err);
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe(data => {

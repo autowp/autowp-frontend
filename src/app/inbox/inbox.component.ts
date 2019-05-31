@@ -3,7 +3,7 @@ import { APIPaginator } from '../services/api.service';
 import Notify from '../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Subscription, of, combineLatest, empty } from 'rxjs';
+import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { PictureService, APIPicture } from '../services/picture';
 import { InboxService } from './inbox.service';
 import { APIItem } from '../services/item';
@@ -69,7 +69,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         switchMap(user => {
           if (!user) {
             this.router.navigate(['/signin']);
-            return empty();
+            return EMPTY;
           }
 
           return this.route.params;
@@ -80,7 +80,7 @@ export class InboxComponent implements OnInit, OnDestroy {
           params => {
             if (!params.brand) {
               this.router.navigate(['/inbox', ALL_BRANDS]);
-              return empty();
+              return EMPTY;
             }
 
             let brandID = 0;

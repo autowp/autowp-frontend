@@ -3,7 +3,7 @@ import { APIPaginator } from '../../services/api.service';
 import Notify from '../../notify';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Subscription, combineLatest, empty } from 'rxjs';
+import {Subscription, combineLatest, EMPTY} from 'rxjs';
 import {
   PictureService,
   APIPicture
@@ -60,7 +60,7 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
         })),
         catchError((err, caught) => {
           Notify.response(err);
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe(response => {

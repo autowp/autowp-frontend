@@ -7,7 +7,7 @@ import {
 } from '../../services/item';
 import Notify from '../../notify';
 import { UserService, APIUser } from '../../services/user';
-import { Subscription, Observable, empty, of } from 'rxjs';
+import {Subscription, Observable, of, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { switchMap, debounceTime, catchError, map } from 'rxjs/operators';
@@ -65,7 +65,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           return this.itemService.getItems(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );
@@ -94,7 +94,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           return this.userService.get(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );

@@ -11,11 +11,10 @@ import { APIItem, ItemService } from '../services/item';
 import Notify from '../notify';
 import {
   Subscription,
-  empty,
   of,
   Observable,
   concat,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
@@ -190,19 +189,19 @@ export class UploadComponent implements OnInit, OnDestroy {
 
           progress.invalidParams = response.error.invalid_params;
 
-          return empty();
+          return EMPTY;
         }),
         switchMap(event => {
           if (event.type === HttpEventType.DownloadProgress) {
             progress.percentage = Math.round(
               50 + 25 * (event.loaded / event.total)
             );
-            return empty();
+            return EMPTY;
           }
 
           if (event.type === HttpEventType.UploadProgress) {
             progress.percentage = Math.round(50 * (event.loaded / event.total));
-            return empty();
+            return EMPTY;
           }
 
           if (event.type === HttpEventType.Response) {
@@ -224,12 +223,12 @@ export class UploadComponent implements OnInit, OnDestroy {
                 catchError((response, caught) => {
                   Notify.response(response);
 
-                  return empty();
+                  return EMPTY;
                 })
               );
           }
 
-          return empty();
+          return EMPTY;
         })
       );
   }

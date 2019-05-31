@@ -15,7 +15,7 @@ import {
   Subscription,
   Observable,
   of,
-  empty
+  EMPTY
 } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -142,7 +142,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           return this.itemService.getItems(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );

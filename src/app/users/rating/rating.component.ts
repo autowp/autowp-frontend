@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Notify from '../../notify';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
@@ -93,7 +93,7 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
               }),
               catchError((err, caught) => {
                 Notify.response(err);
-                return empty();
+                return EMPTY;
               })
             );
         })

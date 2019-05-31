@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
 import Notify from '../../notify';
-import { Subscription, combineLatest, empty } from 'rxjs';
+import {Subscription, combineLatest, EMPTY} from 'rxjs';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -51,7 +51,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                     if (err.status !== -1) {
                       Notify.response(err);
                     }
-                    return empty();
+                    return EMPTY;
                   })
                 ),
               this.route.queryParams.pipe(
@@ -72,7 +72,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                   if (err.status !== -1) {
                     Notify.response(err);
                   }
-                  return empty();
+                  return EMPTY;
                 })
               ),
               (item, pictures) => ({ item, pictures })
