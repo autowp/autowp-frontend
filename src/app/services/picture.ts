@@ -115,6 +115,9 @@ export interface APIPicture {
   subscribed?: boolean;
   of_links?: APIItemLink[];
   paginator?: APIPicturePaginator;
+  taken_year?: number;
+  taken_month?: number;
+  taken_day?: number;
 }
 
 export interface APIPicturePaginator {
