@@ -25,7 +25,7 @@ import { TimezoneService } from '../../services/timezone';
 })
 @Injectable()
 export class AccountProfileComponent implements OnInit, OnDestroy {
-  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
 
   private user: APIUser;
   public profile = {

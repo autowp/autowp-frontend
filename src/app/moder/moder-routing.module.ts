@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'items',
-    loadChildren: './items/items.module#ItemsModule'
+    loadChildren: () => import('./items/items.module').then(m => m.ItemsModule)
   },
   {
     path: 'pages',
@@ -63,7 +63,7 @@ const routes: Routes = [
   },
   {
     path: 'pictures',
-    loadChildren: './pictures/pictures.module#PicturesModule'
+    loadChildren: () => import('./pictures/pictures.module').then(m => m.PicturesModule)
   },
   {
     path: 'rights',
@@ -77,7 +77,7 @@ const routes: Routes = [
   },
   {
     path: 'traffic',
-    loadChildren: './traffic/traffic.module#TrafficModule'
+    loadChildren: () => import('./traffic/traffic.module').then(m => m.TrafficModule)
   },
   {
     path: 'users',
@@ -86,7 +86,7 @@ const routes: Routes = [
   },
   {
     path: 'hotlinks',
-    loadChildren: './hotlinks/hotlinks.module#HotlinksModule'
+    loadChildren: () => import('./hotlinks/hotlinks.module').then(m => m.HotlinksModule)
   },
   {
     path: 'attrs',

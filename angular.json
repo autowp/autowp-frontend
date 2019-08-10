@@ -9,7 +9,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
@@ -119,13 +119,11 @@
               "**/node_modules/**"
             ]
           }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma"
         }
       }
-    },
-    "support-e2e": {
-      "root": "",
-      "sourceRoot": "",
-      "projectType": "application"
     }
   },
   "defaultProject": "support"
