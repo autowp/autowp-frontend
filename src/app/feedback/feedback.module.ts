@@ -7,8 +7,8 @@ import { FeedbackSentComponent } from './sent/sent.component';
 import { UtilsModule } from '../utils/utils.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { RecaptchaModule } from 'ng-recaptcha';
-import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
+import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
+import {ToastsModule} from '../toasts/toasts.module';
 
 @NgModule({
   declarations: [FeedbackComponent, FeedbackSentComponent],
@@ -19,7 +19,8 @@ import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
     TranslateModule,
     FormsModule,
     RecaptchaModule.forRoot(),
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    ToastsModule
   ]
 })
 export class FeedbackModule { }

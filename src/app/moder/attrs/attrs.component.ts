@@ -1,10 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrZone, APIAttrsService } from '../../api/attrs/attrs.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 // Acl.isAllowed('attrs', 'edit', 'unauthorized');
 
@@ -23,7 +23,8 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private attrsService: APIAttrsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +45,7 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
       .getZones()
       .subscribe(
         zones => (this.zones = zones),
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
 
     this.attributesSub = this.attributesChange$
@@ -53,7 +54,7 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         response => (this.attributes = response.items),
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
 
     this.loadAttributes();
@@ -71,7 +72,7 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         () => this.attributesChange$.next(null),
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
   }
 

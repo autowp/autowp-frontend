@@ -3,7 +3,6 @@ import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, combineLatest, of, EMPTY} from 'rxjs';
-import Notify from '../../notify';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ItemLinkService, APIItemLink } from '../../services/item-link';
 import { APIACL } from '../../services/acl.service';
@@ -15,6 +14,7 @@ import {
   catchError,
   tap
 } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-persons-person',
@@ -39,7 +39,8 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private itemLinkService: ItemLinkService,
     private acl: APIACL,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return EMPTY;
         }),
@@ -88,7 +89,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
                 })
                 .pipe(
                   catchError((err, caught) => {
-                    Notify.response(err);
+                    this.toastService.response(err);
                     return of(null);
                   })
                 ),
@@ -105,7 +106,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
                 })
                 .pipe(
                   catchError((err, caught) => {
-                    Notify.response(err);
+                    this.toastService.response(err);
                     return of(null);
                   })
                 ),
@@ -122,7 +123,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
                 })
                 .pipe(
                   catchError((err, caught) => {
-                    Notify.response(err);
+                    this.toastService.response(err);
                     return of(null);
                   })
                 )

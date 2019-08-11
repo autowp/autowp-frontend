@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
-import Notify from '../../notify';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -9,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { switchMap } from 'rxjs/operators';
 import { APIUser } from '../../services/user';
 import { APIForumTopic, ForumsService } from '../forums.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-topic',
@@ -28,7 +28,8 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
     private forumService: ForumsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    public auth: AuthService
+    public auth: AuthService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -77,9 +78,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         response => {
           this.topic.subscription = true;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -92,9 +91,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         response => {
           this.topic.subscription = false;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 }

@@ -388,7 +388,7 @@ export class ItemService {
           const currentIds: number[] = [];
           for (const itemVehicleType of response.items) {
             currentIds.push(itemVehicleType.vehicle_type_id);
-            if (!ids.includes(itemVehicleType.vehicle_type_id)) {
+            if (ids.indexOf(itemVehicleType.vehicle_type_id) == -1) {
               promises.push(
                 this.http.delete<void>(
                   '/api/item-vehicle-type/' +
@@ -401,7 +401,7 @@ export class ItemService {
           }
 
           for (const vehicleTypeId of ids) {
-            if (!currentIds.includes(vehicleTypeId)) {
+            if (currentIds.indexOf(vehicleTypeId) == -1) {
               promises.push(
                 this.http.post<void>(
                   '/api/item-vehicle-type/' + itemId + '/' + vehicleTypeId,

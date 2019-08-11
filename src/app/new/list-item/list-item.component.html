@@ -44,7 +44,7 @@
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
       <i class="fa fa-tag mr-1" aria-hidden="true"></i>
-      <a [href]="category.url" [innerHTML]="category.name_html"></a>
+      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">

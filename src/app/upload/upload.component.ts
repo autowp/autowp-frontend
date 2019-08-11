@@ -8,7 +8,6 @@ import {
 // import { CropDialog } from 'crop-dialog';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { APIItem, ItemService } from '../services/item';
-import Notify from '../notify';
 import {
   Subscription,
   of,
@@ -30,6 +29,7 @@ import {
 import { APIUser } from '../services/user';
 import { UploadCropComponent } from './crop/crop.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {ToastsService} from '../toasts/toasts.service';
 
 interface UploadProgress {
   filename: string;
@@ -58,7 +58,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   private perspectiveID: number;
   public user: APIUser;
 
-  @ViewChild('input') input;
+  @ViewChild('input', { static: false }) input;
 
   constructor(
     private http: HttpClient,
@@ -67,7 +67,8 @@ export class UploadComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     public auth: AuthService,
     private pageEnv: PageEnvService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -221,7 +222,7 @@ export class UploadComponent implements OnInit, OnDestroy {
                   this.pictures.push(picture);
                 }),
                 catchError((response, caught) => {
-                  Notify.response(response);
+                  this.toastService.response(response);
 
                   return EMPTY;
                 })
@@ -256,14 +257,10 @@ export class UploadComponent implements OnInit, OnDestroy {
                   picture.crop = response.crop;
                   picture.thumb_medium = response.thumb_medium;
                 },
-                response => {
-                  Notify.response(response);
-                }
+                response => this.toastService.response(response)
               );
           },
-          response => {
-            Notify.response(response);
-          }
+          response => this.toastService.response(response)
         );
     });
 

@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../notify';
 import {
   APIBrandsGetResponse,
   APIBrandsLines,
@@ -8,6 +7,7 @@ import {
 } from '../services/brands.service';
 import { PageEnvService } from '../services/page-env.service';
 import { combineLatest, Subscription } from 'rxjs';
+import {ToastsService} from '../toasts/toasts.service';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -33,7 +33,7 @@ export class BrandsComponent implements OnInit, OnDestroy {
   public icons: APIBrandsIconsResponse;
   private sub: Subscription;
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService) {}
+  constructor(private http: HttpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -65,9 +65,7 @@ export class BrandsComponent implements OnInit, OnDestroy {
         }
         // BrandPopover.apply('.popover-handler');
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
   }
   ngOnDestroy(): void {

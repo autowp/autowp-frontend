@@ -8,12 +8,12 @@ import {
   OnDestroy
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import Notify from '../../notify';
 import {
   VehicleTypeService,
   APIVehicleType
 } from '../../services/vehicle-type';
 import { Subscription } from 'rxjs';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-vehicle-types-modal',
@@ -28,13 +28,14 @@ export class VehicleTypesModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private vehicleTypeService: VehicleTypeService
+    private vehicleTypeService: VehicleTypeService,
+    private toastService: ToastsService
   ) { }
 
   ngOnInit(): void {
     this.sub = this.vehicleTypeService.getTypes().subscribe(
       types => this.types = types,
-      error => Notify.response(error)
+      error => this.toastService.response(error)
     );
   }
 
@@ -43,11 +44,11 @@ export class VehicleTypesModalComponent implements OnInit, OnDestroy {
   }
 
   public isActive(id: number): boolean {
-    return this.ids.includes(id);
+    return this.ids.indexOf(id) > -1;
   }
 
   public toggle(id: number) {
-    if (this.ids.includes(id)) {
+    if (this.ids.indexOf(id) > -1) {
       const index = this.ids.indexOf(id, 0);
       if (index > -1) {
         this.ids.splice(index, 1);

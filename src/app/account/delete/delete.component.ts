@@ -1,9 +1,9 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-delete',
@@ -20,7 +20,8 @@ export class AccountDeleteComponent {
     private http: HttpClient,
     private router: Router,
     private auth: AuthService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -50,7 +51,7 @@ export class AccountDeleteComponent {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

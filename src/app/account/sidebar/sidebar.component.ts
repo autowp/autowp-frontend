@@ -1,12 +1,12 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message';
-import Notify from '../../notify';
 import { AuthService } from '../../services/auth.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { PictureService } from '../../services/picture';
 import { PageEnvService } from '../../services/page-env.service';
 import { ForumsService } from '../../forums/forums.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface SidebarItem {
   pageId?: number;
@@ -33,7 +33,8 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
     private forumService: ForumsService,
     private auth: AuthService,
     private pictureService: PictureService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -169,9 +170,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
                 active => {
                   item.active = active;
                 },
-                response => {
-                  Notify.response(response);
-                }
+                response => this.toastService.response(response)
               );
             }
           }

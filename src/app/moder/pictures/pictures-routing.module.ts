@@ -6,6 +6,7 @@ import { ModerPicturesItemComponent } from './item/item.component';
 import { ModerPicturesItemMoveComponent } from './item/move/move.component';
 import { ModerPicturesItemCropComponent } from './item/crop/crop.component';
 import { ModerPicturesItemAreaComponent } from './item/area/area.component';
+import {ModerPicturesItemPlaceComponent} from './item/place/place.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,11 @@ const routes: Routes = [
       {
         path: 'move',
         component: ModerPicturesItemMoveComponent,
+        canActivate: [ModerGuard]
+      },
+      {
+        path: 'place',
+        component: ModerPicturesItemPlaceComponent,
         canActivate: [ModerGuard]
       },
       {

@@ -1,6 +1,5 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { TranslateService } from '@ngx-translate/core';
 import {
   APIAccountStartPostResponse,
@@ -8,6 +7,7 @@ import {
   APIAccount
 } from '../account.service';
 import { PageEnvService } from '../../services/page-env.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-accounts',
@@ -49,7 +49,8 @@ export class AccountAccountsComponent {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -72,7 +73,7 @@ export class AccountAccountsComponent {
         this.accounts = response.items;
       },
       response => {
-        Notify.response(response);
+        this.toastService.response(response);
       }
     );
   }
@@ -91,7 +92,7 @@ export class AccountAccountsComponent {
           window.location.href = response.url;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
         }
       );
   }
@@ -101,23 +102,13 @@ export class AccountAccountsComponent {
       response => {
         this.translate
           .get('account/accounts/removed')
-          .subscribe((translation: string) => {
-            Notify.custom(
-              {
-                icon: 'fa fa-check',
-                message: translation
-              },
-              {
-                type: 'success'
-              }
-            );
-          });
+          .subscribe((translation: string) => this.toastService.success(translation));
 
         this.load();
       },
       response => {
         this.disconnectFailed = true;
-        Notify.response(response);
+        this.toastService.response(response);
       }
     );
   }

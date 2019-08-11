@@ -96,8 +96,8 @@ export class ModerItemsItemCatalogueComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
-      this.canHaveParentBrand = [1, 2].includes(this.item.item_type_id);
-      this.canHaveParents = ![4, 6].includes(this.item.item_type_id);
+      this.canHaveParentBrand = [1, 2].indexOf(this.item.item_type_id) > -1;
+      this.canHaveParents = [4, 6].indexOf(this.item.item_type_id) == -1;
 
       this.organizeTypeId = this.item.item_type_id;
       if (this.organizeTypeId === 5) {

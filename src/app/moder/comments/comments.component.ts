@@ -5,7 +5,6 @@ import {
   GetItemsServiceOptions,
   APIItem
 } from '../../services/item';
-import Notify from '../../notify';
 import { UserService, APIUser } from '../../services/user';
 import {Subscription, Observable, of, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +12,7 @@ import { PageEnvService } from '../../services/page-env.service';
 import { switchMap, debounceTime, catchError, map } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { APICommentsService } from '../../api/comments/comments.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-comments',
@@ -40,7 +40,8 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private commentService: APICommentsService,
     private pageEnv: PageEnvService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastsService
   ) {
     this.itemsDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -146,7 +147,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           this.loading--;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.loading--;
         }
       );

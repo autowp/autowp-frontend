@@ -1,8 +1,8 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import Notify from '../../notify';
 import { SpecService, APISpec } from '../../services/spec';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription } from 'rxjs';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-info-spec',
@@ -15,7 +15,8 @@ export class InfoSpecComponent implements OnInit, OnDestroy {
 
   constructor(
     private specService: SpecService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
 
   }
@@ -35,7 +36,7 @@ export class InfoSpecComponent implements OnInit, OnDestroy {
 
     this.sub = this.specService.getSpecs().subscribe(
       specs => (this.specs = specs),
-      response => Notify.response(response)
+      response => this.toastService.response(response)
     );
   }
   ngOnDestroy(): void {

@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../../notify';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { APIAttrZone, APIAttrAttribute, APIAttrsService } from '../../../api/attrs/attrs.service';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 export interface APIAttrZoneAttributesGetResponse {
   items: {
@@ -36,7 +36,8 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private attrsService: APIAttrsService,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -94,18 +95,14 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
         })
         .subscribe(
           response => {},
-          response => {
-            Notify.response(response);
-          }
+          response => this.toastService.response(response)
         );
     } else {
       this.http
         .delete('/api/attr/zone-attribute/' + this.zone.id + '/' + change.id)
         .subscribe(
           response => {},
-          response => {
-            Notify.response(response);
-          }
+          response => this.toastService.response(response)
         );
     }
   }

@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { PageEnvService } from '../../services/page-env.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface StatItem {
   name: string;
@@ -21,7 +21,7 @@ interface APIStatGlobalSummary {
 export class ModerStatComponent {
   public items: StatItem[] = [];
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService) {
+  constructor(private http: HttpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -39,9 +39,7 @@ export class ModerStatComponent {
       response => {
         this.items = response.items;
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
   }
 }

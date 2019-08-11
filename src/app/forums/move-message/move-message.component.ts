@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -13,6 +12,7 @@ import {
   switchMapTo
 } from 'rxjs/operators';
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-move-message',
@@ -31,7 +31,8 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
     private forumService: ForumsService,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -62,7 +63,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
               .getTopics({ theme_id: this.themeID })
               .pipe(
                 catchError(response => {
-                  Notify.response(response);
+                  this.toastService.response(response);
                   return EMPTY;
                 }),
                 map(response => response.items)
@@ -70,7 +71,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
           } else {
             themes = this.forumService.getThemes({}).pipe(
               catchError(response => {
-                Notify.response(response);
+                this.toastService.response(response);
                 return EMPTY;
               }),
               map(response => response.items)
@@ -105,7 +106,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
               page: params.page
             }
           }),
-        subresponse => Notify.response(subresponse)
+        subresponse => this.toastService.response(subresponse)
       );
   }
 }

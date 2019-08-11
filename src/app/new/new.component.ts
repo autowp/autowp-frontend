@@ -2,12 +2,12 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
 import { chunkBy } from '../chunk';
-import Notify from '../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface APINewGroup {
   type: string;
@@ -58,7 +58,8 @@ export class NewComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +96,7 @@ export class NewComponent implements OnInit, OnDestroy {
                 'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
                 'item.name_html,item.name_default,item.description,item.produced,' +
                 'item.design,item.url,item.can_edit_specs,item.specs_url,' +
-                'item.categories.url,item.categories.name_html,item.twins_groups'
+                'item.categories.url,item.categories.name_html,item.categories.catname,item.twins_groups'
             };
             if (params.route.date) {
               q.date = params.route.date;
@@ -144,9 +145,7 @@ export class NewComponent implements OnInit, OnDestroy {
           }
           this.groups = repackedGroups;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

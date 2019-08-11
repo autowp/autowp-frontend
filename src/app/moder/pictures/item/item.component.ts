@@ -18,8 +18,8 @@ import {
   switchMapTo
 } from 'rxjs/operators';
 import { APIPerspectiveService } from '../../../api/perspective/perspective.service';
-
-// Acl.inheritsRole( 'moder', 'unauthorized' );
+import {LanguageService} from '../../../services/language';
+import { sprintf } from 'sprintf-js';
 
 @Component({
   selector: 'app-moder-pictures-item',
@@ -53,6 +53,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   private perspectiveSub: Subscription;
   private change$ = new BehaviorSubject<null>(null);
   private lastItemSub: Subscription;
+  public monthOptions: any[];
+  public dayOptions: any[];
 
   constructor(
     private http: HttpClient,
@@ -62,8 +64,42 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private pictureService: PictureService,
-    private pageEnv: PageEnvService
-  ) {}
+    private pageEnv: PageEnvService,
+    private languageService: LanguageService
+  ) {
+    this.monthOptions = [
+      {
+        value: null,
+        name: '--'
+      }
+    ];
+
+    const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
+    for (let i = 0; i < 12; i++) {
+      date.setMonth(i);
+      const language = this.languageService.getLanguage();
+      if (language) {
+        const month = date.toLocaleString(language, { month: 'long' });
+        this.monthOptions.push({
+          value: i + 1,
+          name: sprintf('%02d - %s', i + 1, month)
+        });
+      }
+    }
+
+    this.dayOptions = [
+      {
+        value: null,
+        name: '--'
+      }
+    ];
+    for (let i = 1; i <= 31; i++) {
+      this.dayOptions.push({
+        value: i,
+        name: sprintf('%02d', i)
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.perspectiveSub = this.perspectiveService
@@ -116,7 +152,9 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
                   'replaceable',
                   'siblings.name_text',
                   'ip.rights',
-                  'ip.blacklist'
+                  'ip.blacklist',
+                  'point',
+                  'taken'
                 ].join(',')
               })
             )
@@ -201,7 +239,10 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.specialNameLoading = true;
     this.http
       .put<void>('/api/picture/' + this.id, {
-        special_name: this.picture.special_name
+        special_name: this.picture.special_name,
+        taken_year: this.picture.taken_year,
+        taken_month: this.picture.taken_month,
+        taken_day: this.picture.taken_day
       })
       .subscribe(
         response => {

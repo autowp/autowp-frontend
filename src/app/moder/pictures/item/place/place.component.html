@@ -1,0 +1,36 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder" translate>page/67/name</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/moder/pictures" translate>page/73/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="picture">
+      <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">moder/picture/picture-n</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="picture">
+  <h1 translate [translateParams]="{id: picture.id}">Location</h1>
+</div>
+
+<form method="post" class="form-horizontal" (ngSubmit)="doSubmit()" *ngIf="picture">
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Point</label>
+    <div class="col-md-10 coords">
+      <input type="text" name="lat" [(ngModel)]="lat" maxlength="20" size="20" [placeholder]="'latitude'|translate" class="form-control" (input)="coordsChanged()" />
+      <input type="text" name="lng" [(ngModel)]="lng" maxlength="20" size="20" [placeholder]="'longtitude'|translate" class="form-control" (input)="coordsChanged()" />
+      <div style="width:100%;height:300px" class="mb-4" leaflet [leafletCenter]="center" [leafletOptions]="leafletOptions" [leafletLayers]="markers" (leafletMapReady)="onMapReady($event)"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 offset-md-2">
+      <button type="submit" name="submit" class="btn btn-primary" translate>submit</button>
+    </div>
+  </div>
+</form>

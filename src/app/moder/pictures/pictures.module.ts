@@ -25,6 +25,8 @@ import {
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { APIPerspectiveModule } from '../../api/perspective/perspective.module';
+import {ModerPicturesItemPlaceComponent} from './item/place/place.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { APIPerspectiveModule } from '../../api/perspective/perspective.module';
     ModerPicturesItemCropComponent,
     ModerPicturesItemMoveComponent,
     ModerPictureMoveItemComponent,
-    ModerPicturesItemComponent
+    ModerPicturesItemComponent,
+    ModerPicturesItemPlaceComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +55,8 @@ import { APIPerspectiveModule } from '../../api/perspective/perspective.module';
     UserModule,
     MarkdownEditModule,
     PictureModerVoteModule,
-    APIPerspectiveModule
+    APIPerspectiveModule,
+    LeafletModule
   ]
 })
 export class PicturesModule {}

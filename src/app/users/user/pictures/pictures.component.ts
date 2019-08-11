@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import Notify from '../../../notify';
 import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute } from '@angular/router';
 import { UserService, APIUser } from '../../../services/user';
@@ -8,6 +7,7 @@ import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { APIBrandsIconsResponse } from '../../../services/brands.service';
 import { HttpClient } from '@angular/common/http';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -40,7 +40,8 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private http: HttpClient
+    private http: HttpClient,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +85,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
           this.icons = response[1];
           addCSS(this.icons.css);
         },
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
   }
 

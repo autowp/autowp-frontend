@@ -14,7 +14,6 @@ import {
   APIItemParentGetResponse
 } from '../../../../services/item-parent';
 import { PageEnvService } from '../../../../services/page-env.service';
-import Notify from '../../../../notify';
 import { chunk } from '../../../../chunk';
 import {
   debounceTime,
@@ -23,6 +22,7 @@ import {
   switchMap,
   tap
 } from 'rxjs/operators';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-engine-select',
@@ -46,7 +46,8 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   public onInput() {
@@ -67,9 +68,7 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
             }
           });
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -144,9 +143,7 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
             this.paginator = data.brands.paginator;
           }
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

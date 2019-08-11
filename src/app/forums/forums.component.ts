@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
 import { ACLService } from '../services/acl.service';
-import Notify from '../notify';
 import {Subscription, combineLatest, Observable} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
@@ -13,6 +12,7 @@ import {
   map
 } from 'rxjs/operators';
 import { APIForumTheme, ForumsService, APIForumTopic } from './forums.service';
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums',
@@ -32,7 +32,8 @@ export class ForumsComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private route: ActivatedRoute,
     private forumService: ForumsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -126,9 +127,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
       () => {
         topic.status = status;
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
 
     return o;

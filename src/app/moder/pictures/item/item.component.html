@@ -49,7 +49,15 @@
         {{'moder/picture/image:'|translate}}
         <a [href]="picture.image.src" [textContent]="picture.image.src"></a>
       </div>
-      <a routerLink="/log" [queryParams]="{picture_id: picture.id}" translate>moder/log-of-events</a>
+      <div>
+        <a routerLink="/log" [queryParams]="{picture_id: picture.id}" translate>moder/log-of-events</a>
+      </div>
+      <div>
+        <a [routerLink]="['/moder/pictures', picture.id, 'place']">
+          <span class="fa fa-map-marker" aria-hidden="true"></span>
+          Location<span *ngIf="picture.point">: {{picture.point.lat}},{{picture.point.lng}}</span>
+        </a>
+      </div>
     </div>
   </div>
   <div class="col-md-4">
@@ -176,6 +184,31 @@
   <div class="col-md-6">
     <h3 translate>moder/picture/settings</h3>
     <form class="card card-body form-vertical mb-4">
+
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">Date of photo</label>
+        <div class="col-md-9">
+          <div class="form-row">
+            <div class="form-group col-3">
+              <input type="number" name="taken_year" [(ngModel)]="picture.taken_year"
+                     placeholder="Year" [min]="1800" [max]="2030" class="form-control" [attr.maxlength]="4"
+              />
+            </div>
+            <div class="form-group col-6">
+              <select name="taken_month" [(ngModel)]="picture.taken_month" title="Month" class="form-control">
+                <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
+              </select>
+            </div>
+            <div class="form-group col-3">
+              <select name="taken_day" [(ngModel)]="picture.taken_day" title="Day" class="form-control">
+                <option *ngFor="let day of dayOptions" [ngValue]="day.value">{{day.name}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <div>
         <p class="text-danger">Achtung! High Voltage! Ты сюда не ходи!</p>
         <p class="text-danger">Поле использовать в ИСКЛЮЧИТЕЛЬНЫХ случаях. А лучше вообще никогда не использовать.</p>

@@ -106,7 +106,7 @@ export interface APIPicture {
     count: number;
   };
   preview_large: APIImage;
-  point: null | {
+  point?: {
     lat: number;
     lng: number;
   };
@@ -122,6 +122,9 @@ export interface APIPicture {
   of_links?: APIItemLink[];
   paginator?: APIPicturePaginator;
   path: APIPathTreePictureItem[];
+  taken_year?: number;
+  taken_month?: number;
+  taken_day?: number;
 }
 
 export interface APIPicturePaginator {

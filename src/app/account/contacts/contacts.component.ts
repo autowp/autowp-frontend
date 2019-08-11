@@ -1,10 +1,10 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { chunkBy } from '../../chunk';
-import Notify from '../../notify';
 import { ContactsService } from '../../services/contacts';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-contacts',
@@ -18,7 +18,8 @@ export class AccountContactsComponent {
   constructor(
     private http: HttpClient,
     private contactsService: ContactsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -41,9 +42,7 @@ export class AccountContactsComponent {
           this.items = response.items;
           this.chunks = chunkBy(this.items, 2);
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -58,9 +57,7 @@ export class AccountContactsComponent {
         }
         this.chunks = chunkBy(this.items, 2);
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
     return false;
   }
