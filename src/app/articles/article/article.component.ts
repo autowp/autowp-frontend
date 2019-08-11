@@ -1,10 +1,10 @@
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OnInit, OnDestroy, Injectable, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { APIArticle, ArticleService } from '../article.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-articles-article',
@@ -19,7 +19,8 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
           if (response.status === 404) {
             this.router.navigate(['/error-404']);
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

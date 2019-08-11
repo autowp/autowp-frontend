@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { APIItem } from '../../../services/item';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../../notify';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-specifications-editor-result',
@@ -21,7 +21,7 @@ export class CarsSpecificationsEditorResultComponent
   public loading = 0;
   public resultHtml = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastService: ToastsService) {}
 
   ngOnInit(): void {}
 
@@ -43,7 +43,7 @@ export class CarsSpecificationsEditorResultComponent
           this.loading--;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.loading--;
         }
       );

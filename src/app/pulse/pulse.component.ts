@@ -1,8 +1,8 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../notify';
 import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface APIPulseResponse {
   legend: {
@@ -73,7 +73,7 @@ export class PulseComponent implements OnInit {
     colors: []
   };
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService) {
+  constructor(private http: HttpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {
 
   }
 
@@ -120,9 +120,7 @@ export class PulseComponent implements OnInit {
         this.chart.colors = colors;
         this.legend = response.legend;
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
   }
 

@@ -4,7 +4,6 @@ import { Router, RouterEvent, NavigationStart } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
-import Notify from './notify';
 import { APIUser } from './services/user';
 import { MessageService } from './services/message';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
@@ -14,6 +13,7 @@ import { ItemService } from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import {ToastsService} from './toasts/toasts.service';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +47,8 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private itemService: ItemService,
     private modalService: NgbModal,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private toastService: ToastsService
   ) {
     this.language = this.languageService.getLanguage();
     const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
@@ -125,7 +126,7 @@ export class AppComponent implements OnInit {
           if (response.status === 400) {
             this.loginInvalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

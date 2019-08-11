@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
-import Notify from '../../notify';
 import { Subscription, empty } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACLService } from '../../services/acl.service';
@@ -13,6 +12,7 @@ import {
   catchError,
   tap
 } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-factory-items',
@@ -32,7 +32,8 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private acl: ACLService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return empty();
         }),
@@ -107,7 +108,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           return empty();
         })
       )

@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-move-topic',
@@ -23,7 +23,8 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private forumService: ForumsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -39,9 +40,7 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
       response => {
         this.themes = response.items;
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
 
     this.querySub = this.route.queryParams
@@ -73,9 +72,7 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
         response => {
           this.router.navigate(['/forums/topic', this.topic.id]);
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 }

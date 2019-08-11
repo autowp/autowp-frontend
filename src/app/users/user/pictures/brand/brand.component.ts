@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../../services/api.service';
-import Notify from '../../../../notify';
 import { ItemService, APIItem } from '../../../../services/item';
 import { UserService, APIUser } from '../../../../services/user';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -14,6 +13,7 @@ import {
   tap,
   map
 } from 'rxjs/operators';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-users-user-pictures-brand',
@@ -33,7 +33,8 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private pictureService: PictureService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -113,9 +114,7 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
           this.pictures = response.pictures;
           this.paginator = response.paginator;
         },
-        subresponse => {
-          Notify.response(subresponse);
-        }
+        subresponse => this.toastService.response(subresponse)
       );
   }
 

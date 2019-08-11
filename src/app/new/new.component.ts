@@ -2,12 +2,12 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
 import { chunkBy } from '../chunk';
-import Notify from '../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface APINewGroup {
   type: string;
@@ -58,7 +58,8 @@ export class NewComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -144,9 +145,7 @@ export class NewComponent implements OnInit, OnDestroy {
           }
           this.groups = repackedGroups;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

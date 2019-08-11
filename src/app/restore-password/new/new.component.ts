@@ -1,10 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-restore-password-new',
@@ -25,7 +25,8 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +72,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
         if (response.status === 400) {
           this.invalidParams = response.error.invalid_params;
         } else if (response.status !== 404) {
-          Notify.response(response);
+          this.toastService.response(response);
         }
       }
     );

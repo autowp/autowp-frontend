@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ContactsService } from '../../services/contacts';
 import { ACLService } from '../../services/acl.service';
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService, APIUser } from '../../services/user';
 import {
@@ -27,6 +26,7 @@ import {
 } from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 import { APIComment, APICommentsService } from '../../api/comments/comments.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-users-user',
@@ -71,7 +71,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private pictureService: PictureService,
     private commentService: APICommentsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -98,7 +99,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
                 .getByIdentity(data.params.identity, { fields: fields })
                 .pipe(
                   catchError((err, caught) => {
-                    Notify.response(err);
+                    this.toastService.response(err);
                     return empty();
                   })
                 ),
@@ -146,7 +147,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
               .isInContacts(data.user.id)
               .subscribe(
                 inContacts => (this.inContacts = inContacts),
-                response => Notify.response(response)
+                response => this.toastService.response(response)
               );
           }
         }),
@@ -223,9 +224,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
               break;
           }
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -238,9 +237,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
       response => {
         this.user.photo = null;
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
   }
 
@@ -256,9 +253,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         response => {
           this.user.deleted = true;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -267,9 +262,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
       .delete<void>('/api/traffic/blacklist/' + this.ip.address)
       .subscribe(
         response => {},
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -280,9 +273,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         response => {
           this.ip.blacklist = null;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -295,12 +286,12 @@ export class UsersUserComponent implements OnInit, OnDestroy {
       })
       .pipe(
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           return empty();
         }),
         switchMap(() => this.loadBan(this.user.last_ip)),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           return empty();
         })
       )

@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { Subscription, empty } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../../services/user';
@@ -12,6 +11,7 @@ import {
   catchError,
   finalize
 } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 export interface APIRatingUser {
   user: APIUser;
@@ -46,7 +46,8 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +93,7 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
                 this.loading--;
               }),
               catchError((err, caught) => {
-                Notify.response(err);
+                this.toastService.response(err);
                 return empty();
               })
             );

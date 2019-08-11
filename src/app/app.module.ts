@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
 import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
 import { MomentModule } from 'ngx-moment';
-import { NgbTooltipModule, NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule, NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -51,6 +51,7 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { ModerMenuModule } from './moder/menu/menu.module';
 import { IndexModule } from './index/index.module';
+import {ToastsModule} from './toasts/toasts.module';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -100,7 +101,8 @@ import { IndexModule } from './index/index.module';
     NgbTooltipModule,
     NgbCollapseModule,
     NgbDropdownModule,
-    IndexModule
+    IndexModule,
+    ToastsModule
   ],
   providers: [
     APIService,

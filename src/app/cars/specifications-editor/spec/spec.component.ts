@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { APIItem } from '../../../services/item';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../../notify';
 import { TranslateService } from '@ngx-translate/core';
 import {
   Observable,
@@ -28,6 +27,7 @@ import {
   APIAttrsService,
   APIAttrUserValueGetResponse
 } from '../../../api/attrs/attrs.service';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;
@@ -84,7 +84,8 @@ export class CarsSpecificationsEditorSpecComponent
     private http: HttpClient,
     private attrsService: APIAttrsService,
     private translate: TranslateService,
-    private auth: AuthService
+    private auth: AuthService,
+    private toastService: ToastsService
   ) {}
 
   private applyCurrentUserValues(values) {
@@ -264,7 +265,7 @@ export class CarsSpecificationsEditorSpecComponent
           )
         )
       )
-      .subscribe(() => {}, response => Notify.response(response));
+      .subscribe(() => {}, response => this.toastService.response(response));
   }
 
   ngOnDestroy(): void {
@@ -306,7 +307,7 @@ export class CarsSpecificationsEditorSpecComponent
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
           this.loading--;
         }

@@ -7,7 +7,6 @@ import {
   OnDestroy
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -18,6 +17,7 @@ import { combineLatest, empty, of, Subscription } from 'rxjs';
 import { switchMapTo, switchMap } from 'rxjs/operators';
 import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-profile',
@@ -25,7 +25,7 @@ import { TimezoneService } from '../../services/timezone';
 })
 @Injectable()
 export class AccountProfileComponent implements OnInit, OnDestroy {
-  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
 
   private user: APIUser;
   public profile = {
@@ -57,7 +57,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private pageEnv: PageEnvService,
     private language: LanguageService,
-    private timezone: TimezoneService
+    private timezone: TimezoneService,
+    private toastService: ToastsService
   ) {
     this.uploader.onSuccessItem = () => {
       this.http
@@ -70,7 +71,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           subresponse => {
             this.photo = subresponse.img;
           },
-          subresponse => Notify.response(subresponse)
+          subresponse => this.toastService.response(subresponse)
         );
     };
 
@@ -141,9 +142,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
           this.timezones = data.timezones;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
   ngOnDestroy(): void {
@@ -153,17 +152,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   private showSavedMessage() {
     this.translate
       .get('account/profile/saved')
-      .subscribe((translation: string) => {
-        Notify.custom(
-          {
-            icon: 'fa fa-check',
-            message: translation
-          },
-          {
-            type: 'success'
-          }
-        );
-      });
+      .subscribe((translation: string) => this.toastService.success(translation));
   }
 
   public sendProfile() {
@@ -179,7 +168,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         if (response.status === 400) {
           this.profileInvalidParams = response.error.invalid_params;
         } else {
-          Notify.response(response);
+          this.toastService.response(response);
         }
       }
     );
@@ -196,7 +185,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         if (response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
         } else {
-          Notify.response(response);
+          this.toastService.response(response);
         }
       }
     );
@@ -213,7 +202,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         this.user.avatar = null;
         this.photo = null;
       },
-      response => Notify.response(response)
+      response => this.toastService.response(response)
     );
   }
 }

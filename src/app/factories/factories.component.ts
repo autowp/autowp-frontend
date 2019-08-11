@@ -4,7 +4,6 @@ import {
   ItemService,
   APIItemRelatedGroupItem
 } from '../services/item';
-import Notify from '../notify';
 import { Subscription, empty } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
@@ -18,6 +17,7 @@ import {
 } from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { tileLayer, latLng, Marker, marker, icon } from 'leaflet';
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-factories',
@@ -49,7 +49,8 @@ export class FactoryComponent implements OnInit, OnDestroy {
     private router: Router,
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
-    private acl: ACLService
+    private acl: ACLService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +75,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
           })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return empty();
         }),
@@ -96,7 +97,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
           (factory, pictures) => ({ factory, pictures })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           return empty();
         })
       )

@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -7,6 +6,7 @@ import { PageEnvService } from '../../services/page-env.service';
 import { APIUser } from '../../services/user';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { APIForumTheme, ForumsService } from '../forums.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-new-topic',
@@ -30,7 +30,8 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private forumService: ForumsService,
     public auth: AuthService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -94,16 +95,14 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
             topic => {
               this.router.navigate(['/forums/topic', topic.id]);
             },
-            subresponse => {
-              Notify.response(response);
-            }
+            subresponse => this.toastService.response(subresponse)
           );
         },
         response => {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

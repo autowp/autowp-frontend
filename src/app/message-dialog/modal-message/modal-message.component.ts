@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from '../../services/message';
-import Notify from '../../notify';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-modal-message',
@@ -17,7 +17,8 @@ export class ModalMessageComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {}
@@ -33,8 +34,10 @@ export class ModalMessageComponent implements OnInit {
         this.text = '';
 
         this.activeModal.close();
+
+        this.toastService.success('Ok');
       },
-      response => Notify.response(response)
+      response => this.toastService.response(response)
     );
   }
 

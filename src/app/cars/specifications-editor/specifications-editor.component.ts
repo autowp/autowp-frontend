@@ -6,13 +6,13 @@ import { ACLService } from '../../services/acl.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { APIUser } from '../../services/user';
-import Notify from '../../notify';
 import {
   switchMap,
   distinctUntilChanged,
   debounceTime,
   switchMapTo
 } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-specifications-editor',
@@ -38,7 +38,8 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +56,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.loading--;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.loading--;
         }
       );
@@ -132,9 +133,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
             }
           });
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 }

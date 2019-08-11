@@ -4,8 +4,8 @@ import { APIPaginator } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
-import Notify from '../../notify';
 import { APIArticle, ArticleService } from '../article.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-articles-list',
@@ -21,7 +21,8 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -54,9 +55,7 @@ export class ListComponent implements OnInit, OnDestroy {
           this.articles = response.items;
           this.paginator = response.paginator;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

@@ -28,8 +28,8 @@ import { APIVehicleType, VehicleTypeService } from '../../../services/vehicle-ty
 import { APISpec, SpecService } from '../../../services/spec';
 import { APIItem } from '../../../services/item';
 import { LanguageService } from '../../../services/language';
-import Notify from '../../../notify';
 import { VehicleTypesModalComponent } from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 function specsToPlain(
   options: ItemMetaFormAPISpec[],
@@ -181,7 +181,8 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     private vehicleTypeService: VehicleTypeService,
     private languageService: LanguageService,
     private modalService: NgbModal,
-    private zone: NgZone
+    private zone: NgZone,
+    private toastService: ToastsService
   ) {
     if (this.item && this.item.lat && this.item.lng) {
       this.markers = [createMarker(this.item.lat, this.item.lng)];
@@ -217,7 +218,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
       finalize(() => (this.loading--)),
     ).subscribe(
       types => this.specOptions = specsToPlain(types, 0),
-      response => Notify.response(response)
+      response => this.toastService.response(response)
     );
 
     this.vehicleTypeIDs$.pipe(

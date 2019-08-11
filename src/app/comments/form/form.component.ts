@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Input, Component, Injectable, EventEmitter, Output } from '@angular/core';
-import Notify from '../../notify';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-comments-form',
@@ -19,7 +19,7 @@ export class CommentsFormComponent {
     moderator_attention: false
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastService: ToastsService) {}
 
   public sendMessage() {
     this.invalidParams = {};
@@ -51,7 +51,7 @@ export class CommentsFormComponent {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

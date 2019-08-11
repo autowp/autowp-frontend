@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
-import Notify from '../../notify';
 import { Subscription, combineLatest, empty } from 'rxjs';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +12,7 @@ import {
   switchMap,
   catchError
 } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-new-item',
@@ -31,7 +31,8 @@ export class NewItemComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pictureService: PictureService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +50,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 .pipe(
                   catchError((err, caught) => {
                     if (err.status !== -1) {
-                      Notify.response(err);
+                      this.toastService.response(err);
                     }
                     return empty();
                   })
@@ -70,7 +71,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 ),
                 catchError((err, caught) => {
                   if (err.status !== -1) {
-                    Notify.response(err);
+                    this.toastService.response(err);
                   }
                   return empty();
                 })

@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../services/api.service';
-import Notify from '../notify';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../services/user';
@@ -9,6 +8,7 @@ import { APIItem } from '../services/item';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {ToastsService} from '../toasts/toasts.service';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 
@@ -38,7 +38,8 @@ export class LogComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -93,9 +94,7 @@ export class LogComponent implements OnInit, OnDestroy {
           this.items = response.items;
           this.paginator = response.paginator;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

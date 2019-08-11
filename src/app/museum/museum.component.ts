@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIItem, ItemService } from '../services/item';
 import { ACLService } from '../services/acl.service';
-import Notify from '../notify';
 import { Subscription, empty, combineLatest, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
@@ -15,6 +14,7 @@ import {
   catchError,
   tap
 } from 'rxjs/operators';
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-museum',
@@ -47,7 +47,8 @@ export class MuseumComponent implements OnInit, OnDestroy {
     private router: Router,
     private pictureService: PictureService,
     private itemLinkService: ItemLinkService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +66,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
           })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return empty();
         }),
@@ -92,7 +93,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
                 })
                 .pipe(
                   catchError((err, caught) => {
-                    Notify.response(err);
+                    this.toastService.response(err);
                     return of(null);
                   })
                 ),
@@ -107,7 +108,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
                 })
                 .pipe(
                   catchError((err, caught) => {
-                    Notify.response(err);
+                    this.toastService.response(err);
                     return of(null);
                   })
                 )

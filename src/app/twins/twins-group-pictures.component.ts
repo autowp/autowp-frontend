@@ -6,8 +6,8 @@ import { switchMap, catchError } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ACLService } from '../services/acl.service';
 import { PictureService, APIPicture } from '../services/picture';
-import Notify from '../notify';
 import { APIPaginator } from '../services/api.service';
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-twins-group-pictures',
@@ -27,7 +27,8 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private acl: ACLService,
-    private pictureService: PictureService
+    private pictureService: PictureService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
               })
               .pipe(
                 catchError(err => {
-                  Notify.response(err);
+                  this.toastService.response(err);
                   return of(null);
                 })
               );

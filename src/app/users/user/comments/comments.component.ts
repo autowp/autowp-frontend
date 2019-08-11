@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../services/api.service';
-import Notify from '../../../notify';
 import { UserService, APIUser } from '../../../services/user';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription, empty, combineLatest } from 'rxjs';
@@ -13,6 +12,7 @@ import {
   tap
 } from 'rxjs/operators';
 import { APIComment, APICommentsService } from '../../../api/comments/comments.service';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 interface Order {
   name: string;
@@ -43,7 +43,8 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private commentService: APICommentsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
         switchMap(params => {
           return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
             catchError((err, caught) => {
-              Notify.response(err);
+              this.toastService.response(err);
               return empty();
             })
           );
@@ -109,7 +110,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
             })
             .pipe(
               catchError((err, caught) => {
-                Notify.response(err);
+                this.toastService.response(err);
                 return empty();
               }),
               tap(response => {

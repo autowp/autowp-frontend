@@ -4,99 +4,99 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './not-found.component';
 
 const appRoutes: Routes = [
-  { path: 'about', loadChildren: './about/about.module#AboutModule' },
+  { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
   {
     path: 'account',
-    loadChildren: './account/account.module#AccountModule'
+    loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
   },
   {
     path: 'articles',
-    loadChildren: './articles/articles.module#ArticlesModule'
+    loadChildren: () => import('./articles/articles.module').then(m => m.ArticlesModule)
   },
-  { path: 'brands', loadChildren: './brands/brands.module#BrandsModule' },
+  { path: 'brands', loadChildren: () => import('./brands/brands.module').then(m => m.BrandsModule) },
   {
     path: 'cars',
-    loadChildren: './cars/cars.module#CarsModule'
+    loadChildren: () => import('./cars/cars.module').then(m => m.CarsModule)
   },
   {
     path: 'category',
-    loadChildren: './categories/categories.module#CategoriesModule'
+    loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule)
   },
-  { path: 'chart', loadChildren: './chart/chart.module#ChartModule' },
-  { path: 'cutaway', loadChildren: './cutaway/cutaway.module#CutawayModule' },
+  { path: 'chart', loadChildren: () => import('./chart/chart.module').then(m => m.ChartModule) },
+  { path: 'cutaway', loadChildren: () => import('./cutaway/cutaway.module').then(m => m.CutawayModule) },
   {
     path: 'donate',
-    loadChildren: './donate/donate.module#DonateModule'
+    loadChildren: () => import('./donate/donate.module').then(m => m.DonateModule)
   },
   {
     path: 'factories',
-    loadChildren: './factories/factories.module#FactoriesModule'
+    loadChildren: () => import('./factories/factories.module').then(m => m.FactoriesModule)
   },
   {
     path: 'feedback',
-    loadChildren: './feedback/feedback.module#FeedbackModule'
+    loadChildren: () => import('./feedback/feedback.module').then(m => m.FeedbackModule)
   },
   {
     path: 'forums',
-    loadChildren: './forums/forums.module#ForumsModule'
+    loadChildren: () => import('./forums/forums.module').then(m => m.ForumsModule)
   },
   {
     path: 'inbox',
-    loadChildren: './inbox/inbox.module#InboxModule'
+    loadChildren: () => import('./inbox/inbox.module').then(m => m.InboxModule)
   },
   {
     path: 'info',
-    loadChildren: './info/info.module#InfoModule'
+    loadChildren: () => import('./info/info.module').then(m => m.InfoModule)
   },
-  { path: 'log', loadChildren: './log/log.module#LogModule' },
-  { path: 'login', loadChildren: './signin/signin.module#SigninModule' },
-  { path: 'map', loadChildren: './map/map.module#MapModule' },
-  { path: 'mascots', loadChildren: './mascots/mascots.module#MascotsModule' },
+  { path: 'log', loadChildren: () => import('./log/log.module').then(m => m.LogModule) },
+  { path: 'login', loadChildren: () => import('./signin/signin.module').then(m => m.SigninModule) },
+  { path: 'map', loadChildren: () => import('./map/map.module').then(m => m.MapModule) },
+  { path: 'mascots', loadChildren: () => import('./mascots/mascots.module').then(m => m.MascotsModule) },
   {
     path: 'moder',
-    loadChildren: './moder/moder.module#ModerModule'
+    loadChildren: () => import('./moder/moder.module').then(m => m.ModerModule)
   },
   {
     path: 'mosts',
-    loadChildren: './mosts/mosts.module#MostsModule'
+    loadChildren: () => import('./mosts/mosts.module').then(m => m.MostsModule)
   },
-  { path: 'museums', loadChildren: './museum/museum.module#MuseumModule' },
+  { path: 'museums', loadChildren: () => import('./museum/museum.module').then(m => m.MuseumModule) },
   {
     path: 'new',
-    loadChildren: './new/new.module#NewModule'
+    loadChildren: () => import('./new/new.module').then(m => m.NewModule)
   },
   {
     path: 'persons',
-    loadChildren: './persons/persons.module#PersonsModule'
+    loadChildren: () => import('./persons/persons.module').then(m => m.PersonsModule)
   },
-  { path: 'pulse', loadChildren: './pulse/pulse.module#PulseModule' },
+  { path: 'pulse', loadChildren: () => import('./pulse/pulse.module').then(m => m.PulseModule) },
   {
     path: 'restore-password',
     loadChildren:
-      './restore-password/restore-password.module#RestorePasswordModule'
+      () => import('./restore-password/restore-password.module').then(m => m.RestorePasswordModule)
   },
-  { path: 'rules', loadChildren: './rules/rules.module#RulesModule' },
-  { path: 'policy', loadChildren: './policy/policy.module#PolicyModule' },
+  { path: 'rules', loadChildren: () => import('./rules/rules.module').then(m => m.RulesModule) },
+  { path: 'policy', loadChildren: () => import('./policy/policy.module').then(m => m.PolicyModule) },
   {
     path: 'signup',
-    loadChildren: './signup/signup.module#SignupModule'
+    loadChildren: () => import('./signup/signup.module').then(m => m.SignupModule)
   },
   {
     path: 'telegram',
-    loadChildren: './telegram/telegram.module#TelegramModule'
+    loadChildren: () => import('./telegram/telegram.module').then(m => m.TelegramModule)
   },
   {
     path: 'twins',
-    loadChildren: './twins/twins.module#TwinsModule'
+    loadChildren: () => import('./twins/twins.module').then(m => m.TwinsModule)
   },
-  { path: 'top-view', loadChildren: './top-view/top-view.module#TopViewModule' },
-  { path: 'upload', loadChildren: './upload/upload.module#UploadModule' },
+  { path: 'top-view', loadChildren: () => import('./top-view/top-view.module').then(m => m.TopViewModule) },
+  { path: 'upload', loadChildren: () => import('./upload/upload.module').then(m => m.UploadModule) },
   {
     path: 'users',
-    loadChildren: './users/users.module#UsersModule'
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
-  { path: 'voting', loadChildren: './voting/voting.module#VotingModule' },
-  { path: '', loadChildren: './index/index.module#IndexModule' },
+  { path: 'voting', loadChildren: () => import('./voting/voting.module').then(m => m.VotingModule) },
+  { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule) },
   { path: '**', component: PageNotFoundComponent }
 ];
 

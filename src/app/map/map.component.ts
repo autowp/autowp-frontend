@@ -9,7 +9,6 @@ import {
   ApplicationRef
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../notify';
 import { BehaviorSubject, empty } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {
@@ -24,6 +23,7 @@ import {
 } from 'leaflet';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { MapPopupComponent } from './popup/popup.component';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface MapItem {
   location: {
@@ -78,7 +78,8 @@ export class MapComponent implements OnInit {
     private zone: NgZone,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
-    private appRef: ApplicationRef
+    private appRef: ApplicationRef,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -115,9 +116,7 @@ export class MapComponent implements OnInit {
         response => {
           this.renderData(response);
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

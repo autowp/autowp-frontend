@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem, APIItemsGetResponse } from '../../services/item';
 import { chunk } from '../../chunk';
-import Notify from '../../notify';
 import {
   Observable,
   empty,
@@ -22,6 +21,7 @@ import {
   tap,
   debounceTime
 } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-upload-select',
@@ -47,7 +47,8 @@ export class UploadSelectComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   public onSearchInput() {
@@ -130,7 +131,7 @@ export class UploadSelectComponent implements OnInit {
       .pipe(
         catchError((err, caught) => {
           if (err.status !== -1) {
-            Notify.response(err);
+            this.toastService.response(err);
           }
           return empty();
         })
@@ -170,7 +171,7 @@ export class UploadSelectComponent implements OnInit {
         .pipe(
           map(response => response.items),
           catchError((err, caught) => {
-            Notify.response(err);
+            this.toastService.response(err);
             return empty();
           })
         ),
@@ -186,7 +187,7 @@ export class UploadSelectComponent implements OnInit {
         .pipe(
           map(response => response.items),
           catchError((err, caught) => {
-            Notify.response(err);
+            this.toastService.response(err);
             return empty();
           })
         ),
@@ -201,7 +202,7 @@ export class UploadSelectComponent implements OnInit {
         .pipe(
           map(response => response.items),
           catchError((err, caught) => {
-            Notify.response(err);
+            this.toastService.response(err);
             return empty();
           })
         )

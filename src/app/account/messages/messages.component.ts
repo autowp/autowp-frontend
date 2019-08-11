@@ -1,12 +1,12 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { MessageService, APIMessage } from '../../services/message';
-import Notify from '../../notify';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-messages',
@@ -26,7 +26,8 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private messageDialogService: MessageDialogService,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -86,9 +87,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
 
           this.messageService.seen(response.items);
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -106,9 +105,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
           }
         }
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
 
     return false;
@@ -122,9 +119,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
           this.paginator = null;
         }
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
   }
 

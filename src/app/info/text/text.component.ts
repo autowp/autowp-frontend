@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService, APIUser } from '../../services/user';
-import Notify from '../../notify';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 const JsDiff = require('diff');
 
@@ -59,7 +59,8 @@ export class InfoTextComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private userService: UserService,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -102,9 +103,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
               user => {
                 this.current.user = user;
               },
-              subresponse => {
-                Notify.response(subresponse);
-              }
+              subresponse => this.toastService.response(subresponse)
             );
           }
 
@@ -113,9 +112,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
               user => {
                 this.prev.user = user;
               },
-              subresponse => {
-                Notify.response(subresponse);
-              }
+              subresponse => this.toastService.response(subresponse)
             );
           }
 
@@ -124,9 +121,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
             this.current.text
           );
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

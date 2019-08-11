@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../notify';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import {
@@ -13,6 +12,7 @@ import { PageEnvService } from '../services/page-env.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingVotesComponent } from './votes/votes.component';
 import { ACLService } from '../services/acl.service';
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-voting',
@@ -36,7 +36,8 @@ export class VotingComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     private pageEnv: PageEnvService,
     private modalService: NgbModal,
-    private acl: ACLService
+    private acl: ACLService,
+    private toastService: ToastsService
   ) {}
 
   public load(callback?: () => void) {
@@ -111,9 +112,7 @@ export class VotingComponent implements OnInit, OnDestroy {
         response => {
           this.load();
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
 
     return false;

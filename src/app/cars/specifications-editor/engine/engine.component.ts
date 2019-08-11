@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 import { APIItem, ItemService } from '../../../services/item';
 import { ACLService } from '../../../services/acl.service';
-import Notify from '../../../notify';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
@@ -32,7 +32,8 @@ export class CarsSpecificationsEditorEngineComponent
   constructor(
     private acl: ACLService,
     private itemService: ItemService,
-    private http: HttpClient
+    private http: HttpClient,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +60,7 @@ export class CarsSpecificationsEditorEngineComponent
               this.loading--;
             },
             response => {
-              Notify.response(response);
+              this.toastService.response(response);
               this.loading--;
             }
           );
@@ -76,7 +77,7 @@ export class CarsSpecificationsEditorEngineComponent
       })
       .subscribe(
         response => this.changed.emit(),
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
   }
 

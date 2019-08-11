@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SpecService, APISpec } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
-import Notify from '../../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, empty, of, forkJoin } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -15,6 +14,7 @@ import {
   catchError
 } from 'rxjs/operators';
 import { APIItemVehicleTypeGetResponse } from '../../../services/api.service';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 // Acl.isAllowed('car', 'add', 'unauthorized');
 
@@ -60,7 +60,8 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -220,7 +221,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
           return empty();
         }),

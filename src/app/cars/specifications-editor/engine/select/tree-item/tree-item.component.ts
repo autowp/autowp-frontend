@@ -3,7 +3,7 @@ import {
   ItemParentService,
   APIItemParent
 } from '../../../../../services/item-parent';
-import Notify from '../../../../../notify';
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
@@ -18,7 +18,7 @@ export class CarsSelectEngineTreeItemComponent {
   public loading = false;
   public childs: APIItemParent[] = [];
 
-  constructor(private itemParentService: ItemParentService) {}
+  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
 
   private loadChildCatalogues() {
     this.loading = true;
@@ -36,7 +36,7 @@ export class CarsSelectEngineTreeItemComponent {
           this.loading = false;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.loading = false;
         }
       );

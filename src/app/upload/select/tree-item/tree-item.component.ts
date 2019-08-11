@@ -3,7 +3,7 @@ import {
   APIItemParent,
   ItemParentService
 } from '../../../services/item-parent';
-import Notify from '../../../notify';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class UploadSelectTreeItemComponent {
   public open = false;
   public childs: APIItemParent[] = [];
 
-  constructor(private itemParentService: ItemParentService) {}
+  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
 
   public loadChilds() {
     this.loading = true;
@@ -36,7 +36,7 @@ export class UploadSelectTreeItemComponent {
           this.loading = false;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.loading = false;
         }
       );
