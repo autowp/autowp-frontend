@@ -3,11 +3,11 @@ import {
   Injectable,
   Input
 } from '@angular/core';
-import Notify from '../../../../notify';
 import {
   ItemParentService,
   APIItemParent
 } from '../../../../services/item-parent';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-donate-vod-select-item',
@@ -20,7 +20,7 @@ export class DonateVodSelectItemComponent {
   public loading = false;
   @Input() item: APIItemParent;
 
-  constructor(private itemParentService: ItemParentService) {}
+  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
 
   public toggleItem() {
     this.item.expanded = !this.item.expanded;
@@ -40,9 +40,7 @@ export class DonateVodSelectItemComponent {
             this.loading = false;
             this.childs = response.items;
           },
-          response => {
-            Notify.response(response);
-          }
+          response => this.toastService.response(response)
         );
     }
 

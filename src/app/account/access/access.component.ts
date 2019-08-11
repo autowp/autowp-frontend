@@ -1,8 +1,8 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { TranslateService } from '@ngx-translate/core';
 import { PageEnvService } from '../../services/page-env.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-access',
@@ -20,7 +20,8 @@ export class AccountAccessComponent {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    public toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -48,23 +49,13 @@ export class AccountAccessComponent {
 
         this.translate
           .get('account/access/change-password/saved')
-          .subscribe(translation => {
-            Notify.custom(
-              {
-                icon: 'fa fa-check',
-                message: translation
-              },
-              {
-                type: 'success'
-              }
-            );
-          });
+          .subscribe(translation => this.toastService.success(translation));
       },
       response => {
         if (response.status === 400) {
           this.invalidParams = response.error.invalid_params;
         } else {
-          Notify.response(response);
+          this.toastService.response(response);
         }
       }
     );

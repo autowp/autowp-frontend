@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingService, APIVotingVariantVote } from '../voting.service';
-import Notify from '../../notify';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-voting-votes',
@@ -23,7 +23,8 @@ export class VotingVotesComponent implements OnChanges, OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private votingService: VotingService
+    private votingService: VotingService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -49,9 +50,7 @@ export class VotingVotesComponent implements OnChanges, OnInit {
           response => {
             this.votes = response.items;
           },
-          response => {
-            Notify.response(response);
-          }
+          response => this.toastService.response(response)
         );
     }
   }

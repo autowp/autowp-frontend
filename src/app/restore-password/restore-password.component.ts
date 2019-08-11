@@ -1,9 +1,9 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../notify';
 import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-restore-password',
@@ -24,16 +24,15 @@ export class RestorePasswordComponent {
     private http: HttpClient,
     private router: Router,
     private reCaptchaService: ReCaptchaService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     this.reCaptchaService.get().subscribe(
       response => {
         this.recaptchaKey = response.publicKey;
         this.showCaptcha = !response.success;
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
 
     setTimeout(
@@ -63,7 +62,7 @@ export class RestorePasswordComponent {
 
             this.showCaptcha = response.error.invalid_params && response.error.invalid_params.captcha;
           } else if (response.status !== 404) {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

@@ -12,9 +12,9 @@ import { CommentsVotesComponent } from '../votes/votes.component';
 import { Subscription, combineLatest } from 'rxjs';
 import { APIUser } from '../../services/user';
 import { AuthService } from '../../services/auth.service';
-import Notify from '../../notify';
 import { ACLService } from '../../services/acl.service';
 import { APIComment, APICommentsService } from '../../api/comments/comments.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 export interface APICommentInList extends APIComment {
   showReply: boolean;
@@ -43,7 +43,8 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private commentService: APICommentsService,
     public auth: AuthService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +72,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
           .getComment(message.id, { fields: 'vote' })
           .subscribe(
             response => (message.vote = response.vote),
-            response => Notify.response(response)
+            response => this.toastService.response(response)
           );
 
         // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
@@ -81,19 +82,15 @@ export class CommentsListComponent implements OnInit, OnDestroy {
           Object.entries(response.error.invalid_params).forEach(
             ([paramKey, param]) =>
               Object.entries(param).forEach(([messageKey, iMessage]) =>
-                Notify.custom(
-                  {
-                    icon: 'fa fa-exclamation-triangle',
-                    message: iMessage
-                  },
-                  {
-                    type: 'warning'
-                  }
-                )
+                this.toastService.show({
+                  icon: 'fa fa-exclamation-triangle',
+                  message: iMessage,
+                  type: 'warning'
+                })
               )
           );
         } else {
-          Notify.response(response);
+          this.toastService.response(response);
         }
       }
     );
@@ -106,7 +103,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
       .setIsDeleted(message.id, value)
       .subscribe(
         () => (message.deleted = value),
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
   }
 

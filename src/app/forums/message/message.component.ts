@@ -1,9 +1,9 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import Notify from '../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { ForumsService } from '../forums.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-message',
@@ -16,7 +16,8 @@ export class MessageComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private forumService: ForumsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -36,9 +37,7 @@ export class MessageComponent implements OnInit, OnDestroy {
             }
           });
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

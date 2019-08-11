@@ -9,11 +9,11 @@ import {
   OnDestroy
 } from '@angular/core';
 import { APIUser } from '../../services/user';
-import Notify from '../../notify';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { APIComment, APICommentsService } from '../../api/comments/comments.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-comments',
@@ -35,7 +35,8 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private router: Router,
     private commentService: APICommentsService,
-    public auth: AuthService
+    public auth: AuthService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
               this.load();
             }
           },
-          response => Notify.response(response)
+          response => this.toastService.response(response)
         );
     } else {
       this.load();
@@ -95,7 +96,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
           this.messages = response.items;
           this.paginator = response.paginator;
         },
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
   }
 }

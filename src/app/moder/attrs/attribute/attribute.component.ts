@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap } from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute',
@@ -74,7 +74,8 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
     private attrsService: APIAttrsService,
     private router: Router,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     Object.assign(this.newAttribute, this.defaultAttribute);
   }
@@ -90,9 +91,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
           });
         }
       },
-      response => {
-        Notify.response(response);
-      }
+      response => this.toastService.response(response)
     );
 
     this.routeSub = combineLatest(
@@ -176,7 +175,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
           this.loading--;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.loading--;
         }
       );
@@ -200,7 +199,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
             this.addLoading--;
           },
           subresponse => {
-            Notify.response(subresponse);
+            this.toastService.response(subresponse);
             this.addLoading--;
           }
         );
@@ -208,7 +207,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
         this.addLoading--;
       },
       response => {
-        Notify.response(response);
+        this.toastService.response(response);
         this.addLoading--;
       }
     );
@@ -232,7 +231,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
           this.addListOptionLoading--;
         },
         response => {
-          Notify.response(response);
+          this.toastService.response(response);
           this.addListOptionLoading--;
         }
       );

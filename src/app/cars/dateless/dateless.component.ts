@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
-import Notify from '../../notify';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-deteless',
@@ -20,7 +20,8 @@ export class CarsDatelessComponent implements OnInit, OnDestroy {
   constructor(
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -61,9 +62,7 @@ export class CarsDatelessComponent implements OnInit, OnDestroy {
           this.items = result.items;
           this.paginator = result.paginator;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 

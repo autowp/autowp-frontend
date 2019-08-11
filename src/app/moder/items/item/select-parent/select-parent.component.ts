@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../../../services/api.service';
 import { ItemService, APIItem } from '../../../../services/item';
 import { chunk } from '../../../../chunk';
-import Notify from '../../../../notify';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import {
@@ -11,6 +10,7 @@ import {
   APIItemParent
 } from '../../../../services/item-parent';
 import { PageEnvService } from '../../../../services/page-env.service';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 // Acl.isAllowed('car', 'edit_meta', 'unauthorized');
 
@@ -47,7 +47,8 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   private loadChildItems(parent: APIItemInSelectParent, order: string) {
@@ -63,9 +64,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         response => {
           parent.childLinks = response.items;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -128,9 +127,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                       this.items = response.items;
                       this.paginator = response.paginator;
                     },
-                    response => {
-                      Notify.response(response);
-                    }
+                    response => this.toastService.response(response)
                   );
               } else {
                 this.loadCatalogueBrands();
@@ -155,9 +152,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     this.categories = response.items;
                     this.paginator = response.paginator;
                   },
-                  response => {
-                    Notify.response(response);
-                  }
+                  response => this.toastService.response(response)
                 );
             }
 
@@ -176,9 +171,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                       this.items = response.items;
                       this.paginator = response.paginator;
                     },
-                    response => {
-                      Notify.response(response);
-                    }
+                    response => this.toastService.response(response)
                   );
               } else {
                 this.itemService
@@ -194,9 +187,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                       this.brands = chunk<APIItem>(response.items, 6);
                       this.paginator = response.paginator;
                     },
-                    response => {
-                      Notify.response(response);
-                    }
+                    response => this.toastService.response(response)
                   );
               }
             }
@@ -214,9 +205,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     this.factories = response.items;
                     this.paginator = response.paginator;
                   },
-                  response => {
-                    Notify.response(response);
-                  }
+                  response => this.toastService.response(response)
                 );
             }
           },
@@ -245,7 +234,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
             }
           });
         },
-        response => Notify.response(response)
+        response => this.toastService.response(response)
       );
 
     return false;
@@ -278,9 +267,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
           this.brands = chunk<APIItem>(response.items, 6);
           this.paginator = response.paginator;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -298,9 +285,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
           this.brands = chunk<APIItem>(response.items, 6);
           this.paginator = response.paginator;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 }

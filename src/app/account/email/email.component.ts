@@ -1,8 +1,8 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Notify from '../../notify';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-email',
@@ -17,7 +17,8 @@ export class AccountEmailComponent {
 
   constructor(
     private http: HttpClient,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -41,9 +42,7 @@ export class AccountEmailComponent {
           this.email = response.email;
           this.newEmail = response.email;
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -62,7 +61,7 @@ export class AccountEmailComponent {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            Notify.response(response);
+            this.toastService.response(response);
           }
         }
       );

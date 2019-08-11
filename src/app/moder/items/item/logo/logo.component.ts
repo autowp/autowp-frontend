@@ -5,7 +5,7 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { APIImage } from '../../../../services/api.service';
 import { Subscription, empty } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-import Notify from '../../../../notify';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-logo',
@@ -25,7 +25,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
     invalidParams: any;
   } = null;
 
-  constructor(private acl: ACLService, private http: HttpClient) {}
+  constructor(private acl: ACLService, private http: HttpClient, private toastService: ToastsService) {}
 
   ngOnInit(): void {
     this.aclSub = this.acl
@@ -95,7 +95,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
                   this.item.logo = subresponse;
                 }),
                 catchError((response, caught) => {
-                  Notify.response(response);
+                  this.toastService.response(response);
 
                   return empty();
                 })

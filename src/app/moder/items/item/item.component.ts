@@ -15,7 +15,7 @@ import {
   tap,
   switchMapTo
 } from 'rxjs/operators';
-import Notify from '../../../notify';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 // Acl.isAllowed('car', 'edit_meta', 'unauthorized');
 
@@ -96,7 +96,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private pictureService: PictureService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -148,7 +149,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.loading--;
         }),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return of(null);
         }),

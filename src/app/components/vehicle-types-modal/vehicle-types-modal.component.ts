@@ -8,12 +8,12 @@ import {
   OnDestroy
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import Notify from '../../notify';
 import {
   VehicleTypeService,
   APIVehicleType
 } from '../../services/vehicle-type';
 import { Subscription } from 'rxjs';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-vehicle-types-modal',
@@ -28,13 +28,14 @@ export class VehicleTypesModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private vehicleTypeService: VehicleTypeService
+    private vehicleTypeService: VehicleTypeService,
+    private toastService: ToastsService
   ) { }
 
   ngOnInit(): void {
     this.sub = this.vehicleTypeService.getTypes().subscribe(
       types => this.types = types,
-      error => Notify.response(error)
+      error => this.toastService.response(error)
     );
   }
 

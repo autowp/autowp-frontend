@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../services/api.service';
-import Notify from '../notify';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription, of, combineLatest, empty } from 'rxjs';
@@ -15,6 +14,7 @@ import {
   catchError,
   switchMapTo
 } from 'rxjs/operators';
+import {ToastsService} from '../toasts/toasts.service';
 
 const ALL_BRANDS = 'all';
 
@@ -48,7 +48,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pictureService: PictureService,
     private inboxService: InboxService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -100,7 +101,7 @@ export class InboxComponent implements OnInit, OnDestroy {
           })
         ),
         catchError((err, caught) => {
-          Notify.response(err);
+          this.toastService.response(err);
           return of(null);
         }),
         switchMapTo(

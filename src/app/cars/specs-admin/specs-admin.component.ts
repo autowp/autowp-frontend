@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
-import Notify from '../../notify';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -13,6 +12,7 @@ import {
   tap
 } from 'rxjs/operators';
 import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-specs-admin',
@@ -34,7 +34,8 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private attrService: APIAttrsService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -72,7 +73,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
         }),
         catchError((err, caught) => {
           if (err.status !== -1) {
-            Notify.response(err);
+            this.toastService.response(err);
           }
           return of({
             items: [],
@@ -109,9 +110,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
             }
           }
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 
@@ -132,9 +131,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
         response => {
           this.move$.next(true);
         },
-        response => {
-          Notify.response(response);
-        }
+        response => this.toastService.response(response)
       );
   }
 }
