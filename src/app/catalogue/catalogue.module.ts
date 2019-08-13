@@ -7,11 +7,17 @@ import {TranslateModule} from '@ngx-translate/core';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {CatalogueRecentComponent} from './recent/recent.component';
 import {PaginatorModule} from '../paginator/paginator.module';
+import {CatalogueOtherComponent} from './other/other.component';
+import {CatalogueMixedComponent} from './mixed/mixed.component';
+import {CatalogueLogotypesComponent} from './logotypes/logotypes.component';
 
 @NgModule({
   declarations: [
     CatalogueIndexComponent,
-    CatalogueRecentComponent
+    CatalogueRecentComponent,
+    CatalogueOtherComponent,
+    CatalogueMixedComponent,
+    CatalogueLogotypesComponent
   ],
   imports: [
     CommonModule,

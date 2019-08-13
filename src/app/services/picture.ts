@@ -164,6 +164,7 @@ export interface APIGetPicturesOptions {
   limit?: number;
   page?: number;
   perspective_id?: number | null | 'null';
+  perspective_exclude_id?: string;
   order?: number;
   exact_item_id?: number;
   item_id?: number;
@@ -238,6 +239,10 @@ function converPicturesOptions(
 
   if (options.perspective_id) {
     params.perspective_id = options.perspective_id.toString();
+  }
+
+  if (options.perspective_exclude_id) {
+    params.perspective_exclude_id = options.perspective_exclude_id.toString();
   }
 
   if (options.order) {
