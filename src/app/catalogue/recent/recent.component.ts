@@ -17,7 +17,6 @@ import {APIPaginator} from '../../services/api.service';
 export class CatalogueRecentComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;
-  private aclSub: Subscription;
   public pictures: APIPicture[][];
   public paginator: APIPaginator;
 
@@ -138,7 +137,6 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 
   public chunk<T>(a: T[], count: number) {

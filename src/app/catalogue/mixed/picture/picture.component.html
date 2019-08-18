@@ -1,0 +1,22 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname, 'mixed']" translate>page/40/breadcrumbs</a>
+    </li>
+  </ol>
+</nav>
+
+<div>
+  <app-picture [picture]="picture" [prefix]="['/', brand.catname, 'mixed']" *ngIf="picture && brand"></app-picture>
+
+  <div id="comments" *ngIf="picture">
+    <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
+  </div>
+
+</div>

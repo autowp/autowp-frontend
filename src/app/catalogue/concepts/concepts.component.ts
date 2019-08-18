@@ -4,27 +4,25 @@ import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
-import {APIPicture, PictureService} from '../../services/picture';
-import {chunk, chunkBy} from '../../chunk';
+import {APIPicture} from '../../services/picture';
 import {APIPaginator} from '../../services/api.service';
 
 
 @Component({
   selector: 'app-catalogue-logotypes',
-  templateUrl: './logotypes.component.html'
+  templateUrl: './concepts.component.html'
 })
 @Injectable()
-export class CatalogueLogotypesComponent implements OnInit, OnDestroy {
+export class CatalogueConceptsComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;
-  public pictures: APIPicture[][];
+  public items: APIItem[];
   public paginator: APIPaginator;
 
   constructor(
     private pageEnv: PageEnvService,
     private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService
+    private route: ActivatedRoute
   ) {
   }
 
@@ -44,24 +42,23 @@ export class CatalogueLogotypesComponent implements OnInit, OnDestroy {
           catname: catname,
           fields: 'catname,name_text,name_html',
           limit: 1
-        }).pipe(
-          map(response => response && response.items.length ? response.items[0] : null),
-          tap(brand => {
-            this.brand = brand;
-            if (brand) {
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                pageId: 39,
-                name: 'page/39/ng-name',
-                args: {
-                  brand: brand.name_text,
-                }
-              });
+        });
+      }),
+      map(response => response && response.items.length ? response.items[0] : null),
+      tap(brand => {
+        this.brand = brand;
+        if (brand) {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            pageId: 37,
+            name: 'page/37/ng-name',
+            args: {
+              brand: brand.name_text,
             }
-          })
-        );
+          });
+        }
       }),
       switchMap(brand =>
         this.route.queryParamMap.pipe(
@@ -72,31 +69,31 @@ export class CatalogueLogotypesComponent implements OnInit, OnDestroy {
         )
       ),
       switchMap(data =>
-        this.pictureService.getPictures({
-          limit: 12,
-          status: 'accepted',
-          order: 3,
-          exact_item_id: data.brand.id,
-          perspective_id: 22,
-          fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        this.itemService.getItems({
+          limit: 7,
+          order: 'age',
+          ancestor_id: data.brand.id,
+          fields: [
+            'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
+            'design,engine_vehicles',
+            'can_edit_specs,specs_url',
+            'twins_groups',
+            'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
+          ].join(','),
           page: +data.queryParams.get('page')
         })
       )
     ).subscribe(response => {
-      this.pictures = chunkBy(response.pictures, 4);
+      this.items = response.items;
       this.paginator = response.paginator;
     });
   }
 
   public pictureRouterLink(picture: APIPicture): string[] {
-    return ['/', this.brand.catname, 'logotypes', picture.identity];
+    return ['/', this.brand.catname, 'concepts', picture.identity];
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public chunk<T>(a: T[], count: number) {
-    return chunk(a, count);
   }
 }

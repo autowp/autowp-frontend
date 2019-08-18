@@ -10,14 +10,26 @@ import {PaginatorModule} from '../paginator/paginator.module';
 import {CatalogueOtherComponent} from './other/other.component';
 import {CatalogueMixedComponent} from './mixed/mixed.component';
 import {CatalogueLogotypesComponent} from './logotypes/logotypes.component';
+import {CatalogueConceptsComponent} from './concepts/concepts.component';
+import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
+import {PictureModule} from '../picture/picture.module';
+import {CommentsModule} from '../comments/comments.module';
+import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
+import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
+import {CatalogueConceptsListItemComponent} from './concepts/list-item/list-item.component';
 
 @NgModule({
   declarations: [
     CatalogueIndexComponent,
     CatalogueRecentComponent,
     CatalogueOtherComponent,
+    CatalogueOtherPictureComponent,
     CatalogueMixedComponent,
-    CatalogueLogotypesComponent
+    CatalogueMixedPictureComponent,
+    CatalogueLogotypesComponent,
+    CatalogueLogotypesPictureComponent,
+    CatalogueConceptsComponent,
+    CatalogueConceptsListItemComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +37,9 @@ import {CatalogueLogotypesComponent} from './logotypes/logotypes.component';
     UtilsModule,
     TranslateModule,
     ThumbnailModule,
-    PaginatorModule
+    PaginatorModule,
+    PictureModule,
+    CommentsModule
   ]
 })
 export class CatalogueModule {}

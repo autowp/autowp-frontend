@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
 import {CanActivateCatalogue} from './catalogue/can-activate';
-import {CatalogueIndexComponent} from './catalogue/index/index.component';
-import {CatalogueRecentComponent} from './catalogue/recent/recent.component';
 
 const appRoutes: Routes = [
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
@@ -104,16 +102,7 @@ const appRoutes: Routes = [
     // matcher: cataloguePathMatcher,
     path: ':brand',
     canActivate: [CanActivateCatalogue],
-    children: [
-      {
-        path: 'recent',
-        component: CatalogueRecentComponent
-      },
-      {
-        path: '',
-        component: CatalogueIndexComponent
-      }
-    ]
+    loadChildren: () => import('./catalogue/catalogue.module').then(m => m.CatalogueModule)
   },
   { path: '**', component: PageNotFoundComponent }
 ];

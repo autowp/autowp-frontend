@@ -5,6 +5,10 @@ import {CatalogueRecentComponent} from './recent/recent.component';
 import {CatalogueMixedComponent} from './mixed/mixed.component';
 import {CatalogueOtherComponent} from './other/other.component';
 import {CatalogueLogotypesComponent} from './logotypes/logotypes.component';
+import {CatalogueConceptsComponent} from './concepts/concepts.component';
+import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
+import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
+import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
 
 const routes: Routes = [
   {
@@ -13,15 +17,49 @@ const routes: Routes = [
   },
   {
     path: 'mixed',
-    component: CatalogueMixedComponent
+    children: [
+      {
+        path: ':identity',
+        component: CatalogueMixedPictureComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: CatalogueMixedComponent,
+      }
+    ]
   },
   {
     path: 'other',
-    component: CatalogueOtherComponent
+    children: [
+      {
+        path: ':identity',
+        component: CatalogueOtherPictureComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: CatalogueOtherComponent,
+      }
+    ]
   },
   {
     path: 'logotypes',
-    component: CatalogueLogotypesComponent
+    children: [
+      {
+        path: ':identity',
+        component: CatalogueLogotypesPictureComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: CatalogueLogotypesComponent,
+      }
+    ]
+  },
+  {
+    path: 'concepts',
+    component: CatalogueConceptsComponent
   },
   {
     path: '',

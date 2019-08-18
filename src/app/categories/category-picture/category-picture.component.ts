@@ -78,7 +78,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
 
             return this.pictureService.getPictures({
               identity: data.identity,
-              // status: 'accepted',
+              status: 'accepted',
               item_id: data.current.id,
               fields: fields,
               limit: 1,

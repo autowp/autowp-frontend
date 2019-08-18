@@ -10,6 +10,17 @@ import {chunk, chunkBy} from '../../chunk';
 import {ItemLinkService, APIItemLink} from '../../services/item-link';
 import {HttpClient} from '@angular/common/http';
 
+interface APIBrandSectionGroup {
+  name: string;
+  routerLink: string[];
+  count: number;
+}
+
+interface APIBrandSection {
+  name: string;
+  routerLink: string[];
+  groups: APIBrandSectionGroup[];
+}
 
 @Component({
   selector: 'app-catalogue-index',
@@ -26,7 +37,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   public clubLinks: APIItemLink[] = [];
   public otherLinks: APIItemLink[] = [];
   public factories: APIItem[] = [];
-  public sections: any;
+  public sections: APIBrandSection[];
 
   constructor(
     private pageEnv: PageEnvService,
@@ -120,7 +131,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
               this.factories = response.items;
             })
           ),
-          this.http.get('/api/brands/' + brand.id + '/sections').pipe(
+          this.http.get<APIBrandSection[]>('/api/brands/' + brand.id + '/sections').pipe(
             tap(response => {
               this.sections = response;
             })
