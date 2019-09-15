@@ -9,6 +9,11 @@ import {CatalogueConceptsComponent} from './concepts/concepts.component';
 import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
 import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
 import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
+import {CatalogueEnginesComponent} from './engines/engines.component';
+import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/picture/picture.component';
+import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.component';
+import {cataloguePathMatcher} from './matcher';
+import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 
 const routes: Routes = [
   {
@@ -54,6 +59,45 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueLogotypesComponent,
+      }
+    ]
+  },
+  {
+    path: 'engines',
+    children: [
+      {
+        matcher: cataloguePathMatcher,
+        children: [
+          {
+            path: 'gallery',
+            pathMatch: 'full',
+            component: CatalogueEnginesGalleryComponent,
+          },
+          {
+            path: 'pictures',
+            children: [
+              {
+                path: ':identity',
+                component: CatalogueEnginesPicturesPictureComponent,
+              },
+              {
+                path: '',
+                pathMatch: 'full',
+                component: CatalogueEnginesPicturesComponent,
+              }
+            ]
+          },
+          {
+            path: '',
+            pathMatch: 'full',
+            component: CatalogueEnginesComponent,
+          }
+        ]
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: CatalogueEnginesComponent,
       }
     ]
   },

@@ -16,7 +16,11 @@ import {PictureModule} from '../picture/picture.module';
 import {CommentsModule} from '../comments/comments.module';
 import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
 import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
-import {CatalogueConceptsListItemComponent} from './concepts/list-item/list-item.component';
+import {CatalogueListItemComponent} from './list-item/list-item.component';
+import {CatalogueEnginesComponent} from './engines/engines.component';
+import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.component';
+import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/picture/picture.component';
+import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,11 @@ import {CatalogueConceptsListItemComponent} from './concepts/list-item/list-item
     CatalogueLogotypesComponent,
     CatalogueLogotypesPictureComponent,
     CatalogueConceptsComponent,
-    CatalogueConceptsListItemComponent
+    CatalogueListItemComponent,
+    CatalogueEnginesComponent,
+    CatalogueEnginesPicturesComponent,
+    CatalogueEnginesPicturesPictureComponent,
+    CatalogueEnginesGalleryComponent
   ],
   imports: [
     CommonModule,

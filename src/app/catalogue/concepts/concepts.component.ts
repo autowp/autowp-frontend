@@ -4,8 +4,8 @@ import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
-import {APIPicture} from '../../services/picture';
 import {APIPaginator} from '../../services/api.service';
+import {CatalogueListItem, CatalogueListItemPicture} from '../list-item/list-item.component';
 
 
 @Component({
@@ -16,7 +16,7 @@ import {APIPaginator} from '../../services/api.service';
 export class CatalogueConceptsComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;
-  public items: APIItem[];
+  public items: CatalogueListItem[];
   public paginator: APIPaginator;
 
   constructor(
@@ -82,15 +82,50 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           ].join(','),
           page: +data.queryParams.get('page')
         })
-      )
+      ),
+      map(response => {
+        const items: CatalogueListItem[] = [];
+
+        for (const item of response.items) {
+
+          const routerLink = ['/', this.brand.catname, 'concepts'];
+
+          const pictures: CatalogueListItemPicture[] = [];
+          for (const picture of item.preview_pictures) {
+            pictures.push({
+              picture: picture.picture,
+              routerLink: picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
+            });
+          }
+          items.push({
+            id: item.id,
+            preview_pictures: pictures,
+            item_type_id: item.item_type_id,
+            produced: item.produced,
+            produced_exactly: item.produced_exactly,
+            name_html: item.name_html,
+            name_default: item.name_default,
+            design: item.design,
+            description: item.description,
+            engine_vehicles: item.engine_vehicles,
+            has_text: item.has_text,
+            childs_count: item.childs_count,
+            accepted_pictures_count: item.accepted_pictures_count,
+            can_edit_specs: item.can_edit_specs,
+            routerLink: routerLink,
+            picturesRouterLink: routerLink.concat(['pictures'])
+          });
+        }
+
+        return {
+          items: items,
+          paginator: response.paginator
+        };
+      })
     ).subscribe(response => {
       this.items = response.items;
       this.paginator = response.paginator;
     });
-  }
-
-  public pictureRouterLink(picture: APIPicture): string[] {
-    return ['/', this.brand.catname, 'concepts', picture.identity];
   }
 
   ngOnDestroy(): void {

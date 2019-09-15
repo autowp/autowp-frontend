@@ -35,6 +35,7 @@ export interface APIItemParentGetItemsOptions {
   order?: string;
   is_group?: boolean;
   exclude_concept?: boolean;
+  catname?: string;
 }
 
 @Injectable()
@@ -92,6 +93,10 @@ export class ItemParentService {
 
     if (options.exclude_concept) {
       params.exclude_concept = '1';
+    }
+
+    if (options.catname) {
+      params.catname = options.catname;
     }
 
     return this.http.get<APIItemParentGetResponse>('/api/item-parent', {

@@ -13,33 +13,34 @@
   </h3>
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
-
-  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length > 4">
-    <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.slice(0, 1)">
-      <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
-      </a>
-      <span *ngIf="!picture">&#xa0;</span>
-    </div>
-    <div class="col-12 col-lg-6">
-      <div class="row">
-        <div class="col-6" *ngFor="let picture of item.preview_pictures.slice(1)">
-          <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-            <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
-          </a>
-          <span *ngIf="!picture">&#xa0;</span>
+  <ng-container *ngIf="item.preview_pictures">
+    <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length > 4">
+      <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.slice(0, 1)">
+        <a [routerLink]="picture.routerLink" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
+          <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
+        </a>
+        <span *ngIf="!picture">&#xa0;</span>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row">
+          <div class="col-6" *ngFor="let picture of item.preview_pictures.slice(1)">
+            <a [routerLink]="picture.routerLink" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
+              <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
+            </a>
+            <span *ngIf="!picture">&#xa0;</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length <= 4">
-    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
-      <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
-      </a>
-      <span *ngIf="!picture">&#xa0;</span>
+    <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length <= 4">
+      <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
+        <a [routerLink]="picture.routerLink" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
+          <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
+        </a>
+        <span *ngIf="!picture">&#xa0;</span>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
   <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
     <div class="col-6 col-lg-3">
@@ -65,14 +66,14 @@
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id == 3" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="itemRouterLink()">{{'carlist/details'|translate}}
+      <a [routerLink]="item.routerLink">{{'carlist/details'|translate}}
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id != 3" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="itemRouterLink()">{{'carlist/details'|translate}}
+      <a [routerLink]="item.routerLink">{{'carlist/details'|translate}}
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
@@ -84,12 +85,12 @@
 
     <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id == 3" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
-      <a [routerLink]="itemRouterLink().concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+      <a [routerLink]="item.picturesRouterLink">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
     </li>
 
     <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id != 3" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
-      <a [routerLink]="itemRouterLink().concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+      <a [routerLink]="item.picturesRouterLink">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">

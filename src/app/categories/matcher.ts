@@ -1,6 +1,7 @@
 import { UrlSegment } from '@angular/router';
 
 export function categoriesPathMatcher(url: UrlSegment[]) {
+  console.log('categoriesPathMatcher', url);
   if (url.length <= 0) {
     return null;
   }

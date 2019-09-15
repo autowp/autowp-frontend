@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
-import {CanActivateCatalogue} from './catalogue/can-activate';
 
 const appRoutes: Routes = [
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
@@ -101,10 +100,10 @@ const appRoutes: Routes = [
   {
     // matcher: cataloguePathMatcher,
     path: ':brand',
-    canActivate: [CanActivateCatalogue],
     loadChildren: () => import('./catalogue/catalogue.module').then(m => m.CatalogueModule)
   },
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'error-404', component: PageNotFoundComponent },
+  { path: '**', redirectTo: 'error-404' }
 ];
 
 @NgModule({

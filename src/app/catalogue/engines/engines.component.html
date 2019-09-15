@@ -6,11 +6,19 @@
     <li class="breadcrumb-item" *ngIf="brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
+    <li class="breadcrumb-item" *ngIf="brand && path.length > 0">
+      <a [routerLink]="['/', brand.catname, 'engines']" translate>engines</a>
+    </li>
+    <ng-container *ngIf="brand && path.length > 1">
+      <li class="breadcrumb-item" *ngFor="let node of path">
+        <a [routerLink]="['/', brand.catname, 'engines', node.catname]" [innerHTML]="node.item.name_html"></a>
+      </li>
+    </ng-container>
   </ol>
 </nav>
 
 <div class="page-header" *ngIf="brand">
-  <h1 translate [translateParams]="{brand: brand.name_text}">page/37/ng-name</h1>
+  <h1 translate [translateParams]="{brand: brand.name_text}">page/208/ng-name</h1>
 </div>
 
 <app-catalogue-list-item [brand]="brand" [item]="item" *ngFor="let item of items"></app-catalogue-list-item>

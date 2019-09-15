@@ -103,6 +103,7 @@ export class CatalogueLogotypesPictureComponent implements OnInit, OnDestroy {
     )
     .subscribe((data) => {
       if (!data.picture || !data.brand) {
+        console.log('goto 404');
         this.router.navigate(['/error-404']);
         return;
       }
