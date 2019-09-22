@@ -238,9 +238,6 @@
       <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="!copyrightsLoading"></ngb-progressbar>
     </div>
 
-    <h3 *ngIf="picture.iptc">IPTC</h3>
-    <div class="card card-body small mb-4" style="overflow:auto" *ngIf="picture.iptc" [innerHTML]="picture.iptc"></div>
-
     <h3 *ngIf="picture.exif">EXIF</h3>
     <div class="card card-body small mb-4" style="overflow:auto" *ngIf="picture.exif" [innerHTML]="picture.exif"></div>
 

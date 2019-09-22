@@ -133,7 +133,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
                   'owner',
                   'thumb',
                   'add_date',
-                  'iptc',
                   'exif',
                   'image',
                   'items.item.name_html',
