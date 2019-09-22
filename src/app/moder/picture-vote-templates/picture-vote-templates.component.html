@@ -14,7 +14,7 @@
 </div>
 
 <table class="table">
-  <tr *ngFor="let template of templates">
+  <tr *ngFor="let template of templates" role="presentation">
     <td>
       <i class="fa fa-thumbs-up text-success" aria-hidden="true" *ngIf="template.vote > 0"></i>
       <i class="fa fa-thumbs-down text-danger" aria-hidden="true" *ngIf="template.vote < 0"></i>

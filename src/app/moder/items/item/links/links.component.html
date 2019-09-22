@@ -1,7 +1,7 @@
 <div class="card card-body">
   <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="loading <= 0"></ngb-progressbar>
   <form *ngIf="canEditMeta" method="post" (submit)="saveLinks()">
-    <table class="table table-condensed table-striped">
+    <table class="table table-condensed table-striped" role="presentation">
       <thead>
         <tr>
           <th translate scope="col">moder/brands/links/text</th>
@@ -48,7 +48,7 @@
       </tbody>
     </table>
   </form>
-  <table class="table table-condensed table-stripped" *ngIf="!canEditMeta">
+  <table class="table table-condensed table-stripped" *ngIf="!canEditMeta" role="presentation">
     <tbody>
       <tr>
         <th translate scope="col">moder/brands/links/text</th>

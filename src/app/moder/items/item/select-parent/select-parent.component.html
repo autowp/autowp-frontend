@@ -39,7 +39,7 @@
 <div class="card card-body" *ngIf="tab == 'catalogue'">
   <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search ..." auto-focus
   />
-  <table class="table" *ngIf="!brand_id">
+  <table class="table" *ngIf="!brand_id" role="presentation">
     <tbody>
       <tr>
         <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
@@ -63,7 +63,7 @@
 <div class="card card-body" *ngIf="tab == 'brands'">
   <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search ..." auto-focus
   />
-  <table class="table">
+  <table class="table" role="presentation">
     <tbody>
       <tr>
         <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
@@ -90,7 +90,7 @@
 </div>
 
 <div class="card card-body" *ngIf="tab == 'twins'">
-  <table class="table" *ngIf="!brand_id">
+  <table class="table" *ngIf="!brand_id" role="presentation">
     <tbody>
       <tr>
         <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
