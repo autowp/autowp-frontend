@@ -227,6 +227,8 @@
       </div>
     </div>
 
+    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+
     <div class="row" *ngFor="let chunk of chunks">
       <div class="col-sm-4" *ngFor="let picture of chunk">
         <app-thumbnail [picture]="picture" [selectable]="true" (selected)="onPictureSelect($event, picture)"></app-thumbnail>
