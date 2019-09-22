@@ -63,10 +63,10 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th translate>forums/theme/topics</th>
-        <th translate>forums/theme/author</th>
-        <th translate>forums/theme/last-message</th>
-        <th *ngIf="forumAdmin"></th>
+        <th translate scope="col">forums/theme/topics</th>
+        <th translate scope="col">forums/theme/author</th>
+        <th translate scope="col">forums/theme/last-message</th>
+        <th *ngIf="forumAdmin" scope="col"></th>
       </tr>
     </thead>
     <tbody *ngIf="theme">
