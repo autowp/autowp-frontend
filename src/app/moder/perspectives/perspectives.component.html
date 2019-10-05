@@ -16,7 +16,7 @@
 <ul>
   <li *ngFor="let page of pages">
     [{{ page.id }}] {{ page.name }}
-    <table style="margin-bottom:20px">
+    <table style="margin-bottom:20px" role="presentation">
       <tr>
         <td *ngFor="let group of page.groups">
           [{{ group.id }}] {{ group.name }}

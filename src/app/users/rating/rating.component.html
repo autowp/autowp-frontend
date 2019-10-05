@@ -29,14 +29,14 @@
   <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
 </span>
 
-<table class="table">
+<table class="table" role="presentation">
   <thead>
     <tr>
-      <th>#</th>
-      <th></th>
-      <th></th>
-      <th class="text-right" [textContent]="valueTitle|translate"></th>
-      <th class="text-right" *ngIf="rating == 'specs'" translate>users/rating/specs-volume</th>
+      <th scope="col">#</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col" class="text-right" [textContent]="valueTitle|translate"></th>
+      <th scope="col" class="text-right" *ngIf="rating == 'specs'" translate>users/rating/specs-volume</th>
     </tr>
   </thead>
   <tbody>

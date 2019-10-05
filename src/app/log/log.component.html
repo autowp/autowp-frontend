@@ -10,7 +10,7 @@
   <h1 translate>page/75/name</h1>
 </div>
 
-<table class="table table-condensed table-striped">
+<table class="table table-condensed table-striped" role="presentation">
   <tr *ngFor="let event of items">
     <td>
       <app-user [user]="event.user" *ngIf="event.user"></app-user>

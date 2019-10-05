@@ -95,7 +95,6 @@ export interface APIPicture {
     flop: boolean;
   };
   copyrights_text_id: number;
-  iptc: string;
   exif: string;
   replaceable: APIPicture;
   change_status_user: APIUser;

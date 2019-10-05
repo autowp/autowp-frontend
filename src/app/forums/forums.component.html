@@ -60,13 +60,13 @@
     {{'forums/create-new-topic'|translate}}
   </a>
 
-  <table class="table table-striped">
+  <table class="table table-striped" role="presentation">
     <thead>
       <tr>
-        <th translate>forums/theme/topics</th>
-        <th translate>forums/theme/author</th>
-        <th translate>forums/theme/last-message</th>
-        <th *ngIf="forumAdmin"></th>
+        <th translate scope="col">forums/theme/topics</th>
+        <th translate scope="col">forums/theme/author</th>
+        <th translate scope="col">forums/theme/last-message</th>
+        <th *ngIf="forumAdmin" scope="col"></th>
       </tr>
     </thead>
     <tbody *ngIf="theme">

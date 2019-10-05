@@ -15,12 +15,12 @@
 
 <button class="btn btn-warning" (click)="clearAll()" *ngIf="canManage">Clear all</button>
 
-<table class="table table-border">
+<table class="table table-border" role="presentation">
   <thead>
     <tr>
-      <th>Host</th>
-      <th>URL</th>
-      <th>Count</th>
+      <th scope="col">Host</th>
+      <th scope="col">URL</th>
+      <th scope="col">Count</th>
     </tr>
   </thead>
   <tbody>
