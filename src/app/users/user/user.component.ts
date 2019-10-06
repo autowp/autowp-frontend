@@ -97,7 +97,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
           this.userService
             .getByIdentity(data.params.identity, { fields: fields })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return EMPTY;
               })
@@ -233,7 +233,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     }
 
     this.http.delete<void>('/api/user/' + this.user.id + '/photo').subscribe(
-      response => {
+      () => {
         this.user.photo = null;
       },
       response => this.toastService.response(response)
@@ -249,7 +249,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         deleted: true
       })
       .subscribe(
-        response => {
+        () => {
           this.user.deleted = true;
         },
         response => this.toastService.response(response)
@@ -260,7 +260,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.http
       .delete<void>('/api/traffic/blacklist/' + this.ip.address)
       .subscribe(
-        response => {},
+        () => {},
         response => this.toastService.response(response)
       );
   }
@@ -269,27 +269,27 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.http
       .delete<void>('/api/traffic/blacklist/' + this.ip.address)
       .subscribe(
-        response => {
+        () => {
           this.ip.blacklist = null;
         },
         response => this.toastService.response(response)
       );
   }
 
-  public addToBlacklist() {
+  public addToBlacklist(ipAddress: string) {
     this.http
       .post<void>('/api/traffic/blacklist', {
-        ip: this.ip.address,
+        ip: ipAddress,
         period: this.banPeriod,
         reason: this.banReason
       })
       .pipe(
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           return EMPTY;
         }),
         switchMap(() => this.loadBan(this.user.last_ip)),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           return EMPTY;
 

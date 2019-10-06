@@ -128,7 +128,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.querySub.unsubscribe();
   }
 
-  public onChange(event: any, input: any) {
+  public onChange(event: any) {
     this.files = [].slice.call(event.target.files);
   }
 
@@ -143,10 +143,12 @@ export class UploadComponent implements OnInit, OnDestroy {
       xhrs.push(this.uploadFile(file));
     }
 
-    concat(...xhrs).subscribe(() => {}, undefined, () => {
-      this.input.nativeElement.value = '';
-      this.formHidden = false;
-      this.files = undefined;
+    concat(...xhrs).subscribe({
+      complete: () => {
+        this.input.nativeElement.value = '';
+        this.formHidden = false;
+        this.files = undefined;
+      }
     });
 
     return false;
@@ -184,7 +186,7 @@ export class UploadComponent implements OnInit, OnDestroy {
         reportProgress: true
       })
       .pipe(
-        catchError((response, caught) => {
+        catchError(response => {
           progress.percentage = 100;
           progress.failed = true;
 
@@ -221,7 +223,7 @@ export class UploadComponent implements OnInit, OnDestroy {
                   progress.percentage = 100;
                   this.pictures.push(picture);
                 }),
-                catchError((response, caught) => {
+                catchError(response => {
                   this.toastService.response(response);
 
                   return EMPTY;

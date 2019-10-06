@@ -83,7 +83,7 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
         class: this.item['class']
       })
       .subscribe(
-        response => {
+        () => {
           this.loading--;
         },
         () => {

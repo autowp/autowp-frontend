@@ -50,7 +50,7 @@ export class APIUser {
   photo: APIImage;
   pictures_added: number;
   pictures_accepted_count: number;
-  accounts: APIAccount;
+  accounts: APIAccount[];
   is_moder: boolean;
   renames: {
     date: string;

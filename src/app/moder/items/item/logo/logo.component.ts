@@ -37,7 +37,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
     this.aclSub.unsubscribe();
   }
 
-  public onChange(event: any, input: any) {
+  public onChange(event: any) {
     if (event.target.files.length <= 0) {
       return;
     }
@@ -94,7 +94,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
                   this.progress.percentage = 100;
                   this.item.logo = subresponse;
                 }),
-                catchError((response, caught) => {
+                catchError(response => {
                   this.toastService.response(response);
 
                   return EMPTY;

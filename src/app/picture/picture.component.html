@@ -21,7 +21,7 @@
             <p translate>picture/other-languages</p>
             <ul class="list-unstyled">
               <li *ngFor="let altName of picture.items[0].item.alt_names">
-                  <sup *ngFor="let code of altName.languages" style="text-decoration: uppercase">{{code}}</sup>
+                  <sup *ngFor="let code of altName.languages" style="text-transform: uppercase">{{code}}</sup>
                   {{altName.name}}
               </li>
             </ul>
@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-xs-6">
         <div class="picture-vote">
-          <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value &lt;= 0" *ngIf="user" (click)="vote(1)"></a>
+          <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value <= 0" *ngIf="user" (click)="vote(1)"></a>
           <i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true" *ngIf="!user"></i>
           <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
           <a href="#" class="fa fa-2x vote-down"  aria-hidden="true"[class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>

@@ -56,7 +56,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             ].join(',')
           })
         ),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return EMPTY;
@@ -102,7 +102,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             paginator: response.paginator
           }))
         )),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           return EMPTY;
         })

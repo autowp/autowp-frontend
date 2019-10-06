@@ -99,7 +99,7 @@ export class AccountAccountsComponent {
 
   public remove(account: APIAccount) {
     this.http.delete('/api/account/' + account.id).subscribe(
-      response => {
+      () => {
         this.translate
           .get('account/accounts/removed')
           .subscribe((translation: string) => this.toastService.success(translation));

@@ -228,7 +228,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(
-        response => {
+        () => {
           this.loading--;
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {

@@ -60,7 +60,7 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
         engine_id: engineId
       })
       .subscribe(
-        response => {
+        () => {
           this.router.navigate(['/cars/specifications-editor'], {
             queryParams: {
               item_id: this.item.id,

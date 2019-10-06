@@ -105,10 +105,10 @@ export class ModerItemsItemNameComponent
           }
         )
         .subscribe(
-          response => {
+          () => {
             this.loading--;
           },
-          response => {
+          () => {
             this.loading--;
           }
         );

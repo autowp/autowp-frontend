@@ -24,7 +24,7 @@
 
 body {
   &.gallery {
-    padding-top: 0px;
+    padding-top: 0;
 
     .container-fluid {
       padding: 0;
@@ -47,7 +47,7 @@ body {
     padding-top: 74px;
 
     &.gallery {
-      padding-top: 0px;
+      padding-top: 0;
     }
   }
 }
@@ -100,7 +100,7 @@ img#picture-to-crop {
 
 .picture-behaviour {
   font-size: 12px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .card {

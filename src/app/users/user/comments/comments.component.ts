@@ -54,7 +54,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap(params => {
           return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
-            catchError((err, caught) => {
+            catchError((err) => {
               this.toastService.response(err);
               return EMPTY;
             })
@@ -109,7 +109,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
               fields: 'preview,url,vote'
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError((err) => {
                 this.toastService.response(err);
                 return EMPTY;
               }),

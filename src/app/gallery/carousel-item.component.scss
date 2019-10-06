@@ -105,7 +105,7 @@ $controlWidth: 7.5%;
     height: auto;
     width: $controlWidth;
     opacity: 1;
-    text-shadow: 0 0px 4px #000;
+    text-shadow: 0 0 4px #000;
     color: #fff;
     font-size: 1.5rem;
 
@@ -141,7 +141,7 @@ $controlWidth: 7.5%;
 }
 
 .carousel-caption {
-  text-shadow: 0 0px 4px #000;
+  text-shadow: 0 0 4px #000;
   opacity: 1;
   margin-bottom: 30px;
   padding-bottom: 0;

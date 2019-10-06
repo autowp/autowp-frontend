@@ -75,7 +75,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         subscription: 1
       })
       .subscribe(
-        response => {
+        () => {
           this.topic.subscription = true;
         },
         response => this.toastService.response(response)
@@ -88,7 +88,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         subscription: 0
       })
       .subscribe(
-        response => {
+        () => {
           this.topic.subscription = false;
         },
         response => this.toastService.response(response)

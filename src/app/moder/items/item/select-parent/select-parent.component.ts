@@ -226,7 +226,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         parent_id: parent.id
       })
       .subscribe(
-        response => {
+        () => {
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {
               tab: 'catalogue'

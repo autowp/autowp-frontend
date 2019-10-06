@@ -148,7 +148,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         finalize(() => {
           this.loading--;
         }),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return of(null);

@@ -102,7 +102,7 @@ export class ModerItemsItemPicturesOrganizeComponent
                     pageId: 78
                   });
                 }),
-                switchMap(item =>
+                switchMap(() =>
                   this.item.item_type_id === 1 || this.item.item_type_id === 4
                     ? this.http
                         .get<APIItemVehicleTypeGetResponse>(

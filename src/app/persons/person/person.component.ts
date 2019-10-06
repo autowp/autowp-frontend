@@ -57,7 +57,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
             fields: ['name_text', 'name_html', 'description'].join(',')
           })
         ),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return EMPTY;
@@ -85,7 +85,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               item_id: data.item.id
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return of(null);
               })
@@ -102,7 +102,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               page: data.params.page
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return of(null);
               })
@@ -119,7 +119,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               page: data.params.page
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return of(null);
               })

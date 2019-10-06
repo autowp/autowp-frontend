@@ -195,7 +195,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   public showFileSelectDialog() {
     this.photoInvalidParams = {};
-    this.fileInput.nativeElement.click();
+    this.fileInput.nativeElement.trigger('click');
   }
 
   public resetPhoto() {

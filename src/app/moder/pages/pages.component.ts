@@ -58,14 +58,14 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
       .put<void>('/api/page/' + page.id, {
         position: direction
       })
-      .subscribe(response => {
+      .subscribe(() => {
         this.load$.next(null);
       });
   }
 
   public deletePage(ev: any, page: APIPage) {
     if (window.confirm('Would you like to delete page?')) {
-      this.http.delete('/api/page/' + page.id).subscribe(response => {
+      this.http.delete('/api/page/' + page.id).subscribe(() => {
         this.load$.next(null);
       });
     }

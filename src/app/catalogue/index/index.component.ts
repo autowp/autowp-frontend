@@ -167,7 +167,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
 
   public pictureRouterLink(picture: APIPicture): string[] {
     for (const pictureItem of picture.path) {
-      if (pictureItem.type = 1) {
+      if (pictureItem.type === 1) {
         switch (pictureItem.item.item_type_id) {
           case 5: // brand
             switch (pictureItem.perspective_id) {

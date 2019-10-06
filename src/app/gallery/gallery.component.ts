@@ -72,10 +72,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(
         distinctUntilChanged(),
         debounceTime(50),
-        tap((itemID) => {
+        tap(itemID => {
           this.gallery = [];
-        }),
-        tap((itemID) => {
           this.currentItemID = itemID;
         }),
         switchMap(itemID => this.current$.pipe(
@@ -95,7 +93,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                 tap(response => {
                   this.applyResponse(response);
                 }),
-                map(response => ({ itemID: data.itemID, identity: data.current }))
+                map(() => ({ itemID: data.itemID, identity: data.current }))
               );
           }
           return of({ itemID: data.itemID, identity: data.current });

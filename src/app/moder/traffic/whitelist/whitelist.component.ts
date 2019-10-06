@@ -63,7 +63,7 @@ export class ModerTrafficWhitelistComponent {
   public deleteItem(item: APITrafficWhitelistItem) {
     this.http
       .delete<void>('/api/traffic/whitelist/' + item.ip)
-      .subscribe(response => {
+      .subscribe(() => {
         const index = this.items.indexOf(item);
         if (index !== -1) {
           this.items.splice(index, 1);

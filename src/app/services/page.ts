@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, Observer} from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface APIPageLinearized extends APIPage {
@@ -75,8 +75,8 @@ export class PageService {
     return false;
   }
 
-  private loadTree(): Observable<void> {
-    return Observable.create(observer => {
+  private loadTree(): Observable<boolean> {
+    return new Observable<boolean>((observer: Observer<boolean>) => {
       if (!this.pagesJson) {
         this.pagesJson = require('./pages.json');
         this.walkPages(this.pagesJson, null);

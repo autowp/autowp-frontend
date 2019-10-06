@@ -93,7 +93,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
         }).pipe(
           map(pictures => ({ factory, pictures }))
         )),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           return EMPTY;
         })

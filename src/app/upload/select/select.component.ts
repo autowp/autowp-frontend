@@ -89,10 +89,10 @@ export class UploadSelectComponent implements OnInit {
           const brandId = parseInt(params.query.brand_id, 10);
           const page = parseInt(params.query.page, 10);
 
-          return forkJoin(
+          return forkJoin([
             brandId ? this.brandObservable(brandId) : of(null),
             brandId ? of(null) : this.brandsObservable(page, params.search)
-          ).pipe(
+          ]).pipe(
             map(data => {
               return {
                 brand: data[0],
@@ -128,7 +128,7 @@ export class UploadSelectComponent implements OnInit {
         page: page
       })
       .pipe(
-        catchError((err, caught) => {
+        catchError(err => {
           if (err.status !== -1) {
             this.toastService.response(err);
           }
@@ -146,7 +146,7 @@ export class UploadSelectComponent implements OnInit {
     concepts: APIItemParent[];
   }> {
     return this.itemService.getItem(brandId).pipe(
-      catchError((err, caught) => {
+      catchError(() => {
         this.router.navigate(['/error-404']);
         return EMPTY;
       }),
@@ -169,7 +169,7 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map(response => response.items),
-          catchError((err, caught) => {
+          catchError(err => {
             this.toastService.response(err);
             return EMPTY;
           })
@@ -185,7 +185,7 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map(response => response.items),
-          catchError((err, caught) => {
+          catchError(err => {
             this.toastService.response(err);
             return EMPTY;
           })
@@ -200,7 +200,7 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map(response => response.items),
-          catchError((err, caught) => {
+          catchError(err => {
             this.toastService.response(err);
             return EMPTY;
           })

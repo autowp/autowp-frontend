@@ -92,14 +92,14 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
           attribute_id: change.id
         })
         .subscribe(
-          response => {},
+          () => {},
           response => this.toastService.response(response)
         );
     } else {
       this.http
         .delete('/api/attr/zone-attribute/' + this.zone.id + '/' + change.id)
         .subscribe(
-          response => {},
+          () => {},
           response => this.toastService.response(response)
         );
     }

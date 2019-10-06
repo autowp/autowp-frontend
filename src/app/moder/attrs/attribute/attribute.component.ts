@@ -164,7 +164,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
     this.attrsService
       .updateAttribute(this.attribute.id, this.attribute)
       .subscribe(
-        response => {
+        () => {
           this.loading--;
         },
         response => {
@@ -216,7 +216,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
         name: this.newListOption.name
       })
       .subscribe(
-        response => {
+        () => {
           this.newListOption.name = '';
 
           this.$listOptionsChange.next(null);

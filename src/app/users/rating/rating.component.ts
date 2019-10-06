@@ -92,7 +92,7 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
               finalize(() => {
                 this.loading--;
               }),
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return EMPTY;
               })

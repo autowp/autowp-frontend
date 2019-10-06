@@ -99,7 +99,7 @@ export class InboxComponent implements OnInit, OnDestroy {
             }))
           );
         }),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           return of(null);
         }),

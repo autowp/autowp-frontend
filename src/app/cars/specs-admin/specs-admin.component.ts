@@ -72,7 +72,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
             fields: 'user,path,unit'
           });
         }),
-        catchError((err, caught) => {
+        catchError(err => {
           if (err.status !== -1) {
             this.toastService.response(err);
           }
@@ -103,7 +103,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
           value.user_id
       )
       .subscribe(
-        response => {
+        () => {
           for (let i = 0; i < this.values.length; i++) {
             if (this.values[i] === value) {
               this.values.splice(i, 1);
@@ -129,7 +129,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
         }
       )
       .subscribe(
-        response => {
+        () => {
           this.move$.next(true);
         },
         response => this.toastService.response(response)

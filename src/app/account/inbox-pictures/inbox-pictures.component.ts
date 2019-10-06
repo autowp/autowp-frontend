@@ -56,7 +56,7 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
           page: data.params.page,
           order: 1
         })),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           return EMPTY;
         })

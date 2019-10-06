@@ -244,7 +244,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         taken_day: this.picture.taken_day
       })
       .subscribe(
-        response => {
+        () => {
           this.specialNameLoading = false;
         },
         () => {
@@ -261,7 +261,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         copyrights: this.picture.copyrights
       })
       .subscribe(
-        response => {
+        () => {
           this.copyrightsLoading = false;
         },
         () => {
@@ -277,7 +277,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         status: status
       })
       .subscribe(
-        response => {
+        () => {
           this.change$.next(null);
           this.statusLoading = false;
         },
@@ -306,7 +306,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public normalizePicture() {
     this.repairLoading = true;
     this.http.put<void>('/api/picture/' + this.id + '/normalize', {}).subscribe(
-      response => {
+      () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
@@ -319,7 +319,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public flopPicture() {
     this.repairLoading = true;
     this.http.put<void>('/api/picture/' + this.id + '/flop', {}).subscribe(
-      response => {
+      () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
@@ -332,7 +332,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public repairPicture() {
     this.repairLoading = true;
     this.http.put<void>('/api/picture/' + this.id + '/repair', {}).subscribe(
-      response => {
+      () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
@@ -347,7 +347,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.http
       .put<void>('/api/picture/' + this.id + '/correct-file-names', {})
       .subscribe(
-        response => {
+        () => {
           this.change$.next(null);
           this.repairLoading = false;
         },
@@ -411,7 +411,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         replace_picture_id: ''
       })
       .subscribe(
-        response => {
+        () => {
           this.change$.next(null);
           this.replaceLoading = false;
         },
@@ -426,7 +426,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.http
       .put<void>('/api/picture/' + this.id + '/accept-replace', {})
       .subscribe(
-        response => {
+        () => {
           this.change$.next(null);
           this.replaceLoading = false;
         },
@@ -439,7 +439,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public removeFromBlacklist(ip: string) {
     this.http
       .delete<void>('/api/traffic/blacklist/' + ip)
-      .subscribe(response => {
+      .subscribe(() => {
         this.change$.next(null);
       });
   }
@@ -451,7 +451,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         period: this.banPeriod,
         reason: this.banReason
       })
-      .subscribe(response => {
+      .subscribe(() => {
         this.change$.next(null);
       });
   }

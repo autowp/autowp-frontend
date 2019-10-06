@@ -79,7 +79,7 @@ export class MostsComponent implements OnInit, OnDestroy {
 
           this.initPageEnv();
         }),
-        switchMap(data =>
+        switchMap(() =>
           this.mostsService.getItems({
             rating_catname: this.ratingCatname,
             type_catname: this.typeCatname,

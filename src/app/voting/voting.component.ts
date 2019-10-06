@@ -50,7 +50,7 @@ export class VotingComponent implements OnInit, OnDestroy {
           callback();
         }
       },
-      response => {
+      () => {
         this.router.navigate(['/error-404']);
       }
     );
@@ -108,7 +108,7 @@ export class VotingComponent implements OnInit, OnDestroy {
         vote: ids
       })
       .subscribe(
-        response => {
+        () => {
           this.load();
         },
         response => this.toastService.response(response)

@@ -254,7 +254,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                   })
                 : of(null)
             ]).pipe(
-              map(response => item)
+              map(() => item)
             )
         )
       )

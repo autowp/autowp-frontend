@@ -185,7 +185,7 @@ export interface APIAttrAttributePostOptions {
 export class APIAttrsService {
   private readonly attributeTypes$: Observable<APIAttrAttributeType[]>;
   private readonly zones$: Observable<APIAttrZone[]>;
-  private units$: Observable<APIAttrUnit[]>;
+  private readonly units$: Observable<APIAttrUnit[]>;
 
   constructor(private http: HttpClient) {
     this.attributeTypes$ = this.http

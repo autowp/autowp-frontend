@@ -46,7 +46,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
               fields: 'name_html,name_text'
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 if (err.status !== -1) {
                   this.toastService.response(err);
                 }
@@ -67,7 +67,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 page: query.page
               })
             ),
-            catchError((err, caught) => {
+            catchError(err => {
               if (err.status !== -1) {
                 this.toastService.response(err);
               }

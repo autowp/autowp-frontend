@@ -65,7 +65,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
             fields: ['name_text', 'lat', 'lng', 'description'].join(',')
           })
         ),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
           this.router.navigate(['/error-404']);
           return EMPTY;
@@ -90,7 +90,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
               item_id: item.id
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return of(null);
               })
@@ -105,7 +105,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
               order: 12
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
                 return of(null);
               })
