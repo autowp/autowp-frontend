@@ -66,21 +66,15 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           }))
         )),
         switchMap(
-          (data) => {
-            return this.pictureService.getPictures({
-              fields: [
-                'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
-              ].join(','),
-              limit: 20,
-              page: data.page,
-              item_id: data.current.id,
-              status: 'accepted',
-              order: 3
-            });
-          },
-          (data, response) => ({
-            pictures: response.pictures,
-            paginator: response.paginator
+          data => this.pictureService.getPictures({
+            fields: [
+              'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
+            ].join(','),
+            limit: 20,
+            page: data.page,
+            item_id: data.current.id,
+            status: 'accepted',
+            order: 3
           })
         )
       )

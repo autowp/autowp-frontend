@@ -10,7 +10,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
-  catchError
+  catchError, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -40,50 +40,47 @@ export class NewItemComponent implements OnInit, OnDestroy {
       .pipe(
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(
-          params => {
-            return combineLatest([
-              this.itemService
-                .getItem(params.item_id, {
-                  fields: 'name_html,name_text'
-                })
-                .pipe(
-                  catchError((err, caught) => {
-                    if (err.status !== -1) {
-                      this.toastService.response(err);
-                    }
-                    return EMPTY;
-                  })
-                ),
-              this.route.queryParams.pipe(
-                distinctUntilChanged(),
-                debounceTime(30),
-                switchMap(query =>
-                  this.pictureService.getPictures({
-                    fields:
-                      'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-                    limit: 24,
-                    status: 'accepted',
-                    accept_date: params.date,
-                    item_id: params.item_id,
-                    page: query.page
-                  })
-                ),
-                catchError((err, caught) => {
-                  if (err.status !== -1) {
-                    this.toastService.response(err);
-                  }
-                  return EMPTY;
-                })
-              )
-            ]);
-          },
-          (params, data) => ({
+        switchMap(params => combineLatest([
+          this.itemService
+            .getItem(params.item_id, {
+              fields: 'name_html,name_text'
+            })
+            .pipe(
+              catchError((err, caught) => {
+                if (err.status !== -1) {
+                  this.toastService.response(err);
+                }
+                return EMPTY;
+              })
+            ),
+          this.route.queryParams.pipe(
+            distinctUntilChanged(),
+            debounceTime(30),
+            switchMap(query =>
+              this.pictureService.getPictures({
+                fields:
+                  'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
+                limit: 24,
+                status: 'accepted',
+                accept_date: params.date,
+                item_id: params.item_id,
+                page: query.page
+              })
+            ),
+            catchError((err, caught) => {
+              if (err.status !== -1) {
+                this.toastService.response(err);
+              }
+              return EMPTY;
+            })
+          )
+        ]).pipe(
+          map(data => ({
             params: params,
             item: data[0],
             pictures: data[1]
-          })
-        )
+          }))
+        ))
       )
       .subscribe(data => {
         this.item = data.item;

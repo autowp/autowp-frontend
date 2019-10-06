@@ -13,7 +13,7 @@ import {
   finalize,
   catchError,
   tap,
-  switchMapTo
+  switchMapTo, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 
@@ -177,20 +177,19 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.picturesTab.visible =
             [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
         }),
-        switchMap(
-          item => {
-            this.loading++;
-            return this.pictureService.getPictures({
-              fields: 'thumb_medium',
-              limit: 1,
-              item_id: item.id
-            });
-          },
-          (item, pictures) => ({
-            item: item,
-            pictures: pictures.pictures
-          })
-        ),
+        switchMap(item => {
+          this.loading++;
+          return this.pictureService.getPictures({
+            fields: 'thumb_medium',
+            limit: 1,
+            item_id: item.id
+          }).pipe(
+            map(pictures => ({
+              item: item,
+              pictures: pictures.pictures
+            }))
+          );
+        }),
         finalize(() => {
           this.loading--;
         }),

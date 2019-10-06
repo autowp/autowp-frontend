@@ -67,13 +67,12 @@ export class ModerItemsItemNameComponent
     )
       .pipe(
         map(data => ({ languages: data[0], item: data[1] })),
-        switchMap(
-          data => this.itemLanguageService.getItems(data.item.id),
-          (data, values) => ({
+        switchMap(data => this.itemLanguageService.getItems(data.item.id).pipe(
+          map(values => ({
             languages: data.languages,
             values: values.items
-          })
-        )
+          }))
+        ))
       )
       .subscribe(data => {
         for (const value of data.values) {

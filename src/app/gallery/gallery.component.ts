@@ -82,26 +82,24 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
           map(current => ({ itemID, current }))
         )),
         distinctUntilChanged(),
-        switchMap(
-          (data) => {
-            this.current = data.current;
-            if (!this.getGalleryItem(data.current)) {
-              return this.http
-                .get<APIGallery>('/api/item/' + data.itemID + '/gallery', {
-                  params: {
-                    picture_identity: data.current
-                  }
-                })
-                .pipe(
-                  tap((response) => {
-                    this.applyResponse(response);
-                  })
-                );
-            }
-            return of(null);
-          },
-          (data) => ({ itemID: data.itemID, identity: data.current })
-        ),
+        switchMap(data => {
+          this.current = data.current;
+          if (!this.getGalleryItem(data.current)) {
+            return this.http
+              .get<APIGallery>('/api/item/' + data.itemID + '/gallery', {
+                params: {
+                  picture_identity: data.current
+                }
+              })
+              .pipe(
+                tap(response => {
+                  this.applyResponse(response);
+                }),
+                map(response => ({ itemID: data.itemID, identity: data.current }))
+              );
+          }
+          return of({ itemID: data.itemID, identity: data.current });
+        }),
         tap((data) => {
           const index = this.getGalleryItemIndex(data.identity);
           this.currentItemIndex = index;

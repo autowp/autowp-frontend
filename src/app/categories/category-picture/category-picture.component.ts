@@ -1,11 +1,7 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
 import { Subscription, of } from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
-import {
-  APIPicture,
-  PictureService,
-  APIPictureGetResponse
-} from '../../services/picture';
+import {APIPicture, PictureService} from '../../services/picture';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -63,12 +59,11 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
         )),
         switchMap(
           (data) => {
-            if (!data.current) {
-              return of(null as APIPictureGetResponse);
-            }
-
-            if (!data.identity) {
-              return of(null as APIPictureGetResponse);
+            if (!data.current || !data.identity) {
+              return of({
+                current: data.current,
+                picture: null as APIPicture
+              });
             }
 
             const fields =
@@ -89,13 +84,13 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
               paginator: {
                 item_id: data.current.id
               }
-            });
-          },
-          (data, response) => ({
-            current: data.current,
-            picture:
-              response && response.pictures.length ? response.pictures[0] : null
-          })
+            }).pipe(
+              map(response => ({
+                current: data.current,
+                picture: response.pictures.length ? response.pictures[0] : null
+              }))
+            );
+          }
         )
       )
       .subscribe((data) => {

@@ -31,7 +31,7 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
     const groupPipe = this.route.paramMap.pipe(
       map((route) => parseInt(route.get('group'), 10)),
       distinctUntilChanged(),
-      switchMap((groupID) => {
+      switchMap(groupID => {
         if (!groupID) {
           return of(null as APIItem);
         }

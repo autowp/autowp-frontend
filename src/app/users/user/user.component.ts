@@ -93,29 +93,27 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         )),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(
-          data =>
-            combineLatest([
-              this.userService
-                .getByIdentity(data.params.identity, { fields: fields })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return EMPTY;
-                  })
-                ),
-              this.acl.isAllowed('user', 'ip'),
-              this.acl.isAllowed('user', 'ban'),
-              this.acl.isAllowed('user', 'delete')
-            ]),
-          (data, user) => ({
+        switchMap(data => combineLatest([
+          this.userService
+            .getByIdentity(data.params.identity, { fields: fields })
+            .pipe(
+              catchError((err, caught) => {
+                this.toastService.response(err);
+                return EMPTY;
+              })
+            ),
+          this.acl.isAllowed('user', 'ip'),
+          this.acl.isAllowed('user', 'ban'),
+          this.acl.isAllowed('user', 'delete')
+        ]).pipe(
+          map(user => ({
             currentUser: data.currentUser,
             user: user[0],
             canViewIp: user[1],
             canBan: user[2],
             canDeleteUser: user[3]
-          })
-        ),
+          }))
+        )),
         tap(data => {
           if (!data.user) {
             this.router.navigate(['/error-404']);

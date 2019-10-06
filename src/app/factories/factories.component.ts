@@ -13,7 +13,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { tileLayer, latLng, Marker, marker, icon } from 'leaflet';
@@ -85,17 +85,14 @@ export class FactoryComponent implements OnInit, OnDestroy {
             return;
           }
         }),
-        switchMap(
-          factory =>
-            this.pictureService.getPictures({
-              status: 'accepted',
-              exact_item_id: factory.id,
-              limit: 32,
-              fields:
-                'owner,thumb_medium,votes,views,comments_count,name_html,name_text'
-            }),
-          (factory, pictures) => ({ factory, pictures })
-        ),
+        switchMap(factory => this.pictureService.getPictures({
+          status: 'accepted',
+          exact_item_id: factory.id,
+          limit: 32,
+          fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text'
+        }).pipe(
+          map(pictures => ({ factory, pictures }))
+        )),
         catchError((err, caught) => {
           this.toastService.response(err);
           return EMPTY;

@@ -84,11 +84,12 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
               filter: data.params.filter || '0',
               page: data.params.page,
               fields: 'values'
-            }),
-          (data, conflicts) => ({
-            user: data.user,
-            conflicts: conflicts
-          })
+            }).pipe(
+              map(conflicts => ({
+                user: data.user,
+                conflicts: conflicts
+              }))
+            )
         )
       )
       .subscribe(data => {

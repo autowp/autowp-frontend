@@ -76,31 +76,30 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
           }))
         )),
         switchMap(
-          data =>
-            this.itemParentService
-              .getItems({
-                fields: [
-                  'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
-                  'item.design,item.engine_vehicles',
-                  'item.can_edit_specs,item.specs_url',
-                  'item.twins_groups',
-                  'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
-                ].join(','),
-                limit: 7,
-                page: data.page,
-                parent_id: data.current.id,
-                order: 'categories_first'
-              })
-              .pipe(
-                tap(response => {
-                  this.items = response.items;
-                  this.paginator = response.paginator;
-                })
-              ),
-          (data, response) => ({
-            items: response.items,
-            current: data.current
-          })
+          data => this.itemParentService
+            .getItems({
+              fields: [
+                'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
+                'item.design,item.engine_vehicles',
+                'item.can_edit_specs,item.specs_url',
+                'item.twins_groups',
+                'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
+              ].join(','),
+              limit: 7,
+              page: data.page,
+              parent_id: data.current.id,
+              order: 'categories_first'
+            })
+            .pipe(
+              tap(response => {
+                this.items = response.items;
+                this.paginator = response.paginator;
+              }),
+              map(response => ({
+                items: response.items,
+                current: data.current
+              }))
+            )
         ),
         switchMap(data => {
           this.pictures = null;

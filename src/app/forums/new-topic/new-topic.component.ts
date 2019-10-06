@@ -50,13 +50,12 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
         map(data => ({ params: data[0], user: data[1] })),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(
-          data => this.forumService.getTheme(data.params.theme_id, {}),
-          (data, theme) => ({
+        switchMap(data => this.forumService.getTheme(data.params.theme_id, {}).pipe(
+          map(theme => ({
             user: data.user,
             theme: theme
-          })
-        )
+          }))
+        ))
       )
       .subscribe(
         data => {

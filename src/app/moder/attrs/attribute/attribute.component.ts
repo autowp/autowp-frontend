@@ -97,38 +97,35 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
     this.routeSub = combineLatest([this.route.params, this.attrsService.getAttributeTypes()])
       .pipe(
         map(data => ({ params: data[0], types: data[1] })),
-        switchMap(
-          data => this.attrsService.getAttribute(data.params.id),
-          (data, attribute) => ({ attribute: attribute, types: data.types })
-        ),
-        switchMap(
-          data =>
-            combineLatest([
-              this.http.get<APIAttrAttributeGetResponse>(
-                '/api/attr/attribute',
-                {
-                  params: {
-                    parent_id: data.attribute.id.toString(),
-                    recursive: '0',
-                    fields: 'unit'
-                  }
-                }
-              ),
-              this.$listOptionsChange.pipe(
-                switchMap(() =>
-                  this.attrsService.getListOptions({
-                    attribute_id: data.attribute.id
-                  })
-                )
-              )
-            ]),
-          (data, combined) => ({
+        switchMap(data => this.attrsService.getAttribute(data.params.id).pipe(
+          map(attribute => ({ attribute: attribute, types: data.types }))
+        )),
+        switchMap(data => combineLatest([
+          this.http.get<APIAttrAttributeGetResponse>(
+            '/api/attr/attribute',
+            {
+              params: {
+                parent_id: data.attribute.id.toString(),
+                recursive: '0',
+                fields: 'unit'
+              }
+            }
+          ),
+          this.$listOptionsChange.pipe(
+            switchMap(() =>
+              this.attrsService.getListOptions({
+                attribute_id: data.attribute.id
+              })
+            )
+          )
+        ]).pipe(
+          map(combined => ({
             attribute: data.attribute,
             types: data.types,
             attributes: combined[0],
             listOptions: combined[1]
-          })
-        )
+          }))
+        ))
       )
       .subscribe(data => {
 

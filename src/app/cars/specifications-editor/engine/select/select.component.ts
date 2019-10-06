@@ -81,8 +81,9 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
           params =>
             this.itemService.getItem(params.item_id, {
               fields: 'name_html,name_text'
-            }),
-          (params, item) => ({ params, item })
+            }).pipe(
+              map(item => ({ params, item }))
+            )
         ),
         tap(data => {
           this.item = data.item;

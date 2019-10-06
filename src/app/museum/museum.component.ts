@@ -12,7 +12,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -84,41 +84,39 @@ export class MuseumComponent implements OnInit, OnDestroy {
             pageId: 159
           });
         }),
-        switchMap(
-          item =>
-            combineLatest([
-              this.itemLinkService
-                .getItems({
-                  item_id: item.id
-                })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return of(null);
-                  })
-                ),
-              this.pictureService
-                .getPictures({
-                  status: 'accepted',
-                  exact_item_id: item.id,
-                  fields:
-                    'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-                  limit: 20,
-                  order: 12
-                })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return of(null);
-                  })
-                )
-            ]),
-          (item, responses) => ({
+        switchMap(item => combineLatest([
+          this.itemLinkService
+            .getItems({
+              item_id: item.id
+            })
+            .pipe(
+              catchError((err, caught) => {
+                this.toastService.response(err);
+                return of(null);
+              })
+            ),
+          this.pictureService
+            .getPictures({
+              status: 'accepted',
+              exact_item_id: item.id,
+              fields:
+                'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+              limit: 20,
+              order: 12
+            })
+            .pipe(
+              catchError((err, caught) => {
+                this.toastService.response(err);
+                return of(null);
+              })
+            )
+        ]).pipe(
+          map(responses => ({
             item: item,
             links: responses[0],
             pictures: responses[1]
-          })
-        )
+          }))
+        ))
       )
       .subscribe(data => {
         this.item = data.item;

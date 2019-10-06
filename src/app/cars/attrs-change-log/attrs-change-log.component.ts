@@ -96,12 +96,13 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
                 fields: 'user,item.name_html,path,unit,value_text'
               }),
               this.acl.inheritsRole('moder')
-            ]),
-          (params, items) => ({
-            params: params,
-            items: items[0],
-            isModer: items[1]
-          })
+            ]).pipe(
+              map(items => ({
+                params: params,
+                items: items[0],
+                isModer: items[1]
+              }))
+            )
         )
       )
       .subscribe(data => {

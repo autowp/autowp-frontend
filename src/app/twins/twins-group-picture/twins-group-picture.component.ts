@@ -3,8 +3,7 @@ import { Subscription, of, combineLatest } from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
 import {
   APIPicture,
-  PictureService,
-  APIPictureGetResponse
+  PictureService
 } from '../../services/picture';
 import { APIPaginator } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -51,7 +50,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
     const groupPipe = this.route.paramMap.pipe(
       map((route) => parseInt(route.get('group'), 10)),
       distinctUntilChanged(),
-      switchMap((groupID) => {
+      switchMap(groupID => {
         if (!groupID) {
           return of(null as APIItem);
         }
@@ -81,13 +80,12 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
           }))
         )),
         switchMap(
-          (data) => {
-            if (!data.group) {
-              return of(null as APIPictureGetResponse);
-            }
-
-            if (!data.identity) {
-              return of(null as APIPictureGetResponse);
+          data => {
+            if (!data.group || !data.identity) {
+              return of({
+                group: data.group,
+                picture: null as APIPicture
+              });
             }
 
             let fields =
@@ -112,13 +110,13 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
               paginator: {
                 item_id: data.group.id
               }
-            });
-          },
-          (data, response) => ({
-            group: data.group,
-            picture:
-              response && response.pictures.length ? response.pictures[0] : null
-          })
+            }).pipe(
+              map(response => ({
+                group: data.group,
+                picture: response.pictures.length ? response.pictures[0] : null
+              }))
+            );
+          }
         )
       )
       .subscribe((data) => {

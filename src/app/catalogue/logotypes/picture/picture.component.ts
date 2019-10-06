@@ -3,8 +3,7 @@ import {Subscription, of, EMPTY} from 'rxjs';
 import { APIItem, ItemService } from '../../../services/item';
 import {
   APIPicture,
-  PictureService,
-  APIPictureGetResponse
+  PictureService
 } from '../../../services/picture';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -68,11 +67,17 @@ export class CatalogueLogotypesPictureComponent implements OnInit, OnDestroy {
       switchMap(
         (data) => {
           if (!data.brand) {
-            return of(null as APIPictureGetResponse);
+            return of({
+              brand: data.brand,
+              picture: null as APIPicture
+            });
           }
 
           if (!data.identity) {
-            return of(null as APIPictureGetResponse);
+            return of({
+              brand: data.brand,
+              picture: null as APIPicture
+            });
           }
 
           const fields =
@@ -94,13 +99,14 @@ export class CatalogueLogotypesPictureComponent implements OnInit, OnDestroy {
             paginator: {
               item_id: data.brand.id
             }
-          });
-        },
-        (data, response) => ({
-          brand: data.brand,
-          picture:
-            response && response.pictures.length ? response.pictures[0] : null
-        })
+          }).pipe(
+            map(response => ({
+              brand: data.brand,
+              picture:
+                response && response.pictures.length ? response.pictures[0] : null
+            }))
+          );
+        }
       )
     )
     .subscribe((data) => {

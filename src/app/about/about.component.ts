@@ -9,7 +9,7 @@ import { DecimalPipe } from '@angular/common';
 import { BytesPipe } from 'ngx-pipes';
 import { PageEnvService } from '../services/page-env.service';
 import { combineLatest, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 
 export class APIAbout {
   developer: number;
@@ -84,13 +84,14 @@ export class AboutComponent implements OnInit, OnDestroy {
             ids.push(data[0].be_translator);
             ids.push(data[0].pt_br_translator);
 
-            return this.userService.getUserMap(ids);
-          },
-          (data, users) => ({
-            users: users,
-            translation: data[1],
-            about: data[0]
-          })
+            return this.userService.getUserMap(ids).pipe(
+              map(users => ({
+                users: users,
+                translation: data[1],
+                about: data[0]
+              }))
+            );
+          }
         )
       )
       .subscribe(data => {

@@ -81,14 +81,11 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           this.id = picture.id;
           this.picture = picture;
         }),
-        switchMap(
-          () =>
-            this.route.queryParams.pipe(
-              distinctUntilChanged(),
-              debounceTime(30)
-            ),
-          (picture, params) => ({ picture, params })
-        ),
+        switchMap(picture => this.route.queryParams.pipe(
+          distinctUntilChanged(),
+          debounceTime(30),
+          map(params => ({ picture, params }))
+        )),
         tap(data => {
           this.item_id = data.params.item_id;
           this.type = data.params.type;

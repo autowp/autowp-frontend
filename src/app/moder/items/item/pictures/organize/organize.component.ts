@@ -20,7 +20,7 @@ import {
   catchError,
   distinctUntilChanged,
   debounceTime,
-  tap
+  tap, map
 } from 'rxjs/operators';
 
 // Acl.isAllowed('car', 'move', 'unauthorized');
@@ -203,41 +203,40 @@ export class ModerItemsItemPicturesOrganizeComponent
             {}
           )
         ),
-        switchMap(
-          response => {
-            const subpromises: Observable<void>[] = [
-              this.itemService.setItemVehicleTypes(
-                response.id,
-                this.vehicleTypeIDs
-              ),
-              this.http.post<void>('/api/item-parent', {
-                parent_id: this.item.id,
-                item_id: response.id
-              })
-            ];
+        switchMap(response => {
+          const subpromises: Observable<void>[] = [
+            this.itemService.setItemVehicleTypes(
+              response.id,
+              this.vehicleTypeIDs
+            ),
+            this.http.post<void>('/api/item-parent', {
+              parent_id: this.item.id,
+              item_id: response.id
+            })
+          ];
 
-            for (const picture of this.pictures) {
-              if (picture.selected) {
-                subpromises.push(
-                  this.http.put<void>(
-                    '/api/picture-item/' +
-                      picture.picture_id +
-                      '/' +
-                      picture.item_id +
-                      '/' +
-                      picture.type,
-                    {
-                      item_id: response.id
-                    }
-                  )
-                );
-              }
+          for (const picture of this.pictures) {
+            if (picture.selected) {
+              subpromises.push(
+                this.http.put<void>(
+                  '/api/picture-item/' +
+                    picture.picture_id +
+                    '/' +
+                    picture.item_id +
+                    '/' +
+                    picture.type,
+                  {
+                    item_id: response.id
+                  }
+                )
+              );
             }
+          }
 
-            return forkJoin(...subpromises);
-          },
-          response => response
-        )
+          return forkJoin(...subpromises).pipe(
+            map(() => response)
+          );
+        })
       )
       .subscribe(item => {
         this.loading--;

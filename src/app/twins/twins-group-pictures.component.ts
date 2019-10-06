@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import { switchMap, catchError } from 'rxjs/operators';
+import {switchMap, catchError, map} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ACLService } from '../services/acl.service';
 import { PictureService, APIPicture } from '../services/picture';
@@ -46,35 +46,28 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
             fields: 'name_text,name_html,childs.brands.catname'
           });
         }),
-        switchMap(
-          () => this.route.queryParams,
-          (group, params) => ({ group, params })
-        ),
-        switchMap(
-          data => {
-            return this.pictureService
-              .getPictures({
-                status: 'accepted',
-                item_id: data.group.id,
-                fields:
-                  'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-                limit: 24,
-                order: 12,
-                page: data.params.page
-              })
-              .pipe(
-                catchError(err => {
-                  this.toastService.response(err);
-                  return of(null);
-                })
-              );
-          },
-          (data, response) => ({
+        switchMap(group => this.route.queryParams.pipe(
+          map(params => ({ group, params }))
+        )),
+        switchMap(data => this.pictureService.getPictures({
+          status: 'accepted',
+          item_id: data.group.id,
+          fields:
+            'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+          limit: 24,
+          order: 12,
+          page: data.params.page
+        }).pipe(
+          catchError(err => {
+            this.toastService.response(err);
+            return of(null);
+          }),
+          map(response => ({
             group: data.group,
             pictures: response.pictures,
             paginator: response.paginator
-          })
-        )
+          }))
+        ))
       )
       .subscribe(data => {
         this.group = data.group;
