@@ -157,7 +157,7 @@ export class UploadSelectComponent implements OnInit {
   }
 
   private brandItemsObservable(item: APIItem) {
-    return forkJoin(
+    return forkJoin([
       this.itemParentService
         .getItems({
           limit: 500,
@@ -205,7 +205,7 @@ export class UploadSelectComponent implements OnInit {
             return EMPTY;
           })
         )
-    ).pipe(
+    ]).pipe(
       map(data => {
         return {
           item: item,

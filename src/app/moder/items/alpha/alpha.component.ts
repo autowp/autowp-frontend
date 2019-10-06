@@ -67,7 +67,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
               }
             });
           }
-          return forkJoin(
+          return forkJoin([
             of(data.groups.groups),
             this.itemService.getItems({
               name: data.query.char + '%',
@@ -75,7 +75,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
               limit: 10,
               fields: 'name_html'
             })
-          ).pipe(
+          ]).pipe(
             map(data2 => {
               return {
                 char: data.query.char,

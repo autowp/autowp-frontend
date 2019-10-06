@@ -173,7 +173,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
             ip = this.loadBan(data.user.last_ip);
           }
 
-          return forkJoin(pictures, comments, ip).pipe(
+          return forkJoin([pictures, comments, ip]).pipe(
             tap(data2 => {
               this.pictures = data2[0].pictures;
               this.comments = data2[1].items;

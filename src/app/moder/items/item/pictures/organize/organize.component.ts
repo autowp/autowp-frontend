@@ -181,7 +181,7 @@ export class ModerItemsItemPicturesOrganizeComponent
       lng: this.newItem.lng
     };
 
-    forkJoin(
+    forkJoin([
       this.http.post<void>('/api/item', data, {
         observe: 'response'
       }),
@@ -190,7 +190,7 @@ export class ModerItemsItemPicturesOrganizeComponent
         : this.http.put<void>('/api/item/' + this.item.id, {
             is_group: true
           })
-    )
+    ])
       .pipe(
         catchError(response => {
           this.invalidParams = response.error.invalid_params;

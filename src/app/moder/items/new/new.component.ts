@@ -242,7 +242,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         ),
         switchMap(
           item =>
-            forkJoin(
+            forkJoin([
               this.itemService.setItemVehicleTypes(
                 item.id,
                 this.vehicleTypeIDs
@@ -253,7 +253,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                     item_id: item.id
                   })
                 : of(null)
-            ).pipe(
+            ]).pipe(
               map(response => item)
             )
         )

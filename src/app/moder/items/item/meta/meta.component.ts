@@ -102,7 +102,7 @@ export class ModerItemsItemMetaComponent
       lng: this.item.lng
     };
 
-    forkJoin(
+    forkJoin([
       this.http.put<void>('/api/item/' + this.item.id, data).pipe(
         catchError(response => {
           this.invalidParams = response.error.invalid_params;
@@ -111,6 +111,6 @@ export class ModerItemsItemMetaComponent
         tap(() => (this.invalidParams = {}))
       ),
       this.itemService.setItemVehicleTypes(this.item.id, this.vehicleTypeIDs)
-    ).subscribe(() => {}, () => {}, () => this.loading--);
+    ]).subscribe(() => {}, () => {}, () => this.loading--);
   }
 }
