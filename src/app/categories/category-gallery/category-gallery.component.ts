@@ -29,7 +29,7 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const identityPipe = this.route.paramMap.pipe(
-      map((route) => route.get('identity')),
+      map(route => route.get('identity')),
       distinctUntilChanged()
     );
 

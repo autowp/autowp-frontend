@@ -109,7 +109,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         map(params => +params.get('page')),
         distinctUntilChanged(),
         debounceTime(10),
-        map((page) => ({
+        map(page => ({
           currentVehicleType: data.currentVehicleType,
           brandID: data.brand.id,
           page: page

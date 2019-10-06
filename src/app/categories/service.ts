@@ -32,13 +32,13 @@ export class CatagoriesService {
           path: path
         }))
       )),
-      switchMap((params) => {
+      switchMap(params => {
         return this.itemService.getPath({
           catname: params.category,
           path: params.path
         });
       }),
-      map((response) => {
+      map(response => {
         let category: APIItem;
         for (const item of response.path) {
           if (item.item.item_type_id !== 3) {

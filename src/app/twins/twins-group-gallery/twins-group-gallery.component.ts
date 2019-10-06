@@ -29,7 +29,7 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const groupPipe = this.route.paramMap.pipe(
-      map((route) => parseInt(route.get('group'), 10)),
+      map(route => parseInt(route.get('group'), 10)),
       distinctUntilChanged(),
       switchMap(groupID => {
         if (!groupID) {
@@ -42,7 +42,7 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
     );
 
     const identityPipe = this.route.paramMap.pipe(
-      map((route) => route.get('identity')),
+      map(route => route.get('identity')),
       distinctUntilChanged()
     );
 
