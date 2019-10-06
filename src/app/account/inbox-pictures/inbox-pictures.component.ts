@@ -8,7 +8,7 @@ import {
   APIPicture
 } from '../../services/picture';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap, catchError } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -42,14 +42,9 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = combineLatest(
-      [
-        this.route.queryParams,
-        this.auth.getUser()
-      ],
-      (params, user) => ({ params, user })
-    )
+    this.querySub = combineLatest([this.route.queryParams, this.auth.getUser()])
       .pipe(
+        map(data => ({ params: data[0], user: data[1] })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(data => this.pictureService.getPictures({

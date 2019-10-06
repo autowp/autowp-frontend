@@ -13,7 +13,7 @@ import {
   distinctUntilChanged,
   debounceTime,
   tap,
-  switchMap
+  switchMap, map
 } from 'rxjs/operators';
 
 function vehicleTypesToList(vehilceTypes: APIVehicleType[]): APIVehicleType[] {
@@ -53,17 +53,15 @@ export class MostsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = combineLatest(
-      [
-          this.route.params.pipe(
-          distinctUntilChanged(),
-          debounceTime(30)
-        ),
-        this.mostsService.getMenu()
-      ],
-      (params, menu) => ({ params, menu })
-    )
+    this.routeSub = combineLatest([
+      this.route.params.pipe(
+        distinctUntilChanged(),
+        debounceTime(30)
+      ),
+      this.mostsService.getMenu()
+    ])
       .pipe(
+        map(data => ({ params: data[0], menu: data[1] })),
         tap(data => {
           this.ratingCatname = data.params.rating_catname;
           this.typeCatname = data.params.type_catname;

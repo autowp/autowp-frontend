@@ -37,19 +37,17 @@ export class ForumsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.paramsSub = combineLatest(
-      [
-        this.route.params,
-        this.route.queryParams,
-        this.acl.isAllowed('forums', 'moderate')
-      ],
-      (route, query, forumAdmin) => ({
-        route,
-        query,
-        forumAdmin
-      })
-    )
+    this.paramsSub = combineLatest([
+      this.route.params,
+      this.route.queryParams,
+      this.acl.isAllowed('forums', 'moderate')
+    ])
       .pipe(
+        map(data => ({
+          route: data[0],
+          query: data[1],
+          forumAdmin: data[2]
+        })),
         distinctUntilChanged(),
         debounceTime(50),
         switchMap(

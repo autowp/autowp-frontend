@@ -58,15 +58,13 @@ export class MessageService {
   private seen$ = new BehaviorSubject<void>(null);
 
   constructor(private http: HttpClient, private auth: AuthService) {
-    this.summary$ = combineLatest(
-      [
-        this.deleted$,
-        this.sent$,
-        this.seen$,
-        this.auth.getUser()
-      ],
-      (a, b, c, user) => user
-    ).pipe(
+    this.summary$ = combineLatest([
+      this.deleted$,
+      this.sent$,
+      this.seen$,
+      this.auth.getUser()
+    ]).pipe(
+      map(data => data[3]),
       debounceTime(10),
       switchMap(user => {
         if (!user) {
@@ -80,14 +78,12 @@ export class MessageService {
       shareReplay(1)
     );
 
-    this.new$ = combineLatest(
-      [
-        this.auth.getUser(),
-        this.deleted$,
-        this.seen$
-      ],
-      user => user
-    ).pipe(
+    this.new$ = combineLatest([
+      this.auth.getUser(),
+      this.deleted$,
+      this.seen$
+    ]).pipe(
+      map(data => data[0]),
       debounceTime(10),
       switchMap(user => {
         if (!user) {

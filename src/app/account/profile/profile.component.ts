@@ -14,7 +14,7 @@ import { APIUser } from '../../services/user';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { PageEnvService } from '../../services/page-env.service';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import { switchMapTo, switchMap } from 'rxjs/operators';
+import {switchMapTo, switchMap, map} from 'rxjs/operators';
 import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -128,10 +128,10 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
                 }
               }),
               this.timezone.getTimezones()
-            ],
-            (user, timezones) => ({ user, timezones })
+            ]
           )
-        )
+        ),
+        map(data => ({ user: data[0], timezones: data[1] }))
       )
       .subscribe(
         data => {

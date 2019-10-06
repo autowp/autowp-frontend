@@ -63,10 +63,10 @@ export class ModerItemsItemNameComponent
           })
         ),
         this.item$
-      ],
-      (languages, item) => ({ languages, item })
+      ]
     )
       .pipe(
+        map(data => ({ languages: data[0], item: data[1] })),
         switchMap(
           data => this.itemLanguageService.getItems(data.item.id),
           (data, values) => ({

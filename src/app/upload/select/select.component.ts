@@ -9,7 +9,7 @@ import {
   BehaviorSubject,
   combineLatest, EMPTY
 } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ItemParentService, APIItemParent } from '../../services/item-parent';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -73,13 +73,13 @@ export class UploadSelectComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(50)
       ),
-      this.route.queryParams,
-      (search: string, query: Params) => ({
-        search,
-        query
-      })
+      this.route.queryParams
     ])
       .pipe(
+        map(data => ({
+          search: data[0],
+          query: data[1]
+        })),
         distinctUntilChanged(),
         tap(() => {
           this.loading = 1;

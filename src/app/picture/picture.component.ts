@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { APIPicture, PictureService } from '../services/picture';
 import { ACLService } from '../services/acl.service';
 import { APIUser } from '../services/user';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { tap } from 'rxjs/operators';
 import { APICommentsService } from '../api/comments/comments.service';

@@ -14,6 +14,7 @@ import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { APIPicture } from '../../services/picture';
 import * as $ from 'jquery';
 import Jcrop from '../../jcrop/jquery.Jcrop';
+import {map} from 'rxjs/operators';
 
 interface JcropCrop {
   x: number;
@@ -52,10 +53,12 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.picture$.next(this.picture);
-    this.sub = combineLatest([this.img$, this.picture$], (img, picture) => ({
-      img,
-      picture
-    })).subscribe(data => {
+    this.sub = combineLatest([this.img$, this.picture$]).pipe(
+      map(data => ({
+        img: data[0],
+        picture: data[1]
+      }))
+    ).subscribe(data => {
       if (data.img && data.picture) {
 
         const $img = $(data.img);

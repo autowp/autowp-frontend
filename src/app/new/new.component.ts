@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
 export interface APINewGroup {
@@ -75,11 +75,9 @@ export class NewComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.routeSub = combineLatest(
-      [this.route.queryParams, this.route.params],
-      (query, route) => ({ query, route })
-    )
+    this.routeSub = combineLatest([this.route.queryParams, this.route.params])
       .pipe(
+        map(data => ({ query: data[0], route: data[1] })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(

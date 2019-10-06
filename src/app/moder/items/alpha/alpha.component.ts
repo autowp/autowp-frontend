@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../../services/api.service';
 import { ItemService, APIItem } from '../../../services/item';
 import { Subscription, combineLatest, of, forkJoin } from 'rxjs';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, map } from 'rxjs/operators';
 
@@ -47,17 +47,15 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = combineLatest(
-      [
-        this.route.queryParams,
-        this.http.get<APIItemAlphaGetResponse>('/api/item/alpha')
-      ],
-      (query: Params, groups: APIItemAlphaGetResponse) => ({
-        groups,
-        query
-      })
-    )
+    this.querySub = combineLatest([
+      this.route.queryParams,
+      this.http.get<APIItemAlphaGetResponse>('/api/item/alpha')
+    ])
       .pipe(
+        map(data => ({
+          groups: data[1],
+          query: data[0]
+        })),
         switchMap(data => {
           if (!data.query.char) {
             return of({

@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../services/api.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -9,7 +9,7 @@ import {
   distinctUntilChanged,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -52,20 +52,19 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.querySub = combineLatest(
-      [
-        this.route.queryParams.pipe(
-          debounceTime(10),
-          distinctUntilChanged(),
-          tap(params => (this.itemID = params.item_id))
-        ),
-        this.move$
-      ],
-      (query: Params, move: any) => ({
-        query,
-        move
-      })
-    )
+    [
+      this.route.queryParams.pipe(
+        debounceTime(10),
+        distinctUntilChanged(),
+        tap(params => (this.itemID = params.item_id))
+      ),
+      this.move$
+    ])
       .pipe(
+        map(data => ({
+          query: data[0],
+          move: data[1]
+        })),
         switchMap(params => {
           return this.attrService.getUserValues({
             item_id: params.query.item_id,

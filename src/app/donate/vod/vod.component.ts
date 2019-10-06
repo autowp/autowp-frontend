@@ -57,41 +57,40 @@ export class DonateVodComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = combineLatest(
-      [
-        this.route.queryParams.pipe(
-          map(params => ({ anonymous: params.anonymous, date: params.date })),
-          distinctUntilChanged(),
-          debounceTime(30)
-        ),
-        this.donateService.getVOD(),
-        this.route.queryParams.pipe(
-          map(params => ({ item_id: params.item_id })),
-          distinctUntilChanged(),
-          debounceTime(30),
-          switchMap(params => {
-            if (!params.item_id) {
-              return of(null);
-            }
+    this.querySub = combineLatest([
+      this.route.queryParams.pipe(
+        map(params => ({ anonymous: params.anonymous, date: params.date })),
+        distinctUntilChanged(),
+        debounceTime(30)
+      ),
+      this.donateService.getVOD(),
+      this.route.queryParams.pipe(
+        map(params => ({ item_id: params.item_id })),
+        distinctUntilChanged(),
+        debounceTime(30),
+        switchMap(params => {
+          if (!params.item_id) {
+            return of(null);
+          }
 
-            return this.itemService.getItem(params.item_id, {
-              fields: 'name_html,item_of_day_pictures'
-            });
-          })
-        ),
-        this.auth.getUser(),
-        this.translate.get([
-          'donate/vod/order-message',
-          'donate/vod/order-target'
-        ])
-      ],
-      (params, vod, item, user, translations) => ({
-        params,
-        vod,
-        item,
-        user,
-        translations
-      })
+          return this.itemService.getItem(params.item_id, {
+            fields: 'name_html,item_of_day_pictures'
+          });
+        })
+      ),
+      this.auth.getUser(),
+      this.translate.get([
+        'donate/vod/order-message',
+        'donate/vod/order-target'
+      ])
+    ]).pipe(
+      map(data => ({
+        params: data[0],
+        vod: data[1],
+        item: data[2],
+        user: data[3],
+        translations: data[4]
+      }))
     ).subscribe(data => {
       this.sum = data.vod.sum;
       this.dates = data.vod.dates;

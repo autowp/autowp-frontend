@@ -18,7 +18,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
-  finalize
+  finalize, map
 } from 'rxjs/operators';
 
 @Component({
@@ -83,68 +83,65 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
 
           this.loading++;
           this.loading++;
-          return combineLatest(
-            [
-              (brandID
-                ? of(null as APIItemsGetResponse)
-                : this.itemService.getItems({
-                    type_id: 5,
-                    limit: 500,
-                    fields: 'name_only',
-                    page: this.page
-                  })
-              ).pipe(
-                finalize(() => {
-                  this.loading--;
+          return combineLatest([
+            (brandID
+              ? of(null as APIItemsGetResponse)
+              : this.itemService.getItems({
+                  type_id: 5,
+                  limit: 500,
+                  fields: 'name_only',
+                  page: this.page
                 })
-              ),
-              (brandID
-                ? this.itemService.getItem(brandID).pipe(
-                    switchMap(
-                      brand =>
-                        combineLatest(
-                          [
-                            this.itemParentService.getItems({
-                              item_type_id: 1,
-                              parent_id: brand.id,
-                              fields:
-                                'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                              limit: 500,
-                              page: 1
-                            }),
-                            this.itemParentService.getItems({
-                              item_type_id: 1,
-                              concept: true,
-                              ancestor_id: brand.id,
-                              fields:
-                                'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                              limit: 500,
-                              page: 1
-                            })
-                          ],
-                          (vehicles, concepts) => ({ vehicles, concepts })
-                        ),
-                      (brand, data) => ({
-                        brand: brand,
-                        vehicles: data.vehicles,
-                        concepts: data.concepts
-                      })
-                    )
+            ).pipe(
+              finalize(() => {
+                this.loading--;
+              })
+            ),
+            (brandID
+              ? this.itemService.getItem(brandID).pipe(
+                  switchMap(
+                    brand =>
+                      combineLatest(
+                        [
+                          this.itemParentService.getItems({
+                            item_type_id: 1,
+                            parent_id: brand.id,
+                            fields:
+                              'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                            limit: 500,
+                            page: 1
+                          }),
+                          this.itemParentService.getItems({
+                            item_type_id: 1,
+                            concept: true,
+                            ancestor_id: brand.id,
+                            fields:
+                              'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                            limit: 500,
+                            page: 1
+                          })
+                        ]
+                      ),
+                    (brand, data) => ({
+                      brand: brand,
+                      vehicles: data[0],
+                      concepts: data[1]
+                    })
                   )
-                : of(null as {
-                    brand: APIItem;
-                    vehicles: APIItemParentGetResponse;
-                    concepts: APIItemParentGetResponse;
-                  })
-              ).pipe(
-                finalize(() => {
-                  this.loading--;
+                )
+              : of(null as {
+                  brand: APIItem;
+                  vehicles: APIItemParentGetResponse;
+                  concepts: APIItemParentGetResponse;
                 })
-              )
-            ],
-            (items, brand) => ({ items, brand })
-          );
-        })
+            ).pipe(
+              finalize(() => {
+                this.loading--;
+              })
+            )
+          ]);
+        }),
+        map(data => ({ items: data[0], brand: data[1] }))
       )
       .subscribe(data => {
         if (data.brand) {

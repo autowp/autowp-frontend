@@ -67,15 +67,13 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     );
 
-    this.sub = combineLatest(
-      [
-        groupPipe,
-        this.auth.getUser().pipe(tap((user) => (this.user = user))),
-        this.acl.isAllowed('specifications', 'edit')
-      ],
-      (group, user, isModer) => ({ group, isModer })
-    )
+    this.sub = combineLatest([
+      groupPipe,
+      this.auth.getUser().pipe(tap((user) => (this.user = user))),
+      this.acl.isAllowed('specifications', 'edit')
+    ])
       .pipe(
+        map(data => ({ group: data[0], isModer: data[2] })),
         switchMapTo(identityPipe, (data, identity) => ({
           group: data.group,
           isModer: data.isModer,

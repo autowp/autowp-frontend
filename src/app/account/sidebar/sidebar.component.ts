@@ -1,7 +1,7 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message';
 import { AuthService } from '../../services/auth.service';
-import { tap } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { PictureService } from '../../services/picture';
 import { PageEnvService } from '../../services/page-env.service';
@@ -44,15 +44,15 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
         this.forumService.getUserSummary(),
         this.messageService.getSummary(),
         this.pictureService.getSummary()
-      ],
-      (user, forumSummary, messageSummary, picturesSummary) => ({
-        user,
-        forumSummary,
-        messageSummary,
-        picturesSummary
-      })
+      ]
     )
       .pipe(
+        map(data => ({
+          user: data[0],
+          forumSummary: data[1],
+          messageSummary: data[2],
+          picturesSummary: data[3]
+        })),
         tap(data => {
           if (!data.user) {
             return;

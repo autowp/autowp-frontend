@@ -4,7 +4,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
 import { APIUser } from '../../services/user';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIForumTheme, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -45,11 +45,9 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
       });
     }, 0);
 
-    this.routeSub = combineLatest(
-      [this.route.params, this.auth.getUser()],
-      (params, user) => ({ params, user })
-    )
+    this.routeSub = combineLatest([this.route.params, this.auth.getUser()])
       .pipe(
+        map(data => ({ params: data[0], user: data[1] })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(
