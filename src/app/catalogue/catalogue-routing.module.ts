@@ -14,6 +14,7 @@ import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/pictu
 import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.component';
 import {cataloguePathMatcher} from './matcher';
 import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
+import {CatalogueCarsComponent} from './cars/cars.component';
 
 const routes: Routes = [
   {
@@ -104,6 +105,20 @@ const routes: Routes = [
   {
     path: 'concepts',
     component: CatalogueConceptsComponent
+  },
+  {
+    path: 'cars',
+    children: [
+      {
+        path: ':vehicle_type',
+        component: CatalogueCarsComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: CatalogueCarsComponent,
+      }
+    ]
   },
   {
     path: '',

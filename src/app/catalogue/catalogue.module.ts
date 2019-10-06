@@ -21,6 +21,7 @@ import {CatalogueEnginesComponent} from './engines/engines.component';
 import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.component';
 import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/picture/picture.component';
 import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
+import {CatalogueCarsComponent} from './cars/cars.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.compon
     CatalogueEnginesComponent,
     CatalogueEnginesPicturesComponent,
     CatalogueEnginesPicturesPictureComponent,
-    CatalogueEnginesGalleryComponent
+    CatalogueEnginesGalleryComponent,
+    CatalogueCarsComponent
   ],
   imports: [
     CommonModule,

@@ -9,7 +9,7 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../list-item/list-ite
 
 
 @Component({
-  selector: 'app-catalogue-logotypes',
+  selector: 'app-catalogue-concepts',
   templateUrl: './concepts.component.html'
 })
 @Injectable()

@@ -154,6 +154,7 @@ export interface GetItemsServiceOptions {
   name?: string | null;
   name_exclude?: string | null;
   dateless?: boolean;
+  dateful?: boolean;
   page?: number;
   have_childs_of_type?: number;
   autocomplete?: string;
@@ -246,6 +247,10 @@ function converItemsOptions(
 
   if (options.dateless) {
     params.dateless = '1';
+  }
+
+  if (options.dateful) {
+    params.dateful = '1';
   }
 
   if (options.page) {
