@@ -12,7 +12,7 @@ import {
   switchMap,
   distinctUntilChanged,
   map,
-  tap, debounceTime, switchMapTo
+  tap, debounceTime
 } from 'rxjs/operators';
 
 @Component({
@@ -59,10 +59,12 @@ export class CatalogueLogotypesPictureComponent implements OnInit, OnDestroy {
       tap(brand => {
         this.brand = brand;
       }),
-      switchMapTo(identityPipe, (brand, identity) => ({
-        brand: brand,
-        identity: identity
-      })),
+      switchMap(brand => identityPipe.pipe(
+        map(identity => ({
+          brand: brand,
+          identity: identity
+        }))
+      )),
       switchMap(
         (data) => {
           if (!data.brand) {

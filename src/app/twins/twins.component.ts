@@ -3,7 +3,7 @@ import { APIPaginator } from '../services/api.service';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import { tap, switchMap, map, switchMapTo } from 'rxjs/operators';
+import { tap, switchMap, map} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
 import { ACLService } from '../services/acl.service';
@@ -85,13 +85,12 @@ export class TwinsComponent implements OnInit, OnDestroy {
             }
           }, 0);
         }),
-        switchMapTo(
-          this.route.queryParams,
-          (brand, query) => ({
+        switchMap(brand => this.route.queryParams.pipe(
+          map(query => ({
             brand: brand,
             query: query
-          })
-        ),
+          }))
+        )),
         switchMap(params => {
           return this.itemService.getItems({
             type_id: 4,

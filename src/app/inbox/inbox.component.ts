@@ -12,7 +12,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -104,15 +104,14 @@ export class InboxComponent implements OnInit, OnDestroy {
           this.toastService.response(err);
           return of(null);
         }),
-        switchMapTo(
-          this.route.queryParams,
-          (data, queryParams) => ({
+        switchMap(data => this.route.queryParams.pipe(
+          map(queryParams => ({
             params: data.params,
             inbox: data.inbox,
             brandID: data.brandID,
             queryParams: queryParams
-          })
-        ),
+          }))
+        )),
         switchMap(
           data => {
             if (data.params.date !== data.inbox.current.date) {

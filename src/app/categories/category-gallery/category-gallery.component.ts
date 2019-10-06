@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { APIItem } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, map, switchMapTo, tap } from 'rxjs/operators';
+import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import { CatagoriesService } from '../service';
 
 @Component({
@@ -41,11 +41,13 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
           this.category = data.category;
           this.pathCatnames = data.pathCatnames;
         }),
-        switchMapTo(identityPipe, (data, identity) => ({
-          current: data.current,
-          category: data.category,
-          identity: identity
-        }))
+        switchMap(data => identityPipe.pipe(
+          map(identity => ({
+            current: data.current,
+            category: data.category,
+            identity: identity
+          }))
+        ))
       )
       .subscribe((data) => {
         if (!data.identity || !data.current) {

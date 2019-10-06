@@ -6,8 +6,7 @@ import { PageEnvService } from '../../services/page-env.service';
 import {
   switchMap,
   distinctUntilChanged,
-  map,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 
 @Component({
@@ -49,10 +48,12 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
 
     this.sub = groupPipe
       .pipe(
-        switchMapTo(identityPipe, (group, identity) => ({
-          group: group,
-          identity: identity
-        }))
+        switchMap(group => identityPipe.pipe(
+          map(identity => ({
+            group: group,
+            identity: identity
+          }))
+        ))
       )
       .subscribe((data) => {
         if (!data.group) {

@@ -3,7 +3,7 @@ import { ItemService, APIItem } from '../services/item';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, switchMapTo } from 'rxjs/operators';
+import {switchMap, tap, map} from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { PictureService, APIPicture } from '../services/picture';
@@ -59,10 +59,12 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
             pageId: 22
           });
         }),
-        switchMapTo(this.route.queryParamMap, (data, query) => ({
-          current: data.current,
-          page: parseInt(query.get('page'), 10)
-        })),
+        switchMap(data => this.route.queryParamMap.pipe(
+          map(query => ({
+            current: data.current,
+            page: parseInt(query.get('page'), 10)
+          }))
+        )),
         switchMap(
           (data) => {
             return this.pictureService.getPictures({

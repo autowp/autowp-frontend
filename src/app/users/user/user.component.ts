@@ -21,7 +21,7 @@ import {
   tap,
   catchError,
   switchMap,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 import { APIComment, APICommentsService } from '../../api/comments/comments.service';
@@ -85,10 +85,12 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.routeSub = this.auth
       .getUser()
       .pipe(
-        switchMapTo(this.route.params, (currentUser, params) => ({
-          currentUser,
-          params
-        })),
+        switchMap(currentUser => this.route.params.pipe(
+          map(params => ({
+            currentUser,
+            params
+          }))
+        )),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(

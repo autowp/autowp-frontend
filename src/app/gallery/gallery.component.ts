@@ -14,8 +14,7 @@ import {
   switchMap,
   tap,
   debounceTime,
-  switchMapTo,
-  distinctUntilChanged
+  distinctUntilChanged, map
 } from 'rxjs/operators';
 import { APIGalleryItem, APIGallery } from './definitions';
 import { Router } from '@angular/router';
@@ -79,7 +78,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         tap((itemID) => {
           this.currentItemID = itemID;
         }),
-        switchMapTo(this.current$, (itemID, current) => ({ itemID, current })),
+        switchMap(itemID => this.current$.pipe(
+          map(current => ({ itemID, current }))
+        )),
         distinctUntilChanged(),
         switchMap(
           (data) => {

@@ -11,7 +11,7 @@ import {
   debounceTime,
   switchMap,
   tap,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 
 // Acl.inheritsRole('moder', 'unauthorized');
@@ -103,7 +103,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             }
           )
         ),
-        switchMapTo(this.img$, (data, img) => ({ pictureItem: data, img: img }))
+        switchMap(data => this.img$.pipe(
+          map(img => ({ pictureItem: data, img: img }))
+        ))
       )
       .subscribe(
         data => {

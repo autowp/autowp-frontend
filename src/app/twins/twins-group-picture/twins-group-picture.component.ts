@@ -14,8 +14,7 @@ import {
   switchMap,
   tap,
   distinctUntilChanged,
-  map,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 import { APIUser } from '../../services/user';
 import { AuthService } from '../../services/auth.service';
@@ -74,11 +73,13 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
     ])
       .pipe(
         map(data => ({ group: data[0], isModer: data[2] })),
-        switchMapTo(identityPipe, (data, identity) => ({
-          group: data.group,
-          isModer: data.isModer,
-          identity: identity
-        })),
+        switchMap(data => identityPipe.pipe(
+          map(identity => ({
+            group: data.group,
+            isModer: data.isModer,
+            identity: identity
+          }))
+        )),
         switchMap(
           (data) => {
             if (!data.group) {

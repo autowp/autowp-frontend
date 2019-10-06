@@ -3,7 +3,7 @@ import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, switchMapTo } from 'rxjs/operators';
+import {switchMap, tap, map} from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { APIItemParent, ItemParentService } from '../services/item-parent';
@@ -69,10 +69,12 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
             pageId: 22
           });
         }),
-        switchMapTo(this.route.queryParamMap, (data, query) => ({
-          current: data.current,
-          page: parseInt(query.get('page'), 10)
-        })),
+        switchMap(data => this.route.queryParamMap.pipe(
+          map(query => ({
+            current: data.current,
+            page: parseInt(query.get('page'), 10)
+          }))
+        )),
         switchMap(
           data =>
             this.itemParentService

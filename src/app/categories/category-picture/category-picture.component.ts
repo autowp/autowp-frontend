@@ -12,7 +12,6 @@ import {
   switchMap,
   distinctUntilChanged,
   map,
-  switchMapTo,
   tap
 } from 'rxjs/operators';
 import { PathItem } from '../definitions';
@@ -55,11 +54,13 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
           this.path = data.pathItems;
           this.pathCatnames = data.pathCatnames;
         }),
-        switchMapTo(identityPipe, (data, identity) => ({
-          current: data.current,
-          category: data.category,
-          identity: identity
-        })),
+        switchMap(data => identityPipe.pipe(
+          map(identity => ({
+            current: data.current,
+            category: data.category,
+            identity: identity
+          }))
+        )),
         switchMap(
           (data) => {
             if (!data.current) {
