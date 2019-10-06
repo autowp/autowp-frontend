@@ -61,7 +61,7 @@ export class ModerItemsItemPicturesOrganizeComponent
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>
-          combineLatest(
+          combineLatest([
             this.itemService
               .getItem(params.id, {
                 fields: [
@@ -134,7 +134,7 @@ export class ModerItemsItemPicturesOrganizeComponent
                 order: 'status'
               })
               .pipe(tap(response => (this.pictures = response.items)))
-          )
+          ])
         )
       )
       .subscribe();

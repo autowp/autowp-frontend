@@ -46,8 +46,7 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
     }, 0);
 
     this.routeSub = combineLatest(
-      this.route.params,
-      this.auth.getUser(),
+      [this.route.params, this.auth.getUser()],
       (params, user) => ({ params, user })
     )
       .pipe(

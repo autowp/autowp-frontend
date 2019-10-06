@@ -101,32 +101,34 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
         }),
         switchMap(data => {
           return combineLatest(
-            data.params.brand_id
-              ? this.itemParentService.getItems({
-                  limit: 500,
-                  fields: 'item.name_html,item.childs_count',
-                  parent_id: data.params.brand_id,
-                  item_type_id: 2,
-                  page: data.params.page
-                })
-              : of(null as APIItemParentGetResponse),
-            data.params.brand_id
-              ? of(null as APIItemsGetResponse)
-              : this.search$.pipe(
-                  map(str => str.trim()),
-                  distinctUntilChanged(),
-                  debounceTime(50),
-                  switchMap(search =>
-                    this.itemService.getItems({
-                      type_id: 5,
-                      order: 'name',
-                      limit: 500,
-                      fields: 'name_only',
-                      have_childs_of_type: 2,
-                      name: search ? '%' + search + '%' : null
-                    })
+            [
+              data.params.brand_id
+                ? this.itemParentService.getItems({
+                    limit: 500,
+                    fields: 'item.name_html,item.childs_count',
+                    parent_id: data.params.brand_id,
+                    item_type_id: 2,
+                    page: data.params.page
+                  })
+                : of(null as APIItemParentGetResponse),
+              data.params.brand_id
+                ? of(null as APIItemsGetResponse)
+                : this.search$.pipe(
+                    map(str => str.trim()),
+                    distinctUntilChanged(),
+                    debounceTime(50),
+                    switchMap(search =>
+                      this.itemService.getItems({
+                        type_id: 5,
+                        order: 'name',
+                        limit: 500,
+                        fields: 'name_only',
+                        have_childs_of_type: 2,
+                        name: search ? '%' + search + '%' : null
+                      })
+                    )
                   )
-                ),
+            ],
             (items, brands) => ({ items, brands })
           );
         })

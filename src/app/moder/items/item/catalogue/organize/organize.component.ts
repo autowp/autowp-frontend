@@ -55,7 +55,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.route.queryParams.pipe(
         tap(params => {
           this.itemTypeID = params.item_type_id;
@@ -65,7 +65,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>
-          combineLatest(
+          combineLatest([
             this.itemService
               .getItem(params.id, {
                 fields: [
@@ -137,10 +137,10 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                 order: 'type_auto'
               })
               .pipe(tap(data => (this.childs = data.items)))
-          )
+          ])
         )
       )
-    ).subscribe();
+    ]).subscribe();
   }
 
   ngOnDestroy(): void {

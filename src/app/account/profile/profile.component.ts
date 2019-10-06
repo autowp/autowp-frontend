@@ -121,12 +121,14 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         }),
         switchMapTo(
           combineLatest(
-            this.http.get<APIUser>('/api/user/me', {
-              params: {
-                fields: 'name,timezone,language,votes_per_day,votes_left,img'
-              }
-            }),
-            this.timezone.getTimezones(),
+            [
+              this.http.get<APIUser>('/api/user/me', {
+                params: {
+                  fields: 'name,timezone,language,votes_per_day,votes_left,img'
+                }
+              }),
+              this.timezone.getTimezones()
+            ],
             (user, timezones) => ({ user, timezones })
           )
         )

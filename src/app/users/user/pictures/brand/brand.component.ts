@@ -39,57 +39,61 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routeSub = combineLatest(
-      this.route.params.pipe(
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(params => {
-          return combineLatest(
-            this.userService.getByIdentity(params.identity, {
-              fields: 'identity'
-            }),
-            this.itemService
-              .getItems({
-                type_id: 5,
-                limit: 1,
-                catname: params.brand,
-                fields: 'name_only,catname'
+      [
+        this.route.params.pipe(
+          distinctUntilChanged(),
+          debounceTime(30),
+          switchMap(params => {
+            return combineLatest(
+              [
+                this.userService.getByIdentity(params.identity, {
+                  fields: 'identity'
+                }),
+                this.itemService
+                  .getItems({
+                    type_id: 5,
+                    limit: 1,
+                    catname: params.brand,
+                    fields: 'name_only,catname'
+                  })
+                  .pipe(
+                    map(
+                      response => (response.items.length ? response.items[0] : null)
+                    )
+                  )
+              ],
+              (user: APIUser, brand: APIItem) => ({
+                user,
+                brand
               })
-              .pipe(
-                map(
-                  response => (response.items.length ? response.items[0] : null)
-                )
-              ),
-            (user: APIUser, brand: APIItem) => ({
-              user,
-              brand
-            })
-          );
-        }),
-        tap(data => {
-          if (data.user.deleted) {
-            this.router.navigate(['/error-404']);
-            return;
-          }
-
-          this.brand = data.brand;
-          this.user = data.user;
-
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            name: 'page/141/ng-name',
-            pageId: 141,
-            args: {
-              brand: data.brand.name_only
+            );
+          }),
+          tap(data => {
+            if (data.user.deleted) {
+              this.router.navigate(['/error-404']);
+              return;
             }
-          });
-        })
-      ),
-      this.route.queryParams.pipe(
-        distinctUntilChanged(),
-        debounceTime(30)
-      ),
+
+            this.brand = data.brand;
+            this.user = data.user;
+
+            this.pageEnv.set({
+              layout: {
+                needRight: false
+              },
+              name: 'page/141/ng-name',
+              pageId: 141,
+              args: {
+                brand: data.brand.name_only
+              }
+            });
+          })
+        ),
+        this.route.queryParams.pipe(
+          distinctUntilChanged(),
+          debounceTime(30)
+        )
+      ],
       (route, query: Params) => ({
         route,
         query

@@ -78,8 +78,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.paramsSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
+      [this.route.params, this.route.queryParams],
       (route: Params, query: Params) => ({
         route,
         query

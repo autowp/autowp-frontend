@@ -48,10 +48,10 @@ export class BrandsComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.http.get<APIBrandsGetResponse>('/api/brands'),
       this.http.get<APIBrandsIconsResponse>('/api/brands/icons')
-    ).subscribe(
+    ]).subscribe(
       data => {
         this.icons = data[1];
         addCSS(this.icons.css);

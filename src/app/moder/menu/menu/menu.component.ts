@@ -33,10 +33,12 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = combineLatest(
-      this.acl.inheritsRole('moder'),
-      this.acl.inheritsRole('pages-moder'),
-      this.pictureService.getInboxSize(),
-      this.commentService.getAttentionCommentsCount(),
+      [
+        this.acl.inheritsRole('moder'),
+        this.acl.inheritsRole('pages-moder'),
+        this.pictureService.getInboxSize(),
+        this.commentService.getAttentionCommentsCount()
+      ],
       (isModer, isPagesModer, inboxCount, attentionItemCount) => ({
         isModer,
         isPagesModer,

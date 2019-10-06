@@ -77,8 +77,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
     );
 
     this.routeSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
+      [this.route.params, this.route.queryParams],
       (route, query) => ({ route, query })
     )
       .pipe(

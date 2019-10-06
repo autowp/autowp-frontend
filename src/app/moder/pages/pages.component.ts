@@ -40,10 +40,10 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.acl.isAllowed('hotlinks', 'manage'),
       this.load$.pipe(switchMapTo(this.pageService.getPagesPipe()))
-    ).subscribe(data => {
+    ]).subscribe(data => {
       this.canManage = data[0];
       this.items = this.pageService.toPlainArray(data[1].items, 0);
     });

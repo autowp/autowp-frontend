@@ -93,7 +93,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap(
           data =>
-            combineLatest(
+            combineLatest([
               this.userService
                 .getByIdentity(data.params.identity, { fields: fields })
                 .pipe(
@@ -105,7 +105,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
               this.acl.isAllowed('user', 'ip'),
               this.acl.isAllowed('user', 'ban'),
               this.acl.isAllowed('user', 'delete')
-            ),
+            ]),
           (data, user) => ({
             currentUser: data.currentUser,
             user: user[0],

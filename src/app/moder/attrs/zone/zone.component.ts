@@ -48,7 +48,7 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
         switchMap(params => this.attrsService.getZone(params.id)),
         switchMap(
           zone =>
-            combineLatest(
+            combineLatest([
               this.attrsService.getAttributes({ recursive: true }),
               this.http.get<APIAttrZoneAttributesGetResponse>(
                 '/api/attr/zone-attribute',
@@ -58,7 +58,7 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
                   }
                 }
               )
-            ),
+            ]),
           (zone, combined) => ({
             zone: zone,
             attributes: combined[0].items,

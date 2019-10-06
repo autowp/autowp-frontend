@@ -41,27 +41,29 @@ export class ModerItemsItemNameComponent
 
   ngOnInit(): void {
     this.sub = combineLatest(
-      this.contentLanguage.getList().pipe(
-        map(contentLanguages => {
-          const languages = new Map<string, APIItemLanguage>();
+      [
+        this.contentLanguage.getList().pipe(
+          map(contentLanguages => {
+            const languages = new Map<string, APIItemLanguage>();
 
-          for (const language of contentLanguages) {
-            languages.set(language, {
-              language: language,
-              name: null,
-              text: null,
-              full_text: null,
-              text_id: null,
-              full_text_id: null
-            });
-          }
+            for (const language of contentLanguages) {
+              languages.set(language, {
+                language: language,
+                name: null,
+                text: null,
+                full_text: null,
+                text_id: null,
+                full_text_id: null
+              });
+            }
 
-          this.currentLanguage = contentLanguages[0];
+            this.currentLanguage = contentLanguages[0];
 
-          return languages;
-        })
-      ),
-      this.item$,
+            return languages;
+          })
+        ),
+        this.item$
+      ],
       (languages, item) => ({ languages, item })
     )
       .pipe(

@@ -70,10 +70,10 @@ export class AboutComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.http.get<APIAbout>('/api/about'),
       this.translate.get('about/text')
-    )
+    ])
       .pipe(
         switchMap(
           data => {
@@ -112,7 +112,8 @@ export class AboutComponent implements OnInit, OnDestroy {
           '%total-users%': data.about.total_users.toString(),
           '%total-comments%': data.about.total_comments.toString(),
           '%github%':
-            '<i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
+            '<i class="fa fa-github" aria-hidden="true"></i> ' +
+            '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
           '%developer%': this.userHtml(data.users.get(data.about.developer)),
           '%fr-translator%': this.userHtml(
             data.users.get(data.about.fr_translator)

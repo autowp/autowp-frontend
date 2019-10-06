@@ -49,48 +49,50 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.querySub = combineLatest(
-      this.route.params.pipe(
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(params => {
-          return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
-            catchError((err, caught) => {
-              this.toastService.response(err);
-              return EMPTY;
-            })
-          );
-        }),
-        tap(user => {
-          if (!user) {
-            this.router.navigate(['/error-404']);
-            return;
-          }
+      [
+        this.route.params.pipe(
+          distinctUntilChanged(),
+          debounceTime(30),
+          switchMap(params => {
+            return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
+              catchError((err, caught) => {
+                this.toastService.response(err);
+                return EMPTY;
+              })
+            );
+          }),
+          tap(user => {
+            if (!user) {
+              this.router.navigate(['/error-404']);
+              return;
+            }
 
-          setTimeout(
-            () =>
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                name: 'page/205/name',
-                pageId: 205,
-                args: {
-                  USER_NAME: user.name,
-                  USER_IDENTITY: user.identity
-                    ? user.identity
-                    : 'user' + user.id
-                }
-              }),
-            0
-          );
+            setTimeout(
+              () =>
+                this.pageEnv.set({
+                  layout: {
+                    needRight: false
+                  },
+                  name: 'page/205/name',
+                  pageId: 205,
+                  args: {
+                    USER_NAME: user.name,
+                    USER_IDENTITY: user.identity
+                      ? user.identity
+                      : 'user' + user.id
+                  }
+                }),
+              0
+            );
 
-          this.user = user;
-        })
-      ),
-      this.route.queryParams.pipe(
-        distinctUntilChanged(),
-        debounceTime(30)
-      ),
+            this.user = user;
+          })
+        ),
+        this.route.queryParams.pipe(
+          distinctUntilChanged(),
+          debounceTime(30)
+        )
+      ],
       (user: APIUser, query: Params) => ({
         user,
         query

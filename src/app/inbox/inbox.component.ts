@@ -89,10 +89,10 @@ export class InboxComponent implements OnInit, OnDestroy {
               brandID = params.brand ? parseInt(params.brand, 10) : 0;
             }
 
-            return combineLatest(
+            return combineLatest([
               this.inboxService.get(brandID, params.date),
               of(brandID)
-            );
+            ]);
           },
           (params, combined) => ({
             params: params,

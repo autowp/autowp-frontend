@@ -59,10 +59,12 @@ export class MessageService {
 
   constructor(private http: HttpClient, private auth: AuthService) {
     this.summary$ = combineLatest(
-      this.deleted$,
-      this.sent$,
-      this.seen$,
-      this.auth.getUser(),
+      [
+        this.deleted$,
+        this.sent$,
+        this.seen$,
+        this.auth.getUser()
+      ],
       (a, b, c, user) => user
     ).pipe(
       debounceTime(10),
@@ -79,9 +81,11 @@ export class MessageService {
     );
 
     this.new$ = combineLatest(
-      this.auth.getUser(),
-      this.deleted$,
-      this.seen$,
+      [
+        this.auth.getUser(),
+        this.deleted$,
+        this.seen$
+      ],
       user => user
     ).pipe(
       debounceTime(10),

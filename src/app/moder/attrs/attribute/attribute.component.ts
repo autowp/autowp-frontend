@@ -95,8 +95,10 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
     );
 
     this.routeSub = combineLatest(
-      this.route.params,
-      this.attrsService.getAttributeTypes(),
+      [
+        this.route.params,
+        this.attrsService.getAttributeTypes()
+      ],
       (params, types) => ({ params, types })
     )
       .pipe(
@@ -107,23 +109,25 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
         switchMap(
           data =>
             combineLatest(
-              this.http.get<APIAttrAttributeGetResponse>(
-                '/api/attr/attribute',
-                {
-                  params: {
-                    parent_id: data.attribute.id.toString(),
-                    recursive: '0',
-                    fields: 'unit'
+              [
+                this.http.get<APIAttrAttributeGetResponse>(
+                  '/api/attr/attribute',
+                  {
+                    params: {
+                      parent_id: data.attribute.id.toString(),
+                      recursive: '0',
+                      fields: 'unit'
+                    }
                   }
-                }
-              ),
-              this.$listOptionsChange.pipe(
-                switchMap(() =>
-                  this.attrsService.getListOptions({
-                    attribute_id: data.attribute.id
-                  })
+                ),
+                this.$listOptionsChange.pipe(
+                  switchMap(() =>
+                    this.attrsService.getListOptions({
+                      attribute_id: data.attribute.id
+                    })
+                  )
                 )
-              ),
+              ],
               (attributes, listOptions) => ({ attributes, listOptions })
             ),
           (data, combined) => ({

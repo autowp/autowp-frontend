@@ -69,15 +69,17 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.tab = params.tab || 'info';
 
           return combineLatest(
-            this.change$.pipe(
-              switchMapTo(
-                this.itemService.getItem(params.item_id, {
-                  fields: 'name_html,name_text,engine_id,attr_zone_id'
-                })
-              )
-            ),
-            this.acl.isAllowed('specifications', 'admin'),
-            this.acl.inheritsRole('moder'),
+            [
+              this.change$.pipe(
+                switchMapTo(
+                  this.itemService.getItem(params.item_id, {
+                    fields: 'name_html,name_text,engine_id,attr_zone_id'
+                  })
+                )
+              ),
+              this.acl.isAllowed('specifications', 'admin'),
+              this.acl.inheritsRole('moder')
+            ],
             (item, isSpecsAdmin, isModer) => ({ item, isSpecsAdmin, isModer })
           );
         })

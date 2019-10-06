@@ -86,9 +86,9 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
       map(response => {
         const items: CatalogueListItem[] = [];
 
-        for (const item of response.items) {
+        const routerLink = ['/', this.brand.catname, 'concepts'];
 
-          const routerLink = ['/', this.brand.catname, 'concepts'];
+        for (const item of response.items) {
 
           const pictures: CatalogueListItemPicture[] = [];
           for (const picture of item.preview_pictures) {

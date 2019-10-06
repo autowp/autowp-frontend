@@ -61,8 +61,7 @@ export class VotingComponent implements OnInit, OnDestroy {
       .subscribe(inherits => (this.isModer = inherits));
 
     this.routeSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
+      [this.route.params, this.route.queryParams],
       (params: Params, query: Params) => ({
         params,
         query

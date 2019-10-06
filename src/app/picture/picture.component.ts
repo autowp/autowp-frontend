@@ -43,9 +43,7 @@ export class PictureComponent implements OnInit, OnDestroy {
       .isAllowed('specifications', 'edit')
       .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
 
-    this.sub = combineLatest(
-      this.auth.getUser().pipe(tap((user) => (this.user = user)))
-    ).subscribe();
+    this.sub = this.auth.getUser().pipe(tap((user) => (this.user = user))).subscribe();
   }
 
   ngOnDestroy(): void {

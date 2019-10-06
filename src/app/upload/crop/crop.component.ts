@@ -52,7 +52,7 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.picture$.next(this.picture);
-    this.sub = combineLatest(this.img$, this.picture$, (img, picture) => ({
+    this.sub = combineLatest([this.img$, this.picture$], (img, picture) => ({
       img,
       picture
     })).subscribe(data => {

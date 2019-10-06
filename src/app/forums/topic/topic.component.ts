@@ -36,9 +36,11 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
     this.limit = this.forumService.getLimit();
 
     this.paramsSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      this.auth.getUser(),
+      [
+        this.route.params,
+        this.route.queryParams,
+        this.auth.getUser()
+      ],
       (route, query, user) => ({ route, query, user })
     )
       .pipe(

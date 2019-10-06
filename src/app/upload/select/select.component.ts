@@ -67,7 +67,7 @@ export class UploadSelectComponent implements OnInit {
       0
     );
 
-    combineLatest(
+    combineLatest([
       this.search$.pipe(
         map(value => value.trim()),
         distinctUntilChanged(),
@@ -78,7 +78,7 @@ export class UploadSelectComponent implements OnInit {
         search,
         query
       })
-    )
+    ])
       .pipe(
         distinctUntilChanged(),
         tap(() => {

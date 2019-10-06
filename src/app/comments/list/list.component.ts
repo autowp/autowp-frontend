@@ -48,11 +48,11 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.auth.getUser(),
       this.acl.isAllowed('comment', 'remove'),
       this.acl.isAllowed('forums', 'moderate')
-    ).subscribe(data => {
+    ]).subscribe(data => {
       this.user = data[0];
       this.canRemoveComments = data[1];
       this.canMoveMessage = data[2];

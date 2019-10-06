@@ -39,10 +39,12 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = combineLatest(
-      this.auth.getUser(),
-      this.forumService.getUserSummary(),
-      this.messageService.getSummary(),
-      this.pictureService.getSummary(),
+      [
+        this.auth.getUser(),
+        this.forumService.getUserSummary(),
+        this.messageService.getSummary(),
+        this.pictureService.getSummary()
+      ],
       (user, forumSummary, messageSummary, picturesSummary) => ({
         user,
         forumSummary,

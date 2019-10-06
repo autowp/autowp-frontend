@@ -54,11 +54,13 @@ export class MostsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routeSub = combineLatest(
-      this.route.params.pipe(
-        distinctUntilChanged(),
-        debounceTime(30)
-      ),
-      this.mostsService.getMenu(),
+      [
+          this.route.params.pipe(
+          distinctUntilChanged(),
+          debounceTime(30)
+        ),
+        this.mostsService.getMenu()
+      ],
       (params, menu) => ({ params, menu })
     )
       .pipe(

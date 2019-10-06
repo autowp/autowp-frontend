@@ -48,8 +48,10 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.querySub = combineLatest(
-      this.route.queryParams,
-      this.http.get<APIItemAlphaGetResponse>('/api/item/alpha'),
+      [
+        this.route.queryParams,
+        this.http.get<APIItemAlphaGetResponse>('/api/item/alpha')
+      ],
       (query: Params, groups: APIItemAlphaGetResponse) => ({
         groups,
         query

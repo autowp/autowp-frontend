@@ -95,7 +95,7 @@ export class UploadComponent implements OnInit, OnDestroy {
           const replace = parseInt(params.replace, 10);
           const itemId = parseInt(params.item_id, 10);
 
-          return combineLatest(
+          return combineLatest([
             replace
               ? this.pictureService.getPicture(replace, {
                   fields: 'name_html'
@@ -106,7 +106,7 @@ export class UploadComponent implements OnInit, OnDestroy {
                   fields: 'name_html'
                 })
               : of(null)
-          );
+          ]);
         })
       )
       .subscribe(responses => {

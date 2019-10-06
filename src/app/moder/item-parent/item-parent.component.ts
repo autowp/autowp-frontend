@@ -62,7 +62,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => {
-          return combineLatest(
+          return combineLatest([
             this.http.get<APIItemParent>(
               '/api/item-parent/' + params.item_id + '/' + params.parent_id
             ),
@@ -80,7 +80,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 params.parent_id +
                 '/language'
             )
-          );
+          ]);
         })
       )
       .subscribe(responses => {

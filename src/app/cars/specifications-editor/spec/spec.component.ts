@@ -210,17 +210,17 @@ export class CarsSpecificationsEditorSpecComponent
           (item, attributes) => ({ item, attributes })
         ),
         switchMap(data =>
-          combineLatest(
-            combineLatest(
+          combineLatest([
+            combineLatest([
               this.auth.getUser().pipe(tap(user => (this.user = user))),
               this.change$
-            ).pipe(
+            ]).pipe(
               switchMap(user =>
-                combineLatest(
+                combineLatest([
                   this.values$(data.item),
                   this.currentUserValues$(data.item, user[0]),
                   this.userValues$(data.item)
-                )
+                ])
               )
             ),
             this.translate
@@ -262,7 +262,7 @@ export class CarsSpecificationsEditorSpecComponent
                   this.attributes = attibutes;
                 })
               )
-          )
+          ])
         )
       )
       .subscribe(() => {}, response => this.toastService.response(response));

@@ -68,9 +68,11 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
     );
 
     this.sub = combineLatest(
-      groupPipe,
-      this.auth.getUser().pipe(tap((user) => (this.user = user))),
-      this.acl.isAllowed('specifications', 'edit'),
+      [
+        groupPipe,
+        this.auth.getUser().pipe(tap((user) => (this.user = user))),
+        this.acl.isAllowed('specifications', 'edit')
+      ],
       (group, user, isModer) => ({ group, isModer })
     )
       .pipe(

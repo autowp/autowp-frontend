@@ -82,7 +82,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
         ),
         switchMap(
           data =>
-            combineLatest(
+            combineLatest([
               this.itemLinkService
                 .getItems({
                   item_id: data.item.id
@@ -127,7 +127,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
                     return of(null);
                   })
                 )
-            ),
+            ]),
           (data, responses) => ({
             item: data.item,
             links: responses[0].items,

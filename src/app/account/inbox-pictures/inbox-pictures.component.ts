@@ -43,8 +43,10 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
     );
 
     this.querySub = combineLatest(
-      this.route.queryParams,
-      this.auth.getUser(),
+      [
+        this.route.queryParams,
+        this.auth.getUser()
+      ],
       (params, user) => ({ params, user })
     )
       .pipe(

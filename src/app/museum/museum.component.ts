@@ -86,7 +86,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
         }),
         switchMap(
           item =>
-            combineLatest(
+            combineLatest([
               this.itemLinkService
                 .getItems({
                   item_id: item.id
@@ -112,7 +112,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
                     return of(null);
                   })
                 )
-            ),
+            ]),
           (item, responses) => ({
             item: item,
             links: responses[0],

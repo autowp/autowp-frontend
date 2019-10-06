@@ -28,7 +28,7 @@ export class APIPictureModerVoteTemplateService {
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   public getTemplates(): Observable<APIPictureModerVoteTemplate[]> {
-    return combineLatest(this.change$, this.auth.getUser()).pipe(
+    return combineLatest([this.change$, this.auth.getUser()]).pipe(
       switchMapTo(
         this.http.get<APIPictureModerVoteTemplateGetResponse>(
           '/api/picture-moder-vote-template'
