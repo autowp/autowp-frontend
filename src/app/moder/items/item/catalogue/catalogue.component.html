@@ -6,7 +6,7 @@
     <a *ngIf="item && item.is_group && canMove && item.childs_count > 0" [routerLink]="['/moder/items/item', item.id, 'organize']"
       [queryParams]="{item_type_id: organizeTypeId}" class="btn btn-secondary" translate>moder/vehicle/catalogue/turbo-group-creator</a>
   </div>
-  <table class="table" role="presentation">
+  <table class="table">
     <thead>
       <tr>
         <th translate scope="col">moder/vehicle/catalogue/title/name</th>
