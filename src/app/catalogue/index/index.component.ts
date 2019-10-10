@@ -56,23 +56,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.sub = this.route.paramMap.pipe(
-      map(params => {
-        return params.get('brand');
-      }),
-      distinctUntilChanged(),
-      debounceTime(10),
-      switchMap(catname => {
-        if (!catname) {
-          return EMPTY;
-        }
-        return this.itemService.getItems({
-          catname: catname,
-          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only',
-          limit: 1
-        });
-      }),
-      map(response => response && response.items.length ? response.items[0] : null),
+    this.sub = this.getBrand().pipe(
       tap(brand => {
         this.brand = brand;
         if (brand) {
@@ -89,57 +73,88 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
           });
         }
       }),
-      switchMap(brand =>
-        combineLatest([
-          this.pictureService.getPictures({
-            limit: 12,
-            status: 'accepted',
-            order: 12,
-            item_id: brand.id,
-            fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-          }).pipe(
-            tap(response => {
-              this.pictures = chunkBy(response.pictures, 4);
-            })
-          ),
-          this.itemLinkService.getItems({item_id: brand.id}).pipe(
-            tap(response => {
-              this.officialLinks = [];
-              this.clubLinks = [];
-              this.otherLinks = [];
-              response.items.forEach(item => {
-                switch (item.type_id) {
-                  case 'official':
-                    this.officialLinks.push(item);
-                    break;
-                  case 'club':
-                    this.clubLinks.push(item);
-                    break;
-                  default:
-                    this.otherLinks.push(item);
-                    break;
-                }
-              });
-            })
-          ),
-          this.itemService.getItems({
-            limit: 4,
-            factories_of_brand: brand.id,
-            fields: 'name_html,exact_picture.thumb_medium'
-          }).pipe(
-            tap(response => {
-              this.factories = response.items;
-            })
-          ),
-          this.http.get<APIBrandSection[]>('/api/brands/' + brand.id + '/sections').pipe(
-            tap(response => {
-              this.sections = response;
-            })
-          )
-        ])
-
-      )
+      switchMap(brand => combineLatest([
+        this.loadPictures(brand.id),
+        this.loadLinks(brand.id),
+        this.loadFactories(brand.id),
+        this.http.get<APIBrandSection[]>('/api/brands/' + brand.id + '/sections').pipe(
+          tap(response => {
+            this.sections = response;
+          })
+        )
+      ]))
     ).subscribe();
+  }
+
+  private getBrand() {
+    return this.route.paramMap.pipe(
+      map(params => {
+        return params.get('brand');
+      }),
+      distinctUntilChanged(),
+      debounceTime(10),
+      switchMap(catname => {
+        if (!catname) {
+          return EMPTY;
+        }
+        return this.itemService.getItems({
+          catname: catname,
+          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only',
+          limit: 1
+        });
+      }),
+      map(response => response && response.items.length ? response.items[0] : null)
+    );
+  }
+
+  private loadPictures(brandID: number) {
+    return this.pictureService.getPictures({
+      limit: 12,
+      status: 'accepted',
+      order: 12,
+      item_id: brandID,
+      fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
+    }).pipe(
+      tap(response => {
+        this.pictures = chunkBy(response.pictures, 4);
+      })
+    );
+  }
+
+  private loadLinks(brandID: number) {
+    return this.itemLinkService.getItems({item_id: brandID}).pipe(
+      tap(response => {
+        this.officialLinks = [];
+        this.clubLinks = [];
+        this.otherLinks = [];
+        response.items.forEach(item => {
+          switch (item.type_id) {
+            case 'official':
+              this.officialLinks.push(item);
+              break;
+            case 'club':
+              this.clubLinks.push(item);
+              break;
+            default:
+              this.otherLinks.push(item);
+              break;
+          }
+        });
+      })
+    )
+  }
+
+  private loadFactories(brandID: number) {
+    return this.itemService.getItems({
+      limit: 4,
+      factories_of_brand: brandID,
+      fields: 'name_html,exact_picture.thumb_medium',
+      type_id: 6
+    }).pipe(
+      tap(response => {
+        this.factories = response.items;
+      })
+    );
   }
 
   private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[][] {

@@ -184,6 +184,8 @@ export interface GetItemsServiceOptions {
     type_id?: number;
   };
   factories_of_brand?: number;
+  concept?: boolean;
+  concept_inherit?: boolean;
 }
 
 export interface GetPathServiceOptions {
@@ -243,6 +245,15 @@ function converItemsOptions(
 
   if (options.name_exclude) {
     params.name_exclude = options.name_exclude;
+  }
+
+  console.log('options.concept', options.concept);
+  if (options.concept !== undefined && options.concept !== null) {
+    params.concept = options.concept ? '1' : '0';
+  }
+
+  if (options.concept_inherit !== undefined && options.concept_inherit !== null) {
+    params.concept_inherit = options.concept_inherit ? '1' : '0';
   }
 
   if (options.dateless) {

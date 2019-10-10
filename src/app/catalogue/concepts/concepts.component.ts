@@ -73,6 +73,8 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           limit: 7,
           order: 'age',
           ancestor_id: data.brand.id,
+          concept: true,
+          concept_inherit: false,
           fields: [
             'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
             'design,engine_vehicles',
