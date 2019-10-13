@@ -15,6 +15,7 @@ import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.com
 import {cataloguePathMatcher} from './matcher';
 import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
+import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 
 const routes: Routes = [
   {
@@ -117,6 +118,35 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueCarsComponent,
+      }
+    ]
+  },
+  {
+    matcher: cataloguePathMatcher,
+    children: [
+      /*{
+        path: 'gallery',
+        pathMatch: 'full',
+        component: CatalogueVehiclesGalleryComponent,
+      },*/
+      {
+        path: 'pictures',
+        children: [
+          {
+            path: ':identity',
+            component: CatalogueEnginesPicturesPictureComponent,
+          },
+          {
+            path: '',
+            pathMatch: 'full',
+            component: CatalogueEnginesPicturesComponent,
+          }
+        ]
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: CatalogueVehiclesComponent,
       }
     ]
   },

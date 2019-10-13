@@ -72,9 +72,7 @@ export class CatalogueEnginesPicturesComponent implements OnInit, OnDestroy {
       ),
       switchMap(data =>
         this.pictureService.getPictures({
-          fields: [
-            'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
-          ].join(','),
+          fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
           limit: 20,
           page: +data.queryParams.get('page'),
           item_id: data.brand.id,

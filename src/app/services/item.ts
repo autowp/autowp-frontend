@@ -77,6 +77,7 @@ export interface APIItem {
   related_group_pictures: APIItemRelatedGroupItem[];
 
   description: string;
+  text: string;
   is_compiles_item_of_day: boolean;
   item_of_day_pictures: APIPicture[];
   design: APIItem;
@@ -131,6 +132,7 @@ export interface APIItem {
   descendant_twins_groups_count?: number;
   comments_attentions_count?: number;
   mosts_active?: boolean;
+  other_names?: string[];
 }
 
 export interface APIItemRelatedGroupItem {

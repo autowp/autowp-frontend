@@ -1,0 +1,63 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+    <ng-container *ngIf="brand && path && path.length > 0">
+      <li class="breadcrumb-item" *ngFor="let node of path.slice(0, path.length-2)">
+        <a [routerLink]="['/', brand.catname, node.catname]" [innerHTML]="node.item.name_html"></a>
+      </li>
+    </ng-container>
+  </ol>
+</nav>
+
+<ng-container *ngIf="item">
+  <div class="page-header">
+    <h1>
+      <app-item-header [item]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"></app-item-header>
+    </h1>
+  </div>
+
+  <ng-container *ngIf="item.other_names">
+    <p *ngFor="let name of item.other_names">{{name}}</p>
+  </ng-container>
+
+  <p *ngIf="isModer">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+    <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
+
+    <ng-container *ngIf="canAddItem">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{('item/type/' + item.item_type_id + '/add-sub-item')|translate}}</a>
+    </ng-container>
+
+    <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
+      <i class="fa fa-th" aria-hidden="true"></i>
+      <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
+        {{'catalogue/vehicle/inbox'|translate}} ({{item.inbox_pictures_count}})
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="item.comments_attentions_count">
+      <i class="fa fa-comment" aria-hidden="true"></i>
+      <a routerLink="moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
+        {{'catalogue/vehicle/comments'|translate}} ({{item.comments_attentions_count}})
+      </a>
+    </ng-container>
+  </p>
+  <div class="text" *ngIf="item.text">
+    <app-markdown [markdown]="item.text"></app-markdown>
+  </div>
+  <div class="text" *ngIf="!item.text && item.description">
+    <app-markdown [markdown]="item.description"></app-markdown>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="items">
+  <app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+</ng-container>
+
+<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

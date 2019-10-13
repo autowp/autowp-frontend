@@ -22,6 +22,12 @@ import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.com
 import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/picture/picture.component';
 import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
+import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
+import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
+import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
+import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
+import {ItemModule} from '../item/item.module';
+import {CatalogueService} from './catalogue-service';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,11 @@ import {CatalogueCarsComponent} from './cars/cars.component';
     CatalogueEnginesPicturesComponent,
     CatalogueEnginesPicturesPictureComponent,
     CatalogueEnginesGalleryComponent,
-    CatalogueCarsComponent
+    CatalogueCarsComponent,
+    CatalogueVehiclesComponent,
+    CatalogueVehiclesGalleryComponent,
+    CatalogueVehiclesPicturesComponent,
+    CatalogueVehiclesPicturesPictureComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +59,11 @@ import {CatalogueCarsComponent} from './cars/cars.component';
     ThumbnailModule,
     PaginatorModule,
     PictureModule,
-    CommentsModule
+    CommentsModule,
+    ItemModule
+  ],
+  providers: [
+    CatalogueService
   ]
 })
 export class CatalogueModule {}

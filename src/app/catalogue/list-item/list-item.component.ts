@@ -1,7 +1,7 @@
-import { Component, Injectable, Input } from '@angular/core';
-import { APIItem } from '../../services/item';
+import {Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
 import { ACLService } from '../../services/acl.service';
 import {APIPicture} from '../../services/picture';
+import {Subscription} from 'rxjs';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture;
@@ -40,17 +40,13 @@ export interface CatalogueListItem {
   templateUrl: './list-item.component.html'
 })
 @Injectable()
-export class CatalogueListItemComponent {
+export class CatalogueListItemComponent implements OnInit, OnDestroy {
   @Input() item: CatalogueListItem;
-  @Input() brand: APIItem;
 
   public isModer = false;
+  private sub: Subscription;
 
-  constructor(private acl: ACLService) {
-    this.acl
-      .inheritsRole('moder')
-      .subscribe(isModer => (this.isModer = isModer));
-  }
+  constructor(private acl: ACLService) { }
 
   public havePhoto(item: CatalogueListItem) {
     if (item.preview_pictures) {
@@ -65,5 +61,15 @@ export class CatalogueListItemComponent {
 
   public canHavePhoto(item: CatalogueListItem) {
     return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
+  }
+
+  ngOnInit(): void {
+    this.sub = this.acl
+      .inheritsRole('moder')
+      .subscribe(isModer => (this.isModer = isModer));
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

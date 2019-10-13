@@ -1,15 +1,6 @@
 <div class="car item-list-item">
   <h3>
-    <span [innerHTML]="item.name_html"></span>
-    <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
-      <a [href]="item.design.url" [textContent]="item.design.name"></a>
-    </sup>
-
-    <small *ngIf="item.produced > 1" class="ml-2">
-      <span *ngIf="item.produced_exactly" translate [translateParams]="{count: item.produced}">ng/carlist/produced/%1$s</span>
-      <span *ngIf="!item.produced_exactly" translate [translateParams]="{count: item.produced}">ng/carlist/produced-about/%1$s</span>
-    </small>
-    <small translate *ngIf="item.produced == 1" class="ml-2">carlist/produced/one</small>
+    <app-item-header [item]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"></app-item-header>
   </h3>
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
