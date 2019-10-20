@@ -1,4 +1,8 @@
 {
+  "catalogue/all-pictures-of": "Всі зображення",
+  "catalogue/sport-of": "Спорт",
+  "catalogue/related-with": "Пов'язані з",
+  "catalogue/other-pictures-of": "Інші зображення",
   "page/34/ng-name": "Всі зображення {item}",
   "page/138/ng-name": "{brand} {vehicle_type} в хронологічному порядку",
   "page/14/ng-name": "{brand} в хронологічному порядку",

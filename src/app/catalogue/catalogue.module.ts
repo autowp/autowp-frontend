@@ -28,6 +28,8 @@ import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.c
 import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
 import {ItemModule} from '../item/item.module';
 import {CatalogueService} from './catalogue-service';
+import {CatalogueItemMenuComponent} from './item-menu/item-menu.component';
+import {GalleryModule} from '../gallery/gallery.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import {CatalogueService} from './catalogue-service';
     CatalogueVehiclesComponent,
     CatalogueVehiclesGalleryComponent,
     CatalogueVehiclesPicturesComponent,
-    CatalogueVehiclesPicturesPictureComponent
+    CatalogueVehiclesPicturesPictureComponent,
+    CatalogueItemMenuComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +63,8 @@ import {CatalogueService} from './catalogue-service';
     PaginatorModule,
     PictureModule,
     CommentsModule,
-    ItemModule
+    ItemModule,
+    GalleryModule
   ],
   providers: [
     CatalogueService

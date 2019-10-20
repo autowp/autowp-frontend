@@ -1,4 +1,8 @@
 {
+  "catalogue/all-pictures-of": "Todas as imagens de",
+  "catalogue/sport-of": "Esporte",
+  "catalogue/related-with": "Relacionado com",
+  "catalogue/other-pictures-of": "Outras imagens de",
   "page/34/ng-name": "Todas as imagens de {item}",
   "page/138/ng-name": "{brand} {vehicle_type} em ordem cronológica",
   "page/14/ng-name": "{brand} em ordem cronológica",

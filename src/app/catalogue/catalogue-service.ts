@@ -1,14 +1,19 @@
 import {Injectable} from '@angular/core';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {EMPTY, of, OperatorFunction} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {APIItemParent, ItemParentService} from '../services/item-parent';
-import {ItemService} from '../services/item';
+import {APIItem, ItemService} from '../services/item';
 
 interface Parent {
   id: number;
   path: string[];
   items: APIItemParent[];
+}
+
+export interface Breadcrumbs {
+  routerLink: string[];
+  html: string;
 }
 
 type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
@@ -22,20 +27,30 @@ export class CatalogueService {
     private itemParentService: ItemParentService
   ) { }
 
+  public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
+    const result: Breadcrumbs[] = [];
+    const routerLink = ['/', brand.catname];
+    for (const item of path) {
+      routerLink.push(item.catname);
+      result.push({
+        html: item.item.name_html,
+        routerLink: [...routerLink]
+      });
+    }
+    return result;
+  }
+
   private static getPath(route: ActivatedRoute) {
     return route.paramMap.pipe(
       map(params => params.get('path')),
       distinctUntilChanged(),
-      debounceTime(10),
-      tap(path => console.log('path', path))
+      debounceTime(10)
     );
   }
 
   public resolveCatalogue(route: ActivatedRoute, isModer: boolean) {
 
     const pathPipeRecursive: ParentObservableFunc = () =>  switchMap((parent: Parent) => {
-
-      console.log('parent', parent);
 
       if (! parent.id || parent.path.length <= 0) {
         return of(parent);
@@ -45,7 +60,7 @@ export class CatalogueService {
       const isLast = parent.path.length <= 1;
       if (isModer && isLast) {
         fields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,' +
-          'item.name_default,item.description,item.produced,item.specs_url';
+          'item.name_default,item.description,item.produced,item.specs_url,item.childs_counts,item.accepted_pictures_count';
       }
 
       return this.itemParentService.getItems({
@@ -84,7 +99,24 @@ export class CatalogueService {
           brand: brand,
           path: parent.items
         }))
-      ))
+      )),
+      switchMap(params => {
+        return this.getType(route).pipe(
+          map(type => ({
+            brand: params.brand,
+            path: params.path,
+            type: type
+          }))
+        );
+      })
+    );
+  }
+
+  private getType(route: ActivatedRoute) {
+    return route.paramMap.pipe(
+      map(paramMap => paramMap.get('type')),
+      distinctUntilChanged(),
+      debounceTime(10)
     );
   }
 

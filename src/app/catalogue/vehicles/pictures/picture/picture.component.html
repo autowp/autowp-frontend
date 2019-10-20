@@ -6,16 +6,19 @@
     <li class="breadcrumb-item" *ngIf="brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
-      <a routerLink="/" translate [translateParams]="{brand: brand.name_text}">page/208/ng-name</a>
+    <ng-container *ngIf="breadcrumbs">
+      <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
+        <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+      </li>
+    </ng-container>
+    <li class="breadcrumb-item" *ngIf="picturesRouterLink">
+      <a [routerLink]="picturesRouterLink" translate>page/34/breadcrumbs</a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header">
-  <h1>Pictures</h1>
+<app-picture [picture]="picture" [prefix]="picturesRouterLink.concat([picture.identity])" *ngIf="picture"></app-picture>
+
+<div id="comments" *ngIf="picture">
+  <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
 </div>
-
-<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
-
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

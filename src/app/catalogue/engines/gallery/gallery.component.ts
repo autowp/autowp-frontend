@@ -76,7 +76,7 @@ export class CatalogueEnginesGalleryComponent implements OnInit, OnDestroy {
             fields: [
               'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
               'item.engine_vehicles',
-              'item.can_edit_specs,item.specs_url',
+              'item.can_edit_specs,item.specs_url,item.has_child_specs,item.has_specs',
               'item.twins_groups',
               'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
             ].join(','),
@@ -113,11 +113,14 @@ export class CatalogueEnginesGalleryComponent implements OnInit, OnDestroy {
             description: item.item.description,
             engine_vehicles: item.item.engine_vehicles,
             has_text: item.item.has_text,
-            childs_count: item.item.childs_count,
             accepted_pictures_count: item.item.accepted_pictures_count,
             can_edit_specs: item.item.can_edit_specs,
-            routerLink: routerLink,
-            picturesRouterLink: routerLink.concat(['pictures'])
+            picturesRouterLink: routerLink.concat(['pictures']),
+            specsRouterLink: item.item.has_specs || item.item.has_child_specs ? routerLink.concat(['specifications']) : null,
+            details: {
+              routerLink: routerLink,
+              count: item.item.childs_count
+            }
           });
         }
 

@@ -55,43 +55,32 @@
 
   <ul class="list-inline" ngPreserveWhitespaces>
 
-    <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id == 3" class="list-inline-item">
+    <li *ngIf="item.has_text || item.details.count || item.item_type_id == 8" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="item.routerLink">{{'carlist/details'|translate}}
-        <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
+      <a [routerLink]="item.details.routerLink">
+        {{'carlist/details'|translate}}
+        <span *ngIf="item.details.count > 1"> ({{item.details.count}})</span>
       </a>
     </li>
 
-    <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id != 3" class="list-inline-item">
-      <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="item.routerLink">{{'carlist/details'|translate}}
-        <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
-      </a>
-    </li>
-
-    <li *ngIf="item.item_type_id == 8" class="list-inline-item">
-      <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="['/persons', item.id]">{{'carlist/details'|translate}}</a>
-    </li>
-
-    <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id == 3" class="list-inline-item">
+    <li *ngIf="item.accepted_pictures_count > 4" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
       <a [routerLink]="item.picturesRouterLink">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
     </li>
 
-    <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id != 3" class="list-inline-item">
-      <span class="fa fa-th mr-1" aria-hidden="true"></span>
-      <a [routerLink]="item.picturesRouterLink">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
-    </li>
-
-    <li *ngIf="isModer" class="list-inline-item">
-      <i class="fa fa-cog mr-1" aria-hidden="true"></i>
-      <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
+    <li *ngIf="item.specsRouterLink" class="list-inline-item">
+      <i class="fa fa-list-alt mr-1" aria-hidden="true"></i>
+      <a [routerLink]="item.specsRouterLink" translate>carlist/specifications</a>
     </li>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
       <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
       <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" translate>carlist/edit-specs</a>
+    </li>
+
+    <li *ngIf="isModer" class="list-inline-item">
+      <i class="fa fa-cog mr-1" aria-hidden="true"></i>
+      <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
     </li>
   </ul>
 </div>

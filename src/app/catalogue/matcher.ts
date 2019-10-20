@@ -7,21 +7,46 @@ export function cataloguePathMatcher(url: UrlSegment[]) {
 
   const consumed: UrlSegment[] = [];
   const path: string[] = [];
-  for (let i = 0; i < url.length; i++) {
-    if (url[i].path === 'pictures') {
+  let i = 0;
+  for (; i < url.length; i++) {
+    const segment = url[i].path;
+
+    if (segment === 'pictures') {
       break;
     }
-    if (url[i].path === 'gallery') {
+    if (segment === 'gallery') {
+      break;
+    }
+    if (segment === 'exact') {
+      break;
+    }
+    if (segment === 'sport') {
+      break;
+    }
+    if (segment === 'tuning') {
       break;
     }
     consumed.push(url[i]);
-    path.push(url[i].path);
+    path.push(segment);
+  }
+
+  let type = 'default';
+  if (i < url.length) {
+    const segment = url[i].path;
+    switch (segment) {
+      case 'tuning':
+      case 'sport':
+        type = segment;
+        consumed.push(url[i]);
+        break;
+    }
   }
 
   return {
     consumed: consumed,
     posParams: {
-      path: new UrlSegment(path.join('/'), {})
+      path: new UrlSegment(path.join('/'), {}),
+      type: new UrlSegment(type, {}),
     }
   };
 }

@@ -1,9 +1,9 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, APIPathTreeItemParent, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {EMPTY, Subscription, combineLatest} from 'rxjs';
+import {EMPTY, Subscription, combineLatest, of} from 'rxjs';
 import {ACLService} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
@@ -46,7 +46,8 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private acl: ACLService,
     private itemLinkService: ItemLinkService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
   }
 
@@ -95,15 +96,27 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
       debounceTime(10),
       switchMap(catname => {
         if (!catname) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return EMPTY;
         }
         return this.itemService.getItems({
           catname: catname,
           fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only',
           limit: 1
-        });
-      }),
-      map(response => response && response.items.length ? response.items[0] : null)
+        }).pipe(
+          switchMap(response => {
+            if (response.items.length <= 0) {
+              this.router.navigate(['/error-404'], {
+                skipLocationChange: true
+              });
+              return EMPTY;
+            }
+            return of(response.items[0]);
+          })
+        );
+      })
     );
   }
 
@@ -141,7 +154,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
           }
         });
       })
-    )
+    );
   }
 
   private loadFactories(brandID: number) {

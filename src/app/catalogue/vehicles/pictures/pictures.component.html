@@ -6,21 +6,36 @@
     <li class="breadcrumb-item" *ngIf="brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
-      <a routerLink="/" translate [translateParams]="{brand: brand.name_text}">page/208/ng-name</a>
-    </li>
+    <ng-container *ngIf="breadcrumbs">
+      <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
+        <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+      </li>
+    </ng-container>
   </ol>
 </nav>
 
-<div class="page-header">
-  <h1>Pictures</h1>
-</div>
+<ng-container *ngIf="item">
+  <div class="page-header mb-4">
+    <h1>
+      {{'catalogue/all-pictures-of'|translate}}
+      <app-item-header [item]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"></app-item-header>
+    </h1>
+  </div>
+
+  <app-catalogue-item-menu
+    [header]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"
+    [itemRouterLink]="routerLink"
+    [picturesCount]="item.accepted_pictures_count"
+    [childsCounts]="item.childs_counts"
+    [active]="'pictures'"
+  ></app-catalogue-item-menu>
+</ng-container>
 
 <div>
 
   <div class="row" *ngFor="let chunk of pictures">
     <div class="col-sm-3" *ngFor="let picture of chunk">
-      <app-thumbnail [picture]="picture" [route]="['todo']"></app-thumbnail>
+      <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
     </div>
   </div>
 

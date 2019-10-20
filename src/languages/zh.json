@@ -1,4 +1,8 @@
 {
+  "catalogue/all-pictures-of": "的所有图片",
+  "catalogue/sport-of": "赛事",
+  "catalogue/related-with": "个相关目录",
+  "catalogue/other-pictures-of": "的其它图片",
   "page/34/ng-name": "{item}的所有图片",
   "page/138/ng-name": "{brand} {vehicle_type}按车型及推出时间排序",
   "page/14/ng-name": "{brand}按推出时间排序",

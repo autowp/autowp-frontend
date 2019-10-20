@@ -97,12 +97,12 @@ const appRoutes: Routes = [
   },
   { path: 'voting', loadChildren: () => import('./voting/voting.module').then(m => m.VotingModule) },
   { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule) },
+  { path: 'error-404', component: PageNotFoundComponent },
   {
     // matcher: cataloguePathMatcher,
     path: ':brand',
     loadChildren: () => import('./catalogue/catalogue.module').then(m => m.CatalogueModule)
   },
-  { path: 'error-404', component: PageNotFoundComponent },
   { path: '**', redirectTo: 'error-404' }
 ];
 

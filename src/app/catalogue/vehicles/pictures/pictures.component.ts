@@ -1,13 +1,13 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {APIItem} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {Subscription} from 'rxjs';
+import {combineLatest, EMPTY, Subscription} from 'rxjs';
 import {APIPaginator} from '../../../services/api.service';
 import {APIPicture, PictureService} from '../../../services/picture';
 import {chunkBy} from '../../../chunk';
-import {CatalogueService} from '../../catalogue-service';
+import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
 import {ACLService} from '../../../services/acl.service';
 import {APIItemParent} from '../../../services/item-parent';
 
@@ -23,13 +23,18 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
   public isModer: boolean;
   public path: APIItemParent[] = [];
+  public breadcrumbs: Breadcrumbs[] = [];
+  public item: APIItem;
+  public routerLink: string[];
+  public picturesRouterLink: string[];
 
   constructor(
     private pageEnv: PageEnvService,
     private pictureService: PictureService,
     private route: ActivatedRoute,
     private catalogueService: CatalogueService,
-    private acl: ACLService
+    private acl: ACLService,
+    private router: Router
   ) {
   }
 
@@ -37,37 +42,59 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
 
     this.sub = this.acl.inheritsRole('moder').pipe(
       tap(isModer => (this.isModer = isModer)),
-      switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer)),
-      tap(data => {
-        this.brand = data.brand;
-        if (data.brand) {
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            pageId: 34,
-            name: data.brand.name_text,
-            args: {
-              item: data.brand.name_text,
-            }
+      switchMap(isModer => combineLatest([
+        this.catalogueService.resolveCatalogue(this.route, isModer),
+        this.getExact()
+      ])),
+      switchMap(data => {
+        if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
           });
+          return EMPTY;
         }
-        this.path = data.path;
-      }),
-      switchMap(data =>
-        this.getPage().pipe(
+
+        this.brand = data[0].brand;
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          pageId: 34,
+          name: data[0].brand.name_text,
+          args: {
+            item: data[0].brand.name_text,
+          }
+        });
+
+        this.path = data[0].path;
+        this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data[0].brand, data[0].path);
+        const routerLink = ['/', this.brand.catname];
+
+        for (const node of this.path) {
+          routerLink.push(node.catname);
+        }
+
+        this.routerLink = routerLink;
+        this.picturesRouterLink = [...routerLink];
+        if (data[1]) {
+          this.picturesRouterLink.push('exact');
+        }
+        this.picturesRouterLink.push('pictures');
+
+        const last = data[0].path[data[0].path.length - 1];
+        this.item = last.item;
+        return this.getPage().pipe(
           switchMap(page => this.pictureService.getPictures({
-            fields: [
-              'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
-            ].join(','),
+            fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
             limit: 20,
             page: page,
-            item_id: data.brand.id,
+            item_id: data[1] ? null : last.item_id,
+            exact_item_id: data[1] ? last.item_id : null,
             status: 'accepted',
             order: 3
           }))
-        )
-      )
+        );
+      })
     ).subscribe(data => {
       this.pictures = chunkBy(data.pictures, 4);
       this.paginator = data.paginator;
@@ -77,6 +104,16 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
   private getPage() {
     return this.route.queryParamMap.pipe(
       map(params => +params.get('page')),
+      distinctUntilChanged(),
+      debounceTime(10)
+    );
+  }
+
+  private getExact() {
+    return this.route.data.pipe(
+      map(params => {
+        return !!params.exact;
+      }),
       distinctUntilChanged(),
       debounceTime(10)
     );

@@ -1,4 +1,8 @@
 {
+  "catalogue/all-pictures-of": "All pictures of",
+  "catalogue/sport-of": "Sport",
+  "catalogue/related-with": "Related with",
+  "catalogue/other-pictures-of": "Other pictures of",
   "page/34/ng-name": "All pictures of {item}",
   "page/138/ng-name": "{brand} {vehicle_type} in chronological order",
   "page/14/ng-name": "{brand} in chronological order",

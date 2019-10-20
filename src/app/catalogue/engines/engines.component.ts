@@ -173,11 +173,14 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
             description: item.item.description,
             engine_vehicles: item.item.engine_vehicles,
             has_text: item.item.has_text,
-            childs_count: item.item.childs_count,
             accepted_pictures_count: item.item.accepted_pictures_count,
             can_edit_specs: item.item.can_edit_specs,
-            routerLink: routerLink,
-            picturesRouterLink: routerLink.concat(['pictures'])
+            picturesRouterLink: routerLink.concat(['pictures']),
+            specsRouterLink: item.item.has_specs || item.item.has_child_specs ? routerLink.concat(['specifications']) : null,
+            details: {
+              routerLink: routerLink,
+              count: item.item.childs_count
+            }
           });
         }
 

@@ -1,12 +1,13 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {APIItem, ItemService} from '../../../services/item';
+import {APIItem} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {EMPTY, Subscription} from 'rxjs';
+import {combineLatest, EMPTY, Subscription} from 'rxjs';
 import {APIPaginator} from '../../../services/api.service';
-import {ItemParentService} from '../../../services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../list-item/list-item.component';
+import {CatalogueListItem} from '../../list-item/list-item.component';
+import {CatalogueService} from '../../catalogue-service';
+import {ACLService} from '../../../services/acl.service';
 
 @Component({
   selector: 'app-catalogue-vehicles-gallery',
@@ -18,118 +19,107 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public items: CatalogueListItem[];
   public paginator: APIPaginator;
+  public picturesRouterLink: string[];
+  public galleryRouterLink: string[];
+  public item: APIItem;
+  public current: string;
 
   constructor(
     private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private itemParentService: ItemParentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private catalogueService: CatalogueService,
+    private acl: ACLService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
 
-    this.sub = this.route.paramMap.pipe(
-      map(params => {
-        return params.get('brand');
-      }),
-      distinctUntilChanged(),
-      debounceTime(10),
-      switchMap(catname => {
-        if (!catname) {
+    this.sub = this.acl.inheritsRole('moder').pipe(
+      switchMap(isModer => combineLatest([
+        this.catalogueService.resolveCatalogue(this.route, isModer),
+        this.getExact()
+      ])),
+      map(data => {
+        if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return EMPTY;
         }
-        return this.itemService.getItems({
-          catname: catname,
-          fields: 'catname,name_text,name_html',
-          limit: 1
-        }).pipe(
-          map(response => response && response.items.length ? response.items[0] : null),
-          tap(brand => {
-            this.brand = brand;
-            if (brand) {
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                pageId: 208,
-                name: 'page/208/ng-name',
-                args: {
-                  brand: brand.name_text,
-                }
-              });
+
+        this.brand = data[0].brand;
+        if (data[0].brand) {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            pageId: 34,
+            name: data[0].brand.name_text,
+            args: {
+              item: data[0].brand.name_text,
             }
-          })
-        );
+          });
+        }
+        // this.path = data[0].path;
+        const routerLink = ['/', this.brand.catname];
+
+        for (const node of data[0].path) {
+          routerLink.push(node.catname);
+        }
+
+        // this.routerLink = routerLink;
+        this.picturesRouterLink = [...routerLink];
+        this.galleryRouterLink = [...routerLink];
+        if (data[1]) {
+          this.picturesRouterLink.push('exact');
+          this.galleryRouterLink.push('exact');
+        }
+        this.picturesRouterLink.push('pictures');
+        this.galleryRouterLink.push('gallery');
+
+        return data;
       }),
-      switchMap(brand =>
-        this.route.queryParamMap.pipe(
-          map(queryParams => ({
-            brand: brand,
-            queryParams: queryParams
-          }))
-        )
-      ),
-      switchMap(data =>
-        this.itemParentService
-          .getItems({
-            fields: [
-              'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
-              'item.engine_vehicles',
-              'item.can_edit_specs,item.specs_url',
-              'item.twins_groups',
-              'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
-            ].join(','),
-            item_type_id: 2,
-            limit: 7,
-            page: +data.queryParams.get('page'),
-            parent_id: data.brand.id,
-            order: 'type_auto'
-          })
-      ),
-      map(response => {
-        const items: CatalogueListItem[] = [];
-
-        for (const item of response.items) {
-
-          const routerLink = ['/', this.brand.catname, 'engines', item.catname];
-
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.item.preview_pictures) {
-            pictures.push({
-              picture: picture.picture,
-              routerLink: picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
-            });
-          }
-          items.push({
-            id: item.item.id,
-            preview_pictures: pictures,
-            item_type_id: item.item.item_type_id,
-            produced: item.item.produced,
-            produced_exactly: item.item.produced_exactly,
-            name_html: item.item.name_html,
-            name_default: item.item.name_default,
-            design: null,
-            description: item.item.description,
-            engine_vehicles: item.item.engine_vehicles,
-            has_text: item.item.has_text,
-            childs_count: item.item.childs_count,
-            accepted_pictures_count: item.item.accepted_pictures_count,
-            can_edit_specs: item.item.can_edit_specs,
-            routerLink: routerLink,
-            picturesRouterLink: routerLink.concat(['pictures'])
+      switchMap(data => this.getIdentity().pipe(
+        map(identity => {
+          return {
+            brand: data[0].brand,
+            path: data[0].path,
+            type: data[0].type,
+            exact: data[1],
+            identity: identity
+          };
+        })
+      )),
+      tap(data => {
+        if (!data.identity) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
           });
         }
 
-        return {
-          items: items,
-          paginator: response.paginator
-        };
+        const last = data.path[data.path.length - 1];
+        this.item = last.item;
+        this.current = data.identity;
       })
-    ).subscribe(response => {
-      this.items = response.items;
-      this.paginator = response.paginator;
-    });
+    ).subscribe();
+  }
+
+  private getExact() {
+    return this.route.data.pipe(
+      map(params => {
+        return !!params.exact;
+      }),
+      distinctUntilChanged(),
+      debounceTime(10)
+    );
+  }
+
+  private getIdentity() {
+    return this.route.paramMap.pipe(
+      map(route => route.get('identity')),
+      distinctUntilChanged()
+    );
   }
 
   ngOnDestroy(): void {

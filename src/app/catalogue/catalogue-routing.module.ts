@@ -16,6 +16,9 @@ import {cataloguePathMatcher} from './matcher';
 import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
 import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
+import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
+import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
+import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
 
 const routes: Routes = [
   {
@@ -124,22 +127,44 @@ const routes: Routes = [
   {
     matcher: cataloguePathMatcher,
     children: [
-      /*{
-        path: 'gallery',
+      {
+        path: 'gallery/:identity',
         pathMatch: 'full',
         component: CatalogueVehiclesGalleryComponent,
-      },*/
+      },
+      {
+        path: 'exact',
+        data: {
+          exact: true
+        },
+        children: [
+          {
+            path: 'pictures',
+            children: [
+              {
+                path: ':identity',
+                component: CatalogueVehiclesPicturesPictureComponent
+              },
+              {
+                path: '',
+                pathMatch: 'full',
+                component: CatalogueVehiclesPicturesComponent,
+              }
+            ]
+          },
+        ]
+      },
       {
         path: 'pictures',
         children: [
           {
             path: ':identity',
-            component: CatalogueEnginesPicturesPictureComponent,
+            component: CatalogueVehiclesPicturesPictureComponent,
           },
           {
             path: '',
             pathMatch: 'full',
-            component: CatalogueEnginesPicturesComponent,
+            component: CatalogueVehiclesPicturesComponent,
           }
         ]
       },

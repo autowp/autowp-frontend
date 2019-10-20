@@ -28,11 +28,14 @@ export interface CatalogueListItem {
     }
   ];
   has_text: boolean;
-  childs_count: number;
   accepted_pictures_count: number;
   can_edit_specs: boolean;
-  routerLink: string[];
   picturesRouterLink: string[];
+  specsRouterLink: string[];
+  details: {
+    routerLink: string[];
+    count: number;
+  };
 }
 
 @Component({

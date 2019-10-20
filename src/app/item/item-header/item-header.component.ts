@@ -1,6 +1,6 @@
 import {Component, Injectable, Input} from '@angular/core';
 
-export interface ItemHeaderComponent {
+export interface ItemHeader {
   nameHTML: string;
   design?: {
     url: string;
@@ -18,6 +18,6 @@ export interface ItemHeaderComponent {
 })
 @Injectable()
 export class ItemHeaderComponent {
-  @Input() item: ItemHeaderComponent;
+  @Input() item: ItemHeader;
 
 }

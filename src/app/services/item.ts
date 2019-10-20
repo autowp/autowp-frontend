@@ -35,6 +35,12 @@ export interface APIItemsGetPathResponse {
   path: APIPathItem[];
 }
 
+export interface APIItemChildsCounts {
+  stock: number;
+  tuning: number;
+  sport: number;
+}
+
 export interface APIItem {
   name: string;
   id: number;
@@ -69,6 +75,7 @@ export interface APIItem {
   engine_vehicles_count: number;
   pictures_count: number;
   childs_count: number;
+  childs_counts: APIItemChildsCounts;
   parents_count: number;
   links_count: number;
   item_language_count: number;

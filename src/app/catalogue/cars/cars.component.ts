@@ -164,11 +164,14 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
             description: item.description,
             engine_vehicles: item.engine_vehicles,
             has_text: item.has_text,
-            childs_count: item.childs_count,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            routerLink: routerLink,
-            picturesRouterLink: routerLink.concat(['pictures'])
+            picturesRouterLink: routerLink.concat(['pictures']),
+            specsRouterLink: null, // TODO
+            details: {
+              routerLink: routerLink,
+              count: item.childs_count
+            }
           });
         }
 
