@@ -113,9 +113,7 @@ export class ModerRightsComponent implements OnInit, OnDestroy {
 
   public addRole() {
     this.http
-      .post<void>('/api/acl/roles', {
-        data: this.addRoleForm
-      })
+      .post<void>('/api/acl/roles', this.addRoleForm)
       .subscribe(() => {
         this.$loadRoles.next(null);
         this.$loadRolesTree.next(null);

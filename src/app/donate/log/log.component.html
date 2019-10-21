@@ -4,7 +4,7 @@
       <a routerLink="/" translate>page/1/name</a>
     </li>
     <li class="breadcrumb-item">
-      <a routerLink="/donate">page/196/name</a>
+      <a routerLink="/donate" translate>page/196/name</a>
     </li>
   </ol>
 </nav>
@@ -23,12 +23,14 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of items">
-      <td [textContent]="item.date | amTimeAgo" [ngbTooltip]="item.date | date: 'medium'"></td>
+      <td>
+        <span [textContent]="item.date | amTimeAgo" [ngbTooltip]="item.date | date: 'medium'"></span>
+      </td>
       <td>
         <app-user [user]="item.user" *ngIf="item.user"></app-user>
       </td>
       <td>
-        {{item.sum | number : '2.0-0'}} {{item.currency}}
+        {{item.sum | number : '2.0-2'}} {{item.currency}}
       </td>
     </tr>
   </tbody>
