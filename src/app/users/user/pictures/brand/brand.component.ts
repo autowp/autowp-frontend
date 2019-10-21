@@ -67,7 +67,9 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
         })),
         tap(data => {
           if (data.user.deleted) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 

@@ -116,7 +116,9 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         )),
         tap(data => {
           if (!data.user) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 

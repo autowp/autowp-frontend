@@ -121,7 +121,9 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         if (!data.picture || !data.group) {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return;
         }
 

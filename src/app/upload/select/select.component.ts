@@ -147,7 +147,9 @@ export class UploadSelectComponent implements OnInit {
   }> {
     return this.itemService.getItem(brandId).pipe(
       catchError(() => {
-        this.router.navigate(['/error-404']);
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
         return EMPTY;
       }),
       switchMap((item, sindex) => {

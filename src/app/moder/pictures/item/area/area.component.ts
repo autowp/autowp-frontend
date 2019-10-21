@@ -160,7 +160,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           }
         },
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

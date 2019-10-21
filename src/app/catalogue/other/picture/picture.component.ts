@@ -103,7 +103,9 @@ export class CatalogueOtherPictureComponent implements OnInit, OnDestroy {
     )
     .subscribe((data) => {
       if (!data.picture || !data.brand) {
-        this.router.navigate(['/error-404']);
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
         return;
       }
 

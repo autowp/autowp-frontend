@@ -54,7 +54,9 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
           this.topic = response;
         },
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

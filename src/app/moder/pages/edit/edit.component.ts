@@ -58,7 +58,9 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
       .subscribe(
         response => (this.item = response),
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

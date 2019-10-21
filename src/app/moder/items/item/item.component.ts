@@ -150,7 +150,9 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         }),
         catchError(err => {
           this.toastService.response(err);
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return of(null);
         }),
         tap(item => {

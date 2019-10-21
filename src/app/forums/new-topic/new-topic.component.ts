@@ -63,7 +63,9 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
           this.user = data.user;
         },
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

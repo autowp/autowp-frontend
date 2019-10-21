@@ -51,7 +51,9 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         if (!data.identity || !data.current) {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return;
         }
 

@@ -58,12 +58,16 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
         ),
         catchError(err => {
           this.toastService.response(err);
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return EMPTY;
         }),
         tap(factory => {
           if (factory.item_type_id !== 6) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 

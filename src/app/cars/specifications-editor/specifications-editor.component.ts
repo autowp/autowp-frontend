@@ -88,7 +88,9 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.isModer = data.isModer;
 
           if (! data.item) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
@@ -108,7 +110,9 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.enginesCount = this.item.engine_id ? 1 : 0;
         },
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

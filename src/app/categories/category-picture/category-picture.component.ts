@@ -95,7 +95,9 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         if (!data.picture || !data.current) {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return;
         }
 

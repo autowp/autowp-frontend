@@ -67,12 +67,16 @@ export class MuseumComponent implements OnInit, OnDestroy {
         ),
         catchError(err => {
           this.toastService.response(err);
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return EMPTY;
         }),
         tap(item => {
           if (item.item_type_id !== 7) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 

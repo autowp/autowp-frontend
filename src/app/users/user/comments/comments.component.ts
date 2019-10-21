@@ -62,7 +62,9 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
         }),
         tap(user => {
           if (!user) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
