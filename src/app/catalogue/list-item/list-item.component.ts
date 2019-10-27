@@ -17,13 +17,13 @@ export interface CatalogueListItem {
   name_html: string;
   name_default: string;
   design: {
-    url: string;
     name: string;
+    route: string[];
   };
   description: string;
   engine_vehicles?: [
     {
-      url: string;
+      route: string[];
       name_html: string;
     }
   ];

@@ -72,8 +72,8 @@
           </a>
         </td>
         <td class="urls">
-          <ng-container *ngFor="let url of item.parent.public_urls">
-            <a [href]="url" [textContent]="url"></a>
+          <ng-container *ngFor="let route of item.parent.public_routes">
+            <a [routerLink]="route" [textContent]="route.join('/')"></a>
             <br />
           </ng-container>
         </td>
@@ -123,8 +123,8 @@
           </a>
         </td>
         <td class="urls">
-          <ng-container *ngFor="let url of item.item.public_urls">
-            <a [href]="url" [textContent]="url"></a>
+          <ng-container *ngFor="let route of item.item.public_routes">
+            <a [routerLink]="route" [textContent]="route.join('/')"></a>
             <br />
           </ng-container>
         </td>

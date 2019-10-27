@@ -87,13 +87,16 @@ export interface APIItem {
   text: string;
   is_compiles_item_of_day: boolean;
   item_of_day_pictures: APIPicture[];
-  design: APIItem;
+  design: {
+    name: string;
+    route: string[];
+  };
   name_default: string;
   specs_url: string;
   twins_groups: APIItem[];
   categories?: APIItem[];
   childs?: APIItem[];
-  url: string;
+  route: string[];
   can_edit_specs?: boolean;
   name_only: string;
   current_pictures_count?: number;
@@ -102,7 +105,7 @@ export interface APIItem {
   specifications_count?: number;
   has_child_specs?: boolean;
   brands: APIItem[];
-  public_urls?: string[];
+  public_routes?: string[][];
 
   has_text?: boolean;
 
@@ -113,7 +116,7 @@ export interface APIItem {
 
   engine_vehicles?: [
     {
-      url: string;
+      route: string[];
       name_html: string;
     }
   ];
@@ -145,7 +148,7 @@ export interface APIItem {
 export interface APIItemRelatedGroupItem {
   name: string;
   src: string;
-  url: string;
+  route: string[];
 }
 
 export interface GetItemServiceOptions {
@@ -195,6 +198,7 @@ export interface GetItemsServiceOptions {
   factories_of_brand?: number;
   concept?: boolean;
   concept_inherit?: boolean;
+  route_brand_id?: number;
 }
 
 export interface GetPathServiceOptions {
@@ -392,6 +396,10 @@ function converItemsOptions(
     }
   }
 
+  if (options.route_brand_id) {
+    params.route_brand_id = options.route_brand_id.toString();
+  }
+
   return params;
 }
 
@@ -413,7 +421,7 @@ export class ItemService {
           const currentIds: number[] = [];
           for (const itemVehicleType of response.items) {
             currentIds.push(itemVehicleType.vehicle_type_id);
-            if (ids.indexOf(itemVehicleType.vehicle_type_id) == -1) {
+            if (ids.indexOf(itemVehicleType.vehicle_type_id) === -1) {
               promises.push(
                 this.http.delete<void>(
                   '/api/item-vehicle-type/' +
@@ -426,7 +434,7 @@ export class ItemService {
           }
 
           for (const vehicleTypeId of ids) {
-            if (currentIds.indexOf(vehicleTypeId) == -1) {
+            if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
                 this.http.post<void>(
                   '/api/item-vehicle-type/' + itemId + '/' + vehicleTypeId,

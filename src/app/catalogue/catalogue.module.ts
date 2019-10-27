@@ -18,9 +18,6 @@ import {CatalogueOtherPictureComponent} from './other/picture/picture.component'
 import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
 import {CatalogueListItemComponent} from './list-item/list-item.component';
 import {CatalogueEnginesComponent} from './engines/engines.component';
-import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.component';
-import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/picture/picture.component';
-import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
 import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
@@ -44,9 +41,6 @@ import {GalleryModule} from '../gallery/gallery.module';
     CatalogueConceptsComponent,
     CatalogueListItemComponent,
     CatalogueEnginesComponent,
-    CatalogueEnginesPicturesComponent,
-    CatalogueEnginesPicturesPictureComponent,
-    CatalogueEnginesGalleryComponent,
     CatalogueCarsComponent,
     CatalogueVehiclesComponent,
     CatalogueVehiclesGalleryComponent,
@@ -68,6 +62,9 @@ import {GalleryModule} from '../gallery/gallery.module';
   ],
   providers: [
     CatalogueService
+  ],
+  exports: [
+    CatalogueListItemComponent
   ]
 })
 export class CatalogueModule {}

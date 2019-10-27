@@ -3,8 +3,8 @@ import {Component, Injectable, Input} from '@angular/core';
 export interface ItemHeader {
   nameHTML: string;
   design?: {
-    url: string;
     name: string;
+    route: string[];
   };
   produced?: {
     count: number;

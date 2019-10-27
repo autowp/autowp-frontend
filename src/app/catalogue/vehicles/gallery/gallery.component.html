@@ -1,1 +1,8 @@
-<app-gallery [itemID]="item.id" [current]="current" [galleryPrefix]="galleryRouterLink" [picturePrefix]="picturesRouterLink" *ngIf="item"></app-gallery>
+<app-gallery
+  [itemID]="item.id"
+  [current]="current"
+  [galleryPrefix]="galleryRouterLink"
+  [picturePrefix]="picturesRouterLink"
+  [params]="{exact: exact ? '1' : '0'}"
+  *ngIf="item"
+></app-gallery>

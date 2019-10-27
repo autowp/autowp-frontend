@@ -59,7 +59,7 @@ export class CatalogueService {
       let fields = 'item.name_html';
       const isLast = parent.path.length <= 1;
       if (isModer && isLast) {
-        fields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,' +
+        fields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,item.design,' +
           'item.name_default,item.description,item.produced,item.specs_url,item.childs_counts,item.accepted_pictures_count';
       }
 

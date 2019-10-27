@@ -30,6 +30,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @Input() current: string;
   @Input() galleryPrefix: string[];
   @Input() picturePrefix: string[];
+  @Input() params: { [key: string]: string} = {};
 
   private itemID$ = new BehaviorSubject<number>(null);
   private current$ = new BehaviorSubject<string>(null);
@@ -83,11 +84,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         switchMap(data => {
           this.current = data.current;
           if (!this.getGalleryItem(data.current)) {
+            const params = Object.assign({}, this.params);
+            params['picture_identity'] = data.current;
             return this.http
               .get<APIGallery>('/api/item/' + data.itemID + '/gallery', {
-                params: {
-                  picture_identity: data.current
-                }
+                params: params
               })
               .pipe(
                 tap(response => {
@@ -123,12 +124,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private loadPage(itemID: number, page: number): Observable<APIGallery> {
+    const params = Object.assign({}, this.params);
+    params['page'] = page + '';
+    params['status'] = this.status;
     return this.http
       .get<APIGallery>('/api/item/' + itemID + '/gallery', {
-        params: {
-          page: page + '',
-          status: this.status
-        }
+        params: params
       })
       .pipe(
         tap((response) => {

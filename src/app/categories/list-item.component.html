@@ -56,7 +56,7 @@
     <p translate>catalogue/engine/mounted-on:</p>
     <ul>
       <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+        <a [href]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
       </li>
     </ul>
   </div>

@@ -10,10 +10,7 @@ import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component'
 import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
 import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
 import {CatalogueEnginesComponent} from './engines/engines.component';
-import {CatalogueEnginesPicturesPictureComponent} from './engines/pictures/picture/picture.component';
-import {CatalogueEnginesPicturesComponent} from './engines/pictures/pictures.component';
 import {cataloguePathMatcher} from './matcher';
-import {CatalogueEnginesGalleryComponent} from './engines/gallery/gallery.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
 import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
@@ -69,42 +66,7 @@ const routes: Routes = [
   },
   {
     path: 'engines',
-    children: [
-      {
-        matcher: cataloguePathMatcher,
-        children: [
-          {
-            path: 'gallery',
-            pathMatch: 'full',
-            component: CatalogueEnginesGalleryComponent,
-          },
-          {
-            path: 'pictures',
-            children: [
-              {
-                path: ':identity',
-                component: CatalogueEnginesPicturesPictureComponent,
-              },
-              {
-                path: '',
-                pathMatch: 'full',
-                component: CatalogueEnginesPicturesComponent,
-              }
-            ]
-          },
-          {
-            path: '',
-            pathMatch: 'full',
-            component: CatalogueEnginesComponent,
-          }
-        ]
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        component: CatalogueEnginesComponent,
-      }
-    ]
+    component: CatalogueEnginesComponent
   },
   {
     path: 'concepts',

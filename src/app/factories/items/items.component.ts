@@ -13,6 +13,7 @@ import {
   tap, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../catalogue/list-item/list-item.component';
 
 @Component({
   selector: 'app-factory-items',
@@ -22,7 +23,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class FactoryItemsComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public factory: APIItem;
-  public items: APIItem[] = [];
+  public items: CatalogueListItem[] = [];
   public paginator: APIPaginator;
   public isModer = false;
   private aclSub: Subscription;
@@ -94,10 +95,10 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           limit: 10,
           fields: [
             'name_html,name_default,description,has_text,produced',
-            'design,engine_vehicles',
-            'url,can_edit_specs,specs_url,more_pictures_url',
+            'design,engine_vehicles,route',
+            'url,can_edit_specs,specs_url',
             'categories.url,categories.name_html,twins_groups',
-            'preview_pictures.picture.thumb_medium,preview_pictures.url,childs_count,total_pictures'
+            'preview_pictures.picture.thumb_medium,preview_pictures.url,childs_count,accepted_pictures_count'
           ].join(',')
         }).pipe(
           map(response => ({
@@ -113,8 +114,43 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
       )
       .subscribe(data => {
         this.factory = data.factory;
-        this.items = data.items;
         this.paginator = data.paginator;
+
+        const items: CatalogueListItem[] = [];
+        for (const item of data.items) {
+
+          const pictures: CatalogueListItemPicture[] = [];
+          for (const picture of item.preview_pictures) {
+            pictures.push({
+              picture: picture.picture,
+              routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+            });
+          }
+          items.push({
+            id: item.id,
+            preview_pictures: pictures,
+            item_type_id: item.item_type_id,
+            produced: item.produced,
+            produced_exactly: item.produced_exactly,
+            name_html: item.name_html,
+            name_default: item.name_default,
+            design: item.design,
+            description: item.description,
+            engine_vehicles: item.engine_vehicles,
+            has_text: item.has_text,
+            accepted_pictures_count: item.accepted_pictures_count,
+            can_edit_specs: item.can_edit_specs,
+            picturesRouterLink: item.route.concat(['pictures']),
+            specsRouterLink: item.has_specs || item.has_child_specs ? item.route.concat(['specifications']) : null,
+            details: {
+              routerLink: item.route,
+              count: item.childs_count
+            }
+          });
+        }
+
+        this.items = items;
+
       });
   }
 

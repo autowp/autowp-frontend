@@ -75,9 +75,10 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           ancestor_id: data.brand.id,
           concept: true,
           concept_inherit: false,
+          route_brand_id: data.brand.id,
           fields: [
             'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
-            'design,engine_vehicles',
+            'design,engine_vehicles,route',
             'can_edit_specs,specs_url',
             'twins_groups',
             'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
@@ -88,15 +89,13 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
       map(response => {
         const items: CatalogueListItem[] = [];
 
-        const routerLink = ['/', this.brand.catname, 'concepts'];
-
         for (const item of response.items) {
 
           const pictures: CatalogueListItemPicture[] = [];
           for (const picture of item.preview_pictures) {
             pictures.push({
               picture: picture.picture,
-              routerLink: picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
+              routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
             });
           }
           items.push({
@@ -113,10 +112,10 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
             has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: routerLink.concat(['pictures']),
+            picturesRouterLink: item.route.concat(['pictures']),
             specsRouterLink: null, // TODO
             details: {
-              routerLink: routerLink,
+              routerLink: item.route,
               count: item.childs_count
             }
           });

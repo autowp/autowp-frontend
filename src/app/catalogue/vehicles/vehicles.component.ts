@@ -147,8 +147,8 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
     return this.itemService.getItem(last.item_id, {
       fields: [
         'catname,name_html,name_default,description,text,has_text,produced,accepted_pictures_count',
-        'engine_vehicles,can_edit_specs,specs_url,has_child_specs,has_specs,twins_groups',
-        'preview_pictures.picture.thumb_medium,total_pictures,preview_pictures.picture.name_text'
+        'engine_vehicles,can_edit_specs,specs_url,has_child_specs,has_specs,twins_groups,design',
+        'preview_pictures.picture.thumb_medium,total_pictures,preview_pictures.picture.name_text,childs_counts'
       ].join(',')
     }).pipe(
       tap(item => {
@@ -163,10 +163,9 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       this.itemParentService.getItems({
         fields: [
           'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
-          'item.engine_vehicles,item.can_edit_specs,item.specs_url,item.twins_groups,item.has_specs,item.has_child_specs',
+          'item.engine_vehicles,item.can_edit_specs,item.specs_url,item.twins_groups,item.has_specs,item.has_child_specs,item.design',
           'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
         ].join(','),
-        item_type_id: 1,
         limit: 7,
         page: +page,
         parent_id: last.item_id,
@@ -196,7 +195,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
               produced_exactly: item.item.produced_exactly,
               name_html: item.item.name_html,
               name_default: item.item.name_default,
-              design: null,
+              design: item.item.design,
               description: item.item.description,
               engine_vehicles: item.item.engine_vehicles,
               has_text: item.item.has_text,

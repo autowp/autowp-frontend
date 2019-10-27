@@ -23,6 +23,7 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
   public galleryRouterLink: string[];
   public item: APIItem;
   public current: string;
+  private exact: boolean;
 
   constructor(
     private pageEnv: PageEnvService,
@@ -68,10 +69,11 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
           routerLink.push(node.catname);
         }
 
+        this.exact = data[1];
         // this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
         this.galleryRouterLink = [...routerLink];
-        if (data[1]) {
+        if (this.exact) {
           this.picturesRouterLink.push('exact');
           this.galleryRouterLink.push('exact');
         }

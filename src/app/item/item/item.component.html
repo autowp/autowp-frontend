@@ -3,7 +3,7 @@
   <h3 *ngIf="!disableTitle">
     <span [innerHTML]="item.name_html"></span>
     <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
-      <a [href]="item.design.url" [textContent]="item.design.name"></a>
+      <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
     <small *ngIf="item.produced > 1" class="ml-2">
@@ -60,16 +60,16 @@
     <p translate>catalogue/engine/mounted-on:</p>
     <ul>
       <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+        <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
       </li>
     </ul>
   </div>
 
   <ul class="list-inline" ngPreserveWhitespaces>
 
-    <li *ngIf="(item.has_text || item.childs_count) && item.url" class="list-inline-item">
+    <li *ngIf="(item.has_text || item.childs_count) && item.route" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [href]="item.url">{{'carlist/details'|translate}}
+      <a [routerLink]="item.route">{{'carlist/details'|translate}}
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>

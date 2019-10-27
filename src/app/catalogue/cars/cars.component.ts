@@ -125,13 +125,15 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
   private getItems(brandID: number, vehicleTypeID: number, page: number) {
     return this.itemService.getItems({
       limit: 7,
+      type_id: 1,
       order: 'age',
       ancestor_id: brandID,
       dateful: true,
       vehicle_type_id: vehicleTypeID,
+      route_brand_id: brandID,
       fields: [
         'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
-        'design,engine_vehicles',
+        'design,engine_vehicles,route',
         'can_edit_specs,specs_url',
         'twins_groups',
         'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
@@ -143,13 +145,11 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
 
         for (const item of response.items) {
 
-          const routerLink = ['/', this.brand.catname, 'cars'];
-
           const pictures: CatalogueListItemPicture[] = [];
           for (const picture of item.preview_pictures) {
             pictures.push({
               picture: picture.picture,
-              routerLink: picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
+              routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
             });
           }
           items.push({
@@ -166,10 +166,10 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
             has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: routerLink.concat(['pictures']),
+            picturesRouterLink: item.route.concat(['pictures']),
             specsRouterLink: null, // TODO
             details: {
-              routerLink: routerLink,
+              routerLink: item.route,
               count: item.childs_count
             }
           });

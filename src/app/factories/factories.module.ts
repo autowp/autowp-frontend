@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
 import { UtilsModule } from '../utils/utils.module';
+import {CatalogueModule} from '../catalogue/catalogue.module';
 
 @NgModule({
   declarations: [FactoryComponent, FactoryItemsComponent],
@@ -20,7 +21,8 @@ import { UtilsModule } from '../utils/utils.module';
     TranslateModule,
     LeafletModule,
     ThumbnailModule,
-    UtilsModule
+    UtilsModule,
+    CatalogueModule
   ]
 })
 export class FactoriesModule {}
