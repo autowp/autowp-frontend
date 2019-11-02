@@ -26,6 +26,9 @@ export function cataloguePathMatcher(url: UrlSegment[]) {
     if (segment === 'tuning') {
       break;
     }
+    if (segment === 'specifications') {
+      break;
+    }
     consumed.push(url[i]);
     path.push(segment);
   }

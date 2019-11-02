@@ -1,0 +1,21 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+    <ng-container *ngIf="breadcrumbs">
+      <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
+        <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+      </li>
+    </ng-container>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="item">
+  <h1>{{'page/36/ng-name'|translate}} <span [innerHTML]="item.name_html"></span></h1>
+</div>
+
+<div [innerHtml]="html"></div>

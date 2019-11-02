@@ -16,6 +16,7 @@ import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
 import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
 import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
+import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
 
 const routes: Routes = [
   {
@@ -129,6 +130,11 @@ const routes: Routes = [
             component: CatalogueVehiclesPicturesComponent,
           }
         ]
+      },
+      {
+        path: 'specifications',
+        pathMatch: 'full',
+        component: CatalogueVehiclesSpecificationsComponent,
       },
       {
         path: '',

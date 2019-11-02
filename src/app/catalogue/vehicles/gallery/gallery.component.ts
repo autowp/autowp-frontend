@@ -38,7 +38,7 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
 
     this.sub = this.acl.inheritsRole('moder').pipe(
       switchMap(isModer => combineLatest([
-        this.catalogueService.resolveCatalogue(this.route, isModer),
+        this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
       map(data => {

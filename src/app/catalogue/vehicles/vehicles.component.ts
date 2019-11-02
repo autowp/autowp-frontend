@@ -100,7 +100,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
 
     this.sub = this.acl.inheritsRole('moder').pipe(
       tap(isModer => (this.isModer = isModer)),
-      switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer)),
+      switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
       switchMap(data => {
         if (! data.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {

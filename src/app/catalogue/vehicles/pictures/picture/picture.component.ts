@@ -39,7 +39,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
     this.sub = this.acl.inheritsRole('moder').pipe(
       tap(isModer => (this.isModer = isModer)),
       switchMap(isModer => combineLatest([
-        this.catalogueService.resolveCatalogue(this.route, isModer),
+        this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
       map(data => {

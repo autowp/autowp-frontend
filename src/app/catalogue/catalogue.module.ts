@@ -27,6 +27,7 @@ import {ItemModule} from '../item/item.module';
 import {CatalogueService} from './catalogue-service';
 import {CatalogueItemMenuComponent} from './item-menu/item-menu.component';
 import {GalleryModule} from '../gallery/gallery.module';
+import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {GalleryModule} from '../gallery/gallery.module';
     CatalogueVehiclesGalleryComponent,
     CatalogueVehiclesPicturesComponent,
     CatalogueVehiclesPicturesPictureComponent,
-    CatalogueItemMenuComponent
+    CatalogueItemMenuComponent,
+    CatalogueVehiclesSpecificationsComponent
   ],
   imports: [
     CommonModule,

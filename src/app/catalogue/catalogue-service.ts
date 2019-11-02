@@ -48,7 +48,7 @@ export class CatalogueService {
     );
   }
 
-  public resolveCatalogue(route: ActivatedRoute, isModer: boolean) {
+  public resolveCatalogue(route: ActivatedRoute, isModer: boolean, fields: string) {
 
     const pathPipeRecursive: ParentObservableFunc = () =>  switchMap((parent: Parent) => {
 
@@ -56,10 +56,10 @@ export class CatalogueService {
         return of(parent);
       }
 
-      let fields = 'item.name_html';
+      let totalFields = 'item.name_html,' + fields;
       const isLast = parent.path.length <= 1;
       if (isModer && isLast) {
-        fields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,item.design,' +
+        totalFields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,item.design,' +
           'item.name_default,item.description,item.produced,item.specs_url,item.childs_counts,item.accepted_pictures_count';
       }
 
@@ -67,7 +67,7 @@ export class CatalogueService {
         parent_id: parent.id,
         catname: parent.path[0],
         limit: 1,
-        fields: fields
+        fields: totalFields
       }).pipe(
         map(response => {
           if (response.items.length <= 0) {
