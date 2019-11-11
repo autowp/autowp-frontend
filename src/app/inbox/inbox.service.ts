@@ -29,11 +29,15 @@ export class InboxService {
     brand_id: number,
     date: string
   ): Observable<APIInbox> {
+    const params: { [param: string]: string } = {
+      brand_id: brand_id ? brand_id.toString() : ''
+    };
+    if (date) {
+      params.date = date;
+    }
+
     return this.http.get<APIInbox>('/api/inbox', {
-      params: {
-        brand_id: brand_id ? brand_id.toString() : '',
-        date: date
-      }
+      params: params
     });
   }
 }
