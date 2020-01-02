@@ -3,11 +3,11 @@ import {APIItem} from '../../../../services/item';
 import {PageEnvService} from '../../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Subscription} from 'rxjs';
+import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../../catalogue-service';
 import {ACLService} from '../../../../services/acl.service';
 import {APIItemParent} from '../../../../services/item-parent';
-import {APIPicture, PictureService} from '../../../../services/picture';
+import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../../services/picture';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures-picture',
@@ -40,7 +40,8 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       tap(isModer => (this.isModer = isModer)),
       switchMap(isModer => combineLatest([
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
-        this.getExact()
+        this.getExact(),
+        of(isModer)
       ])),
       map(data => {
         if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
@@ -87,7 +88,8 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
             path: data[0].path,
             type: data[0].type,
             exact: data[1],
-            identity: identity
+            identity: identity,
+            isModer: data[2]
           };
         })
       )),
@@ -102,23 +104,22 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         const last = data.path[data.path.length - 1];
         this.item = last.item;
 
-        return this.getPicture(data.identity, last.item_id);
+        return this.getPicture(data.identity, last.item_id, data.isModer);
       })
     ).subscribe(picture => {
       this.picture = picture;
     });
   }
 
-  private getPicture(identity: string, itemID: number) {
+  private getPicture(identity: string, itemID: number, isModer: boolean) {
     const fields =
       'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
       'items.item.design,items.item.description,items.item.specs_url,items.item.has_specs,items.item.alt_names,' +
       'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
       'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
 
-    return this.pictureService.getPictures({
+    const options: APIGetPicturesOptions = {
       identity: identity,
-      status: 'accepted',
       item_id: itemID,
       fields: fields,
       limit: 1,
@@ -128,7 +129,12 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       paginator: {
         item_id: itemID
       }
-    }).pipe(
+    };
+    if (! isModer) {
+      options.status = 'accepted';
+    }
+
+    return this.pictureService.getPictures(options).pipe(
       map(response => response.pictures.length ? response.pictures[0] : null)
     );
   }

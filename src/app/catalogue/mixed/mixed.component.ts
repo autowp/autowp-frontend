@@ -26,7 +26,6 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pictureService: PictureService
   ) {
-    console.log('mixed');
   }
 
   ngOnInit(): void {

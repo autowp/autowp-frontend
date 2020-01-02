@@ -28,6 +28,8 @@ import {CatalogueService} from './catalogue-service';
 import {CatalogueItemMenuComponent} from './item-menu/item-menu.component';
 import {GalleryModule} from '../gallery/gallery.module';
 import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
+import {CatalogueMostsComponent} from './mosts/mosts.component';
+import {MostsModule} from '../mosts/mosts.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specification
     CatalogueVehiclesPicturesComponent,
     CatalogueVehiclesPicturesPictureComponent,
     CatalogueItemMenuComponent,
-    CatalogueVehiclesSpecificationsComponent
+    CatalogueVehiclesSpecificationsComponent,
+    CatalogueMostsComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +63,8 @@ import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specification
     PictureModule,
     CommentsModule,
     ItemModule,
-    GalleryModule
+    GalleryModule,
+    MostsModule
   ],
   providers: [
     CatalogueService

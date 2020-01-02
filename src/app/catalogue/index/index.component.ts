@@ -103,7 +103,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         }
         return this.itemService.getItems({
           catname: catname,
-          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only',
+          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active',
           limit: 1
         }).pipe(
           switchMap(response => {

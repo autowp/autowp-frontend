@@ -1,0 +1,12 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+  </ol>
+</nav>
+
+<app-mosts-contents *ngIf="brand" [prefix]="['/', brand.catname, 'mosts']" [ratingCatname]="ratingCatname" [typeCatname]="typeCatname" [yearsCatname]="yearsCatname" [brandID]="brand.id"></app-mosts-contents>

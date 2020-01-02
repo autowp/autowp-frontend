@@ -8,9 +8,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {MostsContentsComponent} from './contents/contents.component';
 
 @NgModule({
-  declarations: [MostsComponent],
+  exports: [MostsContentsComponent],
+  declarations: [MostsComponent, MostsContentsComponent],
   imports: [
     CommonModule,
     MostsRoutingModule,

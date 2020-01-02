@@ -7,6 +7,7 @@ import { APIVehicleType } from '../services/vehicle-type';
 import { APIAttrUnit } from '../api/attrs/attrs.service';
 
 export interface APIMostsItemsGetOptions {
+  brand_id?: number;
   rating_catname: string;
   type_catname: string;
   years_catname: string;
@@ -42,14 +43,22 @@ export interface APIMostsMenuGetResponse {
 
 @Injectable()
 export class MostsService {
-  private readonly menu$: Observable<APIMostsMenuGetResponse>;
+  private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
-  constructor(private http: HttpClient) {
-    this.menu$ = this.http.get<APIMostsMenuGetResponse>('/api/mosts/menu');
-  }
+  constructor(private http: HttpClient) { }
 
-  public getMenu(): Observable<APIMostsMenuGetResponse> {
-    return this.menu$;
+  public getMenu(brandID: number): Observable<APIMostsMenuGetResponse> {
+
+    if (! this.menus$.has(brandID)) {
+      const o = this.http.get<APIMostsMenuGetResponse>('/api/mosts/menu', {
+        params: {
+          brand_id: brandID.toString()
+        }
+      });
+      this.menus$.set(brandID, o);
+    }
+
+    return this.menus$.get(brandID);
   }
 
   public getItems(
@@ -67,6 +76,10 @@ export class MostsService {
 
     if (options.years_catname) {
       params.years_catname = options.years_catname;
+    }
+
+    if (options.brand_id) {
+      params.brand_id = options.brand_id.toString();
     }
 
     return this.http.get<APIMostsItemsGetResponse>('/api/mosts/items', {

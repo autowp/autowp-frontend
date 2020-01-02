@@ -4,7 +4,7 @@
     <ng-container *ngIf="picture.items.length == 1 && picture.items[0].item.design">
       <sup class="design-brand">
         {{'ng/carlist/designed by'|translate}}
-        <a [href]="picture.items[0].item.design.url" [textContent]="picture.items[0].item.design.name"></a>
+        <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
       </sup>
     </ng-container>
   </h1>
@@ -12,7 +12,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <div class="picture-preview-medium">
+    <div class="picture-preview-medium" *ngIf="picture.preview_large">
       <a [routerLink]="['../../gallery', picture.identity]" class="d-block rounded mb-4">
         <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" />
       </a>
@@ -146,7 +146,7 @@
           </a>
         </li>
         <li *ngIf="item.item.design">
-          <a [href]="item.item.design.url">
+          <a [routerLink]="item.item.design.route">
             {{'ng/carlist/designed by'|translate}}
             {{item.item.design.name}}
           </a>

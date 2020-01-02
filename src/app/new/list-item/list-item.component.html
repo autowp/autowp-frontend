@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <app-markdown class="text" *ngIf="item.description.length" [markdown]="item.description"></app-markdown>
+  <app-markdown class="text" *ngIf="item.description && item.description.length" [markdown]="item.description"></app-markdown>
 
   <ul class="list-inline">
     <li *ngIf="totalPictures > 6" class="list-inline-item">

@@ -17,6 +17,7 @@ import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/pic
 import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
 import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
 import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
+import {CatalogueMostsComponent} from './mosts/mosts.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,27 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueCarsComponent,
+      }
+    ]
+  },
+  {
+    path: 'mosts',
+    children: [
+      {
+        path: '',
+        component: CatalogueMostsComponent
+      },
+      {
+        path: ':rating_catname',
+        component: CatalogueMostsComponent
+      },
+      {
+        path: ':rating_catname/:type_catname',
+        component: CatalogueMostsComponent
+      },
+      {
+        path: ':rating_catname/:type_catname/:years_catname',
+        component: CatalogueMostsComponent
       }
     ]
   },

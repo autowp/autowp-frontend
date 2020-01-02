@@ -260,7 +260,6 @@ function converItemsOptions(
     params.name_exclude = options.name_exclude;
   }
 
-  console.log('options.concept', options.concept);
   if (options.concept !== undefined && options.concept !== null) {
     params.concept = options.concept ? '1' : '0';
   }

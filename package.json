@@ -65,6 +65,7 @@
     "popper.js": "^1.16.0",
     "showdown": "^1.9.1",
     "ts-node": "^8.5.4",
-    "tslint": "~5.20.1"
+    "tslint": "~5.20.1",
+    "webpack-cli": "^3.3.10"
   }
 }
