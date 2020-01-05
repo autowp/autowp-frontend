@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIItem } from '../services/item';
-import { APIPicture } from '../services/picture';
 import { APIVehicleType } from '../services/vehicle-type';
 import { APIAttrUnit } from '../api/attrs/attrs.service';
 
@@ -13,12 +12,18 @@ export interface APIMostsItemsGetOptions {
   years_catname: string;
 }
 
+export interface APIMostsItemPicture {
+  name: string;
+  src: string;
+  route: string[];
+}
+
 export interface APIMostsItem {
   item: APIItem;
   value_html: string;
   value_text: string;
   unit: APIAttrUnit;
-  pictures: APIPicture;
+  pictures: APIMostsItemPicture[];
 }
 
 export interface APIMostsItemsGetResponse {

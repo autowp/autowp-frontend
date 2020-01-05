@@ -91,7 +91,7 @@ export class NewComponent implements OnInit, OnDestroy {
               'pictures.comments_count,pictures.name_html,pictures.name_text,' +
               'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
               'item.name_html,item.name_default,item.description,item.produced,' +
-              'item.design,item.url,item.can_edit_specs,item.specs_url,' +
+              'item.design,item.url,item.can_edit_specs,item.specs_route,' +
               'item.categories.url,item.categories.name_html,item.categories.catname,item.twins_groups'
           };
           if (params.route.date) {

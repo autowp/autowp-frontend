@@ -134,7 +134,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
       fields: [
         'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
         'design,engine_vehicles,route',
-        'can_edit_specs,specs_url',
+        'can_edit_specs,specs_route',
         'twins_groups',
         'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
       ].join(','),

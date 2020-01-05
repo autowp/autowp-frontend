@@ -43,8 +43,12 @@ export interface APIComment {
   user: APIUser;
   datetime: string;
   moder_attention: boolean; // TODO: enum
-  url: string;
   preview: string;
+  is_new: boolean;
+  status: {
+    class: string;
+    name: string;
+  };
 }
 
 @Injectable({

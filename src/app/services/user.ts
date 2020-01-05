@@ -45,7 +45,7 @@ export class APIUser {
   avatar: APIImage;
   gravatar: string;
   gravatar_hash: string;
-  url: string;
+  route: string;
   last_ip: string;
   photo: APIImage;
   pictures_added: number;

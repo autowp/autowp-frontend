@@ -48,7 +48,7 @@
       <td>
         <div *ngIf="row.brands.length > 0">
           <ng-container *ngFor="let brand of row.brands">
-            <a [href]="brand.url" [textContent]="brand.name"></a>
+            <a [routerLink]="brand.route" [textContent]="brand.name"></a>
             <span>, </span>
           </ng-container>
           …

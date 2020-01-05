@@ -16,7 +16,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export interface APIRatingUser {
   user: APIUser;
   brands: {
-    url: string;
+    route: string[];
     name: string;
   }[];
   fans: {

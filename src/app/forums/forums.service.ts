@@ -60,8 +60,7 @@ export interface APIForumTheme {
   name: string;
   themes: APIForumTheme[];
   description: string;
-  subthemes: APIForumTheme[];
-  url: string;
+  route: string;
   last_topic: APIForumTopic;
   last_message: APIComment;
   topics: {

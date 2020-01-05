@@ -55,7 +55,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
             return this.forumService
               .getThemes({
                 fields:
-                  'last_message.datetime,last_message.user,last_topic,description',
+                  'last_message.datetime,last_message.user,last_topic,description,themes',
                 topics: { page: data.query.page }
               })
               .pipe(

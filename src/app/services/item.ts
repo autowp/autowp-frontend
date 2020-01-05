@@ -41,6 +41,12 @@ export interface APIItemChildsCounts {
   sport: number;
 }
 
+export interface APIItemOfDayPicture {
+  route: string[];
+  thumb: APIImage;
+  name: string;
+}
+
 export interface APIItem {
   name: string;
   id: number;
@@ -86,13 +92,13 @@ export interface APIItem {
   description: string;
   text: string;
   is_compiles_item_of_day: boolean;
-  item_of_day_pictures: APIPicture[];
+  item_of_day_pictures: APIItemOfDayPicture[];
   design: {
     name: string;
     route: string[];
   };
   name_default: string;
-  specs_url: string;
+  specs_route?: string[];
   twins_groups: APIItem[];
   categories?: APIItem[];
   childs?: APIItem[];

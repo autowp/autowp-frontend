@@ -96,7 +96,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           fields: [
             'name_html,name_default,description,has_text,produced',
             'design,engine_vehicles,route',
-            'url,can_edit_specs,specs_url',
+            'url,can_edit_specs,specs_route',
             'categories.url,categories.name_html,twins_groups',
             'preview_pictures.picture.thumb_medium,preview_pictures.url,childs_count,accepted_pictures_count'
           ].join(',')

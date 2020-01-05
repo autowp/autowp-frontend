@@ -81,7 +81,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
               fields: [
                 'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
                 'item.design,item.engine_vehicles',
-                'item.can_edit_specs,item.specs_url',
+                'item.can_edit_specs,item.specs_route',
                 'item.twins_groups',
                 'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
               ].join(','),
@@ -128,7 +128,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
               fields: [
                 'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
                 'design,engine_vehicles',
-                'can_edit_specs,specs_url',
+                'can_edit_specs,specs_route',
                 'twins_groups',
                 'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
               ].join(',')

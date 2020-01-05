@@ -47,7 +47,7 @@ export class CarsDatelessComponent implements OnInit, OnDestroy {
             fields: [
               'name_html,name_default,description,has_text,produced',
               'design,engine_vehicles',
-              'url,can_edit_specs,specs_url,more_pictures_url',
+              'url,can_edit_specs,specs_route,more_pictures_url',
               'categories.url,categories.name_html,twins_groups',
               'preview_pictures.picture.thumb_medium,preview_pictures.url,childs_count,total_pictures'
             ].join(','),

@@ -23,11 +23,10 @@ export class BrandsItemComponent {
   public shown() {
     this.loading = true;
 
-    this.http.get(this.brand.new_cars_url, {
+    this.http.get('/api/brands/' + this.brand.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {
-      console.log('html', html);
       this.html = html;
       this.loading = false;
     });

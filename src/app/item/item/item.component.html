@@ -101,9 +101,9 @@
             <a [href]="specLink.url" [textContent]="specLink.name" *ngFor="let specLink of item.specsLinks"></a>
         </li>
          -->
-    <li *ngIf="item.specs_url" class="list-inline-item">
+    <li *ngIf="item.specs_route" class="list-inline-item">
       <i class="fa fa-list-alt mr-1" aria-hidden="true"></i>
-      <a [href]="item.specs_url" translate>carlist/specifications</a>
+      <a [routerLink]="item.specs_route" translate>carlist/specifications</a>
     </li>
 
     <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">

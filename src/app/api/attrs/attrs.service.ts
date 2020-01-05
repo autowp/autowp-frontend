@@ -33,8 +33,8 @@ export interface APIAttrConflictValue {
 
 export interface APIAttrConflict {
   object: string;
+  item_id: number;
   attribute: APIAttrAttribute;
-  url: string;
   unit: APIAttrUnit;
   values: APIAttrConflictValue[];
 

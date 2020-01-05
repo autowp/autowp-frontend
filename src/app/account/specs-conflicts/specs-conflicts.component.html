@@ -46,7 +46,7 @@
               {{value.value}}
               <span *ngIf="conflict.unit">{{conflict.unit.abbr | translate}}</span>
             </span>
-            <a [href]="conflict.url">
+            <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: conflict.item_id}" >
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
           </div>

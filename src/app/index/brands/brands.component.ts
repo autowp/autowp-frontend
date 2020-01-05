@@ -3,11 +3,11 @@ import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
 
 export interface APIIndexBrandsBrand {
+  id: number;
   name: string;
   catname: string;
   cars_count: number;
   new_cars_count: number;
-  new_cars_url: string;
 }
 
 interface APIIndexBrandsResponse {

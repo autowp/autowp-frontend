@@ -114,7 +114,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
   private getPicture(identity: string, itemID: number, isModer: boolean) {
     const fields =
       'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
-      'items.item.design,items.item.description,items.item.specs_url,items.item.has_specs,items.item.alt_names,' +
+      'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
       'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
       'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
 

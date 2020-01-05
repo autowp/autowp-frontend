@@ -18,7 +18,7 @@ export class IndexCategoriesCategoryComponent {
   public shown() {
     this.loading = true;
 
-    this.http.get(this.category.new_cars_url, {
+    this.http.get('/api/item/' + this.category.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {

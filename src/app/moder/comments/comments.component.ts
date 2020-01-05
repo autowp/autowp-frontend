@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { switchMap, debounceTime, catchError, map } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { APICommentsService } from '../../api/comments/comments.service';
+import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -22,7 +22,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class ModerCommentsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public loading = 0;
-  public comments = [];
+  public comments: APIComment[] = [];
   public paginator: APIPaginator;
   public moderatorAttention: any;
 

@@ -21,7 +21,6 @@ export interface APIBrandsBrand {
   logo_id: number;
   name: string;
   newCars: number;
-  new_cars_url: string;
   totalCars: number;
   totalPictures: number;
   url: string;
