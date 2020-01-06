@@ -135,7 +135,6 @@ export interface APIItem {
     url: string;
     count: number;
   };
-  more_pictures_url?: string;
   total_pictures?: number;
   comments_topic_stat?: {
     messages: number;

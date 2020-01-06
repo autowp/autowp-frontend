@@ -136,7 +136,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
             page: params.page,
             order: 'date_desc',
             limit: 30,
-            fields: 'preview,user,is_new,status,url'
+            fields: 'preview,user,is_new,status,route'
           });
         })
       )

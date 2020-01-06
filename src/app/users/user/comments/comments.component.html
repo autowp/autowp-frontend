@@ -28,7 +28,7 @@
     <strong *ngIf="comment.vote < 0">{{comment.vote}}
       <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
     </strong>
-    <a [href]="comment.url" [textContent]="comment.preview"></a>
+    <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
   </li>
 </ul>
 

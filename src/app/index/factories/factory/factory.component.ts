@@ -18,7 +18,7 @@ export class IndexFactoriesFactoryComponent {
   public shown() {
     this.loading = true;
 
-    this.http.get(this.factory.new_url, {
+    this.http.get('/api/item/' + this.factory.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {

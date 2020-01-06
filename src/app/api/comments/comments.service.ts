@@ -45,6 +45,7 @@ export interface APIComment {
   moder_attention: boolean; // TODO: enum
   preview: string;
   is_new: boolean;
+  route: string[];
   status: {
     class: string;
     name: string;

@@ -72,7 +72,7 @@
       <li *ngFor="let comment of comments" ngPreserveWhitespaces>
         <span class="badge badge-warning" *ngIf="comment.is_new" translate>moder/comments/not-readed</span>
         <span class="badge badge-{{comment.status.class}}" *ngIf="comment.status">{{comment.status.name|translate}}</span>
-        <a [href]="comment.url" [textContent]="comment.preview"></a>
+        <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
         <app-user [user]="comment.user"></app-user>
       </li>
     </ul>
