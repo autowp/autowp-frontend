@@ -12,6 +12,8 @@ addons:
     token:
       secure: $SONARCLOUD_TOKEN
 
+install: npm install
+
 script:
   - sonar-scanner || travis_terminate 1;
   - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js || travis_terminate 1;

@@ -384,6 +384,10 @@ export class PictureService {
     return this.getPictureByLocation('/api/picture/' + id, options);
   }
 
+  public getCanonicalRoute(identity: string): Observable<string[]|null> {
+    return this.http.get<string[]|null>('/api/picture/' + identity + '/canonical-route');
+  }
+
   public getPictures(
     options?: APIGetPicturesOptions
   ): Observable<APIPictureGetResponse> {

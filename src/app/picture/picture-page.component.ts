@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import {Subscription, of, combineLatest} from 'rxjs';
+import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { APIItem} from '../services/item';
 import {APIPicture, PictureService} from '../services/picture';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -43,47 +43,58 @@ export class PicturePageComponent implements OnInit, OnDestroy {
       switchMap(
         data => {
           if (!data[1]) {
-            return of({
-              picture: null as APIPicture
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
             });
+            return EMPTY;
           }
 
-          const fields =
-            'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
-            'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-            'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
-            'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
+          return this.pictureService.getCanonicalRoute(data[1]).pipe(
+            switchMap(route => {
+              if (route) {
+                this.router.navigate(route, {
+                  replaceUrl: true
+                });
+                return EMPTY;
+              }
 
-          return this.pictureService.getPictures({
-            identity: data[1],
-            status: data[0] ? null : 'accepted',
-            fields: fields,
-            limit: 1
-          }).pipe(
-            map(response => ({
-              picture: response.pictures.length ? response.pictures[0] : null
-            }))
+              const fields =
+                'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
+                'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
+                'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
+                'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.name_html';
+
+              return this.pictureService.getPictures({
+                identity: data[1],
+                status: data[0] ? null : 'accepted',
+                fields: fields,
+                limit: 1
+              }).pipe(
+                switchMap(response => {
+                  if (response.pictures.length <= 0) {
+                    this.router.navigate(['/error-404'], {
+                      skipLocationChange: true
+                    });
+                    return EMPTY;
+                  }
+                  return of(response.pictures[0]);
+                })
+              );
+            })
           );
         }
       )
     )
-      .subscribe((data) => {
-        if (!data.picture) {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-          return;
-        }
-
+      .subscribe((picture) => {
         this.pageEnv.set({
           layout: {
             needRight: false
           },
-          nameTranslated: data.picture.name_text,
+          nameTranslated: picture.name_text,
           pageId: 187
         });
 
-        this.picture = data.picture;
+        this.picture = picture;
       });
   }
 
