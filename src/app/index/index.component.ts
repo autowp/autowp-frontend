@@ -27,17 +27,17 @@ interface APIIndexItemOfDay {
 export class IndexComponent implements OnInit {
   public mosts = [
     {
-      url: '/mosts/fastest/roadster',
+      route: '/mosts/fastest/roadster',
       name: 'mosts/fastest/roadster',
     },
     {
-      url: '/mosts/mighty/sedan/today',
+      route: '/mosts/mighty/sedan/today',
       name: 'mosts/mighty/sedan/today',
     }, {
-      url: '/mosts/dynamic/universal/2000-09',
+      route: '/mosts/dynamic/universal/2000-09',
       name: 'mosts/dynamic/universal/2000-09',
     }, {
-      url: '/mosts/heavy/truck',
+      route: '/mosts/heavy/truck',
       name: 'mosts/heavy/truck'
     }
   ];

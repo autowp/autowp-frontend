@@ -117,7 +117,7 @@ export interface APIItem {
 
   preview_pictures: {
     picture: APIPicture;
-    url: string;
+    route: string[];
   }[];
 
   engine_vehicles?: [
@@ -127,14 +127,6 @@ export interface APIItem {
     }
   ];
 
-  tuning?: {
-    url: string;
-    count: number;
-  };
-  sport?: {
-    url: string;
-    count: number;
-  };
   total_pictures?: number;
   comments_topic_stat?: {
     messages: number;

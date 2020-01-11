@@ -17,18 +17,16 @@
 
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length > 4">
     <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.slice(0, 1)">
-      <a [href]="picture.url" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
-        />
+      <a [routerLink]="picture.route" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
+        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
     <div class="col-12 col-lg-6">
       <div class="row">
         <div class="col-6" *ngFor="let picture of item.preview_pictures.slice(1)">
-          <a [href]="picture.url" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-            <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
-            />
+          <a [routerLink]="picture.route" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
+            <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" />
           </a>
           <span *ngIf="!picture">&#xa0;</span>
         </div>
@@ -37,9 +35,8 @@
   </div>
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length <= 4">
     <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures">
-      <a [href]="picture.url" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
-        />
+      <a [routerLink]="picture.route" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
+        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
@@ -77,16 +74,6 @@
     <li *ngIf="item.item_type_id == 8" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
       <a [routerLink]="['/persons', item.id]">{{'carlist/details'|translate}}</a>
-    </li>
-
-    <li *ngIf="item.tuning" class="list-inline-item">
-      <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [href]="item.tuning.url">{{'catalogue/related'|translate|lowercase}} ({{item.tuning.count}})</a>
-    </li>
-
-    <li *ngIf="item.sport" class="list-inline-item">
-      <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [href]="item.sport.url">{{'catalogue/sport'|translate|lowercase}} ({{item.sport.count}})</a>
     </li>
 
     <!--<li *ngIf="item.more_pictures_url" class="list-inline-item">

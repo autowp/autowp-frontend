@@ -14,7 +14,7 @@ addons:
 
 script:
   - sonar-scanner || travis_terminate 1;
-  - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ng/ --extra-webpack-config webpack.extra.js || travis_terminate 1;
+  - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js || travis_terminate 1;
   - docker build . -t $DOCKER_REPO || travis_terminate 1;
 
 after_success:

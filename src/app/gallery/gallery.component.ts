@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   OnInit,
   OnDestroy,
-  HostListener
+  HostListener, Output, EventEmitter
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, of, Observable } from 'rxjs';
@@ -31,6 +31,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @Input() galleryPrefix: string[];
   @Input() picturePrefix: string[];
   @Input() params: { [key: string]: string} = {};
+  @Output() pictureSelected = new EventEmitter<APIGalleryItem>();
 
   private itemID$ = new BehaviorSubject<number>(null);
   private current$ = new BehaviorSubject<string>(null);
@@ -85,9 +86,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
           this.current = data.current;
           if (!this.getGalleryItem(data.current)) {
             const params = Object.assign({}, this.params);
+            if (data.itemID) {
+              params['item_id'] = data.itemID.toString();
+            }
             params['picture_identity'] = data.current;
             return this.http
-              .get<APIGallery>('/api/item/' + data.itemID + '/gallery', {
+              .get<APIGallery>('/api/gallery', {
                 params: params
               })
               .pipe(
@@ -105,6 +109,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
           this.prevGalleryItem = this.getGalleryItemByIndex(index - 1);
           this.currentItem = this.getGalleryItemByIndex(index);
+          this.pictureSelected.emit(this.currentItem);
           this.nextGalleryItem = this.getGalleryItemByIndex(index + 1);
         })
       )
@@ -127,8 +132,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     const params = Object.assign({}, this.params);
     params['page'] = page + '';
     params['status'] = this.status;
+    if (itemID) {
+      params['item_id'] = itemID.toString();
+    }
     return this.http
-      .get<APIGallery>('/api/item/' + itemID + '/gallery', {
+      .get<APIGallery>('/api/gallery', {
         params: params
       })
       .pipe(

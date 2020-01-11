@@ -21,7 +21,7 @@
     <h4>{{'page/21/name'|translate}} <small><a routerLink="/mosts" translate="">all-link</a></small></h4>
     <p>
       <ng-container *ngFor="let most of mosts">
-        <a [routerLink]="most.url">{{most.name|translate}}</a>,
+        <a [routerLink]="most.route">{{most.name|translate}}</a>,
       </ng-container>
       …
     </p>

@@ -43,7 +43,7 @@
     <div class="card card-body">
       <div>
         {{'moder/picture/public-url:'|translate}}
-        <a [href]="picture.url" [textContent]="picture.url"></a>
+        <a [routerLink]="['/picture', picture.identity]" [textContent]="'/picture/' + picture.identity"></a>
       </div>
       <div *ngIf="picture.image" style="overflow: hidden; text-overflow: ellipsis;">
         {{'moder/picture/image:'|translate}}
@@ -250,7 +250,7 @@
       <div>
         <p>
           {{'moder/picture/replacement/photo-suggested-to-replace'|translate}}
-          <a [href]="picture.replaceable.url">{{picture.replaceable.url}}</a>
+          <a [routerLink]="['/picture', picture.replaceable.identity]">/picture/{{picture.replaceable.identity}}</a>
         </p>
         <button class="btn btn-success" *ngIf="picture.rights.accept" (click)="acceptReplace()">
           <i class="fa fa-exchange" aria-hidden="true"></i>

@@ -5,4 +5,5 @@
   [picturePrefix]="picturesRouterLink"
   [params]="{exact: exact ? '1' : '0'}"
   *ngIf="item"
+  (pictureSelected)="pictureSelected($event)"
 ></app-gallery>

@@ -43,7 +43,7 @@
   <div *ngIf="group.type != 'item'">
     <div class="row" *ngFor="let chunk of group.chunks">
       <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of chunk">
-        <app-thumbnail [picture]="picture" [url]="picture.url"></app-thumbnail>
+        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
       </div>
     </div>
   </div>

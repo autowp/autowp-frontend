@@ -47,7 +47,7 @@ export class DonateComponent {
           'button-text': '01',
           comment: 'on',
           hint: translations[2],
-          successURL: 'https://' + window.location.host + '/ng/donate/success'
+          successURL: 'https://' + window.location.host + '/donate/success'
         };
 
         const url = new URL('https://money.yandex.ru/embed/donate.xml');

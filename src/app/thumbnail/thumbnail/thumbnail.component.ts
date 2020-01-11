@@ -18,7 +18,6 @@ interface ThumbnailAPIPicture extends APIPicture {
 export class ThumbnailComponent implements OnInit, OnDestroy {
 
   @Input() picture: ThumbnailAPIPicture;
-  @Input() url: string;
   @Input() route: string[];
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();

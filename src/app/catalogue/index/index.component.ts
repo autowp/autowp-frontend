@@ -189,10 +189,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  public pictureRouterUrl(picture: APIPicture): string {
-    return this.pictureRouterLink(picture).join('/');
-  }
-
   public pictureRouterLink(picture: APIPicture): string[] {
     for (const pictureItem of picture.path) {
       if (pictureItem.type === 1) {

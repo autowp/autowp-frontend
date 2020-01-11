@@ -11,9 +11,13 @@ import { NgPipesModule } from 'ngx-pipes';
 import { UtilsModule } from '../utils/utils.module';
 import { ShareModule } from '../share/share.module';
 import { PictureModerVoteModule } from '../picture-moder-vote/picture-moder-vote.module';
+import {PicturePageComponent} from './picture-page.component';
+import {CommentsModule} from '../comments/comments.module';
+import {PictureRoutingModule} from './picture-routing.module';
+import {GalleryModule} from '../gallery/gallery.module';
 
 @NgModule({
-  declarations: [PictureComponent, PicturePaginatorComponent],
+  declarations: [PictureComponent, PicturePaginatorComponent, PicturePageComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -25,7 +29,10 @@ import { PictureModerVoteModule } from '../picture-moder-vote/picture-moder-vote
     UtilsModule,
     ShareModule,
     PictureModerVoteModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    CommentsModule,
+    PictureRoutingModule,
+    GalleryModule
   ],
   exports: [
     PictureComponent

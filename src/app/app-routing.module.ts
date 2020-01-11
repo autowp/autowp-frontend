@@ -69,6 +69,14 @@ const appRoutes: Routes = [
     path: 'persons',
     loadChildren: () => import('./persons/persons.module').then(m => m.PersonsModule)
   },
+  {
+    path: 'picture',
+    loadChildren: () => import('./picture/picture.module').then(m => m.PictureModule)
+  },
+  {
+    path: 'gallery',
+    loadChildren: () => import('./gallery/gallery.module').then(m => m.GalleryModule)
+  },
   { path: 'pulse', loadChildren: () => import('./pulse/pulse.module').then(m => m.PulseModule) },
   {
     path: 'restore-password',

@@ -16,7 +16,7 @@
 
   <div class="row">
     <div class="col-6 col-sm-4 col-lg-2" *ngFor="let picture of pictures">
-      <a [href]="picture.url" *ngIf="picture.thumb_medium" class="d-block rounded mb-4">
+      <a [routerLink]="['/picture', picture.identity]" *ngIf="picture.thumb_medium" class="d-block rounded mb-4">
         <img [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light"
         />
       </a>

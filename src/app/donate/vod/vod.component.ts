@@ -127,7 +127,7 @@ export class DonateVodComponent implements OnInit, OnDestroy {
         { name: 'targets', value: sprintf(data.translations['donate/vod/order-target'], label) },
         {
           name: 'successURL',
-          value: 'https://' + window.location.host + '/ng/donate/vod/success'
+          value: 'https://' + window.location.host + '/donate/vod/success'
         }
       ];
     });

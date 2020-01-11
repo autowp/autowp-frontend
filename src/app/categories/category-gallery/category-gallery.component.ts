@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import { CatagoriesService } from '../service';
+import {APIGalleryItem} from '../../gallery/definitions';
 
 @Component({
   selector: 'app-category-gallery',
@@ -85,5 +86,16 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
 
     return ['/category', this.category.catname]
       .concat(this.pathCatnames);
+  }
+
+  pictureSelected(item: APIGalleryItem) {
+    this.pageEnv.set({
+      layout: {
+        needRight: false,
+        isGalleryPage: true
+      },
+      nameTranslated: item.name,
+      pageId: 187
+    });
   }
 }

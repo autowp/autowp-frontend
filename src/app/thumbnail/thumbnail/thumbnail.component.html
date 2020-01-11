@@ -1,14 +1,10 @@
 <div class="card mb-4" [class.vote-accept]="picture.moder_vote && picture.moder_vote.vote > 0" [class.vote-remove]="picture.moder_vote && picture.moder_vote.vote < 0"
   [class.vote-neutral]="picture.moder_vote && picture.moder_vote.count > 0 && picture.moder_vote.vote == 0">
-  <a [href]="url" *ngIf="url && picture.thumb_medium">
-    <img class="card-img-top" [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text">
-  </a>
   <a [routerLink]="route" *ngIf="route && picture.thumb_medium">
     <img class="card-img-top" [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text">
   </a>
   <div class="card-body">
     <h6 class="card-title">
-      <a [href]="url" [innerHtml]="picture.name_html" *ngIf="url"></a>
       <a [routerLink]="route" [innerHtml]="picture.name_html" *ngIf="route"></a>
     </h6>
 
@@ -39,15 +35,6 @@
       </span>
 
       <span [title]="'Comments count'|translate" *ngIf="picture.comments_count.total > 0" class="mr-2">
-        <a [href]="url" *ngIf="url">
-          <ng-container *ngIf="picture.comments_count.new > 0">
-            {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger" aria-hidden="true"></i>
-          </ng-container>
-          <ng-container *ngIf="picture.comments_count.new == 0">
-            {{picture.comments_count.total}}
-            <i class="fa fa-comment" aria-hidden="true"></i>
-          </ng-container>
-        </a>
         <a [routerLink]="route" *ngIf="route">
           <ng-container *ngIf="picture.comments_count.new > 0">
             {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger" aria-hidden="true"></i>

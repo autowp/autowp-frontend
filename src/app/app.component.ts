@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     remember: false
   };
   public language: string;
-  public urlPath = '/ng/';
+  public urlPath = '/';
   public isNavbarCollapsed = true;
 
   constructor(
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
 
     router.events.subscribe((val: RouterEvent) => {
       if (val instanceof NavigationStart) {
-        this.urlPath = '/ng' + val.url;
+        this.urlPath = val.url;
       }
     });
   }

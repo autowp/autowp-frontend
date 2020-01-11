@@ -8,6 +8,7 @@ import {
   distinctUntilChanged,
   map
 } from 'rxjs/operators';
+import {APIGalleryItem} from '../../gallery/definitions';
 
 @Component({
   selector: 'app-twins-group-gallery',
@@ -79,6 +80,17 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
           0
         );
       });
+  }
+
+  pictureSelected(item: APIGalleryItem) {
+    this.pageEnv.set({
+      layout: {
+        needRight: false,
+        isGalleryPage: true
+      },
+      nameTranslated: item.name,
+      pageId: 28
+    });
   }
 
   ngOnDestroy(): void {

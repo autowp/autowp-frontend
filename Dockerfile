@@ -10,4 +10,5 @@ HEALTHCHECK --interval=3m --timeout=3s \
 
 COPY ./etc/ /etc/
 
-COPY ./dist /usr/share/nginx/html/ng
+COPY ./dist /usr/share/nginx/html
+COPY ./robots /usr/share/nginx/html/robots

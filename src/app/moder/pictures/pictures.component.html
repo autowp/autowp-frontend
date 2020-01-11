@@ -231,7 +231,7 @@
 
     <div class="row" *ngFor="let chunk of chunks">
       <div class="col-sm-4" *ngFor="let picture of chunk">
-        <app-thumbnail [picture]="picture" [url]="picture.url" [selectable]="true" (selected)="onPictureSelect($event, picture)"></app-thumbnail>
+        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]" [selectable]="true" (selected)="onPictureSelect($event, picture)"></app-thumbnail>
       </div>
     </div>
 

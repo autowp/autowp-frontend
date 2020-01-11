@@ -84,7 +84,7 @@
       <div class="card card-body mb-4">
         <ul>
           <li *ngFor="let picture of pictures">
-            <a [href]="picture.url" class="picture-hover-preview" [innerHTML]="picture.name_html"></a>
+            <a [routerLink]="['/picture', picture.identity]" class="picture-hover-preview" [innerHTML]="picture.name_html"></a>
           </li>
         </ul>
       </div>

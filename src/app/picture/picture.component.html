@@ -76,7 +76,7 @@
 
     <p *ngIf="picture.replaceable">
       {{'picture/picture-suggested-to-replace'|translate}}
-      <a [href]="picture.replaceable.url" [innerHTML]="picture.replaceable.name_html"></a>
+      <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
     </p>
 
   </div>

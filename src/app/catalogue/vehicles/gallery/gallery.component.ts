@@ -8,6 +8,7 @@ import {APIPaginator} from '../../../services/api.service';
 import {CatalogueListItem} from '../../list-item/list-item.component';
 import {CatalogueService} from '../../catalogue-service';
 import {ACLService} from '../../../services/acl.service';
+import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({
   selector: 'app-catalogue-vehicles-gallery',
@@ -128,4 +129,14 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  pictureSelected(item: APIGalleryItem) {
+    this.pageEnv.set({
+      layout: {
+        needRight: false,
+        isGalleryPage: true
+      },
+      nameTranslated: item.name,
+      pageId: 34
+    });
+  }
 }
