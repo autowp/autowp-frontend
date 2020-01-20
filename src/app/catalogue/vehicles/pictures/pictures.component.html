@@ -31,15 +31,11 @@
   ></app-catalogue-item-menu>
 </ng-container>
 
-<div>
 
-  <div class="row" *ngFor="let chunk of pictures">
-    <div class="col-sm-3" *ngFor="let picture of chunk">
-      <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
-    </div>
+<div class="row" *ngFor="let chunk of pictures">
+  <div class="col-sm-3" *ngFor="let picture of chunk">
+    <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
   </div>
-
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
 </div>
 
 <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
