@@ -17,10 +17,10 @@ install: npm install
 script:
   - sonar-scanner || travis_terminate 1;
   - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js || travis_terminate 1;
-  - docker build . -t $DOCKER_REPO || travis_terminate 1;
+  - docker build . -t autowp/autowp-frontend:v2 || travis_terminate 1;
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - if [ "$TRAVIS_BRANCH" == "feature/ng-catalogue" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push $DOCKER_REPO;
+    docker push autowp/autowp-frontend:v2;
     fi
