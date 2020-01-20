@@ -58,9 +58,12 @@ export class CatalogueService {
 
       let totalFields = 'item.name_html,' + fields;
       const isLast = parent.path.length <= 1;
-      if (isModer && isLast) {
+      if (isLast) {
         totalFields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,item.design,' +
-          'item.name_default,item.description,item.produced,item.specs_route,item.childs_counts,item.accepted_pictures_count';
+          'item.name_default,item.description,item.produced,item.specs_route,item.childs_counts';
+        if (isModer) {
+          totalFields += ',item.accepted_pictures_count';
+        }
       }
 
       return this.itemParentService.getItems({
