@@ -1,12 +1,12 @@
 <ul class="nav nav-pills mb-4">
-  <li class="nav-item" *ngIf="childsCounts.stock > 0">
+  <li class="nav-item" *ngIf="childsCounts && childsCounts.stock > 0">
     <a class="nav-link" [class.active]="active == 'default'" [routerLink]="itemRouterLink">
       <i class="fa fa-list" aria-hidden="true"></i>
       <app-item-header [item]="{nameHTML: header.nameHTML}"></app-item-header>
       <span class="badge badge-pill badge-secondary">{{childsCounts.stock}}</span>
     </a>
   </li>
-  <li class="nav-item" *ngIf="childsCounts.tuning > 0">
+  <li class="nav-item" *ngIf="childsCounts && childsCounts.tuning > 0">
     <a class="nav-link" [class.active]="active == 'tuning'" [routerLink]="itemRouterLink.concat(['tuning'])">
       <i class="fa fa-list" aria-hidden="true"></i>
       {{'catalogue/related-with'|translate}}
@@ -14,7 +14,7 @@
       <span class="badge badge-pill badge-secondary">{{childsCounts.tuning}}</span>
     </a>
   </li>
-  <li class="nav-item" *ngIf="childsCounts.sport > 0">
+  <li class="nav-item" *ngIf="childsCounts && childsCounts.sport > 0">
     <a class="nav-link" [class.active]="active == 'sport'" [routerLink]="itemRouterLink.concat(['sport'])">
       <i class="fa fa-list" aria-hidden="true"></i>
       <app-item-header [item]="{nameHTML: header.nameHTML}"></app-item-header>
