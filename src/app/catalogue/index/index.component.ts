@@ -3,7 +3,7 @@ import {APIItem, APIPathTreeItemParent, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {EMPTY, Subscription, combineLatest, of} from 'rxjs';
+import {EMPTY, Subscription, of, combineLatest} from 'rxjs';
 import {ACLService} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
@@ -87,23 +87,41 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  private getBrand() {
+  private getIsModer() {
+    return this.acl.inheritsRole('moder');
+  }
+
+  private getCatname() {
     return this.route.paramMap.pipe(
       map(params => {
         return params.get('brand');
       }),
       distinctUntilChanged(),
-      debounceTime(10),
-      switchMap(catname => {
-        if (!catname) {
+      debounceTime(10)
+    );
+  }
+
+  private getBrand() {
+    return combineLatest([this.getIsModer(), this.getCatname()]).pipe(
+      switchMap(data => {
+
+        this.isModer = data[0];
+
+        if (!data[1]) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
           return EMPTY;
         }
+
+        let fields = 'catname,description,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active';
+        if (data[0]) {
+          fields += ',inbox_pictures_count';
+        }
+
         return this.itemService.getItems({
-          catname: catname,
-          fields: 'catname,description,inbox_pictures_count,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active',
+          catname: data[1],
+          fields: fields,
           limit: 1
         }).pipe(
           switchMap(response => {

@@ -113,9 +113,26 @@ const routes: Routes = [
     matcher: cataloguePathMatcher,
     children: [
       {
+        path: 'exact',
+        data: {
+          exact: true
+        },
+        children: [
+          {
+            path: 'gallery',
+            children: [
+              {
+                path: ':identity',
+                component: CatalogueVehiclesGalleryComponent
+              }
+            ]
+          },
+        ]
+      },
+      {
         path: 'gallery/:identity',
+        component: CatalogueVehiclesPicturesPictureComponent,
         pathMatch: 'full',
-        component: CatalogueVehiclesGalleryComponent,
       },
       {
         path: 'exact',
