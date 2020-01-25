@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { tap } from 'rxjs/operators';
 import { APICommentsService } from '../api/comments/comments.service';
 import { APIItem } from '../services/item';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-picture',
@@ -29,7 +30,8 @@ export class PictureComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private auth: AuthService,
     private commentsService: APICommentsService,
-    private pictureService: PictureService
+    private pictureService: PictureService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -70,5 +72,17 @@ export class PictureComponent implements OnInit, OnDestroy {
       this.picture.votes = votes;
     });
     return false;
+  }
+
+  public openSource($event) {
+    window.open(this.picture.image.src);
+  }
+
+  public openGallery($event) {
+    if ($event.ctrlKey) {
+      this.openSource($event);
+      return;
+    }
+    this.router.navigate(['../../gallery', this.picture.identity]);
   }
 }
