@@ -116,9 +116,13 @@ export interface APIItem {
   has_text?: boolean;
 
   preview_pictures: {
-    picture: APIPicture;
-    route: string[];
-  }[];
+    large_format: boolean;
+    pictures: {
+      picture?: APIPicture;
+      route: string[];
+      thumb?: APIImage;
+    }[];
+  };
 
   engine_vehicles?: [
     {

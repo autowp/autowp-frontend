@@ -136,7 +136,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         'design,engine_vehicles,route',
         'can_edit_specs,specs_route',
         'twins_groups',
-        'preview_pictures.picture.thumb_medium,childs_count,total_pictures,preview_pictures.picture.name_text'
+        'childs_count,total_pictures,preview_pictures.picture.name_text'
       ].join(','),
       page: page
     }).pipe(
@@ -146,7 +146,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         for (const item of response.items) {
 
           const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.preview_pictures) {
+          for (const picture of item.preview_pictures.pictures) {
             pictures.push({
               picture: picture.picture,
               routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
@@ -154,7 +154,10 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
           }
           items.push({
             id: item.id,
-            preview_pictures: pictures,
+            preview_pictures: {
+              pictures: pictures,
+              large_format: item.preview_pictures.large_format
+            },
             item_type_id: item.item_type_id,
             produced: item.produced,
             produced_exactly: item.produced_exactly,

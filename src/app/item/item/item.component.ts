@@ -31,7 +31,7 @@ export class ItemComponent implements OnInit, OnDestroy {
 
   public havePhoto(item: APIItem) {
     if (item.preview_pictures) {
-      for (const picture of item.preview_pictures) {
+      for (const picture of item.preview_pictures.pictures) {
         if (picture.picture) {
           return true;
         }
@@ -45,7 +45,7 @@ export class ItemComponent implements OnInit, OnDestroy {
   }
 
   public thumbnailColClass() {
-    if (this.item.preview_pictures.length === 3) {
+    if (this.item.preview_pictures.pictures.length === 3) {
       return 'col-sm-4';
     }
 

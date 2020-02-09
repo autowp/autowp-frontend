@@ -48,7 +48,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
 
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
     const pictures: CatalogueListItemPicture[] = [];
-    for (const picture of item.preview_pictures) {
+    for (const picture of item.preview_pictures.pictures) {
       pictures.push({
         picture: picture.picture,
         routerLink: picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
@@ -57,7 +57,10 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
 
     return {
       id: item.id,
-      preview_pictures: pictures,
+      preview_pictures: {
+        pictures: pictures,
+        large_format: item.preview_pictures.large_format
+      },
       item_type_id: item.item_type_id,
       produced: item.produced,
       produced_exactly: item.produced_exactly,
@@ -148,7 +151,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       fields: [
         'catname,name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
         'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups,design',
-        'preview_pictures.picture.thumb_medium,total_pictures,preview_pictures.picture.name_text,childs_counts'
+        'total_pictures,preview_pictures.picture.name_text,childs_counts'
       ].join(',')
     }).pipe(
       tap(item => {
@@ -163,7 +166,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       fields: [
         'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
         'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups,item.has_specs,item.has_child_specs,item.design',
-        'item.preview_pictures.picture.thumb_medium,item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
+        'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
         'item.inbox_pictures_count'
       ].join(','),
       limit: 7,
@@ -181,7 +184,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
           itemRouterLink.push(item.catname);
 
           const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.item.preview_pictures) {
+          for (const picture of item.item.preview_pictures.pictures) {
             pictures.push({
               picture: picture.picture,
               routerLink: picture.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : []
@@ -189,7 +192,10 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
           }
           items.push({
             id: item.item.id,
-            preview_pictures: pictures,
+            preview_pictures: {
+              pictures: pictures,
+              large_format: item.item.preview_pictures.large_format
+            },
             item_type_id: item.item.item_type_id,
             produced: item.item.produced,
             produced_exactly: item.item.produced_exactly,
@@ -215,6 +221,9 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       }),
       switchMap(response => {
         if (response.paginator.last !== response.paginator.current) {
+          this.otherPictures = [];
+          this.otherPicturesCount = 0;
+          this.otherPicturesRouterLink = [];
           return EMPTY;
         }
 

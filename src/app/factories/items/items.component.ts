@@ -98,7 +98,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             'design,engine_vehicles,route',
             'url,can_edit_specs,specs_route',
             'categories.name_html,twins_groups',
-            'preview_pictures.picture.thumb_medium,preview_pictures.route,childs_count,accepted_pictures_count'
+            'preview_pictures.picture,preview_pictures.route,childs_count,accepted_pictures_count'
           ].join(',')
         }).pipe(
           map(response => ({
@@ -120,7 +120,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
         for (const item of data.items) {
 
           const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.preview_pictures) {
+          for (const picture of item.preview_pictures.pictures) {
             pictures.push({
               picture: picture.picture,
               routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
@@ -128,7 +128,10 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           }
           items.push({
             id: item.id,
-            preview_pictures: pictures,
+            preview_pictures: {
+              pictures: pictures,
+              large_format: item.preview_pictures.large_format
+            },
             item_type_id: item.item_type_id,
             produced: item.produced,
             produced_exactly: item.produced_exactly,

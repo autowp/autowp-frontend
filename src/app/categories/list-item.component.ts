@@ -22,7 +22,7 @@ export class CategoriesListItemComponent {
 
   public havePhoto(item: APIItem) {
     if (item.preview_pictures) {
-      for (const picture of item.preview_pictures) {
+      for (const picture of item.preview_pictures.pictures) {
         if (picture.picture) {
           return true;
         }

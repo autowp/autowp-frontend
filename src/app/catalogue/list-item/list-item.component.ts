@@ -2,15 +2,20 @@ import {Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
 import { ACLService } from '../../services/acl.service';
 import {APIPicture} from '../../services/picture';
 import {Subscription} from 'rxjs';
+import {APIImage} from '../../services/api.service';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture;
   routerLink: string[];
+  thumb?: APIImage;
 }
 
 export interface CatalogueListItem {
   id: number;
-  preview_pictures: CatalogueListItemPicture[];
+  preview_pictures: {
+    large_format: boolean;
+    pictures: CatalogueListItemPicture[];
+  };
   item_type_id: number;
   produced: number;
   produced_exactly: boolean;
@@ -53,7 +58,7 @@ export class CatalogueListItemComponent implements OnInit, OnDestroy {
 
   public havePhoto(item: CatalogueListItem) {
     if (item.preview_pictures) {
-      for (const picture of item.preview_pictures) {
+      for (const picture of item.preview_pictures.pictures) {
         if (picture.picture) {
           return true;
         }

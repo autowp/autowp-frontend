@@ -16,9 +16,9 @@
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
 
   <div class="row" *ngIf="havePhoto(item)">
-    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
-      <a [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
+    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures.pictures">
+      <a [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
+        <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
         />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
