@@ -22,6 +22,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
   public breadcrumbs: Breadcrumbs[] = [];
   public routerLink: string[];
   public picturesRouterLink: string[];
+  public galleryRouterLink: string[];
   public item: APIItem;
   public picture: APIPicture;
 
@@ -74,15 +75,21 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
 
         this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
+        this.galleryRouterLink = [...routerLink];
         if (data[1]) {
           this.picturesRouterLink.push('exact');
+          this.galleryRouterLink.push('exact');
         }
         this.picturesRouterLink.push('pictures');
+        this.galleryRouterLink.push('gallery');
 
         return data;
       }),
       switchMap(data => this.getIdentity().pipe(
         map(identity => {
+
+          this.galleryRouterLink.push(identity);
+
           return {
             brand: data[0].brand,
             path: data[0].path,

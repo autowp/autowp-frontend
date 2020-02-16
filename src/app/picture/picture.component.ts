@@ -17,6 +17,7 @@ import {Router} from '@angular/router';
 export class PictureComponent implements OnInit, OnDestroy {
   @Input() picture: APIPicture;
   @Input() prefix: string[] = [];
+  @Input() galleryRoute: string[];
 
   public isModer = false;
   public canEditSpecs = false;
@@ -83,6 +84,6 @@ export class PictureComponent implements OnInit, OnDestroy {
       this.openSource($event);
       return;
     }
-    this.router.navigate(['../../gallery', this.picture.identity]);
+    this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', this.picture.identity]);
   }
 }

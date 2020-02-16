@@ -130,13 +130,15 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
   }
 
   pictureSelected(item: APIGalleryItem) {
-    this.pageEnv.set({
-      layout: {
-        needRight: false,
-        isGalleryPage: true
-      },
-      nameTranslated: item.name,
-      pageId: 34
-    });
+    setTimeout(() => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false,
+          isGalleryPage: true
+        },
+        nameTranslated: item.name,
+        pageId: 34
+      });
+    }, 0);
   }
 }

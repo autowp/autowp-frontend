@@ -119,27 +119,9 @@ const routes: Routes = [
         },
         children: [
           {
-            path: 'gallery',
-            children: [
-              {
-                path: ':identity',
-                component: CatalogueVehiclesGalleryComponent
-              }
-            ]
+            path: 'gallery/:identity',
+            component: CatalogueVehiclesGalleryComponent
           },
-        ]
-      },
-      {
-        path: 'gallery/:identity',
-        component: CatalogueVehiclesPicturesPictureComponent,
-        pathMatch: 'full',
-      },
-      {
-        path: 'exact',
-        data: {
-          exact: true
-        },
-        children: [
           {
             path: 'pictures',
             children: [
@@ -155,6 +137,11 @@ const routes: Routes = [
             ]
           },
         ]
+      },
+      {
+        path: 'gallery/:identity',
+        component: CatalogueVehiclesGalleryComponent,
+        pathMatch: 'full',
       },
       {
         path: 'pictures',

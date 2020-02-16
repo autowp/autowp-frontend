@@ -78,6 +78,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
           for (const picture of item.item.preview_pictures.pictures) {
             pictures.push({
               picture: picture.picture,
+              thumb: picture.thumb,
               routerLink: picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
             });
           }
