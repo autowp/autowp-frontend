@@ -192,7 +192,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     const result: string[][] = [];
     switch (parent.item.item_type_id) {
       case 5: // brand
-        result.push([parent.item.catname, parent.catname]);
+        result.push(['/', parent.item.catname]);
         break;
       case 1: // vehicle
       case 2: // engine
@@ -214,11 +214,11 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
           case 5: // brand
             switch (pictureItem.perspective_id) {
               case 25: // mixed
-                return [pictureItem.item.catname, 'mixed', picture.identity];
+                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
               case 22: // logo
-                return [pictureItem.item.catname, 'logotypes', picture.identity];
+                return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
               default:
-                return [pictureItem.item.catname, 'other', picture.identity];
+                return ['/', pictureItem.item.catname, 'other', picture.identity];
             }
           case 1: // vehicle
           case 2: // engine
