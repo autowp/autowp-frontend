@@ -91,7 +91,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
     const result: string[][] = [];
     switch (parent.item.item_type_id) {
       case 5: // brand
-        result.push([parent.item.catname, parent.catname]);
+        result.push(['/', parent.item.catname, parent.catname]);
         break;
       case 1: // vehicle
       case 2: // engine

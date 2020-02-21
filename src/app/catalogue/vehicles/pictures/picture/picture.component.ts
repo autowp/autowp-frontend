@@ -53,18 +53,6 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         }
 
         this.brand = data[0].brand;
-        if (data[0].brand) {
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            pageId: 34,
-            name: data[0].brand.name_text,
-            args: {
-              item: data[0].brand.name_text,
-            }
-          });
-        }
         this.path = data[0].path;
         this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data[0].brand, data[0].path);
         const routerLink = ['/', this.brand.catname];
@@ -115,6 +103,13 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       })
     ).subscribe(picture => {
       this.picture = picture;
+      this.pageEnv.set({
+        layout: {
+          needRight: false
+        },
+        pageId: 34,
+        nameTranslated: picture.name_text
+      });
     });
   }
 

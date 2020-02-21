@@ -55,16 +55,6 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
         }
 
         this.brand = data[0].brand;
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 34,
-          name: data[0].brand.name_text,
-          args: {
-            item: data[0].brand.name_text,
-          }
-        });
 
         this.path = data[0].path;
         this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data[0].brand, data[0].path);
@@ -83,6 +73,18 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
 
         const last = data[0].path[data[0].path.length - 1];
         this.item = last.item;
+
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          pageId: 34,
+          name: 'page/34/ng-name',
+          args: {
+            item: this.item.name_text,
+          }
+        });
+
         return this.getPage().pipe(
           switchMap(page => this.pictureService.getPictures({
             fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',

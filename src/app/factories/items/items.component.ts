@@ -98,7 +98,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             'design,engine_vehicles,route',
             'url,can_edit_specs,specs_route',
             'categories.name_html,twins_groups',
-            'preview_pictures.picture,preview_pictures.route,childs_count,accepted_pictures_count'
+            'preview_pictures.picture.name_text,preview_pictures.route,childs_count,accepted_pictures_count'
           ].join(',')
         }).pipe(
           map(response => ({

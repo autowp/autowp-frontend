@@ -114,13 +114,6 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
         }
 
         this.brand = data.brand;
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 33,
-          name: data.brand.name_text
-        });
 
         this.path = data.path;
         this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data.brand, data.path);
@@ -136,6 +129,15 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
 
         const last = data.path[data.path.length - 1];
         this.item = last.item;
+
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          pageId: 33,
+          name: this.item.name_text
+        });
+
         if (last.item.is_group) {
           return this.getPage().pipe(
             switchMap(page => this.loadGroup(last, data.type, page))
