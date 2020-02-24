@@ -8,7 +8,7 @@
       <app-item [item]="item"></app-item>
 
       <p *ngIf="item.contributors">
-        <ng-container translate *ngIf="item.contributors.length > 1">contributors</ng-container>
+        <ng-container *ngIf="item.contributors.length > 1">{{'contributors'|translate}}</ng-container>
         <ng-container *ngIf="item.contributors.length <= 1">{{'contributor'|translate}}</ng-container>
         <app-user [user]="contributor" *ngFor="let contributor of item.contributors"></app-user>
       </p>

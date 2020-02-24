@@ -126,12 +126,8 @@ export class FactoryComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/181/name',
-          pageId: 181,
-          args: {
-            FACTORY_ID: this.factory.id + '',
-            FACTORY_NAME: this.factory.name_text
-          }
+          nameTranslated: this.factory.name_text,
+          pageId: 181
         });
       });
   }

@@ -1,17 +1,33 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PersonsAuthorsComponent } from './authors/authors.component';
 import { PersonsPersonComponent } from './person/person.component';
 import { PersonsComponent } from './persons.component';
+import {PersonsPersonPictureComponent} from './person/picture/picture.component';
 
 const routes: Routes = [
   {
     path: 'authors',
-    component: PersonsAuthorsComponent
+    component: PersonsComponent,
+    data: {
+      authors: true
+    }
   },
   {
     path: ':id',
-    component: PersonsPersonComponent
+    children: [
+      {
+        path: 'gallery/:identity',
+      },
+      {
+        path: ':identity',
+        component: PersonsPersonPictureComponent
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: PersonsPersonComponent
+      }
+    ]
   },
   {
     path: '',

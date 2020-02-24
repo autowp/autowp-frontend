@@ -77,11 +77,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
               needRight: true
             },
             name: 'page/182/name',
-            pageId: 182,
-            args: {
-              FACTORY_ID: factory.id + '',
-              FACTORY_NAME: factory.name_text
-            }
+            pageId: 182
           });
         }),
         switchMap(factory => this.route.queryParams.pipe(
@@ -124,7 +120,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             pictures.push({
               picture: picture.picture,
               thumb: picture.thumb,
-              routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+              routerLink: picture.picture ? ['/factories', '' + item.id, 'pictures', picture.picture.identity] : []
             });
           }
           items.push({
@@ -144,7 +140,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: item.route.concat(['pictures']),
+            picturesRouterLink: ['/factories', '' + item.id, 'pictures'],
             specsRouterLink: item.has_specs || item.has_child_specs ? item.route.concat(['specifications']) : null,
             details: {
               routerLink: item.route,

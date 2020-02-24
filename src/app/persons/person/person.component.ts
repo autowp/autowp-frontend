@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
-import {Subscription, combineLatest, of, EMPTY} from 'rxjs';
+import {Subscription, combineLatest, of, EMPTY, Observable} from 'rxjs';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ItemLinkService, APIItemLink } from '../../services/item-link';
 import { APIACL } from '../../services/acl.service';
@@ -31,6 +31,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
   public item: APIItem;
   public isModer = false;
   private aclSub: Subscription;
+  public routerLink: string[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -48,29 +49,11 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.routeSub = this.route.params
+    this.routeSub = this.getPerson()
       .pipe(
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(params =>
-          this.itemService.getItem(params.id, {
-            fields: ['name_text', 'name_html', 'description'].join(',')
-          })
-        ),
-        catchError(err => {
-          this.toastService.response(err);
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-          return EMPTY;
-        }),
         tap(item => {
-          if (item.item_type_id !== 8) {
-            this.router.navigate(['/error-404'], {
-              skipLocationChange: true
-            });
-            return;
-          }
+
+          this.routerLink = ['/persons', item.id.toString()];
 
           this.pageEnv.set({
             layout: {
@@ -99,8 +82,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               status: 'accepted',
               exact_item_id: data.item.id,
               exact_item_link_type: 2,
-              fields:
-                'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
               limit: 24,
               order: 12,
               page: data.params.page
@@ -116,8 +98,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               status: 'accepted',
               exact_item_id: data.item.id,
               exact_item_link_type: 1,
-              fields:
-                'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
               limit: 24,
               order: 12,
               page: data.params.page
@@ -138,7 +119,6 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           )
         )
       )
-
       .subscribe(data => {
         this.item = data.item;
         this.links = data.links;
@@ -147,6 +127,36 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
         this.contentPictures = data.contentPictures.pictures;
         this.contentPicturesPaginator = data.contentPictures.paginator;
       });
+  }
+
+  getPerson(): Observable<APIItem> {
+    return this.route.params.pipe(
+      map(params => params.id),
+      distinctUntilChanged(),
+      debounceTime(30),
+      switchMap(id =>
+        this.itemService.getItem(id, {
+          fields: ['name_text', 'name_html', 'description'].join(',')
+        })
+      ),
+      catchError(err => {
+        this.toastService.response(err);
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }),
+      switchMap(item => {
+        if (item.item_type_id !== 8) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
+          return EMPTY;
+        }
+
+        return of(item);
+      })
+    );
   }
 
   ngOnDestroy(): void {

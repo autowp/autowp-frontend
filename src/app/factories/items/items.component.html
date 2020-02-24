@@ -7,7 +7,7 @@
       <a routerLink="/map" translate>page/117/name</a>
     </li>
     <li class="breadcrumb-item" *ngIf="factory">
-      <a [routerLink]="['/factories', factory.id]">{{factory.name}}</a>
+      <a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
     </li>
   </ol>
 </nav>
