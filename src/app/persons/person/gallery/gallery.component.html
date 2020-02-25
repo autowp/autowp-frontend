@@ -1,0 +1,8 @@
+<app-gallery
+  [itemID]="item.id"
+  [current]="current"
+  [galleryPrefix]="galleryRouterLink"
+  [picturePrefix]="picturesRouterLink"
+  *ngIf="item"
+  (pictureSelected)="pictureSelected($event)"
+></app-gallery>

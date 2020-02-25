@@ -13,12 +13,15 @@ import {CatalogueModule} from '../catalogue/catalogue.module';
 import {PersonsPersonPictureComponent} from './person/picture/picture.component';
 import {CommentsModule} from '../comments/comments.module';
 import {PictureModule} from '../picture/picture.module';
+import {PersonsPersonGalleryComponent} from './person/gallery/gallery.component';
+import {GalleryModule} from '../gallery/gallery.module';
 
 @NgModule({
   declarations: [
     PersonsComponent,
     PersonsPersonComponent,
-    PersonsPersonPictureComponent
+    PersonsPersonPictureComponent,
+    PersonsPersonGalleryComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import {PictureModule} from '../picture/picture.module';
     UtilsModule,
     CatalogueModule,
     CommentsModule,
-    PictureModule
+    PictureModule,
+    GalleryModule
   ]
 })
 export class PersonsModule {}

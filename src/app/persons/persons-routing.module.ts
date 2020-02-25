@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PersonsPersonComponent } from './person/person.component';
 import { PersonsComponent } from './persons.component';
 import {PersonsPersonPictureComponent} from './person/picture/picture.component';
+import {PersonsPersonGalleryComponent} from './person/gallery/gallery.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       {
         path: 'gallery/:identity',
+        component: PersonsPersonGalleryComponent
       },
       {
         path: ':identity',
