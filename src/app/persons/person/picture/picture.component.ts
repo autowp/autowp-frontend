@@ -3,9 +3,10 @@ import {APIItem, ItemService} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {EMPTY, Observable, of, Subscription} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
 import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../services/picture';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {ACLService} from '../../../services/acl.service';
 
 @Component({
   selector: 'app-persons-person-picture',
@@ -27,30 +28,32 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private router: Router,
     private itemService: ItemService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private acl: ACLService
   ) {
   }
 
   ngOnInit(): void {
-    this.sub = this.getPerson().pipe(
-      map(item => {
-        const routerLink = ['/persons', item.id.toString()];
+    this.sub = combineLatest([this.getPerson(), this.acl.inheritsRole('moder')]).pipe(
+      map(data => {
+        const routerLink = ['/persons', data[0].id.toString()];
 
         this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
         this.galleryRouterLink = [...routerLink];
         this.galleryRouterLink.push('gallery');
 
-        return item;
+        return data;
       }),
-      switchMap(item => this.getIdentity().pipe(
+      switchMap(data => this.getIdentity().pipe(
         map(identity => {
 
           this.galleryRouterLink.push(identity);
 
           return {
-            item: item,
-            identity: identity
+            item: data[0],
+            identity: identity,
+            isModer: data[1]
           };
         })
       )),
@@ -64,7 +67,7 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
 
         this.item = data.item;
 
-        return this.getPicture(data.identity, data.item.id, false); // TODO: isModer
+        return this.getPicture(data.identity, data.item.id, data.isModer);
       })
     ).subscribe(picture => {
       this.picture = picture;

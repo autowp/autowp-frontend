@@ -51,7 +51,7 @@ export class PicturePageComponent implements OnInit, OnDestroy {
 
           return this.pictureService.getCanonicalRoute(data[1]).pipe(
             switchMap(route => {
-              if (route) {
+              if (route && route.length > 0) {
                 this.router.navigate(route, {
                   replaceUrl: true
                 });
