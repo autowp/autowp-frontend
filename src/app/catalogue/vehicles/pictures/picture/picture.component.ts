@@ -3,7 +3,7 @@ import {APIItem} from '../../../../services/item';
 import {PageEnvService} from '../../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../../catalogue-service';
 import {ACLService} from '../../../../services/acl.service';
 import {APIItemParent} from '../../../../services/item-parent';
@@ -25,6 +25,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
   public galleryRouterLink: string[];
   public item: APIItem;
   public picture: APIPicture;
+  private changed$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private pageEnv: PageEnvService,
@@ -41,8 +42,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       tap(isModer => (this.isModer = isModer)),
       switchMap(isModer => combineLatest([
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
-        this.getExact(),
-        of(isModer)
+        this.getExact()
       ])),
       map(data => {
         if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
@@ -83,23 +83,15 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
             path: data[0].path,
             type: data[0].type,
             exact: data[1],
-            identity: identity,
-            isModer: data[2]
+            identity: identity
           };
         })
       )),
       switchMap(data => {
-        if (!data.identity) {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-          return EMPTY;
-        }
-
         const last = data.path[data.path.length - 1];
         this.item = last.item;
 
-        return this.getPicture(data.identity, last.item_id, data.isModer);
+        return this.getPicture(data.identity, last.item_id);
       })
     ).subscribe(picture => {
       this.picture = picture;
@@ -113,12 +105,19 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
     });
   }
 
-  private getPicture(identity: string, itemID: number, isModer: boolean) {
+  private getPicture(identity: string, itemID: number) {
+    if (!identity) {
+      this.router.navigate(['/error-404'], {
+        skipLocationChange: true
+      });
+      return EMPTY;
+    }
+
     const fields =
-      'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
+      'owner,name_html,name_text,image,preview_large,paginator,' +
       'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-      'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
-      'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.name_html';
+      'items.item.name_html,categories.name_html,copyrights,' +
+      'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
     const options: APIGetPicturesOptions = {
       identity: identity,
@@ -132,11 +131,9 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         item_id: itemID
       }
     };
-    if (! isModer) {
-      options.status = 'accepted';
-    }
 
-    return this.pictureService.getPictures(options).pipe(
+    return this.changed$.pipe(
+      switchMap(value => this.pictureService.getPictures(options)),
       map(response => response.pictures.length ? response.pictures[0] : null)
     );
   }
@@ -156,6 +153,10 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       map(route => route.get('identity')),
       distinctUntilChanged()
     );
+  }
+
+  reloadPicture() {
+    this.changed$.next(true);
   }
 
   ngOnDestroy(): void {

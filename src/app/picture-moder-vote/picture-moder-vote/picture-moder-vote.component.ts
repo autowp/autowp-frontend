@@ -65,7 +65,7 @@ export class PictureModerVoteComponent implements OnInit, OnDestroy {
       this.moderVoteTemplateService.createTemplate({
         vote: this.vote,
         name: this.reason
-      });
+      }).subscribe();
     }
 
     this.votePicture(this.vote, this.reason);

@@ -42,7 +42,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
         }
         return this.itemService.getItems({
           catname: catname,
-          fields: 'catname,name_text,name_html',
+          fields: 'name_text,name_html',
           limit: 1
         }).pipe(
           map(response => response && response.items.length ? response.items[0] : null),

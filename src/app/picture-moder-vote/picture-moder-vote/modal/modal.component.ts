@@ -36,7 +36,7 @@ export class PictureModerVoteModalComponent implements OnInit {
       this.templateService.createTemplate({
         vote: this.vote,
         name: this.reason
-      });
+      }).subscribe();
     }
 
     this.moderVoteService

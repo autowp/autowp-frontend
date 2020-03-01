@@ -152,7 +152,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
   private loadItem(last: APIItemParent) {
     return this.itemService.getItem(last.item_id, {
       fields: [
-        'catname,name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
+        'name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
         'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups,design',
         'total_pictures,preview_pictures.picture.name_text,childs_counts'
       ].join(',')
@@ -167,7 +167,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
   private loadGroup(last: APIItemParent, type: string, page: number) {
     return this.itemParentService.getItems({
       fields: [
-        'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
+        'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
         'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups,item.has_specs,item.has_child_specs,item.design',
         'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
         'item.inbox_pictures_count'

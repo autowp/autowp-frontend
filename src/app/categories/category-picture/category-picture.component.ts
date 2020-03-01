@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import { Subscription, of } from 'rxjs';
+import {Subscription, of, BehaviorSubject} from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
 import {APIPicture, PictureService} from '../../services/picture';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,6 +25,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
   public picture: APIPicture;
   private pathCatnames: string[] = [];
   public path: PathItem[];
+  private changed$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private itemService: ItemService,
@@ -67,24 +68,24 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
             }
 
             const fields =
-              'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
+              'owner,name_html,name_text,image,preview_large,paginator,' +
               'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-              'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
-              'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.name_html';
+              'items.item.name_html,categories,categories.name_html,copyrights,' +
+              'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
-            return this.pictureService.getPictures({
-              identity: data.identity,
-              status: 'accepted',
-              item_id: data.current.id,
-              fields: fields,
-              limit: 1,
-              items: {
-                type_id: 1
-              },
-              paginator: {
-                item_id: data.current.id
-              }
-            }).pipe(
+            return this.changed$.pipe(
+              switchMap(value => this.pictureService.getPictures({
+                identity: data.identity,
+                item_id: data.current.id,
+                fields: fields,
+                limit: 1,
+                items: {
+                  type_id: 1
+                },
+                paginator: {
+                  item_id: data.current.id
+                }
+              })),
               map(response => ({
                 current: data.current,
                 picture: response.pictures.length ? response.pictures[0] : null
@@ -146,5 +147,9 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
     return ['/category', this.category.catname]
       .concat(this.pathCatnames)
       .concat(['pictures']);
+  }
+
+  reloadPicture() {
+    this.changed$.next(true);
   }
 }

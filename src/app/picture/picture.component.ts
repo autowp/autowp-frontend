@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { APIPicture, PictureService } from '../services/picture';
 import { ACLService } from '../services/acl.service';
 import { APIUser } from '../services/user';
@@ -18,6 +18,7 @@ export class PictureComponent implements OnInit, OnDestroy {
   @Input() picture: APIPicture;
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[];
+  @Output() changed = new EventEmitter<boolean>();
 
   public isModer = false;
   public canEditSpecs = false;
@@ -53,7 +54,9 @@ export class PictureComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public pictureVoted() {}
+  public pictureVoted() {
+    this.changed.emit(true);
+  }
 
   public toggleShareDialog(): false {
     this.showShareDialog = !this.showShareDialog;

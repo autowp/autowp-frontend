@@ -54,7 +54,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
         this.itemParentService
           .getItems({
             fields: [
-              'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
+              'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
               'item.engine_vehicles',
               'item.can_edit_specs,item.specs_route',
               'item.twins_groups',
@@ -130,7 +130,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
         }
         return this.itemService.getItems({
           catname: catname,
-          fields: 'catname,name_text,name_html',
+          fields: 'name_text,name_html',
           limit: 1
         }).pipe(
           switchMap(response => {

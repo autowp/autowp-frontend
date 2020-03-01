@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import { Subscription, of, combineLatest } from 'rxjs';
+import {Subscription, of, combineLatest, BehaviorSubject} from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
 import {
   APIPicture,
@@ -31,6 +31,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   public picture: APIPicture;
   public paginator: APIPaginator;
   public user: APIUser;
+  private changed$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private itemService: ItemService,
@@ -55,7 +56,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
           return of(null as APIItem);
         }
         return this.itemService.getItem(groupID, {
-          fields: 'name_text,name_html,childs.brands.catname'
+          fields: 'name_text,name_html,childs.brands'
         });
       })
     );
@@ -89,28 +90,28 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
             }
 
             let fields =
-              'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
+              'owner,name_html,name_text,image,preview_large,paginator,' +
               'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-              'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
+              'items.item.name_html,categories.name_html,copyrights,' +
               'factories.name_html,moder_votes,votes,of_links,replaceable.name_html';
 
             if (data.isModer) {
               fields += ',items.item.brands.name_html';
             }
 
-            return this.pictureService.getPictures({
-              identity: data.identity,
-              // status: 'accepted',
-              item_id: data.group.id,
-              fields: fields,
-              limit: 1,
-              items: {
-                type_id: 1
-              },
-              paginator: {
-                item_id: data.group.id
-              }
-            }).pipe(
+            return this.changed$.pipe(
+              switchMap(value => this.pictureService.getPictures({
+                identity: data.identity,
+                item_id: data.group.id,
+                fields: fields,
+                limit: 1,
+                items: {
+                  type_id: 1
+                },
+                paginator: {
+                  item_id: data.group.id
+                }
+              })),
               map(response => ({
                 group: data.group,
                 picture: response.pictures.length ? response.pictures[0] : null
@@ -151,6 +152,10 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
 
         this.selectedBrands = result;
       });
+  }
+
+  reloadPicture() {
+    this.changed$.next(true);
   }
 
   ngOnDestroy(): void {

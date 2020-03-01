@@ -13,7 +13,7 @@
 </nav>
 
 <div>
-  <app-picture [picture]="picture" [prefix]="['/', brand.catname, 'other']" *ngIf="picture && brand"></app-picture>
+  <app-picture [picture]="picture" [prefix]="['/', brand.catname, 'other']" *ngIf="picture && brand" (changed)="reloadPicture()"></app-picture>
 
   <div id="comments" *ngIf="picture">
     <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>

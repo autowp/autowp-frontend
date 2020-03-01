@@ -3,10 +3,9 @@ import {APIItem, ItemService} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, of, Subscription} from 'rxjs';
 import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../services/picture';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {ACLService} from '../../../services/acl.service';
 
 @Component({
   selector: 'app-persons-person-picture',
@@ -21,6 +20,7 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
   public galleryRouterLink: string[];
   public item: APIItem;
   public picture: APIPicture;
+  private changed$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private pageEnv: PageEnvService,
@@ -28,32 +28,30 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private router: Router,
     private itemService: ItemService,
-    private toastService: ToastsService,
-    private acl: ACLService
+    private toastService: ToastsService
   ) {
   }
 
   ngOnInit(): void {
-    this.sub = combineLatest([this.getPerson(), this.acl.inheritsRole('moder')]).pipe(
-      map(data => {
-        const routerLink = ['/persons', data[0].id.toString()];
+    this.sub = this.getPerson().pipe(
+      map(person => {
+        const routerLink = ['/persons', person.id.toString()];
 
         this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
         this.galleryRouterLink = [...routerLink];
         this.galleryRouterLink.push('gallery');
 
-        return data;
+        return person;
       }),
-      switchMap(data => this.getIdentity().pipe(
+      switchMap(person => this.getIdentity().pipe(
         map(identity => {
 
           this.galleryRouterLink.push(identity);
 
           return {
-            item: data[0],
-            identity: identity,
-            isModer: data[1]
+            item: person,
+            identity: identity
           };
         })
       )),
@@ -67,7 +65,7 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
 
         this.item = data.item;
 
-        return this.getPicture(data.identity, data.item.id, data.isModer);
+        return this.getPicture(data.identity, data.item.id);
       })
     ).subscribe(picture => {
       this.picture = picture;
@@ -81,12 +79,12 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getPicture(identity: string, itemID: number, isModer: boolean) {
+  private getPicture(identity: string, itemID: number) {
     const fields =
-      'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
+      'owner,name_html,name_text,image,preview_large,paginator,' +
       'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-      'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
-      'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.name_html';
+      'items.item.name_html,categories.name_html,copyrights,' +
+      'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
     const options: APIGetPicturesOptions = {
       exact_item_id: itemID,
@@ -99,11 +97,9 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
         exact_item_link_type: 1,
       }
     };
-    if (! isModer) {
-      options.status = 'accepted';
-    }
 
-    return this.pictureService.getPictures(options).pipe(
+    return this.changed$.pipe(
+      switchMap(value => this.pictureService.getPictures(options)),
       map(response => response.pictures.length ? response.pictures[0] : null)
     );
   }
@@ -143,6 +139,10 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
         return of(item);
       })
     );
+  }
+
+  reloadPicture() {
+    this.changed$.next(true);
   }
 
   ngOnDestroy(): void {

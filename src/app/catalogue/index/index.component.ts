@@ -114,7 +114,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
 
-        let fields = 'catname,description,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active';
+        let fields = 'description,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active';
         if (data[0]) {
           fields += ',inbox_pictures_count';
         }

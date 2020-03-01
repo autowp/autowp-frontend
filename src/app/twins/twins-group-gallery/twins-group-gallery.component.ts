@@ -37,7 +37,7 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
           return of(null as APIItem);
         }
         return this.itemService.getItem(groupID, {
-          fields: 'name_text,name_html,childs.brands.catname'
+          fields: 'name_text,name_html,childs.brands'
         });
       })
     );

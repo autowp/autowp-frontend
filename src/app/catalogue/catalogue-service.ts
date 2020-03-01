@@ -59,7 +59,7 @@ export class CatalogueService {
       let totalFields = 'item.name_html,' + fields;
       const isLast = parent.path.length <= 1;
       if (isLast) {
-        totalFields += ',item.inbox_pictures_count,item.comments_attentions_count,item.is_group,item.other_names,item.design,' +
+        totalFields += ',item.inbox_pictures_count,item.comments_attentions_count,item.other_names,item.design,' +
           'item.name_default,item.description,item.produced,item.specs_route,item.childs_counts,item.name_text';
         if (isModer) {
           totalFields += ',item.accepted_pictures_count';
@@ -134,7 +134,7 @@ export class CatalogueService {
         }
         return this.itemService.getItems({
           catname: '' + catname,
-          fields: 'catname,name_text,name_html',
+          fields: 'name_text,name_html',
           limit: 1
         }).pipe(
           map(response => response && response.items.length ? response.items[0] : null)

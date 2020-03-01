@@ -73,7 +73,6 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                   'name',
                   'is_concept',
                   'name_default',
-                  'body',
                   'subscription',
                   'begin_year',
                   'begin_month',
@@ -83,10 +82,8 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                   'begin_model_year',
                   'end_model_year',
                   'produced',
-                  'is_group',
                   'spec_id',
                   'full_name',
-                  'catname',
                   'lat',
                   'lng'
                 ].join(',')

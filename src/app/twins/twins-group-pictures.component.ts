@@ -43,7 +43,7 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
             return of(null);
           }
           return this.itemService.getItem(route.group, {
-            fields: 'name_text,name_html,childs.brands.catname'
+            fields: 'name_text,name_html,childs.brands'
           });
         }),
         switchMap(group => this.route.queryParams.pipe(

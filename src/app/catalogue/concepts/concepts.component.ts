@@ -40,7 +40,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
         }
         return this.itemService.getItems({
           catname: catname,
-          fields: 'catname,name_text,name_html',
+          fields: 'name_text,name_html',
           limit: 1
         });
       }),
@@ -77,7 +77,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           concept_inherit: false,
           route_brand_id: data.brand.id,
           fields: [
-            'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
+            'name_html,name_default,description,has_text,produced,accepted_pictures_count',
             'design,engine_vehicles,route',
             'can_edit_specs,specs_route',
             'twins_groups',

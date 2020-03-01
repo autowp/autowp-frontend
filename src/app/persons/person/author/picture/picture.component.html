@@ -17,6 +17,7 @@
   [prefix]="picturesRouterLink"
   [galleryRoute]="galleryRouterLink"
   *ngIf="picture"
+  (changed)="reloadPicture()"
 ></app-picture>
 
 <div id="comments" *ngIf="picture">

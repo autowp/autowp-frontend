@@ -106,7 +106,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
     if (!item.loaded) {
       this.itemService
         .getItems({
-          fields: 'catname,name_html',
+          fields: 'name_html',
           parent_id: item.parent_id,
           no_parent: item.parent_id ? null : true,
           limit: 50,

@@ -189,6 +189,8 @@ export interface APIGetPicturesOptions {
     exact?: boolean;
     exact_item_id?: number,
     exact_item_link_type?: number,
+    perspective_id?: number;
+    perspective_exclude_id?: string;
   };
   accepted_in_days?: number;
 }
@@ -334,6 +336,13 @@ function converPicturesOptions(
     }
     if (options.paginator.exact_item_link_type) {
       params['paginator[exact_item_link_type]'] = options.paginator.exact_item_link_type.toString();
+    }
+    if (options.paginator.perspective_id) {
+      params['paginator[perspective_id]'] = options.paginator.perspective_id.toString();
+    }
+
+    if (options.paginator.perspective_exclude_id) {
+      params['paginator[perspective_exclude_id]'] = options.paginator.perspective_exclude_id;
     }
   }
 

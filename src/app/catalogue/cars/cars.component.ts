@@ -132,7 +132,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
       vehicle_type_id: vehicleTypeID,
       route_brand_id: brandID,
       fields: [
-        'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
+        'name_html,name_default,description,has_text,produced,accepted_pictures_count',
         'design,engine_vehicles,route',
         'can_edit_specs,specs_route',
         'twins_groups',
@@ -193,7 +193,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
     }
     return this.itemService.getItems({
       catname: catname,
-      fields: 'catname,name_text,name_html',
+      fields: 'name_text,name_html',
       limit: 1
     }).pipe(
       map(response => response && response.items.length ? response.items[0] : null),

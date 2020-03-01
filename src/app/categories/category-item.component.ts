@@ -79,7 +79,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
           data => this.itemParentService
             .getItems({
               fields: [
-                'item.catname,item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
+                'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
                 'item.design,item.engine_vehicles',
                 'item.can_edit_specs,item.specs_route',
                 'item.twins_groups',
