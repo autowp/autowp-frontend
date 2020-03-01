@@ -1,1 +1,8 @@
-<app-gallery [itemID]="null" [current]="current" [galleryPrefix]="['/picture', this.current, 'gallery']" [picturePrefix]="['/picture']" *ngIf="current" (pictureSelected)="pictureSelected($event)"></app-gallery>
+<app-gallery
+  [filter]="{itemID: null}"
+  [current]="current"
+  [galleryPrefix]="['/picture', this.current, 'gallery']"
+  [picturePrefix]="['/picture']"
+  *ngIf="current"
+  (pictureSelected)="pictureSelected($event)"
+></app-gallery>

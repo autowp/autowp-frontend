@@ -4,7 +4,7 @@ import {
   ItemService,
   APIItemRelatedGroupItem
 } from '../services/item';
-import {Subscription, EMPTY} from 'rxjs';
+import {Subscription, EMPTY, of} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
@@ -13,7 +13,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap, map
+  map
 } from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { tileLayer, latLng, Marker, marker, icon } from 'leaflet';
@@ -81,13 +81,15 @@ export class FactoryComponent implements OnInit, OnDestroy {
           });
           return EMPTY;
         }),
-        tap(factory => {
+        switchMap(factory => {
           if (factory.item_type_id !== 6) {
             this.router.navigate(['/error-404'], {
               skipLocationChange: true
             });
-            return;
+            return EMPTY;
           }
+
+          return of(factory);
         }),
         switchMap(factory => this.pictureService.getPictures({
           status: 'accepted',

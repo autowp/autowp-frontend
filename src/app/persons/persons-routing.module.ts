@@ -4,6 +4,8 @@ import { PersonsPersonComponent } from './person/person.component';
 import { PersonsComponent } from './persons.component';
 import {PersonsPersonPictureComponent} from './person/picture/picture.component';
 import {PersonsPersonGalleryComponent} from './person/gallery/gallery.component';
+import {PersonsPersonAuthorGalleryComponent} from './person/author/gallery/gallery.component';
+import {PersonsPersonAuthorPictureComponent} from './person/author/picture/picture.component';
 
 const routes: Routes = [
   {
@@ -17,12 +19,29 @@ const routes: Routes = [
     path: ':id',
     children: [
       {
+        path: 'author',
+        children: [
+          {
+            path: 'gallery/:identity',
+            component: PersonsPersonAuthorGalleryComponent,
+            pathMatch: 'full'
+          },
+          {
+            path: ':identity',
+            component: PersonsPersonAuthorPictureComponent,
+            pathMatch: 'full'
+          },
+        ]
+      },
+      {
         path: 'gallery/:identity',
-        component: PersonsPersonGalleryComponent
+        component: PersonsPersonGalleryComponent,
+        pathMatch: 'full'
       },
       {
         path: ':identity',
-        component: PersonsPersonPictureComponent
+        component: PersonsPersonPictureComponent,
+        pathMatch: 'full'
       },
       {
         path: '',

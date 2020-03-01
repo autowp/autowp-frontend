@@ -185,7 +185,10 @@ export interface APIGetPicturesOptions {
     type_id?: number;
   };
   paginator?: {
-    item_id: number;
+    item_id?: number;
+    exact?: boolean;
+    exact_item_id?: number,
+    exact_item_link_type?: number,
   };
   accepted_in_days?: number;
 }
@@ -325,6 +328,12 @@ function converPicturesOptions(
   if (options.paginator) {
     if (options.paginator.item_id) {
       params['paginator[item_id]'] = options.paginator.item_id.toString();
+    }
+    if (options.paginator.exact_item_id) {
+      params['paginator[exact_item_id]'] = options.paginator.exact_item_id.toString();
+    }
+    if (options.paginator.exact_item_link_type) {
+      params['paginator[exact_item_link_type]'] = options.paginator.exact_item_link_type.toString();
     }
   }
 

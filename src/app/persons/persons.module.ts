@@ -15,13 +15,17 @@ import {CommentsModule} from '../comments/comments.module';
 import {PictureModule} from '../picture/picture.module';
 import {PersonsPersonGalleryComponent} from './person/gallery/gallery.component';
 import {GalleryModule} from '../gallery/gallery.module';
+import {PersonsPersonAuthorGalleryComponent} from './person/author/gallery/gallery.component';
+import {PersonsPersonAuthorPictureComponent} from './person/author/picture/picture.component';
 
 @NgModule({
   declarations: [
     PersonsComponent,
     PersonsPersonComponent,
     PersonsPersonPictureComponent,
-    PersonsPersonGalleryComponent
+    PersonsPersonGalleryComponent,
+    PersonsPersonAuthorGalleryComponent,
+    PersonsPersonAuthorPictureComponent
   ],
   imports: [
     CommonModule,

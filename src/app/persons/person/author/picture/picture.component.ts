@@ -1,19 +1,20 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {APIItem, ItemService} from '../../../services/item';
-import {PageEnvService} from '../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
-import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../services/picture';
-import {ToastsService} from '../../../toasts/toasts.service';
-import {ACLService} from '../../../services/acl.service';
+import {APIItem, ItemService} from '../../../../services/item';
+import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../../services/picture';
+import {PageEnvService} from '../../../../services/page-env.service';
+import {ToastsService} from '../../../../toasts/toasts.service';
+import {ACLService} from '../../../../services/acl.service';
+
 
 @Component({
-  selector: 'app-persons-person-picture',
+  selector: 'app-persons-person-author-picture',
   templateUrl: './picture.component.html'
 })
 @Injectable()
-export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
+export class PersonsPersonAuthorPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public isModer: boolean;
   public routerLink: string[];
@@ -39,9 +40,8 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
         const routerLink = ['/persons', data[0].id.toString()];
 
         this.routerLink = routerLink;
-        this.picturesRouterLink = [...routerLink];
-        this.galleryRouterLink = [...routerLink];
-        this.galleryRouterLink.push('gallery');
+        this.picturesRouterLink = routerLink.concat(['author']);
+        this.galleryRouterLink = routerLink.concat(['author', 'gallery']);
 
         return data;
       }),
@@ -90,13 +90,13 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
 
     const options: APIGetPicturesOptions = {
       exact_item_id: itemID,
-      exact_item_link_type: 1,
+      exact_item_link_type: 2,
       identity: identity,
       fields: fields,
       limit: 1,
       paginator: {
         exact_item_id: itemID,
-        exact_item_link_type: 1,
+        exact_item_link_type: 2,
       }
     };
     if (! isModer) {

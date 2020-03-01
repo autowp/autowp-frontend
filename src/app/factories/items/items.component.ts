@@ -120,7 +120,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             pictures.push({
               picture: picture.picture,
               thumb: picture.thumb,
-              routerLink: picture.picture ? ['/factories', '' + item.id, 'pictures', picture.picture.identity] : []
+              routerLink: item.route && picture.picture ? item.route.concat([, 'pictures', picture.picture.identity]) : []
             });
           }
           items.push({
