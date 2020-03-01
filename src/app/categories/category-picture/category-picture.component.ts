@@ -149,6 +149,20 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
       .concat(['pictures']);
   }
 
+  public currentRouterLinkGallery(): string[] {
+    if (!this.category || !this.picture) {
+      return null;
+    }
+
+    if (this.current.item_type_id === 3) {
+      return ['/category', this.current.catname, 'gallery'];
+    }
+
+    return ['/category', this.category.catname]
+      .concat(this.pathCatnames)
+      .concat(['gallery', this.picture.identity]);
+  }
+
   reloadPicture() {
     this.changed$.next(true);
   }

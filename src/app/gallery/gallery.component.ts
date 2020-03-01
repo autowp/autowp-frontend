@@ -147,6 +147,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   private loadPage(filter: APIGalleryFilter, page: number): Observable<APIGallery> {
     const params = this.filterParams(filter);
     params['status'] = this.status;
+    params['page'] = page + '';
     return this.http
       .get<APIGallery>('/api/gallery', {
         params: params
