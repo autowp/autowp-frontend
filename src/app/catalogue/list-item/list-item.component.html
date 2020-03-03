@@ -63,6 +63,16 @@
       </a>
     </li>
 
+    <li class="list-inline-item" *ngIf="item.childs_counts && item.childs_counts.tuning > 0">
+      <i class="fa fa-align-left" aria-hidden="true"></i>
+      <a [routerLink]="item.details.routerLink.concat('tuning')">{{'catalogue/related'|translate | lowercase}} ({{item.childs_counts.tuning}})</a>
+    </li>
+
+    <li class="list-inline-item" *ngIf="item.childs_counts && item.childs_counts.sport > 0">
+      <i class="fa fa-align-left" aria-hidden="true"></i>
+      <a [routerLink]="item.details.routerLink.concat('sport')">{{'catalogue/sport'|translate | lowercase}} ({{item.childs_counts.sport}})</a>
+    </li>
+
     <li *ngIf="item.accepted_pictures_count > 4" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
       <a [routerLink]="item.picturesRouterLink">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>

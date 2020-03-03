@@ -104,7 +104,8 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
             details: {
               routerLink: routerLink,
               count: item.item.childs_count
-            }
+            },
+            childs_counts: item.item.childs_counts
           });
         }
 

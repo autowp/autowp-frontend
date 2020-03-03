@@ -18,8 +18,6 @@ export class ShareComponent implements OnInit {
       p = p.set(key, params[key]);
     }
 
-    console.log(p, p.toString());
-
     return url + p.toString();
   }
 

@@ -27,6 +27,8 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
   public item: APIItem;
   public routerLink: string[];
   public picturesRouterLink: string[];
+  public canAddItem: boolean;
+  public canAcceptPicture: boolean;
 
   constructor(
     private pageEnv: PageEnvService,
@@ -39,6 +41,13 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.acl
+      .isAllowed('car', 'add')
+      .subscribe(canAddItem => (this.canAddItem = canAddItem));
+    this.acl
+      .isAllowed('picture', 'accept')
+      .subscribe(canAcceptPicture => (this.canAcceptPicture = canAcceptPicture));
 
     this.sub = this.acl.inheritsRole('moder').pipe(
       tap(isModer => (this.isModer = isModer)),

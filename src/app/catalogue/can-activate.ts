@@ -16,15 +16,12 @@ export class CanActivateCatalogue implements CanActivate {
 
     const brand = route.paramMap.get('brand');
 
-    console.log('brand', brand);
-
     if (!brand) {
       return false;
     }
 
     return this.config.loadConfigurationData().pipe(
       map(config => {
-        console.log('includes', config.brands.includes(brand));
         return config.brands.includes(brand);
       })
     );

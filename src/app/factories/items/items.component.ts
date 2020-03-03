@@ -145,7 +145,8 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             details: {
               routerLink: item.route,
               count: item.childs_count
-            }
+            },
+            childs_counts: null
           });
         }
 

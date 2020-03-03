@@ -137,7 +137,8 @@ export class PersonsComponent implements OnInit, OnDestroy {
         details: {
           routerLink: itemRouterLink,
           count: item.childs_count
-        }
+        },
+        childs_counts: null
       });
     }
 

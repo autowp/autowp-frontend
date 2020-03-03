@@ -75,7 +75,7 @@ export class ItemParentService {
       params.ancestor_id = options.ancestor_id.toString();
     }
 
-    if (options.type_id) {
+    if (typeof options.type_id !== 'undefined' && options.type_id !== null) {
       params.type_id = options.type_id.toString();
     }
 
@@ -83,7 +83,7 @@ export class ItemParentService {
       params.order = options.order;
     }
 
-    if (options.item_id) {
+    if (typeof options.item_id !== 'undefined' && options.item_id !== null) {
       params.item_id = options.item_id.toString();
     }
 

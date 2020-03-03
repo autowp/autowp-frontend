@@ -78,7 +78,8 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       details: {
         routerLink: routerLink,
         count: item.childs_count
-      }
+      },
+      childs_counts: item.childs_counts
     };
   }
 
@@ -165,17 +166,18 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
   }
 
   private loadGroup(last: APIItemParent, type: string, page: number) {
+    const typeID = CatalogueVehiclesComponent.resolveTypeId(type);
     return this.itemParentService.getItems({
       fields: [
         'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
         'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups,item.has_specs,item.has_child_specs,item.design',
         'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
-        'item.inbox_pictures_count'
+        'item.inbox_pictures_count,item.childs_counts'
       ].join(','),
       limit: 7,
       page: +page,
       parent_id: last.item_id,
-      type_id: CatalogueVehiclesComponent.resolveTypeId(type),
+      type_id: typeID,
       order: 'type_auto'
     }).pipe(
       tap(response => {
@@ -216,36 +218,38 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
             details: {
               routerLink: itemRouterLink,
               count: item.item.childs_count
-            }
+            },
+            childs_counts: item.item.childs_counts
           });
         }
 
         this.items = items;
         this.paginator = response.paginator;
       }),
-      switchMap(response => {
-        if (response.paginator.last !== response.paginator.current) {
-          this.otherPictures = [];
-          this.otherPicturesCount = 0;
-          this.otherPicturesRouterLink = [];
-          return EMPTY;
-        }
-
-        return this.pictureService.getPictures({
-          exact_item_id: last.item_id,
-          status: 'accepted',
-          fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-          limit: 4,
-          order: 3
-        }).pipe(
-          tap(picResponse => {
-            this.otherPictures = picResponse.pictures;
-            this.otherPicturesCount = picResponse.paginator.totalItemCount;
-            this.otherPicturesRouterLink = this.routerLink.concat(['exact', 'pictures']);
-          })
-        );
+      switchMap(response => this.getOtherPictures(last.item_id, typeID, response.paginator.current, response.paginator.last)),
+      tap(picResponse => {
+        this.otherPictures = picResponse.pictures;
+        this.otherPicturesCount = picResponse.paginator.totalItemCount;
+        this.otherPicturesRouterLink = this.routerLink.concat(['exact', 'pictures']);
       })
     );
+  }
+
+  private getOtherPictures(itemID: number, typeID: number, page: number, lastPage: number) {
+    if (page < lastPage || typeID !== 0) {
+      this.otherPictures = [];
+      this.otherPicturesCount = 0;
+      this.otherPicturesRouterLink = [];
+      return EMPTY;
+    }
+
+    return this.pictureService.getPictures({
+      exact_item_id: itemID,
+      status: 'accepted',
+      fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
+      limit: 4,
+      order: 3
+    });
   }
 
   private getPage() {

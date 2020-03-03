@@ -3,6 +3,7 @@ import { ACLService } from '../../services/acl.service';
 import {APIPicture} from '../../services/picture';
 import {Subscription} from 'rxjs';
 import {APIImage} from '../../services/api.service';
+import {APIItemChildsCounts} from '../../services/item';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture;
@@ -41,6 +42,7 @@ export interface CatalogueListItem {
     routerLink: string[];
     count: number;
   };
+  childs_counts: APIItemChildsCounts;
 }
 
 @Component({
