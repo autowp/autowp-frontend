@@ -55,7 +55,7 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
           fields:
             'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 24,
-          order: 12,
+          order: 16,
           page: data.params.page
         }).pipe(
           catchError(err => {

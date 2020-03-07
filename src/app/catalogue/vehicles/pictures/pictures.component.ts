@@ -102,7 +102,7 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
             item_id: data[1] ? null : last.item_id,
             exact_item_id: data[1] ? last.item_id : null,
             status: 'accepted',
-            order: 3
+            order: 16
           }))
         );
       })

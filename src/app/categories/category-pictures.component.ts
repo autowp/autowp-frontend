@@ -74,7 +74,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
             page: data.page,
             item_id: data.current.id,
             status: 'accepted',
-            order: 3
+            order: 16
           })
         )
       )
