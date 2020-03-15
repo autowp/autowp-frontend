@@ -148,9 +148,9 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
           const pictures: CatalogueListItemPicture[] = [];
           for (const picture of item.preview_pictures.pictures) {
             pictures.push({
-              picture: picture.picture,
-              thumb: picture.thumb,
-              routerLink: picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+              picture: picture ? picture.picture : null,
+              thumb: picture ? picture.thumb : null,
+              routerLink: picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
             });
           }
           items.push({

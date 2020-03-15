@@ -17,7 +17,7 @@
 
 <div class="row" *ngIf="picture">
   <div class="col-sm-8 order-2">
-    <app-picture [picture]="picture" [prefix]="['/twins/group', group.id+'', 'pictures']" *ngIf="group && picture" (changed)="reloadPicture()"></app-picture>
+    <app-picture [picture]="picture" [prefix]="['/twins/group', group.id+'', 'pictures']" [galleryRoute]="['/twins/group', group.id+'', 'gallery']" *ngIf="group && picture" (changed)="reloadPicture()"></app-picture>
 
     <div id="comments" *ngIf="picture">
       <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>

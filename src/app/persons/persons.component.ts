@@ -110,9 +110,9 @@ export class PersonsComponent implements OnInit, OnDestroy {
       const pictures: CatalogueListItemPicture[] = [];
       for (const picture of item.preview_pictures.pictures) {
         pictures.push({
-          picture: picture.picture,
-          thumb: picture.thumb,
-          routerLink: picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
+          picture: picture ? picture.picture : null,
+          thumb: picture ? picture.thumb : null,
+          routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
         });
       }
       result.push({

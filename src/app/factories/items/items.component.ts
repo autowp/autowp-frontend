@@ -118,9 +118,9 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           const pictures: CatalogueListItemPicture[] = [];
           for (const picture of item.preview_pictures.pictures) {
             pictures.push({
-              picture: picture.picture,
-              thumb: picture.thumb,
-              routerLink: item.route && picture.picture ? item.route.concat([, 'pictures', picture.picture.identity]) : []
+              picture: picture ? picture.picture : null,
+              thumb: picture ? picture.thumb : null,
+              routerLink: item.route && picture && picture.picture ? item.route.concat([, 'pictures', picture.picture.identity]) : []
             });
           }
           items.push({
