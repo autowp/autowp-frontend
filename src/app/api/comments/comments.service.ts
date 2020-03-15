@@ -173,7 +173,7 @@ export class APICommentsService {
   }
 
   public getVotes(id: number): Observable<string> {
-    return this.http.get('/comments/votes', {
+    return this.http.get('/api/comment/votes', {
       params: {
         id: id.toString()
       },
