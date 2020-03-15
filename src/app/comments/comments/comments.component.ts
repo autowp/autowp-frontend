@@ -95,6 +95,8 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
         response => {
           this.messages = response.items;
           this.paginator = response.paginator;
+
+          this.commentService.postView(this.itemID, this.typeID).subscribe();
         },
         response => this.toastService.response(response)
       );

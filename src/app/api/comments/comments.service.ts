@@ -191,8 +191,12 @@ export class APICommentsService {
     value: boolean
   ): Observable<void> {
     return this.http.request<void>(
-      value ? 'PUT' : 'DELETE',
-      '/api/comment/subscribe/' + itemID + '/' + typeID
+      value ? 'POST' : 'DELETE',
+      '/api/comment/topic/' + typeID + '/' + itemID + '/subscribe'
     );
+  }
+
+  public postView(itemID: number, typeID: number): Observable<void> {
+    return this.http.request<void>('POST', '/api/comment/topic/' + typeID + '/' + itemID + '/view');
   }
 }
