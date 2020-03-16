@@ -98,7 +98,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
         for (const sparent of parent.item.parents) {
           const items = this.pictureRouterLinkItem(sparent);
           for (const item of items) {
-            result.push(item.concat([sparent.catname]));
+            result.push(item.concat([parent.catname]));
           }
         }
         break;
