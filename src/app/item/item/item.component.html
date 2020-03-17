@@ -17,7 +17,7 @@
 
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length > 4">
     <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
-      <a [routerLink]="picture.route" *ngIf="picture.thumb" class="d-block rounded mb-4">
+      <a [routerLink]="picture.route" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
         <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
@@ -25,7 +25,7 @@
     <div class="col-12 col-lg-6">
       <div class="row">
         <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
-          <a [routerLink]="picture.route" *ngIf="picture.thumb" class="d-block rounded mb-4">
+          <a [routerLink]="picture.route" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
             <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" />
           </a>
           <span *ngIf="!picture">&#xa0;</span>
@@ -35,7 +35,7 @@
   </div>
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length <= 4">
     <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures.pictures">
-      <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
+      <a [routerLink]="picture.route" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
         <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
