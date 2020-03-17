@@ -43,7 +43,7 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
               'childs.name_html,childs.name_default,childs.description,childs.has_text,childs.produced,' +
               'childs.design,childs.engine_vehicles,' +
               'childs.url,childs.can_edit_specs,childs.specs_route,' +
-              'childs.categories.name_html,childs.twins_groups,' +
+              'childs.categories.name_html,childs.brands,' +
               'childs.preview_pictures,childs.total_pictures'
           });
         })

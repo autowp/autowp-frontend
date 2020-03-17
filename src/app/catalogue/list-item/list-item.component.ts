@@ -3,7 +3,7 @@ import { ACLService } from '../../services/acl.service';
 import {APIPicture} from '../../services/picture';
 import {Subscription} from 'rxjs';
 import {APIImage} from '../../services/api.service';
-import {APIItemChildsCounts} from '../../services/item';
+import {APIItem, APIItemChildsCounts} from '../../services/item';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture;
@@ -43,6 +43,8 @@ export interface CatalogueListItem {
     count: number;
   };
   childs_counts: APIItemChildsCounts;
+  categories?: APIItem[];
+  twins_groups?: APIItem[];
 }
 
 @Component({
@@ -61,7 +63,7 @@ export class CatalogueListItemComponent implements OnInit, OnDestroy {
   public havePhoto(item: CatalogueListItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
-        if (picture.picture) {
+        if (picture && picture.picture) {
           return true;
         }
       }

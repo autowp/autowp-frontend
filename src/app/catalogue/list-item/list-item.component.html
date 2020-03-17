@@ -7,7 +7,7 @@
   <ng-container *ngIf="item.preview_pictures">
     <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.large_format">
       <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
-        <a [routerLink]="picture.routerLink" *ngIf="picture.thumb" class="d-block rounded mb-4">
+        <a [routerLink]="picture.routerLink" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
           <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
         </a>
         <span *ngIf="!picture">&#xa0;</span>
@@ -15,7 +15,7 @@
       <div class="col-12 col-lg-6">
         <div class="row">
           <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
-            <a [routerLink]="picture.routerLink" *ngIf="picture.thumb" class="d-block rounded mb-4">
+            <a [routerLink]="picture.routerLink" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
               <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
             </a>
             <span *ngIf="!picture.thumb">&#xa0;</span>
@@ -25,10 +25,10 @@
     </div>
     <div class="row" *ngIf="havePhoto(item) && !item.preview_pictures.large_format">
       <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures.pictures">
-        <a [routerLink]="picture.routerLink" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
+        <a [routerLink]="picture.routerLink" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
           <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
         </a>
-        <span *ngIf="!picture.thumb">&#xa0;</span>
+        <span *ngIf="!picture || !picture.thumb">&#xa0;</span>
       </div>
     </div>
   </ng-container>
@@ -82,6 +82,20 @@
       <i class="fa fa-list-alt mr-1" aria-hidden="true"></i>
       <a [routerLink]="item.specsRouterLink" translate>carlist/specifications</a>
     </li>
+
+    <ng-container *ngIf="item.twins_groups">
+      <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
+        <i class="fa fa-adjust mr-1" aria-hidden="true"></i>
+        <a [routerLink]="['/twins/group', twinsGroup.id]" translate>carlist/twins</a>
+      </li>
+    </ng-container>
+
+    <ng-container *ngIf="item.categories">
+      <li *ngFor="let category of item.categories" class="list-inline-item">
+        <i class="fa fa-tag mr-1" aria-hidden="true"></i>
+        <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+      </li>
+    </ng-container>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
       <i class="fa fa-pencil mr-1" aria-hidden="true"></i>

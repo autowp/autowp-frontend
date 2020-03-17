@@ -5,7 +5,7 @@
   <div [innerHTML]="html"></div>
 </ng-template>
 <span>
-  <a [routerLink]="['/categories', category.catname]">{{category.short_name}}</a>
+  <a [routerLink]="['/category', category.catname]">{{category.short_name}}</a>
   <span class="count">({{category.cars_count - category.new_cars_count}}<span *ngIf="category.new_cars_count > 0"
     [ngbPopover]="popover" triggers="mouseenter:mouseleave" (shown)="shown()" container="body">+{{category.new_cars_count}}</span>)</span>
 </span>

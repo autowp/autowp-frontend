@@ -30,7 +30,7 @@ export class TwinsItemComponent implements OnInit, OnDestroy {
   public havePhoto(item: APIItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
-        if (picture.picture) {
+        if (picture && picture.picture) {
           return true;
         }
       }

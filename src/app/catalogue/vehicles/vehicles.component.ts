@@ -79,7 +79,9 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
         routerLink: routerLink,
         count: item.childs_count
       },
-      childs_counts: item.childs_counts
+      childs_counts: item.childs_counts,
+      categories: item.categories,
+      twins_groups: item.twins_groups
     };
   }
 
@@ -154,8 +156,8 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
     return this.itemService.getItem(last.item_id, {
       fields: [
         'name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
-        'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups,design',
-        'total_pictures,preview_pictures.picture.name_text,childs_counts'
+        'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups.name_html,design',
+        'total_pictures,preview_pictures.picture.name_text,childs_counts,categories.name_html'
       ].join(',')
     }).pipe(
       tap(item => {
@@ -170,9 +172,9 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
     return this.itemParentService.getItems({
       fields: [
         'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
-        'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups,item.has_specs,item.has_child_specs,item.design',
+        'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups.name_html,item.has_specs,item.has_child_specs,item.design',
         'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
-        'item.inbox_pictures_count,item.childs_counts'
+        'item.inbox_pictures_count,item.childs_counts,item.categories.name_html'
       ].join(','),
       limit: 7,
       page: +page,
@@ -219,7 +221,9 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
               routerLink: itemRouterLink,
               count: item.item.childs_count
             },
-            childs_counts: item.item.childs_counts
+            childs_counts: item.item.childs_counts,
+            categories: item.item.categories,
+            twins_groups: item.item.twins_groups
           });
         }
 
