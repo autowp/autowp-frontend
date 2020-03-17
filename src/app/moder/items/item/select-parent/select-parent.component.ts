@@ -118,7 +118,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     fields: 'item.name_html,item.childs_count',
                     parent_id: this.brand_id,
                     is_group: true,
-                    type_id: this.item.item_type_id,
+                    item_type_id: this.item.item_type_id,
                     page: this.page
                   })
                   .subscribe(
