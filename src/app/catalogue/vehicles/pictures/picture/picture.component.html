@@ -17,7 +17,7 @@
   </ol>
 </nav>
 
-<app-picture [picture]="picture" [prefix]="picturesRouterLink" [galleryRoute]="galleryRouterLink" *ngIf="picture" (changed)="reloadPicture()"></app-picture>
+<app-picture [picture]="picture" [prefix]="picturesRouterLink" [galleryRoute]="galleryPictureRouterLink" *ngIf="picture" (changed)="reloadPicture()"></app-picture>
 
 <div id="comments" *ngIf="picture">
   <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>

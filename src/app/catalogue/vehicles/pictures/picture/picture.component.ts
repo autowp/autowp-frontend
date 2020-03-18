@@ -22,7 +22,8 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
   public breadcrumbs: Breadcrumbs[] = [];
   public routerLink: string[];
   public picturesRouterLink: string[];
-  public galleryRouterLink: string[];
+  private galleryRouterLink: string[];
+  public galleryPictureRouterLink: string[];
   public item: APIItem;
   public picture: APIPicture;
   private changed$ = new BehaviorSubject<boolean>(false);
@@ -76,7 +77,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       switchMap(data => this.getIdentity().pipe(
         map(identity => {
 
-          this.galleryRouterLink.push(identity);
+          this.galleryPictureRouterLink = [...this.galleryRouterLink, identity];
 
           return {
             brand: data[0].brand,
