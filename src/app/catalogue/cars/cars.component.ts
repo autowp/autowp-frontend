@@ -150,7 +150,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
             pictures.push({
               picture: picture ? picture.picture : null,
               thumb: picture ? picture.thumb : null,
-              routerLink: picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
             });
           }
           items.push({
@@ -170,7 +170,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
             has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: item.route.concat(['pictures']),
+            picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
             specsRouterLink: null, // TODO
             details: {
               routerLink: item.route,
