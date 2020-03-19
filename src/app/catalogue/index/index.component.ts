@@ -188,23 +188,21 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     );
   }
 
-  private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[][] {
-    const result: string[][] = [];
+  private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[] {
     switch (parent.item.item_type_id) {
       case 5: // brand
-        result.push(['/', parent.item.catname]);
-        break;
+        return ['/', parent.item.catname, parent.catname];
       case 1: // vehicle
       case 2: // engine
         for (const sparent of parent.item.parents) {
-          const items = this.pictureRouterLinkItem(sparent);
-          for (const item of items) {
-            result.push(item.concat([sparent.catname]));
+          const path = this.pictureRouterLinkItem(sparent);
+          if (path) {
+            return path.concat([parent.catname]);
           }
         }
         break;
     }
-    return result;
+    return null;
   }
 
   public pictureRouterLink(picture: APIPicture): string[] {
@@ -223,9 +221,9 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
           case 1: // vehicle
           case 2: // engine
             for (const parent of pictureItem.item.parents) {
-              const items = this.pictureRouterLinkItem(parent);
-              for (const item of items) {
-                return item.concat(['pictures', picture.identity]);
+              const path = this.pictureRouterLinkItem(parent);
+              if (path) {
+                return path.concat(['pictures', picture.identity]);
               }
             }
             break;
