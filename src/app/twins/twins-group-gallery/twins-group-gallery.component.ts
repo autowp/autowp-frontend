@@ -74,7 +74,7 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
                 needRight: false,
                 isGalleryPage: true
               },
-              nameTranslated: '', // data.picture.name_text,
+              nameTranslated: data.group.name_text,
               pageId: 28
             }),
           0
@@ -83,13 +83,15 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
   }
 
   pictureSelected(item: APIGalleryItem) {
-    this.pageEnv.set({
-      layout: {
-        needRight: false,
-        isGalleryPage: true
-      },
-      nameTranslated: item.name,
-      pageId: 28
+    setTimeout(() => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false,
+          isGalleryPage: true
+        },
+        nameTranslated: item.name,
+        pageId: 28
+      });
     });
   }
 
