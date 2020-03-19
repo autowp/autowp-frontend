@@ -116,7 +116,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
             has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: item.route.concat(['pictures']),
+            picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
             specsRouterLink: null, // TODO
             details: {
               routerLink: item.route,
