@@ -120,7 +120,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             pictures.push({
               picture: picture ? picture.picture : null,
               thumb: picture ? picture.thumb : null,
-              routerLink: item.route && picture && picture.picture ? item.route.concat([, 'pictures', picture.picture.identity]) : []
+              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
             });
           }
           items.push({
@@ -141,7 +141,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
             picturesRouterLink: ['/factories', '' + item.id, 'pictures'],
-            specsRouterLink: item.has_specs || item.has_child_specs ? item.route.concat(['specifications']) : null,
+            specsRouterLink: item.has_specs || item.has_child_specs && item.route ? item.route.concat(['specifications']) : null,
             details: {
               routerLink: item.route,
               count: item.childs_count

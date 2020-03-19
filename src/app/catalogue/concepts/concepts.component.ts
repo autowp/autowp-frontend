@@ -96,7 +96,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
             pictures.push({
               picture: picture ? picture.picture : null,
               thumb: picture ? picture.thumb : null,
-              routerLink: picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
             });
           }
           items.push({
