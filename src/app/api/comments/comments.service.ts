@@ -42,7 +42,7 @@ export interface APIComment {
   text_html: string;
   user: APIUser;
   datetime: string;
-  moder_attention: boolean; // TODO: enum
+  moderator_attention: number; // TODO: enum
   preview: string;
   is_new: boolean;
   route: string[];

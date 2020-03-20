@@ -129,7 +129,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
       type_id: state.typeID,
       item_id: state.itemID,
       no_parents: true,
-      fields: 'user.avatar,user.gravatar,replies,text_html,datetime,vote,user_vote',
+      fields: 'user.avatar,user.gravatar,replies,text_html,vote,user_vote',
       order: 'date_asc',
       limit: state.limit ? state.limit : null,
       page: state.page

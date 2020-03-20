@@ -18,6 +18,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 
 export interface APICommentInList extends APIComment {
   showReply: boolean;
+  resolve: boolean;
 }
 
 @Component({
@@ -48,6 +49,9 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
+    this.acl.inheritsRole('moder').subscribe(isModer => {this.isModer = isModer; });
+
     this.sub = combineLatest([
       this.auth.getUser(),
       this.acl.isAllowed('comment', 'remove'),
@@ -109,6 +113,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
   public reply(message: APICommentInList, resolve: boolean) {
     message.showReply = !message.showReply;
+    message.resolve = resolve;
   }
 
   public showVotes(message: APIComment) {

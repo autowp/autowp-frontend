@@ -11,6 +11,7 @@ export class CommentsFormComponent {
   @Input() parentID: number;
   @Input() itemID: number;
   @Input() typeID: number;
+  @Input() resolve = false;
   @Output() sent = new EventEmitter<string>();
 
   public invalidParams: any = {};
@@ -32,7 +33,8 @@ export class CommentsFormComponent {
           item_id: this.itemID,
           parent_id: this.parentID,
           moderator_attention: this.form.moderator_attention ? 1 : 0,
-          message: this.form.message
+          message: this.form.message,
+          resolve: this.resolve ? 1 : 0
         },
         {
           observe: 'response'

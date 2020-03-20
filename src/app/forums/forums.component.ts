@@ -55,7 +55,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
             return this.forumService
               .getThemes({
                 fields:
-                  'last_message.datetime,last_message.user,last_topic,description,themes',
+                  'last_message.user,last_topic,description,themes',
                 topics: { page: data.query.page }
               })
               .pipe(
@@ -69,8 +69,8 @@ export class ForumsComponent implements OnInit, OnDestroy {
             return this.forumService
               .getTheme(data.route.theme_id, {
                 fields:
-                  'themes.last_message.user,themes.last_message.datetime,themes.last_topic,' +
-                  'themes.description,topics.author,topics.messages,topics.last_message.datetime,topics.last_message.user',
+                  'themes.last_message.user,themes.last_topic,' +
+                  'themes.description,topics.author,topics.messages,topics.last_message.user',
                 topics: { page: data.query.page }
               })
               .pipe(
