@@ -129,4 +129,8 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   public onSent(location: string) {
     this.sent.emit(location);
   }
+
+  public onCancel(message: APICommentInList) {
+    message.showReply = false;
+  }
 }

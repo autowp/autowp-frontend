@@ -13,6 +13,7 @@ export class CommentsFormComponent {
   @Input() typeID: number;
   @Input() resolve = false;
   @Output() sent = new EventEmitter<string>();
+  @Output() cenceled = new EventEmitter<string>();
 
   public invalidParams: any = {};
   public form = {
@@ -57,5 +58,9 @@ export class CommentsFormComponent {
           }
         }
       );
+  }
+
+  public cancel() {
+    this.cenceled.emit(null);
   }
 }
