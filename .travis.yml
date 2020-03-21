@@ -15,7 +15,7 @@ addons:
 install: npm install
 
 script:
-  - sonar-scanner || true
+  - sonar-scanner -Dsonar.login=$SONARCLOUD_TOKEN || true
   - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js || travis_terminate 1;
   - docker build . -t autowp/autowp-frontend:v2 || travis_terminate 1;
 
