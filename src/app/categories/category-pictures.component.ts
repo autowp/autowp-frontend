@@ -11,6 +11,11 @@ import { chunkBy } from '../chunk';
 import { PathItem } from './definitions';
 import { CatagoriesService } from './service';
 
+interface PictureRoute {
+  picture: APIPicture;
+  route: string[];
+}
+
 @Component({
   selector: 'app-categories-category-pictures',
   templateUrl: './category-pictures.component.html'
@@ -20,12 +25,11 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public category: APIItem;
   public current: APIItem;
-  public pictures: APIPicture[][] = [];
+  public pictures: PictureRoute[][] = [];
   public isModer = false;
   public canAddCar = false;
   public paginator: APIPaginator;
   public path: PathItem[];
-  private pathCatnames: string[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -50,7 +54,6 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           this.current = data.current;
           this.category = data.category;
           this.path = data.pathItems;
-          this.pathCatnames = data.pathCatnames;
           this.pageEnv.set({
             layout: {
               needRight: false
@@ -62,6 +65,8 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
         switchMap(data => this.route.queryParamMap.pipe(
           map(query => ({
             current: data.current,
+            category: data.category,
+            pathCatnames: data.pathCatnames,
             page: parseInt(query.get('page'), 10)
           }))
         )),
@@ -75,31 +80,38 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
             item_id: data.current.id,
             status: 'accepted',
             order: 16
-          })
+          }).pipe(
+            map(response => ({
+              category: data.category,
+              pathCatnames: data.pathCatnames,
+              pictures: response.pictures,
+              paginator: response.paginator
+            }))
+          )
         )
       )
       .subscribe((data) => {
-        this.pictures = chunkBy(data.pictures, 4);
+        const pictures: PictureRoute[] = [];
+        for (const pic of data.pictures) {
+          pictures.push({
+            picture: pic,
+            route: [
+              '/category',
+              data.category.catname,
+              data.pathCatnames.length ? data.pathCatnames.join('/') : '',
+              'pictures',
+              pic.identity
+            ]
+          });
+        }
+
+        this.pictures = chunkBy(pictures, 4);
         this.paginator = data.paginator;
       });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public pictureRouterLink(picture: APIPicture): string[] {
-    if (!this.category) {
-      return null;
-    }
-
-    return [
-      '/category',
-      this.category.catname,
-      this.pathCatnames.length ? this.pathCatnames.join('/') : '',
-      'pictures',
-      picture.identity
-    ];
   }
 
   public dropdownOpenChange(item: PathItem) {

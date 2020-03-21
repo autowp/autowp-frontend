@@ -28,8 +28,8 @@
 <div *ngIf="category">
 
   <div class="row" *ngFor="let chunk of pictures">
-    <div class="col-sm-3" *ngFor="let picture of chunk">
-      <app-thumbnail [picture]="picture" [route]="pictureRouterLink(picture)"></app-thumbnail>
+    <div class="col-sm-3" *ngFor="let i of chunk">
+      <app-thumbnail [picture]="i.picture" [route]="i.route"></app-thumbnail>
     </div>
   </div>
 
