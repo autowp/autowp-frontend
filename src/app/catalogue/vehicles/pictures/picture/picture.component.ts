@@ -95,6 +95,12 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         return this.getPicture(data.identity, last.item_id);
       })
     ).subscribe(picture => {
+      if (!picture) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }
       this.picture = picture;
       this.pageEnv.set({
         layout: {
