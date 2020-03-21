@@ -91,8 +91,8 @@
 <section *ngIf="pictures && pictures.length">
   <h2 translate>catalogue/brand/popular-images</h2>
   <div class="row" *ngFor="let chunk of pictures">
-    <div class="col-sm-3" *ngFor="let picture of chunk">
-      <app-thumbnail [picture]="picture" [route]="pictureRouterLink(picture)"></app-thumbnail>
+    <div class="col-sm-3" *ngFor="let item of chunk">
+      <app-thumbnail [picture]="item.picture" [route]="item.route"></app-thumbnail>
     </div>
   </div>
 </section>

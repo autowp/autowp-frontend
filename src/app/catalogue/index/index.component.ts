@@ -28,6 +28,11 @@ interface ChunkedSesction {
   routerLink: string[];
 }
 
+interface PictureRoute {
+  picture: APIPicture;
+  route: string[];
+}
+
 @Component({
   selector: 'app-catalogue-index',
   templateUrl: './index.component.html'
@@ -38,7 +43,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   public isModer = false;
   private sub: Subscription;
   private aclSub: Subscription;
-  public pictures: APIPicture[][];
+  public pictures: PictureRoute[][];
   public officialLinks: APIItemLink[] = [];
   public clubLinks: APIItemLink[] = [];
   public otherLinks: APIItemLink[] = [];
@@ -165,7 +170,15 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
       fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
     }).pipe(
       tap(response => {
-        this.pictures = chunkBy(response.pictures, 4);
+        const pictures: PictureRoute[] = [];
+        for (const pic of response.pictures) {
+          pictures.push({
+            picture: pic,
+            route: this.pictureRouterLink(pic)
+          });
+        }
+
+        this.pictures = chunkBy(pictures, 4);
       })
     );
   }
