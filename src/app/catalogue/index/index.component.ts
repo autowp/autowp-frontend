@@ -22,6 +22,12 @@ interface APIBrandSection {
   groups: APIBrandSectionGroup[];
 }
 
+interface ChunkedSesction {
+  name: string;
+  halfChuks: APIBrandSectionGroup[][][];
+  routerLink: string[];
+}
+
 @Component({
   selector: 'app-catalogue-index',
   templateUrl: './index.component.html'
@@ -37,7 +43,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   public clubLinks: APIItemLink[] = [];
   public otherLinks: APIItemLink[] = [];
   public factories: APIItem[] = [];
-  public sections: APIBrandSection[];
+  public sections: ChunkedSesction[];
 
   constructor(
     private pageEnv: PageEnvService,
@@ -80,7 +86,20 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         this.loadFactories(brand.id),
         this.http.get<APIBrandSection[]>('/api/brands/' + brand.id + '/sections').pipe(
           tap(response => {
-            this.sections = response;
+            const sections: ChunkedSesction[] = [];
+            for (const section of response) {
+              const halfChunks: APIBrandSectionGroup[][][] = [];
+              for (const halfChunk of chunk(section.groups, 2)) {
+                halfChunks.push(chunk(halfChunk, 2));
+              }
+              sections.push({
+                name: section.name,
+                halfChuks: halfChunks,
+                routerLink: section.routerLink
+              });
+            }
+
+            this.sections = sections;
           })
         )
       ]))
@@ -104,7 +123,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   private getBrand() {
     return combineLatest([this.getIsModer(), this.getCatname()]).pipe(
       switchMap(data => {
-
         this.isModer = data[0];
 
         if (!data[1]) {

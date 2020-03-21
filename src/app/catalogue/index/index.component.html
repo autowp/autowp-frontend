@@ -56,13 +56,13 @@
 </header>
 
 <ng-container *ngFor="let section of sections">
-  <div class="card mb-4" *ngIf="section.groups.length">
+  <div class="card mb-4" *ngIf="section.halfChuks.length">
     <div class="card-body">
       <h5 class="card-title" *ngIf="section.name">{{section.name|translate}}</h5>
       <div class="row">
-        <div class="col-12 col-md-6" *ngFor="let halfChunk of chunk(section.groups, 2)">
+        <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChuks">
           <div class="row">
-            <div class="col-12 col-lg-6" *ngFor="let chunk of chunk(halfChunk, 2)">
+            <div class="col-12 col-lg-6" *ngFor="let chunk of halfChunk">
               <a class="nav-link" [routerLink]="group.routerLink" *ngFor="let group of chunk">
                 {{group.name}}
                 <span *ngIf="group.count" class="badge badge-pill badge-secondary">{{group.count}}</span>
