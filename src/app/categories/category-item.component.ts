@@ -18,6 +18,16 @@ interface PathItem {
   parent_id: number;
 }
 
+interface PictureRoute {
+  picture: APIPicture;
+  route: string[];
+}
+
+interface ItemParentRoute {
+  item: APIItemParent;
+  parentRouterLink: string[];
+}
+
 @Component({
   selector: 'app-categories-category-item',
   templateUrl: './category-item.component.html'
@@ -28,13 +38,14 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
   public current: APIItem;
   public category: APIItem;
   private pathCatnames: string[] = [];
-  public items: APIItemParent[] = [];
+  public items: ItemParentRoute[] = [];
   public isModer = false;
   public canAddCar = false;
   public paginator: APIPaginator;
   public path: PathItem[];
-  public pictures: APIPicture[];
+  public pictures: PictureRoute[];
   public item: APIItem;
+  public currentRouterLinkPrefix: string[];
 
   constructor(
     private itemService: ItemService,
@@ -92,7 +103,14 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
             })
             .pipe(
               tap(response => {
-                this.items = response.items;
+                const items: ItemParentRoute[] = [];
+                for (const itemParent of response.items) {
+                  items.push({
+                    item: itemParent,
+                    parentRouterLink: this.itemRouterLink(itemParent)
+                  });
+                }
+                this.items = items;
                 this.paginator = response.paginator;
               }),
               map(response => ({
@@ -118,7 +136,15 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
               })
               .pipe(
                 tap(response => {
-                  this.pictures = response.pictures;
+                  const pictures: PictureRoute[] = [];
+                  for (const pic of response.pictures) {
+                    pictures.push({
+                      picture: pic,
+                      route: this.pictureRouterLink(pic)
+                    });
+                  }
+
+                  this.pictures = pictures;
                 })
               );
           }
@@ -136,6 +162,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
             .pipe(
               tap(item => {
                 this.item = item;
+                this.currentRouterLinkPrefix = this.getCurrentRouterLinkPrefix();
               })
             );
         })
@@ -147,7 +174,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public pictureRouterLink(picture: APIPicture): string[] {
+  private pictureRouterLink(picture: APIPicture): string[] {
     if (!this.category) {
       return null;
     }
@@ -155,7 +182,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     return this.currentRouterLink().concat(['pictures', picture.identity]);
   }
 
-  public currentRouterLink(): string[] {
+  private currentRouterLink(): string[] {
     if (this.current.item_type_id === 3) {
       return ['/category', this.current.catname];
     }
@@ -163,7 +190,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     return ['/category', this.category.catname].concat(this.pathCatnames);
   }
 
-  public itemRouterLink(itemParent: APIItemParent): string[] {
+  private itemRouterLink(itemParent: APIItemParent): string[] {
     if (itemParent.item.item_type_id === 3) {
       return ['/category', itemParent.item.catname];
     }
@@ -173,7 +200,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public currentRouterLinkPrefix(): string[] {
+  private getCurrentRouterLinkPrefix(): string[] {
     if (! this.category) {
       return null;
     }

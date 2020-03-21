@@ -41,17 +41,17 @@
 
   <app-markdown [markdown]="category.description" *ngIf="current.description && current.description.length > 0"></app-markdown>
 
-  <app-categories-list-item [item]="itemParent.item" [parentRouterLink]="itemRouterLink(itemParent)" *ngFor="let itemParent of items"></app-categories-list-item>
+  <app-categories-list-item [item]="itemParent.item.item" [parentRouterLink]="itemParent.parentRouterLink" *ngFor="let itemParent of items"></app-categories-list-item>
 
-  <app-categories-list-item [item]="item" [parentRouterLink]="currentRouterLinkPrefix()" *ngIf="item"></app-categories-list-item>
+  <app-categories-list-item [item]="item" [parentRouterLink]="currentRouterLinkPrefix" *ngIf="item"></app-categories-list-item>
 
   <div class="twins row" *ngIf="pictures">
-    <div class="col-lg-3 col-md-3" *ngFor="let picture of pictures">
+    <div class="col-lg-3 col-md-3" *ngFor="let i of pictures">
       <div class="card mb-4">
-        <a [routerLink]="pictureRouterLink(picture)">
+        <a [routerLink]="i.route">
           <img alt=""
-            [src]="picture.thumb_medium.src"
-            [title]="picture.name_text"
+            [src]="i.picture.thumb_medium.src"
+            [title]="i.picture.name_text"
             class="card-img-top"
           />
         </a>
