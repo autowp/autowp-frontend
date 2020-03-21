@@ -124,6 +124,7 @@ export interface APIPicture {
   taken_year?: number;
   taken_month?: number;
   taken_day?: number;
+  taken_date?: string;
 }
 
 export interface APIPicturePaginator {

@@ -101,7 +101,7 @@ export class CatalogueOtherPictureComponent implements OnInit, OnDestroy {
       switchMap(
         identity => {
           const fields =
-            'owner,name_html,name_text,image,preview_large,paginator,subscribed,' +
+            'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,' +
             'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
             'items.item.name_html,categories.name_html,copyrights,' +
             'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';

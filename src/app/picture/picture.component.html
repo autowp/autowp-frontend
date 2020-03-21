@@ -99,9 +99,12 @@
         <app-user [user]="picture.owner"></app-user>,
         <span [ngbTooltip]="picture.add_date | date: 'medium'">{{picture.add_date|amTimeAgo}}</span>
       </li>
-      <li *ngIf="picture.point">
-        <span class="fa fa-map-pin" aria-hidden="true"></span>
-        <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" translate>picture/location</a>
+      <li *ngIf="picture.point || picture.taken_date">
+        {{picture.taken_date}}<ng-container *ngIf="picture.point && picture.taken_date">, </ng-container>
+        <ng-container *ngIf="picture.point">
+          <span class="fa fa-map-pin" aria-hidden="true"></span>
+          <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" translate>picture/location</a>
+        </ng-container>
       </li>
       <li>
         {{'picture/status:'|translate}}
