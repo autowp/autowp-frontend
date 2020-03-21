@@ -1,18 +1,28 @@
-import { Component, Injectable, Input } from '@angular/core';
+import {Component, Injectable, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { APIItem } from '../services/item';
-import { APIPicture } from '../services/picture';
 import { ACLService } from '../services/acl.service';
+import {APIPicture} from '../services/picture';
+import {APIImage} from '../services/api.service';
+
+interface PictureThumbRoute {
+  picture: APIPicture|null;
+  thumb: APIImage|null;
+  route: string[]|null;
+}
 
 @Component({
   selector: 'app-categories-list-item',
   templateUrl: './list-item.component.html'
 })
 @Injectable()
-export class CategoriesListItemComponent {
+export class CategoriesListItemComponent implements OnChanges {
   @Input() item: APIItem;
   @Input() parentRouterLink: string[];
 
   public isModer = false;
+  public havePhoto = false;
+  public canHavePhoto = false;
+  public pictures: PictureThumbRoute[] = [];
 
   constructor(private acl: ACLService) {
     this.acl
@@ -20,7 +30,7 @@ export class CategoriesListItemComponent {
       .subscribe(isModer => (this.isModer = isModer));
   }
 
-  public havePhoto(item: APIItem) {
+  public isHavePhoto(item: APIItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
         if (picture && picture.picture) {
@@ -31,11 +41,22 @@ export class CategoriesListItemComponent {
     return false;
   }
 
-  public canHavePhoto(item: APIItem) {
-    return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
-  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.item) {
+      this.havePhoto = this.item ? this.isHavePhoto(this.item) : false;
+      this.canHavePhoto = [1, 2, 5, 6, 7].indexOf(this.item.item_type_id) !== -1;
+    }
 
-  public itemPictureRouterLink(picture: APIPicture): string[] {
-    return this.parentRouterLink.concat(['pictures', picture.identity]);
+    if (changes.pictures || changes.parentRouterLink) {
+      const pictures: PictureThumbRoute[] = [];
+      for (const pic of this.item.preview_pictures.pictures) {
+        pictures.push({
+          picture: pic ? pic.picture : null,
+          thumb: pic ? pic.thumb : null,
+          route: pic && pic.picture && this.parentRouterLink ? this.parentRouterLink.concat(['pictures', pic.picture.identity]) : null
+        });
+      }
+      this.pictures = pictures;
+    }
   }
 }

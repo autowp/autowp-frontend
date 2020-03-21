@@ -27,9 +27,9 @@ import { ModerItemsNewComponent } from './new/new.component';
 import { ModerItemsTooBigComponent } from './too-big/too-big.component';
 import { ItemMetaFormComponent } from './item-meta-form/item-meta-form.component';
 import { ModerItemsComponent } from './items.component';
-import { ItemModule } from '../../item/item.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbTabsetModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {CatalogueModule} from '../../catalogue/catalogue.module';
 
 @NgModule({
   declarations: [
@@ -53,23 +53,23 @@ import { NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbTabsetModu
     ItemMetaFormComponent,
     ModerItemsComponent
   ],
-  imports: [
-    CommonModule,
-    ItemsRoutingModule,
-    PaginatorModule,
-    HttpClientModule,
-    FormsModule,
-    UtilsModule,
-    TranslateModule,
-    NgbTypeaheadModule,
-    NgbModalModule,
-    NgbProgressbarModule,
-    NgbTabsetModule,
-    MarkdownEditModule,
-    ThumbnailModule,
-    ItemModule,
-    LeafletModule,
-    NgbDropdownModule
-  ]
+    imports: [
+        CommonModule,
+        ItemsRoutingModule,
+        PaginatorModule,
+        HttpClientModule,
+        FormsModule,
+        UtilsModule,
+        TranslateModule,
+        NgbTypeaheadModule,
+        NgbModalModule,
+        NgbProgressbarModule,
+        NgbTabsetModule,
+        MarkdownEditModule,
+        ThumbnailModule,
+        LeafletModule,
+        NgbDropdownModule,
+        CatalogueModule
+    ]
 })
 export class ItemsModule {}

@@ -111,12 +111,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 isAdminPage: true,
                 needRight: false
               },
-              name: 'page/78/name',
-              pageId: 78,
-              args: {
-                CAR_ID: this.item.id + '',
-                CAR_NAME: translation + ': ' + this.item.name_text
-              }
+              nameTranslated: translation + ': ' + this.item.name_text,
+              pageId: 78
             });
           });
       });

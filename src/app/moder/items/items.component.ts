@@ -27,6 +27,7 @@ import {
   map
 } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../catalogue/list-item/list-item.component';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 
@@ -76,7 +77,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
 
   public loading = 0;
-  public items: APIItem[] = [];
+  public items: CatalogueListItem[] = [];
   public paginator: APIPaginator;
   public vehicleTypeOptions: APIVehicleTypeInItems[] = [];
   public specOptions: APISpecInItems[] = [];
@@ -221,11 +222,11 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           let limit = 500;
           if (!params.listMode) {
             fields = [
-              'name_html,name_default,description,has_text,produced',
+              'name_html,name_default,description,has_text,produced,route',
               'design,engine_vehicles',
               'url,can_edit_specs,specs_route',
               'categories.name_html,twins_groups',
-              'preview_pictures.route,childs_count,total_pictures'
+              'childs_count,total_pictures,preview_pictures.picture.name_text'
             ].join(',');
             limit = 10;
           }
@@ -251,7 +252,49 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
         tap(() => (this.loading = 0))
       )
       .subscribe(response => {
-        this.items = response.items;
+
+        const items: CatalogueListItem[] = [];
+
+        for (const item of response.items) {
+
+          const pictures: CatalogueListItemPicture[] = [];
+          for (const picture of item.preview_pictures.pictures) {
+            pictures.push({
+              picture: picture ? picture.picture : null,
+              thumb: picture ? picture.thumb : null,
+              routerLink: picture && picture.picture ? ['/picture', picture.picture.identity] : null
+            });
+          }
+          items.push({
+            id: item.id,
+            preview_pictures: {
+              pictures: pictures,
+              large_format: item.preview_pictures.large_format
+            },
+            item_type_id: item.item_type_id,
+            produced: item.produced,
+            produced_exactly: item.produced_exactly,
+            name_html: item.name_html,
+            name_default: item.name_default,
+            design: item.design,
+            description: item.description,
+            engine_vehicles: item.engine_vehicles,
+            has_text: item.has_text,
+            accepted_pictures_count: item.accepted_pictures_count,
+            can_edit_specs: item.can_edit_specs,
+            picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
+            specsRouterLink: item.has_specs || item.has_child_specs ? item.specs_route : null,
+            details: {
+              routerLink: item.route,
+              count: item.childs_count
+            },
+            childs_counts: item.childs_counts,
+            categories: item.categories,
+            twins_groups: item.twins_groups
+          });
+        }
+
+        this.items = items;
         this.paginator = response.paginator;
       });
   }

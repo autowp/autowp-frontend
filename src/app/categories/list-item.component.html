@@ -1,4 +1,4 @@
-<div class="car item-list-item">
+<div class="car item-list-item" *ngIf="parentRouterLink">
   <h3>
     <span [innerHTML]="item.name_html"></span>
     <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
@@ -14,17 +14,17 @@
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
 
-  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length > 4">
-    <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
-      <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
+  <div class="row" *ngIf="havePhoto && pictures.length > 4">
+    <div class="col-12 col-lg-6" *ngFor="let picture of pictures.slice(0, 1)">
+      <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
         <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
     <div class="col-12 col-lg-6">
       <div class="row">
-        <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
-          <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
+        <div class="col-6" *ngFor="let picture of pictures.slice(1)">
+          <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
             <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
           </a>
           <span *ngIf="!picture">&#xa0;</span>
@@ -32,16 +32,16 @@
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length <= 4">
-    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures.pictures">
-      <a [routerLink]="itemPictureRouterLink(picture.picture)" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
+  <div class="row" *ngIf="havePhoto && pictures.length <= 4">
+    <div class="col-6 col-lg-3" *ngFor="let picture of pictures">
+      <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
         <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
   </div>
 
-  <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
+  <div class="row" *ngIf="!havePhoto && canHavePhoto">
     <div class="col-6 col-lg-3">
       <div class="no-photo rounded w-100 border border-light mb-4" [title]="'carlist/no-photo'|translate">
         <a routerLink="/upload" [queryParams]="{item_id: item.id}" [title]="'carlist/no-photo/add'|translate" class="fa fa-plus-circle text-success" aria-hidden="true"></a>
