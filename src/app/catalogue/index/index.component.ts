@@ -236,7 +236,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  public pictureRouterLink(picture: APIPicture): string[] {
+  private pictureRouterLink(picture: APIPicture): string[] {
     for (const pictureItem of picture.path) {
       if (pictureItem.type === 1) {
         switch (pictureItem.item.item_type_id) {
@@ -268,9 +268,5 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
     this.aclSub.unsubscribe();
-  }
-
-  public chunk<T>(a: T[], count: number) {
-    return chunk(a, count);
   }
 }

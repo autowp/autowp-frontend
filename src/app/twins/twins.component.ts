@@ -8,6 +8,12 @@ import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
 import { ACLService } from '../services/acl.service';
 
+interface ChunkedGroup {
+  item: APIItem;
+  childs: APIItem[][];
+  hasMoreImages: boolean;
+}
+
 @Component({
   selector: 'app-twins',
   templateUrl: './twins.component.html'
@@ -16,7 +22,7 @@ import { ACLService } from '../services/acl.service';
 export class TwinsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public paginator: APIPaginator;
-  public groups: APIItem[] = [];
+  public groups: ChunkedGroup[] = [];
   public canEdit = false;
   public currentBrandCatname: string;
   public brand: APIItem;
@@ -103,7 +109,15 @@ export class TwinsComponent implements OnInit, OnDestroy {
           });
         }),
         tap(response => {
-          this.groups = response.items;
+          const groups: ChunkedGroup[] = [];
+          for (const group of response.items) {
+            groups.push({
+              item: group,
+              childs: chunkBy(group.childs, 3),
+              hasMoreImages: this.hasMoreImages(group)
+            });
+          }
+          this.groups = groups;
           this.paginator = response.paginator;
         })
       )
@@ -114,11 +128,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public chunk(items: APIItem[]): APIItem[][] {
-    return chunkBy(items, 3);
-  }
-
-  public hasMoreImages(group: APIItem): boolean {
+  private hasMoreImages(group: APIItem): boolean {
     let count = 0;
     if (group.childs) {
       for (const item of group.childs) {
