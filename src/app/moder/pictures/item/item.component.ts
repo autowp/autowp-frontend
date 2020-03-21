@@ -8,7 +8,6 @@ import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PictureService, APIPicture } from '../../../services/picture';
-import { APIPerspective } from '../../../services/api.service';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   distinctUntilChanged,
@@ -17,7 +16,6 @@ import {
   tap,
   switchMapTo
 } from 'rxjs/operators';
-import { APIPerspectiveService } from '../../../api/perspective/perspective.service';
 import {LanguageService} from '../../../services/language';
 import { sprintf } from 'sprintf-js';
 
@@ -49,8 +47,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   ];
   public banPeriod = 1;
   public banReason: string | null = null;
-  public perspectives: APIPerspective[] = [];
-  private perspectiveSub: Subscription;
   private change$ = new BehaviorSubject<null>(null);
   private lastItemSub: Subscription;
   public monthOptions: any[];
@@ -58,7 +54,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private perspectiveService: APIPerspectiveService,
     private pictureItemService: PictureItemService,
     private itemService: ItemService,
     private route: ActivatedRoute,
@@ -101,11 +96,17 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-    this.perspectiveSub = this.perspectiveService
-      .getPerspectives()
-      .subscribe(perspectives => (this.perspectives = perspectives));
+  public savePerspective(perspectiveID: number|null, item: APIPictureItem) {
+    this.pictureItemService.setPerspective(
+        item.picture_id,
+        item.item_id,
+        item.type,
+        perspectiveID
+      )
+      .subscribe();
+  }
 
+  ngOnInit(): void {
     this.routeSub = this.route.params
       .pipe(
         distinctUntilChanged(),
@@ -189,7 +190,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.perspectiveSub.unsubscribe();
     this.lastItemSub.unsubscribe();
   }
 
@@ -377,17 +377,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           this.similarLoading = false;
         }
       );
-  }
-
-  public savePerspective(item: APIPictureItem) {
-    this.pictureItemService
-      .setPerspective(
-        item.picture_id,
-        item.item_id,
-        item.type,
-        item.perspective_id
-      )
-      .subscribe();
   }
 
   public deletePictureItem(item: APIPictureItem) {

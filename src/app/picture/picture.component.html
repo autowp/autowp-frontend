@@ -275,33 +275,35 @@
   <h3><a routerLink="/moder" translate>page/67/name</a></h3>
   <div class="card card-body">
       <div class="row">
-          <div class="col-md-6">
-            <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+        <div class="col-md-4">
+          <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+        </div>
+        <div class="col-md-4" *ngIf="picture.items.length > 0">
+          <label class="d-block">{{'moder/picture/perspective'|translate}}</label>
+          <div *ngFor="let item of picture.items">
+            <span [innerHTML]="item.item.name_html"></span>
+            <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type == 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
           </div>
-          <div class="col-md-6">
-            <p>
+        </div>
+        <div class="col-md-4">
+          <p>
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">{{'moder/picture/edit-picture-{id}'}}</a>
+          </p>
+
+          <p *ngFor="let item of picture.items">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/items/item', item.item_id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="item.item.name_html"></span></a>
+          </p>
+
+          <ng-container *ngFor="let item of picture.items">
+            <p *ngFor="let brand of item.item.brands">
               <i class="fa fa-cog" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">{{'moder/picture/edit-picture-{id}'}}</a>
+              <a [routerLink]="['/moder/items/item', brand.id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="brand.name_html"></span></a>
             </p>
+          </ng-container>
 
-            <p *ngFor="let item of picture.items">
-              <i class="fa fa-cog" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/items/item', item.item_id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="item.item.name_html"></span></a>
-            </p>
-
-            <ng-container *ngFor="let item of picture.items">
-              <p *ngFor="let brand of item.item.brands">
-                <i class="fa fa-cog" aria-hidden="true"></i>
-                <a [routerLink]="['/moder/items/item', brand.id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="brand.name_html"></span></a>
-              </p>
-            </ng-container>
-
-          </div>
-          <div class="col-md-6" *ngIf="picture.items.length > 0">
-            <!--<?php foreach ($this->items as $item) { ?>
-              <?=$this->partial('application/moder/pictures/picture-perspective', $item['perspective'])?>
-            <?php } ?>-->
-          </div>
+        </div>
       </div>
   </div>
 </div>

@@ -15,25 +15,27 @@ import {PicturePageComponent} from './picture-page.component';
 import {CommentsModule} from '../comments/comments.module';
 import {PictureRoutingModule} from './picture-routing.module';
 import {GalleryModule} from '../gallery/gallery.module';
+import {PicturesModule} from '../moder/pictures/pictures.module';
 
 @NgModule({
   declarations: [PictureComponent, PicturePaginatorComponent, PicturePageComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslateModule,
-    UserModule,
-    NgbTooltipModule,
-    MomentModule,
-    NgPipesModule,
-    UtilsModule,
-    ShareModule,
-    PictureModerVoteModule,
-    NgbDropdownModule,
-    CommentsModule,
-    PictureRoutingModule,
-    GalleryModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        TranslateModule,
+        UserModule,
+        NgbTooltipModule,
+        MomentModule,
+        NgPipesModule,
+        UtilsModule,
+        ShareModule,
+        PictureModerVoteModule,
+        NgbDropdownModule,
+        CommentsModule,
+        PictureRoutingModule,
+        GalleryModule,
+        PicturesModule
+    ],
   exports: [
     PictureComponent
   ]

@@ -57,7 +57,7 @@ export class PictureItemService {
   ): Observable<void> {
     const url = '/api/picture-item/' + pictureId + '/' + itemId + '/' + type;
     return this.http.put<void>(url, {
-      perspective_id: perspectiveId.toString()
+      perspective_id: perspectiveId ? perspectiveId.toString() : null
     });
   }
 

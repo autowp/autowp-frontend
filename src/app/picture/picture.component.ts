@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { APICommentsService } from '../api/comments/comments.service';
 import { APIItem } from '../services/item';
 import {Router} from '@angular/router';
+import {APIPictureItem, PictureItemService} from '../services/picture-item';
 
 @Component({
   selector: 'app-picture',
@@ -33,7 +34,8 @@ export class PictureComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private commentsService: APICommentsService,
     private pictureService: PictureService,
-    private router: Router
+    private router: Router,
+    private pictureItemService: PictureItemService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +54,16 @@ export class PictureComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  public savePerspective(perspectiveID: number|null, item: APIPictureItem) {
+    this.pictureItemService.setPerspective(
+      item.picture_id,
+      item.item_id,
+      item.type,
+      perspectiveID
+    )
+      .subscribe();
   }
 
   public pictureVoted() {

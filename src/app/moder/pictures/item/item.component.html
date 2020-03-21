@@ -97,13 +97,7 @@
           <a [routerLink]="['/moder/items/item', item.item_id]" [innerHTML]="item.item.name_html"></a>
         </td>
         <td>
-          <select class="form-control" [(ngModel)]="item.perspective_id" name="perspective_id" (change)="savePerspective(item)" style="max-width:10em"
-            *ngIf="item.type == 1">
-            <option value="">--</option>
-            <option *ngFor="let perspective of perspectives" [ngValue]="perspective.id">
-              {{perspective.name | translate}}
-            </option>
-          </select>
+          <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type == 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
         </td>
         <td *ngIf="picture.rights.crop">
           <a class="btn btn-secondary" [class.btn-success]="item.area" [routerLink]="['/moder/pictures', picture.id, 'area']" [queryParams]="{item_id: item.item_id, type: item.type}"
