@@ -20,12 +20,6 @@ interface ChunkedGroup {
 })
 @Injectable()
 export class TwinsComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public paginator: APIPaginator;
-  public groups: ChunkedGroup[] = [];
-  public canEdit = false;
-  public currentBrandCatname: string;
-  public brand: APIItem;
 
   constructor(
     private itemService: ItemService,
@@ -33,6 +27,24 @@ export class TwinsComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private acl: ACLService
   ) {}
+  private sub: Subscription;
+  public paginator: APIPaginator;
+  public groups: ChunkedGroup[] = [];
+  public canEdit = false;
+  public currentBrandCatname: string;
+  public brand: APIItem;
+
+  private static hasMoreImages(group: APIItem): boolean {
+    let count = 0;
+    if (group.childs) {
+      for (const item of group.childs) {
+        if (item.front_picture) {
+          count++;
+        }
+      }
+    }
+    return group.accepted_pictures_count > count;
+  }
 
   ngOnInit(): void {
     setTimeout(
@@ -114,7 +126,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
             groups.push({
               item: group,
               childs: chunkBy(group.childs, 3),
-              hasMoreImages: this.hasMoreImages(group)
+              hasMoreImages: TwinsComponent.hasMoreImages(group)
             });
           }
           this.groups = groups;
@@ -126,17 +138,5 @@ export class TwinsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  private hasMoreImages(group: APIItem): boolean {
-    let count = 0;
-    if (group.childs) {
-      for (const item of group.childs) {
-        if (item.front_picture) {
-          count++;
-        }
-      }
-    }
-    return group.accepted_pictures_count > count;
   }
 }

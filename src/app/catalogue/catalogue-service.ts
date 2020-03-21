@@ -3,7 +3,8 @@ import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators
 import {EMPTY, of, OperatorFunction} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {APIItemParent, ItemParentService} from '../services/item-parent';
-import {APIItem, ItemService} from '../services/item';
+import {APIItem, APIPathTreeItemParent, ItemService} from '../services/item';
+import {APIPicture} from '../services/picture';
 
 interface Parent {
   id: number;
@@ -141,5 +142,51 @@ export class CatalogueService {
         );
       })
     );
+  }
+
+  private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[] {
+    switch (parent.item.item_type_id) {
+      case 5: // brand
+        return ['/', parent.item.catname, parent.catname];
+      case 1: // vehicle
+      case 2: // engine
+        for (const sparent of parent.item.parents) {
+          const path = this.pictureRouterLinkItem(sparent);
+          if (path) {
+            return path.concat([parent.catname]);
+          }
+        }
+        break;
+    }
+    return null;
+  }
+
+  public picturePathToRoute(picture: APIPicture): string[]|null {
+    for (const pictureItem of picture.path) {
+      if (pictureItem.type === 1) {
+        switch (pictureItem.item.item_type_id) {
+          case 5: // brand
+            switch (pictureItem.perspective_id) {
+              case 25: // mixed
+                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
+              case 22: // logo
+                return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
+              default:
+                return ['/', pictureItem.item.catname, 'other', picture.identity];
+            }
+          case 1: // vehicle
+          case 2: // engine
+            for (const parent of pictureItem.item.parents) {
+              const path = this.pictureRouterLinkItem(parent);
+              if (path) {
+                return path.concat(['pictures', picture.identity]);
+              }
+            }
+            break;
+        }
+      }
+    }
+
+    return null;
   }
 }

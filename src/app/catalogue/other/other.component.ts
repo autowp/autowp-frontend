@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
 import {APIPicture, PictureService} from '../../services/picture';
-import {chunk, chunkBy} from '../../chunk';
+import {chunkBy} from '../../chunk';
 import {APIPaginator} from '../../services/api.service';
 
 
@@ -85,16 +85,7 @@ export class CatalogueOtherComponent implements OnInit, OnDestroy {
       this.paginator = response.paginator;
     });
   }
-
-  public pictureRouterLink(picture: APIPicture): string[] {
-    return ['/', this.brand.catname, 'other', picture.identity];
-  }
-
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public chunk<T>(a: T[], count: number) {
-    return chunk(a, count);
   }
 }

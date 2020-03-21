@@ -1,13 +1,18 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {APIItem, APIPathTreeItemParent, ItemService} from '../../services/item';
+import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
 import {APIPicture, PictureService} from '../../services/picture';
-import {chunk, chunkBy} from '../../chunk';
+import {chunkBy} from '../../chunk';
 import {APIPaginator} from '../../services/api.service';
+import {CatalogueService} from '../catalogue-service';
 
+interface PictureRoute {
+  picture: APIPicture;
+  route: string[];
+}
 
 @Component({
   selector: 'app-catalogue-recent',
@@ -17,14 +22,15 @@ import {APIPaginator} from '../../services/api.service';
 export class CatalogueRecentComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;
-  public pictures: APIPicture[][];
+  public pictures: PictureRoute[][];
   public paginator: APIPaginator;
 
   constructor(
     private pageEnv: PageEnvService,
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private pictureService: PictureService
+    private pictureService: PictureService,
+    private catalogue: CatalogueService
   ) {
   }
 
@@ -82,64 +88,19 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
         })
       )
     ).subscribe(response => {
-      this.pictures = chunkBy(response.pictures, 4);
+      const pictures: PictureRoute[] = [];
+      for (const picture of response.pictures) {
+        pictures.push({
+          picture: picture,
+          route: this.catalogue.picturePathToRoute(picture)
+        });
+      }
+      this.pictures = chunkBy(pictures, 4);
       this.paginator = response.paginator;
     });
   }
 
-  private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[][] {
-    const result: string[][] = [];
-    switch (parent.item.item_type_id) {
-      case 5: // brand
-        result.push(['/', parent.item.catname, parent.catname]);
-        break;
-      case 1: // vehicle
-      case 2: // engine
-        for (const sparent of parent.item.parents) {
-          const items = this.pictureRouterLinkItem(sparent);
-          for (const item of items) {
-            result.push(item.concat([parent.catname]));
-          }
-        }
-        break;
-    }
-    return result;
-  }
-
-  public pictureRouterLink(picture: APIPicture): string[] {
-    for (const pictureItem of picture.path) {
-      if (pictureItem.type === 1) {
-        switch (pictureItem.item.item_type_id) {
-          case 5: // brand
-            switch (pictureItem.perspective_id) {
-              case 25: // mixed
-                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
-              case 22: // logo
-                return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
-              default:
-                return ['/', pictureItem.item.catname, 'other', picture.identity];
-            }
-          case 1: // vehicle
-          case 2: // engine
-            for (const parent of pictureItem.item.parents) {
-              const items = this.pictureRouterLinkItem(parent);
-              for (const item of items) {
-                return item.concat(['pictures', picture.identity]);
-              }
-            }
-            break;
-        }
-      }
-    }
-
-    return null;
-  }
-
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public chunk<T>(a: T[], count: number) {
-    return chunk(a, count);
   }
 }

@@ -26,8 +26,8 @@
               <a [routerLink]="['/twins/group', group.item.id, 'pictures', car.front_picture.identity]" *ngIf="car.front_picture">
                 <img
                   [src]="car.front_picture.thumb_medium.src"
-                  [alt]="car.name_text"
-                  [title]="car.name_text"
+                  [alt]="car.front_picture.name_text"
+                  [title]="car.front_picture.name_text"
                   class="card-img-top"
                 />
               </a>

@@ -1,5 +1,5 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {APIItem, APIPathTreeItemParent, ItemService} from '../../services/item';
+import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
@@ -9,6 +9,7 @@ import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
 import {ItemLinkService, APIItemLink} from '../../services/item-link';
 import {HttpClient} from '@angular/common/http';
+import {CatalogueService} from '../catalogue-service';
 
 interface APIBrandSectionGroup {
   name: string;
@@ -58,7 +59,8 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     private acl: ACLService,
     private itemLinkService: ItemLinkService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private catalogue: CatalogueService
   ) {
   }
 
@@ -174,7 +176,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         for (const pic of response.pictures) {
           pictures.push({
             picture: pic,
-            route: this.pictureRouterLink(pic)
+            route: this.catalogue.picturePathToRoute(pic)
           });
         }
 
@@ -217,52 +219,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         this.factories = response.items;
       })
     );
-  }
-
-  private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[] {
-    switch (parent.item.item_type_id) {
-      case 5: // brand
-        return ['/', parent.item.catname, parent.catname];
-      case 1: // vehicle
-      case 2: // engine
-        for (const sparent of parent.item.parents) {
-          const path = this.pictureRouterLinkItem(sparent);
-          if (path) {
-            return path.concat([parent.catname]);
-          }
-        }
-        break;
-    }
-    return null;
-  }
-
-  private pictureRouterLink(picture: APIPicture): string[] {
-    for (const pictureItem of picture.path) {
-      if (pictureItem.type === 1) {
-        switch (pictureItem.item.item_type_id) {
-          case 5: // brand
-            switch (pictureItem.perspective_id) {
-              case 25: // mixed
-                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
-              case 22: // logo
-                return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
-              default:
-                return ['/', pictureItem.item.catname, 'other', picture.identity];
-            }
-          case 1: // vehicle
-          case 2: // engine
-            for (const parent of pictureItem.item.parents) {
-              const path = this.pictureRouterLinkItem(parent);
-              if (path) {
-                return path.concat(['pictures', picture.identity]);
-              }
-            }
-            break;
-        }
-      }
-    }
-
-    return null;
   }
 
   ngOnDestroy(): void {
