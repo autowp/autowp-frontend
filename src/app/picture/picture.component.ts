@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import { APIPicture, PictureService } from '../services/picture';
 import { ACLService } from '../services/acl.service';
 import { APIUser } from '../services/user';
@@ -15,7 +15,7 @@ import {APIPictureItem, PictureItemService} from '../services/picture-item';
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss']
 })
-export class PictureComponent implements OnInit, OnDestroy {
+export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   @Input() picture: APIPicture;
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[];
@@ -131,5 +131,11 @@ export class PictureComponent implements OnInit, OnDestroy {
 
   public restorePicture() {
     this.setPictureStatus('inbox');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.picture && this.picture) {
+      this.pictureService.incView(this.picture.id);
+    }
   }
 }

@@ -440,4 +440,8 @@ export class PictureService {
       status: status
     });
   }
+
+  public incView(id: number): Observable<void> {
+    return this.http.post<void>('/api/picture/' + id.toString() + '/view', {});
+  }
 }
