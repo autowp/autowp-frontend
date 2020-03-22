@@ -5,7 +5,7 @@ import { PicturePaginatorComponent } from './paginator.component';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserModule } from '../user/user.module';
-import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'ngx-moment';
 import { NgPipesModule } from 'ngx-pipes';
 import { UtilsModule } from '../utils/utils.module';
@@ -34,7 +34,8 @@ import {PicturesModule} from '../moder/pictures/pictures.module';
         CommentsModule,
         PictureRoutingModule,
         GalleryModule,
-        PicturesModule
+        PicturesModule,
+        NgbProgressbarModule
     ],
   exports: [
     PictureComponent

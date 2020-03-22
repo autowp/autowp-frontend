@@ -28,6 +28,7 @@ export class PictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public location;
   public engines: APIItem[] = [];
+  public statusLoading = false;
 
   constructor(
     private acl: ACLService,
@@ -100,5 +101,35 @@ export class PictureComponent implements OnInit, OnDestroy {
       return;
     }
     this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', this.picture.identity]);
+  }
+
+  private setPictureStatus(status: string) {
+    this.statusLoading = true;
+    this.pictureService.setPictureStatus(this.picture.id, status)
+      .subscribe(
+        () => {
+          this.changed.emit(true);
+        },
+        () => {},
+        () => {
+          this.statusLoading = false;
+        }
+      );
+  }
+
+  public unacceptPicture() {
+    this.setPictureStatus('inbox');
+  }
+
+  public acceptPicture() {
+    this.setPictureStatus('accepted');
+  }
+
+  public deletePicture() {
+    this.setPictureStatus('removing');
+  }
+
+  public restorePicture() {
+    this.setPictureStatus('inbox');
   }
 }

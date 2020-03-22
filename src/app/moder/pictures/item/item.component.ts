@@ -274,10 +274,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   private setPictureStatus(status: string) {
     this.statusLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id, {
-        status: status
-      })
+    this.pictureService.setPictureStatus(this.id, status)
       .subscribe(
         () => {
           this.change$.next(null);

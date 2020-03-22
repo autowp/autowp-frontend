@@ -90,7 +90,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
             }
 
             let fields =
-              'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,' +
+              'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
               'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
               'items.item.name_html,categories.name_html,copyrights,' +
               'factories.name_html,moder_votes,votes,of_links,replaceable.name_html';

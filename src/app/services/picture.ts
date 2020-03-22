@@ -434,4 +434,10 @@ export class PictureService {
         })
       );
   }
+
+  public setPictureStatus(id: number, status: string): Observable<void> {
+    return this.http.put<void>('/api/picture/' + id.toString(), {
+      status: status
+    });
+  }
 }

@@ -279,7 +279,29 @@
   <div class="card card-body">
       <div class="row">
         <div class="col-md-4">
+          <div *ngIf="picture.status == 'inbox'">
+            <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept">
+              {{'moder/picture/acceptance/accept'|translate}}
+            </button>
+            <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete">
+              {{'moder/picture/acceptance/delete'|translate}}
+            </button>
+          </div>
+
+          <div *ngIf="picture.status == 'accepted'">
+            <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept">
+              {{'moder/picture/acceptance/unaccept'|translate}}
+            </button>
+          </div>
+
+          <div *ngIf="picture.status == 'removing'">
+            <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore">
+              {{'moder/picture/acceptance/restore'|translate}}
+            </button>
+          </div>
           <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+
+          <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="!statusLoading"></ngb-progressbar>
         </div>
         <div class="col-md-4" *ngIf="picture.items.length > 0">
           <label class="d-block">{{'moder/picture/perspective'|translate}}</label>
