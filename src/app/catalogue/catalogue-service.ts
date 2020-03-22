@@ -57,7 +57,7 @@ export class CatalogueService {
 
     const pathPipeRecursive: ParentObservableFunc = () =>  switchMap((parent: Parent) => {
 
-      if (! parent.id || parent.path.length <= 0) {
+      if (! parent || ! parent.id || parent.path.length <= 0) {
         return of(parent);
       }
 
@@ -109,19 +109,25 @@ export class CatalogueService {
             items: []
           })),
           pathPipeRecursive(),
-          map(parent => ({
-            brand: brand,
-            path: parent.items
-          })),
-          switchMap(params => {
-            return this.getType(route).pipe(
-              map(type => ({
-                brand: params.brand,
-                path: params.path,
-                type: type
-              }))
+          switchMap(parent => {
+            if (! parent) {
+              return of(null);
+            }
+            return of ({
+              brand: brand,
+              path: parent.items
+            }).pipe(
+              switchMap(params => {
+                return this.getType(route).pipe(
+                  map(type => ({
+                    brand: params.brand,
+                    path: params.path,
+                    type: type
+                  }))
+                );
+              })
             );
-          })
+          }),
         );
       }),
     );
