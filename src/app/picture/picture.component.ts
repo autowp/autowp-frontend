@@ -135,7 +135,7 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.picture && this.picture) {
-      this.pictureService.incView(this.picture.id);
+      this.pictureService.incView(this.picture.id).subscribe();
     }
   }
 }
