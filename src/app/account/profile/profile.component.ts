@@ -195,7 +195,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   public showFileSelectDialog() {
     this.photoInvalidParams = {};
-    this.fileInput.nativeElement.trigger('click');
+    this.fileInput.nativeElement.click();
   }
 
   public resetPhoto() {
@@ -206,5 +206,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       },
       response => this.toastService.response(response)
     );
+  }
+
+  public onChange(event: any) {
+    console.log([].slice.call(event.target.files));
   }
 }
