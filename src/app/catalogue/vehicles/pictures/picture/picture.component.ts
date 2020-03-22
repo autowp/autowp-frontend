@@ -3,7 +3,7 @@ import {APIItem} from '../../../../services/item';
 import {PageEnvService} from '../../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../../catalogue-service';
 import {ACLService} from '../../../../services/acl.service';
 import {APIItemParent} from '../../../../services/item-parent';
@@ -45,8 +45,8 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
-      map(data => {
-        if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+      switchMap(data => {
+        if (!data[0] || ! data[0].brand || !data[0].path || data[0].path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
@@ -72,17 +72,22 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         this.picturesRouterLink.push('pictures');
         this.galleryRouterLink.push('gallery');
 
-        return data;
+        return of({
+          brand: data[0].brand,
+          path: data[0].path,
+          type: data[0].type,
+          galleryRouterLink: this.galleryRouterLink
+        });
       }),
       switchMap(data => this.getIdentity().pipe(
         map(identity => {
 
-          this.galleryPictureRouterLink = [...this.galleryRouterLink, identity];
+          this.galleryPictureRouterLink = [...data.galleryRouterLink, identity];
 
           return {
-            brand: data[0].brand,
-            path: data[0].path,
-            type: data[0].type,
+            brand: data.brand,
+            path: data.path,
+            type: data.type,
             exact: data[1],
             identity: identity
           };

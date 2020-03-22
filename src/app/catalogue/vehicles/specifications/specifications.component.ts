@@ -38,7 +38,7 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
     this.sub = this.acl.inheritsRole('moder').pipe(
       switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer, 'item.has_specs,item.has_child_specs')),
       switchMap(data => {
-        if (! data.brand || !data.path || data.path.length <= 0) {
+        if (!data[0] || ! data.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });

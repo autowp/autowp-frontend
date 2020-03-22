@@ -3,7 +3,7 @@ import {APIItem} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Subscription} from 'rxjs';
+import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {APIPaginator} from '../../../services/api.service';
 import {CatalogueListItem} from '../../list-item/list-item.component';
 import {CatalogueService} from '../../catalogue-service';
@@ -42,8 +42,8 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
-      map(data => {
-        if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+      switchMap(data => {
+        if (!data[0] || ! data[0].brand || !data[0].path || data[0].path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
@@ -81,26 +81,35 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
         this.picturesRouterLink.push('pictures');
         this.galleryRouterLink.push('gallery');
 
-        return data;
+        return of({
+          brand: data[0].brand,
+          path: data[0].path,
+          type: data[0].type,
+          exact: data[1]
+        });
       }),
       switchMap(data => this.getIdentity().pipe(
         map(identity => {
           return {
-            brand: data[0].brand,
-            path: data[0].path,
-            type: data[0].type,
-            exact: data[1],
+            brand: data.brand,
+            path: data.path,
+            type: data.type,
+            exact: data.exact,
             identity: identity
           };
         })
       )),
-      tap(data => {
+      switchMap(data => {
         if (!data.identity) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
+          return;
         }
 
+        return of(data);
+      }),
+      tap(data => {
         const last = data.path[data.path.length - 1];
         this.item = last.item;
         this.current = data.identity;

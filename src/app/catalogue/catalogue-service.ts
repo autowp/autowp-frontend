@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {EMPTY, of, OperatorFunction} from 'rxjs';
+import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {APIItemParent, ItemParentService} from '../services/item-parent';
 import {APIItem, APIPathTreeItemParent, ItemService} from '../services/item';
@@ -49,7 +49,11 @@ export class CatalogueService {
     );
   }
 
-  public resolveCatalogue(route: ActivatedRoute, isModer: boolean, fields: string) {
+  public resolveCatalogue(
+    route: ActivatedRoute,
+    isModer: boolean,
+    fields: string
+  ): Observable<{brand: APIItem, path: APIItemParent[], type: string}> {
 
     const pathPipeRecursive: ParentObservableFunc = () =>  switchMap((parent: Parent) => {
 
@@ -75,7 +79,7 @@ export class CatalogueService {
       }).pipe(
         map(response => {
           if (response.items.length <= 0) {
-            return EMPTY;
+            return null;
           }
           const parentItem = response.items[0];
 
@@ -92,27 +96,34 @@ export class CatalogueService {
     });
 
     return this.getBrand(route).pipe(
-      switchMap(brand => CatalogueService.getPath(route).pipe(
-        map(data => (<Parent>{
-          id: brand.id,
-          path: data ? data.split('/') : [],
-          items: []
-        })),
-        pathPipeRecursive(),
-        map(parent => ({
-          brand: brand,
-          path: parent.items
-        }))
-      )),
-      switchMap(params => {
-        return this.getType(route).pipe(
-          map(type => ({
-            brand: params.brand,
-            path: params.path,
-            type: type
-          }))
+      switchMap(brand => {
+
+        if (! brand) {
+          return of(null);
+        }
+
+        return CatalogueService.getPath(route).pipe(
+          map(data => (<Parent>{
+            id: brand.id,
+            path: data ? data.split('/') : [],
+            items: []
+          })),
+          pathPipeRecursive(),
+          map(parent => ({
+            brand: brand,
+            path: parent.items
+          })),
+          switchMap(params => {
+            return this.getType(route).pipe(
+              map(type => ({
+                brand: params.brand,
+                path: params.path,
+                type: type
+              }))
+            );
+          })
         );
-      })
+      }),
     );
   }
 

@@ -56,7 +56,7 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
         this.getExact()
       ])),
       switchMap(data => {
-        if (! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+        if (!data[0] || ! data[0].brand || !data[0].path || data[0].path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
