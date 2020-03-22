@@ -14,7 +14,7 @@
   <div class="col-md-6">
     <div class="picture-preview-medium" *ngIf="picture.preview_large">
       <span class="d-block rounded mb-4" (auxclick)="openSource($event)" (click)="openGallery($event)" style="cursor: pointer">
-        <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" />
+        <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
       </span>
       <ng-container *ngIf="picture.items.length == 1">
         <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">

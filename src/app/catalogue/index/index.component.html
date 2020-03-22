@@ -1,7 +1,7 @@
 <header class="mb-4" *ngIf="brand">
   <div class="jumbotron brand-hero-unit clearfix">
     <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
-    <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" />
+    <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" loading="lazy" />
     <div class="content">
       <h1 class="display-4">{{brand.name_text}}</h1>
       <p *ngIf="brand.full_name && brand.full_name != brand.name_only" class="lead">({{brand.full_name}})</p>
@@ -81,7 +81,7 @@
   <div class="row">
     <div class="col-6 col-lg-3" *ngFor="let factory of factories">
       <a class="d-block rounded mb-4" [routerLink]="['/factories', factory.id]" *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium">
-        <img class="rounded w-100 border border-light" [src]="factory.exact_picture.thumb_medium.src" alt="" />
+        <img class="rounded w-100 border border-light" [src]="factory.exact_picture.thumb_medium.src" alt="" loading="lazy" />
       </a>
       <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
     </div>

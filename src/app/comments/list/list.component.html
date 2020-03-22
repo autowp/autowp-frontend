@@ -6,8 +6,8 @@
   </div>
   <div class="photo">
     <a [routerLink]="['/users', message.user.identity ? message.user.identity : 'user' + message.user.id]" class="photo" *ngIf="message.user && !message.user.deleted">
-      <img alt="" [src]="message.user.avatar.src" *ngIf="message.user.avatar" class="rounded" />
-      <img alt="" [src]="message.user.gravatar" *ngIf="message.user.gravatar && ! message.user.avatar" class="rounded" />
+      <img alt="" [src]="message.user.avatar.src" *ngIf="message.user.avatar" class="rounded" loading="lazy" />
+      <img alt="" [src]="message.user.gravatar" *ngIf="message.user.gravatar && ! message.user.avatar" class="rounded" loading="lazy" />
     </a>
   </div>
   <div class="content">

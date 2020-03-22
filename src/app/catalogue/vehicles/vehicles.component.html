@@ -74,7 +74,7 @@
   <div class="row">
     <div class="col-6 col-lg-3" *ngFor="let picture of otherPictures">
       <a [routerLink]="otherPicturesRouterLink.concat(picture.identity)" *ngIf="picture && picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light" />
+        <img [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>

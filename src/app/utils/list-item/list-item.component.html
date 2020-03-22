@@ -8,7 +8,7 @@
     <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.large_format">
       <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
         <a [routerLink]="picture.routerLink" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
-          <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
+          <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
         </a>
         <span *ngIf="!picture">&#xa0;</span>
       </div>
@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
             <a [routerLink]="picture.routerLink" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
-              <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
+              <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
             </a>
             <span *ngIf="!picture.thumb">&#xa0;</span>
           </div>
@@ -26,7 +26,7 @@
     <div class="row" *ngIf="havePhoto(item) && !item.preview_pictures.large_format">
       <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures.pictures">
         <a [routerLink]="picture.routerLink" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
-          <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" />
+          <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
         </a>
         <span *ngIf="!picture || !picture.thumb">&#xa0;</span>
       </div>
