@@ -29,7 +29,6 @@ import { ItemMetaFormComponent } from './item-meta-form/item-meta-form.component
 import { ModerItemsComponent } from './items.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbTabsetModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import {CatalogueModule} from '../../catalogue/catalogue.module';
 
 @NgModule({
   declarations: [
@@ -68,8 +67,7 @@ import {CatalogueModule} from '../../catalogue/catalogue.module';
         MarkdownEditModule,
         ThumbnailModule,
         LeafletModule,
-        NgbDropdownModule,
-        CatalogueModule
+        NgbDropdownModule
     ]
 })
 export class ItemsModule {}

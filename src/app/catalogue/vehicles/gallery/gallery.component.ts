@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {APIPaginator} from '../../../services/api.service';
-import {CatalogueListItem} from '../../list-item/list-item.component';
+import {CatalogueListItem} from '../../../utils/list-item/list-item.component';
 import {CatalogueService} from '../../catalogue-service';
 import {ACLService} from '../../../services/acl.service';
 import {APIGalleryItem} from '../../../gallery/definitions';

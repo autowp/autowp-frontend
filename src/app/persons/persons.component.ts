@@ -5,7 +5,7 @@ import {combineLatest, Subscription} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, tap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import {CatalogueListItem, CatalogueListItemPicture} from '../catalogue/list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '../utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-persons',

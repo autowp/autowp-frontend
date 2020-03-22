@@ -84,4 +84,12 @@ export class CatalogueListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+
+  public thumbnailColClass() {
+    if (this.item.preview_pictures.pictures.length === 3) {
+      return 'col-sm-4';
+    }
+
+    return 'col-6 col-lg-3';
+  }
 }

@@ -13,7 +13,7 @@ import {
   tap, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../catalogue/list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-factory-items',

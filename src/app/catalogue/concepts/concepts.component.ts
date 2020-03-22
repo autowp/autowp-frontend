@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
 import {APIPaginator} from '../../services/api.service';
-import {CatalogueListItem, CatalogueListItemPicture} from '../list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 
 
 @Component({

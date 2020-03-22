@@ -16,14 +16,12 @@ import {PictureModule} from '../picture/picture.module';
 import {CommentsModule} from '../comments/comments.module';
 import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
 import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
-import {CatalogueListItemComponent} from './list-item/list-item.component';
 import {CatalogueEnginesComponent} from './engines/engines.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
 import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
 import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
 import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
-import {ItemModule} from '../item/item.module';
 import {CatalogueService} from './catalogue-service';
 import {CatalogueItemMenuComponent} from './item-menu/item-menu.component';
 import {GalleryModule} from '../gallery/gallery.module';
@@ -42,7 +40,6 @@ import {MostsModule} from '../mosts/mosts.module';
     CatalogueLogotypesComponent,
     CatalogueLogotypesPictureComponent,
     CatalogueConceptsComponent,
-    CatalogueListItemComponent,
     CatalogueEnginesComponent,
     CatalogueCarsComponent,
     CatalogueVehiclesComponent,
@@ -62,15 +59,11 @@ import {MostsModule} from '../mosts/mosts.module';
     PaginatorModule,
     PictureModule,
     CommentsModule,
-    ItemModule,
     GalleryModule,
     MostsModule
   ],
   providers: [
     CatalogueService
-  ],
-  exports: [
-    CatalogueListItemComponent
   ]
 })
 export class CatalogueModule {}

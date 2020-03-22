@@ -5,7 +5,7 @@
   </h4>
   <div class="row" *ngFor="let chunk of items">
     <div class="col-md-6" *ngFor="let item of chunk">
-      <app-item [item]="item"></app-item>
+      <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
 
       <p *ngIf="item.contributors">
         <ng-container *ngIf="item.contributors.length > 1">{{'contributors'|translate}}</ng-container>

@@ -5,14 +5,20 @@ import { MarkdownComponent } from './markdown/markdown.component';
 import { PastTimeIndicatorComponent } from './past-time-indicator/past-time-indicator.component';
 import { MomentModule } from 'ngx-moment';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {CatalogueListItemComponent} from './list-item/list-item.component';
+import {RouterModule} from '@angular/router';
+import {ItemHeaderComponent} from './item-header/item-header.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
     InvalidParamsPipe,
     MarkdownComponent,
-    PastTimeIndicatorComponent
+    PastTimeIndicatorComponent,
+    CatalogueListItemComponent,
+    ItemHeaderComponent
   ],
-  imports: [CommonModule, MomentModule, NgbTooltipModule],
-  exports: [InvalidParamsPipe, MarkdownComponent, PastTimeIndicatorComponent]
+  imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, TranslateModule],
+  exports: [InvalidParamsPipe, MarkdownComponent, PastTimeIndicatorComponent, CatalogueListItemComponent, ItemHeaderComponent]
 })
 export class UtilsModule {}

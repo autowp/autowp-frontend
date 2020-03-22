@@ -6,7 +6,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators
 import {EMPTY, of, Subscription} from 'rxjs';
 import {APIPaginator} from '../../services/api.service';
 import {ItemParentService} from '../../services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '../list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-catalogue-engines',

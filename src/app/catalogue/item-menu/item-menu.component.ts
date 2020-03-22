@@ -1,5 +1,5 @@
 import {Component, Injectable, Input} from '@angular/core';
-import {ItemHeader} from '../../item/item-header/item-header.component';
+import {ItemHeader} from '../../utils/item-header/item-header.component';
 import {APIItemChildsCounts} from '../../services/item';
 
 @Component({

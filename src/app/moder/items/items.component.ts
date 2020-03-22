@@ -27,7 +27,7 @@ import {
   map
 } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../catalogue/list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 

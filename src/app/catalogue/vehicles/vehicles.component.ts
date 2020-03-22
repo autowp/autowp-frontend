@@ -6,7 +6,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/oper
 import {EMPTY, Subscription} from 'rxjs';
 import {APIPaginator} from '../../services/api.service';
 import {APIItemParent, ItemParentService} from '../../services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '../list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {ACLService} from '../../services/acl.service';
 import {Breadcrumbs, CatalogueService} from '../catalogue-service';
 import {APIPicture, PictureService} from '../../services/picture';

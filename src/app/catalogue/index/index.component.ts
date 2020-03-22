@@ -65,7 +65,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.aclSub = this.acl
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
