@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Input, Component, Injectable, EventEmitter, Output } from '@angular/core';
+import {Input, Component, Injectable, EventEmitter, Output, OnChanges, SimpleChanges} from '@angular/core';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -7,13 +7,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './form.component.html'
 })
 @Injectable()
-export class CommentsFormComponent {
+export class CommentsFormComponent implements OnChanges {
   @Input() parentID: number;
   @Input() itemID: number;
   @Input() typeID: number;
   @Input() resolve = false;
   @Output() sent = new EventEmitter<string>();
-  @Output() cenceled = new EventEmitter<string>();
+  @Output() canceled = new EventEmitter<string>();
 
   public invalidParams: any = {};
   public form = {
@@ -61,6 +61,14 @@ export class CommentsFormComponent {
   }
 
   public cancel() {
-    this.cenceled.emit(null);
+    this.canceled.emit(null);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.resolve) {
+      if (this.resolve && this.form.message.length <= 0) {
+        this.form.message = 'Fixed';
+      }
+    }
   }
 }

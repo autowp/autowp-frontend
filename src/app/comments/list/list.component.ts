@@ -112,7 +112,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   }
 
   public reply(message: APICommentInList, resolve: boolean) {
-    message.showReply = !message.showReply;
+    message.showReply = true;
     message.resolve = resolve;
   }
 

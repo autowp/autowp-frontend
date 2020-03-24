@@ -72,6 +72,6 @@
   </div>
   <div class="replies" *ngIf="deep < 21">
     <app-comments-list [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)" [messages]="message.replies" [deep]="deep+1"></app-comments-list>
-    <app-comments-form [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)" (cenceled)="onCancel(message)" [parentID]="message.id" [resolve]="message.resolve" *ngIf="user && message.showReply"></app-comments-form>
+    <app-comments-form [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)" (canceled)="onCancel(message)" [parentID]="message.id" [resolve]="message.resolve" *ngIf="user && message.showReply"></app-comments-form>
   </div>
 </div>
