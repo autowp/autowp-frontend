@@ -43,7 +43,7 @@
 
     <ng-container *ngIf="item.comments_attentions_count">
       <i class="fa fa-comment" aria-hidden="true"></i>
-      <a routerLink="moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
+      <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
         {{'catalogue/vehicle/comments'|translate}} ({{item.comments_attentions_count}})
       </a>
     </ng-container>
