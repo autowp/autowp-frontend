@@ -20,7 +20,7 @@ script:
   - docker build . -t autowp/autowp-frontend:v2 || travis_terminate 1;
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "feature/ng-catalogue" ]; then
+  - if [ "$TRAVIS_BRANCH" == "feature/master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push autowp/autowp-frontend:v2;
     fi
