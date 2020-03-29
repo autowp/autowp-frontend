@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIItem } from './item';
 import { APIPicture } from './picture';
+import { APIService } from './api.service';
 
 export interface APIPictureItemAreaPostData {
   left: number;
@@ -47,7 +47,7 @@ export interface APIPictureItem {
 
 @Injectable()
 export class PictureItemService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public setPerspective(
     pictureId: number,
@@ -55,10 +55,10 @@ export class PictureItemService {
     type: number,
     perspectiveId: number
   ): Observable<void> {
-    const url = '/api/picture-item/' + pictureId + '/' + itemId + '/' + type;
-    return this.http.put<void>(url, {
+    const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
+    return this.api.request<void>('PUT', url, {body: {
       perspective_id: perspectiveId ? perspectiveId.toString() : null
-    });
+    }});
   }
 
   public setArea(
@@ -67,11 +67,12 @@ export class PictureItemService {
     type: number,
     area: APIPictureItemAreaPostData
   ): Observable<void> {
-    return this.http.put<void>(
-      '/api/picture-item/' + pictureId + '/' + itemId + '/' + type,
-      {
+    return this.api.request<void>(
+      'PUT',
+      'picture-item/' + pictureId + '/' + itemId + '/' + type,
+      {body: {
         area: area
-      }
+      }}
     );
   }
 
@@ -81,9 +82,10 @@ export class PictureItemService {
     type: number,
     data: APIPictureItemPostData
   ): Observable<void> {
-    return this.http.post<void>(
-      '/api/picture-item/' + pictureId + '/' + itemId + '/' + type,
-      data
+    return this.api.request<void>(
+      'POST',
+      'picture-item/' + pictureId + '/' + itemId + '/' + type,
+      {body: data}
     );
   }
 
@@ -92,8 +94,9 @@ export class PictureItemService {
     itemId: number,
     type: number
   ): Observable<void> {
-    return this.http.delete<void>(
-      '/api/picture-item/' + pictureId + '/' + itemId + '/' + type
+    return this.api.request<void>(
+      'DELETE',
+      'picture-item/' + pictureId + '/' + itemId + '/' + type
     );
   }
 
@@ -103,10 +106,10 @@ export class PictureItemService {
     srcItemId: number,
     dstItemId: number
   ): Observable<void> {
-    const url = '/api/picture-item/' + pictureId + '/' + srcItemId + '/' + type;
-    return this.http.put<void>(url, {
+    const url = 'picture-item/' + pictureId + '/' + srcItemId + '/' + type;
+    return this.api.request<void>('PUT', url, {body: {
       item_id: dstItemId
-    });
+    }});
   }
 
   public get(
@@ -121,9 +124,9 @@ export class PictureItemService {
       params.fields = options.fields;
     }
 
-    const url = '/api/picture-item/' + pictureId + '/' + itemId + '/' + type;
+    const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
 
-    return this.http.get<APIPictureItem>(url, {
+    return this.api.request<APIPictureItem>('GET', url, {
       params: params
     });
   }
@@ -149,7 +152,7 @@ export class PictureItemService {
       params.order = options.order;
     }
 
-    return this.http.get<APIPictureItemsGetResponse>('/api/picture-item', {
+    return this.api.request<APIPictureItemsGetResponse>('GET', 'picture-item', {
       params: params
     });
   }

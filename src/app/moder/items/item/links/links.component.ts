@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { APIItem } from '../../../../services/item';
 import { ACLService } from '../../../../services/acl.service';
-import { HttpClient } from '@angular/common/http';
 import { APIItemLink, ItemLinkService } from '../../../../services/item-link';
 import { Subscription, Observable, forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { APIService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-links',
@@ -37,7 +37,7 @@ export class ModerItemsItemLinksComponent
 
   constructor(
     private acl: ACLService,
-    private http: HttpClient,
+    private api: APIService,
     private itemLinkService: ItemLinkService
   ) {}
 
@@ -79,13 +79,13 @@ export class ModerItemsItemLinksComponent
 
     if (this.newLink.url) {
       promises.push(
-        this.http
-          .post<void>('/api/item-link', {
+        this.api
+          .request<void>('POST', 'item-link', {body: {
             item_id: this.item.id,
             name: this.newLink.name,
             url: this.newLink.url,
             type_id: this.newLink.type_id
-          })
+          }})
           .pipe(
             tap(() => {
               this.newLink.name = '';
@@ -99,19 +99,19 @@ export class ModerItemsItemLinksComponent
     for (const link of this.links) {
       if (link.url) {
         promises.push(
-          this.http.put<void>('/api/item-link/' + link.id, {
+          this.api.request<void>('PUT', 'item-link/' + link.id, {body: {
             name: link.name,
             url: link.url,
             type_id: link.type_id
-          })
+          }})
         );
       } else {
-        promises.push(this.http.delete<void>('/api/item-link/' + link.id));
+        promises.push(this.api.request<void>('DELETE', 'item-link/' + link.id));
       }
     }
 
     this.loading++;
-    forkJoin(...promises).subscribe(
+    forkJoin(promises).subscribe(
       () => this.loadLinks(),
       () => {},
       () => this.loading--

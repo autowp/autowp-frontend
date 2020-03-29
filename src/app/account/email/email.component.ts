@@ -1,8 +1,8 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-account-email',
@@ -16,7 +16,7 @@ export class AccountEmailComponent {
   public sent = false;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
   ) {
@@ -31,39 +31,32 @@ export class AccountEmailComponent {
         }),
       0
     );
-    this.http
-      .get<APIUser>('/api/user/me', {
-        params: {
-          fields: 'email'
-        }
-      })
-      .subscribe(
-        response => {
-          this.email = response.email;
-          this.newEmail = response.email;
-        },
-        response => this.toastService.response(response)
-      );
+    this.api.request<APIUser>('GET', 'user/me', {params: {fields: 'email'}}).subscribe(
+      response => {
+        this.email = response.email;
+        this.newEmail = response.email;
+      },
+      response => this.toastService.response(response)
+    );
   }
 
   public submit() {
     this.invalidParams = {};
 
-    this.http
-      .put<void>('/api/user/me', {
-        email: this.newEmail
-      })
-      .subscribe(
-        () => {
-          this.sent = true;
-        },
-        response => {
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
-          } else {
-            this.toastService.response(response);
-          }
+    this.api.request<void>('PUT', 'user/me', {body: {
+      email: this.newEmail
+    }})
+    .subscribe(
+      () => {
+        this.sent = true;
+      },
+      response => {
+        if (response.status === 400) {
+          this.invalidParams = response.error.invalid_params;
+        } else {
+          this.toastService.response(response);
         }
-      );
+      }
+    );
   }
 }

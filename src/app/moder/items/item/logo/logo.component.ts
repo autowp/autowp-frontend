@@ -1,8 +1,8 @@
 import { Input, Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIItem } from '../../../../services/item';
 import { ACLService } from '../../../../services/acl.service';
-import { HttpClient, HttpEventType } from '@angular/common/http';
-import { APIImage } from '../../../../services/api.service';
+import { HttpEventType } from '@angular/common/http';
+import { APIImage, APIService } from '../../../../services/api.service';
 import {Subscription, EMPTY} from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
@@ -25,7 +25,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
     invalidParams: any;
   } = null;
 
-  constructor(private acl: ACLService, private http: HttpClient, private toastService: ToastsService) {}
+  constructor(private acl: ACLService, private api: APIService, private toastService: ToastsService) {}
 
   ngOnInit(): void {
     this.aclSub = this.acl
@@ -54,8 +54,9 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    return this.http
-      .post('/api/item/' + this.item.id + '/logo', formData, {
+    return this.api
+      .request('POST', 'item/' + this.item.id + '/logo', {
+        body: formData,
         observe: 'events',
         reportProgress: true
       })
@@ -87,8 +88,8 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
             this.progress.percentage = 75;
             this.progress.success = true;
 
-            return this.http
-              .get<APIImage>('/api/item/' + this.item.id + '/logo')
+            return this.api
+              .request<APIImage>('GET', 'item/' + this.item.id + '/logo')
               .pipe(
                 tap(subresponse => {
                   this.progress.percentage = 100;

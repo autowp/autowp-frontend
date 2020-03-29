@@ -8,7 +8,6 @@ import {
   OnDestroy
 } from '@angular/core';
 import { APIItem } from '../../../services/item';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import {
   Observable,
@@ -28,6 +27,7 @@ import {
   APIAttrUserValueGetResponse
 } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;
@@ -81,7 +81,7 @@ export class CarsSpecificationsEditorSpecComponent
   public invalidParams: InvalidParams;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private attrsService: APIAttrsService,
     private translate: TranslateService,
     private auth: AuthService,
@@ -191,7 +191,7 @@ export class CarsSpecificationsEditorSpecComponent
             );
           }
 
-          return forkJoin(...observables);
+          return forkJoin(observables);
         })
       );
   }
@@ -295,10 +295,10 @@ export class CarsSpecificationsEditorSpecComponent
 
     this.loading++;
     this.invalidParams = null;
-    this.http
-      .patch<APIAttrUserValuePatchResponse>('/api/attr/user-value', {
+    this.api
+      .request<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {body: {
         items: items
-      })
+      }})
       .subscribe(
         () => {
           this.change$.next(null);

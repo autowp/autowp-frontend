@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 import { APIItem, ItemService } from '../../../services/item';
 import { ACLService } from '../../../services/acl.service';
-import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
@@ -32,7 +32,7 @@ export class CarsSpecificationsEditorEngineComponent
   constructor(
     private acl: ACLService,
     private itemService: ItemService,
-    private http: HttpClient,
+    private api: APIService,
     private toastService: ToastsService
   ) {}
 
@@ -71,10 +71,10 @@ export class CarsSpecificationsEditorEngineComponent
   }
 
   private setEngineID(value: string) {
-    this.http
-      .put<void>('/api/item/' + this.item.id, {
+    this.api
+      .request<void>('PUT', 'item/' + this.item.id, {body: {
         engine_id: value
-      })
+      }})
       .subscribe(
         () => this.changed.emit(),
         response => this.toastService.response(response)

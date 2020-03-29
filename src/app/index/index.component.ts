@@ -1,8 +1,8 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { PageEnvService } from '../services/page-env.service';
-import {HttpClient} from '@angular/common/http';
 import {APIUser} from '../services/user';
 import {APIItem} from '../services/item';
+import { APIService } from '../services/api.service';
 
 interface APIIndexPersonsItem {
   id: number;
@@ -48,7 +48,7 @@ export class IndexComponent implements OnInit {
   public itemOfDay: APIIndexItemOfDay;
   public itemOfDayLoaded = false;
 
-  constructor(private pageEnv: PageEnvService, private http: HttpClient) {}
+  constructor(private pageEnv: PageEnvService, private api: APIService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -61,17 +61,17 @@ export class IndexComponent implements OnInit {
       });
     }, 0);
 
-    this.http.get<APIIndexPersonsResponse>('/api/index/persons-content').subscribe({
+    this.api.request<APIIndexPersonsResponse>('GET', 'index/persons-content').subscribe({
       next: response => { this.contentPersons = response.items; },
       complete: () => { this.contentPersonsLoaded = true; }
     });
 
-    this.http.get<APIIndexPersonsResponse>('/api/index/persons-author').subscribe({
+    this.api.request<APIIndexPersonsResponse>('GET', 'index/persons-author').subscribe({
       next: response => { this.persons = response.items; },
       complete: () => { this.personsLoaded = true; }
     });
 
-    this.http.get<APIIndexItemOfDay>('/api/index/item-of-day').subscribe({
+    this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day').subscribe({
       next: response => { this.itemOfDay = response; },
       complete: () => { this.itemOfDayLoaded = true; }
     });

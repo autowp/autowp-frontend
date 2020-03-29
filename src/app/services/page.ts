@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {Observable, Observer} from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface APIPageLinearized extends APIPage {
-  level: number;
-  moveUp: boolean;
-  moveDown: boolean;
-}
+import { APIService } from './api.service';
 
 export interface APIPage {
   id: number;
@@ -21,6 +15,12 @@ export interface APIPage {
   registered_only: boolean;
   guest_only: boolean;
   class: string;
+}
+
+export interface APIPageLinearized extends APIPage {
+  level: number;
+  moveUp: boolean;
+  moveDown: boolean;
 }
 
 export interface APIPagesGetResponse {
@@ -52,7 +52,7 @@ export class PageService {
 
   private pagesJson: Page[];
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   private walkPages(pages: Page[], parentID: number) {
     for (const page of pages) {
@@ -120,7 +120,7 @@ export class PageService {
   }
 
   public getPagesPipe(): Observable<APIPagesGetResponse> {
-    return this.http.get<APIPagesGetResponse>('/api/page');
+    return this.api.request<APIPagesGetResponse>('GET', 'page');
   }
 
   public toPlainArray(pages: APIPage[], level: number): APIPageLinearized[] {
@@ -152,7 +152,7 @@ export class PageService {
   }
 
   public getPage(id: number): Observable<APIPage> {
-    return this.http.get<APIPage>('/api/page/' + id);
+    return this.api.request<APIPage>('GET', 'page/' + id);
   }
 
   private findPage(id: number, pages: Page[]): Page {

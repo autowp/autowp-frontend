@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Subscription, BehaviorSubject, combineLatest, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -7,7 +6,7 @@ import {
   ItemService,
   APIItemsGetResponse
 } from '../../../../services/item';
-import { APIPaginator } from '../../../../services/api.service';
+import { APIPaginator, APIService } from '../../../../services/api.service';
 import {
   APIItemParent,
   ItemParentService,
@@ -41,7 +40,7 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
   public search$ = new BehaviorSubject<string>('');
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -55,10 +54,10 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
   }
 
   public selectEngine(engineId: number) {
-    this.http
-      .put<void>('/api/item/' + this.item.id, {
+    this.api
+      .request<void>('PUT', 'item/' + this.item.id, {body: {
         engine_id: engineId
-      })
+      }})
       .subscribe(
         () => {
           this.router.navigate(['/cars/specifications-editor'], {

@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
@@ -14,7 +13,7 @@ import {
 } from '../../../../../services/item-parent';
 import { APIItem, ItemService } from '../../../../../services/item';
 import { PageEnvService } from '../../../../../services/page-env.service';
-import { APIItemVehicleTypeGetResponse } from '../../../../../services/api.service';
+import { APIItemVehicleTypeGetResponse, APIService } from '../../../../../services/api.service';
 import {
   switchMap,
   catchError,
@@ -46,7 +45,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
   public vehicleTypeIDs: number[] = [];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -104,9 +103,10 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                 }),
                 switchMap(item =>
                   item.item_type_id === 1 || item.item_type_id === 4
-                    ? this.http
-                        .get<APIItemVehicleTypeGetResponse>(
-                          '/api/item-vehicle-type',
+                    ? this.api
+                        .request<APIItemVehicleTypeGetResponse>(
+                          'GET',
+                          'item-vehicle-type',
                           {
                             params: {
                               item_id: item.id.toString()
@@ -182,8 +182,9 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
       lng: this.newItem.lng
     };
 
-    this.http
-      .post<void>('/api/item', data, {
+    this.api
+      .request<void>('POST', 'item', {
+        body: data,
         observe: 'response'
       })
       .pipe(
@@ -202,31 +203,33 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
         switchMap(item => {
           const promises: Observable<any>[] = [
             this.itemService.setItemVehicleTypes(item.id, this.vehicleTypeIDs),
-            this.http.post<void>('/api/item-parent', {
+            this.api.request<void>('POST', 'item-parent', {body: {
               parent_id: this.item.id,
               item_id: item.id
-            })
+            }})
           ];
 
           for (const child of this.childs) {
             if (child.selected) {
               promises.push(
-                this.http.put<void>(
-                  '/api/item-parent/' + child.item_id + '/' + child.parent_id,
-                  {
+                this.api.request<void>(
+                  'PUT',
+                  'item-parent/' + child.item_id + '/' + child.parent_id,
+                  {body: {
                     parent_id: item.id
-                  }
+                  }}
                 )
               );
             }
           }
 
-          return forkJoin(...promises);
+          return forkJoin(promises);
         })
       )
       .subscribe(
         () => {
           this.loading--;
+          localStorage.setItem('last_item', this.item.id.toString());
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {
               tab: 'catalogue'

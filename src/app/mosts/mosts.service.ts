@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIItem } from '../services/item';
 import { APIVehicleType } from '../services/vehicle-type';
 import { APIAttrUnit } from '../api/attrs/attrs.service';
+import { APIService } from '../services/api.service';
 
 export interface APIMostsItemsGetOptions {
   brand_id?: number;
@@ -50,12 +50,12 @@ export interface APIMostsMenuGetResponse {
 export class MostsService {
   private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private api: APIService) { }
 
   public getMenu(brandID: number): Observable<APIMostsMenuGetResponse> {
 
     if (! this.menus$.has(brandID)) {
-      const o = this.http.get<APIMostsMenuGetResponse>('/api/mosts/menu', {
+      const o = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
         params: {
           brand_id: brandID.toString()
         }
@@ -87,7 +87,7 @@ export class MostsService {
       params.brand_id = options.brand_id.toString();
     }
 
-    return this.http.get<APIMostsItemsGetResponse>('/api/mosts/items', {
+    return this.api.request<APIMostsItemsGetResponse>('GET', 'mosts/items', {
       params: params
     });
   }

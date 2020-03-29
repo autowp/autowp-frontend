@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../services/api.service';
+import { APIPaginator, APIService } from '../services/api.service';
 import { APIItem } from '../services/item';
 import { Observable } from 'rxjs';
 
@@ -23,7 +22,7 @@ export interface APIInbox {
 
 @Injectable()
 export class InboxService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public get(
     brand_id: number,
@@ -36,8 +35,6 @@ export class InboxService {
       params.date = date;
     }
 
-    return this.http.get<APIInbox>('/api/inbox', {
-      params: params
-    });
+    return this.api.request<APIInbox>('GET', 'inbox', {params: params});
   }
 }

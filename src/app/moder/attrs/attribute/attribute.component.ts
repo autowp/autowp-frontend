@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute',
@@ -70,7 +70,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
   private unitsSub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private attrsService: APIAttrsService,
     private router: Router,
     private route: ActivatedRoute,
@@ -101,16 +101,13 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
           map(attribute => ({ attribute: attribute, types: data.types }))
         )),
         switchMap(data => combineLatest([
-          this.http.get<APIAttrAttributeGetResponse>(
-            '/api/attr/attribute',
-            {
-              params: {
-                parent_id: data.attribute.id.toString(),
-                recursive: '0',
-                fields: 'unit'
-              }
+          this.api.request<APIAttrAttributeGetResponse>('GET', 'attr/attribute', {
+            params: {
+              parent_id: data.attribute.id.toString(),
+              recursive: '0',
+              fields: 'unit'
             }
-          ),
+          }),
           this.$listOptionsChange.pipe(
             switchMap(() =>
               this.attrsService.getListOptions({

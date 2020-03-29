@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIItemParentLanguageGetResponse } from '../../services/api.service';
+import { APIItemParentLanguageGetResponse, APIService } from '../../services/api.service';
 import { ContentLanguageService } from '../../services/content-language';
 import { ItemService, APIItem } from '../../services/item';
 import { TranslateService } from '@ngx-translate/core';
@@ -48,7 +47,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private translate: TranslateService,
     private ContentLanguage: ContentLanguageService,
     private itemService: ItemService,
@@ -63,9 +62,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap(params => {
           return combineLatest([
-            this.http.get<APIItemParent>(
-              '/api/item-parent/' + params.item_id + '/' + params.parent_id
-            ),
+            this.api.request<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
             this.itemService.getItem(params.item_id, {
               fields: ['name_text', 'name_html'].join(',')
             }),
@@ -73,12 +70,9 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
               fields: ['name_text', 'name_html'].join(',')
             }),
             this.ContentLanguage.getList(),
-            this.http.get<APIItemParentLanguageGetResponse>(
-              '/api/item-parent/' +
-                params.item_id +
-                '/' +
-                params.parent_id +
-                '/language'
+            this.api.request<APIItemParentLanguageGetResponse>(
+              'GET',
+              'item-parent/' + params.item_id + '/' + params.parent_id + '/language'
             )
           ]);
         })
@@ -123,12 +117,10 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   }
 
   public reloadItemParent() {
-    this.http
-      .get(
-        '/api/item-parent/' +
-          this.itemParent.item_id +
-          '/' +
-          this.itemParent.parent_id
+    this.api
+      .request(
+        'GET',
+        'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id
       )
       .subscribe(response => {
         this.itemParent = response;
@@ -137,32 +129,26 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
   public save() {
     const promises: Observable<void>[] = [
-      this.http.put<void>(
-        '/api/item-parent/' +
-          this.itemParent.item_id +
-          '/' +
-          this.itemParent.parent_id,
-        {
+      this.api.request<void>(
+        'PUT',
+        'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id,
+        {body: {
           catname: this.itemParent.catname,
           type_id: this.itemParent.type_id
-        }
+        }}
       )
     ];
 
     for (const language of this.languages) {
       language.invalidParams = null;
       promises.push(
-        this.http
-          .put<void>(
-            '/api/item-parent/' +
-              this.itemParent.item_id +
-              '/' +
-              this.itemParent.parent_id +
-              '/language/' +
-              language.language,
-            {
+        this.api
+          .request<void>(
+            'PUT',
+            'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id + '/language/' + language.language,
+            {body: {
               name: language.name
-            }
+            }}
           )
           .pipe(
             catchError(response => {
@@ -173,7 +159,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
       );
     }
 
-    forkJoin(...promises).subscribe(() => {
+    forkJoin(promises).subscribe(() => {
       this.reloadItemParent();
     });
   }

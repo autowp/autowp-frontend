@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { ActivatedRoute} from '@angular/router';
 import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -31,7 +30,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   private itemID = 0;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private attrService: APIAttrsService,
     private pageEnv: PageEnvService,
@@ -93,14 +92,10 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   }
 
   public deleteValue(value: APIAttrUserValue) {
-    this.http
-      .delete(
-        '/api/attr/user-value/' +
-          value.attribute_id +
-          '/' +
-          value.item_id +
-          '/' +
-          value.user_id
+    this.api
+      .request(
+        'DELETE',
+        'attr/user-value/' + value.attribute_id + '/' + value.item_id + '/' + value.user_id
       )
       .subscribe(
         () => {
@@ -116,13 +111,14 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   }
 
   public moveValues() {
-    this.http
-      .patch<void>(
-        '/api/attr/user-value',
+    this.api
+      .request<void>(
+        'PATCH',
+        'attr/user-value',
         {
-          item_id: this.move.item_id
-        },
-        {
+          body: {
+            item_id: this.move.item_id
+          },
           params: {
             item_id: this.itemID.toString()
           }

@@ -179,11 +179,6 @@
             />
           </p>
           <p *ngFor="let message of loginInvalidParams | invalidParams : 'password'" [textContent]="message" class="invalid-feedback"></p>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" value="1" name="remember" [(ngModel)]="loginForm.remember" /> {{'login/remember'|translate}}
-            </label>
-          </div>
           <div>
             <div class="float-right text-right">
               <a routerLink="/signup" translate>login/registration</a>

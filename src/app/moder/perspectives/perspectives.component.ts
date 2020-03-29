@@ -1,8 +1,8 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   APIPerspectivePage,
-  APIPerspectivePageGetResponse
+  APIPerspectivePageGetResponse,
+  APIService
 } from '../../services/api.service';
 import { PageEnvService } from '../../services/page-env.service';
 
@@ -14,7 +14,7 @@ import { PageEnvService } from '../../services/page-env.service';
 export class ModerPerspectivesComponent {
   public pages: APIPerspectivePage[];
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService) {
+  constructor(private api: APIService, private pageEnv: PageEnvService) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -28,8 +28,8 @@ export class ModerPerspectivesComponent {
       0
     );
 
-    this.http
-      .get<APIPerspectivePageGetResponse>('/api/perspective-page', {
+    this.api
+      .request<APIPerspectivePageGetResponse>('GET', 'perspective-page', {
         params: {
           fields: 'groups.perspectives'
         }

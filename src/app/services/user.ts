@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator, APIImage } from './api.service';
+import { APIPaginator, APIImage, APIService } from './api.service';
 import { Observable, forkJoin } from 'rxjs';
 import { APIAccount } from '../account/account.service';
 import { tap, map } from 'rxjs/operators';
@@ -111,7 +110,7 @@ export class UserService {
   private cache: Map<number, APIUser> = new Map<number, APIUser>();
   private promises = new Map<number, Observable<void>>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   private queryUsers(ids: number[]): Observable<any> {
     const toRequest: number[] = [];
@@ -188,7 +187,7 @@ export class UserService {
     const params = converUserOptions(options);
 
     if (Object.keys(params).length) {
-      return this.http.get<APIUser>('/api/user/' + id, {
+      return this.api.request<APIUser>('GET', 'user/' + id, {
         params: params
       });
     }
@@ -204,7 +203,7 @@ export class UserService {
   }
 
   public get(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
-    return this.http.get<APIUserGetResponse>('/api/user', {
+    return this.api.request<APIUserGetResponse>('GET', 'user', {
       params: converUsersOptions(options)
     });
   }

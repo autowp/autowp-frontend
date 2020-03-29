@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIUser } from '../services/user';
-import { APIPaginator } from '../services/api.service';
-import { HttpClient } from '@angular/common/http';
+import { APIPaginator, APIService } from '../services/api.service';
 import { Observable } from 'rxjs';
 
 export interface APIArticle {
@@ -33,7 +32,7 @@ export interface APIArticlesGetOptions {
 })
 export class ArticleService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getArticles(
     options: APIArticlesGetOptions
@@ -56,7 +55,7 @@ export class ArticleService {
       params.catname = options.catname;
     }
 
-    return this.http.get<APIArticlesGetResponse>('/api/article', {
+    return this.api.request<APIArticlesGetResponse>('GET', 'article', {
       params: params
     });
   }

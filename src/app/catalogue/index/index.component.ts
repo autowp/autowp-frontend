@@ -8,8 +8,8 @@ import {ACLService} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
 import {ItemLinkService, APIItemLink} from '../../services/item-link';
-import {HttpClient} from '@angular/common/http';
 import {CatalogueService} from '../catalogue-service';
+import { APIService } from '../../services/api.service';
 
 interface APIBrandSectionGroup {
   name: string;
@@ -58,7 +58,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private acl: ACLService,
     private itemLinkService: ItemLinkService,
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private catalogue: CatalogueService
   ) {
@@ -90,7 +90,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         this.loadPictures(brand.id),
         this.loadLinks(brand.id),
         this.loadFactories(brand.id),
-        this.http.get<APIBrandSection[]>('/api/brands/' + brand.id + '/sections').pipe(
+        this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections').pipe(
           tap(response => {
             const sections: ChunkedSesction[] = [];
             for (const section of response) {

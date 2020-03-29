@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute, Router} from '@angular/router';
 import {
@@ -14,6 +13,7 @@ import { VotingVotesComponent } from './votes/votes.component';
 import { ACLService } from '../services/acl.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {map} from 'rxjs/operators';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-voting',
@@ -30,7 +30,7 @@ export class VotingComponent implements OnInit, OnDestroy {
   private aclSub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private router: Router,
     private votingService: VotingService,
@@ -105,10 +105,10 @@ export class VotingComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.http
-      .patch<void>('/api/voting/' + this.id, {
+    this.api
+      .request<void>('PATCH', 'voting/' + this.id, {body: {
         vote: ids
-      })
+      }})
       .subscribe(
         () => {
           this.load();

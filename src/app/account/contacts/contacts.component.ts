@@ -1,10 +1,10 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { chunkBy } from '../../chunk';
 import { ContactsService } from '../../services/contacts';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-account-contacts',
@@ -16,7 +16,7 @@ export class AccountContactsComponent {
   public chunks: APIUser[][];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private contactsService: ContactsService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
@@ -47,7 +47,7 @@ export class AccountContactsComponent {
   }
 
   public deleteContact(id: number) {
-    this.http.delete('/api/contacts/' + id).subscribe(
+    this.api.request('DELETE', 'contacts/' + id).subscribe(
       () => {
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i].id === id) {

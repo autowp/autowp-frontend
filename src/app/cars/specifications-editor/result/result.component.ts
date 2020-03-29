@@ -7,8 +7,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { APIItem } from '../../../services/item';
-import { HttpClient } from '@angular/common/http';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-cars-specifications-editor-result',
@@ -21,7 +21,7 @@ export class CarsSpecificationsEditorResultComponent
   public loading = 0;
   public resultHtml = '';
 
-  constructor(private http: HttpClient, private toastService: ToastsService) {}
+  constructor(private api: APIService, private toastService: ToastsService) {}
 
   ngOnInit(): void {}
 
@@ -33,8 +33,8 @@ export class CarsSpecificationsEditorResultComponent
 
   private load() {
     this.loading++;
-    this.http
-      .get('/api/item/' + this.item.id + '/specifications', {
+    this.api
+      .request('GET', 'item/' + this.item.id + '/specifications', {
         responseType: 'text'
       })
       .subscribe(

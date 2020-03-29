@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
 import { APIUser } from '../../services/user';
+import { APIService } from '../../services/api.service';
 
 interface Response {
   items: APIUser[];
@@ -15,15 +15,15 @@ interface Response {
 export class UsersOnlineComponent implements OnInit {
   public users: APIUser[] = [];
 
-  constructor(public activeModal: NgbActiveModal, private http: HttpClient) {}
+  constructor(public activeModal: NgbActiveModal, private api: APIService) {}
 
   ngOnInit(): void {
     this.load();
   }
 
   public load() {
-    this.http
-      .get<Response>('/api/user/online')
+    this.api
+      .request<Response>('GET', 'user/online')
       .subscribe(response => (this.users = response.items));
 
     return false;

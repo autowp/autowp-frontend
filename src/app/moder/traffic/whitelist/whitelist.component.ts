@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
+import { APIService } from '../../../services/api.service';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 
@@ -25,7 +25,7 @@ export class ModerTrafficWhitelistComponent {
   public items: APITrafficWhitelistItem[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private pageEnv: PageEnvService
   ) {
@@ -42,8 +42,8 @@ export class ModerTrafficWhitelistComponent {
       0
     );
 
-    this.http
-      .get<APITrafficWhitelistGetResponse>('/api/traffic/whitelist')
+    this.api
+      .request<APITrafficWhitelistGetResponse>('GET', 'traffic/whitelist')
       .subscribe(
         response => {
           this.items = response.items;
@@ -63,8 +63,8 @@ export class ModerTrafficWhitelistComponent {
   }
 
   public deleteItem(item: APITrafficWhitelistItem) {
-    this.http
-      .delete<void>('/api/traffic/whitelist/' + item.ip)
+    this.api
+      .request<void>('DELETE', 'traffic/whitelist/' + item.ip)
       .subscribe(() => {
         const index = this.items.indexOf(item);
         if (index !== -1) {

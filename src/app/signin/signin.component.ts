@@ -1,12 +1,13 @@
-import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import {
   APILoginServicesGetResponse,
-  APILoginStartPostResponse
+  APILoginStartPostResponse,
+  APIService
 } from '../services/api.service';
 import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
+import { TranslateService } from '@ngx-translate/core';
 
 interface SignInService {
   id: string;
@@ -21,21 +22,23 @@ interface SignInService {
   styleUrls: ['./signin.component.scss']
 })
 @Injectable()
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   public services: SignInService[] = [];
   public form = {
     login: '',
-    password: '',
-    remember: false
+    password: ''
   };
   public invalidParams: any = {};
   public user: APIUser;
 
   constructor(
     public auth: AuthService,
-    private http: HttpClient,
-    private pageEnv: PageEnvService
-  ) {
+    private api: APIService,
+    private pageEnv: PageEnvService,
+    private translate: TranslateService
+  ) { }
+
+  ngOnInit(): void {
     this.auth.getUser().subscribe((user) => (this.user = user));
 
     setTimeout(
@@ -50,7 +53,7 @@ export class SignInComponent {
       0
     );
 
-    this.http.get<APILoginServicesGetResponse>('/api/login/services').subscribe(
+    this.api.request<APILoginServicesGetResponse>('GET', 'login/services').subscribe(
       (response) => {
         for (const key in response.items) {
           if (response.items.hasOwnProperty(key)) {
@@ -64,7 +67,7 @@ export class SignInComponent {
           }
         }
       },
-      (response) => {
+      response => {
         console.log(response);
       }
     );
@@ -74,15 +77,25 @@ export class SignInComponent {
     $event.preventDefault();
 
     this.auth
-      .login(this.form.login, this.form.password, this.form.remember)
+      .login(this.form.login, this.form.password)
       .subscribe(
-        () => {},
-        (response) => {
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
-          } else {
-            console.log(response);
+        result => {
+          if (! result) {
+            this.translate.get('login/login-or-password-is-incorrect').subscribe(translation => {
+              this.invalidParams = {
+                password: {
+                  invalid: translation
+                }
+              };
+            });
           }
+        },
+        error => {
+          this.invalidParams = {
+            password: {
+              error: 'Error'
+            }
+          };
         }
       );
 
@@ -90,8 +103,8 @@ export class SignInComponent {
   }
 
   public start(serviceId: string) {
-    this.http
-      .get<APILoginStartPostResponse>('/api/login/start', {
+    this.api
+      .request<APILoginStartPostResponse>('GET', 'login/start', {
         params: {
           type: serviceId
         }

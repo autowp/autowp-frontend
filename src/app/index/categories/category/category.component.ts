@@ -1,6 +1,6 @@
 import {Component, Injectable, Input} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {APIIndexCategoriesItem} from '../categories.component';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-index-categories-category',
@@ -13,12 +13,12 @@ export class IndexCategoriesCategoryComponent {
   public loading = true;
   public html = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public shown() {
     this.loading = true;
 
-    this.http.get('/api/item/' + this.category.id + '/new-items', {
+    this.api.request('GET', 'item/' + this.category.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {

@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIAttrZone, APIAttrAttribute, APIAttrsService } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 export interface APIAttrZoneAttributesGetResponse {
   items: {
@@ -33,7 +33,7 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
   } = {};
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private attrsService: APIAttrsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
@@ -48,14 +48,11 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
         switchMap(params => this.attrsService.getZone(params.id)),
         switchMap(zone => combineLatest([
           this.attrsService.getAttributes({ recursive: true }),
-          this.http.get<APIAttrZoneAttributesGetResponse>(
-            '/api/attr/zone-attribute',
-            {
-              params: {
-                zone_id: zone.id.toString()
-              }
+          this.api.request<APIAttrZoneAttributesGetResponse>('GET', 'attr/zone-attribute', {
+            params: {
+              zone_id: zone.id.toString()
             }
-          )
+          })
         ]).pipe(
           map(combined => ({
             zone: zone,
@@ -86,18 +83,18 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
 
   public change(change: APIAttrZoneAttributeChange) {
     if (change.value) {
-      this.http
-        .post<void>('/api/attr/zone-attribute', {
+      this.api
+        .request<void>('POST', 'attr/zone-attribute', {body: {
           zone_id: this.zone.id,
           attribute_id: change.id
-        })
+        }})
         .subscribe(
           () => {},
           response => this.toastService.response(response)
         );
     } else {
-      this.http
-        .delete('/api/attr/zone-attribute/' + this.zone.id + '/' + change.id)
+      this.api
+        .request('DELETE', 'attr/zone-attribute/' + this.zone.id + '/' + change.id)
         .subscribe(
           () => {},
           response => this.toastService.response(response)

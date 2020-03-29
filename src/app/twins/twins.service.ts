@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../services/api.service';
+import { APIPaginator, APIService } from '../services/api.service';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -21,8 +20,8 @@ export class TwinsService {
 
   private readonly brands$: Observable<APITwinsBrand[]>;
 
-  constructor(private http: HttpClient) {
-    this.brands$ = this.http.get<APITwinsGetBrandsResponse>('/api/twins/brands')
+  constructor(private api: APIService) {
+    this.brands$ = this.api.request<APITwinsGetBrandsResponse>('GET', 'twins/brands')
       .pipe(
         map(response => response.items),
         shareReplay(1)

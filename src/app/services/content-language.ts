@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { APIService } from './api.service';
 
 export interface APIContentLanguageGetResponse {
   items: string[];
@@ -11,8 +11,8 @@ export interface APIContentLanguageGetResponse {
 export class ContentLanguageService {
   private readonly languages$: Observable<string[]>;
 
-  constructor(private http: HttpClient) {
-    this.languages$ = this.http.get<APIContentLanguageGetResponse>('/api/content-language').pipe(
+  constructor(private api: APIService) {
+    this.languages$ = this.api.request<APIContentLanguageGetResponse>('GET', 'content-language').pipe(
       map(response => response.items),
       shareReplay(1)
     );

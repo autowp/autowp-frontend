@@ -56,6 +56,7 @@ import {CanActivateCatalogue} from './catalogue/can-activate';
 import {ToastsModule} from './toasts/toasts.module';
 import * as Sentry from '@sentry/browser';
 import {environment} from '../environments/environment';
+import {OAuthService} from './services/oauth.service';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -127,6 +128,7 @@ export class SentryErrorHandler implements ErrorHandler {
     APIService,
     APIACL,
     AuthService,
+    OAuthService,
     AuthGuard,
     ACLService,
     PictureService,

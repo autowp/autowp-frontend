@@ -1,10 +1,10 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
 import {APIUser} from '../../services/user';
 import {chunkBy} from '../../chunk';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {APIItem} from '../../services/item';
+import { APIService } from '../../services/api.service';
 
 interface APIIndexSpecItemsItem extends APIItem {
   contributors: APIUser[];
@@ -27,10 +27,10 @@ export class IndexSpecsCarsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public items: SpecsCatalogueListItem[][];
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   ngOnInit(): void {
-    this.sub = this.http.get<APIIndexSpecItemsResponse>('/api/index/spec-items').subscribe(response => {
+    this.sub = this.api.request<APIIndexSpecItemsResponse>('GET', 'index/spec-items').subscribe(response => {
 
       const items: SpecsCatalogueListItem[] = [];
 

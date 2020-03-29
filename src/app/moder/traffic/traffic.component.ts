@@ -1,10 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { IpService } from '../../services/ip';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription, Observable, BehaviorSubject, forkJoin } from 'rxjs';
 import { map, tap, switchMap, switchMapTo } from 'rxjs/operators';
+import { APIService } from '../../services/api.service';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 
@@ -37,7 +37,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   private change$ = new BehaviorSubject<null>(null);
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private ipService: IpService,
     private pageEnv: PageEnvService
   ) {}
@@ -58,7 +58,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
 
     this.sub = this.change$
       .pipe(
-        switchMapTo(this.http.get<APITrafficGetResponse>('/api/traffic')),
+        switchMapTo(this.api.request<APITrafficGetResponse>('GET', 'traffic')),
         map(response => response.items),
         tap(items => {
           this.items = items;
@@ -73,7 +73,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
             );
           }
 
-          return forkJoin(...observables);
+          return forkJoin(observables);
         })
       )
       .subscribe();
@@ -83,26 +83,26 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   }
 
   public addToWhitelist(ip: string) {
-    this.http
-      .post<void>('/api/traffic/whitelist', {
+    this.api
+      .request<void>('POST', 'traffic/whitelist', {body: {
         ip: ip
-      })
+      }})
       .subscribe(() => this.change$.next(null));
   }
 
   public addToBlacklist(ip: string) {
-    this.http
-      .post<void>('/api/traffic/blacklist', {
+    this.api
+      .request<void>('POST', 'traffic/blacklist', {body: {
         ip: ip,
         period: 240,
         reason: ''
-      })
+      }})
       .subscribe(() => this.change$.next(null));
   }
 
   public removeFromBlacklist(ip: string) {
-    this.http
-      .delete<void>('/api/traffic/blacklist/' + ip)
+    this.api
+      .request<void>('DELETE', 'traffic/blacklist/' + ip)
       .subscribe(() => this.change$.next(null));
   }
 }

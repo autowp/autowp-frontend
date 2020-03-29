@@ -13,7 +13,6 @@ import { ItemService } from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import {ToastsService} from './toasts/toasts.service';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +29,7 @@ export class AppComponent implements OnInit {
   public categories = [];
   public loginForm = {
     login: '',
-    password: '',
-    remember: false
+    password: ''
   };
   public language: string;
   public urlPath = '/';
@@ -47,8 +45,7 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private itemService: ItemService,
     private modalService: NgbModal,
-    private renderer: Renderer2,
-    private toastService: ToastsService
+    private renderer: Renderer2
   ) {
     this.language = this.languageService.getLanguage();
     const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
@@ -71,7 +68,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.auth.loadMe().subscribe();
+    // this.auth.loadMe().subscribe();
 
     this.auth.getUser().subscribe(user => {
       this.user = user;
@@ -115,19 +112,29 @@ export class AppComponent implements OnInit {
     this.auth
       .login(
         this.loginForm.login,
-        this.loginForm.password,
-        this.loginForm.remember
+        this.loginForm.password
       )
       .subscribe(
-        () => {
+        result => {
+          if (! result) {
+            this.translate.get('login/login-or-password-is-incorrect').subscribe(translation => {
+              this.loginInvalidParams = {
+                password: {
+                  invalid: translation
+                }
+              };
+            });
+            return;
+          }
+
           this.router.navigate(['/login']);
         },
-        response => {
-          if (response.status === 400) {
-            this.loginInvalidParams = response.error.invalid_params;
-          } else {
-            this.toastService.response(response);
-          }
+        error => {
+          this.loginInvalidParams = {
+            password: {
+              error: 'Error'
+            }
+          };
         }
       );
   }

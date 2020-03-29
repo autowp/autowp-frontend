@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIUser } from '../services/user';
+import { APIService } from '../services/api.service';
 
 export interface APIVotingVariant {
   id: number;
@@ -37,10 +37,10 @@ export interface APIVotingVariantVotesGetResponse {
 
 @Injectable()
 export class VotingService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getVoting(id: number): Observable<APIVoting> {
-    return this.http.get<APIVoting>('/api/voting/' + id);
+    return this.api.request<APIVoting>('GET', 'voting/' + id);
   }
 
   public getVariantVotes(
@@ -54,8 +54,9 @@ export class VotingService {
       params.fields = options.fields;
     }
 
-    return this.http.get<APIVotingVariantVotesGetResponse>(
-      '/api/voting/' + votingId + '/variant/' + variantId + '/vote',
+    return this.api.request<APIVotingVariantVotesGetResponse>(
+      'GET',
+      'voting/' + votingId + '/variant/' + variantId + '/vote',
       {
         params: params
       }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   APIItemVehicleTypeGetResponse,
   APIPaginator,
-  APIImage
+  APIImage,
+  APIService
 } from './api.service';
 import { Observable, of, forkJoin } from 'rxjs';
 import { APIPicture } from './picture';
@@ -183,7 +183,6 @@ export interface GetItemsServiceOptions {
   engine_id?: number;
   have_common_childs_with?: number;
   have_childs_with_parent_of_type?: number;
-  last_item?: boolean;
   related_groups_of?: number;
   catname?: string;
   exclude_self_and_childs?: number;
@@ -353,10 +352,6 @@ function converItemsOptions(
     params.have_childs_with_parent_of_type = options.have_childs_with_parent_of_type.toString();
   }
 
-  if (options.last_item) {
-    params.last_item = '1';
-  }
-
   if (options.related_groups_of) {
     params.related_groups_of = options.related_groups_of.toString();
   }
@@ -405,11 +400,11 @@ function converItemsOptions(
 
 @Injectable()
 export class ItemService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public setItemVehicleTypes(itemId: number, ids: number[]): Observable<void> {
-    return this.http
-      .get<APIItemVehicleTypeGetResponse>('/api/item-vehicle-type', {
+    return this.api
+      .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
         params: {
           item_id: itemId.toString()
         }
@@ -423,11 +418,9 @@ export class ItemService {
             currentIds.push(itemVehicleType.vehicle_type_id);
             if (ids.indexOf(itemVehicleType.vehicle_type_id) === -1) {
               promises.push(
-                this.http.delete<void>(
-                  '/api/item-vehicle-type/' +
-                    itemId +
-                    '/' +
-                    itemVehicleType.vehicle_type_id
+                this.api.request<void>(
+                  'DELETE',
+                  'item-vehicle-type/' + itemId + '/' + itemVehicleType.vehicle_type_id
                 )
               );
             }
@@ -436,9 +429,10 @@ export class ItemService {
           for (const vehicleTypeId of ids) {
             if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
-                this.http.post<void>(
-                  '/api/item-vehicle-type/' + itemId + '/' + vehicleTypeId,
-                  {}
+                this.api.request<void>(
+                  'POST',
+                  'item-vehicle-type/' + itemId + '/' + vehicleTypeId,
+                  {body: {}}
                 )
               );
             }
@@ -457,7 +451,7 @@ export class ItemService {
     url: string,
     options: GetItemServiceOptions
   ): Observable<APIItem> {
-    return this.http.get<APIItem>(url, {
+    return this.api.request<APIItem>('GET', this.api.resolveLocation(url), {
       params: convertItemOptions(options)
     });
   }
@@ -469,13 +463,15 @@ export class ItemService {
     if (!id) {
       return of(null as APIItem);
     }
-    return this.getItemByLocation('/api/item/' + id, options);
+    return this.api.request<APIItem>('GET', 'item/' + id, {
+      params: convertItemOptions(options)
+    });
   }
 
   public getItems(
     options?: GetItemsServiceOptions
   ): Observable<APIItemsGetResponse> {
-    return this.http.get<APIItemsGetResponse>('/api/item', {
+    return this.api.request<APIItemsGetResponse>('GET', 'item', {
       params: converItemsOptions(options)
     });
   }
@@ -483,7 +479,7 @@ export class ItemService {
   public getPath(
     options?: GetPathServiceOptions
   ): Observable<APIItemsGetPathResponse> {
-    return this.http.get<APIItemsGetPathResponse>('/api/item/path', {
+    return this.api.request<APIItemsGetPathResponse>('GET', 'item/path', {
       params: options
     });
   }

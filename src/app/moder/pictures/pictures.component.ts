@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
 import {
   VehicleTypeService,
@@ -270,7 +269,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   public excludeItemQuery = '';
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private perspectiveService: APIPerspectiveService,
     private moderVoteService: PictureModerVoteService,
     private moderVoteTemplateService: APIPictureModerVoteTemplateService,
@@ -622,10 +621,10 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       for (const picture of this.pictures) {
         if (picture.id === id) {
           promises.push(
-            this.http
-              .put<void>('/api/picture/' + picture.id, {
+            this.api
+              .request<void>('PUT', 'picture/' + picture.id, {body: {
                 status: 'accepted'
-              })
+              }})
               .pipe(tap(() => (picture.status = 'accepted')))
           );
         }

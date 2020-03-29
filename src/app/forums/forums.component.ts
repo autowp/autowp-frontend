@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../services/api.service';
+import { APIPaginator, APIService } from '../services/api.service';
 import { ACLService } from '../services/acl.service';
 import {Subscription, combineLatest, Observable} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -28,7 +27,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
   public themes: APIForumTheme[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private acl: ACLService,
     private route: ActivatedRoute,
     private forumService: ForumsService,
@@ -115,9 +114,9 @@ export class ForumsComponent implements OnInit, OnDestroy {
   }
 
   private setTopicStatus(topic: APIForumTopic, status: string): Observable<void> {
-    const o = this.http.put<void>('/api/forum/topic/' + topic.id, {
+    const o = this.api.request<void>('PUT', 'forum/topic/' + topic.id, {body: {
       status: status
-    });
+    }});
     o.subscribe(
       () => {
         topic.status = status;

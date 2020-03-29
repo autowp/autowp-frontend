@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { APIUser } from './user';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { APIService } from './api.service';
 
 export interface APIIP {
   address: string;
@@ -25,7 +25,7 @@ export interface APIIP {
 export class IpService {
   private hostnames = new Map<string, Observable<string>>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getHostByAddr(ip: string): Observable<string> {
     const hostname = this.hostnames.get(ip);
@@ -33,8 +33,8 @@ export class IpService {
       return hostname;
     }
 
-    const o = this.http
-      .get<APIIP>('/api/ip/' + ip, {
+    const o = this.api
+      .request<APIIP>('GET', 'ip/' + ip, {
         params: {
           fields: 'hostname'
         }

@@ -1,10 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ACLService } from '../../services/acl.service';
 import { PageService, APIPage, APIPageLinearized } from '../../services/page';
 import { PageEnvService } from '../../services/page-env.service';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMapTo } from 'rxjs/operators';
+import { APIService } from '../../services/api.service';
 
 // Acl.inheritsRole('pages-moder', 'unauthorized');
 
@@ -20,7 +20,7 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private acl: ACLService,
     private pageService: PageService,
     private pageEnv: PageEnvService
@@ -54,10 +54,10 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
   }
 
   public move(page: APIPage, direction: any) {
-    this.http
-      .put<void>('/api/page/' + page.id, {
+    this.api
+      .request<void>('PUT', 'page/' + page.id, {body: {
         position: direction
-      })
+      }})
       .subscribe(() => {
         this.load$.next(null);
       });
@@ -65,7 +65,7 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
 
   public deletePage(ev: any, page: APIPage) {
     if (window.confirm('Would you like to delete page?')) {
-      this.http.delete('/api/page/' + page.id).subscribe(() => {
+      this.api.request('DELETE', 'page/' + page.id).subscribe(() => {
         this.load$.next(null);
       });
     }

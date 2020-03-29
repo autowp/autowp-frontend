@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { APIUser } from './user';
 import { catchError, map } from 'rxjs/operators';
+import { APIService } from './api.service';
 
 export interface APIContactsGetOptions {
   fields: string;
@@ -18,11 +18,11 @@ export interface APIContactsContactGetResponse {
 
 @Injectable()
 export class ContactsService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public isInContacts(userId: number): Observable<boolean> {
-    return this.http
-      .get<APIContactsContactGetResponse>('/api/contacts/' + userId)
+    return this.api
+      .request<APIContactsContactGetResponse>('GET', 'contacts/' + userId)
       .pipe(
         map(response => !!response.contact_user_id),
         catchError(err => {
@@ -44,7 +44,7 @@ export class ContactsService {
       params.fields = options.fields;
     }
 
-    return this.http.get<APIContactsGetResponse>('/api/contacts', {
+    return this.api.request<APIContactsGetResponse>('GET', 'contacts', {
       params: params
     });
   }

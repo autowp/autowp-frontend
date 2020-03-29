@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ACLService } from '../../../services/acl.service';
 import { ItemService, APIItem } from '../../../services/item';
 import { Subscription, of } from 'rxjs';
@@ -16,6 +15,7 @@ import {
   switchMapTo, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 // Acl.isAllowed('car', 'edit_meta', 'unauthorized');
 
@@ -90,7 +90,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private aclSub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private acl: ACLService,
     private itemService: ItemService,
     private route: ActivatedRoute,
@@ -228,8 +228,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   }
 
   private initTreeTab() {
-    this.http
-      .get<APIItemTreeGetResponse>('/api/item/' + this.item.id + '/tree')
+    this.api
+      .request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree')
       .subscribe(
         response => {
           this.tree = response.item;
@@ -240,10 +240,10 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   public toggleSubscription() {
     const newValue = !this.item.subscription;
-    this.http
-      .put<void>('/api/item/' + this.item.id, {
+    this.api
+      .request<void>('PUT', 'item/' + this.item.id, {body: {
         subscription: newValue ? 1 : 0
-      })
+      }})
       .subscribe(() => {
         this.item.subscription = newValue;
       });

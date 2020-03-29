@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import {Input, Component, Injectable, EventEmitter, Output, OnChanges, SimpleChanges} from '@angular/core';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-comments-form',
@@ -21,23 +21,24 @@ export class CommentsFormComponent implements OnChanges {
     moderator_attention: false
   };
 
-  constructor(private http: HttpClient, private toastService: ToastsService) {}
+  constructor(private api: APIService, private toastService: ToastsService) {}
 
   public sendMessage() {
     this.invalidParams = {};
 
-    this.http
-      .post<void>(
-        '/api/comment',
+    this.api
+      .request<void>(
+        'POST',
+        'comment',
         {
-          type_id: this.typeID,
-          item_id: this.itemID,
-          parent_id: this.parentID,
-          moderator_attention: this.form.moderator_attention ? 1 : 0,
-          message: this.form.message,
-          resolve: this.resolve ? 1 : 0
-        },
-        {
+          body: {
+            type_id: this.typeID,
+            item_id: this.itemID,
+            parent_id: this.parentID,
+            moderator_attention: this.form.moderator_attention ? 1 : 0,
+            message: this.form.message,
+            resolve: this.resolve ? 1 : 0
+          },
           observe: 'response'
         }
       )

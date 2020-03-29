@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-forums-move-topic',
@@ -19,7 +19,7 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
   public topic: APIForumTopic = null;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private route: ActivatedRoute,
     private forumService: ForumsService,
@@ -66,10 +66,10 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
   }
 
   public selectTheme(theme: APIForumTheme) {
-    this.http
-      .put<void>('/api/forum/topic/' + this.topic.id, {
+    this.api
+      .request<void>('PUT', 'forum/topic/' + this.topic.id, {body: {
         theme_id: theme.id
-      })
+      }})
       .subscribe(
         () => {
           this.router.navigate(['/forums/topic', this.topic.id]);

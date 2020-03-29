@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { APIService } from './api.service';
 
 export interface APIItemLanguage {
   language: string;
@@ -17,11 +17,9 @@ export interface APIItemLanguageGetResponse {
 
 @Injectable()
 export class ItemLanguageService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getItems(itemId: number): Observable<APIItemLanguageGetResponse> {
-    return this.http.get<APIItemLanguageGetResponse>(
-      '/api/item/' + itemId + '/language'
-    );
+    return this.api.request<APIItemLanguageGetResponse>('GET', 'item/' + itemId + '/language');
   }
 }

@@ -1,8 +1,8 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-account-access',
@@ -18,7 +18,7 @@ export class AccountAccessComponent {
   };
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private translate: TranslateService,
     private pageEnv: PageEnvService,
     public toastService: ToastsService
@@ -39,7 +39,7 @@ export class AccountAccessComponent {
   public submit() {
     this.invalidParams = {};
 
-    this.http.put<void>('/api/user/me', this.form).subscribe(
+    this.api.request<void>('PUT', 'user/me', this.form).subscribe(
       () => {
         this.form = {
           password_old: null,

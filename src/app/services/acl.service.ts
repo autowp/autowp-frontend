@@ -2,7 +2,6 @@ import { APIService } from './api.service';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import {
   catchError,
   map,
@@ -48,7 +47,7 @@ export interface APIACLRoles {
 
 @Injectable()
 export class APIACL {
-  constructor(private api: APIService, private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public isAllowed(resource: string, privilege: string): Observable<boolean> {
     return this.api
@@ -84,7 +83,7 @@ export class APIACL {
   }
 
   public getRoles(recursive: boolean): Observable<APIACLRoles> {
-    return this.http.get<APIACLRoles>('/api/acl/roles', {
+    return this.api.request<APIACLRoles>('GET', 'acl/roles', {
       params: {
         recursive: recursive ? '1' : ''
       }
@@ -92,11 +91,11 @@ export class APIACL {
   }
 
   public getResources(): Observable<APIACLResourcesGetResponse> {
-    return this.http.get<APIACLResourcesGetResponse>('/api/acl/resources');
+    return this.api.request<APIACLResourcesGetResponse>('GET', 'acl/resources');
   }
 
   public getRules(): Observable<APIACLRulesGetResponse> {
-    return this.http.get<APIACLRulesGetResponse>('/api/acl/rules');
+    return this.api.request<APIACLRulesGetResponse>('GET', 'acl/rules');
   }
 }
 
@@ -114,8 +113,7 @@ export class ACLService {
       return this.isAllowedCache.get(key);
     }
 
-    const o = this.auth
-      .getUser()
+    const o = this.auth.getUser()
       .pipe(switchMapTo(this.apiACL.isAllowed(resource, privilege)));
     this.isAllowedCache.set(key, o);
     return o;

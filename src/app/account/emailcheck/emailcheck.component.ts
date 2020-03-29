@@ -1,9 +1,9 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-account-emailcheck',
@@ -16,7 +16,7 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
   public failure = false;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService
   ) {}
@@ -38,9 +38,9 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>
-          this.http.post<void>('/api/user/emailcheck', {
+          this.api.request<void>('POST', 'user/emailcheck', {body: {
             code: params.token
-          })
+          }})
         )
       )
       .subscribe(() => (this.success = true), () => (this.failure = true));

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpResponse, HttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { shareReplay, switchMap, map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
-import { APIPaginator } from '../services/api.service';
+import { APIPaginator, APIService } from '../services/api.service';
 import { APIUser } from '../services/user';
 import { APIComment } from '../api/comments/comments.service';
 
@@ -99,15 +99,13 @@ export class ForumsService {
 
   private readonly summary$: Observable<APIForumUserSummaryGetResponse>;
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private api: APIService, private auth: AuthService) {
     this.summary$ = this.auth.getUser().pipe(
       switchMap(user => {
         if (!user) {
           return of(null);
         }
-        return this.http.get<APIForumUserSummaryGetResponse>(
-          '/api/forum/user-summary'
-        );
+        return this.api.request<APIForumUserSummaryGetResponse>('GET', 'forum/user-summary');
       }),
       shareReplay(1)
     );
@@ -124,8 +122,8 @@ export class ForumsService {
   public getMessageStateParams(
     messageID: number
   ): Observable<MessageStateParams> {
-    return this.http
-      .get<APIComment>('/api/comment/' + messageID, {
+    return this.api
+      .request<APIComment>('GET', 'comment/' + messageID, {
         params: {
           fields: 'page',
           limit: LIMIT.toString()
@@ -154,7 +152,7 @@ export class ForumsService {
       }
     }
 
-    return this.http.get<APIForumThemesGetResponse>('/api/forum/themes', {
+    return this.api.request<APIForumThemesGetResponse>('GET', 'forum/themes', {
       params: params
     });
   }
@@ -175,7 +173,7 @@ export class ForumsService {
       }
     }
 
-    return this.http.get<APIForumTheme>('/api/forum/themes/' + id, {
+    return this.api.request<APIForumTheme>('GET', 'forum/themes/' + id, {
       params: params
     });
   }
@@ -201,7 +199,7 @@ export class ForumsService {
       params.page = options.page.toString();
     }
 
-    return this.http.get<APIForumTopicsGetResponse>('/api/forum/topic', {
+    return this.api.request<APIForumTopicsGetResponse>('GET', 'forum/topic', {
       params: params
     });
   }
@@ -210,7 +208,19 @@ export class ForumsService {
     id: number,
     options: APIForumGetTopicOptions
   ): Observable<APIForumTopic> {
-    return this.getTopicByLocation('/api/forum/topic/' + id, options);
+    const params: { [param: string]: string } = {};
+
+    if (options.fields) {
+      params.fields = options.fields;
+    }
+
+    if (options.page) {
+      params.page = options.page.toString();
+    }
+
+    return this.api.request<APIForumTopic>('GET', 'forum/topic/' + id, {
+      params: params
+    });
   }
 
   public getTopicByLocation(
@@ -226,7 +236,7 @@ export class ForumsService {
     if (options.page) {
       params.page = options.page.toString();
     }
-    return this.http.get<APIForumTopic>(location, {
+    return this.api.request<APIForumTopic>('GET', this.api.resolveLocation(location), {
       params: params
     });
   }
@@ -234,17 +244,18 @@ export class ForumsService {
   public postTopic(
     data: APIForumTopicPostData
   ): Observable<HttpResponse<void>> {
-    return this.http.post<void>(
-      '/api/forum/topic',
+    return this.api.request<void>(
+      'POST',
+      'forum/topic',
       {
-        theme_id: data.theme_id.toString(),
-        name: data.name,
-        text: data.text,
-        moderator_attention: data.moderator_attention ? '1' : '',
-        subscription: data.subscription ? '1' : ''
-      },
-      {
-        observe: 'response'
+        observe: 'response',
+        body: {
+          theme_id: data.theme_id.toString(),
+          name: data.name,
+          text: data.text,
+          moderator_attention: data.moderator_attention ? '1' : '',
+          subscription: data.subscription ? '1' : ''
+        }
       }
     );
   }

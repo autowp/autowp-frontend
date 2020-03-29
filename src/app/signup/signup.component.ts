@@ -1,9 +1,9 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +23,7 @@ export class SignupComponent {
   public invalidParams: any;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private reCaptchaService: ReCaptchaService,
     private pageEnv: PageEnvService,
@@ -50,7 +50,7 @@ export class SignupComponent {
   }
 
   public submit() {
-    this.http.post<void>('/api/user', this.form).subscribe(
+    this.api.request<void>('POST', 'user', {body: this.form}).subscribe(
       () => {
         this.router.navigate(['/signup/ok']);
       },

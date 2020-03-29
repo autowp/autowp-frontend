@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   APIACL,
   APIACLRole,
@@ -9,6 +8,7 @@ import {
 import { PageEnvService } from '../../services/page-env.service';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMapTo } from 'rxjs/operators';
+import { APIService } from '../../services/api.service';
 
 // Acl.inheritsRole('moder', 'unauthorized');
 
@@ -57,7 +57,7 @@ export class ModerRightsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private acl: APIACL,
     private pageEnv: PageEnvService
   ) {}
@@ -95,14 +95,15 @@ export class ModerRightsComponent implements OnInit, OnDestroy {
 
   public addRoleParent() {
     if (this.addRoleParentForm.role) {
-      this.http
-        .post<void>(
-          '/api/acl/roles/' +
+      this.api
+        .request<void>(
+          'POST',
+          'acl/roles/' +
             encodeURIComponent(this.addRoleParentForm.role) +
             '/parents',
-          {
+          {body: {
             role: this.addRoleParentForm.parentRole
-          }
+          }}
         )
         .subscribe(() => {
           this.$loadRoles.next(null);
@@ -112,8 +113,8 @@ export class ModerRightsComponent implements OnInit, OnDestroy {
   }
 
   public addRole() {
-    this.http
-      .post<void>('/api/acl/roles', this.addRoleForm)
+    this.api
+      .request<void>('POST', 'acl/roles', {body: this.addRoleForm})
       .subscribe(() => {
         this.$loadRoles.next(null);
         this.$loadRolesTree.next(null);
@@ -126,13 +127,13 @@ export class ModerRightsComponent implements OnInit, OnDestroy {
     }
 
     const privilege = this.addRuleForm.privilege.split('/');
-    this.http
-      .post<void>('/api/acl/rules', {
+    this.api
+      .request<void>('POST', 'acl/rules', {body: {
         role: this.addRuleForm.role,
         resource: privilege[0],
         privilege: privilege[1],
         allowed: this.addRuleForm.allowed
-      })
+      }})
       .subscribe(() => {
         this.$loadRules.next(null);
       });

@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   APIBrandsGetResponse,
   APIBrandsLines,
@@ -8,6 +7,7 @@ import {
 import { PageEnvService } from '../services/page-env.service';
 import { combineLatest, Subscription } from 'rxjs';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -33,7 +33,7 @@ export class BrandsComponent implements OnInit, OnDestroy {
   public icons: APIBrandsIconsResponse;
   private sub: Subscription;
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {}
+  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -49,8 +49,8 @@ export class BrandsComponent implements OnInit, OnDestroy {
     );
 
     this.sub = combineLatest([
-      this.http.get<APIBrandsGetResponse>('/api/brands'),
-      this.http.get<APIBrandsIconsResponse>('/api/brands/icons')
+      this.api.request<APIBrandsGetResponse>('GET', 'brands'),
+      this.api.request<APIBrandsIconsResponse>('GET', 'brands/icons')
     ]).subscribe(
       data => {
         this.icons = data[1];

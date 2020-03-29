@@ -8,7 +8,6 @@ import {
   Injector,
   ApplicationRef
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {
@@ -24,6 +23,7 @@ import {
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { MapPopupComponent } from './popup/popup.component';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 export interface MapItem {
   location: {
@@ -73,7 +73,7 @@ export class MapComponent implements OnInit {
   };
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private pageEnv: PageEnvService,
     private zone: NgZone,
     private resolver: ComponentFactoryResolver,
@@ -104,7 +104,7 @@ export class MapComponent implements OnInit {
             return EMPTY;
           }
 
-          return this.http.get<MapItem[]>('/api/map/data', {
+          return this.api.request<MapItem[]>('GET', 'map/data', {
             params: {
               bounds: bounds.toBBoxString(),
               'points-only': '0'
