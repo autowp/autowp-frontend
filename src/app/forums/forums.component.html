@@ -25,11 +25,13 @@
       </p>
       <p [textContent]="theme.description|translate" *ngIf="theme.description"></p>
       <p [translateParams]="{topics: theme.topics_count, messages: theme.messages_count}" translate>{{'{topics} topics and {messages} messages'}}</p>
-      <div *ngIf="theme.subthemes && theme.subthemes.length > 0" ngPreserveWhitespaces>
+      <div *ngIf="theme.themes && theme.themes.length > 0" ngPreserveWhitespaces>
         {{'forums/subforums'|translate}}
-        <a [href]="subtheme.url" *ngFor="let subtheme of theme.subthemes" [textContent]="subtheme.name|translate"></a>
+        <ng-container *ngFor="let subtheme of theme.themes; let last = last">
+          <a [routerLink]="['/forums', subtheme.id]">{{subtheme.name|translate}}</a><span *ngIf="!last">, </span>
+        </ng-container>
       </div>
-      <p *ngIf="!theme.subthemes">
+      <p *ngIf="!theme.themes">
         <a [routerLink]="['/forums', theme.id]" translate>forums/go-to-theme</a>
       </p>
     </div>
@@ -60,7 +62,7 @@
     {{'forums/create-new-topic'|translate}}
   </a>
 
-  <table class="table table-striped" role="presentation">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th translate scope="col">forums/theme/topics</th>

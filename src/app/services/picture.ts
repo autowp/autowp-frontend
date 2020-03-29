@@ -8,7 +8,7 @@ import { APIIP } from './ip';
 import { switchMap, shareReplay, map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { ACLService } from './acl.service';
-import { APIItem } from './item';
+import {APIItem, APIPathTreeItem} from './item';
 import { APIItemLink } from './item-link';
 
 export interface APIPictureGetResponse {
@@ -20,6 +20,12 @@ export interface APIPictureVotes {
   positive: number;
   negative: number;
   value: number;
+}
+
+export interface APIPathTreePictureItem {
+  type: number;
+  perspective_id?: number;
+  item: APIPathTreeItem;
 }
 
 export interface APIPicture {
@@ -114,9 +120,11 @@ export interface APIPicture {
   subscribed?: boolean;
   of_links?: APIItemLink[];
   paginator?: APIPicturePaginator;
+  path: APIPathTreePictureItem[];
   taken_year?: number;
   taken_month?: number;
   taken_day?: number;
+  taken_date?: string;
 }
 
 export interface APIPicturePaginator {
@@ -156,6 +164,7 @@ export interface APIGetPicturesOptions {
   limit?: number;
   page?: number;
   perspective_id?: number | null | 'null';
+  perspective_exclude_id?: string;
   order?: number;
   exact_item_id?: number;
   item_id?: number;
@@ -177,7 +186,12 @@ export interface APIGetPicturesOptions {
     type_id?: number;
   };
   paginator?: {
-    item_id: number;
+    item_id?: number;
+    exact?: boolean;
+    exact_item_id?: number,
+    exact_item_link_type?: number,
+    perspective_id?: number;
+    perspective_exclude_id?: string;
   };
   accepted_in_days?: number;
 }
@@ -230,6 +244,10 @@ function converPicturesOptions(
 
   if (options.perspective_id) {
     params.perspective_id = options.perspective_id.toString();
+  }
+
+  if (options.perspective_exclude_id) {
+    params.perspective_exclude_id = options.perspective_exclude_id.toString();
   }
 
   if (options.order) {
@@ -314,6 +332,19 @@ function converPicturesOptions(
     if (options.paginator.item_id) {
       params['paginator[item_id]'] = options.paginator.item_id.toString();
     }
+    if (options.paginator.exact_item_id) {
+      params['paginator[exact_item_id]'] = options.paginator.exact_item_id.toString();
+    }
+    if (options.paginator.exact_item_link_type) {
+      params['paginator[exact_item_link_type]'] = options.paginator.exact_item_link_type.toString();
+    }
+    if (options.paginator.perspective_id) {
+      params['paginator[perspective_id]'] = options.paginator.perspective_id.toString();
+    }
+
+    if (options.paginator.perspective_exclude_id) {
+      params['paginator[perspective_exclude_id]'] = options.paginator.perspective_exclude_id;
+    }
   }
 
   return params;
@@ -372,6 +403,10 @@ export class PictureService {
     return this.getPictureByLocation('/api/picture/' + id, options);
   }
 
+  public getCanonicalRoute(identity: string): Observable<string[]|null> {
+    return this.http.get<string[]|null>('/api/picture/' + identity + '/canonical-route');
+  }
+
   public getPictures(
     options?: APIGetPicturesOptions
   ): Observable<APIPictureGetResponse> {
@@ -398,5 +433,15 @@ export class PictureService {
           // ga('send', 'event', 'vote', value > 0 ? 'like' : 'dislike');
         })
       );
+  }
+
+  public setPictureStatus(id: number, status: string): Observable<void> {
+    return this.http.put<void>('/api/picture/' + id.toString(), {
+      status: status
+    });
+  }
+
+  public incView(id: number): Observable<void> {
+    return this.http.post<void>('/api/picture/' + id.toString() + '/view', {});
   }
 }

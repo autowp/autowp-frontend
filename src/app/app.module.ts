@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {ErrorHandler, Injectable, NgModule} from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
@@ -51,12 +51,29 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { ModerMenuModule } from './moder/menu/menu.module';
 import { IndexModule } from './index/index.module';
+import {ConfigurationService} from './services/configuration.service';
+import {CanActivateCatalogue} from './catalogue/can-activate';
 import {ToastsModule} from './toasts/toasts.module';
+import * as Sentry from '@sentry/browser';
+import {environment} from '../environments/environment';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/ng2/i18n/', '.json');
 }*/
+
+if (environment.sentry) {
+  Sentry.init(environment.sentry);
+}
+
+@Injectable()
+export class SentryErrorHandler implements ErrorHandler {
+  constructor() {}
+  handleError(error) {
+    Sentry.captureException(error.originalError || error);
+    throw error;
+  }
+}
 
 @NgModule({
   declarations: [
@@ -105,6 +122,8 @@ import {ToastsModule} from './toasts/toasts.module';
     ToastsModule
   ],
   providers: [
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    ConfigurationService,
     APIService,
     APIACL,
     AuthService,
@@ -130,7 +149,8 @@ import {ToastsModule} from './toasts/toasts.module';
     ContentLanguageService,
     LanguageService,
     TimezoneService,
-    IpService
+    IpService,
+    CanActivateCatalogue
   ],
   bootstrap: [AppComponent]
 })

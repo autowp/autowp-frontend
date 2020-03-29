@@ -3,7 +3,7 @@
   <h3>
     <span [innerHTML]="item.name_html"></span>
     <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
-      <a [href]="item.design.url" [textContent]="item.design.name"></a>
+      <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
     <small *ngIf="item.produced > 1" class="ml-2">
@@ -16,9 +16,9 @@
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
 
   <div class="row" *ngIf="havePhoto(item)">
-    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures">
-      <a [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
+    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures.pictures">
+      <a [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
+        <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy"
         />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
@@ -40,7 +40,7 @@
     <p translate>catalogue/engine/mounted-on:</p>
     <ul>
       <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+        <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
       </li>
     </ul>
   </div>

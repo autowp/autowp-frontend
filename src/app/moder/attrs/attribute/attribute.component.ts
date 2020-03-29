@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
-import { switchMap } from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 
@@ -94,45 +94,38 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
       response => this.toastService.response(response)
     );
 
-    this.routeSub = combineLatest(
-      this.route.params,
-      this.attrsService.getAttributeTypes(),
-      (params, types) => ({ params, types })
-    )
+    this.routeSub = combineLatest([this.route.params, this.attrsService.getAttributeTypes()])
       .pipe(
-        switchMap(
-          data => this.attrsService.getAttribute(data.params.id),
-          (data, attribute) => ({ attribute: attribute, types: data.types })
-        ),
-        switchMap(
-          data =>
-            combineLatest(
-              this.http.get<APIAttrAttributeGetResponse>(
-                '/api/attr/attribute',
-                {
-                  params: {
-                    parent_id: data.attribute.id.toString(),
-                    recursive: '0',
-                    fields: 'unit'
-                  }
-                }
-              ),
-              this.$listOptionsChange.pipe(
-                switchMap(() =>
-                  this.attrsService.getListOptions({
-                    attribute_id: data.attribute.id
-                  })
-                )
-              ),
-              (attributes, listOptions) => ({ attributes, listOptions })
-            ),
-          (data, combined) => ({
+        map(data => ({ params: data[0], types: data[1] })),
+        switchMap(data => this.attrsService.getAttribute(data.params.id).pipe(
+          map(attribute => ({ attribute: attribute, types: data.types }))
+        )),
+        switchMap(data => combineLatest([
+          this.http.get<APIAttrAttributeGetResponse>(
+            '/api/attr/attribute',
+            {
+              params: {
+                parent_id: data.attribute.id.toString(),
+                recursive: '0',
+                fields: 'unit'
+              }
+            }
+          ),
+          this.$listOptionsChange.pipe(
+            switchMap(() =>
+              this.attrsService.getListOptions({
+                attribute_id: data.attribute.id
+              })
+            )
+          )
+        ]).pipe(
+          map(combined => ({
             attribute: data.attribute,
             types: data.types,
-            attributes: combined.attributes,
-            listOptions: combined.listOptions
-          })
-        )
+            attributes: combined[0],
+            listOptions: combined[1]
+          }))
+        ))
       )
       .subscribe(data => {
 
@@ -171,7 +164,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
     this.attrsService
       .updateAttribute(this.attribute.id, this.attribute)
       .subscribe(
-        response => {
+        () => {
           this.loading--;
         },
         response => {
@@ -223,7 +216,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
         name: this.newListOption.name
       })
       .subscribe(
-        response => {
+        () => {
           this.newListOption.name = '';
 
           this.$listOptionsChange.next(null);

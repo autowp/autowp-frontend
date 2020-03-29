@@ -4,11 +4,11 @@ import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
 
 export interface APIIndexCategoriesItem {
+  id: number;
   catname: string;
   short_name: string;
   new_cars_count: number;
   cars_count: number;
-  new_cars_url: string;
 }
 
 interface APIIndexCategoriesResponse {

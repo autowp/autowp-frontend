@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SpecService, APISpec } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, empty, of, forkJoin } from 'rxjs';
+import {Subscription, of, forkJoin, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   distinctUntilChanged,
@@ -97,8 +97,10 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
           if (
             [1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1
           ) {
-            this.router.navigate(['/error-404']);
-            return empty();
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
+            return EMPTY;
           }
 
           this.loading++;
@@ -112,11 +114,17 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                 parent => {
                   const specId = parent ? parent.spec_id : null;
 
-                  return specId && Number.isInteger(specId as number)
-                    ? this.specService.getSpec(specId as number)
-                    : of(null as APISpec);
-                },
-                (item, spec) => ({ item, spec })
+                  if (!specId || !Number.isInteger(specId as number)) {
+                    return of({
+                      item: parent,
+                      spec: null as APISpec
+                    });
+                  }
+
+                  return this.specService.getSpec(specId as number).pipe(
+                    map(spec => ({ item: parent, spec: spec }))
+                  );
+                }
               ),
               switchMap(
                 parent => {
@@ -142,27 +150,30 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                           }
 
                           return ids;
-                        })
+                        }),
+                        map(vehicleTypeIDs => ({
+                          item: parent.item,
+                          spec: parent.spec,
+                          vehicleTypeIDs: vehicleTypeIDs
+                        }))
                       );
                   }
-                  return of([] as number[]);
-                },
-                (item, vehicleTypeIDs) => {
-                  return {
-                    item: item.item,
-                    spec: item.spec,
-                    vehicleTypeIDs: vehicleTypeIDs
-                  };
+                  return of({
+                    item: parent.item,
+                    spec: parent.spec,
+                    vehicleTypeIDs: [] as number[]
+                  });
                 }
               ),
-              finalize(() => this.loading--)
+              finalize(() => this.loading--),
+              map(data => ({
+                item: data.item,
+                spec: data.spec,
+                vehicleTypeIDs: data.vehicleTypeIDs,
+                itemTypeID: params.item_type_id
+              }))
             );
-        }, (params, data) => ({
-          item: data.item,
-          spec: data.spec,
-          vehicleTypeIDs: data.vehicleTypeIDs,
-          itemTypeID: params.item_type_id
-        }))
+        })
       )
       .subscribe(data => {
         this.parent = data.item;
@@ -223,7 +234,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
           } else {
             this.toastService.response(response);
           }
-          return empty();
+          return EMPTY;
         }),
         switchMap(response =>
           this.itemService.getItemByLocation(
@@ -233,7 +244,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         ),
         switchMap(
           item =>
-            forkJoin(
+            forkJoin([
               this.itemService.setItemVehicleTypes(
                 item.id,
                 this.vehicleTypeIDs
@@ -244,8 +255,9 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                     item_id: item.id
                   })
                 : of(null)
-            ),
-          item => item
+            ]).pipe(
+              map(() => item)
+            )
         )
       )
       .subscribe(

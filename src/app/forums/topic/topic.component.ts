@@ -5,7 +5,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { AuthService } from '../../services/auth.service';
-import { switchMap } from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import { APIUser } from '../../services/user';
 import { APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -35,13 +35,13 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.limit = this.forumService.getLimit();
 
-    this.paramsSub = combineLatest(
+    this.paramsSub = combineLatest([
       this.route.params,
       this.route.queryParams,
-      this.auth.getUser(),
-      (route, query, user) => ({ route, query, user })
-    )
+      this.auth.getUser()
+    ])
       .pipe(
+        map(data => ({ route: data[0], query: data[1], user: data[2] })),
         switchMap(data => {
           this.user = data.user;
           const topicID = parseInt(data.route.topic_id, 10);
@@ -75,7 +75,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         subscription: 1
       })
       .subscribe(
-        response => {
+        () => {
           this.topic.subscription = true;
         },
         response => this.toastService.response(response)
@@ -88,7 +88,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         subscription: 0
       })
       .subscribe(
-        response => {
+        () => {
           this.topic.subscription = false;
         },
         response => this.toastService.response(response)

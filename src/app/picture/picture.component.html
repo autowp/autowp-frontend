@@ -4,7 +4,7 @@
     <ng-container *ngIf="picture.items.length == 1 && picture.items[0].item.design">
       <sup class="design-brand">
         {{'ng/carlist/designed by'|translate}}
-        <a [href]="picture.items[0].item.design.url" [textContent]="picture.items[0].item.design.name"></a>
+        <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
       </sup>
     </ng-container>
   </h1>
@@ -12,16 +12,16 @@
 
 <div class="row">
   <div class="col-md-6">
-    <div class="picture-preview-medium">
-      <a [routerLink]="['../../gallery', picture.identity]" class="d-block rounded mb-4">
-        <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" />
-      </a>
+    <div class="picture-preview-medium" *ngIf="picture.preview_large">
+      <span class="d-block rounded mb-4" (auxclick)="openSource($event)" (click)="openGallery($event)" style="cursor: pointer">
+        <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
+      </span>
       <ng-container *ngIf="picture.items.length == 1">
         <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">
             <p translate>picture/other-languages</p>
             <ul class="list-unstyled">
               <li *ngFor="let altName of picture.items[0].item.alt_names">
-                  <sup *ngFor="let code of altName.languages" style="text-decoration: uppercase">{{code}}</sup>
+                  <sup *ngFor="let code of altName.languages" style="text-transform: uppercase">{{code}}</sup>
                   {{altName.name}}
               </li>
             </ul>
@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-xs-6">
         <div class="picture-vote">
-          <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value &lt;= 0" *ngIf="user" (click)="vote(1)"></a>
+          <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value <= 0" *ngIf="user" (click)="vote(1)"></a>
           <i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true" *ngIf="!user"></i>
           <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
           <a href="#" class="fa fa-2x vote-down"  aria-hidden="true"[class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
@@ -76,7 +76,7 @@
 
     <p *ngIf="picture.replaceable">
       {{'picture/picture-suggested-to-replace'|translate}}
-      <a [href]="picture.replaceable.url" [innerHTML]="picture.replaceable.name_html"></a>
+      <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
     </p>
 
   </div>
@@ -99,9 +99,12 @@
         <app-user [user]="picture.owner"></app-user>,
         <span [ngbTooltip]="picture.add_date | date: 'medium'">{{picture.add_date|amTimeAgo}}</span>
       </li>
-      <li *ngIf="picture.point">
-        <span class="fa fa-map-pin" aria-hidden="true"></span>
-        <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" translate>picture/location</a>
+      <li *ngIf="picture.point || picture.taken_date">
+        {{picture.taken_date}}<ng-container *ngIf="picture.point && picture.taken_date">, </ng-container>
+        <ng-container *ngIf="picture.point">
+          <span class="fa fa-map-pin" aria-hidden="true"></span>
+          <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" translate>picture/location</a>
+        </ng-container>
       </li>
       <li>
         {{'picture/status:'|translate}}
@@ -139,14 +142,14 @@
         <li *ngIf="canEditSpecs">
           <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> {{'carlist/edit-specs'|translate}}</a>
         </li>
-        <li *ngIf="item.item.has_specs && item.item.specs_url">
-          <a [href]="item.item.specs_url">
+        <li *ngIf="item.item.has_specs && item.item.specs_route">
+          <a [routerLink]="item.item.specs_route">
             <i class="fa fa-list-alt" aria-hidden="true"></i>
             <span [innerHTML]="'catalogue/specifications-of-\{name\}'|translate:{name: item.item.name_html}"></span>
           </a>
         </li>
         <li *ngIf="item.item.design">
-          <a [href]="item.item.design.url">
+          <a [routerLink]="item.item.design.route">
             {{'ng/carlist/designed by'|translate}}
             {{item.item.design.name}}
           </a>
@@ -275,33 +278,57 @@
   <h3><a routerLink="/moder" translate>page/67/name</a></h3>
   <div class="card card-body">
       <div class="row">
-          <div class="col-md-6">
-            <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+        <div class="col-md-4">
+          <div *ngIf="picture.status == 'inbox'">
+            <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept">
+              {{'moder/picture/acceptance/accept'|translate}}
+            </button>
+            <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete">
+              {{'moder/picture/acceptance/delete'|translate}}
+            </button>
           </div>
-          <div class="col-md-6">
-            <p>
+
+          <div *ngIf="picture.status == 'accepted'">
+            <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept">
+              {{'moder/picture/acceptance/unaccept'|translate}}
+            </button>
+          </div>
+
+          <div *ngIf="picture.status == 'removing'">
+            <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore">
+              {{'moder/picture/acceptance/restore'|translate}}
+            </button>
+          </div>
+          <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+
+          <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="!statusLoading"></ngb-progressbar>
+        </div>
+        <div class="col-md-4" *ngIf="picture.items.length > 0">
+          <label class="d-block">{{'moder/picture/perspective'|translate}}</label>
+          <div *ngFor="let item of picture.items">
+            <span [innerHTML]="item.item.name_html"></span>
+            <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type == 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <p>
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">{{'moder/picture/edit-picture-{id}'}}</a>
+          </p>
+
+          <p *ngFor="let item of picture.items">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/items/item', item.item_id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="item.item.name_html"></span></a>
+          </p>
+
+          <ng-container *ngFor="let item of picture.items">
+            <p *ngFor="let brand of item.item.brands">
               <i class="fa fa-cog" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">{{'moder/picture/edit-picture-{id}'}}</a>
+              <a [routerLink]="['/moder/items/item', brand.id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="brand.name_html"></span></a>
             </p>
+          </ng-container>
 
-            <p *ngFor="let item of picture.items">
-              <i class="fa fa-cog" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/items/item', item.item_id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="item.item.name_html"></span></a>
-            </p>
-
-            <ng-container *ngFor="let item of picture.items">
-              <p *ngFor="let brand of item.item.brands">
-                <i class="fa fa-cog" aria-hidden="true"></i>
-                <a [routerLink]="['/moder/items/item', brand.id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="brand.name_html"></span></a>
-              </p>
-            </ng-container>
-
-          </div>
-          <div class="col-md-6" *ngIf="picture.items.length > 0">
-            <!--<?php foreach ($this->items as $item) { ?>
-              <?=$this->partial('application/moder/pictures/picture-perspective', $item['perspective'])?>
-            <?php } ?>-->
-          </div>
+        </div>
       </div>
   </div>
 </div>

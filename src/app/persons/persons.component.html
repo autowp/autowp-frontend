@@ -12,13 +12,13 @@
 
 <ul class="nav nav-pills mb-4">
   <li class="nav-item">
-    <a class="nav-link active" routerLink="/persons" translate>persons/content-persons</a>
+    <a class="nav-link" routerLink="/persons" translate [class.active]="!authors">persons/content-persons</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/persons/authors" translate>persons/author-persons</a>
+    <a class="nav-link" routerLink="/persons/authors" translate [class.active]="authors">persons/author-persons</a>
   </li>
 </ul>
 
-<app-item [item]="item" *ngFor="let item of items"></app-item>
+<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
 
 <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

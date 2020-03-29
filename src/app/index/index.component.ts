@@ -27,17 +27,17 @@ interface APIIndexItemOfDay {
 export class IndexComponent implements OnInit {
   public mosts = [
     {
-      url: '/mosts/fastest/roadster',
+      route: '/mosts/fastest/roadster',
       name: 'mosts/fastest/roadster',
     },
     {
-      url: '/mosts/mighty/sedan/today',
+      route: '/mosts/mighty/sedan/today',
       name: 'mosts/mighty/sedan/today',
     }, {
-      url: '/mosts/dynamic/universal/2000-09',
+      route: '/mosts/dynamic/universal/2000-09',
       name: 'mosts/dynamic/universal/2000-09',
     }, {
-      url: '/mosts/heavy/truck',
+      route: '/mosts/heavy/truck',
       name: 'mosts/heavy/truck'
     }
   ];
@@ -61,22 +61,19 @@ export class IndexComponent implements OnInit {
       });
     }, 0);
 
-    this.http.get<APIIndexPersonsResponse>('/api/index/persons-content').subscribe(response => {
-      this.contentPersons = response.items;
-    }, undefined, () => {
-      this.contentPersonsLoaded = true;
+    this.http.get<APIIndexPersonsResponse>('/api/index/persons-content').subscribe({
+      next: response => { this.contentPersons = response.items; },
+      complete: () => { this.contentPersonsLoaded = true; }
     });
 
-    this.http.get<APIIndexPersonsResponse>('/api/index/persons-author').subscribe(response => {
-      this.persons = response.items;
-    }, undefined, () => {
-      this.personsLoaded = true;
+    this.http.get<APIIndexPersonsResponse>('/api/index/persons-author').subscribe({
+      next: response => { this.persons = response.items; },
+      complete: () => { this.personsLoaded = true; }
     });
 
-    this.http.get<APIIndexItemOfDay>('/api/index/item-of-day').subscribe(response => {
-      this.itemOfDay = response;
-    }, undefined, () => {
-      this.itemOfDayLoaded = true;
+    this.http.get<APIIndexItemOfDay>('/api/index/item-of-day').subscribe({
+      next: response => { this.itemOfDay = response; },
+      complete: () => { this.itemOfDayLoaded = true; }
     });
   }
 }

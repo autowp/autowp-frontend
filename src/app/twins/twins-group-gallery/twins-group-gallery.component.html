@@ -1,1 +1,8 @@
-<app-gallery [itemID]="group.id" [current]="current" [galleryPrefix]="['/twins/group', group.id, 'gallery']" [picturePrefix]="['/twins/group', group.id, 'pictures']" *ngIf="group"></app-gallery>
+<app-gallery
+  [filter]="{itemID: group.id}"
+  [current]="current"
+  [galleryPrefix]="['/twins/group', group.id+'', 'gallery']"
+  [picturePrefix]="['/twins/group', group.id+'', 'pictures']"
+  *ngIf="group"
+  (pictureSelected)="pictureSelected($event)"
+></app-gallery>

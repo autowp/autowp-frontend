@@ -13,7 +13,7 @@
 </nav>
 
 <div class="page-header">
-  <h1>{{topic.name}}</h1>
+  <h1 *ngIf="topic">{{topic.name}}</h1>
 </div>
 
 <section class="forum-topic-page comments" *ngIf="topic">

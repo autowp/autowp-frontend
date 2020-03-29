@@ -69,6 +69,14 @@ const appRoutes: Routes = [
     path: 'persons',
     loadChildren: () => import('./persons/persons.module').then(m => m.PersonsModule)
   },
+  {
+    path: 'picture',
+    loadChildren: () => import('./picture/picture.module').then(m => m.PictureModule)
+  },
+  {
+    path: 'gallery',
+    loadChildren: () => import('./gallery/gallery.module').then(m => m.GalleryModule)
+  },
   { path: 'pulse', loadChildren: () => import('./pulse/pulse.module').then(m => m.PulseModule) },
   {
     path: 'restore-password',
@@ -97,14 +105,21 @@ const appRoutes: Routes = [
   },
   { path: 'voting', loadChildren: () => import('./voting/voting.module').then(m => m.VotingModule) },
   { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule) },
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'error-404', component: PageNotFoundComponent },
+  {
+    // matcher: cataloguePathMatcher,
+    path: ':brand',
+    loadChildren: () => import('./catalogue/catalogue.module').then(m => m.CatalogueModule)
+  },
+  { path: '**', redirectTo: 'error-404' }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes,
-      {} // enableTracing: true <-- debugging purposes only
+      appRoutes, {
+        scrollPositionRestoration: 'enabled'
+      }
     )
   ],
   exports: [RouterModule]

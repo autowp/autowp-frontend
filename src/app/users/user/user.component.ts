@@ -6,11 +6,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService, APIUser } from '../../services/user';
 import {
   Subscription,
-  empty,
   of,
   forkJoin,
   Observable,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { PictureService, APIPicture } from '../../services/picture';
@@ -22,7 +21,7 @@ import {
   tap,
   catchError,
   switchMap,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 import { APIComment, APICommentsService } from '../../api/comments/comments.service';
@@ -86,38 +85,40 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.routeSub = this.auth
       .getUser()
       .pipe(
-        switchMapTo(this.route.params, (currentUser, params) => ({
-          currentUser,
-          params
-        })),
+        switchMap(currentUser => this.route.params.pipe(
+          map(params => ({
+            currentUser,
+            params
+          }))
+        )),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(
-          data =>
-            combineLatest(
-              this.userService
-                .getByIdentity(data.params.identity, { fields: fields })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return empty();
-                  })
-                ),
-              this.acl.isAllowed('user', 'ip'),
-              this.acl.isAllowed('user', 'ban'),
-              this.acl.isAllowed('user', 'delete')
+        switchMap(data => combineLatest([
+          this.userService
+            .getByIdentity(data.params.identity, { fields: fields })
+            .pipe(
+              catchError(err => {
+                this.toastService.response(err);
+                return EMPTY;
+              })
             ),
-          (data, user) => ({
+          this.acl.isAllowed('user', 'ip'),
+          this.acl.isAllowed('user', 'ban'),
+          this.acl.isAllowed('user', 'delete')
+        ]).pipe(
+          map(user => ({
             currentUser: data.currentUser,
             user: user[0],
             canViewIp: user[1],
             canBan: user[2],
             canDeleteUser: user[3]
-          })
-        ),
+          }))
+        )),
         tap(data => {
           if (!data.user) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
@@ -165,7 +166,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
               user_id: data.user.id,
               limit: 15,
               order: 'date_desc',
-              fields: 'preview,url'
+              fields: 'preview,route'
             });
           }
 
@@ -174,7 +175,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
             ip = this.loadBan(data.user.last_ip);
           }
 
-          return forkJoin(pictures, comments, ip).pipe(
+          return forkJoin([pictures, comments, ip]).pipe(
             tap(data2 => {
               this.pictures = data2[0].pictures;
               this.comments = data2[1].items;
@@ -234,7 +235,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     }
 
     this.http.delete<void>('/api/user/' + this.user.id + '/photo').subscribe(
-      response => {
+      () => {
         this.user.photo = null;
       },
       response => this.toastService.response(response)
@@ -250,7 +251,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         deleted: true
       })
       .subscribe(
-        response => {
+        () => {
           this.user.deleted = true;
         },
         response => this.toastService.response(response)
@@ -261,7 +262,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.http
       .delete<void>('/api/traffic/blacklist/' + this.ip.address)
       .subscribe(
-        response => {},
+        () => {},
         response => this.toastService.response(response)
       );
   }
@@ -270,29 +271,30 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.http
       .delete<void>('/api/traffic/blacklist/' + this.ip.address)
       .subscribe(
-        response => {
+        () => {
           this.ip.blacklist = null;
         },
         response => this.toastService.response(response)
       );
   }
 
-  public addToBlacklist() {
+  public addToBlacklist(ipAddress: string) {
     this.http
       .post<void>('/api/traffic/blacklist', {
-        ip: this.ip.address,
+        ip: ipAddress,
         period: this.banPeriod,
         reason: this.banReason
       })
       .pipe(
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
-          return empty();
+          return EMPTY;
         }),
         switchMap(() => this.loadBan(this.user.last_ip)),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
-          return empty();
+          return EMPTY;
+
         })
       )
       .subscribe(data => {

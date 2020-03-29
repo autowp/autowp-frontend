@@ -1,10 +1,10 @@
 import { Component, SimpleChanges, OnChanges, Input } from '@angular/core';
-import { APIItem } from '../../services/item';
+import {APIItem, APIItemOfDayPicture} from '../../services/item';
 import { APIUser } from '../../services/user';
 import { APIPicture } from '../../services/picture';
 
 interface ItemOfDayItem extends APIItem {
-  public_url?: string;
+  public_route?: string;
 }
 
 @Component({
@@ -17,8 +17,8 @@ export class ItemOfDayComponent implements OnChanges {
   @Input() user: APIUser;
   @Input() pictures: APIPicture; // TODO: remove
 
-  public first: APIPicture[];
-  public others: APIPicture[];
+  public first: APIItemOfDayPicture[];
+  public others: APIItemOfDayPicture[];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.item) {

@@ -40,7 +40,9 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           if (response.items.length <= 0) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
@@ -56,7 +58,9 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
         },
         response => {
           if (response.status === 404) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
           } else {
             this.toastService.response(response);
           }

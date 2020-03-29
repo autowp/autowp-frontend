@@ -14,7 +14,7 @@
 <div class="row" *ngIf="item.item_of_day_pictures">
   <div class="col-sm-6">
     <ng-container *ngFor="let picture of first">
-      <a [href]="picture.url" class="d-block rounded mb-4" *ngIf="picture">
+      <a [routerLink]="picture.route" class="d-block rounded mb-4" *ngIf="picture">
         <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
         />
       </a>
@@ -23,7 +23,7 @@
   <div class="col-sm-6">
     <div class="row">
       <ng-container *ngFor="let picture of others">
-        <a [href]="picture.url" class="d-block rounded mb-3 col-6" *ngIf="picture">
+        <a [routerLink]="picture.route" class="d-block rounded mb-3 col-6" *ngIf="picture">
           <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
           />
         </a>
@@ -44,14 +44,14 @@
     </span>
   </ng-container>
 
-  <span *ngIf="item.item_type_id == 5 && item.accepted_pictures_count > 6 && item.public_url">
+  <span *ngIf="item.item_type_id == 5 && item.accepted_pictures_count > 6 && item.public_route">
     <span class="fa fa-th" aria-hidden="true"></span>
-    <a [href]="item.public_url">{{'carlist/details'|translate}} ({{item.accepted_pictures_count}})</a>
+    <a [routerLink]="item.public_route">{{'carlist/details'|translate}} ({{item.accepted_pictures_count}})</a>
   </span>
 
-  <span *ngIf="item.item_type_id != 3 && item.item_type_id != 5 && item.accepted_pictures_count > 6 && item.public_url">
+  <span *ngIf="item.item_type_id != 3 && item.item_type_id != 5 && item.accepted_pictures_count > 6 && item.public_route">
     <span class="fa fa-th" aria-hidden="true"></span>
-    <a [href]="item.public_url">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+    <a [routerLink]="item.public_route">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
   </span>
 
   <ng-container *ngIf="item.twins_groups">

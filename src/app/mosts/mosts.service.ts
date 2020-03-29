@@ -2,14 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIItem } from '../services/item';
-import { APIPicture } from '../services/picture';
 import { APIVehicleType } from '../services/vehicle-type';
 import { APIAttrUnit } from '../api/attrs/attrs.service';
 
 export interface APIMostsItemsGetOptions {
+  brand_id?: number;
   rating_catname: string;
   type_catname: string;
   years_catname: string;
+}
+
+export interface APIMostsItemPicture {
+  name: string;
+  src: string;
+  route: string[];
 }
 
 export interface APIMostsItem {
@@ -17,7 +23,7 @@ export interface APIMostsItem {
   value_html: string;
   value_text: string;
   unit: APIAttrUnit;
-  pictures: APIPicture;
+  pictures: APIMostsItemPicture[];
 }
 
 export interface APIMostsItemsGetResponse {
@@ -42,14 +48,22 @@ export interface APIMostsMenuGetResponse {
 
 @Injectable()
 export class MostsService {
-  private readonly menu$: Observable<APIMostsMenuGetResponse>;
+  private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
-  constructor(private http: HttpClient) {
-    this.menu$ = this.http.get<APIMostsMenuGetResponse>('/api/mosts/menu');
-  }
+  constructor(private http: HttpClient) { }
 
-  public getMenu(): Observable<APIMostsMenuGetResponse> {
-    return this.menu$;
+  public getMenu(brandID: number): Observable<APIMostsMenuGetResponse> {
+
+    if (! this.menus$.has(brandID)) {
+      const o = this.http.get<APIMostsMenuGetResponse>('/api/mosts/menu', {
+        params: {
+          brand_id: brandID.toString()
+        }
+      });
+      this.menus$.set(brandID, o);
+    }
+
+    return this.menus$.get(brandID);
   }
 
   public getItems(
@@ -67,6 +81,10 @@ export class MostsService {
 
     if (options.years_catname) {
       params.years_catname = options.years_catname;
+    }
+
+    if (options.brand_id) {
+      params.brand_id = options.brand_id.toString();
     }
 
     return this.http.get<APIMostsItemsGetResponse>('/api/mosts/items', {

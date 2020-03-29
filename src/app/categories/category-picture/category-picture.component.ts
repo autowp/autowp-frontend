@@ -1,18 +1,13 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import { Subscription, of } from 'rxjs';
+import {Subscription, of, BehaviorSubject} from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
-import {
-  APIPicture,
-  PictureService,
-  APIPictureGetResponse
-} from '../../services/picture';
+import {APIPicture, PictureService} from '../../services/picture';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   switchMap,
   distinctUntilChanged,
   map,
-  switchMapTo,
   tap
 } from 'rxjs/operators';
 import { PathItem } from '../definitions';
@@ -30,6 +25,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
   public picture: APIPicture;
   private pathCatnames: string[] = [];
   public path: PathItem[];
+  private changed$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private itemService: ItemService,
@@ -42,7 +38,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const identityPipe = this.route.paramMap.pipe(
-      map((route) => route.get('identity')),
+      map(route => route.get('identity')),
       distinctUntilChanged()
     );
 
@@ -55,51 +51,54 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
           this.path = data.pathItems;
           this.pathCatnames = data.pathCatnames;
         }),
-        switchMapTo(identityPipe, (data, identity) => ({
-          current: data.current,
-          category: data.category,
-          identity: identity
-        })),
+        switchMap(data => identityPipe.pipe(
+          map(identity => ({
+            current: data.current,
+            category: data.category,
+            identity: identity
+          }))
+        )),
         switchMap(
           (data) => {
-            if (!data.current) {
-              return of(null as APIPictureGetResponse);
-            }
-
-            if (!data.identity) {
-              return of(null as APIPictureGetResponse);
+            if (!data.current || !data.identity) {
+              return of({
+                current: data.current,
+                picture: null as APIPicture
+              });
             }
 
             const fields =
-              'owner,name_html,name_text,image,preview_large,add_date,dpi,point,paginator,' +
-              'items.item.design,items.item.description,items.item.specs_url,items.item.has_specs,items.item.alt_names,' +
-              'items.item.name_html,categories.catname,categories.name_html,copyrights,' +
-              'twins.name_html,factories.name_html,moder_votes,votes,of_links,replaceable.url,replaceable.name_html';
+              'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
+              'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
+              'items.item.name_html,categories,categories.name_html,copyrights,' +
+              'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
-            return this.pictureService.getPictures({
-              identity: data.identity,
-              // status: 'accepted',
-              item_id: data.current.id,
-              fields: fields,
-              limit: 1,
-              items: {
-                type_id: 1
-              },
-              paginator: {
-                item_id: data.current.id
-              }
-            });
-          },
-          (data, response) => ({
-            current: data.current,
-            picture:
-              response && response.pictures.length ? response.pictures[0] : null
-          })
+            return this.changed$.pipe(
+              switchMap(value => this.pictureService.getPictures({
+                identity: data.identity,
+                item_id: data.current.id,
+                fields: fields,
+                limit: 1,
+                items: {
+                  type_id: 1
+                },
+                paginator: {
+                  item_id: data.current.id
+                }
+              })),
+              map(response => ({
+                current: data.current,
+                picture: response.pictures.length ? response.pictures[0] : null
+              }))
+            );
+          }
         )
       )
       .subscribe((data) => {
         if (!data.picture || !data.current) {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return;
         }
 
@@ -148,5 +147,23 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
     return ['/category', this.category.catname]
       .concat(this.pathCatnames)
       .concat(['pictures']);
+  }
+
+  public currentRouterLinkGallery(): string[] {
+    if (!this.category || !this.picture) {
+      return null;
+    }
+
+    if (this.current.item_type_id === 3) {
+      return ['/category', this.current.catname, 'gallery'];
+    }
+
+    return ['/category', this.category.catname]
+      .concat(this.pathCatnames)
+      .concat(['gallery', this.picture.identity]);
+  }
+
+  reloadPicture() {
+    this.changed$.next(true);
   }
 }

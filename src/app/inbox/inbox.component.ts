@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Subscription, of, combineLatest, empty } from 'rxjs';
+import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { PictureService, APIPicture } from '../services/picture';
 import { InboxService } from './inbox.service';
 import { APIItem } from '../services/item';
@@ -12,7 +12,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -70,77 +70,78 @@ export class InboxComponent implements OnInit, OnDestroy {
         switchMap(user => {
           if (!user) {
             this.router.navigate(['/signin']);
-            return empty();
+            return EMPTY;
           }
 
           return this.route.params;
         }),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(
-          params => {
-            if (!params.brand) {
-              this.router.navigate(['/inbox', ALL_BRANDS]);
-              return empty();
-            }
+        switchMap(params => {
+          if (!params.brand) {
+            this.router.navigate(['/inbox', ALL_BRANDS]);
+            return EMPTY;
+          }
 
-            let brandID = 0;
-            if (params.brand !== ALL_BRANDS) {
-              brandID = params.brand ? parseInt(params.brand, 10) : 0;
-            }
+          let brandID = 0;
+          if (params.brand !== ALL_BRANDS) {
+            brandID = params.brand ? parseInt(params.brand, 10) : 0;
+          }
 
-            return combineLatest(
-              this.inboxService.get(brandID, params.date),
-              of(brandID)
-            );
-          },
-          (params, combined) => ({
-            params: params,
-            inbox: combined[0],
-            brandID: combined[1]
-          })
-        ),
-        catchError((err, caught) => {
+          return combineLatest([
+            this.inboxService.get(brandID, params.date),
+            of(brandID)
+          ]).pipe(
+            map(combined => ({
+              params: params,
+              inbox: combined[0],
+              brandID: combined[1]
+            }))
+          );
+        }),
+        catchError(err => {
           this.toastService.response(err);
           return of(null);
         }),
-        switchMapTo(
-          this.route.queryParams,
-          (data, queryParams) => ({
+        switchMap(data => this.route.queryParams.pipe(
+          map(queryParams => ({
             params: data.params,
             inbox: data.inbox,
             brandID: data.brandID,
             queryParams: queryParams
-          })
-        ),
-        switchMap(
-          data => {
-            if (data.params.date !== data.inbox.current.date) {
-              this.router.navigate([
-                '/inbox',
-                data.brandID ? data.brandID : 'all',
-                data.inbox.current.date
-              ]);
-              return of(null);
-            }
-
-            return this.pictureService.getPictures({
-              status: 'inbox',
-              fields:
-                'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              limit: 30,
-              page: data.queryParams.page,
-              item_id: data.brandID,
-              add_date: data.inbox.current.date,
-              order: 1
+          }))
+        )),
+        switchMap(data => {
+          if (data.params.date !== data.inbox.current.date) {
+            this.router.navigate([
+              '/inbox',
+              data.brandID ? data.brandID : 'all',
+              data.inbox.current.date
+            ]);
+            return of({
+              pictures: null,
+              inbox: data.inbox,
+              brandID: data.brandID
             });
-          },
-          (data, pictures) => ({
-            pictures: pictures,
-            inbox: data.inbox,
-            brandID: data.brandID
-          })
-        )
+          }
+
+          return this.pictureService.getPictures({
+            status: 'inbox',
+            fields:
+              'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+            limit: 30,
+            page: data.queryParams.page,
+            item_id: data.brandID,
+            add_date: data.inbox.current.date,
+            order: 1
+          }).pipe(
+            map(pictures => ({
+              pictures: pictures,
+              inbox: data.inbox,
+              brandID: data.brandID
+            }))
+          );
+        })
       )
       .subscribe(data => {
         this.brandID = data.brandID;

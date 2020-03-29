@@ -1,15 +1,15 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../services/api.service';
 import { UserService, APIUser } from '../../../services/user';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription, empty, combineLatest } from 'rxjs';
+import { Router, ActivatedRoute} from '@angular/router';
+import {Subscription, combineLatest, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
   switchMap,
   distinctUntilChanged,
   debounceTime,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import { APIComment, APICommentsService } from '../../../api/comments/comments.service';
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -48,21 +48,23 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.querySub = combineLatest(
+    this.querySub = combineLatest([
       this.route.params.pipe(
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => {
           return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
-            catchError((err, caught) => {
+            catchError((err) => {
               this.toastService.response(err);
-              return empty();
+              return EMPTY;
             })
           );
         }),
         tap(user => {
           if (!user) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
@@ -90,13 +92,13 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
       this.route.queryParams.pipe(
         distinctUntilChanged(),
         debounceTime(30)
-      ),
-      (user: APIUser, query: Params) => ({
-        user,
-        query
-      })
-    )
+      )
+    ])
       .pipe(
+        map(data => ({
+          user: data[0],
+          query: data[1]
+        })),
         switchMap(data => {
           this.order = data.query.order || 'date_desc';
 
@@ -106,12 +108,12 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
               page: data.query.page,
               limit: 30,
               order: this.order,
-              fields: 'preview,url,vote'
+              fields: 'preview,route,vote'
             })
             .pipe(
-              catchError((err, caught) => {
+              catchError((err) => {
                 this.toastService.response(err);
-                return empty();
+                return EMPTY;
               }),
               tap(response => {
                 this.comments = response.items;

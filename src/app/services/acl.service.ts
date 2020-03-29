@@ -60,7 +60,7 @@ export class APIACL {
       })
       .pipe(
         map(response => response.result),
-        catchError(err => {
+        catchError(() => {
           return of(false);
         }),
         shareReplay(1)
@@ -76,7 +76,7 @@ export class APIACL {
       })
       .pipe(
         map(response => response[role]),
-        catchError(err => {
+        catchError(() => {
           return of(false);
         }),
         shareReplay(1)

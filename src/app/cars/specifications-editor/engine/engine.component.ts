@@ -76,7 +76,7 @@ export class CarsSpecificationsEditorEngineComponent
         engine_id: value
       })
       .subscribe(
-        response => this.changed.emit(),
+        () => this.changed.emit(),
         response => this.toastService.response(response)
       );
   }

@@ -97,7 +97,7 @@ export class ModerItemsItemCatalogueComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
       this.canHaveParentBrand = [1, 2].indexOf(this.item.item_type_id) > -1;
-      this.canHaveParents = [4, 6].indexOf(this.item.item_type_id) == -1;
+      this.canHaveParents = [4, 6].indexOf(this.item.item_type_id) === -1;
 
       this.organizeTypeId = this.item.item_type_id;
       if (this.organizeTypeId === 5) {
@@ -117,7 +117,7 @@ export class ModerItemsItemCatalogueComponent
         parent_id: this.item.id,
         limit: 500,
         fields:
-          'name,duplicate_child.name_html,item.name_html,item.name,item.public_urls',
+          'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
         order: 'type_auto'
       })
       .subscribe(
@@ -138,7 +138,7 @@ export class ModerItemsItemCatalogueComponent
         item_id: this.item.id,
         limit: 500,
         fields:
-          'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_urls'
+          'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes'
       })
       .subscribe(
         response => {

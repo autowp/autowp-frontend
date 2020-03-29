@@ -41,37 +41,38 @@ export class ModerItemsItemNameComponent
 
   ngOnInit(): void {
     this.sub = combineLatest(
-      this.contentLanguage.getList().pipe(
-        map(contentLanguages => {
-          const languages = new Map<string, APIItemLanguage>();
+      [
+        this.contentLanguage.getList().pipe(
+          map(contentLanguages => {
+            const languages = new Map<string, APIItemLanguage>();
 
-          for (const language of contentLanguages) {
-            languages.set(language, {
-              language: language,
-              name: null,
-              text: null,
-              full_text: null,
-              text_id: null,
-              full_text_id: null
-            });
-          }
+            for (const language of contentLanguages) {
+              languages.set(language, {
+                language: language,
+                name: null,
+                text: null,
+                full_text: null,
+                text_id: null,
+                full_text_id: null
+              });
+            }
 
-          this.currentLanguage = contentLanguages[0];
+            this.currentLanguage = contentLanguages[0];
 
-          return languages;
-        })
-      ),
-      this.item$,
-      (languages, item) => ({ languages, item })
+            return languages;
+          })
+        ),
+        this.item$
+      ]
     )
       .pipe(
-        switchMap(
-          data => this.itemLanguageService.getItems(data.item.id),
-          (data, values) => ({
+        map(data => ({ languages: data[0], item: data[1] })),
+        switchMap(data => this.itemLanguageService.getItems(data.item.id).pipe(
+          map(values => ({
             languages: data.languages,
             values: values.items
-          })
-        )
+          }))
+        ))
       )
       .subscribe(data => {
         for (const value of data.values) {
@@ -104,10 +105,10 @@ export class ModerItemsItemNameComponent
           }
         )
         .subscribe(
-          response => {
+          () => {
             this.loading--;
           },
-          response => {
+          () => {
             this.loading--;
           }
         );

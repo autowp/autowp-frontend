@@ -9,6 +9,17 @@ import { Observable, of, forkJoin } from 'rxjs';
 import { APIPicture } from './picture';
 import { switchMap } from 'rxjs/operators';
 
+export interface APIPathTreeItemParent {
+  catname: string;
+  item: APIPathTreeItem;
+}
+
+export interface APIPathTreeItem {
+  catname: string;
+  item_type_id: number;
+  parents: APIPathTreeItemParent[];
+}
+
 export interface APIItemsGetResponse {
   items: APIItem[];
   paginator: APIPaginator;
@@ -22,6 +33,18 @@ export interface APIPathItem {
 
 export interface APIItemsGetPathResponse {
   path: APIPathItem[];
+}
+
+export interface APIItemChildsCounts {
+  stock: number;
+  tuning: number;
+  sport: number;
+}
+
+export interface APIItemOfDayPicture {
+  route: string[];
+  thumb: APIImage;
+  name: string;
 }
 
 export interface APIItem {
@@ -50,6 +73,7 @@ export interface APIItem {
   produced_exactly: boolean;
   spec_id: number | string | null;
   logo: APIImage;
+  logo120?: APIImage;
   engine_id: number | null;
   engine_inherit: boolean | null;
   attr_zone_id: number;
@@ -57,6 +81,7 @@ export interface APIItem {
   engine_vehicles_count: number;
   pictures_count: number;
   childs_count: number;
+  childs_counts: APIItemChildsCounts;
   parents_count: number;
   links_count: number;
   item_language_count: number;
@@ -65,61 +90,66 @@ export interface APIItem {
   related_group_pictures: APIItemRelatedGroupItem[];
 
   description: string;
+  text: string;
   is_compiles_item_of_day: boolean;
-  item_of_day_pictures: APIPicture[];
-  design: APIItem;
+  item_of_day_pictures: APIItemOfDayPicture[];
+  design: {
+    name: string;
+    route: string[];
+  };
   name_default: string;
-  specs_url: string;
+  specs_route?: string[];
   twins_groups: APIItem[];
   categories?: APIItem[];
   childs?: APIItem[];
-  url: string;
+  route: string[];
   can_edit_specs?: boolean;
   name_only: string;
   current_pictures_count?: number;
   accepted_pictures_count?: number;
+  inbox_pictures_count?: number;
   specifications_count?: number;
   has_child_specs?: boolean;
   brands: APIItem[];
-  public_urls?: string[];
+  public_routes?: string[][];
 
   has_text?: boolean;
 
   preview_pictures: {
-    picture: APIPicture;
-    url: string;
-  }[];
+    large_format: boolean;
+    pictures: {
+      picture?: APIPicture;
+      route: string[];
+      thumb?: APIImage;
+    }[];
+  };
 
   engine_vehicles?: [
     {
-      url: string;
+      route: string[];
       name_html: string;
     }
   ];
 
-  tuning?: {
-    url: string;
-    count: number;
-  };
-  sport?: {
-    url: string;
-    count: number;
-  };
-  more_pictures_url?: string;
   total_pictures?: number;
   comments_topic_stat?: {
     messages: number;
   };
   front_picture?: APIPicture;
+  exact_picture?: APIPicture;
   descendants_count: number;
   has_specs?: boolean;
   alt_names: any[];
+  descendant_twins_groups_count?: number;
+  comments_attentions_count?: number;
+  mosts_active?: boolean;
+  other_names?: string[];
 }
 
 export interface APIItemRelatedGroupItem {
   name: string;
   src: string;
-  url: string;
+  route: string[];
 }
 
 export interface GetItemServiceOptions {
@@ -137,6 +167,7 @@ export interface GetItemsServiceOptions {
   name?: string | null;
   name_exclude?: string | null;
   dateless?: boolean;
+  dateful?: boolean;
   page?: number;
   have_childs_of_type?: number;
   autocomplete?: string;
@@ -165,6 +196,10 @@ export interface GetItemsServiceOptions {
   preview_pictures?: {
     type_id?: number;
   };
+  factories_of_brand?: number;
+  concept?: boolean;
+  concept_inherit?: boolean;
+  route_brand_id?: number;
 }
 
 export interface GetPathServiceOptions {
@@ -226,8 +261,20 @@ function converItemsOptions(
     params.name_exclude = options.name_exclude;
   }
 
+  if (options.concept !== undefined && options.concept !== null) {
+    params.concept = options.concept ? '1' : '0';
+  }
+
+  if (options.concept_inherit !== undefined && options.concept_inherit !== null) {
+    params.concept_inherit = options.concept_inherit ? '1' : '0';
+  }
+
   if (options.dateless) {
     params.dateless = '1';
+  }
+
+  if (options.dateful) {
+    params.dateful = '1';
   }
 
   if (options.page) {
@@ -318,6 +365,10 @@ function converItemsOptions(
     params.catname = options.catname;
   }
 
+  if (options.factories_of_brand) {
+    params.factories_of_brand = options.factories_of_brand.toString();
+  }
+
   if (options.descendant_pictures) {
     if (options.descendant_pictures.status) {
       params['descendant_pictures[status]'] =
@@ -345,6 +396,10 @@ function converItemsOptions(
     }
   }
 
+  if (options.route_brand_id) {
+    params.route_brand_id = options.route_brand_id.toString();
+  }
+
   return params;
 }
 
@@ -366,7 +421,7 @@ export class ItemService {
           const currentIds: number[] = [];
           for (const itemVehicleType of response.items) {
             currentIds.push(itemVehicleType.vehicle_type_id);
-            if (ids.indexOf(itemVehicleType.vehicle_type_id) == -1) {
+            if (ids.indexOf(itemVehicleType.vehicle_type_id) === -1) {
               promises.push(
                 this.http.delete<void>(
                   '/api/item-vehicle-type/' +
@@ -379,7 +434,7 @@ export class ItemService {
           }
 
           for (const vehicleTypeId of ids) {
-            if (currentIds.indexOf(vehicleTypeId) == -1) {
+            if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
                 this.http.post<void>(
                   '/api/item-vehicle-type/' + itemId + '/' + vehicleTypeId,

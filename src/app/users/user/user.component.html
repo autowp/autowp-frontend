@@ -14,9 +14,9 @@
   <div class="col-md-6">
 
     <div class="user-photo">
-      <img alt="" *ngIf="user.photo" [src]="user.photo.src" alt="" />
+      <img alt="" *ngIf="user.photo" [src]="user.photo.src" loading="lazy" />
       <img *ngIf="!user.photo && user.gravatar_hash" [src]="'https://www.gravatar.com/avatar/' + user.gravatar_hash + '?s=270&d=https://www.autowp.ru/_.gif&r=g'"
-        alt="" />
+        alt="" loading="lazy" />
     </div>
 
     <p>
@@ -84,7 +84,7 @@
       <div class="card card-body mb-4">
         <ul>
           <li *ngFor="let picture of pictures">
-            <a [href]="picture.url" class="picture-hover-preview" [innerHTML]="picture.name_html"></a>
+            <a [routerLink]="['/picture', picture.identity]" class="picture-hover-preview" [innerHTML]="picture.name_html"></a>
           </li>
         </ul>
       </div>
@@ -100,7 +100,7 @@
       <div class="card card-body mb-4">
         <ul class="comments">
           <li *ngFor="let comment of comments">
-            <a [href]="comment.url" [textContent]="comment.preview"></a>
+            <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
           </li>
           <li>&#xa0;...</li>
         </ul>

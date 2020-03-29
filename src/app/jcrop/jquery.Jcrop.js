@@ -432,12 +432,12 @@ function Jcrop(obj, opt) {
     // Insert draggable elements {{{
     // Insert border divs for outline
 
-    if (options.dragEdges && $.isArray(options.createDragbars))
+    if (options.dragEdges && Array.isArray(options.createDragbars))
       createDragbars(options.createDragbars);
 
-    if ($.isArray(options.createHandles)) createHandles(options.createHandles);
+    if (Array.isArray(options.createHandles)) createHandles(options.createHandles);
 
-    if (options.drawBorders && $.isArray(options.createBorders))
+    if (options.drawBorders && Array.isArray(options.createBorders))
       createBorders(options.createBorders);
 
     // This is a hack for iOS5 to support drag/move touch functionality

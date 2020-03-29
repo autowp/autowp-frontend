@@ -76,7 +76,7 @@ export class SignInComponent {
     this.auth
       .login(this.form.login, this.form.password, this.form.remember)
       .subscribe(
-        (user) => {},
+        () => {},
         (response) => {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;

@@ -45,7 +45,7 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap(params =>
           this.forumService.getTopics({
-            fields: 'author,messages,last_message.datetime,last_message.user',
+            fields: 'author,messages,last_message.user',
             subscription: true,
             page: params.page
           })
@@ -70,7 +70,7 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
         subscription: 0
       })
       .subscribe(
-        response => {
+        () => {
           for (let i = this.topics.length - 1; i >= 0; i--) {
             if (this.topics[i].id === topic.id) {
               this.topics.splice(i, 1);

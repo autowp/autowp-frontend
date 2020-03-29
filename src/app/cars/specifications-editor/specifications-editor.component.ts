@@ -10,7 +10,7 @@ import {
   switchMap,
   distinctUntilChanged,
   debounceTime,
-  switchMapTo
+  switchMapTo, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -68,7 +68,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
         switchMap(params => {
           this.tab = params.tab || 'info';
 
-          return combineLatest(
+          return combineLatest([
             this.change$.pipe(
               switchMapTo(
                 this.itemService.getItem(params.item_id, {
@@ -77,10 +77,10 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
               )
             ),
             this.acl.isAllowed('specifications', 'admin'),
-            this.acl.inheritsRole('moder'),
-            (item, isSpecsAdmin, isModer) => ({ item, isSpecsAdmin, isModer })
-          );
-        })
+            this.acl.inheritsRole('moder')
+          ]);
+        }),
+        map(data => ({ item: data[0], isSpecsAdmin: data[1], isModer: data[2] }))
       )
       .subscribe(
         data => {
@@ -88,7 +88,9 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.isModer = data.isModer;
 
           if (! data.item) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
@@ -108,7 +110,9 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
           this.enginesCount = this.item.engine_id ? 1 : 0;
         },
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

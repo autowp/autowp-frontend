@@ -5,7 +5,6 @@ import { TwinsRoutingModule } from './twins-routing.module';
 import { TwinsItemComponent } from './item/item.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
-import { TwinsGroupPicturesThumbnailComponent } from './thumbnail/thumbnail.component';
 import { UserModule } from '../user/user.module';
 import { TwinsSidebarComponent } from './sidebar.component';
 import { TwinsGroupPicturesComponent } from './twins-group-pictures.component';
@@ -21,11 +20,11 @@ import { ModerModule } from '../moder/moder.module';
 import { TwinsGroupGalleryComponent } from './twins-group-gallery/twins-group-gallery.component';
 import { GalleryModule } from '../gallery/gallery.module';
 import { PictureModule } from '../picture/picture.module';
+import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 
 @NgModule({
   declarations: [
     TwinsItemComponent,
-    TwinsGroupPicturesThumbnailComponent,
     TwinsSidebarComponent,
     TwinsGroupPicturesComponent,
     TwinsGroupSpecificationsComponent,
@@ -45,7 +44,8 @@ import { PictureModule } from '../picture/picture.module';
     NgbDropdownModule,
     ModerModule,
     GalleryModule,
-    PictureModule
+    PictureModule,
+    ThumbnailModule
   ],
   providers: [
     TwinsService

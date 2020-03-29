@@ -79,7 +79,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.route.params.pipe(
         tap(params => {
           this.id = params.id;
@@ -218,7 +218,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             !this.showCopyrights
           ) {
             if (this.brandID) {
-              brandItems$ = combineLatest(
+              brandItems$ = combineLatest([
                 this.itemParentService
                   .getItems({
                     item_type_id: 1,
@@ -248,7 +248,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     page: 1
                   })
                   .pipe(tap(response => (this.concepts = response.items)))
-              );
+              ]);
             } else {
               brands$ = this.searchBrand$.pipe(
                 distinctUntilChanged(),
@@ -270,7 +270,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             }
           }
 
-          return combineLatest(
+          return combineLatest([
             museums$,
             factories$,
             persons$,
@@ -278,10 +278,10 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             copyrights$,
             brandItems$,
             brands$
-          );
+          ]);
         })
       )
-    ).subscribe();
+    ]).subscribe();
   }
 
   ngOnDestroy(): void {

@@ -6,7 +6,7 @@ export interface APIItemLink {
   id: number;
   url: string;
   name: string;
-  type_id: number;
+  type_id: string;
 }
 
 export interface APIItemLinkGetResponse {

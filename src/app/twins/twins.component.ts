@@ -3,10 +3,16 @@ import { APIPaginator } from '../services/api.service';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import { tap, switchMap, map, switchMapTo } from 'rxjs/operators';
+import { tap, switchMap, map} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
 import { ACLService } from '../services/acl.service';
+
+interface ChunkedGroup {
+  item: APIItem;
+  childs: APIItem[][];
+  hasMoreImages: boolean;
+}
 
 @Component({
   selector: 'app-twins',
@@ -14,12 +20,6 @@ import { ACLService } from '../services/acl.service';
 })
 @Injectable()
 export class TwinsComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public paginator: APIPaginator;
-  public groups: APIItem[] = [];
-  public canEdit = false;
-  public currentBrandCatname: string;
-  public brand: APIItem;
 
   constructor(
     private itemService: ItemService,
@@ -27,6 +27,24 @@ export class TwinsComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private acl: ACLService
   ) {}
+  private sub: Subscription;
+  public paginator: APIPaginator;
+  public groups: ChunkedGroup[] = [];
+  public canEdit = false;
+  public currentBrandCatname: string;
+  public brand: APIItem;
+
+  private static hasMoreImages(group: APIItem): boolean {
+    let count = 0;
+    if (group.childs) {
+      for (const item of group.childs) {
+        if (item.front_picture) {
+          count++;
+        }
+      }
+    }
+    return group.accepted_pictures_count > count;
+  }
 
   ngOnInit(): void {
     setTimeout(
@@ -85,13 +103,12 @@ export class TwinsComponent implements OnInit, OnDestroy {
             }
           }, 0);
         }),
-        switchMapTo(
-          this.route.queryParams,
-          (brand, query) => ({
+        switchMap(brand => this.route.queryParams.pipe(
+          map(query => ({
             brand: brand,
             query: query
-          })
-        ),
+          }))
+        )),
         switchMap(params => {
           return this.itemService.getItems({
             type_id: 4,
@@ -104,7 +121,15 @@ export class TwinsComponent implements OnInit, OnDestroy {
           });
         }),
         tap(response => {
-          this.groups = response.items;
+          const groups: ChunkedGroup[] = [];
+          for (const group of response.items) {
+            groups.push({
+              item: group,
+              childs: chunkBy(group.childs, 3),
+              hasMoreImages: TwinsComponent.hasMoreImages(group)
+            });
+          }
+          this.groups = groups;
           this.paginator = response.paginator;
         })
       )
@@ -113,21 +138,5 @@ export class TwinsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  public chunk(items: APIItem[]): APIItem[][] {
-    return chunkBy(items, 3);
-  }
-
-  public hasMoreImages(group: APIItem): boolean {
-    let count = 0;
-    if (group.childs) {
-      for (const item of group.childs) {
-        if (item.front_picture) {
-          count++;
-        }
-      }
-    }
-    return group.accepted_pictures_count > count;
   }
 }

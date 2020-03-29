@@ -18,7 +18,7 @@ import {
   combineLatest
 } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
-import { tap, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import {tap, switchMap, distinctUntilChanged, map} from 'rxjs/operators';
 import { APIUser } from '../../../services/user';
 import {
   APIAttrAttribute,
@@ -206,21 +206,22 @@ export class CarsSpecificationsEditorSpecComponent
               fields: 'unit,options,childs.unit,childs.options',
               zone_id: item.attr_zone_id,
               recursive: true
-            }),
-          (item, attributes) => ({ item, attributes })
+            }).pipe(
+              map(attributes => ({ item, attributes }))
+            )
         ),
         switchMap(data =>
-          combineLatest(
-            combineLatest(
+          combineLatest([
+            combineLatest([
               this.auth.getUser().pipe(tap(user => (this.user = user))),
               this.change$
-            ).pipe(
+            ]).pipe(
               switchMap(user =>
-                combineLatest(
+                combineLatest([
                   this.values$(data.item),
                   this.currentUserValues$(data.item, user[0]),
                   this.userValues$(data.item)
-                )
+                ])
               )
             ),
             this.translate
@@ -262,7 +263,7 @@ export class CarsSpecificationsEditorSpecComponent
                   this.attributes = attibutes;
                 })
               )
-          )
+          ])
         )
       )
       .subscribe(() => {}, response => this.toastService.response(response));

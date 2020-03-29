@@ -33,7 +33,7 @@ export class CategoriesIndexComponent implements OnInit, OnDestroy {
 
     this.sub = this.itemService
       .getItems({
-        fields: 'name_html,catname,front_picture.thumb_medium,descendants_count',
+        fields: 'name_html,front_picture.thumb_medium,descendants_count',
         limit: 30,
         type_id: 3, // category
         no_parent: true

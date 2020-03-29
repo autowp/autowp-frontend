@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { UserService, APIUser } from '../../services/user';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Observable, of, empty, combineLatest } from 'rxjs';
+import {Subscription, Observable, of, combineLatest, EMPTY} from 'rxjs';
 import { ACLService } from '../../services/acl.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -61,7 +61,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           return this.userService.get(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );
@@ -88,7 +88,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap(
           params =>
-            combineLatest(
+            combineLatest([
               this.attrService.getUserValues({
                 user_id: params.user_id ? params.user_id : null,
                 item_id: params.item_id,
@@ -96,12 +96,13 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
                 fields: 'user,item.name_html,path,unit,value_text'
               }),
               this.acl.inheritsRole('moder')
-            ),
-          (params, items) => ({
-            params: params,
-            items: items[0],
-            isModer: items[1]
-          })
+            ]).pipe(
+              map(items => ({
+                params: params,
+                items: items[0],
+                isModer: items[1]
+              }))
+            )
         )
       )
       .subscribe(data => {

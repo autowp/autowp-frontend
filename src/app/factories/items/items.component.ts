@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACLService } from '../../services/acl.service';
 import { PageEnvService } from '../../services/page-env.service';
@@ -10,9 +10,10 @@ import {
   distinctUntilChanged,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-factory-items',
@@ -22,7 +23,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class FactoryItemsComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public factory: APIItem;
-  public items: APIItem[] = [];
+  public items: CatalogueListItem[] = [];
   public paginator: APIPaginator;
   public isModer = false;
   private aclSub: Subscription;
@@ -56,14 +57,18 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             ].join(',')
           })
         ),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
-          this.router.navigate(['/error-404']);
-          return empty();
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
+          return EMPTY;
         }),
         tap(factory => {
           if (factory.item_type_id !== 6) {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return;
           }
 
@@ -72,50 +77,81 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
               needRight: true
             },
             name: 'page/182/name',
-            pageId: 182,
-            args: {
-              FACTORY_ID: factory.id + '',
-              FACTORY_NAME: factory.name_text
-            }
+            pageId: 182
           });
         }),
-        switchMap(
-          factory =>
-            this.route.queryParams.pipe(
-              distinctUntilChanged(),
-              debounceTime(30)
-            ),
-          (factory, params) => ({ factory, params })
-        ),
-        switchMap(
-          data =>
-            this.itemService.getItems({
-              related_groups_of: data.factory.id,
-              page: data.params.page,
-              limit: 10,
-              fields: [
-                'name_html,name_default,description,has_text,produced',
-                'design,engine_vehicles',
-                'url,can_edit_specs,specs_url,more_pictures_url',
-                'categories.url,categories.name_html,twins_groups',
-                'preview_pictures.picture.thumb_medium,preview_pictures.url,childs_count,total_pictures'
-              ].join(',')
-            }),
-          (data, response) => ({
+        switchMap(factory => this.route.queryParams.pipe(
+          distinctUntilChanged(),
+          debounceTime(30),
+          map(params => ({ factory, params }))
+        )),
+        switchMap(data => this.itemService.getItems({
+          related_groups_of: data.factory.id,
+          page: data.params.page,
+          limit: 10,
+          fields: [
+            'name_html,name_default,description,has_text,produced',
+            'design,engine_vehicles,route',
+            'url,can_edit_specs,specs_route',
+            'categories.name_html,twins_groups',
+            'preview_pictures.picture.name_text,preview_pictures.route,childs_count,accepted_pictures_count'
+          ].join(',')
+        }).pipe(
+          map(response => ({
             factory: data.factory,
             items: response.items,
             paginator: response.paginator
-          })
-        ),
-        catchError((err, caught) => {
+          }))
+        )),
+        catchError(err => {
           this.toastService.response(err);
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe(data => {
         this.factory = data.factory;
-        this.items = data.items;
         this.paginator = data.paginator;
+
+        const items: CatalogueListItem[] = [];
+        for (const item of data.items) {
+
+          const pictures: CatalogueListItemPicture[] = [];
+          for (const picture of item.preview_pictures.pictures) {
+            pictures.push({
+              picture: picture ? picture.picture : null,
+              thumb: picture ? picture.thumb : null,
+              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+            });
+          }
+          items.push({
+            id: item.id,
+            preview_pictures: {
+              pictures: pictures,
+              large_format: item.preview_pictures.large_format
+            },
+            item_type_id: item.item_type_id,
+            produced: item.produced,
+            produced_exactly: item.produced_exactly,
+            name_html: item.name_html,
+            name_default: item.name_default,
+            design: item.design,
+            description: item.description,
+            engine_vehicles: item.engine_vehicles,
+            has_text: item.has_text,
+            accepted_pictures_count: item.accepted_pictures_count,
+            can_edit_specs: item.can_edit_specs,
+            picturesRouterLink: ['/factories', '' + item.id, 'pictures'],
+            specsRouterLink: item.has_specs || item.has_child_specs && item.route ? item.route.concat(['specifications']) : null,
+            details: {
+              routerLink: item.route,
+              count: item.childs_count
+            },
+            childs_counts: null
+          });
+        }
+
+        this.items = items;
+
       });
   }
 

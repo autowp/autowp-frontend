@@ -45,12 +45,12 @@ export class APIUser {
   avatar: APIImage;
   gravatar: string;
   gravatar_hash: string;
-  url: string;
+  route: string;
   last_ip: string;
   photo: APIImage;
   pictures_added: number;
   pictures_accepted_count: number;
-  accounts: APIAccount;
+  accounts: APIAccount[];
   is_moder: boolean;
   renames: {
     date: string;

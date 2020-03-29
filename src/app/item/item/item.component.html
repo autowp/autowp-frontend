@@ -3,7 +3,7 @@
   <h3 *ngIf="!disableTitle">
     <span [innerHTML]="item.name_html"></span>
     <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
-      <a [href]="item.design.url" [textContent]="item.design.name"></a>
+      <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
     <small *ngIf="item.produced > 1" class="ml-2">
@@ -15,31 +15,28 @@
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
 
-  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length > 4">
-    <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.slice(0, 1)">
-      <a [href]="picture.url" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
-        />
+  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length > 4">
+    <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
+      <a [routerLink]="picture.route" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
+        <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
     <div class="col-12 col-lg-6">
       <div class="row">
-        <div class="col-6" *ngFor="let picture of item.preview_pictures.slice(1)">
-          <a [href]="picture.url" *ngIf="picture.picture.thumb_medium" class="d-block rounded mb-4">
-            <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
-            />
+        <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
+          <a [routerLink]="picture.route" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
+            <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy" />
           </a>
           <span *ngIf="!picture">&#xa0;</span>
         </div>
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.length <= 4">
-    <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures">
-      <a [href]="picture.url" *ngIf="picture.picture && picture.picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.picture.thumb_medium.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light"
-        />
+  <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length <= 4">
+    <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures.pictures">
+      <a [routerLink]="picture.route" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
+        <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
@@ -60,16 +57,16 @@
     <p translate>catalogue/engine/mounted-on:</p>
     <ul>
       <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+        <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
       </li>
     </ul>
   </div>
 
   <ul class="list-inline" ngPreserveWhitespaces>
 
-    <li *ngIf="(item.has_text || item.childs_count) && item.url" class="list-inline-item">
+    <li *ngIf="(item.has_text || item.childs_count) && item.route" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [href]="item.url">{{'carlist/details'|translate}}
+      <a [routerLink]="item.route">{{'carlist/details'|translate}}
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
@@ -79,20 +76,10 @@
       <a [routerLink]="['/persons', item.id]">{{'carlist/details'|translate}}</a>
     </li>
 
-    <li *ngIf="item.tuning" class="list-inline-item">
-      <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [href]="item.tuning.url">{{'catalogue/related'|translate|lowercase}} ({{item.tuning.count}})</a>
-    </li>
-
-    <li *ngIf="item.sport" class="list-inline-item">
-      <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [href]="item.sport.url">{{'catalogue/sport'|translate|lowercase}} ({{item.sport.count}})</a>
-    </li>
-
-    <li *ngIf="item.more_pictures_url" class="list-inline-item">
+    <!--<li *ngIf="item.more_pictures_url" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
       <a [href]="item.more_pictures_url">{{'carlist/all pictures'|translate}} ({{item.total_pictures}})</a>
-    </li>
+    </li>-->
 
     <!--
         <li *ngIf="item.specsLinks.length > 1" class="list-inline-item">
@@ -101,9 +88,9 @@
             <a [href]="specLink.url" [textContent]="specLink.name" *ngFor="let specLink of item.specsLinks"></a>
         </li>
          -->
-    <li *ngIf="item.specs_url" class="list-inline-item">
+    <li *ngIf="item.specs_route" class="list-inline-item">
       <i class="fa fa-list-alt mr-1" aria-hidden="true"></i>
-      <a [href]="item.specs_url" translate>carlist/specifications</a>
+      <a [routerLink]="item.specs_route" translate>carlist/specifications</a>
     </li>
 
     <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
@@ -113,7 +100,7 @@
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
       <i class="fa fa-tag mr-1" aria-hidden="true"></i>
-      <a [routerLink]="['/categories', category.catname]" [innerHTML]="category.name_html"></a>
+      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">

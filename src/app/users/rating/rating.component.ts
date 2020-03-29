@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
@@ -16,7 +16,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export interface APIRatingUser {
   user: APIUser;
   brands: {
-    url: string;
+    route: string[];
     name: string;
   }[];
   fans: {
@@ -92,9 +92,9 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
               finalize(() => {
                 this.loading--;
               }),
-              catchError((err, caught) => {
+              catchError(err => {
                 this.toastService.response(err);
-                return empty();
+                return EMPTY;
               })
             );
         })

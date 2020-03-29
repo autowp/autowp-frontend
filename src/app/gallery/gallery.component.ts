@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   OnInit,
   OnDestroy,
-  HostListener
+  HostListener, Output, EventEmitter
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, of, Observable } from 'rxjs';
@@ -14,11 +14,16 @@ import {
   switchMap,
   tap,
   debounceTime,
-  switchMapTo,
-  distinctUntilChanged
+  distinctUntilChanged, map
 } from 'rxjs/operators';
 import { APIGalleryItem, APIGallery } from './definitions';
 import { Router } from '@angular/router';
+
+interface APIGalleryFilter {
+  itemID?: number;
+  exactItemID?: number;
+  exactItemLinkType?: number;
+}
 
 @Component({
   selector: 'app-gallery',
@@ -27,16 +32,17 @@ import { Router } from '@angular/router';
 })
 @Injectable()
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() itemID: number = undefined;
+  @Input() filter: APIGalleryFilter;
   @Input() current: string;
   @Input() galleryPrefix: string[];
   @Input() picturePrefix: string[];
+  @Output() pictureSelected = new EventEmitter<APIGalleryItem>();
 
-  private itemID$ = new BehaviorSubject<number>(null);
+  private filter$ = new BehaviorSubject<APIGalleryFilter>(null);
   private current$ = new BehaviorSubject<string>(null);
   public gallery: APIGalleryItem[] = [];
   private status: string;
-  public currentItemID: number;
+  public currentFilter: APIGalleryFilter;
   public currentItemIndex: number;
   public currentItem: APIGalleryItem;
   public prevGalleryItem: APIGalleryItem;
@@ -69,48 +75,61 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.sub = this.itemID$
+    this.sub = this.filter$
       .pipe(
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(50),
-        tap((itemID) => {
+        tap(filter => {
           this.gallery = [];
+          this.currentFilter = filter;
         }),
-        tap((itemID) => {
-          this.currentItemID = itemID;
-        }),
-        switchMapTo(this.current$, (itemID, current) => ({ itemID, current })),
+        switchMap(filter => this.current$.pipe(
+          map(current => ({ filter, current }))
+        )),
         distinctUntilChanged(),
-        switchMap(
-          (data) => {
-            this.current = data.current;
-            if (!this.getGalleryItem(data.current)) {
-              return this.http
-                .get<APIGallery>('/api/item/' + data.itemID + '/gallery', {
-                  params: {
-                    picture_identity: data.current
-                  }
-                })
-                .pipe(
-                  tap((response) => {
-                    this.applyResponse(response);
-                  })
-                );
-            }
-            return of(null);
-          },
-          (data) => ({ itemID: data.itemID, identity: data.current })
-        ),
+        switchMap(data => {
+          this.current = data.current;
+          if (!this.getGalleryItem(data.current)) {
+            const params = this.filterParams(data.filter);
+            params['picture_identity'] = data.current;
+            return this.http
+              .get<APIGallery>('/api/gallery', {
+                params: params
+              })
+              .pipe(
+                tap(response => {
+                  this.applyResponse(response);
+                }),
+                map(() => ({ filter: data.filter, identity: data.current }))
+              );
+          }
+          return of({ filter: data.filter, identity: data.current });
+        }),
         tap((data) => {
           const index = this.getGalleryItemIndex(data.identity);
           this.currentItemIndex = index;
 
           this.prevGalleryItem = this.getGalleryItemByIndex(index - 1);
           this.currentItem = this.getGalleryItemByIndex(index);
+          this.pictureSelected.emit(this.currentItem);
           this.nextGalleryItem = this.getGalleryItemByIndex(index + 1);
         })
       )
       .subscribe();
+  }
+
+  private filterParams(filter: APIGalleryFilter) {
+    const params = {};
+    if (filter.itemID) {
+      params['item_id'] = filter.itemID.toString();
+    }
+    if (filter.exactItemID) {
+      params['exact_item_id'] = filter.exactItemID.toString();
+    }
+    if (filter.exactItemLinkType) {
+      params['exact_item_link_type'] = filter.exactItemLinkType.toString();
+    }
+    return params;
   }
 
   private applyResponse(response: APIGallery) {
@@ -125,13 +144,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private loadPage(itemID: number, page: number): Observable<APIGallery> {
+  private loadPage(filter: APIGalleryFilter, page: number): Observable<APIGallery> {
+    const params = this.filterParams(filter);
+    params['status'] = this.status;
+    params['page'] = page + '';
     return this.http
-      .get<APIGallery>('/api/item/' + itemID + '/gallery', {
-        params: {
-          page: page + '',
-          status: this.status
-        }
+      .get<APIGallery>('/api/gallery', {
+        params: params
       })
       .pipe(
         tap((response) => {
@@ -149,7 +168,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     if (!item) {
       const page = this.getGalleryPageNumberByIndex(index);
       let success = false;
-      this.loadPage(this.currentItemID, page).subscribe(() => {
+      this.loadPage(this.currentFilter, page).subscribe(() => {
         const sitem = this.getGalleryItemByIndex(index);
         if (sitem) {
           this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
@@ -201,8 +220,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.itemID) {
-      this.itemID$.next(changes.itemID.currentValue);
+    if (changes.filter) {
+      this.filter$.next(changes.filter.currentValue);
     }
 
     if (changes.current) {

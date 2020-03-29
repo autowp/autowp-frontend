@@ -64,7 +64,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
           });
         }),
         switchMap(user =>
-          combineLatest(
+          combineLatest([
             this.itemService.getItems({
               type_id: 5,
               limit: 3000,
@@ -76,7 +76,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
               }
             }),
             this.http.get<APIBrandsIconsResponse>('/api/brands/icons')
-          )
+          ])
         )
       )
       .subscribe(

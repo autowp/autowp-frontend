@@ -30,7 +30,7 @@
       </div>
     </div>
   </form>
-  <table class="specs-log table table-stripped" role="presentation">
+  <table class="specs-log table table-stripped">
     <thead>
       <tr>
         <th translate scope="col">specifications-editor/log/date</th>
@@ -63,7 +63,7 @@
         <span class="unit" *ngIf="item.unit" [textContent]="item.unit.abbr|translate"></span>
       </td>
       <td class="link">
-        <a [href]="'/cars/car-specifications-editor/item_id/' + item.item_id" translate>specifications-editor/log/to-editor</a>
+        <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" translate>specifications-editor/log/to-editor</a>
       </td>
     </tr>
   </table>

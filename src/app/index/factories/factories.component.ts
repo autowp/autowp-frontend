@@ -7,7 +7,6 @@ export interface APIIndexFactoriesItem {
   name: string;
   count: number;
   new_count: number;
-  new_url: string;
 }
 
 interface APIIndexFactoriesResponse {

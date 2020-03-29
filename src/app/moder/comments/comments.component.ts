@@ -6,12 +6,12 @@ import {
   APIItem
 } from '../../services/item';
 import { UserService, APIUser } from '../../services/user';
-import { Subscription, Observable, empty, of } from 'rxjs';
+import {Subscription, Observable, of, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { switchMap, debounceTime, catchError, map } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { APICommentsService } from '../../api/comments/comments.service';
+import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -22,7 +22,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class ModerCommentsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public loading = 0;
-  public comments = [];
+  public comments: APIComment[] = [];
   public paginator: APIPaginator;
   public moderatorAttention: any;
 
@@ -66,7 +66,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           return this.itemService.getItems(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );
@@ -95,7 +95,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           return this.userService.get(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );
@@ -136,7 +136,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
             page: params.page,
             order: 'date_desc',
             limit: 30,
-            fields: 'preview,user,is_new,status,url'
+            fields: 'preview,user,is_new,status,route'
           });
         })
       )

@@ -11,7 +11,7 @@ import { APIItem, ItemService } from '../../../../services/item';
 import { ACLService } from '../../../../services/acl.service';
 import { HttpClient } from '@angular/common/http';
 import { APIItemVehicleTypeGetResponse } from '../../../../services/api.service';
-import { Subscription, empty, forkJoin } from 'rxjs';
+import {Subscription, forkJoin, EMPTY} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 @Component({
@@ -102,15 +102,15 @@ export class ModerItemsItemMetaComponent
       lng: this.item.lng
     };
 
-    forkJoin(
+    forkJoin([
       this.http.put<void>('/api/item/' + this.item.id, data).pipe(
         catchError(response => {
           this.invalidParams = response.error.invalid_params;
-          return empty();
+          return EMPTY;
         }),
         tap(() => (this.invalidParams = {}))
       ),
       this.itemService.setItemVehicleTypes(this.item.id, this.vehicleTypeIDs)
-    ).subscribe(() => {}, () => {}, () => this.loading--);
+    ]).subscribe(() => {}, () => {}, () => this.loading--);
   }
 }

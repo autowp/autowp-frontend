@@ -10,7 +10,7 @@
     <div class="form-group">
       <div class="controls checkbox">
         <div class="float-right cancel">
-          <button class="btn btn-sm btn-warning" translate>comments/cancel</button>
+          <button type="button" class="btn btn-sm btn-warning" translate (click)="cancel()">comments/cancel</button>
         </div>
         <label>
           <input type="checkbox" name="moderator_attention" value="1" [(ngModel)]="form.moderator_attention" /> {{'comments/it-requires-attention-of-moderators'|translate}}

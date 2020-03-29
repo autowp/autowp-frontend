@@ -13,7 +13,7 @@ import {
   finalize,
   catchError,
   tap,
-  switchMapTo
+  switchMapTo, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 
@@ -118,7 +118,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
               'name',
               'is_concept',
               'name_default',
-              'body',
               'subscription',
               'begin_year',
               'begin_month',
@@ -128,7 +127,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
               'begin_model_year',
               'end_model_year',
               'produced',
-              'is_group',
               'spec_id',
               'childs_count',
               'full_name',
@@ -148,9 +146,11 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         finalize(() => {
           this.loading--;
         }),
-        catchError((err, caught) => {
+        catchError(err => {
           this.toastService.response(err);
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return of(null);
         }),
         tap(item => {
@@ -177,20 +177,19 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.picturesTab.visible =
             [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
         }),
-        switchMap(
-          item => {
-            this.loading++;
-            return this.pictureService.getPictures({
-              fields: 'thumb_medium',
-              limit: 1,
-              item_id: item.id
-            });
-          },
-          (item, pictures) => ({
-            item: item,
-            pictures: pictures.pictures
-          })
-        ),
+        switchMap(item => {
+          this.loading++;
+          return this.pictureService.getPictures({
+            fields: 'thumb_medium',
+            limit: 1,
+            item_id: item.id
+          }).pipe(
+            map(pictures => ({
+              item: item,
+              pictures: pictures.pictures
+            }))
+          );
+        }),
         finalize(() => {
           this.loading--;
         }),

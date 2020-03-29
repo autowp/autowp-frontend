@@ -1,0 +1,30 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand && currentVehicleType">
+      <a [routerLink]="['/', brand.catname, 'cars']" translate>page/14/breadcrumbs</a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="brand">
+  <h1 translate [translateParams]="{brand: brand.name_text}" *ngIf="!currentVehicleType">page/14/ng-name</h1>
+  <h1 translate [translateParams]="{brand: brand.name_text, vehicle_type: currentVehicleType.name|translate}" *ngIf="currentVehicleType">page/138/ng-name</h1>
+</div>
+
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item" *ngFor="let item of vehicleTypes">
+    <a [routerLink]="['/', brand.catname, 'cars', item.catname]" class="nav-link" [class.active]="currentVehicleType && item.id == currentVehicleType.id">
+      {{item.name|translate}} <span class="badge badge-info">{{item.carsCount}}</span>
+    </a>
+  </li>
+</ul>
+
+<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+
+<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

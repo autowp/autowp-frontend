@@ -57,7 +57,7 @@ export class DonateVodComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = combineLatest(
+    this.querySub = combineLatest([
       this.route.queryParams.pipe(
         map(params => ({ anonymous: params.anonymous, date: params.date })),
         distinctUntilChanged(),
@@ -82,14 +82,15 @@ export class DonateVodComponent implements OnInit, OnDestroy {
       this.translate.get([
         'donate/vod/order-message',
         'donate/vod/order-target'
-      ]),
-      (params, vod, item, user, translations) => ({
-        params,
-        vod,
-        item,
-        user,
-        translations
-      })
+      ])
+    ]).pipe(
+      map(data => ({
+        params: data[0],
+        vod: data[1],
+        item: data[2],
+        user: data[3],
+        translations: data[4]
+      }))
     ).subscribe(data => {
       this.sum = data.vod.sum;
       this.dates = data.vod.dates;
@@ -126,7 +127,7 @@ export class DonateVodComponent implements OnInit, OnDestroy {
         { name: 'targets', value: sprintf(data.translations['donate/vod/order-target'], label) },
         {
           name: 'successURL',
-          value: 'https://' + window.location.host + '/ng/donate/vod/success'
+          value: 'https://' + window.location.host + '/donate/vod/success'
         }
       ];
     });

@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, empty, combineLatest, of } from 'rxjs';
+import {Subscription, combineLatest, of, EMPTY, Observable} from 'rxjs';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ItemLinkService, APIItemLink } from '../../services/item-link';
 import { APIACL } from '../../services/acl.service';
@@ -12,7 +12,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -31,6 +31,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
   public item: APIItem;
   public isModer = false;
   private aclSub: Subscription;
+  public routerLink: string[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -48,25 +49,11 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.routeSub = this.route.params
+    this.routeSub = this.getPerson()
       .pipe(
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(params =>
-          this.itemService.getItem(params.id, {
-            fields: ['name_text', 'name_html', 'description'].join(',')
-          })
-        ),
-        catchError((err, caught) => {
-          this.toastService.response(err);
-          this.router.navigate(['/error-404']);
-          return empty();
-        }),
         tap(item => {
-          if (item.item_type_id !== 8) {
-            this.router.navigate(['/error-404']);
-            return;
-          }
+
+          this.routerLink = ['/persons', item.id.toString()];
 
           this.pageEnv.set({
             layout: {
@@ -76,67 +63,62 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
             pageId: 213
           });
         }),
-        switchMap(
-          item => this.route.queryParams,
-          (item, params) => ({ item, params })
-        ),
-        switchMap(
-          data =>
-            combineLatest(
-              this.itemLinkService
-                .getItems({
-                  item_id: data.item.id
-                })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return of(null);
-                  })
-                ),
-              this.pictureService
-                .getPictures({
-                  status: 'accepted',
-                  exact_item_id: data.item.id,
-                  exact_item_link_type: 2,
-                  fields:
-                    'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-                  limit: 24,
-                  order: 12,
-                  page: data.params.page
-                })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return of(null);
-                  })
-                ),
-              this.pictureService
-                .getPictures({
-                  status: 'accepted',
-                  exact_item_id: data.item.id,
-                  exact_item_link_type: 1,
-                  fields:
-                    'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-                  limit: 24,
-                  order: 12,
-                  page: data.params.page
-                })
-                .pipe(
-                  catchError((err, caught) => {
-                    this.toastService.response(err);
-                    return of(null);
-                  })
-                )
+        switchMap(item => this.route.queryParams.pipe(
+          map(params => ({ item, params }))
+        )),
+        switchMap(data => combineLatest([
+          this.itemLinkService
+            .getItems({
+              item_id: data.item.id
+            })
+            .pipe(
+              catchError(err => {
+                this.toastService.response(err);
+                return of(null);
+              })
             ),
-          (data, responses) => ({
-            item: data.item,
-            links: responses[0].items,
-            authorPictures: responses[1],
-            contentPictures: responses[2]
-          })
+          this.pictureService
+            .getPictures({
+              status: 'accepted',
+              exact_item_id: data.item.id,
+              exact_item_link_type: 2,
+              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+              limit: 24,
+              order: 12,
+              page: data.params.page
+            })
+            .pipe(
+              catchError(err => {
+                this.toastService.response(err);
+                return of(null);
+              })
+            ),
+          this.pictureService
+            .getPictures({
+              status: 'accepted',
+              exact_item_id: data.item.id,
+              exact_item_link_type: 1,
+              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+              limit: 24,
+              order: 12,
+              page: data.params.page
+            })
+            .pipe(
+              catchError(err => {
+                this.toastService.response(err);
+                return of(null);
+              })
+            )
+          ]).pipe(
+            map(responses => ({
+              item: data.item,
+              links: responses[0].items,
+              authorPictures: responses[1],
+              contentPictures: responses[2]
+            }))
+          )
         )
       )
-
       .subscribe(data => {
         this.item = data.item;
         this.links = data.links;
@@ -145,6 +127,36 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
         this.contentPictures = data.contentPictures.pictures;
         this.contentPicturesPaginator = data.contentPictures.paginator;
       });
+  }
+
+  getPerson(): Observable<APIItem> {
+    return this.route.params.pipe(
+      map(params => params.id),
+      distinctUntilChanged(),
+      debounceTime(30),
+      switchMap(id =>
+        this.itemService.getItem(id, {
+          fields: ['name_text', 'name_html', 'description'].join(',')
+        })
+      ),
+      catchError(err => {
+        this.toastService.response(err);
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }),
+      switchMap(item => {
+        if (item.item_type_id !== 8) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
+          return EMPTY;
+        }
+
+        return of(item);
+      })
+    );
   }
 
   ngOnDestroy(): void {

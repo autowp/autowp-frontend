@@ -4,7 +4,7 @@ import { UserService, APIUser } from '../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 const JsDiff = require('diff');
@@ -76,12 +76,9 @@ export class InfoTextComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.routeSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      (route, query) => ({ route, query })
-    )
+    this.routeSub = combineLatest([this.route.params, this.route.queryParams])
       .pipe(
+        map(data => ({ route: data[0], query: data[1] })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>

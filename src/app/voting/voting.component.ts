@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription, combineLatest } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import {
   VotingService,
   APIVoting,
@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingVotesComponent } from './votes/votes.component';
 import { ACLService } from '../services/acl.service';
 import {ToastsService} from '../toasts/toasts.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-voting',
@@ -49,8 +50,10 @@ export class VotingComponent implements OnInit, OnDestroy {
           callback();
         }
       },
-      response => {
-        this.router.navigate(['/error-404']);
+      () => {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
       }
     );
   }
@@ -60,13 +63,11 @@ export class VotingComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(inherits => (this.isModer = inherits));
 
-    this.routeSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      (params: Params, query: Params) => ({
-        params,
-        query
-      })
+    this.routeSub = combineLatest([this.route.params, this.route.queryParams]).pipe(
+      map(data => ({
+        params: data[0],
+        query: data[1]
+      }))
     ).subscribe(data => {
       this.id = data.params.id;
       this.load(() => {
@@ -109,7 +110,7 @@ export class VotingComponent implements OnInit, OnDestroy {
         vote: ids
       })
       .subscribe(
-        response => {
+        () => {
           this.load();
         },
         response => this.toastService.response(response)

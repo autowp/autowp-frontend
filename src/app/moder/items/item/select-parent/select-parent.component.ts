@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIPaginator } from '../../../../services/api.service';
 import { ItemService, APIItem } from '../../../../services/item';
 import { chunk } from '../../../../chunk';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import {
   ItemParentService,
@@ -11,6 +11,7 @@ import {
 } from '../../../../services/item-parent';
 import { PageEnvService } from '../../../../services/page-env.service';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {map} from 'rxjs/operators';
 
 // Acl.isAllowed('car', 'edit_meta', 'unauthorized');
 
@@ -77,13 +78,11 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.paramsSub = combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      (route: Params, query: Params) => ({
-        route,
-        query
-      })
+    this.paramsSub = combineLatest([this.route.params, this.route.queryParams]).pipe(
+      map(data => ({
+        route: data[0],
+        query: data[1]
+      }))
     ).subscribe(data => {
       this.tab = data.query.tab || 'catalogue';
       this.page = data.query.page;
@@ -119,7 +118,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     fields: 'item.name_html,item.childs_count',
                     parent_id: this.brand_id,
                     is_group: true,
-                    type_id: this.item.item_type_id,
+                    item_type_id: this.item.item_type_id,
                     page: this.page
                   })
                   .subscribe(
@@ -210,7 +209,9 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
             }
           },
           () => {
-            this.router.navigate(['/error-404']);
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
           }
         );
     });
@@ -227,7 +228,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         parent_id: parent.id
       })
       .subscribe(
-        response => {
+        () => {
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {
               tab: 'catalogue'

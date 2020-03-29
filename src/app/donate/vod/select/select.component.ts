@@ -18,7 +18,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
-  finalize
+  finalize, map
 } from 'rxjs/operators';
 
 @Component({
@@ -83,7 +83,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
 
           this.loading++;
           this.loading++;
-          return combineLatest(
+          return combineLatest([
             (brandID
               ? of(null as APIItemsGetResponse)
               : this.itemService.getItems({
@@ -102,30 +102,32 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                   switchMap(
                     brand =>
                       combineLatest(
-                        this.itemParentService.getItems({
-                          item_type_id: 1,
-                          parent_id: brand.id,
-                          fields:
-                            'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                          limit: 500,
-                          page: 1
-                        }),
-                        this.itemParentService.getItems({
-                          item_type_id: 1,
-                          concept: true,
-                          ancestor_id: brand.id,
-                          fields:
-                            'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                          limit: 500,
-                          page: 1
-                        }),
-                        (vehicles, concepts) => ({ vehicles, concepts })
-                      ),
-                    (brand, data) => ({
-                      brand: brand,
-                      vehicles: data.vehicles,
-                      concepts: data.concepts
-                    })
+                        [
+                          this.itemParentService.getItems({
+                            item_type_id: 1,
+                            parent_id: brand.id,
+                            fields:
+                              'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                            limit: 500,
+                            page: 1
+                          }),
+                          this.itemParentService.getItems({
+                            item_type_id: 1,
+                            concept: true,
+                            ancestor_id: brand.id,
+                            fields:
+                              'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                            limit: 500,
+                            page: 1
+                          })
+                        ]
+                      ).pipe(
+                        map(data => ({
+                          brand: brand,
+                          vehicles: data[0],
+                          concepts: data[1]
+                        }))
+                      )
                   )
                 )
               : of(null as {
@@ -137,10 +139,10 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
               finalize(() => {
                 this.loading--;
               })
-            ),
-            (items, brand) => ({ items, brand })
-          );
-        })
+            )
+          ]);
+        }),
+        map(data => ({ items: data[0], brand: data[1] }))
       )
       .subscribe(data => {
         if (data.brand) {

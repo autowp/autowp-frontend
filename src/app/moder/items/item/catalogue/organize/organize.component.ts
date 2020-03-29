@@ -4,10 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
   Observable,
-  empty,
   forkJoin,
   combineLatest,
-  of
+  of, EMPTY
 } from 'rxjs';
 import {
   APIItemParent,
@@ -56,7 +55,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.route.queryParams.pipe(
         tap(params => {
           this.itemTypeID = params.item_type_id;
@@ -66,7 +65,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>
-          combineLatest(
+          combineLatest([
             this.itemService
               .getItem(params.id, {
                 fields: [
@@ -74,7 +73,6 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                   'name',
                   'is_concept',
                   'name_default',
-                  'body',
                   'subscription',
                   'begin_year',
                   'begin_month',
@@ -84,10 +82,8 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                   'begin_model_year',
                   'end_model_year',
                   'produced',
-                  'is_group',
                   'spec_id',
                   'full_name',
-                  'catname',
                   'lat',
                   'lng'
                 ].join(',')
@@ -138,10 +134,10 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                 order: 'type_auto'
               })
               .pipe(tap(data => (this.childs = data.items)))
-          )
+          ])
         )
       )
-    ).subscribe();
+    ]).subscribe();
   }
 
   ngOnDestroy(): void {
@@ -195,7 +191,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
           this.invalidParams = response.error.invalid_params;
           this.loading--;
 
-          return empty();
+          return EMPTY;
         }),
         switchMap(response =>
           this.itemService.getItemByLocation(
@@ -229,7 +225,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(
-        response => {
+        () => {
           this.loading--;
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {

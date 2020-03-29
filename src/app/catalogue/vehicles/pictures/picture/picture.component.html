@@ -1,0 +1,24 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+    <ng-container *ngIf="breadcrumbs">
+      <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
+        <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+      </li>
+    </ng-container>
+    <li class="breadcrumb-item" *ngIf="picturesRouterLink">
+      <a [routerLink]="picturesRouterLink" translate>page/34/breadcrumbs</a>
+    </li>
+  </ol>
+</nav>
+
+<app-picture [picture]="picture" [prefix]="picturesRouterLink" [galleryRoute]="galleryPictureRouterLink" *ngIf="picture" (changed)="reloadPicture()"></app-picture>
+
+<div id="comments" *ngIf="picture">
+  <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
+</div>

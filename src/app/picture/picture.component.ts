@@ -1,21 +1,25 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import { APIPicture, PictureService } from '../services/picture';
 import { ACLService } from '../services/acl.service';
 import { APIUser } from '../services/user';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { tap } from 'rxjs/operators';
 import { APICommentsService } from '../api/comments/comments.service';
 import { APIItem } from '../services/item';
+import {Router} from '@angular/router';
+import {APIPictureItem, PictureItemService} from '../services/picture-item';
 
 @Component({
   selector: 'app-picture',
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss']
 })
-export class PictureComponent implements OnInit, OnDestroy {
+export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   @Input() picture: APIPicture;
   @Input() prefix: string[] = [];
+  @Input() galleryRoute: string[];
+  @Output() changed = new EventEmitter<boolean>();
 
   public isModer = false;
   public canEditSpecs = false;
@@ -24,12 +28,15 @@ export class PictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public location;
   public engines: APIItem[] = [];
+  public statusLoading = false;
 
   constructor(
     private acl: ACLService,
     private auth: AuthService,
     private commentsService: APICommentsService,
-    private pictureService: PictureService
+    private pictureService: PictureService,
+    private router: Router,
+    private pictureItemService: PictureItemService
   ) {}
 
   ngOnInit(): void {
@@ -43,16 +50,26 @@ export class PictureComponent implements OnInit, OnDestroy {
       .isAllowed('specifications', 'edit')
       .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
 
-    this.sub = combineLatest(
-      this.auth.getUser().pipe(tap((user) => (this.user = user)))
-    ).subscribe();
+    this.sub = this.auth.getUser().pipe(tap((user) => (this.user = user))).subscribe();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  public pictureVoted() {}
+  public savePerspective(perspectiveID: number|null, item: APIPictureItem) {
+    this.pictureItemService.setPerspective(
+      item.picture_id,
+      item.item_id,
+      item.type,
+      perspectiveID
+    )
+      .subscribe();
+  }
+
+  public pictureVoted() {
+    this.changed.emit(true);
+  }
 
   public toggleShareDialog(): false {
     this.showShareDialog = !this.showShareDialog;
@@ -72,5 +89,53 @@ export class PictureComponent implements OnInit, OnDestroy {
       this.picture.votes = votes;
     });
     return false;
+  }
+
+  public openSource($event) {
+    window.open(this.picture.image.src);
+  }
+
+  public openGallery($event) {
+    if ($event.ctrlKey) {
+      this.openSource($event);
+      return;
+    }
+    this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', this.picture.identity]);
+  }
+
+  private setPictureStatus(status: string) {
+    this.statusLoading = true;
+    this.pictureService.setPictureStatus(this.picture.id, status)
+      .subscribe(
+        () => {
+          this.changed.emit(true);
+        },
+        () => {},
+        () => {
+          this.statusLoading = false;
+        }
+      );
+  }
+
+  public unacceptPicture() {
+    this.setPictureStatus('inbox');
+  }
+
+  public acceptPicture() {
+    this.setPictureStatus('accepted');
+  }
+
+  public deletePicture() {
+    this.setPictureStatus('removing');
+  }
+
+  public restorePicture() {
+    this.setPictureStatus('inbox');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.picture && this.picture) {
+      this.pictureService.incView(this.picture.id).subscribe();
+    }
   }
 }

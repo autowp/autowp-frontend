@@ -3,13 +3,18 @@ import { ItemService, APIItem } from '../services/item';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, switchMapTo } from 'rxjs/operators';
+import {switchMap, tap, map} from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { PictureService, APIPicture } from '../services/picture';
 import { chunkBy } from '../chunk';
 import { PathItem } from './definitions';
 import { CatagoriesService } from './service';
+
+interface PictureRoute {
+  picture: APIPicture;
+  route: string[];
+}
 
 @Component({
   selector: 'app-categories-category-pictures',
@@ -20,12 +25,11 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public category: APIItem;
   public current: APIItem;
-  public pictures: APIPicture[][] = [];
+  public pictures: PictureRoute[][] = [];
   public isModer = false;
   public canAddCar = false;
   public paginator: APIPaginator;
   public path: PathItem[];
-  private pathCatnames: string[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -50,7 +54,6 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           this.current = data.current;
           this.category = data.category;
           this.path = data.pathItems;
-          this.pathCatnames = data.pathCatnames;
           this.pageEnv.set({
             layout: {
               needRight: false
@@ -59,31 +62,50 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
             pageId: 22
           });
         }),
-        switchMapTo(this.route.queryParamMap, (data, query) => ({
-          current: data.current,
-          page: parseInt(query.get('page'), 10)
-        })),
+        switchMap(data => this.route.queryParamMap.pipe(
+          map(query => ({
+            current: data.current,
+            category: data.category,
+            pathCatnames: data.pathCatnames,
+            page: parseInt(query.get('page'), 10)
+          }))
+        )),
         switchMap(
-          (data) => {
-            return this.pictureService.getPictures({
-              fields: [
-                'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
-              ].join(','),
-              limit: 20,
-              page: data.page,
-              item_id: data.current.id,
-              status: 'accepted',
-              order: 3
-            });
-          },
-          (data, response) => ({
-            pictures: response.pictures,
-            paginator: response.paginator
-          })
+          data => this.pictureService.getPictures({
+            fields: [
+              'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'
+            ].join(','),
+            limit: 20,
+            page: data.page,
+            item_id: data.current.id,
+            status: 'accepted',
+            order: 16
+          }).pipe(
+            map(response => ({
+              category: data.category,
+              pathCatnames: data.pathCatnames,
+              pictures: response.pictures,
+              paginator: response.paginator
+            }))
+          )
         )
       )
       .subscribe((data) => {
-        this.pictures = chunkBy(data.pictures, 4);
+        const pictures: PictureRoute[] = [];
+        for (const pic of data.pictures) {
+          pictures.push({
+            picture: pic,
+            route: [
+              '/category',
+              data.category.catname,
+              data.pathCatnames.length ? data.pathCatnames.join('/') : '',
+              'pictures',
+              pic.identity
+            ]
+          });
+        }
+
+        this.pictures = chunkBy(pictures, 4);
         this.paginator = data.paginator;
       });
   }
@@ -92,25 +114,11 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public pictureRouterLink(picture: APIPicture): string[] {
-    if (!this.category) {
-      return null;
-    }
-
-    return [
-      '/category',
-      this.category.catname,
-      this.pathCatnames.length ? this.pathCatnames.join('/') : '',
-      'pictures',
-      picture.identity
-    ];
-  }
-
   public dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
       this.itemService
         .getItems({
-          fields: 'catname,name_html',
+          fields: 'name_html',
           parent_id: item.parent_id,
           no_parent: item.parent_id ? null : true,
           limit: 50,

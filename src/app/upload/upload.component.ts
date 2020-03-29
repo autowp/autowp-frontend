@@ -10,11 +10,10 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { APIItem, ItemService } from '../services/item';
 import {
   Subscription,
-  empty,
   of,
   Observable,
   concat,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
@@ -96,7 +95,7 @@ export class UploadComponent implements OnInit, OnDestroy {
           const replace = parseInt(params.replace, 10);
           const itemId = parseInt(params.item_id, 10);
 
-          return combineLatest(
+          return combineLatest([
             replace
               ? this.pictureService.getPicture(replace, {
                   fields: 'name_html'
@@ -107,7 +106,7 @@ export class UploadComponent implements OnInit, OnDestroy {
                   fields: 'name_html'
                 })
               : of(null)
-          );
+          ]);
         })
       )
       .subscribe(responses => {
@@ -129,7 +128,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.querySub.unsubscribe();
   }
 
-  public onChange(event: any, input: any) {
+  public onChange(event: any) {
     this.files = [].slice.call(event.target.files);
   }
 
@@ -144,10 +143,12 @@ export class UploadComponent implements OnInit, OnDestroy {
       xhrs.push(this.uploadFile(file));
     }
 
-    concat(...xhrs).subscribe(() => {}, undefined, () => {
-      this.input.nativeElement.value = '';
-      this.formHidden = false;
-      this.files = undefined;
+    concat(...xhrs).subscribe({
+      complete: () => {
+        this.input.nativeElement.value = '';
+        this.formHidden = false;
+        this.files = undefined;
+      }
     });
 
     return false;
@@ -185,25 +186,25 @@ export class UploadComponent implements OnInit, OnDestroy {
         reportProgress: true
       })
       .pipe(
-        catchError((response, caught) => {
+        catchError(response => {
           progress.percentage = 100;
           progress.failed = true;
 
           progress.invalidParams = response.error.invalid_params;
 
-          return empty();
+          return EMPTY;
         }),
         switchMap(event => {
           if (event.type === HttpEventType.DownloadProgress) {
             progress.percentage = Math.round(
               50 + 25 * (event.loaded / event.total)
             );
-            return empty();
+            return EMPTY;
           }
 
           if (event.type === HttpEventType.UploadProgress) {
             progress.percentage = Math.round(50 * (event.loaded / event.total));
-            return empty();
+            return EMPTY;
           }
 
           if (event.type === HttpEventType.Response) {
@@ -222,15 +223,15 @@ export class UploadComponent implements OnInit, OnDestroy {
                   progress.percentage = 100;
                   this.pictures.push(picture);
                 }),
-                catchError((response, caught) => {
+                catchError(response => {
                   this.toastService.response(response);
 
-                  return empty();
+                  return EMPTY;
                 })
               );
           }
 
-          return empty();
+          return EMPTY;
         })
       );
   }

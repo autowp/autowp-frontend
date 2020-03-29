@@ -8,12 +8,10 @@ import {IndexFactoriesComponent} from './factories/factories.component';
 import {IndexSpecsCarsComponent} from './specs-cars/specs-cars.component';
 import {ItemOfDayModule} from '../item-of-day/item-of-day.module';
 import {UtilsModule} from '../utils/utils.module';
-import {RouterModule} from '@angular/router';
 import {IndexRoutingModule} from './index-routing.module';
 import {IndexTwinsComponent} from './twins/twins.component';
 import {IndexPicturesComponent} from './pictures/pictures.component';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
-import {ItemModule} from '../item/item.module';
 import {UserModule} from '../user/user.module';
 import {NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {IndexBrandsBrandComponent} from './brands/brand/brand.component';
@@ -33,18 +31,16 @@ import {IndexFactoriesFactoryComponent} from './factories/factory/factory.compon
     IndexTwinsComponent,
     IndexPicturesComponent
   ],
-  imports: [
-    CommonModule,
-    TranslateModule,
-    UtilsModule,
-    ItemOfDayModule,
-    RouterModule,
-    IndexRoutingModule,
-    ThumbnailModule,
-    ItemModule,
-    UserModule,
-    NgbPopoverModule
-  ]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        UtilsModule,
+        ItemOfDayModule,
+        IndexRoutingModule,
+        ThumbnailModule,
+        UserModule,
+        NgbPopoverModule
+    ]
 })
 export class IndexModule {
 }

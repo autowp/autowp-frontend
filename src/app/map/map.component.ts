@@ -9,7 +9,7 @@ import {
   ApplicationRef
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, empty } from 'rxjs';
+import {BehaviorSubject, EMPTY} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {
   tileLayer,
@@ -101,7 +101,7 @@ export class MapComponent implements OnInit {
         debounceTime(100),
         switchMap(bounds => {
           if (!bounds) {
-            return empty();
+            return EMPTY;
           }
 
           return this.http.get<MapItem[]>('/api/map/data', {

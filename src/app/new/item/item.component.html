@@ -18,7 +18,7 @@
 
 <div class="row">
   <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of pictures">
-    <app-thumbnail [picture]="picture"></app-thumbnail>
+    <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
   </div>
 </div>
 

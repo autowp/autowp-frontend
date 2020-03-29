@@ -11,7 +11,7 @@ import {
   debounceTime,
   switchMap,
   tap,
-  switchMapTo
+  map
 } from 'rxjs/operators';
 
 // Acl.inheritsRole('moder', 'unauthorized');
@@ -81,14 +81,11 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           this.id = picture.id;
           this.picture = picture;
         }),
-        switchMap(
-          () =>
-            this.route.queryParams.pipe(
-              distinctUntilChanged(),
-              debounceTime(30)
-            ),
-          (picture, params) => ({ picture, params })
-        ),
+        switchMap(picture => this.route.queryParams.pipe(
+          distinctUntilChanged(),
+          debounceTime(30),
+          map(params => ({ picture, params }))
+        )),
         tap(data => {
           this.item_id = data.params.item_id;
           this.type = data.params.type;
@@ -103,7 +100,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             }
           )
         ),
-        switchMapTo(this.img$, (data, img) => ({ pictureItem: data, img: img }))
+        switchMap(data => this.img$.pipe(
+          map(img => ({ pictureItem: data, img: img }))
+        ))
       )
       .subscribe(
         data => {
@@ -161,7 +160,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           }
         },
         () => {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }

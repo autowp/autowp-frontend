@@ -27,6 +27,7 @@ import {
 import { APIPerspectiveModule } from '../../api/perspective/perspective.module';
 import {ModerPicturesItemPlaceComponent} from './item/place/place.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {ModerPicturesPerspectivePickerComponent} from './perspective-picker/perspective-picker.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {LeafletModule} from '@asymmetrik/ngx-leaflet';
     ModerPicturesItemMoveComponent,
     ModerPictureMoveItemComponent,
     ModerPicturesItemComponent,
-    ModerPicturesItemPlaceComponent
+    ModerPicturesItemPlaceComponent,
+    ModerPicturesPerspectivePickerComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +59,9 @@ import {LeafletModule} from '@asymmetrik/ngx-leaflet';
     PictureModerVoteModule,
     APIPerspectiveModule,
     LeafletModule
+  ],
+  exports: [
+    ModerPicturesPerspectivePickerComponent
   ]
 })
 export class PicturesModule {}

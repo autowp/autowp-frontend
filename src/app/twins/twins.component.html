@@ -17,17 +17,17 @@
     </div>
 
     <div *ngFor="let group of groups">
-      <h3 [innerHtml]="group.name_html"></h3>
+      <h3 [innerHtml]="group.item.name_html"></h3>
 
       <div *ngIf="group.childs">
-        <div class="twins row" *ngFor="let ch of chunk(group.childs)">
+        <div class="twins row" *ngFor="let ch of group.childs">
           <div class="col-lg-4 col-md-4" *ngFor="let car of ch">
             <div class="card mb-4">
-              <a [routerLink]="['/twins/group', group.id, 'pictures', car.front_picture.identity]" *ngIf="car.front_picture">
+              <a [routerLink]="['/twins/group', group.item.id, 'pictures', car.front_picture.identity]" *ngIf="car.front_picture">
                 <img
                   [src]="car.front_picture.thumb_medium.src"
-                  [alt]="car.name_text"
-                  [title]="car.name_text"
+                  [alt]="car.front_picture.name_text"
+                  [title]="car.front_picture.name_text"
                   class="card-img-top"
                 />
               </a>
@@ -43,22 +43,22 @@
       <ul class="carLinks">
         <li>
           <i class="fa fa-file mr-1" aria-hidden="true"></i>
-          <a [routerLink]="['/twins/group', group.id]">
+          <a [routerLink]="['/twins/group', group.item.id]">
             {{ 'carlist/details' | translate }} …
-            <span *ngIf="group.comments_topic_stat.messages > 0">(<span translate [translateParams]="{count: group.comments_topic_stat.messages}">{{'ng/%1$s-comments'}}</span>)</span>
+            <span *ngIf="group.item.comments_topic_stat.messages > 0">(<span translate [translateParams]="{count: group.item.comments_topic_stat.messages}">{{'ng/%1$s-comments'}}</span>)</span>
           </a>
         </li>
-        <li *ngIf="group.has_child_specs">
+        <li *ngIf="group.item.has_child_specs">
           <i class="fa fa-list-alt mr-1" aria-hidden="true"></i>
-          <a [routerLink]="['/twins/group', group.id, 'specifications']" translate>carlist/specifications</a>
+          <a [routerLink]="['/twins/group', group.item.id, 'specifications']" translate>carlist/specifications</a>
         </li>
-        <li *ngIf="hasMoreImages(group)">
+        <li *ngIf="group.hasMoreImages">
           <span class="fa fa-th mr-1" aria-hidden="true"></span>
-          <a [routerLink]="['/twins/group', group.id, 'pictures']">{{ 'carlist/all pictures' | translate }} ({{group.accepted_pictures_count}})</a>
+          <a [routerLink]="['/twins/group', group.item.id, 'pictures']">{{ 'carlist/all pictures' | translate }} ({{group.item.accepted_pictures_count}})</a>
         </li>
         <li *ngIf="canEdit">
           <i class="fa fa-cog mr-1" aria-hidden="true"></i>
-          <a [routerLink]="['/moder/items/item', group.id]" translate>moder/edit-object</a>
+          <a [routerLink]="['/moder/items/item', group.item.id]" translate>moder/edit-object</a>
         </li>
       </ul>
     </div>

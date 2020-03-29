@@ -17,9 +17,8 @@ import {
   Subscription,
   Observable,
   of,
-  empty,
   forkJoin,
-  BehaviorSubject
+  BehaviorSubject, EMPTY
 } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -305,7 +304,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           return this.userService.get(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );
@@ -335,7 +334,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           return this.itemService.getItems(params).pipe(
             catchError((err, caught) => {
               console.log(err, caught);
-              return empty();
+              return EMPTY;
             }),
             map(response => response.items)
           );

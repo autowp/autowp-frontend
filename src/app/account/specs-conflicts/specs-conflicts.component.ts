@@ -11,7 +11,7 @@ import {
   debounceTime,
   tap,
   switchMap,
-  switchMapTo
+  switchMapTo, map
 } from 'rxjs/operators';
 import { APIAttrConflictValue, APIAttrConflict, APIAttrsService } from '../../api/attrs/attrs.service';
 
@@ -58,7 +58,7 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = combineLatest(
+    this.querySub = combineLatest([
       this.route.queryParams.pipe(
         distinctUntilChanged(),
         debounceTime(30)
@@ -69,10 +69,10 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
             params: { fields: 'specs_weight' }
           })
         )
-      ),
-      (params, user) => ({ params, user })
-    )
+      )
+    ])
       .pipe(
+        map(data => ({ params: data[0], user: data[1] })),
         tap(data => {
           this.filter = data.params.filter || '0';
           this.page = data.params.page;
@@ -84,11 +84,12 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
               filter: data.params.filter || '0',
               page: data.params.page,
               fields: 'values'
-            }),
-          (data, conflicts) => ({
-            user: data.user,
-            conflicts: conflicts
-          })
+            }).pipe(
+              map(conflicts => ({
+                user: data.user,
+                conflicts: conflicts
+              }))
+            )
         )
       )
       .subscribe(data => {

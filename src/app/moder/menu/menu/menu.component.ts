@@ -3,7 +3,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { ACLService } from '../../../services/acl.service';
 import { PictureService } from '../../../services/picture';
-import { tap } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import { APICommentsService } from '../../../api/comments/comments.service';
 
 interface MenuItem {
@@ -32,19 +32,19 @@ export class MenuComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = combineLatest(
+    this.sub = combineLatest([
       this.acl.inheritsRole('moder'),
       this.acl.inheritsRole('pages-moder'),
       this.pictureService.getInboxSize(),
-      this.commentService.getAttentionCommentsCount(),
-      (isModer, isPagesModer, inboxCount, attentionItemCount) => ({
-        isModer,
-        isPagesModer,
-        inboxCount,
-        attentionItemCount
-      })
-    )
+      this.commentService.getAttentionCommentsCount()
+    ])
       .pipe(
+        map(data => ({
+          isModer: data[0],
+          isPagesModer: data[1],
+          inboxCount: data[2],
+          attentionItemCount: data[3]
+        })),
         tap(data => {
           this.items = [];
 

@@ -4,7 +4,7 @@ import {
   ItemService,
   APIItemRelatedGroupItem
 } from '../services/item';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY, of} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
@@ -13,7 +13,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap
+  map
 } from 'rxjs/operators';
 import { ACLService } from '../services/acl.service';
 import { tileLayer, latLng, Marker, marker, icon } from 'leaflet';
@@ -76,29 +76,32 @@ export class FactoryComponent implements OnInit, OnDestroy {
         ),
         catchError((err, caught) => {
           this.toastService.response(err);
-          this.router.navigate(['/error-404']);
-          return empty();
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
+          return EMPTY;
         }),
-        tap(factory => {
+        switchMap(factory => {
           if (factory.item_type_id !== 6) {
-            this.router.navigate(['/error-404']);
-            return;
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
+            return EMPTY;
           }
+
+          return of(factory);
         }),
-        switchMap(
-          factory =>
-            this.pictureService.getPictures({
-              status: 'accepted',
-              exact_item_id: factory.id,
-              limit: 32,
-              fields:
-                'owner,thumb_medium,votes,views,comments_count,name_html,name_text'
-            }),
-          (factory, pictures) => ({ factory, pictures })
-        ),
-        catchError((err, caught) => {
+        switchMap(factory => this.pictureService.getPictures({
+          status: 'accepted',
+          exact_item_id: factory.id,
+          limit: 32,
+          fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text'
+        }).pipe(
+          map(pictures => ({ factory, pictures }))
+        )),
+        catchError(err => {
           this.toastService.response(err);
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe(data => {
@@ -125,12 +128,8 @@ export class FactoryComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/181/name',
-          pageId: 181,
-          args: {
-            FACTORY_ID: this.factory.id + '',
-            FACTORY_NAME: this.factory.name_text
-          }
+          nameTranslated: this.factory.name_text,
+          pageId: 181
         });
       });
   }

@@ -17,6 +17,7 @@ import { CommentsModule } from '../comments/comments.module';
 import { CategoryGalleryComponent } from './category-gallery/category-gallery.component';
 import { CatagoriesService } from './service';
 import { GalleryModule } from '../gallery/gallery.module';
+import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { GalleryModule } from '../gallery/gallery.module';
     UserModule,
     PictureModule,
     CommentsModule,
-    GalleryModule
+    GalleryModule,
+    ThumbnailModule
   ],
   providers: [CatagoriesService]
 })

@@ -4,13 +4,12 @@ import { ItemService, APIItem, APIItemsGetResponse } from '../../services/item';
 import { chunk } from '../../chunk';
 import {
   Observable,
-  empty,
   forkJoin,
   of,
   BehaviorSubject,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ItemParentService, APIItemParent } from '../../services/item-parent';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -68,19 +67,19 @@ export class UploadSelectComponent implements OnInit {
       0
     );
 
-    combineLatest(
+    combineLatest([
       this.search$.pipe(
         map(value => value.trim()),
         distinctUntilChanged(),
         debounceTime(50)
       ),
-      this.route.queryParams,
-      (search: string, query: Params) => ({
-        search,
-        query
-      })
-    )
+      this.route.queryParams
+    ])
       .pipe(
+        map(data => ({
+          search: data[0],
+          query: data[1]
+        })),
         distinctUntilChanged(),
         tap(() => {
           this.loading = 1;
@@ -90,10 +89,10 @@ export class UploadSelectComponent implements OnInit {
           const brandId = parseInt(params.query.brand_id, 10);
           const page = parseInt(params.query.page, 10);
 
-          return forkJoin(
+          return forkJoin([
             brandId ? this.brandObservable(brandId) : of(null),
             brandId ? of(null) : this.brandsObservable(page, params.search)
-          ).pipe(
+          ]).pipe(
             map(data => {
               return {
                 brand: data[0],
@@ -129,11 +128,11 @@ export class UploadSelectComponent implements OnInit {
         page: page
       })
       .pipe(
-        catchError((err, caught) => {
+        catchError(err => {
           if (err.status !== -1) {
             this.toastService.response(err);
           }
-          return empty();
+          return EMPTY;
         })
       );
   }
@@ -147,9 +146,11 @@ export class UploadSelectComponent implements OnInit {
     concepts: APIItemParent[];
   }> {
     return this.itemService.getItem(brandId).pipe(
-      catchError((err, caught) => {
-        this.router.navigate(['/error-404']);
-        return empty();
+      catchError(() => {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
       }),
       switchMap((item, sindex) => {
         return this.brandItemsObservable(item);
@@ -158,7 +159,7 @@ export class UploadSelectComponent implements OnInit {
   }
 
   private brandItemsObservable(item: APIItem) {
-    return forkJoin(
+    return forkJoin([
       this.itemParentService
         .getItems({
           limit: 500,
@@ -170,9 +171,9 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map(response => response.items),
-          catchError((err, caught) => {
+          catchError(err => {
             this.toastService.response(err);
-            return empty();
+            return EMPTY;
           })
         ),
       this.itemParentService
@@ -186,9 +187,9 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map(response => response.items),
-          catchError((err, caught) => {
+          catchError(err => {
             this.toastService.response(err);
-            return empty();
+            return EMPTY;
           })
         ),
       this.itemParentService
@@ -201,12 +202,12 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map(response => response.items),
-          catchError((err, caught) => {
+          catchError(err => {
             this.toastService.response(err);
-            return empty();
+            return EMPTY;
           })
         )
-    ).pipe(
+    ]).pipe(
       map(data => {
         return {
           item: item,

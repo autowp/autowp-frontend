@@ -1,0 +1,4 @@
+<select class="form-control" [(ngModel)]="perspectiveID" name="perspective_id" (change)="change()" style="max-width:10em">
+  <option [ngValue]="null">--</option>
+  <option *ngFor="let perspective of perspectives" [ngValue]="perspective.id">{{perspective.name | translate}}</option>
+</select>

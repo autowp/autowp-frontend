@@ -20,7 +20,7 @@
 
     <div class="row" *ngIf="group">
       <div class="col-lg-3 col-md-3" *ngFor="let picture of pictures">
-        <app-twins-group-pictures-thumbnail [group]="group" [picture]="picture"></app-twins-group-pictures-thumbnail>
+        <app-thumbnail [picture]="picture" [route]="['/twins/group', group.id+'', 'pictures', picture.identity]"></app-thumbnail>
       </div>
     </div>
     <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

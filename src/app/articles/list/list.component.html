@@ -14,7 +14,7 @@
   <ul class="articleList">
     <li *ngFor="let article of articles">
       <a [routerLink]="['/articles', article.catname]" *ngIf="article.preview_url">
-        <img alt="" [src]="article.preview_url" style="float:left;margin:0 10px 4px 0" />
+        <img alt="" [src]="article.preview_url" style="float:left;margin:0 10px 4px 0" loading="lazy" />
       </a>
 
       <p>

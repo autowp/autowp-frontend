@@ -1,0 +1,24 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" translate>page/1/name</a>
+    </li>
+    <li class="breadcrumb-item" *ngIf="brand">
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+    </li>
+  </ol>
+</nav>
+
+<div class="page-header" *ngIf="brand">
+  <h1 translate [translateParams]="{brand: brand.name_text}">page/40/ng-name</h1>
+</div>
+
+<ng-container *ngIf="brand && pictures">
+  <div class="row" *ngFor="let chunk of pictures">
+    <div class="col-sm-3" *ngFor="let picture of chunk">
+      <app-thumbnail [picture]="picture" [route]="['/', brand.catname, 'mixed', picture.identity]">></app-thumbnail>
+    </div>
+  </div>
+</ng-container>
+
+<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

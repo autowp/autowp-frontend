@@ -5,7 +5,7 @@ import { ContentLanguageService } from '../../services/content-language';
 import { ItemService, APIItem } from '../../services/item';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, combineLatest, Observable, empty, forkJoin } from 'rxjs';
+import {Subscription, combineLatest, Observable, forkJoin, EMPTY} from 'rxjs';
 import { APIItemParent } from '../../services/item-parent';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -62,7 +62,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => {
-          return combineLatest(
+          return combineLatest([
             this.http.get<APIItemParent>(
               '/api/item-parent/' + params.item_id + '/' + params.parent_id
             ),
@@ -80,7 +80,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 params.parent_id +
                 '/language'
             )
-          );
+          ]);
         })
       )
       .subscribe(responses => {
@@ -111,12 +111,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 isAdminPage: true,
                 needRight: false
               },
-              name: 'page/78/name',
-              pageId: 78,
-              args: {
-                CAR_ID: this.item.id + '',
-                CAR_NAME: translation + ': ' + this.item.name_text
-              }
+              nameTranslated: translation + ': ' + this.item.name_text,
+              pageId: 78
             });
           });
       });
@@ -171,7 +167,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
           .pipe(
             catchError(response => {
               language.invalidParams = response.error.invalid_params;
-              return empty();
+              return EMPTY;
             })
           )
       );

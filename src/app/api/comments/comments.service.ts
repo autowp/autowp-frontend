@@ -42,9 +42,14 @@ export interface APIComment {
   text_html: string;
   user: APIUser;
   datetime: string;
-  moder_attention: boolean; // TODO: enum
-  url: string;
+  moderator_attention: number; // TODO: enum
   preview: string;
+  is_new: boolean;
+  route: string[];
+  status: {
+    class: string;
+    name: string;
+  };
 }
 
 @Injectable({
@@ -168,7 +173,7 @@ export class APICommentsService {
   }
 
   public getVotes(id: number): Observable<string> {
-    return this.http.get('/comments/votes', {
+    return this.http.get('/api/comment/votes', {
       params: {
         id: id.toString()
       },
@@ -186,8 +191,12 @@ export class APICommentsService {
     value: boolean
   ): Observable<void> {
     return this.http.request<void>(
-      value ? 'PUT' : 'DELETE',
-      '/api/comment/subscribe/' + itemID + '/' + typeID
+      value ? 'POST' : 'DELETE',
+      '/api/comment/topic/' + typeID + '/' + itemID + '/subscribe'
     );
+  }
+
+  public postView(itemID: number, typeID: number): Observable<void> {
+    return this.http.request<void>('POST', '/api/comment/topic/' + typeID + '/' + itemID + '/view');
   }
 }

@@ -3,8 +3,9 @@ import { Subscription } from 'rxjs';
 import { APIItem } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, map, switchMapTo, tap } from 'rxjs/operators';
+import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import { CatagoriesService } from '../service';
+import {APIGalleryItem} from '../../gallery/definitions';
 
 @Component({
   selector: 'app-category-gallery',
@@ -29,7 +30,7 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const identityPipe = this.route.paramMap.pipe(
-      map((route) => route.get('identity')),
+      map(route => route.get('identity')),
       distinctUntilChanged()
     );
 
@@ -41,15 +42,19 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
           this.category = data.category;
           this.pathCatnames = data.pathCatnames;
         }),
-        switchMapTo(identityPipe, (data, identity) => ({
-          current: data.current,
-          category: data.category,
-          identity: identity
-        }))
+        switchMap(data => identityPipe.pipe(
+          map(identity => ({
+            current: data.current,
+            category: data.category,
+            identity: identity
+          }))
+        ))
       )
       .subscribe((data) => {
         if (!data.identity || !data.current) {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return;
         }
 
@@ -81,5 +86,16 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
 
     return ['/category', this.category.catname]
       .concat(this.pathCatnames);
+  }
+
+  pictureSelected(item: APIGalleryItem) {
+    this.pageEnv.set({
+      layout: {
+        needRight: false,
+        isGalleryPage: true
+      },
+      nameTranslated: item.name,
+      pageId: 187
+    });
   }
 }

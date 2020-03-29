@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
 export interface APINewGroup {
@@ -75,41 +75,37 @@ export class NewComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.routeSub = combineLatest(
-      this.route.queryParams,
-      this.route.params,
-      (query, route) => ({ query, route })
-    )
+    this.routeSub = combineLatest([this.route.queryParams, this.route.params])
       .pipe(
+        map(data => ({ query: data[0], route: data[1] })),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(
-          params => {
-            const q: {
-              date?: string;
-              fields: string;
-              page?: string;
-            } = {
-              fields:
-                'pictures.owner,pictures.thumb_medium,pictures.votes,pictures.views,' +
-                'pictures.comments_count,pictures.name_html,pictures.name_text,' +
-                'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
-                'item.name_html,item.name_default,item.description,item.produced,' +
-                'item.design,item.url,item.can_edit_specs,item.specs_url,' +
-                'item.categories.url,item.categories.name_html,item.categories.catname,item.twins_groups'
-            };
-            if (params.route.date) {
-              q.date = params.route.date;
-            }
-            if (params.query.page) {
-              q.page = params.query.page;
-            }
-            return this.http.get<APINewGetResponse>('/api/new', {
-              params: q
-            });
-          },
-          (params, response) => ({ params, response })
-        )
+        switchMap(params => {
+          const q: {
+            date?: string;
+            fields: string;
+            page?: string;
+          } = {
+            fields:
+              'pictures.owner,pictures.thumb_medium,pictures.votes,pictures.views,' +
+              'pictures.comments_count,pictures.name_html,pictures.name_text,' +
+              'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
+              'item.name_html,item.name_default,item.description,item.produced,' +
+              'item.design,item.can_edit_specs,item.specs_route,' +
+              'item.categories.name_html,item.twins_groups'
+          };
+          if (params.route.date) {
+            q.date = params.route.date;
+          }
+          if (params.query.page) {
+            q.page = params.query.page;
+          }
+          return this.http.get<APINewGetResponse>('/api/new', {
+            params: q
+          }).pipe(
+            map(response => ({ params, response }))
+          );
+        })
       )
       .subscribe(
         data => {

@@ -6,9 +6,9 @@ import { PageEnvService } from '../../services/page-env.service';
 import {
   switchMap,
   distinctUntilChanged,
-  map,
-  switchMapTo
+  map
 } from 'rxjs/operators';
+import {APIGalleryItem} from '../../gallery/definitions';
 
 @Component({
   selector: 'app-twins-group-gallery',
@@ -30,33 +30,37 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const groupPipe = this.route.paramMap.pipe(
-      map((route) => parseInt(route.get('group'), 10)),
+      map(route => parseInt(route.get('group'), 10)),
       distinctUntilChanged(),
-      switchMap((groupID) => {
+      switchMap(groupID => {
         if (!groupID) {
           return of(null as APIItem);
         }
         return this.itemService.getItem(groupID, {
-          fields: 'name_text,name_html,childs.brands.catname'
+          fields: 'name_text,name_html,childs.brands'
         });
       })
     );
 
     const identityPipe = this.route.paramMap.pipe(
-      map((route) => route.get('identity')),
+      map(route => route.get('identity')),
       distinctUntilChanged()
     );
 
     this.sub = groupPipe
       .pipe(
-        switchMapTo(identityPipe, (group, identity) => ({
-          group: group,
-          identity: identity
-        }))
+        switchMap(group => identityPipe.pipe(
+          map(identity => ({
+            group: group,
+            identity: identity
+          }))
+        ))
       )
       .subscribe((data) => {
         if (!data.group) {
-          this.router.navigate(['/error-404']);
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
           return;
         }
 
@@ -70,12 +74,25 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
                 needRight: false,
                 isGalleryPage: true
               },
-              nameTranslated: '', // data.picture.name_text,
+              nameTranslated: data.group.name_text,
               pageId: 28
             }),
           0
         );
       });
+  }
+
+  pictureSelected(item: APIGalleryItem) {
+    setTimeout(() => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false,
+          isGalleryPage: true
+        },
+        nameTranslated: item.name,
+        pageId: 28
+      });
+    });
   }
 
   ngOnDestroy(): void {

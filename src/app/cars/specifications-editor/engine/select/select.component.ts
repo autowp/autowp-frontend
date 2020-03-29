@@ -60,7 +60,7 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
         engine_id: engineId
       })
       .subscribe(
-        response => {
+        () => {
           this.router.navigate(['/cars/specifications-editor'], {
             queryParams: {
               item_id: this.item.id,
@@ -81,8 +81,9 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
           params =>
             this.itemService.getItem(params.item_id, {
               fields: 'name_html,name_text'
-            }),
-          (params, item) => ({ params, item })
+            }).pipe(
+              map(item => ({ params, item }))
+            )
         ),
         tap(data => {
           this.item = data.item;
@@ -100,7 +101,7 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
           });
         }),
         switchMap(data => {
-          return combineLatest(
+          return combineLatest([
             data.params.brand_id
               ? this.itemParentService.getItems({
                   limit: 500,
@@ -126,10 +127,10 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
                       name: search ? '%' + search + '%' : null
                     })
                   )
-                ),
-            (items, brands) => ({ items, brands })
-          );
-        })
+                )
+          ]);
+        }),
+        map(data => ({ items: data[0], brands: data[1] }))
       )
       .subscribe(
         data => {

@@ -5,9 +5,8 @@ import {
   Subscription,
   Observable,
   of,
-  empty,
   forkJoin,
-  combineLatest
+  combineLatest, EMPTY
 } from 'rxjs';
 import {
   APIPictureItem,
@@ -21,7 +20,7 @@ import {
   catchError,
   distinctUntilChanged,
   debounceTime,
-  tap
+  tap, map
 } from 'rxjs/operators';
 
 // Acl.isAllowed('car', 'move', 'unauthorized');
@@ -62,7 +61,7 @@ export class ModerItemsItemPicturesOrganizeComponent
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>
-          combineLatest(
+          combineLatest([
             this.itemService
               .getItem(params.id, {
                 fields: [
@@ -70,7 +69,6 @@ export class ModerItemsItemPicturesOrganizeComponent
                   'name',
                   'is_concept',
                   'name_default',
-                  'body',
                   'subscription',
                   'begin_year',
                   'begin_month',
@@ -80,7 +78,6 @@ export class ModerItemsItemPicturesOrganizeComponent
                   'begin_model_year',
                   'end_model_year',
                   'produced',
-                  'is_group',
                   'spec_id',
                   'full_name',
                   'catname',
@@ -103,7 +100,7 @@ export class ModerItemsItemPicturesOrganizeComponent
                     pageId: 78
                   });
                 }),
-                switchMap(item =>
+                switchMap(() =>
                   this.item.item_type_id === 1 || this.item.item_type_id === 4
                     ? this.http
                         .get<APIItemVehicleTypeGetResponse>(
@@ -135,7 +132,7 @@ export class ModerItemsItemPicturesOrganizeComponent
                 order: 'status'
               })
               .pipe(tap(response => (this.pictures = response.items)))
-          )
+          ])
         )
       )
       .subscribe();
@@ -182,7 +179,7 @@ export class ModerItemsItemPicturesOrganizeComponent
       lng: this.newItem.lng
     };
 
-    forkJoin(
+    forkJoin([
       this.http.post<void>('/api/item', data, {
         observe: 'response'
       }),
@@ -191,12 +188,12 @@ export class ModerItemsItemPicturesOrganizeComponent
         : this.http.put<void>('/api/item/' + this.item.id, {
             is_group: true
           })
-    )
+    ])
       .pipe(
         catchError(response => {
           this.invalidParams = response.error.invalid_params;
           this.loading--;
-          return empty();
+          return EMPTY;
         }),
         switchMap(responses =>
           this.itemService.getItemByLocation(
@@ -204,41 +201,40 @@ export class ModerItemsItemPicturesOrganizeComponent
             {}
           )
         ),
-        switchMap(
-          response => {
-            const subpromises: Observable<void>[] = [
-              this.itemService.setItemVehicleTypes(
-                response.id,
-                this.vehicleTypeIDs
-              ),
-              this.http.post<void>('/api/item-parent', {
-                parent_id: this.item.id,
-                item_id: response.id
-              })
-            ];
+        switchMap(response => {
+          const subpromises: Observable<void>[] = [
+            this.itemService.setItemVehicleTypes(
+              response.id,
+              this.vehicleTypeIDs
+            ),
+            this.http.post<void>('/api/item-parent', {
+              parent_id: this.item.id,
+              item_id: response.id
+            })
+          ];
 
-            for (const picture of this.pictures) {
-              if (picture.selected) {
-                subpromises.push(
-                  this.http.put<void>(
-                    '/api/picture-item/' +
-                      picture.picture_id +
-                      '/' +
-                      picture.item_id +
-                      '/' +
-                      picture.type,
-                    {
-                      item_id: response.id
-                    }
-                  )
-                );
-              }
+          for (const picture of this.pictures) {
+            if (picture.selected) {
+              subpromises.push(
+                this.http.put<void>(
+                  '/api/picture-item/' +
+                    picture.picture_id +
+                    '/' +
+                    picture.item_id +
+                    '/' +
+                    picture.type,
+                  {
+                    item_id: response.id
+                  }
+                )
+              );
             }
+          }
 
-            return forkJoin(...subpromises);
-          },
-          response => response
-        )
+          return forkJoin(...subpromises).pipe(
+            map(() => response)
+          );
+        })
       )
       .subscribe(item => {
         this.loading--;

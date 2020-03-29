@@ -6,7 +6,7 @@
     <a *ngIf="item && item.is_group && canMove && item.childs_count > 0" [routerLink]="['/moder/items/item', item.id, 'organize']"
       [queryParams]="{item_type_id: organizeTypeId}" class="btn btn-secondary" translate>moder/vehicle/catalogue/turbo-group-creator</a>
   </div>
-  <table class="table" role="presentation">
+  <table class="table">
     <thead>
       <tr>
         <th translate scope="col">moder/vehicle/catalogue/title/name</th>
@@ -72,8 +72,8 @@
           </a>
         </td>
         <td class="urls">
-          <ng-container *ngFor="let url of item.parent.public_urls">
-            <a [href]="url" [textContent]="url"></a>
+          <ng-container *ngFor="let route of item.parent.public_routes">
+            <a [routerLink]="route" [textContent]="route.join('/')"></a>
             <br />
           </ng-container>
         </td>
@@ -117,14 +117,14 @@
           </div>
         </td>
         <td>
-          <a [routerLink]="['moder/item-parent', item.item_id, item.parent_id]">
+          <a [routerLink]="['/moder/item-parent', item.item_id, item.parent_id]">
             {{item.name}}
             <span class="fa fa-pencil" aria-hidden="true"></span>
           </a>
         </td>
         <td class="urls">
-          <ng-container *ngFor="let url of item.item.public_urls">
-            <a [href]="url" [textContent]="url"></a>
+          <ng-container *ngFor="let route of item.item.public_routes">
+            <a [routerLink]="route" [textContent]="route.join('/')"></a>
             <br />
           </ng-container>
         </td>

@@ -24,10 +24,9 @@ export class VehicleTypeService {
     this.types$ = this.http
       .get<APIVehicleTypesGetResponse>('/api/vehicle-types')
       .pipe(
-        switchMap(
-          response => this.translate.get(this.collectNames(response.items)),
-          (response, translations) => ({ response, translations })
-        ),
+        switchMap(response => this.translate.get(this.collectNames(response.items)).pipe(
+          map(translations => ({ response, translations }))
+        )),
         map(data => {
           this.applyTranslations(data.response.items, data.translations);
           return data.response.items;

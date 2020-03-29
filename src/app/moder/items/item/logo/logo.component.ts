@@ -3,7 +3,7 @@ import { APIItem } from '../../../../services/item';
 import { ACLService } from '../../../../services/acl.service';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { APIImage } from '../../../../services/api.service';
-import { Subscription, empty } from 'rxjs';
+import {Subscription, EMPTY} from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
@@ -37,7 +37,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
     this.aclSub.unsubscribe();
   }
 
-  public onChange(event: any, input: any) {
+  public onChange(event: any) {
     if (event.target.files.length <= 0) {
       return;
     }
@@ -66,21 +66,21 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
 
           this.progress.invalidParams = response.error.invalid_params;
 
-          return empty();
+          return EMPTY;
         }),
         switchMap(httpEvent => {
           if (httpEvent.type === HttpEventType.DownloadProgress) {
             this.progress.percentage = Math.round(
               50 + 25 * (httpEvent.loaded / httpEvent.total)
             );
-            return empty();
+            return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               50 * (httpEvent.loaded / httpEvent.total)
             );
-            return empty();
+            return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.Response) {
@@ -94,15 +94,15 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
                   this.progress.percentage = 100;
                   this.item.logo = subresponse;
                 }),
-                catchError((response, caught) => {
+                catchError(response => {
                   this.toastService.response(response);
 
-                  return empty();
+                  return EMPTY;
                 })
               );
           }
 
-          return empty();
+          return EMPTY;
         })
       )
       .subscribe();

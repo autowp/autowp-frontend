@@ -48,7 +48,7 @@ export class AuthService {
     return this.api
       .request<APIUser>('GET', 'user/me')
       .pipe(
-        catchError(response => {
+        catchError(() => {
           return of(null);
         }),
         tap(user => this.setUser(user))

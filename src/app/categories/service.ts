@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, map, distinctUntilChanged, switchMapTo } from 'rxjs/operators';
+import { switchMap, map, distinctUntilChanged} from 'rxjs/operators';
 import { APIItem, ItemService } from '../services/item';
 import { PathItem } from './definitions';
 
@@ -26,17 +26,19 @@ export class CatagoriesService {
     );
 
     return categoryPipe.pipe(
-      switchMapTo(pathPipe, (category, path) => ({
-        category: category,
-        path: path
-      })),
-      switchMap((params) => {
+      switchMap(category => pathPipe.pipe(
+        map(path => ({
+          category: category,
+          path: path
+        }))
+      )),
+      switchMap(params => {
         return this.itemService.getPath({
           catname: params.category,
           path: params.path
         });
       }),
-      map((response) => {
+      map(response => {
         let category: APIItem;
         for (const item of response.path) {
           if (item.item.item_type_id !== 3) {

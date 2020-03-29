@@ -13,8 +13,8 @@ import { AuthService } from '../../services/auth.service';
 import { APIUser } from '../../services/user';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { PageEnvService } from '../../services/page-env.service';
-import { combineLatest, empty, of, Subscription } from 'rxjs';
-import { switchMapTo, switchMap } from 'rxjs/operators';
+import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
+import {switchMapTo, switchMap, map} from 'rxjs/operators';
 import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -112,7 +112,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         switchMap(user => {
           if (!user) {
             this.router.navigate(['/signin']);
-            return empty();
+            return EMPTY;
           }
 
           this.user = user;
@@ -121,15 +121,17 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         }),
         switchMapTo(
           combineLatest(
-            this.http.get<APIUser>('/api/user/me', {
-              params: {
-                fields: 'name,timezone,language,votes_per_day,votes_left,img'
-              }
-            }),
-            this.timezone.getTimezones(),
-            (user, timezones) => ({ user, timezones })
+            [
+              this.http.get<APIUser>('/api/user/me', {
+                params: {
+                  fields: 'name,timezone,language,votes_per_day,votes_left,img'
+                }
+              }),
+              this.timezone.getTimezones()
+            ]
           )
-        )
+        ),
+        map(data => ({ user: data[0], timezones: data[1] }))
       )
       .subscribe(
         data => {
@@ -204,5 +206,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       },
       response => this.toastService.response(response)
     );
+  }
+
+  public onChange(event: any) {
+    console.log([].slice.call(event.target.files));
   }
 }

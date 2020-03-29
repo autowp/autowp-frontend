@@ -53,8 +53,10 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
         response => {
           this.topic = response;
         },
-        response => {
-          this.router.navigate(['/error-404']);
+        () => {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
         }
       );
   }
@@ -69,7 +71,7 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
         theme_id: theme.id
       })
       .subscribe(
-        response => {
+        () => {
           this.router.navigate(['/forums/topic', this.topic.id]);
         },
         response => this.toastService.response(response)

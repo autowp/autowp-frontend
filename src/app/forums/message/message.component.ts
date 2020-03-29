@@ -32,6 +32,7 @@ export class MessageComponent implements OnInit, OnDestroy {
       .subscribe(
         message => {
           this.router.navigate(['/forums/topic', message.topic_id], {
+            replaceUrl: true,
             queryParams: {
               page: message.page
             }

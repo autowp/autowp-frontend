@@ -44,13 +44,11 @@ export class ModerUsersComponent {
       .pipe(
         distinctUntilChanged(),
         debounceTime(10),
-        switchMap((params) =>
-          this.userService.get({
-            page: parseInt(params.get('page'), 10),
-            limit: 30,
-            fields: 'image,reg_date,last_online,email,login'
-          })
-        )
+        switchMap(params => this.userService.get({
+          page: parseInt(params.get('page'), 10),
+          limit: 30,
+          fields: 'image,reg_date,last_online,email,login'
+        }))
       )
       .subscribe(
         (response) => {

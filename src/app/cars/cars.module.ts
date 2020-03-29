@@ -17,8 +17,8 @@ import { MomentModule } from 'ngx-moment';
 import { UserModule } from '../user/user.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaginatorModule } from '../paginator/paginator.module';
-import { ItemModule } from '../item/item.module';
 import { UtilsModule } from '../utils/utils.module';
+import {ItemModule} from '../item/item.module';
 
 @NgModule({
   declarations: [
@@ -42,8 +42,8 @@ import { UtilsModule } from '../utils/utils.module';
     TranslateModule,
     PaginatorModule,
     NgbTooltipModule,
-    ItemModule,
-    UtilsModule
+    UtilsModule,
+    ItemModule
   ]
 })
 export class CarsModule { }

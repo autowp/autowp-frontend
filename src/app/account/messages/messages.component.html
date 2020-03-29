@@ -27,9 +27,9 @@
           <span translate *ngIf="! message.author">account/personal-message/system-notification</span>
         </div>
         <div class="photo">
-          <a [href]="message.author.url" *ngIf="message.author && ! message.author.deleted">
-            <img alt="" [src]="message.author.avatar.src" *ngIf="message.author.avatar" class="rounded" />
-            <img alt="" [src]="message.author.gravatar" *ngIf="message.author.gravatar && ! message.author.avatar" class="rounded" />
+          <a [routerLink]="message.author.route" *ngIf="message.author && ! message.author.deleted">
+            <img alt="" [src]="message.author.avatar.src" *ngIf="message.author.avatar" class="rounded" loading="lazy" />
+            <img alt="" [src]="message.author.gravatar" *ngIf="message.author.gravatar && ! message.author.avatar" class="rounded" loading="lazy" />
           </a>
         </div>
         <div class="content">

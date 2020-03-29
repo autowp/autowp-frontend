@@ -31,22 +31,22 @@
   <h3 translate>factories/factory/pictures</h3>
   <div class="row">
     <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of pictures">
-      <app-thumbnail [picture]="picture"></app-thumbnail>
+      <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
     </div>
   </div>
 </div>
 
-<div *ngIf="relatedPictures.length > 0">
+<div *ngIf="relatedPictures && relatedPictures.length > 0">
   <h3 translate>factories/factory-items</h3>
   <div class="row">
     <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let item of relatedPictures">
       <div class="card mb-4">
-        <a [href]="item.url">
-          <img alt="" class="card-img-top" [src]="item.src" alt="" [title]="item.name" />
+        <a [routerLink]="item.route">
+          <img class="card-img-top" [src]="item.src" alt="" [title]="item.name" loading="lazy" />
         </a>
         <div class="card-body">
           <h5 class="card-title">
-            <a [href]="item.url" [textContent]="item.name"></a>
+            <a [routerLink]="item.route" [textContent]="item.name"></a>
           </h5>
         </div>
       </div>
