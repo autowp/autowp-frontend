@@ -388,7 +388,7 @@ export class PictureService {
     url: string,
     options?: APIGetPictureOptions
   ): Observable<APIPicture> {
-    return this.api.request<APIPicture>('GET', url, {
+    return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {
       params: convertPictureOptions(options)
     });
   }
