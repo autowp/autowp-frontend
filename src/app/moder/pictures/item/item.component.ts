@@ -192,7 +192,10 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.lastItemSub.unsubscribe();
+    if (this.lastItemSub) {
+      this.lastItemSub.unsubscribe();
+      this.lastItemSub = null;
+    }
   }
 
   public pictureVoted() {
