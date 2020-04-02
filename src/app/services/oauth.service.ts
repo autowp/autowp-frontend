@@ -18,7 +18,6 @@ export class OAuthService {
   public restored = false;
 
   constructor(private http: HttpClient) {
-    this.restoreFromStorage();
   }
 
   private setToken(response: TokenResponse) {
@@ -69,10 +68,12 @@ export class OAuthService {
   }
 
   public restoreFromStorage() {
-    this.accessToken = localStorage.getItem('access_token');
-    this.refreshToken = localStorage.getItem('refresh_token');
-    this.validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
-    this.restored = true;
+    if (! this.restored) {
+      this.accessToken = localStorage.getItem('access_token');
+      this.refreshToken = localStorage.getItem('refresh_token');
+      this.validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
+      this.restored = true;
+    }
   }
 
   private saveToStorage() {
@@ -95,9 +96,7 @@ export class OAuthService {
 
   public getAccessToken(): Observable<string|null> {
 
-    if (! this.restored) {
-      this.restoreFromStorage();
-    }
+    this.restoreFromStorage();
 
     if (! this.accessToken) {
       return of(null);
