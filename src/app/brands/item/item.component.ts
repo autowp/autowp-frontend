@@ -23,7 +23,7 @@ export class BrandsItemComponent {
   public shown() {
     this.loading = true;
 
-    this.api.get('brands/' + this.brand.id + '/new-items', {
+    this.api.request('GET', 'brands/' + this.brand.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {

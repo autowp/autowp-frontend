@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpEvent} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { APIPicture } from './picture';
 import {OAuthService} from './oauth.service';
 import {switchMap} from 'rxjs/operators';
 
@@ -27,11 +26,6 @@ export interface APIImage {
   src: string;
   width: number;
   height: number;
-}
-
-export interface APILanguage {
-  language: string;
-  name: string;
 }
 
 export interface APIPaginator {
@@ -72,24 +66,6 @@ export interface APIPerspectivePageGetResponse {
   items: APIPerspectivePage[];
 }
 
-export interface APIPicturesGetResponse {
-  paginator: APIPaginator;
-  pictures?: APIPicture[];
-}
-
-export interface APILoginService {
-  name: string;
-  icon: string;
-}
-
-export interface APILoginServices {
-  [key: string]: APIService;
-}
-
-export interface APILoginServicesGetResponse {
-  items: APILoginServices;
-}
-
 export interface APILoginStartPostResponse {
   url: string;
 }
@@ -98,8 +74,6 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 
 @Injectable()
 export class APIService {
-  [x: string]: any;
-
   constructor(private http: HttpClient, private oauth: OAuthService) {}
 
   /**

@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import {
-  APILoginServicesGetResponse,
   APILoginStartPostResponse,
   APIService
 } from '../services/api.service';
@@ -9,7 +8,15 @@ import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
 import { TranslateService } from '@ngx-translate/core';
 
-interface SignInService {
+interface APILoginServicesGetResponse {
+  items: APILoginServices;
+}
+
+interface APILoginServices {
+  [key: string]: APISignInService;
+}
+
+interface APISignInService {
   id: string;
   name: string;
   icon: string;
@@ -23,7 +30,7 @@ interface SignInService {
 })
 @Injectable()
 export class SignInComponent implements OnInit {
-  public services: SignInService[] = [];
+  public services: APISignInService[] = [];
   public form = {
     login: '',
     password: ''
