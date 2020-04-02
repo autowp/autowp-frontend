@@ -51,6 +51,11 @@ export interface APIComment {
   };
 }
 
+export interface APICommentVotes {
+  positive: APIUser[];
+  negative: APIUser[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -169,12 +174,11 @@ export class APICommentsService {
     return this.api.request<APIComment>('GET', this.api.resolveLocation(location), {params: params});
   }
 
-  public getVotes(id: number): Observable<string> {
-    return this.api.request('GET', 'comment/votes', {
+  public getVotes(id: number): Observable<APICommentVotes> {
+    return this.api.request<APICommentVotes>('GET', 'comment/votes', {
       params: {
         id: id.toString()
-      },
-      responseType: 'text'
+      }
     });
   }
 

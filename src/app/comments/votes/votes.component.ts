@@ -7,7 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { APICommentsService } from '../../api/comments/comments.service';
+import {APICommentsService, APICommentVotes} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -18,7 +18,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class CommentsVotesComponent implements OnInit, OnChanges {
   @Input() messageID: number;
 
-  public html: string;
+  public votes: APICommentVotes;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -35,11 +35,9 @@ export class CommentsVotesComponent implements OnInit, OnChanges {
   }
 
   private load() {
-    this.commentService
-      .getVotes(this.messageID)
-      .subscribe(
-        response => (this.html = response),
-        response => this.toastService.response(response)
-      );
+    this.commentService.getVotes(this.messageID).subscribe(
+      response => (this.votes = response),
+      response => this.toastService.response(response)
+    );
   }
 }
