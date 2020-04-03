@@ -305,10 +305,12 @@
         </div>
         <div class="col-md-4" *ngIf="picture.items.length > 0">
           <label class="d-block">{{'moder/picture/perspective'|translate}}</label>
-          <div *ngFor="let item of picture.items">
-            <span [innerHTML]="item.item.name_html"></span>
-            <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type == 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
-          </div>
+          <ng-container *ngFor="let item of picture.items">
+            <div *ngIf="item.type == 1">
+              <span [innerHTML]="item.item.name_html"></span>
+              <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
+            </div>
+          </ng-container>
         </div>
         <div class="col-md-4">
           <p>
