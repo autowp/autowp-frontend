@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpEvent} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpEvent, HttpErrorResponse} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
 import { environment } from '../../environments/environment';
 import {OAuthService} from './oauth.service';
-import {switchMap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
@@ -74,7 +75,7 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 
 @Injectable()
 export class APIService {
-  constructor(private http: HttpClient, private oauth: OAuthService) {}
+  constructor(private http: HttpClient, private oauth: OAuthService, private toasts: ToastsService) {}
 
   /**
    * Constructs a request that interprets the body as a text string and
@@ -342,7 +343,14 @@ export class APIService {
           }
         }
 
-        return this.http.request(method, environment.apiUrl + url, options);
+        return this.http.request(method, environment.apiUrl + url, options).pipe(
+          catchError((response: HttpErrorResponse) => {
+            if (response.status === 429) {
+              this.toasts.error(response.error);
+            }
+            return throwError(response);
+          })
+        );
       })
     );
   }
