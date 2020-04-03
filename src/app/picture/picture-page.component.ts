@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import {Subscription, of, EMPTY, BehaviorSubject} from 'rxjs';
+import {Subscription, of, EMPTY, BehaviorSubject, throwError} from 'rxjs';
 import { APIItem} from '../services/item';
 import {APIPicture, PictureService} from '../services/picture';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,9 +7,10 @@ import { PageEnvService } from '../services/page-env.service';
 import {
   switchMap,
   distinctUntilChanged,
-  map
+  map, catchError
 } from 'rxjs/operators';
 import {PathItem} from '../categories/definitions';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-picture-page',
@@ -45,6 +46,15 @@ export class PicturePageComponent implements OnInit, OnDestroy {
           }
 
           return this.pictureService.getCanonicalRoute(identity).pipe(
+            catchError((response: HttpErrorResponse) => {
+              if (response.status === 404) {
+                this.router.navigate(['/error-404'], {
+                  skipLocationChange: true
+                });
+                return EMPTY;
+              }
+              return throwError(response);
+            }),
             switchMap(route => {
               if (route && route.length > 0) {
                 this.router.navigate(route, {

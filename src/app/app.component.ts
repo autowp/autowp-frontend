@@ -72,8 +72,6 @@ export class AppComponent implements OnInit {
       }
     });
 
-    // this.auth.loadMe().subscribe();
-
     this.auth.getUser().subscribe(user => {
       this.user = user;
     });
