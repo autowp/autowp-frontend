@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import {Observable, of, ReplaySubject} from 'rxjs';
 import { APIUser } from './user';
 import { switchMap, tap, map, catchError, shareReplay } from 'rxjs/operators';
 import {OAuthService} from './oauth.service';
@@ -7,7 +7,7 @@ import {APIService} from './api.service';
 
 @Injectable()
 export class AuthService {
-  private user$ = new BehaviorSubject<APIUser>(null);
+  private user$ = new ReplaySubject<APIUser>(1);
 
   constructor(private api: APIService, private oauth: OAuthService) {
     this.oauth.getAccessToken().subscribe(accessToken => {
