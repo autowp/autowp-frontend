@@ -109,7 +109,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(user => {
           if (!user) {
-            this.router.navigate(['/signin']);
+            this.router.navigate(['/login']);
             return EMPTY;
           }
 
