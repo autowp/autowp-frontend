@@ -3,7 +3,9 @@ import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import { AuthService } from './auth.service';
 import { APIPaginator, APIService } from './api.service';
 import { APIUser } from './user';
-import { switchMap, map, debounceTime, shareReplay, tap } from 'rxjs/operators';
+import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface APIMessagesGetOptions {
   folder: string;
@@ -56,7 +58,7 @@ export class MessageService {
   private sent$ = new BehaviorSubject<void>(null);
   private seen$ = new BehaviorSubject<void>(null);
 
-  constructor(private api: APIService, private auth: AuthService) {
+  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService) {
     this.summary$ = combineLatest([
       this.deleted$,
       this.sent$,
@@ -88,6 +90,10 @@ export class MessageService {
         }
 
         return this.api.request<APIMessageNewGetResponse>('GET', 'message/new');
+      }),
+      catchError((response: HttpErrorResponse) => {
+        this.toasts.errorResponse(response);
+        return of(null);
       }),
       map(response => (response ? response.count : null))
     );
