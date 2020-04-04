@@ -274,11 +274,11 @@
   </ul>
 </div>
 
-<div *ngIf="isModer">
+<div *ngIf="isModer && picture">
   <h3><a routerLink="/moder" translate>page/67/name</a></h3>
   <div class="card card-body">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="picture.rights">
           <div *ngIf="picture.status == 'inbox'">
             <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept">
               {{'moder/picture/acceptance/accept'|translate}}
