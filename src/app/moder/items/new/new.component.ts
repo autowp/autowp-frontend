@@ -263,7 +263,9 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         item => {
-          localStorage.setItem('last_item', item.id.toString());
+          if (localStorage) {
+            localStorage.setItem('last_item', item.id.toString());
+          }
           this.router.navigate(['/moder/items/item', item.id]);
         },
         () => {},

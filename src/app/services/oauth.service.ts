@@ -68,7 +68,7 @@ export class OAuthService {
   }
 
   public restoreFromStorage() {
-    if (! this.restored) {
+    if (! this.restored && localStorage) {
       this.accessToken = localStorage.getItem('access_token');
       this.refreshToken = localStorage.getItem('refresh_token');
       this.validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
@@ -77,20 +77,22 @@ export class OAuthService {
   }
 
   private saveToStorage() {
-    if (this.accessToken) {
-      localStorage.setItem('access_token', this.accessToken);
-    } else {
-      localStorage.removeItem('access_token');
-    }
-    if (this.refreshToken) {
-      localStorage.setItem('refresh_token', this.refreshToken);
-    } else {
-      localStorage.removeItem('refresh_token');
-    }
-    if (this.validUntil) {
-      localStorage.setItem('valid_until', this.validUntil.getTime().toString());
-    } else {
-      localStorage.removeItem('valid_until');
+    if (localStorage) {
+      if (this.accessToken) {
+        localStorage.setItem('access_token', this.accessToken);
+      } else {
+        localStorage.removeItem('access_token');
+      }
+      if (this.refreshToken) {
+        localStorage.setItem('refresh_token', this.refreshToken);
+      } else {
+        localStorage.removeItem('refresh_token');
+      }
+      if (this.validUntil) {
+        localStorage.setItem('valid_until', this.validUntil.getTime().toString());
+      } else {
+        localStorage.removeItem('valid_until');
+      }
     }
   }
 

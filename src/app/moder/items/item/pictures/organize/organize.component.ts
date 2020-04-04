@@ -235,7 +235,9 @@ export class ModerItemsItemPicturesOrganizeComponent
       )
       .subscribe(item => {
         this.loading--;
-        localStorage.setItem('last_item', item.id.toString());
+        if (localStorage) {
+          localStorage.setItem('last_item', item.id.toString());
+        }
         this.router.navigate(['/moder/items/item', item.id], {
           queryParams: {
             tab: 'pictures'

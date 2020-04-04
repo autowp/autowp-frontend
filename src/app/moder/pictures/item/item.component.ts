@@ -177,16 +177,18 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         }
       );
 
-    const lastItemId = parseInt(localStorage.getItem('last_item'), 10);
+    if (localStorage) {
+      const lastItemId = parseInt(localStorage.getItem('last_item'), 10);
 
-    if (lastItemId) {
-      this.lastItemSub = this.itemService.getItems({
-        id: lastItemId,
-        fields: 'name_html',
-        limit: 1
-      }).subscribe(response => {
-        this.last_item = response.items.length ? response.items[0] : null;
-      });
+      if (lastItemId) {
+        this.lastItemSub = this.itemService.getItems({
+          id: lastItemId,
+          fields: 'name_html',
+          limit: 1
+        }).subscribe(response => {
+          this.last_item = response.items.length ? response.items[0] : null;
+        });
+      }
     }
   }
 

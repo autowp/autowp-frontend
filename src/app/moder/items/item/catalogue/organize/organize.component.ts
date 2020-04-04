@@ -229,7 +229,9 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.loading--;
-          localStorage.setItem('last_item', this.item.id.toString());
+          if (localStorage) {
+            localStorage.setItem('last_item', this.item.id.toString());
+          }
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {
               tab: 'catalogue'
