@@ -12,21 +12,28 @@ interface TokenResponse {
 
 @Injectable()
 export class OAuthService {
-  private accessToken: string;
-  private refreshToken: string;
-  private validUntil: Date;
-  public restored = false;
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   private setToken(response: TokenResponse) {
-    this.accessToken = response.access_token;
-    this.refreshToken = response.refresh_token;
-    const validUntil = new Date();
-    validUntil.setSeconds(validUntil.getSeconds() + response.expires_in / 0.9);
-    this.validUntil = validUntil;
-    this.saveToStorage();
+    if (localStorage) {
+      if (response.access_token) {
+        localStorage.setItem('access_token', response.access_token);
+      } else {
+        localStorage.removeItem('access_token');
+      }
+      if (response.refresh_token) {
+        localStorage.setItem('refresh_token', response.refresh_token);
+      } else {
+        localStorage.removeItem('refresh_token');
+      }
+      if (response.expires_in) {
+        const validUntil = new Date();
+        validUntil.setSeconds(validUntil.getSeconds() + response.expires_in / 0.9);
+        localStorage.setItem('valid_until', validUntil.getTime().toString());
+      } else {
+        localStorage.removeItem('valid_until');
+      }
+    }
   }
 
   public login(
@@ -58,61 +65,37 @@ export class OAuthService {
   }
 
   public signOut(): Observable<boolean> {
-    this.accessToken = null;
-    this.refreshToken = null;
-    this.validUntil = null;
-
-    this.saveToStorage();
+    if (localStorage) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('valid_until');
+    }
 
     return of(true);
   }
 
-  public restoreFromStorage() {
-    if (! this.restored && localStorage) {
-      this.accessToken = localStorage.getItem('access_token');
-      this.refreshToken = localStorage.getItem('refresh_token');
-      this.validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
-      this.restored = true;
-    }
-  }
-
-  private saveToStorage() {
-    if (localStorage) {
-      if (this.accessToken) {
-        localStorage.setItem('access_token', this.accessToken);
-      } else {
-        localStorage.removeItem('access_token');
-      }
-      if (this.refreshToken) {
-        localStorage.setItem('refresh_token', this.refreshToken);
-      } else {
-        localStorage.removeItem('refresh_token');
-      }
-      if (this.validUntil) {
-        localStorage.setItem('valid_until', this.validUntil.getTime().toString());
-      } else {
-        localStorage.removeItem('valid_until');
-      }
-    }
-  }
-
   public getAccessToken(): Observable<string|null> {
 
-    this.restoreFromStorage();
-
-    if (! this.accessToken) {
+    if (! localStorage) {
       return of(null);
     }
 
-    const isExpires = new Date() > this.validUntil;
+    const accessToken = localStorage.getItem('access_token');
+    const validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
 
-    if (! isExpires) {
-      return of(this.accessToken);
+    if (! accessToken) {
+      return of(null);
     }
 
-    this.accessToken = null;
+    const isExpires = new Date() > validUntil;
+    if (! isExpires) {
+      return of(accessToken);
+    }
 
-    if (! this.refreshToken) {
+    localStorage.removeItem('access_token');
+
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (! refreshToken) {
       return of(null);
     }
 
@@ -120,27 +103,24 @@ export class OAuthService {
       .request<TokenResponse>('GET', '/oauth/token', {
         params: {
           grant_type: 'refresh_token',
-          refresh_token: this.refreshToken
-        },
-        observe: 'response'
+          refresh_token: refreshToken
+        }
       })
       .pipe(
         catchError((response: HttpErrorResponse) => {
           if (response.status === 401) {
-            this.accessToken = null;
-            this.refreshToken = null;
-            this.validUntil = null;
-            this.saveToStorage();
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('valid_until');
             return of(null);
           }
           return throwError(response);
         }),
-        map(response => {
-          if (!response) {
+        map(token => {
+          if (!token) {
             return null;
           }
-          this.setToken(response.body);
-          return response.body.access_token;
+          this.setToken(token);
+          return token.access_token;
         })
       );
   }

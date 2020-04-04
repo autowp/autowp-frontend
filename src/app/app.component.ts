@@ -13,7 +13,6 @@ import { ItemService } from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import {OAuthService} from './services/oauth.service';
 
 @Component({
   selector: 'app-root',
@@ -46,11 +45,8 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private itemService: ItemService,
     private modalService: NgbModal,
-    private renderer: Renderer2,
-    private oauth: OAuthService
+    private renderer: Renderer2
   ) {
-    this.oauth.restoreFromStorage();
-
     this.language = this.languageService.getLanguage();
     const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
 
