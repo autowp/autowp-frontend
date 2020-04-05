@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 // import { CropDialog } from 'crop-dialog';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpEventType } from '@angular/common/http';
 import { APIItem, ItemService } from '../services/item';
 import {
   Subscription,
@@ -30,6 +30,7 @@ import { APIUser } from '../services/user';
 import { UploadCropComponent } from './crop/crop.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 interface UploadProgress {
   filename: string;
@@ -61,7 +62,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   @ViewChild('input', { static: false }) input;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pictureService: PictureService,
@@ -180,8 +181,9 @@ export class UploadComponent implements OnInit, OnDestroy {
       formData.append('perspective_id', this.perspectiveID + '');
     }
 
-    return this.http
-      .post('/api/picture', formData, {
+    return this.api
+      .request('POST', 'picture', {
+        body: formData,
         observe: 'events',
         reportProgress: true
       })
@@ -244,10 +246,10 @@ export class UploadComponent implements OnInit, OnDestroy {
 
     modalRef.componentInstance.picture = picture;
     modalRef.componentInstance.changed.subscribe(() => {
-      this.http
-        .put<void>('/api/picture/' + picture.id, {
+      this.api
+        .request<void>('PUT', 'picture/' + picture.id, {body: {
           crop: picture.crop
-        })
+        }})
         .subscribe(
           () => {
             this.pictureService

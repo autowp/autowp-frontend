@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
@@ -14,7 +13,7 @@ import {
 } from '../../../../../services/picture-item';
 import { APIItem, ItemService } from '../../../../../services/item';
 import { PageEnvService } from '../../../../../services/page-env.service';
-import { APIItemVehicleTypeGetResponse } from '../../../../../services/api.service';
+import { APIItemVehicleTypeGetResponse, APIService } from '../../../../../services/api.service';
 import {
   switchMap,
   catchError,
@@ -47,7 +46,7 @@ export class ModerItemsItemPicturesOrganizeComponent
   public vehicleTypeIDs: number[] = [];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -102,9 +101,10 @@ export class ModerItemsItemPicturesOrganizeComponent
                 }),
                 switchMap(() =>
                   this.item.item_type_id === 1 || this.item.item_type_id === 4
-                    ? this.http
-                        .get<APIItemVehicleTypeGetResponse>(
-                          '/api/item-vehicle-type',
+                    ? this.api
+                        .request<APIItemVehicleTypeGetResponse>(
+                          'GET',
+                          'item-vehicle-type',
                           {
                             params: {
                               item_id: this.item.id.toString()
@@ -180,14 +180,15 @@ export class ModerItemsItemPicturesOrganizeComponent
     };
 
     forkJoin([
-      this.http.post<void>('/api/item', data, {
+      this.api.request<void>('POST', 'item', {
+        body: data,
         observe: 'response'
       }),
       this.item.is_group
         ? of(null)
-        : this.http.put<void>('/api/item/' + this.item.id, {
+        : this.api.request<void>('PUT', 'item/' + this.item.id, {body: {
             is_group: true
-          })
+          }})
     ])
       .pipe(
         catchError(response => {
@@ -207,37 +208,36 @@ export class ModerItemsItemPicturesOrganizeComponent
               response.id,
               this.vehicleTypeIDs
             ),
-            this.http.post<void>('/api/item-parent', {
+            this.api.request<void>('POST', 'item-parent', {body: {
               parent_id: this.item.id,
               item_id: response.id
-            })
+            }})
           ];
 
           for (const picture of this.pictures) {
             if (picture.selected) {
               subpromises.push(
-                this.http.put<void>(
-                  '/api/picture-item/' +
-                    picture.picture_id +
-                    '/' +
-                    picture.item_id +
-                    '/' +
-                    picture.type,
-                  {
+                this.api.request<void>(
+                  'PUT',
+                  'picture-item/' + picture.picture_id + '/' + picture.item_id + '/' + picture.type,
+                  {body: {
                     item_id: response.id
-                  }
+                  }}
                 )
               );
             }
           }
 
-          return forkJoin(...subpromises).pipe(
+          return forkJoin(subpromises).pipe(
             map(() => response)
           );
         })
       )
       .subscribe(item => {
         this.loading--;
+        if (localStorage) {
+          localStorage.setItem('last_item', item.id.toString());
+        }
         this.router.navigate(['/moder/items/item', item.id], {
           queryParams: {
             tab: 'pictures'

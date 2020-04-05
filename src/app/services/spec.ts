@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { APIService } from './api.service';
 
 export interface APISpecGetResponse {
   items: APISpec[];
@@ -18,8 +18,8 @@ export interface APISpec {
 export class SpecService {
   private readonly specs$: Observable<APISpec[]>;
 
-  constructor(private http: HttpClient) {
-    this.specs$ = this.http.get<APISpecGetResponse>('/api/spec').pipe(
+  constructor(private api: APIService) {
+    this.specs$ = this.api.request<APISpecGetResponse>('GET', 'spec').pipe(
       map(response => response.items),
       shareReplay(1)
     );

@@ -1,57 +1,63 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, of } from 'rxjs';
-import { APIService } from './api.service';
+import {Observable, of, ReplaySubject} from 'rxjs';
 import { APIUser } from './user';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, map, catchError, shareReplay } from 'rxjs/operators';
+import {OAuthService} from './oauth.service';
+import {APIService} from './api.service';
 
 @Injectable()
 export class AuthService {
   private user$ = new ReplaySubject<APIUser>(1);
 
-  constructor(private api: APIService) {}
+  constructor(private api: APIService, private oauth: OAuthService) {
+    this.oauth.getAccessToken().subscribe(accessToken => {
+      if (accessToken) {
+        this.loadMe().subscribe();
+      } else {
+        this.setUser(null);
+      }
+    });
+  }
 
-  public setUser(value: APIUser) {
+  private setUser(value: APIUser) {
     this.user$.next(value);
   }
 
   public getUser(): Observable<APIUser> {
-    return this.user$;
+    return this.user$.pipe(
+      shareReplay(1)
+    );
   }
 
   public login(
-    email: string,
-    password: string,
-    remember: boolean
-  ): Observable<APIUser> {
-    return this.api
-      .request('POST', 'login', {
-        body: {
-          login: email,
-          password: password,
-          remember: remember ? '1' : ''
-        },
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        observe: 'response'
+    username: string,
+    password: string
+  ): Observable<boolean> {
+    return this.oauth.login(username, password).pipe(
+      switchMap(result => {
+        if (! result) {
+          return of(false);
+        }
+        return this.loadMe().pipe(
+          map(() => result)
+        );
       })
-      .pipe(switchMap(() => this.loadMe()));
+    );
   }
 
-  public signOut(): Observable<void> {
-    return this.api
-      .request('DELETE', 'login')
-      .pipe(tap(() => this.setUser(null)));
+  public signOut(): Observable<boolean> {
+    return this.oauth.signOut().pipe(
+      tap(() => this.setUser(null))
+    );
   }
 
   public loadMe(): Observable<APIUser> {
-    return this.api
-      .request<APIUser>('GET', 'user/me')
-      .pipe(
-        catchError(() => {
-          return of(null);
-        }),
-        tap(user => this.setUser(user))
-      );
+    return this.api.request<APIUser>('GET', 'user/me').pipe(
+      catchError(() => {
+        this.setUser(null);
+        return of(null);
+      }),
+      tap(user => this.setUser(user))
+    );
   }
 }

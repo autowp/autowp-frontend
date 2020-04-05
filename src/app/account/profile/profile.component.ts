@@ -6,7 +6,6 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -18,6 +17,7 @@ import {switchMapTo, switchMap, map} from 'rxjs/operators';
 import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-account-profile',
@@ -52,7 +52,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private translate: TranslateService,
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private auth: AuthService,
     private pageEnv: PageEnvService,
@@ -61,18 +61,16 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private toastService: ToastsService
   ) {
     this.uploader.onSuccessItem = () => {
-      this.http
-        .get<APIUser>('/api/user/me', {
-          params: {
-            fields: 'img'
-          }
-        })
-        .subscribe(
-          subresponse => {
-            this.photo = subresponse.img;
-          },
-          subresponse => this.toastService.response(subresponse)
-        );
+      this.api.request<APIUser>('GET', 'user/me', {
+        params: {
+          fields: 'img'
+        }
+      }).subscribe(
+        subresponse => {
+          this.photo = subresponse.img;
+        },
+        subresponse => this.toastService.response(subresponse)
+      );
     };
 
     this.uploader.onErrorItem = (
@@ -111,7 +109,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(user => {
           if (!user) {
-            this.router.navigate(['/signin']);
+            this.router.navigate(['/login']);
             return EMPTY;
           }
 
@@ -122,7 +120,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         switchMapTo(
           combineLatest(
             [
-              this.http.get<APIUser>('/api/user/me', {
+              this.api.request<APIUser>('GET', 'user/me', {
                 params: {
                   fields: 'name,timezone,language,votes_per_day,votes_left,img'
                 }
@@ -160,7 +158,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public sendProfile() {
     this.profileInvalidParams = {};
 
-    this.http.put<void>('/api/user/me', this.profile).subscribe(
+    this.api.request<void>('PUT', 'user/me', {body: this.profile}).subscribe(
       () => {
         this.user.name = this.profile.name;
 
@@ -179,7 +177,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public sendSettings() {
     this.settingsInvalidParams = {};
 
-    this.http.put<void>('/api/user/me', this.settings).subscribe(
+    this.api.request<void>('PUT', 'user/me', {body: this.settings}).subscribe(
       () => {
         this.showSavedMessage();
       },
@@ -199,7 +197,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   }
 
   public resetPhoto() {
-    this.http.delete('/api/user/me/photo').subscribe(
+    this.api.request('DELETE', 'user/me/photo').subscribe(
       () => {
         this.user.avatar = null;
         this.photo = null;

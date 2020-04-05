@@ -6,8 +6,8 @@ import { Subscription, combineLatest } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { APIBrandsIconsResponse } from '../../../services/brands.service';
-import { HttpClient } from '@angular/common/http';
 import {ToastsService} from '../../../toasts/toasts.service';
+import { APIService } from '../../../services/api.service';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -40,7 +40,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private http: HttpClient,
+    private api: APIService,
     private toastService: ToastsService
   ) {}
 
@@ -75,7 +75,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
                 owner_id: user.id
               }
             }),
-            this.http.get<APIBrandsIconsResponse>('/api/brands/icons')
+            this.api.request<APIBrandsIconsResponse>('GET', 'brands/icons')
           ])
         )
       )

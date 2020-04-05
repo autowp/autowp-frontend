@@ -9,8 +9,7 @@ import {
 } from '@angular/core';
 import { APIItem, ItemService } from '../../../../services/item';
 import { ACLService } from '../../../../services/acl.service';
-import { HttpClient } from '@angular/common/http';
-import { APIItemVehicleTypeGetResponse } from '../../../../services/api.service';
+import { APIItemVehicleTypeGetResponse, APIService } from '../../../../services/api.service';
 import {Subscription, forkJoin, EMPTY} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -32,7 +31,7 @@ export class ModerItemsItemMetaComponent
 
   constructor(
     private acl: ACLService,
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService
   ) {}
 
@@ -40,8 +39,8 @@ export class ModerItemsItemMetaComponent
     if (changes.item) {
       if (this.item.item_type_id === 1 || this.item.item_type_id === 4) {
         this.loading++;
-        this.http
-          .get<APIItemVehicleTypeGetResponse>('/api/item-vehicle-type', {
+        this.api
+          .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
             params: {
               item_id: this.item.id.toString()
             }
@@ -103,7 +102,7 @@ export class ModerItemsItemMetaComponent
     };
 
     forkJoin([
-      this.http.put<void>('/api/item/' + this.item.id, data).pipe(
+      this.api.request<void>('PUT', 'item/' + this.item.id, {body: data}).pipe(
         catchError(response => {
           this.invalidParams = response.error.invalid_params;
           return EMPTY;

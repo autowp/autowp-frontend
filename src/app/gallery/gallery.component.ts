@@ -8,7 +8,6 @@ import {
   OnDestroy,
   HostListener, Output, EventEmitter
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, of, Observable } from 'rxjs';
 import {
   switchMap,
@@ -18,6 +17,7 @@ import {
 } from 'rxjs/operators';
 import { APIGalleryItem, APIGallery } from './definitions';
 import { Router } from '@angular/router';
+import { APIService } from '../services/api.service';
 
 interface APIGalleryFilter {
   itemID?: number;
@@ -53,7 +53,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   private sub: Subscription;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private api: APIService, private router: Router) {}
 
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
@@ -92,8 +92,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
           if (!this.getGalleryItem(data.current)) {
             const params = this.filterParams(data.filter);
             params['picture_identity'] = data.current;
-            return this.http
-              .get<APIGallery>('/api/gallery', {
+            return this.api
+              .request<APIGallery>('GET', 'gallery', {
                 params: params
               })
               .pipe(
@@ -148,10 +148,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     const params = this.filterParams(filter);
     params['status'] = this.status;
     params['page'] = page + '';
-    return this.http
-      .get<APIGallery>('/api/gallery', {
-        params: params
-      })
+    return this.api
+      .request<APIGallery>('GET', 'gallery', {params: params})
       .pipe(
         tap((response) => {
           this.applyResponse(response);

@@ -1,8 +1,8 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 export interface APIPulseResponse {
   legend: {
@@ -73,7 +73,7 @@ export class PulseComponent implements OnInit {
     colors: []
   };
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {
+  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {
 
   }
 
@@ -95,7 +95,7 @@ export class PulseComponent implements OnInit {
   private loadData() {
     this.chart.data = [];
 
-    this.http.get<APIPulseResponse>('/api/pulse', {params: {period: this.period}}).subscribe(
+    this.api.request<APIPulseResponse>('GET', 'pulse', {params: {period: this.period}}).subscribe(
       response => {
         const datasets: any[] = [];
         const colors: any[] = [];

@@ -1,10 +1,14 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { chunkBy } from '../../chunk';
 import { ContactsService } from '../../services/contacts';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
+import {map, switchMapTo} from 'rxjs/operators';
+import {EMPTY} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-account-contacts',
@@ -16,10 +20,12 @@ export class AccountContactsComponent {
   public chunks: APIUser[][];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private contactsService: ContactsService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private auth: AuthService,
+    private router: Router
   ) {
     setTimeout(
       () =>
@@ -33,21 +39,29 @@ export class AccountContactsComponent {
       0
     );
 
-    this.contactsService
-      .getContacts({
+    this.auth.getUser().pipe(
+      map(user => {
+        console.log('user', user);
+        if (! user) {
+          this.router.navigate(['/login']);
+          return EMPTY;
+        }
+        return user;
+      }),
+      switchMapTo(this.contactsService.getContacts({
         fields: 'avatar,gravatar,last_online'
-      })
-      .subscribe(
-        response => {
-          this.items = response.items;
-          this.chunks = chunkBy(this.items, 2);
-        },
-        response => this.toastService.response(response)
-      );
+      }))
+    ).subscribe(
+      response => {
+        this.items = response.items;
+        this.chunks = chunkBy(this.items, 2);
+      },
+      response => this.toastService.response(response)
+    );
   }
 
   public deleteContact(id: number) {
-    this.http.delete('/api/contacts/' + id).subscribe(
+    this.api.request('DELETE', 'contacts/' + id).subscribe(
       () => {
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i].id === id) {

@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../services/api.service';
+import { APIPaginator, APIService } from '../services/api.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../services/user';
@@ -36,7 +35,7 @@ export class LogComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
@@ -84,7 +83,7 @@ export class LogComponent implements OnInit, OnDestroy {
             qParams.user_id = params.user_id;
           }
 
-          return this.http.get<APILogGetResponse>('/api/log', {
+          return this.api.request<APILogGetResponse>('GET', 'log', {
             params: qParams
           });
         })

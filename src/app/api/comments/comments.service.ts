@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { APIUser } from '../../services/user';
-import { HttpClient } from '@angular/common/http';
 import { ACLService } from '../../services/acl.service';
 import { switchMap, map, shareReplay } from 'rxjs/operators';
 
@@ -52,13 +51,18 @@ export interface APIComment {
   };
 }
 
+export interface APICommentVotes {
+  positive: APIUser[];
+  negative: APIUser[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class APICommentsService {
   private readonly attentionCommentsCount$: Observable<number>;
 
-  constructor(private http: HttpClient, private acl: ACLService) {
+  constructor(private acl: ACLService, private api: APIService) {
     this.attentionCommentsCount$ = this.acl.inheritsRole('moder').pipe(
       switchMap(isModer => {
         if (!isModer) {
@@ -123,21 +127,17 @@ export class APICommentsService {
       params.pictures_of_item_id = options.pictures_of_item_id.toString();
     }
 
-    return this.http.get<APICommentGetResponse>('/api/comment', {
-      params: params
-    });
+    return this.api.request<APICommentGetResponse>('GET', 'comment', {params: params});
   }
 
   public setIsDeleted(id: number, value: boolean): Observable<void> {
-    return this.http.put<void>('/api/comment/' + id, {
-      deleted: value ? '1' : '0'
-    });
+    return this.api.request<void>('PUT', 'comment/' + id, {body: {deleted: value ? '1' : '0'}});
   }
 
   public vote(id: number, value: number): Observable<void> {
-    return this.http.put<void>('/api/comment/' + id, {
+    return this.api.request<void>('PUT', 'comment/' + id, {body: {
       user_vote: value
-    });
+    }});
   }
 
   public getComment(
@@ -150,7 +150,11 @@ export class APICommentsService {
       params.fields = options.fields;
     }
 
-    return this.getCommentByLocation('/api/comment/' + id, options);
+    if (options.limit) {
+      params.limit = options.limit.toString();
+    }
+
+    return this.api.request<APIComment>('GET', 'comment/' + id, {params: params});
   }
 
   public getCommentByLocation(
@@ -167,17 +171,14 @@ export class APICommentsService {
       params.limit = options.limit.toString();
     }
 
-    return this.http.get<APIComment>(location, {
-      params: params
-    });
+    return this.api.request<APIComment>('GET', this.api.resolveLocation(location), {params: params});
   }
 
-  public getVotes(id: number): Observable<string> {
-    return this.http.get('/api/comment/votes', {
+  public getVotes(id: number): Observable<APICommentVotes> {
+    return this.api.request<APICommentVotes>('GET', 'comment/votes', {
       params: {
         id: id.toString()
-      },
-      responseType: 'text'
+      }
     });
   }
 
@@ -190,13 +191,13 @@ export class APICommentsService {
     typeID: number,
     value: boolean
   ): Observable<void> {
-    return this.http.request<void>(
+    return this.api.request<void>(
       value ? 'POST' : 'DELETE',
-      '/api/comment/topic/' + typeID + '/' + itemID + '/subscribe'
+      'comment/topic/' + typeID + '/' + itemID + '/subscribe'
     );
   }
 
   public postView(itemID: number, typeID: number): Observable<void> {
-    return this.http.request<void>('POST', '/api/comment/topic/' + typeID + '/' + itemID + '/view');
+    return this.api.request<void>('POST', 'comment/topic/' + typeID + '/' + itemID + '/view');
   }
 }

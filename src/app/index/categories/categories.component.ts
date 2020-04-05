@@ -1,7 +1,7 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {LanguageService} from '../../services/language';
-import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
+import { APIService } from '../../services/api.service';
 
 export interface APIIndexCategoriesItem {
   id: number;
@@ -25,12 +25,12 @@ export class IndexCategoriesComponent implements OnInit, OnDestroy {
   public categories: APIIndexCategoriesItem[];
   private sub: Subscription;
 
-  constructor(private languageService: LanguageService, private http: HttpClient) {}
+  constructor(private languageService: LanguageService, private api: APIService) {}
 
   ngOnInit(): void {
     this.language =  this.languageService.getLanguage();
 
-    this.sub = this.http.get<APIIndexCategoriesResponse>('/api/index/categories').subscribe(response => {
+    this.sub = this.api.request<APIIndexCategoriesResponse>('GET', 'index/categories').subscribe(response => {
       this.categories = response.items;
     });
   }

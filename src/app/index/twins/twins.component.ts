@@ -1,6 +1,6 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
+import { APIService } from '../../services/api.service';
 
 interface APIIndexTwinsBrand {
   id: number;
@@ -24,10 +24,10 @@ export class IndexTwinsComponent implements  OnInit, OnDestroy {
   public twins: APIIndexTwinsResponse;
   private sub: Subscription;
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   ngOnInit(): void {
-    this.sub = this.http.get<APIIndexTwinsResponse>('/api/index/twins').subscribe(response => {
+    this.sub = this.api.request<APIIndexTwinsResponse>('GET', 'index/twins').subscribe(response => {
       this.twins = response;
     });
   }

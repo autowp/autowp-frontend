@@ -4,9 +4,8 @@ import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import {APIPaginator} from '../../services/api.service';
+import {APIPaginator, APIService} from '../../services/api.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {HttpClient} from '@angular/common/http';
 
 interface VehicleTypesResponse {
   items: VehicleType[];
@@ -36,7 +35,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private api: APIService
   ) {
   }
 
@@ -202,7 +201,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
   }
 
   private getVehicleTypes(brandID: number) {
-    return this.http.get<VehicleTypesResponse>('/api/item/vehicle-type', {
+    return this.api.request<VehicleTypesResponse>('GET', 'item/vehicle-type', {
       params: {
         brand_id: brandID.toString()
       }

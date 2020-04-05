@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse, HttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { APIItem } from '../../services/item';
 import { APIUser } from '../../services/user';
 
@@ -187,22 +187,22 @@ export class APIAttrsService {
   private readonly zones$: Observable<APIAttrZone[]>;
   private readonly units$: Observable<APIAttrUnit[]>;
 
-  constructor(private http: HttpClient) {
-    this.attributeTypes$ = this.http
-      .get<APIAttrsAttributeTypesGetResponse>('/api/attr/attribute-type')
+  constructor(private api: APIService) {
+    this.attributeTypes$ = this.api
+      .request<APIAttrsAttributeTypesGetResponse>('GET', 'attr/attribute-type')
       .pipe(
         map(response => response.items),
         shareReplay(1)
       );
 
-    this.zones$ = this.http
-      .get<APIAttrsZonesGetResponse>('/api/attr/zone')
+    this.zones$ = this.api
+      .request<APIAttrsZonesGetResponse>('GET', 'attr/zone')
       .pipe(
         map(response => response.items),
         shareReplay(1)
       );
 
-    this.units$ = this.http.get<APIAttrsUnitGetResponse>('/api/attr/unit').pipe(
+    this.units$ = this.api.request<APIAttrsUnitGetResponse>('GET', 'attr/unit').pipe(
       map(response => response.items),
       shareReplay(1)
     );
@@ -232,13 +232,13 @@ export class APIAttrsService {
     id: number,
     options?: GetAttributeServiceOptions
   ): Observable<APIAttrAttribute> {
-    return this.getAttributeByLocation('/api/attr/attribute/' + id);
+    return this.api.request<APIAttrAttribute>('GET', 'attr/attribute/' + id);
   }
 
   public getAttributeByLocation(
     location: string
   ): Observable<APIAttrAttribute> {
-    return this.http.get<APIAttrAttribute>(location);
+    return this.api.request<APIAttrAttribute>('GET', this.api.resolveLocation(location));
   }
 
   public getAttributeTypes(): Observable<APIAttrAttributeType[]> {
@@ -278,7 +278,7 @@ export class APIAttrsService {
       params.limit = options.limit.toString();
     }
 
-    return this.http.get<APIAttrUserValueGetResponse>('/api/attr/user-value', {
+    return this.api.request<APIAttrUserValueGetResponse>('GET', 'attr/user-value', {
       params: params
     });
   }
@@ -304,7 +304,7 @@ export class APIAttrsService {
       params.limit = options.limit.toString();
     }
 
-    return this.http.get<APIAttrValuesGetResponse>('/api/attr/value', {
+    return this.api.request<APIAttrValuesGetResponse>('GET', 'attr/value', {
       params: params
     });
   }
@@ -325,7 +325,7 @@ export class APIAttrsService {
       params.recursive = '1';
     }
 
-    return this.http.get<APIAttrAttributesGetResponse>('/api/attr/attribute', {
+    return this.api.request<APIAttrAttributesGetResponse>('GET', 'attr/attribute', {
       params: params
     });
   }
@@ -347,7 +347,7 @@ export class APIAttrsService {
       params.filter = options.filter.toString();
     }
 
-    return this.http.get<APIAttrConflicsGetResponse>('/api/attr/conflict', {
+    return this.api.request<APIAttrConflicsGetResponse>('GET', 'attr/conflict', {
       params: params
     });
   }
@@ -361,12 +361,9 @@ export class APIAttrsService {
       params.attribute_id = options.attribute_id.toString();
     }
 
-    return this.http.get<APIttrListOptionsGetResponse>(
-      '/api/attr/list-option',
-      {
-        params: params
-      }
-    );
+    return this.api.request<APIttrListOptionsGetResponse>('GET', 'attr/list-option', {
+      params: params
+    });
   }
 
   public createListOption(
@@ -381,7 +378,8 @@ export class APIAttrsService {
       data.parent_id = options.parent_id.toString();
     }
 
-    return this.http.post<void>('/api/attr/list-option', data, {
+    return this.api.request<void>('POST', 'attr/list-option', {
+      body: data,
       observe: 'response'
     });
   }
@@ -416,7 +414,7 @@ export class APIAttrsService {
       data.unit_id = options.unit_id ? options.unit_id.toString() : '';
     }
 
-    return this.http.patch<void>('/api/attr/attribute/' + id, data);
+    return this.api.request<void>('PATCH', 'attr/attribute/' + id, {body: data});
   }
 
   public createAttribute(
@@ -435,8 +433,6 @@ export class APIAttrsService {
       data.parent_id = options.parent_id.toString();
     }
 
-    return this.http.post<void>('/api/attr/attribute', data, {
-      observe: 'response'
-    });
+    return this.api.request<void>('POST', 'attr/attribute', {body: data, observe: 'response'});
   }
 }

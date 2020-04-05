@@ -6,8 +6,8 @@ import {switchMap} from 'rxjs/operators';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
 import {ACLService} from '../../../services/acl.service';
-import {HttpClient} from '@angular/common/http';
 import {TranslateService} from '@ngx-translate/core';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-catalogue-vehicles-specifications',
@@ -28,7 +28,7 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
     private catalogueService: CatalogueService,
     private acl: ACLService,
     private router: Router,
-    private http: HttpClient,
+    private api: APIService,
     private translate: TranslateService,
   ) {
   }
@@ -45,7 +45,7 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
         }
 
         this.brand = data.brand;
-        this.translate.getTranslation('page/36/ng-name').subscribe(translation => {
+        this.translate.get('page/36/ng-name').subscribe(translation => {
           this.pageEnv.set({
             layout: {
               needRight: false
@@ -70,8 +70,9 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
       }),
       switchMap(item => {
         if (item.has_child_specs) {
-          return this.http.get(
-            '/api/item/' + item.id + '/child-specifications',
+          return this.api.request(
+            'GET',
+            'item/' + item.id + '/child-specifications',
             {
               responseType: 'text'
             }
@@ -79,8 +80,9 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
         }
 
         if (item.has_specs) {
-          return this.http.get(
-            '/api/item/' + item.id + '/specifications',
+          return this.api.request(
+            'GET',
+            'item/' + item.id + '/specifications',
             {
               responseType: 'text'
             }

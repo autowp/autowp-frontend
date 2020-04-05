@@ -58,7 +58,7 @@
       <h3 [innerHTML]="item.item.name_html"></h3>
     </div>
     <div class="col-md-3">
-      <h3 [textContent]="'most/' + ratingCatname + '/param' | translate" *ngIf="i"></h3>
+      <h3 [textContent]="'most/' + ratingCatname + '/param' | translate" *ngIf="!i"></h3>
     </div>
   </div>
   <div class="row mb-4">

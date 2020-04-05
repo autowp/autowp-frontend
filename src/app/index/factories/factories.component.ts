@@ -1,6 +1,6 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
+import { APIService } from '../../services/api.service';
 
 export interface APIIndexFactoriesItem {
   id: number;
@@ -22,10 +22,10 @@ export class IndexFactoriesComponent implements  OnInit, OnDestroy {
   public factories: APIIndexFactoriesItem[];
   private sub: Subscription;
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   ngOnInit(): void {
-    this.sub = this.http.get<APIIndexFactoriesResponse>('/api/index/factories').subscribe(response => {
+    this.sub = this.api.request<APIIndexFactoriesResponse>('GET', 'index/factories').subscribe(response => {
       this.factories = response.items;
     });
   }

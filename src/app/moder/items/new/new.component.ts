@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { SpecService, APISpec } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,7 +12,7 @@ import {
   map,
   catchError
 } from 'rxjs/operators';
-import { APIItemVehicleTypeGetResponse } from '../../../services/api.service';
+import { APIItemVehicleTypeGetResponse, APIService } from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 // Acl.isAllowed('car', 'add', 'unauthorized');
@@ -55,7 +54,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
   public vehicleTypeIDs: number[] = [];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private specService: SpecService,
     private itemService: ItemService,
     private router: Router,
@@ -133,9 +132,10 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                     (parent.item.item_type_id === 1 ||
                       parent.item.item_type_id === 4)
                   ) {
-                    return this.http
-                      .get<APIItemVehicleTypeGetResponse>(
-                        '/api/item-vehicle-type',
+                    return this.api
+                      .request<APIItemVehicleTypeGetResponse>(
+                        'GET',
+                        'item-vehicle-type',
                         {
                           params: {
                             item_id: parent.item.id.toString()
@@ -223,8 +223,9 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
       lng: this.item.lng
     };
 
-    this.http
-      .post<void>('/api/item', data, {
+    this.api
+      .request<void>('POST', 'item', {
+        body: data,
         observe: 'response'
       })
       .pipe(
@@ -250,10 +251,10 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                 this.vehicleTypeIDs
               ),
               this.parent
-                ? this.http.post<void>('/api/item-parent', {
+                ? this.api.request<void>('POST', 'item-parent', {body: {
                     parent_id: this.parent.id,
                     item_id: item.id
-                  })
+                  }})
                 : of(null)
             ]).pipe(
               map(() => item)
@@ -262,6 +263,9 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         item => {
+          if (localStorage) {
+            localStorage.setItem('last_item', item.id.toString());
+          }
           this.router.navigate(['/moder/items/item', item.id]);
         },
         () => {},

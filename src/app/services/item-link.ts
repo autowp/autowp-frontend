@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { APIService } from './api.service';
 
 export interface APIItemLink {
   id: number;
@@ -19,7 +19,7 @@ export interface APIItemLinkGetItemsOptions {
 
 @Injectable()
 export class ItemLinkService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getItems(
     options: APIItemLinkGetItemsOptions
@@ -30,7 +30,7 @@ export class ItemLinkService {
       params.item_id = options.item_id.toString();
     }
 
-    return this.http.get<APIItemLinkGetResponse>('/api/item-link', {
+    return this.api.request<APIItemLinkGetResponse>('GET', 'item-link', {
       params: params
     });
   }

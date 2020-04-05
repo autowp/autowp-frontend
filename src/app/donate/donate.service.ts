@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APIService } from '../services/api.service';
 
 export interface APIDonateCarOfDayDate {
   name: string;
@@ -18,9 +18,9 @@ export interface APIDonateVODGetResponse {
 })
 export class DonateService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getVOD(): Observable<APIDonateVODGetResponse> {
-    return this.http.get<APIDonateVODGetResponse>('/api/donate/vod');
+    return this.api.request<APIDonateVODGetResponse>('GET', 'donate/vod');
   }
 }

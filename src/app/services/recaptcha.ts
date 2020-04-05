@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APIService } from './api.service';
 
 export interface APIReCaptchaGetResponse {
   publicKey: string;
@@ -9,9 +9,9 @@ export interface APIReCaptchaGetResponse {
 
 @Injectable()
 export class ReCaptchaService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public get(): Observable<APIReCaptchaGetResponse> {
-    return this.http.get<APIReCaptchaGetResponse>('/api/recaptcha');
+    return this.api.request<APIReCaptchaGetResponse>('GET', 'recaptcha');
   }
 }

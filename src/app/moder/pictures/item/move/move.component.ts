@@ -310,6 +310,9 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe(() => {
+          if (localStorage) {
+            localStorage.setItem('last_item', dstItemID.toString());
+          }
           this.router.navigate(['/moder/pictures', this.id]);
         });
     } else {
@@ -320,6 +323,9 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
       this.pictureItemService
         .create(this.id, dstItemID, selection.type, data)
         .subscribe(() => {
+          if (localStorage) {
+            localStorage.setItem('last_item', dstItemID.toString());
+          }
           this.router.navigate(['/moder/pictures', this.id]);
         });
     }

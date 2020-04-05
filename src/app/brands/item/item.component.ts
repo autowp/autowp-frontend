@@ -1,6 +1,6 @@
 import { Component, Injectable, Input } from '@angular/core';
 import { APIBrandsIconsResponse, APIBrandsBrand } from '../../services/brands.service';
-import { HttpClient } from '@angular/common/http';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-brands-item',
@@ -14,7 +14,7 @@ export class BrandsItemComponent {
   public loading = false;
   public html: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public cssClass(item: APIBrandsBrand): string {
     return item.catname.replace(/\./g, '_');
@@ -23,7 +23,7 @@ export class BrandsItemComponent {
   public shown() {
     this.loading = true;
 
-    this.http.get('/api/brands/' + this.brand.id + '/new-items', {
+    this.api.request('GET', 'brands/' + this.brand.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {

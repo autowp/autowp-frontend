@@ -1,5 +1,4 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import {
   APIAccountStartPostResponse,
@@ -8,6 +7,7 @@ import {
 } from '../account.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-account-accounts',
@@ -47,7 +47,7 @@ export class AccountAccountsComponent {
   ];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private translate: TranslateService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
@@ -68,7 +68,7 @@ export class AccountAccountsComponent {
   }
 
   public load() {
-    this.http.get<APIAccountItemsGetResponse>('/api/account').subscribe(
+    this.api.request<APIAccountItemsGetResponse>('GET', 'account').subscribe(
       response => {
         this.accounts = response.items;
       },
@@ -83,22 +83,21 @@ export class AccountAccountsComponent {
       return;
     }
 
-    this.http
-      .post<APIAccountStartPostResponse>('/api/account/start', {
-        service: this.service
-      })
-      .subscribe(
-        response => {
-          window.location.href = response.url;
-        },
-        response => {
-          this.toastService.response(response);
-        }
-      );
+    this.api.request<APIAccountStartPostResponse>('POST', 'account/start', {body: {
+      service: this.service
+    }})
+    .subscribe(
+      response => {
+        window.location.href = response.url;
+      },
+      response => {
+        this.toastService.response(response);
+      }
+    );
   }
 
   public remove(account: APIAccount) {
-    this.http.delete('/api/account/' + account.id).subscribe(
+    this.api.request('DELETE', 'account/' + account.id).subscribe(
       () => {
         this.translate
           .get('account/accounts/removed')

@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -9,6 +8,7 @@ import {
 } from '../../../services/page';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { APIService } from '../../../services/api.service';
 
 // Acl.inheritsRole('pages-moder', 'unauthorized');
 
@@ -24,7 +24,7 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
   public pages: APIPageLinearized[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private router: Router,
     private pageService: PageService,
@@ -72,8 +72,8 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
   public save() {
     this.loading++;
 
-    this.http
-      .put<void>('/api/page/' + this.item.id, {
+    this.api
+      .request<void>('PUT', 'page/' + this.item.id, {body: {
         parent_id: this.item.parent_id,
         name: this.item.name,
         title: this.item.title,
@@ -83,7 +83,7 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
         registered_only: this.item.registered_only ? 1 : 0,
         guest_only: this.item.guest_only ? 1 : 0,
         class: this.item['class']
-      })
+      }})
       .subscribe(
         () => {
           this.loading--;

@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ContactsService } from '../../services/contacts';
 import { ACLService } from '../../services/acl.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -26,6 +25,7 @@ import {
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 import { APIComment, APICommentsService } from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-users-user',
@@ -60,7 +60,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   private aclSub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private contacts: ContactsService,
     private messageDialogService: MessageDialogService,
     private acl: ACLService,
@@ -193,7 +193,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   }
 
   private loadBan(ip: string): Observable<APIIP> {
-    return this.http.get<APIIP>('/api/ip/' + ip, {
+    return this.api.request<APIIP>('GET', 'ip/' + ip, {
       params: {
         fields: 'blacklist,rights'
       }
@@ -206,10 +206,10 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   }
 
   public toggleInContacts() {
-    this.http
+    this.api
       .request<void>(
         this.inContacts ? 'DELETE' : 'PUT',
-        '/api/contacts/' + this.user.id,
+        'contacts/' + this.user.id,
         {
           observe: 'response'
         }
@@ -234,7 +234,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.http.delete<void>('/api/user/' + this.user.id + '/photo').subscribe(
+    this.api.request<void>('DELETE', 'user/' + this.user.id + '/photo').subscribe(
       () => {
         this.user.photo = null;
       },
@@ -246,10 +246,10 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     if (!window.confirm('Are you sure?')) {
       return;
     }
-    this.http
-      .put<void>('/api/user/' + this.user.id, {
+    this.api
+      .request<void>('PUT', 'user/' + this.user.id, {body: {
         deleted: true
-      })
+      }})
       .subscribe(
         () => {
           this.user.deleted = true;
@@ -259,8 +259,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   }
 
   public unban() {
-    this.http
-      .delete<void>('/api/traffic/blacklist/' + this.ip.address)
+    this.api
+      .request<void>('DELETE', 'traffic/blacklist/' + this.ip.address)
       .subscribe(
         () => {},
         response => this.toastService.response(response)
@@ -268,8 +268,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   }
 
   public removeFromBlacklist() {
-    this.http
-      .delete<void>('/api/traffic/blacklist/' + this.ip.address)
+    this.api
+      .request<void>('DELETE', 'traffic/blacklist/' + this.ip.address)
       .subscribe(
         () => {
           this.ip.blacklist = null;
@@ -279,12 +279,12 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   }
 
   public addToBlacklist(ipAddress: string) {
-    this.http
-      .post<void>('/api/traffic/blacklist', {
+    this.api
+      .request<void>('POST', 'traffic/blacklist', {body: {
         ip: ipAddress,
         period: this.banPeriod,
         reason: this.banReason
-      })
+      }})
       .pipe(
         catchError(err => {
           this.toastService.response(err);

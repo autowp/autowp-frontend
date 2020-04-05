@@ -274,11 +274,11 @@
   </ul>
 </div>
 
-<div *ngIf="isModer">
+<div *ngIf="isModer && picture">
   <h3><a routerLink="/moder" translate>page/67/name</a></h3>
   <div class="card card-body">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="picture.rights">
           <div *ngIf="picture.status == 'inbox'">
             <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept">
               {{'moder/picture/acceptance/accept'|translate}}
@@ -305,10 +305,12 @@
         </div>
         <div class="col-md-4" *ngIf="picture.items.length > 0">
           <label class="d-block">{{'moder/picture/perspective'|translate}}</label>
-          <div *ngFor="let item of picture.items">
-            <span [innerHTML]="item.item.name_html"></span>
-            <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type == 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
-          </div>
+          <ng-container *ngFor="let item of picture.items">
+            <div *ngIf="item.type == 1">
+              <span [innerHTML]="item.item.name_html"></span>
+              <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
+            </div>
+          </ng-container>
         </div>
         <div class="col-md-4">
           <p>

@@ -9,7 +9,7 @@ import {
   switchMap
 } from 'rxjs/operators';
 import {icon, LatLng, latLng, LeafletMouseEvent, Map, marker, Marker, tileLayer} from 'leaflet';
-import {HttpClient} from '@angular/common/http';
+import { APIService } from '../../../../services/api.service';
 
 function createMarker(lat, lng): Marker {
   return marker([lat, lng], {
@@ -53,7 +53,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
     private zone: NgZone,
-    private http: HttpClient
+    private api: APIService
   ) {}
 
   ngOnInit(): void {
@@ -136,13 +136,13 @@ export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
   }
 
   public doSubmit() {
-    this.http
-      .put<void>('/api/picture/' + this.picture.id, {
+    this.api
+      .request<void>('PUT', 'picture/' + this.picture.id, {body: {
         point: {
           lat: this.lat,
           lng: this.lng
         }
-      })
+      }})
       .subscribe(() => {
         this.router.navigate(['/moder/pictures', this.picture.id]);
       });

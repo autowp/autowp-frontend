@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpResponse} from '@angular/common/http';
+import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 
 export interface Toast {
   message: string;
@@ -32,6 +32,14 @@ export class ToastsService {
   }
 
   public response(response: HttpResponse<any>) {
+    if (response === undefined) {
+      this.error('undefined');
+      return;
+    }
+    this.error(response.status + ': ' + response.statusText);
+  }
+
+  public errorResponse(response: HttpErrorResponse) {
     if (response === undefined) {
       this.error('undefined');
       return;

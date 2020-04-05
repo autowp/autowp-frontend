@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from './api.service';
+import { APIPaginator, APIService } from './api.service';
 import { APIItem } from './item';
 
 export interface APIItemParentGetResponse {
@@ -40,7 +39,7 @@ export interface APIItemParentGetItemsOptions {
 
 @Injectable()
 export class ItemParentService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public getItems(
     options: APIItemParentGetItemsOptions
@@ -99,7 +98,7 @@ export class ItemParentService {
       params.catname = options.catname;
     }
 
-    return this.http.get<APIItemParentGetResponse>('/api/item-parent', {
+    return this.api.request<APIItemParentGetResponse>('GET', 'item-parent', {
       params: params
     });
   }

@@ -1,6 +1,6 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
+import { APIService } from '../../services/api.service';
 
 export interface APIIndexBrandsBrand {
   id: number;
@@ -26,10 +26,10 @@ export class IndexBrandsComponent implements OnInit, OnDestroy {
   public more = 0;
   private sub: Subscription;
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   ngOnInit(): void {
-    this.sub = this.http.get<APIIndexBrandsResponse>('/api/index/brands').subscribe(response => {
+    this.sub = this.api.request<APIIndexBrandsResponse>('GET', 'index/brands').subscribe(response => {
       this.brands = response;
       this.more = this.brands ? this.brands.total - this.brands.brands.length : 0;
     });

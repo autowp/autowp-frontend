@@ -1,6 +1,5 @@
-import { APIPaginator, APIImage } from './api.service';
+import { APIPaginator, APIImage, APIService } from './api.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { APIUser } from './user';
 import { APIPictureItem } from './picture-item';
@@ -356,7 +355,7 @@ export class PictureService {
   private readonly inboxSize$: Observable<number>;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private auth: AuthService,
     private acl: ACLService
   ) {
@@ -365,9 +364,7 @@ export class PictureService {
         if (!user) {
           return of(null);
         }
-        return this.http.get<APIPictureUserSummary>(
-          '/api/picture/user-summary'
-        );
+        return this.api.request<APIPictureUserSummary>('GET', 'picture/user-summary');
       }),
       shareReplay(1)
     );
@@ -391,7 +388,7 @@ export class PictureService {
     url: string,
     options?: APIGetPictureOptions
   ): Observable<APIPicture> {
-    return this.http.get<APIPicture>(url, {
+    return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {
       params: convertPictureOptions(options)
     });
   }
@@ -400,17 +397,19 @@ export class PictureService {
     id: number,
     options?: APIGetPictureOptions
   ): Observable<APIPicture> {
-    return this.getPictureByLocation('/api/picture/' + id, options);
+    return this.api.request<APIPicture>('GET', 'picture/' + id, {
+      params: convertPictureOptions(options)
+    });
   }
 
   public getCanonicalRoute(identity: string): Observable<string[]|null> {
-    return this.http.get<string[]|null>('/api/picture/' + identity + '/canonical-route');
+    return this.api.request<string[]|null>('GET', 'picture/' + identity + '/canonical-route');
   }
 
   public getPictures(
     options?: APIGetPicturesOptions
   ): Observable<APIPictureGetResponse> {
-    return this.http.get<APIPictureGetResponse>('/api/picture', {
+    return this.api.request<APIPictureGetResponse>('GET', 'picture', {
       params: converPicturesOptions(options)
     });
   }
@@ -424,10 +423,10 @@ export class PictureService {
   }
 
   public vote(pictureID: number, value: number): Observable<APIPictureVotes> {
-    return this.http
-      .put<APIPictureVotes>('/api/picture-vote/' + pictureID, {
+    return this.api
+      .request<APIPictureVotes>('PUT', 'picture-vote/' + pictureID, {body: {
         value: value
-      })
+      }})
       .pipe(
         tap(() => {
           // ga('send', 'event', 'vote', value > 0 ? 'like' : 'dislike');
@@ -436,12 +435,12 @@ export class PictureService {
   }
 
   public setPictureStatus(id: number, status: string): Observable<void> {
-    return this.http.put<void>('/api/picture/' + id.toString(), {
+    return this.api.request<void>('PUT', 'picture/' + id.toString(), {body: {
       status: status
-    });
+    }});
   }
 
   public incView(id: number): Observable<void> {
-    return this.http.post<void>('/api/picture/' + id.toString() + '/view', {});
+    return this.api.request<void>('POST', 'picture/' + id.toString() + '/view', {});
   }
 }

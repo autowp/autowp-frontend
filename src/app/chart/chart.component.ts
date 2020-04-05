@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 export interface APIChartParameter {
   id: number;
@@ -63,7 +63,7 @@ export class ChartComponent {
     ]
   };
 
-  constructor(private http: HttpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {
+  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -76,7 +76,7 @@ export class ChartComponent {
       0
     );
 
-    this.http.get<APIChartParameters>('/api/chart/parameters').subscribe(
+    this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe(
       response => {
         this.parameters = response.parameters;
         this.selectParam(this.parameters[0]);
@@ -88,8 +88,8 @@ export class ChartComponent {
   private loadData(id: number) {
     this.chart.data = [];
 
-    this.http
-      .get<APIChartData>('/api/chart/data', {
+    this.api
+      .request<APIChartData>('GET', 'chart/data', {
         params: { id: id.toString() }
       })
       .subscribe(

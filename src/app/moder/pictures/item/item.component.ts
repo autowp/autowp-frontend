@@ -1,5 +1,4 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   PictureItemService,
   APIPictureItem
@@ -18,6 +17,7 @@ import {
 } from 'rxjs/operators';
 import {LanguageService} from '../../../services/language';
 import { sprintf } from 'sprintf-js';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-moder-pictures-item',
@@ -53,7 +53,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public dayOptions: any[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private pictureItemService: PictureItemService,
     private itemService: ItemService,
     private route: ActivatedRoute,
@@ -177,20 +177,27 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.lastItemSub = this.itemService
-      .getItems({
-        last_item: true,
-        fields: 'name_html',
-        limit: 1
-      })
-      .subscribe(response => {
-        this.last_item = response.items.length ? response.items[0] : null;
-      });
+    if (localStorage) {
+      const lastItemId = parseInt(localStorage.getItem('last_item'), 10);
+
+      if (lastItemId) {
+        this.lastItemSub = this.itemService.getItems({
+          id: lastItemId,
+          fields: 'name_html',
+          limit: 1
+        }).subscribe(response => {
+          this.last_item = response.items.length ? response.items[0] : null;
+        });
+      }
+    }
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.lastItemSub.unsubscribe();
+    if (this.lastItemSub) {
+      this.lastItemSub.unsubscribe();
+      this.lastItemSub = null;
+    }
   }
 
   public pictureVoted() {
@@ -212,6 +219,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.pictureItemLoading = true;
     this.pictureItemService.create(this.id, item.id, type, {}).subscribe(
       () => {
+        localStorage.setItem('last_item', item.id.toString());
         this.change$.next(null);
         this.pictureItemLoading = false;
       },
@@ -227,6 +235,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       .changeItem(this.id, type, srcItemId, dstItemId)
       .subscribe(
         () => {
+          localStorage.setItem('last_item', dstItemId.toString());
           this.change$.next(null);
           this.pictureItemLoading = false;
         },
@@ -238,13 +247,13 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public saveSpecialName() {
     this.specialNameLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id, {
+    this.api
+      .request<void>('PUT', 'picture/' + this.id, {body: {
         special_name: this.picture.special_name,
         taken_year: this.picture.taken_year,
         taken_month: this.picture.taken_month,
         taken_day: this.picture.taken_day
-      })
+      }})
       .subscribe(
         () => {
           this.specialNameLoading = false;
@@ -258,10 +267,10 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public saveCopyrights() {
     this.copyrightsLoading = true;
 
-    this.http
-      .put<void>('/api/picture/' + this.id, {
+    this.api
+      .request<void>('PUT', 'picture/' + this.id, {body: {
         copyrights: this.picture.copyrights
-      })
+      }})
       .subscribe(
         () => {
           this.copyrightsLoading = false;
@@ -304,7 +313,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public normalizePicture() {
     this.repairLoading = true;
-    this.http.put<void>('/api/picture/' + this.id + '/normalize', {}).subscribe(
+    this.api.request<void>('PUT', 'picture/' + this.id + '/normalize', {}).subscribe(
       () => {
         this.change$.next(null);
         this.repairLoading = false;
@@ -317,7 +326,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public flopPicture() {
     this.repairLoading = true;
-    this.http.put<void>('/api/picture/' + this.id + '/flop', {}).subscribe(
+    this.api.request<void>('PUT', 'picture/' + this.id + '/flop', {}).subscribe(
       () => {
         this.change$.next(null);
         this.repairLoading = false;
@@ -330,7 +339,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public repairPicture() {
     this.repairLoading = true;
-    this.http.put<void>('/api/picture/' + this.id + '/repair', {}).subscribe(
+    this.api.request<void>('PUT', 'picture/' + this.id + '/repair', {}).subscribe(
       () => {
         this.change$.next(null);
         this.repairLoading = false;
@@ -343,8 +352,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public correctFileNames() {
     this.repairLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id + '/correct-file-names', {})
+    this.api
+      .request<void>('PUT', 'picture/' + this.id + '/correct-file-names', {})
       .subscribe(
         () => {
           this.change$.next(null);
@@ -358,12 +367,10 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public cancelSimilar() {
     this.similarLoading = true;
-    this.http
-      .delete<void>(
-        '/api/picture/' +
-          this.id +
-          '/similar/' +
-          this.picture.similar.picture_id
+    this.api
+      .request<void>(
+        'DELETE',
+        'picture/' + this.id + '/similar/' + this.picture.similar.picture_id
       )
       .subscribe(
         () => {
@@ -394,10 +401,10 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public cancelReplace() {
     this.replaceLoading = true;
 
-    this.http
-      .put<void>('/api/picture/' + this.id, {
+    this.api
+      .request<void>('PUT', 'picture/' + this.id, {body: {
         replace_picture_id: ''
-      })
+      }})
       .subscribe(
         () => {
           this.change$.next(null);
@@ -411,8 +418,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public acceptReplace() {
     this.replaceLoading = true;
-    this.http
-      .put<void>('/api/picture/' + this.id + '/accept-replace', {})
+    this.api
+      .request<void>('PUT', 'picture/' + this.id + '/accept-replace', {body: {}})
       .subscribe(
         () => {
           this.change$.next(null);
@@ -425,20 +432,20 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   }
 
   public removeFromBlacklist(ip: string) {
-    this.http
-      .delete<void>('/api/traffic/blacklist/' + ip)
+    this.api
+      .request<void>('DELETE', 'traffic/blacklist/' + ip)
       .subscribe(() => {
         this.change$.next(null);
       });
   }
 
   public addToBlacklist(ip: string) {
-    this.http
-      .post<void>('/api/traffic/blacklist', {
+    this.api
+      .request<void>('POST', 'traffic/blacklist', {body: {
         ip: ip,
         period: this.banPeriod,
         reason: this.banReason
-      })
+      }})
       .subscribe(() => {
         this.change$.next(null);
       });

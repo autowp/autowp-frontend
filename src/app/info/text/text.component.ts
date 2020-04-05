@@ -1,11 +1,11 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UserService, APIUser } from '../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 const JsDiff = require('diff');
 
@@ -56,7 +56,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
   public diff: any[] = [];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private userService: UserService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
@@ -82,7 +82,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params =>
-          this.http.get<APIInfoText>('/api/text/' + params.route.id, {
+          this.api.request<APIInfoText>('GET', 'text/' + params.route.id, {
             params: {
               revision: params.query.revision
             }

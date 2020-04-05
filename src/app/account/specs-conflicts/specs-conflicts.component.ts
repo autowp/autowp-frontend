@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { UserService, APIUser } from '../../services/user';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -37,7 +36,7 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
   public user: APIUser;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private userService: UserService,
     public auth: AuthService,
     private route: ActivatedRoute,
@@ -65,7 +64,7 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
       ),
       this.auth.getUser().pipe(
         switchMapTo(
-          this.http.get<APIUser>('/api/user/me', {
+          this.api.request<APIUser>('GET', 'user/me', {
             params: { fields: 'specs_weight' }
           })
         )

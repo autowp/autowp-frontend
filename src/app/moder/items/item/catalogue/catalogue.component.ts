@@ -16,12 +16,12 @@ import {
 } from 'rxjs/operators';
 import { of, Observable, Subscription } from 'rxjs';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
 import { ACLService } from '../../../../services/acl.service';
 import {
   ItemParentService,
   APIItemParent
 } from '../../../../services/item-parent';
+import { APIService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-catalogue',
@@ -52,7 +52,7 @@ export class ModerItemsItemCatalogueComponent
 
   constructor(
     private acl: ACLService,
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private itemParentService: ItemParentService
   ) {
@@ -182,11 +182,11 @@ export class ModerItemsItemCatalogueComponent
 
   public addParent(parentId: number) {
     this.loading++;
-    this.http
-      .post<void>('/api/item-parent', {
+    this.api
+      .request<void>('POST', 'item-parent', {body: {
         item_id: this.item.id,
         parent_id: parentId
-      })
+      }})
       .subscribe(
         () => {
           this.loadParents();
@@ -202,8 +202,8 @@ export class ModerItemsItemCatalogueComponent
   }
   private deleteItemParent(itemID: number, parentID: number) {
     this.loading++;
-    this.http
-      .delete<void>('/api/item-parent/' + itemID + '/' + parentID)
+    this.api
+      .request<void>('DELETE', 'item-parent/' + itemID + '/' + parentID)
       .subscribe(
         () => {
           this.loadChilds();

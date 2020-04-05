@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -13,6 +12,7 @@ import {
 } from 'rxjs/operators';
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-forums-move-message',
@@ -27,7 +27,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
   public topics: APIForumTopic[] = [];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private forumService: ForumsService,
     private router: Router,
     private route: ActivatedRoute,
@@ -92,10 +92,10 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
   }
 
   public selectTopic(topic: APIForumTopic) {
-    this.http
-      .put<void>('/api/comment/' + this.messageID, {
+    this.api
+      .request<void>('PUT', 'comment/' + this.messageID, {body: {
         item_id: topic.id
-      })
+      }})
       .pipe(
         switchMapTo(this.forumService.getMessageStateParams(this.messageID))
       )

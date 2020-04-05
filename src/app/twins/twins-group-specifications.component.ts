@@ -5,7 +5,7 @@ import { PageEnvService } from '../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ACLService } from '../services/acl.service';
-import { HttpClient } from '@angular/common/http';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-twins-group-specifications',
@@ -23,7 +23,7 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private acl: ACLService,
-    private http: HttpClient
+    private api: APIService
   ) {}
 
   ngOnInit(): void {
@@ -41,8 +41,9 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
             fields: 'name_text,name_html'
           });
         }),
-        switchMap(group => this.http.get(
-          '/api/item/' + group.id + '/child-specifications',
+        switchMap(group => this.api.request(
+          'GET',
+          'item/' + group.id + '/child-specifications',
           {
             responseType: 'text'
           }

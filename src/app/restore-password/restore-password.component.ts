@@ -1,9 +1,9 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-restore-password',
@@ -21,7 +21,7 @@ export class RestorePasswordComponent {
   public failure = false;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private reCaptchaService: ReCaptchaService,
     private pageEnv: PageEnvService,
@@ -49,8 +49,8 @@ export class RestorePasswordComponent {
   }
 
   public submit() {
-    this.http
-      .post('/api/restore-password/request', this.form)
+    this.api
+      .request('POST', 'restore-password/request', {body: this.form})
       .subscribe(
         () => {
           this.router.navigate(['/restore-password/sent']);

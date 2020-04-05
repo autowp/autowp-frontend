@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import * as showdown from 'showdown';
 import * as escapeRegExp from 'lodash.escaperegexp';
 import { UserService, APIUser } from '../services/user';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
@@ -10,6 +9,7 @@ import { BytesPipe } from 'ngx-pipes';
 import { PageEnvService } from '../services/page-env.service';
 import { combineLatest, Subscription } from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
+import { APIService } from '../services/api.service';
 
 export class APIAbout {
   developer: number;
@@ -48,7 +48,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private translate: TranslateService,
     private userService: UserService,
     private router: Router,
@@ -71,7 +71,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     );
 
     this.sub = combineLatest([
-      this.http.get<APIAbout>('/api/about'),
+      this.api.request<APIAbout>('GET', 'about'),
       this.translate.get('about/text')
     ])
       .pipe(

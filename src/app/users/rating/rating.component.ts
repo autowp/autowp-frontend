@@ -1,5 +1,4 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../../services/user';
@@ -12,6 +11,7 @@ import {
   finalize
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 export interface APIRatingUser {
   user: APIUser;
@@ -44,7 +44,7 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
   public users: APIRatingUser[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
@@ -86,8 +86,8 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
           }
 
           this.loading++;
-          return this.http
-            .get<APIUsersRatingGetResponse>('/api/rating/' + this.rating)
+          return this.api
+            .request<APIUsersRatingGetResponse>('GET', 'rating/' + this.rating)
             .pipe(
               finalize(() => {
                 this.loading--;

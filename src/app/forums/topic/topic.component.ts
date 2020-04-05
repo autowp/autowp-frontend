@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -24,7 +23,7 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
   public page: number;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private forumService: ForumsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
@@ -70,10 +69,10 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
   }
 
   public subscribe() {
-    this.http
-      .put<void>('/api/forum/topic/' + this.topic.id, {
+    this.api
+      .request<void>('PUT', 'forum/topic/' + this.topic.id, {body: {
         subscription: 1
-      })
+      }})
       .subscribe(
         () => {
           this.topic.subscription = true;
@@ -83,10 +82,10 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
   }
 
   public unsubscribe() {
-    this.http
-      .put<void>('/api/forum/topic/' + this.topic.id, {
+    this.api
+      .request<void>('PUT', 'forum/topic/' + this.topic.id, {body: {
         subscription: 0
-      })
+      }})
       .subscribe(
         () => {
           this.topic.subscription = false;

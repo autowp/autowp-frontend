@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../../../services/api.service';
+import { APIPaginator, APIService } from '../../../../services/api.service';
 import { ItemService, APIItem } from '../../../../services/item';
 import { chunk } from '../../../../chunk';
 import { Router, ActivatedRoute} from '@angular/router';
@@ -43,7 +42,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   public factories: APIItem[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private router: Router,
     private route: ActivatedRoute,
@@ -222,11 +221,11 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   }
 
   public select(parent: APIItem) {
-    this.http
-      .post<void>('/api/item-parent', {
+    this.api
+      .request<void>('POST', 'item-parent', {body: {
         item_id: this.item.id,
         parent_id: parent.id
-      })
+      }})
       .subscribe(
         () => {
           this.router.navigate(['/moder/items/item', this.item.id], {

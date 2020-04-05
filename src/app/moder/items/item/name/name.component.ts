@@ -8,7 +8,6 @@ import {
   OnDestroy
 } from '@angular/core';
 import { APIItem } from '../../../../services/item';
-import { HttpClient } from '@angular/common/http';
 import {
   APIItemLanguage,
   ItemLanguageService
@@ -16,6 +15,7 @@ import {
 import { ContentLanguageService } from '../../../../services/content-language';
 import { combineLatest, BehaviorSubject, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { APIService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-name',
@@ -34,7 +34,7 @@ export class ModerItemsItemNameComponent
   private sub: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemLanguageService: ItemLanguageService,
     private contentLanguage: ContentLanguageService
   ) {}
@@ -95,14 +95,15 @@ export class ModerItemsItemNameComponent
   public saveLanguages() {
     for (const language of this.itemLanguages) {
       this.loading++;
-      this.http
-        .put<void>(
-          '/api/item/' + this.item.id + '/language/' + language.language,
-          {
+      this.api
+        .request<void>(
+          'PUT',
+          'item/' + this.item.id + '/language/' + language.language,
+          {body: {
             name: language.name,
             text: language.text,
             full_text: language.full_text
-          }
+          }}
         )
         .subscribe(
           () => {

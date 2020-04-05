@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../services/api.service';
+import { APIPaginator, APIService } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -19,7 +18,7 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private route: ActivatedRoute,
     private forumService: ForumsService,
     private pageEnv: PageEnvService,
@@ -65,10 +64,10 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
   }
 
   public unsubscribe(topic: APIForumTopic) {
-    this.http
-      .put<void>('/api/forum/topic/' + topic.id, {
+    this.api
+      .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         subscription: 0
-      })
+      }})
       .subscribe(
         () => {
           for (let i = this.topics.length - 1; i >= 0; i--) {

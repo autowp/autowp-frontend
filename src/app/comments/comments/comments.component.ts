@@ -46,7 +46,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
     private router: Router,
     private commentService: APICommentsService,
     public auth: AuthService,
-    private toastService: ToastsService,
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

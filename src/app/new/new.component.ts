@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../services/api.service';
+import { APIPaginator, APIService } from '../services/api.service';
 import { chunkBy } from '../chunk';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
@@ -55,7 +54,7 @@ export class NewComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
@@ -100,7 +99,7 @@ export class NewComponent implements OnInit, OnDestroy {
           if (params.query.page) {
             q.page = params.query.page;
           }
-          return this.http.get<APINewGetResponse>('/api/new', {
+          return this.api.request<APINewGetResponse>('GET', 'new', {
             params: q
           }).pipe(
             map(response => ({ params, response }))

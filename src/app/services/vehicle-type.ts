@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, shareReplay } from 'rxjs/operators';
+import { APIService } from './api.service';
 
 export interface APIVehicleType {
   id: number;
@@ -20,9 +20,9 @@ export interface APIVehicleTypesGetResponse {
 export class VehicleTypeService {
   private readonly types$: Observable<APIVehicleType[]>;
 
-  constructor(private http: HttpClient, private translate: TranslateService) {
-    this.types$ = this.http
-      .get<APIVehicleTypesGetResponse>('/api/vehicle-types')
+  constructor(private api: APIService, private translate: TranslateService) {
+    this.types$ = this.api
+      .request<APIVehicleTypesGetResponse>('GET', 'vehicle-types')
       .pipe(
         switchMap(response => this.translate.get(this.collectNames(response.items)).pipe(
           map(translations => ({ response, translations }))

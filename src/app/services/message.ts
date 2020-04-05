@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import { AuthService } from './auth.service';
-import { APIPaginator } from './api.service';
+import { APIPaginator, APIService } from './api.service';
 import { APIUser } from './user';
-import { switchMap, map, debounceTime, shareReplay, tap } from 'rxjs/operators';
+import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastsService} from '../toasts/toasts.service';
 
 export interface APIMessagesGetOptions {
   folder: string;
@@ -57,7 +58,7 @@ export class MessageService {
   private sent$ = new BehaviorSubject<void>(null);
   private seen$ = new BehaviorSubject<void>(null);
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService) {
     this.summary$ = combineLatest([
       this.deleted$,
       this.sent$,
@@ -71,9 +72,7 @@ export class MessageService {
           return of(null as APIMessageSummaryGetResponse);
         }
 
-        return this.http.get<APIMessageSummaryGetResponse>(
-          '/api/message/summary'
-        );
+        return this.api.request<APIMessageSummaryGetResponse>('GET', 'message/summary');
       }),
       shareReplay(1)
     );
@@ -90,7 +89,11 @@ export class MessageService {
           return of(null as APIMessageNewGetResponse);
         }
 
-        return this.http.get<APIMessageNewGetResponse>('/api/message/new');
+        return this.api.request<APIMessageNewGetResponse>('GET', 'message/new');
+      }),
+      catchError((response: HttpErrorResponse) => {
+        this.toasts.errorResponse(response);
+        return of(null);
       }),
       map(response => (response ? response.count : null))
     );
@@ -110,16 +113,16 @@ export class MessageService {
   }
 
   public clearFolder(folder: string): Observable<void> {
-    return this.http
-      .delete<void>('/api/message', {
+    return this.api
+      .request<void>('DELETE', 'message', {
         params: { folder: folder }
       })
       .pipe(tap(() => this.deleted$.next(null)));
   }
 
   public deleteMessage(id: number): Observable<void> {
-    return this.http
-      .delete<void>('/api/message/' + id)
+    return this.api
+      .request<void>('DELETE', 'message/' + id)
       .pipe(tap(() => this.deleted$.next(null)));
   }
 
@@ -132,11 +135,11 @@ export class MessageService {
   }
 
   public send(userId: number, text: string): Observable<void> {
-    return this.http
-      .post<void>('/api/message', {
+    return this.api
+      .request<void>('POST', 'message', {body: {
         user_id: userId,
         text: text
-      })
+      }})
       .pipe(tap(() => this.sent$.next(null)));
   }
 
@@ -161,7 +164,7 @@ export class MessageService {
       params.user_id = options.user_id.toString();
     }
 
-    return this.http.get<APIMessagesGetResponse>('/api/message', {
+    return this.api.request<APIMessagesGetResponse>('GET', 'message', {
       params: params
     });
   }

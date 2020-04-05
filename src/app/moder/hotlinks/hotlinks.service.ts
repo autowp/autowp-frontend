@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APIService } from '../../services/api.service';
 
 export interface APIHotlinksHost {
   host: string;
@@ -18,29 +18,29 @@ export interface APIHotlinksHostsGetResponse {
   providedIn: 'root'
 })
 export class HotlinksService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public clearAll(): Observable<Object> {
-    return this.http.delete('/api/hotlinks/hosts');
+    return this.api.request('DELETE', 'hotlinks/hosts');
   }
 
   public clear(host: string): Observable<Object> {
-    return this.http.delete('/api/hotlinks/hosts/' + encodeURIComponent(host));
+    return this.api.request('DELETE', 'hotlinks/hosts/' + encodeURIComponent(host));
   }
 
   public addToWhitelist(host: string): Observable<void> {
-    return this.http.post<void>('/api/hotlinks/whitelist', {
+    return this.api.request<void>('POST', 'hotlinks/whitelist', {body: {
       host: host
-    });
+    }});
   }
 
   public addToBlacklist(host: string): Observable<void> {
-    return this.http.post<void>('/api/hotlinks/blacklist', {
+    return this.api.request<void>('POST', 'hotlinks/blacklist', {body: {
       host: host
-    });
+    }});
   }
 
   public getHosts(): Observable<APIHotlinksHostsGetResponse> {
-    return this.http.get<APIHotlinksHostsGetResponse>('/api/hotlinks/hosts');
+    return this.api.request<APIHotlinksHostsGetResponse>('GET', 'hotlinks/hosts');
   }
 }

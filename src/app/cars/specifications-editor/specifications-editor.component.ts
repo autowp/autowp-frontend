@@ -1,7 +1,6 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
-import { HttpClient } from '@angular/common/http';
 import { ACLService } from '../../services/acl.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -13,6 +12,7 @@ import {
   switchMapTo, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-cars-specifications-editor',
@@ -33,7 +33,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
   private change$ = new BehaviorSubject<null>(null);
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private acl: ACLService,
     private router: Router,
@@ -44,8 +44,8 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading++;
-    this.http
-      .get<APIUser>('/api/user/me', {
+    this.api
+      .request<APIUser>('GET', 'user/me', {
         params: {
           fields: 'specs_weight'
         }
@@ -126,8 +126,8 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
   }
 
   public refreshInheritance() {
-    this.http
-      .post<void>('/api/item/' + this.item.id + '/refresh-inheritance', {})
+    this.api
+      .request<void>('POST', 'item/' + this.item.id + '/refresh-inheritance', {body: {}})
       .subscribe(
         () => {
           this.router.navigate(['/cars/specifications-editor'], {

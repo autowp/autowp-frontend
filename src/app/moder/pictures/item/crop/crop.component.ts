@@ -1,12 +1,12 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PictureService, APIPicture } from '../../../../services/picture';
 import { PageEnvService } from '../../../../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
+import { APIService } from '../../../../services/api.service.js';
 
 // Acl.inheritsRole( 'moder', 'unauthorized' );
 
@@ -38,7 +38,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   public img$ = new BehaviorSubject<HTMLElement>(null);
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private router: Router,
     private route: ActivatedRoute,
     private pictureService: PictureService,
@@ -129,15 +129,15 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   }
 
   public saveCrop() {
-    this.http
-      .put<void>('/api/picture/' + this.picture.id, {
+    this.api
+      .request<void>('PUT', 'picture/' + this.picture.id, {body: {
         crop: {
           left: Math.round(this.currentCrop.x),
           top: Math.round(this.currentCrop.y),
           width: Math.round(this.currentCrop.w),
           height: Math.round(this.currentCrop.h)
         }
-      })
+      }})
       .subscribe(() => {
         this.router.navigate(['/moder/pictures', this.picture.id]);
       });

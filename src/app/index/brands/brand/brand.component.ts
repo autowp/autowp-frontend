@@ -1,6 +1,6 @@
 import {Component, Injectable, Input} from '@angular/core';
 import {APIIndexBrandsBrand} from '../brands.component';
-import {HttpClient} from '@angular/common/http';
+import { APIService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-index-brands-brand',
@@ -13,12 +13,12 @@ export class IndexBrandsBrandComponent {
   public loading = true;
   public html = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: APIService) {}
 
   public shown() {
     this.loading = true;
 
-    this.http.get('/api/brands/' + this.brand.id + '/new-items', {
+    this.api.request('GET', 'brands/' + this.brand.id + '/new-items', {
       responseType: 'text',
       observe: 'body'
     }).subscribe(html => {

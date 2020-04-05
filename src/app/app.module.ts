@@ -56,6 +56,8 @@ import {CanActivateCatalogue} from './catalogue/can-activate';
 import {ToastsModule} from './toasts/toasts.module';
 import * as Sentry from '@sentry/browser';
 import {environment} from '../environments/environment';
+import {OAuthService} from './services/oauth.service';
+import { GlobalErrorHandler } from './global-error-handler';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -122,11 +124,13 @@ export class SentryErrorHandler implements ErrorHandler {
     ToastsModule
   ],
   providers: [
+    {provide: ErrorHandler, useClass: GlobalErrorHandler},
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     ConfigurationService,
     APIService,
     APIACL,
     AuthService,
+    OAuthService,
     AuthGuard,
     ACLService,
     PictureService,

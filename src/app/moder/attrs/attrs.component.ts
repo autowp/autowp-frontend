@@ -1,10 +1,10 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrZone, APIAttrsService } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { APIService } from '../../services/api.service';
 
 // Acl.isAllowed('attrs', 'edit', 'unauthorized');
 
@@ -21,7 +21,7 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
   private attributesChange$ = new BehaviorSubject<null>(null);
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private attrsService: APIAttrsService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
@@ -66,10 +66,10 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
   }
 
   private move(id: number, dir: string) {
-    this.http
-      .patch<void>('/api/attr/attribute/' + id, {
+    this.api
+      .request<void>('PATCH', 'attr/attribute/' + id, {body: {
         move: dir
-      })
+      }})
       .subscribe(
         () => this.attributesChange$.next(null),
         response => this.toastService.response(response)

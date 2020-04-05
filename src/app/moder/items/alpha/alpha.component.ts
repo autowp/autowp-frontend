@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { APIPaginator } from '../../../services/api.service';
+import { APIPaginator, APIService } from '../../../services/api.service';
 import { ItemService, APIItem } from '../../../services/item';
 import { Subscription, combineLatest, of, forkJoin } from 'rxjs';
 import { ActivatedRoute} from '@angular/router';
@@ -27,7 +26,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   public items: APIItem[];
 
   constructor(
-    private http: HttpClient,
+    private api: APIService,
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService
@@ -49,7 +48,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.querySub = combineLatest([
       this.route.queryParams,
-      this.http.get<APIItemAlphaGetResponse>('/api/item/alpha')
+      this.api.request<APIItemAlphaGetResponse>('GET', 'item/alpha')
     ])
       .pipe(
         map(data => ({
