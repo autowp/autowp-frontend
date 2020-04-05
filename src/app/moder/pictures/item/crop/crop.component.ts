@@ -6,7 +6,7 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { PictureService, APIPicture } from '../../../../services/picture';
 import { PageEnvService } from '../../../../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
-import { APIService } from '../../../../services/api.service.js';
+import { APIService } from '../../../../services/api.service';
 
 // Acl.inheritsRole( 'moder', 'unauthorized' );
 
