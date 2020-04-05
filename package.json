@@ -37,7 +37,6 @@
     "moment": "^2.23.0",
     "ng-recaptcha": "^5.0.0",
     "ng2-charts": "^2.3.0",
-    "ng2-file-upload": "^1.4.0",
     "ngx-autosize": "^1.7.5",
     "ngx-moment": "^3.5.0",
     "ngx-pipes": "^2.7.3",

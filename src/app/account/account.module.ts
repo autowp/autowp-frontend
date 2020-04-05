@@ -20,7 +20,6 @@ import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
 import { AccountMessagesComponent } from './messages/messages.component';
 import { AccountProfileComponent } from './profile/profile.component';
-import { FileUploadModule } from 'ng2-file-upload';
 import { AccountSpecsConflictsComponent } from './specs-conflicts/specs-conflicts.component';
 import { AccountComponent } from './account.component';
 import { NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
@@ -55,7 +54,6 @@ import { MessageDialogModule } from '../message-dialog/message-dialog.module';
     NgbProgressbarModule,
     PaginatorModule,
     ThumbnailModule,
-    FileUploadModule,
     APIAttrsModule,
     MessageDialogModule
   ]

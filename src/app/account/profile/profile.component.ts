@@ -1,23 +1,21 @@
 import {
   Component,
   Injectable,
-  ViewChild,
-  ElementRef,
   OnInit,
-  OnDestroy
+  OnDestroy, ViewChild
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { APIUser } from '../../services/user';
-import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { PageEnvService } from '../../services/page-env.service';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import {switchMapTo, switchMap, map} from 'rxjs/operators';
+import {switchMapTo, switchMap, map, catchError, tap} from 'rxjs/operators';
 import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {APIImage, APIService} from '../../services/api.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-account-profile',
@@ -25,8 +23,6 @@ import { APIService } from '../../services/api.service';
 })
 @Injectable()
 export class AccountProfileComponent implements OnInit, OnDestroy {
-  @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
-
   private user: APIUser;
   public profile = {
     name: null
@@ -40,15 +36,12 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public photoInvalidParams: any = {};
   public votesPerDay: number | null = null;
   public votesLeft: number | null = null;
-  public photo: any;
+  public photo: APIImage;
   public timezones: string[];
   public languages: { name: string; value: string }[];
-  public file: any;
-  public uploader: FileUploader = new FileUploader({
-    url: '/api/user/me/photo',
-    autoUpload: true
-  });
-  sub: Subscription;
+  private sub: Subscription;
+
+  @ViewChild('input') input;
 
   constructor(
     private translate: TranslateService,
@@ -60,27 +53,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private timezone: TimezoneService,
     private toastService: ToastsService
   ) {
-    this.uploader.onSuccessItem = () => {
-      this.api.request<APIUser>('GET', 'user/me', {
-        params: {
-          fields: 'img'
-        }
-      }).subscribe(
-        subresponse => {
-          this.photo = subresponse.img;
-        },
-        subresponse => this.toastService.response(subresponse)
-      );
-    };
+  }
 
-    this.uploader.onErrorItem = (
-      item: FileItem,
-      response: string,
-      status: number,
-      headers: ParsedResponseHeaders
-    ) => {
-      this.photoInvalidParams = JSON.parse(response).invalid_params;
-    };
+  ngOnInit(): void {
 
     setTimeout(
       () =>
@@ -93,9 +68,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         }),
       0
     );
-  }
 
-  ngOnInit(): void {
     this.languages = [];
     for (const language of this.language.getLanguages()) {
       this.languages.push({
@@ -191,10 +164,10 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     );
   }
 
-  public showFileSelectDialog() {
+  /*public showFileSelectDialog() {
     this.photoInvalidParams = {};
     this.fileInput.nativeElement.click();
-  }
+  }*/
 
   public resetPhoto() {
     this.api.request('DELETE', 'user/me/photo').subscribe(
@@ -207,6 +180,42 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   }
 
   public onChange(event: any) {
-    console.log([].slice.call(event.target.files));
+    const files = [].slice.call(event.target.files);
+    if (files.length <= 0) {
+      return;
+    }
+
+    const file = files[0];
+
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+
+    return this.api.request('POST', 'user/me/photo', {body: formData}).pipe(
+      catchError((response: HttpErrorResponse) => {
+        this.input.nativeElement.value = '';
+        if (response.status === 400) {
+          this.photoInvalidParams = response.error.invalid_params;
+          return EMPTY;
+        }
+
+        this.toastService.errorResponse(response);
+        return EMPTY;
+      }),
+      tap(() => {
+        this.input.nativeElement.value = '';
+      }),
+      switchMap(() => this.api.request<APIUser>('GET', 'user/me', {
+        params: {
+          fields: 'img'
+        }
+      })),
+      catchError((response: HttpErrorResponse) => {
+        this.toastService.errorResponse(response);
+        return EMPTY;
+      }),
+      tap(response => {
+        this.photo = response.img;
+      })
+    ).subscribe();
   }
 }
