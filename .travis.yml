@@ -20,7 +20,7 @@ script:
   - docker build . -t autowp/autowp-frontend || travis_terminate 1;
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "feature/master" ]; then
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push autowp/autowp-frontend;
     fi
