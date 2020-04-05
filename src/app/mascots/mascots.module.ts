@@ -5,6 +5,7 @@ import { MascotsRoutingModule } from './mascots-routing.module';
 import { MascotsComponent } from './mascots.component';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [MascotsComponent],
@@ -12,7 +13,8 @@ import { ThumbnailModule } from '../thumbnail/thumbnail.module';
     CommonModule,
     MascotsRoutingModule,
     PaginatorModule,
-    ThumbnailModule
+    ThumbnailModule,
+    TranslateModule
   ]
 })
 export class MascotsModule {}

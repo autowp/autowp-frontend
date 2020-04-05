@@ -15,7 +15,7 @@ export class IndexPicturesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.pictureService.getPictures({
-      limit: 6,
+      limit: 4,
       order: 15,
       status: 'accepted',
       accepted_in_days: 3,

@@ -127,9 +127,8 @@ export class InboxComponent implements OnInit, OnDestroy {
 
           return this.pictureService.getPictures({
             status: 'inbox',
-            fields:
-              'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-            limit: 30,
+            fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+            limit: 24,
             page: data.queryParams.page,
             item_id: data.brandID,
             add_date: data.inbox.current.date,

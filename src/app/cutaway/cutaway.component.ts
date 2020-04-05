@@ -44,7 +44,7 @@ export class CutawayComponent implements OnInit, OnDestroy {
             status: 'accepted',
             fields:
               'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-            limit: 18,
+            limit: 12,
             page: params.page,
             perspective_id: 9,
             order: 15

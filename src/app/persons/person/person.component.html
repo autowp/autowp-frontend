@@ -33,7 +33,7 @@
 <div *ngIf="authorPictures.length > 0">
   <h3 translate>factories/factory/pictures</h3>
   <div class="row">
-    <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of authorPictures">
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of authorPictures">
       <app-thumbnail [picture]="picture" [route]="['author', picture.identity]"></app-thumbnail>
     </div>
   </div>
@@ -44,7 +44,7 @@
 <div *ngIf="contentPictures.length > 0">
   <h3 translate>factories/factory/pictures</h3>
   <div class="row">
-    <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of contentPictures">
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of contentPictures">
       <app-thumbnail [picture]="picture" [route]="[picture.identity]"></app-thumbnail>
     </div>
   </div>

@@ -94,7 +94,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
         switchMap(factory => this.pictureService.getPictures({
           status: 'accepted',
           exact_item_id: factory.id,
-          limit: 32,
+          limit: 24,
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text'
         }).pipe(
           map(pictures => ({ factory, pictures }))

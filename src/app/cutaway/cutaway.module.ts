@@ -5,6 +5,7 @@ import { CutawayRoutingModule } from './cutaway-routing.module';
 import { CutawayComponent } from './cutaway.component';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [CutawayComponent],
@@ -12,7 +13,8 @@ import { ThumbnailModule } from '../thumbnail/thumbnail.module';
     CommonModule,
     CutawayRoutingModule,
     PaginatorModule,
-    ThumbnailModule
+    ThumbnailModule,
+    TranslateModule
   ]
 })
 export class CutawayModule {}

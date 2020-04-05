@@ -1,4 +1,4 @@
-<div class="page-header-small">
+<div class="page-header-small mb-4">
   <h4>{{'page/51/name'|translate}} <small><a routerLink="/new" translate>all-link</a></small></h4>
 </div>
 <div class="spinner-border" role="status" *ngIf="!items">
@@ -6,7 +6,7 @@
 </div>
 
 <div class="row" *ngIf="items">
-  <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-2" *ngFor="let picture of items">
+  <div class="col-6 col-sm-6 col-md-3 col-lg-3" *ngFor="let picture of items">
     <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
   </div>
 </div>

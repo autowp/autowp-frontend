@@ -83,7 +83,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               exact_item_id: data.item.id,
               exact_item_link_type: 2,
               fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              limit: 24,
+              limit: 12,
               order: 12,
               page: data.params.page
             })
@@ -99,7 +99,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
               exact_item_id: data.item.id,
               exact_item_link_type: 1,
               fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              limit: 24,
+              limit: 12,
               order: 12,
               page: data.params.page
             })
