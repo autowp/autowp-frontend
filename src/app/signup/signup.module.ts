@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     CommonModule,
     SignupRoutingModule,
-    RecaptchaModule.forRoot(),
+    RecaptchaModule,
     RecaptchaFormsModule,
     UtilsModule,
     FormsModule,

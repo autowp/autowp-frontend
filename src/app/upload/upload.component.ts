@@ -59,7 +59,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   private perspectiveID: number;
   public user: APIUser;
 
-  @ViewChild('input', { static: false }) input;
+  @ViewChild('input') input;
 
   constructor(
     private api: APIService,

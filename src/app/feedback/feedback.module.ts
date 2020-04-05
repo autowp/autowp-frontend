@@ -18,7 +18,7 @@ import {ToastsModule} from '../toasts/toasts.module';
     UtilsModule,
     TranslateModule,
     FormsModule,
-    RecaptchaModule.forRoot(),
+    RecaptchaModule,
     RecaptchaFormsModule,
     ToastsModule
   ]
