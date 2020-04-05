@@ -99,7 +99,7 @@ export class APICommentsService {
       params.no_parents = '1';
     }
 
-    if (options.limit) {
+    if (options.limit !== null && typeof options.limit !== 'undefined') {
       params.limit = options.limit.toString();
     }
 

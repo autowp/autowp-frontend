@@ -131,7 +131,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
       no_parents: true,
       fields: 'user.avatar,user.gravatar,replies,text_html,vote,user_vote',
       order: 'date_asc',
-      limit: state.limit ? state.limit : null,
+      limit: state.limit ? state.limit : 50000,
       page: state.page
     });
   }
