@@ -122,7 +122,8 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
               routerLink: item.route,
               count: item.childs_count
             },
-            childs_counts: null
+            childs_counts: null,
+            categories: item.categories
           });
         }
 

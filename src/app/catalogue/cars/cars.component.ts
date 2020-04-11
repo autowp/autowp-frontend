@@ -175,7 +175,8 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
               routerLink: item.route,
               count: item.childs_count
             },
-            childs_counts: item.childs_counts
+            childs_counts: item.childs_counts,
+            categories: item.categories
           });
         }
 
