@@ -78,7 +78,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           route_brand_id: data.brand.id,
           fields: [
             'name_html,name_default,description,has_text,produced,accepted_pictures_count',
-            'design,engine_vehicles,route',
+            'design,engine_vehicles,route,categories.name_html',
             'can_edit_specs,specs_route',
             'twins_groups',
             'childs_count,total_pictures,preview_pictures.picture.name_text'
