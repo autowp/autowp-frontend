@@ -30,7 +30,7 @@ interface Crop {
 @Injectable()
 export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private id: number;
-  private item_id: number;
+  private itemID: number;
   private type: number;
   private sub: Subscription;
   public aspect = '';
@@ -87,7 +87,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           map(params => ({ picture, params }))
         )),
         tap(data => {
-          this.item_id = data.params.item_id;
+          this.itemID = data.params.item_id;
           this.type = data.params.type;
         }),
         switchMap(data =>
@@ -101,7 +101,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           )
         ),
         switchMap(data => this.img$.pipe(
-          map(img => ({ pictureItem: data, img: img }))
+          map(img => ({ pictureItem: data, img }))
         ))
       )
       .subscribe(
@@ -131,13 +131,13 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
 
             const bWidth = $body.width() || 1;
 
-            const scale = this.picture.width / bWidth,
-              width = this.picture.width / scale,
-              height = this.picture.height / scale;
+            const scale = this.picture.width / bWidth;
+            const width = this.picture.width / scale;
+            const height = this.picture.height / scale;
 
             $img.css({
-              width: width,
-              height: height
+              width,
+              height
             });
 
             this.jcrop = Jcrop($img[0], {
@@ -195,7 +195,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     };
 
     this.pictureItemService
-      .setArea(this.id, this.item_id, this.type, area)
+      .setArea(this.id, this.itemID, this.type, area)
       .subscribe(
         () => {
           this.router.navigate(['/moder/pictures', this.picture.id]);

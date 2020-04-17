@@ -76,7 +76,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
           )
         ]).pipe(
           map(data => ({
-            params: params,
+            params,
             item: data[0],
             pictures: data[1]
           }))

@@ -20,23 +20,23 @@ export interface APIHotlinksHostsGetResponse {
 export class HotlinksService {
   constructor(private api: APIService) {}
 
-  public clearAll(): Observable<Object> {
-    return this.api.request('DELETE', 'hotlinks/hosts');
+  public clearAll(): Observable<void> {
+    return this.api.request<void>('DELETE', 'hotlinks/hosts');
   }
 
-  public clear(host: string): Observable<Object> {
-    return this.api.request('DELETE', 'hotlinks/hosts/' + encodeURIComponent(host));
+  public clear(host: string): Observable<void> {
+    return this.api.request<void>('DELETE', 'hotlinks/hosts/' + encodeURIComponent(host));
   }
 
   public addToWhitelist(host: string): Observable<void> {
     return this.api.request<void>('POST', 'hotlinks/whitelist', {body: {
-      host: host
+      host
     }});
   }
 
   public addToBlacklist(host: string): Observable<void> {
     return this.api.request<void>('POST', 'hotlinks/blacklist', {body: {
-      host: host
+      host
     }});
   }
 

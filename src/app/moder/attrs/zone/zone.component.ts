@@ -55,7 +55,7 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
           })
         ]).pipe(
           map(combined => ({
-            zone: zone,
+            zone,
             attributes: combined[0].items,
             zoneAttributes: combined[1].items
           }))

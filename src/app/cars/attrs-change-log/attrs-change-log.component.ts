@@ -98,7 +98,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
               this.acl.inheritsRole('moder')
             ]).pipe(
               map(items => ({
-                params: params,
+                params,
                 items: items[0],
                 isModer: items[1]
               }))

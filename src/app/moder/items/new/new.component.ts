@@ -121,7 +121,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                   }
 
                   return this.specService.getSpec(specId as number).pipe(
-                    map(spec => ({ item: parent, spec: spec }))
+                    map(spec => ({ item: parent, spec }))
                   );
                 }
               ),
@@ -154,7 +154,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                         map(vehicleTypeIDs => ({
                           item: parent.item,
                           spec: parent.spec,
-                          vehicleTypeIDs: vehicleTypeIDs
+                          vehicleTypeIDs
                         }))
                       );
                   }

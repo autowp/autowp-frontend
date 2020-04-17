@@ -279,7 +279,7 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrUserValueGetResponse>('GET', 'attr/user-value', {
-      params: params
+      params
     });
   }
 
@@ -305,7 +305,7 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrValuesGetResponse>('GET', 'attr/value', {
-      params: params
+      params
     });
   }
   public getAttributes(
@@ -326,7 +326,7 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrAttributesGetResponse>('GET', 'attr/attribute', {
-      params: params
+      params
     });
   }
 
@@ -348,7 +348,7 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrConflicsGetResponse>('GET', 'attr/conflict', {
-      params: params
+      params
     });
   }
 
@@ -362,7 +362,7 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIttrListOptionsGetResponse>('GET', 'attr/list-option', {
-      params: params
+      params
     });
   }
 

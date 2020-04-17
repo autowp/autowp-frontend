@@ -47,7 +47,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'name_text,name_html',
           limit: 1
         }).pipe(
@@ -72,8 +72,8 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
       switchMap(brand =>
         this.route.queryParamMap.pipe(
           map(queryParams => ({
-            brand: brand,
-            queryParams: queryParams
+            brand,
+            queryParams
           }))
         )
       ),
@@ -91,7 +91,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
       const pictures: PictureRoute[] = [];
       for (const picture of response.pictures) {
         pictures.push({
-          picture: picture,
+          picture,
           route: this.catalogue.picturePathToRoute(picture)
         });
       }

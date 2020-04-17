@@ -64,7 +64,7 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
         switchMap(data => {
           return this.load(data[1]).pipe(
             map(response => ({
-              response: response,
+              response,
               user: data[0],
               state: data[1]
             }))

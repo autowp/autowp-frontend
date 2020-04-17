@@ -11,8 +11,8 @@ export class MessageDialogService {
 
   public showDialog(
     userId: number,
-    sentCallback?: Function,
-    cancelCallback?: Function
+    sentCallback?: () => void,
+    cancelCallback?: () => void
   ) {
     const modalRef = this.modalService.open(ModalMessageComponent, {
       size: 'lg',

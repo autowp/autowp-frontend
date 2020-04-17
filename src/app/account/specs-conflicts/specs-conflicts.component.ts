@@ -86,7 +86,7 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
             }).pipe(
               map(conflicts => ({
                 user: data.user,
-                conflicts: conflicts
+                conflicts
               }))
             )
         )

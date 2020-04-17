@@ -21,8 +21,9 @@
 
 <app-markdown [markdown]="'moder/vehicle/catalogue/turbo-group-creator/text'|translate"></app-markdown>
 
-<app-item-meta-form class="mb-4" [hidden]="loading > 0" [disableIsGroup]="true" [hideSubmit]="true" [(item)]="newItem" (submit)="submit()"
-  [invalidParams]="invalidParams" [(vehicleTypeIDs)]="vehicleTypeIDs"></app-item-meta-form>
+<app-item-meta-form class="mb-4" [hidden]="loading > 0" [disableIsGroup]="true" [hideSubmit]="true" [(item)]="newItem"
+                    (submited)="submit()"
+                    [invalidParams]="invalidParams" [(vehicleTypeIDs)]="vehicleTypeIDs"></app-item-meta-form>
 
 <div class="form-group row" [hidden]="loading > 0">
   <label class="col-md-2 col-form-label text-right" translate>moder/vehicle/catalogue/turbo-group-creator/vehicles</label>

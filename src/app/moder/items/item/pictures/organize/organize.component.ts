@@ -203,7 +203,7 @@ export class ModerItemsItemPicturesOrganizeComponent
           )
         ),
         switchMap(response => {
-          const subpromises: Observable<void>[] = [
+          const subpromises: Observable<any>[] = [
             this.itemService.setItemVehicleTypes(
               response.id,
               this.vehicleTypeIDs

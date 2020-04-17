@@ -95,7 +95,7 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
             path: data.path,
             type: data.type,
             exact: data.exact,
-            identity: identity
+            identity
           };
         })
       )),

@@ -281,14 +281,14 @@ export class CarsSpecificationsEditorSpecComponent
 
   public saveSpecs() {
     const items = [];
-    for (const attribute_id in this.currentUserValues) {
-      if (this.currentUserValues.hasOwnProperty(attribute_id)) {
+    for (const attributeID in this.currentUserValues) {
+      if (this.currentUserValues.hasOwnProperty(attributeID)) {
         items.push({
           item_id: this.item.id,
-          attribute_id: attribute_id,
+          attribute_id: attributeID,
           user_id: this.user.id,
-          value: this.currentUserValues[attribute_id].value,
-          empty: this.currentUserValues[attribute_id].empty
+          value: this.currentUserValues[attributeID].value,
+          empty: this.currentUserValues[attributeID].empty
         });
       }
     }
@@ -297,7 +297,7 @@ export class CarsSpecificationsEditorSpecComponent
     this.invalidParams = null;
     this.api
       .request<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {body: {
-        items: items
+        items
       }})
       .subscribe(
         () => {

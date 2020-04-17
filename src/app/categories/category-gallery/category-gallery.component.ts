@@ -46,7 +46,7 @@ export class CategoryGalleryComponent implements OnInit, OnDestroy {
           map(identity => ({
             current: data.current,
             category: data.category,
-            identity: identity
+            identity
           }))
         ))
       )

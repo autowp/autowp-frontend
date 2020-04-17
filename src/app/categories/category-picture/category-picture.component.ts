@@ -55,7 +55,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
           map(identity => ({
             current: data.current,
             category: data.category,
-            identity: identity
+            identity
           }))
         )),
         switchMap(
@@ -77,7 +77,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
               switchMap(value => this.pictureService.getPictures({
                 identity: data.identity,
                 item_id: data.current.id,
-                fields: fields,
+                fields,
                 limit: 1,
                 items: {
                   type_id: 1

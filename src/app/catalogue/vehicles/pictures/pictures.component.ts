@@ -98,7 +98,7 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
           switchMap(page => this.pictureService.getPictures({
             fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
             limit: 20,
-            page: page,
+            page,
             item_id: data[1] ? null : last.item_id,
             exact_item_id: data[1] ? last.item_id : null,
             status: 'accepted',

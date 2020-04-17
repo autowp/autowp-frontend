@@ -103,18 +103,18 @@ export class CatalogueService {
         }
 
         return CatalogueService.getPath(route).pipe(
-          map(data => (<Parent>{
+          map(data => ({
             id: brand.id,
             path: data ? data.split('/') : [],
             items: []
-          })),
+          } as Parent)),
           pathPipeRecursive(),
           switchMap(parent => {
             if (! parent) {
               return of(null);
             }
             return of ({
-              brand: brand,
+              brand,
               path: parent.items
             }).pipe(
               switchMap(params => {
@@ -122,7 +122,7 @@ export class CatalogueService {
                   map(type => ({
                     brand: params.brand,
                     path: params.path,
-                    type: type
+                    type
                   }))
                 );
               })

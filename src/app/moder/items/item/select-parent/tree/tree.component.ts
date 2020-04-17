@@ -10,11 +10,11 @@ import { APIItem } from '../../../../../services/item';
 export class ModerItemsItemSelectParentTreeComponent {
   @Input() item: APIItemParent;
   @Input() disableItemID: number;
-  @Output() select = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<APIItem>();
   @Output() loadChilds = new EventEmitter<APIItem>();
 
   public onSelect(item: APIItem) {
-    this.select.emit(item);
+    this.selected.emit(item);
     return false;
   }
 

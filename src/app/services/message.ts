@@ -115,7 +115,7 @@ export class MessageService {
   public clearFolder(folder: string): Observable<void> {
     return this.api
       .request<void>('DELETE', 'message', {
-        params: { folder: folder }
+        params: { folder }
       })
       .pipe(tap(() => this.deleted$.next(null)));
   }
@@ -138,7 +138,7 @@ export class MessageService {
     return this.api
       .request<void>('POST', 'message', {body: {
         user_id: userId,
-        text: text
+        text
       }})
       .pipe(tap(() => this.sent$.next(null)));
   }
@@ -165,7 +165,7 @@ export class MessageService {
     }
 
     return this.api.request<APIMessagesGetResponse>('GET', 'message', {
-      params: params
+      params
     });
   }
 }

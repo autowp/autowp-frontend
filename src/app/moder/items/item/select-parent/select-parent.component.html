@@ -39,7 +39,7 @@
 <div class="card card-body" *ngIf="tab == 'catalogue'">
   <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search ..." auto-focus
   />
-  <table class="table" *ngIf="!brand_id">
+  <table class="table" *ngIf="!brandID">
     <tbody>
       <tr>
         <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
@@ -51,9 +51,9 @@
       </tr>
     </tbody>
   </table>
-  <ul *ngIf="brand_id">
+  <ul *ngIf="brandID">
     <li class="car-node" *ngFor="let citem of items">
-      <app-moder-items-item-select-parent-tree [item]="citem" (select)="select($event)" [disableItemID]="item.id" (loadChilds)="loadChildCatalogues($event)">
+      <app-moder-items-item-select-parent-tree [item]="citem" (selected)="select($event)" [disableItemID]="item.id" (loadChilds)="loadChildCatalogues($event)">
       </app-moder-items-item-select-parent-tree>
     </li>
   </ul>
@@ -81,8 +81,8 @@
 <div class="card card-body" *ngIf="tab == 'categories'">
   <ul>
     <li class="car-node" *ngFor="let citem of categories">
-      <app-moder-items-item-select-parent-tree-item [item]="citem" (select)="select($event)" (loadChilds)="loadChildCategories($event)"
-        [disableItemID]="item.id">
+      <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" (loadChilds)="loadChildCategories($event)"
+                                                    [disableItemID]="item.id">
       </app-moder-items-item-select-parent-tree-item>
     </li>
   </ul>
@@ -90,7 +90,7 @@
 </div>
 
 <div class="card card-body" *ngIf="tab == 'twins'">
-  <table class="table" *ngIf="!brand_id">
+  <table class="table" *ngIf="!brandID">
     <tbody>
       <tr>
         <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
@@ -102,9 +102,9 @@
       </tr>
     </tbody>
   </table>
-  <ul *ngIf="brand_id">
+  <ul *ngIf="brandID">
     <li class="car-node" *ngFor="let citem of items">
-      <app-moder-items-item-select-parent-tree-item [item]="citem" (select)="select($event)" [disableItemID]="item.id">
+      <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" [disableItemID]="item.id">
       </app-moder-items-item-select-parent-tree-item>
     </li>
   </ul>
@@ -114,7 +114,7 @@
 <div class="card card-body" *ngIf="tab == 'factories'">
   <ul>
     <li class="car-node" *ngFor="let citem of factories">
-      <app-moder-items-item-select-parent-tree-item [item]="citem" (select)="select($event)" [disableItemID]="item.id">
+      <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" [disableItemID]="item.id">
       </app-moder-items-item-select-parent-tree-item>
     </li>
   </ul>

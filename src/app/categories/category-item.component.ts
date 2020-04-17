@@ -177,7 +177,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
           'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text'
         ].join(','),
         limit: 7,
-        page: page,
+        page,
         parent_id: current.id,
         order: 'categories_first'
       })

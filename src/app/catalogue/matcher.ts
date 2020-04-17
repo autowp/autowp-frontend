@@ -46,7 +46,7 @@ export function cataloguePathMatcher(url: UrlSegment[]) {
   }
 
   return {
-    consumed: consumed,
+    consumed,
     posParams: {
       path: new UrlSegment(path.join('/'), {}),
       type: new UrlSegment(type, {}),

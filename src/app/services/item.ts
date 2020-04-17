@@ -5,9 +5,9 @@ import {
   APIImage,
   APIService
 } from './api.service';
-import { Observable, of, forkJoin } from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import { APIPicture } from './picture';
-import { switchMap } from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
 
 export interface APIPathTreeItemParent {
   catname: string;
@@ -402,7 +402,7 @@ function converItemsOptions(
 export class ItemService {
   constructor(private api: APIService) {}
 
-  public setItemVehicleTypes(itemId: number, ids: number[]): Observable<void> {
+  public setItemVehicleTypes(itemId: number, ids: number[]): Observable<void[]> {
     return this.api
       .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
         params: {
@@ -442,7 +442,7 @@ export class ItemService {
             promises.push(of(null));
           }
 
-          return forkJoin(...promises);
+          return forkJoin(promises);
         })
       );
   }

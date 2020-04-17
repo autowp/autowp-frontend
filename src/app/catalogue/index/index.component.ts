@@ -145,7 +145,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
 
         return this.itemService.getItems({
           catname: data[1],
-          fields: fields,
+          fields,
           limit: 1
         }).pipe(
           switchMap(response => {

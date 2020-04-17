@@ -153,7 +153,7 @@ export class ForumsService {
     }
 
     return this.api.request<APIForumThemesGetResponse>('GET', 'forum/themes', {
-      params: params
+      params
     });
   }
 
@@ -174,7 +174,7 @@ export class ForumsService {
     }
 
     return this.api.request<APIForumTheme>('GET', 'forum/themes/' + id, {
-      params: params
+      params
     });
   }
 
@@ -200,7 +200,7 @@ export class ForumsService {
     }
 
     return this.api.request<APIForumTopicsGetResponse>('GET', 'forum/topic', {
-      params: params
+      params
     });
   }
 
@@ -219,7 +219,7 @@ export class ForumsService {
     }
 
     return this.api.request<APIForumTopic>('GET', 'forum/topic/' + id, {
-      params: params
+      params
     });
   }
 
@@ -237,7 +237,7 @@ export class ForumsService {
       params.page = options.page.toString();
     }
     return this.api.request<APIForumTopic>('GET', this.api.resolveLocation(location), {
-      params: params
+      params
     });
   }
 

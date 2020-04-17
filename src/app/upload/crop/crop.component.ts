@@ -85,14 +85,14 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
 
 
-        const scale = data.picture.width / bWidth,
-          width = data.picture.width / scale,
-          height = data.picture.height / scale;
+        const scale = data.picture.width / bWidth;
+        const width = data.picture.width / scale;
+        const height = data.picture.height / scale;
 
 
         $img.css({
-          width: width,
-          height: height
+          width,
+          height
         });
 
         this.jcrop = Jcrop($img[0], {

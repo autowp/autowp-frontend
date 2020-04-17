@@ -245,8 +245,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             to_year: params.toYear ? params.toYear : null,
             ancestor_id: params.ancestorID ? params.ancestorID : null,
             page: params.page,
-            fields: fields,
-            limit: limit
+            fields,
+            limit
           });
         }),
         tap(() => (this.loading = 0))
@@ -268,7 +268,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           items.push({
             id: item.id,
             preview_pictures: {
-              pictures: pictures,
+              pictures,
               large_format: item.preview_pictures.large_format
             },
             item_type_id: item.item_type_id,

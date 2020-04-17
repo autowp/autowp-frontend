@@ -59,7 +59,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
     return {
       id: item.id,
       preview_pictures: {
-        pictures: pictures,
+        pictures,
         large_format: item.preview_pictures.large_format
       },
       item_type_id: item.item_type_id,
@@ -76,7 +76,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       picturesRouterLink: routerLink.concat(['pictures']),
       specsRouterLink: item.has_specs || item.has_child_specs ? routerLink.concat(['specifications']) : null,
       details: {
-        routerLink: routerLink,
+        routerLink,
         count: item.childs_count
       },
       childs_counts: item.childs_counts,
@@ -201,7 +201,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
           items.push({
             id: item.item.id,
             preview_pictures: {
-              pictures: pictures,
+              pictures,
               large_format: item.item.preview_pictures.large_format
             },
             item_type_id: item.item.item_type_id,

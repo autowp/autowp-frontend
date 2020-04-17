@@ -22,7 +22,7 @@ export interface APIUserGetResponse {
   items: APIUser[];
 }
 
-export class APIUser {
+export interface APIUser {
   id: number;
   name: string;
   email: string;
@@ -80,8 +80,8 @@ function converUsersOptions(
 
   if (options.id) {
     const a: string[] = [];
-    for (let i = 0; i < options.id.length; i++) {
-      a.push(options.id[i].toString());
+    for (const id of options.id) {
+      a.push(id.toString());
     }
     params['id[]'] = a;
   }
@@ -188,7 +188,7 @@ export class UserService {
 
     if (Object.keys(params).length) {
       return this.api.request<APIUser>('GET', 'user/' + id, {
-        params: params
+        params
       });
     }
 
@@ -219,7 +219,7 @@ export class UserService {
     }
 
     const params: APIGetUsersOptions = {
-      identity: identity,
+      identity,
       limit: 1,
       fields: options.fields
     };

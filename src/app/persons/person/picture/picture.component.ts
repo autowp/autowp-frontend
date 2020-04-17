@@ -51,7 +51,7 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
 
           return {
             item: person,
-            identity: identity
+            identity
           };
         })
       )),
@@ -89,8 +89,8 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
     const options: APIGetPicturesOptions = {
       exact_item_id: itemID,
       exact_item_link_type: 1,
-      identity: identity,
-      fields: fields,
+      identity,
+      fields,
       limit: 1,
       paginator: {
         exact_item_id: itemID,

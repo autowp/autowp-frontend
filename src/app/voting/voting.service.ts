@@ -58,7 +58,7 @@ export class VotingService {
       'GET',
       'voting/' + votingId + '/variant/' + variantId + '/vote',
       {
-        params: params
+        params
       }
     );
   }

@@ -31,7 +31,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   public showTwinsTab = false;
   public showFactoriesTab = false;
   public tab: string;
-  public brand_id: number;
+  public brandID: number;
   public paginator: APIPaginator;
   public page: number;
   public search = '';
@@ -58,7 +58,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         fields: 'item.name_html,item.childs_count',
         parent_id: parent.id,
         is_group: true,
-        order: order
+        order
       })
       .subscribe(
         response => {
@@ -85,7 +85,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
     ).subscribe(data => {
       this.tab = data.query.tab || 'catalogue';
       this.page = data.query.page;
-      this.brand_id = data.query.brand_id;
+      this.brandID = data.query.brand_id;
 
       this.itemService
         .getItem(data.route.id, {
@@ -110,12 +110,12 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
             this.showFactoriesTab = [1, 2].indexOf(this.item.item_type_id) > -1;
 
             if (this.tab === 'catalogue') {
-              if (this.brand_id) {
+              if (this.brandID) {
                 this.itemParentService
                   .getItems({
                     limit: 100,
                     fields: 'item.name_html,item.childs_count',
-                    parent_id: this.brand_id,
+                    parent_id: this.brandID,
                     is_group: true,
                     item_type_id: this.item.item_type_id,
                     page: this.page
@@ -155,13 +155,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
             }
 
             if (this.tab === 'twins') {
-              if (this.brand_id) {
+              if (this.brandID) {
                 this.itemService
                   .getItems({
                     type_id: 4,
                     limit: 100,
                     fields: 'name_html',
-                    have_common_childs_with: this.brand_id,
+                    have_common_childs_with: this.brandID,
                     page: this.page
                   })
                   .subscribe(
@@ -246,7 +246,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
     }
 
     if (this.tab === 'catalogue') {
-      if (!this.brand_id) {
+      if (!this.brandID) {
         this.loadCatalogueBrands();
       }
     }

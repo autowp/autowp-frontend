@@ -45,8 +45,8 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
 
         return this.getPage().pipe(
           map(page => ({
-            brand: brand,
-            page: page
+            brand,
+            page
           }))
         );
       }),
@@ -85,7 +85,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
           items.push({
             id: item.item.id,
             preview_pictures: {
-              pictures: pictures,
+              pictures,
               large_format: item.item.preview_pictures.large_format
             },
             item_type_id: item.item.item_type_id,
@@ -102,7 +102,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
             picturesRouterLink: routerLink.concat(['pictures']),
             specsRouterLink: item.item.has_specs || item.item.has_child_specs ? routerLink.concat(['specifications']) : null,
             details: {
-              routerLink: routerLink,
+              routerLink,
               count: item.item.childs_count
             },
             childs_counts: item.item.childs_counts
@@ -110,7 +110,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
         }
 
         return {
-          items: items,
+          items,
           paginator: response.paginator
         };
       })
@@ -130,7 +130,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'name_text,name_html',
           limit: 1
         }).pipe(

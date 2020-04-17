@@ -12,8 +12,8 @@ export class PictureModerVoteService {
     reason: string
   ): Observable<void> {
     return this.api.request<void>('PUT', 'picture-moder-vote/' + pictureId, {body: {
-      vote: vote,
-      reason: reason
+      vote,
+      reason
     }});
   }
 

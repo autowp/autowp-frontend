@@ -98,7 +98,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
       .pipe(
         map(data => ({ params: data[0], types: data[1] })),
         switchMap(data => this.attrsService.getAttribute(data.params.id).pipe(
-          map(attribute => ({ attribute: attribute, types: data.types }))
+          map(attribute => ({ attribute, types: data.types }))
         )),
         switchMap(data => combineLatest([
           this.api.request<APIAttrAttributeGetResponse>('GET', 'attr/attribute', {

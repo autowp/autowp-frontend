@@ -84,7 +84,7 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'name_text,name_html',
           limit: 1
         });
@@ -125,11 +125,11 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
 
           return this.changed$.pipe(
             switchMap(value => this.pictureService.getPictures({
-              identity: identity,
+              identity,
               exact_item_id: brandID,
               perspective_id: perspectiveID,
               perspective_exclude_id: excludePerspective,
-              fields: fields,
+              fields,
               limit: 1,
               items: {
                 type_id: 1

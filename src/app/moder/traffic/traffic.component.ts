@@ -85,7 +85,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   public addToWhitelist(ip: string) {
     this.api
       .request<void>('POST', 'traffic/whitelist', {body: {
-        ip: ip
+        ip
       }})
       .subscribe(() => this.change$.next(null));
   }
@@ -93,7 +93,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   public addToBlacklist(ip: string) {
     this.api
       .request<void>('POST', 'traffic/blacklist', {body: {
-        ip: ip,
+        ip,
         period: 240,
         reason: ''
       }})

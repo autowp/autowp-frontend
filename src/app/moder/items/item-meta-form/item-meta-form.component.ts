@@ -70,13 +70,13 @@ function createMarker(lat, lng): Marker {
 export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() item: APIItem;
-  @Input() submitNotify: Function;
+  @Input() submitNotify: () => void;
   @Input() parent: APIItem;
   @Input() invalidParams: any;
   @Input() hideSubmit: boolean;
   @Input() disableIsGroup: boolean;
   @Input() vehicleTypeIDs: number[] = [];
-  @Output() submit = new EventEmitter<void>();
+  @Output() submited = new EventEmitter<void>();
 
   public vehicleTypes: APIVehicleType[];
   private vehicleTypeIDs$ = new BehaviorSubject<number[]>([]);
@@ -141,11 +141,11 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     center: this.center
   };
 
-  public name_maxlength = 100; // DbTable\Item::MAX_NAME
-  public full_name_maxlength = 255; // BrandModel::MAX_FULLNAME
-  public body_maxlength = 20;
-  public model_year_max: number;
-  public year_max: number;
+  public nameMaxlength = 100; // DbTable\Item::MAX_NAME
+  public fullnameMaxlength = 255; // BrandModel::MAX_FULLNAME
+  public bodyMaxlength = 20;
+  public modelYearMax: number;
+  public yearMax: number;
   public specOptions: any[] = [];
   public monthOptions: any[];
   private isConceptOptions = [
@@ -188,8 +188,8 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
       this.markers = [createMarker(this.item.lat, this.item.lng)];
     }
 
-    this.model_year_max = new Date().getFullYear() + 10;
-    this.year_max = new Date().getFullYear() + 10;
+    this.modelYearMax = new Date().getFullYear() + 10;
+    this.yearMax = new Date().getFullYear() + 10;
 
     this.monthOptions = [
       {
@@ -263,7 +263,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
   public doSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.submit.emit();
+    this.submited.emit();
     return false;
   }
 

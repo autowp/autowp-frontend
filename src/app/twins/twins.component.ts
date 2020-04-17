@@ -105,8 +105,8 @@ export class TwinsComponent implements OnInit, OnDestroy {
         }),
         switchMap(brand => this.route.queryParams.pipe(
           map(query => ({
-            brand: brand,
-            query: query
+            brand,
+            query
           }))
         )),
         switchMap(params => {

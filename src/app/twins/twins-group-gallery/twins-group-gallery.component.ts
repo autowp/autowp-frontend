@@ -51,8 +51,8 @@ export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(group => identityPipe.pipe(
           map(identity => ({
-            group: group,
-            identity: identity
+            group,
+            identity
           }))
         ))
       )

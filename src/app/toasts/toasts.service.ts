@@ -17,7 +17,7 @@ export class ToastsService {
 
   public error(message: string) {
     this.show({
-      message: message,
+      message,
       type: 'danger',
       icon: 'fa fa-exclamation-triangle'
     });
@@ -25,7 +25,7 @@ export class ToastsService {
 
   public success(message: string) {
     this.show({
-      message: message,
+      message,
       type: 'success',
       icon: 'fa fa-check'
     });

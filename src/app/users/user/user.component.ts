@@ -95,7 +95,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap(data => combineLatest([
           this.userService
-            .getByIdentity(data.params.identity, { fields: fields })
+            .getByIdentity(data.params.identity, { fields })
             .pipe(
               catchError(err => {
                 this.toastService.response(err);

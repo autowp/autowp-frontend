@@ -46,8 +46,8 @@ export class PersonsPersonGalleryComponent implements OnInit, OnDestroy {
       switchMap(item => this.getIdentity().pipe(
         map(identity => {
           return {
-            item: item,
-            identity: identity
+            item,
+            identity
           };
         })
       )),

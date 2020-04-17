@@ -84,7 +84,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
         for (const language of responses[3]) {
           this.languages.push({
-            language: language,
+            language,
             name: null
           });
         }

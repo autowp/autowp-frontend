@@ -65,7 +65,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
               needRight: false
             },
             name: this.pageName,
-            pageId: pageId
+            pageId
           });
 
           return this.change$.pipe(

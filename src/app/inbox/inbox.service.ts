@@ -25,16 +25,16 @@ export class InboxService {
   constructor(private api: APIService) {}
 
   public get(
-    brand_id: number,
+    brandID: number,
     date: string
   ): Observable<APIInbox> {
     const params: { [param: string]: string } = {
-      brand_id: brand_id ? brand_id.toString() : ''
+      brand_id: brandID ? brandID.toString() : ''
     };
     if (date) {
       params.date = date;
     }
 
-    return this.api.request<APIInbox>('GET', 'inbox', {params: params});
+    return this.api.request<APIInbox>('GET', 'inbox', {params});
   }
 }

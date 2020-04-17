@@ -14,7 +14,6 @@ import { APIService } from '../../services/api.service';
 @Injectable()
 export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
-  public message_id: number;
   public themes: APIForumTheme[] = [];
   public topic: APIForumTopic = null;
 

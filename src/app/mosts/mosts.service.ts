@@ -88,7 +88,7 @@ export class MostsService {
     }
 
     return this.api.request<APIMostsItemsGetResponse>('GET', 'mosts/items', {
-      params: params
+      params
     });
   }
 }

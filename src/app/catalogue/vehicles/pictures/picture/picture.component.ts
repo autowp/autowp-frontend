@@ -89,7 +89,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
             path: data.path,
             type: data.type,
             exact: data[1],
-            identity: identity
+            identity
           };
         })
       )),
@@ -132,9 +132,9 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
       'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
     const options: APIGetPicturesOptions = {
-      identity: identity,
+      identity,
       item_id: itemID,
-      fields: fields,
+      fields,
       limit: 1,
       items: {
         type_id: 1

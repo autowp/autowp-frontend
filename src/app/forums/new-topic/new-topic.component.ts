@@ -53,7 +53,7 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
         switchMap(data => this.forumService.getTheme(data.params.theme_id, {}).pipe(
           map(theme => ({
             user: data.user,
-            theme: theme
+            theme
           }))
         ))
       )

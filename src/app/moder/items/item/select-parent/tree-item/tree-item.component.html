@@ -17,7 +17,7 @@
       </span>
     </li>
     <li class="car-node" *ngFor="let child of item.childLinks">
-      <app-moder-items-item-select-parent-tree [item]="child" (select)="onSelect($event)" (loadChilds)="onLoadChilds($event)" [disableItemID]="disableItemID">
+      <app-moder-items-item-select-parent-tree [item]="child" (selected)="onSelect($event)" (loadChilds)="onLoadChilds($event)" [disableItemID]="disableItemID">
       </app-moder-items-item-select-parent-tree>
     </li>
   </ul>

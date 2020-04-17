@@ -71,8 +71,8 @@ export class PicturePageComponent implements OnInit, OnDestroy {
 
               return this.changed$.pipe(
                 switchMap(value => this.pictureService.getPictures({
-                  identity: identity,
-                  fields: fields,
+                  identity,
+                  fields,
                   limit: 1
                 })),
                 switchMap(response => {

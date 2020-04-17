@@ -71,7 +71,7 @@ export class PictureItemService {
       'PUT',
       'picture-item/' + pictureId + '/' + itemId + '/' + type,
       {body: {
-        area: area
+        area
       }}
     );
   }
@@ -127,7 +127,7 @@ export class PictureItemService {
     const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
 
     return this.api.request<APIPictureItem>('GET', url, {
-      params: params
+      params
     });
   }
 
@@ -153,7 +153,7 @@ export class PictureItemService {
     }
 
     return this.api.request<APIPictureItemsGetResponse>('GET', 'picture-item', {
-      params: params
+      params
     });
   }
 }

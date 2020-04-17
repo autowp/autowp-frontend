@@ -36,7 +36,8 @@ function bound(container: Dimension, content: Dimension): Dimension {
   const containerRatio = container.width / container.height;
   const contentRatio = content.width / content.height;
 
-  let width: number, height: number;
+  let width: number;
+  let height: number;
   if (contentRatio > containerRatio) {
     width = container.width;
     height = width / contentRatio;
@@ -46,8 +47,8 @@ function bound(container: Dimension, content: Dimension): Dimension {
   }
 
   return {
-    width: width,
-    height: height
+    width,
+    height
   };
 }
 

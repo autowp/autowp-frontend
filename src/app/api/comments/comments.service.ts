@@ -127,7 +127,7 @@ export class APICommentsService {
       params.pictures_of_item_id = options.pictures_of_item_id.toString();
     }
 
-    return this.api.request<APICommentGetResponse>('GET', 'comment', {params: params});
+    return this.api.request<APICommentGetResponse>('GET', 'comment', {params});
   }
 
   public setIsDeleted(id: number, value: boolean): Observable<void> {
@@ -154,7 +154,7 @@ export class APICommentsService {
       params.limit = options.limit.toString();
     }
 
-    return this.api.request<APIComment>('GET', 'comment/' + id, {params: params});
+    return this.api.request<APIComment>('GET', 'comment/' + id, {params});
   }
 
   public getCommentByLocation(
@@ -171,7 +171,7 @@ export class APICommentsService {
       params.limit = options.limit.toString();
     }
 
-    return this.api.request<APIComment>('GET', this.api.resolveLocation(location), {params: params});
+    return this.api.request<APIComment>('GET', this.api.resolveLocation(location), {params});
   }
 
   public getVotes(id: number): Observable<APICommentVotes> {

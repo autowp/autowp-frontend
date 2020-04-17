@@ -44,8 +44,8 @@ export class OAuthService {
       .request<TokenResponse>('GET', '/oauth/token', {
         params: {
           grant_type: 'password',
-          username: username,
-          password: password
+          username,
+          password
         },
         observe: 'response'
       })

@@ -125,7 +125,7 @@ export class UploadSelectComponent implements OnInit {
         limit: 500,
         fields: 'name_only',
         name: search ? '%' + search + '%' : null,
-        page: page
+        page
       })
       .pipe(
         catchError(err => {
@@ -210,7 +210,7 @@ export class UploadSelectComponent implements OnInit {
     ]).pipe(
       map(data => {
         return {
-          item: item,
+          item,
           vehicles: data[0],
           engines: data[1],
           concepts: data[2]

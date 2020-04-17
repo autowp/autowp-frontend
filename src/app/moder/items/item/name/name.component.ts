@@ -48,7 +48,7 @@ export class ModerItemsItemNameComponent
 
             for (const language of contentLanguages) {
               languages.set(language, {
-                language: language,
+                language,
                 name: null,
                 text: null,
                 full_text: null,

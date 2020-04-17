@@ -70,7 +70,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
     if (authors) {
       return this.itemService.getItems({
         type_id: 8,
-        fields: fields,
+        fields,
         descendant_pictures: {
           status: 'accepted',
           type_id: 2
@@ -80,12 +80,12 @@ export class PersonsComponent implements OnInit, OnDestroy {
         },
         order: 'name',
         limit: 10,
-        page: page
+        page
       });
     }
     return this.itemService.getItems({
       type_id: 8,
-      fields: fields,
+      fields,
       descendant_pictures: {
         status: 'accepted',
         type_id: 1
@@ -95,7 +95,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
       },
       order: 'name',
       limit: 10,
-      page: page
+      page
     });
   }
 
@@ -118,7 +118,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
       result.push({
         id: item.id,
         preview_pictures: {
-          pictures: pictures,
+          pictures,
           large_format: item.preview_pictures.large_format
         },
         item_type_id: item.item_type_id,

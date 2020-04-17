@@ -215,7 +215,7 @@ export class APIService {
       };
       responseType?: 'json';
       withCredentials?: boolean;
-  }): Observable<HttpResponse<Object>>;
+  }): Observable<HttpResponse<object>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns
    * the full `HTTPResponse` with the response body in the requested type.
@@ -261,7 +261,7 @@ export class APIService {
       responseType?: 'json';
       reportProgress?: boolean;
       withCredentials?: boolean;
-  }): Observable<Object>;
+  }): Observable<object>;
   /**
    * Constructs a request which interprets the body as a JSON object
    * with the response body of the requested type.
@@ -339,7 +339,7 @@ export class APIService {
           if (options.headers instanceof HttpHeaders) {
             options.headers = options.headers.set('Authorization', 'Bearer ' + accessToken);
           } else {
-            options.headers['Authorization'] = 'Bearer ' + accessToken;
+            options.headers.Authorization = 'Bearer ' + accessToken;
           }
         }
 

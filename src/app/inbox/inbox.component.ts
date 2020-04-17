@@ -93,7 +93,7 @@ export class InboxComponent implements OnInit, OnDestroy {
             of(brandID)
           ]).pipe(
             map(combined => ({
-              params: params,
+              params,
               inbox: combined[0],
               brandID: combined[1]
             }))
@@ -108,7 +108,7 @@ export class InboxComponent implements OnInit, OnDestroy {
             params: data.params,
             inbox: data.inbox,
             brandID: data.brandID,
-            queryParams: queryParams
+            queryParams
           }))
         )),
         switchMap(data => {
@@ -135,7 +135,7 @@ export class InboxComponent implements OnInit, OnDestroy {
             order: 1
           }).pipe(
             map(pictures => ({
-              pictures: pictures,
+              pictures,
               inbox: data.inbox,
               brandID: data.brandID
             }))

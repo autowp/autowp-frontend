@@ -47,7 +47,7 @@ export class IndexSpecsCarsComponent implements OnInit, OnDestroy {
         items.push({
           id: item.id,
           preview_pictures: {
-            pictures: pictures,
+            pictures,
             large_format: false
           },
           item_type_id: item.item_type_id,

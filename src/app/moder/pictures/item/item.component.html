@@ -119,10 +119,10 @@
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu" *ngIf="item.type == 1" ngbDropdownMenu>
-                <button class="dropdown-item" (click)="moveItem(item.type, item.item_id, last_item.id)" *ngIf="last_item && !hasItem(last_item.id)">
+                <button class="dropdown-item" (click)="moveItem(item.type, item.item_id, lastItem.id)" *ngIf="lastItem && !hasItem(lastItem.id)">
                   <i class="fa fa-arrow-right" aria-hidden="true"></i>
                   {{'moder/picture/catalogue/move-to'|translate}}
-                  <span [innerHTML]="last_item.name_html"></span>
+                  <span [innerHTML]="lastItem.name_html"></span>
                 </button>
                 <a *ngFor="let brand of item.item.brands" class="dropdown-item" [routerLink]="['/moder/pictures', picture.id, 'move']" [queryParams]="{src_item_id: item.item_id, src_type: item.type, brand_id: brand.id}">
                   <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -142,25 +142,25 @@
     </tbody>
   </table>
   <div *ngIf="picture.rights.move">
-    <div *ngIf="last_item && !hasItem(last_item.id) && last_item.item_type_id != 9">
-      <button class="btn btn-secondary" (click)="addItem(last_item, 1)">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id != 9">
+      <button class="btn btn-secondary" (click)="addItem(lastItem, 1)">
         <i class="fa fa-plus" aria-hidden="true"></i>
         {{'moder/picture/catalogue/add-to'|translate}} (content)
-        <span [innerHTML]="last_item.name_html"></span>
+        <span [innerHTML]="lastItem.name_html"></span>
       </button>
     </div>
-    <div *ngIf="last_item && !hasItem(last_item.id) && last_item.item_type_id == 8">
-      <button class="btn btn-secondary" (click)="addItem(last_item, 2)">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id == 8">
+      <button class="btn btn-secondary" (click)="addItem(lastItem, 2)">
         <i class="fa fa-plus" aria-hidden="true"></i>
         {{'moder/picture/catalogue/add-to'|translate}} (author)
-        <span [innerHTML]="last_item.name_html"></span>
+        <span [innerHTML]="lastItem.name_html"></span>
       </button>
     </div>
-    <div *ngIf="last_item && !hasItem(last_item.id) && last_item.item_type_id == 9">
-      <button class="btn btn-secondary" (click)="addItem(last_item, 3)">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id == 9">
+      <button class="btn btn-secondary" (click)="addItem(lastItem, 3)">
         <i class="fa fa-plus" aria-hidden="true"></i>
         {{'moder/picture/catalogue/add-to'|translate}} (copyrights)
-        <span [innerHTML]="last_item.name_html"></span>
+        <span [innerHTML]="lastItem.name_html"></span>
       </button>
     </div>
     <div>

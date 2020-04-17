@@ -95,9 +95,9 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
 
           const bWidth = $body.width() || 1;
 
-          const scale = this.picture.width / bWidth,
-            width = this.picture.width / scale,
-            height = this.picture.height / scale;
+          const scale = this.picture.width / bWidth;
+          const width = this.picture.width / scale;
+          const height = this.picture.height / scale;
 
           this.jcrop = Jcrop($img[0], {
             onSelect: (c: Crop) => {

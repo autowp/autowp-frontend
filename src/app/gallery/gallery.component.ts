@@ -93,10 +93,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
           this.current = data.current;
           if (!this.getGalleryItem(data.current)) {
             const params = this.filterParams(data.filter);
-            params['picture_identity'] = data.current;
+            params.picture_identity = data.current;
             return this.api
               .request<APIGallery>('GET', 'gallery', {
-                params: params
+                params
               })
               .pipe(
                 tap(response => {
@@ -120,22 +120,22 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe();
   }
 
-  private filterParams(filter: APIGalleryFilter) {
-    const params = {};
+  private filterParams(filter: APIGalleryFilter): { [key: string]: string; } {
+    const params: { [key: string]: string; } = {};
     if (filter.itemID) {
-      params['item_id'] = filter.itemID.toString();
+      params.item_id = filter.itemID.toString();
     }
     if (filter.exactItemID) {
-      params['exact_item_id'] = filter.exactItemID.toString();
+      params.exact_item_id = filter.exactItemID.toString();
     }
     if (filter.exactItemLinkType) {
-      params['exact_item_link_type'] = filter.exactItemLinkType.toString();
+      params.exact_item_link_type = filter.exactItemLinkType.toString();
     }
     if (filter.perspectiveID) {
-      params['perspective_id'] = filter.perspectiveID.toString();
+      params.perspective_id = filter.perspectiveID.toString();
     }
     if (filter.perspectiveExclude) {
-      params['perspective_exclude'] = filter.perspectiveExclude;
+      params.perspective_exclude = filter.perspectiveExclude;
     }
     return params;
   }
@@ -154,10 +154,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   private loadPage(filter: APIGalleryFilter, page: number): Observable<APIGallery> {
     const params = this.filterParams(filter);
-    params['status'] = this.status;
-    params['page'] = page + '';
+    params.status = this.status;
+    params.page = page + '';
     return this.api
-      .request<APIGallery>('GET', 'gallery', {params: params})
+      .request<APIGallery>('GET', 'gallery', {params})
       .pipe(
         tap((response) => {
           this.applyResponse(response);

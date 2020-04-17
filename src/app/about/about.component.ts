@@ -11,7 +11,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import { APIService } from '../services/api.service';
 
-export class APIAbout {
+export interface APIAbout {
   developer: number;
   fr_translator: number;
   zh_translator: number;
@@ -86,7 +86,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
             return this.userService.getUserMap(ids).pipe(
               map(users => ({
-                users: users,
+                users,
                 translation: data[1],
                 about: data[0]
               }))

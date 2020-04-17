@@ -48,7 +48,7 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
           debounceTime(30),
         ).pipe(
           map(params => ({
-            brand: brand,
+            brand,
             ratingCatname: params.rating_catname,
             typeCatname: params.type_catname,
             yearsCatname: params.years_catname
@@ -77,7 +77,7 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'catname,name_text,name_html',
           limit: 1
         }).pipe(

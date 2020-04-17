@@ -61,7 +61,7 @@ function toPlainVehicleTypes(
     result.push({
       name: item.name,
       value: item.id,
-      deep: deep
+      deep
     });
     for (const subitem of toPlainVehicleTypes(item.childs, deep + 1)) {
       result.push(subitem);

@@ -42,7 +42,7 @@ export class CatalogueMixedGalleryComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'name_text,name_html',
           limit: 1
         });

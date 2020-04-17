@@ -28,8 +28,8 @@ export class CatagoriesService {
     return categoryPipe.pipe(
       switchMap(category => pathPipe.pipe(
         map(path => ({
-          category: category,
-          path: path
+          category,
+          path
         }))
       )),
       switchMap(params => {
@@ -68,10 +68,10 @@ export class CatagoriesService {
 
         return {
           current: response.path[response.path.length - 1].item,
-          category: category,
+          category,
           path: response.path,
-          pathItems: pathItems,
-          pathCatnames: pathCatnames
+          pathItems,
+          pathCatnames
         };
       })
     );

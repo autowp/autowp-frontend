@@ -77,7 +77,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
           map(identity => ({
             group: data.group,
             isModer: data.isModer,
-            identity: identity
+            identity
           }))
         )),
         switchMap(
@@ -103,7 +103,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
               switchMap(value => this.pictureService.getPictures({
                 identity: data.identity,
                 item_id: data.group.id,
-                fields: fields,
+                fields,
                 limit: 1,
                 items: {
                   type_id: 1

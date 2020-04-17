@@ -35,12 +35,12 @@ export class SpecService {
 
   private findSpec(specs: APISpec[], id: number): APISpec | null {
     let spec = null;
-    for (let i = 0; i < specs.length; i++) {
-      if (specs[i].id === id) {
-        spec = specs[i];
+    for (const s of specs) {
+      if (s.id === id) {
+        spec = s;
         break;
       }
-      spec = this.findSpec(specs[i].childs, id);
+      spec = this.findSpec(s.childs, id);
       if (spec) {
         break;
       }

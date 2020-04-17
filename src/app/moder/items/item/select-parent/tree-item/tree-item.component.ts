@@ -11,7 +11,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   @Input() item: APIItemInSelectParent;
   @Input() disableItemID: number;
   @Input() typeID: number;
-  @Output() select = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<APIItem>();
   @Output() loadChilds = new EventEmitter<APIItem>();
 
   public isDisabled(item: APIItemInSelectParent): boolean {
@@ -19,7 +19,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   }
 
   public onSelect(item: APIItem) {
-    this.select.emit(item);
+    this.selected.emit(item);
     return false;
   }
 

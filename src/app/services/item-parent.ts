@@ -99,7 +99,7 @@ export class ItemParentService {
     }
 
     return this.api.request<APIItemParentGetResponse>('GET', 'item-parent', {
-      params: params
+      params
     });
   }
 }

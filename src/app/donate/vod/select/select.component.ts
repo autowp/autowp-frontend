@@ -123,7 +123,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                         ]
                       ).pipe(
                         map(data => ({
-                          brand: brand,
+                          brand,
                           vehicles: data[0],
                           concepts: data[1]
                         }))

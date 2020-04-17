@@ -56,7 +56,7 @@ export class ArticleService {
     }
 
     return this.api.request<APIArticlesGetResponse>('GET', 'article', {
-      params: params
+      params
     });
   }
 }

@@ -35,7 +35,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public statusLoading = false;
   public copyrightsLoading = false;
   public specialNameLoading = false;
-  public last_item: APIItem = null;
+  public lastItem: APIItem = null;
   public banPeriods = [
     { value: 1, name: 'ban/period/hour' },
     { value: 2, name: 'ban/period/2-hours' },
@@ -186,7 +186,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           fields: 'name_html',
           limit: 1
         }).subscribe(response => {
-          this.last_item = response.items.length ? response.items[0] : null;
+          this.lastItem = response.items.length ? response.items[0] : null;
         });
       }
     }
@@ -442,7 +442,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   public addToBlacklist(ip: string) {
     this.api
       .request<void>('POST', 'traffic/blacklist', {body: {
-        ip: ip,
+        ip,
         period: this.banPeriod,
         reason: this.banReason
       }})

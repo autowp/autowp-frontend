@@ -49,8 +49,8 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
           }
         ).pipe(
           map(specsHtml => ({
-            group: group,
-            specsHtml: specsHtml
+            group,
+            specsHtml
           }))
         ))
       )

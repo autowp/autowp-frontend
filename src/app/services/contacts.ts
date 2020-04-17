@@ -47,7 +47,7 @@ export class ContactsService {
 
     return this.auth.getUser().pipe(
       switchMapTo(this.api.request<APIContactsGetResponse>('GET', 'contacts', {
-        params: params
+        params
       }))
     );
   }

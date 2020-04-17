@@ -116,7 +116,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
             )
         ]).pipe(
           map(responses => ({
-            item: item,
+            item,
             links: responses[0],
             pictures: responses[1]
           }))

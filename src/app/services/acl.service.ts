@@ -53,8 +53,8 @@ export class APIACL {
     return this.api
       .request<APIACLIsAllowed>('GET', 'acl/is-allowed', {
         params: {
-          resource: resource,
-          privilege: privilege
+          resource,
+          privilege
         }
       })
       .pipe(

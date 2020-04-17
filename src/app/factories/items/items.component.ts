@@ -126,7 +126,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
           items.push({
             id: item.id,
             preview_pictures: {
-              pictures: pictures,
+              pictures,
               large_format: item.preview_pictures.large_format
             },
             item_type_id: item.item_type_id,

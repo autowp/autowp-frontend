@@ -39,7 +39,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'name_text,name_html',
           limit: 1
         });
@@ -63,8 +63,8 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
       switchMap(brand =>
         this.route.queryParamMap.pipe(
           map(queryParams => ({
-            brand: brand,
-            queryParams: queryParams
+            brand,
+            queryParams
           }))
         )
       ),
@@ -102,7 +102,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
           items.push({
             id: item.id,
             preview_pictures: {
-              pictures: pictures,
+              pictures,
               large_format: item.preview_pictures.large_format
             },
             item_type_id: item.item_type_id,
@@ -128,7 +128,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
         }
 
         return {
-          items: items,
+          items,
           paginator: response.paginator
         };
       })

@@ -101,7 +101,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
 
         return {
           currentVehicleType: currentVehicleTypeID,
-          brand: brand
+          brand
         };
       }),
       switchMap(data => this.route.queryParamMap.pipe(
@@ -111,7 +111,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         map(page => ({
           currentVehicleType: data.currentVehicleType,
           brandID: data.brand.id,
-          page: page
+          page
         }))
       )),
       switchMap(data => this.getItems(data.brandID, data.currentVehicleType, data.page)),
@@ -137,7 +137,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         'twins_groups',
         'childs_count,total_pictures,preview_pictures.picture.name_text'
       ].join(','),
-      page: page
+      page
     }).pipe(
       map(response => {
         const items: CatalogueListItem[] = [];
@@ -155,7 +155,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
           items.push({
             id: item.id,
             preview_pictures: {
-              pictures: pictures,
+              pictures,
               large_format: item.preview_pictures.large_format
             },
             item_type_id: item.item_type_id,
@@ -181,7 +181,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         }
 
         return {
-          items: items,
+          items,
           paginator: response.paginator
         };
       })
@@ -193,7 +193,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
       return EMPTY;
     }
     return this.itemService.getItems({
-      catname: catname,
+      catname,
       fields: 'name_text,name_html',
       limit: 1
     }).pipe(

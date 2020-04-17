@@ -43,7 +43,7 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
           return EMPTY;
         }
         return this.itemService.getItems({
-          catname: catname,
+          catname,
           fields: 'name_text,name_html',
           limit: 1
         });
@@ -89,7 +89,7 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
           map(queryParams => ({
             brand: data[0],
             data: data[1],
-            queryParams: queryParams
+            queryParams
           }))
         )
       ),

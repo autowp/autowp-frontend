@@ -3,7 +3,7 @@
     <label class="col-md-2 col-form-label" translate>moder/vehicle/name</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.name" type="text" name="name" [(ngModel)]="item.name" class="form-control"
-        [attr.maxlength]="name_maxlength" />
+        [attr.maxlength]="nameMaxlength" />
       <p *ngFor="let message of invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
@@ -11,7 +11,7 @@
     <label class="col-md-2 col-form-label" translate>moder/brands/meta-data/full-name</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.full_name" type="text" name="full_name" [(ngModel)]="item.full_name"
-        class="form-control" [attr.maxlength]="full_name_maxlength" />
+        class="form-control" [attr.maxlength]="fullnameMaxlength" />
       <p *ngFor="let message of invalidParams | invalidParams : 'full_name'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
@@ -27,7 +27,7 @@
     <label class="col-md-2 col-form-label" translate>moder/vehicle/body</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.body" type="text" name="body" [(ngModel)]="item.body" style="width: 30%"
-        class="form-control" [attr.maxlength]="body_maxlength" />
+        class="form-control" [attr.maxlength]="bodyMaxlength" />
       <p *ngFor="let message of invalidParams | invalidParams : 'body'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
@@ -62,7 +62,7 @@
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-4 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.begin_model_year" name="begin_model_year" [(ngModel)]="item.begin_model_year"
-            placeholder="{{'moder/vehicle/year/from'|translate}}" min="1800" max="{{model_year_max}}" class="form-control"
+            placeholder="{{'moder/vehicle/year/from'|translate}}" min="1800" [max]="modelYearMax" class="form-control"
             maxlength="4" />
         </div>
         <div class="form-group col-md-1 col-sm-2 mb-0">
@@ -72,7 +72,7 @@
         </div>
         <div class="form-group col-md-2 col-sm-4 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.end_model_year" name="end_model_year" [(ngModel)]="item.end_model_year"
-            placeholder="{{'moder/vehicle/year/to'|translate}}" min="1800" max="{{model_year_max}}" class="form-control"
+            placeholder="{{'moder/vehicle/year/to'|translate}}" min="1800" [max]="modelYearMax" class="form-control"
             maxlength="4" />
         </div>
         <div class="form-group col-md-1 col-sm-2 mb-0">
@@ -91,7 +91,7 @@
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.begin_year" name="begin_year" [(ngModel)]="item.begin_year"
-            placeholder="{{'moder/vehicle/year'|translate}}" [min]="1800" [max]="year_max" class="form-control" [attr.maxlength]="4"
+            placeholder="{{'moder/vehicle/year'|translate}}" [min]="1800" [max]="yearMax" class="form-control" [attr.maxlength]="4"
           />
         </div>
         <div class="form-group col-md-4 col-sm-7 mb-0">
@@ -111,7 +111,7 @@
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.end_year" name="end_year" [(ngModel)]="item.end_year"
-            placeholder="{{'moder/vehicle/year'|translate}}" min="1800" [max]="year_max" class="form-control" maxlength="4"
+            placeholder="{{'moder/vehicle/year'|translate}}" min="1800" [max]="yearMax" class="form-control" maxlength="4"
           />
         </div>
         <div class="form-group col-md-4 col-sm-7 mb-0">

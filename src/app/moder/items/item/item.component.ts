@@ -185,7 +185,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
             item_id: item.id
           }).pipe(
             map(pictures => ({
-              item: item,
+              item,
               pictures: pictures.pictures
             }))
           );

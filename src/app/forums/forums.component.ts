@@ -115,7 +115,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
 
   private setTopicStatus(topic: APIForumTopic, status: string): Observable<void> {
     const o = this.api.request<void>('PUT', 'forum/topic/' + topic.id, {body: {
-      status: status
+      status
     }});
     o.subscribe(
       () => {

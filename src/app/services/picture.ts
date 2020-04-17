@@ -425,7 +425,7 @@ export class PictureService {
   public vote(pictureID: number, value: number): Observable<APIPictureVotes> {
     return this.api
       .request<APIPictureVotes>('PUT', 'picture-vote/' + pictureID, {body: {
-        value: value
+        value
       }})
       .pipe(
         tap(() => {
@@ -436,7 +436,7 @@ export class PictureService {
 
   public setPictureStatus(id: number, status: string): Observable<void> {
     return this.api.request<void>('PUT', 'picture/' + id.toString(), {body: {
-      status: status
+      status
     }});
   }
 

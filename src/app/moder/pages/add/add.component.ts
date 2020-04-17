@@ -53,7 +53,7 @@ export class ModerPagesAddComponent {
           is_group_node: this.item.is_group_node ? 1 : 0,
           registered_only: this.item.registered_only ? 1 : 0,
           guest_only: this.item.guest_only ? 1 : 0,
-          class: this.item['class']
+          class: this.item.class
         },
         observe: 'response'
       })

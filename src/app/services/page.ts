@@ -135,13 +135,13 @@ export class PageService {
         breadcrumbs: page.breadcrumbs,
         is_group_node: page.is_group_node,
         childs: page.childs,
-        level: level,
+        level,
         moveUp: i > 0,
         moveDown: i < pages.length - 1,
         parent_id: null,
         registered_only: page.registered_only,
         guest_only: page.guest_only,
-        class: page['class']
+        class: page.class
       };
       result.push(mPage);
       for (const child of this.toPlainArray(page.childs, level + 1)) {

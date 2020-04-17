@@ -31,7 +31,7 @@ export class ItemLinkService {
     }
 
     return this.api.request<APIItemLinkGetResponse>('GET', 'item-link', {
-      params: params
+      params
     });
   }
 }
