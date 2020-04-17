@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import {Subscription, of, EMPTY, Observable, BehaviorSubject} from 'rxjs';
+import {Subscription, of, EMPTY, Observable, BehaviorSubject, combineLatest} from 'rxjs';
 import { APIItem, ItemService } from '../../../services/item';
 import {
   APIPicture,
@@ -11,8 +11,9 @@ import {
   switchMap,
   distinctUntilChanged,
   map,
-  tap, debounceTime
+  debounceTime
 } from 'rxjs/operators';
+import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
   selector: 'app-catalogue-mixed-picture',
@@ -24,6 +25,7 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   public picture: APIPicture;
   private changed$ = new BehaviorSubject<boolean>(false);
+  public data: BrandPerspectivePageData;
 
   constructor(
     private itemService: ItemService,
@@ -34,31 +36,47 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.getBrand().pipe(
-      tap(brand => {
-        this.brand = brand;
+    this.sub = combineLatest([
+      this.getBrand(),
+      this.route.data as Observable<BrandPerspectivePageData>
+    ]).pipe(
+      switchMap(params => {
+        this.brand = params[0];
+        this.data = params[1];
+
+        return this.getPicture(params[0].id, this.data.perspective_id, this.data.perspective_exclude_id).pipe(
+          map(picture => ({
+            picture,
+            data: params[1]
+          }))
+        );
       }),
-      switchMap(brand => this.getPicture(brand.id)),
-      tap(picture => {
+      switchMap(data => {
+        if (! data.picture) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true
+          });
+          return EMPTY;
+        }
+
         this.pageEnv.set({
           layout: {
             needRight: false
           },
-          nameTranslated: picture.name_text,
-          pageId: 190
+          nameTranslated: data.picture.name_text,
+          pageId: data.data.picture_page.id
         });
 
-        this.picture = picture;
-      })
-    )
-      .subscribe();
+        this.picture = data.picture;
+
+        return of(data);
+      }),
+    ).subscribe();
   }
 
   private getBrand(): Observable<APIItem> {
     return this.route.paramMap.pipe(
-      map(params => {
-        return params.get('brand');
-      }),
+      map(params => params.get('brand')),
       distinctUntilChanged(),
       debounceTime(10),
       switchMap(catname => {
@@ -84,7 +102,7 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getPicture(brandID: number): Observable<APIPicture> {
+  private getPicture(brandID: number, perspectiveID?: number, excludePerspective?: string): Observable<APIPicture> {
     return this.route.paramMap.pipe(
       map(route => route.get('identity')),
       distinctUntilChanged(),
@@ -109,7 +127,8 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
             switchMap(value => this.pictureService.getPictures({
               identity: identity,
               exact_item_id: brandID,
-              perspective_id: 25,
+              perspective_id: perspectiveID,
+              perspective_exclude_id: excludePerspective,
               fields: fields,
               limit: 1,
               items: {
@@ -117,7 +136,8 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
               },
               paginator: {
                 exact_item_id: brandID,
-                perspective_id: 25
+                perspective_id: perspectiveID,
+                perspective_exclude_id: excludePerspective
               }
             })),
             map(response => response && response.pictures.length ? response.pictures[0] : null)

@@ -3,12 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {CatalogueIndexComponent} from './index/index.component';
 import {CatalogueRecentComponent} from './recent/recent.component';
 import {CatalogueMixedComponent} from './mixed/mixed.component';
-import {CatalogueOtherComponent} from './other/other.component';
-import {CatalogueLogotypesComponent} from './logotypes/logotypes.component';
 import {CatalogueConceptsComponent} from './concepts/concepts.component';
 import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
-import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
-import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
 import {CatalogueEnginesComponent} from './engines/engines.component';
 import {cataloguePathMatcher} from './matcher';
 import {CatalogueCarsComponent} from './cars/cars.component';
@@ -18,6 +14,7 @@ import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.c
 import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
 import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
 import {CatalogueMostsComponent} from './mosts/mosts.component';
+import {CatalogueMixedGalleryComponent} from './mixed/gallery/gallery.component';
 
 const routes: Routes = [
   {
@@ -26,7 +23,21 @@ const routes: Routes = [
   },
   {
     path: 'mixed',
+    data: {
+      catname: 'mixed',
+      perspective_id: 25,
+      page_id: 40,
+      picture_page: {
+        id: 190,
+        breadcrumbs: 'page/40/breadcrumbs'
+      },
+      title: 'page/40/ng-name'
+    },
     children: [
+      {
+        path: 'gallery/:identity',
+        component: CatalogueMixedGalleryComponent
+      },
       {
         path: ':identity',
         component: CatalogueMixedPictureComponent,
@@ -40,29 +51,57 @@ const routes: Routes = [
   },
   {
     path: 'other',
+    data: {
+      catname: 'other',
+      perspective_exclude_id: '22,25',
+      page_id: 41,
+      picture_page: {
+        id: 191,
+        breadcrumbs: 'page/41/name'
+      },
+      title: 'page/41/name'
+    },
     children: [
       {
+        path: 'gallery/:identity',
+        component: CatalogueMixedGalleryComponent
+      },
+      {
         path: ':identity',
-        component: CatalogueOtherPictureComponent,
+        component: CatalogueMixedPictureComponent,
       },
       {
         path: '',
         pathMatch: 'full',
-        component: CatalogueOtherComponent,
+        component: CatalogueMixedComponent,
       }
     ]
   },
   {
     path: 'logotypes',
+    data: {
+      catname: 'logotypes',
+      perspective_id: 22,
+      page_id: 39,
+      title: 'page/39/ng-name',
+      picture_page: {
+        id: 192,
+        breadcrumbs: 'page/39/breadcrumbs'
+      },
+    },
     children: [
       {
+        path: 'gallery/:identity',
+        component: CatalogueMixedGalleryComponent
+      },
+      {
         path: ':identity',
-        component: CatalogueLogotypesPictureComponent,
+        component: CatalogueMixedPictureComponent,
       },
       {
         path: '',
         pathMatch: 'full',
-        component: CatalogueLogotypesComponent,
+        component: CatalogueMixedComponent,
       }
     ]
   },

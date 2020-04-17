@@ -6,14 +6,20 @@
     <li class="breadcrumb-item" *ngIf="brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
-      <a [routerLink]="['/', brand.catname, 'mixed']" translate>page/40/breadcrumbs</a>
+    <li class="breadcrumb-item" *ngIf="brand && data">
+      <a [routerLink]="['/', brand.catname, data.catname]">{{data.picture_page.breadcrumbs|translate}}</a>
     </li>
   </ol>
 </nav>
 
 <div>
-  <app-picture [picture]="picture" [prefix]="['/', brand.catname, 'mixed']" *ngIf="picture && brand" (changed)="reloadPicture()"></app-picture>
+  <app-picture
+    *ngIf="picture && brand && data"
+    [picture]="picture"
+    [prefix]="['/', brand.catname, data.catname]"
+    [galleryRoute]="['/', brand.catname, data.catname, 'gallery', picture.identity]"
+    (changed)="reloadPicture()"
+  ></app-picture>
 
   <div id="comments" *ngIf="picture">
     <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>

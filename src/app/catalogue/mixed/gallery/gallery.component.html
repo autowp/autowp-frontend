@@ -1,0 +1,8 @@
+<app-gallery
+  *ngIf="brand && data"
+  [filter]="{exactItemID: brand.id, perspectiveID: data.perspective_id, perspectiveExclude: data.perspective_exclude_id}"
+  [current]="current"
+  [galleryPrefix]="['/', brand.catname, data.catname, 'gallery']"
+  [picturePrefix]="['/', brand.catname, data.catname]"
+  (pictureSelected)="pictureSelected($event)"
+></app-gallery>

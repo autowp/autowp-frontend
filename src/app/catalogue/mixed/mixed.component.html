@@ -9,14 +9,14 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand">
-  <h1 translate [translateParams]="{brand: brand.name_text}">page/40/ng-name</h1>
+<div class="page-header" *ngIf="brand && data">
+  <h1>{{data.title|translate:{brand: brand.name_text} }}</h1>
 </div>
 
-<ng-container *ngIf="brand && pictures">
+<ng-container *ngIf="brand && pictures && data">
   <div class="row" *ngFor="let chunk of pictures">
     <div class="col-sm-3" *ngFor="let picture of chunk">
-      <app-thumbnail [picture]="picture" [route]="['/', brand.catname, 'mixed', picture.identity]">></app-thumbnail>
+      <app-thumbnail [picture]="picture" [route]="['/', brand.catname, data.catname, picture.identity]">></app-thumbnail>
     </div>
   </div>
 </ng-container>

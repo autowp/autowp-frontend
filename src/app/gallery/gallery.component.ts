@@ -23,6 +23,8 @@ interface APIGalleryFilter {
   itemID?: number;
   exactItemID?: number;
   exactItemLinkType?: number;
+  perspectiveID?: number;
+  perspectiveExclude?: string;
 }
 
 @Component({
@@ -128,6 +130,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (filter.exactItemLinkType) {
       params['exact_item_link_type'] = filter.exactItemLinkType.toString();
+    }
+    if (filter.perspectiveID) {
+      params['perspective_id'] = filter.perspectiveID.toString();
+    }
+    if (filter.perspectiveExclude) {
+      params['perspective_exclude'] = filter.perspectiveExclude;
     }
     return params;
   }

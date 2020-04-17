@@ -7,15 +7,11 @@ import {TranslateModule} from '@ngx-translate/core';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {CatalogueRecentComponent} from './recent/recent.component';
 import {PaginatorModule} from '../paginator/paginator.module';
-import {CatalogueOtherComponent} from './other/other.component';
 import {CatalogueMixedComponent} from './mixed/mixed.component';
-import {CatalogueLogotypesComponent} from './logotypes/logotypes.component';
 import {CatalogueConceptsComponent} from './concepts/concepts.component';
 import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
 import {PictureModule} from '../picture/picture.module';
 import {CommentsModule} from '../comments/comments.module';
-import {CatalogueOtherPictureComponent} from './other/picture/picture.component';
-import {CatalogueLogotypesPictureComponent} from './logotypes/picture/picture.component';
 import {CatalogueEnginesComponent} from './engines/engines.component';
 import {CatalogueCarsComponent} from './cars/cars.component';
 import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
@@ -28,17 +24,26 @@ import {GalleryModule} from '../gallery/gallery.module';
 import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
 import {CatalogueMostsComponent} from './mosts/mosts.component';
 import {MostsModule} from '../mosts/mosts.module';
+import {CatalogueMixedGalleryComponent} from './mixed/gallery/gallery.component';
+
+export interface BrandPerspectivePageData {
+  catname: string;
+  perspective_id?: number;
+  perspective_exclude_id?: string;
+  page_id: number;
+  title: string;
+  picture_page: {
+    id: number;
+    breadcrumbs: string;
+  };
+}
 
 @NgModule({
   declarations: [
     CatalogueIndexComponent,
     CatalogueRecentComponent,
-    CatalogueOtherComponent,
-    CatalogueOtherPictureComponent,
     CatalogueMixedComponent,
     CatalogueMixedPictureComponent,
-    CatalogueLogotypesComponent,
-    CatalogueLogotypesPictureComponent,
     CatalogueConceptsComponent,
     CatalogueEnginesComponent,
     CatalogueCarsComponent,
@@ -48,7 +53,8 @@ import {MostsModule} from '../mosts/mosts.module';
     CatalogueVehiclesPicturesPictureComponent,
     CatalogueItemMenuComponent,
     CatalogueVehiclesSpecificationsComponent,
-    CatalogueMostsComponent
+    CatalogueMostsComponent,
+    CatalogueMixedGalleryComponent
   ],
   imports: [
     CommonModule,
