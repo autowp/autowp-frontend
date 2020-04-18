@@ -26,7 +26,6 @@ export class ModerPictureMoveItemComponent {
       this.loading = true;
       this.itemParentService
         .getItems({
-          item_type_id: 1,
           parent_id: item.item_id,
           fields: 'item.name_html,item.childs_count',
           limit: 500
