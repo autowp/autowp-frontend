@@ -11,11 +11,11 @@ import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {switchMapTo, switchMap, map, catchError, tap} from 'rxjs/operators';
-import { LanguageService } from '../../services/language';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIImage, APIService} from '../../services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-account-profile',
@@ -49,7 +49,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private router: Router,
     private auth: AuthService,
     private pageEnv: PageEnvService,
-    private language: LanguageService,
     private timezone: TimezoneService,
     private toastService: ToastsService
   ) {
@@ -70,7 +69,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     );
 
     this.languages = [];
-    for (const language of this.language.getLanguages()) {
+    for (const language of environment.languages) {
       this.languages.push({
         name: language.name,
         value: language.code

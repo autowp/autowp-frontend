@@ -19,7 +19,7 @@ export class DonateComponent {
     private languageService: LanguageService,
     private domSanitizer: DomSanitizer
   ) {
-    this.language = this.languageService.getLanguage();
+    this.language = this.languageService.language;
 
     setTimeout(
       () =>

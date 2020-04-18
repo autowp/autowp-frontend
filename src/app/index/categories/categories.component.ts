@@ -28,7 +28,7 @@ export class IndexCategoriesComponent implements OnInit, OnDestroy {
   constructor(private languageService: LanguageService, private api: APIService) {}
 
   ngOnInit(): void {
-    this.language =  this.languageService.getLanguage();
+    this.language = this.languageService.language;
 
     this.sub = this.api.request<APIIndexCategoriesResponse>('GET', 'index/categories').subscribe(response => {
       this.categories = response.items;

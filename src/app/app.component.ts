@@ -13,6 +13,7 @@ import { ItemService } from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -47,8 +48,8 @@ export class AppComponent implements OnInit {
     private modalService: NgbModal,
     private renderer: Renderer2
   ) {
-    this.language = this.languageService.getLanguage();
-    const ngxTranslateCode = this.languageService.getNgxTranslateLanguage();
+    this.language = this.languageService.language;
+    const ngxTranslateCode = this.languageService.ngxTranslateCode;
 
     this.translate.setTranslation(
       ngxTranslateCode,
@@ -57,7 +58,7 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang(ngxTranslateCode);
 
     this.translate.use(ngxTranslateCode);
-    moment.locale(this.languageService.getMomentLocale());
+    moment.locale(this.languageService.momentLocale);
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
     this.layoutParams$.subscribe(params => {
@@ -72,7 +73,7 @@ export class AppComponent implements OnInit {
       this.user = user;
     });
 
-    this.languages = this.languageService.getLanguages();
+    this.languages = environment.languages;
     let searchHostname = 'wheelsage.org';
     for (const itemLanguage of this.languages) {
       if (itemLanguage.code === this.language) {

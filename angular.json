@@ -3,10 +3,35 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "support": {
+    "wheelsage": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": {
+          "code": "en-GB"
+        },
+        "locales": {
+          "ru": {
+            "translation": "src/locale/messages.ru.xlf"
+          },
+          "uk": {
+            "translation": "src/locale/messages.uk.xlf"
+          },
+          "be-BY": {
+            "translation": "src/locale/messages.be-BY.xlf"
+          },
+          "fr": {
+            "translation": "src/locale/messages.fr.xlf"
+          },
+          "pt-BR": {
+            "translation": "src/locale/messages.pt-BR.xlf"
+          },
+          "zh-CN": {
+            "translation": "src/locale/messages.zh-CN.xlf"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "ngx-build-plus:browser",
@@ -53,15 +78,15 @@
           },
           "configurations": {
             "test": {
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -91,21 +116,21 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "support:build"
+            "browserTarget": "wheelsage:build"
           },
           "configurations": {
             "test": {
-              "browserTarget": "support:build:test"
+              "browserTarget": "wheelsage:build:test"
             },
             "production": {
-              "browserTarget": "support:build:production"
+              "browserTarget": "wheelsage:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "support:build"
+            "browserTarget": "wheelsage:build"
           }
         },
         "lint": {
@@ -125,5 +150,5 @@
       }
     }
   },
-  "defaultProject": "support"
+  "defaultProject": "wheelsage"
 }

@@ -1,11 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { environment } from '../../environments/environment';
-
-export interface APILanguageGetResponse {
-  items: {
-    [key: string]: string;
-  };
-}
 
 export interface Language {
   code: string;
@@ -14,47 +8,23 @@ export interface Language {
   name: string;
   flag: string;
   momentLocale: string;
+  locale: string;
 }
 
 @Injectable()
 export class LanguageService {
-  private readonly language: string = 'en';
-  private languages: Language[] = environment.languages;
+  public readonly language: string = 'en';
+  public readonly ngxTranslateCode: string = 'en';
+  public readonly momentLocale: string = 'en-gb';
 
-  constructor() {
-    for (const lang of this.languages) {
-      if (lang.hostname === document.location.hostname) {
+  constructor(@Inject(LOCALE_ID) public localeId: string) {
+    for (const lang of environment.languages as Language[]) {
+      if (lang.locale === localeId) {
         this.language = lang.code;
+        this.ngxTranslateCode = lang.ngxTranslateCode;
+        this.momentLocale = lang.momentLocale;
         break;
       }
     }
-  }
-
-  public getLanguage() {
-    return this.language;
-  }
-
-  public getNgxTranslateLanguage() {
-    for (const lang of this.languages) {
-      if (lang.code === this.language) {
-        return lang.ngxTranslateCode;
-      }
-    }
-
-    return this.language;
-  }
-
-  public getMomentLocale() {
-    for (const lang of this.languages) {
-      if (lang.code === this.language) {
-        return lang.momentLocale;
-      }
-    }
-
-    return this.language;
-  }
-
-  public getLanguages(): Language[] {
-    return this.languages;
   }
 }

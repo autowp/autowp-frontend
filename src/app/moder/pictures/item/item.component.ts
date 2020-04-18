@@ -72,7 +72,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
       date.setMonth(i);
-      const language = this.languageService.getLanguage();
+      const language = this.languageService.language;
       if (language) {
         const month = date.toLocaleString(language, { month: 'long' });
         this.monthOptions.push({
