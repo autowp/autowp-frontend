@@ -16,6 +16,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
+## i18n
+
+Run `./node_modules/.bin/ng xi18n --output-path locale` to extract translations
+Run `node ./ng-oneskyapp.js secret_key` to download translations from oneskyapp
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

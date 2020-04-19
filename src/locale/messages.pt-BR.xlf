@@ -10,6 +10,22 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="picture/image-specifications" datatype="html">
+        <source>Image specifications:</source>
+        <target>Especificações da imagem</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/picture/picture.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="picture/location" datatype="html">
+        <source>Coordinates</source>
+        <target>Coordenadas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/picture/picture.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

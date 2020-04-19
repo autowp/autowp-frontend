@@ -23,7 +23,6 @@ locales.map(locale => {
       fileName: 'messages.xlf'
     })
     .then(content => {
-      console.log(content);
       const filename = 'messages.' + locale + '.xlf';
       console.log('Downloaded ' + filename);
       fs.writeFile(path + filename, content, err => {
