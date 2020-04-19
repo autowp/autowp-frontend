@@ -16,29 +16,29 @@
       <li class="nav-item">
         <a routerLink="." class="active nav-link">
           <i class="fa fa-sign-in" aria-hidden="true"></i>
-          {{'login/sign-in'|translate}}
+          <ng-container i18n="@@login/sign-in">Sign in</ng-container>
         </a>
       </li>
       <li class="nav-item">
         <a routerLink="/signup" class="active nav-link">
           <i class="fa fa-pencil" aria-hidden="true"></i>
-          {{'login/registration'|translate}}
+          <ng-container i18n="@@login/registration">Sign up</ng-container>
         </a>
       </li>
     </ul>
     <div class="card card-body">
       <form class="form-horizontal" (submit)="submit($event)">
         <fieldset>
-          <legend translate>login/sign-in</legend>
+          <legend i18n="@@login/sign-in">Sign in</legend>
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" translate>login/login-or-email</label>
+            <label class="col-md-3 col-form-label" i18n="@@login/login-or-email">login or e-mail</label>
             <div class="col-md-9">
               <input type="text" name="login" class="form-control" [(ngModel)]="form.login" maxlength="50" [class.is-invalid]="invalidParams.login">
               <p *ngFor="let message of invalidParams | invalidParams : 'login'" [textContent]="message" class="invalid-feedback"></p>
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" translate>user/password</label>
+            <label class="col-md-3 col-form-label" i18n="@@user/password">Password</label>
             <div class="col-md-9">
               <input type="password" name="password" class="form-control" [(ngModel)]="form.password" [class.is-invalid]="invalidParams.password">
               <p *ngFor="let message of invalidParams | invalidParams : 'password'" [textContent]="message" class="invalid-feedback"></p>
@@ -48,7 +48,7 @@
             <div class="col-md-9 offset-md-3">
               <button type="submit" class="btn btn-primary">
                 <i class="fa fa-sign-in" aria-hidden="true"></i>
-                {{'login/sign-in'|translate}}
+                <ng-container i18n="@@login/sign-in">Sign in</ng-container>
               </button>
             </div>
           </div>
@@ -56,10 +56,10 @@
       </form>
     </div>
 
-    <!-- 
+    <!--
     <div class="row" style="margin-top:50px;margin-bottom:50px">
       <div class="col-md-9 offset-md-3">
-        <p translate>login/sign-in-using-account</p>
+        <p i18n="@@login/sign-in-using-account">Sign in using existing account</p>
         <a href="#" (click)="start(service.id)" class="signin-service" *ngFor="let service of services" [title]="service.name" [style.backgroundColor]="service.color">
           <i class="fa fa-fw fa-2x {{service.icon}}" aria-hidden="true"></i>
         </a>
@@ -75,6 +75,6 @@
 
 <div class="row" *ngIf="user">
   <div class="col-md-8 offset-md-2">
-    <p class="alert alert-block alert-success" translate>login/success-text</p>
+    <p class="alert alert-block alert-success" i18n="@@login/success-text">We are glad to welcome you to our website</p>
   </div>
 </div>

@@ -19,7 +19,7 @@
       <app-markdown [markdown]="'restore-password/new-password/text'|translate"></app-markdown>
       <form class="form-horizontal" (submit)="submit()">
         <div class="form-group row">
-          <label class="col-md-2 col-form-label" for="password" translate>user/password</label>
+          <label class="col-md-2 col-form-label" for="password" i18n="@@user/password">Password</label>
           <div class="col-md-10">
             <input type="password" [class.is-invalid]="invalidParams && invalidParams.password" size="50" maxlength="50" name="password" class="form-control" [(ngModel)]="form.password">
             <p *ngFor="let message of invalidParams | invalidParams : 'password'" [textContent]="message" class="invalid-feedback"></p>

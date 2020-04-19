@@ -63,7 +63,7 @@
         <input type="hidden" name="ie" value="utf-8" />
         <input type="hidden" name="domains" [value]="searchHostname" />
         <input type="hidden" name="sitesearch" [value]="searchHostname" />
-        <input type="text" class="form-control" [placeholder]="'layout/search'|translate" name="q" />
+        <input type="text" class="form-control" placeholder="Search" i18n-placeholder="@@layout/search" name="q" />
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item" *ngIf="user" [class.active]="isActive(49)|async">
@@ -75,7 +75,7 @@
         <li class="nav-item" *ngIf="!user" [class.active]="isActive(79)|async">
           <a routerLink="/login" class="nav-link">
             <i class="fa fa-sign-in" aria-hidden="true"></i>
-            {{'login/sign-in'|translate}}
+            <ng-container i18n="@@login/sign-in">Sign in</ng-container>
           </a>
         </li>
         <li class="nav-item btn-group" ngbDropdown [class.active]="isActive(87)|async">
@@ -136,7 +136,7 @@
               <i [ngClass]="lang.flag" aria-hidden="true"></i>
               {{lang.name}}
             </a>
-            <a class="dropdown-item" href="https://github.com/autowp/autowp/tree/master/module/Application/language" translate>layout/language-contributing</a>
+            <a class="dropdown-item" href="https://github.com/autowp/autowp/tree/master/module/Application/language" i18n="@@layout/language-contributing">Want to contribute?</a>
           </div>
         </li>
       </ul>
@@ -157,35 +157,33 @@
           <a routerLink="/account/profile" translate>page/48/name</a>
           <br />
           <i class="fa fa-sign-out" aria-hidden="true"></i>
-          <a href="#" (click)="signOut()" translate>login/sign-out</a>
+          <a href="#" (click)="signOut()" i18n="@@login/sign-out">Sign out</a>
         </div>
         <p ngPreserveWhitespaces>
           <i class="fa fa-comment" aria-hidden="true"></i>
           <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" translate [translateParams]="{ messages: newPersonalMessages }">ng-layout/you-have-new-messages</a>
-          <a routerLink="/account/messages" translate *ngIf="!newPersonalMessages">layout/personal-messages</a>
+          <a routerLink="/account/messages" translate *ngIf="!newPersonalMessages" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
       </div>
 
-      <h3 *ngIf="!user" translate>login/sign-in</h3>
+      <h3 *ngIf="!user" i18n="@@login/sign-in">Sign in</h3>
       <div class="card card-body mb-4" *ngIf="!user">
         <form (submit)="doLogin()">
           <p>
-            <input type="text" name="login" placeholder="{{'login/login-or-email'|translate}}" class="form-control" [(ngModel)]="loginForm.login"
-            />
+            <input type="text" name="login" placeholder="login or e-mail" i18n-placeholder="@@login/login-or-email" class="form-control" [(ngModel)]="loginForm.login" />
           </p>
           <p *ngFor="let message of loginInvalidParams | invalidParams : 'login'" [textContent]="message" class="invalid-feedback"></p>
           <p>
-            <input type="password" name="password" placeholder="{{'user/password'|translate}}" class="form-control" [(ngModel)]="loginForm.password"
-            />
+            <input type="password" name="password" placeholder="Password" i18n-placeholder="@@user/password" class="form-control" [(ngModel)]="loginForm.password" />
           </p>
           <p *ngFor="let message of loginInvalidParams | invalidParams : 'password'" [textContent]="message" class="invalid-feedback"></p>
           <div>
             <div class="float-right text-right">
-              <a routerLink="/signup" translate>login/registration</a>
+              <a routerLink="/signup" i18n="@@login/registration">Sign up</a>
               <br />
-              <a routerLink="/restore-password" translate>login/forgot-password?</a>
+              <a routerLink="/restore-password" i18n="@@login/forgot-password?">Forgot your password?</a>
             </div>
-            <input type="submit" value="{{'login/sign-in'|translate}}" class="btn btn-primary" />
+            <button type="submit" class="btn btn-primary" i18n="@@login/sign-in">Sign in</button>
           </div>
         </form>
       </div>
@@ -199,7 +197,7 @@
   <div class="bottom-line" *ngIf="!(layoutParams$|async).isAdminPage && !(layoutParams$|async).isGalleryPage">
     <p>
       <strong>
-        {{'layout/brand'|translate}} '2005&ndash;{{'present-time-abbr'|translate}}
+        <ng-container i18n="@@layout/brand">WheelsAge.org</ng-container> '2005&ndash;{{'present-time-abbr'|translate}}
       </strong>
     </p>
   </div>
@@ -247,7 +245,7 @@
           {{lang.name}}
         </a>
       </ng-container>
-      <a href="https://github.com/autowp/autowp/tree/master/module/Application/language" translate>layout/language-contributing</a>
+      <a href="https://github.com/autowp/autowp/tree/master/module/Application/language" i18n="@@layout/language-contributing">Want to contribute?</a>
       <a routerLink="/policy" i18n>Privacy Policy</a>
     </p>
   </footer>
