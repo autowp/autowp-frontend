@@ -9,26 +9,33 @@
       "projectType": "application",
       "i18n": {
         "sourceLocale": {
-          "code": "en-GB"
+          "code": "en-GB",
+          "baseHref": "/"
         },
         "locales": {
           "ru": {
-            "translation": "src/locale/messages.ru.xlf"
+            "translation": "src/locale/messages.ru.xlf",
+            "baseHref": "/"
           },
           "uk": {
-            "translation": "src/locale/messages.uk.xlf"
+            "translation": "src/locale/messages.uk.xlf",
+            "baseHref": "/"
           },
           "be-BY": {
-            "translation": "src/locale/messages.be-BY.xlf"
+            "translation": "src/locale/messages.be-BY.xlf",
+            "baseHref": "/"
           },
           "fr": {
-            "translation": "src/locale/messages.fr.xlf"
+            "translation": "src/locale/messages.fr.xlf",
+            "baseHref": "/"
           },
           "pt-BR": {
-            "translation": "src/locale/messages.pt-BR.xlf"
+            "translation": "src/locale/messages.pt-BR.xlf",
+            "baseHref": "/"
           },
           "zh-CN": {
-            "translation": "src/locale/messages.zh-CN.xlf"
+            "translation": "src/locale/messages.zh-CN.xlf",
+            "baseHref": "/"
           }
         }
       },
@@ -74,7 +81,8 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js"
-            ]
+            ],
+            "localize": ["be-BY", "en-GB", "fr", "pt-BR", "ru", "uk", "zh-CN"]
           },
           "configurations": {
             "test": {
