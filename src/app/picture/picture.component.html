@@ -100,7 +100,7 @@
         <span [ngbTooltip]="picture.add_date | date: 'medium'">{{picture.add_date|amTimeAgo}}</span>
       </li>
       <li *ngIf="picture.taken_date">
-        Date taken: {{picture.taken_date}}
+        <ng-container i18n>Date taken:</ng-container> {{picture.taken_date}}
       </li>
       <li *ngIf="picture.point">
         <span class="fa fa-map-pin" aria-hidden="true"></span>
@@ -246,7 +246,8 @@
 
       <li *ngIf="user && (picture.items && picture.items.length > 0 || engines && engines.length > 0)">
         <a routerLink="/upload" [queryParams]="{replace: picture.id}">
-          <i class="fa fa-exchange" aria-hidden="true"></i> {{'picture/propose-image-replacement'|translate}}
+          <i class="fa fa-exchange" aria-hidden="true"></i>
+          <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
         </a>
       </li>
     </ul>
@@ -257,7 +258,7 @@
 </div>
 
 <div *ngIf="picture.moder_votes.length > 0">
-  <p>{{'picture/moderators-about-this-picture'|translate}}:</p>
+  <p i18n="@@picture/moderators-about-this-picture">Moderators about this picture:</p>
   <ul class="list-unstyled">
     <li *ngFor="let moderVote of picture.moder_votes">
       <span *ngIf="moderVote.vote">
