@@ -56,16 +56,14 @@
       </form>
     </div>
 
-    <!--
     <div class="row" style="margin-top:50px;margin-bottom:50px">
       <div class="col-md-9 offset-md-3">
         <p i18n="@@login/sign-in-using-account">Sign in using existing account</p>
-        <a href="#" (click)="start(service.id)" class="signin-service" *ngFor="let service of services" [title]="service.name" [style.backgroundColor]="service.color">
+        <a href="#" (click)="start(service.id)" class="signin-service" [title]="service.name" [style.backgroundColor]="service.color" *ngFor="let service of services">
           <i class="fa fa-fw fa-2x {{service.icon}}" aria-hidden="true"></i>
         </a>
       </div>
     </div>
-    -->
 
     <app-markdown [markdown]="'login/if-you-lose-password'|translate"></app-markdown>
     <app-markdown [markdown]="'login/if-you-not-registered'|translate"></app-markdown>

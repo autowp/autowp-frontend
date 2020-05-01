@@ -67,7 +67,7 @@ export interface APIPerspectivePageGetResponse {
   items: APIPerspectivePage[];
 }
 
-export interface APILoginStartPostResponse {
+export interface APILoginStartGetResponse {
   url: string;
 }
 

@@ -1,27 +1,16 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import {
-  APILoginStartPostResponse,
+  APILoginStartGetResponse,
   APIService
 } from '../services/api.service';
 import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
 import { TranslateService } from '@ngx-translate/core';
-
-interface APILoginServicesGetResponse {
-  items: APILoginServices;
-}
-
-interface APILoginServices {
-  [key: string]: APISignInService;
-}
-
-interface APISignInService {
-  id: string;
-  name: string;
-  icon: string;
-  color: string;
-}
+import {ActivatedRoute, Router} from '@angular/router';
+import {map, switchMap} from 'rxjs/operators';
+import {EMPTY, of, Subscription} from 'rxjs';
+import {externalLoginServices, OAuthService, TokenResponse} from '../services/oauth.service';
 
 @Component({
   selector: 'app-signin',
@@ -29,24 +18,47 @@ interface APISignInService {
   styleUrls: ['./signin.component.scss']
 })
 @Injectable()
-export class SignInComponent implements OnInit {
-  public services: APISignInService[] = [];
+export class SignInComponent implements OnInit, OnDestroy {
+  public services = externalLoginServices;
   public form = {
     login: '',
     password: ''
   };
   public invalidParams: any = {};
   public user: APIUser;
+  private tokenSub: Subscription;
+  private userSub: Subscription;
 
   constructor(
     public auth: AuthService,
+    private oauth: OAuthService,
     private api: APIService,
     private pageEnv: PageEnvService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.auth.getUser().subscribe((user) => (this.user = user));
+    this.userSub = this.auth.getUser().subscribe((user) => (this.user = user));
+
+    this.tokenSub = this.route.queryParamMap.pipe(
+      map(params => params.get('token')),
+      switchMap(token => {
+        if (! token) {
+          return EMPTY;
+        }
+
+        return of(JSON.parse(token) as TokenResponse);
+      })
+    ).subscribe(token => {
+      this.oauth.setToken(token);
+      this.auth.loadMe().subscribe({
+        next: () => {
+          this.router.navigate(['/login']);
+        }
+      });
+    });
 
     setTimeout(
       () =>
@@ -59,25 +71,11 @@ export class SignInComponent implements OnInit {
         }),
       0
     );
+  }
 
-    this.api.request<APILoginServicesGetResponse>('GET', 'login/services').subscribe(
-      (response) => {
-        for (const key in response.items) {
-          if (response.items.hasOwnProperty(key)) {
-            const item = response.items[key];
-            this.services.push({
-              id: key,
-              name: item.name,
-              icon: item.icon,
-              color: item.color
-            });
-          }
-        }
-      },
-      response => {
-        console.log(response);
-      }
-    );
+  ngOnDestroy(): void {
+    this.tokenSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
   public submit($event) {
@@ -111,9 +109,10 @@ export class SignInComponent implements OnInit {
 
   public start(serviceId: string) {
     this.api
-      .request<APILoginStartPostResponse>('GET', 'login/start', {
+      .request<APILoginStartGetResponse>('GET', 'oauth/service', {
         params: {
-          type: serviceId
+          service: serviceId,
+          redirect_uri: 'http://' + window.location.host + '/login'
         }
       })
       .subscribe(

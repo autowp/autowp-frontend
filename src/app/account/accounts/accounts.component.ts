@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   APIAccountStartPostResponse,
@@ -8,50 +8,38 @@ import {
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
+import {map, switchMap} from 'rxjs/operators';
+import {EMPTY, of, Subscription} from 'rxjs';
+import {externalLoginServices, OAuthService, TokenResponse} from '../../services/oauth.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-account-accounts',
   templateUrl: './accounts.component.html'
 })
 @Injectable()
-export class AccountAccountsComponent {
+export class AccountAccountsComponent implements OnInit, OnDestroy{
   public service = null;
   public accounts: APIAccount[] = [];
   public connectFailed = false;
   public disconnectFailed = false;
-  public services = [
-    {
-      id: 'facebook',
-      name: 'Facebook'
-    },
-    {
-      id: 'vk',
-      name: 'VK'
-    },
-    {
-      id: 'google-plus',
-      name: 'Google+'
-    },
-    {
-      id: 'twitter',
-      name: 'Twitter'
-    },
-    {
-      id: 'github',
-      name: 'Github'
-    },
-    {
-      id: 'linkedin',
-      name: 'Linkedin'
-    }
-  ];
+  public services = externalLoginServices;
+  private tokenSub: Subscription;
 
   constructor(
     private api: APIService,
     private translate: TranslateService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private route: ActivatedRoute,
+    private auth: AuthService,
+    private oauth: OAuthService,
+    private router: Router
   ) {
+  }
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -65,6 +53,29 @@ export class AccountAccountsComponent {
     );
 
     this.load();
+
+    this.tokenSub = this.route.queryParamMap.pipe(
+      map(params => params.get('token')),
+      switchMap(token => {
+        if (! token) {
+          return EMPTY;
+        }
+
+        return of(JSON.parse(token) as TokenResponse);
+      })
+    ).subscribe(token => {
+      this.oauth.setToken(token);
+      this.auth.loadMe().subscribe({
+        next: () => {
+          this.router.navigate(['/account/accounts']);
+        }
+      });
+      this.load();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.tokenSub.unsubscribe();
   }
 
   public load() {
@@ -83,8 +94,9 @@ export class AccountAccountsComponent {
       return;
     }
 
-    this.api.request<APIAccountStartPostResponse>('POST', 'account/start', {body: {
-      service: this.service
+    this.api.request<APIAccountStartPostResponse>('GET', 'oauth/service', {params: {
+      service: this.service,
+      redirect_uri: 'http://' + window.location.host + '/account/accounts'
     }})
     .subscribe(
       response => {
