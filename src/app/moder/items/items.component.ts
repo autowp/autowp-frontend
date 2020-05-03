@@ -253,19 +253,14 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       )
       .subscribe(response => {
 
-        const items: CatalogueListItem[] = [];
+        this.items = response.items.map(item => {
+          const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+            picture: picture ? picture.picture : null,
+            thumb: picture ? picture.thumb : null,
+            routerLink: picture && picture.picture ? ['/picture', picture.picture.identity] : null
+          }));
 
-        for (const item of response.items) {
-
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.preview_pictures.pictures) {
-            pictures.push({
-              picture: picture ? picture.picture : null,
-              thumb: picture ? picture.thumb : null,
-              routerLink: picture && picture.picture ? ['/picture', picture.picture.identity] : null
-            });
-          }
-          items.push({
+          return {
             id: item.id,
             preview_pictures: {
               pictures,
@@ -291,10 +286,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             childs_counts: item.childs_counts,
             categories: item.categories,
             twins_groups: item.twins_groups
-          });
-        }
+          };
+        });
 
-        this.items = items;
         this.paginator = response.paginator;
       });
   }

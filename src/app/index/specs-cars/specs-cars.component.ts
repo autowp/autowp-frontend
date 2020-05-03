@@ -32,19 +32,14 @@ export class IndexSpecsCarsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.api.request<APIIndexSpecItemsResponse>('GET', 'index/spec-items').subscribe(response => {
 
-      const items: SpecsCatalogueListItem[] = [];
+      const items: SpecsCatalogueListItem[] = response.items.map(item => {
+        const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+          picture: picture ? picture.picture : null,
+          thumb: picture ? picture.thumb : null,
+          routerLink: picture && picture.picture ? [...item.route, 'pictures', picture.picture.identity] : []
+        }));
 
-      for (const item of response.items) {
-
-        const pictures: CatalogueListItemPicture[] = [];
-        for (const picture of item.preview_pictures.pictures) {
-          pictures.push({
-            picture: picture ? picture.picture : null,
-            thumb: picture ? picture.thumb : null,
-            routerLink: picture && picture.picture ? [...item.route, 'pictures', picture.picture.identity] : []
-          });
-        }
-        items.push({
+        return {
           id: item.id,
           preview_pictures: {
             pictures,
@@ -71,8 +66,8 @@ export class IndexSpecsCarsComponent implements OnInit, OnDestroy {
           categories: item.categories,
           twins_groups: item.twins_groups,
           contributors: item.contributors
-        });
-      }
+        };
+      });
 
       this.items = chunkBy(items, 2);
     });

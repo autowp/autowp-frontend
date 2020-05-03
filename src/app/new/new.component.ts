@@ -120,8 +120,7 @@ export class NewComponent implements OnInit, OnDestroy {
           this.next = data.response.next;
           this.groups = [];
 
-          const repackedGroups: any = [];
-          for (const group of data.response.groups) {
+          this.groups = data.response.groups.map(group => {
             let repackedGroup: any;
 
             switch (group.type) {
@@ -136,9 +135,8 @@ export class NewComponent implements OnInit, OnDestroy {
                 break;
             }
 
-            repackedGroups.push(repackedGroup);
-          }
-          this.groups = repackedGroups;
+            return repackedGroup;
+          });
         },
         response => this.toastService.response(response)
       );

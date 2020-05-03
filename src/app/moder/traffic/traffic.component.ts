@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { IpService } from '../../services/ip';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
-import { Subscription, Observable, BehaviorSubject, forkJoin } from 'rxjs';
+import { Subscription, BehaviorSubject, forkJoin } from 'rxjs';
 import { map, tap, switchMap, switchMapTo } from 'rxjs/operators';
 import { APIService } from '../../services/api.service';
 
@@ -63,18 +63,12 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
         tap(items => {
           this.items = items;
         }),
-        switchMap(items => {
-          const observables: Observable<string>[] = [];
-          for (const item of items) {
-            observables.push(
-              this.ipService
-                .getHostByAddr(item.ip)
-                .pipe(tap(hostname => (item.hostname = hostname)))
-            );
-          }
-
-          return forkJoin(observables);
-        })
+        switchMap(items => forkJoin(
+          items.map(item => this.ipService
+            .getHostByAddr(item.ip)
+            .pipe(tap(hostname => (item.hostname = hostname)))
+          ))
+        )
       )
       .subscribe();
   }

@@ -88,13 +88,10 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
         })
       )
     ).subscribe(response => {
-      const pictures: PictureRoute[] = [];
-      for (const picture of response.pictures) {
-        pictures.push({
-          picture,
-          route: this.catalogue.picturePathToRoute(picture)
-        });
-      }
+      const pictures: PictureRoute[] = response.pictures.map(picture => ({
+        picture,
+        route: this.catalogue.picturePathToRoute(picture)
+      }));
       this.pictures = chunkBy(pictures, 4);
       this.paginator = response.paginator;
     });

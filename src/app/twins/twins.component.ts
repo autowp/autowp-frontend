@@ -121,15 +121,11 @@ export class TwinsComponent implements OnInit, OnDestroy {
           });
         }),
         tap(response => {
-          const groups: ChunkedGroup[] = [];
-          for (const group of response.items) {
-            groups.push({
-              item: group,
-              childs: chunkBy(group.childs, 3),
-              hasMoreImages: TwinsComponent.hasMoreImages(group)
-            });
-          }
-          this.groups = groups;
+          this.groups = response.items.map(group => ({
+            item: group,
+            childs: chunkBy(group.childs, 3),
+            hasMoreImages: TwinsComponent.hasMoreImages(group)
+          }));
           this.paginator = response.paginator;
         })
       )

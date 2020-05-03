@@ -91,19 +91,16 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe((data) => {
-        const pictures: PictureRoute[] = [];
-        for (const pic of data.pictures) {
-          pictures.push({
-            picture: pic,
-            route: [
-              '/category',
-              data.category.catname,
-              data.pathCatnames.length ? data.pathCatnames.join('/') : '',
-              'pictures',
-              pic.identity
-            ]
-          });
-        }
+        const pictures: PictureRoute[] = data.pictures.map(pic => ({
+          picture: pic,
+          route: [
+            '/category',
+            data.category.catname,
+            data.pathCatnames.length ? data.pathCatnames.join('/') : '',
+            'pictures',
+            pic.identity
+          ]
+        }));
 
         this.pictures = chunkBy(pictures, 4);
         this.paginator = data.paginator;

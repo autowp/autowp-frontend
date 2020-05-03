@@ -97,22 +97,17 @@ export class PersonsComponent implements OnInit, OnDestroy {
   }
 
   prepareItems(items: APIItem[]): CatalogueListItem[] {
-    const result: CatalogueListItem[] = [];
-
-    for (const item of items) {
-
+    return items.map(item => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());
 
-      const pictures: CatalogueListItemPicture[] = [];
-      for (const picture of item.preview_pictures.pictures) {
-        pictures.push({
-          picture: picture ? picture.picture : null,
-          thumb: picture ? picture.thumb : null,
-          routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
-        });
-      }
-      result.push({
+      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+        picture: picture ? picture.picture : null,
+        thumb: picture ? picture.thumb : null,
+        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
+      }));
+
+      return {
         id: item.id,
         preview_pictures: {
           pictures,
@@ -136,10 +131,8 @@ export class PersonsComponent implements OnInit, OnDestroy {
           count: item.childs_count
         },
         childs_counts: null
-      });
-    }
-
-    return result;
+      };
+    });
   }
 
   ngOnDestroy(): void {

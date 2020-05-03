@@ -92,20 +92,11 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         this.loadFactories(brand.id),
         this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections').pipe(
           tap(response => {
-            const sections: ChunkedSesction[] = [];
-            for (const section of response) {
-              const halfChunks: APIBrandSectionGroup[][][] = [];
-              for (const halfChunk of chunk(section.groups, 2)) {
-                halfChunks.push(chunk(halfChunk, 2));
-              }
-              sections.push({
-                name: section.name,
-                halfChuks: halfChunks,
-                routerLink: section.routerLink
-              });
-            }
-
-            this.sections = sections;
+            this.sections = response.map(section => ({
+              name: section.name,
+              halfChuks: chunk(section.groups, 2).map(halfChunk => chunk(halfChunk, 2)),
+              routerLink: section.routerLink
+            }));
           })
         )
       ]))
@@ -171,13 +162,10 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
       fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
     }).pipe(
       tap(response => {
-        const pictures: PictureRoute[] = [];
-        for (const pic of response.pictures) {
-          pictures.push({
-            picture: pic,
-            route: this.catalogue.picturePathToRoute(pic)
-          });
-        }
+        const pictures: PictureRoute[] = response.pictures.map(pic => ({
+          picture: pic,
+          route: this.catalogue.picturePathToRoute(pic)
+        }));
 
         this.pictures = chunkBy(pictures, 4);
       })

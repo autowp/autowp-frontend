@@ -68,13 +68,10 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.languages = [];
-    for (const language of environment.languages) {
-      this.languages.push({
-        name: language.name,
-        value: language.code
-      });
-    }
+    this.languages = environment.languages.map(language => ({
+      name: language.name,
+      value: language.code
+    }));
 
     this.sub = this.auth
       .getUser()

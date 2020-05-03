@@ -139,19 +139,14 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
       page
     }).pipe(
       map(response => {
-        const items: CatalogueListItem[] = [];
+        const items: CatalogueListItem[] = response.items.map(item => {
+          const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+            picture: picture ? picture.picture : null,
+            thumb: picture ? picture.thumb : null,
+            routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+          }));
 
-        for (const item of response.items) {
-
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.preview_pictures.pictures) {
-            pictures.push({
-              picture: picture ? picture.picture : null,
-              thumb: picture ? picture.thumb : null,
-              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
-            });
-          }
-          items.push({
+          return {
             id: item.id,
             preview_pictures: {
               pictures,
@@ -176,8 +171,8 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
             },
             childs_counts: item.childs_counts,
             categories: item.categories
-          });
-        }
+          };
+        });
 
         return {
           items,

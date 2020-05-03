@@ -79,11 +79,7 @@ function converUsersOptions(
   }
 
   if (options.id) {
-    const a: string[] = [];
-    for (const id of options.id) {
-      a.push(id.toString());
-    }
-    params['id[]'] = a;
+    params['id[]'] = options.id.map(id => id.toString());
   }
 
   if (options.search) {

@@ -69,7 +69,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
               })
               .pipe(
                 map(response => ({
-                  forumAdmin: forumAdmin,
+                  forumAdmin,
                   theme: response,
                   themes: response.themes
                 }))

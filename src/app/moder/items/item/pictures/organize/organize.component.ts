@@ -113,12 +113,7 @@ export class ModerItemsItemPicturesOrganizeComponent
                         )
                         .pipe(
                           tap(response => {
-                            const ids: number[] = [];
-                            for (const row of response.items) {
-                              ids.push(row.vehicle_type_id);
-                            }
-
-                            this.vehicleTypeIDs = ids;
+                            this.vehicleTypeIDs = response.items.map(row => row.vehicle_type_id);
                           })
                         )
                     : of(null)

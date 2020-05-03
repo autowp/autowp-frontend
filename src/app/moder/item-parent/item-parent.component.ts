@@ -82,12 +82,10 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.item = item;
         this.parent = parent;
 
-        for (const language of languages) {
-          this.languages.push({
-            language,
-            name: null
-          });
-        }
+        this.languages = languages.map(language => ({
+          language,
+          name: null
+        }));
 
         for (const languageData of itemParentLanguage.items) {
           for (const i of this.languages) {

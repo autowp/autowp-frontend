@@ -143,18 +143,10 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                         }
                       )
                       .pipe(
-                        map(response => {
-                          const ids: number[] = [];
-                          for (const row of response.items) {
-                            ids.push(row.vehicle_type_id);
-                          }
-
-                          return ids;
-                        }),
-                        map(vehicleTypeIDs => ({
+                        map(response => ({
                           item: parent.item,
                           spec: parent.spec,
-                          vehicleTypeIDs
+                          vehicleTypeIDs: response.items.map(row => row.vehicle_type_id)
                         }))
                       );
                   }
