@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import {map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ACLService } from '../services/acl.service';
 import { APIService } from '../services/api.service';
@@ -31,13 +31,18 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
       .isAllowed('twins', 'edit')
       .subscribe(canEdit => (this.canEdit = canEdit));
 
-    this.sub = this.route.params
+    this.sub = this.route.paramMap
       .pipe(
-        switchMap(route => {
-          if (!route.group) {
+        map(params => parseInt(params.get('group'), 10)),
+        distinctUntilChanged(),
+        debounceTime(10),
+        distinctUntilChanged(),
+        debounceTime(10),
+        switchMap(group => {
+          if (!group) {
             return of(null as APIItem);
           }
-          return this.itemService.getItem(route.group, {
+          return this.itemService.getItem(group, {
             fields: 'name_text,name_html'
           });
         }),

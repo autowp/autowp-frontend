@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PictureService, APIPicture } from '../../../../services/picture';
 import { PageEnvService } from '../../../../services/page-env.service';
-import {map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { APIService } from '../../../../services/api.service';
 
 // Acl.inheritsRole( 'moder', 'unauthorized' );
@@ -58,10 +58,13 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
         }),
       0
     );
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
-        switchMap(params =>
-          this.pictureService.getPicture(params.id, {
+        map(params => parseInt(params.get('id'), 10)),
+        distinctUntilChanged(),
+        debounceTime(10),
+        switchMap(id =>
+          this.pictureService.getPicture(id, {
             fields: 'crop,image'
           })
         ),

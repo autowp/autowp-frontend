@@ -85,17 +85,17 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.routeSub = this.auth
       .getUser()
       .pipe(
-        switchMap(currentUser => this.route.params.pipe(
+        switchMap(currentUser => this.route.paramMap.pipe(
           map(params => ({
             currentUser,
-            params
+            identity: params.get('identity')
           }))
         )),
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(data => combineLatest([
           this.userService
-            .getByIdentity(data.params.identity, { fields })
+            .getByIdentity(data.identity, { fields })
             .pipe(
               catchError(err => {
                 this.toastService.response(err);

@@ -64,7 +64,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
         this.route.queryParamMap.pipe(
           map(queryParams => ({
             brand,
-            queryParams
+            page: parseInt(queryParams.get('page'), 10)
           }))
         )
       ),
@@ -83,7 +83,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
             'twins_groups',
             'childs_count,total_pictures,preview_pictures.picture.name_text'
           ].join(','),
-          page: +data.queryParams.get('page')
+          page: data.page
         })
       ),
       map(response => {

@@ -57,8 +57,12 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
     );
 
     this.querySub = combineLatest([
-      this.route.queryParams.pipe(
-        distinctUntilChanged(),
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          filter: params.get('filter'),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30)
       ),
       this.auth.getUser().pipe(

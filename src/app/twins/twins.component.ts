@@ -3,7 +3,7 @@ import { APIPaginator } from '../services/api.service';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import { tap, switchMap, map} from 'rxjs/operators';
+import {tap, switchMap, map, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
 import { ACLService } from '../services/acl.service';
@@ -63,16 +63,19 @@ export class TwinsComponent implements OnInit, OnDestroy {
       .isAllowed('twins', 'edit')
       .subscribe(canEdit => (this.canEdit = canEdit));
 
-    this.sub = this.route.params
+    this.sub = this.route.paramMap
       .pipe(
-        switchMap(route => {
-          this.currentBrandCatname = route.brand;
-
-          if (!route.brand) {
+        map(params => params.get('brand')),
+        distinctUntilChanged(),
+        debounceTime(10),
+        switchMap(brand => {
+          this.currentBrandCatname = brand;
+          if (!brand) {
             return of(null);
           }
+
           return this.itemService.getItems({
-            catname: route.brand,
+            catname: brand,
             fields: 'name_only,catname',
             limit: 1,
             type_id: 5 // brand
@@ -103,11 +106,13 @@ export class TwinsComponent implements OnInit, OnDestroy {
             }
           }, 0);
         }),
-        switchMap(brand => this.route.queryParams.pipe(
+        switchMap(brand => this.route.queryParamMap.pipe(
           map(query => ({
             brand,
-            query
-          }))
+            page: parseInt(query.get('page'), 10)
+          })),
+          distinctUntilChanged(),
+          debounceTime(10)
         )),
         switchMap(params => {
           return this.itemService.getItems({
@@ -116,7 +121,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
             fields:
               'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
               'childs.front_picture.thumb_medium,childs.front_picture.name_text',
-            page: params.query.page,
+            page: params.page,
             have_common_childs_with: params.brand ? params.brand.id : null
           });
         }),

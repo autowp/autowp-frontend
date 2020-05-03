@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, combineLatest, BehaviorSubject, of} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
-import {map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
@@ -94,11 +94,17 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
       response => this.toastService.response(response)
     );
 
-    this.routeSub = combineLatest([this.route.params, this.attrsService.getAttributeTypes()])
+    this.routeSub = combineLatest([
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('id'), 10)),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        debounceTime(10)
+      ),
+      this.attrsService.getAttributeTypes()
+    ])
       .pipe(
-        map(([params, types]) => ({ params, types })),
-        switchMap(data => this.attrsService.getAttribute(data.params.id).pipe(
-          map(attribute => ({ attribute, types: data.types }))
+        switchMap(([id, types]) => this.attrsService.getAttribute(id).pipe(
+          map(attribute => ({ attribute, types }))
         )),
         switchMap(data => combineLatest([
           of(data.attribute),

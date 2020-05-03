@@ -24,7 +24,7 @@ import {
   catchError,
   tap,
   distinctUntilChanged,
-  debounceTime
+  debounceTime, map
 } from 'rxjs/operators';
 import { APIUser } from '../services/user';
 import { UploadCropComponent } from './crop/crop.component';
@@ -87,14 +87,19 @@ export class UploadComponent implements OnInit, OnDestroy {
 
     this.auth.getUser().subscribe(user => (this.user = user));
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          perspective_id: parseInt(params.get('perspective_id'), 10),
+          replace: parseInt(params.get('replace'), 10),
+          item_id: parseInt(params.get('item_id'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           this.perspectiveID = params.perspective_id;
-          const replace = parseInt(params.replace, 10);
-          const itemId = parseInt(params.item_id, 10);
+          const replace = params.replace;
+          const itemId = params.item_id;
 
           return combineLatest([
             replace

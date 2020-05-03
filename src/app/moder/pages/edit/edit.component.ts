@@ -7,7 +7,7 @@ import {
   APIPage
 } from '../../../services/page';
 import { PageEnvService } from '../../../services/page-env.service';
-import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import {switchMap, distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
 import { APIService } from '../../../services/api.service';
 
 // Acl.inheritsRole('pages-moder', 'unauthorized');
@@ -49,11 +49,12 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
       this.pages = this.pageService.toPlainArray(response.items, 0);
     });
 
-    this.routeSub = this.route.queryParams
+    this.routeSub = this.route.queryParamMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => this.pageService.getPage(params.id))
+        switchMap(id => this.pageService.getPage(id))
       )
       .subscribe(
         response => (this.item = response),

@@ -73,18 +73,23 @@ export class UploadSelectComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(50)
       ),
-      this.route.queryParams
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          brand_id: parseInt(params.get('brand_id'), 10),
+          page: parseInt(params.get('page'), 10),
+        }))
+      )
     ])
       .pipe(
-        map(([search, query]) => ({search, query})),
-        distinctUntilChanged(),
+        map(([search, query]) => ({search, brand_id: query.brand_id, page: query.page})),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         tap(() => {
           this.loading = 1;
           this.brand = null;
         }),
         switchMap(params => {
-          const brandId = parseInt(params.query.brand_id, 10);
-          const page = parseInt(params.query.page, 10);
+          const brandId = params.brand_id;
+          const page = params.page;
 
           return forkJoin([
             brandId ? this.brandObservable(brandId) : of(null),

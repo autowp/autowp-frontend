@@ -86,12 +86,17 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
       lng: undefined
     };
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
+        map(params => ({
+          item_type_id: parseInt(params.get('item_type_id'), 10),
+          parent_id: parseInt(params.get('parent_id'), 10),
+          spec_id: params.get('spec_id')
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        distinctUntilChanged(),
         switchMap(params => {
-          this.item.item_type_id = parseInt(params.item_type_id, 10);
+          this.item.item_type_id = params.item_type_id;
 
           if (
             [1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1

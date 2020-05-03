@@ -73,7 +73,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
         this.route.queryParamMap.pipe(
           map(queryParams => ({
             brand,
-            queryParams
+            page: parseInt(queryParams.get('page'), 10)
           }))
         )
       ),
@@ -84,7 +84,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
           order: 15,
           item_id: data.brand.id,
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-          page: +data.queryParams.get('page')
+          page: data.page
         })
       )
     ).subscribe(response => {

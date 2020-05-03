@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -21,13 +21,12 @@ export class MessageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('message_id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
-          this.forumService.getMessageStateParams(params.message_id)
-        )
+        switchMap(messageID => this.forumService.getMessageStateParams(messageID))
       )
       .subscribe(
         message => {

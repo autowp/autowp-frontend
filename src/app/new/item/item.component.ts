@@ -10,7 +10,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
-  catchError
+  catchError, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -36,9 +36,13 @@ export class NewItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          date: params.get('date')
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => combineLatest([
           of(params),
@@ -54,10 +58,11 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 return EMPTY;
               })
             ),
-          this.route.queryParams.pipe(
+          this.route.queryParamMap.pipe(
+            map(query => parseInt(query.get('page'), 10)),
             distinctUntilChanged(),
             debounceTime(30),
-            switchMap(query =>
+            switchMap(page =>
               this.pictureService.getPictures({
                 fields:
                   'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
@@ -65,7 +70,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 status: 'accepted',
                 accept_date: params.date,
                 item_id: params.item_id,
-                page: query.page
+                page
               })
             ),
             catchError(err => {

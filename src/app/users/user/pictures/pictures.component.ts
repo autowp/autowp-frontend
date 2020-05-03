@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService, APIUser } from '../../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
-import { switchMap, tap } from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import { APIBrandsIconsResponse } from '../../../services/brands.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
@@ -45,10 +45,11 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
-        switchMap(params =>
-          this.userService.getByIdentity(params.identity, {
+        map(params => params.get('identity')),
+        switchMap(identity =>
+          this.userService.getByIdentity(identity, {
             fields: 'identity'
           })
         ),

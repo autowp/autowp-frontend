@@ -175,27 +175,27 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       this.specOptions = toPlainSpec(types, 0);
     });
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
         map(params => ({
-          name: params.name || '',
-          nameExclude: params.name_exclude || '',
-          itemTypeID: parseInt(params.item_type_id, 10),
+          name: params.get('name') || '',
+          nameExclude: params.get('name_exclude') || '',
+          itemTypeID: parseInt(params.get('item_type_id'), 10),
           vehicleTypeID:
-            params.vehicle_type_id === 'empty'
+            params.get('vehicle_type_id') === 'empty'
               ? 'empty'
-              : parseInt(params.vehicle_type_id, 10) || null,
+              : parseInt(params.get('vehicle_type_id'), 10) || null,
           vehicleChildsTypeID:
-            parseInt(params.vehicle_childs_type_id, 10) || null,
-          specID: parseInt(params.spec_id, 10) || null,
-          noParent: !!params.no_parent,
-          text: params.text || '',
-          fromYear: parseInt(params.from_year, 10) || null,
-          toYear: parseInt(params.to_year, 10) || null,
-          order: params.order || DEFAULT_ORDER,
-          ancestorID: parseInt(params.ancestor_id, 10) || null,
-          listMode: !!params.list_mode,
-          page: parseInt(params.page, 10) || 1
+            parseInt(params.get('vehicle_childs_type_id'), 10) || null,
+          specID: parseInt(params.get('spec_id'), 10) || null,
+          noParent: !!params.get('no_parent'),
+          text: params.get('text') || '',
+          fromYear: parseInt(params.get('from_year'), 10) || null,
+          toYear: parseInt(params.get('to_year'), 10) || null,
+          order: params.get('order') || DEFAULT_ORDER,
+          ancestorID: parseInt(params.get('ancestor_id'), 10) || null,
+          listMode: !!params.get('list_mode'),
+          page: parseInt(params.get('page'), 10) || 1
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),

@@ -74,10 +74,17 @@ export class NewComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.routeSub = combineLatest([this.route.queryParams, this.route.params])
+    this.routeSub = combineLatest([
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('page'), 10))
+      ),
+      this.route.paramMap.pipe(
+        map(params => params.get('date'))
+      )
+    ])
       .pipe(
-        map(([query, route]) => ({ query, route })),
-        distinctUntilChanged(),
+        map(([page, date]) => ({ page, date })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           const q: {
@@ -93,11 +100,11 @@ export class NewComponent implements OnInit, OnDestroy {
               'item.design,item.can_edit_specs,item.specs_route,' +
               'item.categories.name_html,item.twins_groups'
           };
-          if (params.route.date) {
-            q.date = params.route.date;
+          if (params.date) {
+            q.date = params.date;
           }
-          if (params.query.page) {
-            q.page = params.query.page;
+          if (params.page) {
+            q.page = params.page.toString();
           }
           return this.api.request<APINewGetResponse>('GET', 'new', {
             params: q
@@ -108,12 +115,12 @@ export class NewComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         data => {
-          if (data.params.route.date !== data.response.current.date) {
+          if (data.params.date !== data.response.current.date) {
             this.router.navigate(['/new', data.response.current.date]);
             return;
           }
 
-          this.date = data.params.route.date;
+          this.date = data.params.date;
           this.paginator = data.response.paginator;
           this.prev = data.response.prev;
           this.current = data.response.current;

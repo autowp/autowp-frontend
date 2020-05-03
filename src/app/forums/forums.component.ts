@@ -37,20 +37,24 @@ export class ForumsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.paramsSub = combineLatest([
-      this.route.params,
-      this.route.queryParams,
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('theme_id'), 10))
+      ),
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('page'), 10))
+      ),
       this.acl.isAllowed('forums', 'moderate')
     ])
       .pipe(
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(50),
-        switchMap(([route, query, forumAdmin]) => {
-          if (!route.theme_id) {
+        switchMap(([themeID, page, forumAdmin]) => {
+          if (!themeID) {
             return this.forumService
               .getThemes({
                 fields:
                   'last_message.user,last_topic,description,themes',
-                topics: { page: query.page }
+                topics: { page }
               })
               .pipe(
                 map(response => ({
@@ -61,11 +65,11 @@ export class ForumsComponent implements OnInit, OnDestroy {
               );
           } else {
             return this.forumService
-              .getTheme(route.theme_id, {
+              .getTheme(themeID, {
                 fields:
                   'themes.last_message.user,themes.last_topic,' +
                   'themes.description,topics.author,topics.messages,topics.last_message.user',
-                topics: { page: query.page }
+                topics: { page }
               })
               .pipe(
                 map(response => ({

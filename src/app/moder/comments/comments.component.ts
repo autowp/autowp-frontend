@@ -9,7 +9,7 @@ import { UserService, APIUser } from '../../services/user';
 import {Subscription, Observable, of, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { switchMap, debounceTime, catchError, map } from 'rxjs/operators';
+import {switchMap, debounceTime, catchError, map, distinctUntilChanged} from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -117,8 +117,16 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
+        map(params => ({
+          user_id: parseInt(params.get('user_id'), 10),
+          moderator_attention: params.get('moderator_attention'),
+          pictures_of_item_id: parseInt(params.get('pictures_of_item_id'), 10),
+          page: parseInt(params.get('page'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        debounceTime(10),
         switchMap(params => {
           this.userID = params.user_id;
           this.moderatorAttention =

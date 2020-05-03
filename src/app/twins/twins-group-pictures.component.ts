@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import {switchMap, catchError, map} from 'rxjs/operators';
+import {switchMap, catchError, map, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ACLService } from '../services/acl.service';
 import { PictureService, APIPicture } from '../services/picture';
@@ -36,18 +36,21 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
       .isAllowed('twins', 'edit')
       .subscribe(canEdit => (this.canEdit = canEdit));
 
-    this.sub = this.route.params
+    this.sub = this.route.paramMap
       .pipe(
-        switchMap(route => {
-          if (!route.group) {
+        map(params => parseInt(params.get('group'), 10)),
+        distinctUntilChanged(),
+        debounceTime(10),
+        switchMap(group => {
+          if (!group) {
             return of(null);
           }
-          return this.itemService.getItem(route.group, {
+          return this.itemService.getItem(group, {
             fields: 'name_text,name_html,childs.brands'
           });
         }),
-        switchMap(group => this.route.queryParams.pipe(
-          map(params => ({ group, params }))
+        switchMap(group => this.route.queryParamMap.pipe(
+          map(params => ({ group, page: parseInt(params.get('page'), 10) }))
         )),
         switchMap(data => this.pictureService.getPictures({
           status: 'accepted',
@@ -56,7 +59,7 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
             'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 24,
           order: 16,
-          page: data.params.page
+          page: data.page
         }).pipe(
           catchError(err => {
             this.toastService.response(err);

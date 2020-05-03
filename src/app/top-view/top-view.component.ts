@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
-import { switchMap } from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
@@ -36,15 +36,18 @@ export class TopViewComponent implements OnInit, OnDestroy {
         }),
       0
     );
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        switchMap(params =>
+        map(params => parseInt(params.get('page'), 10)),
+        distinctUntilChanged(),
+        debounceTime(10),
+        switchMap(page =>
           this.pictureService.getPictures({
             status: 'accepted',
             fields:
               'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
             limit: 18,
-            page: params.page,
+            page,
             perspective_id: 18,
             order: 15
           })

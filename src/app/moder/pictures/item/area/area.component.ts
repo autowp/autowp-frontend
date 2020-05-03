@@ -68,12 +68,13 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.sub = this.route.params
+    this.sub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
-          this.pictureService.getPicture(params.id, {
+        switchMap(id =>
+          this.pictureService.getPicture(id, {
             fields: 'crop,image'
           })
         ),
@@ -81,8 +82,12 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           this.id = picture.id;
           this.picture = picture;
         }),
-        switchMap(picture => this.route.queryParams.pipe(
-          distinctUntilChanged(),
+        switchMap(picture => this.route.queryParamMap.pipe(
+          map(params => ({
+            item_id: parseInt(params.get('item_id'), 10),
+            type: parseInt(params.get('type'), 10),
+          })),
+          distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
           debounceTime(30),
           map(params => ({ picture, params }))
         )),

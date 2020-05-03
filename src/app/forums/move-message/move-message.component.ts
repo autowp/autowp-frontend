@@ -48,13 +48,17 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          message_id: parseInt(params.get('message_id'), 10),
+          theme_id: parseInt(params.get('theme_id'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
-          this.messageID = parseInt(params.message_id, 10);
-          this.themeID = parseInt(params.theme_id, 10);
+          this.messageID = params.message_id;
+          this.themeID = params.theme_id;
 
           let topics = of(null as APIForumTopic[]);
           let themes = of(null as APIForumTheme[]);

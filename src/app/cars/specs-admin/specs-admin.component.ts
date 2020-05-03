@@ -8,7 +8,7 @@ import {
   distinctUntilChanged,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -52,9 +52,13 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.querySub = combineLatest(
     [
-      this.route.queryParams.pipe(
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(10),
-        distinctUntilChanged(),
         tap(params => (this.itemID = params.item_id))
       ),
       this.move$

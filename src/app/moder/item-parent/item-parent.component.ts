@@ -11,7 +11,7 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
-  catchError
+  catchError, map
 } from 'rxjs/operators';
 
 // return Acl.isAllowed('car', 'move', 'unauthorized');
@@ -56,9 +56,13 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          parent_id: parseInt(params.get('parent_id'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           return combineLatest([

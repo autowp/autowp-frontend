@@ -71,14 +71,20 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          page: parseInt(params.get('page'), 10),
+          date: params.get('date'),
+          brand_id: parseInt(params.get('brand_id'), 10),
+          anonymous: !!params.get('anonymous')
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           this.page = params.page || 1;
           this.date = params.date;
-          this.anonymous = !!params.anonymous;
+          this.anonymous = params.anonymous;
           const brandID = params.brand_id;
 
           this.loading++;

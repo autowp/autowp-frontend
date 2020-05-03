@@ -12,7 +12,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -56,12 +56,13 @@ export class MuseumComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.museumModer = isModer));
 
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
-          this.itemService.getItem(params.id, {
+        switchMap(id =>
+          this.itemService.getItem(id, {
             fields: ['name_text', 'lat', 'lng', 'description'].join(',')
           })
         ),

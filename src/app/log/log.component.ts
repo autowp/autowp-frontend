@@ -6,7 +6,7 @@ import { APIUser } from '../services/user';
 import { APIItem } from '../services/item';
 import { APIPicture } from '../services/picture';
 import { PageEnvService } from '../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
 // Acl.inheritsRole('moder', 'unauthorized');
@@ -54,9 +54,16 @@ export class LogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          article_id: params.get('article_id'),
+          item_id: params.get('item_id'),
+          picture_id: params.get('picture_id'),
+          page: params.get('page'),
+          user_id: params.get('user_id'),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           const qParams: { [param: string]: string } = {

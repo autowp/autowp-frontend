@@ -61,8 +61,8 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           pageId: 213
         });
       }),
-      switchMap(item => this.route.queryParams.pipe(
-        map(params => ({ item, params }))
+      switchMap(item => this.route.queryParamMap.pipe(
+        map(params => ({ item, page: parseInt(params.get('page'), 10) }))
       )),
       switchMap(data => combineLatest([
         of(data.item),
@@ -79,7 +79,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 12,
           order: 12,
-          page: data.params.page
+          page: data.page
         }).pipe(
           catchError(err => {
             this.toastService.response(err);
@@ -93,7 +93,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 12,
           order: 12,
-          page: data.params.page
+          page: data.page
         }).pipe(
           catchError(err => {
             this.toastService.response(err);
@@ -112,8 +112,8 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
   }
 
   getPerson(): Observable<APIItem> {
-    return this.route.params.pipe(
-      map(params => params.id),
+    return this.route.paramMap.pipe(
+      map(params => parseInt(params.get('id'), 10)),
       distinctUntilChanged(),
       debounceTime(30),
       switchMap(id =>

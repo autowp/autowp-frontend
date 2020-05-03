@@ -62,8 +62,8 @@ export class VotingComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(inherits => (this.isModer = inherits));
 
-    this.routeSub = this.route.params.subscribe(params => {
-      this.id = params.id;
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.id = parseInt(params.get('id'), 10);
       this.load(() => {
         this.pageEnv.set({
           layout: {

@@ -4,7 +4,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { AuthService } from '../../services/auth.service';
-import {switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { APIUser } from '../../services/user';
 import { APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -35,15 +35,20 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
     this.limit = this.forumService.getLimit();
 
     this.paramsSub = combineLatest([
-      this.route.params,
-      this.route.queryParams,
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('topic_id'), 10))
+      ),
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('page'), 10))
+      ),
       this.auth.getUser()
     ])
       .pipe(
-        switchMap(([route, query, user]) => {
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        debounceTime(10),
+        switchMap(([topicID, page, user]) => {
           this.user = user;
-          const topicID = parseInt(route.topic_id, 10);
-          this.page = parseInt(query.page, 10);
+          this.page = page;
           return this.forumService.getTopic(topicID, {
             fields: 'author,theme,subscription',
             page: this.page

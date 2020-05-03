@@ -9,7 +9,7 @@ import {
   switchMap,
   distinctUntilChanged,
   debounceTime,
-  switchMapTo
+  switchMapTo, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -60,9 +60,13 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          tab: params.get('tab'),
+          item_id: parseInt(params.get('item_id'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           this.tab = params.tab || 'info';

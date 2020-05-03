@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import {Subscription, combineLatest, of} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIAttrZone, APIAttrAttribute, APIAttrsService } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
@@ -41,11 +41,12 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => this.attrsService.getZone(params.id)),
+        switchMap(id => this.attrsService.getZone(id)),
         switchMap(zone => combineLatest([
           of(zone),
           this.attrsService.getAttributes({ recursive: true }),

@@ -39,8 +39,12 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routeSub = combineLatest([
-      this.route.params.pipe(
-        distinctUntilChanged(),
+      this.route.paramMap.pipe(
+        map(params => ({
+          identity: params.get('identity'),
+          brand: params.get('brand'),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           return combineLatest([
@@ -85,19 +89,20 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
           });
         })
       ),
-      this.route.queryParams.pipe(
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('page'), 10)),
         distinctUntilChanged(),
         debounceTime(30)
       )
     ])
       .pipe(
-        switchMap(([route, query]) =>
+        switchMap(([route, page]) =>
           this.pictureService.getPictures({
             status: 'accepted',
             fields:
               'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
             limit: 30,
-            page: query.page,
+            page,
             item_id: route.brand.id,
             owner_id: route.user.id,
             order: 1

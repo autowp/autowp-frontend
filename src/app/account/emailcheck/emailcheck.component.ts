@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIService } from '../../services/api.service';
 
 @Component({
@@ -33,13 +33,14 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
         }),
       0
     );
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => params.get('token')),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
+        switchMap(token =>
           this.api.request<void>('POST', 'user/emailcheck', {body: {
-            code: params.token
+            code: token
           }})
         )
       )

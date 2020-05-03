@@ -58,22 +58,22 @@ export class DonateVodComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.querySub = combineLatest([
-      this.route.queryParams.pipe(
-        map(params => ({ anonymous: params.anonymous, date: params.date })),
-        distinctUntilChanged(),
+      this.route.queryParamMap.pipe(
+        map(params => ({ anonymous: params.get('anonymous'), date: params.get('date') })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30)
       ),
       this.donateService.getVOD(),
-      this.route.queryParams.pipe(
-        map(params => ({ item_id: params.item_id })),
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('item_id'), 10) ),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => {
-          if (!params.item_id) {
+        switchMap(itemID => {
+          if (!itemID) {
             return of(null);
           }
 
-          return this.itemService.getItem(params.item_id, {
+          return this.itemService.getItem(itemID, {
             fields: 'name_html,item_of_day_pictures'
           });
         })

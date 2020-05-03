@@ -38,8 +38,8 @@ export class PersonsComponent implements OnInit, OnDestroy {
     );
 
     this.querySub = combineLatest([
-      this.route.queryParams.pipe(
-        map(params => parseInt(params.page, 10))
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('page'), 10))
       ),
       this.route.data.pipe(
         map(params => !!params.authors)

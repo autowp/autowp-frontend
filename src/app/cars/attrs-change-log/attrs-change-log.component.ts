@@ -82,9 +82,14 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          user_id: parseInt(params.get('user_id'), 10),
+          item_id: parseInt(params.get('item_id'), 10),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => combineLatest([
           of(params),
@@ -99,9 +104,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
       )
       .subscribe(([params, items, isModer]) => {
         this.isModer = isModer;
-        this.userID = params.user_id
-          ? parseInt(params.user_id, 10)
-          : 0;
+        this.userID = params.user_id ? params.user_id : 0;
         if (this.userID && !this.userQuery) {
           this.userQuery = '#' + this.userID;
         }

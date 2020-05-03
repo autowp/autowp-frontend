@@ -14,7 +14,7 @@ import {
   switchMap,
   distinctUntilChanged,
   debounceTime,
-  tap
+  tap, map
 } from 'rxjs/operators';
 import { PictureService, APIPicture } from '../../../../services/picture';
 
@@ -80,11 +80,14 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = combineLatest([
-      this.route.params.pipe(
-        tap(params => {
-          this.id = params.id;
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('id'), 10)),
+        distinctUntilChanged(),
+        debounceTime(10),
+        tap(id => {
+          this.id = id;
         }),
-        switchMap(params => this.pictureService.getPicture(params.id)),
+        switchMap(id => this.pictureService.getPicture(id)),
         tap(data => {
           this.picture = data;
           this.pageEnv.set({
@@ -97,8 +100,19 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           });
         })
       ),
-      this.route.queryParams.pipe(
-        distinctUntilChanged(),
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          src_item_id: parseInt(params.get('src_item_id'), 10),
+          src_type: parseInt(params.get('src_type'), 10),
+          show_museums: !!params.get('show_museums'),
+          show_factories: !!params.get('show_factories'),
+          show_persons: !!params.get('show_persons'),
+          show_authors: !!params.get('show_authors'),
+          show_copyrights: !!params.get('show_copyrights'),
+          brand_id: parseInt(params.get('brand_id'), 10),
+          page: parseInt(params.get('page'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           this.srcItemID = params.src_item_id;

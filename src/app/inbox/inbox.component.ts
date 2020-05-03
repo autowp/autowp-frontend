@@ -73,9 +73,13 @@ export class InboxComponent implements OnInit, OnDestroy {
             return EMPTY;
           }
 
-          return this.route.params;
+          return this.route.paramMap;
         }),
-        distinctUntilChanged(),
+        map(params => ({
+          brand: params.get('brand'),
+          date: params.get('date')
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           if (!params.brand) {
@@ -89,7 +93,7 @@ export class InboxComponent implements OnInit, OnDestroy {
           }
 
           return combineLatest([
-            of(params),
+            of(params.date),
             this.inboxService.get(brandID, params.date),
             of(brandID)
           ]);
@@ -98,11 +102,11 @@ export class InboxComponent implements OnInit, OnDestroy {
           this.toastService.response(err);
           return of(null);
         }),
-        switchMap(([params, inbox, brandID]) => this.route.queryParams.pipe(
-          map(queryParams => ({params, inbox, brandID, queryParams}))
+        switchMap(([date, inbox, brandID]) => this.route.queryParamMap.pipe(
+          map(queryParams => ({date, inbox, brandID, page: parseInt(queryParams.get('page'), 10)}))
         )),
         switchMap(data => {
-          if (data.params.date !== data.inbox.current.date) {
+          if (data.date !== data.inbox.current.date) {
             this.router.navigate([
               '/inbox',
               data.brandID ? data.brandID : 'all',
@@ -119,7 +123,7 @@ export class InboxComponent implements OnInit, OnDestroy {
             status: 'inbox',
             fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
             limit: 24,
-            page: data.queryParams.page,
+            page: data.page,
             item_id: data.brandID,
             add_date: data.inbox.current.date,
             order: 1

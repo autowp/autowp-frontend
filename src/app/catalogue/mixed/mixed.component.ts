@@ -83,7 +83,7 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
       }),
       switchMap(([brand, data]) =>
         this.route.queryParamMap.pipe(
-          map(queryParams => ({brand, data, queryParams}))
+          map(queryParams => ({brand, data, page: parseInt(queryParams.get('page'), 10)}))
         )
       ),
       switchMap(data =>
@@ -95,7 +95,7 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
           perspective_id: data.data.perspective_id,
           perspective_exclude_id: data.data.perspective_exclude_id,
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-          page: +data.queryParams.get('page')
+          page: data.page
         })
       )
     ).subscribe(response => {
