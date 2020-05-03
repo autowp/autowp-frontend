@@ -55,18 +55,18 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
-      switchMap(data => {
-        if (!data[0] || ! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+      switchMap(([data, exact]) => {
+        if (!data || ! data.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
           return EMPTY;
         }
 
-        this.brand = data[0].brand;
+        this.brand = data.brand;
 
-        this.path = data[0].path;
-        this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data[0].brand, data[0].path);
+        this.path = data.path;
+        this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data.brand, data.path);
         const routerLink = ['/', this.brand.catname];
 
         for (const node of this.path) {
@@ -75,12 +75,12 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
 
         this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
-        if (data[1]) {
+        if (exact) {
           this.picturesRouterLink.push('exact');
         }
         this.picturesRouterLink.push('pictures');
 
-        const last = data[0].path[data[0].path.length - 1];
+        const last = data.path[data.path.length - 1];
         this.item = last.item;
 
         this.pageEnv.set({
@@ -99,8 +99,8 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
             fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
             limit: 20,
             page,
-            item_id: data[1] ? null : last.item_id,
-            exact_item_id: data[1] ? last.item_id : null,
+            item_id: exact ? null : last.item_id,
+            exact_item_id: exact ? last.item_id : null,
             status: 'accepted',
             order: 16
           }))

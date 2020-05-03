@@ -1,9 +1,8 @@
 import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import {combineLatest, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
-import {ACLService} from '../services/acl.service';
 import {APIGalleryItem} from './definitions';
 
 @Component({
@@ -18,20 +17,16 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private router: Router,
-    private acl: ACLService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.sub = combineLatest([
-      this.acl.inheritsRole('moder'),
-      this.route.paramMap.pipe(
-        map(route => route.get('identity')),
-        distinctUntilChanged()
-      )
-    ])
-      .subscribe((data) => {
-        if (!data[1]) {
+    this.sub = this.route.paramMap.pipe(
+      map(route => route.get('identity')),
+      distinctUntilChanged()
+    )
+      .subscribe(identity => {
+        if (!identity) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
@@ -49,7 +44,7 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
           });
         }, 0);
 
-        this.current = data[1];
+        this.current = identity;
       });
   }
 

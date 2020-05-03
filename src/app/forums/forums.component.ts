@@ -42,39 +42,34 @@ export class ForumsComponent implements OnInit, OnDestroy {
       this.acl.isAllowed('forums', 'moderate')
     ])
       .pipe(
-        map(data => ({
-          route: data[0],
-          query: data[1],
-          forumAdmin: data[2]
-        })),
         distinctUntilChanged(),
         debounceTime(50),
-        switchMap(data => {
-          if (!data.route.theme_id) {
+        switchMap(([route, query, forumAdmin]) => {
+          if (!route.theme_id) {
             return this.forumService
               .getThemes({
                 fields:
                   'last_message.user,last_topic,description,themes',
-                topics: { page: data.query.page }
+                topics: { page: query.page }
               })
               .pipe(
                 map(response => ({
-                  forumAdmin: data.forumAdmin,
+                  forumAdmin,
                   theme: null as APIForumTheme,
                   themes: response.items
                 }))
               );
           } else {
             return this.forumService
-              .getTheme(data.route.theme_id, {
+              .getTheme(route.theme_id, {
                 fields:
                   'themes.last_message.user,themes.last_topic,' +
                   'themes.description,topics.author,topics.messages,topics.last_message.user',
-                topics: { page: data.query.page }
+                topics: { page: query.page }
               })
               .pipe(
                 map(response => ({
-                  forumAdmin: data.forumAdmin,
+                  forumAdmin: forumAdmin,
                   theme: response,
                   themes: response.themes
                 }))

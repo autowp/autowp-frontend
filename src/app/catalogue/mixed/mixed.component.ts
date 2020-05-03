@@ -67,10 +67,7 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
       this.getBrand(),
       this.route.data as Observable<BrandPerspectivePageData>
     ]).pipe(
-      tap(params => {
-        const brand = params[0];
-        const data = params[1];
-
+      tap(([brand, data]) => {
         this.data = data;
         this.brand = brand;
         this.pageEnv.set({
@@ -84,13 +81,9 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
           }
         });
       }),
-      switchMap(data =>
+      switchMap(([brand, data]) =>
         this.route.queryParamMap.pipe(
-          map(queryParams => ({
-            brand: data[0],
-            data: data[1],
-            queryParams
-          }))
+          map(queryParams => ({brand, data, queryParams}))
         )
       ),
       switchMap(data =>

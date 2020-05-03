@@ -60,16 +60,15 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         ),
         of(brand)
       ])),
-      map(data => {
-        this.vehicleTypes = data[0].items;
+      map(([vehicleTypes, vehicleTypeCatname, brand]) => {
+        this.vehicleTypes = vehicleTypes.items;
         for (const type of this.vehicleTypes) {
-          if (type.catname === data[1]) {
+          if (type.catname === vehicleTypeCatname) {
             this.currentVehicleType = type;
             break;
           }
         }
 
-        const brand = data[2];
         const currentVehicleTypeID = this.currentVehicleType ? this.currentVehicleType.id : 0;
 
         if (brand) {

@@ -44,7 +44,7 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
 
     this.querySub = combineLatest([this.route.queryParams, this.auth.getUser()])
       .pipe(
-        map(data => ({ params: data[0], user: data[1] })),
+        map(([params, user]) => ({ params, user })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(data => this.pictureService.getPictures({

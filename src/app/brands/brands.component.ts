@@ -52,10 +52,10 @@ export class BrandsComponent implements OnInit, OnDestroy {
       this.api.request<APIBrandsGetResponse>('GET', 'brands'),
       this.api.request<APIBrandsIconsResponse>('GET', 'brands/icons')
     ]).subscribe(
-      data => {
-        this.icons = data[1];
+      ([response, icons]) => {
+        this.icons = icons;
         addCSS(this.icons.css);
-        this.items = data[0].items;
+        this.items = response.items;
         for (const line of this.items) {
           for (const info of line) {
             for (const item of info.brands) {

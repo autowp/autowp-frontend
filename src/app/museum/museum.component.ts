@@ -12,7 +12,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  tap, map
+  tap
 } from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -89,6 +89,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
           });
         }),
         switchMap(item => combineLatest([
+          of(item),
           this.itemLinkService
             .getItems({
               item_id: item.id
@@ -114,18 +115,12 @@ export class MuseumComponent implements OnInit, OnDestroy {
                 return of(null);
               })
             )
-        ]).pipe(
-          map(responses => ({
-            item,
-            links: responses[0],
-            pictures: responses[1]
-          }))
-        ))
+        ]))
       )
-      .subscribe(data => {
-        this.item = data.item;
-        this.pictures = data.pictures.pictures;
-        this.links = data.links.items;
+      .subscribe(([item, links, pictures]) => {
+        this.item = item;
+        this.pictures = pictures.pictures;
+        this.links = links.items;
 
         if (this.item.lat && this.item.lng) {
           this.options.center = latLng([this.item.lat, this.item.lng]);

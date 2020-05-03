@@ -122,11 +122,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                           })
                         ]
                       ).pipe(
-                        map(data => ({
-                          brand,
-                          vehicles: data[0],
-                          concepts: data[1]
-                        }))
+                        map(([vehicles, concepts]) => ({brand, vehicles, concepts}))
                       )
                   )
                 )
@@ -141,15 +137,14 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
               })
             )
           ]);
-        }),
-        map(data => ({ items: data[0], brand: data[1] }))
+        })
       )
-      .subscribe(data => {
-        if (data.brand) {
-          this.brand = data.brand.brand;
-          this.vehicles = data.brand.vehicles.items;
-          this.vehiclesPaginator = data.brand.vehicles.paginator;
-          this.concepts = data.brand.concepts.items;
+      .subscribe(([items, brand]) => {
+        if (brand) {
+          this.brand = brand.brand;
+          this.vehicles = brand.vehicles.items;
+          this.vehiclesPaginator = brand.vehicles.paginator;
+          this.concepts = brand.concepts.items;
           this.brands = [];
           this.paginator = null;
         } else {
@@ -157,8 +152,8 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
           this.vehicles = [];
           this.vehiclesPaginator = null;
           this.concepts = [];
-          this.brands = chunk(data.items.items, 6);
-          this.paginator = data.items.paginator;
+          this.brands = chunk(items.items, 6);
+          this.paginator = items.paginator;
         }
       });
   }

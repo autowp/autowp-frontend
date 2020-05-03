@@ -56,10 +56,10 @@ export class CommentsListComponent implements OnInit, OnDestroy {
       this.auth.getUser(),
       this.acl.isAllowed('comment', 'remove'),
       this.acl.isAllowed('forums', 'moderate')
-    ]).subscribe(data => {
-      this.user = data[0];
-      this.canRemoveComments = data[1];
-      this.canMoveMessage = data[2];
+    ]).subscribe(([user, canRemoveComments, canMoveMessage]) => {
+      this.user = user;
+      this.canRemoveComments = canRemoveComments;
+      this.canMoveMessage = canMoveMessage;
     });
   }
 

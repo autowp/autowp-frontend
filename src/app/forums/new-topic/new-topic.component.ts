@@ -47,7 +47,7 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
 
     this.routeSub = combineLatest([this.route.params, this.auth.getUser()])
       .pipe(
-        map(data => ({ params: data[0], user: data[1] })),
+        map(([params, user]) => ({ params, user })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(data => this.forumService.getTheme(data.params.theme_id, {}).pipe(

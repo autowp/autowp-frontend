@@ -76,7 +76,7 @@ export class NewComponent implements OnInit, OnDestroy {
 
     this.routeSub = combineLatest([this.route.queryParams, this.route.params])
       .pipe(
-        map(data => ({ query: data[0], route: data[1] })),
+        map(([query, route]) => ({ query, route })),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => {

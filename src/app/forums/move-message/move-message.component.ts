@@ -81,9 +81,9 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
           return combineLatest([topics, themes]);
         })
       )
-      .subscribe(data => {
-        this.topics = data[0];
-        this.themes = data[1];
+      .subscribe(([topics, themes]) => {
+        this.topics = topics;
+        this.themes = themes;
       });
   }
 

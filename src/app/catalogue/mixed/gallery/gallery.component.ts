@@ -66,8 +66,8 @@ export class CatalogueMixedGalleryComponent implements OnInit, OnDestroy {
       this.getBrand(),
       this.route.data as Observable<BrandPerspectivePageData>
     ]).pipe(
-      switchMap(data => this.getIdentity().pipe(
-        map(identity => ({brand: data[0], data: data[1], identity}))
+      switchMap(([brand, data]) => this.getIdentity().pipe(
+        map(identity => ({brand, data, identity}))
       )),
       switchMap(data => {
         if (!data.identity) {

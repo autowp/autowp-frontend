@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
-import {Subscription, combineLatest, EMPTY} from 'rxjs';
+import {Subscription, combineLatest, EMPTY, of} from 'rxjs';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -10,7 +10,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
-  catchError, map
+  catchError
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -41,6 +41,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => combineLatest([
+          of(params),
           this.itemService
             .getItem(params.item_id, {
               fields: 'name_html,name_text'
@@ -74,18 +75,12 @@ export class NewItemComponent implements OnInit, OnDestroy {
               return EMPTY;
             })
           )
-        ]).pipe(
-          map(data => ({
-            params,
-            item: data[0],
-            pictures: data[1]
-          }))
-        ))
+        ]))
       )
-      .subscribe(data => {
-        this.item = data.item;
-        this.date = data.params.date;
-        this.dateStr = moment(data.params.date).format('LL');
+      .subscribe(([params, item, pictures]) => {
+        this.item = item;
+        this.date = params.date;
+        this.dateStr = moment(params.date).format('LL');
 
         this.pageEnv.set({
           layout: {
@@ -95,8 +90,8 @@ export class NewItemComponent implements OnInit, OnDestroy {
           pageId: 210
         });
 
-        this.pictures = data.pictures.pictures;
-        this.paginator = data.pictures.paginator;
+        this.pictures = pictures.pictures;
+        this.paginator = pictures.paginator;
       });
   }
 

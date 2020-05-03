@@ -46,10 +46,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
       )
     ])
       .pipe(
-        map(params => ({
-          authors: params[1],
-          page: params[0]
-        })),
+        map(([page, authors]) => ({authors, page})),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         tap(params => {

@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import {switchMapTo, switchMap, map, catchError, tap} from 'rxjs/operators';
+import {switchMapTo, switchMap, catchError, tap} from 'rxjs/operators';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIImage, APIService} from '../../services/api.service';
@@ -100,19 +100,18 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
               this.timezone.getTimezones()
             ]
           )
-        ),
-        map(data => ({ user: data[0], timezones: data[1] }))
+        )
       )
       .subscribe(
-        data => {
-          this.profile.name = data.user.name;
-          this.settings.timezone = data.user.timezone;
-          this.settings.language = data.user.language;
-          this.votesPerDay = data.user.votes_per_day;
-          this.votesLeft = data.user.votes_left;
-          this.photo = data.user.img;
+        ([user, timezones]) => {
+          this.profile.name = user.name;
+          this.settings.timezone = user.timezone;
+          this.settings.language = user.language;
+          this.votesPerDay = user.votes_per_day;
+          this.votesLeft = user.votes_left;
+          this.photo = user.img;
 
-          this.timezones = data.timezones;
+          this.timezones = timezones;
         },
         response => this.toastService.response(response)
       );

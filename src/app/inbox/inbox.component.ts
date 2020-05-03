@@ -89,27 +89,17 @@ export class InboxComponent implements OnInit, OnDestroy {
           }
 
           return combineLatest([
+            of(params),
             this.inboxService.get(brandID, params.date),
             of(brandID)
-          ]).pipe(
-            map(combined => ({
-              params,
-              inbox: combined[0],
-              brandID: combined[1]
-            }))
-          );
+          ]);
         }),
         catchError(err => {
           this.toastService.response(err);
           return of(null);
         }),
-        switchMap(data => this.route.queryParams.pipe(
-          map(queryParams => ({
-            params: data.params,
-            inbox: data.inbox,
-            brandID: data.brandID,
-            queryParams
-          }))
+        switchMap(([params, inbox, brandID]) => this.route.queryParams.pipe(
+          map(queryParams => ({params, inbox, brandID, queryParams}))
         )),
         switchMap(data => {
           if (data.params.date !== data.inbox.current.date) {

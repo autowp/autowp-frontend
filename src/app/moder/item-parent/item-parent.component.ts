@@ -77,22 +77,22 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
           ]);
         })
       )
-      .subscribe(responses => {
-        this.itemParent = responses[0];
-        this.item = responses[1];
-        this.parent = responses[2];
+      .subscribe(([itemParent, item, parent, languages, itemParentLanguage]) => {
+        this.itemParent = itemParent;
+        this.item = item;
+        this.parent = parent;
 
-        for (const language of responses[3]) {
+        for (const language of languages) {
           this.languages.push({
             language,
             name: null
           });
         }
 
-        for (const languageData of responses[4].items) {
-          for (const item of this.languages) {
-            if (item.language === languageData.language) {
-              item.name = languageData.name;
+        for (const languageData of itemParentLanguage.items) {
+          for (const i of this.languages) {
+            if (i.language === languageData.language) {
+              i.name = languageData.name;
             }
           }
         }

@@ -65,7 +65,7 @@ export class MessageService {
       this.seen$,
       this.auth.getUser()
     ]).pipe(
-      map(data => data[3]),
+      map(([, , , user]) => user),
       debounceTime(10),
       switchMap(user => {
         if (!user) {

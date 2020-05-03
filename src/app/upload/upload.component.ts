@@ -110,16 +110,16 @@ export class UploadComponent implements OnInit, OnDestroy {
           ]);
         })
       )
-      .subscribe(responses => {
-        if (responses[0]) {
+      .subscribe(([replace, item]) => {
+        if (replace) {
           this.selected = true;
-          this.replace = responses[0];
+          this.replace = replace;
           this.selectionName = this.replace.name_html;
         }
 
-        if (responses[1]) {
+        if (item) {
           this.selected = true;
-          this.item = responses[1];
+          this.item = item;
           this.selectionName = this.item.name_html;
         }
       });

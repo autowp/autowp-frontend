@@ -42,35 +42,35 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
-      switchMap(data => {
-        if (!data[0] || ! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+      switchMap(([data, exact]) => {
+        if (!data || ! data.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
           return EMPTY;
         }
 
-        this.brand = data[0].brand;
-        if (data[0].brand) {
+        this.brand = data.brand;
+        if (data.brand) {
           this.pageEnv.set({
             layout: {
               needRight: false
             },
             pageId: 34,
-            name: data[0].brand.name_text,
+            name: data.brand.name_text,
             args: {
-              item: data[0].brand.name_text,
+              item: data.brand.name_text,
             }
           });
         }
         // this.path = data[0].path;
         const routerLink = ['/', this.brand.catname];
 
-        for (const node of data[0].path) {
+        for (const node of data.path) {
           routerLink.push(node.catname);
         }
 
-        this.exact = data[1];
+        this.exact = exact;
         // this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
         this.galleryRouterLink = [...routerLink];
@@ -82,10 +82,10 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
         this.galleryRouterLink.push('gallery');
 
         return of({
-          brand: data[0].brand,
-          path: data[0].path,
-          type: data[0].type,
-          exact: data[1]
+          brand: data.brand,
+          path: data.path,
+          type: data.type,
+          exact
         });
       }),
       switchMap(data => this.getIdentity().pipe(

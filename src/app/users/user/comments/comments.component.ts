@@ -9,7 +9,7 @@ import {
   distinctUntilChanged,
   debounceTime,
   catchError,
-  tap, map
+  tap
 } from 'rxjs/operators';
 import { APIComment, APICommentsService } from '../../../api/comments/comments.service';
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -95,17 +95,13 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
       )
     ])
       .pipe(
-        map(data => ({
-          user: data[0],
-          query: data[1]
-        })),
-        switchMap(data => {
-          this.order = data.query.order || 'date_desc';
+        switchMap(([user, query]) => {
+          this.order = query.order || 'date_desc';
 
           return this.commentService
             .getComments({
-              user_id: data.user.id,
-              page: data.query.page,
+              user_id: user.id,
+              page: query.page,
               limit: 30,
               order: this.order,
               fields: 'preview,route,vote'

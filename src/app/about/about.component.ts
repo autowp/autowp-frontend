@@ -76,19 +76,19 @@ export class AboutComponent implements OnInit, OnDestroy {
     ])
       .pipe(
         switchMap(
-          data => {
-            const ids: number[] = data[0].contributors;
-            ids.push(data[0].developer);
-            ids.push(data[0].fr_translator);
-            ids.push(data[0].zh_translator);
-            ids.push(data[0].be_translator);
-            ids.push(data[0].pt_br_translator);
+          ([about, translation]) => {
+            const ids: number[] = about.contributors;
+            ids.push(about.developer);
+            ids.push(about.fr_translator);
+            ids.push(about.zh_translator);
+            ids.push(about.be_translator);
+            ids.push(about.pt_br_translator);
 
             return this.userService.getUserMap(ids).pipe(
               map(users => ({
                 users,
-                translation: data[1],
-                about: data[0]
+                translation,
+                about
               }))
             );
           }

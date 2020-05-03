@@ -128,19 +128,18 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
                   )
                 )
           ]);
-        }),
-        map(data => ({ items: data[0], brands: data[1] }))
+        })
       )
       .subscribe(
-        data => {
+        ([items, brands]) => {
           if (this.brandId) {
-            this.items = data.items.items;
-            this.paginator = data.items.paginator;
+            this.items = items.items;
+            this.paginator = items.paginator;
             this.brands = [];
           } else {
             this.items = [];
-            this.brands = chunk<APIItem>(data.brands.items, 6);
-            this.paginator = data.brands.paginator;
+            this.brands = chunk<APIItem>(brands.items, 6);
+            this.paginator = brands.paginator;
           }
         },
         response => this.toastService.response(response)

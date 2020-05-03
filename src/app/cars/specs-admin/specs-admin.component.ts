@@ -8,7 +8,7 @@ import {
   distinctUntilChanged,
   switchMap,
   catchError,
-  tap, map
+  tap
 } from 'rxjs/operators';
 import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -60,14 +60,10 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
       this.move$
     ])
       .pipe(
-        map(data => ({
-          query: data[0],
-          move: data[1]
-        })),
-        switchMap(params => {
+        switchMap(([query]) => {
           return this.attrService.getUserValues({
-            item_id: params.query.item_id,
-            page: params.query.page,
+            item_id: query.item_id,
+            page: query.page,
             fields: 'user,path,unit'
           });
         }),

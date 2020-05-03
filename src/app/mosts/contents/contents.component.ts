@@ -89,26 +89,25 @@ export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
       )
     ])
       .pipe(
-        map(data => ({ params: data[0], menu: data[1] })),
-        map(data => {
-          if (!data.params.ratingCatname) {
-            data.params.ratingCatname = data.menu.ratings[0].catname;
+        map(([params, menu]) => {
+          if (!params.ratingCatname) {
+            params.ratingCatname = menu.ratings[0].catname;
           }
 
-          this.ratingCatname = data.params.ratingCatname;
-          this.typeCatname = data.params.typeCatname;
-          this.yearsCatname = data.params.yearsCatname;
+          this.ratingCatname = params.ratingCatname;
+          this.typeCatname = params.typeCatname;
+          this.yearsCatname = params.yearsCatname;
 
           this.initPageEnv();
 
-          return data;
+          return params;
         }),
-        switchMap(data =>
+        switchMap(params =>
           this.brandID$.pipe(
             switchMap(brandID => this.mostsService.getItems({
-              rating_catname: data.params.ratingCatname,
-              type_catname: data.params.typeCatname,
-              years_catname: data.params.yearsCatname,
+              rating_catname: params.ratingCatname,
+              type_catname: params.typeCatname,
+              years_catname: params.yearsCatname,
               brand_id: brandID
             }))
           )

@@ -61,10 +61,7 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
               )
           ]);
         }),
-        map(data => ({
-          user: data[0],
-          brand: data[1]
-        })),
+        map(([user, brand]) => ({user, brand})),
         tap(data => {
           if (! data.user || ! data.brand || data.user.deleted) {
             this.router.navigate(['/error-404'], {
@@ -94,19 +91,15 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
       )
     ])
       .pipe(
-        map(data => ({
-          route: data[0],
-          query: data[1]
-        })),
-        switchMap(data =>
+        switchMap(([route, query]) =>
           this.pictureService.getPictures({
             status: 'accepted',
             fields:
               'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
             limit: 30,
-            page: data.query.page,
-            item_id: data.route.brand.id,
-            owner_id: data.route.user.id,
+            page: query.page,
+            item_id: route.brand.id,
+            owner_id: route.user.id,
             order: 1
           })
         )

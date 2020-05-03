@@ -43,9 +43,9 @@ export class ModerHotlinksComponent implements OnInit, OnDestroy {
       this.acl.isAllowed('hotlinks', 'manage'),
       this.change$.pipe(switchMapTo(this.service.getHosts()))
     ])
-      .subscribe(data => {
-        this.canManage = data[0];
-        this.hosts = data[1].items;
+      .subscribe(([canManage, hosts]) => {
+        this.canManage = canManage;
+        this.hosts = hosts.items;
       });
   }
 

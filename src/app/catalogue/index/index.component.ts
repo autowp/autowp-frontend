@@ -128,10 +128,10 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
 
   private getBrand() {
     return combineLatest([this.getIsModer(), this.getCatname()]).pipe(
-      switchMap(data => {
-        this.isModer = data[0];
+      switchMap(([isModer, catname]) => {
+        this.isModer = isModer;
 
-        if (!data[1]) {
+        if (!catname) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
@@ -139,12 +139,12 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
         }
 
         let fields = 'description,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active';
-        if (data[0]) {
+        if (isModer) {
           fields += ',inbox_pictures_count';
         }
 
         return this.itemService.getItems({
-          catname: data[1],
+          catname,
           fields,
           limit: 1
         }).pipe(

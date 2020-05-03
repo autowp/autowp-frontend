@@ -8,7 +8,6 @@ import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
   debounceTime,
-  tap,
   switchMap,
   switchMapTo, map
 } from 'rxjs/operators';
@@ -71,24 +70,23 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
       )
     ])
       .pipe(
-        map(data => ({ params: data[0], user: data[1] })),
-        tap(data => {
-          this.filter = data.params.filter || '0';
-          this.page = data.params.page;
-          this.user = data.user;
-        }),
         switchMap(
-          data =>
-            this.attrService.getConfilicts({
-              filter: data.params.filter || '0',
-              page: data.params.page,
+          ([params, user]) => {
+            this.filter = params.filter || '0';
+            this.page = params.page;
+            this.user = user;
+
+            return this.attrService.getConfilicts({
+              filter: params.filter || '0',
+              page: params.page,
               fields: 'values'
             }).pipe(
               map(conflicts => ({
-                user: data.user,
+                user,
                 conflicts
               }))
-            )
+            );
+          }
         )
       )
       .subscribe(data => {

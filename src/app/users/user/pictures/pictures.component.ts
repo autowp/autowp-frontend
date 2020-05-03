@@ -80,9 +80,9 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(
-        response => {
-          this.brands = response[0].items;
-          this.icons = response[1];
+        ([brands, icons]) => {
+          this.brands = brands.items;
+          this.icons = icons;
           addCSS(this.icons.css);
         },
         response => this.toastService.response(response)

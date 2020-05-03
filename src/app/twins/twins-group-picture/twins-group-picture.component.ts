@@ -72,11 +72,10 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
       this.acl.isAllowed('specifications', 'edit')
     ])
       .pipe(
-        map(data => ({ group: data[0], isModer: data[2] })),
-        switchMap(data => identityPipe.pipe(
+        switchMap(([group, , isModer]) => identityPipe.pipe(
           map(identity => ({
-            group: data.group,
-            isModer: data.isModer,
+            group,
+            isModer,
             identity
           }))
         )),
