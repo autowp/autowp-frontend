@@ -47,14 +47,11 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
   }
 
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
-    const pictures: CatalogueListItemPicture[] = [];
-    for (const picture of item.preview_pictures.pictures) {
-      pictures.push({
-        picture: picture ? picture.picture : null,
-        thumb: picture ? picture.thumb : null,
-        routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
-      });
-    }
+    const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+      picture: picture ? picture.picture : null,
+      thumb: picture ? picture.thumb : null,
+      routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
+    }));
 
     return {
       id: item.id,
@@ -183,22 +180,17 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
       order: 'type_auto'
     }).pipe(
       tap(response => {
-        const items: CatalogueListItem[] = [];
-
-        for (const item of response.items) {
-
+        this.items = response.items.map(item => {
           const itemRouterLink = [...this.routerLink];
           itemRouterLink.push(item.catname);
 
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.item.preview_pictures.pictures) {
-            pictures.push({
-              picture: picture ? picture.picture : null,
-              thumb: picture ? picture.thumb : null,
-              routerLink: picture && picture.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : []
-            });
-          }
-          items.push({
+          const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map(picture => ({
+            picture: picture ? picture.picture : null,
+            thumb: picture ? picture.thumb : null,
+            routerLink: picture && picture.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : []
+          }));
+
+          return {
             id: item.item.id,
             preview_pictures: {
               pictures,
@@ -224,10 +216,9 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
             childs_counts: item.item.childs_counts,
             categories: item.item.categories,
             twins_groups: item.item.twins_groups
-          });
-        }
+          };
+        });
 
-        this.items = items;
         this.paginator = response.paginator;
       }),
       switchMap(response => this.getOtherPictures(last.item_id, typeID, response.paginator.current, response.paginator.last)),

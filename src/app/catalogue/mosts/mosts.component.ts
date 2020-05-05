@@ -43,15 +43,20 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
           }
         });
 
-        return this.route.params.pipe(
-          distinctUntilChanged(),
+        return this.route.paramMap.pipe(
+          map(params => ({
+            ratingCatname: params.get('rating_catname'),
+            typeCatname: params.get('type_catname'),
+            yearsCatname: params.get('years_catname')
+          })),
+          distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
           debounceTime(30),
         ).pipe(
           map(params => ({
             brand,
-            ratingCatname: params.rating_catname,
-            typeCatname: params.type_catname,
-            yearsCatname: params.years_catname
+            ratingCatname: params.ratingCatname,
+            typeCatname: params.typeCatname,
+            yearsCatname: params.yearsCatname
           }))
         );
       }),

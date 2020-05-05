@@ -86,12 +86,17 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
       lng: undefined
     };
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
+        map(params => ({
+          item_type_id: parseInt(params.get('item_type_id'), 10),
+          parent_id: parseInt(params.get('parent_id'), 10),
+          spec_id: params.get('spec_id')
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        distinctUntilChanged(),
         switchMap(params => {
-          this.item.item_type_id = parseInt(params.item_type_id, 10);
+          this.item.item_type_id = params.item_type_id;
 
           if (
             [1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(this.item.item_type_id) === -1
@@ -143,18 +148,10 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                         }
                       )
                       .pipe(
-                        map(response => {
-                          const ids: number[] = [];
-                          for (const row of response.items) {
-                            ids.push(row.vehicle_type_id);
-                          }
-
-                          return ids;
-                        }),
-                        map(vehicleTypeIDs => ({
+                        map(response => ({
                           item: parent.item,
                           spec: parent.spec,
-                          vehicleTypeIDs
+                          vehicleTypeIDs: response.items.map(row => row.vehicle_type_id)
                         }))
                       );
                   }

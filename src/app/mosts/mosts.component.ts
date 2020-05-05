@@ -36,13 +36,13 @@ export class MostsComponent implements OnInit, OnDestroy {
       });
     }, 0);
 
-    this.routeSub = this.route.params.pipe(
-      distinctUntilChanged(),
+    this.routeSub = this.route.paramMap.pipe(
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
       debounceTime(30),
       tap(params => {
-        this.ratingCatname = params.rating_catname;
-        this.typeCatname = params.type_catname;
-        this.yearsCatname = params.years_catname;
+        this.ratingCatname = params.get('rating_catname');
+        this.typeCatname = params.get('type_catname');
+        this.yearsCatname = params.get('years_catname');
       })
     ).subscribe();
   }

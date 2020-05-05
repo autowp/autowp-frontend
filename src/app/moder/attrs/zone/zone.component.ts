@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, combineLatest } from 'rxjs';
+import {Subscription, combineLatest, of} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
@@ -41,41 +41,37 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => this.attrsService.getZone(params.id)),
+        switchMap(id => this.attrsService.getZone(id)),
         switchMap(zone => combineLatest([
+          of(zone),
           this.attrsService.getAttributes({ recursive: true }),
           this.api.request<APIAttrZoneAttributesGetResponse>('GET', 'attr/zone-attribute', {
             params: {
               zone_id: zone.id.toString()
             }
           })
-        ]).pipe(
-          map(combined => ({
-            zone,
-            attributes: combined[0].items,
-            zoneAttributes: combined[1].items
-          }))
-        ))
+        ]))
       )
-      .subscribe(data => {
-        this.zone = data.zone;
+      .subscribe(([zone, attributes, zoneAttributes]) => {
+        this.zone = zone;
 
         this.pageEnv.set({
           layout: {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: data.zone.name,
+          nameTranslated: zone.name,
           pageId: 142
         });
 
-        this.attributes = data.attributes;
+        this.attributes = attributes.items;
 
-        for (const item of data.zoneAttributes) {
+        for (const item of zoneAttributes.items) {
           this.zoneAttribute[item.attribute_id] = true;
         }
       });

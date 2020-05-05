@@ -68,21 +68,17 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
           })
       ),
       map(response => {
-        const items: CatalogueListItem[] = [];
-
-        for (const item of response.items) {
+        const items: CatalogueListItem[] = response.items.map(item => {
 
           const routerLink = ['/', this.brand.catname, item.catname];
 
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.item.preview_pictures.pictures) {
-            pictures.push({
-              picture: picture ? picture.picture : null,
-              thumb: picture ? picture.thumb : null,
-              routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
-            });
-          }
-          items.push({
+          const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map(picture => ({
+            picture: picture ? picture.picture : null,
+            thumb: picture ? picture.thumb : null,
+            routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : []
+          }));
+
+          return {
             id: item.item.id,
             preview_pictures: {
               pictures,
@@ -106,8 +102,8 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
               count: item.item.childs_count
             },
             childs_counts: item.item.childs_counts
-          });
-        }
+          };
+        });
 
         return {
           items,

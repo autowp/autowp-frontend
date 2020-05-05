@@ -52,22 +52,22 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.querySub = combineLatest(
     [
-      this.route.queryParams.pipe(
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(10),
-        distinctUntilChanged(),
         tap(params => (this.itemID = params.item_id))
       ),
       this.move$
     ])
       .pipe(
-        map(data => ({
-          query: data[0],
-          move: data[1]
-        })),
-        switchMap(params => {
+        switchMap(([query]) => {
           return this.attrService.getUserValues({
-            item_id: params.query.item_id,
-            page: params.query.page,
+            item_id: query.item_id,
+            page: query.page,
             fields: 'user,path,unit'
           });
         }),

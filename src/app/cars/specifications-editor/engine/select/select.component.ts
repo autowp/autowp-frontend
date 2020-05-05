@@ -72,9 +72,14 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          brand_id: parseInt(params.get('brand_id'), 10),
+          page: parseInt(params.get('page'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(
           params =>
@@ -128,19 +133,18 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
                   )
                 )
           ]);
-        }),
-        map(data => ({ items: data[0], brands: data[1] }))
+        })
       )
       .subscribe(
-        data => {
+        ([items, brands]) => {
           if (this.brandId) {
-            this.items = data.items.items;
-            this.paginator = data.items.paginator;
+            this.items = items.items;
+            this.paginator = items.paginator;
             this.brands = [];
           } else {
             this.items = [];
-            this.brands = chunk<APIItem>(data.brands.items, 6);
-            this.paginator = data.brands.paginator;
+            this.brands = chunk<APIItem>(brands.items, 6);
+            this.paginator = brands.paginator;
           }
         },
         response => this.toastService.response(response)

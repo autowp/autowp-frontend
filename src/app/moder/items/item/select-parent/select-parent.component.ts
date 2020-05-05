@@ -10,7 +10,6 @@ import {
 } from '../../../../services/item-parent';
 import { PageEnvService } from '../../../../services/page-env.service';
 import {ToastsService} from '../../../../toasts/toasts.service';
-import {map} from 'rxjs/operators';
 
 // Acl.isAllowed('car', 'edit_meta', 'unauthorized');
 
@@ -77,18 +76,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.paramsSub = combineLatest([this.route.params, this.route.queryParams]).pipe(
-      map(data => ({
-        route: data[0],
-        query: data[1]
-      }))
-    ).subscribe(data => {
-      this.tab = data.query.tab || 'catalogue';
-      this.page = data.query.page;
-      this.brandID = data.query.brand_id;
+    this.paramsSub = combineLatest([this.route.paramMap, this.route.queryParamMap]).subscribe(([route, query]) => {
+      this.tab = query.get('tab') || 'catalogue';
+      this.page = parseInt(query.get('page'), 10);
+      this.brandID = parseInt(query.get('brand_id'), 10);
 
       this.itemService
-        .getItem(data.route.id, {
+        .getItem(parseInt(route.get('id'), 10), {
           fields: 'name_text,name_html'
         })
         .subscribe(

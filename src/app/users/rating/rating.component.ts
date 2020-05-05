@@ -8,7 +8,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  finalize
+  finalize, map
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -63,12 +63,13 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => params.get('rating')),
         debounceTime(30),
         distinctUntilChanged(),
-        switchMap(params => {
-          this.rating = params.rating || 'specs';
+        switchMap(rating => {
+          this.rating = rating || 'specs';
 
           switch (this.rating) {
             case 'specs':

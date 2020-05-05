@@ -40,15 +40,12 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
       this.getBrand(),
       this.route.data as Observable<BrandPerspectivePageData>
     ]).pipe(
-      switchMap(params => {
-        this.brand = params[0];
-        this.data = params[1];
+      switchMap(([brand, data]) => {
+        this.brand = brand;
+        this.data = data;
 
-        return this.getPicture(params[0].id, this.data.perspective_id, this.data.perspective_exclude_id).pipe(
-          map(picture => ({
-            picture,
-            data: params[1]
-          }))
+        return this.getPicture(brand.id, this.data.perspective_id, this.data.perspective_exclude_id).pipe(
+          map(picture => ({picture, data}))
         );
       }),
       switchMap(data => {

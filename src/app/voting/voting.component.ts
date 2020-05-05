@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { ActivatedRoute, Router} from '@angular/router';
 import {
   VotingService,
@@ -12,7 +12,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingVotesComponent } from './votes/votes.component';
 import { ACLService } from '../services/acl.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {map} from 'rxjs/operators';
 import { APIService } from '../services/api.service';
 
 @Component({
@@ -63,13 +62,8 @@ export class VotingComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(inherits => (this.isModer = inherits));
 
-    this.routeSub = combineLatest([this.route.params, this.route.queryParams]).pipe(
-      map(data => ({
-        params: data[0],
-        query: data[1]
-      }))
-    ).subscribe(data => {
-      this.id = data.params.id;
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.id = parseInt(params.get('id'), 10);
       this.load(() => {
         this.pageEnv.set({
           layout: {

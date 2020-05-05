@@ -64,7 +64,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
         this.route.queryParamMap.pipe(
           map(queryParams => ({
             brand,
-            queryParams
+            page: parseInt(queryParams.get('page'), 10)
           }))
         )
       ),
@@ -83,23 +83,19 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
             'twins_groups',
             'childs_count,total_pictures,preview_pictures.picture.name_text'
           ].join(','),
-          page: +data.queryParams.get('page')
+          page: data.page
         })
       ),
       map(response => {
-        const items: CatalogueListItem[] = [];
+        const items: CatalogueListItem[] = response.items.map(item => {
 
-        for (const item of response.items) {
+          const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+            picture: picture ? picture.picture : null,
+            thumb: picture ? picture.thumb : null,
+            routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+          }));
 
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.preview_pictures.pictures) {
-            pictures.push({
-              picture: picture ? picture.picture : null,
-              thumb: picture ? picture.thumb : null,
-              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
-            });
-          }
-          items.push({
+          return {
             id: item.id,
             preview_pictures: {
               pictures,
@@ -124,8 +120,8 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
             },
             childs_counts: null,
             categories: item.categories
-          });
-        }
+          };
+        });
 
         return {
           items,

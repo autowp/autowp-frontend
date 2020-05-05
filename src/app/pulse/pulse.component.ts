@@ -97,27 +97,20 @@ export class PulseComponent implements OnInit {
 
     this.api.request<APIPulseResponse>('GET', 'pulse', {params: {period: this.period}}).subscribe(
       response => {
-        const datasets: any[] = [];
-        const colors: any[] = [];
+        this.chart.data = response.grid.map(dataset => ({
+          label: dataset.label,
+          data: dataset.line
+        }));
+        this.chart.colors = response.grid.map(dataset => ({
+          backgroundColor: dataset.color,
+          borderColor: dataset.color,
+          pointBackgroundColor: 'rgba(148,159,177,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        }));
 
-        for (const dataset of response.grid) {
-          datasets.push({
-            label: dataset.label,
-            data: dataset.line
-          });
-          colors.push({
-            backgroundColor: dataset.color,
-            borderColor: dataset.color,
-            pointBackgroundColor: 'rgba(148,159,177,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-          });
-        }
-
-        this.chart.data = datasets;
         this.chart.labels = response.labels;
-        this.chart.colors = colors;
         this.legend = response.legend;
       },
       response => this.toastService.response(response)

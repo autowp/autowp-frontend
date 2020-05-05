@@ -94,15 +94,10 @@ export class ChartComponent {
       })
       .subscribe(
         response => {
-          const datasets: any[] = [];
-          for (const dataset of response.datasets) {
-            datasets.push({
-              label: dataset.name,
-              data: dataset.values
-            });
-          }
-
-          this.chart.data = datasets;
+          this.chart.data = response.datasets.map(dataset => ({
+            label: dataset.name,
+            data: dataset.values
+          }));
           this.chart.labels = response.years;
         },
         response => this.toastService.response(response)

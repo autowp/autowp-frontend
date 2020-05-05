@@ -55,14 +55,15 @@ export class ModerItemsItemPicturesOrganizeComponent
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
+        switchMap(id =>
           combineLatest([
             this.itemService
-              .getItem(params.id, {
+              .getItem(id, {
                 fields: [
                   'name_text',
                   'name',
@@ -113,12 +114,7 @@ export class ModerItemsItemPicturesOrganizeComponent
                         )
                         .pipe(
                           tap(response => {
-                            const ids: number[] = [];
-                            for (const row of response.items) {
-                              ids.push(row.vehicle_type_id);
-                            }
-
-                            this.vehicleTypeIDs = ids;
+                            this.vehicleTypeIDs = response.items.map(row => row.vehicle_type_id);
                           })
                         )
                     : of(null)
@@ -126,7 +122,7 @@ export class ModerItemsItemPicturesOrganizeComponent
               ),
             this.pictureItemService
               .getItems({
-                item_id: params.id,
+                item_id: id,
                 limit: 500,
                 fields: 'picture.thumb_medium,picture.name_text',
                 order: 'status'

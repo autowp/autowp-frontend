@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -42,11 +42,12 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
       response => this.toastService.response(response)
     );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
+        map(params => parseInt(params.get('topic_id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => this.forumService.getTopic(params.topic_id, {}))
+        switchMap(topicID => this.forumService.getTopic(topicID, {}))
       )
       .subscribe(
         response => {

@@ -23,7 +23,7 @@ import {
   map
 } from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
-import { APIComment, APICommentsService } from '../../api/comments/comments.service';
+import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
 
@@ -85,17 +85,17 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     this.routeSub = this.auth
       .getUser()
       .pipe(
-        switchMap(currentUser => this.route.params.pipe(
+        switchMap(currentUser => this.route.paramMap.pipe(
           map(params => ({
             currentUser,
-            params
+            identity: params.get('identity')
           }))
         )),
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(data => combineLatest([
           this.userService
-            .getByIdentity(data.params.identity, { fields })
+            .getByIdentity(data.identity, { fields })
             .pipe(
               catchError(err => {
                 this.toastService.response(err);
@@ -104,27 +104,20 @@ export class UsersUserComponent implements OnInit, OnDestroy {
             ),
           this.acl.isAllowed('user', 'ip'),
           this.acl.isAllowed('user', 'ban'),
-          this.acl.isAllowed('user', 'delete')
-        ]).pipe(
-          map(user => ({
-            currentUser: data.currentUser,
-            user: user[0],
-            canViewIp: user[1],
-            canBan: user[2],
-            canDeleteUser: user[3]
-          }))
-        )),
-        tap(data => {
-          if (!data.user) {
+          this.acl.isAllowed('user', 'delete'),
+          of(data.currentUser)
+        ])),
+        switchMap(([user, canViewIp, canBan, canDeleteUser, currentUser]) => {
+          if (!user) {
             this.router.navigate(['/error-404'], {
               skipLocationChange: true
             });
-            return;
+            return EMPTY;
           }
 
-          this.canViewIp = data.canViewIp;
-          this.canBan = data.canBan;
-          this.canDeleteUser = data.canDeleteUser;
+          this.canViewIp = canViewIp;
+          this.canBan = canBan;
+          this.canDeleteUser = canDeleteUser;
 
           setTimeout(
             () =>
@@ -132,54 +125,52 @@ export class UsersUserComponent implements OnInit, OnDestroy {
                 layout: {
                   needRight: false
                 },
-                nameTranslated: data.user.name,
+                nameTranslated: user.name,
                 pageId: 62
               }),
             0
           );
 
-          this.user = data.user;
-          this.isMe = data.currentUser && data.currentUser.id === data.user.id;
-          this.canBeInContacts =
-            data.currentUser && !data.user.deleted && !this.isMe;
+          this.user = user;
+          this.isMe = currentUser && currentUser.id === user.id;
+          this.canBeInContacts = currentUser && !user.deleted && !this.isMe;
 
-          if (data.currentUser && !this.isMe) {
+          if (currentUser && !this.isMe) {
             this.contacts
-              .isInContacts(data.user.id)
+              .isInContacts(user.id)
               .subscribe(
                 inContacts => (this.inContacts = inContacts),
                 response => this.toastService.response(response)
               );
           }
-        }),
-        switchMap(data => {
+
           const pictures = this.pictureService.getPictures({
-            owner_id: data.user.id,
+            owner_id: user.id,
             limit: 12,
             order: 1,
             fields: 'url,name_html'
           });
 
-          let comments = of(null);
-          if (!data.user.deleted) {
+          let comments = of(null as APICommentGetResponse);
+          if (!user.deleted) {
             comments = this.commentService.getComments({
-              user_id: data.user.id,
+              user_id: user.id,
               limit: 15,
               order: 'date_desc',
               fields: 'preview,route'
             });
           }
 
-          let ip = of(null);
-          if (data.user.last_ip) {
-            ip = this.loadBan(data.user.last_ip);
+          let ip = of(null as APIIP);
+          if (user.last_ip) {
+            ip = this.loadBan(user.last_ip);
           }
 
           return forkJoin([pictures, comments, ip]).pipe(
-            tap(data2 => {
-              this.pictures = data2[0].pictures;
-              this.comments = data2[1].items;
-              this.ip = data2[2];
+            tap(([picturesResponse, commentsResponse, ipResponse]) => {
+              this.pictures = picturesResponse.pictures;
+              this.comments = commentsResponse.items;
+              this.ip = ipResponse;
             })
           );
         })

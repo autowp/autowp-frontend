@@ -4,7 +4,7 @@ import { MessageService, APIMessage } from '../../services/message';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { MessageDialogService } from '../../message-dialog/message-dialog.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -31,9 +31,14 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          folder: params.get('folder'),
+          user_id: params.get('user_id'),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           this.folder = params.folder || 'inbox';

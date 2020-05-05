@@ -38,18 +38,15 @@ export class PersonsComponent implements OnInit, OnDestroy {
     );
 
     this.querySub = combineLatest([
-      this.route.queryParams.pipe(
-        map(params => parseInt(params.page, 10))
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('page'), 10))
       ),
       this.route.data.pipe(
         map(params => !!params.authors)
       )
     ])
       .pipe(
-        map(params => ({
-          authors: params[1],
-          page: params[0]
-        })),
+        map(([page, authors]) => ({authors, page})),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         tap(params => {
@@ -100,22 +97,17 @@ export class PersonsComponent implements OnInit, OnDestroy {
   }
 
   prepareItems(items: APIItem[]): CatalogueListItem[] {
-    const result: CatalogueListItem[] = [];
-
-    for (const item of items) {
-
+    return items.map(item => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());
 
-      const pictures: CatalogueListItemPicture[] = [];
-      for (const picture of item.preview_pictures.pictures) {
-        pictures.push({
-          picture: picture ? picture.picture : null,
-          thumb: picture ? picture.thumb : null,
-          routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
-        });
-      }
-      result.push({
+      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+        picture: picture ? picture.picture : null,
+        thumb: picture ? picture.thumb : null,
+        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
+      }));
+
+      return {
         id: item.id,
         preview_pictures: {
           pictures,
@@ -139,10 +131,8 @@ export class PersonsComponent implements OnInit, OnDestroy {
           count: item.childs_count
         },
         childs_counts: null
-      });
-    }
-
-    return result;
+      };
+    });
   }
 
   ngOnDestroy(): void {

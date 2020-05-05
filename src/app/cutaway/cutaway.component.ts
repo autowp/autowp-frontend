@@ -37,7 +37,7 @@ export class CutawayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
         switchMap(params =>
           this.pictureService.getPictures({
@@ -45,7 +45,7 @@ export class CutawayComponent implements OnInit, OnDestroy {
             fields:
               'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
             limit: 12,
-            page: params.page,
+            page: parseInt(params.get('page'), 10),
             perspective_id: 9,
             order: 15
           })

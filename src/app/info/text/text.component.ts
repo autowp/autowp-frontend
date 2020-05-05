@@ -76,16 +76,20 @@ export class InfoTextComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.routeSub = combineLatest([this.route.params, this.route.queryParams])
+    this.routeSub = combineLatest([
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('id'), 10))
+      ),
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('revision'), 10))
+      ),
+    ])
       .pipe(
-        map(data => ({ route: data[0], query: data[1] })),
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        switchMap(params =>
-          this.api.request<APIInfoText>('GET', 'text/' + params.route.id, {
-            params: {
-              revision: params.query.revision
-            }
+        switchMap(([id, revision]) =>
+          this.api.request<APIInfoText>('GET', 'text/' + id, {
+            params: {revision: revision.toString()}
           })
         )
       )

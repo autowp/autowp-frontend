@@ -19,7 +19,7 @@ import {
   catchError,
   distinctUntilChanged,
   debounceTime,
-  tap
+  tap, map
 } from 'rxjs/operators';
 
 // Acl.isAllowed('car', 'move', 'unauthorized');
@@ -55,18 +55,19 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = combineLatest([
-      this.route.queryParams.pipe(
+      this.route.queryParamMap.pipe(
         tap(params => {
-          this.itemTypeID = params.item_type_id;
+          this.itemTypeID = parseInt(params.get('item_type_id'), 10);
         })
       ),
-      this.route.params.pipe(
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
+        switchMap(id =>
           combineLatest([
             this.itemService
-              .getItem(params.id, {
+              .getItem(id, {
                 fields: [
                   'name_text',
                   'name',
@@ -115,12 +116,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
                         )
                         .pipe(
                           tap(response => {
-                            const ids: number[] = [];
-                            for (const row of response.items) {
-                              ids.push(row.vehicle_type_id);
-                            }
-
-                            this.vehicleTypeIDs = ids;
+                            this.vehicleTypeIDs = response.items.map(row => row.vehicle_type_id);
                           })
                         )
                     : of(null)
@@ -128,7 +124,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit, OnDestroy {
               ),
             this.itemParentService
               .getItems({
-                parent_id: params.id,
+                parent_id: id,
                 limit: 500,
                 fields: 'item.name_html',
                 order: 'type_auto'

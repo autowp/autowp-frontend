@@ -61,15 +61,9 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
       this.reload$
     ])
       .pipe(
-        switchMap(data => {
-          return this.load(data[1]).pipe(
-            map(response => ({
-              response,
-              user: data[0],
-              state: data[1]
-            }))
-          );
-        }),
+        switchMap(([user, state]) => this.load(state).pipe(
+          map(response => ({response, user, state}))
+        )),
         map(data => {
           this.messages = data.response.items;
           this.paginator = data.response.paginator;

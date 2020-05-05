@@ -1,8 +1,8 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
+import {Subscription, combineLatest, BehaviorSubject, of} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
-import {map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
@@ -94,13 +94,21 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
       response => this.toastService.response(response)
     );
 
-    this.routeSub = combineLatest([this.route.params, this.attrsService.getAttributeTypes()])
+    this.routeSub = combineLatest([
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('id'), 10)),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        debounceTime(10)
+      ),
+      this.attrsService.getAttributeTypes()
+    ])
       .pipe(
-        map(data => ({ params: data[0], types: data[1] })),
-        switchMap(data => this.attrsService.getAttribute(data.params.id).pipe(
-          map(attribute => ({ attribute, types: data.types }))
+        switchMap(([id, types]) => this.attrsService.getAttribute(id).pipe(
+          map(attribute => ({ attribute, types }))
         )),
         switchMap(data => combineLatest([
+          of(data.attribute),
+          of(data.types),
           this.api.request<APIAttrAttributeGetResponse>('GET', 'attr/attribute', {
             params: {
               parent_id: data.attribute.id.toString(),
@@ -115,29 +123,22 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
               })
             )
           )
-        ]).pipe(
-          map(combined => ({
-            attribute: data.attribute,
-            types: data.types,
-            attributes: combined[0],
-            listOptions: combined[1]
-          }))
-        ))
+        ]))
       )
-      .subscribe(data => {
+      .subscribe(([attribute, types, attributes, listOptions]) => {
 
         this.pageEnv.set({
           layout: {
             isAdminPage: true,
             needRight: false
           },
-          name: data.attribute.name,
+          name: attribute.name,
           pageId: 101
         });
 
-        this.attribute = data.attribute;
+        this.attribute = attribute;
         this.typeOptions = this.typeOptionsDefaults.slice(0);
-        for (const item of data.types) {
+        for (const item of types) {
           this.typeMap[item.id] = item.name;
           this.typeOptions.push({
             id: item.id,
@@ -145,9 +146,9 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
           });
         }
 
-        this.prepareListOptionsOptions(data.listOptions.items);
+        this.prepareListOptionsOptions(listOptions.items);
 
-        this.attributes = data.attributes.items;
+        this.attributes = attributes.items;
       });
   }
 

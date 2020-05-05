@@ -81,11 +81,11 @@ export class ModerRightsComponent implements OnInit, OnDestroy {
       this.$loadRoles.pipe(switchMapTo(this.acl.getRoles(false))),
       this.acl.getResources(),
       this.$loadRules.pipe(switchMapTo(this.acl.getRules()))
-    ]).subscribe(data => {
-      this.rolesTree = data[0].items;
-      this.roles = data[1].items;
-      this.resources = data[2].items;
-      this.rules = data[3].items;
+    ]).subscribe(([rolesTree, roles, resources, rules]) => {
+      this.rolesTree = rolesTree.items;
+      this.roles = roles.items;
+      this.resources = resources.items;
+      this.rules = rules.items;
     });
   }
 

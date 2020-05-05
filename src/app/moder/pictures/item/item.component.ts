@@ -13,7 +13,7 @@ import {
   debounceTime,
   switchMap,
   tap,
-  switchMapTo
+  switchMapTo, map
 } from 'rxjs/operators';
 import {LanguageService} from '../../../services/language';
 import { sprintf } from 'sprintf-js';
@@ -107,13 +107,14 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30)
       )
       .pipe(
-        tap(params =>
+        tap(id =>
           this.pageEnv.set({
             layout: {
               isAdminPage: true,
@@ -122,14 +123,14 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
             name: 'moder/picture/picture-n',
             pageId: 72,
             args: {
-              id: params.id
+              id: id.toString()
             }
           })
         ),
-        switchMap(params =>
+        switchMap(id =>
           this.change$.pipe(
             switchMapTo(
-              this.pictureService.getPicture(params.id, {
+              this.pictureService.getPicture(id, {
                 fields: [
                   'owner',
                   'thumb',

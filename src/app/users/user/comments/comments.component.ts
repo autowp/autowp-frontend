@@ -49,11 +49,12 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.querySub = combineLatest([
-      this.route.params.pipe(
+      this.route.paramMap.pipe(
+        map(params => params.get('identity')),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => {
-          return this.userService.getByIdentity(params.identity, {fields: 'identity'}).pipe(
+        switchMap(identity => {
+          return this.userService.getByIdentity(identity, {fields: 'identity'}).pipe(
             catchError((err) => {
               this.toastService.response(err);
               return EMPTY;
@@ -89,23 +90,23 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
           this.user = user;
         })
       ),
-      this.route.queryParams.pipe(
-        distinctUntilChanged(),
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          order: params.get('order'),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30)
       )
     ])
       .pipe(
-        map(data => ({
-          user: data[0],
-          query: data[1]
-        })),
-        switchMap(data => {
-          this.order = data.query.order || 'date_desc';
+        switchMap(([user, query]) => {
+          this.order = query.order || 'date_desc';
 
           return this.commentService
             .getComments({
-              user_id: data.user.id,
-              page: data.query.page,
+              user_id: user.id,
+              page: query.page,
               limit: 30,
               order: this.order,
               fields: 'preview,route,vote'

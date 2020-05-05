@@ -11,7 +11,7 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
-  catchError
+  catchError, map
 } from 'rxjs/operators';
 
 // return Acl.isAllowed('car', 'move', 'unauthorized');
@@ -56,9 +56,13 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          parent_id: parseInt(params.get('parent_id'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           return combineLatest([
@@ -77,22 +81,20 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
           ]);
         })
       )
-      .subscribe(responses => {
-        this.itemParent = responses[0];
-        this.item = responses[1];
-        this.parent = responses[2];
+      .subscribe(([itemParent, item, parent, languages, itemParentLanguage]) => {
+        this.itemParent = itemParent;
+        this.item = item;
+        this.parent = parent;
 
-        for (const language of responses[3]) {
-          this.languages.push({
-            language,
-            name: null
-          });
-        }
+        this.languages = languages.map(language => ({
+          language,
+          name: null
+        }));
 
-        for (const languageData of responses[4].items) {
-          for (const item of this.languages) {
-            if (item.language === languageData.language) {
-              item.name = languageData.name;
+        for (const languageData of itemParentLanguage.items) {
+          for (const i of this.languages) {
+            if (i.language === languageData.language) {
+              i.name = languageData.name;
             }
           }
         }

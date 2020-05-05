@@ -25,7 +25,6 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
   public item: APIItem;
   public isSpecsAdmin = false;
   public isModer = false;
-  public resultHtml = '';
   public engine: APIItem;
   public tab = 'info';
   public loading = 0;
@@ -61,9 +60,13 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          tab: params.get('tab'),
+          item_id: parseInt(params.get('item_id'), 10)
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => {
           this.tab = params.tab || 'info';
@@ -79,22 +82,21 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
             this.acl.isAllowed('specifications', 'admin'),
             this.acl.inheritsRole('moder')
           ]);
-        }),
-        map(data => ({ item: data[0], isSpecsAdmin: data[1], isModer: data[2] }))
+        })
       )
       .subscribe(
-        data => {
-          this.isSpecsAdmin = data.isSpecsAdmin;
-          this.isModer = data.isModer;
+        ([item, isSpecsAdmin, isModer]) => {
+          this.isSpecsAdmin = isSpecsAdmin;
+          this.isModer = isModer;
 
-          if (! data.item) {
+          if (! item) {
             this.router.navigate(['/error-404'], {
               skipLocationChange: true
             });
             return;
           }
 
-          this.item = data.item;
+          this.item = item;
 
           this.pageEnv.set({
             layout: {
@@ -103,7 +105,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
             name: 'page/102/ng-name',
             pageId: 102,
             args: {
-              item_name: data.item.name_text
+              item_name: item.name_text
             }
           });
 

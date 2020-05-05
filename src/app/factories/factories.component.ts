@@ -58,12 +58,13 @@ export class FactoryComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.querySub = this.route.params
+    this.querySub = this.route.paramMap
       .pipe(
+        map(params => params.get('id')),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
-          this.itemService.getItem(params.id, {
+        switchMap(id =>
+          this.itemService.getItem(parseInt(id, 10), {
             fields: [
               'name_text',
               'name_html',

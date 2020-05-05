@@ -67,8 +67,8 @@ export class PersonsPersonAuthorGalleryComponent implements OnInit, OnDestroy {
   }
 
   getPerson(): Observable<APIItem> {
-    return this.route.params.pipe(
-      map(params => params.id),
+    return this.route.paramMap.pipe(
+      map(params => parseInt(params.get('id'), 10)),
       distinctUntilChanged(),
       debounceTime(30),
       switchMap(id =>

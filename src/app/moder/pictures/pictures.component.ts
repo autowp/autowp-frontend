@@ -379,32 +379,32 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       .getTemplates()
       .subscribe(templates => (this.moderVoteTemplateOptions = templates));
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
         distinctUntilChanged(),
         debounceTime(30),
         switchMap(params => {
-          this.addedFrom = params.added_from ? params.added_from : null;
-          this.status = params.status ? params.status : null;
-          this.vehicleTypeID = params.vehicle_type_id
-            ? parseInt(params.vehicle_type_id, 10)
+          this.addedFrom = params.get('added_from') ? params.get('added_from') : null;
+          this.status = params.get('status') ? params.get('status') : null;
+          this.vehicleTypeID = params.get('vehicle_type_id')
+            ? parseInt(params.get('vehicle_type_id'), 10)
             : null;
-          this.perspectiveID = params.perspective_id
-            ? params.perspective_id === 'null'
+          this.perspectiveID = params.get('perspective_id')
+            ? params.get('perspective_id') === 'null'
               ? 'null'
-              : parseInt(params.perspective_id, 10)
+              : parseInt(params.get('perspective_id'), 10)
             : null;
-          this.itemID = params.item_id ? parseInt(params.item_id, 10) : 0;
+          this.itemID = params.get('item_id') ? parseInt(params.get('item_id'), 10) : 0;
           if (this.itemID && !this.itemQuery) {
             this.itemQuery = '#' + this.itemID;
           }
-          this.excludeItemID = params.exclude_item_id
-            ? parseInt(params.exclude_item_id, 10)
+          this.excludeItemID = params.get('exclude_item_id')
+            ? parseInt(params.get('exclude_item_id'), 10)
             : 0;
           if (this.excludeItemID && !this.excludeItemQuery) {
             this.excludeItemQuery = '#' + this.excludeItemID;
           }
-          switch (params.comments) {
+          switch (params.get('comments')) {
             case 'true':
               this.comments = true;
               break;
@@ -415,11 +415,11 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
               this.comments = null;
               break;
           }
-          this.ownerID = parseInt(params.owner_id, 10);
+          this.ownerID = parseInt(params.get('owner_id'), 10);
           if (this.ownerID && !this.ownerQuery) {
             this.ownerQuery = '#' + this.ownerID;
           }
-          switch (params.replace) {
+          switch (params.get('replace')) {
             case 'true':
               this.replace = true;
               break;
@@ -430,15 +430,15 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
               this.replace = null;
               break;
           }
-          this.requests = params.requests
-            ? parseInt(params.requests, 10)
+          this.requests = params.get('requests')
+            ? parseInt(params.get('requests'), 10)
             : null;
-          this.specialName = !!params.special_name;
-          this.lost = !!params.lost;
-          this.gps = !!params.gps;
-          this.similar = !!params.similar;
-          this.order = params.order ? parseInt(params.order, 10) : 1;
-          this.addedFrom = params.added_from || '';
+          this.specialName = !!params.get('special_name');
+          this.lost = !!params.get('lost');
+          this.gps = !!params.get('gps');
+          this.similar = !!params.get('similar');
+          this.order = params.get('order') ? parseInt(params.get('order'), 10) : 1;
+          this.addedFrom = params.get('added_from') || '';
 
           this.pictures = [];
 
@@ -458,7 +458,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             similar: this.similar,
             added_from: this.addedFrom ? this.addedFrom : null,
             order: this.order,
-            page: params.page,
+            page: parseInt(params.get('page'), 10),
             comments: this.comments,
             replace: this.replace,
             fields:

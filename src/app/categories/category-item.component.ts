@@ -183,14 +183,10 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
       })
       .pipe(
         tap(response => {
-          const items: ItemParentRoute[] = [];
-          for (const itemParent of response.items) {
-            items.push({
-              item: itemParent,
-              parentRouterLink: itemRouterLink(category, pathCatnames, itemParent)
-            });
-          }
-          this.items = items;
+          this.items = response.items.map(itemParent => ({
+            item: itemParent,
+            parentRouterLink: itemRouterLink(category, pathCatnames, itemParent)
+          }));
           this.paginator = response.paginator;
         })
       );
@@ -205,15 +201,10 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
       })
       .pipe(
         tap(response => {
-          const pictures: PictureRoute[] = [];
-          for (const pic of response.pictures) {
-            pictures.push({
-              picture: pic,
-              route: currentRouterLink(category, current, pathCatnames).concat(['pictures', pic.identity])
-            });
-          }
-
-          this.pictures = pictures;
+          this.pictures = response.pictures.map(pic => ({
+            picture: pic,
+            route: currentRouterLink(category, current, pathCatnames).concat(['pictures', pic.identity])
+          }));
         })
       );
   }

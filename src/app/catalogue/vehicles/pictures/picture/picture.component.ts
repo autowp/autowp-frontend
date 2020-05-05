@@ -45,17 +45,17 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()
       ])),
-      switchMap(data => {
-        if (!data[0] || ! data[0].brand || !data[0].path || data[0].path.length <= 0) {
+      switchMap(([data, exact]) => {
+        if (!data || ! data.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
           });
           return EMPTY;
         }
 
-        this.brand = data[0].brand;
-        this.path = data[0].path;
-        this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data[0].brand, data[0].path);
+        this.brand = data.brand;
+        this.path = data.path;
+        this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data.brand, data.path);
         const routerLink = ['/', this.brand.catname];
 
         for (const node of this.path) {
@@ -65,7 +65,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         this.routerLink = routerLink;
         this.picturesRouterLink = [...routerLink];
         this.galleryRouterLink = [...routerLink];
-        if (data[1]) {
+        if (exact) {
           this.picturesRouterLink.push('exact');
           this.galleryRouterLink.push('exact');
         }
@@ -73,9 +73,10 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
         this.galleryRouterLink.push('gallery');
 
         return of({
-          brand: data[0].brand,
-          path: data[0].path,
-          type: data[0].type,
+          brand: data.brand,
+          path: data.path,
+          type: data.type,
+          exact,
           galleryRouterLink: this.galleryRouterLink
         });
       }),
@@ -88,7 +89,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
             brand: data.brand,
             path: data.path,
             type: data.type,
-            exact: data[1],
+            exact: data.exact,
             identity
           };
         })

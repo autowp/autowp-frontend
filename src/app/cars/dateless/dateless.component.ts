@@ -4,7 +4,7 @@ import { ItemService, APIItem } from '../../services/item';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -37,11 +37,12 @@ export class CarsDatelessComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
+        map(params => parseInt(params.get('page'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
+        switchMap(page =>
           this.itemService.getItems({
             dateless: true,
             fields: [
@@ -52,7 +53,7 @@ export class CarsDatelessComponent implements OnInit, OnDestroy {
               'preview_pictures.picture,preview_pictures.route,childs_count,total_pictures'
             ].join(','),
             order: 'age',
-            page: params.page,
+            page,
             limit: 10
           })
         )

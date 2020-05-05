@@ -45,14 +45,18 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
       });
     }, 0);
 
-    this.routeSub = combineLatest([this.route.params, this.auth.getUser()])
+    this.routeSub = combineLatest([
+      this.route.paramMap.pipe(
+        map(params => parseInt(params.get('theme_id'), 10))
+      ),
+      this.auth.getUser()
+    ])
       .pipe(
-        map(data => ({ params: data[0], user: data[1] })),
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        switchMap(data => this.forumService.getTheme(data.params.theme_id, {}).pipe(
+        switchMap(([themeID, user]) => this.forumService.getTheme(themeID, {}).pipe(
           map(theme => ({
-            user: data.user,
+            user,
             theme
           }))
         ))

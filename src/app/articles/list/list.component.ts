@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { APIPaginator } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIArticle, ArticleService } from '../article.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -38,13 +38,14 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
+        map(params => parseInt(params.get('page'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
+        switchMap(page =>
           this.articleService.getArticles({
-            page: params.page,
+            page,
             limit: 10,
             fields: 'description,author'
           })

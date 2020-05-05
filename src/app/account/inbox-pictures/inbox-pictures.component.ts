@@ -42,10 +42,10 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = combineLatest([this.route.queryParams, this.auth.getUser()])
+    this.querySub = combineLatest([this.route.queryParamMap, this.auth.getUser()])
       .pipe(
-        map(data => ({ params: data[0], user: data[1] })),
-        distinctUntilChanged(),
+        map(([params, user]) => ({ page: params.get('page'), user })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(data => this.pictureService.getPictures({
           status: 'inbox',
@@ -53,7 +53,7 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
           fields:
             'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 15,
-          page: data.params.page,
+          page: parseInt(data.page, 10),
           order: 1
         })),
         catchError(err => {

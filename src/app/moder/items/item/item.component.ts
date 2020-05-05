@@ -105,13 +105,14 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
       .isAllowed('specifications', 'edit')
       .subscribe(allow => (this.canEditSpecifications = allow));
 
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => {
+        switchMap(id => {
           this.loading++;
-          return this.itemService.getItem(params.id, {
+          return this.itemService.getItem(id, {
             fields: [
               'name_text',
               'name_html',
@@ -205,11 +206,12 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.randomPicture =
             data.pictures.length > 0 ? data.pictures[0] : null;
         }),
-        switchMapTo(this.route.queryParams),
+        switchMapTo(this.route.queryParamMap),
+        map(params => params.get('tab')),
         distinctUntilChanged(),
         debounceTime(30),
-        tap(params => {
-          this.activeTab = params.tab ? params.tab : 'meta';
+        tap(tab => {
+          this.activeTab = tab ? tab : 'meta';
 
           if (this.activeTab === 'tree') {
             if (!this.treeTab.initialized) {

@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
-import {Subscription, combineLatest, EMPTY} from 'rxjs';
+import {Subscription, combineLatest, EMPTY, of} from 'rxjs';
 import { PictureService, APIPicture } from '../../services/picture';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -36,11 +36,16 @@ export class NewItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          item_id: parseInt(params.get('item_id'), 10),
+          date: params.get('date')
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
         switchMap(params => combineLatest([
+          of(params),
           this.itemService
             .getItem(params.item_id, {
               fields: 'name_html,name_text'
@@ -53,10 +58,11 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 return EMPTY;
               })
             ),
-          this.route.queryParams.pipe(
+          this.route.queryParamMap.pipe(
+            map(query => parseInt(query.get('page'), 10)),
             distinctUntilChanged(),
             debounceTime(30),
-            switchMap(query =>
+            switchMap(page =>
               this.pictureService.getPictures({
                 fields:
                   'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
@@ -64,7 +70,7 @@ export class NewItemComponent implements OnInit, OnDestroy {
                 status: 'accepted',
                 accept_date: params.date,
                 item_id: params.item_id,
-                page: query.page
+                page
               })
             ),
             catchError(err => {
@@ -74,18 +80,12 @@ export class NewItemComponent implements OnInit, OnDestroy {
               return EMPTY;
             })
           )
-        ]).pipe(
-          map(data => ({
-            params,
-            item: data[0],
-            pictures: data[1]
-          }))
-        ))
+        ]))
       )
-      .subscribe(data => {
-        this.item = data.item;
-        this.date = data.params.date;
-        this.dateStr = moment(data.params.date).format('LL');
+      .subscribe(([params, item, pictures]) => {
+        this.item = item;
+        this.date = params.date;
+        this.dateStr = moment(params.date).format('LL');
 
         this.pageEnv.set({
           layout: {
@@ -95,8 +95,8 @@ export class NewItemComponent implements OnInit, OnDestroy {
           pageId: 210
         });
 
-        this.pictures = data.pictures.pictures;
-        this.paginator = data.pictures.paginator;
+        this.pictures = pictures.pictures;
+        this.paginator = pictures.paginator;
       });
   }
 

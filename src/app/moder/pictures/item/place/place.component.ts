@@ -6,7 +6,7 @@ import { PageEnvService } from '../../../../services/page-env.service';
 import {
   distinctUntilChanged,
   debounceTime,
-  switchMap
+  switchMap, map
 } from 'rxjs/operators';
 import {icon, LatLng, latLng, LeafletMouseEvent, Map, marker, Marker, tileLayer} from 'leaflet';
 import { APIService } from '../../../../services/api.service';
@@ -70,12 +70,13 @@ export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.sub = this.route.params
+    this.sub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
-          this.pictureService.getPicture(params.id, {
+        switchMap(id =>
+          this.pictureService.getPicture(id, {
             fields: 'point'
           })
         )

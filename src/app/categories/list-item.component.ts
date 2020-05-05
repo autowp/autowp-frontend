@@ -48,15 +48,11 @@ export class CategoriesListItemComponent implements OnChanges {
     }
 
     if (changes.pictures || changes.parentRouterLink) {
-      const pictures: PictureThumbRoute[] = [];
-      for (const pic of this.item.preview_pictures.pictures) {
-        pictures.push({
-          picture: pic ? pic.picture : null,
-          thumb: pic ? pic.thumb : null,
-          route: pic && pic.picture && this.parentRouterLink ? this.parentRouterLink.concat(['pictures', pic.picture.identity]) : null
-        });
-      }
-      this.pictures = pictures;
+      this.pictures = this.item.preview_pictures.pictures.map(pic => ({
+        picture: pic ? pic.picture : null,
+        thumb: pic ? pic.thumb : null,
+        route: pic && pic.picture && this.parentRouterLink ? this.parentRouterLink.concat(['pictures', pic.picture.identity]) : null
+      }));
     }
   }
 }

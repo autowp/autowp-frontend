@@ -73,43 +73,38 @@ export class UploadSelectComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(50)
       ),
-      this.route.queryParams
+      this.route.queryParamMap.pipe(
+        map(params => ({
+          brand_id: parseInt(params.get('brand_id'), 10),
+          page: parseInt(params.get('page'), 10),
+        }))
+      )
     ])
       .pipe(
-        map(data => ({
-          search: data[0],
-          query: data[1]
-        })),
-        distinctUntilChanged(),
+        map(([search, query]) => ({search, brand_id: query.brand_id, page: query.page})),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         tap(() => {
           this.loading = 1;
           this.brand = null;
         }),
         switchMap(params => {
-          const brandId = parseInt(params.query.brand_id, 10);
-          const page = parseInt(params.query.page, 10);
+          const brandId = params.brand_id;
+          const page = params.page;
 
           return forkJoin([
             brandId ? this.brandObservable(brandId) : of(null),
             brandId ? of(null) : this.brandsObservable(page, params.search)
-          ]).pipe(
-            map(data => {
-              return {
-                brand: data[0],
-                brands: data[1]
-              };
-            })
-          );
+          ]);
         }),
         tap(() => (this.loading = 0))
       )
-      .subscribe(data => {
-        if (data.brands) {
-          this.brands = chunk(data.brands.items, 6);
-          this.paginator = data.brands.paginator;
+      .subscribe(([brand, brands]) => {
+        if (brands) {
+          this.brands = chunk(brands.items, 6);
+          this.paginator = brands.paginator;
         }
-        if (data.brand) {
-          this.brand = data.brand;
+        if (brand) {
+          this.brand = brand;
         }
       });
   }
@@ -152,14 +147,14 @@ export class UploadSelectComponent implements OnInit {
         });
         return EMPTY;
       }),
-      switchMap((item, sindex) => {
-        return this.brandItemsObservable(item);
-      })
+      switchMap((item, sindex) => this.brandItemsObservable(item)),
+      map(([item, vehicles, engines, concepts]) => ({item, vehicles, engines, concepts}))
     );
   }
 
   private brandItemsObservable(item: APIItem) {
     return forkJoin([
+      of(item),
       this.itemParentService
         .getItems({
           limit: 500,
@@ -207,15 +202,6 @@ export class UploadSelectComponent implements OnInit {
             return EMPTY;
           })
         )
-    ]).pipe(
-      map(data => {
-        return {
-          item,
-          vehicles: data[0],
-          engines: data[1],
-          concepts: data[2]
-        };
-      })
-    );
+    ]);
   }
 }

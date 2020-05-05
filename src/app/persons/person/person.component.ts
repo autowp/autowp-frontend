@@ -3,8 +3,8 @@ import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, combineLatest, of, EMPTY, Observable} from 'rxjs';
-import { PictureService, APIPicture } from '../../services/picture';
-import { ItemLinkService, APIItemLink } from '../../services/item-link';
+import {PictureService, APIPicture, APIPictureGetResponse} from '../../services/picture';
+import {ItemLinkService, APIItemLink, APIItemLinkGetResponse} from '../../services/item-link';
 import { APIACL } from '../../services/acl.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {
@@ -49,89 +49,71 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.routeSub = this.getPerson()
-      .pipe(
-        tap(item => {
+    this.routeSub = this.getPerson().pipe(
+      tap(item => {
+        this.routerLink = ['/persons', item.id.toString()];
 
-          this.routerLink = ['/persons', item.id.toString()];
-
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            name: item.name_text,
-            pageId: 213
-          });
-        }),
-        switchMap(item => this.route.queryParams.pipe(
-          map(params => ({ item, params }))
-        )),
-        switchMap(data => combineLatest([
-          this.itemLinkService
-            .getItems({
-              item_id: data.item.id
-            })
-            .pipe(
-              catchError(err => {
-                this.toastService.response(err);
-                return of(null);
-              })
-            ),
-          this.pictureService
-            .getPictures({
-              status: 'accepted',
-              exact_item_id: data.item.id,
-              exact_item_link_type: 2,
-              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              limit: 12,
-              order: 12,
-              page: data.params.page
-            })
-            .pipe(
-              catchError(err => {
-                this.toastService.response(err);
-                return of(null);
-              })
-            ),
-          this.pictureService
-            .getPictures({
-              status: 'accepted',
-              exact_item_id: data.item.id,
-              exact_item_link_type: 1,
-              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              limit: 12,
-              order: 12,
-              page: data.params.page
-            })
-            .pipe(
-              catchError(err => {
-                this.toastService.response(err);
-                return of(null);
-              })
-            )
-          ]).pipe(
-            map(responses => ({
-              item: data.item,
-              links: responses[0].items,
-              authorPictures: responses[1],
-              contentPictures: responses[2]
-            }))
-          )
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          name: item.name_text,
+          pageId: 213
+        });
+      }),
+      switchMap(item => this.route.queryParamMap.pipe(
+        map(params => ({ item, page: parseInt(params.get('page'), 10) }))
+      )),
+      switchMap(data => combineLatest([
+        of(data.item),
+        this.itemLinkService.getItems({item_id: data.item.id}).pipe(
+          catchError(err => {
+            this.toastService.response(err);
+            return of(null as APIItemLinkGetResponse);
+          })
+        ),
+        this.pictureService.getPictures({
+          status: 'accepted',
+          exact_item_id: data.item.id,
+          exact_item_link_type: 2,
+          fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+          limit: 12,
+          order: 12,
+          page: data.page
+        }).pipe(
+          catchError(err => {
+            this.toastService.response(err);
+            return of(null as APIPictureGetResponse);
+          })
+        ),
+        this.pictureService.getPictures({
+          status: 'accepted',
+          exact_item_id: data.item.id,
+          exact_item_link_type: 1,
+          fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+          limit: 12,
+          order: 12,
+          page: data.page
+        }).pipe(
+          catchError(err => {
+            this.toastService.response(err);
+            return of(null as APIPictureGetResponse);
+          })
         )
-      )
-      .subscribe(data => {
-        this.item = data.item;
-        this.links = data.links;
-        this.authorPictures = data.authorPictures.pictures;
-        this.authorPicturesPaginator = data.authorPictures.paginator;
-        this.contentPictures = data.contentPictures.pictures;
-        this.contentPicturesPaginator = data.contentPictures.paginator;
+      ])))
+      .subscribe(([item, links, authorPictures, contentPictures]) => {
+        this.item = item;
+        this.links = links.items;
+        this.authorPictures = authorPictures.pictures;
+        this.authorPicturesPaginator = authorPictures.paginator;
+        this.contentPictures = contentPictures.pictures;
+        this.contentPicturesPaginator = contentPictures.paginator;
       });
   }
 
   getPerson(): Observable<APIItem> {
-    return this.route.params.pipe(
-      map(params => params.id),
+    return this.route.paramMap.pipe(
+      map(params => parseInt(params.get('id'), 10)),
       distinctUntilChanged(),
       debounceTime(30),
       switchMap(id =>

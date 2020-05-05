@@ -14,7 +14,6 @@ import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { APIPicture } from '../../services/picture';
 import * as $ from 'jquery';
 import Jcrop from '../../jcrop/jquery.Jcrop';
-import {map} from 'rxjs/operators';
 
 interface JcropCrop {
   x: number;
@@ -53,29 +52,24 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.picture$.next(this.picture);
-    this.sub = combineLatest([this.img$, this.picture$]).pipe(
-      map(data => ({
-        img: data[0],
-        picture: data[1]
-      }))
-    ).subscribe(data => {
-      if (data.img && data.picture) {
+    this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
+      if (img && picture) {
 
-        const $img = $(data.img);
+        const $img = $(img);
         const $body = $img.parent();
 
         this.jcrop = null;
-        if (data.picture.crop) {
+        if (picture.crop) {
           this.currentCrop = {
-            w: data.picture.crop.width,
-            h: data.picture.crop.height,
-            x: data.picture.crop.left,
-            y: data.picture.crop.top
+            w: picture.crop.width,
+            h: picture.crop.height,
+            x: picture.crop.left,
+            y: picture.crop.top
           };
         } else {
           this.currentCrop = {
-            w: data.picture.width,
-            h: data.picture.height,
+            w: picture.width,
+            h: picture.height,
             x: 0,
             y: 0
           };
@@ -83,11 +77,9 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
         const bWidth = $body.width() || 1;
 
-
-
-        const scale = data.picture.width / bWidth;
-        const width = data.picture.width / scale;
-        const height = data.picture.height / scale;
+        const scale = picture.width / bWidth;
+        const width = picture.width / scale;
+        const height = picture.height / scale;
 
 
         $img.css({
@@ -109,7 +101,7 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
           minSize: this.minSize,
           boxWidth: width,
           boxHeight: height,
-          trueSize: [data.picture.width, data.picture.height],
+          trueSize: [picture.width, picture.height],
           keySupport: false
         });
       }

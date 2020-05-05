@@ -58,22 +58,22 @@ export class DonateVodComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.querySub = combineLatest([
-      this.route.queryParams.pipe(
-        map(params => ({ anonymous: params.anonymous, date: params.date })),
-        distinctUntilChanged(),
+      this.route.queryParamMap.pipe(
+        map(params => ({ anonymous: params.get('anonymous'), date: params.get('date') })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30)
       ),
       this.donateService.getVOD(),
-      this.route.queryParams.pipe(
-        map(params => ({ item_id: params.item_id })),
+      this.route.queryParamMap.pipe(
+        map(params => parseInt(params.get('item_id'), 10) ),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params => {
-          if (!params.item_id) {
+        switchMap(itemID => {
+          if (!itemID) {
             return of(null);
           }
 
-          return this.itemService.getItem(params.item_id, {
+          return this.itemService.getItem(itemID, {
             fields: 'name_html,item_of_day_pictures'
           });
         })
@@ -83,22 +83,14 @@ export class DonateVodComponent implements OnInit, OnDestroy {
         'donate/vod/order-message',
         'donate/vod/order-target'
       ])
-    ]).pipe(
-      map(data => ({
-        params: data[0],
-        vod: data[1],
-        item: data[2],
-        user: data[3],
-        translations: data[4]
-      }))
-    ).subscribe(data => {
-      this.sum = data.vod.sum;
-      this.dates = data.vod.dates;
-      this.selectedDate = data.params.date;
-      this.selectedItem = data.item;
-      this.user = data.user;
-      this.userID = data.user ? data.user.id : 0;
-      this.anonymous = this.userID ? !!data.params.anonymous : true;
+    ]).subscribe(([params, vod, item, user, translations]) => {
+      this.sum = vod.sum;
+      this.dates = vod.dates;
+      this.selectedDate = params.date;
+      this.selectedItem = item;
+      this.user = user;
+      this.userID = user ? user.id : 0;
+      this.anonymous = this.userID ? !!params.anonymous : true;
 
       if (!this.selectedItem || !this.selectedDate) {
         this.formParams = null;
@@ -120,11 +112,11 @@ export class DonateVodComponent implements OnInit, OnDestroy {
         { name: 'need-fio', value: 'false' },
         { name: 'need-phone', value: 'false' },
         { name: 'need-address', value: 'false' },
-        { name: 'formcomment', value: data.translations['donate/vod/order-message'] },
-        { name: 'short-dest', value: data.translations['donate/vod/order-message'] },
+        { name: 'formcomment', value: translations['donate/vod/order-message'] },
+        { name: 'short-dest', value: translations['donate/vod/order-message'] },
         { name: 'label', value: label },
         { name: 'quickpay-form', value: 'donate' },
-        { name: 'targets', value: sprintf(data.translations['donate/vod/order-target'], label) },
+        { name: 'targets', value: sprintf(translations['donate/vod/order-target'], label) },
         {
           name: 'successURL',
           value: 'https://' + window.location.host + '/donate/vod/success'

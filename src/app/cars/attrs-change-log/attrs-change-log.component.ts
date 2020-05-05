@@ -82,39 +82,34 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = this.route.queryParams
+    this.querySub = this.route.queryParamMap
       .pipe(
-        distinctUntilChanged(),
+        map(params => ({
+          user_id: parseInt(params.get('user_id'), 10),
+          item_id: parseInt(params.get('item_id'), 10),
+          page: parseInt(params.get('page'), 10),
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        switchMap(
-          params =>
-            combineLatest([
-              this.attrService.getUserValues({
-                user_id: params.user_id ? params.user_id : null,
-                item_id: params.item_id,
-                page: params.page,
-                fields: 'user,item.name_html,path,unit,value_text'
-              }),
-              this.acl.inheritsRole('moder')
-            ]).pipe(
-              map(items => ({
-                params,
-                items: items[0],
-                isModer: items[1]
-              }))
-            )
-        )
+        switchMap(params => combineLatest([
+          of(params),
+          this.attrService.getUserValues({
+            user_id: params.user_id ? params.user_id : null,
+            item_id: params.item_id,
+            page: params.page,
+            fields: 'user,item.name_html,path,unit,value_text'
+          }),
+          this.acl.inheritsRole('moder')
+        ]))
       )
-      .subscribe(data => {
-        this.isModer = data.isModer;
-        this.userID = data.params.user_id
-          ? parseInt(data.params.user_id, 10)
-          : 0;
+      .subscribe(([params, items, isModer]) => {
+        this.isModer = isModer;
+        this.userID = params.user_id ? params.user_id : 0;
         if (this.userID && !this.userQuery) {
           this.userQuery = '#' + this.userID;
         }
-        this.items = data.items.items;
-        this.paginator = data.items.paginator;
+        this.items = items.items;
+        this.paginator = items.paginator;
       });
   }
 

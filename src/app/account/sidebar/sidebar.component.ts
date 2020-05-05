@@ -1,7 +1,7 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message';
 import { AuthService } from '../../services/auth.service';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { PictureService } from '../../services/picture';
 import { PageEnvService } from '../../services/page-env.service';
@@ -47,14 +47,8 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
       ]
     )
       .pipe(
-        map(data => ({
-          user: data[0],
-          forumSummary: data[1],
-          messageSummary: data[2],
-          picturesSummary: data[3]
-        })),
-        tap(data => {
-          if (!data.user) {
+        tap(([user, forumSummary, messageSummary, picturesSummary]) => {
+          if (!user) {
             return;
           }
           this.items = [
@@ -92,13 +86,13 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               pageId: 130,
               routerLink: [
                 '/users',
-                data.user.identity ? data.user.identity : 'user' + data.user.id,
+                user.identity ? user.identity : 'user' + user.id,
                 'pictures'
               ],
               icon: 'th',
               name: 'page/130/name',
-              count: data.picturesSummary
-                ? data.picturesSummary.acceptedCount
+              count: picturesSummary
+                ? picturesSummary.acceptedCount
                 : null
             },
             {
@@ -106,8 +100,8 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLink: ['/account/inbox-pictures'],
               icon: 'th',
               name: 'page/94/name',
-              count: data.picturesSummary
-                ? data.picturesSummary.inboxCount
+              count: picturesSummary
+                ? picturesSummary.inboxCount
                 : null
             },
             {
@@ -115,8 +109,8 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLink: ['/forums/subscriptions'],
               icon: 'bookmark',
               name: 'page/57/name',
-              count: data.forumSummary
-                ? data.forumSummary.subscriptionsCount
+              count: forumSummary
+                ? forumSummary.subscriptionsCount
                 : null
             },
             {
@@ -136,11 +130,11 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLink: ['/account/messages'],
               icon: 'comments-o',
               name: 'page/128/name',
-              count: data.messageSummary
-                ? data.messageSummary.inbox.count
+              count: messageSummary
+                ? messageSummary.inbox.count
                 : null,
-              newCount: data.messageSummary
-                ? data.messageSummary.inbox.new_count
+              newCount: messageSummary
+                ? messageSummary.inbox.new_count
                 : null
             },
             {
@@ -149,7 +143,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLinkParams: { folder: 'sent' },
               icon: 'comments-o',
               name: 'page/80/name',
-              count: data.messageSummary ? data.messageSummary.sent.count : null
+              count: messageSummary ? messageSummary.sent.count : null
             },
             {
               pageId: 81,
@@ -157,11 +151,11 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLinkParams: { folder: 'system' },
               icon: 'comments',
               name: 'page/81/name',
-              count: data.messageSummary
-                ? data.messageSummary.system.count
+              count: messageSummary
+                ? messageSummary.system.count
                 : null,
-              newCount: data.messageSummary
-                ? data.messageSummary.system.new_count
+              newCount: messageSummary
+                ? messageSummary.system.new_count
                 : null
             }
           ];

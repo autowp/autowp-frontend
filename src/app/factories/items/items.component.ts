@@ -42,21 +42,20 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
       .inheritsRole('moder')
       .subscribe(isModer => (this.isModer = isModer));
 
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
-          this.itemService.getItem(params.id, {
-            fields: [
-              'name_text',
-              'name_html',
-              'lat',
-              'lng',
-              'description'
-            ].join(',')
-          })
-        ),
+        switchMap(id => this.itemService.getItem(id, {
+          fields: [
+            'name_text',
+            'name_html',
+            'lat',
+            'lng',
+            'description'
+          ].join(',')
+        })),
         catchError(err => {
           this.toastService.response(err);
           this.router.navigate(['/error-404'], {
@@ -80,14 +79,15 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             pageId: 182
           });
         }),
-        switchMap(factory => this.route.queryParams.pipe(
+        switchMap(factory => this.route.queryParamMap.pipe(
+          map(params => parseInt(params.get('page'), 10)),
           distinctUntilChanged(),
           debounceTime(30),
-          map(params => ({ factory, params }))
+          map(page => ({ factory, page }))
         )),
         switchMap(data => this.itemService.getItems({
           related_groups_of: data.factory.id,
-          page: data.params.page,
+          page: data.page,
           limit: 10,
           fields: [
             'name_html,name_default,description,has_text,produced',
@@ -112,18 +112,15 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
         this.factory = data.factory;
         this.paginator = data.paginator;
 
-        const items: CatalogueListItem[] = [];
-        for (const item of data.items) {
+        this.items = data.items.map(item => {
 
-          const pictures: CatalogueListItemPicture[] = [];
-          for (const picture of item.preview_pictures.pictures) {
-            pictures.push({
-              picture: picture ? picture.picture : null,
-              thumb: picture ? picture.thumb : null,
-              routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
-            });
-          }
-          items.push({
+          const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+            picture: picture ? picture.picture : null,
+            thumb: picture ? picture.thumb : null,
+            routerLink: item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : []
+          }));
+
+          return {
             id: item.id,
             preview_pictures: {
               pictures,
@@ -147,10 +144,8 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
               count: item.childs_count
             },
             childs_counts: null
-          });
-        }
-
-        this.items = items;
+          };
+        });
 
       });
   }

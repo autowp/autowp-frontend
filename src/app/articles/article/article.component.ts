@@ -2,7 +2,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { OnInit, OnDestroy, Injectable, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIArticle, ArticleService } from '../article.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -25,13 +25,14 @@ export class ArticlesArticleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.routeSub = this.route.params
+    this.routeSub = this.route.paramMap
       .pipe(
+        map(params => params.get('catname')),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(params =>
+        switchMap(catname =>
           this.articleService.getArticles({
-            catname: params.catname,
+            catname,
             limit: 1,
             fields: 'html'
           })
