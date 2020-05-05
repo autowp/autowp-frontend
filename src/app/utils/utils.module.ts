@@ -9,16 +9,25 @@ import {CatalogueListItemComponent} from './list-item/list-item.component';
 import {RouterModule} from '@angular/router';
 import {ItemHeaderComponent} from './item-header/item-header.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {Markdown2Component} from './markdown2/markdown2.component';
 
 @NgModule({
   declarations: [
     InvalidParamsPipe,
     MarkdownComponent,
+    Markdown2Component,
     PastTimeIndicatorComponent,
     CatalogueListItemComponent,
     ItemHeaderComponent
   ],
   imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, TranslateModule],
-  exports: [InvalidParamsPipe, MarkdownComponent, PastTimeIndicatorComponent, CatalogueListItemComponent, ItemHeaderComponent]
+  exports: [
+    InvalidParamsPipe,
+    MarkdownComponent,
+    PastTimeIndicatorComponent,
+    CatalogueListItemComponent,
+    ItemHeaderComponent,
+    Markdown2Component
+  ]
 })
 export class UtilsModule {}
