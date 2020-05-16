@@ -14,6 +14,7 @@ import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {environment} from '../environments/environment';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,8 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private itemService: ItemService,
     private modalService: NgbModal,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.language = this.languageService.language;
     const ngxTranslateCode = this.languageService.ngxTranslateCode;
@@ -88,6 +90,8 @@ export class AppComponent implements OnInit {
         this.urlPath = val.url;
       }
     });
+
+    angulartics2GoogleAnalytics.startTracking();
   }
 
   ngOnInit() {

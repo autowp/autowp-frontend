@@ -58,6 +58,7 @@ import * as Sentry from '@sentry/browser';
 import {environment} from '../environments/environment';
 import {OAuthService} from './services/oauth.service';
 import { GlobalErrorHandler } from './global-error-handler';
+import { Angulartics2Module } from 'angulartics2';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -121,7 +122,8 @@ export class SentryErrorHandler implements ErrorHandler {
     NgbCollapseModule,
     NgbDropdownModule,
     IndexModule,
-    ToastsModule
+    ToastsModule,
+    Angulartics2Module.forRoot(),
   ],
   providers: [
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
