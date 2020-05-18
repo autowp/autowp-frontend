@@ -68,7 +68,7 @@ export class OAuthService {
       }
       if (response.expires_in) {
         const validUntil = new Date();
-        validUntil.setSeconds(validUntil.getSeconds() + response.expires_in / 0.9);
+        validUntil.setSeconds(validUntil.getSeconds() + response.expires_in * 0.9);
         localStorage.setItem('valid_until', validUntil.getTime().toString());
       } else {
         localStorage.removeItem('valid_until');
