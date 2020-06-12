@@ -67,11 +67,10 @@
 
     <ng-container *ngFor="let item of picture.items">
       <app-markdown [markdown]="item.item.description" *ngIf="item.type == 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
-      <!--<p *ngIf="item.detailsUrl">
+      <p *ngIf="item.item.has_text && item.item.route">
         <i class="fa fa-align-left" aria-hidden="true"></i>
-        <a [href]="item.detailsUrl" translate>carlist/details</a>
+        <a [routerLink]="item.item.route" translate>carlist/details</a>
       </p>
-      -->
     </ng-container>
 
     <p *ngIf="picture.replaceable">

@@ -70,7 +70,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
             const fields =
               'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
               'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-              'items.item.name_html,categories,categories.name_html,copyrights,' +
+              'items.item.name_html,categories,categories.name_html,copyrights,,items.item.has_text,items.item.route,' +
               'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
             return this.changed$.pipe(
