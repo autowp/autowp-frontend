@@ -66,7 +66,7 @@
             <em translate *ngIf="values.get(attribute.id)['value'] === null">account/specs/conflicts/my-value/none</em>
             <span *ngIf="values.get(attribute.id)['value'] !== null">
               {{values.get(attribute.id)['value_text']}}
-              <span *ngIf="attribute.unit" class="unit" title="attribute.unit.name|translate" [textContent]="attribute.unit.abbr|translate"></span>
+              <span *ngIf="attribute.unit" class="unit" [title]="attribute.unit.name|translate" [textContent]="attribute.unit.abbr|translate"></span>
             </span>
           </div>
         </td>
