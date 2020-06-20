@@ -504,43 +504,43 @@
     9.  Адаптированные к языковой версии сайта названия автомобилей следуют тем же правилам, но не имеют ограничения на используемый алфавит
 
 </source>
-        <target>1. ## Commun
+        <target>
 
-1. Lorsque vous placez des matériaux ou des fragments de ceux-ci, veillez à en indiquer la source
-2. Un seul utilisateur n&#039;a pas le droit d&#039;utiliser plusieurs comptes en même temps.
-3.Sur l&#039;ensemble du site sous quelque forme que ce soit, les obscénités, les expressions obscènes, etc. sont interdites.
-4. Il est interdit d&#039;insulter les visiteurs du site, restez respectueux!
-5. Il est interdit de parler de: politique, religion, préférences sexuelles et autres, si cela n&#039;est pas directement lié au sujet de discussion ou n&#039;est pas spécifiquement convenu.
-6. Il est interdit de discuter des actions des modérateurs n&#039;importe où, sauf dans des endroits spécialement désignés pour ou par correspondance personnelle avec eux.
-7. Il est interdit de publier des messages personnels ou toute autre information qui discrédite les autres participants du site.
-8. Il est interdit d&#039;utiliser ou poster des images obscènes comme avatars ou photos
+1. ## Commun
 
+    1. Lorsque vous placez des matériaux ou des fragments de ceux-ci, veillez à en indiquer la source
+    2. Un seul utilisateur n&amp;#039;a pas le droit d&amp;#039;utiliser plusieurs comptes en même temps.
+    3.Sur l&amp;#039;ensemble du site sous quelque forme que ce soit, les obscénités, les expressions obscènes, etc. sont interdites.
+    4. Il est interdit d&amp;#039;insulter les visiteurs du site, restez respectueux!
+    5. Il est interdit de parler de: politique, religion, préférences sexuelles et autres, si cela n&amp;#039;est pas directement lié au sujet de discussion ou n&amp;#039;est pas spécifiquement convenu.
+    6. Il est interdit de discuter des actions des modérateurs n&amp;#039;importe où, sauf dans des endroits spécialement désignés pour ou par correspondance personnelle avec eux.
+    7. Il est interdit de publier des messages personnels ou toute autre information qui discrédite les autres participants du site.
+    8. Il est interdit d&amp;#039;utiliser ou poster des images obscènes comme avatars ou photos
 2. ## Commentaires
 
-1. Il est interdit de discuter d&#039;autre chose que le sujet des commentaires (ne partez pas en hors sujet)
-2. Il est interdit d&#039;écrire des messages dénués de sens contenant uniquement un smiley ou une humeur. 
-3. Les messages ne respectant pas les règles seront supprimés sans préavis.
-
+    1. Il est interdit de discuter d&amp;#039;autre chose que le sujet des commentaires (ne partez pas en hors sujet)
+    2. Il est interdit d&amp;#039;écrire des messages dénués de sens contenant uniquement un smiley ou une humeur.
+    3. Les messages ne respectant pas les règles seront supprimés sans préavis.
 3. ## Forum
 
-1. Il est interdit d&#039;utiliser des majuscules pour &quot;crier&quot; (pas de phrases entièrement en majuscules).
-2. Le Hors sujet est interdit sous quelque forme que ce soit.
-3. Il est interdit de créer des sujets identiques dans plusieurs branches.
-4. Il est interdit de soulever la question de la &quot;meilleure voiture&quot;, sans préciser le domaine d&#039;utilisation.
+    1. Il est interdit d&amp;#039;utiliser des majuscules pour &amp;quot;crier&amp;quot; (pas de phrases entièrement en majuscules).
+    2. Le Hors sujet est interdit sous quelque forme que ce soit.
+    3. Il est interdit de créer des sujets identiques dans plusieurs branches.
+    4. Il est interdit de soulever la question de la &amp;quot;meilleure voiture&amp;quot;, sans préciser le domaine d&amp;#039;utilisation.
+4. ## Règles d&amp;#039;annuaire
 
-4. ## Règles d&#039;annuaire
+    ### Désignation des voitures
+    1. Les noms des voitures sont attribués conformément à leur nom d&amp;#039;origine, disponible sur la carrosserie ou dans les publications officielles de la société.
+    2. Le nom de la voiture doit être écrit en majuscules, mais il est permis d&amp;#039;écrire uniquement en minuscules ou uniquement en majuscules si cela correspond au nom officiel de la voiture
+    3. L&amp;#039;indication du code carrosserie / de la série / du modèle est souhaitable
+    4. L&amp;#039;utilisation des caractères cyrilliques, latins et individuels de l&amp;#039;alphabet grec est autorisé.
+    5. L&amp;#039;utilisation de nombre est autorisé.
+    6. Si le fabriquant a utilisé des caractères spéciaux, alors leur utilisation est autorisé
+    7. Il est possible de séparer les véhicules ayant différent types de carrosserie en intégrant le nom du type de carrosserie dans le nom.
+    8. Il est permis d&amp;#039;ajouter des informations identifiant le marché auquel le véhicule est destiné pour séparer le même modele dans différentes configurations. Par exemple, UK-spec, Amérique du Nord, ZA-spec.
+    9. Les noms de voitures suivent les mêmes règles, mais n&amp;#039;ont aucune restriction quand a l&amp;#039;alphabet utilisé (latin, cyrillique, ...).
 
-### Désignation des voitures
-
-1. Les noms des voitures sont attribués conformément à leur nom d&#039;origine, disponible sur la carrosserie ou dans les publications officielles de la société.
-2. Le nom de la voiture doit être écrit en majuscules, mais il est permis d&#039;écrire uniquement en minuscules ou uniquement en majuscules si cela correspond au nom officiel de la voiture
-3. L&#039;indication du code carrosserie / de la série / du modèle est souhaitable
-4. L&#039;utilisation des caractères cyrilliques, latins et individuels de l&#039;alphabet grec est autorisé.
-5. L&#039;utilisation de nombre est autorisé.
-6. Si le fabriquant a utilisé des caractères spéciaux, alors leur utilisation est autorisé
-7. Il est possible de séparer les véhicules ayant différent types de carrosserie en intégrant le nom du type de carrosserie dans le nom.
-8. Il est permis d&#039;ajouter des informations identifiant le marché auquel le véhicule est destiné pour séparer le même modele dans différentes configurations. Par exemple, UK-spec, Amérique du Nord, ZA-spec.
-9. Les noms de voitures suivent les mêmes règles, mais n&#039;ont aucune restriction quand a l&#039;alphabet utilisé (latin, cyrillique, ...).</target>
+</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/rules/rules.component.html</context>
           <context context-type="linenumber">13</context>
