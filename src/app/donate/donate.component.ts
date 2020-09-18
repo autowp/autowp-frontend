@@ -52,8 +52,6 @@ export class DonateComponent {
           successURL: 'https://' + window.location.host + '/donate/success'
         };*/
 
-        console.log(translations);
-
         const map = {
           writer: 'seller',
           targets: translations['donate/target'],

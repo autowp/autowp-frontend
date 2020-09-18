@@ -41,7 +41,6 @@ export class AccountContactsComponent {
 
     this.auth.getUser().pipe(
       map(user => {
-        console.log('user', user);
         if (! user) {
           this.router.navigate(['/login']);
           return EMPTY;
