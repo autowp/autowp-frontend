@@ -31,6 +31,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-<a href="https://angular.io/"><img src="angular.svg" height="80" ></a>
-<a href="https://www.jetbrains.com/webstorm/"><img src="webstorm.svg" height="80" ></a>
+<a href="https://angular.io/"><img src="icons/angular.svg" height="80"></a>
+<a href="https://www.jetbrains.com/webstorm/"><img src="icons/webstorm.svg" height="80"></a>
+<a href="https://www.docker.com/"><img src="icons/docker.png" height="80"></a>
 
