@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/autowp/autowp-frontend.svg?branch=master)](https://travis-ci.org/autowp/autowp-frontend)
 [![Code Climate](https://codeclimate.com/github/autowp/autowp-frontend/badges/gpa.svg)](https://codeclimate.com/github/autowp/autowp-frontend)
-[![Dependencies](https://david-dm.org/autowp/autowp-frontend.svg)](https://david-dm.org/autowp/autowp-frontend)
-[![Dependencies](https://david-dm.org/autowp/autowp-frontend/dev-status.svg)](https://david-dm.org/autowp/autowp-frontend)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=autowp_autowp-frontend&metric=alert_status)](https://sonarcloud.io/dashboard?id=autowp_autowp-frontend)
 
 ## Development server
