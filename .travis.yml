@@ -9,14 +9,12 @@ cache:
 addons:
   sonarcloud:
     organization: "autowp-github"
-    token:
-      secure: $SONARCLOUD_TOKEN
 
 install: npm install
 
 script:
   - ./node_modules/.bin/ng lint
-  - sonar-scanner -Dsonar.login=$SONARCLOUD_TOKEN || true
+  - sonar-scanner -Dsonar.login=$SONAR_TOKEN || true
   - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js || travis_terminate 1;
   - docker build . -t autowp/autowp-frontend || travis_terminate 1;
 
