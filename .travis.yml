@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "12"
+  - "14"
 cache:
   directories:
     - "node_modules"
@@ -15,6 +15,7 @@ addons:
 install: npm install
 
 script:
+  - ./node_modules/.bin/ng lint
   - sonar-scanner -Dsonar.login=$SONARCLOUD_TOKEN || true
   - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js || travis_terminate 1;
   - docker build . -t autowp/autowp-frontend || travis_terminate 1;
