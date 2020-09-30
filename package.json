@@ -37,7 +37,7 @@
     "messageformat": "^2.3.0",
     "moment": "^2.29.0",
     "ng-recaptcha": "^6.0.0",
-    "ng2-charts": "^2.3.3",
+    "ng2-charts": "^2.4.2",
     "ngx-autosize": "^1.8.0",
     "ngx-moment": "^5.0.0",
     "ngx-pipes": "^2.7.5",
