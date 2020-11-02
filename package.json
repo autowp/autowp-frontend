@@ -65,7 +65,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "ngx-build-plus": "^10.1.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^5.0.0",
     "popper.js": "^1.16.1",
     "showdown": "^1.9.1",
     "ts-node": "^9.0.0",
