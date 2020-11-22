@@ -97,7 +97,7 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
 
   public openGallery($event) {
     if ($event.ctrlKey) {
-      this.openSource($event);
+      this.openSource();
       return;
     }
     this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', this.picture.identity]);
