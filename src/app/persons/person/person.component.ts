@@ -1,19 +1,13 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../../services/api.service';
-import { ItemService, APIItem } from '../../services/item';
-import { Router, ActivatedRoute } from '@angular/router';
-import {Subscription, combineLatest, of, EMPTY, Observable} from 'rxjs';
-import {PictureService, APIPicture, APIPictureGetResponse} from '../../services/picture';
-import {ItemLinkService, APIItemLink, APIItemLinkGetResponse} from '../../services/item-link';
-import { APIACL } from '../../services/acl.service';
-import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  catchError,
-  tap, map
-} from 'rxjs/operators';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {APIPaginator} from '../../services/api.service';
+import {APIItem, ItemService} from '../../services/item';
+import {ActivatedRoute, Router} from '@angular/router';
+import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
+import {APIPicture, APIPictureGetResponse, PictureService} from '../../services/picture';
+import {APIItemLink, APIItemLinkGetResponse, ItemLinkService} from '../../services/item-link';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {PageEnvService} from '../../services/page-env.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -39,14 +33,14 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pictureService: PictureService,
     private itemLinkService: ItemLinkService,
-    private acl: APIACL,
+    private acl: ACLService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
 
     this.routeSub = this.getPerson().pipe(

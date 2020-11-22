@@ -1,23 +1,13 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ACLService } from '../../../services/acl.service';
-import { ItemService, APIItem } from '../../../services/item';
-import { Subscription, of } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { APIPicture, PictureService } from '../../../services/picture';
-import { PageEnvService } from '../../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  finalize,
-  catchError,
-  tap,
-  switchMapTo, map
-} from 'rxjs/operators';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {ACLService, Privilege, Resource} from '../../../services/acl.service';
+import {APIItem, ItemService} from '../../../services/item';
+import {of, Subscription} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APIPicture, PictureService} from '../../../services/picture';
+import {PageEnvService} from '../../../services/page-env.service';
+import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, switchMapTo, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
-import { APIService } from '../../../services/api.service';
-
-// Acl.isAllowed('car', 'edit_meta', 'unauthorized');
+import {APIService} from '../../../services/api.service';
 
 export interface APIItemTreeItem {
   id: number;
@@ -102,7 +92,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .isAllowed('specifications', 'edit')
+      .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT)
       .subscribe(allow => (this.canEditSpecifications = allow));
 
     this.routeSub = this.route.paramMap

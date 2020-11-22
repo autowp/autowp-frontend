@@ -3,7 +3,7 @@ import { APIPicture } from '../../services/picture';
 import { APIPerspective } from '../../services/api.service';
 import { Subscription } from 'rxjs';
 import { PictureItemService } from '../../services/picture-item';
-import { ACLService } from '../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIPerspectiveService } from '../../api/perspective/perspective.service';
 
 interface ThumbnailAPIPicture extends APIPicture {
@@ -35,7 +35,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
 
     if (this.picture.perspective_item) {
@@ -65,7 +65,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onPictureSelect($event: any) {
+  public onPictureSelect() {
     this.picture.selected = !this.picture.selected;
     this.selected.emit(this.picture.selected);
   }

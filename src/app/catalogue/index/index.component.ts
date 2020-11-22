@@ -4,7 +4,7 @@ import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription, of, combineLatest} from 'rxjs';
-import {ACLService} from '../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
 import {ItemLinkService, APIItemLink} from '../../services/item-link';
@@ -66,7 +66,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
 
     this.sub = this.getBrand().pipe(
@@ -104,7 +104,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   }
 
   private getIsModer() {
-    return this.acl.inheritsRole('moder');
+    return this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   }
 
   private getCatname() {

@@ -29,8 +29,6 @@ import {
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 interface APIVehicleTypeInItems extends APIVehicleType {
   deep?: number;
 }

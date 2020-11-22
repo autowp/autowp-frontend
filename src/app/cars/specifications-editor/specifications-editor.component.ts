@@ -1,18 +1,13 @@
-import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
-import { APIItem, ItemService } from '../../services/item';
-import { ACLService } from '../../services/acl.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PageEnvService } from '../../services/page-env.service';
-import { APIUser } from '../../services/user';
-import {
-  switchMap,
-  distinctUntilChanged,
-  debounceTime,
-  switchMapTo, map
-} from 'rxjs/operators';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
+import {APIItem, ItemService} from '../../services/item';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PageEnvService} from '../../services/page-env.service';
+import {APIUser} from '../../services/user';
+import {debounceTime, distinctUntilChanged, map, switchMap, switchMapTo} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {APIService} from '../../services/api.service';
 
 @Component({
   selector: 'app-cars-specifications-editor',
@@ -79,8 +74,8 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
                 })
               )
             ),
-            this.acl.isAllowed('specifications', 'admin'),
-            this.acl.inheritsRole('moder')
+            this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.ADMIN),
+            this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE)
           ]);
         })
       )

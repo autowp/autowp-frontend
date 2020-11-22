@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { APIService } from '../../../services/api.service';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 export interface APITrafficWhitelistItem {
   ip: string;
   hostname: string;

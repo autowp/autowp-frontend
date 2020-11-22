@@ -6,8 +6,6 @@ import { Subscription, BehaviorSubject, forkJoin } from 'rxjs';
 import { map, tap, switchMap, switchMapTo } from 'rxjs/operators';
 import { APIService } from '../../services/api.service';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 export interface APITrafficItem {
   ip: string;
   hostname?: string;

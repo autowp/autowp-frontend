@@ -6,8 +6,6 @@ import { ActivatedRoute} from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { switchMap} from 'rxjs/operators';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 export interface APIItemAlphaGetResponse {
   groups: string[][];
 }

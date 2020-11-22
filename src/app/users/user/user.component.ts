@@ -1,31 +1,18 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ContactsService } from '../../services/contacts';
-import { ACLService } from '../../services/acl.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UserService, APIUser } from '../../services/user';
-import {
-  Subscription,
-  of,
-  forkJoin,
-  Observable,
-  combineLatest, EMPTY
-} from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { PictureService, APIPicture } from '../../services/picture';
-import { APIIP } from '../../services/ip';
-import { PageEnvService } from '../../services/page-env.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  tap,
-  catchError,
-  switchMap,
-  map
-} from 'rxjs/operators';
-import { MessageDialogService } from '../../message-dialog/message-dialog.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {ContactsService} from '../../services/contacts';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APIUser, UserService} from '../../services/user';
+import {combineLatest, EMPTY, forkJoin, Observable, of, Subscription} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
+import {APIPicture, PictureService} from '../../services/picture';
+import {APIIP} from '../../services/ip';
+import {PageEnvService} from '../../services/page-env.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {APIService} from '../../services/api.service';
 
 @Component({
   selector: 'app-users-user',
@@ -76,7 +63,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
 
     const fields =
@@ -102,9 +89,9 @@ export class UsersUserComponent implements OnInit, OnDestroy {
                 return EMPTY;
               })
             ),
-          this.acl.isAllowed('user', 'ip'),
-          this.acl.isAllowed('user', 'ban'),
-          this.acl.isAllowed('user', 'delete'),
+          this.acl.isAllowed(Resource.USER, Privilege.IP),
+          this.acl.isAllowed(Resource.USER, Privilege.BAN),
+          this.acl.isAllowed(Resource.USER, Privilege.DELETE),
           of(data.currentUser)
         ])),
         switchMap(([user, canViewIp, canBan, canDeleteUser, currentUser]) => {

@@ -1,12 +1,10 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ACLService } from '../../services/acl.service';
-import { PageService, APIPage, APIPageLinearized } from '../../services/page';
-import { PageEnvService } from '../../services/page-env.service';
-import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { switchMapTo } from 'rxjs/operators';
-import { APIService } from '../../services/api.service';
-
-// Acl.inheritsRole('pages-moder', 'unauthorized');
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {APIPage, APIPageLinearized, PageService} from '../../services/page';
+import {PageEnvService} from '../../services/page-env.service';
+import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
+import {switchMapTo} from 'rxjs/operators';
+import {APIService} from '../../services/api.service';
 
 @Component({
   selector: 'app-moder-pages',
@@ -41,7 +39,7 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
     );
 
     this.sub = combineLatest([
-      this.acl.isAllowed('hotlinks', 'manage'),
+      this.acl.isAllowed(Resource.HOTLINKS, Privilege.MANAGE),
       this.load$.pipe(switchMapTo(this.pageService.getPagesPipe()))
     ]).subscribe(([canManage, items]) => {
       this.canManage = canManage;

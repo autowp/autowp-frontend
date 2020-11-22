@@ -1,10 +1,10 @@
-import { Input, Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { APIItem } from '../../../../services/item';
-import { ACLService } from '../../../../services/acl.service';
-import { HttpEventType } from '@angular/common/http';
-import { APIImage, APIService } from '../../../../services/api.service';
-import {Subscription, EMPTY} from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import {Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
+import {APIItem} from '../../../../services/item';
+import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
+import {HttpEventType} from '@angular/common/http';
+import {APIImage, APIService} from '../../../../services/api.service';
+import {EMPTY, Subscription} from 'rxjs';
+import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .isAllowed('brand', 'logo')
+      .isAllowed(Resource.BRAND, Privilege.LOGO)
       .subscribe(allow => (this.canLogo = allow));
   }
 

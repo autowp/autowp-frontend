@@ -1,12 +1,12 @@
-import {Component, Input, OnInit, OnDestroy, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import { APIPicture, PictureService } from '../services/picture';
-import { ACLService } from '../services/acl.service';
-import { APIUser } from '../services/user';
-import { Subscription} from 'rxjs';
-import { AuthService } from '../services/auth.service';
-import { tap } from 'rxjs/operators';
-import { APICommentsService } from '../api/comments/comments.service';
-import { APIItem } from '../services/item';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {APIPicture, PictureService} from '../services/picture';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {APIUser} from '../services/user';
+import {Subscription} from 'rxjs';
+import {AuthService} from '../services/auth.service';
+import {tap} from 'rxjs/operators';
+import {APICommentsService} from '../api/comments/comments.service';
+import {APIItem} from '../services/item';
 import {Router} from '@angular/router';
 import {APIPictureItem, PictureItemService} from '../services/picture-item';
 
@@ -43,11 +43,11 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
     this.location = location;
 
     this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe((isModer) => (this.isModer = isModer));
 
     this.acl
-      .isAllowed('specifications', 'edit')
+      .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT)
       .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
 
     this.sub = this.auth.getUser().pipe(tap((user) => (this.user = user))).subscribe();
@@ -91,7 +91,7 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
     return false;
   }
 
-  public openSource($event) {
+  public openSource() {
     window.open(this.picture.image.src);
   }
 

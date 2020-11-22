@@ -8,7 +8,7 @@ import {APIPaginator} from '../../../services/api.service';
 import {APIPicture, PictureService} from '../../../services/picture';
 import {chunkBy} from '../../../chunk';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
-import {ACLService} from '../../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {APIItemParent} from '../../../services/item-parent';
 
 @Component({
@@ -43,13 +43,13 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.acl
-      .isAllowed('car', 'add')
+      .isAllowed(Resource.CAR, Privilege.ADD)
       .subscribe(canAddItem => (this.canAddItem = canAddItem));
     this.acl
-      .isAllowed('picture', 'accept')
+      .isAllowed(Resource.PICTURE, Privilege.ACCEPT)
       .subscribe(canAcceptPicture => (this.canAcceptPicture = canAcceptPicture));
 
-    this.sub = this.acl.inheritsRole('moder').pipe(
+    this.sub = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       tap(isModer => (this.isModer = isModer)),
       switchMap(isModer => combineLatest([
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),

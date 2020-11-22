@@ -9,8 +9,6 @@ import { PageEnvService } from '../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 export interface APILog {
   user: APIUser;
   date: string;

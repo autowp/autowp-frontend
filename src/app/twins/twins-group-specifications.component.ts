@@ -4,7 +4,7 @@ import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { ACLService } from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
 import { APIService } from '../services/api.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.acl
-      .isAllowed('twins', 'edit')
+      .isAllowed(Resource.CAR, Privilege.EDIT)
       .subscribe(canEdit => (this.canEdit = canEdit));
 
     this.sub = this.route.paramMap

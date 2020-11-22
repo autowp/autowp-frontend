@@ -1,12 +1,9 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ACLService } from '../../services/acl.service';
-import { PageEnvService } from '../../services/page-env.service';
-import { combineLatest, Subscription, BehaviorSubject } from 'rxjs';
-import { switchMapTo } from 'rxjs/operators';
-import {
-  APIHotlinksHost,
-  HotlinksService
-} from './hotlinks.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {PageEnvService} from '../../services/page-env.service';
+import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
+import {switchMapTo} from 'rxjs/operators';
+import {APIHotlinksHost, HotlinksService} from './hotlinks.service';
 
 @Component({
   selector: 'app-moder-hotlinks',
@@ -40,7 +37,7 @@ export class ModerHotlinksComponent implements OnInit, OnDestroy {
     );
 
     this.sub = combineLatest([
-      this.acl.isAllowed('hotlinks', 'manage'),
+      this.acl.isAllowed(Resource.HOTLINKS, Privilege.MANAGE),
       this.change$.pipe(switchMapTo(this.service.getHosts()))
     ])
       .subscribe(([canManage, hosts]) => {

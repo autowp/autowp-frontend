@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpEvent, HttpErrorResponse} from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpErrorResponse,
+  HttpRequest,
+  HttpHandler, HttpInterceptor
+} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import { environment } from '../../environments/environment';
 import {OAuthService} from './oauth.service';
@@ -74,8 +83,30 @@ export interface APILoginStartGetResponse {
 declare type HttpObserve = 'body' | 'events' | 'response';
 
 @Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+
+  constructor(private oauth: OAuthService) {}
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    return this.oauth.getAccessToken().pipe(
+      switchMap(accessToken => {
+        if (! accessToken) {
+          return next.handle(req);
+        }
+
+        const authReq = req.clone({
+          headers: req.headers.set('Authorization', 'Bearer ' + accessToken)
+        });
+
+        return next.handle(authReq);
+      })
+    );
+  }
+}
+
+@Injectable()
 export class APIService {
-  constructor(private http: HttpClient, private oauth: OAuthService, private toasts: ToastsService) {}
+  constructor(private http: HttpClient, private toasts: ToastsService) {}
 
   /**
    * Constructs a request that interprets the body as a text string and
@@ -325,32 +356,12 @@ export class APIService {
       withCredentials?: boolean;
     }
   ): Observable<any> {
-    return this.oauth.getAccessToken().pipe(
-      switchMap(accessToken => {
-        if (!options) {
-          options = {
-            observe: 'body'
-          };
+    return this.http.request(method, environment.apiUrl + url, options).pipe(
+      catchError((response: HttpErrorResponse) => {
+        if (response.status === 429) {
+          this.toasts.error(response.error);
         }
-        if (!options.headers) {
-          options.headers = new HttpHeaders();
-        }
-        if (accessToken) {
-          if (options.headers instanceof HttpHeaders) {
-            options.headers = options.headers.set('Authorization', 'Bearer ' + accessToken);
-          } else {
-            options.headers.Authorization = 'Bearer ' + accessToken;
-          }
-        }
-
-        return this.http.request(method, environment.apiUrl + url, options).pipe(
-          catchError((response: HttpErrorResponse) => {
-            if (response.status === 429) {
-              this.toasts.error(response.error);
-            }
-            return throwError(response);
-          })
-        );
+        return throwError(response);
       })
     );
   }

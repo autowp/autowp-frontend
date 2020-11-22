@@ -15,8 +15,6 @@ import {
 import { APIItemVehicleTypeGetResponse, APIService } from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 
-// Acl.isAllowed('car', 'add', 'unauthorized');
-
 interface NewItem {
   produced_exactly: boolean;
   is_concept: any;

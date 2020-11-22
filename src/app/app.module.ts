@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {ErrorHandler, Injectable, NgModule} from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
 import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { AuthGuard } from './auth.guard';
-import { APIService } from './services/api.service';
+import {APIService, AuthInterceptor} from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
 import { PictureService } from './services/picture';
@@ -126,6 +126,7 @@ export class SentryErrorHandler implements ErrorHandler {
     Angulartics2Module.forRoot(),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     ConfigurationService,

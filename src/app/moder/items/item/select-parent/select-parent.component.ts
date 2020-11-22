@@ -11,8 +11,6 @@ import {
 import { PageEnvService } from '../../../../services/page-env.service';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
-// Acl.isAllowed('car', 'edit_meta', 'unauthorized');
-
 export interface APIItemInSelectParent extends APIItem {
   childLinks: APIItemParent[];
   open: boolean;

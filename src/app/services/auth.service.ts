@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable, of, ReplaySubject} from 'rxjs';
 import { APIUser } from './user';
-import { switchMap, tap, map, catchError, shareReplay } from 'rxjs/operators';
+import { switchMap, tap, map, catchError} from 'rxjs/operators';
 import {OAuthService} from './oauth.service';
 import {APIService} from './api.service';
 
@@ -24,9 +24,7 @@ export class AuthService {
   }
 
   public getUser(): Observable<APIUser> {
-    return this.user$.pipe(
-      shareReplay(1)
-    );
+    return this.user$;
   }
 
   public login(

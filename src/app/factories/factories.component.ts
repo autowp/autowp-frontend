@@ -15,7 +15,7 @@ import {
   catchError,
   map
 } from 'rxjs/operators';
-import { ACLService } from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
 import { tileLayer, latLng, Marker, marker, icon } from 'leaflet';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -55,7 +55,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
 
     this.querySub = this.route.paramMap
@@ -75,7 +75,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
             ].join(',')
           })
         ),
-        catchError((err, caught) => {
+        catchError((err) => {
           this.toastService.response(err);
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
