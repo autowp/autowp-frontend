@@ -121,6 +121,7 @@ export class CatalogueEnginesComponent implements OnInit, OnDestroy {
       map(params => params.get('brand')),
       distinctUntilChanged(),
       debounceTime(10),
+
       switchMap(catname => {
         if (!catname) {
           return EMPTY;

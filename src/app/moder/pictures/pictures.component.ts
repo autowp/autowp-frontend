@@ -70,8 +70,6 @@ function toPlainVehicleTypes(
   return result;
 }
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 @Component({
   selector: 'app-moder-pictures',
   templateUrl: './pictures.component.html'

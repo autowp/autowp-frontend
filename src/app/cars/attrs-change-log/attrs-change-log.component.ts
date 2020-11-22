@@ -1,19 +1,13 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../../services/api.service';
-import { UserService, APIUser } from '../../services/user';
-import { ActivatedRoute, Router } from '@angular/router';
-import {Subscription, Observable, of, combineLatest, EMPTY} from 'rxjs';
-import { ACLService } from '../../services/acl.service';
-import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  catchError,
-  map
-} from 'rxjs/operators';
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { APIAttrUserValue, APIAttrsService } from '../../api/attrs/attrs.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {APIPaginator} from '../../services/api.service';
+import {APIUser, UserService} from '../../services/user';
+import {ActivatedRoute, Router} from '@angular/router';
+import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {PageEnvService} from '../../services/page-env.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {APIAttrsService, APIAttrUserValue} from '../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-cars-attrs-change-log',
@@ -99,7 +93,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
             page: params.page,
             fields: 'user,item.name_html,path,unit,value_text'
           }),
-          this.acl.inheritsRole('moder')
+          this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE)
         ]))
       )
       .subscribe(([params, items, isModer]) => {

@@ -6,8 +6,6 @@ import { APIAttrAttribute, APIAttrZone, APIAttrsService } from '../../api/attrs/
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
 
-// Acl.isAllowed('attrs', 'edit', 'unauthorized');
-
 @Component({
   selector: 'app-moder-attrs',
   templateUrl: './attrs.component.html'

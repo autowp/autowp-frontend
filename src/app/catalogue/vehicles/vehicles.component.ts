@@ -7,7 +7,7 @@ import {EMPTY, Subscription} from 'rxjs';
 import {APIPaginator} from '../../services/api.service';
 import {APIItemParent, ItemParentService} from '../../services/item-parent';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {ACLService} from '../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {Breadcrumbs, CatalogueService} from '../catalogue-service';
 import {APIPicture, PictureService} from '../../services/picture';
 
@@ -95,14 +95,14 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.acl
-      .isAllowed('car', 'add')
+      .isAllowed(Resource.CAR, Privilege.ADD)
       .subscribe(canAddItem => (this.canAddItem = canAddItem));
     this.acl
-      .isAllowed('picture', 'accept')
+      .isAllowed(Resource.PICTURE, Privilege.ACCEPT)
       .subscribe(canAcceptPicture => (this.canAcceptPicture = canAcceptPicture));
 
 
-    this.sub = this.acl.inheritsRole('moder').pipe(
+    this.sub = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       tap(isModer => (this.isModer = isModer)),
       switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
       switchMap(data => {

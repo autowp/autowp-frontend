@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
-import {ACLService} from '../../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {TranslateService} from '@ngx-translate/core';
 import { APIService } from '../../../services/api.service';
 
@@ -34,7 +34,7 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
-    this.sub = this.acl.inheritsRole('moder').pipe(
+    this.sub = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer, 'item.has_specs,item.has_child_specs')),
       switchMap(data => {
         if (!data || ! data.brand || !data.path || data.path.length <= 0) {

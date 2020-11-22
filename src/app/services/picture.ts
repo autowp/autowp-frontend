@@ -6,7 +6,7 @@ import { APIPictureItem } from './picture-item';
 import { APIIP } from './ip';
 import { switchMap, shareReplay, map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { ACLService } from './acl.service';
+import {ACLService, Privilege, Resource} from './acl.service';
 import {APIItem, APIPathTreeItem} from './item';
 import { APIItemLink } from './item-link';
 
@@ -369,7 +369,7 @@ export class PictureService {
       shareReplay(1)
     );
 
-    this.inboxSize$ = this.acl.inheritsRole('moder').pipe(
+    this.inboxSize$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap(isModer => {
         if (!isModer) {
           return of(null as number);

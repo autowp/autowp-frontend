@@ -1,14 +1,14 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ItemService, APIItem } from '../services/item';
-import {Subscription, of, Observable} from 'rxjs';
-import { PageEnvService } from '../services/page-env.service';
-import { ActivatedRoute } from '@angular/router';
-import {switchMap, tap, map} from 'rxjs/operators';
-import { ACLService } from '../services/acl.service';
-import { APIPaginator } from '../services/api.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {APIItem, ItemService} from '../services/item';
+import {Observable, of, Subscription} from 'rxjs';
+import {PageEnvService} from '../services/page-env.service';
+import {ActivatedRoute} from '@angular/router';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {APIPaginator} from '../services/api.service';
 import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '../services/item-parent';
-import {PictureService, APIPicture, APIPictureGetResponse} from '../services/picture';
-import { CatagoriesService } from './service';
+import {APIPicture, APIPictureGetResponse, PictureService} from '../services/picture';
+import {CatagoriesService} from './service';
 
 interface PathItem {
   routerLink: string[];
@@ -91,10 +91,10 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
     this.acl
-      .isAllowed('car', 'add')
+      .isAllowed(Resource.CAR, Privilege.ADD)
       .subscribe(canAddCar => (this.canAddCar = canAddCar));
 
     this.sub = this.categoriesService.categoryPipe(this.route)

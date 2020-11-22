@@ -1,6 +1,6 @@
 import {Component, Injectable, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { APIItem } from '../services/item';
-import { ACLService } from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {APIPicture} from '../services/picture';
 import {APIImage} from '../services/api.service';
 
@@ -26,7 +26,7 @@ export class CategoriesListItemComponent implements OnChanges {
 
   constructor(private acl: ACLService) {
     this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
   }
 

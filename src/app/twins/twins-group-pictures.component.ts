@@ -1,12 +1,12 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { ItemService, APIItem } from '../services/item';
-import { Subscription, of } from 'rxjs';
-import { PageEnvService } from '../services/page-env.service';
-import {switchMap, catchError, map, distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import { ACLService } from '../services/acl.service';
-import { PictureService, APIPicture } from '../services/picture';
-import { APIPaginator } from '../services/api.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {APIItem, ItemService} from '../services/item';
+import {of, Subscription} from 'rxjs';
+import {PageEnvService} from '../services/page-env.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {APIPicture, PictureService} from '../services/picture';
+import {APIPaginator} from '../services/api.service';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.acl
-      .isAllowed('twins', 'edit')
+      .isAllowed(Resource.CAR, Privilege.EDIT)
       .subscribe(canEdit => (this.canEdit = canEdit));
 
     this.sub = this.route.paramMap

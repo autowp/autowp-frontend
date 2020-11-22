@@ -4,8 +4,6 @@ import { PageService, APIPage, APIPageLinearized } from '../../../services/page'
 import { PageEnvService } from '../../../services/page-env.service';
 import { APIService } from '../../../services/api.service';
 
-// Acl.inheritsRole('pages-moder', 'unauthorized');
-
 @Component({
   selector: 'app-moder-pages-add',
   templateUrl: './add.component.html'

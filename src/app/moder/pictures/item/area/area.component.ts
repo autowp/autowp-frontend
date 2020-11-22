@@ -14,8 +14,6 @@ import {
   map
 } from 'rxjs/operators';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 interface Crop {
   w: number;
   h: number;

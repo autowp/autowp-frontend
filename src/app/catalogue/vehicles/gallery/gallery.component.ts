@@ -7,7 +7,7 @@ import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {APIPaginator} from '../../../services/api.service';
 import {CatalogueListItem} from '../../../utils/list-item/list-item.component';
 import {CatalogueService} from '../../catalogue-service';
-import {ACLService} from '../../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({
@@ -24,7 +24,7 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
   public galleryRouterLink: string[];
   public item: APIItem;
   public current: string;
-  private exact: boolean;
+  public exact: boolean;
 
   constructor(
     private pageEnv: PageEnvService,
@@ -37,7 +37,7 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.sub = this.acl.inheritsRole('moder').pipe(
+    this.sub = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap(isModer => combineLatest([
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),
         this.getExact()

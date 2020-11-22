@@ -1,16 +1,11 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator, APIService } from '../services/api.service';
-import { ACLService } from '../services/acl.service';
-import {Subscription, combineLatest, Observable} from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { PageEnvService } from '../services/page-env.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  switchMap,
-  map
-} from 'rxjs/operators';
-import { APIForumTheme, ForumsService, APIForumTopic } from './forums.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {APIPaginator, APIService} from '../services/api.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {combineLatest, Observable, Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {PageEnvService} from '../services/page-env.service';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
@@ -43,7 +38,7 @@ export class ForumsComponent implements OnInit, OnDestroy {
       this.route.queryParamMap.pipe(
         map(params => parseInt(params.get('page'), 10))
       ),
-      this.acl.isAllowed('forums', 'moderate')
+      this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE)
     ])
       .pipe(
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),

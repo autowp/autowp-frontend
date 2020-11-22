@@ -3,7 +3,7 @@ import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
 import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ACLService } from '../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   debounceTime,
@@ -39,7 +39,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
 
     this.routeSub = this.route.paramMap

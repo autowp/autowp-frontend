@@ -22,8 +22,6 @@ import {
   tap, map
 } from 'rxjs/operators';
 
-// Acl.isAllowed('car', 'move', 'unauthorized');
-
 interface APIPictureItemInOrganizePictures extends APIPictureItem {
   selected?: boolean;
 }

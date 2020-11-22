@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { APIPaginator, APIService } from '../../services/api.service';
-import { APIUser } from '../../services/user';
-import { ACLService } from '../../services/acl.service';
-import { switchMap, map, shareReplay } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {APIPaginator, APIService} from '../../services/api.service';
+import {APIUser} from '../../services/user';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 export interface APICommentItemGetOptions {
   fields?: string;
@@ -63,7 +63,7 @@ export class APICommentsService {
   private readonly attentionCommentsCount$: Observable<number>;
 
   constructor(private acl: ACLService, private api: APIService) {
-    this.attentionCommentsCount$ = this.acl.inheritsRole('moder').pipe(
+    this.attentionCommentsCount$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap(isModer => {
         if (!isModer) {
           return of(null as number);

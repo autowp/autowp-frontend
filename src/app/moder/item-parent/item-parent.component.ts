@@ -14,8 +14,6 @@ import {
   catchError, map
 } from 'rxjs/operators';
 
-// return Acl.isAllowed('car', 'move', 'unauthorized');
-
 @Component({
   selector: 'app-moder-item-parent',
   templateUrl: './item-parent.component.html'

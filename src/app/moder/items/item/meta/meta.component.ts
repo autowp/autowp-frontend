@@ -1,17 +1,9 @@
-import {
-  Component,
-  Injectable,
-  OnInit,
-  OnChanges,
-  Input,
-  SimpleChanges,
-  OnDestroy
-} from '@angular/core';
-import { APIItem, ItemService } from '../../../../services/item';
-import { ACLService } from '../../../../services/acl.service';
-import { APIItemVehicleTypeGetResponse, APIService } from '../../../../services/api.service';
-import {Subscription, forkJoin, EMPTY} from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {APIItem, ItemService} from '../../../../services/item';
+import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
+import {APIItemVehicleTypeGetResponse, APIService} from '../../../../services/api.service';
+import {EMPTY, forkJoin, Subscription} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-moder-items-item-meta',
@@ -61,7 +53,7 @@ export class ModerItemsItemMetaComponent
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .isAllowed('car', 'edit_meta')
+      .isAllowed(Resource.CAR, Privilege.EDIT_META)
       .subscribe(allow => (this.canEditMeta = allow));
   }
 
@@ -69,7 +61,7 @@ export class ModerItemsItemMetaComponent
     this.aclSub.unsubscribe();
   }
 
-  public saveMeta(e) {
+  public saveMeta() {
     this.loading++;
 
     const data = {

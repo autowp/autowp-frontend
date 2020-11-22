@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, OnInit, OnDestroy } from '@angular/core';
-import { ACLService } from '../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIItem } from '../../services/item';
 import { Subscription } from 'rxjs';
 
@@ -20,8 +20,8 @@ export class TwinsItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.acl
-      .inheritsRole('moder')
-      .subscribe(inherits => (this.isModer = inherits));
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
+      .subscribe(isModer => (this.isModer = isModer));
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();

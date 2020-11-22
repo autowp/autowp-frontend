@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../../catalogue-service';
-import {ACLService} from '../../../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemParent} from '../../../../services/item-parent';
 import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../../services/picture';
 
@@ -39,7 +39,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
   }
 
   ngOnInit(): void {
-    this.sub = this.acl.inheritsRole('moder').pipe(
+    this.sub = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       tap(isModer => (this.isModer = isModer)),
       switchMap(isModer => combineLatest([
         this.catalogueService.resolveCatalogue(this.route, isModer, ''),

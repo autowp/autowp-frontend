@@ -18,8 +18,6 @@ import {
 } from 'rxjs/operators';
 import { PictureService, APIPicture } from '../../../../services/picture';
 
-// Acl.inheritsRole( 'moder', 'unauthorized' );
-
 export interface PictureItemMoveSelection {
   itemId: number;
   perspectiveId: number;

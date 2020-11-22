@@ -10,8 +10,6 @@ import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMapTo } from 'rxjs/operators';
 import { APIService } from '../../services/api.service';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 interface IAddRoleParentForm {
   role: null | string;
   parentRole: null | string;

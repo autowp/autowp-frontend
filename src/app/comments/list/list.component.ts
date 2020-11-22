@@ -1,19 +1,11 @@
-import {
-  Component,
-  Injectable,
-  Input,
-  EventEmitter,
-  Output,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommentsVotesComponent } from '../votes/votes.component';
-import { Subscription, combineLatest } from 'rxjs';
-import { APIUser } from '../../services/user';
-import { AuthService } from '../../services/auth.service';
-import { ACLService } from '../../services/acl.service';
-import { APIComment, APICommentsService } from '../../api/comments/comments.service';
+import {Component, EventEmitter, Injectable, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CommentsVotesComponent} from '../votes/votes.component';
+import {combineLatest, Subscription} from 'rxjs';
+import {APIUser} from '../../services/user';
+import {AuthService} from '../../services/auth.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 export interface APICommentInList extends APIComment {
@@ -50,12 +42,12 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.acl.inheritsRole('moder').subscribe(isModer => {this.isModer = isModer; });
+    this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).subscribe(isModer => {this.isModer = isModer; });
 
     this.sub = combineLatest([
       this.auth.getUser(),
-      this.acl.isAllowed('comment', 'remove'),
-      this.acl.isAllowed('forums', 'moderate')
+      this.acl.isAllowed(Resource.COMMENT, Privilege.REMOVE),
+      this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE)
     ]).subscribe(([user, canRemoveComments, canMoveMessage]) => {
       this.user = user;
       this.canRemoveComments = canRemoveComments;

@@ -6,8 +6,6 @@ import {
   APIPictureModerVoteTemplateService
 } from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 @Component({
   selector: 'app-moder-picture-vote-templates',
   templateUrl: './picture-vote-templates.component.html'

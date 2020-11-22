@@ -10,8 +10,6 @@ import { PageEnvService } from '../../../services/page-env.service';
 import {switchMap, distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
 import { APIService } from '../../../services/api.service';
 
-// Acl.inheritsRole('pages-moder', 'unauthorized');
-
 @Component({
   selector: 'app-moder-pages-edit',
   templateUrl: './edit.component.html'

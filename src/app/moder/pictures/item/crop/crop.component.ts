@@ -8,8 +8,6 @@ import { PageEnvService } from '../../../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { APIService } from '../../../../services/api.service';
 
-// Acl.inheritsRole( 'moder', 'unauthorized' );
-
 interface Crop {
   w: number;
   h: number;

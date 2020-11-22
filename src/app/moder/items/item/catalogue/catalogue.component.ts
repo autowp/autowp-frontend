@@ -1,27 +1,11 @@
-import {
-  Component,
-  Injectable,
-  Input,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  OnDestroy
-} from '@angular/core';
-import { APIItem, ItemService } from '../../../../services/item';
-import {
-  debounceTime,
-  map,
-  distinctUntilChanged,
-  switchMap
-} from 'rxjs/operators';
-import { of, Observable, Subscription } from 'rxjs';
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { ACLService } from '../../../../services/acl.service';
-import {
-  ItemParentService,
-  APIItemParent
-} from '../../../../services/item-parent';
-import { APIService } from '../../../../services/api.service';
+import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {APIItem, ItemService} from '../../../../services/item';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {Observable, of, Subscription} from 'rxjs';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
+import {APIItemParent, ItemParentService} from '../../../../services/item-parent';
+import {APIService} from '../../../../services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-catalogue',
@@ -86,7 +70,7 @@ export class ModerItemsItemCatalogueComponent
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .isAllowed('car', 'move')
+      .isAllowed(Resource.CAR, Privilege.MOVE)
       .subscribe(allow => (this.canMove = !!allow));
   }
 

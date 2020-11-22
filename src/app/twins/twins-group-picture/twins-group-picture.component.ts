@@ -1,22 +1,14 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
-import {Subscription, of, combineLatest, BehaviorSubject} from 'rxjs';
-import { APIItem, ItemService } from '../../services/item';
-import {
-  APIPicture,
-  PictureService
-} from '../../services/picture';
-import { APIPaginator } from '../../services/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PageEnvService } from '../../services/page-env.service';
-import { ACLService } from '../../services/acl.service';
-import {
-  switchMap,
-  tap,
-  distinctUntilChanged,
-  map
-} from 'rxjs/operators';
-import { APIUser } from '../../services/user';
-import { AuthService } from '../../services/auth.service';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {BehaviorSubject, combineLatest, of, Subscription} from 'rxjs';
+import {APIItem, ItemService} from '../../services/item';
+import {APIPicture, PictureService} from '../../services/picture';
+import {APIPaginator} from '../../services/api.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PageEnvService} from '../../services/page-env.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {APIUser} from '../../services/user';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-twins-group-picture',
@@ -45,7 +37,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.acl
-      .isAllowed('twins', 'edit')
+      .isAllowed(Resource.CAR, Privilege.EDIT)
       .subscribe((canEdit) => (this.canEdit = canEdit));
 
     const groupPipe = this.route.paramMap.pipe(
@@ -69,7 +61,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
     this.sub = combineLatest([
       groupPipe,
       this.auth.getUser().pipe(tap((user) => (this.user = user))),
-      this.acl.isAllowed('specifications', 'edit')
+      this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT)
     ])
       .pipe(
         switchMap(([group, , isModer]) => identityPipe.pipe(

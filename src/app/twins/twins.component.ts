@@ -6,7 +6,7 @@ import { PageEnvService } from '../services/page-env.service';
 import {tap, switchMap, map, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
-import { ACLService } from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
 
 interface ChunkedGroup {
   item: APIItem;
@@ -60,7 +60,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
     );
 
     this.acl
-      .isAllowed('twins', 'edit')
+      .isAllowed(Resource.CAR, Privilege.EDIT)
       .subscribe(canEdit => (this.canEdit = canEdit));
 
     this.sub = this.route.paramMap

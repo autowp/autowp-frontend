@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, OnInit, OnDestroy } from '@angular/core';
-import { ACLService } from '../../services/acl.service';
+import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIItem } from '../../services/item';
 import { APIPicture } from '../../services/picture';
 import { Subscription } from 'rxjs';
@@ -22,7 +22,7 @@ export class NewListItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
   }
   ngOnDestroy(): void {

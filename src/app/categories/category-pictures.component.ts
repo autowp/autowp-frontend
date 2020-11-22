@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
 import {switchMap, tap, map} from 'rxjs/operators';
-import { ACLService } from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { PictureService, APIPicture } from '../services/picture';
 import { chunkBy } from '../chunk';
@@ -42,10 +42,10 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe((isModer) => (this.isModer = isModer));
     this.acl
-      .isAllowed('car', 'add')
+      .isAllowed(Resource.CAR, Privilege.ADD)
       .subscribe((canAddCar) => (this.canAddCar = canAddCar));
 
     this.sub = this.categoriesService.categoryPipe(this.route)

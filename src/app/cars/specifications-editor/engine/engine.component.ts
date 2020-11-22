@@ -1,19 +1,9 @@
-import {
-  Injectable,
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  Output,
-  EventEmitter,
-  OnDestroy
-} from '@angular/core';
-import { APIItem, ItemService } from '../../../services/item';
-import { ACLService } from '../../../services/acl.service';
-import { Subscription } from 'rxjs';
+import {Component, EventEmitter, Injectable, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {APIItem, ItemService} from '../../../services/item';
+import {ACLService, Privilege, Resource} from '../../../services/acl.service';
+import {Subscription} from 'rxjs';
 import {ToastsService} from '../../../toasts/toasts.service';
-import { APIService } from '../../../services/api.service';
+import {APIService} from '../../../services/api.service';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
@@ -38,7 +28,7 @@ export class CarsSpecificationsEditorEngineComponent
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .isAllowed('specifications', 'edit-engine')
+      .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
       .subscribe(allow => (this.isAllowedEditEngine = !!allow));
   }
 

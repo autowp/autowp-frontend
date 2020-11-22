@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIItem, ItemService } from '../services/item';
-import { ACLService } from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {Subscription, combineLatest, of, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PictureService, APIPicture } from '../services/picture';
@@ -53,7 +53,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .inheritsRole('moder')
+      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.museumModer = isModer));
 
     this.routeSub = this.route.paramMap

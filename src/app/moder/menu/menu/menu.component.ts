@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, combineLatest } from 'rxjs';
-import { AuthService } from '../../../services/auth.service';
-import { ACLService } from '../../../services/acl.service';
-import { PictureService } from '../../../services/picture';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {combineLatest, Subscription} from 'rxjs';
+import {AuthService} from '../../../services/auth.service';
+import {ACLService, Privilege, Resource} from '../../../services/acl.service';
+import {PictureService} from '../../../services/picture';
 import {tap} from 'rxjs/operators';
-import { APICommentsService } from '../../../api/comments/comments.service';
+import {APICommentsService} from '../../../api/comments/comments.service';
 
 interface MenuItem {
   routerLink: string[];
@@ -33,8 +33,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = combineLatest([
-      this.acl.inheritsRole('moder'),
-      this.acl.inheritsRole('pages-moder'),
+      this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE),
+      this.acl.isAllowed(Resource.PAGES, Privilege.MODERATE),
       this.pictureService.getInboxSize(),
       this.commentService.getAttentionCommentsCount()
     ])

@@ -1,18 +1,10 @@
-import {
-  Component,
-  Injectable,
-  Input,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  OnDestroy
-} from '@angular/core';
-import { APIItem } from '../../../../services/item';
-import { ACLService } from '../../../../services/acl.service';
-import { APIItemLink, ItemLinkService } from '../../../../services/item-link';
-import { Subscription, Observable, forkJoin } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { APIService } from '../../../../services/api.service';
+import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {APIItem} from '../../../../services/item';
+import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
+import {APIItemLink, ItemLinkService} from '../../../../services/item-link';
+import {forkJoin, Observable, Subscription} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {APIService} from '../../../../services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-links',
@@ -43,7 +35,7 @@ export class ModerItemsItemLinksComponent
 
   ngOnInit(): void {
     this.aclSub = this.acl
-      .isAllowed('car', 'edit_meta')
+      .isAllowed(Resource.CAR, Privilege.EDIT_META)
       .subscribe(allow => (this.canEditMeta = allow));
   }
 

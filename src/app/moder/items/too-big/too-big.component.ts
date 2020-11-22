@@ -2,8 +2,6 @@ import { Component, Injectable } from '@angular/core';
 import { ItemService, APIItem } from '../../../services/item';
 import { PageEnvService } from '../../../services/page-env.service';
 
-// Acl.inheritsRole('moder', 'unauthorized');
-
 @Component({
   selector: 'app-moder-items-too-big',
   templateUrl: './too-big.component.html'
