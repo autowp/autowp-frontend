@@ -8,7 +8,6 @@ import { ModerPagesEditComponent } from './pages/edit/edit.component';
 import { ModerPagesComponent } from './pages/pages.component';
 import { ModerPerspectivesComponent } from './perspectives/perspectives.component';
 import { ModerPictureVoteTemplatesComponent } from './picture-vote-templates/picture-vote-templates.component';
-import { ModerRightsComponent } from './rights/rights.component';
 import { ModerStatComponent } from './stat/stat.component';
 import { ModerUsersComponent } from './users/users.component';
 import { ModerAttrsAttributeComponent } from './attrs/attribute/attribute.component';
@@ -64,11 +63,6 @@ const routes: Routes = [
   {
     path: 'pictures',
     loadChildren: () => import('./pictures/pictures.module').then(m => m.PicturesModule)
-  },
-  {
-    path: 'rights',
-    component: ModerRightsComponent,
-    canActivate: [ModerGuard]
   },
   {
     path: 'stat',
