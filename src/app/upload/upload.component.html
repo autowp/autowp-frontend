@@ -36,7 +36,7 @@
               />
 
               <div style="margin-top: 10px" *ngIf="files">
-                <p *ngFor="let file of file" [textContent]="file.name"></p>
+                <p *ngFor="let file of files" [textContent]="file.name"></p>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@
 
       <div class="progress-area">
         <ng-container *ngFor="let p of progress">
-          <ngb-progressbar class="d-block mb-2" [type]="p.success ? 'success' : p.failed ? 'danger' : 'info'" [value]="p.percentage"
+          <ngb-progressbar class="mb-2" [type]="p.success ? 'success' : p.failed ? 'danger' : 'info'" [value]="p.percentage"
             *ngIf="!p.success">
             <div>
               <span class="d-inline file-name" [textContent]="p.filename">: </span>
