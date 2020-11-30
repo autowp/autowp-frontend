@@ -40,7 +40,7 @@
     "moment": "^2.29.1",
     "ng-recaptcha": "^6.0.0",
     "ng2-charts": "^2.4.2",
-    "ngx-autosize": "^1.8.0",
+    "ngx-autosize": "^1.8.4",
     "ngx-moment": "^5.0.0",
     "ngx-pipes": "^2.7.5",
     "ngx-translate-messageformat-compiler": "^4.8.0",
