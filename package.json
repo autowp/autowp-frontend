@@ -38,7 +38,7 @@
     "lodash.escaperegexp": "^4.1.2",
     "messageformat": "^2.3.0",
     "moment": "^2.29.1",
-    "ng-recaptcha": "^6.0.0",
+    "ng-recaptcha": "^6.1.0",
     "ng2-charts": "^2.4.2",
     "ngx-autosize": "^1.8.4",
     "ngx-moment": "^5.0.0",
