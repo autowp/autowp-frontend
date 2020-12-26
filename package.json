@@ -44,7 +44,7 @@
     "ngx-moment": "^5.0.0",
     "ngx-pipes": "^2.7.5",
     "ngx-translate-messageformat-compiler": "^4.8.0",
-    "npm": "^6.14.9",
+    "npm": "^6.14.10",
     "rxjs": "^6.6.3",
     "sprintf-js": "^1.1.2",
     "tslib": "^2.0.3",
