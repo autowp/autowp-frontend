@@ -123,7 +123,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
       }));
     }
 
-    return combineLatest(out);
+    return out.length ? combineLatest(out) : of([]);
   }
 
   private processHref(url: string): Observable<CommentTextElement>
