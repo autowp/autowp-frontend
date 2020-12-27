@@ -144,7 +144,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
               user_id: user.id,
               limit: 15,
               order: 'date_desc',
-              fields: 'preview,route'
+              fields: ['preview', 'route']
             });
           }
 

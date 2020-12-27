@@ -109,7 +109,7 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
               page: query.page,
               limit: 30,
               order: this.order,
-              fields: 'preview,route,vote'
+              fields: ['preview', 'route', 'vote']
             })
             .pipe(
               catchError((err) => {

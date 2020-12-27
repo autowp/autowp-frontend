@@ -34,7 +34,7 @@
         </div>
         <div class="content">
           <div class="text">
-            <p [innerHTML]="message.text_html"></p>
+            <app-user-text [text]="message.text"></app-user-text>
           </div>
           <div ngPreserveWhitespaces>
             <span class="badge badge-info" *ngIf="message.is_new" translate>account/personal-message/new</span>

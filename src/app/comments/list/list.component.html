@@ -12,8 +12,8 @@
   </div>
   <div class="content">
 
-    <div class="text" *ngIf="canRemoveComments || !message.deleted">
-      <p [innerHtml]="message.text_html"></p>
+    <div class="text" *ngIf="(canRemoveComments || !message.deleted) && message.text">
+      <app-user-text [text]="message.text"></app-user-text>
     </div>
 
     <p class="alert alert-warning deleted-message" *ngIf="canRemoveComments || message.deleted" translate>comments/message-deleted-by-admin</p>

@@ -19,7 +19,7 @@ export interface APIMessage {
   is_new: boolean;
   author: APIUser;
   can_delete: boolean;
-  text_html: string;
+  text: string;
   can_reply: boolean;
   dialog_with_user_id: number;
   all_messages_link: boolean;

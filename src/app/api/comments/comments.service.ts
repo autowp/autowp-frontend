@@ -18,7 +18,7 @@ export interface APICommentGetOptions {
   limit: number;
   page?: number;
   order?: string;
-  fields?: string;
+  fields?: string[];
   user?: string | number;
   moderator_attention?: string;
   pictures_of_item_id?: number;
@@ -38,7 +38,7 @@ export interface APIComment {
   vote: number;
   replies: APIComment[];
   ip: string;
-  text_html: string;
+  text: string;
   user: APIUser;
   datetime: string;
   moderator_attention: number; // TODO: enum
@@ -112,7 +112,7 @@ export class APICommentsService {
     }
 
     if (options.fields) {
-      params.fields = options.fields;
+      params.fields = options.fields.join(',');
     }
 
     if (options.user) {

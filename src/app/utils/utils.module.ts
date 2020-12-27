@@ -10,6 +10,8 @@ import {RouterModule} from '@angular/router';
 import {ItemHeaderComponent} from './item-header/item-header.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {Markdown2Component} from './markdown2/markdown2.component';
+import {UserTextComponent} from './user-text/user-text.component';
+import {UserModule} from '../user/user.module';
 
 @NgModule({
   declarations: [
@@ -18,16 +20,18 @@ import {Markdown2Component} from './markdown2/markdown2.component';
     Markdown2Component,
     PastTimeIndicatorComponent,
     CatalogueListItemComponent,
-    ItemHeaderComponent
+    ItemHeaderComponent,
+    UserTextComponent
   ],
-  imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, TranslateModule],
+  imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, TranslateModule, UserModule],
   exports: [
     InvalidParamsPipe,
     MarkdownComponent,
     PastTimeIndicatorComponent,
     CatalogueListItemComponent,
     ItemHeaderComponent,
-    Markdown2Component
+    Markdown2Component,
+    UserTextComponent
   ]
 })
 export class UtilsModule {}

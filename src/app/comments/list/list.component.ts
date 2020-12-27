@@ -9,8 +9,8 @@ import {APIComment, APICommentsService} from '../../api/comments/comments.servic
 import {ToastsService} from '../../toasts/toasts.service';
 
 export interface APICommentInList extends APIComment {
-  showReply: boolean;
-  resolve: boolean;
+  showReply?: boolean;
+  resolve?: boolean;
 }
 
 @Component({
@@ -125,4 +125,5 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   public onCancel(message: APICommentInList) {
     message.showReply = false;
   }
+
 }
