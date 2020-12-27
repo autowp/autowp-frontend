@@ -90,6 +90,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     let umatch: string;
     let url;
 
+    // tslint:disable-next-line:no-conditional-assignment
     while (line && (res = re.exec(line))) {
       if (res[1]) {
         umatch = res[1];
