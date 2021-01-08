@@ -79,10 +79,6 @@ const routes: Routes = [
     canActivate: [ModerGuard]
   },
   {
-    path: 'hotlinks',
-    loadChildren: () => import('./hotlinks/hotlinks.module').then(m => m.HotlinksModule)
-  },
-  {
     path: 'attrs',
     children: [
       {
