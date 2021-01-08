@@ -7,7 +7,6 @@ export interface APITrafficWhitelistItem {
   ip: string;
   hostname: string;
   description: string;
-  whois_url: string;
 }
 
 export interface APITrafficWhitelistGetResponse {

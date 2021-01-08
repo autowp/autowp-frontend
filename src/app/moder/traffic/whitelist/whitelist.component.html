@@ -27,7 +27,7 @@
       <td [textContent]="item.hostname"></td>
       <td [textContent]="item.description"></td>
       <td>
-        <a [href]="'http://nic.ru/whois/?query=' + item.whois_url">whois</a>
+        <a [href]="'http://nic.ru/whois/?query=' + item.ip">whois</a>
       </td>
       <td>
         <button class="btn btn-danger" (click)="deleteItem(item)" style="margin:0" aria-label="Delete">
