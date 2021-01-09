@@ -33,16 +33,16 @@ export class IpService {
       return hostname;
     }
 
-    const o = this.api
-      .request<APIIP>('GET', 'ip/' + ip, {
-        params: {
-          fields: 'hostname'
-        }
-      })
+    const o = this.getIp(ip, 'hostname')
       .pipe(map(response => response.hostname));
 
     this.hostnames.set(ip, o);
 
     return o;
+  }
+
+  public getIp(ip: string, fields: string): Observable<APIIP> {
+    return this.api
+      .request<APIIP>('GET', 'ip/' + ip, {params: {fields}});
   }
 }

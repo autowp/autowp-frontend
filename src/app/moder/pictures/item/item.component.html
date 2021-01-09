@@ -368,22 +368,22 @@
     <div class="card card-body mb-4">
       <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
       <span *ngIf="!picture.owner" translate>moder/picture/uploader/unknown</span>
-      <div *ngIf="picture.ip && picture.ip.address">
+      <div *ngIf="ip && ip.address">
         {{'moder/picture/uploader/id-address:'|translate}}
-        <strong [textContent]="picture.ip.address"></strong>
+        <strong [textContent]="ip.address"></strong>
         <br />
-        <p *ngIf="picture.ip.blacklist">
+        <p *ngIf="ip.blacklist">
           {{'ban/that-address-is-banned'|translate}}
-          <app-user [user]="picture.ip.blacklist.user" *ngIf="picture.ip.blacklist.user"></app-user>
-          {{'ban/until'|translate}} {{picture.ip.blacklist.up_to|date}}
-          <span *ngIf="picture.ip.blacklist.reason" [textContent]="picture.ip.blacklist.reason"></span>
+          <app-user [user]="ip.blacklist.user" *ngIf="ip.blacklist.user"></app-user>
+          {{'ban/until'|translate}} {{ip.blacklist.up_to|date}}
+          <span *ngIf="ip.blacklist.reason" [textContent]="ip.blacklist.reason"></span>
         </p>
 
-        <button *ngIf="picture.ip.blacklist && picture.ip.rights.remove_from_blacklist" class="btn btn-success" (click)="removeFromBlacklist(picture.ip.address)">
+        <button *ngIf="ip.blacklist && ip.rights.remove_from_blacklist" class="btn btn-success" (click)="removeFromBlacklist(ip.address)">
           {{'ban/unban'|translate}}
         </button>
 
-        <form class="form-vertical" *ngIf="!picture.ip.blacklist && picture.ip.rights.add_to_blacklist">
+        <form class="form-vertical" *ngIf="!ip.blacklist && ip.rights.add_to_blacklist">
           <div class="form-group">
             <label translate>ban/period</label>
             <select [(ngModel)]="banPeriod" name="period" class="form-control" required>

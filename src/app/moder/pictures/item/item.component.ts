@@ -5,7 +5,7 @@ import {
 } from '../../../services/picture-item';
 import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import {Subscription, BehaviorSubject, of} from 'rxjs';
 import { PictureService, APIPicture } from '../../../services/picture';
 import { PageEnvService } from '../../../services/page-env.service';
 import {
@@ -13,11 +13,12 @@ import {
   debounceTime,
   switchMap,
   tap,
-  switchMapTo, map
+  switchMapTo, map, catchError
 } from 'rxjs/operators';
 import {LanguageService} from '../../../services/language';
 import { sprintf } from 'sprintf-js';
 import { APIService } from '../../../services/api.service';
+import {APIIP, IpService} from '../../../services/ip';
 
 @Component({
   selector: 'app-moder-pictures-item',
@@ -51,6 +52,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   private lastItemSub: Subscription;
   public monthOptions: any[];
   public dayOptions: any[];
+  public ip: APIIP;
 
   constructor(
     private api: APIService,
@@ -60,7 +62,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     private router: Router,
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private ipService: IpService
   ) {
     this.monthOptions = [
       {
@@ -152,19 +155,27 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
                   'similar.picture.thumb',
                   'replaceable',
                   'siblings.name_text',
-                  'ip.rights',
-                  'ip.blacklist',
                   'point',
                   'taken'
                 ].join(',')
               })
-            )
+            ),
+            switchMap(picture => {
+              if (!picture.ip) {
+                return of({picture, ip: null as APIIP});
+              }
+              return this.ipService.getIp(picture.ip, 'blacklist,rights').pipe(
+                catchError(() => of(null as APIIP)),
+                map(ip => ({picture, ip}))
+              );
+            })
           )
         )
       )
       .subscribe(
-        data => {
-          this.picture = data;
+        ({picture, ip}) => {
+          this.picture = picture;
+          this.ip = ip;
           this.id = this.picture.id;
 
           /*if (callback) {

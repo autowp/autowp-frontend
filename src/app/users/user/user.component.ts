@@ -3,10 +3,10 @@ import {ContactsService} from '../../services/contacts';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIUser, UserService} from '../../services/user';
-import {combineLatest, EMPTY, forkJoin, Observable, of, Subscription} from 'rxjs';
+import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {APIPicture, PictureService} from '../../services/picture';
-import {APIIP} from '../../services/ip';
+import {APIIP, IpService} from '../../services/ip';
 import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
@@ -58,7 +58,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private commentService: APICommentsService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private ipService: IpService
   ) {}
 
   ngOnInit(): void {
@@ -136,7 +137,9 @@ export class UsersUserComponent implements OnInit, OnDestroy {
             limit: 12,
             order: 1,
             fields: 'url,name_html'
-          });
+          }).pipe(
+            catchError(() => of(null))
+          );
 
           let comments = of(null as APICommentGetResponse);
           if (!user.deleted) {
@@ -150,12 +153,14 @@ export class UsersUserComponent implements OnInit, OnDestroy {
 
           let ip = of(null as APIIP);
           if (user.last_ip) {
-            ip = this.loadBan(user.last_ip);
+            ip = this.ipService.getIp(user.last_ip, 'blacklist,rights').pipe(
+              catchError(() => of(null as APIIP))
+            );
           }
 
-          return forkJoin([pictures, comments, ip]).pipe(
+          return combineLatest([pictures, comments, ip]).pipe(
             tap(([picturesResponse, commentsResponse, ipResponse]) => {
-              this.pictures = picturesResponse.pictures;
+              this.pictures = picturesResponse ? picturesResponse.pictures : [];
               this.comments = commentsResponse.items;
               this.ip = ipResponse;
             })
@@ -168,14 +173,6 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
     this.aclSub.unsubscribe();
-  }
-
-  private loadBan(ip: string): Observable<APIIP> {
-    return this.api.request<APIIP>('GET', 'ip/' + ip, {
-      params: {
-        fields: 'blacklist,rights'
-      }
-    });
   }
 
   public openMessageForm() {
@@ -268,11 +265,10 @@ export class UsersUserComponent implements OnInit, OnDestroy {
           this.toastService.response(err);
           return EMPTY;
         }),
-        switchMap(() => this.loadBan(this.user.last_ip)),
+        switchMap(() => this.ipService.getIp(this.user.last_ip, 'blacklist,rights')),
         catchError(err => {
           this.toastService.response(err);
           return EMPTY;
-
         })
       )
       .subscribe(data => {

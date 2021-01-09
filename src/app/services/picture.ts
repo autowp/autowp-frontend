@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { APIUser } from './user';
 import { APIPictureItem } from './picture-item';
-import { APIIP } from './ip';
 import { switchMap, shareReplay, map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import {ACLService, Privilege, Resource} from './acl.service';
@@ -97,7 +96,7 @@ export interface APIPicture {
   exif: string;
   replaceable: APIPicture;
   change_status_user: APIUser;
-  ip: APIIP;
+  ip: string;
   add_date: string;
   moder_vote: {
     vote: number;
