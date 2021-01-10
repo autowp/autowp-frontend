@@ -20,7 +20,7 @@ export class APIPerspectiveService {
 
   constructor(private http: HttpClient) {
     this.perspectives$ = this.http
-      .get<APIPerspectiveGetResponse>('/go-api/perspective')
+      .get<APIPerspectiveGetResponse>('/api/perspective')
       .pipe(
         map(response => response.items),
         shareReplay(1)
