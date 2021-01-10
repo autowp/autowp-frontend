@@ -195,7 +195,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
             case 204:
               this.inContacts = false;
               break;
-            case 200:
+            case 201:
               this.inContacts = true;
               break;
           }
