@@ -84,7 +84,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
   private prepareLine(line: string): Observable<CommentTextElement[]> {
     const out: Observable<CommentTextElement>[] = [];
 
-    const re = new RegExp(/(https?:\/\/[\w:.,\/?&_=~+%#'!|()-]{3,})|(www.[\w.,\/?&_=~+%#'!|()-]{3,})/isu, 'i');
+    const re = new RegExp(/(https?:\/\/[\w:.,\/?&_=~+%#'!|()-]{3,})|(www.[\w.,\/?&_=~+%#'!|()-]{3,})/i, 'i');
 
     let res = null;
     let umatch: string;
@@ -156,7 +156,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
 
   private tryUserLink(uri: URLParse): Observable<CommentTextElement|null>
   {
-    const re = new RegExp(/^\/users\/([^\/]+)$/isu, 'i');
+    const re = new RegExp(/^\/users\/([^\/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
     if (! matches) {
       return of(null);
@@ -165,7 +165,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     let userId       = null;
     let userIdentity = matches[1];
 
-    const re2 = new RegExp(/^user([0-9]+)$/isu, 'i');
+    const re2 = new RegExp(/^user([0-9]+)$/i, 'i');
     const match = re2.exec(userIdentity);
     if (match) {
       userIdentity = null;
@@ -196,7 +196,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private tryPictureLink(uri: URLParse): Observable<CommentTextElement|null> {
-    const re = new RegExp(/\/pictures?\/([^\/]+)$/isu, 'i');
+    const re = new RegExp(/\/pictures?\/([^\/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
 
     if (! matches) {
@@ -206,7 +206,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     let pictureId       = null;
     let pictureIdentity = matches[1];
 
-    const re2 = new RegExp(/^([0-9]+)$/isu, 'i');
+    const re2 = new RegExp(/^([0-9]+)$/i, 'i');
     const match = re2.exec(pictureIdentity);
     if (match) {
       pictureIdentity = null;
