@@ -30,7 +30,7 @@
     "@types/url-parse": "^1.4.3",
     "ajv": "^7.0.3",
     "angulartics2": "^10.0.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.8.2",
     "install": "^0.13.0",
