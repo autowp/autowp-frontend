@@ -26,7 +26,7 @@
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@sentry/browser": "^6.0.2",
+    "@sentry/browser": "^6.0.3",
     "@types/url-parse": "^1.4.3",
     "ajv": "^7.0.3",
     "angulartics2": "^10.0.0",
