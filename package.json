@@ -28,7 +28,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@sentry/browser": "^6.0.3",
     "@types/url-parse": "^1.4.3",
-    "ajv": "^7.0.3",
+    "ajv": "^7.0.4",
     "angulartics2": "^10.0.0",
     "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
