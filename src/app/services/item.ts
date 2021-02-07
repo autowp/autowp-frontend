@@ -383,6 +383,12 @@ function converItemsOptions(
         'descendant_pictures[owner_id]'
         ] = options.descendant_pictures.owner_id.toString();
     }
+
+    if (options.descendant_pictures.perspective_id) {
+      params[
+        'descendant_pictures[perspective_id]'
+        ] = options.descendant_pictures.perspective_id.toString();
+    }
   }
 
   if (options.preview_pictures) {
@@ -390,6 +396,12 @@ function converItemsOptions(
       params[
         'preview_pictures[type_id]'
         ] = options.preview_pictures.type_id.toString();
+    }
+
+    if (options.preview_pictures.perspective_id) {
+      params[
+        'preview_pictures[perspective_id]'
+        ] = options.preview_pictures.perspective_id.toString();
     }
   }
 
