@@ -74,7 +74,7 @@ export class PersonsPersonAuthorPictureComponent implements OnInit, OnDestroy {
           needRight: false
         },
         pageId: 34,
-        nameTranslated: picture.name_text
+        nameTranslated: picture ? picture.name_text : ''
       });
     });
   }
