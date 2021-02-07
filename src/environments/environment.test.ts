@@ -68,6 +68,15 @@ export const environment = {
       flag: 'flag-icon flag-icon-ua',
       momentLocale: 'uk',
       locale: 'uk'
+    },
+    {
+      code: 'es',
+      ngxTranslateCode: 'es',
+      hostname: 'es.localhost',
+      name: 'Español (beta)',
+      flag: 'flag-icon flag-icon-es',
+      momentLocale: 'es',
+      locale: 'es'
     }
   ]
 };

@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-GB" datatype="plaintext" original="ng2.template" target-language="es">
+    <body>
+      <trans-unit id="ngb.alert.close" datatype="html">
+        <source>Close</source>
+        <target>Cerrar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">2942</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.carousel.previous" datatype="html">
+        <source>Previous</source>
+        <target>anterior</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">4402</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.carousel.next" datatype="html">
+        <source>Next</source>
+        <target>siguiente</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">4411</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.previous-month" datatype="html">
+        <source>Previous month</source>
+        <target>Mes anterior</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">7105</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">7114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.next-month" datatype="html">
+        <source>Next month</source>
+        <target>Mes siguiente</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">7123</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">7132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.select-month" datatype="html">
+        <source>Select month</source>
+        <target>Seleccione mes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">8806</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">8815</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.select-year" datatype="html">
+        <source>Select year</source>
+        <target>Seleccione año</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">8824</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">8833</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.first" datatype="html">
+        <source>««</source>
+        <target>««</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14883</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.previous" datatype="html">
+        <source>«</source>
+        <target>«</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14892</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.next" datatype="html">
+        <source>»</source>
+        <target>»</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14901</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.last" datatype="html">
+        <source>»»</source>
+        <target>»»</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14910</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.first-aria" datatype="html">
+        <source>First</source>
+        <target>Primero</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14919</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.previous-aria" datatype="html">
+        <source>Previous</source>
+        <target>Anterior</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14928</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.next-aria" datatype="html">
+        <source>Next</source>
+        <target>Siguiente</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14937</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.last-aria" datatype="html">
+        <source>Last</source>
+        <target>Ultimo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">14946</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.progressbar.value" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="&quot;\uFFFD0\uFFFD&quot;"/></source>
+        <target><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">16082</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.HH" datatype="html">
+        <source>HH</source>
+        <target>HH</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17242</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.hours" datatype="html">
+        <source>Hours</source>
+        <target>Horas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17251</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.MM" datatype="html">
+        <source>MM</source>
+        <target>MM</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17260</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.minutes" datatype="html">
+        <source>Minutes</source>
+        <target>Minutos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17269</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
+        <source>Increment hours</source>
+        <target>Incremento de horas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17278</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
+        <source>Decrement hours</source>
+        <target>Decremento de horas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17287</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
+        <source>Increment minutes</source>
+        <target>Incremento de minutos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17296</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
+        <source>Decrement minutes</source>
+        <target>Decremento de minutos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17305</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.SS" datatype="html">
+        <source>SS</source>
+        <target>SS</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17314</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.seconds" datatype="html">
+        <source>Seconds</source>
+        <target>Segundos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17323</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
+        <source>Increment seconds</source>
+        <target>Incremento de segundos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17332</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
+        <source>Decrement seconds</source>
+        <target>Decremento de segundos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17341</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.PM" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="&quot;\uFFFD0\uFFFD&quot;"/></source>
+        <target><x id="INTERPOLATION" equiv-text="{{ i18n.getAfternoonPeriod() }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17352</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.AM" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="&quot;\uFFFD0\uFFFD&quot;"/></source>
+        <target><x id="INTERPOLATION" equiv-text="{{ i18n.getMorningPeriod() }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17363</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.toast.close-aria" datatype="html">
+        <source>Close</source>
+        <target>Cerrar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/__ivy_ngcc__/fesm2015/ng-bootstrap.js</context>
+          <context context-type="linenumber">17913</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="user/password" datatype="html">
+        <source>Password</source>
+        <target>Clave</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/delete/delete.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/restore-password/new/new.component.ts</context>
+          <context context-type="linenumber">60,72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signup/signup.component.ts</context>
+          <context context-type="linenumber">57,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="layout/language-contributing" datatype="html">
+        <source>Want to contribute?</source>
+        <target>Deseo contribuír</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">38,48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="layout/search" datatype="html">
+        <source>Search</source>
+        <target>Buscar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">58,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/sign-in" datatype="html">
+        <source>Sign in</source>
+        <target>Ingresar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">78,86</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">161,169</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">58,76</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">118,130</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/sign-out" datatype="html">
+        <source>Sign out</source>
+        <target>Salir</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">100,114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="layout/personal-messages" datatype="html">
+        <source>Personal messages</source>
+        <target>Mensajes personales</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">126,142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/login-or-email" datatype="html">
+        <source>login or e-mail</source>
+        <target>Usuario o correo electrónico</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/registration" datatype="html">
+        <source>Sign up</source>
+        <target>Ingresar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">89,101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/forgot-password?" datatype="html">
+        <source>Forgot your password?</source>
+        <target>¿Olvidó su clave?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="layout/brand" datatype="html">
+        <source>WheelsAge.org</source>
+        <target>WheelsAge.org</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b8d10cd55fae4e4ad4f87d28e18251694f159bf7" datatype="html">
+        <source>Privacy Policy</source>
+        <target>Política de privacidad</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="415f73cbdba5d09762df6c89878273c3aa6da51e" datatype="html">
+        <source>Authors</source>
+        <target>Autores</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/authors/authors.component.ts</context>
+          <context context-type="linenumber">78,83</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/cutaway.component.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="977f6e1b211cf3dd2732838c1aef74307a7444fa" datatype="html">
+        <source>Pictures</source>
+        <target>Imágenes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/authors/authors.component.ts</context>
+          <context context-type="linenumber">94,101</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/cutaway.component.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="picture/image-specifications" datatype="html">
+        <source>Image specifications:</source>
+        <target>Datos de la imagen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">38,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="480673e0879680d7501e32770b19f89dc39c320a" datatype="html">
+        <source>Date taken:</source>
+        <target>Fecha de la toma</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">62,76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="picture/location" datatype="html">
+        <source>Coordinates</source>
+        <target>Coordenadas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">91,103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="picture/propose-image-replacement" datatype="html">
+        <source>Propose image replacement</source>
+        <target>Proponer sustitución de la imagen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">122,138</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="picture/moderators-about-this-picture" datatype="html">
+        <source>Moderators about this picture:</source>
+        <target>moderadores sobre esta imagen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="page/106/name" datatype="html">
+        <source>Rules</source>
+        <target>Reglas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules/rules.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rules" datatype="html">
+        <source>
+
+1. ## Common
+
+    1.  При размещении любых материалов или их фрагментов обязательно указывать источник
+    2.  Запрещено одновременное использование нескольких аккаунтов одним пользователем.
+    3.  На всём сайте в любой форме запрещён мат, нецензурные выражения и т.д.
+    4.  Запрещено оскорбление посетителей сайта
+    5.  Запрещено поднятие вопросов: политики, религии, сексуальных предпочтений и прочего, если это напрямую не связано с предметом обсуждения или не оговорено особым образом
+    6.  Запрещено обсуждение действий модераторов где либо, кроме как в специально обозначенных местах или личной переписке с ними
+    7.  Запрещена публикация личной переписки или любой иной информации, дискредитирующей других участников сайта
+    8.  Запрещено использование в качестве аватаров или фотографий нецензурных изображений
+2. ## Комментарии
+
+    1.  Запрещено обсуждение чего либо, кроме предмета комментирования
+    2.  Запрещено написание бессмысленных сообщений, содержащих только &quot;смайлик&quot; или другой способ уведомления о настроении
+    3.  Неккоректные сообщения будут удаляться без уведомления
+3. ## Форум
+
+    1.  Запрещено использование написания заглавными буквами, воспринимаемого как крик
+    2.  Запрещен &quot;оффтопик&quot; в любом виде
+    3.  Запрещено создание одинаковых тем в нескольких ветках
+    4.  Запрещено поднятие вопроса о &quot;лучшем автомобиле&quot;, без уточнения сферы использования
+4. ## Правила ведения каталога
+
+    ### Именование автомобилей
+    1.  Названия автомобилям присваиваются в соответствии с их оригинальным названием, доступным на кузове или в официальных изданиях компании
+    2.  Название автомобиля пишется с заглавной буквы, но допускается написание только строчными или только заглавными буквами, если это соответсвует официальному наименованию автомобиля
+    3.  Желательно указание кода кузова/серии/модели
+    4.  Допутимо использование кириллицы, латиницы, отдельных символов греческого алфавита
+    5.  Допустимо использование цифр
+    6.  Допустимо использование специальных символов, если таковые применялись производителем
+    7.  Для разделения автомобилей по типу кузова, допустимо добавлять его к названию
+    8.  Допустимо добавления к названию информации, идентифицирующей рынок сбыта, для разделения автомобилей по этому признаку. Например, UK-spec, North America, ZA-spec
+    9.  Адаптированные к языковой версии сайта названия автомобилей следуют тем же правилам, но не имеют ограничения на используемый алфавит
+
+</source>
+        <target>1. ## Común
+
+1. Cuando publique cualquier material o sus fragmentos, asegúrese de indicar la fuente
+2. Está prohibido usar varias cuentas por un usuario al mismo tiempo.
+3. En todo el sitio, en cualquier forma, está prohibido el uso de alfombras, lenguaje obsceno, etc.
+4. Está prohibido insultar a los visitantes del sitio.
+5. Está prohibido plantear preguntas: política, religión, preferencias sexuales y otras, si no está directamente relacionado con el tema de discusión o no se discute específicamente
+6. Está prohibido discutir las acciones de los moderadores en cualquier lugar, excepto en lugares especialmente designados o correspondencia personal con ellos.
+7. Está prohibido publicar correspondencia personal o cualquier otra información que desacredite a otros miembros del sitio.
+8. Está prohibido utilizar imágenes obscenas como avatares o fotografías.
+
+2. ## Comentarios
+1. Está prohibido discutir cualquier otra cosa que no sea el tema de los comentarios.
+2. Está prohibido escribir mensajes sin sentido que contengan solo un &quot;emogi&quot; u otra forma de notificación del estado de ánimo.
+3. Los mensajes incorrectos se eliminarán sin previo aviso.
+
+3. ## Foro
+1. Está prohibido utilizar la escritura en mayúsculas, percibida como un grito
+2. Prohibido &quot;offtopic&quot; en cualquier forma
+3. Está prohibido crear los mismos temas en varias ramas
+4. Está prohibido plantear la cuestión del &quot;mejor coche&quot; sin especificar el ámbito de uso.
+
+4. ## Reglas de mantenimiento del directorio
+### Nombres de coches
+1. Los nombres de los coches se asignan de acuerdo con su nombre original, disponible en la carrocería o en las publicaciones oficiales de la empresa.
+2. El nombre del auto se escribe con mayúscula, pero se permite escribir solo en minúsculas o solo en mayúsculas, si corresponde al nombre oficial del auto
+3. Es conveniente indicar el código de la carrocería / serie / modelo
+4. Está permitido utilizar caracteres cirílicos, latinos e individuales del alfabeto griego.
+5. Se permite el uso de números
+6. Está permitido utilizar caracteres especiales si fueron utilizados por el fabricante.
+7. Para separar automóviles por tipo de carrocería, está permitido agregarlo al nombre
+8. Está permitido agregar al nombre de la información que identifique el mercado de ventas para separar los automóviles sobre esta base. Por ejemplo, especificación del Reino Unido, América del Norte, especificación ZA
+9. Los nombres de automóviles adaptados a la versión de idioma del sitio siguen las mismas reglas, pero no tienen restricciones sobre el alfabeto utilizado.
+Enviar comentarios</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rules/rules.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/sign-in-using-account" datatype="html">
+        <source>Sign in using existing account</source>
+        <target>Ingresar con una cuenta existente</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login/success-text" datatype="html">
+        <source>We are glad to welcome you to our website</source>
+        <target>Nos complace darle la bienvenida a nuestra página web</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

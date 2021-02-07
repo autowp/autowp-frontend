@@ -8,7 +8,7 @@ if (args.length <= 0) {
 }
 const apiSecret = args[0];
 
-const languages = ['en', 'zh', 'ru', 'pt-br', 'fr', 'be', 'uk'];
+const languages = ['en', 'zh', 'ru', 'pt-br', 'fr', 'be', 'uk', 'es'];
 
 const path = __dirname + '/src/languages/';
 

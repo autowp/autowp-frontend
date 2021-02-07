@@ -36,6 +36,10 @@
           "zh-CN": {
             "translation": "src/locale/messages.zh-CN.xlf",
             "baseHref": "/"
+          },
+          "es": {
+            "translation": "src/locale/messages.es.xlf",
+            "baseHref": "/"
           }
         }
       },
@@ -82,7 +86,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js"
             ],
-            "localize": ["be-BY", "en-GB", "fr", "pt-BR", "ru", "uk", "zh-CN"]
+            "localize": ["be-BY", "en-GB", "fr", "pt-BR", "ru", "uk", "zh-CN", "es"]
           },
           "configurations": {
             "test": {

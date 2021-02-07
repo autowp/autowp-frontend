@@ -8,7 +8,7 @@ if (args.length <= 0) {
 }
 const apiSecret = args[0];
 
-const locales = ['be-BY', 'fr', 'pt-BR', 'ru', 'uk', 'zh-CN'];
+const locales = ['be-BY', 'fr', 'pt-BR', 'ru', 'uk', 'zh-CN', 'es'];
 
 const path = __dirname + '/src/locale/';
 
