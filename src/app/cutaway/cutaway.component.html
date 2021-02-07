@@ -1,14 +1,23 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <a routerLink="/" translate>page/1/name</a>
+      <a routerLink="/" i18n>Index page</a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header">
-  <h1 translate>page/109/name</h1>
+  <h1 i18n>Cutaway</h1>
 </div>
+
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/cutaway/authors" i18n>Authors</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" routerLink="/cutaway" i18n>Pictures</a>
+  </li>
+</ul>
 
 <div class="row">
   <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of pictures">

@@ -3,16 +3,23 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
-    </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand">
-  <h1 translate [translateParams]="{brand: brand.name_text}">page/208/ng-name</h1>
+<div class="page-header">
+  <h1 i18n>Cutaway</h1>
 </div>
+
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item">
+    <a class="nav-link active" routerLink="/cutaway/authors" i18n>Authors</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/cutaway" i18n>Pictures</a>
+  </li>
+</ul>
 
 <app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
 
 <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+

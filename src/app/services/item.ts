@@ -191,9 +191,11 @@ export interface GetItemsServiceOptions {
     status?: string;
     type_id?: number;
     owner_id?: number;
+    perspective_id?: number;
   };
   preview_pictures?: {
     type_id?: number;
+    perspective_id?: number;
   };
   factories_of_brand?: number;
   concept?: boolean;

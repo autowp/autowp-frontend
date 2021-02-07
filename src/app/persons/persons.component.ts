@@ -96,7 +96,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
     });
   }
 
-  prepareItems(items: APIItem[]): CatalogueListItem[] {
+  private prepareItems(items: APIItem[]): CatalogueListItem[] {
     return items.map(item => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());

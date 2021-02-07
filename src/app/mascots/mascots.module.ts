@@ -14,7 +14,7 @@ import {TranslateModule} from '@ngx-translate/core';
     MascotsRoutingModule,
     PaginatorModule,
     ThumbnailModule,
-    TranslateModule
+    TranslateModule,
   ]
 })
 export class MascotsModule {}
