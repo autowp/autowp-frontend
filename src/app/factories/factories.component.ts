@@ -34,7 +34,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
   public markers: Marker[] = [];
   public options = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18
       })
     ],

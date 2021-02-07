@@ -39,7 +39,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
 
   public leafletOptions = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18
       })
     ],
