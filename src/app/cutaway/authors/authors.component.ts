@@ -67,7 +67,7 @@ export class CutawayAuthorsComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         response => {
-          this.items = this.prepareItems(response.items);;
+          this.items = this.prepareItems(response.items);
           this.paginator = response.paginator;
         },
         response => this.toastService.response(response)
