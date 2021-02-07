@@ -50,11 +50,11 @@ export class CutawayAuthorsComponent implements OnInit, OnDestroy {
             descendant_pictures: {
               type_id: 2,
               status: 'accepted',
-              perspective_id: 9,
+              contains_perspective_id: 9,
             },
             preview_pictures: {
               type_id: 2,
-              perspective_id: 9,
+              contains_perspective_id: 9,
             },
             page,
             limit: 12,

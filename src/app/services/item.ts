@@ -192,10 +192,12 @@ export interface GetItemsServiceOptions {
     type_id?: number;
     owner_id?: number;
     perspective_id?: number;
+    contains_perspective_id?: number;
   };
   preview_pictures?: {
     type_id?: number;
     perspective_id?: number;
+    contains_perspective_id?: number;
   };
   factories_of_brand?: number;
   concept?: boolean;
@@ -389,6 +391,12 @@ function converItemsOptions(
         'descendant_pictures[perspective_id]'
         ] = options.descendant_pictures.perspective_id.toString();
     }
+
+    if (options.descendant_pictures.contains_perspective_id) {
+      params[
+        'descendant_pictures[contains_perspective_id]'
+        ] = options.descendant_pictures.contains_perspective_id.toString();
+    }
   }
 
   if (options.preview_pictures) {
@@ -402,6 +410,12 @@ function converItemsOptions(
       params[
         'preview_pictures[perspective_id]'
         ] = options.preview_pictures.perspective_id.toString();
+    }
+
+    if (options.preview_pictures.contains_perspective_id) {
+      params[
+        'preview_pictures[contains_perspective_id]'
+        ] = options.preview_pictures.contains_perspective_id.toString();
     }
   }
 
