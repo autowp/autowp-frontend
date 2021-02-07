@@ -184,7 +184,7 @@
   "layout/meta/keywords": "car, vehicle, auto, avto",
   "layout/personal-messages": "Mensajes personales",
   "layout/brand": "WheelsAge.org",
-  "ng-layout/you-have-new-messages": "{messages, plural,\none {Usted tiene {messages} nuevo mensaje}\nother {Usted tiene {messages} nuevos mensajes\n}",
+  "ng-layout/you-have-new-messages": "{messages, plural,\none {Usted tiene {messages} nuevo mensaje}\nother {Usted tiene {messages} nuevos mensajes}\n}",
   "layout/search": "Buscar",
   "layout/footer": "Por favor, considerar que todo el material disponible en el servidor autowp.ru ha sido agregado por sus propios visitantes.\n\nLa administración de este sitio no posee información sobre la legalidad de la publicación de estos contenidos.\n\nTodas las imágenes son posteadas para propósitos educativos.\n\n[Report copyright violation](mailto:autowp@yandex.ru)",
   "layout/language-contributing": "¿Quieres aportar?",
