@@ -48,6 +48,7 @@ export class CutawayAuthorsComponent implements OnInit, OnDestroy {
             fields: 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
             type_id: 8,
             descendant_pictures: {
+              type_id: 2,
               status: 'accepted',
               perspective_id: 23,
             },
