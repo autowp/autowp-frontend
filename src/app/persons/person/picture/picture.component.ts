@@ -88,13 +88,11 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
 
     const options: APIGetPicturesOptions = {
       exact_item_id: itemID,
-      exact_item_link_type: 1,
       identity,
       fields,
       limit: 1,
       paginator: {
         exact_item_id: itemID,
-        exact_item_link_type: 1,
       }
     };
 
