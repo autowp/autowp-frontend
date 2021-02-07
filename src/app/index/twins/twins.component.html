@@ -1,6 +1,6 @@
 <h4>{{'page/25/name'|translate}} <small><a routerLink="/twins" translate>all-link</a></small></h4>
 <div class="spinner-border" role="status" *ngIf="!twins">
-  <span class="sr-only">Loading...</span>
+  <span class="sr-only" i18n>Loading...</span>
 </div>
 <p *ngIf="twins">
   <ng-container *ngFor="let brand of twins.brands">
