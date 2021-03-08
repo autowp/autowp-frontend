@@ -45,11 +45,11 @@
     "ngx-moment": "^5.0.0",
     "ngx-pipes": "^2.7.5",
     "ngx-translate-messageformat-compiler": "^4.9.0",
-    "npm": "^7.6.1",
+    "npm": "^6.14.11",
     "rxjs": "^6.6.6",
     "sprintf-js": "^1.1.2",
     "tslib": "^2.1.0",
-    "typescript": "~4.2.3",
+    "typescript": ">=4.0.0 && <4.2.0",
     "url-parse": "^1.5.1",
     "zone.js": "^0.11.4"
   },

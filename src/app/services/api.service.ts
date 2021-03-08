@@ -14,6 +14,7 @@ import { environment } from '../../environments/environment';
 import {OAuthService} from './oauth.service';
 import {catchError, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
+import {LanguageService} from './language';
 
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
@@ -85,7 +86,9 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private oauth: OAuthService) {}
+  constructor(
+    private oauth: OAuthService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.oauth.getAccessToken().pipe(
@@ -106,7 +109,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
 @Injectable()
 export class APIService {
-  constructor(private http: HttpClient, private toasts: ToastsService) {}
+  constructor(
+    private http: HttpClient,
+    private toasts: ToastsService,
+    private language: LanguageService
+  ) {}
 
   /**
    * Constructs a request that interprets the body as a text string and
@@ -356,6 +363,20 @@ export class APIService {
       withCredentials?: boolean;
     }
   ): Observable<any> {
+    if (! options) {
+      options = {};
+    }
+
+    if (! options.headers) {
+      options.headers = {};
+    }
+
+    if (options.headers instanceof HttpHeaders) {
+      options.headers.append('Accept-Language', this.language.language);
+    } else {
+      options.headers['Accept-Language'] = this.language.language;
+    }
+
     return this.http.request(method, environment.apiUrl + url, options).pipe(
       catchError((response: HttpErrorResponse) => {
         if (response.status === 429) {
