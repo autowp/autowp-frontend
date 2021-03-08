@@ -189,8 +189,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         }
       );
 
-    if (localStorage) {
-      const lastItemId = parseInt(localStorage.getItem('last_item'), 10);
+    if (window.localStorage) {
+      const lastItemId = parseInt(window.localStorage.getItem('last_item'), 10);
 
       if (lastItemId) {
         this.lastItemSub = this.itemService.getItems({
@@ -231,7 +231,9 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.pictureItemLoading = true;
     this.pictureItemService.create(this.id, item.id, type, {}).subscribe(
       () => {
-        localStorage.setItem('last_item', item.id.toString());
+        if (window.localStorage) {
+          window.localStorage.setItem('last_item', item.id.toString());
+        }
         this.change$.next(null);
         this.pictureItemLoading = false;
       },
@@ -247,7 +249,9 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       .changeItem(this.id, type, srcItemId, dstItemId)
       .subscribe(
         () => {
-          localStorage.setItem('last_item', dstItemId.toString());
+          if (window.localStorage) {
+            window.localStorage.setItem('last_item', dstItemId.toString());
+          }
           this.change$.next(null);
           this.pictureItemLoading = false;
         },

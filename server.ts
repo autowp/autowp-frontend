@@ -9,9 +9,9 @@ import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
+export function app(language: string): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/wheelsage/browser');
+  const distFolder = join(process.cwd(), 'dist/wheelsage/browser', language);
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -39,9 +39,10 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env.PORT || 4000;
+  const language = process.env.LANGUAGE || 'en-GB';
 
   // Start up the Node server
-  const server = app();
+  const server = app(language);
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });

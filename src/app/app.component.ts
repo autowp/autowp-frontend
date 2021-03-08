@@ -64,10 +64,12 @@ export class AppComponent implements OnInit {
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
     this.layoutParams$.subscribe(params => {
-      if (params.isGalleryPage) {
-        this.renderer.addClass(document.body, 'gallery');
-      } else {
-        this.renderer.removeClass(document.body, 'gallery');
+      if (typeof document !== 'undefined') {
+        if (params.isGalleryPage) {
+          this.renderer.addClass(document.body, 'gallery');
+        } else {
+          this.renderer.removeClass(document.body, 'gallery');
+        }
       }
     });
 

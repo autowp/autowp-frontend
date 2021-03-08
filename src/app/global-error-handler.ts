@@ -7,7 +7,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     const chunkFailedMessage = /Loading chunk [\d]+ failed/;
 
     if (chunkFailedMessage.test(error.message)) {
-      window.location.reload();
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
     }
   }
 }

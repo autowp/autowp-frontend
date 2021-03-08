@@ -158,15 +158,13 @@
             ]
           }
         },
-        "test": {
-          "builder": "ngx-build-plus:karma"
-        },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/wheelsage/server",
             "main": "server.ts",
-            "tsConfig": "src/tsconfig.server.json"
+            "tsConfig": "src/tsconfig.server.json",
+            "localize": ["be-BY", "en-GB", "fr", "pt-BR", "ru", "uk", "zh-CN", "es"]
           },
           "configurations": {
             "production": {
@@ -179,6 +177,17 @@
               ],
               "sourceMap": false,
               "optimization": true
+            },
+            "test": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ],
+              "sourceMap": true,
+              "optimization": false
             }
           }
         },

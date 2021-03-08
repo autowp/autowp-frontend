@@ -55,23 +55,23 @@ export class OAuthService {
   constructor(private http: HttpClient) { }
 
   public setToken(response: TokenResponse) {
-    if (localStorage) {
+    if (window.localStorage) {
       if (response.access_token) {
-        localStorage.setItem('access_token', response.access_token);
+        window.localStorage.setItem('access_token', response.access_token);
       } else {
-        localStorage.removeItem('access_token');
+        window.localStorage.removeItem('access_token');
       }
       if (response.refresh_token) {
-        localStorage.setItem('refresh_token', response.refresh_token);
+        window.localStorage.setItem('refresh_token', response.refresh_token);
       } else {
-        localStorage.removeItem('refresh_token');
+        window.localStorage.removeItem('refresh_token');
       }
       if (response.expires_in) {
         const validUntil = new Date();
         validUntil.setSeconds(validUntil.getSeconds() + response.expires_in * 0.9);
-        localStorage.setItem('valid_until', validUntil.getTime().toString());
+        window.localStorage.setItem('valid_until', validUntil.getTime().toString());
       } else {
-        localStorage.removeItem('valid_until');
+        window.localStorage.removeItem('valid_until');
       }
     }
   }
@@ -105,10 +105,10 @@ export class OAuthService {
   }
 
   public signOut(): Observable<boolean> {
-    if (localStorage) {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('valid_until');
+    if (window.localStorage) {
+      window.localStorage.removeItem('access_token');
+      window.localStorage.removeItem('refresh_token');
+      window.localStorage.removeItem('valid_until');
     }
 
     return of(true);
@@ -116,12 +116,12 @@ export class OAuthService {
 
   public getAccessToken(): Observable<string|null> {
 
-    if (! localStorage) {
+    if (typeof window === 'undefined' || ! window.localStorage) {
       return of(null);
     }
 
-    const accessToken = localStorage.getItem('access_token');
-    const validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
+    const accessToken = window.localStorage.getItem('access_token');
+    const validUntil = new Date(parseInt(window.localStorage.getItem('valid_until'), 10));
 
     if (! accessToken) {
       return of(null);
@@ -132,9 +132,9 @@ export class OAuthService {
       return of(accessToken);
     }
 
-    localStorage.removeItem('access_token');
+    window.localStorage.removeItem('access_token');
 
-    const refreshToken = localStorage.getItem('refresh_token');
+    const refreshToken = window.localStorage.getItem('refresh_token');
     if (! refreshToken) {
       return of(null);
     }
@@ -149,8 +149,8 @@ export class OAuthService {
       .pipe(
         catchError((response: HttpErrorResponse) => {
           if (response.status === 401) {
-            localStorage.removeItem('refresh_token');
-            localStorage.removeItem('valid_until');
+            window.localStorage.removeItem('refresh_token');
+            window.localStorage.removeItem('valid_until');
             return of(null);
           }
           return throwError(response);
