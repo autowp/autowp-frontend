@@ -47,7 +47,7 @@
         "build": {
           "builder": "ngx-build-plus:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/wheelsage/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -150,7 +150,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json"
+              "src/tsconfig.app.json",
+              "src/tsconfig.server.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -159,6 +160,53 @@
         },
         "test": {
           "builder": "ngx-build-plus:karma"
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/wheelsage/server",
+            "main": "server.ts",
+            "tsConfig": "src/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "wheelsage:build",
+            "serverTarget": "wheelsage:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "wheelsage:build:production",
+              "serverTarget": "wheelsage:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "wheelsage:build:production",
+            "serverTarget": "wheelsage:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
+          }
         }
       }
     }

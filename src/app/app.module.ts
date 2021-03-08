@@ -95,7 +95,7 @@ export class SentryErrorHandler implements ErrorHandler {
     PaginatorModule,
     UserModule,
     AppRoutingModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     FormsModule,
     TranslateModule.forRoot({
