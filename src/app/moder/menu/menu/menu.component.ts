@@ -62,7 +62,7 @@ export class MenuComponent implements OnInit, OnDestroy {
             queryParams: {
               moderator_attention: '1'
             },
-            label: 'page/110/name',
+            label: $localize `Comments`,
             count: attentionItemCount,
             icon: 'fa fa-comment'
           });
@@ -70,14 +70,14 @@ export class MenuComponent implements OnInit, OnDestroy {
           if (isPagesModer) {
             this.items.push({
               routerLink: ['/moder/pages'],
-              label: 'page/68/name',
+              label: $localize `Pages`,
               icon: 'fa fa-book'
             });
           }
 
           this.items.push({
             routerLink: ['/moder/items'],
-            label: 'page/131/name',
+            label: $localize `Items`,
             icon: 'fa fa-car'
           });
         })

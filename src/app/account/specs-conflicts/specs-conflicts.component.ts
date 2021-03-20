@@ -50,7 +50,7 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/188/name',
+          nameTranslated: $localize `Conflicts`,
           pageId: 188
         }),
       0

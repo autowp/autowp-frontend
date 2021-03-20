@@ -127,7 +127,7 @@ export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
       layout: {
         needRight: false
       },
-      name: 'page/21/name',
+      nameTranslated: $localize `Mostly`,
       pageId: 21
     });
   }

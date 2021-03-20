@@ -60,10 +60,7 @@ export class CatalogueRecentComponent implements OnInit, OnDestroy {
                   needRight: false
                 },
                 pageId: 15,
-                name: 'page/15/ng-name',
-                args: {
-                  brand: brand.name_text,
-                }
+                nameTranslated: $localize `Last pictures of ${brand.name_text}`
               });
             }
           })

@@ -66,7 +66,7 @@ export class SignInComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/79/name',
+          nameTranslated: $localize `Sign in`,
           pageId: 79
         }),
       0

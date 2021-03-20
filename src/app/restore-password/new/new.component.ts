@@ -43,7 +43,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/134/name',
+          nameTranslated: $localize `New password`,
           pageId: 134
         }),
       0

@@ -33,7 +33,7 @@ export class AccountContactsComponent {
           layout: {
             needRight: false
           },
-          name: 'page/198/name',
+          nameTranslated: $localize `Contacts`,
           pageId: 198
         }),
       0

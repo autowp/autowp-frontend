@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { PageService } from './page';
 import { switchMap } from 'rxjs/operators';
@@ -13,14 +12,12 @@ export interface LayoutParams {
 
 export interface PageEnv {
   pageId?: number;
-  name?: string;
   nameTranslated?: string;
   layout: {
     needRight: boolean;
     isAdminPage?: boolean;
     isGalleryPage?: boolean;
   };
-  args?: { [key: string]: string };
 }
 
 @Injectable()
@@ -34,8 +31,7 @@ export class PageEnvService {
 
   public constructor(
     private pageService: PageService,
-    private titleService: Title,
-    private translate: TranslateService
+    private titleService: Title
   ) {
     this.pageEnv$.subscribe(data => {
       if (data) {
@@ -45,27 +41,12 @@ export class PageEnvService {
           isGalleryPage: data.layout.isGalleryPage
         });
 
-        if (data.pageId) {
-          const args = data.args ? data.args : {};
-
-          if (data.nameTranslated) {
-            this.titleService.setTitle(data.nameTranslated);
-            return;
-          }
-
-          if (data.name) {
-            this.translate.get([data.name], args).subscribe(
-              (translations: string[]) => {
-                this.titleService.setTitle(translations[data.name]);
-              },
-              () => {
-                this.titleService.setTitle(data.name);
-              }
-            );
-          } else {
-            this.titleService.setTitle('');
-          }
+        if (data.nameTranslated) {
+          this.titleService.setTitle(data.nameTranslated);
+          return;
         }
+
+        this.titleService.setTitle('');
       }
     });
   }

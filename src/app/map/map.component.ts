@@ -87,7 +87,7 @@ export class MapComponent implements OnInit {
           layout: {
             needRight: false
           },
-          name: 'page/117/name',
+          nameTranslated: $localize `Map`,
           pageId: 117
         }),
       0

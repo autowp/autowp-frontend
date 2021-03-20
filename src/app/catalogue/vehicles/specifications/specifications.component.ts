@@ -6,7 +6,6 @@ import {switchMap} from 'rxjs/operators';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
-import {TranslateService} from '@ngx-translate/core';
 import { APIService } from '../../../services/api.service';
 
 @Component({
@@ -29,7 +28,6 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
     private acl: ACLService,
     private router: Router,
     private api: APIService,
-    private translate: TranslateService,
   ) {
   }
 
@@ -45,14 +43,12 @@ export class CatalogueVehiclesSpecificationsComponent implements OnInit, OnDestr
         }
 
         this.brand = data.brand;
-        this.translate.get('page/36/ng-name').subscribe(translation => {
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            pageId: 36,
-            nameTranslated: translation + ' ' + data.brand.name_text
-          });
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          pageId: 36,
+          nameTranslated: ($localize`Specifications of`) + ' ' + data.brand.name_text
         });
 
         const current = data.path[data.path.length - 1].item;

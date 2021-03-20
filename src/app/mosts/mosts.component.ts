@@ -31,7 +31,7 @@ export class MostsComponent implements OnInit, OnDestroy {
         layout: {
           needRight: false
         },
-        name: 'page/21/name',
+        nameTranslated: $localize `Mostly`,
         pageId: 21
       });
     }, 0);

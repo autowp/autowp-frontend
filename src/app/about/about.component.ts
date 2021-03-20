@@ -64,7 +64,7 @@ export class AboutComponent implements OnInit, OnDestroy {
           layout: {
             needRight: true
           },
-          name: 'page/136/name',
+          nameTranslated: $localize `About us`,
           pageId: 136
         }),
       0

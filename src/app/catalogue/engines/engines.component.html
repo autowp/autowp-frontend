@@ -10,7 +10,7 @@
 </nav>
 
 <div class="page-header" *ngIf="brand">
-  <h1 translate [translateParams]="{brand: brand.name_text}">page/208/ng-name</h1>
+  <h1 i18n>{{brand.name_text}} Engines</h1>
 </div>
 
 <app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>

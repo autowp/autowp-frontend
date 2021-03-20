@@ -75,14 +75,8 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
                 layout: {
                   needRight: false
                 },
-                name: 'page/205/name',
-                pageId: 205,
-                args: {
-                  USER_NAME: user.name,
-                  USER_IDENTITY: user.identity
-                    ? user.identity
-                    : 'user' + user.id
-                }
+                nameTranslated: $localize `Comments`,
+                pageId: 205
               }),
             0
           );

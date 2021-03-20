@@ -29,7 +29,7 @@ export class AccountAccessComponent {
           layout: {
             needRight: false
           },
-          name: 'page/133/name',
+          nameTranslated: $localize `Access Control`,
           pageId: 133
         }),
       0

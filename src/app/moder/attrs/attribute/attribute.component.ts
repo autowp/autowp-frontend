@@ -132,7 +132,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: attribute.name,
+          nameTranslated: attribute.name,
           pageId: 101
         });
 

@@ -53,7 +53,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/25/name',
+          nameTranslated: $localize `Twins`,
           pageId: 25
         }),
       0
@@ -100,7 +100,7 @@ export class TwinsComponent implements OnInit, OnDestroy {
                 layout: {
                   needRight: false
                 },
-                name: 'page/25/name',
+                nameTranslated: $localize `Twins`,
                 pageId: 25
               });
             }

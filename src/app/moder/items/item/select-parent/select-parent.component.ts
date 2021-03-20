@@ -92,7 +92,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                 isAdminPage: true,
                 needRight: false
               },
-              name: 'page/144/name',
+              nameTranslated: $localize `Parent selection`,
               pageId: 144
             });
 

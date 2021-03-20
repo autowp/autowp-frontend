@@ -32,7 +32,7 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/42/name',
+          nameTranslated: $localize `Forums`,
           pageId: 42
         }),
       0

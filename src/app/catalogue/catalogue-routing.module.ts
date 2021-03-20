@@ -29,9 +29,9 @@ const routes: Routes = [
       page_id: 40,
       picture_page: {
         id: 190,
-        breadcrumbs: 'page/40/breadcrumbs'
+        breadcrumbs: $localize `Miscellaneous`
       },
-      title: 'page/40/ng-name'
+      title: $localize `Miscellaneous`
     },
     children: [
       {
@@ -57,9 +57,9 @@ const routes: Routes = [
       page_id: 41,
       picture_page: {
         id: 191,
-        breadcrumbs: 'page/41/name'
+        breadcrumbs: $localize `Unsorted`
       },
-      title: 'page/41/name'
+      title: $localize `Unsorted`
     },
     children: [
       {
@@ -83,10 +83,10 @@ const routes: Routes = [
       catname: 'logotypes',
       perspective_id: 22,
       page_id: 39,
-      title: 'page/39/ng-name',
+      title: $localize `Logotypes`,
       picture_page: {
         id: 192,
-        breadcrumbs: 'page/39/breadcrumbs'
+        breadcrumbs: $localize `Logotypes`,
       },
     },
     children: [

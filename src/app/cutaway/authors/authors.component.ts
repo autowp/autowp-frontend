@@ -32,7 +32,7 @@ export class CutawayAuthorsComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/201/name',
+          nameTranslated: $localize `Mascots`,
           pageId: 201
         }),
       0

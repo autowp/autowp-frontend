@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item">
-      <a routerLink="/map" translate>page/117/name</a>
+      <a routerLink="/map" i18n>Map</a>
     </li>
     <li class="breadcrumb-item" *ngIf="factory">
       <a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
@@ -13,7 +13,7 @@
 </nav>
 
 <div class="page-header">
-  <h1 translate>page/182/name</h1>
+  <h1 i18n>Products</h1>
 </div>
 
 <ul class="nav nav-pills" style="margin-bottom:10px" *ngIf="factory">

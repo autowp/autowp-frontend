@@ -44,7 +44,7 @@ export class LogComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/75/name',
+          nameTranslated: $localize `Log of events`,
           pageId: 75
         }),
       0

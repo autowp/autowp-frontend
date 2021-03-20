@@ -1,7 +1,7 @@
 <ng-container *ngIf="items && items.length > 0">
   <h4>
     {{'index/specifications'|translate}}
-    <small><a routerLink="/users/rating" translate>page/173/name</a></small>
+    <small><a routerLink="/users/rating" i18n>Statistics</a></small>
   </h4>
   <div class="row" *ngFor="let chunk of items">
     <div class="col-md-6" *ngFor="let item of chunk">

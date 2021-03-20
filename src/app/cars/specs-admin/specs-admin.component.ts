@@ -42,7 +42,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/103/name',
+          nameTranslated: $localize `History`,
           pageId: 103
         }),
       0

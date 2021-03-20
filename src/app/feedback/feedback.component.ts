@@ -42,7 +42,7 @@ export class FeedbackComponent {
           layout: {
             needRight: false
           },
-          name: 'page/89/name',
+          nameTranslated: $localize `Feedback`,
           pageId: 89
         }),
       0

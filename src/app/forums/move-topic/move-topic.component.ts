@@ -31,7 +31,7 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
       layout: {
         needRight: false
       },
-      name: 'page/83/name',
+      nameTranslated: $localize `Move`,
       pageId: 83
     });
 

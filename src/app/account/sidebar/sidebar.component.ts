@@ -56,31 +56,31 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               pageId: 129,
               routerLink: ['/account/profile'],
               icon: 'user',
-              name: 'page/129/name'
+              name: $localize `Profile`
             },
             {
               pageId: 198,
               routerLink: ['/account/contacts'],
               icon: 'address-book',
-              name: 'page/198/name'
+              name: $localize `Contacts`
             },
             {
               pageId: 55,
               routerLink: ['/account/email'],
               icon: 'envelope-o',
-              name: 'page/55/name'
+              name: $localize `My e-mail`
             },
             {
               pageId: 133,
               routerLink: ['/account/access'],
               icon: 'lock',
-              name: 'page/133/name'
+              name: $localize `Access Control`
             },
             {
               pageId: 123,
               routerLink: ['/account/accounts'],
               icon: 'asterisk',
-              name: 'page/123/name'
+              name: $localize `My accounts`
             },
             {
               pageId: 130,
@@ -90,7 +90,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
                 'pictures'
               ],
               icon: 'th',
-              name: 'page/130/name',
+              name: $localize `My pictures`,
               count: picturesSummary
                 ? picturesSummary.acceptedCount
                 : null
@@ -99,7 +99,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               pageId: 94,
               routerLink: ['/account/inbox-pictures'],
               icon: 'th',
-              name: 'page/94/name',
+              name: $localize `Unmoderated`,
               count: picturesSummary
                 ? picturesSummary.inboxCount
                 : null
@@ -108,28 +108,28 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               pageId: 57,
               routerLink: ['/forums/subscriptions'],
               icon: 'bookmark',
-              name: 'page/57/name',
+              name: $localize `Forums subscriptions`,
               count: forumSummary
                 ? forumSummary.subscriptionsCount
                 : null
             },
             {
-              name: 'catalogue/specifications'
+              name: $localize `Specifications`
             },
             {
               pageId: 188,
               routerLink: ['/account/specs-conflicts'],
               icon: 'exclamation-triangle',
-              name: 'page/188/name'
+              name: $localize `Conflicts`
             },
             {
-              name: 'page/49/name'
+              name: $localize `Personal messages`
             },
             {
               pageId: 128,
               routerLink: ['/account/messages'],
               icon: 'comments-o',
-              name: 'page/128/name',
+              name: $localize `Inbox`,
               count: messageSummary
                 ? messageSummary.inbox.count
                 : null,
@@ -142,7 +142,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLink: ['/account/messages'],
               routerLinkParams: { folder: 'sent' },
               icon: 'comments-o',
-              name: 'page/80/name',
+              name: $localize `Sent`,
               count: messageSummary ? messageSummary.sent.count : null
             },
             {
@@ -150,7 +150,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLink: ['/account/messages'],
               routerLinkParams: { folder: 'system' },
               icon: 'comments',
-              name: 'page/81/name',
+              name: $localize `System messages`,
               count: messageSummary
                 ? messageSummary.system.count
                 : null,

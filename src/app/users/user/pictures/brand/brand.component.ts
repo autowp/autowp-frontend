@@ -81,11 +81,8 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/141/ng-name',
-            pageId: 141,
-            args: {
-              brand: data.brand.name_only
-            }
+            nameTranslated: $localize `${data.brand.name_only} pictures`,
+            pageId: 141
           });
         })
       ),

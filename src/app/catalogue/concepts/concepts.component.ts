@@ -53,10 +53,7 @@ export class CatalogueConceptsComponent implements OnInit, OnDestroy {
               needRight: false
             },
             pageId: 37,
-            name: 'page/37/ng-name',
-            args: {
-              brand: brand.name_text,
-            }
+            nameTranslated: $localize `${brand.name_text} concepts & prototypes`
           });
         }
       }),

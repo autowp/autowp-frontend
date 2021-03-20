@@ -14,7 +14,7 @@ export class RulesComponent {
           layout: {
             needRight: true
           },
-          name: 'page/106/name',
+          nameTranslated: $localize `Rules`,
           pageId: 106
         }),
       0

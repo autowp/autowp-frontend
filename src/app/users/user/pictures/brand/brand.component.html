@@ -7,13 +7,13 @@
       <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{user.name}}</a>
     </li>
     <li class="breadcrumb-item" *ngIf="user">
-      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" translate>page/63/name</a>
+      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n>User's pictures</a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header">
-  <h1 translate [translateParams]="{brand: brand.name_only}" *ngIf="brand">page/141/ng-name</h1>
+  <h1 i18n *ngIf="brand">{{brand.name_only}} pictures</h1>
 </div>
 
 <div class="row">

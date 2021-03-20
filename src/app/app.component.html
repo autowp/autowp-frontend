@@ -6,7 +6,7 @@
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" routerLink="/" [title]="'page/1/title'|translate">
+    <a class="navbar-brand" routerLink="/" title="Encyclopedia of cars in pictures. WheelsAge.org" i18n-title>
       <svg>
         <path d="M 25.084186,6.42508 A 23.373101,22.952514 0 0 0 2.3045258,24.36829 l 4.6649949,0.69665 a 18.670109,18.165696 0 0 1 2.2157068,-5.22461 l 8.1363055,5.87817 a 8.7994987,8.2394148 0 0 0 -0.720458,1.77407 c 3.39102,1.47331 6.006412,3.38159 8.53766,5.33717 2.128107,-1.62945 4.12335,-3.67705 8.512342,-5.40515 a 8.7994987,8.2394148 0 0 0 -0.720899,-1.75241 l 8.091717,-5.84614 a 18.670109,18.165696 0 0 1 2.236046,5.25665 l 4.636644,-0.63755 A 23.373101,22.952514 0 0 0 25.084186,6.42508 Z m 0.0279,4.67475 a 18.670109,18.165696 0 0 1 13.156976,5.31682 l -8.46016,6.07776 a 8.7994987,8.2394148 0 0 0 -4.668675,-1.27227 8.7994987,8.2394148 0 0 0 -4.717385,1.30345 l -8.475101,-6.0886 A 18.670109,18.165696 0 0 1 25.112086,11.09983 Z M 0.06,25.71092 0.1719214,32.42839 c 11.5620876,0.30579 19.0486266,4.79308 24.8875546,10.9705 l 0,-8.9e-4 8.91e-4,0.002 4.4e-4,-10e-4 0,6.7e-4 C 30.899734,37.22225 38.386273,32.73517 49.94836,32.42938 l 0.111922,-6.71769 -0.0359,0.063 c -15.908438,1.59268 -20.550853,5.31075 -24.963965,9.39343 l -4.5e-4,0 C 20.646834,31.08557 16.004418,27.36749 0.0959807,25.77482 l -0.0359,-0.063 z"
         />
@@ -16,14 +16,14 @@
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item d-md-none d-lg-block" [class.active]="isActive(25)|async">
-          <a class="nav-link" routerLink="/twins" translate>page/25/name</a>
+          <a class="nav-link" routerLink="/twins" i18n>Twins</a>
         </li>
         <li class="nav-item" [class.active]="isActive(21)|async">
-          <a class="nav-link" routerLink="/mosts" translate>page/21/name</a>
+          <a class="nav-link" routerLink="/mosts" i18n>Mostly</a>
         </li>
         <li class="nav-item" ngbDropdown [class.active]="isActive(22)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
-            {{'page/22/name' | translate}}
+            <ng-container i18n>Categories</ng-container>
             <b class="caret" aria-hidden="true"></b>
           </button>
           <div ngbDropdownMenu>
@@ -37,10 +37,10 @@
           </div>
         </li>
         <li class="nav-item d-md-none d-lg-block" [class.active]="isActive(117)|async">
-          <a class="nav-link" routerLink="/map" translate>page/117/name</a>
+          <a class="nav-link" routerLink="/map" i18n>Map</a>
         </li>
         <li class="nav-item d-sm-none d-lg-none d-xl-block" [class.active]="isActive(42)|async">
-          <a class="nav-link" routerLink="/forums" translate>page/42/name</a>
+          <a class="nav-link" routerLink="/forums" i18n>Forums</a>
         </li>
       </ul>
       <form action="//www.google.com/search" method="get" class="form-inline my-2 my-lg-0 mr-4" *ngIf="searchHostname" ngNoForm>
@@ -64,48 +64,48 @@
         </li>
         <li class="nav-item btn-group" ngbDropdown [class.active]="isActive(87)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
-            {{'page/87/name'|translate}}
+            <ng-container i18n>More</ng-container>
             <b class="caret" aria-hidden="true"></b>
           </button>
           <div ngbDropdownMenu>
 
-            <a class="dropdown-item d-lg-none" [class.active]="isActive(25)|async" routerLink="/twins" translate>page/25/name</a>
-            <a class="dropdown-item d-lg-none" [class.active]="isActive(117)|async" routerLink="/map" translate>page/117/name</a>
-            <a class="dropdown-item d-xl-none" [class.active]="isActive(42)|async" routerLink="/forums" translate>page/42/name</a>
+            <a class="dropdown-item d-lg-none" [class.active]="isActive(25)|async" routerLink="/twins" i18n>Twins</a>
+            <a class="dropdown-item d-lg-none" [class.active]="isActive(117)|async" routerLink="/map" i18n>Map</a>
+            <a class="dropdown-item d-xl-none" [class.active]="isActive(42)|async" routerLink="/forums" i18n>Forums</a>
 
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
 
             <a routerLink="/signup" class="dropdown-item" *ngIf="!user" [class.active]="isActive(52)|async">
               <i class="fa fa-fw fa fa-pencil" aria-hidden="true"></i>
-              {{'page/91/name' | translate}}
+              <ng-container i18n>Registration</ng-container>
             </a>
             <a routerLink="/upload" class="dropdown-item" [class.active]="isActive(29)|async">
               <i class="fa fa-fw fa-upload" aria-hidden="true"></i>
-              {{'page/29/name' | translate}}
+              <ng-container i18n>Add picture</ng-container>
             </a>
             <a routerLink="/feedback" class="dropdown-item" [class.active]="isActive(89)|async">
               <i class="fa fa-fw fa-comment" aria-hidden="true"></i>
-              {{'page/89/name' | translate}}
+              <ng-container i18n>Feedback</ng-container>
             </a>
             <a href="#" (click)="showOnlineUsers()" class="dropdown-item">
               <i class="fa fa-fw fa fa-users" aria-hidden="true"></i>
-              {{'page/124/name' | translate}}
+              <ng-container i18n>Who is online?</ng-container>
             </a>
             <a routerLink="/account/contacts" class="dropdown-item" *ngIf="user" [class.active]="isActive(211)|async">
               <i class="fa fa-fw fa-address-book" aria-hidden="true"></i>
-              {{'page/211/name' | translate}}
+              <ng-container i18n>Contacts</ng-container>
             </a>
             <a routerLink="/account" class="dropdown-item" *ngIf="user" [class.active]="isActive(48)|async">
               <i class="fa fa-fw fa-user" aria-hidden="true"></i>
-              {{'page/48/name' | translate}}
+              <ng-container i18n>Cabinet</ng-container>
             </a>
             <a routerLink="/about" class="dropdown-item" [class.active]="isActive(136)|async">
               <i class="fa fa-fw fa-info" aria-hidden="true"></i>
-              {{'page/136/name' | translate}}
+              <ng-container i18n>About us</ng-container>
             </a>
             <a href="#" (click)="signOut()" class="dropdown-item" *ngIf="user">
               <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
-              {{'page/90/name' | translate}}
+              <ng-container i18n>Sign out</ng-container>
             </a>
           </div>
         </li>
@@ -138,7 +138,7 @@
         <div ngPreserveWhitespaces>
           <app-user [user]="user"></app-user>
           <br />
-          <a routerLink="/account/profile" translate>page/48/name</a>
+          <a routerLink="/account/profile" i18n>Cabinet</a>
           <br />
           <i class="fa fa-sign-out" aria-hidden="true"></i>
           <a href="#" (click)="signOut()" i18n="@@login/sign-out">Sign out</a>
@@ -146,7 +146,7 @@
         <p ngPreserveWhitespaces>
           <i class="fa fa-comment" aria-hidden="true"></i>
           <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" translate [translateParams]="{ messages: newPersonalMessages }">ng-layout/you-have-new-messages</a>
-          <a routerLink="/account/messages" translate *ngIf="!newPersonalMessages" i18n="@@layout/personal-messages">Personal messages</a>
+          <a routerLink="/account/messages" *ngIf="!newPersonalMessages" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
       </div>
 
@@ -213,9 +213,9 @@
           </a>
         </p>
         <p>
-          <a routerLink="/about" translate>page/136/name</a>
+          <a routerLink="/about" i18n>About us</a>
           •
-          <a routerLink="/donate" translate>page/196/name</a>
+          <a routerLink="/donate" i18n>Donate</a>
         </p>
       </div>
       <div class="col-md-6">

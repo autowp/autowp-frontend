@@ -97,11 +97,8 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/102/ng-name',
-            pageId: 102,
-            args: {
-              item_name: data.item.name_text
-            }
+            nameTranslated: $localize `Specs editor of ${data.item.name_text}`,
+            pageId: 102
           });
         }),
         switchMap(data => {

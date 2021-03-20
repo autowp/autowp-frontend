@@ -15,7 +15,7 @@
 </nav>
 
 <div class="page-header" *ngIf="item">
-  <h1>{{'page/36/ng-name'|translate}} <span [innerHTML]="item.name_html"></span></h1>
+  <h1><ng-container i18n>Specifications of</ng-container> <span [innerHTML]="item.name_html"></span></h1>
 </div>
 
 <div [innerHtml]="html"></div>

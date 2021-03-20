@@ -51,7 +51,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: item.name_text,
+          nameTranslated: item.name_text,
           pageId: 213
         });
       }),

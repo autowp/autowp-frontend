@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item" *ngIf="brand">
-      <a routerLink="/twins" translate>page/25/name</a>
+      <a routerLink="/twins" i18n>Twins</a>
     </li>
   </ol>
 </nav>
@@ -12,7 +12,7 @@
 <div class="row">
   <div class="col-sm-8 order-2">
     <div class="page-header">
-      <h1 translate *ngIf="!brand">page/25/name</h1>
+      <h1 i18n *ngIf="!brand">Twins</h1>
       <h1 *ngIf="brand">{{brand.name_only}}</h1>
     </div>
 

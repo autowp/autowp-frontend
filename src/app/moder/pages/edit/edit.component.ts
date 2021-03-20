@@ -37,7 +37,7 @@ export class ModerPagesEditComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/70/name',
+          nameTranslated: $localize `Edit`,
           pageId: 70
         }),
       0

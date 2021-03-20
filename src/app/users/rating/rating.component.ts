@@ -57,7 +57,7 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
           layout: {
             needRight: true
           },
-          name: 'page/173/name',
+          nameTranslated: $localize `Statistics`,
           pageId: 173
         }),
       0

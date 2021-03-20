@@ -62,7 +62,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/129/name',
+          nameTranslated: $localize `Profile`,
           pageId: 129
         }),
       0

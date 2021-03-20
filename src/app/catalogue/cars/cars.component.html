@@ -7,14 +7,14 @@
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
     <li class="breadcrumb-item" *ngIf="brand && currentVehicleType">
-      <a [routerLink]="['/', brand.catname, 'cars']" translate>page/14/breadcrumbs</a>
+      <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header" *ngIf="brand">
-  <h1 translate [translateParams]="{brand: brand.name_text}" *ngIf="!currentVehicleType">page/14/ng-name</h1>
-  <h1 translate [translateParams]="{brand: brand.name_text, vehicle_type: currentVehicleType.name|translate}" *ngIf="currentVehicleType">page/138/ng-name</h1>
+  <h1 *ngIf="!currentVehicleType" i18n>{{brand.name_text}} in chronological order</h1>
+  <h1 i18n *ngIf="currentVehicleType">{{brand.name_text}} {{currentVehicleType.name|translate}} in chronological order</h1>
 </div>
 
 <ul class="nav nav-pills mb-4">

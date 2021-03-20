@@ -14,7 +14,7 @@ export class RestorePasswordSentComponent {
           layout: {
             needRight: true
           },
-          name: 'page/60/name',
+          nameTranslated: $localize `Password recovery`,
           pageId: 60
         }),
       0

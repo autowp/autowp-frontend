@@ -48,7 +48,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/77/name',
+          nameTranslated: $localize `Traffic`,
           pageId: 77
         }),
       0

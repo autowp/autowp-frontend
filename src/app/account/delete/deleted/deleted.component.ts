@@ -14,7 +14,7 @@ export class AccountDeletedComponent {
           layout: {
             needRight: true
           },
-          name: 'page/93/name',
+          nameTranslated: $localize `Message sent`,
           pageId: 93
         }),
       0

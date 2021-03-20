@@ -41,7 +41,7 @@ export class RestorePasswordComponent {
           layout: {
             needRight: false
           },
-          name: 'page/60/name',
+          nameTranslated: $localize `Password recovery`,
           pageId: 60
         }),
       0

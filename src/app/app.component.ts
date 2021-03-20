@@ -9,7 +9,7 @@ import { MessageService } from './services/message';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
 import { LanguageService, Language } from './services/language';
-import { ItemService } from './services/item';
+import {APIItem, ItemService} from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   public user: APIUser;
   public newPersonalMessages; // = opt.sidebar.newPersonalMessages;
   public searchHostname: string;
-  public categories = [];
+  public categories: APIItem[] = [];
   public loginForm = {
     login: '',
     password: ''

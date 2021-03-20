@@ -111,7 +111,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/110/name',
+          nameTranslated: $localize `Comments`,
           pageId: 110
         }),
       0

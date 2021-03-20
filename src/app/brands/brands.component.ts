@@ -42,7 +42,7 @@ export class BrandsComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/61/name',
+          nameTranslated: $localize `All brands`,
           pageId: 61
         }),
       0

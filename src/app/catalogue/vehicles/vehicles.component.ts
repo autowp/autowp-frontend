@@ -135,7 +135,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
             needRight: false
           },
           pageId: 33,
-          name: this.item.name_text
+          nameTranslated: this.item.name_text
         });
 
         if (last.item.is_group) {

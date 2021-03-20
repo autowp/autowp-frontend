@@ -75,10 +75,7 @@ export class CatalogueMixedComponent implements OnInit, OnDestroy {
             needRight: false
           },
           pageId: data.page_id,
-          name: data.title,
-          args: {
-            brand: brand.name_text,
-          }
+          nameTranslated: data.title
         });
       }),
       switchMap(([brand, data]) =>

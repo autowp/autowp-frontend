@@ -14,7 +14,7 @@ export class DonateVodSuccessComponent {
           layout: {
             needRight: true
           },
-          name: 'page/196/name',
+          nameTranslated: $localize `Donate`,
           pageId: 196
         }),
       0

@@ -123,11 +123,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
               isAdminPage: true,
               needRight: false
             },
-            name: 'moder/picture/picture-n',
-            pageId: 72,
-            args: {
-              id: id.toString()
-            }
+            nameTranslated: $localize `Picture №${id}`,
+            pageId: 72
           })
         ),
         switchMap(id =>

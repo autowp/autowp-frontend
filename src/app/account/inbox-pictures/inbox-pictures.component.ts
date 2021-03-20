@@ -36,7 +36,7 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/94/name',
+          nameTranslated: $localize `Unmoderated`,
           pageId: 94
         }),
       0

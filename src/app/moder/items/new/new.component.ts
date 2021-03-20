@@ -14,6 +14,7 @@ import {
 } from 'rxjs/operators';
 import { APIItemVehicleTypeGetResponse, APIService } from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {TranslateService} from '@ngx-translate/core';
 
 interface NewItem {
   produced_exactly: boolean;
@@ -58,7 +59,8 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -174,18 +176,17 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         this.parent = data.item;
         this.parentSpec = data.spec;
         this.vehicleTypeIDs = data.vehicleTypeIDs;
-        setTimeout(
-          () =>
-            this.pageEnv.set({
-              layout: {
-                isAdminPage: true,
-                needRight: false
-              },
-              name: 'item/type/' + data.itemTypeID + '/new-item',
-              pageId: 163
-            }),
-          0
-        );
+
+        this.translate.get('item/type/' + data.itemTypeID + '/new-item').subscribe(translation => {
+          this.pageEnv.set({
+            layout: {
+              isAdminPage: true,
+              needRight: false
+            },
+            nameTranslated: translation,
+            pageId: 163
+          });
+        });
       });
   }
 

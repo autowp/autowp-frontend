@@ -80,7 +80,7 @@
 
   </div>
   <div class="col-md-6">
-    <p i18n="@@picture/image-specifications">Image specifications:</p>
+    <p i18n>Image specifications:</p>
     <ul>
       <li>
         {{'Resolution'|translate}}: <strong>{{picture.width + '×' + picture.height}}</strong>
@@ -157,14 +157,14 @@
 
       <li ngbDropdown *ngIf="user && picture.items.length > 1">
         <button ngbDropdownToggle class="btn btn-link" style="padding:0">
-          {{'page/29/name' | translate}}
+          <ng-container i18n>Add picture</ng-container>
           <span class="caret" aria-hidden="true"></span>
         </button>
         <div ngbDropdownMenu>
           <ng-container *ngFor="let item of picture.items">
             <a *ngIf="item.type == 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
               <i class="fa fa-upload" aria-hidden="true"></i>
-              {{'page/29/name' | translate}}
+              <ng-container i18n>Add picture</ng-container>
               <span [innerHTML]="item.item.name_html"></span>
             </a>
           </ng-container>
@@ -175,7 +175,7 @@
         <li *ngFor="let item of picture.items">
           <a *ngIf="item.type == 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
             <i class="fa fa-upload" aria-hidden="true"></i>
-            {{'page/29/name' | translate}}
+            <ng-container i18n>Add picture</ng-container>
             <span [innerHTML]="item.item.name_html"></span>
           </a>
         </li>
@@ -257,7 +257,7 @@
 </div>
 
 <div *ngIf="picture.moder_votes.length > 0">
-  <p i18n="@@picture/moderators-about-this-picture">Moderators about this picture:</p>
+  <p i18n>Moderators about this picture:</p>
   <ul class="list-unstyled">
     <li *ngFor="let moderVote of picture.moder_votes">
       <span *ngIf="moderVote.vote">
@@ -275,7 +275,7 @@
 </div>
 
 <div *ngIf="isModer && picture">
-  <h3><a routerLink="/moder" translate>page/67/name</a></h3>
+  <h3><a routerLink="/moder" i18n>Moderator page</a></h3>
   <div class="card card-body">
       <div class="row">
         <div class="col-md-4" *ngIf="picture.rights">

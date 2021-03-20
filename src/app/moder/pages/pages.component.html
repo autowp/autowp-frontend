@@ -4,13 +4,13 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item">
-      <a routerLink="/moder" translate>page/67/name</a>
+      <a routerLink="/moder" i18n>Moderator page</a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header">
-  <h1 translate>page/68/name</h1>
+  <h1 i18n>Pages</h1>
 </div>
 
 <a routerLink="/moder/pages/add" class="btn btn-success">{{'moder/pages/new'|translate}}</a>
@@ -20,7 +20,7 @@
     <tr>
       <th scope="col">move</th>
       <th scope="col">N</th>
-      <th scope="col" translate>page/name</th>
+      <th scope="col" i18n="@@page/name">Name</th>
       <th scope="col">Breadcrumbs</th>
       <th scope="col">IsGroup?</th>
       <th scope="col"></th>
@@ -37,7 +37,7 @@
         </button>
       </td>
       <td [textContent]="page.id"></td>
-      <td [ngStyle]="{'padding-left': page.level * 20 + 'px'}" [textContent]="'page/' + page.id + '/name'|translate"></td>
+      <td [ngStyle]="{'padding-left': page.level * 20 + 'px'}" [textContent]="'page/' + page.id + '/name'"></td>
       <td [textContent]="page.breadcrumbs"></td>
       <td>{{page.is_group_node ? 'yes' : 'no'}}</td>
       <td style="white-space:nowrap">

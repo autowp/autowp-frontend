@@ -18,7 +18,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h4>{{'page/21/name'|translate}} <small><a routerLink="/mosts" translate="">all-link</a></small></h4>
+    <h4><ng-container i18n>Mostly</ng-container> <small><a routerLink="/mosts" translate="">all-link</a></small></h4>
     <p>
       <ng-container *ngFor="let most of mosts">
         <a [routerLink]="most.route">{{most.name|translate}}</a>,
@@ -65,5 +65,5 @@
 
 <div>
   <h4 class="mb-4">Also</h4>
-  <p><a routerLink="/mascots" translate>page/201/name</a> and <a routerLink="/cutaway/authors" i18n>Cutaway</a></p>
+  <p><a routerLink="/mascots" i18n>Mascots</a> and <a routerLink="/cutaway/authors" i18n>Cutaway</a></p>
 </div>

@@ -26,7 +26,7 @@ export class AccountEmailComponent {
           layout: {
             needRight: false
           },
-          name: 'page/55/name',
+          nameTranslated: $localize `My e-mail`,
           pageId: 55
         }),
       0

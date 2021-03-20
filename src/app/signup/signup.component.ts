@@ -42,7 +42,7 @@ export class SignupComponent {
           layout: {
             needRight: true
           },
-          name: 'page/52/name',
+          nameTranslated: $localize `Registration`,
           pageId: 52
         }),
       0

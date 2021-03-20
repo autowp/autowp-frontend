@@ -7,7 +7,7 @@
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
     <li class="breadcrumb-item" *ngIf="brand && data">
-      <a [routerLink]="['/', brand.catname, data.catname]">{{data.picture_page.breadcrumbs|translate}}</a>
+      <a [routerLink]="['/', brand.catname, data.catname]">{{data.picture_page.breadcrumbs}}</a>
     </li>
   </ol>
 </nav>

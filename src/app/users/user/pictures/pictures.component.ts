@@ -60,7 +60,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/63/name',
+            nameTranslated: $localize `User's pictures`,
             pageId: 63
           });
         }),

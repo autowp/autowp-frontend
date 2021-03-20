@@ -25,7 +25,7 @@ export class CategoriesIndexComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/22/name',
+          nameTranslated: $localize `Categories`,
           pageId: 22
         }),
       0

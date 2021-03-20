@@ -40,7 +40,7 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
         layout: {
           needRight: false
         },
-        name: 'page/45/name',
+        nameTranslated: $localize `New topic`,
         pageId: 45
       });
     }, 0);

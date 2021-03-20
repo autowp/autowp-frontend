@@ -157,7 +157,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/131/name',
+          nameTranslated: $localize `Items`,
           pageId: 131
         }),
       0

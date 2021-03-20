@@ -30,7 +30,7 @@ export class ModerPictureVoteTemplatesComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/212/name',
+          nameTranslated: $localize `Picture vote templates`,
           pageId: 212
         }),
       0

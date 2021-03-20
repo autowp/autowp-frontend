@@ -28,7 +28,7 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/54/name',
+          nameTranslated: $localize `Confirm the email address`,
           pageId: 54
         }),
       0

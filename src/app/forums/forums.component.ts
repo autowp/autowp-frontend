@@ -7,6 +7,7 @@ import {PageEnvService} from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forums',
@@ -27,7 +28,8 @@ export class ForumsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private forumService: ForumsService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -81,13 +83,13 @@ export class ForumsComponent implements OnInit, OnDestroy {
         this.theme = data.theme;
         this.themes = data.themes;
 
-        setTimeout(() => {
+        this.translate.get(this.theme.name).subscribe(translation => {
           if (this.theme) {
             this.pageEnv.set({
               layout: {
                 needRight: false
               },
-              name: this.theme.name,
+              nameTranslated: translation,
               pageId: 43
             });
           } else {
@@ -95,11 +97,11 @@ export class ForumsComponent implements OnInit, OnDestroy {
               layout: {
                 needRight: false
               },
-              name: 'page/42/name',
+              nameTranslated: $localize `Forums`,
               pageId: 42
             });
           }
-        }, 0);
+        });
       });
   }
 

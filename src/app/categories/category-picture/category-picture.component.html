@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item">
-      <a routerLink="/category" translate>page/22/name</a>
+      <a routerLink="/category" i18n>Categories</a>
     </li>
     <li class="breadcrumb-item" *ngFor="let item of path">
       <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id != 3"></a>

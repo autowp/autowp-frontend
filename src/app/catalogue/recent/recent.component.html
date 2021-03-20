@@ -10,7 +10,7 @@
 </nav>
 
 <div class="page-header" *ngIf="brand">
-  <h1 translate [translateParams]="{brand: brand.name_text}">page/15/ng-name</h1>
+  <h1 i18n>Last pictures of {{brand.name_text}}</h1>
 </div>
 
 <div class="row" *ngFor="let chunk of pictures">

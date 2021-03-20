@@ -30,7 +30,7 @@ export class ListComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/31/name',
+          nameTranslated: $localize `Articles`,
           pageId: 31
         }),
       0

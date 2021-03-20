@@ -57,10 +57,7 @@ export class CatalogueVehiclesGalleryComponent implements OnInit, OnDestroy {
               needRight: false
             },
             pageId: 34,
-            name: data.brand.name_text,
-            args: {
-              item: data.brand.name_text,
-            }
+            nameTranslated: data.brand.name_text
           });
         }
         // this.path = data[0].path;

@@ -29,7 +29,7 @@ export class CutawayComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/109/name',
+          nameTranslated: $localize `Cutaway`,
           pageId: 109
         }),
       0

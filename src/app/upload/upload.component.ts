@@ -79,7 +79,7 @@ export class UploadComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/29/name',
+          nameTranslated: $localize `Add picture`,
           pageId: 29
         }),
       0

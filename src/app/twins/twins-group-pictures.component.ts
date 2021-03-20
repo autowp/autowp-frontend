@@ -83,9 +83,8 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
               layout: {
                 needRight: false
               },
-              name: 'page/28/name',
-              pageId: 28,
-              args: { group_name: data.group.name_text }
+              nameTranslated: $localize `All pictures of ${data.group.name_text}`,
+              pageId: 28
             }),
           0
         );

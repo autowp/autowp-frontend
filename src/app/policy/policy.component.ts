@@ -14,7 +14,7 @@ export class PolicyComponent {
           layout: {
             needRight: true
           },
-          name: 'page/1/name',
+          nameTranslated: $localize `Index page`,
           pageId: 1
         }),
       0

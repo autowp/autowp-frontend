@@ -65,7 +65,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/196/name',
+          nameTranslated: $localize `Donate`,
           pageId: 196
         }),
       0

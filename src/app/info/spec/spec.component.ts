@@ -28,7 +28,7 @@ export class InfoSpecComponent implements OnInit, OnDestroy {
           layout: {
             needRight: true
           },
-          name: 'page/174/name',
+          nameTranslated: $localize `Specs`,
           pageId: 174
         }),
       0

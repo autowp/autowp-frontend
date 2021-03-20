@@ -70,7 +70,7 @@ export class InfoTextComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/197/name',
+          nameTranslated: $localize `Text history`,
           pageId: 197
         }),
       0

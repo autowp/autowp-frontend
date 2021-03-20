@@ -14,7 +14,7 @@ export class RestorePasswordNewOkComponent {
           layout: {
             needRight: true
           },
-          name: 'page/135/name',
+          nameTranslated: $localize `New password saved`,
           pageId: 135
         }),
       0

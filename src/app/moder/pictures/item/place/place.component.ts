@@ -64,7 +64,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'Location',
+          nameTranslated: $localize `Location`,
           pageId: 72
         }),
       0

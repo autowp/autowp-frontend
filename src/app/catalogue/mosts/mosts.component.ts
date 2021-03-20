@@ -37,10 +37,7 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
             needRight: false
           },
           pageId: 208,
-          name: 'page/208/ng-name',
-          args: {
-            brand: brand.name_text,
-          }
+          nameTranslated: $localize `${brand.name_text} Engines`
         });
 
         return this.route.paramMap.pipe(

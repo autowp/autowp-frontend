@@ -48,19 +48,19 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
           switch (this.folder) {
             case 'inbox':
               pageId = 128;
-              this.pageName = 'page/128/name';
+              this.pageName = $localize `Inbox`;
               break;
             case 'sent':
               pageId = 80;
-              this.pageName = 'page/80/name';
+              this.pageName = $localize `Sent`;
               break;
             case 'system':
               pageId = 81;
-              this.pageName = 'page/81/name';
+              this.pageName = $localize `System messages`;
               break;
             case 'dialog':
               pageId = 49;
-              this.pageName = 'page/49/name';
+              this.pageName = $localize `Personal messages`;
               userID = params.user_id;
               break;
           }
@@ -69,7 +69,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: this.pageName,
+            nameTranslated: this.pageName,
             pageId
           });
 

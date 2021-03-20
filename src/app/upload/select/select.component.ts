@@ -61,7 +61,7 @@ export class UploadSelectComponent implements OnInit {
           layout: {
             needRight: false
           },
-          name: 'page/30/name',
+          nameTranslated: $localize `Select brand`,
           pageId: 30
         }),
       0

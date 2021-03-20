@@ -33,7 +33,7 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/100/name',
+          nameTranslated: $localize `Attributes`,
           pageId: 100
         }),
       0

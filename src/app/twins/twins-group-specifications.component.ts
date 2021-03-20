@@ -69,9 +69,8 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
               layout: {
                 needRight: false
               },
-              name: 'page/27/ng-name',
-              pageId: 27,
-              args: { group_name: data.group.name_text }
+              nameTranslated: $localize `Specifications of ${data.group.name_text}`,
+              pageId: 27
             }),
           0
         );

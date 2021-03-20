@@ -59,7 +59,7 @@ export class InboxComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/76/name',
+          nameTranslated: $localize `Inbox`,
           pageId: 76
         }),
       0

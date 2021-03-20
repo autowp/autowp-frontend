@@ -31,7 +31,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
           layout: {
             needRight: true
           },
-          name: 'page/214/name',
+          nameTranslated: $localize `Persons`,
           pageId: 214
         }),
       0

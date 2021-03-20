@@ -56,7 +56,7 @@ export class IndexComponent implements OnInit {
         layout: {
           needRight: false
         },
-        name: 'page/1/title',
+        nameTranslated: $localize `Index page`,
         pageId: 1
       });
     }, 0);

@@ -88,10 +88,7 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
             needRight: false
           },
           pageId: 34,
-          name: 'page/34/ng-name',
-          args: {
-            item: this.item.name_text,
-          }
+          nameTranslated: $localize `All pictures of ${this.item.name_text}`
         });
 
         return this.getPage().pipe(

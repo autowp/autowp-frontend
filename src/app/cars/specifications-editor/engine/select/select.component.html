@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item" *ngIf="item">
-      <a routerLink="/" translate [translateParams]="{item_name: item.name_text}">page/102/ng-name</a>
+      <a routerLink="/" i18n>Specs editor of {{item.name_text}}</a>
     </li>
   </ol>
 </nav>

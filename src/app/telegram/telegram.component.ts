@@ -14,7 +14,7 @@ export class TelegramComponent {
           layout: {
             needRight: true
           },
-          name: 'page/204/name',
+          nameTranslated: $localize `Telegram`,
           pageId: 204
         }),
       0

@@ -14,7 +14,7 @@ export class SignupOkComponent {
           layout: {
             needRight: true
           },
-          name: 'page/53/name',
+          nameTranslated: $localize `Successful registration`,
           pageId: 53
         }),
       0

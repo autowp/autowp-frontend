@@ -27,7 +27,7 @@ export class ModerPagesAddComponent {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/69/name',
+          nameTranslated: $localize `Add`,
           pageId: 69
         }),
       0

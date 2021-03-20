@@ -78,11 +78,7 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
               needRight: false
             },
             nameTranslated: brand.name_text,
-            pageId: 10,
-            args: {
-              BRAND_CATNAME: brand.catname,
-              BRAND_NAME: brand.name,
-            }
+            pageId: 10
           });
         }
       }),

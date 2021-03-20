@@ -75,7 +75,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
             layout: {
               needRight: true
             },
-            name: 'page/182/name',
+            nameTranslated: $localize `Products`,
             pageId: 182
           });
         }),

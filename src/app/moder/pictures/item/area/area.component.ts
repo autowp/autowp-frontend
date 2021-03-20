@@ -60,7 +60,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          name: 'page/148/name',
+          nameTranslated: $localize `Cropper`,
           pageId: 148
         }),
       0

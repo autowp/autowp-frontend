@@ -46,7 +46,7 @@ export class AccountAccountsComponent implements OnInit, OnDestroy{
           layout: {
             needRight: false
           },
-          name: 'page/123/name',
+          nameTranslated: $localize `My accounts`,
           pageId: 123
         }),
       0

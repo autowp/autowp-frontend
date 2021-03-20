@@ -93,7 +93,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               isAdminPage: true,
               needRight: false
             },
-            name: 'page/149/name',
+            nameTranslated: $localize `Move picture`,
             pageId: 149
           });
         })

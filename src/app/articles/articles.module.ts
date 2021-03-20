@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ArticleService } from './article.service';
 import { CommentsModule } from '../comments/comments.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ListComponent, ArticlesArticleComponent],
@@ -22,7 +23,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     PaginatorModule,
     UserModule,
     HttpClientModule,
-    CommentsModule
+    CommentsModule,
+    TranslateModule
   ],
   providers: [ArticleService]
 })

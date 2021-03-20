@@ -97,11 +97,8 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            name: 'page/102/ng-name',
-            pageId: 102,
-            args: {
-              item_name: item.name_text
-            }
+            nameTranslated: $localize `Specs editor of ${item.name_text}`,
+            pageId: 102
           });
 
           this.enginesCount = this.item.engine_id ? 1 : 0;

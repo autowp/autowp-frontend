@@ -78,11 +78,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
                 needRight: false
               },
               pageId: 138,
-              name: 'page/138/ng-name',
-              args: {
-                brand: brand.name_text,
-                vehicle_type: this.currentVehicleType.name,
-              }
+              nameTranslated: $localize `${brand.name_text} ${this.currentVehicleType.name} in chronological order`
             });
           } else {
             this.pageEnv.set({
@@ -90,10 +86,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
                 needRight: false
               },
               pageId: 14,
-              name: 'page/14/ng-name',
-              args: {
-                brand: brand.name_text,
-              }
+              nameTranslated: $localize `${brand.name_text} in chronological order`
             });
           }
         }

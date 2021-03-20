@@ -68,7 +68,7 @@ export class NewComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          name: 'page/51/name',
+          nameTranslated: $localize `New pictures`,
           pageId: 51
         }),
       0
