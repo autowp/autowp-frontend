@@ -15,7 +15,7 @@
 
 <app-markdown [markdown]="'donate/vod/text'|translate"></app-markdown>
 
-<h1 translate>donate/vod/select-date</h1>
+<h1 i18n>1. Choose a date</h1>
 <div class="card card-body mb-4">
   <ul>
     <li *ngFor="let date of dates">
@@ -31,53 +31,50 @@
 
       <span *ngIf="!date.free">
         <span class="muted" [textContent]="date.name"></span>
-        ({{'donate/vod/date-busy'|translate}})
+        (<ng-container i18n>busy</ng-container>)
       </span>
     </li>
   </ul>
 </div>
 
-<h1 translate>donate/vod/select-item</h1>
+<h1 i18n>2. Choose vehicle</h1>
 <div class="card card-body mb-4">
 
   <app-markdown [markdown]="'donate/vod/select-item-text'|translate"></app-markdown>
 
   <p *ngIf="selectedItem">
-    {{'donate/vod/select-item/selection:'|translate}}
+    <ng-container i18n>Selection:</ng-container>
     <strong [innerHTML]="selectedItem.name_html"></strong>
   </p>
 
   <a routerLink="/donate/vod/select" [queryParams]="{date: selectedDate, anonymous: anonymous ? 1 : null}" class="btn btn-primary btn-lg"
-    translate>donate/vod/select-item/select</a>
+    i18n>Choose ...</a>
 </div>
 
-<h1 translate>donate/vod/preview</h1>
+<h1 i18n>3. Preview</h1>
 
 <div class="card card-body mb-4">
   <div class="btn-group">
-    <a routerLink="." [queryParams]="{anonymous: '1'}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="anonymous"
-      translate>donate/vod/anonymous</a>
-    <a routerLink="." [queryParams]="{anonymous: null}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="!anonymous"
-      [class.disabled]="!userID" translate>donate/vod/with-name</a>
+    <a routerLink="." [queryParams]="{anonymous: '1'}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="anonymous" i18n>Anonymously</a>
+    <a routerLink="." [queryParams]="{anonymous: null}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="!anonymous" [class.disabled]="!userID" i18n>With the name (registration required)</a>
   </div>
 </div>
 
 <app-item-of-day *ngIf="selectedItem" [item]="selectedItem" [user]="anonymous ? null : user"></app-item-of-day>
 
-<h1 translate>donate/vod/make-donation</h1>
+<h1 i18n>4. Make a donation</h1>
 
 <form ngNoForm method="post" action="https://money.yandex.ru/quickpay/confirm.xml" (ngSubmit)="submit($event)" class="card card-body mb-4">
   <div *ngIf="selectedDate && selectedItem">
     <input type="hidden" *ngFor="let param of formParams" [name]="param.name" [value]="param.value" />
     <div class="form-group">
-      <textarea name="comment" [placeholder]="'donate/vod/message'|translate" class="form-control" maxlength="200"></textarea>
+      <textarea name="comment" i18n-placeholder placeholder="Your wishes" class="form-control" maxlength="200"></textarea>
     </div>
   </div>
   <p>
-    {{'donate/vod/price:'|translate}}
-    <strong>{{sum}}{{'donate/vod/price/currency'|translate}}</strong>
-    (
-    <span translate [translateParams]="{price: '$'+(sum / 59.70).toFixed(2)}">donate/vod/price-aroud</span>)
+    <ng-container i18n>Price:</ng-container>
+    <strong>{{sum}}<ng-container i18n>rubles</ng-container></strong>
+    (<span i18n>about {{'$'+(sum / 59.70).toFixed(2)}}</span>)
   </p>
   <div *ngIf="selectedDate && selectedItem">
     <div class="form-group">
@@ -85,29 +82,30 @@
         <label class="btn btn-secondary" ngbButtonLabel>
           <input type="radio" ngbButton name="paymentType" value="AC" autocomplete="off">
           <span class="fa fa-credit-card" aria-hidden="true"></span>
-          {{'donate/vod/method/credit-card'|translate}}
+          <ng-container i18n>Credit card</ng-container>
         </label>
         <label class="btn btn-secondary" ngbButtonLabel>
           <input type="radio" ngbButton name="paymentType" value="MC" autocomplete="off">
           <span class="fa fa-mobile" aria-hidden="true"></span>
-          {{'donate/vod/method/mobile'|translate}}
+          <ng-container i18n>Mobile operator account</ng-container>
         </label>
         <label class="btn btn-secondary" ngbButtonLabel>
-          <input type="radio" ngbButton name="paymentType" value="PC" autocomplete="off"> {{'donate/vod/method/yandex.money'|translate}}
+          <input type="radio" ngbButton name="paymentType" value="PC" autocomplete="off">
+          <ng-container i18n>Yandex.Money</ng-container>
         </label>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary" translate>donate/vod/send</button>
+    <button type="submit" class="btn btn-primary" i18n>Pay</button>
   </div>
   <div *ngIf="!selectedDate || !selectedItem">
     <button class="btn btn-secondary" disabled>
       <span class="fa fa-credit-card" aria-hidden="true"></span>
-      {{'donate/vod/method/credit-card'|translate}}
+      <ng-container i18n>Credit card</ng-container>
     </button>
     <button class="btn btn-secondary" disabled>
       <span class="fa fa-mobile" aria-hidden="true"></span>
-      {{'donate/vod/method/mobile'|translate}}
+      <ng-container i18n>Mobile operator account</ng-container>
     </button>
-    <button class="btn btn-secondary" disabled translate>donate/vod/method/yandex.money</button>
+    <button class="btn btn-secondary" disabled i18n>Yandex.Money</button>
   </div>
 </form>

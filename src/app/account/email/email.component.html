@@ -14,10 +14,10 @@
     <div class="card card-body">
       <div *ngIf="!sent">
         <p *ngIf="email">
-          {{'account/email/your-current-email:' | translate}}
+          <ng-container i18n>Your current e-mail address:</ng-container>
           <a [href]="email" [textContent]="email"></a>
         </p>
-        <p translate *ngIf="!email">account/email/your-dont-enter-email</p>
+        <p i18n *ngIf="!email">You don't input e-mail address</p>
         <app-markdown [markdown]="'account/email/text'|translate"></app-markdown>
         <form method="post" class="form-horizontal" (submit)="submit()" novalidate="">
           <div class="form-group row">
@@ -29,13 +29,13 @@
           </div>
           <div class="row">
             <div class="col-md-10 offset-md-2">
-              <button type="submit" class="btn btn-primary" translate>send</button>
+              <button type="submit" class="btn btn-primary" i18n>send</button>
             </div>
           </div>
         </form>
       </div>
 
-      <p translate *ngIf="sent">users/change-email/confirmation-message-sent</p>
+      <p i18n *ngIf="sent">E-mail with confirmation code was sent</p>
     </div>
   </div>
   <div class="col-lg-4 mb-4 order-1">

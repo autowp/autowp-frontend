@@ -1,37 +1,31 @@
 <div class="btn-group mb-3">
   <div ngbDropdown *ngIf="!picture.moder_voted">
-    <button class="btn btn-success" type="button" ngbDropdownToggle>
-      {{'moder/picture/acceptance/want-accept'|translate}}
-    </button>
+    <button class="btn btn-success" type="button" ngbDropdownToggle i18n>Want accept</button>
     <div ngbDropdownMenu>
       <ng-container *ngFor="let template of moderVoteTemplateOptions">
         <button class="dropdown-item" *ngIf="template.vote > 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
-      <button class="dropdown-item" (click)="showCustomDialog(1)">{{'moder/picture/acceptance/custom'|translate}}</button>
+      <button class="dropdown-item" (click)="showCustomDialog(1)" i18n>Custom ...</button>
     </div>
   </div>
 
   <div ngbDropdown *ngIf="!picture.moder_voted">
-    <button class="btn btn-danger" type="button" ngbDropdownToggle>
-      {{'moder/picture/acceptance/want-delete'|translate}}
-    </button>
+    <button class="btn btn-danger" type="button" ngbDropdownToggle i18n>Want delete</button>
     <div ngbDropdownMenu>
       <ng-container *ngFor="let template of moderVoteTemplateOptions">
         <button class="dropdown-item" *ngIf="template.vote < 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
-      <button class="dropdown-item" (click)="showCustomDialog(-1)">{{'moder/picture/acceptance/custom'|translate}}</button>
+      <button class="dropdown-item" (click)="showCustomDialog(-1)" i18n>Custom ...</button>
     </div>
   </div>
 
-  <button class="btn btn-secondary" *ngIf="picture.moder_voted" (click)="cancelVotePicture()">
-    {{'moder/picture/acceptance/cancel-vote'|translate}}
-  </button>
+  <button class="btn btn-secondary" *ngIf="picture.moder_voted" (click)="cancelVotePicture()" i18n>Cancel my vote</button>
 </div>
 
 <div *ngIf="picture.moder_votes.length">
-  {{'moder/picture/acceptance/already-voted'|translate}}
+  <ng-container i18n>Already voted:</ng-container>
   <ul class="list-unstyled">
     <li *ngFor="let moder_vote of picture.moder_votes">
       <i style="color:green" class="fa fa-thumbs-up" aria-hidden="true" *ngIf="moder_vote.vote > 0"></i>

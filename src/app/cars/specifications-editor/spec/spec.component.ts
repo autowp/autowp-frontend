@@ -8,7 +8,6 @@ import {
   OnDestroy
 } from '@angular/core';
 import { APIItem } from '../../../services/item';
-import { TranslateService } from '@ngx-translate/core';
 import {
   Observable,
   Subscription,
@@ -83,7 +82,6 @@ export class CarsSpecificationsEditorSpecComponent
   constructor(
     private api: APIService,
     private attrsService: APIAttrsService,
-    private translate: TranslateService,
     private auth: AuthService,
     private toastService: ToastsService
   ) {}
@@ -210,61 +208,52 @@ export class CarsSpecificationsEditorSpecComponent
               map(attributes => ({ item, attributes }))
             )
         ),
-        switchMap(data =>
-          combineLatest([
-            combineLatest([
-              this.auth.getUser().pipe(tap(user => (this.user = user))),
-              this.change$
-            ]).pipe(
-              switchMap(user =>
-                combineLatest([
-                  this.values$(data.item),
-                  this.currentUserValues$(data.item, user[0]),
-                  this.userValues$(data.item)
-                ])
-              )
-            ),
-            this.translate
-              .get([
-                'specifications/boolean/false',
-                'specifications/boolean/true'
+        switchMap(data => {
+
+          const booleanOptions = [
+            {
+              name: '—',
+              id: null
+            },
+            {
+              name: $localize`no`,
+              id: 0
+            },
+            {
+              name: $localize`yes`,
+              id: 1
+            }
+          ];
+
+          const attibutes = toPlain(data.attributes.items, 0);
+          for (const attribute of attibutes) {
+            if (attribute.options) {
+              attribute.options.splice(0, 0, {
+                name: '—',
+                id: null
+              });
+            }
+
+            if (attribute.type_id === 5) {
+              attribute.options = booleanOptions;
+            }
+          }
+
+          this.attributes = attibutes;
+
+          return combineLatest([
+            this.auth.getUser().pipe(tap(user => (this.user = user))),
+            this.change$
+          ]).pipe(
+            switchMap(user =>
+              combineLatest([
+                this.values$(data.item),
+                this.currentUserValues$(data.item, user[0]),
+                this.userValues$(data.item)
               ])
-              .pipe(
-                tap(translations => {
-                  const booleanOptions = [
-                    {
-                      name: '—',
-                      id: null
-                    },
-                    {
-                      name: translations['specifications/boolean/false'],
-                      id: 0
-                    },
-                    {
-                      name: translations['specifications/boolean/true'],
-                      id: 1
-                    }
-                  ];
-
-                  const attibutes = toPlain(data.attributes.items, 0);
-                  for (const attribute of attibutes) {
-                    if (attribute.options) {
-                      attribute.options.splice(0, 0, {
-                        name: '—',
-                        id: null
-                      });
-                    }
-
-                    if (attribute.type_id === 5) {
-                      attribute.options = booleanOptions;
-                    }
-                  }
-
-                  this.attributes = attibutes;
-                })
-              )
-          ])
-        )
+            )
+          );
+        })
       )
       .subscribe(() => {}, response => this.toastService.response(response));
   }

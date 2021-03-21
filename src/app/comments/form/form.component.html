@@ -1,6 +1,6 @@
 <form class="add-message" method="post" (submit)="sendMessage()">
   <fieldset>
-    <legend translate>comments/form-title</legend>
+    <legend i18n>Add comment</legend>
     <div class="form-group">
       <div class="controls">
         <textarea cols="80" rows="5" name="message" maxlength="16000" class="form-control" [(ngModel)]="form.message" [class.is-invalid]="invalidParams && invalidParams.message"></textarea>
@@ -10,15 +10,16 @@
     <div class="form-group">
       <div class="controls checkbox">
         <div class="float-right cancel">
-          <button type="button" class="btn btn-sm btn-warning" translate (click)="cancel()">comments/cancel</button>
+          <button type="button" class="btn btn-sm btn-warning" i18n (click)="cancel()">Cancel</button>
         </div>
         <label>
-          <input type="checkbox" name="moderator_attention" value="1" [(ngModel)]="form.moderator_attention" /> {{'comments/it-requires-attention-of-moderators'|translate}}
+          <input type="checkbox" name="moderator_attention" value="1" [(ngModel)]="form.moderator_attention" />
+          <ng-container i18n>It requires attention of moderators</ng-container>
         </label>
       </div>
     </div>
     <div>
-      <button type="submit" class="btn btn-primary" translate>comments/send</button>
+      <button type="submit" class="btn btn-primary" i18n>Send</button>
     </div>
   </fieldset>
 </form>

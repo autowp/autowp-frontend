@@ -224,7 +224,7 @@
     <div class="card card-body mb-4">
       <app-markdown [markdown]="'moder/markdown/description'|translate"></app-markdown>
       <app-markdown-edit [(text)]="picture.copyrights"></app-markdown-edit>
-      <button class="btn btn-primary" (click)="saveCopyrights()" translate>submit</button>
+      <button class="btn btn-primary" (click)="saveCopyrights()" i18n>Submit</button>
       <p *ngIf="picture.copyrights_text_id">
         <a [routerLink]="['/info/text', picture.copyrights_text_id]" translate>moder/markdown/history</a>
       </p>

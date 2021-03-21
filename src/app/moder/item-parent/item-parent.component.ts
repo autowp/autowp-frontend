@@ -28,19 +28,19 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   public typeOptions = [
     {
       value: 0,
-      name: 'catalogue/stock-model'
+      name: $localize `Stock model`
     },
     {
       value: 1,
-      name: 'catalogue/related'
+      name: $localize `Related`
     },
     {
       value: 2,
-      name: 'catalogue/sport'
+      name: $localize `Sport`
     },
     {
       value: 3,
-      name: 'catalogue/design'
+      name: $localize `Design`
     }
   ];
 

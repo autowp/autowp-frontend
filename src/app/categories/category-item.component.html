@@ -31,7 +31,7 @@
 
   <p *ngIf="isModer" class="mb-4">
     <i class="fa fa-cog" aria-hidden="true"></i>
-    <a [routerLink]="['/moder/items/item', current.id]" translate>moder/edit-object</a>
+    <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
 
     <span *ngIf="canAddCar">
       <i class="fa fa-plus" aria-hidden="true"></i>
@@ -61,7 +61,7 @@
   </div>
 
   <!--div *ngIf="otherItemsCount > 0">
-    <h3 translate>categories/other</h3>
+    <h3 i18n>Other</h3>
     <div class="row">
       <div class="col-md-3" *ngFor="let picture of otherPictures">
         <a [href]="picture.url" class="d-block rounded mb-4">
@@ -71,14 +71,14 @@
     </div>
     <span class="canAddCar">
       <i class="fa fa-align-left" aria-hidden="true"></i>
-      <a [routerLink]="['/category', category.catname, 'other']">{{'carlist/details'|translate}} ({{otherItemsCount}})</a>
+      <a [routerLink]="['/category', category.catname, 'other']">details ({{otherItemsCount}})</a>
     </span>
   </div>-->
 
   <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
   <!--
   <p *ngIf="contributors.length > 0">
-      {{'catalogue/specifications/contributors:'|translate}}
+      <ng-container i18n>Contributors:</ng-container>
       <app-user [user]="user" *ngFor="let user of contributors"></app-user>
   </p>
   -->

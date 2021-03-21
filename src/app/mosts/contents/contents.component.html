@@ -1,5 +1,5 @@
 <h1 class="mb-4 mosts-header" *ngIf="ratingCatname" ngPreserveWhitespaces>
-  <span translate>mosts/most</span>
+  <span i18n>Most</span>
   <div class="d-inline-block" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
       <ng-container *ngFor="let rating of ratings">
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <span translate>mosts/among</span>
+  <span i18n>among</span>
 
   <div class="d-inline-block" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">

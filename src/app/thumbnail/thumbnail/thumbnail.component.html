@@ -16,14 +16,14 @@
         <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status=='removing'"></i>
       </span>
 
-      <span [title]="'Resolution'|translate" ngPreserveWhitespaces>
+      <span i18n-title title="Resolution" ngPreserveWhitespaces>
         {{picture.resolution}}
-        <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" title="{{'picture-preview/crop-desc'|translate}} ({{picture.crop_resolution}})"></i>
+        <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" i18n-title title="Image is cropped ({{picture.crop_resolution}})"></i>
       </span>
 
       <br />
 
-      <span [title]="'Views'|translate" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
+      <span i18n-title title="Views" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
         <i class="fa fa-eye" aria-hidden="true"></i>
         <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
         <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
@@ -34,7 +34,7 @@
         {{picture.votes.positive}}
       </span>
 
-      <span [title]="'Comments count'|translate" *ngIf="picture.comments_count.total > 0" class="mr-2">
+      <span i18n-title title="Comments" *ngIf="picture.comments_count.total > 0" class="mr-2">
         <a [routerLink]="route" *ngIf="route">
           <ng-container *ngIf="picture.comments_count.new > 0">
             {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger" aria-hidden="true"></i>

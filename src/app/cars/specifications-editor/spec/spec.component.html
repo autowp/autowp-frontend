@@ -2,15 +2,15 @@
   {{invalidParams|json}}
   <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items">
     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-    {{'specifications-editor/not-save'|translate}}
+    <ng-container i18n>Data not saved because of error. Details below</ng-container>
   </p>
   <table class="table table-condensed">
     <thead>
       <tr>
-        <th translate scope="col">specifications-editor/parameter</th>
-        <th translate scope="col">specifications-editor/your-value</th>
-        <th translate scope="col">specifications-editor/actual-value</th>
-        <th translate scope="col">specifications-editor/all-values</th>
+        <th i18n scope="col">Parameter</th>
+        <th i18n scope="col">Your value</th>
+        <th i18n scope="col">Current value</th>
+        <th i18n scope="col">All values</th>
       </tr>
     </thead>
     <tbody>
@@ -63,7 +63,7 @@
         </td>
         <td class="actual" *ngIf="!attribute.childs.length">
           <div *ngIf="values.has(attribute.id)">
-            <em translate *ngIf="values.get(attribute.id)['value'] === null">account/specs/conflicts/my-value/none</em>
+            <em *ngIf="values.get(attribute.id)['value'] === null" i18n>none</em>
             <span *ngIf="values.get(attribute.id)['value'] !== null">
               {{values.get(attribute.id)['value_text']}}
               <span *ngIf="attribute.unit" class="unit" [title]="attribute.unit.name|translate" [textContent]="attribute.unit.abbr|translate"></span>
@@ -72,7 +72,7 @@
         </td>
         <td *ngIf="!attribute.childs.length">
           <div *ngFor="let value of userValues.get(attribute.id)">
-            <em translate *ngIf="value.value_text === null">account/specs/conflicts/my-value/none</em>
+            <em *ngIf="value.value_text === null" i18n>none</em>
             <span *ngIf="value.value_text !== null" [textContent]="value.value_text"></span>
             <app-user [user]="value.user" *ngIf="value.user"></app-user>
             <span class="date" *ngIf="value.update_date">[
@@ -82,7 +82,7 @@
       </tr>
       <tr>
         <td>
-          <button type="submit" class="btn btn-success" translate>specifications-editor/save</button>
+          <button type="submit" class="btn btn-success" i18n>Save</button>
         </td>
       </tr>
     </tbody>

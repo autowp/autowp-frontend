@@ -27,7 +27,7 @@
 
   <p *ngIf="isModer">
     <i class="fa fa-cog" aria-hidden="true"></i>
-    <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
+    <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
 
     <ng-container *ngIf="canAddItem && item.is_group">
       <i class="fa fa-plus" aria-hidden="true"></i>
@@ -37,14 +37,14 @@
     <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
       <i class="fa fa-th" aria-hidden="true"></i>
       <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
-        {{'catalogue/vehicle/inbox'|translate}} ({{item.inbox_pictures_count}})
+        <ng-container i18n>inbox</ng-container> ({{item.inbox_pictures_count}})
       </a>
     </ng-container>
 
     <ng-container *ngIf="item.comments_attentions_count">
       <i class="fa fa-comment" aria-hidden="true"></i>
       <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
-        {{'catalogue/vehicle/comments'|translate}} ({{item.comments_attentions_count}})
+        <ng-container i18n>comments</ng-container> ({{item.comments_attentions_count}})
       </a>
     </ng-container>
   </p>
@@ -70,7 +70,7 @@
 </ng-container>
 
 <ng-container *ngIf="item && otherPictures.length > 0">
-  <h3>{{'catalogue/other-pictures-of'|translate}} <span [innerHTML]="item.name_html"></span></h3>
+  <h3><ng-container i18n>Other pictures of</ng-container> <span [innerHTML]="item.name_html"></span></h3>
   <div class="row">
     <div class="col-6 col-lg-3" *ngFor="let picture of otherPictures">
       <a [routerLink]="otherPicturesRouterLink.concat(picture.identity)" *ngIf="picture && picture.thumb_medium" class="d-block rounded mb-4">
@@ -82,7 +82,7 @@
   <ng-container *ngIf="otherPicturesCount > otherPictures.length">
     <i class="fa fa-th" aria-hidden="true"></i>
     <a [routerLink]="otherPicturesRouterLink">
-      {{'carlist/all pictures'|translate}} ({{otherPicturesCount}})
+      <ng-container i18n>all pictures</ng-container> ({{otherPicturesCount}})
     </a>
   </ng-container>
 </ng-container>

@@ -7,7 +7,6 @@ import { UtilsModule } from '../utils/utils.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
 import { CommentsModule } from '../comments/comments.module';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [MuseumComponent],
@@ -17,8 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     UtilsModule,
     LeafletModule,
     ThumbnailModule,
-    CommentsModule,
-    TranslateModule
+    CommentsModule
   ]
 })
 export class MuseumModule {}

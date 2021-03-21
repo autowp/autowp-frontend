@@ -11,11 +11,11 @@
     <div class="page-header mb-4">
       <h1 i18n>Access Control</h1>
     </div>
-    <h2 class="mb-2" translate>account/access/change-password</h2>
+    <h2 class="mb-2" i18n>Change password</h2>
     <div class="card card-body mb-4">
       <form class="form-horizontal" (submit)="submit()">
         <div class="form-group row">
-          <label class="col-md-2 col-form-label" for="password_old" translate>account/access/change-password/current</label>
+          <label class="col-md-2 col-form-label" for="password_old" i18n>Current</label>
           <div class="col-md-10">
             <input type="password" size="50" maxlength="50" name="password_old" class="form-control" [(ngModel)]="form.password_old"
               [class.is-invalid]="invalidParams && invalidParams.password_old">
@@ -23,14 +23,14 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-2 col-form-label" for="password" translate>account/access/change-password/new</label>
+          <label class="col-md-2 col-form-label" for="password" i18n>New password</label>
           <div class="col-md-10">
             <input type="password" size="50" maxlength="50" name="password" class="form-control" [(ngModel)]="form.password" [class.is-invalid]="invalidParams && invalidParams.password">
             <p *ngFor="let message of invalidParams | invalidParams : 'password'" [textContent]="message" class="invalid-feedback"></p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-2 col-form-label" for="password_confirm" translate>account/access/change-password/new-confirm</label>
+          <label class="col-md-2 col-form-label" for="password_confirm" i18n>New password (confirm)</label>
           <div class="col-md-10">
             <input type="password" size="50" maxlength="50" name="password_confirm" class="form-control" [(ngModel)]="form.password_confirm"
               [class.is-invalid]="invalidParams && invalidParams.password_confirm">
@@ -39,7 +39,7 @@
         </div>
         <div class="row">
           <div class="col-md-10 offset-md-2">
-            <button type="submit" class="btn btn-primary" translate>send</button>
+            <button type="submit" class="btn btn-primary" i18n>send</button>
           </div>
         </div>
       </form>
@@ -48,7 +48,7 @@
     <p>
       <a routerLink="/account/delete" class="btn btn-danger btn-lg">
         <i class="fa fa-times" aria-hidden="true"></i>
-        {{'account/access/self-delete'|translate}}
+        <ng-container i18n>Delete account</ng-container>
       </a>
     </p>
   </div>

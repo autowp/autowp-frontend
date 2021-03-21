@@ -9,22 +9,22 @@
 <div class="row">
   <div class="col-lg-8 mb-4 order-2">
     <div class="page-header">
-      <h1>{{pageName|translate}}</h1>
+      <h1>{{pageName}}</h1>
     </div>
 
     <div style="margin:0 0 20px;" *ngIf="folder =='sent' && paginator && paginator.totalItemCount">
-      <button class="btn btn-danger" (click)="clearFolder('sent')" translate>account/personal-message/delete-all-sent</button>
+      <button class="btn btn-danger" (click)="clearFolder('sent')" i18n>Delete all sent messages</button>
     </div>
 
     <div style="margin:0 0 20px;" *ngIf="folder =='system' && paginator && paginator.totalItemCount">
-      <button class="btn btn-danger" (click)="clearFolder('system')" translate>account/personal-message/delete-all-system</button>
+      <button class="btn btn-danger" (click)="clearFolder('system')" i18n>Delete all system notifications</button>
     </div>
 
     <div class="comments">
       <div class="message" *ngFor="let message of items">
         <div>
           <app-user [user]="message.author" *ngIf="message.author"></app-user>
-          <span translate *ngIf="! message.author">account/personal-message/system-notification</span>
+          <span i18n *ngIf="! message.author">System notification</span>
         </div>
         <div class="photo">
           <a [routerLink]="message.author.route" *ngIf="message.author && ! message.author.deleted">
@@ -37,18 +37,19 @@
             <app-user-text [text]="message.text"></app-user-text>
           </div>
           <div ngPreserveWhitespaces>
-            <span class="badge badge-info" *ngIf="message.is_new" translate>account/personal-message/new</span>
+            <span class="badge badge-info" *ngIf="message.is_new" i18n>new</span>
             <a href="#" class="float-right" (click)="deleteMessage(message.id)" *ngIf="message.can_delete" ngPreserveWhitespaces>
-              <i class="fa fa-trash" aria-hidden="true"></i> {{'account/personal-message/delete'|translate}}
+              <i class="fa fa-trash" aria-hidden="true"></i>
+              <ng-container i18n>delete</ng-container>
             </a>
             <span *ngIf="message.can_reply" ngPreserveWhitespaces>
               <i class="fa fa-reply" aria-hidden="true"></i>
-              <a href="#" (click)="openMessageForm(message.author.id)" translate>account/personal-message/reply</a>
+              <a href="#" (click)="openMessageForm(message.author.id)" i18n>reply</a>
               &nbsp;
             </span>
             <span *ngIf="message.all_messages_link && message.dialog_with_user_id" ngPreserveWhitespaces>
               <i class="fa fa-comments-o" aria-hidden="true"></i>
-              <a routerLink="/account/messages" [queryParams]="{folder: 'dialog', user_id: message.dialog_with_user_id}" translate>account/personal-message/entire-dialog</a>
+              <a routerLink="/account/messages" [queryParams]="{folder: 'dialog', user_id: message.dialog_with_user_id}" i18n>entire dialog</a>
               <small>({{message.dialog_count}})</small>
               &nbsp;
             </span>

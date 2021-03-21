@@ -339,7 +339,7 @@
   "login/success-text": "Рады зноў вітаць вас на нашым сайце",
   "login/remember": "запомніць",
   "login/if-you-lose-password": "Калі вы забыліся на свой лагін або пароль, вы можаце скарыстацца [формай аднаўлення па e-mail](/restore-password)",
-  "login/if-you-not-registered": "Калі вы яшчэ не зарэгістраваліся на сайце, то можаце [зрабіць гэта зараз](/signup)",
+  "login/if-you-not-registered": "Калі вы яшчэ не зарэгістраваліся на сайце, то можаце [зрабіць гэта зараз](/signup)!",
   "login/sign-in-using-account": "Увайсці, выкарыстоўваючы акаўнт",
   "login/login-or-password-is-incorrect": "Лагін або пароль няправільны",
   "login/user-%value%-not-found": "Карыстальнік з імем або e-mail \"%value%\" не знойдзены",

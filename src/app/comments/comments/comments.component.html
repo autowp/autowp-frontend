@@ -1,5 +1,5 @@
 <div class="comments">
-  <h2 translate *ngIf="messages && typeID != 5">comments/title</h2>
+  <h2 i18n *ngIf="messages && typeID != 5">Comments</h2>
   <app-comments-list [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)" [messages]="messages" [deep]="0" *ngIf="messages"></app-comments-list>
 
   <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>

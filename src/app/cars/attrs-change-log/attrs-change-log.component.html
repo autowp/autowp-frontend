@@ -13,7 +13,7 @@
 <div class="card card-body">
   <form class="form-horizontal">
     <div class="form-group row">
-      <label class="col-md-2 col-form-label" for="user_id" translate>specifications-editor/log/filter/user-id</label>
+      <label class="col-md-2 col-form-label" for="user_id" i18n>User</label>
       <div class="col-md-10">
         <ng-template #userTemplate let-model="result">
           <span [innerHTML]="model.name"></span>
@@ -33,12 +33,12 @@
   <table class="specs-log table table-stripped">
     <thead>
       <tr>
-        <th translate scope="col">specifications-editor/log/date</th>
-        <th translate scope="col">specifications-editor/log/user</th>
-        <th translate scope="col">specifications-editor/log/object</th>
-        <th translate scope="col">specifications-editor/log/attribute</th>
-        <th translate scope="col">specifications-editor/log/value</th>
-        <th translate scope="col">specifications-editor/log/editor</th>
+        <th i18n scope="col">Date</th>
+        <th i18n scope="col">User</th>
+        <th i18n scope="col">Object</th>
+        <th i18n scope="col">Attribute</th>
+        <th i18n scope="col">Value</th>
+        <th i18n scope="col">Editor</th>
       </tr>
     </thead>
     <tr *ngFor="let item of items">
@@ -63,7 +63,7 @@
         <span class="unit" *ngIf="item.unit" [textContent]="item.unit.abbr|translate"></span>
       </td>
       <td class="link">
-        <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" translate>specifications-editor/log/to-editor</a>
+        <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" i18n>to editor</a>
       </td>
     </tr>
   </table>

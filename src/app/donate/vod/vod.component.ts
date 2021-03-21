@@ -1,6 +1,5 @@
 import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIItem, ItemService } from '../../services/item';
-import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +10,6 @@ import {
   switchMap,
   map
 } from 'rxjs/operators';
-import { sprintf } from 'sprintf-js';
 import { APIUser } from '../../services/user';
 import { APIDonateCarOfDayDate, DonateService } from '../donate.service';
 
@@ -36,7 +34,6 @@ export class DonateVodComponent implements OnInit, OnDestroy {
   public paymentType = 'AC';
 
   constructor(
-    private translate: TranslateService,
     private itemService: ItemService,
     private route: ActivatedRoute,
     public auth: AuthService,
@@ -78,12 +75,8 @@ export class DonateVodComponent implements OnInit, OnDestroy {
           });
         })
       ),
-      this.auth.getUser(),
-      this.translate.get([
-        'donate/vod/order-message',
-        'donate/vod/order-target'
-      ])
-    ]).subscribe(([params, vod, item, user, translations]) => {
+      this.auth.getUser()
+    ]).subscribe(([params, vod, item, user]) => {
       this.sum = vod.sum;
       this.dates = vod.dates;
       this.selectedDate = params.date;
@@ -112,11 +105,11 @@ export class DonateVodComponent implements OnInit, OnDestroy {
         { name: 'need-fio', value: 'false' },
         { name: 'need-phone', value: 'false' },
         { name: 'need-address', value: 'false' },
-        { name: 'formcomment', value: translations['donate/vod/order-message'] },
-        { name: 'short-dest', value: translations['donate/vod/order-message'] },
+        { name: 'formcomment', value: $localize `WheelsAge.org: vehicle of the day` },
+        { name: 'short-dest', value: $localize `WheelsAge.org: vehicle of the day` },
         { name: 'label', value: label },
         { name: 'quickpay-form', value: 'donate' },
-        { name: 'targets', value: sprintf(translations['donate/vod/order-target'], label) },
+        { name: 'targets', value: $localize `Order ${label}` },
         {
           name: 'successURL',
           value: 'https://' + window.location.host + '/donate/vod/success'

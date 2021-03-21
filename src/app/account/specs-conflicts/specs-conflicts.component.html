@@ -11,27 +11,23 @@
 </div>
 
 <p class="float-right" *ngIf="user && user.specs_weight !== null">
-  {{'account/specs/weight'|translate}}: {{user.specs_weight.toFixed(2)}}
+  <ng-container i18n>Weight</ng-container>: {{user.specs_weight.toFixed(2)}}
 </p>
 
 <div class="nav nav-pills" style="margin-bottom:10px">
-  <a class="nav-link" [class.active]="filter == '0'" routerLink="." [queryParams]="{filter: 0}" queryParamsHandling="merge"
-    translate>account/specs/conflicts/filter/all</a>
-  <a class="nav-link" [class.active]="filter == '-1'" routerLink="." [queryParams]="{filter: -1}" queryParamsHandling="merge"
-    translate>account/specs/conflicts/filter/i-disagree</a>
-  <a class="nav-link" [class.active]="filter == '1'" routerLink="." [queryParams]="{filter: 1}" queryParamsHandling="merge"
-    translate>account/specs/conflicts/filter/do-not-agree-with-me</a>
-  <a class="nav-link" [class.active]="filter == 'minus-weight'" routerLink="." [queryParams]="{filter: 'minus-weight'}" queryParamsHandling="merge"
-    translate>account/specs/conflicts/filter/errors</a>
+  <a class="nav-link" [class.active]="filter == '0'" routerLink="." [queryParams]="{filter: 0}" queryParamsHandling="merge" i18n>All</a>
+  <a class="nav-link" [class.active]="filter == '-1'" routerLink="." [queryParams]="{filter: -1}" queryParamsHandling="merge" i18n>I disagree</a>
+  <a class="nav-link" [class.active]="filter == '1'" routerLink="." [queryParams]="{filter: 1}" queryParamsHandling="merge" i18n>Do not agree with me</a>
+  <a class="nav-link" [class.active]="filter == 'minus-weight'" routerLink="." [queryParams]="{filter: 'minus-weight'}" queryParamsHandling="merge" i18n>Errors</a>
 </div>
 
 <table class="table">
   <thead>
     <tr>
-      <th translate scope="col">account/specs/conflicts/title/object</th>
-      <th translate scope="col">account/specs/conflicts/title/parameter</th>
-      <th translate scope="col">account/specs/conflicts/title/my-value</th>
-      <th translate scope="col">account/specs/conflicts/title/other-values</th>
+      <th i18n scope="col">Object</th>
+      <th i18n scope="col">Parameter</th>
+      <th i18n scope="col">My value</th>
+      <th i18n scope="col">Other values</th>
     </tr>
   </thead>
   <tbody>
@@ -41,7 +37,7 @@
       <td>
         <ng-container *ngFor="let value of conflict.values">
           <div *ngIf="value.user_id == user.id">
-            <em *ngIf="value.value === null" translate>account/specs/conflicts/my-value/none</em>
+            <em *ngIf="value.value === null" i18n>none</em>
             <span *ngIf="value.value !== null">
               {{value.value}}
               <span *ngIf="conflict.unit">{{conflict.unit.abbr | translate}}</span>
@@ -55,7 +51,7 @@
       <td>
         <ng-container *ngFor="let value of conflict.values">
           <div *ngIf="value.user_id != user.id">
-            <em *ngIf="value.value === null" translate>account/specs/conflicts/my-value/none</em>
+            <em *ngIf="value.value === null" i18n>none</em>
             <span *ngIf="value.value !== null">
               {{value.value}}
               <span *ngIf="conflict.unit">{{conflict.unit.abbr | translate}}</span>

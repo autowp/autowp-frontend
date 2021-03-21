@@ -1,7 +1,7 @@
 <div class="car item-list-item" *ngIf="parentRouterLink">
   <h3>
     <span [innerHTML]="item.name_html"></span>
-    <sup class="design-brand mx-2" *ngIf="item.design">{{'ng/carlist/designed by'|translate}}
+    <sup class="design-brand mx-2" *ngIf="item.design"><ng-container i18n>designed by</ng-container>
       <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
@@ -9,7 +9,7 @@
       <span *ngIf="item.produced_exactly" translate [translateParams]="{count: item.produced}">ng/carlist/produced/%1$s</span>
       <span *ngIf="!item.produced_exactly" translate [translateParams]="{count: item.produced}">ng/carlist/produced-about/%1$s</span>
     </small>
-    <small translate *ngIf="item.produced == 1" class="ml-2">carlist/produced/one</small>
+    <small i18n *ngIf="item.produced == 1" class="ml-2">Produced in a single copy</small>
   </h3>
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
@@ -43,8 +43,8 @@
 
   <div class="row" *ngIf="!havePhoto && canHavePhoto">
     <div class="col-6 col-lg-3">
-      <div class="no-photo rounded w-100 border border-light mb-4" [title]="'carlist/no-photo'|translate">
-        <a routerLink="/upload" [queryParams]="{item_id: item.id}" [title]="'carlist/no-photo/add'|translate" class="fa fa-plus-circle text-success" aria-hidden="true"></a>
+      <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
+        <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="fa fa-plus-circle text-success" aria-hidden="true"></a>
         <span class="fa fa-camera fa-lg fa-4x" aria-hidden="true"></span>
       </div>
     </div>
@@ -53,7 +53,7 @@
   <app-markdown class="text" *ngIf="item.description && item.description.length" [markdown]="item.description"></app-markdown>
 
   <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
-    <p translate>catalogue/engine/mounted-on:</p>
+    <p i18n>Mounted on:</p>
     <ul>
       <li *ngFor="let vehicle of item.engine_vehicles">
         <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
@@ -65,41 +65,43 @@
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id == 3" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="parentRouterLink">{{'carlist/details'|translate}}
+      <a [routerLink]="parentRouterLink">
+        <ng-container i18n>details</ng-container>
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id != 3" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="parentRouterLink">{{'carlist/details'|translate}}
+      <a [routerLink]="parentRouterLink">
+        <ng-container i18n>details</ng-container>
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
 
     <li *ngIf="item.item_type_id == 8" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
-      <a [routerLink]="['/persons', item.id]">{{'carlist/details'|translate}}</a>
+      <a [routerLink]="['/persons', item.id]" i18n>details</a>
     </li>
 
     <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id == 3" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
-      <a [routerLink]="parentRouterLink.concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+      <a [routerLink]="parentRouterLink.concat(['pictures'])"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
     </li>
 
     <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id != 3" class="list-inline-item">
       <span class="fa fa-th mr-1" aria-hidden="true"></span>
-      <a [routerLink]="parentRouterLink.concat(['pictures'])">{{'carlist/all pictures'|translate}} ({{item.accepted_pictures_count}})</a>
+      <a [routerLink]="parentRouterLink.concat(['pictures'])"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
     </li>
 
     <li *ngIf="isModer" class="list-inline-item">
       <i class="fa fa-cog mr-1" aria-hidden="true"></i>
-      <a [routerLink]="['/moder/items/item', item.id]" translate>moder/edit-object</a>
+      <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
     </li>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
       <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
-      <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" translate>carlist/edit-specs</a>
+      <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
     </li>
   </ul>
 </div>

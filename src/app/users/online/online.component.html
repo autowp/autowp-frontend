@@ -1,13 +1,13 @@
 <div class="modal-content">
   <div class="modal-header">
-    <h3 class="modal-title" translate>who-online/title</h3>
+    <h3 class="modal-title" i18n>Online</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
     <app-user [user]="user" *ngFor="let user of users"></app-user>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="load()" class="btn btn-secondary" translate>who-online/refresh</button>
-    <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" translate>dialog/close</button>
+    <button type="button" (click)="load()" class="btn btn-secondary" i18n>Refresh</button>
+    <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Close</button>
   </div>
 </div>

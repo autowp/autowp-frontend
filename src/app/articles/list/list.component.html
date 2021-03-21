@@ -22,7 +22,7 @@
       </p>
       <p>
         {{article.description}}
-        <a [routerLink]="['/articles', article.catname]" translate>carlist/details</a>
+        <a [routerLink]="['/articles', article.catname]" i18n>details</a>
       </p>
       <p>
         <app-user *ngIf="article.author" [user]="article.author"></app-user>

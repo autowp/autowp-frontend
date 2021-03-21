@@ -20,34 +20,34 @@
     </div>
 
     <p>
-      {{'users/user/known-as:'|translate}}
+      <ng-container i18n>Known as:</ng-container>
       <strong>«{{user.name}}»</strong>
     </p>
     <div style="color:#666666;margin-left:40px;cursor:help" [title]="rename.date | date:'medium'" *ngFor="let rename of user.renames">
-      {{'users/user/before-known-as:'|translate}}
+      <ng-container i18n>before known as:</ng-container>
       <strong style="color:#666666">«{{rename.old_name}}»</strong>
     </div>
 
     <p>
-      {{'users/user/type:'|translate}}
-      <strong *ngIf="user.is_moder" translate>users/user/type/moderator</strong>
-      <strong *ngIf="!user.is_moder" translate>users/user/type/visitor</strong>
+      <ng-container i18n>Account type:</ng-container>
+      <strong *ngIf="user.is_moder" i18n>Moderator</strong>
+      <strong *ngIf="!user.is_moder" i18n>Visitor</strong>
     </p>
 
     <p *ngIf="user.reg_date">
-      {{'users/user/registration-date'|translate}}:
+      <ng-container i18n>Registration date</ng-container>
       <strong [textContent]="user.reg_date | amTimeAgo" [ngbTooltip]="user.reg_date | date: 'fullDate'"></strong>
     </p>
     <p>
-      {{'users/user/last-visited'|translate}}:
+      <ng-container i18n>Last visited</ng-container>:
       <strong [textContent]="user.last_online | amTimeAgo" [ngbTooltip]="user.last_online | date: 'medium'"></strong>
     </p>
 
-    <p translate [translateParams]="{id: user.id}">ng/moder/database-id-n</p>
+    <p i18n>Database id: {{user.id}}</p>
 
     <p *ngIf="user && !isMe" ngPreserveWhitespaces>
       <i class="fa fa-reply" aria-hidden="true"></i>
-      <a href="#" (click)="openMessageForm()" translate>users/user/send-personal-message</a>
+      <a href="#" (click)="openMessageForm()" i18n>Send personal message</a>
     </p>
 
     <p *ngFor="let account of user.accounts" ngPreserveWhitespaces>
@@ -56,31 +56,32 @@
       <span *ngIf="!account.link" [textContent]="account.name"></span>
     </p>
 
-    <h2 translate>users/user/recent-activity</h2>
+    <h2 i18n>Recent activity</h2>
     <div class="card card-body mb-4">
       <div *ngIf="user.pictures_added > 0">
-        <p>{{'users/user/upload-pictures:'|translate}}
+        <p>
+          <ng-container i18n>Images uploaded:</ng-container>
           <strong [textContent]="user.pictures_added"></strong>
         </p>
         <p *ngIf="user.pictures_accepted_count < user.pictures_added">
-          {{'users/user/pictures-left-on-site:'|translate}}
+          <ng-container i18n>left on site:</ng-container>
           <strong [textContent]="user.pictures_accepted_count"></strong>
         </p>
 
         <p>
-          <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" translate>users/user/uploaded-pictures</a>
+          <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n>Uploaded pictures</a>
         </p>
       </div>
-      <p translate *ngIf="user.pictures_added <= 0">users/user/not-upload-pictures</p>
+      <p i18n *ngIf="user.pictures_added <= 0">Not upload pictures</p>
 
       <p *ngIf="isModer">
-        <a routerLink="/log" [queryParams]="{user_id: user.id}" translate>users/user/log</a>
+        <a routerLink="/log" [queryParams]="{user_id: user.id}" i18n>User's log</a>
       </p>
     </div>
 
 
     <div *ngIf="pictures && pictures.length">
-      <h2 translate>users/user/recent-uploads</h2>
+      <h2 i18n>Recent uploads</h2>
       <div class="card card-body mb-4">
         <ul>
           <li *ngFor="let picture of pictures">
@@ -92,9 +93,9 @@
 
     <div *ngIf="comments && comments.length > 0">
       <h2>
-        {{'users/user/recent-comments'|translate}}
+        <ng-container i18n>Recent comments</ng-container>
         <small>
-          <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'comments']" translate>all-link</a>
+          <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'comments']" i18n>all</a>
         </small>
       </h2>
       <div class="card card-body mb-4">
@@ -114,36 +115,36 @@
       <button type="submit" class="btn btn-lg btn-contact" [class.in-contacts]="inContacts" (click)="toggleInContacts()">
         <span class="not-in-contacts">
           <span class="fa fa-plus-circle mr-1" aria-hidden="true"></span>
-          {{'user/add-to-contacts'|translate}}
+          <ng-container i18n>Add to contacts</ng-container>
         </span>
         <span class="in-contacts">
           <span class="fa fa-minus-circle mr-1" aria-hidden="true"></span>
-          {{'user/remove-from-contacts'|translate}}
+          <ng-container i18n>Remove from contacts</ng-container>
         </span>
       </button>
     </div>
 
     <div *ngIf="canViewIp">
-      <h2 translate>users/for-moderators</h2>
+      <h2 i18n>For moderators</h2>
       <div class="card card-body mb-4">
         <p *ngIf="canBan && user.photo">
-          <button class="btn btn-warning btn-block btn-delete-photo" (click)="deletePhoto()" translate>users/for-moderators/remove-photo</button>
+          <button class="btn btn-warning btn-block btn-delete-photo" (click)="deletePhoto()" i18n>Delete user photo</button>
         </p>
 
         <p *ngIf="canDeleteUser">
-          <button class="btn btn-danger btn-block btn-delete-user" (click)="deleteUser()" translate>users/for-moderators/remove-user</button>
+          <button class="btn btn-danger btn-block btn-delete-user" (click)="deleteUser()" i18n>Delete user</button>
         </p>
 
         <p>
-          {{'users/for-moderators/last-visit-from-ip'|translate}} {{user.last_ip}}
+          <ng-container i18n>Last visit fom IP-address:</ng-container> {{user.last_ip}}
         </p>
 
         <div *ngIf="ip && ip.blacklist">
           <p>
-            {{'ban/that-address-is-banned'|translate}}
+            <ng-container i18n>That address is banned</ng-container>
             <app-user *ngIf="ip.blacklist.user" [user]="ip.blacklist.user"></app-user>
             <span *ngIf="ip.blacklist.up_to">
-              {{'ban/until'|translate}} {{ip.blacklist.up_to|date:'medium'}}
+              <ng-container i18n>until</ng-container> {{ip.blacklist.up_to|date:'medium'}}
               <span *ngIf="ip.blacklist.reason">
                 ({{ip.blacklist.reason}})
               </span>
@@ -151,13 +152,13 @@
           </p>
 
           <div style="margin:10px 0" *ngIf="canBan">
-            <button class="btn btn-success" translate (click)="removeFromBlacklist()">ban/unban</button>
+            <button class="btn btn-success" i18n (click)="removeFromBlacklist()">unban</button>
           </div>
         </div>
 
         <form class="form-vertical" *ngIf="ip && ! ip.blacklist && ip.rights.add_to_blacklist">
           <div class="form-group">
-            <label translate>ban/period</label>
+            <label i18n>For period</label>
             <select [(ngModel)]="banPeriod" name="period" class="form-control" required>
               <option *ngFor="let period of banPeriods" [value]="period.value">
                 {{period.name|translate}}
@@ -165,10 +166,10 @@
             </select>
           </div>
           <div class="form-group">
-            <label translate>ban/reason</label>
+            <label i18n>Reason</label>
             <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
           </div>
-          <button class="btn btn-danger" (click)="addToBlacklist(ip.address)" translate>ban/ban</button>
+          <button class="btn btn-danger" (click)="addToBlacklist(ip.address)" i18n>Ban</button>
         </form>
 
       </div>

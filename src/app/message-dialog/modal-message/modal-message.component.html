@@ -1,18 +1,18 @@
 <div class="modal-content">
   <div class="modal-header">
-    <h3 class="modal-title" translate>personal-message-dialog/title</h3>
+    <h3 class="modal-title" i18n>Send personal message</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
     <textarea cols="65" rows="5" name="contents" (keypress)="keypress()" [(ngModel)]="text" class="form-control" [disabled]="sending"
-      [placeholder]="'personal-message-dialog/placeholder'|translate"></textarea>
+      placeholder="Message" i18n-placeholder></textarea>
   </div>
   <div class="modal-footer">
-    <button class="btn" translate (click)="send()" [disabled]="sending || text.length <= 0" [class.btn-success]="sent" [class.btn-primary]="!sent">
-      <span translate *ngIf="sending">personal-message-dialog/sending</span>
-      <span translate *ngIf="sent">personal-message-dialog/sent</span>
-      <span translate *ngIf="!sending && !sent">personal-message-dialog/send</span>
+    <button class="btn" (click)="send()" [disabled]="sending || text.length <= 0" [class.btn-success]="sent" [class.btn-primary]="!sent">
+      <span i18n *ngIf="sending">sending ...</span>
+      <span i18n *ngIf="sent">sent</span>
+      <span i18n *ngIf="!sending && !sent">send</span>
     </button>
-    <button class="btn btn-secondary cancel" translate (click)="activeModal.dismiss()" [disabled]="sending">personal-message-dialog/cancel</button>
+    <button class="btn btn-secondary cancel" i18n (click)="activeModal.dismiss()" [disabled]="sending">cancel</button>
   </div>
 </div>

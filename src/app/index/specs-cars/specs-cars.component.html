@@ -1,6 +1,6 @@
 <ng-container *ngIf="items && items.length > 0">
   <h4>
-    {{'index/specifications'|translate}}
+    <ng-container i18n>Specifications</ng-container>
     <small><a routerLink="/users/rating" i18n>Statistics</a></small>
   </h4>
   <div class="row" *ngFor="let chunk of items">
@@ -8,8 +8,8 @@
       <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
 
       <p *ngIf="item.contributors">
-        <ng-container *ngIf="item.contributors.length > 1">{{'contributors'|translate}}</ng-container>
-        <ng-container *ngIf="item.contributors.length <= 1">{{'contributor'|translate}}</ng-container>
+        <ng-container *ngIf="item.contributors.length > 1" i18n>contributors</ng-container>
+        <ng-container *ngIf="item.contributors.length <= 1" i18n>contributor</ng-container>
         <app-user [user]="contributor" *ngFor="let contributor of item.contributors"></app-user>
       </p>
     </div>

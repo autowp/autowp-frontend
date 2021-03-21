@@ -1,10 +1,10 @@
 <div *ngIf="data.pageCount > 1">
   <p ngPreserveWhitespaces>
-    <a routerLink="." [queryParams]="{page: data.previous}" queryParamsHandling="merge" *ngIf="data.previous">←{{'previous'|translate}}</a>
-    <span *ngIf="!data.previous">←{{'previous'|translate}}</span>
+    <a routerLink="." [queryParams]="{page: data.previous}" queryParamsHandling="merge" *ngIf="data.previous">←<ng-container i18n>previous</ng-container></a>
+    <span *ngIf="!data.previous">←<ng-container i18n>previous</ng-container></span>
 
-    <a routerLink="." [queryParams]="{page: data.next}" queryParamsHandling="merge" *ngIf="data.next">{{'next'|translate}}→</a>
-    <span *ngIf="!data.next">{{'next'|translate}}→</span>
+    <a routerLink="." [queryParams]="{page: data.next}" queryParamsHandling="merge" *ngIf="data.next"><ng-container i18n>next</ng-container>→</a>
+    <span *ngIf="!data.next"><ng-container i18n>next</ng-container>→</span>
   </p>
   <p ngPreserveWhitespaces>
     <a routerLink="." [queryParams]="{page: data.first}" queryParamsHandling="merge" *ngIf="data.first < data.firstPageInRange">{{padd(data.first)}}</a>

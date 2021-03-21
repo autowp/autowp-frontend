@@ -11,5 +11,5 @@
     [popoverTitle]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
 </h4>
 <p>
-  <small>{{'brands/pictures:'|translate}} {{brand.totalPictures}}</small>
+  <small><ng-container i18n>pictures:</ng-container> {{brand.totalPictures}}</small>
 </p>

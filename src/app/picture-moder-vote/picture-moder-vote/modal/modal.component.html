@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-header">
-    <h3 class="modal-title" translate>picture-moder-vote/custom/title</h3>
+    <h3 class="modal-title" i18n>Custom reason</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
@@ -10,12 +10,13 @@
     </div>
     <div class="checkbox">
       <label>
-        <input type="checkbox" name="save" [(ngModel)]="save" /> {{'picture-moder-vote/custom/save'|translate}}
+        <input type="checkbox" name="save" [(ngModel)]="save" />
+        <ng-container i18n>Save as template</ng-container>
       </label>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" translate>picture-moder-vote/custom/cancel</button>
-    <button type="button" (click)="ok()" class="btn" [class.btn-danger]="vote < 0" [class.btn-success]="vote > 0" translate>picture-moder-vote/custom/send</button>
+    <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Cancel</button>
+    <button type="button" (click)="ok()" class="btn" [class.btn-danger]="vote < 0" [class.btn-success]="vote > 0" i18n>Send</button>
   </div>
 </div>

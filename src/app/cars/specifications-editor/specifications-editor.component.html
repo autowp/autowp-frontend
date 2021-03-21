@@ -13,12 +13,12 @@
 <div class="nav nav-pills" style="margin-bottom: 20px" *ngIf="item">
   <a class="nav-link" [routerLink]="['/moder/items/item', item.id]" *ngIf="isModer">
     <i class="fa fa-cog" aria-hidden="true"></i>
-    {{'moder/edit-object'|translate}}
+    <ng-container i18n>edit</ng-container>
     <span [innerHTML]="item.name_html"></span>
   </a>
   <a class="nav-link" routerLink="/cars/attrs-change-log" [queryParams]="{item_id: item.id}">
     <i class="fa fa-list" aria-hidden="true"></i>
-    {{'specifications-editor/log'|translate}}
+    <ng-container i18n>Log of values</ng-container>
   </a>
 </div>
 
@@ -29,14 +29,14 @@
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'info'}" [class.active]="tab == 'info'"
       class="nav-link">
       <span class="fa fa-info" aria-hidden="true"></span>
-      {{'specifications-editor/tabs/info' | translate}}
+      <ng-container i18n>Info</ng-container>
     </a>
   </li>
   <li class="nav-item" *ngIf="item && item.item_type_id == 1">
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'engine'}" [class.active]="tab == 'engine'"
       class="nav-link">
       <span class="glyphicon glyphicon-align-left"></span>
-      {{'specifications-editor/tabs/engine' | translate}}
+      <ng-container i18n>Engine</ng-container>
       <span class="badge badge-pill badge-secondary" *ngIf="enginesCount" [textContent]="enginesCount"></span>
     </a>
   </li>
@@ -44,20 +44,20 @@
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'spec'}" [class.active]="tab == 'spec'"
       class="nav-link">
       <span class="fa fa-car" aria-hidden="true"></span>
-      {{'specifications-editor/tabs/specs' | translate}}
+      <ng-container i18n>Specifications</ng-container>
     </a>
   </li>
   <li class="nav-item" *ngIf="item">
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'result'}" [class.active]="tab == 'result'"
       class="nav-link">
       <span class="fa fa-table" aria-hidden="true"></span>
-      {{'specifications-editor/tabs/result' | translate}}
+      <ng-container i18n>Result</ng-container>
     </a>
   </li>
   <li *ngIf="this.isSpecsAdmin && item" class="nav-item">
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'admin'}" [class.active]="tab == 'admin'" class="nav-link">
       <span class="fa fa-table" aria-hidden="true"></span>
-      {{'specifications-editor/tabs/admin' | translate}}
+      <ng-container i18n>Admin</ng-container>
     </a>
   </li>
 </ul>
@@ -80,10 +80,10 @@
   </div>
   <div class="tab-pane active" id="admin" *ngIf="tab == 'admin' && item && isSpecsAdmin">
     <p>
-      <a routerLink="/cars/specs-admin" [queryParams]="{item_id: item.id}">Admin</a>
+      <a routerLink="/cars/specs-admin" [queryParams]="{item_id: item.id}" i18n>Admin</a>
     </p>
     <div>
-      <button class="btn btn-secondary" (click)="refreshInheritance()">Refresh inheritance</button>
+      <button class="btn btn-secondary" (click)="refreshInheritance()" i18n>Refresh inheritance</button>
     </div>
   </div>
 </div>

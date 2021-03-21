@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { VotingRoutingModule } from './voting-routing.module';
 import { VotingComponent } from './voting.component';
 import {
@@ -8,7 +7,6 @@ import {
   NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'ngx-moment';
 import { CommentsModule } from '../comments/comments.module';
 import { VotingVotesComponent } from './votes/votes.component';
@@ -23,7 +21,6 @@ import { VotingService } from './voting.service';
     NgbProgressbarModule,
     NgbModalModule,
     FormsModule,
-    TranslateModule,
     MomentModule,
     CommentsModule,
     UserModule

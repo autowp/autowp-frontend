@@ -1,10 +1,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th translate scope="col">forums/theme/topics</th>
-      <th translate scope="col">forums/theme/author</th>
-      <th translate scope="col">forums/theme/last-message</th>
-      <th translate scope="col">forums/theme/subscription</th>
+      <th i18n scope="col">Topics</th>
+      <th i18n scope="col">Author</th>
+      <th i18n scope="col">Last message</th>
+      <th i18n scope="col">Subscription</th>
     </tr>
   </thead>
   <tbody>
@@ -31,16 +31,14 @@
             <br />
           </ng-container>
           <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
-          <a [routerLink]="['/forums/message', topic.last_message.id]" [title]="'forums/go-to-last-message'|translate">
+          <a [routerLink]="['/forums/message', topic.last_message.id]" title="Go to last message" i18n-title>
             <i class="fa fa-share" aria-hidden="true"></i>
           </a>
         </div>
         <span *ngIf="!topic.last_message">&#x2014;</span>
       </td>
       <td>
-        <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic)">
-          {{'forums/unsubscribe'|translate}}
-        </button>
+        <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic)" i18n>Unsubscribe</button>
       </td>
     </tr>
   </tbody>

@@ -3,7 +3,7 @@
     <span [innerHTML]="picture.name_html"></span>
     <ng-container *ngIf="picture.items.length == 1 && picture.items[0].item.design">
       <sup class="design-brand">
-        {{'ng/carlist/designed by'|translate}}
+        <ng-container i18n>designed by</ng-container>
         <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
       </sup>
     </ng-container>
@@ -18,7 +18,7 @@
       </span>
       <ng-container *ngIf="picture.items.length == 1">
         <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">
-            <p translate>picture/other-languages</p>
+            <p i18n>In other languages</p>
             <ul class="list-unstyled">
               <li *ngFor="let altName of picture.items[0].item.alt_names">
                   <sup *ngFor="let code of altName.languages" style="text-transform: uppercase">{{code}}</sup>
@@ -42,8 +42,8 @@
       </div>
         <div class="col-xs-6 text-right">
           <ng-container *ngIf="user">
-            <button class="picture-subscription" [title]="'comments/subscribe'|translate" *ngIf="!picture.subscribed" (click)="setSubscribed(true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
-            <button class="picture-subscription" [title]="'comments/unsubscribe'|translate" *ngIf="picture.subscribed" (click)="setSubscribed(false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
+            <button class="picture-subscription" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
+            <button class="picture-subscription" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
           </ng-container>
           <a href="#" class="fa fa-2x fa-share-alt btn-share-dialog" aria-hidden="true" title="Share ..." (click)="toggleShareDialog()"></a>
         </div>
@@ -69,12 +69,12 @@
       <app-markdown [markdown]="item.item.description" *ngIf="item.type == 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
       <p *ngIf="item.item.has_text && item.item.route">
         <i class="fa fa-align-left" aria-hidden="true"></i>
-        <a [routerLink]="item.item.route" translate>carlist/details</a>
+        <a [routerLink]="item.item.route" i18n>details</a>
       </p>
     </ng-container>
 
     <p *ngIf="picture.replaceable">
-      {{'picture/picture-suggested-to-replace'|translate}}
+      <ng-container i18n>Picture suggested to replace</ng-container>
       <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
     </p>
 
@@ -83,7 +83,7 @@
     <p i18n>Image specifications:</p>
     <ul>
       <li>
-        {{'Resolution'|translate}}: <strong>{{picture.width + '×' + picture.height}}</strong>
+        <ng-container i18n>Resolution</ng-container>: <strong>{{picture.width + '×' + picture.height}}</strong>
         <ng-container *ngIf="picture.dpi_x || picture.dpi_y">
           @ <strong>{{picture.dpi_x + '×' + picture.dpi_y}}</strong>
           <a href="https://en.wikipedia.org/wiki/Dots_per_inch"><abbr title="Dots Per Inch">DPI</abbr></a>
@@ -92,9 +92,9 @@
           </ng-container>
         </ng-container>
       </li>
-      <li>{{'Filesize'|translate}}: <strong>{{picture.filesize | bytes : 2}}</strong></li>
+      <li><ng-container i18n>Filesize</ng-container>: <strong>{{picture.filesize | bytes : 2}}</strong></li>
       <li *ngIf="picture.owner">
-        {{'picture/added-by:'| translate}}
+        <ng-container i18n>Added by:</ng-container>
         <app-user [user]="picture.owner"></app-user>,
         <span [ngbTooltip]="picture.add_date | date: 'medium'">{{picture.add_date|amTimeAgo}}</span>
       </li>
@@ -106,10 +106,10 @@
         <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" i18n="@@picture/location">Coordinates</a>
       </li>
       <li>
-        {{'picture/status:'|translate}}
-        <ng-container *ngIf="picture.status == 'inbox'">{{'picture/status/inbox'|translate}}</ng-container>
-        <ng-container *ngIf="picture.status == 'accepted'">{{'picture/status/accepted'|translate}}</ng-container>
-        <span class="text-danger" translate *ngIf="picture.status == 'removing'">picture/status/removing</span>
+        <ng-container i18n>Picture status:</ng-container>
+        <ng-container *ngIf="picture.status == 'inbox'" i18n>Undecided</ng-container>
+        <ng-container *ngIf="picture.status == 'accepted'" i18n>Accepted</ng-container>
+        <span class="text-danger" i18n *ngIf="picture.status == 'removing'">Removing</span>
       </li>
     </ul>
     <app-markdown [markdown]="'picture/text'|translate"></app-markdown>
@@ -139,7 +139,7 @@
 
       <ng-container *ngFor="let item of picture.items">
         <li *ngIf="canEditSpecs">
-          <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> {{'carlist/edit-specs'|translate}}</a>
+          <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a>
         </li>
         <li *ngIf="item.item.has_specs && item.item.specs_route">
           <a [routerLink]="item.item.specs_route">
@@ -149,7 +149,7 @@
         </li>
         <li *ngIf="item.item.design">
           <a [routerLink]="item.item.design.route">
-            {{'ng/carlist/designed by'|translate}}
+            <ng-container i18n>designed by</ng-container>
             {{item.item.design.name}}
           </a>
         </li>
@@ -212,7 +212,7 @@
         <li *ngIf="engine.specsEditUrl">
           <a [href]="engine.specsEditUrl">
             <i class="fa fa-pencil" aria-hidden="true"></i>
-            {{'carlist/edit-specs'|translate}}
+            <ng-container i18n>edit specs</ng-container>
           </a>
         </li>
       </ng-container>-->
@@ -280,31 +280,23 @@
       <div class="row">
         <div class="col-md-4" *ngIf="picture.rights">
           <div *ngIf="picture.status == 'inbox'">
-            <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept">
-              {{'moder/picture/acceptance/accept'|translate}}
-            </button>
-            <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete">
-              {{'moder/picture/acceptance/delete'|translate}}
-            </button>
+            <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept" i18n>Accept</button>
+            <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete" i18n>Delete</button>
           </div>
 
           <div *ngIf="picture.status == 'accepted'">
-            <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept">
-              {{'moder/picture/acceptance/unaccept'|translate}}
-            </button>
+            <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept" i18n>Unaccept</button>
           </div>
 
           <div *ngIf="picture.status == 'removing'">
-            <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore">
-              {{'moder/picture/acceptance/restore'|translate}}
-            </button>
+            <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore" i18n>Restore</button>
           </div>
           <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
 
           <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="!statusLoading"></ngb-progressbar>
         </div>
         <div class="col-md-4" *ngIf="picture.items.length > 0">
-          <label class="d-block">{{'moder/picture/perspective'|translate}}</label>
+          <label class="d-block" i18n>Perspective</label>
           <ng-container *ngFor="let item of picture.items">
             <div *ngIf="item.type == 1">
               <span [innerHTML]="item.item.name_html"></span>
@@ -315,18 +307,18 @@
         <div class="col-md-4">
           <p>
             <i class="fa fa-cog" aria-hidden="true"></i>
-            <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">{{'moder/picture/edit-picture-{id}'}}</a>
+            <a [routerLink]="['/moder/pictures', picture.id]" i18n>Edit picture №{{picture.id}}</a>
           </p>
 
           <p *ngFor="let item of picture.items">
             <i class="fa fa-cog" aria-hidden="true"></i>
-            <a [routerLink]="['/moder/items/item', item.item_id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="item.item.name_html"></span></a>
+            <a [routerLink]="['/moder/items/item', item.item_id]"><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span></a>
           </p>
 
           <ng-container *ngFor="let item of picture.items">
             <p *ngFor="let brand of item.item.brands">
               <i class="fa fa-cog" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/items/item', brand.id]">{{'moder/picture/edit-item'|translate}} <span [innerHTML]="brand.name_html"></span></a>
+              <a [routerLink]="['/moder/items/item', brand.id]"><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span></a>
             </p>
           </ng-container>
 

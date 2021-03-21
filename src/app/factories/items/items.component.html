@@ -19,10 +19,10 @@
 <ul class="nav nav-pills" style="margin-bottom:10px" *ngIf="factory">
 
   <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
-  <a class="nav-link active" [routerLink]="['/factories', factory.id, 'items']" translate>factories/factory-items</a>
+  <a class="nav-link active" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
   <a *ngIf="isModer" class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
     <i class="fa fa-cog" aria-hidden="true"></i>
-    {{'moder/edit-object'|translate}}
+    <ng-container i18n>edit</ng-container>
   </a>
 </ul>
 

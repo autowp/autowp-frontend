@@ -1,4 +1,4 @@
-<h4><ng-container i18n>Twins</ng-container> <small><a routerLink="/twins" translate>all-link</a></small></h4>
+<h4><ng-container i18n>Twins</ng-container> <small><a routerLink="/twins" i18n>all</a></small></h4>
 <div class="spinner-border" role="status" *ngIf="!twins">
   <span class="sr-only" i18n>Loading...</span>
 </div>
@@ -7,8 +7,7 @@
     <a [routerLink]="['/twins', brand.catname]">{{brand.name}}</a>&#xa0;<span class="count">({{brand.count - brand.new_count}}<span *ngIf="brand.new_count > 0">+{{brand.new_count}}</span>)</span>
   </ng-container>
   <ng-container *ngIf="twins.brands_count > twins.brands.length">
-    …
-    {{'and'|translate}}
+    <ng-container i18n>… and</ng-container>
     <a routerLink="/twins" translate [translateParams]="{count: twins.brands_count - twins.brands.length}">{{'brands/more-{count}-companies'}}</a>
   </ng-container>
 </p>

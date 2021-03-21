@@ -12,11 +12,11 @@
       <h1 i18n>Profile</h1>
     </div>
 
-    <h2 translate>account/profile/personal</h2>
+    <h2 i18n>Personal info</h2>
     <div class="card card-body mb-4">
       <form method="post" class="form-horizontal" (submit)="sendProfile()">
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="name" translate>user/name</label>
+          <label class="col-md-3 col-form-label" for="name" i18n>Name</label>
           <div class="col-md-9">
             <input type="text" maxlength="50" id="name" size="50" name="name" class="form-control" [(ngModel)]="profile.name" [class.is-invalid]="profileInvalidParams && profileInvalidParams.name"
             />
@@ -25,13 +25,13 @@
         </div>
         <div class="row">
           <div class="col-md-9 offset-md-3">
-            <button type="submit" class="btn btn-primary" translate>send</button>
+            <button type="submit" class="btn btn-primary" i18n>send</button>
           </div>
         </div>
       </form>
     </div>
 
-    <h2 translate>account/profile/photo</h2>
+    <h2 i18n>Photo</h2>
     <div class="card card-body mb-4">
       <app-markdown [markdown]="'account/profile/use-gravatar'|translate"></app-markdown>
       <div *ngIf="photo">
@@ -45,21 +45,21 @@
         <div class="col-6">
           <button type="submit" class="btn btn-danger" (click)="resetPhoto()" *ngIf="photo">
             <i class="fa fa-times" aria-hidden="true"></i>
-            {{'account/profile/photo/delete'|translate}}
+            <ng-container i18n>Delete photo</ng-container>
           </button>
         </div>
       </div>
     </div>
 
-    <h2 translate>account/profile/other</h2>
+    <h2 i18n>Other</h2>
     <div class="card card-body mb-4">
       <p [hidden]="votesLeft < 0">
-        {{'account/profile/votes-per-day'|translate}}: {{votesPerDay}}</p>
+        <ng-container i18n>Votes per day</ng-container>: {{votesPerDay}}</p>
       <p [hidden]="votesLeft < 0">
-        {{'account/profile/votes-left'|translate}}: {{votesLeft}}</p>
+        <ng-container i18n>Votes left</ng-container>: {{votesLeft}}</p>
       <form method="post" class="form-horizontal" (submit)="sendSettings()">
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="language" translate>account/profile/language</label>
+          <label class="col-md-3 col-form-label" for="language" i18n>Language</label>
           <div class="col-md-9">
             <select name="language" id="language" class="form-control" [class.is-invalid]="settingsInvalidParams.language" [(ngModel)]="settings.language">
               <option *ngFor="let language of languages" [value]="language.value">{{language.name}}</option>
@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="timezone" translate>account/profile/timezone</label>
+          <label class="col-md-3 col-form-label" for="timezone" i18n>Timezone</label>
           <div class="col-md-9">
             <select name="timezone" id="timezone" class="form-control" [(ngModel)]="settings.timezone" [class.is-invalid]="settingsInvalidParams.timezone">
               <option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</option>
@@ -78,7 +78,7 @@
         </div>
         <div class="row">
           <div class="col-md-9 offset-md-3">
-            <button type="submit" class="btn btn-primary" translate>send</button>
+            <button type="submit" class="btn btn-primary" i18n>send</button>
           </div>
         </div>
       </form>

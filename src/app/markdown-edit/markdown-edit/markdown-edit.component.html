@@ -1,12 +1,12 @@
 <ul ngbNav #nav="ngbNav" class="nav-tabs">
   <li ngbNavItem>
-    <a ngbNavLink translate>moder/markdown/edit</a>
+    <a ngbNavLink i18n>Edit</a>
     <ng-template ngbNavContent>
       <textarea [(ngModel)]="text" class="form-control" maxlength="65536" rows="1" aria-label="Text" autosize (change)="onChange()"></textarea>
     </ng-template>
   </li>
   <li ngbNavItem [disabled]="!text || !text.length">
-    <a ngbNavLink translate>moder/markdown/preview</a>
+    <a ngbNavLink i18n>Preview</a>
     <ng-template ngbNavContent>
       <div class="card card-body">
         <app-markdown [markdown]="text"></app-markdown>

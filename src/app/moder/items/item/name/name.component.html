@@ -38,7 +38,7 @@
       </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>
-    <button type="submit" class="btn btn-primary" translate (click)="saveLanguages()">submit</button>
+    <button type="submit" class="btn btn-primary" (click)="saveLanguages()" i18n>Submit</button>
   </ng-container>
   <span [hidden]="loading <= 0">
     <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>

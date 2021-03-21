@@ -22,13 +22,13 @@
   <div class="text-right" *ngIf="user" style="margin-bottom:10px">
     <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe()">
       <i class="fa fa-envelope" aria-hidden="true"></i>
-      {{'comments/subscribe'|translate}}
+      <ng-container i18n>Subscribe to new replies notifications</ng-container>
     </button>
     <button class="btn btn-link subscription" *ngIf="topic.subscription" (click)="unsubscribe()">
       <i class="fa fa-envelope" aria-hidden="true"></i>
-      {{'comments/unsubscribe'|translate}}
+      <ng-container i18n>Unsubscribe from notifications</ng-container>
     </button>
   </div>
 
-  <p class="alert alert-block alert-error" translate *ngIf="topic.status == 'closed'">forums/topic-closed-text</p>
+  <p class="alert alert-block alert-error" i18n *ngIf="topic.status == 'closed'">Topic is closed by site administration</p>
 </section>

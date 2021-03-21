@@ -21,15 +21,15 @@
       <div style="margin:20px 0">
         <form class="form-horizontal" (submit)="submit()" [hidden]="formHidden">
           <div class="form-group row">
-            <label class="col-md-2 col-form-label">Selection</label>
+            <label class="col-md-2 col-form-label" i18n>Selection</label>
             <div class="col-md-10" style="padding-top:7px">
               <strong [innerHTML]="selectionName"></strong>
               [
-              <a routerLink="/upload/select" translate>upload/select-another</a>]
+              <a routerLink="/upload/select" i18n>select another catalogue</a>]
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-md-2 col-form-label" translate>upload/image-file</label>
+            <label class="col-md-2 col-form-label" i18n>Image file</label>
             <div class="col-md-10">
 
               <input type="file" #input name="file" class="form-control" (change)="onChange($event)" accept="image/*" [multiple]="replace ? null : true"
@@ -41,14 +41,14 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="note" translate>upload/note</label>
+            <label class="col-md-2 col-form-label" for="note" i18n>Note</label>
             <div class="col-md-10">
               <textarea name="note" rows="3" class="form-control" [(ngModel)]="note"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-md-10 offset-md-2">
-              <button name="submit" class="btn btn-primary" translate [disabled]="!files">send</button>
+              <button name="submit" class="btn btn-primary" i18n [disabled]="!files">send</button>
             </div>
           </div>
         </form>
@@ -74,8 +74,8 @@
         <p>
           <a href="#" (click)="crop(picture)">
             <i class="fa fa-crop" aria-hidden="true"></i>
-            <span *ngIf="!picture.crop" translate>upload/picture/crop</span>
-            <span *ngIf="picture.crop" translate [translateParams]="{resolution: picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' +picture.crop.top}">upload/picture/cropped-to</span>
+            <span *ngIf="!picture.crop" i18n>crop</span>
+            <span *ngIf="picture.crop" i18n>cropped to {{picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' +picture.crop.top}}</span>
           </a>
         </p>
       </div>
@@ -87,7 +87,7 @@
     <p style="margin:10px">
       <a routerLink="/upload/select" class="btn btn-primary btn-lg">
         <i class="fa fa-upload" aria-hidden="true"></i>
-        {{'upload/add-picture'|translate}}
+        <ng-container i18n>Add picture</ng-container>
       </a>
     </p>
   </div>

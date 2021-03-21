@@ -15,10 +15,10 @@
 
 <div class="nav nav-pills" style="margin-bottom:10px" *ngIf="factory">
   <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
-  <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" translate>factories/factory-items</a>
+  <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
   <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]" *ngIf="isModer">
     <i class="fa fa-cog" aria-hidden="true"></i>
-    {{'moder/edit-object'|translate}}
+    <ng-container i18n>edit</ng-container>
   </a>
 </div>
 
@@ -28,7 +28,7 @@
 <app-markdown class="card card-body" *ngIf="factory && factory.description" [markdown]="factory.description|translate"></app-markdown>
 
 <div *ngIf="pictures.length > 0">
-  <h3 translate>factories/factory/pictures</h3>
+  <h3 i18n>Pictures</h3>
   <div class="row">
     <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of pictures">
       <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
@@ -37,7 +37,7 @@
 </div>
 
 <div *ngIf="relatedPictures && relatedPictures.length > 0">
-  <h3 translate>factories/factory-items</h3>
+  <h3 i18n>Products</h3>
   <div class="row">
     <div class="col-6 col-md-4 col-lg-3" *ngFor="let item of relatedPictures">
       <div class="card mb-4">
@@ -53,6 +53,6 @@
     </div>
   </div>
   <p>
-    <a [routerLink]="['/factories', factory.id, 'items']" translate>carlist/details</a>
+    <a [routerLink]="['/factories', factory.id, 'items']" i18n>details</a>
   </p>
 </div>

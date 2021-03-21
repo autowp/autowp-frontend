@@ -26,13 +26,13 @@
       <p [textContent]="theme.description|translate" *ngIf="theme.description"></p>
       <p [translateParams]="{topics: theme.topics_count, messages: theme.messages_count}" translate>{{'{topics} topics and {messages} messages'}}</p>
       <div *ngIf="theme.themes && theme.themes.length > 0" ngPreserveWhitespaces>
-        {{'forums/subforums'|translate}}
+        <ng-container i18n>Subforums</ng-container>
         <ng-container *ngFor="let subtheme of theme.themes; let last = last">
           <a [routerLink]="['/forums', subtheme.id]">{{subtheme.name|translate}}</a><span *ngIf="!last">, </span>
         </ng-container>
       </div>
       <p *ngIf="!theme.themes">
-        <a [routerLink]="['/forums', theme.id]" translate>forums/go-to-theme</a>
+        <a [routerLink]="['/forums', theme.id]" i18n>Go to forum …</a>
       </p>
     </div>
   </div>
@@ -41,12 +41,12 @@
       <div *ngIf="theme.last_message" ngPreserveWhitespaces>
         <p>
           <i class="fa fa-comment" aria-hidden="true"></i>
-          <a [routerLink]="['/forums/topic', theme.last_topic.id]" [translateParams]="{topic_name: theme.last_topic.name}" translate>{{'forums/last-message-in-topic-{topic_name}'}}</a>
+          <a [routerLink]="['/forums/topic', theme.last_topic.id]" i18n>Last message in topic «{{theme.last_topic.name}}»</a>
         </p>
         <p>
           <app-past-time-indicator [date]="theme.last_message.datetime"></app-past-time-indicator>
           <app-user [user]="theme.last_message.user" *ngIf="theme.last_message.user"></app-user>
-          <a [routerLink]="['/forums/message', theme.last_message.id]" [title]="'forums/go-to-last-message'|translate">
+          <a [routerLink]="['/forums/message', theme.last_message.id]" i18n-title title="Go to last message">
             <i class="fa fa-share" aria-hidden="true"></i>
           </a>
         </p>
@@ -59,15 +59,15 @@
 
   <a [routerLink]="['/forums/new-topic', theme.id]" class="btn btn-info">
     <i class="fa fa-comment" aria-hidden="true"></i>
-    {{'forums/create-new-topic'|translate}}
+    <ng-container i18n>Create new topic</ng-container>
   </a>
 
   <table class="table table-striped">
     <thead>
       <tr>
-        <th translate scope="col">forums/theme/topics</th>
-        <th translate scope="col">forums/theme/author</th>
-        <th translate scope="col">forums/theme/last-message</th>
+        <th i18n scope="col">Topics</th>
+        <th i18n scope="col">Author</th>
+        <th i18n scope="col">Last message</th>
         <th *ngIf="forumAdmin" scope="col"></th>
       </tr>
     </thead>
@@ -96,7 +96,7 @@
               <br />
             </ng-container>
             <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
-            <a [routerLink]="['/forums/message', topic.last_message.id]" [title]="'forums/go-to-last-message'|translate">
+            <a [routerLink]="['/forums/message', topic.last_message.id]" i18n-title title="Go to last message">
               <i class="fa fa-share" aria-hidden="true"></i>
             </a>
           </div>
@@ -104,16 +104,16 @@
         </td>
         <td *ngIf="forumAdmin" ngPreserveWhitespaces>
           <div class="btn-group">
-            <button [title]="'forums/topic/open'|translate" class="btn btn-sm btn-warning open" (click)="openTopic(topic)" *ngIf="topic.status == 'closed'">
+            <button i18n-title title="open" class="btn btn-sm btn-warning open" (click)="openTopic(topic)" *ngIf="topic.status == 'closed'">
               <i class="fa fa-check-circle" aria-hidden="true"></i>
             </button>
-            <button [title]="'forums/topic/close'|translate" class="btn btn-sm btn-warning close-topic" (click)="closeTopic(topic)" *ngIf="topic.status != 'closed'">
+            <button i18n-title title="close" class="btn btn-sm btn-warning close-topic" (click)="closeTopic(topic)" *ngIf="topic.status != 'closed'">
               <i class="fa fa-times-circle" aria-hidden="true"></i>
             </button>
-            <a routerLink="/forums/move-topic" [queryParams]="{topic_id: topic.id}" class="btn btn-secondary btn-sm" [title]="'forums/topic/move'|translate">
+            <a routerLink="/forums/move-topic" [queryParams]="{topic_id: topic.id}" class="btn btn-secondary btn-sm" title="move" i18n-title>
               <i class="fa fa-share" aria-hidden="true"></i>
             </a>
-            <button [title]="'forums/topic/delete'|translate" class="btn btn-sm btn-danger delete" (click)="deleteTopic(topic)">
+            <button i18n-title title="delete" class="btn btn-sm btn-danger delete" (click)="deleteTopic(topic)">
               <i class="fa fa-ban" aria-hidden="true"></i>
             </button>
           </div>

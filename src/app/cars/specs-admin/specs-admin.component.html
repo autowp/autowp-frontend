@@ -1,10 +1,10 @@
 <table class="table table-stripped">
   <thead>
     <tr>
-      <th translate scope="col">specifications-editor/admin/date</th>
-      <th translate scope="col">specifications-editor/admin/user</th>
-      <th translate scope="col">specifications-editor/admin/parameter</th>
-      <th translate scope="col">specifications-editor/admin/value</th>
+      <th i18n scope="col">Date</th>
+      <th i18n scope="col">User</th>
+      <th i18n scope="col">Parameter</th>
+      <th i18n scope="col">Value</th>
       <th></th>
     </tr>
   </thead>
@@ -38,5 +38,5 @@
 <form (submit)="moveValues()">
   <input type="text" name="item_id" placeholder="id" class="form-control" style="max-width:200px" [(ngModel)]="move.item_id"
   />
-  <button type="submit" class="btn btn-secondary" translate>specifications-editor/admin/move</button>
+  <button type="submit" class="btn btn-secondary" i18n>Move</button>
 </form>

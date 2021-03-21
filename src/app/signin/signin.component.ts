@@ -6,7 +6,6 @@ import {
 } from '../services/api.service';
 import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
-import { TranslateService } from '@ngx-translate/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
 import {EMPTY, of, Subscription} from 'rxjs';
@@ -34,7 +33,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     private oauth: OAuthService,
     private api: APIService,
     private pageEnv: PageEnvService,
-    private translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
@@ -86,13 +84,11 @@ export class SignInComponent implements OnInit, OnDestroy {
       .subscribe(
         result => {
           if (! result) {
-            this.translate.get('login/login-or-password-is-incorrect').subscribe(translation => {
-              this.invalidParams = {
-                password: {
-                  invalid: translation
-                }
-              };
-            });
+            this.invalidParams = {
+              password: {
+                invalid: $localize `Login or password is incorrect`
+              }
+            };
           }
         },
         error => {

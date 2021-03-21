@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4 mb-4">
     <select name="brand_id" [(ngModel)]="brandID" class="form-control" (change)="changeBrand()">
-      <option [ngValue]="0" translate>inbox/all-brands</option>
+      <option [ngValue]="0" i18n>All brands</option>
       <option *ngFor="let brand of brands" [textContent]="brand.name" [ngValue]="brand.id"></option>
     </select>
   </div>

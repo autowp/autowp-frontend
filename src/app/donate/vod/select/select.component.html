@@ -28,7 +28,7 @@
   <div style="margin: 5px 0" *ngIf="concepts.length > 0">
     <a href="#" class="arrow" (click)="toggleConcepts()">
       <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-      {{'upload/select/concepts'|translate}}
+      <ng-container i18n>Concepts & prototypes</ng-container>
     </a>
     <div style="margin:0 0 4px 18px;" [hidden]="!conceptsExpanded">
       <app-donate-vod-select-item [item]="item" *ngFor="let item of concepts"></app-donate-vod-select-item>
