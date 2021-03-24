@@ -33,7 +33,7 @@
     <i class="fa fa-adjust" aria-hidden="true"></i> Twins</a>
   <a [class.active]="tab == 'factories'" *ngIf="showFactoriesTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
     [queryParams]="{tab: 'factories'}">
-    <i class="fa fa-cogs" aria-hidden="true"></i> {{'moder/vehicle/tabs/factories'|translate}}</a>
+    <i class="fa fa-cogs" aria-hidden="true"></i> <ng-container i18n>Factories</ng-container></a>
 </div>
 
 <div class="card card-body" *ngIf="tab == 'catalogue'">

@@ -15,7 +15,7 @@
 
 <div class="row">
   <div class="col-md-4">
-    <h2 translate>moder/comments/filter</h2>
+    <h2 i18n>Filter</h2>
     <form class="card card-body form-vertical">
       <div class="form-group">
         <ng-template #userTemplate let-model="result">
@@ -23,8 +23,7 @@
         </ng-template>
         <div class="input-group">
           <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
-            [resultTemplate]="userTemplate" [placeholder]="'moder/comments/filter/user-id'|translate" class="form-control"
-            [class.border-primary]="userID">
+            [resultTemplate]="userTemplate" i18n-placeholder placeholder="User №" class="form-control" [class.border-primary]="userID">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" [disabled]="!userID" (click)="clearUser()">
               <span class="fa fa-close" aria-hidden="true"></span>
@@ -33,13 +32,13 @@
         </div>
       </div>
       <div class="form-group">
-        <label translate>moder/comments/filter/moderator_attention</label>
+        <label i18n>Moderator attention</label>
         <select name="moderator_attention" class="form-control" [(ngModel)]="moderatorAttention" (change)="setModeratorAttention()"
           [class.border-primary]="moderatorAttention !== null">
-          <option [ngValue]="null">{{'moder/comments/filter/moderator_attention/not-matters'|translate}}</option>
-          <option [ngValue]="0">{{'moder/comments/filter/moderator_attention/not-required'|translate}}</option>
-          <option [ngValue]="1">{{'moder/comments/filter/moderator_attention/required'|translate}}</option>
-          <option [ngValue]="2">{{'moder/comments/filter/moderator_attention/resolved'|translate}}</option>
+          <option [ngValue]="null" i18n>Not matters</option>
+          <option [ngValue]="0" i18n>Not required</option>
+          <option [ngValue]="1" i18n>Required</option>
+          <option [ngValue]="2" i18n>Resolved</option>
         </select>
       </div>
       <div class="form-group">
@@ -48,7 +47,7 @@
         </ng-template>
         <div class="input-group">
           <input [ngbTypeahead]="itemsDataSource" name="item" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
-            [resultTemplate]="itemTemplate" [placeholder]="'moder/comments/filter/vehicle-id'|translate" class="form-control"
+            [resultTemplate]="itemTemplate" i18n-placeholder placeholder="Item" class="form-control"
             [class.border-primary]="itemID">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
@@ -61,7 +60,7 @@
   </div>
   <div class="col-md-8">
     <h2>
-      {{'moder/comments/title'|translate}}
+      <ng-container i18n>Comments</ng-container>
       <span [hidden]="loading <= 0">
         <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
       </span>
@@ -70,7 +69,7 @@
 
     <ul class="comments">
       <li *ngFor="let comment of comments" ngPreserveWhitespaces>
-        <span class="badge badge-warning" *ngIf="comment.is_new" translate>moder/comments/not-readed</span>
+        <span class="badge badge-warning" *ngIf="comment.is_new" i18n>not readed</span>
         <span class="badge badge-{{comment.status.class}}" *ngIf="comment.status">{{comment.status.name|translate}}</span>
         <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
         <app-user [user]="comment.user"></app-user>

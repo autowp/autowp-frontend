@@ -1,5 +1,4 @@
 import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import {
   APIAccountStartPostResponse,
   APIAccountItemsGetResponse,
@@ -29,7 +28,6 @@ export class AccountAccountsComponent implements OnInit, OnDestroy{
 
   constructor(
     private api: APIService,
-    private translate: TranslateService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private route: ActivatedRoute,
@@ -111,9 +109,7 @@ export class AccountAccountsComponent implements OnInit, OnDestroy{
   public remove(account: APIAccount) {
     this.api.request('DELETE', 'account/' + account.id).subscribe(
       () => {
-        this.translate
-          .get('account/accounts/removed')
-          .subscribe((translation: string) => this.toastService.success(translation));
+        this.toastService.success($localize `Account removed`);
 
         this.load();
       },

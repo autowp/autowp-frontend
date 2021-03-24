@@ -24,13 +24,13 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public user: APIUser;
   public banPeriods = [
-    { value: 1, name: 'ban/period/hour' },
-    { value: 2, name: 'ban/period/2-hours' },
-    { value: 4, name: 'ban/period/4-hours' },
-    { value: 8, name: 'ban/period/8-hours' },
-    { value: 16, name: 'ban/period/16-hours' },
-    { value: 24, name: 'ban/period/day' },
-    { value: 48, name: 'ban/period/2-days' }
+    { value: 1, name: $localize `hour` },
+    { value: 2, name: $localize `2 hours` },
+    { value: 4, name: $localize `4 hours` },
+    { value: 8, name: $localize `8 hours` },
+    { value: 16, name: $localize `16 hours` },
+    { value: 24, name: $localize `day` },
+    { value: 48, name: $localize `2 days` }
   ];
   public banPeriod = 1;
   public banReason: string | null = null;

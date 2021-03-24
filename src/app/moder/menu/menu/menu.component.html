@@ -1,13 +1,13 @@
 <div class="moderator-menu-container" *ngIf="items.length > 0">
   <div class="btn-group" ngbDropdown placement="top-right">
     <button ngbDropdownToggle class="btn btn-secondary">
-      {{'moder-menu/title'|translate}}
+      <ng-container i18n>Moderator menu</ng-container>
       <span class="caret" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu-right" ngbDropdownMenu>
       <a [routerLink]="item.routerLink" [queryParams]="item.queryParams" class="dropdown-item" *ngFor="let item of items">
         <i class="fa-fw" aria-hidden="true" [ngClass]="item.icon" *ngIf="item.icon"></i>
-        {{item.label|translate}}
+        {{item.label}}
         <span class="badge badge-pill badge-secondary" *ngIf="item.count" [textContent]="item.count"></span>
       </a>
       <div class="dropdown-divider"></div>

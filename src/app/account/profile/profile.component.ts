@@ -4,7 +4,6 @@ import {
   OnInit,
   OnDestroy, ViewChild
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { APIUser } from '../../services/user';
@@ -44,7 +43,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   @ViewChild('input') input;
 
   constructor(
-    private translate: TranslateService,
     private api: APIService,
     private router: Router,
     private auth: AuthService,
@@ -118,9 +116,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   }
 
   private showSavedMessage() {
-    this.translate
-      .get('account/profile/saved')
-      .subscribe((translation: string) => this.toastService.success(translation));
+    this.toastService.success($localize `Data saved`);
   }
 
   public sendProfile() {

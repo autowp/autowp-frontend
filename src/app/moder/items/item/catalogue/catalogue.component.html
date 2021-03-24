@@ -4,15 +4,15 @@
       <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
     </span>
     <a *ngIf="item && item.is_group && canMove && item.childs_count > 0" [routerLink]="['/moder/items/item', item.id, 'organize']"
-      [queryParams]="{item_type_id: organizeTypeId}" class="btn btn-secondary" translate>moder/vehicle/catalogue/turbo-group-creator</a>
+      [queryParams]="{item_type_id: organizeTypeId}" class="btn btn-secondary" i18n>Turbo group creator</a>
   </div>
   <table class="table">
     <thead>
       <tr>
-        <th translate scope="col">moder/vehicle/catalogue/title/name</th>
-        <th translate scope="col">moder/vehicle/catalogue/title/link</th>
-        <th translate scope="col">moder/vehicle/catalogue/title/public</th>
-        <th translate scope="col" *ngIf="canMove">moder/vehicle/catalogue/title/remove</th>
+        <th i18n scope="col">Name</th>
+        <th i18n scope="col">Link</th>
+        <th i18n scope="col">Public</th>
+        <th i18n scope="col" *ngIf="canMove">Del</th>
       </tr>
     </thead>
     <tbody>
@@ -23,23 +23,23 @@
               <ng-template #itemTemplate let-model="result">
                 <span [innerHTML]="model.name_html"></span>
               </ng-template>
-              <input type="text" name="parent" [ngbTypeahead]="itemsDataSource" class="form-control item-autocomplete" placeholder="{{'moder/vehicle/catalogue/select-placeholder'|translate}}"
+              <input type="text" name="parent" [ngbTypeahead]="itemsDataSource" class="form-control item-autocomplete" placeholder="Add parent ..." i18n-placeholder
                 autocomplete="off" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
                 [resultTemplate]="itemTemplate" />
 
               <div class="input-group-append" style="white-space:nowrap">
-                <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" translate>moder/vehicle/catalogue/select</a>
+                <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n>Select ...</a>
                 <div ngbDropdown>
                   <button type="button" ngbDropdownToggle class="btn btn-secondary"></button>
                   <div ngbDropdownMenu>
                     <a *ngIf="canHaveParentBrand" class="dropdown-item" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'brands'}">
                       <i class="fa fa-plus" aria-hidden="true"></i>
-                      {{'moder/vehicle/catalogue/add-brand'|translate}}
+                      <ng-container i18n>Brand ...</ng-container>
                     </a>
                     <ng-container *ngIf="canHaveParentBrand">
                       <a class="dropdown-item" href="#" (click)="addParent(brand.id)" *ngFor="let brand of suggestions">
                         <i class="fa fa-plus" aria-hidden="true"></i>
-                        <span translate [translateParams]="{brand: brand.name_text}">{{'ng/moder/vehicle/catalogue/add-brand-{brand}'}}</span>
+                        <span i18n>Brand {{brand.name_text}}</span>
                       </a>
                     </ng-container>
                   </div>
@@ -60,7 +60,7 @@
           <a [routerLink]="['/moder/items/item', item.parent_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.parent.name_html"></a>
           <div class="text-warning" *ngIf="item.duplicate_parent">
             <small>
-              {{'moder/vehicle/catalogue/possible-duplicate-parent'|translate}}
+              <ng-container i18n>Possible duplicate: vehicle already inherited via:</ng-container>
               <a [routerLink]="['/moder/items/item', item.duplicate_parent.id]" [innerHTML]="item.duplicate_parent.name_html"></a>
             </small>
           </div>
@@ -105,13 +105,13 @@
       <tr *ngFor="let item of childs">
         <td>
           <i class="fa fa-arrow-down" aria-hidden="true"></i>
-          <span *ngIf="item.type_id == 1" translate>moder/vehicle/link-type-prefix/related</span>
-          <span *ngIf="item.type_id == 3" translate>moder/vehicle/link-type-prefix/design</span>
-          <span *ngIf="item.type_id == 2" translate>moder/vehicle/link-type-prefix/sport</span>
+          <span *ngIf="item.type_id == 1" i18n>Related:</span>
+          <span *ngIf="item.type_id == 3" i18n>Design:</span>
+          <span *ngIf="item.type_id == 2" i18n>Sport:</span>
           <a [routerLink]="['/moder/items/item', item.item_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.item.name_html"></a>
           <div *ngIf="item.duplicate_child" class="text-warning">
             <small>
-              {{'moder/vehicle/catalogue/possible-duplicate-child'|translate}}
+              <ng-container i18n>Possible duplicate: vehicle already in submodel:</ng-container>
               <a [routerLink]="['/moder/items/item', item.duplicate_child.id]" [innerHTML]="item.duplicate_child.name_html"></a>
             </small>
           </div>
@@ -138,7 +138,7 @@
       <tr *ngIf="item.is_group && canMove && item.item_type_id == 5">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" translate>moder/vehicle/catalogue/add-engine</a>
+          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
         </td>
         <td class="urls"></td>
         <td></td>
@@ -146,7 +146,7 @@
       <tr *ngIf="item.is_group && canMove && item.item_type_id == 5">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" translate>moder/vehicle/catalogue/add-vehicle</a>
+          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
         </td>
         <td class="urls"></td>
         <td></td>
@@ -154,7 +154,7 @@
       <tr *ngIf="item.is_group && canMove && item.item_type_id == 3">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 3, parent_id: item.id}" translate>moder/vehicle/catalogue/add-category</a>
+          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 3, parent_id: item.id}" i18n>add category</a>
         </td>
         <td class="urls"></td>
         <td></td>
@@ -162,7 +162,7 @@
       <tr *ngIf="item.is_group && canMove && item.item_type_id == 3">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" translate>moder/vehicle/catalogue/add-engine</a>
+          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
         </td>
         <td class="urls"></td>
         <td></td>
@@ -170,7 +170,7 @@
       <tr *ngIf="item.is_group && canMove && item.item_type_id == 3">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" translate>moder/vehicle/catalogue/add-vehicle</a>
+          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
         </td>
         <td class="urls"></td>
         <td></td>
@@ -179,7 +179,8 @@
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">
-            {{(item.item_type_id == 2 ? 'moder/vehicle/catalogue/add-engine' : 'moder/vehicle/catalogue/add-vehicle') | translate}}
+            <ng-container i18n *ngIf="item.item_type_id == 2">add engine</ng-container>
+            <ng-container i18n *ngIf="item.item_type_id != 2">add vehicle</ng-container>
           </a>
         </td>
         <td class="urls"></td>

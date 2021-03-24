@@ -120,13 +120,11 @@ export class AppComponent implements OnInit {
       .subscribe(
         result => {
           if (! result) {
-            this.translate.get('login/login-or-password-is-incorrect').subscribe(translation => {
-              this.loginInvalidParams = {
-                password: {
-                  invalid: translation
-                }
-              };
-            });
+            this.loginInvalidParams = {
+              password: {
+                invalid: $localize `Login or password is incorrect`
+              }
+            };
             return;
           }
 

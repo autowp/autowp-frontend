@@ -10,21 +10,21 @@
       <a routerLink="/moder/pictures" i18n>Pictures</a>
     </li>
     <li class="breadcrumb-item" *ngIf="picture">
-      <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">moder/picture/picture-n</a>
+      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{picture.id}}</a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header" *ngIf="picture">
-  <h1 translate [translateParams]="{id: picture.id}">Location</h1>
+  <h1 i18n>Location</h1>
 </div>
 
 <form method="post" class="form-horizontal" (ngSubmit)="doSubmit()" *ngIf="picture">
   <div class="form-group row">
-    <label class="col-md-2 col-form-label">Point</label>
+    <label class="col-md-2 col-form-label" i18n>Point</label>
     <div class="col-md-10 coords">
-      <input type="text" name="lat" [(ngModel)]="lat" maxlength="20" size="20" [placeholder]="'latitude'|translate" class="form-control" (input)="coordsChanged()" />
-      <input type="text" name="lng" [(ngModel)]="lng" maxlength="20" size="20" [placeholder]="'longtitude'|translate" class="form-control" (input)="coordsChanged()" />
+      <input type="text" name="lat" [(ngModel)]="lat" maxlength="20" size="20" placeholder="Latitude" i18n-placeholder class="form-control" (input)="coordsChanged()" />
+      <input type="text" name="lng" [(ngModel)]="lng" maxlength="20" size="20" placeholder="Longitude" i18n-placeholder class="form-control" (input)="coordsChanged()" />
       <div style="width:100%;height:300px" class="mb-4" leaflet [leafletCenter]="center" [leafletOptions]="leafletOptions" [leafletLayers]="markers" (leafletMapReady)="onMapReady($event)"></div>
     </div>
   </div>

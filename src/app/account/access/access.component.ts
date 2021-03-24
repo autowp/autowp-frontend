@@ -1,5 +1,4 @@
 import { Component, Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -19,7 +18,6 @@ export class AccountAccessComponent {
 
   constructor(
     private api: APIService,
-    private translate: TranslateService,
     private pageEnv: PageEnvService,
     public toastService: ToastsService
   ) {
@@ -47,9 +45,7 @@ export class AccountAccessComponent {
           password_confirm: null
         };
 
-        this.translate
-          .get('account/access/change-password/saved')
-          .subscribe(translation => this.toastService.success(translation));
+        this.toastService.success($localize `Password succesful changed`);
       },
       response => {
         if (response.status === 400) {

@@ -10,7 +10,7 @@
       <a routerLink="/moder/pictures" i18n>Pictures</a>
     </li>
     <li class="breadcrumb-item" *ngIf="picture">
-      <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">moder/picture/picture-n</a>
+      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{picture.id}}</a>
     </li>
   </ol>
 </nav>
@@ -25,11 +25,11 @@
   </div>
 
   <div style="margin-bottom:100px">
-    <span translate [translateParams]="{resolution: resolution, aspect: aspect}">crop-dialog/resolution-x-aspect-y</span>
-    <button (click)="selectAll()" class="btn btn-secondary" translate>crop-dialog/select-all</button>
+    <span i18n>{{resolution}} (aspect is about {{aspect}})</span>
+    <button (click)="selectAll()" class="btn btn-secondary" i18n>Select all</button>
     <span class="float-right">
-      <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary" translate>dialog/close</a>
-      <button (click)="saveCrop()" class="btn btn-primary" translate>crop-dialog/save</button>
+      <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary" i18n>Close</a>
+      <button (click)="saveCrop()" class="btn btn-primary" i18n>Save changes</button>
     </span>
   </div>
 </div>

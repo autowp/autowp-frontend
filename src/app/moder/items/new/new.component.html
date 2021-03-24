@@ -17,7 +17,7 @@
 </div>
 
 <p *ngIf="parent">
-  {{'moder/vehicle/add/as-submodel'|translate}}
+  <ng-container i18n>As submodel</ng-container>
   <span [innerHTML]="parent.name_html"></span>
 </p>
 

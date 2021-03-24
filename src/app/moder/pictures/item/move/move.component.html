@@ -10,7 +10,7 @@
       <a routerLink="/moder/pictures" i18n>Pictures</a>
     </li>
     <li class="breadcrumb-item" *ngIf="picture">
-      <a [routerLink]="['/moder/pictures', picture.id]" translate [translateParams]="{id: picture.id}">moder/picture/picture-n</a>
+      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{picture.id}}</a>
     </li>
   </ol>
 </nav>
@@ -22,17 +22,17 @@
 <div class="nav nav-pills" style="margin-bottom: 30px" *ngIf="!srcItemID">
   <a [class.active]="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights" *ngIf="!srcType || srcType == 1"
     class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: null, show_copyrights: null}"
-    queryParamsHandling="merge" translate>moder/pciture/move/brands</a>
+    queryParamsHandling="merge" i18n>Brands</a>
   <a [class.active]="showFactories" *ngIf="!srcType || srcType == 1" class="nav-link" routerLink="." [queryParams]="{show_factories: 1, show_museums: null, show_persons: null, show_authors: null, show_copyrights: null}"
-    queryParamsHandling="merge" translate>moder/pciture/move/factories</a>
+    queryParamsHandling="merge" i18n>Factories</a>
   <a [class.active]="showMuseums" *ngIf="!srcType || srcType == 1" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: 1, show_persons: null, show_authors: null, show_copyrights: null}"
-    queryParamsHandling="merge" translate>item/type/7/name-plural</a>
+    queryParamsHandling="merge" i18n>Museums</a>
   <a [class.active]="showPersons" *ngIf="!srcType || srcType == 1" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: 1, show_authors: null, show_copyrights: null}"
-    queryParamsHandling="merge">{{'item/type/8/name-plural'|translate}} (content)</a>
+     queryParamsHandling="merge"><ng-container i18n>Persons</ng-container> (content)</a>
   <a [class.active]="showAuthors" *ngIf="!srcType || srcType == 2" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: 1, show_copyrights: null}"
-    queryParamsHandling="merge">{{'item/type/8/name-plural'|translate}} (author)</a>
+    queryParamsHandling="merge"><ng-container i18n>Persons</ng-container>(author)</a>
   <a [class.active]="showCopyrights" *ngIf="!srcType || srcType == 3" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: null, show_copyrights: 1}"
-    queryParamsHandling="merge">{{'item/type/9/name-plural'|translate}}</a>
+    queryParamsHandling="merge" i18n>Copyright blocks</a>
 </div>
 
 <div *ngIf="showMuseums && !srcItemID && (!srcType || srcType == 1)">
@@ -125,7 +125,7 @@
         <app-moder-picture-move-item [item]="item" (selected)="selectItem($event)" *ngFor="let item of vehicles"></app-moder-picture-move-item>
       </div>
 
-      <h5 translate *ngIf="engines && engines.length > 0">item/type/2/name-plural</h5>
+      <h5 *ngIf="engines && engines.length > 0" i18n>Engines</h5>
       <div class="my-1" *ngIf="engines">
         <app-moder-picture-move-item [item]="item" (selected)="selectItem($event)" *ngFor="let item of engines"></app-moder-picture-move-item>
       </div>
@@ -134,7 +134,7 @@
         <a href="" class="arrow" (click)="toggleConcepts()">
           <i class="fa fa-plus-circle mr-1" aria-hidden="true" [hidden]="conceptsExpanded"></i>
           <i class="fa fa-minus-circle mr-1" aria-hidden="true" [hidden]="!conceptsExpanded"></i>
-          {{'upload/select/concepts'|translate}}
+          <ng-container i18n>Concepts & prototypes</ng-container>
         </a>
         <div style="margin:0 0 4px 18px" [hidden]="!conceptsExpanded">
           <app-moder-picture-move-item [item]="item" (selected)="selectItem($event)" *ngFor="let item of concepts"></app-moder-picture-move-item>
@@ -142,11 +142,11 @@
       </div>
 
       <div class="my-1">
-        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 22, type: 1})" translate>upload/select/logo</a>
+        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 22, type: 1})" i18n>logotype</a>
         <br />
-        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 25, type: 1})" translate>upload/select/mixed-long</a>
+        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 25, type: 1})" i18n>mixed (few vehicles on one picture)</a>
         <br />
-        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 0, type: 1})" translate>upload/select/unsorted-long</a>
+        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 0, type: 1})" i18n>unsorted (not existent vehicle or engine)</a>
         <br />
       </div>
 

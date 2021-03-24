@@ -4,9 +4,9 @@
     <table class="table table-condensed table-striped">
       <thead>
         <tr>
-          <th translate scope="col">moder/brands/links/text</th>
-          <th translate scope="col">moder/brands/links/address</th>
-          <th translate scope="col">moder/brands/links/type</th>
+          <th i18n scope="col">Text</th>
+          <th i18n scope="col">Address</th>
+          <th i18n scope="col">Type</th>
         </tr>
       </thead>
       <tbody>
@@ -19,9 +19,9 @@
           </td>
           <td>
             <select name="type{{i}}" [(ngModel)]="link.type_id" class="form-control">
-              <option value="default" translate>moder/brands/links/type/interest-link</option>
-              <option value="official" translate>moder/brands/links/type/official</option>
-              <option value="club" translate>moder/brands/links/type/club</option>
+              <option value="default" i18n>interest link</option>
+              <option value="official" i18n>official</option>
+              <option value="club" i18n>club</option>
             </select>
           </td>
         </tr>
@@ -34,9 +34,9 @@
           </td>
           <td>
             <select name="type" [(ngModel)]="newLink.type_id" class="form-control">
-              <option value="default" translate>moder/brands/links/type/interest-link</option>
-              <option value="official" translate>moder/brands/links/type/official</option>
-              <option value="club" translate>moder/brands/links/type/club</option>
+              <option value="default" i18n>interest link</option>
+              <option value="official" i18n>official</option>
+              <option value="club" i18n>club</option>
             </select>
           </td>
         </tr>
@@ -51,9 +51,9 @@
   <table class="table table-condensed table-stripped" *ngIf="!canEditMeta">
     <tbody>
       <tr>
-        <th translate scope="col">moder/brands/links/text</th>
-        <th translate scope="col">moder/brands/links/address</th>
-        <th translate scope="col">moder/brands/links/type</th>
+        <th i18n scope="col">Text</th>
+        <th i18n scope="col">Address</th>
+        <th i18n scope="col">Type</th>
       </tr>
       <tr *ngFor="let link of links">
         <td [textContent]="link.name"></td>

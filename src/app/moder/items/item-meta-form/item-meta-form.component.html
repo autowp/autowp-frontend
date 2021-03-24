@@ -1,6 +1,6 @@
 <form method="post" class="form-horizontal" (ngSubmit)="doSubmit($event)" *ngIf="item">
   <div class="form-group row">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/name</label>
+    <label class="col-md-2 col-form-label" i18n>Name</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.name" type="text" name="name" [(ngModel)]="item.name" class="form-control"
         [attr.maxlength]="nameMaxlength" />
@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 5">
-    <label class="col-md-2 col-form-label" translate>moder/brands/meta-data/full-name</label>
+    <label class="col-md-2 col-form-label" i18n>Full name</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.full_name" type="text" name="full_name" [(ngModel)]="item.full_name"
         class="form-control" [attr.maxlength]="fullnameMaxlength" />
@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 5 || item.item_type_id == 3">
-    <label class="col-md-2 col-form-label">Catname</label>
+    <label class="col-md-2 col-form-label" i18n>Catname</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.catname" type="text" name="catname" [(ngModel)]="item.catname"
         class="form-control" />
@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 2">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/body</label>
+    <label class="col-md-2 col-form-label" i18n>Body number</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.body" type="text" name="body" [(ngModel)]="item.body" style="width: 30%"
         class="form-control" [attr.maxlength]="bodyMaxlength" />
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 2">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/spec</label>
+    <label class="col-md-2 col-form-label" i18n>Spec</label>
     <div class="col-md-10">
       <select [class.is-invalid]="invalidParams && invalidParams.spec_id" name="spec_id" [(ngModel)]="item.spec_id" style="width: 30%"
         class="form-control">
@@ -42,7 +42,7 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 4">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/type</label>
+    <label class="col-md-2 col-form-label" i18n>Type</label>
     <div class="col-md-10">
       <button class="btn btn-sm btn-info" type="button" *ngFor="let type of vehicleTypes" (click)="showVehicleTypesModal()">{{type.nameTranslated}}</button>
       <button class="btn btn-sm btn-success" type="button" (click)="showVehicleTypesModal()">
@@ -57,12 +57,12 @@
     </script>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 2">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/model-years</label>
+    <label class="col-md-2 col-form-label" i18n>Model years</label>
     <div class="col-md-10">
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-4 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.begin_model_year" name="begin_model_year" [(ngModel)]="item.begin_model_year"
-            placeholder="{{'moder/vehicle/year/from'|translate}}" min="1800" [max]="modelYearMax" class="form-control"
+            placeholder="from" i18n-placeholder min="1800" [max]="modelYearMax" class="form-control"
             maxlength="4" />
         </div>
         <div class="form-group col-md-1 col-sm-2 mb-0">
@@ -72,7 +72,7 @@
         </div>
         <div class="form-group col-md-2 col-sm-4 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.end_model_year" name="end_model_year" [(ngModel)]="item.end_model_year"
-            placeholder="{{'moder/vehicle/year/to'|translate}}" min="1800" [max]="modelYearMax" class="form-control"
+            placeholder="to" i18n-placeholder min="1800" [max]="modelYearMax" class="form-control"
             maxlength="4" />
         </div>
         <div class="form-group col-md-1 col-sm-2 mb-0">
@@ -86,17 +86,17 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id != 9">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/begin</label>
+    <label class="col-md-2 col-form-label" i18n>Begin</label>
     <div class="col-md-10">
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.begin_year" name="begin_year" [(ngModel)]="item.begin_year"
-            placeholder="{{'moder/vehicle/year'|translate}}" [min]="1800" [max]="yearMax" class="form-control" [attr.maxlength]="4"
+            placeholder="year" i18n-placeholder [min]="1800" [max]="yearMax" class="form-control" [attr.maxlength]="4"
           />
         </div>
         <div class="form-group col-md-4 col-sm-7 mb-0">
           <select name="begin_month" [class.is-invalid]="invalidParams && invalidParams.begin_month" [(ngModel)]="item.begin_month"
-            title="{{'moder/vehicle/month'|translate}}" class="form-control">
+            title="month" i18n-title class="form-control">
             <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
           </select>
         </div>
@@ -106,22 +106,22 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id != 9">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/end</label>
+    <label class="col-md-2 col-form-label" i18n>End</label>
     <div class="col-md-10">
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.end_year" name="end_year" [(ngModel)]="item.end_year"
-            placeholder="{{'moder/vehicle/year'|translate}}" min="1800" [max]="yearMax" class="form-control" maxlength="4"
+            placeholder="year" i18n-placeholder min="1800" [max]="yearMax" class="form-control" maxlength="4"
           />
         </div>
         <div class="form-group col-md-4 col-sm-7 mb-0">
-          <select name="end_month" [class.is-invalid]="invalidParams && invalidParams.end_month" [(ngModel)]="item.end_month" title="{{'moder/vehicle/month'|translate}}"
+          <select name="end_month" [class.is-invalid]="invalidParams && invalidParams.end_month" [(ngModel)]="item.end_month" title="month" i18n-title
             class="form-control">
             <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
           </select>
         </div>
         <div class="form-group col-md-4 col-sm-3 mb-0">
-          <select name="today" [class.is-invalid]="invalidParams && invalidParams.today" [(ngModel)]="item.today" title="{{'moder/vehicle/today'|translate}}"
+          <select name="today" [class.is-invalid]="invalidParams && invalidParams.today" [(ngModel)]="item.today" title="today" i18n-title
             class="form-control">
             <option *ngFor="let option of todayOptions" [ngValue]="option.value">{{option.name|translate}}</option>
           </select>
@@ -133,12 +133,12 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 2">
-    <label class="col-md-2 col-form-label" translate>moder/item/produced</label>
+    <label class="col-md-2 col-form-label" i18n>Produced</label>
     <div class="col-md-10">
       <div class="form-row">
         <div class="form-group col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.produced_count" name="produced" [(ngModel)]="item.produced"
-            min="0" max="100000000" class="form-control" [title]="'moder/item/produced/number'|translate" />
+            min="0" max="100000000" class="form-control" title="number" i18n-title />
         </div>
         <div class="form-group col-md-4 col-sm-4 mb-0">
           <select name="produced_exactly" [class.is-invalid]="invalidParams && invalidParams.produced_exactly" [(ngModel)]="item.produced_exactly"
@@ -152,7 +152,7 @@
     </div>
   </div>
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 2">
-    <label class="col-md-2 col-form-label" translate>moder/vehicle/concept</label>
+    <label class="col-md-2 col-form-label" i18n>Concept (prototype)</label>
     <div class="col-md-10">
       <select name="is_concept" [class.is-invalid]="invalidParams && invalidParams.is_concept" [(ngModel)]="item.is_concept" style="width: 20%"
         class="form-control">
@@ -168,7 +168,7 @@
       <div class="checkbox">
         <label>
           <input type="checkbox" name="is_group" value="1" [(ngModel)]="item.is_group" [disabled]="item.childs_count > 0 || disableIsGroup"
-          /> {{'moder/vehicle/group'|translate}}
+          /> <ng-container i18n>Group</ng-container>
         </label>
       </div>
     </div>
@@ -176,9 +176,9 @@
   <div class="form-group row" *ngIf="item.item_type_id == 6 || item.item_type_id == 7">
     <label class="col-md-2 col-form-label">Point</label>
     <div class="col-md-10 coords">
-      <input type="text" name="lat" [(ngModel)]="item.lat" maxlength="20" size="20" [placeholder]="'latitude'|translate"
+      <input type="text" name="lat" [(ngModel)]="item.lat" maxlength="20" size="20" placeholder="Latitude" i18n-placeholder
         class="form-control" (input)="coordsChanged()" />
-      <input type="text" name="lng" [(ngModel)]="item.lng" maxlength="20" size="20" [placeholder]="'longtitude'|translate"
+      <input type="text" name="lng" [(ngModel)]="item.lng" maxlength="20" size="20" placeholder="Longitude" i18n-placeholder
         class="form-control" (input)="coordsChanged()" />
       <div style="width:100%;height:300px" class="mb-4" leaflet [leafletCenter]="center" [leafletOptions]="leafletOptions" [leafletLayers]="markers" (leafletMapReady)="onMapReady($event)"></div>
     </div>

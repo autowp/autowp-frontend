@@ -181,7 +181,7 @@
   <div class="bottom-line" *ngIf="!(layoutParams$|async).isAdminPage && !(layoutParams$|async).isGalleryPage">
     <p>
       <strong>
-        <ng-container i18n="@@layout/brand">WheelsAge.org</ng-container> '2005&ndash;{{'present-time-abbr'|translate}}
+        <ng-container i18n="@@layout/brand">WheelsAge.org</ng-container> '2005&ndash;<ng-container i18n>pr.</ng-container>
       </strong>
     </p>
   </div>
@@ -208,7 +208,7 @@
           <a routerLink="/telegram" placement="top" ngbTooltip="Telegram">
             <i class="fa fa-telegram" aria-hidden="true"></i>
           </a>
-          <a routerLink="/feedback" placement="top" [ngbTooltip]="'feedback/title'|translate">
+          <a routerLink="/feedback" placement="top" ngbTooltip="Feedback" i18n-ngbTooltip>
             <i class="fa fa-comment" aria-hidden="true"></i>
           </a>
         </p>

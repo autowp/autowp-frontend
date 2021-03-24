@@ -31,10 +31,10 @@ export class UsersUserCommentsComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
   public comments: APIComment[];
   public orders: Order[] = [
-    { value: 'date_desc', name: 'users/comments/order/new' },
-    { value: 'date_asc', name: 'users/comments/order/old' },
-    { value: 'vote_desc', name: 'users/comments/order/positive' },
-    { value: 'vote_asc', name: 'users/comments/order/negative' }
+    { value: 'date_desc', name: $localize `New` },
+    { value: 'date_asc', name: $localize `Old` },
+    { value: 'vote_desc', name: $localize `Positive` },
+    { value: 'vote_asc', name: $localize `Negative` }
   ];
   public order: string;
 

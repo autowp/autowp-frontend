@@ -33,19 +33,19 @@
   </div>
   <div class="col-sm-6">
     <div *ngIf="item.ban">
-      {{'ban/until'|translate}} {{item.ban.up_to | date : 'fullDate'}}
+      <ng-container i18n>until</ng-container> {{item.ban.up_to | date : 'fullDate'}}
       <span *ngIf="item.ban.user">
         by
         <app-user [user]="item.ban.user"></app-user>
         <span *ngIf="item.ban.reason">
-          {{'ban/reason'|translate}} {{item.ban.reason}}
+          <ng-container i18n>Reason</ng-container> {{item.ban.reason}}
         </span>
       </span>
     </div>
     <div>
-      <button *ngIf="item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.ip)">{{'ban/unban'|translate}}</button>
-      <button class="btn btn-danger" *ngIf="!item.ban" (click)="addToBlacklist(item.ip)">{{'ban/ban'|translate}}</button>
-      <button *ngIf="!item.in_whitelist" class="btn btn-success" (click)="addToWhitelist(item.ip)">Whitelist</button>
+      <button *ngIf="item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.ip)" i18n>unban</button>
+      <button class="btn btn-danger" *ngIf="!item.ban" (click)="addToBlacklist(item.ip)" i18n>Ban</button>
+      <button *ngIf="!item.in_whitelist" class="btn btn-success" (click)="addToWhitelist(item.ip)" i18n>Whitelist</button>
     </div>
   </div>
 </div>

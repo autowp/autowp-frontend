@@ -73,16 +73,16 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
 
           switch (this.rating) {
             case 'specs':
-              this.valueTitle = 'users/rating/specs-volume';
+              this.valueTitle = $localize `Specs volume`;
               break;
             case 'pictures':
-              this.valueTitle = 'users/rating/pictures';
+              this.valueTitle = $localize `Pictures`;
               break;
             case 'likes':
-              this.valueTitle = 'users/rating/likes';
+              this.valueTitle = $localize `Likes`;
               break;
             case 'picture-likes':
-              this.valueTitle = 'users/rating/picture-likes';
+              this.valueTitle = $localize `Picture likes`;
               break;
           }
 

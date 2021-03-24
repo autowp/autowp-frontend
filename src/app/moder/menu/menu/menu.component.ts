@@ -52,7 +52,7 @@ export class MenuComponent implements OnInit, OnDestroy {
               order: '1',
               status: 'inbox'
             },
-            label: 'moder-menu/inbox',
+            label: $localize `Inbox`,
             count: inboxCount,
             icon: 'fa fa-th'
           });
