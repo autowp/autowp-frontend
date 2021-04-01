@@ -15,7 +15,7 @@
 
 <ul *ngIf="!themeID">
   <li *ngFor="let theme of themes">
-    <a [routerLink]="['.']" [queryParams]="{theme_id: theme.id}" queryParamsHandling="merge" [textContent]="theme.name|translate"></a>
+    <a [routerLink]="['.']" [queryParams]="{theme_id: theme.id}" queryParamsHandling="merge" [textContent]="getForumsThemeTranslation(theme.name)"></a>
   </li>
 </ul>
 <div *ngIf="themeID">

@@ -2,7 +2,6 @@ import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import { APIItemParentLanguageGetResponse, APIService } from '../../services/api.service';
 import { ContentLanguageService } from '../../services/content-language';
 import { ItemService, APIItem } from '../../services/item';
-import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import {Subscription, combineLatest, Observable, forkJoin, EMPTY} from 'rxjs';
 import { APIItemParent } from '../../services/item-parent';
@@ -13,6 +12,7 @@ import {
   switchMap,
   catchError, map
 } from 'rxjs/operators';
+import { getItemTypeTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-moder-item-parent',
@@ -46,7 +46,6 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: APIService,
-    private translate: TranslateService,
     private ContentLanguage: ContentLanguageService,
     private itemService: ItemService,
     private route: ActivatedRoute,
@@ -97,18 +96,14 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.translate
-          .get('item/type/' + this.item.item_type_id + '/name')
-          .subscribe((translation: string) => {
-            this.pageEnv.set({
-              layout: {
-                isAdminPage: true,
-                needRight: false
-              },
-              nameTranslated: translation + ': ' + this.item.name_text,
-              pageId: 78
-            });
-          });
+        this.pageEnv.set({
+          layout: {
+            isAdminPage: true,
+            needRight: false
+          },
+          nameTranslated: getItemTypeTranslation(this.item.item_type_id, 'name') + ': ' + this.item.name_text,
+          pageId: 78
+        });
       });
   }
 

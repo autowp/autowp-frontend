@@ -35,7 +35,7 @@
 
     <span *ngIf="canAddCar">
       <i class="fa fa-plus" aria-hidden="true"></i>
-      <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{'item/type/' + current.item_type_id + '/add-sub-item' | translate}}</a>
+      <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{getItemTypeTranslation(item.item_type_id, 'add-sub-item')}}</a>
     </span>
   </p>
 

@@ -60,7 +60,7 @@
       </td>
       <td style="text-align:center">
         {{item.value_text}}
-        <span class="unit" *ngIf="item.unit" [textContent]="item.unit.abbr|translate"></span>
+        <span class="unit" *ngIf="item.unit" [textContent]="getUnitTranslation(item.unit.id, 'abbr')"></span>
       </td>
       <td class="link">
         <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" i18n>to editor</a>

@@ -16,10 +16,10 @@
 </nav>
 
 <div class="page-header">
-  <h1>Organize</h1>
+  <h1 i18n>Organize</h1>
 </div>
 
-<app-markdown [markdown]="'moder/vehicle/catalogue/turbo-group-creator/text'|translate"></app-markdown>
+<app-markdown i18n-markdown markdown="Tool for join few vehicles into sub-model"></app-markdown>
 
 <app-item-meta-form class="mb-4" [hidden]="loading > 0" [disableIsGroup]="true" [hideSubmit]="true" [(item)]="newItem"
                     (submited)="submit()"

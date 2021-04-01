@@ -13,7 +13,7 @@
 </nav>
 
 <div class="page-header" *ngIf="item">
-  <h1>{{'item/type/' + item.item_type_id + '/name'|translate}}: <span [innerHTML]="item.name_html"></span></h1>
+  <h1>{{getItemTypeTranslation(item.item_type_id, 'name')}}: <span [innerHTML]="item.name_html"></span></h1>
 </div>
 
 <div class="row mb-4" *ngIf="item">

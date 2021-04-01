@@ -8,6 +8,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators
 import { APIUser } from '../../services/user';
 import { APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { getForumsThemeTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-forums-topic',
@@ -96,5 +97,9 @@ export class ForumsTopicComponent implements OnInit, OnDestroy {
         },
         response => this.toastService.response(response)
       );
+  }
+
+  public getForumsThemeTranslation(id: string): string {
+    return getForumsThemeTranslation(id);
   }
 }

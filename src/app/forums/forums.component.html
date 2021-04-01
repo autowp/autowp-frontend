@@ -10,7 +10,7 @@
 </nav>
 
 <div class="page-header">
-  <h1 *ngIf="theme">{{theme.name | translate}}</h1>
+  <h1 *ngIf="theme">{{getForumsThemeTranslation(theme.name)}}</h1>
   <h1 i18n *ngIf="!theme">Forums</h1>
 </div>
 
@@ -20,7 +20,7 @@
       <p ngPreserveWhitespaces>
         <i class="fa fa-th-list" aria-hidden="true"></i>
         <strong>
-          <a [routerLink]="['/forums', theme.id]" [textContent]="theme.name|translate"></a>
+          <a [routerLink]="['/forums', theme.id]" [textContent]="getForumsThemeTranslation(theme.name)"></a>
         </strong>
       </p>
       <p [textContent]="theme.description|translate" *ngIf="theme.description"></p>
@@ -28,7 +28,7 @@
       <div *ngIf="theme.themes && theme.themes.length > 0" ngPreserveWhitespaces>
         <ng-container i18n>Subforums</ng-container>
         <ng-container *ngFor="let subtheme of theme.themes; let last = last">
-          <a [routerLink]="['/forums', subtheme.id]">{{subtheme.name|translate}}</a><span *ngIf="!last">, </span>
+          <a [routerLink]="['/forums', subtheme.id]">{{getForumsThemeTranslation(subtheme.name)}}</a><span *ngIf="!last">, </span>
         </ng-container>
       </div>
       <p *ngIf="!theme.themes">

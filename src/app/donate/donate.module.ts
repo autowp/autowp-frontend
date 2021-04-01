@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DonateRoutingModule } from './donate-routing.module';
 import { DonateLogComponent } from './log/log.component';
 import { DonateSuccessComponent } from './success/success.component';
@@ -11,7 +10,6 @@ import { DonateVodSuccessComponent } from './vod/success/success.component';
 import { MomentModule } from 'ngx-moment';
 import { UserModule } from '../user/user.module';
 import { UtilsModule } from '../utils/utils.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { FormsModule } from '@angular/forms';
 import { ItemOfDayModule } from '../item-of-day/item-of-day.module';
@@ -35,7 +33,6 @@ import { NgbTooltipModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
     MomentModule,
     UserModule,
     UtilsModule,
-    TranslateModule,
     NgbTooltipModule,
     NgbButtonsModule,
     PaginatorModule,

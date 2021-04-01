@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { UploadRoutingModule } from './upload-routing.module';
 import { UploadCropComponent } from './crop/crop.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { UploadSelectComponent } from './select/select.component';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +22,6 @@ import { NgbProgressbarModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap
   imports: [
     CommonModule,
     UploadRoutingModule,
-    TranslateModule,
     PaginatorModule,
     FormsModule,
     UtilsModule,

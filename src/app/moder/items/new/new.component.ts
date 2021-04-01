@@ -14,7 +14,7 @@ import {
 } from 'rxjs/operators';
 import { APIItemVehicleTypeGetResponse, APIService } from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {TranslateService} from '@ngx-translate/core';
+import {getItemTypeTranslation} from '../../../utils/translations';
 
 interface NewItem {
   produced_exactly: boolean;
@@ -59,8 +59,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private translate: TranslateService
+    private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -177,15 +176,13 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         this.parentSpec = data.spec;
         this.vehicleTypeIDs = data.vehicleTypeIDs;
 
-        this.translate.get('item/type/' + data.itemTypeID + '/new-item').subscribe(translation => {
-          this.pageEnv.set({
-            layout: {
-              isAdminPage: true,
-              needRight: false
-            },
-            nameTranslated: translation,
-            pageId: 163
-          });
+        this.pageEnv.set({
+          layout: {
+            isAdminPage: true,
+            needRight: false
+          },
+          nameTranslated: getItemTypeTranslation(data.itemTypeID, 'new-item'),
+          pageId: 163
         });
       });
   }
@@ -267,5 +264,9 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
         () => {},
         () => this.loading--
       );
+  }
+
+  public getItemTypeTranslation(id: number, type: string) {
+    return getItemTypeTranslation(id, type);
   }
 }

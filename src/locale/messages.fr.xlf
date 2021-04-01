@@ -153,7 +153,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       </trans-unit>
       <trans-unit id="ngb.progressbar.value" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="ber { return th"/></source>
-        <target><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</target>
+        <target><x id="INTERPOLATION" equiv-text="ber { return th"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/progressbar/progressbar.ts</context>
           <context context-type="linenumber">27,35</context>
@@ -250,7 +250,8 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       <trans-unit id="ngb.timepicker.PM" datatype="html">
         <source><x id="INTERPOLATION" equiv-text=";
   private _mi"/></source>
-        <target><x id="INTERPOLATION" equiv-text="{{ i18n.getAfternoonPeriod() }}"/></target>
+        <target>&lt;x id="INTERPOLATION" equiv-text=";
+private _mi"/&gt;</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">111,119</context>
@@ -260,7 +261,9 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <source><x id="INTERPOLATION" equiv-text="olean;
 
   /**"/></source>
-        <target><x id="INTERPOLATION" equiv-text="{{ i18n.getMorningPeriod() }}"/></target>
+        <target>&lt;x id="INTERPOLATION" equiv-text="olean;
+
+/**"/&gt;</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">116,128</context>
@@ -919,7 +922,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">213,221</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="09c9928ed58c2f9198026e59b891143f34e254f8" datatype="html">
@@ -991,7 +994,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/organize/organize.component.ts</context>
-          <context context-type="linenumber">133,146</context>
+          <context context-type="linenumber">186,193</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.ts</context>
@@ -1003,7 +1006,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/pictures/organize/organize.component.ts</context>
-          <context context-type="linenumber">135,142</context>
+          <context context-type="linenumber">162,168</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/picture-vote-templates/picture-vote-templates.component.ts</context>
@@ -1011,11 +1014,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">331,337</context>
+          <context context-type="linenumber">334,338</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">358,363</context>
+          <context context-type="linenumber">386,391</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/place/place.component.html</context>
@@ -1032,6 +1035,26 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/signup/signup.component.ts</context>
           <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fba0d0114480f789f7adb2d79a6c928bf40358d7" datatype="html">
+        <source>Не удалось удалить учетную запись.
+
+Такое бывает, если привязанная учётная запись является единственным способом авторизации, т.е. не задан e-mail или другие учётный записи.</source>
+        <target>Impossible de supprimer le compte.
+
+Cela se produit si le compte lié est la seule méthode d'authentification, à savoir, non spécifiée e-mail ou d'autres comptes.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/accounts/accounts.component.ts</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="28d84089ea76c8ecac4cf9c5125428096384e271" datatype="html">
+        <source>Failed to connect with account. Error occured or access to account denied</source>
+        <target>Impossible de se connecter avec un compte. Une erreur est survenue ou l'accès à compte refusé</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/accounts/accounts.component.ts</context>
+          <context context-type="linenumber">123</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5945986349492910662" datatype="html">
@@ -1069,6 +1092,22 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       <trans-unit id="f8c69b3a217043bcbcd4692b637b394c6f5103d9" datatype="html">
         <source>Account delete</source>
         <target>Suppression d'un compte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/delete/delete.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f215c4a6787f6653691f92c2a29095c0bd246f7e" datatype="html">
+        <source>Мы сожалем, что вам пришлось оказаться на этой странице, и вы планируете покинуть наш сайт навсегда, но не можем вам в этом отказать.
+
+Нажав на красную кнопку, все данные, касающиеся вас, будут обезличены или удалены.
+
+Этот процесс необратим, поэтому хорошенько подумайте и не принимайте поспешных решений.</source>
+        <target>Nous sommes désolés, que vous avez dû se trouver sur cette page, et vous envisagez de quitter notre site pour toujours, mais nous ne pouvons pas vous refuser.
+
+En cliquant sur le bouton rouge, toutes les données vous concernant seront anonymisées ou supprimés.
+
+Ce processus est irréversible, alors réfléchissez bien et ne prenez pas de décisions hâtives.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/delete/delete.component.ts</context>
           <context context-type="linenumber">58</context>
@@ -1122,6 +1161,17 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="09111cc3cf8e61c342f0249f3817efc629657d69" datatype="html">
+        <source>Account removed.
+Good luck.</source>
+        <target>Compte supprimé.
+
+Bonne chance.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/delete/deleted/deleted.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1458806631225759930" datatype="html">
         <source>My e-mail</source>
         <target>Mon e-mail</target>
@@ -1140,6 +1190,18 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/email/email.component.ts</context>
           <context context-type="linenumber">55,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3a70203629e86c8982a7dbb7429bdb940e8cacb2" datatype="html">
+        <source>On this page you can change your e-mail address.
+
+Message with instructions to confirm will sent to new address.</source>
+        <target>Sur cette page vous pouvez changer votre adresse e-mail.
+
+Un email de vérification vous sera envoyé afin de confirmer votre nouvelle adresse.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/email/email.component.ts</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2befcb3e51c550031d0b428adcf2b6a1ff50e50a" datatype="html">
@@ -1434,12 +1496,20 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">181,187</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7659e4c806781986dee1ba181edccc3ef7e260a7" datatype="html">
+        <source>You can upload photo or use [Gravatar](http://gravatar.com/)</source>
+        <target>Vous pouvez télécharger votre photo ou utiliser le service [Gravatar](http://gravatar.com/)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/profile/profile.component.ts</context>
+          <context context-type="linenumber">203,213</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c2a9de3714f5767b174d0424bc8abe2dc37acc41" datatype="html">
         <source>Other</source>
         <target>Autre</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.ts</context>
-          <context context-type="linenumber">200,208</context>
+          <context context-type="linenumber">213</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
@@ -1711,7 +1781,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.ts</context>
-          <context context-type="linenumber">44,49</context>
+          <context context-type="linenumber">43,49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
@@ -1851,7 +1921,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.html</context>
-          <context context-type="linenumber">90,95</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
@@ -2074,6 +2144,26 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">60,66</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="204ccb29bf6f65e832d207b0f61906bbeb1b2ae8" datatype="html">
+        <source>Please note that all material on this server autowp.ru, added visitors.
+
+The site administration does not have information on the legality of the publication of these materials.
+
+All images are posted for educational purposes.
+
+[Report copyright violation](mailto:autowp@yandex.ru)</source>
+        <target>Veuillez noter que tous les documents sur autowp.ru (wheelsage.org), sont ajoutés par les visiteurs.
+
+L'administration du site ne dispose pas d'informations sur la légalité de la publication de ces documents.
+
+Toutes les images sont postées à des fins éducatives.
+
+[Signaler une violation des droits d'auteur](mailto:autowp@yandex.ru)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="b8d10cd55fae4e4ad4f87d28e18251694f159bf7" datatype="html">
         <source>Privacy Policy</source>
         <target>Politique de confidentialité</target>
@@ -2207,7 +2297,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="186236568870281953" datatype="html">
@@ -2359,7 +2449,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">138</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8787971127662853316" datatype="html">
@@ -2587,7 +2677,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Journal des valeurs</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">20,27</context>
+          <context context-type="linenumber">20,25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a568d6cc7b8a3f14399663426bb1b4fc137b1a8d" datatype="html">
@@ -2595,7 +2685,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>editer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">36,39</context>
+          <context context-type="linenumber">34,38</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
@@ -2659,7 +2749,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Info</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">47,53</context>
+          <context context-type="linenumber">46,53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="be18feb28e6f1a3c14c9abccffc2761b3335821b" datatype="html">
@@ -2667,7 +2757,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Moteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">61,69</context>
+          <context context-type="linenumber">60,68</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
@@ -2679,7 +2769,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Spécifications</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">76,79</context>
+          <context context-type="linenumber">77,79</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/specs-cars/specs-cars.component.ts</context>
@@ -2687,7 +2777,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
-          <context context-type="linenumber">100,112</context>
+          <context context-type="linenumber">102,112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="80ebb1b82fed892345531fff2ba095160972dd86" datatype="html">
@@ -2695,7 +2785,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Résultat</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">84,87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="408cb6073e60c5d966296a3207fc596adca75e01" datatype="html">
@@ -2703,11 +2793,41 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Admin</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">93,100</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="057e24bcc2fc96f82a44c6e21979b6563c285a7c" datatype="html">
+        <source>Просьба отнестить со всей ответственностью ко всем выполняемым действиям, т.к. они станут достоянием общественности.
+
+
+О структуре самих характеристик.
+
+Все характеристики организованы в виде дерева элементов &quot;параметр - значение&quot;. Значения могут быть числовыми и текстовыми.
+
+Важной особенностью является тот факт, что каждая характеристика может быть задана одновременно несколькими пользователями. В этом случае актуальным (используемым) значением является то, которое система сочтет приоритетным по ряду признаков.
+
+Если вы столкнулись с ситуацией, когда вам не удаётся перекрыть введенное кем-то ранее значение, то вы можете просто написать об этом автору. Впрочем в процессе реализации система автоматического уведомления автором о том, что с его значением кто-то не согласен.
+
+
+Все значения, которые здесь вводятся - отображаются на сайте, в характеристиках, используются в построении разделы &quot;самые-самые&quot;, а также отображаются в некоторых других местах сайта.</source>
+        <target>S&#039;il vous plaît prendre avec toute la responsabilité à toutes les actions effectuées depuis ils deviennent publics.
+
+Sur la structure des mêmes spécifications.
+
+Toutes les spécifications sont organisées comme un arbre d&#039;éléments &quot;l&#039;option - valeur&quot;. Les valeurs peuvent être numériques ou texte.
+
+Une caractéristique importante est le fait que chaque spécification peut être définie par plusieurs utilisateurs simultanément. Dans ce cas, la valeur (utilisée) actuelle est que le système juge une priorité pour un certain nombre de motifs.
+
+Si vous êtes confronté à une situation où vous ne pouvez pas bloquer l&#039;entrée de quelqu&#039;un de la valeur précédemment, vous pouvez simplement écrire sur cet auteur. D&#039;ailleurs dans le processus de mise en œuvre de système automatique notifie à l&#039;auteur que de la valeur de quelqu&#039;un n&#039;est pas d&#039;accord.
+
+Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les spécifications, utilisés dans la construction des sections de &quot;plus-plus&quot;, et apparaissent dans plusieurs autres zones du site.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="47ffe3728496ab4bf347c8e404a055019ad2e5c7" datatype="html">
@@ -2715,7 +2835,19 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>rafraîchir l'héritage</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07" datatype="html">
+        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+
+Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+        <target>**Attention!** Probablement, vous avez accumulé un grand nombre d'erreurs.
+
+Certains d'entre eux, trouvés par d'autres utilisateurs, vous pouvez trouver [ici](/account/specs-conflicts)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.ts</context>
+          <context context-type="linenumber">84,138</context>
         </context-group>
       </trans-unit>
       <trans-unit id="57cf305f9bfd681c70dc26e914108d06384ade9f" datatype="html">
@@ -3097,6 +3229,10 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">350,351</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="977f6e1b211cf3dd2732838c1aef74307a7444fa" datatype="html">
         <source>Pictures</source>
@@ -3127,7 +3263,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/pictures/organize/organize.component.ts</context>
-          <context context-type="linenumber">113,118</context>
+          <context context-type="linenumber">139,148</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/area/area.component.ts</context>
@@ -3330,12 +3466,20 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3f2710dab0a83e7212db1898f3c0db858881279a" datatype="html">
+        <source>To be able to post a comment, you must [create an account or sign in using social networks account](/login)</source>
+        <target>Pour pouvoir poster un commentaire, vous devez [créer un compte ou de vous connecter en utilisant le compte des réseaux sociaux](/login)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/comments/comments/comments.component.ts</context>
+          <context context-type="linenumber">55,69</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c5bb9f8936cb33db2ca351a1b87a984fdf11917c" datatype="html">
         <source>Comments</source>
         <target>Commentaires</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/comments/comments.component.ts</context>
-          <context context-type="linenumber">52,59</context>
+          <context context-type="linenumber">88,97</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
@@ -3447,11 +3591,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">329</context>
+          <context context-type="linenumber">333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5cec7468241d72cafd86ad1af6d55b09a6e3ae5" datatype="html">
@@ -3463,11 +3607,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">329</context>
+          <context context-type="linenumber">333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="628ec23ea91c60f3bc22e508102d290b64be36a1" datatype="html">
@@ -3622,6 +3766,34 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">64,65</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="f02dba1418786dcc81dadbe5f5e4eb3ca347c45e" datatype="html">
+        <source>Despite the fact that we always try to work as non-commercial project, it is absolutely impossible to support encyclopedia without money.
+
+Support and site development requires a permanent costs.
+
+If you want to help to our everyday work, you can send us some money through PayPal or Yandex.Money.
+
+With a money donation you can send us your vision about the future of the encyclopedia and the way it must move and we&apos;ll be much more obligated and grateful for your words.
+
+We do not collect information about our donators, however, if you wish, we can mark your contribution.
+
+In addition, we can offer in return to [choose the next vehicle of the day](/donate/vod)</source>
+        <target>Malgré le fait que nous positionnons notre Encyclopédie comme étant à but non lucratif, il serait tout à fait impossible de gérer ce site sans argent.
+
+L'hébergement et l'entretien du site nécessitent des frais permanents.
+
+Si vous avez le désir et la capacité de nous soutenir, vous pouvez le faire en nous envoyant un peu d'argent par Paypal ou Yandex.Money.
+
+Avec votre don, vous pouvez nous faire part des améliorations que vous souhaiteriez voir dans l'encyclopédie. Nous porterons une attention particulière à tous vos commentaires.
+
+Nous ne recueillons pas d'informations sur les donateurs mais, si vous le souhaitez, nous pouvons noter votre contribution.
+
+Avec votre don, vous aurez en plus la possibilité de [choisir le prochain véhicule du jour](/donate/vod).</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8bdaa5065f56b57878bf81a68ec8d42a577d6a8c" datatype="html">
         <source>Donate success</source>
         <target>Donation avec succes</target>
@@ -3631,6 +3803,18 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/success/success.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="22c0a7efab3664c0a2c846d6fe7f8577246e1863" datatype="html">
+        <source>Thank you for your support.
+
+We will try not to disappoint you.</source>
+        <target>Merci pour votre soutien.
+
+Allons essayer de ne pas vous décevoir.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/success/success.component.ts</context>
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
@@ -3682,12 +3866,28 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">208</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="a4b6c683b635ad8f7bc175bf5a85ea19b73fb1aa" datatype="html">
+        <source>When the information about your donation comes to us your choice will be carried out.
+
+Thank you for your support.
+
+We will try not to disappoint you.</source>
+        <target>Dès que nous aurons la confirmation de votre don, votre choix sera pris en compte.
+
+Merci pour votre soutien.
+
+Nous tacherons de ne pas vous décevoir.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/success/success.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="e41f6ccef714815df991388e0879ef5e425a40d0" datatype="html">
         <source>busy</source>
         <target>occupé</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">84,88</context>
+          <context context-type="linenumber">91,95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4b13ecaace0a04d26567095f86b3c2079cf0c050" datatype="html">
@@ -3695,7 +3895,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Sélection:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">94,102</context>
+          <context context-type="linenumber">101,109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="59713ea1967f1da4ab504e7b001c2e66a063e752" datatype="html">
@@ -3703,7 +3903,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Vos souhaits</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">109,112</context>
+          <context context-type="linenumber">116,119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="822c116079c4698af6eb810a9511f3bfb8f57960" datatype="html">
@@ -3711,11 +3911,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Carte de crédit</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="680a9a7efb73b95b7a2308cea8e6e84528e7021a" datatype="html">
@@ -3723,11 +3923,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Compte d'opérateur mobile</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1f1f0b1fa7e0f3406f4c128c6f0cea5144e8bce0" datatype="html">
@@ -3735,11 +3935,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Yandex.Money</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="506a8569098f2412ee410abf96f805a1eb097987" datatype="html">
@@ -3747,15 +3947,23 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Payer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c5e7fe22ed5ee9727a45f6cd22b12ab60eaae9e2" datatype="html">
-        <source>1. Choose a date</source>
-        <target>1. Choisir une date</target>
+      <trans-unit id="2e627fc55b8dccf100b5e94b123612bf2e0804e2" datatype="html">
+        <source>The little that we can offer in return for financial assistance of the site - it is an opportunity to choose the next &quot;vehicle of the day&quot;.
+
+Follow the instructions below.
+
+We will be happy if you want to [perform selfless donation](/donate) to an arbitrary amount.</source>
+        <target>Le moins que l&#039;on puisse faire en remerciement du soutien financier pour le site est de laisser l&#039;opportunité de choisir le prochain “véhicule du jour”.
+
+Suivez les instructions ci-dessous.
+
+Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/donate) d&#039;un montant arbitraire.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">103,108</context>
+          <context context-type="linenumber">108,131</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3814924263666155892" datatype="html">
@@ -3778,12 +3986,34 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="c5e7fe22ed5ee9727a45f6cd22b12ab60eaae9e2" datatype="html">
+        <source>1. Choose a date</source>
+        <target>1. Choisir une date</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="fcd67e129298c0bf300793676818f51f95165512" datatype="html">
         <source>2. Choose vehicle</source>
         <target>2. Choisir le véhicule</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">115,131</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6fd5cc2774df5b6add5019da0a2c0d660d8351b" datatype="html">
+        <source>Almost any vehicle can be &quot;Vehicle of the day&quot;, but there are some limitations:
+
+- the vehicle must be selected for the first time
+- the vehicle must have at least 3 photos</source>
+        <target>Virtuellement tous les véhicules peuvent être “Véhicule du jour”, tant qu&#039;ils respectent les conditions suivantes:
+
+- le véhicule ne doit pas avoir déjà été sélectionné
+- le véhicule doit avoir au moins 3 photos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
+          <context context-type="linenumber">131</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
@@ -3942,6 +4172,22 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="9068595c80977e09052fc9c59473acc4eea58254" datatype="html">
+        <source>If you have come here to express words of support, it is possible to [express it in hard currency](/donate)</source>
+        <target>Si vous êtes venu ici pour exprimer des mots de soutien, il est possible [de l'exprimer en devises](/donate)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/feedback/feedback.component.ts</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a31a46e7d5f151746be1353aa6d53834808dce4f" datatype="html">
+        <source>Your message was sent</source>
+        <target>Votre message a été envoyé</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/feedback/sent/sent.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="524fd610d24dd6b14a98787e2c72c0ebc5acf8b5" datatype="html">
         <source>Go to last message</source>
         <target>Aller au dernier message</target>
@@ -4090,12 +4336,28 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">89,96</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1fca79a86ea1f33c9ccf4a9c6302a0e88b0a64b8" datatype="html">
+        <source>Only registered users can add topics.
+
+If you are already registered on the site, then you need to sign in to the site.
+
+If you are not registered yet, please do so now [on the registration page](/signup).</source>
+        <target>Seuls les utilisateurs inscrits peuvent créer de nouveaux sujets.
+
+Si vous êtes déjà inscrit sur le site, il vous suffit de vous connecter.
+
+Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) maintenant.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/new-topic/new-topic.component.ts</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4b0ca852bafa5037c4e64c7b18f9cd1e14b799de" datatype="html">
         <source>Subject</source>
         <target>Sujet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/new-topic/new-topic.component.ts</context>
-          <context context-type="linenumber">107,113</context>
+          <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9ea85e2b6fc61c916d75fbd52e213a34ed07bc88" datatype="html">
@@ -4254,6 +4516,14 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="86ead51aaacaca48bc1e3c8f98b8ec52ad2ce2d5" datatype="html">
+        <source>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</source>
+        <target>Savez-vous quelle technique a permis d'observer la loi et l'ordre dans les rues de villes du monde à des moments différents? Et pas de voitures voyagé Pape? Non? Ensuite, vous êtes exactement dans cette section.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/categories/categories.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4704327371953276728" datatype="html">
         <source>Index page</source>
         <target>Page d'accueil</target>
@@ -4264,6 +4534,14 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/policy/policy.component.ts</context>
           <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
+        <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
+        <target>Vous voulez savoir quelle voiture est la plus rapide? Ou combien pèse le plus puissant camion d'exploitation minière? C'est ici que vous trouverez les réponses!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.ts</context>
+          <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cbc05a3823d4b0070e9a8bcc68c19ed0e2f81452" datatype="html">
@@ -4340,6 +4618,14 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/specs-cars/specs-cars.component.ts</context>
           <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0669af05ab055ec2134b70661772f74471bbd840" datatype="html">
+        <source>Do you know that Daewoo Matiz has as many as [six clones](/twins/group/118812)? And you know what [common in Lotus and Kia](/twins/group/118750)? We are sure that you will find this section interesting.</source>
+        <target>Savez-vous que la Daewoo Matiz a [six clones](/twins/group/118812)? Savez-vous quel est le point commun entre [Lotus et Kia](/twins/group/118750)? Cette section va sûrement vous intéresser!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3e0d82664559e3794c912ae50e76868d99007902" datatype="html">
@@ -5522,12 +5808,28 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">212</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="12192410dbce428c99723505c15afefead324bbf" datatype="html">
+        <source>Organize</source>
+        <target>Organiser</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/catalogue/organize/organize.component.ts</context>
+          <context context-type="linenumber">113,118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="59d8bb6d51399c1924414af2cbfbed4787d9334f" datatype="html">
+        <source>Tool for join few vehicles into sub-model</source>
+        <target>Outil pour regrouper quelques véhicules en un sous-modèle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/catalogue/organize/organize.component.ts</context>
+          <context context-type="linenumber">137,155</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="e11a8401adcc5c60df18da01229e4bd3f5ed536e" datatype="html">
         <source>Vehicles</source>
         <target>Véhicules</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/organize/organize.component.ts</context>
-          <context context-type="linenumber">113,118</context>
+          <context context-type="linenumber">165,170</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/item.component.html</context>
@@ -5670,6 +5972,20 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="0beef660d67617ee35d5000c54be88ea106d840d" datatype="html">
+        <source>* Logotypes must be in PNG format.
+* All transparent regions must be transparent but not white!
+* Logotype must be close to edges. Margin not required
+* Upload images in maximum resolution - thats give quality and ability to use it in future. On website logo scaled automatically</source>
+        <target>* Les logos doivent être au format d'image PNG ;
+* Les zones transparentes doivent bien être transparentes et non pas blanches!
+* L'image doit être recadrée aux bords du logo. Les marges ne sont pas nécessaires ;
+* Les images doivent avoir la plus grande définition possible - pour garantir la qualité ainsi qu'une réutilisation future. Le site se charge automatiquement de la mise à l'échelle.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/logo/logo.component.ts</context>
+          <context context-type="linenumber">47,75</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c29d47fe5a0f95ff47d0f37191edf45d55e4cfc4" datatype="html">
         <source>continue in pr.</source>
         <target>continue dans le pr.</target>
@@ -5721,6 +6037,10 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       <trans-unit id="234bb213f33156ae9ebaabaf96e04f45c3fc1c34" datatype="html">
         <source>Turbo group creator from pictures</source>
         <target>Créateur de groupe turbo a base d'images</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/pictures/organize/organize.component.ts</context>
+          <context context-type="linenumber">114,121</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/pictures/pictures.component.ts</context>
           <context context-type="linenumber">39,47</context>
@@ -6091,7 +6411,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
@@ -6323,7 +6643,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">329</context>
+          <context context-type="linenumber">333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5f4d7abe93d192366c0290168b7421ce33b816d" datatype="html">
@@ -6355,7 +6675,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">222,226</context>
+          <context context-type="linenumber">222,229</context>
         </context-group>
       </trans-unit>
       <trans-unit id="52e074e4af2ba847fa9f43fcb9607316b5440add" datatype="html">
@@ -6363,19 +6683,19 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>ajouter à</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">234,242</context>
+          <context context-type="linenumber">235,241</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">249,252</context>
+          <context context-type="linenumber">252,256</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">264,269</context>
+          <context context-type="linenumber">263,271</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">278,285</context>
+          <context context-type="linenumber">279,285</context>
         </context-group>
       </trans-unit>
       <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html">
@@ -6383,7 +6703,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Parametres</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">297,302</context>
+          <context context-type="linenumber">295,304</context>
         </context-group>
       </trans-unit>
       <trans-unit id="007d4f5b57fe654b7b1293a18a47ae2c2d2804df" datatype="html">
@@ -6391,7 +6711,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Date de la photo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">309,312</context>
+          <context context-type="linenumber">311,316</context>
         </context-group>
       </trans-unit>
       <trans-unit id="54acc539ca01f7b4211f93d2e51e3eb2329e11d5" datatype="html">
@@ -6399,7 +6719,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Editer et réparer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">311,315</context>
+          <context context-type="linenumber">318,322</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2968e9912d3ba86cee4ee86d55ead3f635b73c4a" datatype="html">
@@ -6407,7 +6727,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Nom spécial</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">318,322</context>
+          <context context-type="linenumber">322,326</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6bc36d4ebea196eb72d154e07650fb125326e503" datatype="html">
@@ -6415,7 +6735,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Réparer tout les fichiers</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">320,327</context>
+          <context context-type="linenumber">327,334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e0390a0e55eaa501246deb6503febe4d0a552c8f" datatype="html">
@@ -6423,7 +6743,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Reconstruire les noms de fichiers</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">337,342</context>
+          <context context-type="linenumber">344,349</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3b90fa2621fb85dccff8e5f4db7316419c6db13a" datatype="html">
@@ -6431,7 +6751,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Copyrights</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">344,349</context>
+          <context context-type="linenumber">347,351</context>
         </context-group>
       </trans-unit>
       <trans-unit id="91bf11b0f743c9cc98c9fd595c34fad7500305d6" datatype="html">
@@ -6439,20 +6759,34 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Normaliser</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">349,355</context>
+          <context context-type="linenumber">356,362</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0784137887417f8f5a194b68dc520c8dfa2b83a6" datatype="html">
+        <source>Markdown syntax.
+
+Few manuals:
+[1](https://en.wikipedia.org/wiki/Markdown),
+[2](https://guides.github.com/features/mastering-markdown/),
+[3](https://daringfireball.net/projects/markdown/basics),
+
+Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
+        <target>Markdown syntaxe.
+
+Quelques guides/manuels:
+[1](https://en.wikipedia.org/wiki/Markdown),
+[2](https://guides.github.com/features/mastering-markdown/),
+[3](https://daringfireball.net/projects/markdown/basics), 
+
+Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">366,380</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8975741d2041b7181b37a5fa2fe887becd49f928" datatype="html">
         <source>Flop</source>
         <target>Flop</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">363,368</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6ad48546ecdf9eee90289eef918931fa00e1a4ba" datatype="html">
-        <source>Status/Delete/Accept</source>
-        <target>Statut/Supprimer/Accepter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">370,375</context>
@@ -6463,15 +6797,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Recadrer la zone</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">373,378</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f8c7be184fefd6750e4e5d0c7a90e74721c58f8a" datatype="html">
-        <source>Uploader</source>
-        <target>Mettre en ligne</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">381,386</context>
+          <context context-type="linenumber">380,385</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e5d8bb389c702588877f039d72178f219453a72d" datatype="html">
@@ -6479,7 +6805,15 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Inconnu</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">386,393</context>
+          <context context-type="linenumber">393,400</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6ad48546ecdf9eee90289eef918931fa00e1a4ba" datatype="html">
+        <source>Status/Delete/Accept</source>
+        <target>Statut/Supprimer/Accepter</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0fe4de4a62d62e75719f3b6417916c68a0da3a0d" datatype="html">
@@ -6487,19 +6821,15 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Adresse IP du metteur en ligne:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="61cb84e3b060762d4a46ba846f296b14374e29b2" datatype="html">
-        <source>Replacement</source>
-        <target>Renplacement</target>
+      <trans-unit id="f8c7be184fefd6750e4e5d0c7a90e74721c58f8a" datatype="html">
+        <source>Uploader</source>
+        <target>Mettre en ligne</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">472,484</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5625beafbab9117261dff9722b5b1caf26aa77e3" datatype="html">
@@ -6507,7 +6837,51 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Cette adresse est interdit</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">178</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71f34a47f91a1261e9057a751eaa09b4207b8aa5" datatype="html">
+        <source>until</source>
+        <target>jusqu'à</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">400</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">178</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61cb84e3b060762d4a46ba846f296b14374e29b2" datatype="html">
+        <source>Replacement</source>
+        <target>Renplacement</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">400</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">472,484</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0a1f3f61265e55a641cad8c445bbe5bfb82315d9" datatype="html">
+        <source>unban</source>
+        <target>débannir</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">400</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
+          <context context-type="linenumber">101</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
@@ -6519,19 +6893,15 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Remplacement suggéré pour la photo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="71f34a47f91a1261e9057a751eaa09b4207b8aa5" datatype="html">
-        <source>until</source>
-        <target>jusqu'à</target>
+      <trans-unit id="c9b7d8d61db67243808f7d7323f76adf4b75bc6c" datatype="html">
+        <source>For period</source>
+        <target>Pour la période</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
@@ -6543,23 +6913,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Accepter et supprimer le double</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0a1f3f61265e55a641cad8c445bbe5bfb82315d9" datatype="html">
-        <source>unban</source>
-        <target>débannir</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
-          <context context-type="linenumber">101</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">178</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ff6fd8ff53e6b3d760bae876c04a9942515353cb" datatype="html">
@@ -6567,15 +6921,19 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Supprimer le remplacement</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c9b7d8d61db67243808f7d7323f76adf4b75bc6c" datatype="html">
-        <source>For period</source>
-        <target>Pour la période</target>
+      <trans-unit id="6a323f80f9d90a32db8ce52cc82075938c3c36f0" datatype="html">
+        <source>Ban</source>
+        <target>Interdire</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
+          <context context-type="linenumber">101</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
@@ -6587,7 +6945,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Refusé</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6fc5e65900ae1415d3170d5d2842f0dcae1b6645" datatype="html">
@@ -6595,7 +6953,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Accepter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
@@ -6603,23 +6961,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">319,321</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6a323f80f9d90a32db8ce52cc82075938c3c36f0" datatype="html">
-        <source>Ban</source>
-        <target>Interdire</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/traffic/traffic.component.ts</context>
-          <context context-type="linenumber">101</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">178</context>
+          <context context-type="linenumber">323,325</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7823909fb1d8d313382f6f4bd842f1a7ef6f08d1" datatype="html">
@@ -6627,7 +6969,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Accepté</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
@@ -6639,11 +6981,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Refuser</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">329</context>
+          <context context-type="linenumber">333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="45745fdb08e3a9de6f14bb6aab43aeb0eab89a70" datatype="html">
@@ -6651,7 +6993,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>En attente de suppression</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="28df1b02fd88d2deb0212bc5d7ff34cf9492fa54" datatype="html">
@@ -6659,7 +7001,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Supprimé</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="046a33f80a597e320bae87771aca67e22232df86" datatype="html">
@@ -6667,7 +7009,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>C'est une seule photo de ce véhicule</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0fa81c6bd3ae6611602550d95509e170bea1c795" datatype="html">
@@ -6675,7 +7017,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Nombre d'images accepté immobile <x id="INTERPOLATION" equiv-text="{{picture.accepted_count}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">393,303</context>
+          <context context-type="linenumber">400,310</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5689442636734876664" datatype="html">
@@ -7255,11 +7597,11 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Modifier l'élément</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">329</context>
+          <context context-type="linenumber">333</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">329</context>
+          <context context-type="linenumber">333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="553791b26c74d11b72267a2e92bfd181de918e8e" datatype="html">
@@ -7296,6 +7638,22 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
           <context context-type="linenumber">112,128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f03bd4d937b79f324f15d9350d42c8d049d1a361" datatype="html">
+        <source>All images have their owners.
+
+If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
+
+Discuss anything and just talk about cars and not only can you on [the forum](/forums/).</source>
+        <target>Toutes les images ont leurs propriétaires.
+
+Si vous pensez que les utilisateurs du site se sont trompés en affichant cette image dans cette section, ce serait bien si vous en parliez dans les commentaires et si vous indiquiez où se trouve l'erreur.
+
+Que vous vouliez bavarder d'automobiles ou tout autre chose, vous pouvez le faire sur [notre forum](/forums/).</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">142</context>
         </context-group>
       </trans-unit>
       <trans-unit id="98dc81e946e9805964a480be5ea94837fdd0029a" datatype="html">
@@ -7414,6 +7772,14 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="34d8ec77296c7e78a332917403b5b3992780b3fb" datatype="html">
+        <source>Enter new password</source>
+        <target>Entrez un nouveau mot de passe</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/restore-password/new/new.component.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="876806036041546b226224e5c074dd0f4a94fa67" datatype="html">
         <source>Password (again)</source>
         <target>Mot de passe (a nouveau)</target>
@@ -7442,6 +7808,18 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="bec9a4e20e22e9f6397a2e9a2c75f9ddf0d494b3" datatype="html">
+        <source>New password saved.
+
+Don&apos;t forget it.</source>
+        <target>Nouveau mot de passe ont été enregistrés.
+
+Ne l'oubliez pas.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/restore-password/new/ok/ok.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1512140572668429091" datatype="html">
         <source>Password recovery</source>
         <target>Récupération de mot de passe</target>
@@ -7454,12 +7832,28 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">17,18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="15408e354cf66b0149976c19743995657b568b64" datatype="html">
+        <source>If you lost your password - input your e-mail and you give instruction to create new one</source>
+        <target>Si vous avez perdu votre mot de passe, saisissez votre e-mail ci-dessous et nous vous enverrons des instructions pour en créer un nouveau.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/restore-password/restore-password.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9f5e42d00463d64b1dbdab29fbccb1a47cb7f216" datatype="html">
         <source>User with that e-mail not found</source>
         <target>Utilisateur avec cet e-mail non trouvé</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/restore-password/restore-password.component.ts</context>
           <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5fcbff662da8119a640bf9babdbb588df0bf1ef3" datatype="html">
+        <source>Instructions sent to your e-mail</source>
+        <target>Instructions envoyées à votre e-mail</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/restore-password/sent/sent.component.ts</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4645345687322304891" datatype="html">
@@ -7582,6 +7976,22 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">126</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="428ec4beda33a96d1d44c802ac62ef5c5b859c96" datatype="html">
+        <source>If you have forgotten your username or password, you can use the [form of recovery by e-mail](/restore-password)</source>
+        <target>Si vous avez oublié votre login ou mot de passe, vous pouvez utiliser [le formulaire de récupération par e-mail](/restore-password)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b457331acc2519e8bb0e52dc5591a5fbf74082a6" datatype="html">
+        <source>If you are not registered on the website, you can [do it now](/signup)!</source>
+        <target>Si vous n'êtes pas enregistré sur le site, vous pouvez [le faire maintenant](/signup)!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="login/success-text" datatype="html">
         <source>We are glad to welcome you to our website</source>
         <target>Nous sommes heureux de vous revoir sur notre site</target>
@@ -7601,6 +8011,14 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       <trans-unit id="353e37a92a18f1759b21cbd61aa48276deb8c89a" datatype="html">
         <source>Successful registration</source>
         <target>Inscription réussie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signup/ok/ok.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="df3d3f58562b32b05baf737dc38b4d2b73f1d16c" datatype="html">
+        <source>Message with instructions to verify your e-mail sent.</source>
+        <target>Message contenant des instructions pour vérifier votre e-mail envoyé.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/signup/ok/ok.component.ts</context>
           <context context-type="linenumber">24</context>
@@ -7641,6 +8059,155 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       <trans-unit id="c8f5b00a17d38831130018f5b0e14b853ff133f4" datatype="html">
         <source>Telegram</source>
         <target>Telegram</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/telegram/telegram.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0b3d3e33949cbf8981b6bde0091f7eb8a6d130b4" datatype="html">
+        <source>[Telegram](https://telegram.org/) - is primarily a system of instant messaging, like WhatsApp or Viber.
+
+In addition to the messaging and file transfer, there are many other possibilities, which will go to the description of a lot of time.
+
+We only use two of them: public groups and bots.
+
+# Public group
+
+There are a public English-language and Russian-language groups for all site visitors.
+
+Join them is very simple - just click the link and follow the instructions:
+
+* [English-language](https://t.me/joinchat/AAAAAAvxJESUMQcUM-I5YA)
+* [Russian-language](https://t.me/joinchat/AAAAAA0NvB5g7SEsWv61Rw)
+
+# Bot
+
+To make you WheelsAge surfing more convenient we just created a &quot;bot&quot; for [telegram](https://telegram.org/) app. We hope it could be useful and easy to use.
+
+The bot name: [@autowp_bot](tg:msg).
+
+In short, the bot is a kind of telegram user, which can send you notifications from the site as messages.
+
+Learn more about telegram bots: &lt;https://core.telegram.org/bots/faq&gt;
+
+Currently supported features:
+* Notifications about newly personal messages. [Details ...](#messages)
+* Notifications about newly accepted pictures. [Details ...](#new)
+* Notifications about newly uploaded (but still waiting for accept) pictures (this feature works only authorized users). [Details ...](#inbox)
+
+## Bot commands
+
+### Start: `/start`
+
+By sending this command you will receive the list of currently supported commands.
+
+### Personal messages: `/messages`
+
+Send `/messages on` for subscribing to notifications about new personal messages.
+
+Send `/messages off` to unsubscribe.
+
+### New pictures: `/new`
+
+Send `/new BMW` for subscribing to new photos of BMW.
+
+Send `/new BMW` again to unsubscribe.
+
+
+### Inbox: `/inbox`
+
+Authorization by `/me` is required.
+
+Send `/inbox BMW` for subscribing to notifications about new uploads to BMW.
+
+Send `/inbox BMW` again to unsubscribe.
+
+### Me (authorization): `/me`
+
+This command allows you to associate themselves (telegram user) with an account on our site.
+
+Send `/me` to receive instructions for authorization.
+
+Send `/me 123456789` to recevice confirmation code.
+
+Where 123456789 - is your account number, which you can find on your profile page. For example, [Juliano Scotini](/users/juliano-scotini) has number 17322
+
+Confirmation code will be sent to you via [the private messaging system](/account/messages?folder=system)
+
+Send `/me 123456789 ХХХХХХХХХХХХХХХХ` to finish the process of association your telegram account without website user.
+
+Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [the private messaging system](/account/messages?folder=system)</source>
+        <target>[Telegram](https://telegram.org/) - est principalement un système de messagerie instantané, comme WhatsApp ou Viber.
+
+En addition du transfère de messages et de fichiers, il y a de nombreuses autres possibilités, leurs descriptions prendrait beaucoup de temps.
+
+Nous utilisons seulement 2 d&#039;entre elles: groupes publics et robots.
+
+# Groupes publics
+
+Il y a un groupe public en anglais et un autre en russe pour tout les visiteurs du site.
+
+Le rejoindre est très simple - juste cliquez sur le lien et suivez les instructions:
+
+* [Anglais](https://t.me/joinchat/AAAAAAvxJESUMQcUM-I5YA)
+* [Russe](https://t.me/joinchat/AAAAAA0NvB5g7SEsWv61Rw)
+
+# Robot
+
+pour rendre votre utilisation du site WheelsAge plus pratique, nous avons juste crée un robot pour l&#039;application [telegram](https://telegram.org/). On espère qu&#039;il sera utile et simple à utiliser.
+
+Le nom du robot: [@autowp_bot](tg:msg).
+
+En court, le robot est comme un utilisateur de telegram, qui peut vous envoyer des notifications depuis le site sous forme de messages.
+
+Apprenez en plus sur les robots telegram: &lt;https://core.telegram.org/bots/faq&gt;
+
+Les outils supportés actuellement sont:
+* Notification des nouveaux messages personnels. [Détails ...](#messages)
+* Notifications des nouvelles photos acceptées. [Détails ...](#new)
+* Notifications des images récemment soumises (mais qui sont toujours en attente d&#039;acceptation) (cette outil fonctionne uniquement avec les utilisateurs acceptés). [Détails ...](#inbox)
+
+## Commandes du robot
+
+### Démarrer: `/start`
+
+En envoyant cette commande, vous allez recevoir la liste des commandes actuellement supportés.
+
+### Messages personnels: `/messages`
+
+Envoyer `/messages on` pour s&#039;abonner aux notifications des nouvelles images personnelles.
+
+Envoyer `/messages off` pour se désinscrire.
+
+### Nouvelles images: `/new`
+
+Envoyer `/new BMW` pour s&#039;abonner aux nouvelles images de BMW.
+
+Envoyer `/new BMW` a nouveau pour se désabonner.
+
+### Boite de réception: `/inbox`
+
+Une autorisations par `/me` est requise.
+
+Envoyer `/inbox BMW` pour s&#039;abonner aux notifications a propos des nouvelles mises en ligne BMW.
+
+Envoyer `/inbox BMW` a nouveau pour se désabonner.
+
+### Moi (autorisation): `/me`
+
+Cette commande vous permet de vous associer (utilisateur telegram) avec un compte sur notre site.
+
+Envoyer `/me` pour recevoir des instructions pour l&#039;autorisation.
+
+Envoyer `/me 123456789` pour recevoir le code de confirmation.
+
+Ou 123456789 est votre numéro de comte, qui peut être trouvé sur la page de votre profil. Par exemple, [Juliano Scotini](/users/juliano-scotini) a le numéro 17322
+
+Le code de confirmation vous sera envoyé par [le système de messagerie privé](/account/messages?folder=system)
+
+Envoyer &#039;/me 123456789 ХХХХХХХХХХХХХХХХ` pour finir le processus d&#039;association avec votre compte telegram sans l&#039;utilisateur du site.
+
+Ou `ХХХХХХХХХХХХХХХХ` - le code qui vous sera envoyer par [le système de message privé](/account/messages?folder=system) .</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/telegram/telegram.component.ts</context>
           <context context-type="linenumber">24</context>
@@ -7726,6 +8293,51 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">95,102</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="bc23857484d32bf837d29fff71651b6254cf94a5" datatype="html">
+        <source>Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+
+Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
+
+Требования, предъявляемые к добавляемым картинкам:
+
+* [JPEG](http://ru.wikipedia.org/wiki/JPEG) or [PNG](http://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
+* Изображение должно по возможности быть максимально доступного качества, не содержать различных артефактов изменения размера или компрессии (размытия, нечёткости, расплытия цветов, ребристости прямых линий и т.д.). Исключение составляют редкие фото(производителя), сканы из проспектов. Решение об оставлении такого фото на сайте принимает модераторский состав.
+* Отсутствие надписей и логотипов посторонних сайтов, нанесенных не авторами/владельцами материала.
+* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отстутвие изменений, связанных со старением автомобиля.
+* Основной и единственной темой изображения должен являться автомобиль, двигатель, логотип автокомпании, автомобильный завод или музей. Наличие в кадре посторонних предметов или людей - нежелательно.
+* Любительские фотографии вашего автомобиля, автомобиля ваших друзей или любого другого, встретившегося вам на улице, а также фотографии с выставок - не будут приняты на сайт 100%. Если только вы не профессионал.
+* Для первых фотографий автомобиля возможны пониженные требования.
+
+**Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
+
+Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта.</source>
+        <target>Si vous avez une image que vous ne trouvez pas sur ce site et elle correspondes au thème du site, vous pouvez les ajouter dans notre catalogue en utilisant le formulaire ci-dessous.
+
+Ce serait formidable si vous aviez indiqué qu'une voiture est représentée sur la photo, pour faciliter son ajout et éviter les erreurs.
+
+Exigences pour les images ajoutées:
+
+* Le format [JPEG](http://ru.wikipedia.org/wiki/JPEG) ou [PNG](http://ru.wikipedia.org/wiki/PNG). Résolution: 640×360 jusqu'à 10000×10000.
+* L'image doit être d'excellente qualité, ne contient pas les différents artefacts redimensionnement ou compression (flou, la couleur propagation, nervures droites etc.). Les exceptions sont rares photos (fabricant), scans de brochures. La décision d'abandonner cette photo sur le site a fait l'équipe de modérateur.
+* L'absence d'inscriptions et les logos des sites étrangers, ne causé aucun auteurs/propriétaires des images.
+* La voiture doit avoir un premier regard à la sortie de l'usine. Il ne doit pas présenter des signes de &lt;em&gt;tuning maison&lt;/em&gt;, de préférence l'absence de changements liés à la voiture de vieillissement.
+* La voiture doit être placé complètement dans l'image. L'exception est lorsque l'image montre l'intérieur de la voiture, le moteur, le coffre, ou une caractéristique distinctive (par exemple, le titre de la voiture de série limitée).
+* Le principal et l'unique thème de l'image doit être la voiture, le logo d'une marque ou d'un moteur. La présence de corps étrangèrs ou de personnes dans le cadre est indésirable.
+* Photos amateur de votre voiture, de la voiture de vos amis, ou tout autre, vous rencontrent dans la rue, ainsi que des photos des expositions ne seront pas acceptées sur le site, sauf si vous êtes un professionnel.
+* Pour les premières photos de la voiture sont possibles des exigences.
+
+**S'il vous plaît**, avant d'ajouter des images, assurez-vous qu'ils ne sont pas dans le catalogue.
+
+S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les photos avant d'ajouter au catalogue seront testés par moderateurs.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/upload/upload.component.html</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
+          <context context-type="linenumber">279</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6029843669852625022" datatype="html">
         <source>Add picture</source>
         <target>Ajouter une image</target>
@@ -7734,12 +8346,24 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="linenumber">82,83</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="156cbb37f7b1d88813f4ad8bf363f8be78a6e700" datatype="html">
+        <source>Only registered users can upload pictures
+
+[Login](/login) or [register](/signup)</source>
+        <target>Seuls les utilisateurs inscrits peuvent téléverser des images
+
+[Se connecter](/login) ou [s'inscrire](/signup)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
+          <context context-type="linenumber">115,133</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3f59eb3b2f1985def97a8ef897b363e3ba784d1c" datatype="html">
         <source>Selection</source>
         <target>Selection</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">112,122</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ef94d495bca1db90159744ea5f2a4709f3c180ea" datatype="html">
@@ -7747,7 +8371,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>choisissez un autre catalogue</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">141,154</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7a2d1d937b201c243f89b3cc2a6cc1102e01c4d1" datatype="html">
@@ -7755,7 +8379,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Dossier de l'image</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">172,180</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c54befce78d70e20c215f10a00e617245f53bc9" datatype="html">
@@ -7763,7 +8387,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>Note</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">194,204</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b6be02d974b446668a0abd7fae5b58de4ab522ce" datatype="html">
@@ -7771,7 +8395,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>rogner</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">230,238</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f7798e9a8edd64fb9c53f4a187558b88a7aed9d5" datatype="html">
@@ -7779,7 +8403,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <target>rogner pour <x id="INTERPOLATION" equiv-text="{{picture.crop.width + &apos;×&apos; + picture.crop.height + &apos;+&apos; + picture.crop.left + &apos;+&apos; +picture.crop.top}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
-          <context context-type="linenumber">256</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="87c144ebcf59a31509bb947159e7936a5a73c8f4" datatype="html">
@@ -7804,6 +8428,30 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/online/online.component.ts</context>
           <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6997783649334365457" datatype="html">
+        <source>Specs volume</source>
+        <target>Spécifications de volume</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
+          <context context-type="linenumber">76,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7112532281224432421" datatype="html">
+        <source>Likes</source>
+        <target>Likes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
+          <context context-type="linenumber">82,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71158856268490945" datatype="html">
+        <source>Picture likes</source>
+        <target>Likes de l'image</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
+          <context context-type="linenumber">85,86</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5425b5b6fa92d039743fa988f90f2a58b0dc62ab" datatype="html">
@@ -8109,22 +8757,6 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
           <context context-type="sourcefile">src/app/voting/voting.component.ts</context>
           <context context-type="linenumber">122</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="b060df75f545ba1e4c7ee34532c35d9341b7787c">
-        <source>New (confirm)</source>
-        <target>Nouveau (confirmation)</target>
-      </trans-unit>
-      <trans-unit id="8086096278566772404">
-        <source>catalogue/specifications</source>
-        <target>catalogue/spécifications</target>
-      </trans-unit>
-      <trans-unit id="picture/image-specifications">
-        <source>Image specifications:</source>
-        <target>Caractéristiques de l'image</target>
-      </trans-unit>
-      <trans-unit id="picture/moderators-about-this-picture">
-        <source>Moderators about this picture:</source>
-        <target>L'opinion des modérateurs</target>
       </trans-unit>
     </body>
   </file>

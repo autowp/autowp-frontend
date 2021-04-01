@@ -7,6 +7,7 @@ import { APIUser } from '../../services/user';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIForumTheme, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import { getForumsThemeTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-forums-new-topic',
@@ -108,5 +109,9 @@ export class ForumsNewTopicComponent implements OnInit, OnDestroy {
           }
         }
       );
+  }
+
+  public getForumsThemeTranslation(id: string): string {
+    return getForumsThemeTranslation(id);
   }
 }

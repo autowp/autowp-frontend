@@ -12,6 +12,7 @@ import {
   switchMapTo, map
 } from 'rxjs/operators';
 import { APIAttrConflictValue, APIAttrConflict, APIAttrsService } from '../../api/attrs/attrs.service';
+import { getUnitTranslation } from '../../utils/translations';
 
 interface APIAttrConflictValueInList extends APIAttrConflictValue {
   user?: APIUser;
@@ -110,5 +111,9 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.querySub.unsubscribe();
+  }
+
+  public getUnitTranslation(id: number, type: string): string {
+    return getUnitTranslation(id, type);
   }
 }

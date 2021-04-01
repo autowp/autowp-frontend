@@ -28,7 +28,7 @@
 
     <ng-container *ngIf="canAddItem && item.is_group">
       <i class="fa fa-plus" aria-hidden="true"></i>
-      <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{('item/type/' + item.item_type_id + '/add-sub-item')|translate}}</a>
+      <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{getItemTypeTranslation(item.item_type_id, 'add-sub-item')}}</a>
     </ng-container>
 
     <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">

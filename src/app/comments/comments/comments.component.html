@@ -5,5 +5,5 @@
   <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
 
   <app-comments-form [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)" *ngIf="user"></app-comments-form>
-  <app-markdown *ngIf="!user" class="alert alert-block alert-info" [markdown]="'comments/what-to-do-for-write-comments'|translate"></app-markdown>
+  <app-markdown *ngIf="!user" class="alert alert-block alert-info" i18n-markdown markdown="To be able to post a comment, you must [create an account or sign in using social networks account](/login)"></app-markdown>
 </div>

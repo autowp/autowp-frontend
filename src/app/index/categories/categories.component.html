@@ -5,4 +5,4 @@
 <p *ngIf="categories">
   <app-index-categories-category [category]="category" *ngFor="let category of categories"></app-index-categories-category>
 </p>
-<app-markdown [markdown]="'index/categories/description'|translate" *ngIf="['ru', 'zh', 'fr', 'be', 'pt-br', 'uk', 'es'].indexOf(language) > -1"></app-markdown>
+<app-markdown i18n-markdown markdown="А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел." *ngIf="['ru', 'zh', 'fr', 'be', 'pt-br', 'uk', 'es'].indexOf(language) > -1"></app-markdown>

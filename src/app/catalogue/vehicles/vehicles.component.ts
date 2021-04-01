@@ -10,6 +10,7 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {Breadcrumbs, CatalogueService} from '../catalogue-service';
 import {APIPicture, PictureService} from '../../services/picture';
+import { getItemTypeTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-catalogue-vehicles',
@@ -259,4 +260,7 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  public getItemTypeTranslation(id: number, type: string) {
+    return getItemTypeTranslation(id, type);
+  }
 }

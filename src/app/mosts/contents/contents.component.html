@@ -23,7 +23,7 @@
         <span *ngIf="type.catname == typeCatname" [textContent]="type.name|translate">
         </span>
       </ng-container>
-      <span *ngIf="!typeCatname" translate>item/type/1/name</span>
+      <span *ngIf="!typeCatname" i18n>Vehicle</span>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
@@ -77,7 +77,7 @@
       <h3 ngPreserveWhitespaces>
         <span *ngIf="item.value_html" [innerHTML]="item.value_html"></span>
         <span *ngIf="!item.value_html && item.value_text" [innerHTML]="item.value_text"></span>
-        <small class="unit" *ngIf="item.unit" [textContent]="item.unit.abbr | translate" placement="top" [ngbTooltip]="item.unit.name|translate"></small>
+        <small class="unit" *ngIf="item.unit" [textContent]="getUnitTranslation(item.unit.id, 'abbr')" placement="top" [ngbTooltip]="getUnitTranslation(item.unit.id, 'name')"></small>
       </h3>
     </div>
   </div>

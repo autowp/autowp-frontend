@@ -14,6 +14,7 @@ import {
   tap,
   switchMap, map
 } from 'rxjs/operators';
+import { getUnitTranslation } from '../../utils/translations';
 
 function vehicleTypesToList(vehilceTypes: APIVehicleType[]): APIVehicleType[] {
   const result: APIVehicleType[] = [];
@@ -130,5 +131,9 @@ export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
       nameTranslated: $localize `Mostly`,
       pageId: 21
     });
+  }
+
+  public getUnitTranslation(id: number, type: string): string {
+    return getUnitTranslation(id, type);
   }
 }

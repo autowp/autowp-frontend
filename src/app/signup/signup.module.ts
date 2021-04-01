@@ -7,7 +7,6 @@ import { SignupComponent } from './signup.component';
 import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
 import { UtilsModule } from '../utils/utils.module';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [SignupComponent, SignupOkComponent],
@@ -17,8 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     RecaptchaModule,
     RecaptchaFormsModule,
     UtilsModule,
-    FormsModule,
-    TranslateModule
+    FormsModule
   ]
 })
 export class SignupModule {}

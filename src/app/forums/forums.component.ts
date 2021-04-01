@@ -7,7 +7,7 @@ import {PageEnvService} from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {TranslateService} from '@ngx-translate/core';
+import {getForumsThemeTranslation} from '../utils/translations';
 
 @Component({
   selector: 'app-forums',
@@ -29,7 +29,6 @@ export class ForumsComponent implements OnInit, OnDestroy {
     private forumService: ForumsService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -83,25 +82,23 @@ export class ForumsComponent implements OnInit, OnDestroy {
         this.theme = data.theme;
         this.themes = data.themes;
 
-        this.translate.get(this.theme.name).subscribe(translation => {
-          if (this.theme) {
-            this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
-              nameTranslated: translation,
-              pageId: 43
-            });
-          } else {
-            this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
-              nameTranslated: $localize `Forums`,
-              pageId: 42
-            });
-          }
-        });
+        if (this.theme) {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            nameTranslated: getForumsThemeTranslation(this.theme.name),
+            pageId: 43
+          });
+        } else {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            nameTranslated: $localize `Forums`,
+            pageId: 42
+          });
+        }
       });
   }
 
@@ -142,5 +139,9 @@ export class ForumsComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  public getForumsThemeTranslation(id: string): string {
+    return getForumsThemeTranslation(id);
   }
 }

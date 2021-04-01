@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { SigninRoutingModule } from './signin-routing.module';
 import { SignInComponent } from './signin.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
 import { FormsModule } from '@angular/forms';
 
@@ -12,7 +11,6 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     SigninRoutingModule,
-    TranslateModule,
     UtilsModule,
     FormsModule
   ]

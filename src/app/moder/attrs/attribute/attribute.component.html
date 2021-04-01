@@ -100,7 +100,7 @@
               <span *ngIf="!attribute.type_id">—</span>
             </td>
             <td>
-              <span *ngIf="attribute.unit" [textContent]="attribute.unit.name|translate"></span>
+              <span *ngIf="attribute.unit" [textContent]="getUnitTranslation(attribute.unit.id, 'name')"></span>
               <span *ngIf="!attribute.unit">—</span>
             </td>
           </tr>

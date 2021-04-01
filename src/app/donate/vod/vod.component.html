@@ -13,7 +13,11 @@
   <h1 i18n>Theme of the day</h1>
 </div>
 
-<app-markdown [markdown]="'donate/vod/text'|translate"></app-markdown>
+<app-markdown i18n-markdown markdown="The little that we can offer in return for financial assistance of the site - it is an opportunity to choose the next &quot;vehicle of the day&quot;.
+
+Follow the instructions below.
+
+We will be happy if you want to [perform selfless donation](/donate) to an arbitrary amount."></app-markdown>
 
 <h1 i18n>1. Choose a date</h1>
 <div class="card card-body mb-4">
@@ -40,7 +44,10 @@
 <h1 i18n>2. Choose vehicle</h1>
 <div class="card card-body mb-4">
 
-  <app-markdown [markdown]="'donate/vod/select-item-text'|translate"></app-markdown>
+  <app-markdown i18n-markdown markdown="Almost any vehicle can be &quot;Vehicle of the day&quot;, but there are some limitations:
+
+- the vehicle must be selected for the first time
+- the vehicle must have at least 3 photos"></app-markdown>
 
   <p *ngIf="selectedItem">
     <ng-container i18n>Selection:</ng-container>

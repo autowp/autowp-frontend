@@ -21,7 +21,7 @@
           <span *ngIf="i"> / </span>
           <span [textContent]="node | translate"></span>
         </span>
-        <span *ngIf="value.unit" [textContent]="value.unit.name | translate"></span>
+        <span *ngIf="value.unit" [textContent]="getUnitTranslation(value.unit.id, 'name')"></span>
       </td>
       <td>{{value.value}}</td>
       <td>

@@ -13,6 +13,7 @@ import {
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
+import { getForumsThemeTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-forums-move-message',
@@ -112,5 +113,9 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
           }),
         subresponse => this.toastService.response(subresponse)
       );
+  }
+
+  public getForumsThemeTranslation(id: string): string {
+    return getForumsThemeTranslation(id);
   }
 }

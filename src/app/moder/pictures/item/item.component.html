@@ -221,7 +221,14 @@
 
     <h3 i18n>Copyrights</h3>
     <div class="card card-body mb-4">
-      <app-markdown [markdown]="'moder/markdown/description'|translate"></app-markdown>
+      <app-markdown i18n-markdown markdown="Markdown syntax.
+
+Few manuals:
+[1](https://en.wikipedia.org/wiki/Markdown),
+[2](https://guides.github.com/features/mastering-markdown/),
+[3](https://daringfireball.net/projects/markdown/basics),
+
+Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-markdown>
       <app-markdown-edit [(text)]="picture.copyrights"></app-markdown-edit>
       <button class="btn btn-primary" (click)="saveCopyrights()" i18n>Submit</button>
       <p *ngIf="picture.copyrights_text_id">

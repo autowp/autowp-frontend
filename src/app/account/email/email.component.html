@@ -18,7 +18,9 @@
           <a [href]="email" [textContent]="email"></a>
         </p>
         <p i18n *ngIf="!email">You don't input e-mail address</p>
-        <app-markdown [markdown]="'account/email/text'|translate"></app-markdown>
+        <app-markdown i18n-markdown markdown="On this page you can change your e-mail address.
+
+Message with instructions to confirm will sent to new address."></app-markdown>
         <form method="post" class="form-horizontal" (submit)="submit()" novalidate="">
           <div class="form-group row">
             <label class="col-md-2 col-form-label" for="email">E-mail</label>

@@ -12,7 +12,11 @@
       <h1 i18n>Account delete</h1>
     </div>
     <div class="card card-body">
-      <app-markdown [markdown]="'account/delete/text'|translate"></app-markdown>
+      <app-markdown i18n-markdown markdown="Мы сожалем, что вам пришлось оказаться на этой странице, и вы планируете покинуть наш сайт навсегда, но не можем вам в этом отказать.
+
+Нажав на красную кнопку, все данные, касающиеся вас, будут обезличены или удалены.
+
+Этот процесс необратим, поэтому хорошенько подумайте и не принимайте поспешных решений."></app-markdown>
       <hr />
       <form class="form-horizontal" (submit)="submit()">
         <div class="form-group row">

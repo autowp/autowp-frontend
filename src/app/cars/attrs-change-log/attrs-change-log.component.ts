@@ -8,6 +8,7 @@ import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIAttrsService, APIAttrUserValue} from '../../api/attrs/attrs.service';
+import { getUnitTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-cars-attrs-change-log',
@@ -70,7 +71,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `History`,
+          nameTranslated: $localize`History`,
           pageId: 103
         }),
       0
@@ -132,5 +133,9 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.querySub.unsubscribe();
+  }
+
+  public getUnitTranslation(id: number, type: string): string {
+    return getUnitTranslation(id, type);
   }
 }

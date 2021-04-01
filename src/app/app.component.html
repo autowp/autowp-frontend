@@ -145,7 +145,7 @@
         </div>
         <p ngPreserveWhitespaces>
           <i class="fa fa-comment" aria-hidden="true"></i>
-          <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" translate [translateParams]="{ messages: newPersonalMessages }">ng-layout/you-have-new-messages</a>
+          <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" i18n>{newPersonalMessages, plural, one {You have {{newPersonalMessages}} new message} other {You have {{newPersonalMessages}} new messages}}</a>
           <a routerLink="/account/messages" *ngIf="!newPersonalMessages" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
       </div>
@@ -219,7 +219,13 @@
         </p>
       </div>
       <div class="col-md-6">
-        <app-markdown class="card card-body copyrights" [markdown]="'layout/footer'|translate"></app-markdown>
+        <app-markdown class="card card-body copyrights" markdown="Please note that all material on this server autowp.ru, added visitors.
+
+The site administration does not have information on the legality of the publication of these materials.
+
+All images are posted for educational purposes.
+
+[Report copyright violation](mailto:autowp@yandex.ru)" i18n-markdown></app-markdown>
       </div>
     </div>
     <p class="language-picker">

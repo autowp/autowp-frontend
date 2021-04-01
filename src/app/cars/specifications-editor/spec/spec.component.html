@@ -55,7 +55,7 @@
               [disabled]="currentUserValues[attribute.id].empty" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
             />
             <div class="input-group-append" *ngIf="attribute.unit">
-              <span [title]="attribute.unit.name|translate" class="unit input-group-text" [textContent]="attribute.unit.abbr|translate"></span>
+              <span [title]="getUnitTranslation(attribute.unit.id, 'name')" class="unit input-group-text" [textContent]="getUnitTranslation(attribute.unit.id, 'abbr')"></span>
             </div>
           </div>
           <p *ngFor="let message of getInvalidParams(attribute.id)" [textContent]="message" class="invalid-feedback" [class.d-block]="invalidParams && invalidParams.items[attribute.id]"></p>
@@ -66,7 +66,7 @@
             <em *ngIf="values.get(attribute.id)['value'] === null" i18n>none</em>
             <span *ngIf="values.get(attribute.id)['value'] !== null">
               {{values.get(attribute.id)['value_text']}}
-              <span *ngIf="attribute.unit" class="unit" [title]="attribute.unit.name|translate" [textContent]="attribute.unit.abbr|translate"></span>
+              <span *ngIf="attribute.unit" class="unit" [title]="getUnitTranslation(attribute.unit.id, 'name')" [textContent]="getUnitTranslation(attribute.unit.id, 'abbr')"></span>
             </span>
           </div>
         </td>

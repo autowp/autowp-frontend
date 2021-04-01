@@ -22,7 +22,9 @@
   </a>
 </div>
 
-<app-markdown class="d-block alert alert-danger" *ngIf="specsWeight < 1" [markdown]="'specifications-editor/errors-alert'|translate"></app-markdown>
+<app-markdown class="d-block alert alert-danger" *ngIf="specsWeight < 1" i18n-markdown markdown="**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+
+Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)"></app-markdown>
 
 <ul class="nav nav-tabs" id="myTab">
   <li class="nav-item" *ngIf="item">
@@ -67,7 +69,19 @@
     <i class="fa fa-spinner fa-spin fa-fw fa-4x" aria-hidden="true"></i>
   </span>
   <div class="tab-pane active" id="info" *ngIf="tab == 'info'">
-    <app-markdown [markdown]="'specifications-editor/description'|translate"></app-markdown>
+    <app-markdown i18n-markdown markdown="Просьба отнестить со всей ответственностью ко всем выполняемым действиям, т.к. они станут достоянием общественности.
+
+
+О структуре самих характеристик.
+
+Все характеристики организованы в виде дерева элементов &quot;параметр - значение&quot;. Значения могут быть числовыми и текстовыми.
+
+Важной особенностью является тот факт, что каждая характеристика может быть задана одновременно несколькими пользователями. В этом случае актуальным (используемым) значением является то, которое система сочтет приоритетным по ряду признаков.
+
+Если вы столкнулись с ситуацией, когда вам не удаётся перекрыть введенное кем-то ранее значение, то вы можете просто написать об этом автору. Впрочем в процессе реализации система автоматического уведомления автором о том, что с его значением кто-то не согласен.
+
+
+Все значения, которые здесь вводятся - отображаются на сайте, в характеристиках, используются в построении разделы &quot;самые-самые&quot;, а также отображаются в некоторых других местах сайта."></app-markdown>
   </div>
   <div class="tab-pane active" id="engine" *ngIf="tab == 'engine' && item && item.item_type_id == 1">
     <app-cars-specifications-editor-engine [item]="item" (changed)="onEngineChanged()"></app-cars-specifications-editor-engine>

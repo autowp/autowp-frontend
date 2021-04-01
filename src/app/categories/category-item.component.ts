@@ -9,6 +9,7 @@ import {APIPaginator} from '../services/api.service';
 import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '../services/item-parent';
 import {APIPicture, APIPictureGetResponse, PictureService} from '../services/picture';
 import {CatagoriesService} from './service';
+import { getItemTypeTranslation } from '../utils/translations';
 
 interface PathItem {
   routerLink: string[];
@@ -229,4 +230,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getItemTypeTranslation(id: number, type: string) {
+    return getItemTypeTranslation(id, type);
+  }
 }

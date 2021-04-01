@@ -5,7 +5,6 @@ import { CommentsVotesComponent } from './votes/votes.component';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { CommentsListComponent } from './list/list.component';
 import { CommentsFormComponent } from './form/form.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { UserModule } from '../user/user.module';
 import { MomentModule } from 'ngx-moment';
@@ -25,7 +24,6 @@ import {ThumbnailModule} from '../thumbnail/thumbnail.module';
   imports: [
     CommonModule,
     PaginatorModule,
-    TranslateModule.forChild(),
     RouterModule.forChild([]),
     UserModule,
     NgbTooltipModule,

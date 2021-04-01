@@ -8,7 +8,7 @@
 <h4 ngPreserveWhitespaces>
   <a [routerLink]="['/', brand.catname]" [textContent]="brand.name"></a>
   <small>({{brand.totalCars - brand.newCars}}<span *ngIf="brand.newCars > 0" [ngbPopover]="popover" (shown)="shown()" triggers="mouseenter:mouseleave"
-    [popoverTitle]="'brands/new-cars-of-brand'|translate:{brand: brand.name}" [textContent]="'+' + brand.newCars"></span>)</small>
+    popoverTitle="New {{brand.name}} vehicles" [textContent]="'+' + brand.newCars" i18n-popoverTitle></span>)</small>
 </h4>
 <p>
   <small><ng-container i18n>pictures:</ng-container> {{brand.totalPictures}}</small>

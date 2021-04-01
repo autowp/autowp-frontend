@@ -7,7 +7,6 @@ import { PaginatorModule } from '../paginator/paginator.module';
 import { UserModule } from '../user/user.module';
 import { MomentModule } from 'ngx-moment';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [LogComponent],
@@ -17,8 +16,7 @@ import {TranslateModule} from '@ngx-translate/core';
     PaginatorModule,
     UserModule,
     MomentModule,
-    NgbTooltipModule,
-    TranslateModule
+    NgbTooltipModule
   ]
 })
 export class LogModule {}

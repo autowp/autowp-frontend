@@ -33,7 +33,7 @@
 
     <h2 i18n>Photo</h2>
     <div class="card card-body mb-4">
-      <app-markdown [markdown]="'account/profile/use-gravatar'|translate"></app-markdown>
+      <app-markdown i18n-markdown markdown="You can upload photo or use [Gravatar](http://gravatar.com/)"></app-markdown>
       <div *ngIf="photo">
         <img alt="" [src]="photo.src" class="mb-4" />
         <p *ngFor="let message of photoInvalidParams | invalidParams : 'file'" [textContent]="message" class="invalid-feedback" style="display:block"></p>

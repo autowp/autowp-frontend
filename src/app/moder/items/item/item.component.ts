@@ -8,6 +8,7 @@ import {PageEnvService} from '../../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, switchMapTo, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
+import { getItemTypeTranslation } from '../../../utils/translations';
 
 export interface APIItemTreeItem {
   id: number;
@@ -239,5 +240,9 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.item.subscription = newValue;
       });
+  }
+
+  public getItemTypeTranslation(id: number, type: string) {
+    return getItemTypeTranslation(id, type);
   }
 }

@@ -10,6 +10,7 @@ import {chunkBy} from '../../../chunk';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {APIItemParent} from '../../../services/item-parent';
+import { getItemTypeTranslation } from '../../../utils/translations';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures',
@@ -131,4 +132,7 @@ export class CatalogueVehiclesPicturesComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  public getItemTypeTranslation(id: number, type: string) {
+    return getItemTypeTranslation(id, type);
+  }
 }
