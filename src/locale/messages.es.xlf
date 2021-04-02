@@ -2043,6 +2043,17 @@ Se enviará un mensaje a la nueva dirección, con instrucciones para confirmar e
           <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="673b3c1230edad4e7fc726f757239f3fab5e990b" datatype="html">
+        <source>{VAR_PLURAL, plural, one {You have <x id="INTERPOLATION"/> new message} other {You have <x id="INTERPOLATION"/> new messages}}</source>
+        <target>{VAR_PLURAL, plural,
+one {Usted tiene <x id="INTERPOLATION"/> nuevo mensaje}
+other {Usted tiene <x id="INTERPOLATION"/> nuevos mensajes}
+}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="layout/personal-messages" datatype="html">
         <source>Personal messages</source>
         <target>Mensajes personales</target>
@@ -3330,7 +3341,7 @@ Puede encontrar algunos de ellos descubiertos por otros visitantes [aquí] (/ ac
         <target>Producida una sola unidad</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">54,59</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>

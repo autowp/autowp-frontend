@@ -24,21 +24,21 @@
       &#x2190;
       <a [routerLink]="['/inbox', brandID ? brandID : 'all', prev.date]" [textContent]="prev.date | amDateFormat: 'LL'"></a>
       <br />
-      <small>(<span translate [translateParams]="{count: prev.count}">ng/%1$s-pictures</span>)</small>
+      <small>(<span i18n="@@n-pictures">{prev.count, plural, one {{{prev.count}} picture} other {{{prev.count}} pictures}}</span>)</small>
     </h3>
   </div>
   <div class="col-lg-4 col-md-4">
     <h3 class="text-center" *ngIf="current">
       <span [textContent]="current.date | amDateFormat: 'LL'"></span>
       <br />
-      <small>(<span translate [translateParams]="{count: current.count}">ng/%1$s-pictures</span>)</small>
+      <small>(<span i18n="@@n-pictures">{current.count, plural, one {{{current.count}} picture} other {{{current.count}} pictures}}</span>)</small>
     </h3>
   </div>
   <div class="col-lg-4 col-md-4">
     <h3 class="text-right" *ngIf="next && next.date">
       <a [routerLink]="['/inbox', brandID ? brandID : 'all', next.date]" [textContent]="next.date | amDateFormat: 'LL'"></a>
       <br />
-      <small>(<span translate [translateParams]="{count: next.count}">ng/%1$s-pictures</span>)</small>
+      <small>(<span i18n="@@n-pictures">{next.count, plural, one {{{next.count}} picture} other {{{next.count}} pictures}}</span>)</small>
       &#x2192;
     </h3>
   </div>

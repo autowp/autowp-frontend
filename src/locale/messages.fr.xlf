@@ -2056,6 +2056,14 @@ Un email de vérification vous sera envoyé afin de confirmer votre nouvelle adr
           <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="673b3c1230edad4e7fc726f757239f3fab5e990b" datatype="html">
+        <source>{VAR_PLURAL, plural, one {You have <x id="INTERPOLATION"/> new message} other {You have <x id="INTERPOLATION"/> new messages}}</source>
+        <target>{VAR_PLURAL, plural, one {Vous avez <x id="INTERPOLATION"/> nouveau message} other {Vous avez <x id="INTERPOLATION"/> nouveaux messages}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="layout/personal-messages" datatype="html">
         <source>Personal messages</source>
         <target>Messages personnels</target>
@@ -3354,12 +3362,60 @@ Certains d'entre eux, trouvés par d'autres utilisateurs, vous pouvez trouver [i
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="n-produced" datatype="html">
+        <source>{VAR_PLURAL, plural, one {Produced in <x id="INTERPOLATION"/> copy} other {Produced in <x id="INTERPOLATION"/> copies}}</source>
+        <target>{VAR_PLURAL, plural, one {Produit en <x id="INTERPOLATION"/> exemplaire} other {Produit à <x id="INTERPOLATION"/> exemplaires}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/list-item/list-item.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/item/item.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-produced-about" datatype="html">
+        <source>{VAR_PLURAL, plural, one {Produced in about <x id="INTERPOLATION"/> copy} other {Produced in about <x id="INTERPOLATION"/> copies}}</source>
+        <target>{VAR_PLURAL, plural, one {Produit à environ <x id="INTERPOLATION"/> exemplaire} other {Produit à environ <x id="INTERPOLATION"/> exemplaires}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/list-item/list-item.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/item/item.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a782f175438fca89bafd622f474552328bd51254" datatype="html">
         <source>Produced in a single copy</source>
         <target>Produit en un seul exemplaire</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">54,59</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -4430,6 +4486,38 @@ Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) 
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">177,189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-pictures" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> picture} other {<x id="INTERPOLATION"/> pictures}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> image} other {<x id="INTERPOLATION"/> images}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
+          <context context-type="linenumber">110,124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
+          <context context-type="linenumber">142,159</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">643</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/new.component.ts</context>
+          <context context-type="linenumber">99,110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/new.component.ts</context>
+          <context context-type="linenumber">127,140</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/new.component.ts</context>
+          <context context-type="linenumber">156</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5ec194d40909d4ba0a93ad1e374cf53aeb70830b" datatype="html">

@@ -5,8 +5,8 @@
 
 <ng-container *ngIf="item.produced">
   <small *ngIf="item.produced.count > 1" class="ml-2">
-    <span *ngIf="item.produced.exactly" translate [translateParams]="{count: item.produced.count}">ng/carlist/produced/%1$s</span>
-    <span *ngIf="!item.produced.exactly" translate [translateParams]="{count: item.produced.count}">ng/carlist/produced-about/%1$s</span>
+    <span *ngIf="item.produced.exactly" i18n="@@n-produced">{item.produced.count, plural, one {Produced in {{item.produced.count}} copy} other {Produced in {{item.produced.count}} copies}}</span>
+    <span *ngIf="!item.produced.exactly" i18n="@@n-produced-about">{item.produced.count, plural, one {Produced in about {{item.produced.count}} copy} other {Produced in about {{item.produced.count}} copies}}</span>
   </small>
   <small i18n *ngIf="item.produced.count == 1" class="ml-2">Produced in a single copy</small>
 </ng-container>

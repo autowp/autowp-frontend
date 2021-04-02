@@ -20,7 +20,7 @@
         <h5 class="card-title">
           <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
         </h5>
-        <p translate [translateParams]="{count: category.descendants_count}">{{'{count} vehicles'}}</p>
+        <p i18n="@@n-vehicles">{category.descendants_count, plural, one {{{category.descendants_count}} vehicle} other {{{category.descendants_count}} vehicles}}</p>
       </div>
     </div>
   </div>

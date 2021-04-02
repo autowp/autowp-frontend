@@ -2051,6 +2051,19 @@ Message with instructions to confirm will sent to new address.</source>
           <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="673b3c1230edad4e7fc726f757239f3fab5e990b" datatype="html">
+        <source>{VAR_PLURAL, plural, one {You have <x id="INTERPOLATION"/> new message} other {You have <x id="INTERPOLATION"/> new messages}}</source>
+        <target>{VAR_PLURAL, plural,
+        one {У вас <x id="INTERPOLATION"/> новое сообщение}
+        few {У вас <x id="INTERPOLATION"/> новых сообщения}
+        many {У вас <x id="INTERPOLATION"/> новых сообщений}
+        other {У вас <x id="INTERPOLATION"/> новых сообщений}
+    }</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="layout/personal-messages" datatype="html">
         <source>Personal messages</source>
         <target>Личные сообщения</target>
@@ -3319,6 +3332,14 @@ All images are posted for educational purposes.
           <context context-type="linenumber">17,18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="n-vehicles" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> vehicle} other {<x id="INTERPOLATION"/> vehicles}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> автомобиль} few {<x id="INTERPOLATION"/> автомобиля} many {<x id="INTERPOLATION"/> автомобилей} other {<x id="INTERPOLATION"/> автомобилей}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/categories/index.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9b11da22eb53d5495803a59502795aa421b1f4fa" datatype="html">
         <source>designed by</source>
         <target>дизайн </target>
@@ -3351,12 +3372,60 @@ All images are posted for educational purposes.
           <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="n-produced" datatype="html">
+        <source>{VAR_PLURAL, plural, one {Produced in <x id="INTERPOLATION"/> copy} other {Produced in <x id="INTERPOLATION"/> copies}}</source>
+        <target>{VAR_PLURAL, plural, one {Произведена <x id="INTERPOLATION"/> единица} few {Произведено <x id="INTERPOLATION"/> единиц} many {Произведены <x id="INTERPOLATION"/> единицы} other {Произведены <x id="INTERPOLATION"/> единицы}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/list-item/list-item.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/item/item.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-produced-about" datatype="html">
+        <source>{VAR_PLURAL, plural, one {Produced in about <x id="INTERPOLATION"/> copy} other {Produced in about <x id="INTERPOLATION"/> copies}}</source>
+        <target>{VAR_PLURAL, plural, one {Произведена примерно <x id="INTERPOLATION"/> единица} few {Произведено примерно <x id="INTERPOLATION"/> единиц} many {Произведены примерно <x id="INTERPOLATION"/> единицы} other {Произведены примерно <x id="INTERPOLATION"/> единицы}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/list-item/list-item.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/item/item.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a782f175438fca89bafd622f474552328bd51254" datatype="html">
         <source>Produced in a single copy</source>
         <target>Произведен в единственном экземпляре</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">54,59</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -4427,6 +4496,38 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">177,189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-pictures" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> picture} other {<x id="INTERPOLATION"/> pictures}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> изображение} few {<x id="INTERPOLATION"/> изображения} many {<x id="INTERPOLATION"/> изображений} other {<x id="INTERPOLATION"/> изображений}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
+          <context context-type="linenumber">110,124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
+          <context context-type="linenumber">142,159</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">643</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/new.component.ts</context>
+          <context context-type="linenumber">99,110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/new.component.ts</context>
+          <context context-type="linenumber">127,140</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/new/new.component.ts</context>
+          <context context-type="linenumber">156</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5ec194d40909d4ba0a93ad1e374cf53aeb70830b" datatype="html">
@@ -6175,6 +6276,14 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">435</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="d009e632f1134e2f6fc11a953d64a2bdcfe7812a" datatype="html">
+        <source>Have childs with type</source>
+        <target>Имеет подразделы с типом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
+          <context context-type="linenumber">435</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="16d449549ab7bc61caf3d636372a4a56b5870383" datatype="html">
         <source>Any</source>
         <target>Любой</target>
@@ -6214,6 +6323,30 @@ If you are not registered yet, please do so now [on the registration page](/sign
       <trans-unit id="5704ec2049d007c5f5fb495a5d8b607e68d58081" datatype="html">
         <source>Order</source>
         <target>Сортировка</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
+          <context context-type="linenumber">435</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="031648660e6baea418076a48d4b43a850eff0c13" datatype="html">
+        <source>id desc</source>
+        <target>id убывание</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
+          <context context-type="linenumber">435</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0088e62b3fb25bdf571471e70d52077bb1fa9022" datatype="html">
+        <source>id asc</source>
+        <target>id возрастание</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
+          <context context-type="linenumber">435</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="05ada2a39609d798b2421c77cb2c3287541d6efe" datatype="html">
+        <source>childs count</source>
+        <target>количество подразделов</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
           <context context-type="linenumber">435</context>
@@ -6617,6 +6750,14 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
           <context context-type="linenumber">333</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d5f4d7abe93d192366c0290168b7421ce33b816d" datatype="html">
+        <source>Area</source>
+        <target>Площадь</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">147,152</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b5dc802abeaf915308d0dcae10e84136548bbf7e" datatype="html">
