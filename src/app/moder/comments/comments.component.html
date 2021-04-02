@@ -64,7 +64,7 @@
       <span [hidden]="loading <= 0">
         <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
       </span>
-      <small *ngIf="paginator && paginator.totalItemCount" translate [translateParams]="{count: paginator.totalItemCount}">ng/%1$s-comments</small>
+      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} comment} other {{{paginator.totalItemCount}} comments}}</small>
     </h2>
 
     <ul class="comments">

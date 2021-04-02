@@ -1377,7 +1377,7 @@ Un email de vérification vous sera envoyé afin de confirmer votre nouvelle adr
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="58c426f3016b094c32b0c70f21d9655d4c4a7f50" datatype="html">
@@ -3330,6 +3330,14 @@ Certains d'entre eux, trouvés par d'autres utilisateurs, vous pouvez trouver [i
           <context context-type="linenumber">17,18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="n-vehicles" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> vehicle} other {<x id="INTERPOLATION"/> vehicles}}</source>
+        <target>plus {VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> marque} other {<x id="INTERPOLATION"/> marques}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/categories/index.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9b11da22eb53d5495803a59502795aa421b1f4fa" datatype="html">
         <source>designed by</source>
         <target>designer par</target>
@@ -4253,11 +4261,11 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>Aller au dernier message</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">50,61</context>
+          <context context-type="linenumber">53,64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">122,127</context>
+          <context context-type="linenumber">126,131</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4269,7 +4277,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>Crée un nouveau sujet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">75,78</context>
+          <context context-type="linenumber">78,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e4d9a764b49b6bebf77ac91f40c9fda401052ce8" datatype="html">
@@ -4277,7 +4285,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>Sujets</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">88,93</context>
+          <context context-type="linenumber">91,96</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4289,7 +4297,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>Auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">99,105</context>
+          <context context-type="linenumber">102,108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4301,7 +4309,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>Dernier message</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">110,113</context>
+          <context context-type="linenumber">113,116</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4313,7 +4321,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>ouvert</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e329f67417e3574eda9988c92b15c0e29df1dd1b" datatype="html">
@@ -4321,7 +4329,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>fermer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2d810712308ae63cb795d809687a3254ef7a2f05" datatype="html">
@@ -4329,15 +4337,31 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>déplacer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="78385c6a23a19675bb9e01e1f26752c7b0403e66" datatype="html">
-        <source>Subforums</source>
-        <target>Sous forums</target>
+      <trans-unit id="n-topics" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> topic} other {<x id="INTERPOLATION"/> topics}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> sujet} other {<x id="INTERPOLATION"/> sujets}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">89,98</context>
+          <context context-type="linenumber">90,109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-messages" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> message} other {<x id="INTERPOLATION"/> messages}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> message} other {<x id="INTERPOLATION"/> messages}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
+          <context context-type="linenumber">132,145</context>
         </context-group>
       </trans-unit>
       <trans-unit id="771945533364668751" datatype="html">
@@ -4352,12 +4376,20 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
           <context context-type="linenumber">35,36</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="78385c6a23a19675bb9e01e1f26752c7b0403e66" datatype="html">
+        <source>Subforums</source>
+        <target>Sous forums</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
         <source>Go to forum …</source>
         <target>Aller au forum ...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">114,127</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c63c90a247bcaf4fdf9de22fd5b5dcd1f52721da" datatype="html">
@@ -4365,7 +4397,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
         <target>Dernier message dans le sujet «<x id="INTERPOLATION" equiv-text="{{theme.last_topic.name}}"/>»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2354817630223808522" datatype="html">
@@ -4608,6 +4640,18 @@ Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) 
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3e0d82664559e3794c912ae50e76868d99007902" datatype="html">
+        <source>… and</source>
+        <target>… et</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/brands/brands.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="86ead51aaacaca48bc1e3c8f98b8ec52ad2ce2d5" datatype="html">
         <source>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</source>
         <target>Savez-vous quelle technique a permis d'observer la loi et l'ordre dans les rues de villes du monde à des moments différents? Et pas de voitures voyagé Pape? Non? Ensuite, vous êtes exactement dans cette section.</target>
@@ -4720,14 +4764,6 @@ Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) 
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3e0d82664559e3794c912ae50e76868d99007902" datatype="html">
-        <source>… and</source>
-        <target>… et</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8929646278141205122" datatype="html">
         <source>Specs</source>
         <target>Specs</target>
@@ -4825,7 +4861,7 @@ Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) 
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">124,131</context>
+          <context context-type="linenumber">144</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.ts</context>

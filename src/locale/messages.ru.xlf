@@ -1372,7 +1372,7 @@ Message with instructions to confirm will sent to new address.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="58c426f3016b094c32b0c70f21d9655d4c4a7f50" datatype="html">
@@ -4263,11 +4263,11 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Перейти к последнему сообщению</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">50,61</context>
+          <context context-type="linenumber">53,64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">122,127</context>
+          <context context-type="linenumber">126,131</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4279,7 +4279,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Создать новую тему</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">75,78</context>
+          <context context-type="linenumber">78,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e4d9a764b49b6bebf77ac91f40c9fda401052ce8" datatype="html">
@@ -4287,7 +4287,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Топики</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">88,93</context>
+          <context context-type="linenumber">91,96</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4299,7 +4299,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Автор</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">99,105</context>
+          <context context-type="linenumber">102,108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4311,7 +4311,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Последнее сообщение</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">110,113</context>
+          <context context-type="linenumber">113,116</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.ts</context>
@@ -4323,7 +4323,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>открыть</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e329f67417e3574eda9988c92b15c0e29df1dd1b" datatype="html">
@@ -4331,7 +4331,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>закрыть</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2d810712308ae63cb795d809687a3254ef7a2f05" datatype="html">
@@ -4339,15 +4339,31 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>переместить</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="78385c6a23a19675bb9e01e1f26752c7b0403e66" datatype="html">
-        <source>Subforums</source>
-        <target>Подфорумы</target>
+      <trans-unit id="n-topics" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> topic} other {<x id="INTERPOLATION"/> topics}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> тема} few {<x id="INTERPOLATION"/> темы} many {<x id="INTERPOLATION"/> тем} other {<x id="INTERPOLATION"/> тем}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">89,98</context>
+          <context context-type="linenumber">90,109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-messages" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> message} other {<x id="INTERPOLATION"/> messages}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> сообщение} few {<x id="INTERPOLATION"/> сообщения} many {<x id="INTERPOLATION"/> сообщений} other {<x id="INTERPOLATION"/> сообщений}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
+          <context context-type="linenumber">132,145</context>
         </context-group>
       </trans-unit>
       <trans-unit id="771945533364668751" datatype="html">
@@ -4362,12 +4378,20 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
           <context context-type="linenumber">35,36</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="78385c6a23a19675bb9e01e1f26752c7b0403e66" datatype="html">
+        <source>Subforums</source>
+        <target>Подфорумы</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
         <source>Go to forum …</source>
         <target>Зайти в форум …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">114,127</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c63c90a247bcaf4fdf9de22fd5b5dcd1f52721da" datatype="html">
@@ -4375,7 +4399,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Последнее сообщение в теме «<x id="INTERPOLATION" equiv-text="{{theme.last_topic.name}}"/>»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2354817630223808522" datatype="html">
@@ -4618,6 +4642,30 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3e0d82664559e3794c912ae50e76868d99007902" datatype="html">
+        <source>… and</source>
+        <target>… и</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/brands/brands.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="04172675c47b8250e7221117bbeb2a3a68df072e" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> company} other {<x id="INTERPOLATION"/> companies}}</source>
+        <target>ещё {VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> компания} few {<x id="INTERPOLATION"/> компании} many {<x id="INTERPOLATION"/> компаний} other {<x id="INTERPOLATION"/> компаний}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/brands/brands.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="86ead51aaacaca48bc1e3c8f98b8ec52ad2ce2d5" datatype="html">
         <source>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</source>
         <target>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</target>
@@ -4730,14 +4778,6 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3e0d82664559e3794c912ae50e76868d99007902" datatype="html">
-        <source>… and</source>
-        <target>… и</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8929646278141205122" datatype="html">
         <source>Specs</source>
         <target>Specs</target>
@@ -4835,7 +4875,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">124,131</context>
+          <context context-type="linenumber">144</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.ts</context>
@@ -5332,6 +5372,18 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">423,432</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-comments" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> comment} other {<x id="INTERPOLATION"/> comments}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> комментарий} few {<x id="INTERPOLATION"/> комментария} many {<x id="INTERPOLATION"/> комментариев} other {<x id="INTERPOLATION"/> комментариев}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
+          <context context-type="linenumber">125,140</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d351b31c92c4e0ffc3b6ae379702b2d4d1cb98b5" datatype="html">
@@ -6355,6 +6407,14 @@ If you are not registered yet, please do so now [on the registration page](/sign
       <trans-unit id="6fc2c1a8969bb0645d798d2066d264882d206fcc" datatype="html">
         <source>name</source>
         <target>название</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
+          <context context-type="linenumber">435</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-items" datatype="html">
+        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> item} other {<x id="INTERPOLATION"/> items}}</source>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> единица данных} few {<x id="INTERPOLATION"/> единицы данных} many {<x id="INTERPOLATION"/> единиц данных} other {<x id="INTERPOLATION"/> единиц данных}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
           <context context-type="linenumber">435</context>

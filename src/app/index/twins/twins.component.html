@@ -8,7 +8,7 @@
   </ng-container>
   <ng-container *ngIf="twins.brands_count > twins.brands.length">
     <ng-container i18n>… and</ng-container>
-    <a routerLink="/twins" translate [translateParams]="{count: twins.brands_count - twins.brands.length}">{{'brands/more-{count}-companies'}}</a>
+    <a routerLink="/twins" i18n="@@more-n-companies">more {more, plural, one {{{more}} company} other {{{more}} companies}}</a>
   </ng-container>
 </p>
 <app-markdown i18n-markdown markdown="Do you know that Daewoo Matiz has as many as [six clones](/twins/group/118812)? And you know what [common in Lotus and Kia](/twins/group/118750)? We are sure that you will find this section interesting."></app-markdown>

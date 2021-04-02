@@ -24,7 +24,10 @@
         </strong>
       </p>
       <p [textContent]="theme.description|translate" *ngIf="theme.description"></p>
-      <p [translateParams]="{topics: theme.topics_count, messages: theme.messages_count}" translate>{{'{topics} topics and {messages} messages'}}</p>
+      <p>
+        <ng-container i18n="@@n-topics">{theme.topics_count, plural, one {{{theme.topics_count}} topic} other {{{theme.topics_count}} topics}}</ng-container>,
+        <ng-container i18n="@@n-messages">{theme.messages_count, plural, one {{{theme.messages_count}} message} other {{{theme.messages_count}} messages}}</ng-container>
+      </p>
       <div *ngIf="theme.themes && theme.themes.length > 0" ngPreserveWhitespaces>
         <ng-container i18n>Subforums</ng-container>
         <ng-container *ngFor="let subtheme of theme.themes; let last = last">
@@ -124,4 +127,7 @@
   <app-paginator [data]="theme.topics.paginator" *ngIf="theme.topics.paginator"></app-paginator>
 </div>
 
-<p class="text-right small" *ngIf="theme" translate [translateParams]="{topics: theme.topics_count, messages: theme.messages_count}">{{'{topics} topics and {messages} messages'}}</p>
+<p class="text-right small" *ngIf="theme">
+  <ng-container i18n="@@n-topics">{theme.topics_count, plural, one {{{theme.topics_count}} topic} other {{{theme.topics_count}} topics}}</ng-container>,
+  <ng-container i18n="@@n-messages">{theme.messages_count, plural, one {{{theme.messages_count}} message} other {{{theme.messages_count}} messages}}</ng-container>
+</p>
