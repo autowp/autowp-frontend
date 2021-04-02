@@ -5,6 +5,7 @@ import {
   APIService
 } from '../../services/api.service';
 import { PageEnvService } from '../../services/page-env.service';
+import { getPerspectiveTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-moder-perspectives',
@@ -40,5 +41,9 @@ export class ModerPerspectivesComponent {
         },
         response => console.log(response)
       );
+  }
+
+  public getPerspectiveTranslation(id: string): string {
+    return getPerspectiveTranslation(id);
   }
 }

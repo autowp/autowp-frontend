@@ -157,6 +157,37 @@ const themes = {
   'forums/theme/cars': $localize `Cars`,
 };
 
+const prespectives = {
+  'perspective/chassis': $localize `chassis`,
+  'perspective/mockup': $localize `mockup`,
+  'perspective/front': $localize `front`,
+  'perspective/back': $localize `back`,
+  'perspective/left': $localize `left`,
+  'perspective/right': $localize `right`,
+  'perspective/interior': $localize `interior`,
+  'perspective/front-panel': $localize `front panel`,
+  'perspective/3/4-left': $localize `¾ left`,
+  'perspective/3/4-right': $localize `¾ right`,
+  'perspective/cutaway': $localize `cutaway`,
+  'perspective/front-strict': $localize `front (strict)`,
+  'perspective/left-strict': $localize `left (strict)`,
+  'perspective/right-strict': $localize `right (strict)`,
+  'perspective/back-strict': $localize `back (strict)`,
+  'perspective/n/a': $localize `n/a`,
+  'perspective/label': $localize `label`,
+  'perspective/upper': $localize `upper`,
+  'perspective/under-the-hood': $localize `under the hood`,
+  'perspective/upper-strict': $localize `upper (strict)`,
+  'perspective/bottom': $localize `bottom`,
+  'perspective/dashboard': $localize `dashboard`,
+  'perspective/boot': $localize `boot`,
+  'perspective/logo': $localize `logo`,
+  'perspective/mascot': $localize `mascot`,
+  'perspective/sketch': $localize `sketch`,
+  'perspective/mixed': $localize `mixed`,
+  'perspective/exterior-details': $localize `exterior details`,
+};
+
 export function getItemTypeTranslation(id: number, type: string): string {
   return translations[id] && translations[id][type] ? translations[id][type] : '-';
 }
@@ -167,4 +198,8 @@ export function getUnitTranslation(id: number, type: string): string {
 
 export function getForumsThemeTranslation(id: string): string {
   return themes[id] ? units[id] : '-';
+}
+
+export function getPerspectiveTranslation(id: string): string {
+  return prespectives[id] ? prespectives[id] : '-';
 }

@@ -552,7 +552,7 @@
   "car-type-rp/hatchback": "Compacto",
   "car-type-rp/crossover": "Crossover",
   "car-type-rp/universal": "Touring",
-  "car-type-rp/limousine": "Limousine",
+  "car-type-rp/limousine": "Limusina",
   "car-type-rp/pickup": "Pickup",
   "car-type-rp/caravan": "Furgoneta",
   "car-type-rp/offroad": "SUV",
@@ -635,7 +635,7 @@
   "moder/pictures/filter/order/filesize-asc": "Tamaño del archivo (pequeño)",
   "moder/pictures/filter/order/commented": "Comentado",
   "moder/pictures/filter/order/views": "Vistas",
-  "moder/pictures/filter/order/moder-votes": "Moderator votes",
+  "moder/pictures/filter/order/moder-votes": "Votos del moderador",
   "moder/pictures/filter/order/removing-date": "Borrando fecha",
   "moder/pictures/filter/order/likes": "Me gusta",
   "moder/pictures/filter/order/dislikes": "No me gusta",
@@ -1545,5 +1545,5 @@
   "forums/theme/cars": "Coches",
   "forums/topic-closed-text": "El tema está cerrado por la administración del sitio",
   "forums/register-to-post": "Para poder crear temas y responder a ellos, necesita  [register](/signup).",
-  "forums/register-to-create-topic": "Solo los usuarios registrados pueden agregar temas.\n\nSi ya está registrado en el sitio, debe iniciar sesión en el sitio.\n\nSi aún no está registrado, hágalo ahora [en la página de registro](/ng/signup)."
+  "forums/register-to-create-topic": "Solo los usuarios registrados pueden agregar temas.\n\nSi ya está registrado en el sitio, debe iniciar sesión en el sitio.\n\nSi aún no está registrado, hágalo ahora [on the registration page](/signup)."
 }

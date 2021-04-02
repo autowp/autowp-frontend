@@ -560,7 +560,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/perspectives/perspectives.component.ts</context>
-          <context context-type="linenumber">33,45</context>
+          <context context-type="linenumber">34,46</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/picture-vote-templates/picture-vote-templates.component.ts</context>
@@ -4526,7 +4526,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/perspectives/perspectives.component.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/picture-vote-templates/picture-vote-templates.component.ts</context>
@@ -4981,7 +4981,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/perspectives/perspectives.component.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ac5a419c652f02b9e3c23e71369dedcdb186322f" datatype="html">
@@ -5854,7 +5854,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Perspectives</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/perspectives/perspectives.component.ts</context>
-          <context context-type="linenumber">25,26</context>
+          <context context-type="linenumber">26,27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5687678964036430258" datatype="html">
@@ -8470,6 +8470,202 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">157,158</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1367858305811203827" datatype="html">
+        <source>chassis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">161,162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6409942993488031121" datatype="html">
+        <source>mockup</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">162,163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1610028252266709917" datatype="html">
+        <source>front</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">163,164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4923167637649318288" datatype="html">
+        <source>back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">164,165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7449548947549758066" datatype="html">
+        <source>left</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">165,166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6520868693399199322" datatype="html">
+        <source>right</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">166,167</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5387125463418085206" datatype="html">
+        <source>interior</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">167,168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9114324320951442737" datatype="html">
+        <source>front panel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">168,169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4510984081631904530" datatype="html">
+        <source>¾ left</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">169,170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4496719763942636064" datatype="html">
+        <source>¾ right</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">170,171</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2368128685078906900" datatype="html">
+        <source>cutaway</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">171,172</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2243485307791559931" datatype="html">
+        <source>front (strict)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">172,173</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1149292009248202380" datatype="html">
+        <source>left (strict)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">173,174</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6066460385123575845" datatype="html">
+        <source>right (strict)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">174,175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1911283893761236316" datatype="html">
+        <source>back (strict)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">175,176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7329683463736701292" datatype="html">
+        <source>n/a</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">176,177</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8915674564851115041" datatype="html">
+        <source>label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">177,178</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3804836667960321198" datatype="html">
+        <source>upper</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">178,179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2757602958432586942" datatype="html">
+        <source>under the hood</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">179,180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5599227602281645558" datatype="html">
+        <source>upper (strict)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">180,181</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5482492647764627845" datatype="html">
+        <source>bottom</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">181,182</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8613741909398167343" datatype="html">
+        <source>dashboard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">182,183</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6103122366786065499" datatype="html">
+        <source>boot</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">183,184</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9084885127601930456" datatype="html">
+        <source>logo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">184,185</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6708650518042032396" datatype="html">
+        <source>mascot</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">185,186</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5854462726227420120" datatype="html">
+        <source>sketch</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">186,187</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8934034627059751738" datatype="html">
+        <source>mixed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">187,188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6142490809374236715" datatype="html">
+        <source>exterior details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">188,189</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7b79e3582cdfb9c974b249815b6d939dcaf2e96c" datatype="html">

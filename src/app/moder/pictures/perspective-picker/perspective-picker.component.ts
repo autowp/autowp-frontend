@@ -2,6 +2,7 @@ import {Component, Injectable, OnInit, OnDestroy, Input, Output, EventEmitter} f
 import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
 import {Subscription} from 'rxjs';
 import {APIPerspective} from '../../../services/api.service';
+import { getPerspectiveTranslation } from '../../../utils/translations';
 
 @Component({
   selector: 'app-moder-pictures-perspective-picker',
@@ -31,5 +32,9 @@ export class ModerPicturesPerspectivePickerComponent implements OnInit, OnDestro
 
   public change() {
     this.perspectiveChanged.emit(this.perspectiveID);
+  }
+
+  public getPerspectiveTranslation(id: string): string {
+    return getPerspectiveTranslation(id);
   }
 }

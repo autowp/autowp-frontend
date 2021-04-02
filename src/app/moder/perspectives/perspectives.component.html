@@ -22,7 +22,7 @@
           [{{ group.id }}] {{ group.name }}
           <ul>
             <li *ngFor="let perspective of group.perspectives">
-              [{{ perspective.id }}] {{ perspective.name | translate }}
+              [{{ perspective.id }}] {{ getPerspectiveTranslation(perspective.name) }}
             </li>
           </ul>
         </td>
