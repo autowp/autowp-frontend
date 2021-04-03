@@ -8,7 +8,6 @@ import { CategoriesIndexComponent } from './index.component';
 import { CategoriesListItemComponent } from './list-item.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { UtilsModule } from '../utils/utils.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { UserModule } from '../user/user.module';
 import { CategoryPictureComponent } from './category-picture/category-picture.component';
@@ -33,7 +32,6 @@ import {ThumbnailModule} from '../thumbnail/thumbnail.module';
     CategoriesRoutingModule,
     NgbDropdownModule,
     UtilsModule,
-    TranslateModule,
     PaginatorModule,
     UserModule,
     PictureModule,

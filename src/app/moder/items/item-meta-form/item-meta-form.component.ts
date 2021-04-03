@@ -89,22 +89,22 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     },
     {
       value: false,
-      name: 'moder/vehicle/today/ended'
+      name: $localize `ended`
     },
     {
       value: true,
-      name: 'moder/vehicle/today/continue'
+      name: $localize `continue in pr.`
     }
   ];
 
   public producedOptions = [
     {
       value: false,
-      name: 'moder/item/produced/about'
+      name: $localize `about`
     },
     {
       value: true,
-      name: 'moder/item/produced/exactly'
+      name: $localize `exactly`
     }
   ];
 
@@ -270,9 +270,9 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
   public getIsConceptOptions(parent: APIItem) {
     this.isConceptOptions[2].name = parent
       ? parent.is_concept
-        ? 'moder/vehicle/is-concept/inherited-yes'
-        : 'moder/vehicle/is-concept/inherited-no'
-      : 'moder/vehicle/is-concept/inherited';
+        ? $localize `inherited (yes)`
+        : $localize `inherited (no)`
+      : $localize `inherited`;
 
     return this.isConceptOptions;
   }

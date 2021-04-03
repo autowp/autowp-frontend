@@ -11,7 +11,6 @@ import { ForumsService } from './forums.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ForumsRoutingModule } from './forums-routing.module';
 import { PaginatorModule } from '../paginator/paginator.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'ngx-moment';
 import { UserModule } from '../user/user.module';
 import { UtilsModule } from '../utils/utils.module';
@@ -33,7 +32,6 @@ import { CommentsModule } from '../comments/comments.module';
     HttpClientModule,
     PaginatorModule,
     ForumsRoutingModule,
-    TranslateModule.forChild(),
     MomentModule,
     UserModule,
     UtilsModule,

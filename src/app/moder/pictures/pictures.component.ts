@@ -40,6 +40,7 @@ import {
   APIPictureModerVoteTemplateService
 } from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import { APIPerspectiveService } from '../../api/perspective/perspective.service';
+import { getPerspectiveTranslation, getVehicleTypeTranslation } from '../../utils/translations';
 
 interface VehicleTypeInPictures {
   name: string;
@@ -59,7 +60,7 @@ function toPlainVehicleTypes(
   const result: VehicleTypeInPictures[] = [];
   for (const item of options) {
     result.push({
-      name: item.name,
+      name: getVehicleTypeTranslation(item.name),
       value: item.id,
       deep
     });
@@ -88,30 +89,30 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   public status: string | null;
   public statusOptions = [
     {
-      name: 'moder/picture/filter/status/any',
+      name: $localize `any`,
       value: null
     },
     {
-      name: 'moder/picture/filter/status/inbox',
+      name: $localize `inbox`,
       value: 'inbox'
     },
     {
-      name: 'moder/picture/filter/status/accepted',
+      name: $localize `accepted`,
       value: 'accepted'
     },
     {
-      name: 'moder/picture/filter/status/removing',
+      name: $localize `in delete queue`,
       value: 'removing'
     },
     {
-      name: 'moder/picture/filter/status/all-except-removing',
+      name: $localize `all, except removing`,
       value: 'custom1'
     }
   ];
 
   private defaultVehicleTypeOptions: VehicleTypeInPictures[] = [
     {
-      name: 'Any',
+      name: $localize `any`,
       value: null,
       deep: 0
     }
@@ -121,11 +122,11 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   private defaultPerspectiveOptions: PerspectiveInList[] = [
     {
-      name: 'moder/pictures/filter/perspective/any',
+      name: $localize `any`,
       value: null
     },
     {
-      name: 'moder/pictures/filter/perspective/empty',
+      name: $localize `empty`,
       value: 'null'
     }
   ];
@@ -134,15 +135,15 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   public commentsOptions = [
     {
-      name: 'moder/pictures/filter/comments/not-matters',
+      name: $localize `not matters`,
       value: null
     },
     {
-      name: 'moder/pictures/filter/comments/has-comments',
+      name: $localize `has`,
       value: true
     },
     {
-      name: 'moder/pictures/filter/comments/has-no-comments',
+      name: $localize `has no`,
       value: false
     }
   ];
@@ -150,15 +151,15 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   public replaceOptions = [
     {
-      name: 'moder/pictures/filter/replace/not-matters',
+      name: $localize `not matters`,
       value: null
     },
     {
-      name: 'moder/pictures/filter/replace/replaces',
+      name: $localize `replaces`,
       value: true
     },
     {
-      name: 'moder/pictures/filter/replace/without-replaces',
+      name: $localize `without replaces`,
       value: false
     }
   ];
@@ -166,23 +167,23 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   public requestsOptions = [
     {
-      name: 'moder/pictures/filter/votes/not-matters',
+      name: $localize `not matters`,
       value: null
     },
     {
-      name: 'moder/pictures/filter/votes/none',
+      name: $localize `none`,
       value: 0
     },
     {
-      name: 'moder/pictures/filter/votes/accept',
+      name: $localize `has accept votes`,
       value: 1
     },
     {
-      name: 'moder/pictures/filter/votes/delete',
+      name: $localize `has delete votes`,
       value: 2
     },
     {
-      name: 'moder/pictures/filter/votes/any',
+      name: $localize `has any`,
       value: 3
     }
   ];
@@ -190,51 +191,51 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   public orderOptions = [
     {
-      name: 'moder/pictures/filter/order/add-date-desc',
+      name: $localize `Add date (new)`,
       value: 1
     },
     {
-      name: 'moder/pictures/filter/order/add-date-asc',
+      name: $localize `Add date (old)`,
       value: 2
     },
     {
-      name: 'moder/pictures/filter/order/resolution-desc',
+      name: $localize `Resolution (large)`,
       value: 3
     },
     {
-      name: 'moder/pictures/filter/order/resolution-asc',
+      name: $localize `Resolution (small)`,
       value: 4
     },
     {
-      name: 'moder/pictures/filter/order/filesize-desc',
+      name: $localize `Filesize (large)`,
       value: 5
     },
     {
-      name: 'moder/pictures/filter/order/filesize-asc',
+      name: $localize `Filesize (small)`,
       value: 6
     },
     {
-      name: 'moder/pictures/filter/order/commented',
+      name: $localize `Commented`,
       value: 7
     },
     {
-      name: 'moder/pictures/filter/order/views',
+      name: $localize `Views`,
       value: 8
     },
     {
-      name: 'moder/pictures/filter/order/moder-votes',
+      name: $localize `Moderator votes`,
       value: 9
     },
     {
-      name: 'moder/pictures/filter/order/removing-date',
+      name: $localize `Removing date`,
       value: 11
     },
     {
-      name: 'moder/pictures/filter/order/likes',
+      name: $localize `Likes`,
       value: 12
     },
     {
-      name: 'moder/pictures/filter/order/dislikes',
+      name: $localize `Dislikes`,
       value: 13
     }
   ];
@@ -368,7 +369,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         for (const perspective of perspectives) {
           this.perspectiveOptions.push({
             value: perspective.id,
-            name: perspective.name
+            name: getPerspectiveTranslation(perspective.name)
           });
         }
       });

@@ -7,7 +7,6 @@ import { NewItemComponent } from './item/item.component';
 import { NewListItemComponent } from './list-item/list-item.component';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
 import { MomentModule } from 'ngx-moment';
 
@@ -22,7 +21,6 @@ import { MomentModule } from 'ngx-moment';
     NewRoutingModule,
     PaginatorModule,
     ThumbnailModule,
-    TranslateModule,
     UtilsModule,
     MomentModule
   ]

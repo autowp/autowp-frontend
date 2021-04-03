@@ -1,7 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { Router, RouterEvent, NavigationStart } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
 import { APIUser } from './services/user';
@@ -41,7 +40,6 @@ export class AppComponent implements OnInit {
     public auth: AuthService,
     public acl: ACLService,
     private router: Router,
-    private translate: TranslateService,
     private messageService: MessageService,
     private pageEnv: PageEnvService,
     private languageService: LanguageService,
@@ -51,15 +49,7 @@ export class AppComponent implements OnInit {
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.language = this.languageService.language;
-    const ngxTranslateCode = this.languageService.ngxTranslateCode;
 
-    this.translate.setTranslation(
-      ngxTranslateCode,
-      require('../languages/' + this.language + '.json')
-    );
-    this.translate.setDefaultLang(ngxTranslateCode);
-
-    this.translate.use(ngxTranslateCode);
     moment.locale(this.languageService.momentLocale);
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();

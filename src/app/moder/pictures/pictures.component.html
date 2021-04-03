@@ -32,12 +32,12 @@
           type="button" id="dropdownMenuButton">
           <ng-container i18n>Status</ng-container>:
           <ng-container *ngFor="let option of statusOptions">
-            <ng-container *ngIf="option.value === status">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === status">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu>
           <a *ngFor="let option of statusOptions" class="dropdown-item" [class.active]="option.value === status" routerLink="." [queryParams]="{status: option.value}"
-            queryParamsHandling="merge">{{option.name|translate}}</a>
+            queryParamsHandling="merge">{{option.name}}</a>
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
@@ -45,12 +45,12 @@
           type="button" id="dropdownMenuButton">
           <ng-container i18n>Vehicle type</ng-container>:
           <ng-container *ngFor="let option of vehicleTypeOptions">
-            <ng-container *ngIf="option.value === vehicleTypeID">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === vehicleTypeID">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu style="max-height:200px;overflow-y:auto">
           <a *ngFor="let option of vehicleTypeOptions" class="dropdown-item" [class.active]="option.value === vehicleTypeID" routerLink="."
-            [queryParams]="{vehicle_type_id: option.value}" queryParamsHandling="merge">{{'...'.repeat(option.deep)}}{{option.name|translate}}</a>
+            [queryParams]="{vehicle_type_id: option.value}" queryParamsHandling="merge">{{'...'.repeat(option.deep)}}{{option.name}}</a>
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
@@ -58,12 +58,12 @@
           type="button" id="dropdownMenuButton">
           <ng-container i18n>Perspective</ng-container>:
           <ng-container *ngFor="let option of perspectiveOptions">
-            <ng-container *ngIf="option.value === perspectiveID">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === perspectiveID">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu style="max-height:200px;overflow-y:auto">
           <a *ngFor="let option of perspectiveOptions" class="dropdown-item" [class.active]="option.value === perspectiveID" routerLink="."
-            [queryParams]="{perspective_id: option.value}" queryParamsHandling="merge">{{option.name|translate}}</a>
+            [queryParams]="{perspective_id: option.value}" queryParamsHandling="merge">{{option.name}}</a>
         </div>
       </div>
 
@@ -95,12 +95,12 @@
           type="button" id="dropdownMenuButton">
           <ng-container i18n>Comments</ng-container>:
           <ng-container *ngFor="let option of commentsOptions">
-            <ng-container *ngIf="option.value === comments">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === comments">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu>
           <a *ngFor="let option of commentsOptions" class="dropdown-item" [class.active]="option.value === comments" routerLink="."
-            [queryParams]="{comments: option.value}" queryParamsHandling="merge">{{option.name|translate}}</a>
+            [queryParams]="{comments: option.value}" queryParamsHandling="merge">{{option.name}}</a>
         </div>
       </div>
 
@@ -122,12 +122,12 @@
           type="button" id="dropdownMenuButton">
           <ng-container i18n>Replacement</ng-container>:
           <ng-container *ngFor="let option of replaceOptions">
-            <ng-container *ngIf="option.value === replace">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === replace">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
           <a *ngFor="let option of replaceOptions" class="dropdown-item" [class.active]="option.value === replace" routerLink="." [queryParams]="{replace: option.value}"
-            queryParamsHandling="merge">{{option.name|translate}}</a>
+            queryParamsHandling="merge">{{option.name}}</a>
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
@@ -135,13 +135,13 @@
           type="button" id="dropdownMenuButton">
           <ng-container i18n>Votes</ng-container>:
           <ng-container *ngFor="let option of requestsOptions">
-            <ng-container *ngIf="option.value === requests">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === requests">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton">
           <li role="menuitem" *ngFor="let option of requestsOptions">
             <a class="dropdown-item" [class.active]="option.value === requests" routerLink="." [queryParams]="{requests: option.value}"
-              queryParamsHandling="merge">{{option.name|translate}}</a>
+              queryParamsHandling="merge">{{option.name}}</a>
           </li>
         </ul>
       </div>
@@ -176,12 +176,12 @@
         <button class="btn btn-outline-secondary btn-block" ngbDropdownToggle type="button" id="dropdownMenuButton">
           <ng-container i18n>Order by</ng-container>:
           <ng-container *ngFor="let option of orderOptions">
-            <ng-container *ngIf="option.value === order">{{option.name|translate}}</ng-container>
+            <ng-container *ngIf="option.value === order">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
           <a *ngFor="let option of orderOptions" class="dropdown-item" [class.active]="option.value === order" routerLink="." [queryParams]="{order: option.value}"
-            queryParamsHandling="merge">{{option.name|translate}}</a>
+            queryParamsHandling="merge">{{option.name}}</a>
         </div>
       </div>
 

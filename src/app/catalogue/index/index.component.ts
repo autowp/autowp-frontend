@@ -10,6 +10,7 @@ import {chunk, chunkBy} from '../../chunk';
 import {ItemLinkService, APIItemLink} from '../../services/item-link';
 import {CatalogueService} from '../catalogue-service';
 import { APIService } from '../../services/api.service';
+import { getCatalogueSectionsTranslation } from '../../utils/translations';
 
 interface APIBrandSectionGroup {
   name: string;
@@ -207,5 +208,9 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
     this.aclSub.unsubscribe();
+  }
+
+  public getCatalogueSectionsTranslation(id: string): string {
+    return getCatalogueSectionsTranslation(id);
   }
 }

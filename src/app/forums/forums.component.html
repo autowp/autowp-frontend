@@ -23,7 +23,7 @@
           <a [routerLink]="['/forums', theme.id]" [textContent]="getForumsThemeTranslation(theme.name)"></a>
         </strong>
       </p>
-      <p [textContent]="theme.description|translate" *ngIf="theme.description"></p>
+      <p [textContent]="getForumsThemeDescriptionTranslation(theme.description)" *ngIf="theme.description"></p>
       <p>
         <ng-container i18n="@@n-topics">{theme.topics_count, plural, one {{{theme.topics_count}} topic} other {{{theme.topics_count}} topics}}</ng-container>,
         <ng-container i18n="@@n-messages">{theme.messages_count, plural, one {{{theme.messages_count}} message} other {{{theme.messages_count}} messages}}</ng-container>

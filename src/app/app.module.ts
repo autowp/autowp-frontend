@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import {ErrorHandler, Injectable, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
-import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
 import { MomentModule } from 'ngx-moment';
 import {NgbTooltipModule, NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
@@ -98,17 +96,6 @@ export class SentryErrorHandler implements ErrorHandler {
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    TranslateModule.forRoot({
-      /*loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },*/
-      compiler: {
-        provide: TranslateCompiler,
-        useClass: TranslateMessageFormatCompiler
-      }
-    }),
     MomentModule,
     NgPipesModule,
     BrowserAnimationsModule,

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountAccessComponent } from './access/access.component';
 import { UtilsModule } from '../utils/utils.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { AccountSidebarComponent } from './sidebar/sidebar.component';
 import { AccountAccountsComponent } from './accounts/accounts.component';
@@ -46,7 +45,6 @@ import { MessageDialogModule } from '../message-dialog/message-dialog.module';
     CommonModule,
     AccountRoutingModule,
     UtilsModule,
-    TranslateModule,
     FormsModule,
     UserModule,
     MomentModule,

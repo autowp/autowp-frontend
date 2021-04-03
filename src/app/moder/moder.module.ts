@@ -19,7 +19,6 @@ import { ModerAttrsZoneAttributeListComponent } from './attrs/zone/attribute-lis
 import { ModerAttrsAttributeListOptionsTreeComponent } from './attrs/attribute/list-options-tree/list-options-tree.component';
 import { ModerStatComponent } from './stat/stat.component';
 import { ModerItemParentComponent } from './item-parent/item-parent.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTypeaheadModule, NgbProgressbarModule, NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModule } from '../user/user.module';
@@ -53,7 +52,6 @@ import { APICommentsModule } from '../api/comments/comments.module';
   imports: [
     CommonModule,
     ModerRoutingModule,
-    TranslateModule,
     FormsModule,
     NgbTypeaheadModule,
     UserModule,

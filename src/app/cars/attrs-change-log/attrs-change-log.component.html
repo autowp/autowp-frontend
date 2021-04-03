@@ -54,7 +54,7 @@
       </td>
       <td class="attribute">
         <ng-container *ngFor="let node of item.path; let i = index">
-          <span [textContent]="node | translate"></span>
+          <span [textContent]="getAttrsTranslation(node)"></span>
           <span *ngIf="!i"> / </span>
         </ng-container>
       </td>

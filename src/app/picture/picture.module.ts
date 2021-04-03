@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { PictureComponent } from './picture.component';
 import { PicturePaginatorComponent } from './paginator.component';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { UserModule } from '../user/user.module';
 import {NgbTooltipModule, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'ngx-moment';
@@ -22,7 +21,6 @@ import {PicturesModule} from '../moder/pictures/pictures.module';
     imports: [
         CommonModule,
         RouterModule,
-        TranslateModule,
         UserModule,
         NgbTooltipModule,
         MomentModule,

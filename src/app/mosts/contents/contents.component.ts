@@ -14,13 +14,21 @@ import {
   tap,
   switchMap, map
 } from 'rxjs/operators';
-import { getUnitTranslation } from '../../utils/translations';
+import {
+  getMostsPeriodsTranslation,
+  getMostsRatingParamsTranslation,
+  getMostsRatingsTranslation,
+  getUnitTranslation,
+  getVehicleTypeTranslation
+} from '../../utils/translations';
 
-function vehicleTypesToList(vehilceTypes: APIVehicleType[]): APIVehicleType[] {
+function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   const result: APIVehicleType[] = [];
-  for (const item of vehilceTypes) {
+  for (const item of vehicleTypes) {
     result.push(item);
+    item.nameTranslated = getVehicleTypeTranslation(item.name);
     for (const child of item.childs) {
+      child.nameTranslated = getVehicleTypeTranslation(child.name);
       result.push(child);
     }
   }
@@ -38,7 +46,7 @@ export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
   public items: APIMostsItem[];
   public years: APIMostsMenuYear[];
   public ratings: APIMostsMenuRating[];
-  public vehilceTypes: APIVehicleType[];
+  public vehicleTypes: APIVehicleType[];
   public loading = 0;
   @Input() prefix: string[] = ['/mosts'];
   @Input() ratingCatname: string;
@@ -84,8 +92,8 @@ export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
         tap(menu => {
           this.years = menu.years;
           this.ratings = menu.ratings;
-          this.vehilceTypes = vehicleTypesToList(menu.vehilce_types);
-          this.defaultTypeCatname = this.vehilceTypes[0].catname;
+          this.vehicleTypes = vehicleTypesToList(menu.vehilce_types);
+          this.defaultTypeCatname = this.vehicleTypes[0].catname;
         })
       )
     ])
@@ -135,5 +143,17 @@ export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
 
   public getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
+  }
+
+  public getMostsRatingsTranslation(id: string): string {
+    return getMostsRatingsTranslation(id);
+  }
+
+  public getMostsRatingParamsTranslation(id: string): string {
+    return getMostsRatingParamsTranslation(id);
+  }
+
+  public getMostsPeriodsTranslation(id: string): string {
+    return getMostsPeriodsTranslation(id);
   }
 }

@@ -6,7 +6,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators
 import { APIAttrAttribute, APIAttrListOption, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
-import { getUnitTranslation } from '../../../utils/translations';
+import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation } from '../../../utils/translations';
 
 @Component({
   selector: 'app-moder-attrs-attribute',
@@ -88,7 +88,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
         for (const item of items) {
           this.unitOptions.push({
             id: item.id,
-            name: item.name
+            name: getUnitTranslation(item.id, 'name')
           });
         }
       },
@@ -143,7 +143,7 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
           this.typeMap[item.id] = item.name;
           this.typeOptions.push({
             id: item.id,
-            name: item.name
+            name: getAttrListOptionsTranslation(item.name)
           });
         }
 
@@ -246,5 +246,9 @@ export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
 
   public getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
+  }
+
+  public getAttrsTranslation(id: string): string {
+    return getAttrsTranslation(id);
   }
 }

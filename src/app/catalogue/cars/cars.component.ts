@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/oper
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {APIPaginator, APIService} from '../../services/api.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
+import { getVehicleTypeTranslation } from '../../utils/translations';
 
 interface VehicleTypesResponse {
   items: VehicleType[];
@@ -198,5 +199,9 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  public getVehicleTypeTranslation(id: string): string {
+    return getVehicleTypeTranslation(id);
   }
 }

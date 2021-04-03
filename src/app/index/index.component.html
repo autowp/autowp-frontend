@@ -21,7 +21,7 @@
     <h4><ng-container i18n>Mostly</ng-container> <small><a routerLink="/mosts" i18n>all</a></small></h4>
     <p>
       <ng-container *ngFor="let most of mosts">
-        <a [routerLink]="most.route">{{most.name|translate}}</a>,
+        <a [routerLink]="most.route">{{most.name}}</a>,
       </ng-container>
       …
     </p>

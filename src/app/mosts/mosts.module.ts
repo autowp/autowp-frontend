@@ -5,7 +5,6 @@ import { MostsRoutingModule } from './mosts-routing.module';
 import { MostsComponent } from './mosts.component';
 import { MostsService } from './mosts.service';
 import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import {MostsContentsComponent} from './contents/contents.component';
@@ -17,7 +16,6 @@ import {MostsContentsComponent} from './contents/contents.component';
     CommonModule,
     MostsRoutingModule,
     HttpClientModule,
-    TranslateModule,
     UtilsModule,
     NgbTooltipModule,
     NgbDropdownModule

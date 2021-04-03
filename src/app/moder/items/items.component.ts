@@ -28,6 +28,7 @@ import {
 } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
+import {getVehicleTypeTranslation} from '../../utils/translations';
 
 interface APIVehicleTypeInItems extends APIVehicleType {
   deep?: number;
@@ -40,10 +41,11 @@ interface APISpecInItems extends APISpec {
 function toPlainVehicleType(
   options: APIVehicleTypeInItems[],
   deep: number
-): any[] {
+): APIVehicleTypeInItems[] {
   const result: APIVehicleTypeInItems[] = [];
   for (const item of options) {
     item.deep = deep;
+    item.nameTranslated = getVehicleTypeTranslation(item.name);
     result.push(item);
     for (const subitem of toPlainVehicleType(item.childs, deep + 1)) {
       result.push(subitem);

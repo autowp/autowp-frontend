@@ -3,7 +3,6 @@ import { environment } from '../../environments/environment';
 
 export interface Language {
   code: string;
-  ngxTranslateCode: string;
   hostname: string;
   name: string;
   flag: string;
@@ -14,14 +13,12 @@ export interface Language {
 @Injectable()
 export class LanguageService {
   public readonly language: string = 'en';
-  public readonly ngxTranslateCode: string = 'en';
   public readonly momentLocale: string = 'en-gb';
 
   constructor(@Inject(LOCALE_ID) public localeId: string) {
     for (const lang of environment.languages as Language[]) {
       if (lang.locale === localeId) {
         this.language = lang.code;
-        this.ngxTranslateCode = lang.ngxTranslateCode;
         this.momentLocale = lang.momentLocale;
         break;
       }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { APIService } from './api.service';
+import {getVehicleTypeTranslation} from '../utils/translations';
 
 export interface APIVehicleType {
   id: number;
@@ -20,32 +20,21 @@ export interface APIVehicleTypesGetResponse {
 export class VehicleTypeService {
   private readonly types$: Observable<APIVehicleType[]>;
 
-  constructor(private api: APIService, private translate: TranslateService) {
+  constructor(private api: APIService) {
     this.types$ = this.api
       .request<APIVehicleTypesGetResponse>('GET', 'vehicle-types')
       .pipe(
-        switchMap(response => this.translate.get(this.collectNames(response.items)).pipe(
-          map(translations => ({ response, translations }))
-        )),
         map(data => {
-          this.applyTranslations(data.response.items, data.translations);
-          return data.response.items;
+          this.applyTranslations(data.items);
+          return data.items;
         }),
         shareReplay(1)
       );
   }
 
-  private collectNames(types: APIVehicleType[]): string[] {
-    const result: string[] = [];
+  private applyTranslations(types: APIVehicleType[]) {
     this.walkTypes(types, (type: APIVehicleType) => {
-      result.push(type.name);
-    });
-    return result;
-  }
-
-  private applyTranslations(types: APIVehicleType[], translations: any) {
-    this.walkTypes(types, (type: APIVehicleType) => {
-      type.nameTranslated = translations[type.name];
+      type.nameTranslated = getVehicleTypeTranslation(type.name);
     });
   }
 

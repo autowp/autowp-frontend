@@ -5,12 +5,12 @@
   </div>
   <div class="modal-body">
     <div class="mb-3" *ngFor="let type of types">
-      <button class="btn d-block" (click)="toggle(type.id)" [class.btn-success]="isActive(type.id)" [class.btn-outline-secondary]="!isActive(type.id)">{{type.name|translate}}</button>
+      <button class="btn d-block" (click)="toggle(type.id)" [class.btn-success]="isActive(type.id)" [class.btn-outline-secondary]="!isActive(type.id)">{{getVehicleTypeTranslation(type.name)}}</button>
       <div *ngIf="type.childs.length > 0" class="mb-3 ml-4">
         <ng-container *ngFor="let subtype of type.childs">
-          <button class="btn btn-sm" [class.d-block]="subtype.childs.length > 0" (click)="toggle(subtype.id)" [class.btn-success]="isActive(subtype.id)" [class.btn-outline-secondary]="!isActive(subtype.id)">{{subtype.name|translate}}</button>
+          <button class="btn btn-sm" [class.d-block]="subtype.childs.length > 0" (click)="toggle(subtype.id)" [class.btn-success]="isActive(subtype.id)" [class.btn-outline-secondary]="!isActive(subtype.id)">{{getVehicleTypeTranslation(subtype.name)}}</button>
           <div *ngIf="subtype.childs.length > 0" class="mb-3 ml-4">
-            <button class="btn btn-sm" (click)="toggle(subsubtype.id)" [class.btn-success]="isActive(subsubtype.id)" [class.btn-outline-secondary]="!isActive(subsubtype.id)"  *ngFor="let subsubtype of subtype.childs">{{subsubtype.name|translate}}</button>
+            <button class="btn btn-sm" (click)="toggle(subsubtype.id)" [class.btn-success]="isActive(subsubtype.id)" [class.btn-outline-secondary]="!isActive(subsubtype.id)"  *ngFor="let subsubtype of subtype.childs">{{getVehicleTypeTranslation(subsubtype.name)}}</button>
           </div>
         </ng-container>
       </div>

@@ -10,6 +10,6 @@
 <p class="index-brands" *ngIf="brands">
   <app-index-brands-brand [brand]="brand" *ngFor="let brand of brands.brands"></app-index-brands-brand>
   <ng-container *ngIf="more > 0">
-    <ng-container i18n>… and</ng-container>&#xa0;<a routerLink="/brands" i18n="@@more-n-companies">more {more, plural, one {{{more}} company} other {{{more}} companies}}</a>
+    <ng-container i18n>… and</ng-container>&#xa0;<a routerLink="/brands" i18n="@@more-n-companies">{more, plural, one {more {{more}} company} other {more {{more}} companies}}</a>
   </ng-container>
 </p>

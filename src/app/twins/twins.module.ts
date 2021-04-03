@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { TwinsRoutingModule } from './twins-routing.module';
 import { TwinsItemComponent } from './item/item.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '../utils/utils.module';
 import { UserModule } from '../user/user.module';
 import { TwinsSidebarComponent } from './sidebar.component';
@@ -36,7 +35,6 @@ import {ThumbnailModule} from '../thumbnail/thumbnail.module';
   imports: [
     CommonModule,
     TwinsRoutingModule,
-    TranslateModule,
     UtilsModule,
     UserModule,
     CommentsModule,

@@ -7,7 +7,7 @@ import {PageEnvService} from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {getForumsThemeTranslation} from '../utils/translations';
+import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '../utils/translations';
 
 @Component({
   selector: 'app-forums',
@@ -143,5 +143,9 @@ export class ForumsComponent implements OnInit, OnDestroy {
 
   public getForumsThemeTranslation(id: string): string {
     return getForumsThemeTranslation(id);
+  }
+
+  public getForumsThemeDescriptionTranslation(id: string): string {
+    return getForumsThemeDescriptionTranslation(id);
   }
 }

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { PictureItemService } from '../../services/picture-item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIPerspectiveService } from '../../api/perspective/perspective.service';
+import { getPerspectiveTranslation } from '../../utils/translations';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;
@@ -70,4 +71,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
     this.selected.emit(this.picture.selected);
   }
 
+  public getPerspectiveTranslation(id: string): string {
+    return getPerspectiveTranslation(id);
+  }
 }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { PicturesRoutingModule } from './pictures-routing.module';
 import { ModerPicturesComponent } from './pictures.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from '../../paginator/paginator.module';
 import { ModerPicturesItemAreaComponent } from './item/area/area.component';
@@ -43,7 +42,6 @@ import {ModerPicturesPerspectivePickerComponent} from './perspective-picker/pers
   imports: [
     CommonModule,
     PicturesRoutingModule,
-    TranslateModule,
     FormsModule,
     NgbTypeaheadModule,
     NgbDropdownModule,

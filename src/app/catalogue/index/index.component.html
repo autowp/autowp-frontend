@@ -61,7 +61,7 @@
 <ng-container *ngFor="let section of sections">
   <div class="card mb-4" *ngIf="section.halfChuks.length">
     <div class="card-body">
-      <h5 class="card-title" *ngIf="section.name">{{section.name|translate}}</h5>
+      <h5 class="card-title" *ngIf="section.name">{{getCatalogueSectionsTranslation(section.name)}}</h5>
       <div class="row">
         <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChuks">
           <div class="row">

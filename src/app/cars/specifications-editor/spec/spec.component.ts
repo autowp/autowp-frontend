@@ -27,7 +27,7 @@ import {
 } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
-import { getUnitTranslation } from '../../../utils/translations';
+import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation } from '../../../utils/translations';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;
@@ -358,5 +358,13 @@ export class CarsSpecificationsEditorSpecComponent
 
   public getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
+  }
+
+  public getAttrsTranslation(id: string): string {
+    return getAttrsTranslation(id);
+  }
+
+  public getAttrDescriptionTranslation(id: string): string {
+    return getAttrDescriptionTranslation(id);
   }
 }

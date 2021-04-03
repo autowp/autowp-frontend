@@ -269,12 +269,127 @@
           <context context-type="linenumber">70,76</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2771927147587296201" datatype="html">
+        <source>### People
+
+Своим существованием наш проект обязан людям, приходящим сюда и вкладывающим своё время и знания.
+
+Кто-то добавляет материалы, а кто-то помогает найти ошибки в уже имеющихся. Кто-то специализируется на конкретной марке, а кто-то успевает за всем. Кто-то без лишнего внимания со стороны наполняет сайт шаг за шагом, а кто-то собирает овации редкими, но жгучими фото.
+
+Нас много и мы разные, и это прекрасно. Вот лишь некоторые из нас:
+
+%users%
+
+#### &quot;Цветовая дифференциация штанов&quot;
+
+Так завелось, что мы выделяем некоторых наших людей особым цветом - зеленым. Не просто так - это особая метка. Знайте, если вы видите кого-то из &quot;зеленых&quot;, вы всегда можете схватить его и спросить о чем угодно вокруг нашего проекта, потому что &quot;зеленые&quot; - это самые отзывчивые и заинтересованные в жизни проекта люди.
+
+Некоторая часть &quot;зеленых&quot; наделена модераторскими функциями.
+
+### Feedback
+
+Если у вас есть какие-то замечания, предложения или иные мысли, вы можете озвучить их на [форуме](/forums/), задать лично через систему обмена сообщениями или написать в &quot;[обратную связь](/feedback)&quot; администрации сайта.
+
+Если у вас есть вопросы о размещении рекламы, обмена ссылками или продвижении вашего продукта иными способами, все они имеют единственный ответ: мы не размещаем рекламу.
+
+### Numbers
+
+Так сложилось, что мы любим тешить своё тщеславие большими цифрами, а также всем их показывать. Вашему вниманию некоторые из них:
+
+* на сайте более %total-pictures% изображений, %total-vehicles% автомобилей, что составляет порядка %total-size% данных
+* зарегистрировано около %total-users% пользователей, оставивших более %total-comments% сообщений
+
+### Development
+
+Разработка и поддержка проекта ведется в основном силами %developer% ([contributors](https://github.com/autowp/autowp/graphs/contributors))
+
+French site translation: %fr-translator%
+
+Chinese site translation: %zh-translator%
+
+Belarusian site translation: %be-translator%
+
+Brazilian portuguese site translation: %pt-br-translator%
+
+Сайт работает на [Zend Framework](http://framework.zend.com/), [jQuery](http://jquery.com/), [Twitter bootstrap](http://getbootstrap.com/), а также многих других &quot;умных словах&quot;.
+
+Исходный код сайта является открытым, чтобы каждый желающий имел возможность влиять на суть и качество проекта.
+
+%github%
+
+[![Build Status](https://travis-ci.org/autowp/autowp.svg?branch=master)](https://travis-ci.org/autowp/autowp)
+[![Code Climate](https://codeclimate.com/github/autowp/autowp/badges/gpa.svg)](https://codeclimate.com/github/autowp/autowp)
+[![Coverage Status](https://coveralls.io/repos/github/autowp/autowp/badge.svg?branch=master)](https://coveralls.io/github/autowp/autowp?branch=master)
+
+### Поддержать проект
+
+You can support our project by [finances](/donate) or [moral](/feedback).
+Take part in [the translation of the site](https://github.com/autowp/autowp/tree/master/module/Application/language) into other languages.</source>
+        <target>### 我们的团队
+来到这里投入时间和知识的人们是本网站存在的根基。
+
+我们当中既有人添加图片，也有人帮助修改错误。有的人钟爱某一品牌，也有人喜爱所有车型。不仅有人一步步充实网站，更有人贡献出自己稀有的图片收藏。
+
+在这个庞大的群体中，每个人都与众不同，这里是一些主要成员：
+
+%users%
+
+#### &quot;不同颜色的用户名&quot;
+
+首先，我们当中一些人被一种特殊的颜色标记着———绿色，这是一个特殊的标签，当你看到绿色用户名时，可以向他们任何一位咨询关于网站的问题，因为绿色代表着本站最重要、最热情的一群人。
+
+绿色用户名往往意味着管理员身份。
+
+### 意见反馈
+
+如果您有任何意见、建议或其他的想法，可以到[论坛](/forums/)联系他们, 选择通过站内信或写“[意见反馈](/feedback)”为网站管理提建议。
+
+如果您有关于广告、交换链接或推广产品的问题，很抱歉：我们不设置广告。
+
+### 资源
+
+对于庞大的图片数量我们不能免俗地产生一种自豪感，并且想把这些数字公布出来，下面只是其中一部分:
+
+* 线上收录了超过%total-pictures%张图片、%total-vehicles%款车型，数据总量超过%total-size%。
+* 逾%total-users%名用户发表了超过%total-comments%条评论。
+
+### 开发
+
+网站的发展和技术支持主要来自%developer%([首要贡献者](https://github.com/autowp/autowp/graphs/contributors))
+
+法语页面建设者: %fr-translator%
+
+中文页面建设者: %zh-translator%
+
+Belarusian site translation: %be-translator%
+
+Brazilian portuguese site translation: %pt-br-translator%
+
+技术支持：[Zend Framework](http://framework.zend.com/)、[jQuery](http://jquery.com/)、[Twitter bootstrap](http://getbootstrap.com/)，还有许多优秀的计算机语言。
+
+网站源代码向所有人开放，每个人都有机会影响网站的性质和质量。
+
+%github%
+
+[![Build Status](https://travis-ci.org/autowp/autowp.svg?branch=master)](https://travis-ci.org/autowp/autowp)
+[![Code Climate](https://codeclimate.com/github/autowp/autowp/badges/gpa.svg)](https://codeclimate.com/github/autowp/autowp)
+[![Coverage Status](https://coveralls.io/repos/github/autowp/autowp/badge.svg?branch=master)](https://coveralls.io/github/autowp/autowp?branch=master)
+
+### 支持我们
+
+您可以通过[捐助](/donate) 或[反馈意见](/feedback)支持我们网站
+欲添加更多语言请参与 [翻译网站](https://github.com/autowp/autowp/tree/master/module/Application/language) 。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/about/about.component.ts</context>
+          <context context-type="linenumber">40,96</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="23de86c09080f96ebb665692bd6b1b4cb37aa3b1" datatype="html">
         <source>Index page</source>
         <target>主页</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">63,74</context>
+          <context context-type="linenumber">119,129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/access/access.component.ts</context>
@@ -350,7 +465,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">44,52</context>
+          <context context-type="linenumber">45,53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.ts</context>
@@ -558,7 +673,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">91,103</context>
+          <context context-type="linenumber">93,105</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/new/new.component.ts</context>
@@ -610,7 +725,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">91,103</context>
+          <context context-type="linenumber">93,108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
@@ -770,7 +885,7 @@
         <target>关于我们</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">67,68</context>
+          <context context-type="linenumber">121,122</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76f3dbd0b2d8f1d1003fcecfea9cf5b6f145e082" datatype="html">
@@ -778,15 +893,15 @@
         <target>关于我们</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">85,93</context>
+          <context context-type="linenumber">140,148</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3594232496989819559" datatype="html">
@@ -878,15 +993,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">235,245</context>
+          <context context-type="linenumber">234,241</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pages/add/add.component.ts</context>
@@ -1054,7 +1169,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7016532520368827457" datatype="html">
@@ -1098,7 +1213,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/restore-password/new/new.component.ts</context>
@@ -1425,23 +1540,23 @@ Message with instructions to confirm will sent to new address.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">209,218</context>
+          <context context-type="linenumber">205,215</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">103,118</context>
+          <context context-type="linenumber">103,121</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.ts</context>
@@ -1457,7 +1572,7 @@ Message with instructions to confirm will sent to new address.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">183,187</context>
+          <context context-type="linenumber">185,189</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.ts</context>
@@ -1489,7 +1604,7 @@ Message with instructions to confirm will sent to new address.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b5337002fcb9aac5c62b996c559957659b2679de" datatype="html">
@@ -1625,7 +1740,7 @@ Message with instructions to confirm will sent to new address.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c64747f0bc3848d47c89e0af17d0c199b44ad0de" datatype="html">
@@ -1693,7 +1808,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>汽车图片的百科全书，WheelsAge.org</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">38,48</context>
+          <context context-type="linenumber">37,47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="053f56977db080781ca29756f65aea811270cd67" datatype="html">
@@ -1701,15 +1816,15 @@ Message with instructions to confirm will sent to new address.</source>
         <target>姊妹车型</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">58,65</context>
+          <context context-type="linenumber">57,65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">94,107</context>
+          <context context-type="linenumber">95,108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/twins/twins.component.ts</context>
@@ -1717,7 +1832,7 @@ Message with instructions to confirm will sent to new address.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">270,276</context>
+          <context context-type="linenumber">272,278</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-picture/twins-group-picture.component.ts</context>
@@ -1749,15 +1864,15 @@ Message with instructions to confirm will sent to new address.</source>
         <target>汽车之最</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">75,82</context>
+          <context context-type="linenumber">78,88</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">122,129</context>
+          <context context-type="linenumber">123,130</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.ts</context>
-          <context context-type="linenumber">43,49</context>
+          <context context-type="linenumber">41,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
@@ -1765,7 +1880,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>分类</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">99,109</context>
+          <context context-type="linenumber">105,115</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-item.component.ts</context>
@@ -1788,16 +1903,28 @@ Message with instructions to confirm will sent to new address.</source>
           <context context-type="linenumber">37,42</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1129578568571946012" datatype="html">
+        <source>Login or password is incorrect</source>
+        <target>您已登录或密码错误</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">115,116</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
+          <context context-type="linenumber">89,90</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="d2a2915d79ff31439a174fc3a147004542291e29" datatype="html">
         <source>Map</source>
         <target>地图</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">125,135</context>
+          <context context-type="linenumber">133,145</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.ts</context>
@@ -1816,28 +1943,16 @@ Message with instructions to confirm will sent to new address.</source>
           <context context-type="linenumber">61,67</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1129578568571946012" datatype="html">
-        <source>Login or password is incorrect</source>
-        <target>您已登录或密码错误</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">125,126</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
-          <context context-type="linenumber">89,90</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="195de513133a6ebae49bf0ddb0ebca7cd6092c5a" datatype="html">
         <source>Forums</source>
         <target>论坛</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">155,167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
@@ -1869,7 +1984,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>更多</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c648889391b76acac6870869f928f33920241c76" datatype="html">
@@ -1877,7 +1992,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>添加图片</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
@@ -1909,11 +2024,11 @@ Message with instructions to confirm will sent to new address.</source>
         <target>反馈</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/feedback/feedback.component.ts</context>
@@ -1933,7 +2048,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>有谁在线?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="layout/language-contributing" datatype="html">
@@ -1941,11 +2056,11 @@ Message with instructions to confirm will sent to new address.</source>
         <target>想要加入更多语言?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="layout/search" datatype="html">
@@ -1953,7 +2068,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>搜索</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login/sign-in" datatype="html">
@@ -1961,15 +2076,15 @@ Message with instructions to confirm will sent to new address.</source>
         <target>登录</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
@@ -1989,7 +2104,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>注册</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.ts</context>
@@ -2009,11 +2124,11 @@ Message with instructions to confirm will sent to new address.</source>
         <target>个人主页</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5d22c795daf43877a5f708dca2bccd549eb0471d" datatype="html">
@@ -2021,7 +2136,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>注销</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login/sign-out" datatype="html">
@@ -2029,7 +2144,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>注销</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="673b3c1230edad4e7fc726f757239f3fab5e990b" datatype="html">
@@ -2037,7 +2152,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>{VAR_PLURAL, plural, one {你有-<x id="INTERPOLATION"/>-条未读站内信} other {你有-<x id="INTERPOLATION"/>-条未读站内信}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="layout/personal-messages" datatype="html">
@@ -2045,7 +2160,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>站内信</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login/login-or-email" datatype="html">
@@ -2053,7 +2168,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>用户名或邮箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
@@ -2065,7 +2180,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>注册</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/signin/signin.component.ts</context>
@@ -2077,7 +2192,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>忘记密码?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="layout/brand" datatype="html">
@@ -2085,7 +2200,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>WheelsAge.org</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8e82bc882ab4d145bc0bcce3907cb6e2753af61e" datatype="html">
@@ -2093,7 +2208,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>至今</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7898e09675b07f90ae57701b3bd781556a0d3f22" datatype="html">
@@ -2101,7 +2216,7 @@ Message with instructions to confirm will sent to new address.</source>
         <target>捐助</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
@@ -2145,7 +2260,7 @@ All images are posted for educational purposes.
 [举报侵权行为](mailto:autowp@yandex.ru)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b8d10cd55fae4e4ad4f87d28e18251694f159bf7" datatype="html">
@@ -2153,7 +2268,7 @@ All images are posted for educational purposes.
         <target>隐私政策</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3b6143a528c6f4586e60e9af4ced8ac0fbe08251" datatype="html">
@@ -2185,7 +2300,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
@@ -2258,6 +2373,18 @@ All images are posted for educational purposes.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/brands/item/item.component.ts</context>
           <context context-type="linenumber">30,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f77bd58a68ce1bd251c5a98baf4dcdf0ca000704" datatype="html">
+        <source>New <x id="INTERPOLATION" equiv-text="{{brand.name}}"/> vehicles</source>
+        <target>新品牌<x id="INTERPOLATION" equiv-text="{{brand.name}}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/brands/item/item.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/brands/brand/brand.component.ts</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="efac3af0b32e953279c25b6519cae256811e0fe8" datatype="html">
@@ -2333,7 +2460,7 @@ All images are posted for educational purposes.
         <target>数据</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.ts</context>
@@ -2345,7 +2472,7 @@ All images are posted for educational purposes.
         <target>编辑器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e2342a19d2ce35048f78e52233425de275539dae" datatype="html">
@@ -2353,7 +2480,7 @@ All images are posted for educational purposes.
         <target>前往编辑器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7f3204be711d0cdbe30254e235caab04974dcfbf" datatype="html">
@@ -2647,6 +2774,10 @@ All images are posted for educational purposes.
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
           <context context-type="linenumber">224,225</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">524,525</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="d6292de063b93ad4721e03398c8c74ca17c3422a" datatype="html">
         <source>Log of values</source>
@@ -2665,7 +2796,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">190,200</context>
+          <context context-type="linenumber">191,201</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
@@ -2737,7 +2868,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">239,243</context>
+          <context context-type="linenumber">241,245</context>
         </context-group>
       </trans-unit>
       <trans-unit id="24d296cde12accad8ec0ce1bff09e6aa98ff43d4" datatype="html">
@@ -2823,7 +2954,7 @@ All images are posted for educational purposes.
         <target>移动</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.ts</context>
-          <context context-type="linenumber">140</context>
+          <context context-type="linenumber">144</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
@@ -2842,12 +2973,12 @@ All images are posted for educational purposes.
           <context context-type="linenumber">159,166</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="0e935f28806455fdad98307074767072fa8c542c" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> <x id="INTERPOLATION_1" equiv-text="{{currentVehicleType.name|translate}}"/> in chronological order</source>
-        <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/><x id="INTERPOLATION_1" equiv-text="{{currentVehicleType.name|translate}}"/> 的概念车或原型车</target>
+      <trans-unit id="04a1e9ed5e17ecb1e51bb5572bf4273a744b07f5" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTypeTranslation(currentVehicleType.name)}}"/> in chronological order</source>
+        <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTypeTranslation(currentVehicleType.name)}}"/> 按推出时间排序</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
-          <context context-type="linenumber">24,17</context>
+          <context context-type="linenumber">23,17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9aedddb6860990e84158ffc02b2588226e85d838" datatype="html">
@@ -2855,7 +2986,7 @@ All images are posted for educational purposes.
         <target>按推出时间排序</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">64,72</context>
+          <context context-type="linenumber">65,73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5900015257954376283" datatype="html">
@@ -2863,7 +2994,7 @@ All images are posted for educational purposes.
         <target><x id="PH" equiv-text="brand.name_text"/> <x id="PH_1" equiv-text="this.currentVehicleType.name"/> 的概念车或原型车</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4e28a4c0bb739a19f86c2ad484ed94d952be3420" datatype="html">
@@ -2871,7 +3002,7 @@ All images are posted for educational purposes.
         <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> 的概念车或原型车</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3968566556790194898" datatype="html">
@@ -2879,7 +3010,7 @@ All images are posted for educational purposes.
         <target><x id="PH" equiv-text="brand.name_text"/> 的概念车或原型车</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">89</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="788967566322079082" datatype="html">
@@ -2939,7 +3070,7 @@ All images are posted for educational purposes.
         <target>按车型年代</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">56,63</context>
+          <context context-type="linenumber">57,64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e7b789a602dd1d936437d6d594c2283114ef7866" datatype="html">
@@ -2947,7 +3078,7 @@ All images are posted for educational purposes.
         <target>按上传时间</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">78,88</context>
+          <context context-type="linenumber">79,89</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.ts</context>
@@ -2967,7 +3098,7 @@ All images are posted for educational purposes.
         <target>按品牌</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">143,156</context>
+          <context context-type="linenumber">144,157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4206a05d6b2a46cecb7e278847e0250d562120a1" datatype="html">
@@ -2975,7 +3106,7 @@ All images are posted for educational purposes.
         <target>评论</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">167,176</context>
+          <context context-type="linenumber">168,177</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
@@ -2991,7 +3122,7 @@ All images are posted for educational purposes.
         <target>工厂</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/factories/factories.component.ts</context>
@@ -3011,7 +3142,7 @@ All images are posted for educational purposes.
         <target>热门图片</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dc60677d5a906e69f38a5cf9da7f2eb03931bea0" datatype="html">
@@ -3019,7 +3150,7 @@ All images are posted for educational purposes.
         <target>链接</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/item.component.html</context>
@@ -3031,7 +3162,7 @@ All images are posted for educational purposes.
         <target>官方网站</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
       </trans-unit>
       <trans-unit id="89096db219175cf99fcc6912a8765748601c7467" datatype="html">
@@ -3039,7 +3170,7 @@ All images are posted for educational purposes.
         <target>俱乐部</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.ts</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">217</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1de68773950a8358447919224126103bc1b9258c" datatype="html">
@@ -3117,6 +3248,10 @@ All images are posted for educational purposes.
           <context context-type="sourcefile">src/app/catalogue/vehicles/specifications/specifications.component.ts</context>
           <context context-type="linenumber">54,62</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="fb993a75a9c40e0a374202d7f7ba8da0112517ff" datatype="html">
         <source>Other pictures of</source>
@@ -3175,7 +3310,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">350,351</context>
+          <context context-type="linenumber">351,352</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
@@ -3235,11 +3370,11 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">146,157</context>
+          <context context-type="linenumber">159,174</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">643</context>
+          <context context-type="linenumber">644</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/museum/museum.component.ts</context>
@@ -3503,15 +3638,15 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">280,290</context>
+          <context context-type="linenumber">302,312</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">439,447</context>
+          <context context-type="linenumber">455,461</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/comments/comments.component.ts</context>
@@ -3595,7 +3730,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">333</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5cec7468241d72cafd86ad1af6d55b09a6e3ae5" datatype="html">
@@ -3611,7 +3746,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">333</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="628ec23ea91c60f3bc22e508102d290b64be36a1" datatype="html">
@@ -3619,15 +3754,15 @@ All images are posted for educational purposes.
         <target>车型</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/vehicle-types-modal/vehicle-types-modal.component.ts</context>
-          <context context-type="linenumber">46,54</context>
+          <context context-type="linenumber">47,55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">421,435</context>
+          <context context-type="linenumber">423,437</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">390,395</context>
+          <context context-type="linenumber">402,408</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
@@ -3635,7 +3770,7 @@ All images are posted for educational purposes.
         <target>关闭</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/vehicle-types-modal/vehicle-types-modal.component.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">68</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/area/area.component.html</context>
@@ -4221,7 +4356,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>分论坛</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">152</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
@@ -4229,7 +4364,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>前往主题…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">152</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c63c90a247bcaf4fdf9de22fd5b5dcd1f52721da" datatype="html">
@@ -4237,7 +4372,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>最新回复 «<x id="INTERPOLATION" equiv-text="{{theme.last_topic.name}}"/>»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">152</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2354817630223808522" datatype="html">
@@ -4348,8 +4483,12 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">72,80</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">177,189</context>
+          <context context-type="linenumber">195,210</context>
         </context-group>
       </trans-unit>
       <trans-unit id="n-pictures" datatype="html">
@@ -4369,7 +4508,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">643</context>
+          <context context-type="linenumber">644</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/new.component.ts</context>
@@ -4448,8 +4587,8 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="04172675c47b8250e7221117bbeb2a3a68df072e" datatype="html">
-        <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> company} other {<x id="INTERPOLATION"/> companies}}</source>
+      <trans-unit id="more-n-companies" datatype="html">
+        <source>{VAR_PLURAL, plural, one {more <x id="INTERPOLATION"/> company} other {more <x id="INTERPOLATION"/> companies}}</source>
         <target>{VAR_PLURAL, plural, one {全部<x id="INTERPOLATION"/>个品牌} other {全部<x id="INTERPOLATION"/>个品牌}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/brands/brands.component.ts</context>
@@ -4466,6 +4605,38 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/categories/categories.component.ts</context>
           <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="199588267626755172" datatype="html">
+        <source>Most fastest roadsters</source>
+        <target>最快的敞篷跑车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.ts</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4951954989339371763" datatype="html">
+        <source>Most mighty sedans today</source>
+        <target>当今动力最强的四门轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.ts</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3777836615233603027" datatype="html">
+        <source>Most dynamic universals in 2000&apos;s</source>
+        <target>21世纪初最快的旅行轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.ts</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1411689812615399977" datatype="html">
+        <source>Most heavy trucks</source>
+        <target>最重型的货车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.ts</context>
+          <context context-type="linenumber">41,42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4704327371953276728" datatype="html">
@@ -4785,7 +4956,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">116,124</context>
+          <context context-type="linenumber">118,126</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/new/new.component.ts</context>
@@ -4841,7 +5012,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">120,132</context>
+          <context context-type="linenumber">125,136</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
@@ -4869,11 +5040,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>属性</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">87,98</context>
+          <context context-type="linenumber">87,95</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attrs.component.ts</context>
@@ -4893,11 +5064,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>简介</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/attrs/attribute/attribute.component.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">255</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group.component.ts</context>
@@ -4954,6 +5125,34 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
           <context context-type="linenumber">224</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7823909fb1d8d313382f6f4bd842f1a7ef6f08d1" datatype="html">
+        <source>Accepted</source>
+        <target>已通过</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">400</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="28df1b02fd88d2deb0212bc5d7ff34cf9492fa54" datatype="html">
+        <source>Deleted</source>
+        <target>已删除</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">400</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4129844194772988318" datatype="html">
@@ -5108,12 +5307,28 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">39,40</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8822888260357046990" datatype="html">
+        <source>ended</source>
+        <target>截止</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
+          <context context-type="linenumber">92,93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3248787832272796393" datatype="html">
+        <source>continue in pr.</source>
+        <target>至今.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="b760f123248930122fc7e7b6b6bf94e376e959c8" datatype="html">
         <source>Full name</source>
         <target>全名</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">144,150</context>
+          <context context-type="linenumber">145,151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a3b3aedcb5c0743c990d4e2c8207f32520250b1f" datatype="html">
@@ -5121,7 +5336,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>车身代号</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">198,206</context>
+          <context context-type="linenumber">201,206</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.ts</context>
@@ -5133,11 +5348,35 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>Spec</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">221,231</context>
+          <context context-type="linenumber">222,232</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">435</context>
+          <context context-type="linenumber">437</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4971940314692906571" datatype="html">
+        <source>inherited (yes)</source>
+        <target>有继承性</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
+          <context context-type="linenumber">273,274</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9076972676510243050" datatype="html">
+        <source>inherited (no)</source>
+        <target>无继承性</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
+          <context context-type="linenumber">274,275</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5017019896067681240" datatype="html">
+        <source>inherited</source>
+        <target>已有继承性</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
+          <context context-type="linenumber">275,277</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8ca2fee95da4a2fd061a931144541d65d6e2f616" datatype="html">
@@ -5145,7 +5384,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>年款</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">274,282</context>
+          <context context-type="linenumber">275,285</context>
         </context-group>
       </trans-unit>
       <trans-unit id="89c59e04db61295cf5074488ab5ad36e408f4ff2" datatype="html">
@@ -5469,7 +5708,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">435</context>
+          <context context-type="linenumber">437</context>
         </context-group>
       </trans-unit>
       <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html">
@@ -5579,11 +5818,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>车辆</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">225,232</context>
+          <context context-type="linenumber">227,234</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mosts/contents/contents.component.ts</context>
-          <context context-type="linenumber">98,107</context>
+          <context context-type="linenumber">106,115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="607de17c2a755f65775881c19e276e7c933bcf94" datatype="html">
@@ -5591,7 +5830,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>分类</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">255,258</context>
+          <context context-type="linenumber">257,260</context>
         </context-group>
       </trans-unit>
       <trans-unit id="64f9d88093a0b037e7573eb21830c9122e0458da" datatype="html">
@@ -5599,7 +5838,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>品牌</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">282,290</context>
+          <context context-type="linenumber">284,292</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1fcdd89baeb68e1513b97c04db91d4e8291592e5" datatype="html">
@@ -5607,7 +5846,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>工厂</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">307,318</context>
+          <context context-type="linenumber">309,320</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ec143fae7d87967b696769e973cc991dff085bf0" datatype="html">
@@ -5615,7 +5854,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>博物馆</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">336,346</context>
+          <context context-type="linenumber">338,348</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d8e2c60f14948022cfa5cbaa7895e29a9171eb2e" datatype="html">
@@ -5623,7 +5862,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>人</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">364,375</context>
+          <context context-type="linenumber">366,377</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6fc2c1a8969bb0645d798d2066d264882d206fcc" datatype="html">
@@ -5631,7 +5870,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>名称</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">435</context>
+          <context context-type="linenumber">437</context>
         </context-group>
       </trans-unit>
       <trans-unit id="n-items" datatype="html">
@@ -5639,7 +5878,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> 项目} other {<x id="INTERPOLATION"/> 项目}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
-          <context context-type="linenumber">435</context>
+          <context context-type="linenumber">437</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5f5ad3ae04363a22a6cc59a7b26e7c59cf81b1ab" datatype="html">
@@ -5915,11 +6154,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">403,412</context>
+          <context context-type="linenumber">421,429</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">333</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8491d277365a71a0864d86dc87d6e48d6c933fc1" datatype="html">
@@ -6057,7 +6296,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">472,484</context>
+          <context context-type="linenumber">493,505</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0a1f3f61265e55a641cad8c445bbe5bfb82315d9" datatype="html">
@@ -6137,23 +6376,11 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">643</context>
+          <context context-type="linenumber">644</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">323,325</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7823909fb1d8d313382f6f4bd842f1a7ef6f08d1" datatype="html">
-        <source>Accepted</source>
-        <target>已通过</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">400</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">324,326</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9b26773b4628040a79a01644aa4b43048b882453" datatype="html">
@@ -6165,20 +6392,12 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">333</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="45745fdb08e3a9de6f14bb6aab43aeb0eab89a70" datatype="html">
         <source>In delete queue</source>
         <target>位于删除队列</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">400</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="28df1b02fd88d2deb0212bc5d7ff34cf9492fa54" datatype="html">
-        <source>Deleted</source>
-        <target>已删除</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">400</context>
@@ -6408,12 +6627,84 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
           <context context-type="linenumber">67,68</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2165076409283691119" datatype="html">
+        <source>inbox</source>
+        <target>收件箱</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8575338854283037754" datatype="html">
+        <source>accepted</source>
+        <target>已接受</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">100,101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2881579763422103751" datatype="html">
+        <source>in delete queue</source>
+        <target>位于删除队列</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">104,105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="348549025702332617" datatype="html">
+        <source>replaces</source>
+        <target>替换</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">158,159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5734888861256751765" datatype="html">
+        <source>none</source>
+        <target>暂无</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">174,175</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">523,524</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">577,578</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">630,631</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2123659921722214537" datatype="html">
+        <source>Views</source>
+        <target>浏览</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">222,223</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7d3dba262271ace7fba51e2efabdee0304439526" datatype="html">
         <source>Missing perspective</source>
         <target>缺少视角</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">207,220</context>
+          <context context-type="linenumber">232,249</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7112532281224432421" datatype="html">
+        <source>Likes</source>
+        <target>赞</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
+          <context context-type="linenumber">234,235</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
+          <context context-type="linenumber">82,83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2c79eacb72750cc71b02a2b2d618741d63c5bd87" datatype="html">
@@ -6421,7 +6712,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>垃圾箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">238,250</context>
+          <context context-type="linenumber">261,271</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5e29ddde3eccf8b25e541e11b260098361553fd5" datatype="html">
@@ -6429,11 +6720,11 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>表决</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">263,271</context>
+          <context context-type="linenumber">279,286</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">499,508</context>
+          <context context-type="linenumber">522,528</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5b9e84b1b5b6c343b05549d43a0b673cdf77220b" datatype="html">
@@ -6441,7 +6732,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>新表决</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">303,313</context>
+          <context context-type="linenumber">326,333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e69871fbd348c8614e9148464598a6d2190fec5d" datatype="html">
@@ -6449,7 +6740,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>替换</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">326,334</context>
+          <context context-type="linenumber">351,360</context>
         </context-group>
       </trans-unit>
       <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
@@ -6457,7 +6748,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>状态</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">376,382</context>
+          <context context-type="linenumber">388,394</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3f8b1e7ac21850e3cbb38e8bc33036d04731af58" datatype="html">
@@ -6465,7 +6756,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>由上传</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">457,463</context>
+          <context context-type="linenumber">471,481</context>
         </context-group>
       </trans-unit>
       <trans-unit id="915c991d01f23c4cbd666c95a1bce97739e04bed" datatype="html">
@@ -6473,7 +6764,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>求通过</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">643</context>
+          <context context-type="linenumber">644</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture-moder-vote/picture-moder-vote/picture-moder-vote.component.ts</context>
@@ -6485,7 +6776,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>求删除</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">643</context>
+          <context context-type="linenumber">644</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture-moder-vote/picture-moder-vote/picture-moder-vote.component.ts</context>
@@ -6502,6 +6793,62 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
           <context context-type="linenumber">60,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3af23bddf814c38be930b7dfa33f09e8d8f71573" datatype="html">
+        <source>Photos with copyrights</source>
+        <target>有版权图片</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b264c7a5720528b169dbc73f735351c1036edcc8" datatype="html">
+        <source>Vehicles with 4 or more photos</source>
+        <target>有4张以上图片的车型</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="425a33d3b791a818bfd86e294cd10c751108a9f8" datatype="html">
+        <source>Specifications values</source>
+        <target>性能参数数据</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3cb09fca611e7987c9332c18b037a061c3771d11" datatype="html">
+        <source>Brand logotypes</source>
+        <target>商标</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5e8d8b7c62514f89bda3c667b158af9f89fea0b3" datatype="html">
+        <source>Years of begin production</source>
+        <target>投产年份</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e4a37ec1f0bc0f085fa260144c00b90faad473a8" datatype="html">
+        <source>Years of begin and end production</source>
+        <target>停产年份</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a1ccba65cc6368a20e00effdd0e5ddec6322aa90" datatype="html">
+        <source>Years and months of begin and end production</source>
+        <target>投产及停产年月</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/stat/stat.component.ts</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="369679454877964077" datatype="html">
@@ -6565,7 +6912,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>各项之最</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mosts/contents/contents.component.ts</context>
-          <context context-type="linenumber">57,64</context>
+          <context context-type="linenumber">65,72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a52b12e3b1dc387c46984abdea2125b6f0692c07" datatype="html">
@@ -6573,7 +6920,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>类别</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mosts/contents/contents.component.ts</context>
-          <context context-type="linenumber">79,86</context>
+          <context context-type="linenumber">87,94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2445664558144113077" datatype="html">
@@ -6581,7 +6928,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>汽车之最</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mosts/contents/contents.component.ts</context>
-          <context context-type="linenumber">131,132</context>
+          <context context-type="linenumber">139,140</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mosts/mosts.component.ts</context>
@@ -6689,11 +7036,11 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>编辑</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">333</context>
+          <context context-type="linenumber">334</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">333</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="553791b26c74d11b72267a2e92bfd181de918e8e" datatype="html">
@@ -6713,7 +7060,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.ts</context>
-          <context context-type="linenumber">38,44</context>
+          <context context-type="linenumber">39,45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="48c180ef2dabc4feb0ef34e8cf5771227fa96631" datatype="html">
@@ -7081,7 +7428,7 @@ Don&apos;t forget it.</source>
         <target>浏览</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.ts</context>
-          <context context-type="linenumber">60,70</context>
+          <context context-type="linenumber">61,71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b" datatype="html">
@@ -7089,7 +7436,7 @@ Don&apos;t forget it.</source>
         <target>剪裁后图片(<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b6357073e5268b6b7434cdb196ae2b0ed8c47e49" datatype="html">
@@ -7298,14 +7645,6 @@ Don&apos;t forget it.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
           <context context-type="linenumber">76,77</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7112532281224432421" datatype="html">
-        <source>Likes</source>
-        <target>赞</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/rating/rating.component.ts</context>
-          <context context-type="linenumber">82,83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71158856268490945" datatype="html">
@@ -7638,6 +7977,10 @@ Don&apos;t forget it.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">11,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">784,785</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8796572246359054687" datatype="html">
@@ -8061,7 +8404,7 @@ Don&apos;t forget it.</source>
         <target>机箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">161,162</context>
+          <context context-type="linenumber">174,175</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1610028252266709917" datatype="html">
@@ -8069,7 +8412,15 @@ Don&apos;t forget it.</source>
         <target>前方</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">163,164</context>
+          <context context-type="linenumber">176,177</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">298,299</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">446,447</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4923167637649318288" datatype="html">
@@ -8077,7 +8428,7 @@ Don&apos;t forget it.</source>
         <target>倒退</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">164,165</context>
+          <context context-type="linenumber">177,178</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7449548947549758066" datatype="html">
@@ -8085,7 +8436,7 @@ Don&apos;t forget it.</source>
         <target>左侧</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">165,166</context>
+          <context context-type="linenumber">178,179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6520868693399199322" datatype="html">
@@ -8093,7 +8444,7 @@ Don&apos;t forget it.</source>
         <target>右侧</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">166,167</context>
+          <context context-type="linenumber">179,180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5387125463418085206" datatype="html">
@@ -8101,7 +8452,7 @@ Don&apos;t forget it.</source>
         <target>内饰</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">167,168</context>
+          <context context-type="linenumber">180,181</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9114324320951442737" datatype="html">
@@ -8109,7 +8460,7 @@ Don&apos;t forget it.</source>
         <target>中控台</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">168,169</context>
+          <context context-type="linenumber">181,182</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4510984081631904530" datatype="html">
@@ -8117,7 +8468,7 @@ Don&apos;t forget it.</source>
         <target>¾ 左侧</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">169,170</context>
+          <context context-type="linenumber">182,183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4496719763942636064" datatype="html">
@@ -8125,7 +8476,7 @@ Don&apos;t forget it.</source>
         <target>¾ 右侧</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">170,171</context>
+          <context context-type="linenumber">183,184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2368128685078906900" datatype="html">
@@ -8133,7 +8484,7 @@ Don&apos;t forget it.</source>
         <target>剖面</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">171,172</context>
+          <context context-type="linenumber">184,185</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2243485307791559931" datatype="html">
@@ -8141,7 +8492,7 @@ Don&apos;t forget it.</source>
         <target>正前</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">172,173</context>
+          <context context-type="linenumber">185,186</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1149292009248202380" datatype="html">
@@ -8149,7 +8500,7 @@ Don&apos;t forget it.</source>
         <target>正左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">173,174</context>
+          <context context-type="linenumber">186,187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6066460385123575845" datatype="html">
@@ -8157,7 +8508,7 @@ Don&apos;t forget it.</source>
         <target>正右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">174,175</context>
+          <context context-type="linenumber">187,188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1911283893761236316" datatype="html">
@@ -8165,7 +8516,7 @@ Don&apos;t forget it.</source>
         <target>正后</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">175,176</context>
+          <context context-type="linenumber">188,189</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7329683463736701292" datatype="html">
@@ -8173,7 +8524,7 @@ Don&apos;t forget it.</source>
         <target>未知</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">176,177</context>
+          <context context-type="linenumber">189,190</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8915674564851115041" datatype="html">
@@ -8181,7 +8532,7 @@ Don&apos;t forget it.</source>
         <target>铭牌</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">177,178</context>
+          <context context-type="linenumber">190,191</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3804836667960321198" datatype="html">
@@ -8189,7 +8540,7 @@ Don&apos;t forget it.</source>
         <target>顶部</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">178,179</context>
+          <context context-type="linenumber">191,192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2757602958432586942" datatype="html">
@@ -8197,7 +8548,7 @@ Don&apos;t forget it.</source>
         <target>发动机舱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">179,180</context>
+          <context context-type="linenumber">192,193</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5599227602281645558" datatype="html">
@@ -8205,7 +8556,7 @@ Don&apos;t forget it.</source>
         <target>正顶部</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">180,181</context>
+          <context context-type="linenumber">193,194</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5482492647764627845" datatype="html">
@@ -8213,7 +8564,7 @@ Don&apos;t forget it.</source>
         <target>底部</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">181,182</context>
+          <context context-type="linenumber">194,195</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8613741909398167343" datatype="html">
@@ -8221,7 +8572,7 @@ Don&apos;t forget it.</source>
         <target>仪表台</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">182,183</context>
+          <context context-type="linenumber">195,196</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6103122366786065499" datatype="html">
@@ -8229,7 +8580,7 @@ Don&apos;t forget it.</source>
         <target>后备箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">183,184</context>
+          <context context-type="linenumber">196,197</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9084885127601930456" datatype="html">
@@ -8237,7 +8588,7 @@ Don&apos;t forget it.</source>
         <target>商标</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">184,185</context>
+          <context context-type="linenumber">197,198</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6708650518042032396" datatype="html">
@@ -8245,7 +8596,7 @@ Don&apos;t forget it.</source>
         <target>立标</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">185,186</context>
+          <context context-type="linenumber">198,199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5854462726227420120" datatype="html">
@@ -8253,7 +8604,7 @@ Don&apos;t forget it.</source>
         <target>草图</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">186,187</context>
+          <context context-type="linenumber">199,200</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8934034627059751738" datatype="html">
@@ -8261,7 +8612,11 @@ Don&apos;t forget it.</source>
         <target>其它</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">187,188</context>
+          <context context-type="linenumber">200,201</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">420,421</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6142490809374236715" datatype="html">
@@ -8269,7 +8624,1667 @@ Don&apos;t forget it.</source>
         <target>外观细节</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">188,189</context>
+          <context context-type="linenumber">201,202</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2076169541151135391" datatype="html">
+        <source>Roadster</source>
+        <target>跑车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">205,206</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1374964839097456608" datatype="html">
+        <source>Spyder</source>
+        <target>敞篷跑车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">206,207</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4276850202643769166" datatype="html">
+        <source>Cabriolet</source>
+        <target>敞篷轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">207,208</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6597430821923681714" datatype="html">
+        <source>Cabrio-coupe</source>
+        <target>敞篷双门轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">208,209</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8880605627487206169" datatype="html">
+        <source>Coupe</source>
+        <target>双门轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">210,211</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5066476643808062415" datatype="html">
+        <source>Sedan</source>
+        <target>轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">211,212</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3914308433495001917" datatype="html">
+        <source>Hatchback</source>
+        <target>掀背轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">212,213</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1625166841043556280" datatype="html">
+        <source>Crossover</source>
+        <target>跨界车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">213,214</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3708269292738587023" datatype="html">
+        <source>Touring</source>
+        <target>旅行车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">214,215</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8493305782300906686" datatype="html">
+        <source>Limousine</source>
+        <target>加长轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">215,216</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6541976377673512417" datatype="html">
+        <source>Pickup</source>
+        <target>皮卡</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">216,217</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="807917342625805360" datatype="html">
+        <source>Van</source>
+        <target>厢式客车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">217,218</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">220,221</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2526919857857461492" datatype="html">
+        <source>SUV</source>
+        <target>SUV</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">218,219</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3763253313212325479" datatype="html">
+        <source>Minivan</source>
+        <target>小型厢式车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">219,220</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2592758405172798709" datatype="html">
+        <source>Truck</source>
+        <target>货车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">221,222</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8931291953507502185" datatype="html">
+        <source>Bus</source>
+        <target>客车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">222,223</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5645561470133551763" datatype="html">
+        <source>4-door hardtop</source>
+        <target>四门硬顶轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">224,225</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2707209257741900645" datatype="html">
+        <source>SUV-cabrio</source>
+        <target>敞篷SUV</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">226,227</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5783397983206651684" datatype="html">
+        <source>2-door hardtop</source>
+        <target>双门硬顶轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">229,230</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2735224459503660581" datatype="html">
+        <source>Minibus</source>
+        <target>小型客车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">230,231</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1601325288134771573" datatype="html">
+        <source>Car</source>
+        <target>轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">231,232</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3216347989940212141" datatype="html">
+        <source>Multisection bus</source>
+        <target>铰接客车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">232,233</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4112388295615322676" datatype="html">
+        <source>Short-SUV</source>
+        <target>小型SUV</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">233,234</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1182375802701734850" datatype="html">
+        <source>Fastback-sedan</source>
+        <target>溜背轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">235,236</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8319054482420325136" datatype="html">
+        <source>Fastback-coupe</source>
+        <target>溜背双门轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">236,237</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1126459348020285523" datatype="html">
+        <source>2-floor bus</source>
+        <target>双层客车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">238,239</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2702820418990327385" datatype="html">
+        <source>Moto</source>
+        <target>摩托车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">241,242</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">780,781</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="277477864017529398" datatype="html">
+        <source>Tractor</source>
+        <target>拖拉机</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">242,243</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4164629084786240119" datatype="html">
+        <source>Tracked platform</source>
+        <target>履带底盘</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">243,244</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1603730706373994986" datatype="html">
+        <source>Modification name</source>
+        <target>改款名称</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">247,248</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1175800381504093677" datatype="html">
+        <source>Production years</source>
+        <target>推出年份</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">248,249</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7870412339235723093" datatype="html">
+        <source>с</source>
+        <target>从</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">249,250</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">252,253</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">261,262</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">268,269</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">277,278</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8595674783515096117" datatype="html">
+        <source>по</source>
+        <target>至</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">250,251</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">256,257</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">262,263</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">272,273</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">278,279</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7197870580140559288" datatype="html">
+        <source>Sales</source>
+        <target>销售</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">251,252</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="710182655671461404" datatype="html">
+        <source>год</source>
+        <target>年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">253,254</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">257,258</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">264,265</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">269,270</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">273,274</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2829306838046948476" datatype="html">
+        <source>месяц</source>
+        <target>月</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">254,255</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">258,259</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">265,266</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">270,271</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">274,275</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2950330628749255549" datatype="html">
+        <source>число</source>
+        <target>日</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">255,256</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">259,260</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">266,267</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">271,272</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">275,276</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9116375826628355438" datatype="html">
+        <source>модельные</source>
+        <target>型号</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">260,261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7597617921377138440" datatype="html">
+        <source>дебют на автосалоне</source>
+        <target>在车展亮相</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">263,264</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2324883934615074363" datatype="html">
+        <source>производство</source>
+        <target>生产</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">267,268</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5656530858518222152" datatype="html">
+        <source>участие в соревнованиях</source>
+        <target>参加赛事</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">276,277</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2552239309056676146" datatype="html">
+        <source>basic</source>
+        <target>基本信息</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">279,280</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1457792775541804536" datatype="html">
+        <source>number of places</source>
+        <target>座位数</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">280,281</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6489441800790477240" datatype="html">
+        <source>total</source>
+        <target>共</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">281,282</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7524988568504399858" datatype="html">
+        <source>are defective</source>
+        <target>有缺陷</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">282,283</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8157448122746611819" datatype="html">
+        <source>total capacity</source>
+        <target>载客量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">284,285</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5444133548944454380" datatype="html">
+        <source>doors counts</source>
+        <target>车门数</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">285,286</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2770167450227992360" datatype="html">
+        <source>steering wheel location</source>
+        <target>转向装置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">286,287</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3863075061737486118" datatype="html">
+        <source>design</source>
+        <target>设计</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">287,288</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5078093263968018666" datatype="html">
+        <source>geometry</source>
+        <target>外观</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">288,289</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2154234465057014381" datatype="html">
+        <source>dimensions</source>
+        <target>外形尺寸</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">290,291</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8694863121253851535" datatype="html">
+        <source>length</source>
+        <target>长度</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">291,292</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">747,748</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">748,749</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9172672254266086971" datatype="html">
+        <source>width</source>
+        <target>宽度</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">292,293</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">749,750</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">750,751</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4093381701787958997" datatype="html">
+        <source>height</source>
+        <target>高度</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">293,294</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">751,752</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">752,753</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5962108881768836349" datatype="html">
+        <source>width, including mirrors</source>
+        <target>宽度，含外后视镜</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">294,295</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5044735391242082476" datatype="html">
+        <source>height, including railings</source>
+        <target>高度，含围栏</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">295,296</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7925468074327934332" datatype="html">
+        <source>height with open roof</source>
+        <target>敞篷高度</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">296,297</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2675580179626416119" datatype="html">
+        <source>track</source>
+        <target>布局</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">297,298</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7824621064398619032" datatype="html">
+        <source>rear</source>
+        <target>后部</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">299,300</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">452,453</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2588902790648296106" datatype="html">
+        <source>air resistance</source>
+        <target>空气阻力</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">300,301</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5953306934191955585" datatype="html">
+        <source>frontal</source>
+        <target>挡风玻璃</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">301,302</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3668170719391179933" datatype="html">
+        <source>lateral</source>
+        <target>侧部</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">302,303</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4528994087504705853" datatype="html">
+        <source>ground clearance</source>
+        <target>离地间隙</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">303,304</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3901733599428143571" datatype="html">
+        <source>min</source>
+        <target>分钟</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">304,305</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">414,415</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4301395065979241317" datatype="html">
+        <source>standard</source>
+        <target>标准</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">305,306</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5386793486940113646" datatype="html">
+        <source>max</source>
+        <target>最大</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">306,307</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">415,416</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3512695280680161282" datatype="html">
+        <source>weight</source>
+        <target>质量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">307,308</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8070444219783789172" datatype="html">
+        <source>curb</source>
+        <target>整备质量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">309,310</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="268166731974484199" datatype="html">
+        <source>full</source>
+        <target>满载质量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">310,311</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="351632031241663266" datatype="html">
+        <source>engine</source>
+        <target>发动机</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">311,312</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3325180562659478330" datatype="html">
+        <source>name</source>
+        <target>名称</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">312,313</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">350,351</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7175578621006774432" datatype="html">
+        <source>fuel</source>
+        <target>燃料</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">313,314</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="633025297264527344" datatype="html">
+        <source>location</source>
+        <target>位置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">314,315</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">315,316</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2764598294077773692" datatype="html">
+        <source>max power (DIN)</source>
+        <target>最大扭矩 (DIN)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">331,332</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1449098337926155744" datatype="html">
+        <source>max power (SAE certified)</source>
+        <target>最大功率 (SAE certified)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">332,333</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3377712033478433453" datatype="html">
+        <source>max power (SAE net)</source>
+        <target>最大功率 (SAE net)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">333,334</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1733006534141825122" datatype="html">
+        <source>max power (SAE gross)</source>
+        <target>最大功率 (SAE gross)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">334,335</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6830259291434148744" datatype="html">
+        <source>max power (JIS D 1001)</source>
+        <target>最大功率 (JIS D 1001)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">335,336</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7625842085884478864" datatype="html">
+        <source>max power (GOST)</source>
+        <target>最大功率 (GOST)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">336,337</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6777974573583289938" datatype="html">
+        <source>description</source>
+        <target>简介</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">378,379</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">386,387</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5345164343472257536" datatype="html">
+        <source>max speed</source>
+        <target>最高时速</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">396,397</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">732,733</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">733,734</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9139280231181462" datatype="html">
+        <source>city</source>
+        <target>城市</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">418,419</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">424,425</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">427,428</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">430,431</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3378019180842229502" datatype="html">
+        <source>highway</source>
+        <target>高速</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">419,420</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">428,429</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">431,432</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5556159642801275268" datatype="html">
+        <source>combined</source>
+        <target>综合</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">425,426</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">435,436</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1245284126667763723" datatype="html">
+        <source>urban</source>
+        <target>郊区</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">433,434</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7364771993966081309" datatype="html">
+        <source>production place</source>
+        <target>生产地</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">462,463</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8183377764082162663" datatype="html">
+        <source>seating</source>
+        <target>座位数</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">466,467</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1424382845509795616" datatype="html">
+        <source>including standing</source>
+        <target>含站立乘客数量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">467,468</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1826762804338401803" datatype="html">
+        <source>external dimensions</source>
+        <target>外形尺寸</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">468,469</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6277983359837059513" datatype="html">
+        <source>at left</source>
+        <target>左侧</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">483,484</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8535177474496060826" datatype="html">
+        <source>at right</source>
+        <target>右侧</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">484,485</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1024205099129634614" datatype="html">
+        <source>at center</source>
+        <target>中央</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">485,486</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">509,510</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2274822296383411077" datatype="html">
+        <source>bearing body</source>
+        <target>轴承</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">486,487</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2811614142795022174" datatype="html">
+        <source>frame</source>
+        <target>底盘</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">487,488</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="842395579642207217" datatype="html">
+        <source>petrol</source>
+        <target>汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">488,489</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7543889919109909773" datatype="html">
+        <source>hydrogen</source>
+        <target>氢</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">489,490</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4507152469874516263" datatype="html">
+        <source>bioethanol</source>
+        <target>生物乙醇</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">490,491</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7925300427382184224" datatype="html">
+        <source>electricity</source>
+        <target>电</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">491,492</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3255234354762364249" datatype="html">
+        <source>gas</source>
+        <target>天然气</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">492,493</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1020840485669762355" datatype="html">
+        <source>diesel</source>
+        <target>柴油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">493,494</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5452716028186134578" datatype="html">
+        <source>Flex-fuel</source>
+        <target>弹性燃料</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">494,495</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8821980905913934067" datatype="html">
+        <source>A-66</source>
+        <target>A-66汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">495,496</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8103293841254437205" datatype="html">
+        <source>A-70</source>
+        <target>А-70汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">496,497</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4094353091430917960" datatype="html">
+        <source>A-72</source>
+        <target>А-72汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">497,498</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1803337250126178624" datatype="html">
+        <source>A-76</source>
+        <target>А-76汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">498,499</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2535845136285894856" datatype="html">
+        <source>A-78</source>
+        <target>А-78汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">499,500</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6144885431013092686" datatype="html">
+        <source>A-80</source>
+        <target>А-80汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">500,501</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1587589118089456336" datatype="html">
+        <source>AI-92</source>
+        <target>AI-92汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">501,502</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4241978532182740374" datatype="html">
+        <source>AI-93</source>
+        <target>AI-93汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">502,503</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7140067475492487641" datatype="html">
+        <source>AI-95</source>
+        <target>AI-95汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">503,504</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5711471970736943263" datatype="html">
+        <source>AI-98</source>
+        <target>АI-98汽油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">504,505</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3598576391140925703" datatype="html">
+        <source>CNG</source>
+        <target>CNG</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">505,506</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2894758632738215638" datatype="html">
+        <source>at front</source>
+        <target>前部</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">507,508</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="170491482676051613" datatype="html">
+        <source>at rear</source>
+        <target>后部</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">508,509</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6864179469118293727" datatype="html">
+        <source>×2</source>
+        <target>×2</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">525,526</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6408497858507525365" datatype="html">
+        <source>×3</source>
+        <target>×3</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">526,527</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3320580281247606069" datatype="html">
+        <source>×4</source>
+        <target>×4</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">527,528</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2875060968320996014" datatype="html">
+        <source>×6</source>
+        <target>×6</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">528,529</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9127482397132428967" datatype="html">
+        <source>Euro 1</source>
+        <target>欧I</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">690,691</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="561963366430312381" datatype="html">
+        <source>Euro 2</source>
+        <target>欧II</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">691,692</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6309613514555353926" datatype="html">
+        <source>Euro 3</source>
+        <target>欧III</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">692,693</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7803499221806204793" datatype="html">
+        <source>Euro 4</source>
+        <target>欧IV</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">693,694</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4240943545464229974" datatype="html">
+        <source>Euro 5</source>
+        <target>欧V</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">694,695</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7046884274433762704" datatype="html">
+        <source>Euro 5+</source>
+        <target>欧V+</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">695,696</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="996350373053330688" datatype="html">
+        <source>Euro 6</source>
+        <target>欧VI</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">696,697</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3744439461938535901" datatype="html">
+        <source>fastest</source>
+        <target>极速最高</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">700,701</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4631765121224169601" datatype="html">
+        <source>slowest</source>
+        <target>极速最低</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">701,702</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="985250684628633703" datatype="html">
+        <source>dynamic</source>
+        <target>加速最快</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">702,703</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2244726779238745093" datatype="html">
+        <source>static</source>
+        <target>加速最慢</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">703,704</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6332630445230644135" datatype="html">
+        <source>mighty</source>
+        <target>动力最强</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">704,705</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4958046255624795305" datatype="html">
+        <source>weak</source>
+        <target>动力最弱</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">705,706</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="429361813167219366" datatype="html">
+        <source>big engine</source>
+        <target>排量最大</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">706,707</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="310177424179689200" datatype="html">
+        <source>small engine</source>
+        <target>排量最小</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">707,708</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3878910500750033311" datatype="html">
+        <source>nimblest</source>
+        <target>操控最灵活</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">708,709</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4805872280039240659" datatype="html">
+        <source>economical</source>
+        <target>最省油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">709,710</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9018209164514074476" datatype="html">
+        <source>gluttonous</source>
+        <target>最费油</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">710,711</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2065710984085306562" datatype="html">
+        <source>ecological cleanly</source>
+        <target>最环保</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">711,712</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2608230611903784088" datatype="html">
+        <source>ecological dirty</source>
+        <target>最污染</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">712,713</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6117512980345117447" datatype="html">
+        <source>heavy</source>
+        <target>质量最重</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">713,714</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2344613672208171365" datatype="html">
+        <source>lightest</source>
+        <target>质量最轻</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">714,715</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7875150961013537736" datatype="html">
+        <source>longest</source>
+        <target>长度最长</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">715,716</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7459414780656348092" datatype="html">
+        <source>shortest</source>
+        <target>长度最短</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">716,717</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="371203378250180305" datatype="html">
+        <source>widest</source>
+        <target>宽度最宽</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">717,718</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4964295067807859577" datatype="html">
+        <source>narrow</source>
+        <target>宽度最窄</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">718,719</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6783523340658948195" datatype="html">
+        <source>highest</source>
+        <target>高度最高</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">719,720</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2557437079529351766" datatype="html">
+        <source>lowest</source>
+        <target>高度最低</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">720,721</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7944149630656892049" datatype="html">
+        <source>anti air</source>
+        <target>空气动力最差</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">722,723</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8702046003555622297" datatype="html">
+        <source>big wheel</source>
+        <target>车轮最大</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">723,724</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2734690142872097529" datatype="html">
+        <source>small wheel</source>
+        <target>车轮最小</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">724,725</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4001953571813996871" datatype="html">
+        <source>big brakes</source>
+        <target>刹车盘最大</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">725,726</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4213638596999269972" datatype="html">
+        <source>small brakes</source>
+        <target>刹车盘最小</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">726,727</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5459742843531722138" datatype="html">
+        <source>big clearance</source>
+        <target>通过性最强</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">727,728</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="340402342305437143" datatype="html">
+        <source>small clearance</source>
+        <target>通过性最弱</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">728,729</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="701508756146230352" datatype="html">
+        <source>acceleration</source>
+        <target>加速时间</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">734,735</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">735,736</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5372357266980568100" datatype="html">
+        <source>engine power</source>
+        <target>发动机功率</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">736,737</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">737,738</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6434815500866979760" datatype="html">
+        <source>engine volume</source>
+        <target>发动机排量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">738,739</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">739,740</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7869350269455184457" datatype="html">
+        <source>turning circle</source>
+        <target>转弯半径</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">740,741</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3110441434175892161" datatype="html">
+        <source>fuel consumption in combined cycle</source>
+        <target>综合油耗</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">741,742</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">742,743</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7287486680632810318" datatype="html">
+        <source>emission</source>
+        <target>排放</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">743,744</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">744,745</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2894540234987669477" datatype="html">
+        <source>equipped weight</source>
+        <target>整备质量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">745,746</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">746,747</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2434806596668070804" datatype="html">
+        <source>drag coefficients</source>
+        <target>风阻系数</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">753,754</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">754,755</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5478255326837834371" datatype="html">
+        <source>wheel size</source>
+        <target>车轮尺寸</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">755,756</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">756,757</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7591040726900740663" datatype="html">
+        <source>brakes size</source>
+        <target>刹车盘尺寸</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">757,758</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">758,759</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2675009378999766124" datatype="html">
+        <source>clearance</source>
+        <target>通过性</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">759,760</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">760,761</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2223334118524390094" datatype="html">
+        <source>before 1920</source>
+        <target>1920年之前</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">764,765</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6851791372338188693" datatype="html">
+        <source>1920-29th</source>
+        <target>1920-29年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">765,766</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2249183515576939420" datatype="html">
+        <source>1930-39th</source>
+        <target>1930-39年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">766,767</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3681640873496662097" datatype="html">
+        <source>1940-49th</source>
+        <target>1940-49年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">767,768</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6003354089731992956" datatype="html">
+        <source>1950-59th</source>
+        <target>1950-59年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">768,769</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7383628267709032095" datatype="html">
+        <source>1960-69th</source>
+        <target>1960-69年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">769,770</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7398710041744424436" datatype="html">
+        <source>1970-79th</source>
+        <target>1970-79年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">770,771</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2500758835263040391" datatype="html">
+        <source>1980-89th</source>
+        <target>1980-89年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">771,772</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="352631238920822944" datatype="html">
+        <source>1990-99th</source>
+        <target>1990-99年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">772,773</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7678412569723476603" datatype="html">
+        <source>2000-09th</source>
+        <target>2000-09年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">773,774</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5290292148872543892" datatype="html">
+        <source>2010-17th</source>
+        <target>2010-17年</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">774,775</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8832547591844603804" datatype="html">
+        <source>present time</source>
+        <target>现款车型</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">775,776</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7645822191910133173" datatype="html">
+        <source>all time</source>
+        <target>所有年份</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">776,777</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="532245970961686886" datatype="html">
+        <source>Tractors</source>
+        <target>拖拉机</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">781,782</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="356232350094491138" datatype="html">
+        <source>Buses</source>
+        <target>巴士</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">782,783</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8936925927844134941" datatype="html">
+        <source>Trucks</source>
+        <target>客车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">783,784</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8693603235657020323" datatype="html">
+        <source>Other</source>
+        <target>其它</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">785,786</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7b79e3582cdfb9c974b249815b6d939dcaf2e96c" datatype="html">

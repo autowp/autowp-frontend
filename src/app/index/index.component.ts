@@ -28,17 +28,17 @@ export class IndexComponent implements OnInit {
   public mosts = [
     {
       route: '/mosts/fastest/roadster',
-      name: 'mosts/fastest/roadster',
+      name: $localize `Most fastest roadsters`,
     },
     {
       route: '/mosts/mighty/sedan/today',
-      name: 'mosts/mighty/sedan/today',
+      name: $localize `Most mighty sedans today`,
     }, {
       route: '/mosts/dynamic/universal/2000-09',
-      name: 'mosts/dynamic/universal/2000-09',
+      name: $localize `Most dynamic universals in 2000's`,
     }, {
       route: '/mosts/heavy/truck',
-      name: 'mosts/heavy/truck'
+      name: $localize `Most heavy trucks`
     }
   ];
   public contentPersons: APIIndexPersonsItem[];

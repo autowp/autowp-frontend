@@ -15,7 +15,6 @@ import { NgbTypeaheadModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap
 import { FormsModule } from '@angular/forms';
 import { MomentModule } from 'ngx-moment';
 import { UserModule } from '../user/user.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { UtilsModule } from '../utils/utils.module';
 import {ItemModule} from '../item/item.module';
@@ -39,7 +38,6 @@ import {ItemModule} from '../item/item.module';
     FormsModule,
     MomentModule,
     UserModule,
-    TranslateModule,
     PaginatorModule,
     NgbTooltipModule,
     UtilsModule,

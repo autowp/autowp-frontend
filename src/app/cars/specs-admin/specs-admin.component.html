@@ -19,7 +19,7 @@
       <td>
         <span *ngFor="let node of value.path; let i = index">
           <span *ngIf="i"> / </span>
-          <span [textContent]="node | translate"></span>
+          <span [textContent]="getAttrsTranslation(node)"></span>
         </span>
         <span *ngIf="value.unit" [textContent]="getUnitTranslation(value.unit.id, 'name')"></span>
       </td>

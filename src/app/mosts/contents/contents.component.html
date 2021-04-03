@@ -3,14 +3,14 @@
   <div class="d-inline-block" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
       <ng-container *ngFor="let rating of ratings">
-        <span *ngIf="rating.catname == ratingCatname" [textContent]="rating.name|translate">
+        <span *ngIf="rating.catname == ratingCatname" [textContent]="getMostsRatingsTranslation(rating.name)">
         </span>
       </ng-container>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
       <a *ngFor="let rating of ratings" [class.active]="rating.catname == ratingCatname" class="dropdown-item" [routerLink]="prefix.concat([rating.catname])"
-         [textContent]="rating.name|translate">
+         [textContent]="getMostsRatingsTranslation(rating.name)">
       </a>
     </div>
   </div>
@@ -19,30 +19,29 @@
 
   <div class="d-inline-block" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
-      <ng-container *ngFor="let type of vehilceTypes">
-        <span *ngIf="type.catname == typeCatname" [textContent]="type.name|translate">
-        </span>
+      <ng-container *ngFor="let type of vehicleTypes">
+        <span *ngIf="type.catname == typeCatname" [textContent]="type.nameTranslated"></span>
       </ng-container>
       <span *ngIf="!typeCatname" i18n>Vehicle</span>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let type of vehilceTypes" class="dropdown-item" [class.active]="type.catname == typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
-         [textContent]="type.name|translate"></a>
+      <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname == typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
+         [textContent]="type.nameTranslated"></a>
     </div>
   </div>
 
   <div class="d-inline-block" *ngIf="defaultTypeCatname" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
       <ng-container *ngFor="let year of years">
-        <span *ngIf="year.catname ? year.catname == yearsCatname : !yearsCatname" [textContent]="year.name|translate"></span>
+        <span *ngIf="year.catname ? year.catname == yearsCatname : !yearsCatname" [textContent]="getMostsPeriodsTranslation(year.name)"></span>
       </ng-container>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
       <a *ngFor="let year of years" [class.active]="year.catname ? year.catname == yearsCatname : !yearsCatname" class="dropdown-item"
          [routerLink]="prefix.concat([ratingCatname, typeCatname ? typeCatname : defaultTypeCatname, year.catname ? year.catname : ''])"
-         [textContent]="year.name|translate">
+         [textContent]="getMostsPeriodsTranslation(year.name)">
       </a>
     </div>
   </div>
@@ -58,7 +57,7 @@
       <h3 [innerHTML]="item.item.name_html"></h3>
     </div>
     <div class="col-md-3">
-      <h3 [textContent]="'most/' + ratingCatname + '/param' | translate" *ngIf="!i"></h3>
+      <h3 [textContent]="getMostsRatingParamsTranslation('most/' + ratingCatname + '/param')" *ngIf="!i"></h3>
     </div>
   </div>
   <div class="row mb-4">
@@ -71,7 +70,7 @@
           <span *ngIf="!picture">&#xa0;</span>
         </div>
       </div>
-      <app-markdown *ngIf="item.item.description" [markdown]="item.item.description|translate"></app-markdown>
+      <app-markdown *ngIf="item.item.description" [markdown]="item.item.description"></app-markdown>
     </div>
     <div class="col-md-3">
       <h3 ngPreserveWhitespaces>

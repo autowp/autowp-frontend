@@ -7,7 +7,6 @@ import { ModerItemsItemOrganizeComponent } from './item/catalogue/organize/organ
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { UtilsModule } from '../../utils/utils.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { ModerItemsItemCatalogueComponent } from './item/catalogue/catalogue.component';
 import { ModerItemsItemLinksComponent } from './item/links/links.component';
 import { ModerItemsItemLogoComponent } from './item/logo/logo.component';
@@ -59,7 +58,6 @@ import {NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbDropdownMod
     HttpClientModule,
     FormsModule,
     UtilsModule,
-    TranslateModule,
     NgbTypeaheadModule,
     NgbModalModule,
     NgbProgressbarModule,

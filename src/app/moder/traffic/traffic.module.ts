@@ -5,7 +5,6 @@ import { ModerTrafficWhitelistComponent } from './whitelist/whitelist.component'
 import { ModerTrafficComponent } from './traffic.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserModule } from '../../user/user.module';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,6 @@ import { TranslateModule } from '@ngx-translate/core';
     TrafficRoutingModule,
     HttpClientModule,
     UserModule,
-    TranslateModule
   ]
 })
 export class TrafficModule { }

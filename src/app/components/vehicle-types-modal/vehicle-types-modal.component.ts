@@ -14,6 +14,7 @@ import {
 } from '../../services/vehicle-type';
 import { Subscription } from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
+import { getVehicleTypeTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-vehicle-types-modal',
@@ -58,5 +59,9 @@ export class VehicleTypesModalComponent implements OnInit, OnDestroy {
     }
 
     this.changed.emit();
+  }
+
+  public getVehicleTypeTranslation(id: string): string {
+    return getVehicleTypeTranslation(id);
   }
 }

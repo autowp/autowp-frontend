@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TranslateModule} from '@ngx-translate/core';
 import {IndexBrandsComponent} from './brands/brands.component';
 import {IndexComponent} from './index.component';
 import {IndexCategoriesComponent} from './categories/categories.component';
@@ -33,7 +32,6 @@ import {IndexFactoriesFactoryComponent} from './factories/factory/factory.compon
   ],
     imports: [
         CommonModule,
-        TranslateModule,
         UtilsModule,
         ItemOfDayModule,
         IndexRoutingModule,

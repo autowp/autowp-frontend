@@ -8,7 +8,6 @@ export const environment = {
   languages: [
     {
       code: 'en',
-      ngxTranslateCode: 'en',
       hostname: 'en.wheelsage.org',
       name: 'English',
       flag: 'flag-icon flag-icon-gb',
@@ -17,7 +16,6 @@ export const environment = {
     },
     {
       code: 'zh',
-      ngxTranslateCode: 'zh',
       hostname: 'zh.wheelsage.org',
       name: '中文 (beta)',
       flag: 'flag-icon flag-icon-cn',
@@ -26,7 +24,6 @@ export const environment = {
     },
     {
       code: 'ru',
-      ngxTranslateCode: 'ru',
       hostname: 'www.autowp.ru',
       name: 'Русский',
       flag: 'flag-icon flag-icon-ru',
@@ -35,7 +32,6 @@ export const environment = {
     },
     {
       code: 'pt-br',
-      ngxTranslateCode: 'br',
       hostname: 'br.wheelsage.org',
       name: 'Português brasileiro',
       flag: 'flag-icon flag-icon-br',
@@ -44,7 +40,6 @@ export const environment = {
     },
     {
       code: 'fr',
-      ngxTranslateCode: 'fr',
       hostname: 'fr.wheelsage.org',
       name: 'Français (beta)',
       flag: 'flag-icon flag-icon-fr',
@@ -53,7 +48,6 @@ export const environment = {
     },
     {
       code: 'be',
-      ngxTranslateCode: 'be',
       hostname: 'be.wheelsage.org',
       name: 'Беларуская',
       flag: 'flag-icon flag-icon-by',
@@ -62,7 +56,6 @@ export const environment = {
     },
     {
       code: 'uk',
-      ngxTranslateCode: 'uk',
       hostname: 'uk.wheelsage.org',
       name: 'Українська (beta)',
       flag: 'flag-icon flag-icon-ua',
@@ -71,7 +64,6 @@ export const environment = {
     },
     {
       code: 'es',
-      ngxTranslateCode: 'es',
       hostname: 'es.wheelsage.org',
       name: 'Español (beta)',
       flag: 'flag-icon flag-icon-es',

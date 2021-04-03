@@ -12,7 +12,7 @@ import {
 } from 'rxjs/operators';
 import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { getUnitTranslation } from '../../utils/translations';
+import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations';
 
 @Component({
   selector: 'app-cars-specs-admin',
@@ -135,5 +135,9 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
 
   public getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
+  }
+
+  public getAttrsTranslation(id: string): string {
+    return getAttrsTranslation(id);
   }
 }

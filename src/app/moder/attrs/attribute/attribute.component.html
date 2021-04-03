@@ -33,7 +33,7 @@
         <div class="form-group">
           <label for="type_id" i18n>Type</label>
           <select name="type_id" class="form-control" [(ngModel)]="attribute.type_id">
-            <option *ngFor="let option of typeOptions" [ngValue]="option.id">{{option.name|translate}}</option>
+            <option *ngFor="let option of typeOptions" [ngValue]="option.id">{{option.name}}</option>
           </select>
         </div>
         <div class="form-group">
@@ -43,7 +43,7 @@
         <div class="form-group">
           <label for="unit_id" i18n>Unit</label>
           <select name="unit_id" class="form-control" [(ngModel)]="attribute.unit_id">
-            <option *ngFor="let option of unitOptions" [ngValue]="option.id">{{option.name|translate}}</option>
+            <option *ngFor="let option of unitOptions" [ngValue]="option.id">{{option.name}}</option>
           </select>
         </div>
         <div class="form-group">
@@ -93,7 +93,7 @@
           </tr>
           <tr *ngFor="let attribute of attributes">
             <td>
-              <a [routerLink]="['/moder/attrs/attribute', attribute.id]" [textContent]="attribute.name|translate"></a>
+              <a [routerLink]="['/moder/attrs/attribute', attribute.id]" [textContent]="getAttrsTranslation(attribute.name)"></a>
             </td>
             <td>
               <span *ngIf="attribute.type_id" [textContent]="typeMap[attribute.type_id]"></span>
@@ -123,7 +123,7 @@
         <div class="form-group">
           <label for="type_id" i18n>Type</label>
           <select name="type_id" class="form-control" [(ngModel)]="newAttribute.type_id">
-            <option *ngFor="let option of typeOptions" [value]="option.id">{{option.name|translate}}</option>
+            <option *ngFor="let option of typeOptions" [value]="option.id">{{option.name}}</option>
           </select>
         </div>
         <div class="form-group">
@@ -133,7 +133,7 @@
         <div class="form-group">
           <label for="unit_id" i18n>Unit</label>
           <select name="unit_id" class="form-control" [(ngModel)]="newAttribute.unit_id">
-            <option *ngFor="let option of unitOptions" [value]="option.id">{{option.name|translate}}</option>
+            <option *ngFor="let option of unitOptions" [value]="option.id">{{option.name}}</option>
           </select>
         </div>
         <div class="form-group">

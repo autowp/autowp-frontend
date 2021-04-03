@@ -1,5 +1,6 @@
 import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
 import { APIAttrAttribute } from '../../../api/attrs/attrs.service';
+import { getAttrsTranslation } from '../../../utils/translations';
 
 @Component({
   selector: 'app-moder-attrs-attribute-list',
@@ -19,5 +20,9 @@ export class ModerAttrsAttributeListComponent {
   public moveDown(id: number) {
     this.movedDown.emit(id);
     return false;
+  }
+
+  public getAttrsTranslation(id: string): string {
+    return getAttrsTranslation(id);
   }
 }

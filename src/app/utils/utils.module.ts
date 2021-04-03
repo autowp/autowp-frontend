@@ -8,7 +8,6 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItemComponent} from './list-item/list-item.component';
 import {RouterModule} from '@angular/router';
 import {ItemHeaderComponent} from './item-header/item-header.component';
-import {TranslateModule} from '@ngx-translate/core';
 import {Markdown2Component} from './markdown2/markdown2.component';
 import {UserTextComponent} from './user-text/user-text.component';
 import {UserModule} from '../user/user.module';
@@ -23,7 +22,7 @@ import {UserModule} from '../user/user.module';
     ItemHeaderComponent,
     UserTextComponent
   ],
-  imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, TranslateModule, UserModule],
+  imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, UserModule],
   exports: [
     InvalidParamsPipe,
     MarkdownComponent,
