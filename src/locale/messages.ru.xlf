@@ -2172,7 +2172,6 @@ Message with instructions to confirm will sent to new address.</source>
         <target>{VAR_PLURAL, plural,
         one {У вас <x id="INTERPOLATION"/> новое сообщение}
         few {У вас <x id="INTERPOLATION"/> новых сообщения}
-        many {У вас <x id="INTERPOLATION"/> новых сообщений}
         other {У вас <x id="INTERPOLATION"/> новых сообщений}
     }</target>
         <context-group purpose="location">
@@ -3470,7 +3469,7 @@ All images are posted for educational purposes.
       </trans-unit>
       <trans-unit id="n-vehicles" datatype="html">
         <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> vehicle} other {<x id="INTERPOLATION"/> vehicles}}</source>
-        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> автомобиль} few {<x id="INTERPOLATION"/> автомобиля} many {<x id="INTERPOLATION"/> автомобилей} other {<x id="INTERPOLATION"/> автомобилей}}</target>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> автомобиль} few {<x id="INTERPOLATION"/> автомобиля} other {<x id="INTERPOLATION"/> автомобилей}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/index.component.ts</context>
           <context context-type="linenumber">50</context>
@@ -3510,7 +3509,7 @@ All images are posted for educational purposes.
       </trans-unit>
       <trans-unit id="n-produced" datatype="html">
         <source>{VAR_PLURAL, plural, one {Produced in <x id="INTERPOLATION"/> copy} other {Produced in <x id="INTERPOLATION"/> copies}}</source>
-        <target>{VAR_PLURAL, plural, one {Произведена <x id="INTERPOLATION"/> единица} few {Произведено <x id="INTERPOLATION"/> единиц} many {Произведены <x id="INTERPOLATION"/> единицы} other {Произведены <x id="INTERPOLATION"/> единицы}}</target>
+        <target>{VAR_PLURAL, plural, one {Произведена <x id="INTERPOLATION"/> единица} few {Произведено <x id="INTERPOLATION"/> единицы} other {Произведено <x id="INTERPOLATION"/> единиц}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
           <context context-type="linenumber">59</context>
@@ -3534,7 +3533,7 @@ All images are posted for educational purposes.
       </trans-unit>
       <trans-unit id="n-produced-about" datatype="html">
         <source>{VAR_PLURAL, plural, one {Produced in about <x id="INTERPOLATION"/> copy} other {Produced in about <x id="INTERPOLATION"/> copies}}</source>
-        <target>{VAR_PLURAL, plural, one {Произведена примерно <x id="INTERPOLATION"/> единица} few {Произведено примерно <x id="INTERPOLATION"/> единиц} many {Произведены примерно <x id="INTERPOLATION"/> единицы} other {Произведены примерно <x id="INTERPOLATION"/> единицы}}</target>
+        <target>{VAR_PLURAL, plural, one {Произведена примерно <x id="INTERPOLATION"/> единица} few {Произведено примерно <x id="INTERPOLATION"/> единицы} other {Произведено примерно <x id="INTERPOLATION"/> единиц}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
           <context context-type="linenumber">59</context>
@@ -4480,7 +4479,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
       </trans-unit>
       <trans-unit id="n-topics" datatype="html">
         <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> topic} other {<x id="INTERPOLATION"/> topics}}</source>
-        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> тема} few {<x id="INTERPOLATION"/> темы} many {<x id="INTERPOLATION"/> тем} other {<x id="INTERPOLATION"/> тем}}</target>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> тема} few {<x id="INTERPOLATION"/> темы} other {<x id="INTERPOLATION"/> тем}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">134</context>
@@ -4492,7 +4491,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
       </trans-unit>
       <trans-unit id="n-messages" datatype="html">
         <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> message} other {<x id="INTERPOLATION"/> messages}}</source>
-        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> сообщение} few {<x id="INTERPOLATION"/> сообщения} many {<x id="INTERPOLATION"/> сообщений} other {<x id="INTERPOLATION"/> сообщений}}</target>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> сообщение} few {<x id="INTERPOLATION"/> сообщения} other {<x id="INTERPOLATION"/> сообщений}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">134</context>
@@ -4664,7 +4663,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
       </trans-unit>
       <trans-unit id="n-pictures" datatype="html">
         <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> picture} other {<x id="INTERPOLATION"/> pictures}}</source>
-        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> изображение} few {<x id="INTERPOLATION"/> изображения} many {<x id="INTERPOLATION"/> изображений} other {<x id="INTERPOLATION"/> изображений}}</target>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> изображение} few {<x id="INTERPOLATION"/> изображения} other {<x id="INTERPOLATION"/> изображений}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
           <context context-type="linenumber">110,124</context>
@@ -4796,7 +4795,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
       </trans-unit>
       <trans-unit id="more-n-companies" datatype="html">
         <source>{VAR_PLURAL, plural, one {more <x id="INTERPOLATION"/> company} other {more <x id="INTERPOLATION"/> companies}}</source>
-        <target>{VAR_PLURAL, plural, one {ещё <x id="INTERPOLATION"/> компания} few {ещё <x id="INTERPOLATION"/> компании} many {ещё <x id="INTERPOLATION"/> компаний} other {ещё <x id="INTERPOLATION"/> компаний}}</target>
+        <target>{VAR_PLURAL, plural, one {ещё <x id="INTERPOLATION"/> компания} few {ещё <x id="INTERPOLATION"/> компании} other {ещё <x id="INTERPOLATION"/> компаний}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/brands/brands.component.ts</context>
           <context context-type="linenumber">42</context>
@@ -5548,7 +5547,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
       </trans-unit>
       <trans-unit id="n-comments" datatype="html">
         <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> comment} other {<x id="INTERPOLATION"/> comments}}</source>
-        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> комментарий} few {<x id="INTERPOLATION"/> комментария} many {<x id="INTERPOLATION"/> комментариев} other {<x id="INTERPOLATION"/> комментариев}}</target>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> комментарий} few {<x id="INTERPOLATION"/> комментария} other {<x id="INTERPOLATION"/> комментариев}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.ts</context>
           <context context-type="linenumber">224</context>
@@ -6678,7 +6677,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
       </trans-unit>
       <trans-unit id="n-items" datatype="html">
         <source>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> item} other {<x id="INTERPOLATION"/> items}}</source>
-        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> единица данных} few {<x id="INTERPOLATION"/> единицы данных} many {<x id="INTERPOLATION"/> единиц данных} other {<x id="INTERPOLATION"/> единиц данных}}</target>
+        <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> единица данных} few {<x id="INTERPOLATION"/> единицы данных} other {<x id="INTERPOLATION"/> единиц данных}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.ts</context>
           <context context-type="linenumber">437</context>
