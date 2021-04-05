@@ -51,7 +51,7 @@
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
-    "@angular/cli": "^11.2.6",
+    "@angular/cli": "^11.2.7",
     "@angular/compiler-cli": "^11.2.7",
     "@angular/language-service": "^11.2.8",
     "@brainly/onesky-utils": "^1.4.1",
