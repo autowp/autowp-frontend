@@ -26,7 +26,7 @@
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
     "@sentry/browser": "^6.2.5",
     "@types/url-parse": "^1.4.3",
-    "ajv": "^8.0.3",
+    "ajv": "^8.0.5",
     "angulartics2": "^10.0.0",
     "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
