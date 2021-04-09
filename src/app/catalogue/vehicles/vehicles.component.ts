@@ -34,6 +34,8 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
   public otherPicturesCount: number;
   public otherPicturesRouterLink: string[];
   public routerLink: string[];
+  private canAddItemSub: Subscription;
+  private canAcceptPictureSub: Subscription;
 
   constructor(
     private pageEnv: PageEnvService,
@@ -95,10 +97,10 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.acl
+    this.canAddItemSub = this.acl
       .isAllowed(Resource.CAR, Privilege.ADD)
       .subscribe(canAddItem => (this.canAddItem = canAddItem));
-    this.acl
+    this.canAcceptPictureSub = this.acl
       .isAllowed(Resource.PICTURE, Privilege.ACCEPT)
       .subscribe(canAcceptPicture => (this.canAcceptPicture = canAcceptPicture));
 
@@ -258,6 +260,8 @@ export class CatalogueVehiclesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.canAddItemSub.unsubscribe();
+    this.canAcceptPictureSub.unsubscribe();
   }
 
   public getItemTypeTranslation(id: number, type: string) {

@@ -24,6 +24,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   public paginator: APIPaginator;
   public user: APIUser;
   private changed$ = new BehaviorSubject<boolean>(false);
+  private aclSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -36,7 +37,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.acl
+    this.aclSub = this.acl
       .isAllowed(Resource.CAR, Privilege.EDIT)
       .subscribe((canEdit) => (this.canEdit = canEdit));
 
@@ -151,5 +152,6 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.aclSub.unsubscribe();
   }
 }

@@ -16,6 +16,7 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
   public group: APIItem;
   public canEdit = false;
   public selectedBrands: string[] = [];
+  private aclSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -25,9 +26,7 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
-
-    this.acl
+    this.aclSub = this.acl
       .isAllowed(Resource.CAR, Privilege.EDIT)
       .subscribe(canEdit => (this.canEdit = canEdit));
 
@@ -78,5 +77,6 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.aclSub.unsubscribe();
   }
 }

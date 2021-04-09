@@ -68,6 +68,8 @@ function itemRouterLink(category: APIItem, pathCatnames: string[], itemParent: A
 })
 @Injectable()
 export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
+  private isModerSub: Subscription;
+  private canAddCarSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -91,10 +93,10 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
   public currentRouterLinkPrefix: string[];
 
   ngOnInit(): void {
-    this.acl
+    this.isModerSub = this.acl
       .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe(isModer => (this.isModer = isModer));
-    this.acl
+    this.canAddCarSub = this.acl
       .isAllowed(Resource.CAR, Privilege.ADD)
       .subscribe(canAddCar => (this.canAddCar = canAddCar));
 
@@ -212,6 +214,8 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.canAddCarSub.unsubscribe();
+    this.isModerSub.unsubscribe();
   }
 
   public dropdownOpenChange(item: PathItem) {

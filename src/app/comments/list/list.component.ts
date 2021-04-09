@@ -41,17 +41,16 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
-    this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).subscribe(isModer => {this.isModer = isModer; });
-
     this.sub = combineLatest([
       this.auth.getUser(),
       this.acl.isAllowed(Resource.COMMENT, Privilege.REMOVE),
-      this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE)
-    ]).subscribe(([user, canRemoveComments, canMoveMessage]) => {
+      this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE),
+      this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE)
+    ]).subscribe(([user, canRemoveComments, canMoveMessage, isModer]) => {
       this.user = user;
       this.canRemoveComments = canRemoveComments;
       this.canMoveMessage = canMoveMessage;
+      this.isModer = isModer;
     });
   }
 

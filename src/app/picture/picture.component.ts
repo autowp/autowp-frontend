@@ -29,6 +29,8 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   public location;
   public engines: APIItem[] = [];
   public statusLoading = false;
+  private isModerSub: Subscription;
+  private canEditSpecsSub: Subscription;
 
   constructor(
     private acl: ACLService,
@@ -42,11 +44,11 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.location = location;
 
-    this.acl
+    this.isModerSub = this.acl
       .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
       .subscribe((isModer) => (this.isModer = isModer));
 
-    this.acl
+    this.canEditSpecsSub = this.acl
       .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT)
       .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
 
@@ -55,6 +57,8 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.isModerSub.unsubscribe();
+    this.canEditSpecsSub.unsubscribe();
   }
 
   public savePerspective(perspectiveID: number|null, item: APIPictureItem) {

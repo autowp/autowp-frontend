@@ -30,6 +30,8 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   public canAddCar = false;
   public paginator: APIPaginator;
   public path: PathItem[];
+  private isModerSub: Subscription;
+  private canAddCarSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -41,12 +43,12 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.acl
+    this.isModerSub = this.acl
       .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe((isModer) => (this.isModer = isModer));
-    this.acl
+      .subscribe(isModer => (this.isModer = isModer));
+    this.canAddCarSub = this.acl
       .isAllowed(Resource.CAR, Privilege.ADD)
-      .subscribe((canAddCar) => (this.canAddCar = canAddCar));
+      .subscribe(canAddCar => (this.canAddCar = canAddCar));
 
     this.sub = this.categoriesService.categoryPipe(this.route)
       .pipe(
@@ -109,6 +111,8 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.isModerSub.unsubscribe();
+    this.canAddCarSub.unsubscribe();
   }
 
   public dropdownOpenChange(item: PathItem) {
