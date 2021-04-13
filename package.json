@@ -42,7 +42,7 @@
     "ngx-autosize": "^1.8.4",
     "ngx-moment": "^5.0.0",
     "ngx-pipes": "^2.7.5",
-    "npm": "^6.14.12",
+    "npm": "^6.14.13",
     "rxjs": "^6.6.7",
     "sprintf-js": "^1.1.2",
     "tslib": "^2.2.0",
