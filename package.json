@@ -11,7 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/architect": "^0.1102.8",
-    "@angular-devkit/build-angular": "^0.1102.8",
+    "@angular-devkit/build-angular": "^0.1102.9",
     "@angular/animations": "^11.2.9",
     "@angular/common": "^11.2.9",
     "@angular/compiler": "^11.2.9",
@@ -51,13 +51,13 @@
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
-    "@angular/cli": "^11.2.8",
+    "@angular/cli": "^11.2.9",
     "@angular/compiler-cli": "^11.2.9",
-    "@angular/language-service": "^11.2.9",
+    "@angular/language-service": "^11.2.10",
     "@brainly/onesky-utils": "^1.4.1",
     "@types/jquery": "^3.5.5",
     "@types/leaflet": "^1.7.0",
-    "@types/node": "^14.14.37",
+    "@types/node": "^14.14.39",
     "codelyzer": "^6.0.1",
     "font-awesome": "^4.7.0",
     "html-comment-regex": "^1.1.2",
@@ -70,7 +70,7 @@
     "ts-node": "^9.1.1",
     "tslint": "~6.1.0",
     "webpack": "^4.46.0",
-    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-bundle-analyzer": "^4.4.1",
     "webpack-cli": "^4.6.0"
   }
 }
