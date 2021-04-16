@@ -57,7 +57,7 @@
     "@brainly/onesky-utils": "^1.4.1",
     "@types/jquery": "^3.5.5",
     "@types/leaflet": "^1.7.0",
-    "@types/node": "^14.14.39",
+    "@types/node": "^14.14.41",
     "codelyzer": "^6.0.1",
     "font-awesome": "^4.7.0",
     "html-comment-regex": "^1.1.2",
