@@ -243,6 +243,48 @@ const vehicleTypes = {
   'car-type/tracked': $localize `Tracked platform`,
 };
 
+const vehicleTypesRp = {
+  'car-type-rp/roadster': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/roadster:Roadsters`,
+  'car-type-rp/spyder': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/spyder:Spyders`,
+  'car-type-rp/cabriolet': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/cabriolet:Cabriolets`,
+  'car-type-rp/cabrio-coupe': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/cabrio-coupe:Cabrio-coupes`,
+  'car-type-rp/targa': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/targa:Targa`,
+  'car-type-rp/coupe': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/coupe:Coupes`,
+  'car-type-rp/sedan': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/sedan:Sedans`,
+  'car-type-rp/hatchback': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/hatchback:Hatchbacks`,
+  'car-type-rp/crossover': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/crossover:Crossovers`,
+  'car-type-rp/universal': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/universal:Tourings`,
+  'car-type-rp/limousine': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/limousine:Limousines`,
+  'car-type-rp/pickup': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/pickup:Pickups`,
+  'car-type-rp/caravan': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/caravan:Light vans`,
+  'car-type-rp/offroad': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/offroad:SUVs`,
+  'car-type-rp/minivan': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/minivan:Minivans`,
+  'car-type-rp/van': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/van:Vans`,
+  'car-type-rp/truck': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/truck:Trucks`,
+  'car-type-rp/bus': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/bus:Buses`,
+  'car-type-rp/phaeton': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/phaeton:Phaetons`,
+  'car-type-rp/4door-hardtop': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/4door-hardtop:4-door hardtops`,
+  'car-type-rp/landau': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/landau:Landaus`,
+  'car-type-rp/offroad-cabrio': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/offroad-cabrio:SUV-cabrios`,
+  'car-type-rp/liftback-coupe': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/liftback-coupe:Liftback-coupes`,
+  'car-type-rp/liftback-sedan': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/liftback-sedan:Liftback-sedans`,
+  'car-type-rp/2door-hardtop': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/2door-hardtop:2-door hardtops`,
+  'car-type-rp/minibus': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/minibus:Minibuses`,
+  'car-type-rp/car': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/car:Cars`,
+  'car-type-rp/multiplex-bus': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/multiplex-bus:Multisection buses`,
+  'car-type-rp/offroad-short': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/offroad-short:Short-SUVs`,
+  'car-type-rp/brougham': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/brougham:Broughams`,
+  'car-type-rp/fastback-sedan': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/fastback-sedan:Fastback-sedans`,
+  'car-type-rp/fastback-coupe': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/fastback-coupe:Fastback-coupes`,
+  'car-type-rp/tonneau': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/tonneau:Tonneaus`,
+  'car-type-rp/2-floor-bus': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/2-floor-bus:2-floor buses`,
+  'car-type-rp/town-car': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/town-car:Town cars`,
+  'car-type-rp/barchetta': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/barchetta:Barchettas`,
+  'car-type-rp/moto': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/moto:Motos`,
+  'car-type-rp/tractor': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/tractor:Tractors`,
+  'car-type-rp/tracked': $localize `:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/tracked:Tracked platforms`,
+};
+
 const attrs = {
   'specs/attrs/45': $localize `Modification name`,
   'specs/attrs/95': $localize `Production years`,
@@ -790,7 +832,7 @@ export function getItemTypeTranslation(id: number, type: string): string {
 }
 
 export function getUnitTranslation(id: number, type: string): string {
-  return units[id] && units[id][type] ? units[id][type] : '-';
+  return units[id] && units[id][type] ? units[id][type] : id;
 }
 
 export function getForumsThemeTranslation(id: string): string {
@@ -807,6 +849,10 @@ export function getPerspectiveTranslation(id: string): string {
 
 export function getVehicleTypeTranslation(id: string): string {
   return vehicleTypes[id] ? vehicleTypes[id] : id;
+}
+
+export function getVehicleTypeRpTranslation(id: string): string {
+  return vehicleTypesRp[id] ? vehicleTypesRp[id] : id;
 }
 
 export function getAttrsTranslation(id: string): string {

@@ -19,16 +19,16 @@ import {
   getMostsRatingParamsTranslation,
   getMostsRatingsTranslation,
   getUnitTranslation,
-  getVehicleTypeTranslation
+  getVehicleTypeRpTranslation
 } from '../../utils/translations';
 
 function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   const result: APIVehicleType[] = [];
   for (const item of vehicleTypes) {
     result.push(item);
-    item.nameTranslated = getVehicleTypeTranslation(item.name);
+    item.nameTranslated = getVehicleTypeRpTranslation(item.name);
     for (const child of item.childs) {
-      child.nameTranslated = getVehicleTypeTranslation(child.name);
+      child.nameTranslated = getVehicleTypeRpTranslation(child.name);
       result.push(child);
     }
   }
