@@ -214,7 +214,7 @@ const vehicleTypes = {
   'car-type/universal': $localize `Touring`,
   'car-type/limousine': $localize `Limousine`,
   'car-type/pickup': $localize `Pickup`,
-  'car-type/caravan': $localize `Van`,
+  'car-type/caravan': $localize `Light van`,
   'car-type/offroad': $localize `SUV`,
   'car-type/minivan': $localize `Minivan`,
   'car-type/van': $localize `Van`,

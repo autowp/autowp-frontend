@@ -498,7 +498,7 @@ Ajude-nos a [traduzir este site](https://github.com/autowp/autowp/tree/master/mo
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">36,47</context>
+          <context context-type="linenumber">34,42</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/specifications/specifications.component.ts</context>
@@ -510,7 +510,7 @@ Ajude-nos a [traduzir este site](https://github.com/autowp/autowp/tree/master/mo
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-item.component.ts</context>
-          <context context-type="linenumber">84,93</context>
+          <context context-type="linenumber">84,92</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-picture/category-picture.component.ts</context>
@@ -830,23 +830,23 @@ Ajude-nos a [traduzir este site](https://github.com/autowp/autowp/tree/master/mo
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-picture/twins-group-picture.component.ts</context>
-          <context context-type="linenumber">33,43</context>
+          <context context-type="linenumber">34,42</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-pictures.component.ts</context>
-          <context context-type="linenumber">31,41</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.ts</context>
-          <context context-type="linenumber">34,41</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/twins/twins-group.component.ts</context>
           <context context-type="linenumber">32,41</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.ts</context>
+          <context context-type="linenumber">33,41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/twins-group.component.ts</context>
+          <context context-type="linenumber">30,38</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">37,47</context>
+          <context context-type="linenumber">38,47</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/select/select.component.ts</context>
@@ -1478,7 +1478,7 @@ Uma mensagem com as instruções de confirmação será enviada para o novo ende
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">81,89</context>
+          <context context-type="linenumber">80,88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f0257faf75038b65528f7ffabfb9072b525fe84f" datatype="html">
@@ -1838,15 +1838,15 @@ Uma mensagem com as instruções de confirmação será enviada para o novo ende
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-pictures.component.ts</context>
-          <context context-type="linenumber">53,59</context>
+          <context context-type="linenumber">53,58</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.ts</context>
-          <context context-type="linenumber">56,67</context>
+          <context context-type="linenumber">54,65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group.component.ts</context>
-          <context context-type="linenumber">48,54</context>
+          <context context-type="linenumber">46,49</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
@@ -1854,7 +1854,7 @@ Uma mensagem com as instruções de confirmação será enviada para o novo ende
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">85,94</context>
+          <context context-type="linenumber">86,94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5b1b14426d1ea1b7669ea3ff4b4ae3f4059070e" datatype="html">
@@ -1882,7 +1882,7 @@ Uma mensagem com as instruções de confirmação será enviada para o novo ende
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-item.component.ts</context>
-          <context context-type="linenumber">104,112</context>
+          <context context-type="linenumber">103,110</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-picture/category-picture.component.ts</context>
@@ -1890,7 +1890,7 @@ Uma mensagem com as instruções de confirmação será enviada para o novo ende
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-pictures.component.ts</context>
-          <context context-type="linenumber">60,68</context>
+          <context context-type="linenumber">58,67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/index.component.ts</context>
@@ -1994,15 +1994,15 @@ Uma mensagem com as instruções de confirmação será enviada para o novo ende
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/select/select.component.ts</context>
@@ -2305,15 +2305,15 @@ Todas as imagens são para fins educacionais
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.ts</context>
@@ -2337,11 +2337,11 @@ Todas as imagens são para fins educacionais
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">107,115</context>
+          <context context-type="linenumber">106,115</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.ts</context>
@@ -2801,19 +2801,19 @@ Todas as imagens são para fins educacionais
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">77,84</context>
+          <context context-type="linenumber">73,81</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/vehicles.component.ts</context>
-          <context context-type="linenumber">52,59</context>
+          <context context-type="linenumber">53,56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-item.component.ts</context>
-          <context context-type="linenumber">124,129</context>
+          <context context-type="linenumber">122,128</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.ts</context>
@@ -2845,7 +2845,7 @@ Todas as imagens são para fins educacionais
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.ts</context>
@@ -2959,7 +2959,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/move-message/move-message.component.ts</context>
@@ -3131,11 +3131,11 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">122,135</context>
+          <context context-type="linenumber">117,128</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/vehicles.component.ts</context>
-          <context context-type="linenumber">90,102</context>
+          <context context-type="linenumber">88,101</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a60aecfc0b6c06a649c3eb02d3fe29bacaa7aa88" datatype="html">
@@ -3203,7 +3203,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">56,61</context>
+          <context context-type="linenumber">55,61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="90724db11a1a7ff710e73a6083eb398290ef3909" datatype="html">
@@ -3235,11 +3235,11 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Todas as imagens de <x id="PH" equiv-text="this.item.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">92</context>
+          <context context-type="linenumber">94</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-pictures.component.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e134d2f0ae25bd9b96e568d997cca5037557c3e2" datatype="html">
@@ -3247,11 +3247,11 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Inbox</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">97,102</context>
+          <context context-type="linenumber">95,101</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/vehicles.component.ts</context>
-          <context context-type="linenumber">71,75</context>
+          <context context-type="linenumber">70,76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8026363153001555875" datatype="html">
@@ -3271,7 +3271,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fb993a75a9c40e0a374202d7f7ba8da0112517ff" datatype="html">
@@ -3279,7 +3279,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Outras imagens de</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/vehicles.component.ts</context>
-          <context context-type="linenumber">110,120</context>
+          <context context-type="linenumber">110,115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6e4cb17f73e959556c99193bc721f62c2aa08ca4" datatype="html">
@@ -3287,15 +3287,15 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>todas as imagens</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/vehicles.component.ts</context>
-          <context context-type="linenumber">135,144</context>
+          <context context-type="linenumber">131,141</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.ts</context>
@@ -3315,7 +3315,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.ts</context>
@@ -3327,7 +3327,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Imagens</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-pictures.component.ts</context>
-          <context context-type="linenumber">61,62</context>
+          <context context-type="linenumber">63,64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
@@ -3343,7 +3343,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Imagens</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category-pictures.component.ts</context>
-          <context context-type="linenumber">79,86</context>
+          <context context-type="linenumber">78,85</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cutaway/authors/authors.component.ts</context>
@@ -3431,7 +3431,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>desenhado por </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">36,47</context>
+          <context context-type="linenumber">39,48</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3443,11 +3443,11 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.ts</context>
@@ -3463,7 +3463,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>{VAR_PLURAL, plural, one {Produzido em apenas <x id="INTERPOLATION"/> cópia} other {Produzido em <x id="INTERPOLATION"/> cópias}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">62,67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3487,7 +3487,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>{VAR_PLURAL, plural, one {Produzido em aproximadamente <x id="INTERPOLATION"/> cópia} other {Produzido em aproximadamente <x id="INTERPOLATION"/> cópias}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3511,7 +3511,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Produzido em uma única cópia</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3535,7 +3535,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Sem fotos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3555,7 +3555,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Adicionar foto</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3575,7 +3575,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Montado em:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3595,7 +3595,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>editar especificações</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.ts</context>
@@ -3611,7 +3611,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.ts</context>
@@ -3695,7 +3695,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/new-topic/new-topic.component.ts</context>
@@ -3719,7 +3719,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Anômimo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">40,49</context>
+          <context context-type="linenumber">40,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e621034a67a5ac7493be36d56b331a1821713e04" datatype="html">
@@ -3727,7 +3727,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Mensagem deletada pela administração do site</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">63,71</context>
+          <context context-type="linenumber">62,70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="826b25211922a1b46436589233cb6f1a163d89b7" datatype="html">
@@ -3735,7 +3735,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Apagar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -3751,7 +3751,7 @@ Alguns erros apontados por outros usuários você poderá verificar [através de
         <target>Restaurar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.ts</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -4525,7 +4525,7 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9d9a251d7458cd5d1d94be431ef006168e80ffc1" datatype="html">
@@ -4537,7 +4537,7 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="81d88e44cee2947c2961f172043d2e79250605f9" datatype="html">
@@ -4901,11 +4901,11 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group.component.ts</context>
-          <context context-type="linenumber">70,83</context>
+          <context context-type="linenumber">68,79</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.ts</context>
@@ -5133,7 +5133,7 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="37901f27a5923b6982a2c04f363725ec7db5b73f" datatype="html">
@@ -5397,7 +5397,7 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">125,140</context>
+          <context context-type="linenumber">125,137</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d351b31c92c4e0ffc3b6ae379702b2d4d1cb98b5" datatype="html">
@@ -5421,7 +5421,7 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="28df1b02fd88d2deb0212bc5d7ff34cf9492fa54" datatype="html">
@@ -8073,7 +8073,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>Especificações da imagem:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">37,47</context>
+          <context context-type="linenumber">38,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b284ee2481274869dfb81764f597da8a13a6813d" datatype="html">
@@ -8081,7 +8081,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>Resolução</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">60,74</context>
+          <context context-type="linenumber">56,65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.ts</context>
@@ -8093,7 +8093,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>Tamanho do arquivo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">88,100</context>
+          <context context-type="linenumber">84,93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="845e2a1e3d87da8f4be76eef1a16c2c6a016b818" datatype="html">
@@ -8101,7 +8101,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>Status da imagem:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">112,128</context>
+          <context context-type="linenumber">110,119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f03bd4d937b79f324f15d9350d42c8d049d1a361" datatype="html">
@@ -8117,7 +8117,7 @@ Se você acha que os usuários do site cometeram algum erro em postar esta image
 Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/forums/)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="98dc81e946e9805964a480be5ea94837fdd0029a" datatype="html">
@@ -8125,7 +8125,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Em outros idiomas</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ff27eccd46cf7112d2ba900b7a764a70e840a26d" datatype="html">
@@ -8133,7 +8133,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Imagem sugerida para substituir</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="614572b1ab760b97aef5491e3ed62b993865b7c8" datatype="html">
@@ -8141,7 +8141,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Adicionada por:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="480673e0879680d7501e32770b19f89dc39c320a" datatype="html">
@@ -8149,7 +8149,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Data da tomada:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="picture/location" datatype="html">
@@ -8157,7 +8157,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Coordenadas</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b07a9b55b59eb785520d3ba786ed697578e9cc4e" datatype="html">
@@ -8165,7 +8165,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Não decidida</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ea1c70b874904216cc5af24bd7cb3dab2d074d42" datatype="html">
@@ -8173,7 +8173,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Removendo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="picture/propose-image-replacement" datatype="html">
@@ -8181,7 +8181,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Propor substituição da imagem</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7ac9301d832a9b13738821c42f71ea78f74243c2" datatype="html">
@@ -8189,7 +8189,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Moderadores sobre esta imagem:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8320be17dc027dace01289257fae775820599e34" datatype="html">
@@ -8197,7 +8197,7 @@ Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/f
         <target>Editar imagem nº<x id="INTERPOLATION" equiv-text="{{picture.id}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5205807443404566174" datatype="html">
@@ -8623,7 +8623,7 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-pictures.component.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5525884622010514657" datatype="html">
@@ -8631,7 +8631,7 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
         <target>Caractéristiques de <x id="PH" equiv-text="data.group.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fdfef85751dc1d9f3a0cca5d18613de0df9a5a9d" datatype="html">
@@ -8639,7 +8639,7 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
         <target>Caractéristiques de <x id="INTERPOLATION" equiv-text="{{group.name_text}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.ts</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8188458751967407524" datatype="html">
@@ -8647,11 +8647,11 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
         <target>Gêmeos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">56,57</context>
+          <context context-type="linenumber">57,58</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.ts</context>
-          <context context-type="linenumber">103,104</context>
+          <context context-type="linenumber">104,105</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
@@ -10068,6 +10068,14 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">216,217</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7037530440715084925" datatype="html">
+        <source>Light van</source>
+        <target>Van</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">217,218</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2592758405172798709" datatype="html">
