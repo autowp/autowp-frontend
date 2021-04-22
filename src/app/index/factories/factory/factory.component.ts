@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {APIIndexFactoriesItem} from '../factories.component';
 import { APIService } from '../../../services/api.service';
 
@@ -7,7 +7,6 @@ import { APIService } from '../../../services/api.service';
   templateUrl: './factory.component.html',
   styleUrls: ['./factory.component.scss']
 })
-@Injectable()
 export class IndexFactoriesFactoryComponent {
   @Input() factory: APIIndexFactoriesItem;
   public loading = true;

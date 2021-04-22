@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   OnInit,
   OnDestroy, ViewChild
 } from '@angular/core';
@@ -20,7 +19,6 @@ import {environment} from '../../../environments/environment';
   selector: 'app-account-profile',
   templateUrl: './profile.component.html'
 })
-@Injectable()
 export class AccountProfileComponent implements OnInit, OnDestroy {
   private user: APIUser;
   public profile = {

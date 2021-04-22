@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIItem, ItemService } from '../services/item';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {Subscription, combineLatest, of, EMPTY} from 'rxjs';
@@ -20,7 +20,6 @@ import {ToastsService} from '../toasts/toasts.service';
   selector: 'app-museum',
   templateUrl: './museum.component.html'
 })
-@Injectable()
 export class MuseumComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public museumModer = false;

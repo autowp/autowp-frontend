@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -9,7 +9,6 @@ import { APIService } from '../../services/api.service';
   selector: 'app-account-emailcheck',
   templateUrl: './emailcheck.component.html'
 })
-@Injectable()
 export class AccountEmailcheckComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public success = false;

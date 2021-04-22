@@ -1,11 +1,4 @@
-import {
-  OnChanges,
-  OnInit,
-  Injectable,
-  Component,
-  Input,
-  SimpleChanges
-} from '@angular/core';
+import {OnChanges, Component, Input, SimpleChanges} from '@angular/core';
 import { APIItem } from '../../../services/item';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
@@ -14,16 +7,12 @@ import { APIService } from '../../../services/api.service';
   selector: 'app-cars-specifications-editor-result',
   templateUrl: './result.component.html'
 })
-@Injectable()
-export class CarsSpecificationsEditorResultComponent
-  implements OnInit, OnChanges {
+export class CarsSpecificationsEditorResultComponent implements OnChanges {
   @Input() item: APIItem;
   public loading = 0;
   public resultHtml = '';
 
   constructor(private api: APIService, private toastService: ToastsService) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {

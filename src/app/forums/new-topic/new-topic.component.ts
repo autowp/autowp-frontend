@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -13,7 +13,6 @@ import { getForumsThemeTranslation } from '../../utils/translations';
   selector: 'app-forums-new-topic',
   templateUrl: './new-topic.component.html'
 })
-@Injectable()
 export class ForumsNewTopicComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public form = {

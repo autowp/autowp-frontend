@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import {Subscription} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
@@ -9,7 +9,6 @@ import {APIGalleryItem} from './definitions';
   selector: 'app-gallery-page',
   templateUrl: './gallery-page.component.html'
 })
-@Injectable()
 export class GalleryPageComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public current: string;

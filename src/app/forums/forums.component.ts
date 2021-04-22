@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIPaginator, APIService} from '../services/api.service';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {combineLatest, Observable, Subscription} from 'rxjs';
@@ -14,7 +14,6 @@ import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '.
   templateUrl: './forums.component.html',
   styles: ['app-forums {display:block}']
 })
-@Injectable()
 export class ForumsComponent implements OnInit, OnDestroy {
   private paramsSub: Subscription;
   public paginator: APIPaginator;

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   APIAccountStartPostResponse,
   APIAccountItemsGetResponse,
@@ -17,7 +17,6 @@ import {AuthService} from '../../services/auth.service';
   selector: 'app-account-accounts',
   templateUrl: './accounts.component.html'
 })
-@Injectable()
 export class AccountAccountsComponent implements OnInit, OnDestroy{
   public service = null;
   public accounts: APIAccount[] = [];

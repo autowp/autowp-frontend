@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
@@ -10,7 +10,6 @@ import {ACLService, Privilege, Resource} from '../services/acl.service';
   selector: 'app-twins-group',
   templateUrl: './twins-group.component.html'
 })
-@Injectable()
 export class TwinsGroupComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;

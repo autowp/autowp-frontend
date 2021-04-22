@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
@@ -20,7 +20,6 @@ interface PictureRoute {
   selector: 'app-categories-category-pictures',
   templateUrl: './category-pictures.component.html'
 })
-@Injectable()
 export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public category: APIItem;

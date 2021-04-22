@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPicture} from '../../services/picture';
 import {Subscription} from 'rxjs';
@@ -51,7 +51,6 @@ export interface CatalogueListItem {
   selector: 'app-catalogue-list-item',
   templateUrl: './list-item.component.html'
 })
-@Injectable()
 export class CatalogueListItemComponent implements OnInit, OnDestroy {
   @Input() item: CatalogueListItem;
 

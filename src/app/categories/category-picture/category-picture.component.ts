@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import {Subscription, of, BehaviorSubject} from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
 import {APIPicture, PictureService} from '../../services/picture';
@@ -17,7 +17,6 @@ import { CatagoriesService } from '../service';
   selector: 'app-category-picture',
   templateUrl: './category-picture.component.html'
 })
-@Injectable()
 export class CategoryPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public category: APIItem;
@@ -74,7 +73,7 @@ export class CategoryPictureComponent implements OnInit, OnDestroy {
               'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
             return this.changed$.pipe(
-              switchMap(value => this.pictureService.getPictures({
+              switchMap(() => this.pictureService.getPictures({
                 identity: data.identity,
                 item_id: data.current.id,
                 fields,

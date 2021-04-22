@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { APIAttrZoneAttributeChange } from '../zone.component';
 import { APIAttrAttribute } from '../../../../api/attrs/attrs.service';
 import { getAttrsTranslation } from '../../../../utils/translations';
@@ -7,7 +7,6 @@ import { getAttrsTranslation } from '../../../../utils/translations';
   selector: 'app-moder-attrs-zone-attribute-list',
   templateUrl: './attribute-list.component.html'
 })
-@Injectable()
 export class ModerAttrsZoneAttributeListComponent  {
   @Input() attributes: APIAttrAttribute[];
   @Input() map: {

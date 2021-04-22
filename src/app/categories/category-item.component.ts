@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../services/item';
 import {Observable, of, Subscription} from 'rxjs';
 import {PageEnvService} from '../services/page-env.service';
@@ -66,7 +66,6 @@ function itemRouterLink(category: APIItem, pathCatnames: string[], itemParent: A
   selector: 'app-categories-category-item',
   templateUrl: './category-item.component.html'
 })
-@Injectable()
 export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
   private isModerSub: Subscription;
   private canAddCarSub: Subscription;

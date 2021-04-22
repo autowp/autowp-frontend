@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, combineLatest, of, Subscription} from 'rxjs';
 import {APIItem, ItemService} from '../../services/item';
 import {APIPicture, PictureService} from '../../services/picture';
@@ -14,7 +14,6 @@ import {AuthService} from '../../services/auth.service';
   selector: 'app-twins-group-picture',
   templateUrl: './twins-group-picture.component.html'
 })
-@Injectable()
 export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
@@ -92,7 +91,7 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
             }
 
             return this.changed$.pipe(
-              switchMap(value => this.pictureService.getPictures({
+              switchMap(() => this.pictureService.getPictures({
                 identity: data.identity,
                 item_id: data.group.id,
                 fields,

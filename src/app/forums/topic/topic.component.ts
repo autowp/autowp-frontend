@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../services/api.service';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,6 @@ import { getForumsThemeTranslation } from '../../utils/translations';
   selector: 'app-forums-topic',
   templateUrl: './topic.component.html'
 })
-@Injectable()
 export class ForumsTopicComponent implements OnInit, OnDestroy {
   private paramsSub: Subscription;
   public topic: APIForumTopic;

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIItemParentLanguageGetResponse, APIService } from '../../services/api.service';
 import { ContentLanguageService } from '../../services/content-language';
 import { ItemService, APIItem } from '../../services/item';
@@ -18,7 +18,6 @@ import { getItemTypeTranslation } from '../../utils/translations';
   selector: 'app-moder-item-parent',
   templateUrl: './item-parent.component.html'
 })
-@Injectable()
 export class ModerItemParentComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public item: APIItem;

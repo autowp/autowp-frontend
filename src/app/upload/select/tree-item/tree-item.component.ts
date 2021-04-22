@@ -1,4 +1,4 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   APIItemParent,
   ItemParentService
@@ -10,7 +10,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
   selector: 'app-upload-select-tree-item',
   templateUrl: './tree-item.component.html'
 })
-@Injectable()
 export class UploadSelectTreeItemComponent {
   @Input() item: APIItemParent;
   @Input() typeId: number;

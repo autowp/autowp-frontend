@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import {Subscription, of, EMPTY, Observable, BehaviorSubject, combineLatest} from 'rxjs';
 import { APIItem, ItemService } from '../../../services/item';
 import {
@@ -19,7 +19,6 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
   selector: 'app-catalogue-mixed-picture',
   templateUrl: './picture.component.html'
 })
-@Injectable()
 export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public brand: APIItem;
@@ -121,7 +120,7 @@ export class CatalogueMixedPictureComponent implements OnInit, OnDestroy {
             'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
           return this.changed$.pipe(
-            switchMap(value => this.pictureService.getPictures({
+            switchMap(() => this.pictureService.getPictures({
               identity,
               exact_item_id: brandID,
               perspective_id: perspectiveID,

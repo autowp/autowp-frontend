@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit, OnDestroy, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {
   MostsService,
   APIMostsItem,
@@ -41,7 +41,6 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   templateUrl: './contents.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
   public items: APIMostsItem[];
   public years: APIMostsMenuYear[];

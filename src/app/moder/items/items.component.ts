@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import {
   VehicleTypeService,
@@ -72,7 +72,6 @@ const DEFAULT_ORDER = 'id_desc';
   selector: 'app-items',
   templateUrl: './items.component.html'
 })
-@Injectable()
 export class ModerItemsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
 

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 import { PictureItemService } from '../../../../services/picture-item';
@@ -25,7 +25,6 @@ interface Crop {
   selector: 'app-moder-pictures-item-area',
   templateUrl: './area.component.html'
 })
-@Injectable()
 export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private id: number;
   private itemID: number;

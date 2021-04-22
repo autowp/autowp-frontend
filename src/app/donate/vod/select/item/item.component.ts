@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   Input
 } from '@angular/core';
 import {
@@ -14,7 +13,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './item.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class DonateVodSelectItemComponent {
   public childs: APIItemParent[] = [];
   public loading = false;

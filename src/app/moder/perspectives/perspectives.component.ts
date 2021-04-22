@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import {
   APIPerspectivePage,
   APIPerspectivePageGetResponse,
@@ -11,7 +11,6 @@ import { getPerspectiveTranslation } from '../../utils/translations';
   selector: 'app-moder-perspectives',
   templateUrl: './perspectives.component.html'
 })
-@Injectable()
 export class ModerPerspectivesComponent {
   public pages: APIPerspectivePage[];
 

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -22,7 +22,6 @@ const ALL_BRANDS = 'all';
   selector: 'app-inbox',
   templateUrl: './inbox.component.html'
 })
-@Injectable()
 export class InboxComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public pictures: APIPicture[] = [];

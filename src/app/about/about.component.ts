@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as showdown from 'showdown';
 import * as escapeRegExp from 'lodash.escaperegexp';
 import { UserService, APIUser } from '../services/user';
@@ -97,7 +97,6 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
   selector: 'app-about',
   templateUrl: './about.component.html'
 })
-@Injectable()
 export class AboutComponent implements OnInit, OnDestroy {
   public html = '';
   private sub: Subscription;

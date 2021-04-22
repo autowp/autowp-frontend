@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem, APIItemsGetResponse } from '../../services/item';
 import { chunk } from '../../chunk';
@@ -26,7 +26,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-upload-select',
   templateUrl: './select.component.html'
 })
-@Injectable()
 export class UploadSelectComponent implements OnInit {
   public brand: {
     item: APIItem;

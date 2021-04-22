@@ -1,4 +1,4 @@
-import {Input, Component, Injectable, EventEmitter, Output, OnChanges, SimpleChanges} from '@angular/core';
+import {Input, Component, EventEmitter, Output, OnChanges, SimpleChanges} from '@angular/core';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
 
@@ -6,7 +6,6 @@ import { APIService } from '../../services/api.service';
   selector: 'app-comments-form',
   templateUrl: './form.component.html'
 })
-@Injectable()
 export class CommentsFormComponent implements OnChanges {
   @Input() parentID: number;
   @Input() itemID: number;

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import { APIService } from '../../services/api.service';
 
@@ -20,7 +20,6 @@ interface APIIndexBrandsResponse {
   templateUrl: './brands.component.html',
   styleUrls: ['./brands.component.scss']
 })
-@Injectable()
 export class IndexBrandsComponent implements OnInit, OnDestroy {
   public brands: APIIndexBrandsResponse;
   public more = 0;

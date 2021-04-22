@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -12,7 +12,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
   selector: 'app-persons-person-gallery',
   templateUrl: './gallery.component.html'
 })
-@Injectable()
 export class PersonsPersonGalleryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public paginator: APIPaginator;

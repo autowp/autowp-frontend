@@ -1,7 +1,6 @@
 import { sprintf } from 'sprintf-js';
 import {
   Component,
-  Injectable,
   Input,
   OnChanges,
   SimpleChanges,
@@ -66,7 +65,6 @@ function createMarker(lat, lng): Marker {
   templateUrl: './item-meta-form.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() item: APIItem;

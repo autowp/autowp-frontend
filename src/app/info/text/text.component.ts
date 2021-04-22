@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService, APIUser } from '../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +33,6 @@ export interface APIInfoText {
   selector: 'app-info-text',
   templateUrl: './text.component.html'
 })
-@Injectable()
 export class InfoTextComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public prev: {

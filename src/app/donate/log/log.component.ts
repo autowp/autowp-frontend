@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { UserService, APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 
@@ -14,7 +14,6 @@ interface LogItem {
   selector: 'app-donate-log',
   templateUrl: './log.component.html'
 })
-@Injectable()
 export class DonateLogComponent {
   public items: LogItem[];
 

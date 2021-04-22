@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SpecService, APISpec } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -42,7 +42,6 @@ interface NewItem {
   selector: 'app-moder-items-new',
   templateUrl: './new.component.html'
 })
-@Injectable()
 export class ModerItemsNewComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public loading = 0;

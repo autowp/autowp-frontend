@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
@@ -6,11 +6,9 @@ import { HttpParams } from '@angular/common/http';
   templateUrl: './share.component.html',
   styleUrls: ['./share.component.scss']
 })
-export class ShareComponent implements OnInit {
+export class ShareComponent{
   @Input() url: string;
   @Input() text: string;
-
-  ngOnInit() {}
 
   buildURL(url: string, params: { [s: string]: string }): string {
     let p = new HttpParams();

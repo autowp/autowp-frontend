@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPage, APIPageLinearized, PageService} from '../../services/page';
 import {PageEnvService} from '../../services/page-env.service';
@@ -10,7 +10,6 @@ import {APIService} from '../../services/api.service';
   selector: 'app-moder-pages',
   templateUrl: './pages.component.html'
 })
-@Injectable()
 export class ModerPagesComponent implements OnInit, OnDestroy {
   public items: APIPageLinearized[] = [];
   public canManage = false;

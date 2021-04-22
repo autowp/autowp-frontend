@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { APIItem } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +11,6 @@ import {APIGalleryItem} from '../../gallery/definitions';
   selector: 'app-category-gallery',
   templateUrl: './category-gallery.component.html'
 })
-@Injectable()
 export class CategoryGalleryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private category: APIItem;

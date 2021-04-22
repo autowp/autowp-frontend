@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemLink, ItemLinkService} from '../../../../services/item-link';
@@ -10,7 +10,6 @@ import {APIService} from '../../../../services/api.service';
   selector: 'app-moder-items-item-links',
   templateUrl: './links.component.html'
 })
-@Injectable()
 export class ModerItemsItemLinksComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() item: APIItem;

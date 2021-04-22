@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   OnInit,
   OnDestroy,
   ViewChild
@@ -44,7 +43,6 @@ interface UploadProgress {
   selector: 'app-upload',
   templateUrl: './upload.component.html'
 })
-@Injectable()
 export class UploadComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public selected: boolean;

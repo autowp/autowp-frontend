@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -7,7 +7,6 @@ import { APIService } from '../../services/api.service';
   selector: 'app-account-access',
   templateUrl: './access.component.html'
 })
-@Injectable()
 export class AccountAccessComponent {
   public invalidParams: any = {};
   public form: any = {

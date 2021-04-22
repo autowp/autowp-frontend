@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageEnvService } from '../services/page-env.service';
 import { APIUser } from '../services/user';
 import {ToastsService} from '../toasts/toasts.service';
@@ -21,7 +21,6 @@ export interface APIPulseResponse {
   selector: 'app-pulse',
   templateUrl: './pulse.component.html'
 })
-@Injectable()
 export class PulseComponent implements OnInit {
 
   public legend: {

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit, OnDestroy, NgZone} from '@angular/core';
+import {Component, OnInit, OnDestroy, NgZone} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PictureService, APIPicture } from '../../../../services/picture';
@@ -26,7 +26,6 @@ function createMarker(lat, lng): Marker {
   selector: 'app-moder-pictures-place',
   templateUrl: './place.component.html'
 })
-@Injectable()
 export class ModerPicturesItemPlaceComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public picture: APIPicture;

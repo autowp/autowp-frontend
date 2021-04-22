@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
 import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
 import {Subscription} from 'rxjs';
 import {APIPerspective} from '../../../services/api.service';
@@ -8,7 +8,6 @@ import { getPerspectiveTranslation } from '../../../utils/translations';
   selector: 'app-moder-pictures-perspective-picker',
   templateUrl: './perspective-picker.component.html'
 })
-@Injectable()
 export class ModerPicturesPerspectivePickerComponent implements OnInit, OnDestroy {
   private perspectiveSub: Subscription;
   public perspectives: APIPerspective[];

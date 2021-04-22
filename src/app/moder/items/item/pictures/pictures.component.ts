@@ -1,11 +1,4 @@
-import {
-  Component,
-  Injectable,
-  OnInit,
-  OnChanges,
-  Input,
-  SimpleChanges
-} from '@angular/core';
+import {Component, OnChanges, Input, SimpleChanges} from '@angular/core';
 import { APIItem } from '../../../../services/item';
 import { PictureService, APIPicture } from '../../../../services/picture';
 import { chunkBy } from '../../../../chunk';
@@ -14,8 +7,7 @@ import { chunkBy } from '../../../../chunk';
   selector: 'app-moder-items-item-pictures',
   templateUrl: './pictures.component.html'
 })
-@Injectable()
-export class ModerItemsItemPicturesComponent implements OnInit, OnChanges {
+export class ModerItemsItemPicturesComponent implements OnChanges {
   @Input() item: APIItem;
 
   public loading = 0;
@@ -24,8 +16,6 @@ export class ModerItemsItemPicturesComponent implements OnInit, OnChanges {
   public picturesChunks: APIPicture[][] = [];
 
   constructor(private pictureService: PictureService) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {

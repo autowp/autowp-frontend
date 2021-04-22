@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   NgZone,
   OnInit,
   ComponentFactoryResolver,
@@ -55,7 +54,6 @@ function createMarker(lat, lng): Marker {
   templateUrl: './map.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class MapComponent implements OnInit {
   private compRef: ComponentRef<MapPopupComponent>;
   public markers: Marker[] = [];

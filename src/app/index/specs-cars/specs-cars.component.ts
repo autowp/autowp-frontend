@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {APIUser} from '../../services/user';
 import {chunkBy} from '../../chunk';
@@ -22,7 +22,6 @@ interface SpecsCatalogueListItem extends CatalogueListItem {
   selector: 'app-index-specs-cars',
   templateUrl: './specs-cars.component.html'
 })
-@Injectable()
 export class IndexSpecsCarsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public items: SpecsCatalogueListItem[][];

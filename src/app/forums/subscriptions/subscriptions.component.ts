@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-forums-subscriptions',
   templateUrl: './subscriptions.component.html'
 })
-@Injectable()
 export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public topics: APIForumTopic[] = [];

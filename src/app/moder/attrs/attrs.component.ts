@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -10,7 +10,6 @@ import { APIService } from '../../services/api.service';
   selector: 'app-moder-attrs',
   templateUrl: './attrs.component.html'
 })
-@Injectable()
 export class ModerAttrsComponent implements OnInit, OnDestroy {
   public attributes: APIAttrAttribute[] = [];
   public zones: APIAttrZone[] = [];

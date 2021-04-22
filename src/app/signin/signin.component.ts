@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import {
   APILoginStartGetResponse,
@@ -16,7 +16,6 @@ import {externalLoginServices, OAuthService, TokenResponse} from '../services/oa
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
 })
-@Injectable()
 export class SignInComponent implements OnInit, OnDestroy {
   public services = externalLoginServices;
   public form = {

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
 import {Subscription, EMPTY} from 'rxjs';
@@ -19,7 +19,6 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item
   selector: 'app-factory-items',
   templateUrl: './items.component.html'
 })
-@Injectable()
 export class FactoryItemsComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public factory: APIItem;

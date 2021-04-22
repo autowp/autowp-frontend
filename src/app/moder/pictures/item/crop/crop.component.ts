@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,7 +19,6 @@ interface Crop {
   selector: 'app-moder-pictures-item-crop',
   templateUrl: './crop.component.html'
 })
-@Injectable()
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public aspect = '';

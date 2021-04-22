@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IpService } from '../../services/ip';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
@@ -28,7 +28,6 @@ export interface APITrafficGetResponse {
   selector: 'app-moder-traffic',
   templateUrl: './traffic.component.html'
 })
-@Injectable()
 export class ModerTrafficComponent implements OnInit, OnDestroy {
   public items: APITrafficItem[];
   private sub: Subscription;

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription } from 'rxjs';
 import {
@@ -10,7 +10,6 @@ import {
   selector: 'app-moder-picture-vote-templates',
   templateUrl: './picture-vote-templates.component.html'
 })
-@Injectable()
 export class ModerPictureVoteTemplatesComponent implements OnInit, OnDestroy {
   public templates: APIPictureModerVoteTemplate[];
   public vote = -1;

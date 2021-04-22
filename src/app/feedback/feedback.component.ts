@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
@@ -9,7 +9,6 @@ import { APIService } from '../services/api.service';
   selector: 'app-feedback',
   templateUrl: './feedback.component.html'
 })
-@Injectable()
 export class FeedbackComponent {
   public form = {
     name: '',

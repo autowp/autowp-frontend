@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {APIIndexCategoriesItem} from '../categories.component';
 import { APIService } from '../../../services/api.service';
 
@@ -7,7 +7,6 @@ import { APIService } from '../../../services/api.service';
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-@Injectable()
 export class IndexCategoriesCategoryComponent {
   @Input() category: APIIndexCategoriesItem;
   public loading = true;

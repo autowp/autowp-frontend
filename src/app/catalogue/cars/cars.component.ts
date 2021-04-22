@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
@@ -23,7 +23,6 @@ interface VehicleType {
   selector: 'app-catalogue-cars',
   templateUrl: './cars.component.html'
 })
-@Injectable()
 export class CatalogueCarsComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;

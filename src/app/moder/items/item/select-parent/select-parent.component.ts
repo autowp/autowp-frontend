@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../../../services/api.service';
 import { ItemService, APIItem } from '../../../../services/item';
 import { chunk } from '../../../../chunk';
@@ -20,7 +20,6 @@ export interface APIItemInSelectParent extends APIItem {
   selector: 'app-moder-items-item-select-parent',
   templateUrl: './select-parent.component.html'
 })
-@Injectable()
 export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   private paramsSub: Subscription;
   public showCatalogueTab = false;

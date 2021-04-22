@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   Input,
   OnChanges,
   SimpleChanges,
@@ -32,7 +31,6 @@ interface APIGalleryFilter {
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-@Injectable()
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @Input() filter: APIGalleryFilter;
   @Input() current: string;

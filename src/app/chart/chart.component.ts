@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
@@ -27,7 +27,6 @@ export interface APIChartData {
   selector: 'app-chart',
   templateUrl: './chart.component.html'
 })
-@Injectable()
 export class ChartComponent {
   public parameters: APIChartParameter[] = [];
   public chart = {

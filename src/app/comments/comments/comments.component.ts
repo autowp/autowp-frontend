@@ -1,6 +1,5 @@
 import { APIPaginator } from '../../services/api.service';
 import {
-  Injectable,
   Component,
   Input,
   OnChanges,
@@ -27,7 +26,6 @@ interface State {
   selector: 'app-comments',
   templateUrl: './comments.component.html'
 })
-@Injectable()
 export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
   private sub: Subscription;
 

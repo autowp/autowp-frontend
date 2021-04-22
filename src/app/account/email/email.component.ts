@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -8,7 +8,6 @@ import { APIService } from '../../services/api.service';
   selector: 'app-account-email',
   templateUrl: './email.component.html'
 })
-@Injectable()
 export class AccountEmailComponent {
   public email: string | null = null;
   public newEmail: string | null = null;

@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ItemHeader} from '../../utils/item-header/item-header.component';
 import {APIItemChildsCounts} from '../../services/item';
 
@@ -6,7 +6,6 @@ import {APIItemChildsCounts} from '../../services/item';
   selector: 'app-catalogue-item-menu',
   templateUrl: './item-menu.component.html'
 })
-@Injectable()
 export class CatalogueItemMenuComponent {
   @Input() itemRouterLink: string[];
   @Input() header: ItemHeader;

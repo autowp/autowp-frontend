@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../services/api.service';
 import { ActivatedRoute} from '@angular/router';
 import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
@@ -18,7 +18,6 @@ import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations
   selector: 'app-cars-specs-admin',
   templateUrl: './specs-admin.component.html'
 })
-@Injectable()
 export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public values: APIAttrUserValue[] = [];

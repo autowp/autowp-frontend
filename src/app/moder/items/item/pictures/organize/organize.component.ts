@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   Subscription,
@@ -31,7 +31,6 @@ interface APIPictureItemInOrganizePictures extends APIPictureItem {
   templateUrl: './organize.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class ModerItemsItemPicturesOrganizeComponent
   implements OnInit, OnDestroy {
   private routeSub: Subscription;

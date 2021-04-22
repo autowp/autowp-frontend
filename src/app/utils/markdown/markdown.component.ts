@@ -1,7 +1,6 @@
 import {
   Component,
   Input,
-  Injectable,
   OnChanges,
   SimpleChanges,
   OnInit
@@ -13,7 +12,6 @@ import * as showdown from 'showdown';
   templateUrl: './markdown.component.html',
   styleUrls: ['markdown.component.scss']
 })
-@Injectable()
 export class MarkdownComponent implements OnChanges, OnInit {
   @Input() markdown: string;
 

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   APIItem,
   ItemService,
@@ -23,7 +23,6 @@ import {ToastsService} from '../toasts/toasts.service';
   selector: 'app-factories',
   templateUrl: './factories.component.html'
 })
-@Injectable()
 export class FactoryComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public factory: APIItem;

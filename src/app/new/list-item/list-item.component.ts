@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIItem } from '../../services/item';
 import { APIPicture } from '../../services/picture';
@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './list-item.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class NewListItemComponent implements OnInit, OnDestroy {
   public isModer = false;
   @Input() item: APIItem;

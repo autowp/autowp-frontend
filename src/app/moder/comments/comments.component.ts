@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import {
   ItemService,
@@ -18,7 +18,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-moder-comments',
   templateUrl: './comments.component.html'
 })
-@Injectable()
 export class ModerCommentsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public loading = 0;

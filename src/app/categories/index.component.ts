@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
@@ -8,7 +8,6 @@ import { chunkBy } from '../chunk';
   selector: 'app-categories-index',
   templateUrl: './index.component.html'
 })
-@Injectable()
 export class CategoriesIndexComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public items: APIItem[][] = [];

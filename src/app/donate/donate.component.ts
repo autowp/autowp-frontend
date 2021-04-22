@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { PageEnvService } from '../services/page-env.service';
 import { LanguageService } from '../services/language';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
@@ -7,7 +7,6 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
   selector: 'app-donate',
   templateUrl: './donate.component.html'
 })
-@Injectable()
 export class DonateComponent {
   public frameUrl: SafeResourceUrl;
   public language: string;

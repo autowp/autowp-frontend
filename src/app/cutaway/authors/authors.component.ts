@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,6 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item
   selector: 'app-cutaway-authors',
   templateUrl: './authors.component.html'
 })
-@Injectable()
 export class CutawayAuthorsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public paginator: APIPaginator;

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../../services/api.service';
 import { ItemService, APIItem } from '../../../../services/item';
 import { UserService, APIUser } from '../../../../services/user';
@@ -19,7 +19,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   selector: 'app-users-user-pictures-brand',
   templateUrl: './brand.component.html'
 })
-@Injectable()
 export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public pictures: APIPicture[];

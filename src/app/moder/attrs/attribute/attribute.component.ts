@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, combineLatest, BehaviorSubject, of} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -12,7 +12,6 @@ import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation }
   selector: 'app-moder-attrs-attribute',
   templateUrl: './attribute.component.html'
 })
-@Injectable()
 export class ModerAttrsAttributeComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public attribute: APIAttrAttribute;

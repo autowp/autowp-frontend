@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, EMPTY } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -16,7 +16,6 @@ interface APIRestorePasswordNewResponse {
   selector: 'app-restore-password-new',
   templateUrl: './new.component.html'
 })
-@Injectable()
 export class RestorePasswordNewComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public form = {

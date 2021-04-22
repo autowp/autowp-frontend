@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIPaginator} from '../../services/api.service';
 import {APIItem, ItemService} from '../../services/item';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -14,7 +14,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-persons-person',
   templateUrl: './person.component.html'
 })
-@Injectable()
 export class PersonsPersonComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public links: APIItemLink[] = [];

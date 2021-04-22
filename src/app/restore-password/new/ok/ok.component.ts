@@ -1,11 +1,10 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { PageEnvService } from '../../../services/page-env.service';
 
 @Component({
   selector: 'app-restore-password-new-ok',
   templateUrl: './ok.component.html'
 })
-@Injectable()
 export class RestorePasswordNewOkComponent {
   constructor(private pageEnv: PageEnvService) {
     setTimeout(

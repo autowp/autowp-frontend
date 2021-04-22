@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription} from 'rxjs';
 import { ActivatedRoute, Router} from '@angular/router';
 import {
@@ -18,7 +18,6 @@ import { APIService } from '../services/api.service';
   selector: 'app-voting',
   templateUrl: './voting.component.html'
 })
-@Injectable()
 export class VotingComponent implements OnInit, OnDestroy {
   private id: number;
   private routeSub: Subscription;

@@ -1,11 +1,4 @@
-import {
-  Component,
-  Injectable,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PictureModerVoteService } from '../../../services/picture-moder-vote';
 import { APIPictureModerVoteTemplateService } from '../../../api/picture-moder-vote-template/picture-moder-vote-template.service';
@@ -14,8 +7,7 @@ import { APIPictureModerVoteTemplateService } from '../../../api/picture-moder-v
   selector: 'app-picture-moder-vote-modal',
   templateUrl: './modal.component.html'
 })
-@Injectable()
-export class PictureModerVoteModalComponent implements OnInit {
+export class PictureModerVoteModalComponent {
   @Input() pictureId: number;
   @Input() vote: number;
   @Output() voted = new EventEmitter();
@@ -28,8 +20,6 @@ export class PictureModerVoteModalComponent implements OnInit {
     private templateService: APIPictureModerVoteTemplateService,
     private moderVoteService: PictureModerVoteService
   ) {}
-
-  ngOnInit(): void {}
 
   public ok() {
     if (this.save) {

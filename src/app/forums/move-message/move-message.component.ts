@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -19,7 +19,6 @@ import { getForumsThemeTranslation } from '../../utils/translations';
   selector: 'app-forums-move-message',
   templateUrl: './move-message.component.html'
 })
-@Injectable()
 export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public messageID: number;

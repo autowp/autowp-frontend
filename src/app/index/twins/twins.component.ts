@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import { APIService } from '../../services/api.service';
 
@@ -19,7 +19,6 @@ interface APIIndexTwinsResponse {
   selector: 'app-index-twins',
   templateUrl: './twins.component.html'
 })
-@Injectable()
 export class IndexTwinsComponent implements  OnInit, OnDestroy {
   public twins: APIIndexTwinsResponse;
   private sub: Subscription;

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import * as showdown from 'showdown';
 
@@ -7,7 +7,6 @@ import * as showdown from 'showdown';
   templateUrl: './markdown2.component.html',
   styleUrls: ['markdown2.component.scss']
 })
-@Injectable()
 export class Markdown2Component implements AfterViewInit {
   constructor(private element: ElementRef, @Inject(PLATFORM_ID) private platform: object) {
   }

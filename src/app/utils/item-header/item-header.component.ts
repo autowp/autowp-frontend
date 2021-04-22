@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 export interface ItemHeader {
   nameHTML: string;
@@ -16,7 +16,6 @@ export interface ItemHeader {
   selector: 'app-item-header',
   templateUrl: './item-header.component.html'
 })
-@Injectable()
 export class ItemHeaderComponent {
   @Input() item: ItemHeader;
 

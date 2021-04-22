@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { APIPaginator } from '../../services/api.service';
 import { APIItem, ItemService } from '../../services/item';
@@ -18,7 +18,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-new-item',
   templateUrl: './item.component.html'
 })
-@Injectable()
 export class NewItemComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public paginator: APIPaginator;

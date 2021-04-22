@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIItem, ItemService } from '../../services/item';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest, of } from 'rxjs';
@@ -17,7 +17,6 @@ import { APIDonateCarOfDayDate, DonateService } from '../donate.service';
   selector: 'app-donate-vod',
   templateUrl: './vod.component.html'
 })
-@Injectable()
 export class DonateVodComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public formParams: {

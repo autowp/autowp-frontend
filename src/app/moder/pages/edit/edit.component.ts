@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -14,7 +14,6 @@ import { APIService } from '../../../services/api.service';
   selector: 'app-moder-pages-edit',
   templateUrl: './edit.component.html'
 })
-@Injectable()
 export class ModerPagesEditComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public item: APIPage = null;

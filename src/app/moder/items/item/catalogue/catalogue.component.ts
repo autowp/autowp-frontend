@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {APIItem, ItemService} from '../../../../services/item';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {Observable, of, Subscription} from 'rxjs';
@@ -11,7 +11,6 @@ import {APIService} from '../../../../services/api.service';
   selector: 'app-moder-items-item-catalogue',
   templateUrl: './catalogue.component.html'
 })
-@Injectable()
 export class ModerItemsItemCatalogueComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() item: APIItem;

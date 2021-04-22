@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {APIItem, ItemService} from '../../../services/item';
 import {of, Subscription} from 'rxjs';
@@ -31,7 +31,6 @@ interface Tab {
   selector: 'app-moder-items-item',
   templateUrl: './item.component.html'
 })
-@Injectable()
 export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public loading = 0;

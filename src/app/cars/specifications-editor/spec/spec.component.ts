@@ -1,7 +1,6 @@
 import {
   OnChanges,
   OnInit,
-  Injectable,
   Component,
   Input,
   SimpleChanges,
@@ -65,7 +64,6 @@ function toPlain(
   templateUrl: './spec.component.html',
   styleUrls: ['./spec.component.scss']
 })
-@Injectable()
 export class CarsSpecificationsEditorSpecComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() item: APIItem;

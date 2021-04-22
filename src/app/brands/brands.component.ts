@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   APIBrandsGetResponse,
   APIBrandsLines,
@@ -27,7 +27,6 @@ function addCSS(url: string) {
   selector: 'app-brands',
   templateUrl: './brands.component.html'
 })
-@Injectable()
 export class BrandsComponent implements OnInit, OnDestroy {
   public items: APIBrandsLines;
   public icons: APIBrandsIconsResponse;

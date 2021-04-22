@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {APIIndexBrandsBrand} from '../brands.component';
 import { APIService } from '../../../services/api.service';
 
@@ -7,7 +7,6 @@ import { APIService } from '../../../services/api.service';
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-@Injectable()
 export class IndexBrandsBrandComponent {
   @Input() brand: APIIndexBrandsBrand;
   public loading = true;

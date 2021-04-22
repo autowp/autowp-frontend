@@ -1,4 +1,4 @@
-import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   PictureItemService,
   APIPictureItem
@@ -24,7 +24,6 @@ import {APIIP, IpService} from '../../../services/ip';
   selector: 'app-moder-pictures-item',
   templateUrl: './item.component.html'
 })
-@Injectable()
 export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   private id: number;
   private routeSub: Subscription;

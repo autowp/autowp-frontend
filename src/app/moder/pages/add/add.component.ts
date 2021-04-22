@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { PageService, APIPage, APIPageLinearized } from '../../../services/page';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -8,7 +8,6 @@ import { APIService } from '../../../services/api.service';
   selector: 'app-moder-pages-add',
   templateUrl: './add.component.html'
 })
-@Injectable()
 export class ModerPagesAddComponent {
   public loading = 0;
   public item: any = {};

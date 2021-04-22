@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute } from '@angular/router';
 import { UserService, APIUser } from '../../../services/user';
@@ -27,7 +27,6 @@ function addCSS(url: string) {
   selector: 'app-users-user-pictures',
   templateUrl: './pictures.component.html'
 })
-@Injectable()
 export class UsersUserPicturesComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public brands: APIItem[];

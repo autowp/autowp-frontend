@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {APIItem, ItemService} from '../../services/item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
@@ -13,7 +13,6 @@ import {APIService} from '../../services/api.service';
   selector: 'app-cars-specifications-editor',
   templateUrl: './specifications-editor.component.html'
 })
-@Injectable()
 export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
   public enginesCount = 0;
   private querySub: Subscription;

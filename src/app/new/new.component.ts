@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../services/api.service';
 import { chunkBy } from '../chunk';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,7 +34,6 @@ export interface APINewGetResponse {
   selector: 'app-new',
   templateUrl: './new.component.html'
 })
-@Injectable()
 export class NewComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public paginator: APIPaginator;

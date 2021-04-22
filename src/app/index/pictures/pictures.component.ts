@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIPicture, PictureService} from '../../services/picture';
 import {Subscription} from 'rxjs';
 
@@ -6,7 +6,6 @@ import {Subscription} from 'rxjs';
   selector: 'app-index-pictures',
   templateUrl: './pictures.component.html'
 })
-@Injectable()
 export class IndexPicturesComponent implements OnInit, OnDestroy {
   public items: APIPicture[];
   private sub: Subscription;

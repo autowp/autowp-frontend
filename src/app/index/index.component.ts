@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageEnvService } from '../services/page-env.service';
 import {APIUser} from '../services/user';
 import {APIItem} from '../services/item';
@@ -23,7 +23,6 @@ interface APIIndexItemOfDay {
   templateUrl: './index.component.html',
   styleUrls: ['./index.components.scss']
 })
-@Injectable()
 export class IndexComponent implements OnInit {
   public mosts = [
     {

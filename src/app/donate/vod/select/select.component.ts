@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../services/api.service';
 import {
   APIItem,
@@ -25,7 +25,6 @@ import {
   selector: 'app-donate-vod-select',
   templateUrl: './select.component.html'
 })
-@Injectable()
 export class DonateVodSelectComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public page: number;

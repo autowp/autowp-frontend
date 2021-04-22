@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
@@ -18,7 +18,6 @@ interface PictureRoute {
   selector: 'app-catalogue-recent',
   templateUrl: './recent.component.html'
 })
-@Injectable()
 export class CatalogueRecentComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;

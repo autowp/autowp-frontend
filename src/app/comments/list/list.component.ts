@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injectable, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CommentsVotesComponent} from '../votes/votes.component';
 import {combineLatest, Subscription} from 'rxjs';
@@ -17,7 +17,6 @@ export interface APICommentInList extends APIComment {
   selector: 'app-comments-list',
   templateUrl: './list.component.html'
 })
-@Injectable()
 export class CommentsListComponent implements OnInit, OnDestroy {
   public canRemoveComments = false;
   public canMoveMessage = false;

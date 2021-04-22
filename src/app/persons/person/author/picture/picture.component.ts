@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, EMPTY, Observable, of, Subscription} from 'rxjs';
@@ -12,7 +12,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   selector: 'app-persons-person-author-picture',
   templateUrl: './picture.component.html'
 })
-@Injectable()
 export class PersonsPersonAuthorPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public isModer: boolean;

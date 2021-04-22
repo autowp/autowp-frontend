@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   Input,
   OnChanges,
   SimpleChanges,
@@ -26,7 +25,6 @@ interface JcropCrop {
   selector: 'app-upload-crop',
   templateUrl: './crop.component.html'
 })
-@Injectable()
 export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() picture: APIPicture;

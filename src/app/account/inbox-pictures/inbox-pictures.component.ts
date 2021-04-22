@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -15,7 +15,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-account-inbox-pictures',
   templateUrl: './inbox-pictures.component.html'
 })
-@Injectable()
 export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public pictures: APIPicture[] = [];

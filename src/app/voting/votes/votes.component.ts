@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   Input,
   OnChanges,
   SimpleChanges,
@@ -14,7 +13,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-voting-votes',
   templateUrl: './votes.component.html'
 })
-@Injectable()
 export class VotingVotesComponent implements OnChanges, OnInit {
   @Input() votingID: number;
   @Input() variantID: number;

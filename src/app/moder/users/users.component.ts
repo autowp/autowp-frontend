@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { UserService, APIUser } from '../../services/user';
 import { APIPaginator } from '../../services/api.service';
 import { PageEnvService } from '../../services/page-env.service';
@@ -9,7 +9,6 @@ import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
   selector: 'app-moder-users',
   templateUrl: './users.component.html'
 })
-@Injectable()
 export class ModerUsersComponent {
   public paginator: APIPaginator;
   public loading = 0;

@@ -1,4 +1,4 @@
-import { Input, Injectable, Component } from '@angular/core';
+import { Input, Component } from '@angular/core';
 import { APIGalleryItemArea } from './definitions';
 
 @Component({
@@ -6,7 +6,6 @@ import { APIGalleryItemArea } from './definitions';
   templateUrl: './area.component.html',
   styleUrls: ['./area.component.scss']
 })
-@Injectable()
 export class AreaComponent {
   @Input() styles = {};
   @Input() area: APIGalleryItemArea;

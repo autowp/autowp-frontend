@@ -53,7 +53,11 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": [
-              "jquery", "sprintf-js", "showdown", "url-parse", "chart.js"
+              "jquery",
+              "sprintf-js",
+              "showdown",
+              "url-parse",
+              "chart.js"
             ],
             "assets": [
               "src/assets",
@@ -89,7 +93,16 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js"
             ],
-            "localize": ["be-BY", "en-GB", "fr", "pt-BR", "ru", "uk", "zh-CN", "es"]
+            "localize": [
+              "be-BY",
+              "en-GB",
+              "fr",
+              "pt-BR",
+              "ru",
+              "uk",
+              "zh-CN",
+              "es"
+            ]
           },
           "configurations": {
             "test": {
@@ -147,13 +160,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
@@ -163,5 +174,8 @@
       }
     }
   },
-  "defaultProject": "wheelsage"
+  "defaultProject": "wheelsage",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

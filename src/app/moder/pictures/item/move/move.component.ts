@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../../services/api.service';
 import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
 import { PictureItemService } from '../../../../services/picture-item';
@@ -28,7 +28,6 @@ export interface PictureItemMoveSelection {
   selector: 'app-moder-pictures-item-move',
   templateUrl: './move.component.html'
 })
-@Injectable()
 export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private id: number;

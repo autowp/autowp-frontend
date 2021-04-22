@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ContactsService} from '../../services/contacts';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -19,7 +19,6 @@ import {APIService} from '../../services/api.service';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-@Injectable()
 export class UsersUserComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public user: APIUser;

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../services/api.service';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
 import {
@@ -75,7 +75,6 @@ function toPlainVehicleTypes(
   selector: 'app-moder-pictures',
   templateUrl: './pictures.component.html'
 })
-@Injectable()
 export class ModerPicturesComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public loading = 0;

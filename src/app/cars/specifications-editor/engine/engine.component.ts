@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injectable, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {APIItem, ItemService} from '../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {Subscription} from 'rxjs';
@@ -9,7 +9,6 @@ import {APIService} from '../../../services/api.service';
   selector: 'app-cars-specifications-editor-engine',
   templateUrl: './engine.component.html'
 })
-@Injectable()
 export class CarsSpecificationsEditorEngineComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() item: APIItem;

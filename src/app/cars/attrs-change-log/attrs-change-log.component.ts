@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIPaginator} from '../../services/api.service';
 import {APIUser, UserService} from '../../services/user';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -15,7 +15,6 @@ import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations
   templateUrl: './attrs-change-log.component.html',
   styleUrls: ['./attrs-change-log.component.scss']
 })
-@Injectable()
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public items: APIAttrUserValue[] = [];

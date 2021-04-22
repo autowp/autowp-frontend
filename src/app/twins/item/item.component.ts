@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIItem } from '../../services/item';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './item.component.html',
   styleUrls: ['./styles.scss']
 })
-@Injectable()
 export class TwinsItemComponent implements OnInit, OnDestroy {
   @Input() item: APIItem;
   @Input() group: APIItem;

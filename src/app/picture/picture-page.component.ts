@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import {Subscription, of, EMPTY, BehaviorSubject, throwError} from 'rxjs';
 import { APIItem} from '../services/item';
 import {APIPicture, PictureService} from '../services/picture';
@@ -16,7 +16,6 @@ import {HttpErrorResponse} from '@angular/common/http';
   selector: 'app-picture-page',
   templateUrl: './picture-page.component.html'
 })
-@Injectable()
 export class PicturePageComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public category: APIItem;
@@ -70,7 +69,7 @@ export class PicturePageComponent implements OnInit, OnDestroy {
                 'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
               return this.changed$.pipe(
-                switchMap(value => this.pictureService.getPictures({
+                switchMap(() => this.pictureService.getPictures({
                   identity,
                   fields,
                   limit: 1

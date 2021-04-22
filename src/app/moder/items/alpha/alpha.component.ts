@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../../services/api.service';
 import {ItemService, APIItem, APIItemsGetResponse} from '../../../services/item';
 import { Subscription, combineLatest, of} from 'rxjs';
@@ -14,7 +14,6 @@ export interface APIItemAlphaGetResponse {
   selector: 'app-moder-items-alpha',
   templateUrl: './alpha.component.html'
 })
-@Injectable()
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   public char: string;
   private querySub: Subscription;

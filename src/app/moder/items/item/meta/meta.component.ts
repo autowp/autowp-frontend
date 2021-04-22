@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {APIItem, ItemService} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemVehicleTypeGetResponse, APIService} from '../../../../services/api.service';
@@ -9,7 +9,6 @@ import {catchError, tap} from 'rxjs/operators';
   selector: 'app-moder-items-item-meta',
   templateUrl: './meta.component.html'
 })
-@Injectable()
 export class ModerItemsItemMetaComponent
   implements OnInit, OnDestroy, OnChanges {
   @Input() item: APIItem;

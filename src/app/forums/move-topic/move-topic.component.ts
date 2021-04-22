@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
@@ -12,7 +12,6 @@ import { getForumsThemeTranslation } from '../../utils/translations';
   selector: 'app-forums-move-topic',
   templateUrl: './move-topic.component.html'
 })
-@Injectable()
 export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public themes: APIForumTheme[] = [];

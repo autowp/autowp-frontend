@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../services/api.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -26,7 +26,6 @@ export interface APILogGetResponse {
   selector: 'app-log',
   templateUrl: './log.component.html'
 })
-@Injectable()
 export class LogComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public items: APILog[] = [];

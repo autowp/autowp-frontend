@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TwinsService, APITwinsBrand } from './twins.service';
 
@@ -6,7 +6,6 @@ import { TwinsService, APITwinsBrand } from './twins.service';
   selector: 'app-twins-sidebar',
   templateUrl: './sidebar.component.html'
 })
-@Injectable()
 export class TwinsSidebarComponent implements OnInit, OnDestroy {
   @Input() selected: string[] = [];
   private sub: Subscription;

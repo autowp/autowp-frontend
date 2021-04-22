@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   OnInit,
   Input,
   Output,
@@ -20,7 +19,6 @@ import { getVehicleTypeTranslation } from '../../utils/translations';
   selector: 'app-vehicle-types-modal',
   templateUrl: './vehicle-types-modal.component.html'
 })
-@Injectable()
 export class VehicleTypesModalComponent implements OnInit, OnDestroy {
   @Input() ids: number[] = [];
   @Output() changed = new EventEmitter();

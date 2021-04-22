@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Subscription, EMPTY} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../../services/user';
@@ -35,7 +35,6 @@ export interface APIUsersRatingGetResponse {
   selector: 'app-users-rating',
   templateUrl: './rating.component.html'
 })
-@Injectable()
 export class UsersRatingComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public rating: string;

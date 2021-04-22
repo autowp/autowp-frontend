@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {
   ItemParentService,
   APIItemParent
@@ -9,7 +9,6 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   selector: 'app-cars-select-engine-tree-item',
   templateUrl: './tree-item.component.html'
 })
-@Injectable()
 export class CarsSelectEngineTreeItemComponent {
   @Input() item: APIItemParent;
   @Output() selected = new EventEmitter<number>();

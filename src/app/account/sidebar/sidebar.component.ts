@@ -1,4 +1,4 @@
-import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message';
 import { AuthService } from '../../services/auth.service';
 import {tap} from 'rxjs/operators';
@@ -23,7 +23,6 @@ interface SidebarItem {
   selector: 'app-account-sidebar',
   templateUrl: './sidebar.component.html'
 })
-@Injectable()
 export class AccountSidebarComponent implements OnInit, OnDestroy {
   public items: SidebarItem[];
   private sub: Subscription;

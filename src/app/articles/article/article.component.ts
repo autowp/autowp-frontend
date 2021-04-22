@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { OnInit, OnDestroy, Injectable, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
@@ -10,7 +10,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-articles-article',
   templateUrl: './article.component.html'
 })
-@Injectable()
 export class ArticlesArticleComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public article: APIArticle;

@@ -1,11 +1,10 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { PageEnvService } from '../../../services/page-env.service';
 
 @Component({
   selector: 'app-account-delete-deleted',
   templateUrl: './deleted.component.html'
 })
-@Injectable()
 export class AccountDeletedComponent {
   constructor(private pageEnv: PageEnvService) {
     setTimeout(

@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {APIUser, UserService} from '../../services/user';
 import {APIPicture, APIPictureGetResponse, PictureService} from '../../services/picture';
 import {BehaviorSubject, combineLatest, Observable, of, Subscription} from 'rxjs';
@@ -21,7 +21,6 @@ interface CommentTextLine {
   selector: 'app-user-text',
   templateUrl: './user-text.component.html'
 })
-@Injectable()
 export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
   @Input() text: string;
   public textPrepared: CommentTextLine[];
@@ -90,7 +89,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     let umatch: string;
     let url;
 
-    // tslint:disable-next-line:no-conditional-assignment
+    // eslint-disable-next-line no-cond-assign
     while (line && (res = re.exec(line))) {
       if (res[1]) {
         umatch = res[1];

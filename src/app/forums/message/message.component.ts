@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
@@ -9,7 +9,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-forums-message',
   templateUrl: './message.component.html'
 })
-@Injectable()
 export class MessageComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
 

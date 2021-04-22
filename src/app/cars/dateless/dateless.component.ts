@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem } from '../../services/item';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-cars-deteless',
   templateUrl: './dateless.component.html'
 })
-@Injectable()
 export class CarsDatelessComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public items: APIItem[] = [];

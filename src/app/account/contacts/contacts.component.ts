@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { chunkBy } from '../../chunk';
 import { ContactsService } from '../../services/contacts';
 import { APIUser } from '../../services/user';
@@ -14,7 +14,6 @@ import {Router} from '@angular/router';
   selector: 'app-account-contacts',
   templateUrl: './contacts.component.html'
 })
-@Injectable()
 export class AccountContactsComponent {
   public items: APIUser[] = [];
   public chunks: APIUser[][];

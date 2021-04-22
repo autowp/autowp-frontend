@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   Input,
   HostListener,
   ElementRef,
@@ -64,7 +63,6 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
   templateUrl: './carousel-item.component.html',
   styleUrls: ['./carousel-item.component.scss']
 })
-@Injectable()
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
   @Input() item: APIGalleryItem;
   @Input() prefix: string[] = [];

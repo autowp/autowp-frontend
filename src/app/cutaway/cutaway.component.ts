@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../services/api.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +11,6 @@ import {ToastsService} from '../toasts/toasts.service';
   selector: 'app-cutaway',
   templateUrl: './cutaway.component.html'
 })
-@Injectable()
 export class CutawayComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public pictures: APIPicture[] = [];

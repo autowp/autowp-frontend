@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {EMPTY, Observable, of, Subscription} from 'rxjs';
@@ -12,7 +12,6 @@ import {APIGalleryItem} from '../../../../gallery/definitions';
   selector: 'app-persons-person-author-gallery',
   templateUrl: './gallery.component.html'
 })
-@Injectable()
 export class PersonsPersonAuthorGalleryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public paginator: APIPaginator;

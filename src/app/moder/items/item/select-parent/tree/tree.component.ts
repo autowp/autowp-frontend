@@ -1,4 +1,4 @@
-import { Component, Injectable, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { APIItemParent } from '../../../../../services/item-parent';
 import { APIItem } from '../../../../../services/item';
 
@@ -6,7 +6,6 @@ import { APIItem } from '../../../../../services/item';
   selector: 'app-moder-items-item-select-parent-tree',
   templateUrl: './tree.component.html'
 })
-@Injectable()
 export class ModerItemsItemSelectParentTreeComponent {
   @Input() item: APIItemParent;
   @Input() disableItemID: number;

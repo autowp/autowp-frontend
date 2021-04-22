@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { APIUser } from '../../services/user';
 import { APIService } from '../../services/api.service';
@@ -11,7 +11,6 @@ interface Response {
   selector: 'app-users-online',
   templateUrl: './online.component.html'
 })
-@Injectable()
 export class UsersOnlineComponent implements OnInit {
   public users: APIUser[] = [];
 

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Subscription, combineLatest, of} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
@@ -23,7 +23,6 @@ export interface APIAttrZoneAttributeChange {
   selector: 'app-moder-attrs-zone',
   templateUrl: './zone.component.html'
 })
-@Injectable()
 export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public zone: APIAttrZone;

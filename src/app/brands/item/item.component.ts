@@ -1,4 +1,4 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { APIBrandsIconsResponse, APIBrandsBrand } from '../../services/brands.service';
 import { APIService } from '../../services/api.service';
 
@@ -6,7 +6,6 @@ import { APIService } from '../../services/api.service';
   selector: 'app-brands-item',
   templateUrl: './item.component.html'
 })
-@Injectable()
 export class BrandsItemComponent {
   @Input() brand: APIBrandsBrand;
   @Input() icons: APIBrandsIconsResponse;

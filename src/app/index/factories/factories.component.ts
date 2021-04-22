@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import { APIService } from '../../services/api.service';
 
@@ -17,7 +17,6 @@ interface APIIndexFactoriesResponse {
   selector: 'app-index-factories',
   templateUrl: './factories.component.html'
 })
-@Injectable()
 export class IndexFactoriesComponent implements  OnInit, OnDestroy {
   public factories: APIIndexFactoriesItem[];
   private sub: Subscription;

@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SpecService, APISpec } from '../../services/spec';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,6 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-info-spec',
   templateUrl: './spec.component.html'
 })
-@Injectable()
 export class InfoSpecComponent implements OnInit, OnDestroy {
   public specs: APISpec[];
   private sub: Subscription;

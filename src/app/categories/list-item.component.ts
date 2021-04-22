@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { APIItem } from '../services/item';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {APIPicture} from '../services/picture';
@@ -15,7 +15,6 @@ interface PictureThumbRoute {
   selector: 'app-categories-list-item',
   templateUrl: './list-item.component.html'
 })
-@Injectable()
 export class CategoriesListItemComponent implements OnChanges, OnInit, OnDestroy {
   @Input() item: APIItem;
   @Input() parentRouterLink: string[];

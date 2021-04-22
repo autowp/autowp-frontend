@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -39,7 +39,6 @@ interface PictureRoute {
   selector: 'app-catalogue-index',
   templateUrl: './index.component.html'
 })
-@Injectable()
 export class CatalogueIndexComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   public isModer = false;

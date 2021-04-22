@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy, Component } from '@angular/core';
+import { OnInit, OnDestroy, Component } from '@angular/core';
 import { Subscription, of } from 'rxjs';
 import { APIItem, ItemService } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,6 @@ import {APIGalleryItem} from '../../gallery/definitions';
   selector: 'app-twins-group-gallery',
   templateUrl: './twins-group-gallery.component.html'
 })
-@Injectable()
 export class TwinsGroupGalleryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;

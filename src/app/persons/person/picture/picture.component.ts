@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../../services/item';
 import {PageEnvService} from '../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,7 +11,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
   selector: 'app-persons-person-picture',
   templateUrl: './picture.component.html'
 })
-@Injectable()
 export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public isModer: boolean;
@@ -97,7 +96,7 @@ export class PersonsPersonPictureComponent implements OnInit, OnDestroy {
     };
 
     return this.changed$.pipe(
-      switchMap(value => this.pictureService.getPictures(options)),
+      switchMap(() => this.pictureService.getPictures(options)),
       map(response => response.pictures.length ? response.pictures[0] : null)
     );
   }

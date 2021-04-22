@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,7 +13,6 @@ import {BrandPerspectivePageData} from '../catalogue.module';
   selector: 'app-catalogue-mixed',
   templateUrl: './mixed.component.html'
 })
-@Injectable()
 export class CatalogueMixedComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;

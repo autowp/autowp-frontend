@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../services/api.service';
 import { UserService, APIUser } from '../../services/user';
 import { ActivatedRoute } from '@angular/router';
@@ -26,7 +26,6 @@ interface APIAttrConflictInList extends APIAttrConflict {
   selector: 'app-account-specs-conflicts',
   templateUrl: './specs-conflicts.component.html'
 })
-@Injectable()
 export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public filter: string;

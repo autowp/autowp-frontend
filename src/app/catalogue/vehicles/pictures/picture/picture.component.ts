@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {PageEnvService} from '../../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,7 +13,6 @@ import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../../ser
   selector: 'app-catalogue-vehicles-pictures-picture',
   templateUrl: './picture.component.html'
 })
-@Injectable()
 export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDestroy {
   public brand: APIItem;
   private sub: Subscription;
@@ -146,7 +145,7 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
     };
 
     return this.changed$.pipe(
-      switchMap(value => this.pictureService.getPictures(options)),
+      switchMap(() => this.pictureService.getPictures(options)),
       map(response => response.pictures.length ? response.pictures[0] : null)
     );
   }

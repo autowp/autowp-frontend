@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, BehaviorSubject, combineLatest, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -27,7 +27,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   selector: 'app-cars-engine-select',
   templateUrl: './select.component.html'
 })
-@Injectable()
 export class CarsEngineSelectComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   public item: APIItem;

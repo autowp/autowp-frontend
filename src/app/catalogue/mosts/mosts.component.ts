@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
@@ -13,7 +13,6 @@ import {APIItem, ItemService} from '../../services/item';
   selector: 'app-catalogue-mosts',
   templateUrl: './mosts.component.html'
 })
-@Injectable()
 export class CatalogueMostsComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public ratingCatname: string;

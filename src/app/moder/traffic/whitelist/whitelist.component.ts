@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
 import { APIService } from '../../../services/api.service';
@@ -17,7 +17,6 @@ export interface APITrafficWhitelistGetResponse {
   selector: 'app-moder-traffic-whitelist',
   templateUrl: './whitelist.component.html'
 })
-@Injectable()
 export class ModerTrafficWhitelistComponent {
   public items: APITrafficWhitelistItem[];
 

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LanguageService} from '../../services/language';
 import {Subscription} from 'rxjs';
 import { APIService } from '../../services/api.service';
@@ -19,7 +19,6 @@ interface APIIndexCategoriesResponse {
   selector: 'app-index-categories',
   templateUrl: './categories.component.html'
 })
-@Injectable()
 export class IndexCategoriesComponent implements OnInit, OnDestroy {
   public language: string;
   public categories: APIIndexCategoriesItem[];

@@ -1,6 +1,5 @@
 import {
   Component,
-  Injectable,
   Input,
   OnChanges,
   SimpleChanges,
@@ -21,7 +20,6 @@ import { APIService } from '../../../../services/api.service';
   selector: 'app-moder-items-item-name',
   templateUrl: './name.component.html'
 })
-@Injectable()
 export class ModerItemsItemNameComponent
   implements OnChanges, OnInit, OnDestroy {
   @Input() item: APIItem;

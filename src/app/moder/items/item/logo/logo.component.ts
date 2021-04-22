@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {HttpEventType} from '@angular/common/http';
@@ -11,7 +11,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   selector: 'app-moder-items-item-logo',
   templateUrl: './logo.component.html'
 })
-@Injectable()
 export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
   @Input() item: APIItem;
 
