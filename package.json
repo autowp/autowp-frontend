@@ -58,7 +58,7 @@
     "@angular-eslint/template-parser": "4.0.0",
     "@angular/cli": "^11.2.10",
     "@angular/compiler-cli": "^11.2.10",
-    "@angular/language-service": "^11.2.11",
+    "@angular/language-service": "^11.2.12",
     "@brainly/onesky-utils": "^1.4.1",
     "@types/jquery": "^3.5.5",
     "@types/leaflet": "^1.7.0",
