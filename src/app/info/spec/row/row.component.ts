@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { APISpec } from '../../../services/spec';
+import {Spec} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-info-spec-row',
   templateUrl: './row.component.html'
 })
 export class InfoSpecRowComponent {
-  @Input() row: APISpec;
+  @Input() row: Spec;
   @Input() deep: number;
 
 }

@@ -1,21 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SpecService, APISpec } from '../../services/spec';
 import { PageEnvService } from '../../services/page-env.service';
 import { Subscription } from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {Spec} from '../../../../generated/spec.pb';
+import {Empty} from '@ngx-grpc/well-known-types';
 
 @Component({
   selector: 'app-info-spec',
   templateUrl: './spec.component.html'
 })
 export class InfoSpecComponent implements OnInit, OnDestroy {
-  public specs: APISpec[];
+  public specs: Spec[];
   private sub: Subscription;
 
   constructor(
-    private specService: SpecService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: AutowpClient
   ) {
 
   }
@@ -33,8 +35,8 @@ export class InfoSpecComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.sub = this.specService.getSpecs().subscribe(
-      specs => (this.specs = specs),
+    this.sub = this.grpc.getSpecs(new Empty()).subscribe(
+      specs => (this.specs = specs.items),
       response => this.toastService.response(response)
     );
   }

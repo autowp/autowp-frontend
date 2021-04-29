@@ -57,6 +57,8 @@ import {environment} from '../environments/environment';
 import {OAuthService} from './services/oauth.service';
 import { GlobalErrorHandler } from './global-error-handler';
 import { Angulartics2Module } from 'angulartics2';
+import {GrpcCoreModule} from '@ngx-grpc/core';
+import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 
 // AoT requires an exported function for factories
 /* export function HttpLoaderFactory(http: HttpClient) {
@@ -111,6 +113,10 @@ export class SentryErrorHandler implements ErrorHandler {
     IndexModule,
     ToastsModule,
     Angulartics2Module.forRoot(),
+    GrpcCoreModule.forRoot(),
+    GrpcWebClientModule.forRoot({
+      settings: { host: '' },
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
