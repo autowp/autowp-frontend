@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { APIPicture } from '../../services/picture';
-import { APIPerspective } from '../../services/api.service';
 import { Subscription } from 'rxjs';
 import { PictureItemService } from '../../services/picture-item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIPerspectiveService } from '../../api/perspective/perspective.service';
 import { getPerspectiveTranslation } from '../../utils/translations';
+import {Perspective} from '../../../../generated/spec.pb';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;
@@ -23,7 +23,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  public perspectiveOptions: APIPerspective[] = [];
+  public perspectiveOptions: Perspective[] = [];
   public isModer = false;
   private sub: Subscription;
   private perspectiveSub: Subscription;

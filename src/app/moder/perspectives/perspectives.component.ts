@@ -1,20 +1,18 @@
 import { Component} from '@angular/core';
-import {
-  APIPerspectivePage,
-  APIPerspectivePageGetResponse,
-  APIService
-} from '../../services/api.service';
 import { PageEnvService } from '../../services/page-env.service';
 import { getPerspectiveTranslation } from '../../utils/translations';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {PerspectivePage} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-perspectives',
   templateUrl: './perspectives.component.html'
 })
 export class ModerPerspectivesComponent {
-  public pages: APIPerspectivePage[];
+  public pages: PerspectivePage[];
 
-  constructor(private api: APIService, private pageEnv: PageEnvService) {
+  constructor(private grpc: AutowpClient, private pageEnv: PageEnvService) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -28,18 +26,12 @@ export class ModerPerspectivesComponent {
       0
     );
 
-    this.api
-      .request<APIPerspectivePageGetResponse>('GET', 'perspective-page', {
-        params: {
-          fields: 'groups.perspectives'
-        }
-      })
-      .subscribe(
-        response => {
-          this.pages = response.items;
-        },
-        response => console.log(response)
-      );
+    this.grpc.getPerspectivePages(new Empty()).subscribe(
+      response => {
+        this.pages = response.items;
+      },
+      response => console.log(response)
+    );
   }
 
   public getPerspectiveTranslation(id: string): string {

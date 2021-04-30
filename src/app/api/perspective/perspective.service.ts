@@ -1,33 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { map, shareReplay } from 'rxjs/operators';
-
-export interface APIPerspective {
-  id: number;
-  name: string;
-}
-
-export interface APIPerspectiveGetResponse {
-  items: APIPerspective[];
-}
+import {Empty} from '@ngx-grpc/well-known-types';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {Perspective} from '../../../../generated/spec.pb';
 
 @Injectable({
   providedIn: 'root'
 })
 export class APIPerspectiveService {
-  private readonly perspectives$: Observable<APIPerspective[]>;
+  private readonly perspectives$: Observable<Perspective[]>;
 
-  constructor(private http: HttpClient) {
-    this.perspectives$ = this.http
-      .get<APIPerspectiveGetResponse>('/api/perspective')
-      .pipe(
-        map(response => response.items),
-        shareReplay(1)
-      );
+  constructor(private grpc: AutowpClient) {
+    this.perspectives$ = this.grpc.getPerspectives(new Empty()).pipe(
+      map(response => response.items),
+      shareReplay(1)
+    );
   }
 
-  public getPerspectives(): Observable<APIPerspective[]> {
+  public getPerspectives(): Observable<Perspective[]> {
     return this.perspectives$;
   }
 }

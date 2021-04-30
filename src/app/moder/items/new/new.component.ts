@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SpecService, APISpec } from '../../../services/spec';
+import { SpecService } from '../../../services/spec';
 import { ItemService, APIItem } from '../../../services/item';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription, of, forkJoin, EMPTY} from 'rxjs';
@@ -15,6 +15,7 @@ import {
 import { APIItemVehicleTypeGetResponse, APIService } from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {getItemTypeTranslation} from '../../../utils/translations';
+import {Spec} from '../../../../../generated/spec.pb';
 
 interface NewItem {
   produced_exactly: boolean;
@@ -47,7 +48,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
   public loading = 0;
   public item: NewItem;
   public parent: APIItem;
-  public parentSpec: APISpec = null;
+  public parentSpec: Spec = null;
   public invalidParams: any;
   public vehicleTypeIDs: number[] = [];
 
@@ -119,7 +120,7 @@ export class ModerItemsNewComponent implements OnInit, OnDestroy {
                   if (!specId || !Number.isInteger(specId as number)) {
                     return of({
                       item: parent,
-                      spec: null as APISpec
+                      spec: null as Spec
                     });
                   }
 

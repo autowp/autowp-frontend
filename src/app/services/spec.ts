@@ -1,39 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { APIService } from './api.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {Spec} from '../../../generated/spec.pb';
 
 export interface APISpecGetResponse {
-  items: APISpec[];
-}
-
-export interface APISpec {
-  id: number;
-  name: string;
-  short_name: string;
-  childs: APISpec[];
+  items: Spec[];
 }
 
 @Injectable()
 export class SpecService {
-  private readonly specs$: Observable<APISpec[]>;
+  private readonly specs$: Observable<Spec[]>;
 
-  constructor(private api: APIService) {
-    this.specs$ = this.api.request<APISpecGetResponse>('GET', 'spec').pipe(
+  constructor(private grpc: AutowpClient) {
+    this.specs$ = this.grpc.getSpecs(new Empty()).pipe(
       map(response => response.items),
       shareReplay(1)
     );
   }
 
-  public getSpecs(): Observable<APISpec[]> {
+  public getSpecs(): Observable<Spec[]> {
     return this.specs$;
   }
 
-  public getSpec(id: number): Observable<APISpec> {
+  public getSpec(id: number): Observable<Spec> {
     return this.getSpecs().pipe(map(specs => this.findSpec(specs, id)));
   }
 
-  private findSpec(specs: APISpec[], id: number): APISpec | null {
+  private findSpec(specs: Spec[], id: number): Spec | null {
     let spec = null;
     for (const s of specs) {
       if (s.id === id) {

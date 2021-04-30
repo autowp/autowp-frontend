@@ -54,6 +54,48 @@ export class AutowpClient {
         requestClass: googleProtobuf000.Empty,
         responseClass: thisProto.SpecsItems
       });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetPerspectives
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.PerspectivesItems>>
+     */
+    getPerspectives: (
+      requestData: googleProtobuf000.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.PerspectivesItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetPerspectives',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf000.Empty,
+        responseClass: thisProto.PerspectivesItems
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetPerspectivePages
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.PerspectivePagesItems>>
+     */
+    getPerspectivePages: (
+      requestData: googleProtobuf000.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.PerspectivePagesItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetPerspectivePages',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf000.Empty,
+        responseClass: thisProto.PerspectivePagesItems
+      });
     }
   };
 
@@ -78,6 +120,38 @@ export class AutowpClient {
   ): Observable<thisProto.SpecsItems> {
     return this.$raw
       .getSpecs(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetPerspectives
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.PerspectivesItems>
+   */
+  getPerspectives(
+    requestData: googleProtobuf000.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.PerspectivesItems> {
+    return this.$raw
+      .getPerspectives(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetPerspectivePages
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.PerspectivePagesItems>
+   */
+  getPerspectivePages(
+    requestData: googleProtobuf000.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.PerspectivePagesItems> {
+    return this.$raw
+      .getPerspectivePages(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

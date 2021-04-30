@@ -24,20 +24,24 @@ import {
 } from 'leaflet';
 import { finalize, switchMap } from 'rxjs/operators';
 import { APIVehicleType, VehicleTypeService } from '../../../services/vehicle-type';
-import { APISpec, SpecService } from '../../../services/spec';
+import { SpecService } from '../../../services/spec';
 import { APIItem } from '../../../services/item';
 import { LanguageService } from '../../../services/language';
 import { VehicleTypesModalComponent } from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {Spec} from '../../../../../generated/spec.pb';
 
 function specsToPlain(
-  options: ItemMetaFormAPISpec[],
+  options: Spec[],
   deep: number
 ): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];
   for (const item of options) {
-    item.deep = deep;
-    result.push(item);
+    result.push({
+      id: item.id,
+      short_name: item.shortName,
+      deep
+    });
     for (const subitem of specsToPlain(item.childs, deep + 1)) {
       result.push(subitem);
     }
@@ -45,7 +49,9 @@ function specsToPlain(
   return result;
 }
 
-interface ItemMetaFormAPISpec extends APISpec {
+interface ItemMetaFormAPISpec {
+  id: number|'inherited';
+  short_name: string;
   deep?: number;
 }
 
@@ -144,7 +150,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
   public bodyMaxlength = 20;
   public modelYearMax: number;
   public yearMax: number;
-  public specOptions: any[] = [];
+  public specOptions: ItemMetaFormAPISpec[] = [];
   public monthOptions: any[];
   private isConceptOptions = [
     {
@@ -160,7 +166,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
       name: 'moder/vehicle/is-concept/inherited'
     }
   ];
-  public defaultSpecOptions = [
+  public defaultSpecOptions: ItemMetaFormAPISpec[] = [
     {
       id: null,
       short_name: '--',
@@ -215,7 +221,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     this.specsSub = this.specService.getSpecs().pipe(
       finalize(() => (this.loading--)),
     ).subscribe(
-      types => this.specOptions = specsToPlain(types, 0),
+      specs => this.specOptions = specsToPlain(specs, 0),
       response => this.toastService.response(response)
     );
 
@@ -275,7 +281,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
     return this.isConceptOptions;
   }
 
-  public getSpecOptions(specOptions: any[]): any[] {
+  public getSpecOptions(specOptions: ItemMetaFormAPISpec[]): ItemMetaFormAPISpec[] {
     return this.defaultSpecOptions.concat(specOptions);
   }
 

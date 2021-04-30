@@ -1,8 +1,8 @@
 import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
 import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
 import {Subscription} from 'rxjs';
-import {APIPerspective} from '../../../services/api.service';
 import { getPerspectiveTranslation } from '../../../utils/translations';
+import {Perspective} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-pictures-perspective-picker',
@@ -10,7 +10,7 @@ import { getPerspectiveTranslation } from '../../../utils/translations';
 })
 export class ModerPicturesPerspectivePickerComponent implements OnInit, OnDestroy {
   private perspectiveSub: Subscription;
-  public perspectives: APIPerspective[];
+  public perspectives: Perspective[];
 
   @Input() perspectiveID: number;
   @Output() perspectiveChanged = new EventEmitter<number>();

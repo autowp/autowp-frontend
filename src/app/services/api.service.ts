@@ -56,27 +56,6 @@ export interface APIPaginator {
   lastItemNumber: number;
 }
 
-export interface APIPerspective {
-  id: number;
-  name: string;
-}
-
-export interface APIPerspectiveGroup {
-  id: number;
-  name: string;
-  perspectives: APIPerspective[];
-}
-
-export interface APIPerspectivePage {
-  id: number;
-  name: string;
-  groups: APIPerspectiveGroup[];
-}
-
-export interface APIPerspectivePageGetResponse {
-  items: APIPerspectivePage[];
-}
-
 export interface APILoginStartGetResponse {
   url: string;
 }

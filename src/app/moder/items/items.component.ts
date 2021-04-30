@@ -4,7 +4,7 @@ import {
   VehicleTypeService,
   APIVehicleType
 } from '../../services/vehicle-type';
-import { SpecService, APISpec } from '../../services/spec';
+import { SpecService } from '../../services/spec';
 import {
   ItemService,
   APIItem,
@@ -29,12 +29,13 @@ import {
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '../../utils/translations';
+import {Spec} from '../../../../generated/spec.pb';
 
 interface APIVehicleTypeInItems extends APIVehicleType {
   deep?: number;
 }
 
-interface APISpecInItems extends APISpec {
+interface APISpecInItems extends Spec {
   deep?: number;
 }
 
