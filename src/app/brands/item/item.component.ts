@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { APIBrandsIconsResponse, APIBrandsBrand } from '../../services/brands.service';
+import { APIBrandsBrand } from '../../services/brands.service';
 import { APIService } from '../../services/api.service';
+import {BrandIcons} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-brands-item',
@@ -8,7 +9,7 @@ import { APIService } from '../../services/api.service';
 })
 export class BrandsItemComponent {
   @Input() brand: APIBrandsBrand;
-  @Input() icons: APIBrandsIconsResponse;
+  @Input() icons: BrandIcons;
 
   public loading = false;
   public html: string;

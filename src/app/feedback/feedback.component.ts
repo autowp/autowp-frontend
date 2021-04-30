@@ -30,7 +30,6 @@ export class FeedbackComponent {
     this.reCaptchaService.get().subscribe(
       response => {
         this.recaptchaKey = response.publicKey;
-        this.showCaptcha = !response.success;
       },
       response => this.toastService.response(response)
     );

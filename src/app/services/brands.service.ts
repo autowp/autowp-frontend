@@ -5,10 +5,6 @@ export interface APIBrandsGetResponse {
 
 export type APIBrandsLines = APIBrandsChar[][];
 
-export interface APIBransLine {
-  [key: string]: APIBrandsChar;
-}
-
 export interface APIBrandsChar {
   char: string;
   id: number;
@@ -25,9 +21,4 @@ export interface APIBrandsBrand {
   totalPictures: number;
   url: string;
   cssClass?: string;
-}
-
-export interface APIBrandsIconsResponse {
-  image: string;
-  css: string;
 }

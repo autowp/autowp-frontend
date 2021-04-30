@@ -5,9 +5,10 @@ import { UserService, APIUser } from '../../../services/user';
 import { Subscription, combineLatest } from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
 import {map, switchMap, tap} from 'rxjs/operators';
-import { APIBrandsIconsResponse } from '../../../services/brands.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import { APIService } from '../../../services/api.service';
+import {AutowpClient} from '../../../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {BrandIcons} from '../../../../../generated/spec.pb';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -31,7 +32,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   public brands: APIItem[];
   public identity: string;
-  public icons: APIBrandsIconsResponse;
+  public icons: BrandIcons;
   public user: APIUser;
 
   constructor(
@@ -39,7 +40,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private api: APIService,
+    private grpc: AutowpClient,
     private toastService: ToastsService
   ) {}
 
@@ -75,7 +76,7 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
                 owner_id: user.id
               }
             }),
-            this.api.request<APIBrandsIconsResponse>('GET', 'brands/icons')
+            this.grpc.getBrandIcons(new Empty())
           ])
         )
       )

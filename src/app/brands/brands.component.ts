@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   APIBrandsGetResponse,
-  APIBrandsLines,
-  APIBrandsIconsResponse
+  APIBrandsLines
 } from '../services/brands.service';
 import { PageEnvService } from '../services/page-env.service';
 import { combineLatest, Subscription } from 'rxjs';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {BrandIcons} from '../../../generated/spec.pb';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -29,10 +31,10 @@ function addCSS(url: string) {
 })
 export class BrandsComponent implements OnInit, OnDestroy {
   public items: APIBrandsLines;
-  public icons: APIBrandsIconsResponse;
+  public icons: BrandIcons;
   private sub: Subscription;
 
-  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {}
+  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: AutowpClient) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -49,7 +51,7 @@ export class BrandsComponent implements OnInit, OnDestroy {
 
     this.sub = combineLatest([
       this.api.request<APIBrandsGetResponse>('GET', 'brands'),
-      this.api.request<APIBrandsIconsResponse>('GET', 'brands/icons')
+      this.grpc.getBrandIcons(new Empty())
     ]).subscribe(
       ([response, icons]) => {
         this.icons = icons;

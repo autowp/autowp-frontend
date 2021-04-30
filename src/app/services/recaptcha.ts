@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APIService } from './api.service';
-
-export interface APIReCaptchaGetResponse {
-  publicKey: string;
-  success: boolean;
-}
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import { Empty } from '@ngx-grpc/well-known-types';
+import {ReCaptchaConfig} from '../../../generated/spec.pb';
 
 @Injectable()
 export class ReCaptchaService {
-  constructor(private api: APIService) {}
+  constructor(private grpc: AutowpClient) {}
 
-  public get(): Observable<APIReCaptchaGetResponse> {
-    return this.api.request<APIReCaptchaGetResponse>('GET', 'recaptcha');
+  public get(): Observable<ReCaptchaConfig> {
+    return this.grpc.getReCaptchaConfig(new Empty());
   }
 }

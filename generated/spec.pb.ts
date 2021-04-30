@@ -1176,3 +1176,294 @@ export module PerspectivePagesItems {
     items?: PerspectivePage.AsProtobufJSON[] | null;
   }
 }
+
+/**
+ * Message implementation for goautowp.ReCaptchaConfig
+ */
+export class ReCaptchaConfig implements GrpcMessage {
+  static id = 'goautowp.ReCaptchaConfig';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ReCaptchaConfig();
+    ReCaptchaConfig.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ReCaptchaConfig) {
+    _instance.publicKey = _instance.publicKey || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ReCaptchaConfig,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.publicKey = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ReCaptchaConfig.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ReCaptchaConfig,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.publicKey) {
+      _writer.writeString(1, _instance.publicKey);
+    }
+  }
+
+  private _publicKey?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ReCaptchaConfig to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ReCaptchaConfig.AsObject>) {
+    _value = _value || {};
+    this.publicKey = _value.publicKey;
+    ReCaptchaConfig.refineValues(this);
+  }
+  get publicKey(): string | undefined {
+    return this._publicKey;
+  }
+  set publicKey(value: string | undefined) {
+    this._publicKey = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ReCaptchaConfig.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ReCaptchaConfig.AsObject {
+    return {
+      publicKey: this.publicKey
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ReCaptchaConfig.AsProtobufJSON {
+    return {
+      publicKey: this.publicKey
+    };
+  }
+}
+export module ReCaptchaConfig {
+  /**
+   * Standard JavaScript object representation for ReCaptchaConfig
+   */
+  export interface AsObject {
+    publicKey?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for ReCaptchaConfig
+   */
+  export interface AsProtobufJSON {
+    publicKey?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.BrandIcons
+ */
+export class BrandIcons implements GrpcMessage {
+  static id = 'goautowp.BrandIcons';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new BrandIcons();
+    BrandIcons.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: BrandIcons) {
+    _instance.image = _instance.image || '';
+    _instance.css = _instance.css || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: BrandIcons,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.image = _reader.readString();
+          break;
+        case 2:
+          _instance.css = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    BrandIcons.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: BrandIcons, _writer: BinaryWriter) {
+    if (_instance.image) {
+      _writer.writeString(1, _instance.image);
+    }
+    if (_instance.css) {
+      _writer.writeString(2, _instance.css);
+    }
+  }
+
+  private _image?: string;
+  private _css?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of BrandIcons to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<BrandIcons.AsObject>) {
+    _value = _value || {};
+    this.image = _value.image;
+    this.css = _value.css;
+    BrandIcons.refineValues(this);
+  }
+  get image(): string | undefined {
+    return this._image;
+  }
+  set image(value: string | undefined) {
+    this._image = value;
+  }
+  get css(): string | undefined {
+    return this._css;
+  }
+  set css(value: string | undefined) {
+    this._css = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    BrandIcons.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): BrandIcons.AsObject {
+    return {
+      image: this.image,
+      css: this.css
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): BrandIcons.AsProtobufJSON {
+    return {
+      image: this.image,
+      css: this.css
+    };
+  }
+}
+export module BrandIcons {
+  /**
+   * Standard JavaScript object representation for BrandIcons
+   */
+  export interface AsObject {
+    image?: string;
+    css?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for BrandIcons
+   */
+  export interface AsProtobufJSON {
+    image?: string;
+    css?: string;
+  }
+}

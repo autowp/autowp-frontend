@@ -96,6 +96,48 @@ export class AutowpClient {
         requestClass: googleProtobuf000.Empty,
         responseClass: thisProto.PerspectivePagesItems
       });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetReCaptchaConfig
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ReCaptchaConfig>>
+     */
+    getReCaptchaConfig: (
+      requestData: googleProtobuf000.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ReCaptchaConfig>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetReCaptchaConfig',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf000.Empty,
+        responseClass: thisProto.ReCaptchaConfig
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetBrandIcons
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.BrandIcons>>
+     */
+    getBrandIcons: (
+      requestData: googleProtobuf000.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.BrandIcons>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetBrandIcons',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf000.Empty,
+        responseClass: thisProto.BrandIcons
+      });
     }
   };
 
@@ -152,6 +194,38 @@ export class AutowpClient {
   ): Observable<thisProto.PerspectivePagesItems> {
     return this.$raw
       .getPerspectivePages(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetReCaptchaConfig
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ReCaptchaConfig>
+   */
+  getReCaptchaConfig(
+    requestData: googleProtobuf000.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ReCaptchaConfig> {
+    return this.$raw
+      .getReCaptchaConfig(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetBrandIcons
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.BrandIcons>
+   */
+  getBrandIcons(
+    requestData: googleProtobuf000.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.BrandIcons> {
+    return this.$raw
+      .getBrandIcons(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
