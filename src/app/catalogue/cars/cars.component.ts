@@ -4,20 +4,11 @@ import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import {APIPaginator, APIService} from '../../services/api.service';
+import {APIPaginator} from '../../services/api.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import { getVehicleTypeTranslation } from '../../utils/translations';
-
-interface VehicleTypesResponse {
-  items: VehicleType[];
-}
-
-interface VehicleType {
-  id: number;
-  name: string;
-  catname: string;
-  carsCount: number;
-}
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {BrandVehicleType, GetBrandVehicleTypesRequest} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-catalogue-cars',
@@ -28,14 +19,14 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public items: CatalogueListItem[];
   public paginator: APIPaginator;
-  public vehicleTypes: VehicleType[];
-  public currentVehicleType: VehicleType;
+  public vehicleTypes: BrandVehicleType[];
+  public currentVehicleType: BrandVehicleType;
 
   constructor(
     private pageEnv: PageEnvService,
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private api: APIService
+    private grpc: AutowpClient
   ) {
   }
 
@@ -52,7 +43,9 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         this.brand = brand;
       }),
       switchMap(brand => combineLatest([
-        this.getVehicleTypes(brand.id),
+        this.grpc.getBrandVehicleTypes(new GetBrandVehicleTypesRequest({
+          brandId: brand.id
+        })),
         this.route.paramMap.pipe(
           map(params => params.get('vehicle_type')),
           distinctUntilChanged(),
@@ -186,14 +179,6 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
     }).pipe(
       map(response => response && response.items.length ? response.items[0] : null),
     );
-  }
-
-  private getVehicleTypes(brandID: number) {
-    return this.api.request<VehicleTypesResponse>('GET', 'item/vehicle-type', {
-      params: {
-        brand_id: brandID.toString()
-      }
-    });
   }
 
   ngOnDestroy(): void {

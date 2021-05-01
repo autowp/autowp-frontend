@@ -2095,3 +2095,486 @@ export module VehicleTypeItems {
     items?: VehicleType.AsProtobufJSON[] | null;
   }
 }
+
+/**
+ * Message implementation for goautowp.GetBrandVehicleTypesRequest
+ */
+export class GetBrandVehicleTypesRequest implements GrpcMessage {
+  static id = 'goautowp.GetBrandVehicleTypesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetBrandVehicleTypesRequest();
+    GetBrandVehicleTypesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetBrandVehicleTypesRequest) {
+    _instance.brandId = _instance.brandId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetBrandVehicleTypesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.brandId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetBrandVehicleTypesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetBrandVehicleTypesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.brandId) {
+      _writer.writeInt32(1, _instance.brandId);
+    }
+  }
+
+  private _brandId?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetBrandVehicleTypesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetBrandVehicleTypesRequest.AsObject>) {
+    _value = _value || {};
+    this.brandId = _value.brandId;
+    GetBrandVehicleTypesRequest.refineValues(this);
+  }
+  get brandId(): number | undefined {
+    return this._brandId;
+  }
+  set brandId(value: number | undefined) {
+    this._brandId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetBrandVehicleTypesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetBrandVehicleTypesRequest.AsObject {
+    return {
+      brandId: this.brandId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetBrandVehicleTypesRequest.AsProtobufJSON {
+    return {
+      brandId: this.brandId
+    };
+  }
+}
+export module GetBrandVehicleTypesRequest {
+  /**
+   * Standard JavaScript object representation for GetBrandVehicleTypesRequest
+   */
+  export interface AsObject {
+    brandId?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for GetBrandVehicleTypesRequest
+   */
+  export interface AsProtobufJSON {
+    brandId?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.BrandVehicleTypeItems
+ */
+export class BrandVehicleTypeItems implements GrpcMessage {
+  static id = 'goautowp.BrandVehicleTypeItems';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new BrandVehicleTypeItems();
+    BrandVehicleTypeItems.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: BrandVehicleTypeItems) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: BrandVehicleTypeItems,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new BrandVehicleType();
+          _reader.readMessage(
+            messageInitializer1,
+            BrandVehicleType.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    BrandVehicleTypeItems.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: BrandVehicleTypeItems,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        BrandVehicleType.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: BrandVehicleType[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of BrandVehicleTypeItems to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<BrandVehicleTypeItems.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new BrandVehicleType(m));
+    BrandVehicleTypeItems.refineValues(this);
+  }
+  get items(): BrandVehicleType[] | undefined {
+    return this._items;
+  }
+  set items(value: BrandVehicleType[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    BrandVehicleTypeItems.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): BrandVehicleTypeItems.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): BrandVehicleTypeItems.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module BrandVehicleTypeItems {
+  /**
+   * Standard JavaScript object representation for BrandVehicleTypeItems
+   */
+  export interface AsObject {
+    items?: BrandVehicleType.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for BrandVehicleTypeItems
+   */
+  export interface AsProtobufJSON {
+    items?: BrandVehicleType.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.BrandVehicleType
+ */
+export class BrandVehicleType implements GrpcMessage {
+  static id = 'goautowp.BrandVehicleType';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new BrandVehicleType();
+    BrandVehicleType.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: BrandVehicleType) {
+    _instance.id = _instance.id || 0;
+    _instance.name = _instance.name || '';
+    _instance.catname = _instance.catname || '';
+    _instance.itemsCount = _instance.itemsCount || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: BrandVehicleType,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt32();
+          break;
+        case 2:
+          _instance.name = _reader.readString();
+          break;
+        case 3:
+          _instance.catname = _reader.readString();
+          break;
+        case 4:
+          _instance.itemsCount = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    BrandVehicleType.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: BrandVehicleType,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt32(1, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(2, _instance.name);
+    }
+    if (_instance.catname) {
+      _writer.writeString(3, _instance.catname);
+    }
+    if (_instance.itemsCount) {
+      _writer.writeString(4, _instance.itemsCount);
+    }
+  }
+
+  private _id?: number;
+  private _name?: string;
+  private _catname?: string;
+  private _itemsCount?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of BrandVehicleType to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<BrandVehicleType.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.name = _value.name;
+    this.catname = _value.catname;
+    this.itemsCount = _value.itemsCount;
+    BrandVehicleType.refineValues(this);
+  }
+  get id(): number | undefined {
+    return this._id;
+  }
+  set id(value: number | undefined) {
+    this._id = value;
+  }
+  get name(): string | undefined {
+    return this._name;
+  }
+  set name(value: string | undefined) {
+    this._name = value;
+  }
+  get catname(): string | undefined {
+    return this._catname;
+  }
+  set catname(value: string | undefined) {
+    this._catname = value;
+  }
+  get itemsCount(): string | undefined {
+    return this._itemsCount;
+  }
+  set itemsCount(value: string | undefined) {
+    this._itemsCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    BrandVehicleType.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): BrandVehicleType.AsObject {
+    return {
+      id: this.id,
+      name: this.name,
+      catname: this.catname,
+      itemsCount: this.itemsCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): BrandVehicleType.AsProtobufJSON {
+    return {
+      id: this.id,
+      name: this.name,
+      catname: this.catname,
+      itemsCount: this.itemsCount
+    };
+  }
+}
+export module BrandVehicleType {
+  /**
+   * Standard JavaScript object representation for BrandVehicleType
+   */
+  export interface AsObject {
+    id?: number;
+    name?: string;
+    catname?: string;
+    itemsCount?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for BrandVehicleType
+   */
+  export interface AsProtobufJSON {
+    id?: number;
+    name?: string;
+    catname?: string;
+    itemsCount?: string;
+  }
+}

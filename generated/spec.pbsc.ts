@@ -77,6 +77,27 @@ export class AutowpClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Autowp/GetBrandVehicleTypes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.BrandVehicleTypeItems>>
+     */
+    getBrandVehicleTypes: (
+      requestData: thisProto.GetBrandVehicleTypesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.BrandVehicleTypeItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetBrandVehicleTypes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetBrandVehicleTypesRequest,
+        responseClass: thisProto.BrandVehicleTypeItems
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Autowp/GetPerspectives
      *
      * @param requestMessage Request message
@@ -220,6 +241,22 @@ export class AutowpClient {
   ): Observable<thisProto.BrandIcons> {
     return this.$raw
       .getBrandIcons(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetBrandVehicleTypes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.BrandVehicleTypeItems>
+   */
+  getBrandVehicleTypes(
+    requestData: thisProto.GetBrandVehicleTypesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.BrandVehicleTypeItems> {
+    return this.$raw
+      .getBrandVehicleTypes(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

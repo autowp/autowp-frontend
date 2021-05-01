@@ -20,7 +20,7 @@
 <ul class="nav nav-pills mb-4">
   <li class="nav-item" *ngFor="let item of vehicleTypes">
     <a [routerLink]="['/', brand.catname, 'cars', item.catname]" class="nav-link" [class.active]="currentVehicleType && item.id == currentVehicleType.id">
-      {{getVehicleTypeTranslation(item.name)}} <span class="badge badge-info">{{item.carsCount}}</span>
+      {{getVehicleTypeTranslation(item.name)}} <span class="badge badge-info">{{item.itemsCount}}</span>
     </a>
   </li>
 </ul>
