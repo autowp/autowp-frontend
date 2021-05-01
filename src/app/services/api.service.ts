@@ -12,9 +12,11 @@ import {
 import {Observable, throwError} from 'rxjs';
 import { environment } from '../../environments/environment';
 import {OAuthService} from './oauth.service';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
+import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
+import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
 
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
@@ -81,6 +83,55 @@ export class AuthInterceptor implements HttpInterceptor {
         });
 
         return next.handle(authReq);
+      })
+    );
+  }
+}
+
+@Injectable()
+export class GrpcLogInterceptor implements GrpcInterceptor {
+
+  private dataStyle = 'color: #5c7ced;';
+  private errorStyle = 'color: red;';
+  private statusOkStyle = 'color: #0ffcf5;';
+
+  intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
+    const start = Date.now();
+
+    if (environment.production) {
+      return next.handle(request);
+    }
+
+    return next.handle(request).pipe(
+      tap(event => {
+        const style = event instanceof GrpcDataEvent ? this.dataStyle : event.statusCode !== 0 ? this.errorStyle : this.statusOkStyle;
+        console.groupCollapsed(`%c${Date.now() - start}ms -> ${request.path}`, style);
+        console.log('%csc', style, request.client.getSettings());
+        console.log('%c>>', style, request.requestData.toObject());
+        console.log('%c**', style, request.requestMetadata.toObject());
+        console.log('%c<<', style, event instanceof GrpcDataEvent ? event.data.toObject() : event);
+        console.groupEnd();
+      }),
+    );
+  }
+}
+
+@Injectable()
+export class GrpcAuthInterceptor implements GrpcInterceptor {
+
+  constructor(private oauth: OAuthService) { }
+
+  intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
+
+    return this.oauth.getAccessToken().pipe(
+      switchMap(accessToken => {
+        if (! accessToken) {
+          return next.handle(request);
+        }
+
+        request.requestMetadata.set('Authorization', 'Bearer ' + accessToken)
+
+        return next.handle(request);
       })
     );
   }

@@ -44,7 +44,7 @@
   <div class="form-group row" *ngIf="item.item_type_id == 1 || item.item_type_id == 4">
     <label class="col-md-2 col-form-label" i18n>Type</label>
     <div class="col-md-10">
-      <button class="btn btn-sm btn-info" type="button" *ngFor="let type of vehicleTypes" (click)="showVehicleTypesModal()">{{type.nameTranslated}}</button>
+      <button class="btn btn-sm btn-info" type="button" *ngFor="let type of vehicleTypes" (click)="showVehicleTypesModal()">{{getVehicleTypeTranslation(type.name)}}</button>
       <button class="btn btn-sm btn-success" type="button" (click)="showVehicleTypesModal()">
         <span class="fa fa-plus" aria-hidden="true"></span>
       </button>

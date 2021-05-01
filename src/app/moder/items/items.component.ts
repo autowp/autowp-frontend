@@ -1,9 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
-import {
-  VehicleTypeService,
-  APIVehicleType
-} from '../../services/vehicle-type';
+import {VehicleTypeService} from '../../services/vehicle-type';
 import { SpecService } from '../../services/spec';
 import {
   ItemService,
@@ -11,12 +8,7 @@ import {
   GetItemsServiceOptions
 } from '../../services/item';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Subscription,
-  Observable,
-  of,
-  EMPTY
-} from 'rxjs';
+import {Subscription, Observable, of, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   tap,
@@ -29,9 +21,11 @@ import {
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '../../utils/translations';
-import {Spec} from '../../../../generated/spec.pb';
+import {Spec, VehicleType} from '../../../../generated/spec.pb';
 
-interface APIVehicleTypeInItems extends APIVehicleType {
+interface APIVehicleTypeInItems {
+  id: number;
+  name: string;
   deep?: number;
 }
 
@@ -40,14 +34,16 @@ interface APISpecInItems extends Spec {
 }
 
 function toPlainVehicleType(
-  options: APIVehicleTypeInItems[],
+  options: VehicleType[],
   deep: number
 ): APIVehicleTypeInItems[] {
   const result: APIVehicleTypeInItems[] = [];
   for (const item of options) {
-    item.deep = deep;
-    item.nameTranslated = getVehicleTypeTranslation(item.name);
-    result.push(item);
+    result.push({
+      id: item.id,
+      name: getVehicleTypeTranslation(item.name),
+      deep
+    });
     for (const subitem of toPlainVehicleType(item.childs, deep + 1)) {
       result.push(subitem);
     }
@@ -165,11 +161,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.vehicleTypeSub = this.vehicleTypeService
-      .getTypes()
-      .subscribe(types => {
-        this.vehicleTypeOptions = toPlainVehicleType(types, 0);
-      });
+    this.vehicleTypeSub = this.vehicleTypeService.getTypes().subscribe(types => {
+      this.vehicleTypeOptions = toPlainVehicleType(types, 0);
+    });
 
     this.specsSub = this.specService.getSpecs().subscribe(types => {
       this.specOptions = toPlainSpec(types, 0);

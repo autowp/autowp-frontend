@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { APIService } from './api.service';
-import {getVehicleTypeTranslation} from '../utils/translations';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {VehicleType} from '../../../generated/spec.pb';
 
 export interface APIVehicleType {
   id: number;
@@ -12,35 +13,21 @@ export interface APIVehicleType {
   childs: APIVehicleType[];
 }
 
-export interface APIVehicleTypesGetResponse {
-  items: APIVehicleType[];
-}
-
 @Injectable()
 export class VehicleTypeService {
-  private readonly types$: Observable<APIVehicleType[]>;
+  private readonly types$: Observable<VehicleType[]>;
 
-  constructor(private api: APIService) {
-    this.types$ = this.api
-      .request<APIVehicleTypesGetResponse>('GET', 'vehicle-types')
-      .pipe(
-        map(data => {
-          this.applyTranslations(data.items);
-          return data.items;
-        }),
-        shareReplay(1)
-      );
-  }
+  constructor(private grpc: AutowpClient) {
 
-  private applyTranslations(types: APIVehicleType[]) {
-    this.walkTypes(types, (type: APIVehicleType) => {
-      type.nameTranslated = getVehicleTypeTranslation(type.name);
-    });
+    this.types$ = this.grpc.getVehicleTypes(new Empty()).pipe(
+      map(data => data.items),
+      shareReplay(1)
+    );
   }
 
   private walkTypes(
-    types: APIVehicleType[],
-    callback: (type: APIVehicleType) => void
+    types: VehicleType[],
+    callback: (type: VehicleType) => void
   ) {
     for (const type of types) {
       callback(type);
@@ -48,17 +35,17 @@ export class VehicleTypeService {
     }
   }
 
-  public getTypes(): Observable<APIVehicleType[]> {
+  public getTypes(): Observable<VehicleType[]> {
     return this.types$;
   }
 
-  public getTypesById(ids: number[]): Observable<APIVehicleType[]> {
+  public getTypesById(ids: number[]): Observable<VehicleType[]> {
     if (ids.length <= 0) {
       return of([]);
     }
     return this.types$.pipe(
       map(types => {
-        const result: APIVehicleType[] = [];
+        const result: VehicleType[] = [];
         this.walkTypes(types, type => {
           if (ids.includes(type.id)) {
             result.push(type);

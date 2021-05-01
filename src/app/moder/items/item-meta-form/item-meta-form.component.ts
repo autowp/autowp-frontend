@@ -23,13 +23,14 @@ import {
   LeafletMouseEvent
 } from 'leaflet';
 import { finalize, switchMap } from 'rxjs/operators';
-import { APIVehicleType, VehicleTypeService } from '../../../services/vehicle-type';
+import { VehicleTypeService } from '../../../services/vehicle-type';
 import { SpecService } from '../../../services/spec';
 import { APIItem } from '../../../services/item';
 import { LanguageService } from '../../../services/language';
 import { VehicleTypesModalComponent } from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {Spec} from '../../../../../generated/spec.pb';
+import {Spec, VehicleType} from '../../../../../generated/spec.pb';
+import { getVehicleTypeTranslation } from '../../../utils/translations';
 
 function specsToPlain(
   options: Spec[],
@@ -82,7 +83,7 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
   @Input() vehicleTypeIDs: number[] = [];
   @Output() submited = new EventEmitter<void>();
 
-  public vehicleTypes: APIVehicleType[];
+  public vehicleTypes: VehicleType[];
   private vehicleTypeIDs$ = new BehaviorSubject<number[]>([]);
 
   public loading = 0;
@@ -306,5 +307,9 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
         this.item.lng = ll.lng;
       });
     });
+  }
+
+  public getVehicleTypeTranslation(id: string): string {
+    return getVehicleTypeTranslation(id);
   }
 }

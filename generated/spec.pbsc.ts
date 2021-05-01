@@ -35,24 +35,45 @@ export class AutowpClient {
    */
   $raw = {
     /**
-     * Unary RPC for /goautowp.Autowp/GetSpecs
+     * Unary RPC for /goautowp.Autowp/AclEnforce
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.SpecsItems>>
+     * @returns Observable<GrpcEvent<thisProto.AclEnforceResult>>
      */
-    getSpecs: (
-      requestData: googleProtobuf000.Empty,
+    aclEnforce: (
+      requestData: thisProto.AclEnforceRequest,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.SpecsItems>> => {
+    ): Observable<GrpcEvent<thisProto.AclEnforceResult>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
-        path: '/goautowp.Autowp/GetSpecs',
+        path: '/goautowp.Autowp/AclEnforce',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AclEnforceRequest,
+        responseClass: thisProto.AclEnforceResult
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetBrandIcons
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.BrandIcons>>
+     */
+    getBrandIcons: (
+      requestData: googleProtobuf000.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.BrandIcons>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetBrandIcons',
         requestData,
         requestMetadata,
         requestClass: googleProtobuf000.Empty,
-        responseClass: thisProto.SpecsItems
+        responseClass: thisProto.BrandIcons
       });
     },
     /**
@@ -119,24 +140,45 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetBrandIcons
+     * Unary RPC for /goautowp.Autowp/GetSpecs
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.BrandIcons>>
+     * @returns Observable<GrpcEvent<thisProto.SpecsItems>>
      */
-    getBrandIcons: (
+    getSpecs: (
       requestData: googleProtobuf000.Empty,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.BrandIcons>> => {
+    ): Observable<GrpcEvent<thisProto.SpecsItems>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
-        path: '/goautowp.Autowp/GetBrandIcons',
+        path: '/goautowp.Autowp/GetSpecs',
         requestData,
         requestMetadata,
         requestClass: googleProtobuf000.Empty,
-        responseClass: thisProto.BrandIcons
+        responseClass: thisProto.SpecsItems
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetVehicleTypes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.VehicleTypeItems>>
+     */
+    getVehicleTypes: (
+      requestData: googleProtobuf000.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.VehicleTypeItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetVehicleTypes',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf000.Empty,
+        responseClass: thisProto.VehicleTypeItems
       });
     }
   };
@@ -150,18 +192,34 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetSpecs
+   * Unary RPC for /goautowp.Autowp/AclEnforce
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.SpecsItems>
+   * @returns Observable<thisProto.AclEnforceResult>
    */
-  getSpecs(
+  aclEnforce(
+    requestData: thisProto.AclEnforceRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AclEnforceResult> {
+    return this.$raw
+      .aclEnforce(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetBrandIcons
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.BrandIcons>
+   */
+  getBrandIcons(
     requestData: googleProtobuf000.Empty,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.SpecsItems> {
+  ): Observable<thisProto.BrandIcons> {
     return this.$raw
-      .getSpecs(requestData, requestMetadata)
+      .getBrandIcons(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -214,18 +272,34 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetBrandIcons
+   * Unary RPC for /goautowp.Autowp/GetSpecs
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.BrandIcons>
+   * @returns Observable<thisProto.SpecsItems>
    */
-  getBrandIcons(
+  getSpecs(
     requestData: googleProtobuf000.Empty,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.BrandIcons> {
+  ): Observable<thisProto.SpecsItems> {
     return this.$raw
-      .getBrandIcons(requestData, requestMetadata)
+      .getSpecs(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetVehicleTypes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.VehicleTypeItems>
+   */
+  getVehicleTypes(
+    requestData: googleProtobuf000.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.VehicleTypeItems> {
+    return this.$raw
+      .getVehicleTypes(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

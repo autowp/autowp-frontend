@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModerCommentsComponent } from './comments/comments.component';
 import { ModerGuard } from '../moder.guard';
 import { ModerItemParentComponent } from './item-parent/item-parent.component';
-import { ModerPagesAddComponent } from './pages/add/add.component';
-import { ModerPagesEditComponent } from './pages/edit/edit.component';
 import { ModerPagesComponent } from './pages/pages.component';
 import { ModerPerspectivesComponent } from './perspectives/perspectives.component';
 import { ModerPictureVoteTemplatesComponent } from './picture-vote-templates/picture-vote-templates.component';
@@ -33,16 +31,6 @@ const routes: Routes = [
   {
     path: 'pages',
     children: [
-      {
-        path: 'add',
-        component: ModerPagesAddComponent,
-        canActivate: [ModerGuard]
-      },
-      {
-        path: 'edit',
-        component: ModerPagesEditComponent,
-        canActivate: [ModerGuard]
-      },
       {
         path: '',
         component: ModerPagesComponent,

@@ -1,4 +1,3 @@
-import { APIService } from './api.service';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
@@ -7,41 +6,8 @@ import {
   map, shareReplay,
   switchMapTo
 } from 'rxjs/operators';
-
-export interface APIACLRule {
-  role: string;
-  resource: string;
-  privilege: string;
-  allowed: boolean;
-}
-
-export interface APIACLRulesGetResponse {
-  items: APIACLRule[];
-}
-
-export interface APIACLResource {
-  name: string;
-  privileges: {
-    name: string;
-  }[];
-}
-
-export interface APIACLResourcesGetResponse {
-  items: APIACLResource[];
-}
-
-interface APIACLIsAllowed {
-  result: boolean;
-}
-
-export interface APIACLRole {
-  name: string;
-  childs: APIACLRole[];
-}
-
-export interface APIACLRoles {
-  items: APIACLRole[];
-}
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {AclEnforceRequest} from '../../../generated/spec.pb';
 
 export enum Privilege {
   EDIT = 'edit',
@@ -68,7 +34,7 @@ export enum Privilege {
   ACCEPT = 'accept',
   CROP = 'crop',
   MODER_VOTE = 'moder_vote',
-  MODERATOR_ATTRNTION = 'moderator-attention',
+  MODERATOR_ATTENTION = 'moderator-attention',
 }
 
 export enum Resource {
@@ -89,39 +55,17 @@ export enum Resource {
 
 @Injectable()
 export class APIACL {
-  constructor(private api: APIService) {}
+  constructor(private grpc: AutowpClient) {}
 
   public isAllowed(resource: Resource, privilege: Privilege): Observable<boolean> {
-    return this.api
-      .request<APIACLIsAllowed>('GET', 'acl/is-allowed', {
-        params: {
-          resource,
-          privilege
-        }
+    return this.grpc.aclEnforce(new AclEnforceRequest({resource, privilege})).pipe(
+      map(response => response.result),
+      catchError(() => {
+        return of(false);
       })
-      .pipe(
-        map(response => response.result),
-        catchError(() => {
-          return of(false);
-        })
-      );
+    );
   }
 
-  public getRoles(recursive: boolean): Observable<APIACLRoles> {
-    return this.api.request<APIACLRoles>('GET', 'acl/roles', {
-      params: {
-        recursive: recursive ? '1' : ''
-      }
-    });
-  }
-
-  public getResources(): Observable<APIACLResourcesGetResponse> {
-    return this.api.request<APIACLResourcesGetResponse>('GET', 'acl/resources');
-  }
-
-  public getRules(): Observable<APIACLRulesGetResponse> {
-    return this.api.request<APIACLRulesGetResponse>('GET', 'acl/rules');
-  }
 }
 
 @Injectable()

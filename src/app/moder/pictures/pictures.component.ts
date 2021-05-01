@@ -1,30 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator, APIService } from '../../services/api.service';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
-import {
-  VehicleTypeService,
-  APIVehicleType
-} from '../../services/vehicle-type';
-import {
-  ItemService,
-  GetItemsServiceOptions,
-  APIItem
-} from '../../services/item';
+import {VehicleTypeService} from '../../services/vehicle-type';
+import {ItemService, GetItemsServiceOptions, APIItem} from '../../services/item';
 import { chunkBy } from '../../chunk';
 import { UserService, APIUser } from '../../services/user';
-import {
-  Subscription,
-  Observable,
-  of,
-  forkJoin,
-  BehaviorSubject, EMPTY
-} from 'rxjs';
+import {Subscription, Observable, of, forkJoin, BehaviorSubject, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  APIPicture,
-  PictureService,
-  APIGetPicturesOptions
-} from '../../services/picture';
+import {APIPicture, PictureService, APIGetPicturesOptions} from '../../services/picture';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {
   debounceTime,
@@ -41,6 +24,7 @@ import {
 } from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import { APIPerspectiveService } from '../../api/perspective/perspective.service';
 import { getPerspectiveTranslation, getVehicleTypeTranslation } from '../../utils/translations';
+import {VehicleType} from '../../../../generated/spec.pb';
 
 interface VehicleTypeInPictures {
   name: string;
@@ -54,7 +38,7 @@ interface PerspectiveInList {
 }
 
 function toPlainVehicleTypes(
-  options: APIVehicleType[],
+  options: VehicleType[],
   deep: number
 ): VehicleTypeInPictures[] {
   const result: VehicleTypeInPictures[] = [];
@@ -353,13 +337,11 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.vehicleTypeSub = this.vehicleTypeService
-      .getTypes()
-      .subscribe(types => {
-        this.vehicleTypeOptions = this.defaultVehicleTypeOptions.concat(
-          toPlainVehicleTypes(types, 0)
-        );
-      });
+    this.vehicleTypeSub = this.vehicleTypeService.getTypes().subscribe(types => {
+      this.vehicleTypeOptions = this.defaultVehicleTypeOptions.concat(
+        toPlainVehicleTypes(types, 0)
+      );
+    });
 
     this.perspectiveSub = this.perspectiveService
       .getPerspectives()

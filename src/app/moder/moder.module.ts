@@ -11,8 +11,6 @@ import { ModerAttrsAttributeComponent } from './attrs/attribute/attribute.compon
 import { ModerAttrsZoneComponent } from './attrs/zone/zone.component';
 import { ModerCommentsComponent } from './comments/comments.component';
 import { ModerPagesComponent } from './pages/pages.component';
-import { ModerPagesAddComponent } from './pages/add/add.component';
-import { ModerPagesEditComponent } from './pages/edit/edit.component';
 import { ModerPictureVoteTemplatesComponent } from './picture-vote-templates/picture-vote-templates.component';
 import { ModerAttrsAttributeListComponent } from './attrs/attribute-list/attribute-list.component';
 import { ModerAttrsZoneAttributeListComponent } from './attrs/zone/attribute-list/attribute-list.component';
@@ -40,8 +38,6 @@ import { APICommentsModule } from '../api/comments/comments.module';
     ModerAttrsZoneComponent,
     ModerCommentsComponent,
     ModerPagesComponent,
-    ModerPagesAddComponent,
-    ModerPagesEditComponent,
     ModerPictureVoteTemplatesComponent,
     ModerAttrsAttributeListComponent,
     ModerAttrsZoneAttributeListComponent,

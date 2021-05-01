@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  VehicleTypeService,
-  APIVehicleType
+  VehicleTypeService
 } from '../../services/vehicle-type';
 import { Subscription } from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
 import { getVehicleTypeTranslation } from '../../utils/translations';
+import {VehicleType} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-vehicle-types-modal',
@@ -22,7 +22,7 @@ import { getVehicleTypeTranslation } from '../../utils/translations';
 export class VehicleTypesModalComponent implements OnInit, OnDestroy {
   @Input() ids: number[] = [];
   @Output() changed = new EventEmitter();
-  public types: APIVehicleType[];
+  public types: VehicleType[];
   private sub: Subscription;
 
   constructor(

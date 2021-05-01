@@ -3,7 +3,7 @@ import {combineLatest, Subscription} from 'rxjs';
 import {AuthService} from '../../../services/auth.service';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {PictureService} from '../../../services/picture';
-import {tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {APICommentsService} from '../../../api/comments/comments.service';
 
 interface MenuItem {
@@ -34,55 +34,46 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = combineLatest([
       this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE),
-      this.acl.isAllowed(Resource.PAGES, Privilege.MODERATE),
       this.pictureService.getInboxSize(),
       this.commentService.getAttentionCommentsCount()
     ])
       .pipe(
-        tap(([isModer, isPagesModer, inboxCount, attentionItemCount]) => {
-          this.items = [];
-
+        map(([isModer, inboxCount, attentionItemCount]) => {
           if (!isModer) {
-            return;
+            return [];
           }
 
-          this.items.push({
-            routerLink: ['/moder/pictures'],
-            queryParams: {
-              order: '1',
-              status: 'inbox'
+          return [
+            {
+              routerLink: ['/moder/pictures'],
+              queryParams: {
+                order: '1',
+                status: 'inbox'
+              },
+              label: $localize `Inbox`,
+              count: inboxCount,
+              icon: 'fa fa-th'
             },
-            label: $localize `Inbox`,
-            count: inboxCount,
-            icon: 'fa fa-th'
-          });
-
-          this.items.push({
-            routerLink: ['/moder/comments'],
-            queryParams: {
-              moderator_attention: '1'
+            {
+              routerLink: ['/moder/comments'],
+              queryParams: {
+                moderator_attention: '1'
+              },
+              label: $localize `Comments`,
+              count: attentionItemCount,
+              icon: 'fa fa-comment'
             },
-            label: $localize `Comments`,
-            count: attentionItemCount,
-            icon: 'fa fa-comment'
-          });
-
-          if (isPagesModer) {
-            this.items.push({
-              routerLink: ['/moder/pages'],
-              label: $localize `Pages`,
-              icon: 'fa fa-book'
-            });
-          }
-
-          this.items.push({
-            routerLink: ['/moder/items'],
-            label: $localize `Items`,
-            icon: 'fa fa-car'
-          });
+            {
+              routerLink: ['/moder/items'],
+              label: $localize `Items`,
+              icon: 'fa fa-car'
+            }
+          ];
         })
       )
-      .subscribe();
+      .subscribe(items => {
+        this.items = items;
+      });
   }
 
   ngOnDestroy(): void {

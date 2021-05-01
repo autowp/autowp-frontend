@@ -51,21 +51,21 @@
         <select name="vehicle_type_id" class="form-control" [(ngModel)]="vehicleTypeID" (change)="onVehicleTypeChanged()">
           <option [ngValue]="null">Any</option>
           <option [ngValue]="'empty'" i18n>Empty</option>
-          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.nameTranslated}}</option>
+          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name}}</option>
         </select>
       </div>
       <div class="form-group">
         <label i18n>Have childs with type</label>
         <select name="vehicle_childs_type_id" class="form-control" [(ngModel)]="vehicleChildsTypeID" (change)="onVehicleChildsTypeChanged()">
           <option [ngValue]="null" i18n>Any</option>
-          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.nameTranslated}}</option>
+          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name}}</option>
         </select>
       </div>
       <div class="form-group">
         <label i18n>Spec</label>
         <select name="spec" class="form-control" [(ngModel)]="specID" (change)="onSpecChanged()">
           <option [ngValue]="null" i18n>Any</option>
-          <option [ngValue]="item.id" *ngFor="let item of specOptions">{{'...'.repeat(item.deep)}}{{item.short_name}}</option>
+          <option [ngValue]="item.id" *ngFor="let item of specOptions">{{'...'.repeat(item.deep)}}{{item.shortName}}</option>
         </select>
       </div>
       <div class="form-group">

@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { AuthGuard } from './auth.guard';
-import {APIService, AuthInterceptor} from './services/api.service';
+import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ACLService, APIACL } from './services/acl.service';
 import { PictureService } from './services/picture';
@@ -57,7 +57,7 @@ import {environment} from '../environments/environment';
 import {OAuthService} from './services/oauth.service';
 import { GlobalErrorHandler } from './global-error-handler';
 import { Angulartics2Module } from 'angulartics2';
-import {GrpcCoreModule} from '@ngx-grpc/core';
+import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 
 // AoT requires an exported function for factories
@@ -120,6 +120,8 @@ export class SentryErrorHandler implements ErrorHandler {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor, multi: true },
+    { provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor, multi: true },
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     ConfigurationService,
