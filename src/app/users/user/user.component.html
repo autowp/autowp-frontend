@@ -142,9 +142,9 @@
         <div *ngIf="ip && ip.blacklist">
           <p>
             <ng-container i18n>That address is banned</ng-container>
-            <app-user *ngIf="ip.blacklist.user" [user]="ip.blacklist.user"></app-user>
-            <span *ngIf="ip.blacklist.up_to">
-              <ng-container i18n>until</ng-container> {{ip.blacklist.up_to|date:'medium'}}
+            <app-user2 *ngIf="ip.blacklist.byUser" [user]="ip.blacklist.byUser"></app-user2>
+            <span *ngIf="ip.blacklist.until">
+              <ng-container i18n>until</ng-container> {{ip.blacklist.until.toDate()|date:'medium'}}
               <span *ngIf="ip.blacklist.reason">
                 ({{ip.blacklist.reason}})
               </span>
@@ -156,7 +156,7 @@
           </div>
         </div>
 
-        <form class="form-vertical" *ngIf="ip && ! ip.blacklist && ip.rights.add_to_blacklist">
+        <form class="form-vertical" *ngIf="ip && ! ip.blacklist && ip.rights.addToBlacklist">
           <div class="form-group">
             <label i18n>For period</label>
             <select [(ngModel)]="banPeriod" name="period" class="form-control" required>

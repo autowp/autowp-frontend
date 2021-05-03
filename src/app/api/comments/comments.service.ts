@@ -4,6 +4,8 @@ import {APIPaginator, APIService} from '../../services/api.service';
 import {APIUser} from '../../services/user';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {CommentVote, GetCommentVotesRequest} from '../../../../generated/spec.pb';
 
 export interface APICommentItemGetOptions {
   fields?: string;
@@ -51,18 +53,13 @@ export interface APIComment {
   };
 }
 
-export interface APICommentVotes {
-  positive: APIUser[];
-  negative: APIUser[];
-}
-
 @Injectable({
   providedIn: 'root'
 })
 export class APICommentsService {
   private readonly attentionCommentsCount$: Observable<number>;
 
-  constructor(private acl: ACLService, private api: APIService) {
+  constructor(private acl: ACLService, private api: APIService, private grpc: AutowpClient) {
     this.attentionCommentsCount$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap(isModer => {
         if (!isModer) {
@@ -174,12 +171,10 @@ export class APICommentsService {
     return this.api.request<APIComment>('GET', this.api.resolveLocation(location), {params});
   }
 
-  public getVotes(id: number): Observable<APICommentVotes> {
-    return this.api.request<APICommentVotes>('GET', 'comment/votes', {
-      params: {
-        id: id.toString()
-      }
-    });
+  public getVotes(id: number): Observable<CommentVote[]> {
+    return this.grpc.getCommentVotes(new GetCommentVotesRequest({commentId: id})).pipe(
+      map(response => response.items)
+    );
   }
 
   public getAttentionCommentsCount(): Observable<number> {

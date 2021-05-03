@@ -6,11 +6,11 @@
   <div class="modal-body">
     <p *ngIf="votes && votes.positive.length">
       <strong>+1</strong>:
-      <app-user *ngFor="let user of votes.positive" [user]="user"></app-user>
+      <app-user2 *ngFor="let vote of votes.positive" [user]="vote.user"></app-user2>
     </p>
     <p *ngIf="votes && votes.negative.length">
       <strong>-1</strong>:
-      <app-user *ngFor="let user of votes.negative" [user]="user"></app-user>
+      <app-user2 *ngFor="let vote of votes.negative" [user]="vote.user"></app-user2>
     </p>
   </div>
   <div class="modal-footer">

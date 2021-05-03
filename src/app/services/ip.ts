@@ -1,31 +1,14 @@
 import { Injectable } from '@angular/core';
-import { APIUser } from './user';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { APIService } from './api.service';
-
-export interface APIIP {
-  address: string;
-  hostname: string;
-  blacklist: {
-    reason: string;
-    up_to: string;
-    user: APIUser;
-  };
-  whitelist: {
-    reason: string;
-  };
-  rights: {
-    add_to_blacklist: boolean;
-    remove_from_blacklist: boolean;
-  };
-}
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {APIGetIPRequest, APIIP} from '../../../generated/spec.pb';
 
 @Injectable()
 export class IpService {
   private hostnames = new Map<string, Observable<string>>();
 
-  constructor(private api: APIService) {}
+  constructor(private grpc: AutowpClient) {}
 
   public getHostByAddr(ip: string): Observable<string> {
     const hostname = this.hostnames.get(ip);
@@ -33,7 +16,7 @@ export class IpService {
       return hostname;
     }
 
-    const o = this.getIp(ip, 'hostname')
+    const o = this.getIp(ip, ['hostname'])
       .pipe(map(response => response.hostname));
 
     this.hostnames.set(ip, o);
@@ -41,8 +24,7 @@ export class IpService {
     return o;
   }
 
-  public getIp(ip: string, fields: string): Observable<APIIP> {
-    return this.api
-      .request<APIIP>('GET', 'ip/' + ip, {params: {fields}});
+  public getIp(ip: string, fields: string[]): Observable<APIIP> {
+    return this.grpc.getIP(new APIGetIPRequest({ip, fields}));
   }
 }

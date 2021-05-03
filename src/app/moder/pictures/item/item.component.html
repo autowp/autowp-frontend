@@ -372,14 +372,14 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
         <br />
         <p *ngIf="ip.blacklist">
           <ng-container i18n>That address is banned</ng-container>
-          <app-user [user]="ip.blacklist.user" *ngIf="ip.blacklist.user"></app-user>
-          <ng-container i18n>until</ng-container> {{ip.blacklist.up_to|date}}
+          <app-user2 [user]="ip.blacklist.byUser" *ngIf="ip.blacklist.byUser"></app-user2>
+          <ng-container *ngIf="ip.blacklist.until"><ng-container i18n>until</ng-container> {{ip.blacklist.until.toDate()|date}}</ng-container>
           <span *ngIf="ip.blacklist.reason" [textContent]="ip.blacklist.reason"></span>
         </p>
 
-        <button *ngIf="ip.blacklist && ip.rights.remove_from_blacklist" class="btn btn-success" (click)="removeFromBlacklist(ip.address)" i18n>unban</button>
+        <button *ngIf="ip.blacklist && ip.rights.removeFromBlacklist" class="btn btn-success" (click)="removeFromBlacklist(ip.address)" i18n>unban</button>
 
-        <form class="form-vertical" *ngIf="!ip.blacklist && ip.rights.add_to_blacklist">
+        <form class="form-vertical" *ngIf="!ip.blacklist && ip.rights.addToBlacklist">
           <div class="form-group">
             <label i18n>For period</label>
             <select [(ngModel)]="banPeriod" name="period" class="form-control" required>
@@ -390,7 +390,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
             <label i18n>Reason</label>
             <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
           </div>
-          <button class="btn btn-danger" (click)="addToBlacklist(picture.ip.address)" i18n>Ban</button>
+          <button class="btn btn-danger" (click)="addToBlacklist(picture.ip)" i18n>Ban</button>
         </form>
 
       </div>

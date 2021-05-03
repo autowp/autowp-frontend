@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+export type InvalidParams = { [key: string]: { [key: string]: string } };
+
 @Pipe({ name: 'invalidParams' })
 export class InvalidParamsPipe implements PipeTransform {
   transform(

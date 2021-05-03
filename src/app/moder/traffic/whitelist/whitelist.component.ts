@@ -1,17 +1,9 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
-import { APIService } from '../../../services/api.service';
-
-export interface APITrafficWhitelistItem {
-  ip: string;
-  hostname: string;
-  description: string;
-}
-
-export interface APITrafficWhitelistGetResponse {
-  items: APITrafficWhitelistItem[];
-}
+import {AutowpClient} from '../../../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-traffic-whitelist',
@@ -21,7 +13,7 @@ export class ModerTrafficWhitelistComponent {
   public items: APITrafficWhitelistItem[];
 
   constructor(
-    private api: APIService,
+    private grpc: AutowpClient,
     private router: Router,
     private pageEnv: PageEnvService
   ) {
@@ -38,39 +30,30 @@ export class ModerTrafficWhitelistComponent {
       0
     );
 
-    this.api
-      .request<APITrafficWhitelistGetResponse>('GET', 'traffic/whitelist')
-      .subscribe(
-        response => {
-          this.items = response.items;
+    this.grpc.getTrafficWhitelist(new Empty()).subscribe(
+      response => {
+        this.items = response.items;
 
-          /*for(const item of $scope.items) {
-                ipService.getHostByAddr(item.ip).subscribe((hostname) => {
-                    item.hostname = hostname;
-                });
-            }*/
-        },
-        () => {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-        }
-      );
+        /*for(const item of $scope.items) {
+              ipService.getHostByAddr(item.ip).subscribe((hostname) => {
+                  item.hostname = hostname;
+              });
+          }*/
+      },
+      () => {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+      }
+    );
   }
 
   public deleteItem(item: APITrafficWhitelistItem) {
-    this.api
-      .request<void>('DELETE', 'traffic/whitelist/' + item.ip)
-      .subscribe(() => {
-        const index = this.items.indexOf(item);
-        if (index !== -1) {
-          this.items.splice(index, 1);
-        }
-        /*for(const item of $scope.items) {
-                ipService.getHostByAddr(item.ip).subscribe((hostname) => {
-                    item.hostname = hostname;
-                });
-            }*/
-      });
+    this.grpc.deleteFromTrafficWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
+      const index = this.items.indexOf(item);
+      if (index !== -1) {
+        this.items.splice(index, 1);
+      }
+    });
   }
 }

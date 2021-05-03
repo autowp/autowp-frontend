@@ -6,13 +6,15 @@ import {APIUser, UserService} from '../../services/user';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {APIPicture, PictureService} from '../../services/picture';
-import {APIIP, IpService} from '../../services/ip';
+import {IpService} from '../../services/ip';
 import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
+import {APIIP, CreateContactRequest, DeleteContactRequest} from '../../../../generated/spec.pb';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',
@@ -58,7 +60,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private commentService: APICommentsService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private ipService: IpService
+    private ipService: IpService,
+    private grpc: AutowpClient
   ) {}
 
   ngOnInit(): void {
@@ -123,12 +126,10 @@ export class UsersUserComponent implements OnInit, OnDestroy {
           this.canBeInContacts = currentUser && !user.deleted && !this.isMe;
 
           if (currentUser && !this.isMe) {
-            this.contacts
-              .isInContacts(user.id)
-              .subscribe(
-                inContacts => (this.inContacts = inContacts),
-                response => this.toastService.response(response)
-              );
+            this.contacts.isInContacts(user.id).subscribe(
+              inContacts => (this.inContacts = inContacts),
+              response => this.toastService.response(response)
+            );
           }
 
           const pictures = this.pictureService.getPictures({
@@ -152,7 +153,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
 
           let ip = of(null as APIIP);
           if (user.last_ip) {
-            ip = this.ipService.getIp(user.last_ip, 'blacklist,rights').pipe(
+            ip = this.ipService.getIp(user.last_ip, ['blacklist', 'rights']).pipe(
               catchError(() => of(null as APIIP))
             );
           }
@@ -180,27 +181,16 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   }
 
   public toggleInContacts() {
-    this.api
-      .request<void>(
-        this.inContacts ? 'DELETE' : 'PUT',
-        'contacts/' + this.user.id,
-        {
-          observe: 'response'
-        }
-      )
-      .subscribe(
-        response => {
-          switch (response.status) {
-            case 204:
-              this.inContacts = false;
-              break;
-            case 201:
-              this.inContacts = true;
-              break;
-          }
-        },
-        response => this.toastService.response(response)
-      );
+    if (this.inContacts) {
+      this.grpc.deleteContact(new DeleteContactRequest({userId: this.user.id})).subscribe(() => {
+        this.inContacts = false;
+      });
+      return;
+    }
+
+    this.grpc.createContact(new CreateContactRequest({userId: this.user.id})).subscribe(() => {
+      this.inContacts = true;
+    });
   }
 
   public deletePhoto() {
@@ -264,7 +254,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
           this.toastService.response(err);
           return EMPTY;
         }),
-        switchMap(() => this.ipService.getIp(this.user.last_ip, 'blacklist,rights')),
+        switchMap(() => this.ipService.getIp(this.user.last_ip, ['blacklist', 'rights'])),
         catchError(err => {
           this.toastService.response(err);
           return EMPTY;

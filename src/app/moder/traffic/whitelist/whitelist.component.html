@@ -24,7 +24,6 @@
   <tbody>
     <tr *ngFor="let item of items">
       <td [textContent]="item.ip"></td>
-      <td [textContent]="item.hostname"></td>
       <td [textContent]="item.description"></td>
       <td>
         <a [href]="'http://nic.ru/whois/?query=' + item.ip">whois</a>

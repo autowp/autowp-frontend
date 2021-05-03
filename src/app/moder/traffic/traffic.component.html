@@ -20,32 +20,29 @@
 
 <div class="row" *ngFor="let item of items">
   <div class="col-sm-2">
-    <h3 [textContent]="item.count"></h3>
+    <h3 [textContent]="item.item.count"></h3>
   </div>
   <div class="col-sm-4">
-    <h3>{{item.ip}}
-      <a [href]="item.whois_url">whois</a>
+    <h3>{{item.item.ip}}
+      <a [href]="item.item.whoisUrl">whois</a>
     </h3>
-    <h4 *ngIf="item.users">
-      <app-user [user]="user" *ngFor="let user of item.users"></app-user>
-    </h4>
-    <p>{{item.hostname ? item.hostname : item.ip}}</p>
+    <p>{{item.hostname}}</p>
   </div>
   <div class="col-sm-6">
-    <div *ngIf="item.ban">
-      <ng-container i18n>until</ng-container> {{item.ban.up_to | date : 'fullDate'}}
-      <span *ngIf="item.ban.user">
+    <div *ngIf="item.item.ban">
+      <ng-container i18n>until</ng-container> {{item.item.ban.until.toDate() | date : 'fullDate'}}
+      <span *ngIf="item.item.ban.byUser">
         by
-        <app-user [user]="item.ban.user"></app-user>
-        <span *ngIf="item.ban.reason">
-          <ng-container i18n>Reason</ng-container> {{item.ban.reason}}
+        <app-user2 [user]="item.item.ban.byUser"></app-user2>
+        <span *ngIf="item.item.ban.reason">
+          <ng-container i18n>Reason</ng-container> {{item.item.ban.reason}}
         </span>
       </span>
     </div>
     <div>
-      <button *ngIf="item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.ip)" i18n>unban</button>
-      <button class="btn btn-danger" *ngIf="!item.ban" (click)="addToBlacklist(item.ip)" i18n>Ban</button>
-      <button *ngIf="!item.in_whitelist" class="btn btn-success" (click)="addToWhitelist(item.ip)" i18n>Whitelist</button>
+      <button *ngIf="item.item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.item.ip)" i18n>unban</button>
+      <button class="btn btn-danger" *ngIf="!item.item.ban" (click)="addToBlacklist(item.item.ip)" i18n>Ban</button>
+      <button *ngIf="!item.item.inWhitelist" class="btn btn-success" (click)="addToWhitelist(item.item.ip)" i18n>Whitelist</button>
     </div>
   </div>
 </div>

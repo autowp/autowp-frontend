@@ -1,30 +1,30 @@
 import { Component} from '@angular/core';
 import { chunkBy } from '../../chunk';
 import { ContactsService } from '../../services/contacts';
-import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
 import {map, switchMapTo} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import {Contact, DeleteContactRequest} from '../../../../generated/spec.pb';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-account-contacts',
   templateUrl: './contacts.component.html'
 })
 export class AccountContactsComponent {
-  public items: APIUser[] = [];
-  public chunks: APIUser[][];
+  public items: Contact[] = [];
+  public chunks: Contact[][];
 
   constructor(
-    private api: APIService,
     private contactsService: ContactsService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private grpc: AutowpClient
   ) {
     setTimeout(
       () =>
@@ -47,7 +47,7 @@ export class AccountContactsComponent {
         return user;
       }),
       switchMapTo(this.contactsService.getContacts({
-        fields: 'avatar,gravatar,last_online'
+        fields: ['avatar', 'gravatar', 'last_online']
       }))
     ).subscribe(
       response => {
@@ -59,10 +59,10 @@ export class AccountContactsComponent {
   }
 
   public deleteContact(id: number) {
-    this.api.request('DELETE', 'contacts/' + id).subscribe(
+    this.grpc.deleteContact(new DeleteContactRequest({userId: id})).subscribe(
       () => {
         for (let i = 0; i < this.items.length; i++) {
-          if (this.items[i].id === id) {
+          if (this.items[i].contactUserId === id) {
             this.items.splice(i, 1);
             break;
           }

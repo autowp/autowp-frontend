@@ -1,54 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
-import { APIUser } from './user';
 import {catchError, map, switchMapTo} from 'rxjs/operators';
-import { APIService } from './api.service';
 import {AuthService} from './auth.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {ContactItems, GetContactRequest, GetContactsRequest} from '../../../generated/spec.pb';
 
 export interface APIContactsGetOptions {
-  fields: string;
-}
-
-export interface APIContactsGetResponse {
-  items: APIUser[];
-}
-
-export interface APIContactsContactGetResponse {
-  contact_user_id: number;
+  fields: string[];
 }
 
 @Injectable()
 export class ContactsService {
-  constructor(private api: APIService, private auth: AuthService) {}
+  constructor(private auth: AuthService, private grpc: AutowpClient) {}
 
   public isInContacts(userId: number): Observable<boolean> {
-    return this.api
-      .request<APIContactsContactGetResponse>('GET', 'contacts/' + userId)
-      .pipe(
-        map(response => !!response.contact_user_id),
-        catchError(err => {
-          if (err.status === 404) {
-            return of(false);
-          }
+    return this.grpc.getContact(new GetContactRequest({userId})).pipe(
+      map(response => !!response.contactUserId),
+      catchError(err => {
+        if (err.status === 404) {
+          return of(false);
+        }
 
-          return throwError(err);
-        })
-      );
+        return throwError(err);
+      })
+    );
   }
 
   public getContacts(
     options: APIContactsGetOptions
-  ): Observable<APIContactsGetResponse> {
-    const params: { [param: string]: string } = {};
+  ): Observable<ContactItems> {
+
+    // (.pipe(
+    const request = new GetContactsRequest({fields: []});
 
     if (options.fields) {
-      params.fields = options.fields;
+      request.fields = options.fields;
     }
 
     return this.auth.getUser().pipe(
-      switchMapTo(this.api.request<APIContactsGetResponse>('GET', 'contacts', {
-        params
-      }))
+      switchMapTo(this.grpc.getContacts(request))
     );
   }
 }

@@ -9,6 +9,370 @@ import {
   ToProtobufJSONOptions
 } from '@ngx-grpc/common';
 import { BinaryReader, BinaryWriter, ByteSource } from 'google-protobuf';
+import * as googleProtobuf003 from '@ngx-grpc/well-known-types';
+import * as googleRpc005 from './google/rpc/error-details.pb';
+/**
+ * Message implementation for goautowp.ErrorDetails
+ */
+export class ErrorDetails implements GrpcMessage {
+  static id = 'goautowp.ErrorDetails';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ErrorDetails();
+    ErrorDetails.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ErrorDetails) {
+    _instance.retryInfo = _instance.retryInfo || undefined;
+    _instance.debugInfo = _instance.debugInfo || undefined;
+    _instance.quotaFailure = _instance.quotaFailure || undefined;
+    _instance.preconditionFailure = _instance.preconditionFailure || undefined;
+    _instance.badRequest = _instance.badRequest || undefined;
+    _instance.requestInfo = _instance.requestInfo || undefined;
+    _instance.help = _instance.help || undefined;
+    _instance.localizedMessage = _instance.localizedMessage || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ErrorDetails,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.retryInfo = new googleRpc005.RetryInfo();
+          _reader.readMessage(
+            _instance.retryInfo,
+            googleRpc005.RetryInfo.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.debugInfo = new googleRpc005.DebugInfo();
+          _reader.readMessage(
+            _instance.debugInfo,
+            googleRpc005.DebugInfo.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.quotaFailure = new googleRpc005.QuotaFailure();
+          _reader.readMessage(
+            _instance.quotaFailure,
+            googleRpc005.QuotaFailure.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.preconditionFailure = new googleRpc005.PreconditionFailure();
+          _reader.readMessage(
+            _instance.preconditionFailure,
+            googleRpc005.PreconditionFailure.deserializeBinaryFromReader
+          );
+          break;
+        case 5:
+          _instance.badRequest = new googleRpc005.BadRequest();
+          _reader.readMessage(
+            _instance.badRequest,
+            googleRpc005.BadRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 6:
+          _instance.requestInfo = new googleRpc005.RequestInfo();
+          _reader.readMessage(
+            _instance.requestInfo,
+            googleRpc005.RequestInfo.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.help = new googleRpc005.Help();
+          _reader.readMessage(
+            _instance.help,
+            googleRpc005.Help.deserializeBinaryFromReader
+          );
+          break;
+        case 8:
+          _instance.localizedMessage = new googleRpc005.LocalizedMessage();
+          _reader.readMessage(
+            _instance.localizedMessage,
+            googleRpc005.LocalizedMessage.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ErrorDetails.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ErrorDetails,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.retryInfo) {
+      _writer.writeMessage(
+        1,
+        _instance.retryInfo as any,
+        googleRpc005.RetryInfo.serializeBinaryToWriter
+      );
+    }
+    if (_instance.debugInfo) {
+      _writer.writeMessage(
+        2,
+        _instance.debugInfo as any,
+        googleRpc005.DebugInfo.serializeBinaryToWriter
+      );
+    }
+    if (_instance.quotaFailure) {
+      _writer.writeMessage(
+        3,
+        _instance.quotaFailure as any,
+        googleRpc005.QuotaFailure.serializeBinaryToWriter
+      );
+    }
+    if (_instance.preconditionFailure) {
+      _writer.writeMessage(
+        4,
+        _instance.preconditionFailure as any,
+        googleRpc005.PreconditionFailure.serializeBinaryToWriter
+      );
+    }
+    if (_instance.badRequest) {
+      _writer.writeMessage(
+        5,
+        _instance.badRequest as any,
+        googleRpc005.BadRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.requestInfo) {
+      _writer.writeMessage(
+        6,
+        _instance.requestInfo as any,
+        googleRpc005.RequestInfo.serializeBinaryToWriter
+      );
+    }
+    if (_instance.help) {
+      _writer.writeMessage(
+        7,
+        _instance.help as any,
+        googleRpc005.Help.serializeBinaryToWriter
+      );
+    }
+    if (_instance.localizedMessage) {
+      _writer.writeMessage(
+        8,
+        _instance.localizedMessage as any,
+        googleRpc005.LocalizedMessage.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _retryInfo?: googleRpc005.RetryInfo;
+  private _debugInfo?: googleRpc005.DebugInfo;
+  private _quotaFailure?: googleRpc005.QuotaFailure;
+  private _preconditionFailure?: googleRpc005.PreconditionFailure;
+  private _badRequest?: googleRpc005.BadRequest;
+  private _requestInfo?: googleRpc005.RequestInfo;
+  private _help?: googleRpc005.Help;
+  private _localizedMessage?: googleRpc005.LocalizedMessage;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ErrorDetails to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ErrorDetails.AsObject>) {
+    _value = _value || {};
+    this.retryInfo = _value.retryInfo
+      ? new googleRpc005.RetryInfo(_value.retryInfo)
+      : undefined;
+    this.debugInfo = _value.debugInfo
+      ? new googleRpc005.DebugInfo(_value.debugInfo)
+      : undefined;
+    this.quotaFailure = _value.quotaFailure
+      ? new googleRpc005.QuotaFailure(_value.quotaFailure)
+      : undefined;
+    this.preconditionFailure = _value.preconditionFailure
+      ? new googleRpc005.PreconditionFailure(_value.preconditionFailure)
+      : undefined;
+    this.badRequest = _value.badRequest
+      ? new googleRpc005.BadRequest(_value.badRequest)
+      : undefined;
+    this.requestInfo = _value.requestInfo
+      ? new googleRpc005.RequestInfo(_value.requestInfo)
+      : undefined;
+    this.help = _value.help ? new googleRpc005.Help(_value.help) : undefined;
+    this.localizedMessage = _value.localizedMessage
+      ? new googleRpc005.LocalizedMessage(_value.localizedMessage)
+      : undefined;
+    ErrorDetails.refineValues(this);
+  }
+  get retryInfo(): googleRpc005.RetryInfo | undefined {
+    return this._retryInfo;
+  }
+  set retryInfo(value: googleRpc005.RetryInfo | undefined) {
+    this._retryInfo = value;
+  }
+  get debugInfo(): googleRpc005.DebugInfo | undefined {
+    return this._debugInfo;
+  }
+  set debugInfo(value: googleRpc005.DebugInfo | undefined) {
+    this._debugInfo = value;
+  }
+  get quotaFailure(): googleRpc005.QuotaFailure | undefined {
+    return this._quotaFailure;
+  }
+  set quotaFailure(value: googleRpc005.QuotaFailure | undefined) {
+    this._quotaFailure = value;
+  }
+  get preconditionFailure(): googleRpc005.PreconditionFailure | undefined {
+    return this._preconditionFailure;
+  }
+  set preconditionFailure(value: googleRpc005.PreconditionFailure | undefined) {
+    this._preconditionFailure = value;
+  }
+  get badRequest(): googleRpc005.BadRequest | undefined {
+    return this._badRequest;
+  }
+  set badRequest(value: googleRpc005.BadRequest | undefined) {
+    this._badRequest = value;
+  }
+  get requestInfo(): googleRpc005.RequestInfo | undefined {
+    return this._requestInfo;
+  }
+  set requestInfo(value: googleRpc005.RequestInfo | undefined) {
+    this._requestInfo = value;
+  }
+  get help(): googleRpc005.Help | undefined {
+    return this._help;
+  }
+  set help(value: googleRpc005.Help | undefined) {
+    this._help = value;
+  }
+  get localizedMessage(): googleRpc005.LocalizedMessage | undefined {
+    return this._localizedMessage;
+  }
+  set localizedMessage(value: googleRpc005.LocalizedMessage | undefined) {
+    this._localizedMessage = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ErrorDetails.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ErrorDetails.AsObject {
+    return {
+      retryInfo: this.retryInfo ? this.retryInfo.toObject() : undefined,
+      debugInfo: this.debugInfo ? this.debugInfo.toObject() : undefined,
+      quotaFailure: this.quotaFailure
+        ? this.quotaFailure.toObject()
+        : undefined,
+      preconditionFailure: this.preconditionFailure
+        ? this.preconditionFailure.toObject()
+        : undefined,
+      badRequest: this.badRequest ? this.badRequest.toObject() : undefined,
+      requestInfo: this.requestInfo ? this.requestInfo.toObject() : undefined,
+      help: this.help ? this.help.toObject() : undefined,
+      localizedMessage: this.localizedMessage
+        ? this.localizedMessage.toObject()
+        : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ErrorDetails.AsProtobufJSON {
+    return {
+      retryInfo: this.retryInfo ? this.retryInfo.toProtobufJSON(options) : null,
+      debugInfo: this.debugInfo ? this.debugInfo.toProtobufJSON(options) : null,
+      quotaFailure: this.quotaFailure
+        ? this.quotaFailure.toProtobufJSON(options)
+        : null,
+      preconditionFailure: this.preconditionFailure
+        ? this.preconditionFailure.toProtobufJSON(options)
+        : null,
+      badRequest: this.badRequest
+        ? this.badRequest.toProtobufJSON(options)
+        : null,
+      requestInfo: this.requestInfo
+        ? this.requestInfo.toProtobufJSON(options)
+        : null,
+      help: this.help ? this.help.toProtobufJSON(options) : null,
+      localizedMessage: this.localizedMessage
+        ? this.localizedMessage.toProtobufJSON(options)
+        : null
+    };
+  }
+}
+export module ErrorDetails {
+  /**
+   * Standard JavaScript object representation for ErrorDetails
+   */
+  export interface AsObject {
+    retryInfo?: googleRpc005.RetryInfo.AsObject;
+    debugInfo?: googleRpc005.DebugInfo.AsObject;
+    quotaFailure?: googleRpc005.QuotaFailure.AsObject;
+    preconditionFailure?: googleRpc005.PreconditionFailure.AsObject;
+    badRequest?: googleRpc005.BadRequest.AsObject;
+    requestInfo?: googleRpc005.RequestInfo.AsObject;
+    help?: googleRpc005.Help.AsObject;
+    localizedMessage?: googleRpc005.LocalizedMessage.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for ErrorDetails
+   */
+  export interface AsProtobufJSON {
+    retryInfo?: googleRpc005.RetryInfo.AsProtobufJSON | null;
+    debugInfo?: googleRpc005.DebugInfo.AsProtobufJSON | null;
+    quotaFailure?: googleRpc005.QuotaFailure.AsProtobufJSON | null;
+    preconditionFailure?: googleRpc005.PreconditionFailure.AsProtobufJSON | null;
+    badRequest?: googleRpc005.BadRequest.AsProtobufJSON | null;
+    requestInfo?: googleRpc005.RequestInfo.AsProtobufJSON | null;
+    help?: googleRpc005.Help.AsProtobufJSON | null;
+    localizedMessage?: googleRpc005.LocalizedMessage.AsProtobufJSON | null;
+  }
+}
 
 /**
  * Message implementation for goautowp.Spec
@@ -2576,5 +2940,3833 @@ export module BrandVehicleType {
     name?: string;
     catname?: string;
     itemsCount?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CreateContactRequest
+ */
+export class CreateContactRequest implements GrpcMessage {
+  static id = 'goautowp.CreateContactRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CreateContactRequest();
+    CreateContactRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CreateContactRequest) {
+    _instance.userId = _instance.userId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CreateContactRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CreateContactRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CreateContactRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt32(1, _instance.userId);
+    }
+  }
+
+  private _userId?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CreateContactRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CreateContactRequest.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    CreateContactRequest.refineValues(this);
+  }
+  get userId(): number | undefined {
+    return this._userId;
+  }
+  set userId(value: number | undefined) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CreateContactRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CreateContactRequest.AsObject {
+    return {
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CreateContactRequest.AsProtobufJSON {
+    return {
+      userId: this.userId
+    };
+  }
+}
+export module CreateContactRequest {
+  /**
+   * Standard JavaScript object representation for CreateContactRequest
+   */
+  export interface AsObject {
+    userId?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for CreateContactRequest
+   */
+  export interface AsProtobufJSON {
+    userId?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteContactRequest
+ */
+export class DeleteContactRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteContactRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteContactRequest();
+    DeleteContactRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteContactRequest) {
+    _instance.userId = _instance.userId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteContactRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteContactRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteContactRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt32(1, _instance.userId);
+    }
+  }
+
+  private _userId?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteContactRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DeleteContactRequest.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    DeleteContactRequest.refineValues(this);
+  }
+  get userId(): number | undefined {
+    return this._userId;
+  }
+  set userId(value: number | undefined) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteContactRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteContactRequest.AsObject {
+    return {
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteContactRequest.AsProtobufJSON {
+    return {
+      userId: this.userId
+    };
+  }
+}
+export module DeleteContactRequest {
+  /**
+   * Standard JavaScript object representation for DeleteContactRequest
+   */
+  export interface AsObject {
+    userId?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteContactRequest
+   */
+  export interface AsProtobufJSON {
+    userId?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetContactRequest
+ */
+export class GetContactRequest implements GrpcMessage {
+  static id = 'goautowp.GetContactRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetContactRequest();
+    GetContactRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetContactRequest) {
+    _instance.userId = _instance.userId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetContactRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetContactRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetContactRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt32(1, _instance.userId);
+    }
+  }
+
+  private _userId?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetContactRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetContactRequest.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    GetContactRequest.refineValues(this);
+  }
+  get userId(): number | undefined {
+    return this._userId;
+  }
+  set userId(value: number | undefined) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetContactRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetContactRequest.AsObject {
+    return {
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetContactRequest.AsProtobufJSON {
+    return {
+      userId: this.userId
+    };
+  }
+}
+export module GetContactRequest {
+  /**
+   * Standard JavaScript object representation for GetContactRequest
+   */
+  export interface AsObject {
+    userId?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for GetContactRequest
+   */
+  export interface AsProtobufJSON {
+    userId?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.User
+ */
+export class User implements GrpcMessage {
+  static id = 'goautowp.User';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new User();
+    User.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: User) {
+    _instance.id = _instance.id || 0;
+    _instance.name = _instance.name || '';
+    _instance.deleted = _instance.deleted || false;
+    _instance.longAway = _instance.longAway || false;
+    _instance.green = _instance.green || false;
+    _instance.route = _instance.route || [];
+    _instance.identity = _instance.identity || '';
+    _instance.avatar = _instance.avatar || '';
+    _instance.gravatar = _instance.gravatar || '';
+    _instance.lastOnline = _instance.lastOnline || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: User, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt32();
+          break;
+        case 2:
+          _instance.name = _reader.readString();
+          break;
+        case 3:
+          _instance.deleted = _reader.readBool();
+          break;
+        case 4:
+          _instance.longAway = _reader.readBool();
+          break;
+        case 5:
+          _instance.green = _reader.readBool();
+          break;
+        case 6:
+          (_instance.route = _instance.route || []).push(_reader.readString());
+          break;
+        case 7:
+          _instance.identity = _reader.readString();
+          break;
+        case 8:
+          _instance.avatar = _reader.readString();
+          break;
+        case 9:
+          _instance.gravatar = _reader.readString();
+          break;
+        case 10:
+          _instance.lastOnline = new googleProtobuf003.Timestamp();
+          _reader.readMessage(
+            _instance.lastOnline,
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    User.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: User, _writer: BinaryWriter) {
+    if (_instance.id) {
+      _writer.writeInt32(1, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(2, _instance.name);
+    }
+    if (_instance.deleted) {
+      _writer.writeBool(3, _instance.deleted);
+    }
+    if (_instance.longAway) {
+      _writer.writeBool(4, _instance.longAway);
+    }
+    if (_instance.green) {
+      _writer.writeBool(5, _instance.green);
+    }
+    if (_instance.route && _instance.route.length) {
+      _writer.writeRepeatedString(6, _instance.route);
+    }
+    if (_instance.identity) {
+      _writer.writeString(7, _instance.identity);
+    }
+    if (_instance.avatar) {
+      _writer.writeString(8, _instance.avatar);
+    }
+    if (_instance.gravatar) {
+      _writer.writeString(9, _instance.gravatar);
+    }
+    if (_instance.lastOnline) {
+      _writer.writeMessage(
+        10,
+        _instance.lastOnline as any,
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _id?: number;
+  private _name?: string;
+  private _deleted?: boolean;
+  private _longAway?: boolean;
+  private _green?: boolean;
+  private _route?: string[];
+  private _identity?: string;
+  private _avatar?: string;
+  private _gravatar?: string;
+  private _lastOnline?: googleProtobuf003.Timestamp;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of User to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<User.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.name = _value.name;
+    this.deleted = _value.deleted;
+    this.longAway = _value.longAway;
+    this.green = _value.green;
+    this.route = (_value.route || []).slice();
+    this.identity = _value.identity;
+    this.avatar = _value.avatar;
+    this.gravatar = _value.gravatar;
+    this.lastOnline = _value.lastOnline
+      ? new googleProtobuf003.Timestamp(_value.lastOnline)
+      : undefined;
+    User.refineValues(this);
+  }
+  get id(): number | undefined {
+    return this._id;
+  }
+  set id(value: number | undefined) {
+    this._id = value;
+  }
+  get name(): string | undefined {
+    return this._name;
+  }
+  set name(value: string | undefined) {
+    this._name = value;
+  }
+  get deleted(): boolean | undefined {
+    return this._deleted;
+  }
+  set deleted(value: boolean | undefined) {
+    this._deleted = value;
+  }
+  get longAway(): boolean | undefined {
+    return this._longAway;
+  }
+  set longAway(value: boolean | undefined) {
+    this._longAway = value;
+  }
+  get green(): boolean | undefined {
+    return this._green;
+  }
+  set green(value: boolean | undefined) {
+    this._green = value;
+  }
+  get route(): string[] | undefined {
+    return this._route;
+  }
+  set route(value: string[] | undefined) {
+    this._route = value;
+  }
+  get identity(): string | undefined {
+    return this._identity;
+  }
+  set identity(value: string | undefined) {
+    this._identity = value;
+  }
+  get avatar(): string | undefined {
+    return this._avatar;
+  }
+  set avatar(value: string | undefined) {
+    this._avatar = value;
+  }
+  get gravatar(): string | undefined {
+    return this._gravatar;
+  }
+  set gravatar(value: string | undefined) {
+    this._gravatar = value;
+  }
+  get lastOnline(): googleProtobuf003.Timestamp | undefined {
+    return this._lastOnline;
+  }
+  set lastOnline(value: googleProtobuf003.Timestamp | undefined) {
+    this._lastOnline = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    User.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): User.AsObject {
+    return {
+      id: this.id,
+      name: this.name,
+      deleted: this.deleted,
+      longAway: this.longAway,
+      green: this.green,
+      route: (this.route || []).slice(),
+      identity: this.identity,
+      avatar: this.avatar,
+      gravatar: this.gravatar,
+      lastOnline: this.lastOnline ? this.lastOnline.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): User.AsProtobufJSON {
+    return {
+      id: this.id,
+      name: this.name,
+      deleted: this.deleted,
+      longAway: this.longAway,
+      green: this.green,
+      route: (this.route || []).slice(),
+      identity: this.identity,
+      avatar: this.avatar,
+      gravatar: this.gravatar,
+      lastOnline: this.lastOnline
+        ? this.lastOnline.toProtobufJSON(options)
+        : null
+    };
+  }
+}
+export module User {
+  /**
+   * Standard JavaScript object representation for User
+   */
+  export interface AsObject {
+    id?: number;
+    name?: string;
+    deleted?: boolean;
+    longAway?: boolean;
+    green?: boolean;
+    route?: string[];
+    identity?: string;
+    avatar?: string;
+    gravatar?: string;
+    lastOnline?: googleProtobuf003.Timestamp.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for User
+   */
+  export interface AsProtobufJSON {
+    id?: number;
+    name?: string;
+    deleted?: boolean;
+    longAway?: boolean;
+    green?: boolean;
+    route?: string[];
+    identity?: string;
+    avatar?: string;
+    gravatar?: string;
+    lastOnline?: googleProtobuf003.Timestamp.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Contact
+ */
+export class Contact implements GrpcMessage {
+  static id = 'goautowp.Contact';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Contact();
+    Contact.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Contact) {
+    _instance.contactUserId = _instance.contactUserId || 0;
+    _instance.user = _instance.user || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: Contact,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.contactUserId = _reader.readInt32();
+          break;
+        case 2:
+          _instance.user = new User();
+          _reader.readMessage(_instance.user, User.deserializeBinaryFromReader);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Contact.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Contact, _writer: BinaryWriter) {
+    if (_instance.contactUserId) {
+      _writer.writeInt32(1, _instance.contactUserId);
+    }
+    if (_instance.user) {
+      _writer.writeMessage(
+        2,
+        _instance.user as any,
+        User.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _contactUserId?: number;
+  private _user?: User;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Contact to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Contact.AsObject>) {
+    _value = _value || {};
+    this.contactUserId = _value.contactUserId;
+    this.user = _value.user ? new User(_value.user) : undefined;
+    Contact.refineValues(this);
+  }
+  get contactUserId(): number | undefined {
+    return this._contactUserId;
+  }
+  set contactUserId(value: number | undefined) {
+    this._contactUserId = value;
+  }
+  get user(): User | undefined {
+    return this._user;
+  }
+  set user(value: User | undefined) {
+    this._user = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Contact.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Contact.AsObject {
+    return {
+      contactUserId: this.contactUserId,
+      user: this.user ? this.user.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Contact.AsProtobufJSON {
+    return {
+      contactUserId: this.contactUserId,
+      user: this.user ? this.user.toProtobufJSON(options) : null
+    };
+  }
+}
+export module Contact {
+  /**
+   * Standard JavaScript object representation for Contact
+   */
+  export interface AsObject {
+    contactUserId?: number;
+    user?: User.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for Contact
+   */
+  export interface AsProtobufJSON {
+    contactUserId?: number;
+    user?: User.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ContactItems
+ */
+export class ContactItems implements GrpcMessage {
+  static id = 'goautowp.ContactItems';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ContactItems();
+    ContactItems.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ContactItems) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ContactItems,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new Contact();
+          _reader.readMessage(
+            messageInitializer1,
+            Contact.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ContactItems.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ContactItems,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        Contact.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: Contact[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ContactItems to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ContactItems.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new Contact(m));
+    ContactItems.refineValues(this);
+  }
+  get items(): Contact[] | undefined {
+    return this._items;
+  }
+  set items(value: Contact[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ContactItems.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ContactItems.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ContactItems.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module ContactItems {
+  /**
+   * Standard JavaScript object representation for ContactItems
+   */
+  export interface AsObject {
+    items?: Contact.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for ContactItems
+   */
+  export interface AsProtobufJSON {
+    items?: Contact.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetContactsRequest
+ */
+export class GetContactsRequest implements GrpcMessage {
+  static id = 'goautowp.GetContactsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetContactsRequest();
+    GetContactsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetContactsRequest) {
+    _instance.fields = _instance.fields || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetContactsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          (_instance.fields = _instance.fields || []).push(
+            _reader.readString()
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetContactsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetContactsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.fields && _instance.fields.length) {
+      _writer.writeRepeatedString(1, _instance.fields);
+    }
+  }
+
+  private _fields?: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetContactsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetContactsRequest.AsObject>) {
+    _value = _value || {};
+    this.fields = (_value.fields || []).slice();
+    GetContactsRequest.refineValues(this);
+  }
+  get fields(): string[] | undefined {
+    return this._fields;
+  }
+  set fields(value: string[] | undefined) {
+    this._fields = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetContactsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetContactsRequest.AsObject {
+    return {
+      fields: (this.fields || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetContactsRequest.AsProtobufJSON {
+    return {
+      fields: (this.fields || []).slice()
+    };
+  }
+}
+export module GetContactsRequest {
+  /**
+   * Standard JavaScript object representation for GetContactsRequest
+   */
+  export interface AsObject {
+    fields?: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for GetContactsRequest
+   */
+  export interface AsProtobufJSON {
+    fields?: string[];
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetCommentVotesRequest
+ */
+export class GetCommentVotesRequest implements GrpcMessage {
+  static id = 'goautowp.GetCommentVotesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetCommentVotesRequest();
+    GetCommentVotesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetCommentVotesRequest) {
+    _instance.commentId = _instance.commentId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetCommentVotesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.commentId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetCommentVotesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetCommentVotesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.commentId) {
+      _writer.writeInt32(1, _instance.commentId);
+    }
+  }
+
+  private _commentId?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetCommentVotesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetCommentVotesRequest.AsObject>) {
+    _value = _value || {};
+    this.commentId = _value.commentId;
+    GetCommentVotesRequest.refineValues(this);
+  }
+  get commentId(): number | undefined {
+    return this._commentId;
+  }
+  set commentId(value: number | undefined) {
+    this._commentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetCommentVotesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetCommentVotesRequest.AsObject {
+    return {
+      commentId: this.commentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetCommentVotesRequest.AsProtobufJSON {
+    return {
+      commentId: this.commentId
+    };
+  }
+}
+export module GetCommentVotesRequest {
+  /**
+   * Standard JavaScript object representation for GetCommentVotesRequest
+   */
+  export interface AsObject {
+    commentId?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for GetCommentVotesRequest
+   */
+  export interface AsProtobufJSON {
+    commentId?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentVoteItems
+ */
+export class CommentVoteItems implements GrpcMessage {
+  static id = 'goautowp.CommentVoteItems';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentVoteItems();
+    CommentVoteItems.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentVoteItems) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentVoteItems,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new CommentVote();
+          _reader.readMessage(
+            messageInitializer1,
+            CommentVote.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentVoteItems.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentVoteItems,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        CommentVote.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: CommentVote[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentVoteItems to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentVoteItems.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new CommentVote(m));
+    CommentVoteItems.refineValues(this);
+  }
+  get items(): CommentVote[] | undefined {
+    return this._items;
+  }
+  set items(value: CommentVote[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentVoteItems.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentVoteItems.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentVoteItems.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module CommentVoteItems {
+  /**
+   * Standard JavaScript object representation for CommentVoteItems
+   */
+  export interface AsObject {
+    items?: CommentVote.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for CommentVoteItems
+   */
+  export interface AsProtobufJSON {
+    items?: CommentVote.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentVote
+ */
+export class CommentVote implements GrpcMessage {
+  static id = 'goautowp.CommentVote';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentVote();
+    CommentVote.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentVote) {
+    _instance.value = _instance.value || 0;
+    _instance.user = _instance.user || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentVote,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.value = _reader.readEnum();
+          break;
+        case 2:
+          _instance.user = new User();
+          _reader.readMessage(_instance.user, User.deserializeBinaryFromReader);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentVote.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentVote,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.value) {
+      _writer.writeEnum(1, _instance.value);
+    }
+    if (_instance.user) {
+      _writer.writeMessage(
+        2,
+        _instance.user as any,
+        User.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _value?: CommentVote.VoteValue;
+  private _user?: User;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentVote to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentVote.AsObject>) {
+    _value = _value || {};
+    this.value = _value.value;
+    this.user = _value.user ? new User(_value.user) : undefined;
+    CommentVote.refineValues(this);
+  }
+  get value(): CommentVote.VoteValue | undefined {
+    return this._value;
+  }
+  set value(value: CommentVote.VoteValue | undefined) {
+    this._value = value;
+  }
+  get user(): User | undefined {
+    return this._user;
+  }
+  set user(value: User | undefined) {
+    this._user = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentVote.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentVote.AsObject {
+    return {
+      value: this.value,
+      user: this.user ? this.user.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentVote.AsProtobufJSON {
+    return {
+      value: CommentVote.VoteValue[this.value ?? 0],
+      user: this.user ? this.user.toProtobufJSON(options) : null
+    };
+  }
+}
+export module CommentVote {
+  /**
+   * Standard JavaScript object representation for CommentVote
+   */
+  export interface AsObject {
+    value?: CommentVote.VoteValue;
+    user?: User.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentVote
+   */
+  export interface AsProtobufJSON {
+    value?: string;
+    user?: User.AsProtobufJSON | null;
+  }
+  export enum VoteValue {
+    UNKNOWN = 0,
+    POSITIVE = -1,
+    NEGATIVE = 1
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIBanItem
+ */
+export class APIBanItem implements GrpcMessage {
+  static id = 'goautowp.APIBanItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIBanItem();
+    APIBanItem.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIBanItem) {
+    _instance.until = _instance.until || undefined;
+    _instance.byUserId = _instance.byUserId || 0;
+    _instance.byUser = _instance.byUser || undefined;
+    _instance.reason = _instance.reason || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIBanItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.until = new googleProtobuf003.Timestamp();
+          _reader.readMessage(
+            _instance.until,
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.byUserId = _reader.readInt32();
+          break;
+        case 3:
+          _instance.byUser = new User();
+          _reader.readMessage(
+            _instance.byUser,
+            User.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.reason = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIBanItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: APIBanItem, _writer: BinaryWriter) {
+    if (_instance.until) {
+      _writer.writeMessage(
+        1,
+        _instance.until as any,
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.byUserId) {
+      _writer.writeInt32(2, _instance.byUserId);
+    }
+    if (_instance.byUser) {
+      _writer.writeMessage(
+        3,
+        _instance.byUser as any,
+        User.serializeBinaryToWriter
+      );
+    }
+    if (_instance.reason) {
+      _writer.writeString(4, _instance.reason);
+    }
+  }
+
+  private _until?: googleProtobuf003.Timestamp;
+  private _byUserId?: number;
+  private _byUser?: User;
+  private _reason?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIBanItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIBanItem.AsObject>) {
+    _value = _value || {};
+    this.until = _value.until
+      ? new googleProtobuf003.Timestamp(_value.until)
+      : undefined;
+    this.byUserId = _value.byUserId;
+    this.byUser = _value.byUser ? new User(_value.byUser) : undefined;
+    this.reason = _value.reason;
+    APIBanItem.refineValues(this);
+  }
+  get until(): googleProtobuf003.Timestamp | undefined {
+    return this._until;
+  }
+  set until(value: googleProtobuf003.Timestamp | undefined) {
+    this._until = value;
+  }
+  get byUserId(): number | undefined {
+    return this._byUserId;
+  }
+  set byUserId(value: number | undefined) {
+    this._byUserId = value;
+  }
+  get byUser(): User | undefined {
+    return this._byUser;
+  }
+  set byUser(value: User | undefined) {
+    this._byUser = value;
+  }
+  get reason(): string | undefined {
+    return this._reason;
+  }
+  set reason(value: string | undefined) {
+    this._reason = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIBanItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIBanItem.AsObject {
+    return {
+      until: this.until ? this.until.toObject() : undefined,
+      byUserId: this.byUserId,
+      byUser: this.byUser ? this.byUser.toObject() : undefined,
+      reason: this.reason
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIBanItem.AsProtobufJSON {
+    return {
+      until: this.until ? this.until.toProtobufJSON(options) : null,
+      byUserId: this.byUserId,
+      byUser: this.byUser ? this.byUser.toProtobufJSON(options) : null,
+      reason: this.reason
+    };
+  }
+}
+export module APIBanItem {
+  /**
+   * Standard JavaScript object representation for APIBanItem
+   */
+  export interface AsObject {
+    until?: googleProtobuf003.Timestamp.AsObject;
+    byUserId?: number;
+    byUser?: User.AsObject;
+    reason?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIBanItem
+   */
+  export interface AsProtobufJSON {
+    until?: googleProtobuf003.Timestamp.AsProtobufJSON | null;
+    byUserId?: number;
+    byUser?: User.AsProtobufJSON | null;
+    reason?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APITrafficTopItem
+ */
+export class APITrafficTopItem implements GrpcMessage {
+  static id = 'goautowp.APITrafficTopItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APITrafficTopItem();
+    APITrafficTopItem.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APITrafficTopItem) {
+    _instance.ip = _instance.ip || '';
+    _instance.count = _instance.count || 0;
+    _instance.ban = _instance.ban || undefined;
+    _instance.inWhitelist = _instance.inWhitelist || false;
+    _instance.whoisUrl = _instance.whoisUrl || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APITrafficTopItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        case 2:
+          _instance.count = _reader.readInt32();
+          break;
+        case 3:
+          _instance.ban = new APIBanItem();
+          _reader.readMessage(
+            _instance.ban,
+            APIBanItem.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.inWhitelist = _reader.readBool();
+          break;
+        case 5:
+          _instance.whoisUrl = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APITrafficTopItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APITrafficTopItem,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+    if (_instance.count) {
+      _writer.writeInt32(2, _instance.count);
+    }
+    if (_instance.ban) {
+      _writer.writeMessage(
+        3,
+        _instance.ban as any,
+        APIBanItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.inWhitelist) {
+      _writer.writeBool(4, _instance.inWhitelist);
+    }
+    if (_instance.whoisUrl) {
+      _writer.writeString(5, _instance.whoisUrl);
+    }
+  }
+
+  private _ip?: string;
+  private _count?: number;
+  private _ban?: APIBanItem;
+  private _inWhitelist?: boolean;
+  private _whoisUrl?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APITrafficTopItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APITrafficTopItem.AsObject>) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    this.count = _value.count;
+    this.ban = _value.ban ? new APIBanItem(_value.ban) : undefined;
+    this.inWhitelist = _value.inWhitelist;
+    this.whoisUrl = _value.whoisUrl;
+    APITrafficTopItem.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+  get count(): number | undefined {
+    return this._count;
+  }
+  set count(value: number | undefined) {
+    this._count = value;
+  }
+  get ban(): APIBanItem | undefined {
+    return this._ban;
+  }
+  set ban(value: APIBanItem | undefined) {
+    this._ban = value;
+  }
+  get inWhitelist(): boolean | undefined {
+    return this._inWhitelist;
+  }
+  set inWhitelist(value: boolean | undefined) {
+    this._inWhitelist = value;
+  }
+  get whoisUrl(): string | undefined {
+    return this._whoisUrl;
+  }
+  set whoisUrl(value: string | undefined) {
+    this._whoisUrl = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APITrafficTopItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APITrafficTopItem.AsObject {
+    return {
+      ip: this.ip,
+      count: this.count,
+      ban: this.ban ? this.ban.toObject() : undefined,
+      inWhitelist: this.inWhitelist,
+      whoisUrl: this.whoisUrl
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APITrafficTopItem.AsProtobufJSON {
+    return {
+      ip: this.ip,
+      count: this.count,
+      ban: this.ban ? this.ban.toProtobufJSON(options) : null,
+      inWhitelist: this.inWhitelist,
+      whoisUrl: this.whoisUrl
+    };
+  }
+}
+export module APITrafficTopItem {
+  /**
+   * Standard JavaScript object representation for APITrafficTopItem
+   */
+  export interface AsObject {
+    ip?: string;
+    count?: number;
+    ban?: APIBanItem.AsObject;
+    inWhitelist?: boolean;
+    whoisUrl?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APITrafficTopItem
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+    count?: number;
+    ban?: APIBanItem.AsProtobufJSON | null;
+    inWhitelist?: boolean;
+    whoisUrl?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APITrafficTopResponse
+ */
+export class APITrafficTopResponse implements GrpcMessage {
+  static id = 'goautowp.APITrafficTopResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APITrafficTopResponse();
+    APITrafficTopResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APITrafficTopResponse) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APITrafficTopResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APITrafficTopItem();
+          _reader.readMessage(
+            messageInitializer1,
+            APITrafficTopItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APITrafficTopResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APITrafficTopResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APITrafficTopItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APITrafficTopItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APITrafficTopResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APITrafficTopResponse.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APITrafficTopItem(m));
+    APITrafficTopResponse.refineValues(this);
+  }
+  get items(): APITrafficTopItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APITrafficTopItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APITrafficTopResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APITrafficTopResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APITrafficTopResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APITrafficTopResponse {
+  /**
+   * Standard JavaScript object representation for APITrafficTopResponse
+   */
+  export interface AsObject {
+    items?: APITrafficTopItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APITrafficTopResponse
+   */
+  export interface AsProtobufJSON {
+    items?: APITrafficTopItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetIPRequest
+ */
+export class APIGetIPRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetIPRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetIPRequest();
+    APIGetIPRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetIPRequest) {
+    _instance.ip = _instance.ip || '';
+    _instance.fields = _instance.fields || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetIPRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        case 2:
+          (_instance.fields = _instance.fields || []).push(
+            _reader.readString()
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetIPRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetIPRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+    if (_instance.fields && _instance.fields.length) {
+      _writer.writeRepeatedString(2, _instance.fields);
+    }
+  }
+
+  private _ip?: string;
+  private _fields?: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetIPRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetIPRequest.AsObject>) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    this.fields = (_value.fields || []).slice();
+    APIGetIPRequest.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+  get fields(): string[] | undefined {
+    return this._fields;
+  }
+  set fields(value: string[] | undefined) {
+    this._fields = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetIPRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetIPRequest.AsObject {
+    return {
+      ip: this.ip,
+      fields: (this.fields || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetIPRequest.AsProtobufJSON {
+    return {
+      ip: this.ip,
+      fields: (this.fields || []).slice()
+    };
+  }
+}
+export module APIGetIPRequest {
+  /**
+   * Standard JavaScript object representation for APIGetIPRequest
+   */
+  export interface AsObject {
+    ip?: string;
+    fields?: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetIPRequest
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+    fields?: string[];
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIIPRights
+ */
+export class APIIPRights implements GrpcMessage {
+  static id = 'goautowp.APIIPRights';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIIPRights();
+    APIIPRights.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIIPRights) {
+    _instance.addToBlacklist = _instance.addToBlacklist || false;
+    _instance.removeFromBlacklist = _instance.removeFromBlacklist || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIIPRights,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.addToBlacklist = _reader.readBool();
+          break;
+        case 2:
+          _instance.removeFromBlacklist = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIIPRights.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIIPRights,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.addToBlacklist) {
+      _writer.writeBool(1, _instance.addToBlacklist);
+    }
+    if (_instance.removeFromBlacklist) {
+      _writer.writeBool(2, _instance.removeFromBlacklist);
+    }
+  }
+
+  private _addToBlacklist?: boolean;
+  private _removeFromBlacklist?: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIIPRights to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIIPRights.AsObject>) {
+    _value = _value || {};
+    this.addToBlacklist = _value.addToBlacklist;
+    this.removeFromBlacklist = _value.removeFromBlacklist;
+    APIIPRights.refineValues(this);
+  }
+  get addToBlacklist(): boolean | undefined {
+    return this._addToBlacklist;
+  }
+  set addToBlacklist(value: boolean | undefined) {
+    this._addToBlacklist = value;
+  }
+  get removeFromBlacklist(): boolean | undefined {
+    return this._removeFromBlacklist;
+  }
+  set removeFromBlacklist(value: boolean | undefined) {
+    this._removeFromBlacklist = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIIPRights.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIIPRights.AsObject {
+    return {
+      addToBlacklist: this.addToBlacklist,
+      removeFromBlacklist: this.removeFromBlacklist
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIIPRights.AsProtobufJSON {
+    return {
+      addToBlacklist: this.addToBlacklist,
+      removeFromBlacklist: this.removeFromBlacklist
+    };
+  }
+}
+export module APIIPRights {
+  /**
+   * Standard JavaScript object representation for APIIPRights
+   */
+  export interface AsObject {
+    addToBlacklist?: boolean;
+    removeFromBlacklist?: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for APIIPRights
+   */
+  export interface AsProtobufJSON {
+    addToBlacklist?: boolean;
+    removeFromBlacklist?: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIIP
+ */
+export class APIIP implements GrpcMessage {
+  static id = 'goautowp.APIIP';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIIP();
+    APIIP.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIIP) {
+    _instance.address = _instance.address || '';
+    _instance.hostname = _instance.hostname || '';
+    _instance.blacklist = _instance.blacklist || undefined;
+    _instance.rights = _instance.rights || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: APIIP, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.address = _reader.readString();
+          break;
+        case 2:
+          _instance.hostname = _reader.readString();
+          break;
+        case 3:
+          _instance.blacklist = new APIBanItem();
+          _reader.readMessage(
+            _instance.blacklist,
+            APIBanItem.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.rights = new APIIPRights();
+          _reader.readMessage(
+            _instance.rights,
+            APIIPRights.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIIP.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: APIIP, _writer: BinaryWriter) {
+    if (_instance.address) {
+      _writer.writeString(1, _instance.address);
+    }
+    if (_instance.hostname) {
+      _writer.writeString(2, _instance.hostname);
+    }
+    if (_instance.blacklist) {
+      _writer.writeMessage(
+        3,
+        _instance.blacklist as any,
+        APIBanItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.rights) {
+      _writer.writeMessage(
+        4,
+        _instance.rights as any,
+        APIIPRights.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _address?: string;
+  private _hostname?: string;
+  private _blacklist?: APIBanItem;
+  private _rights?: APIIPRights;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIIP to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIIP.AsObject>) {
+    _value = _value || {};
+    this.address = _value.address;
+    this.hostname = _value.hostname;
+    this.blacklist = _value.blacklist
+      ? new APIBanItem(_value.blacklist)
+      : undefined;
+    this.rights = _value.rights ? new APIIPRights(_value.rights) : undefined;
+    APIIP.refineValues(this);
+  }
+  get address(): string | undefined {
+    return this._address;
+  }
+  set address(value: string | undefined) {
+    this._address = value;
+  }
+  get hostname(): string | undefined {
+    return this._hostname;
+  }
+  set hostname(value: string | undefined) {
+    this._hostname = value;
+  }
+  get blacklist(): APIBanItem | undefined {
+    return this._blacklist;
+  }
+  set blacklist(value: APIBanItem | undefined) {
+    this._blacklist = value;
+  }
+  get rights(): APIIPRights | undefined {
+    return this._rights;
+  }
+  set rights(value: APIIPRights | undefined) {
+    this._rights = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIIP.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIIP.AsObject {
+    return {
+      address: this.address,
+      hostname: this.hostname,
+      blacklist: this.blacklist ? this.blacklist.toObject() : undefined,
+      rights: this.rights ? this.rights.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIIP.AsProtobufJSON {
+    return {
+      address: this.address,
+      hostname: this.hostname,
+      blacklist: this.blacklist ? this.blacklist.toProtobufJSON(options) : null,
+      rights: this.rights ? this.rights.toProtobufJSON(options) : null
+    };
+  }
+}
+export module APIIP {
+  /**
+   * Standard JavaScript object representation for APIIP
+   */
+  export interface AsObject {
+    address?: string;
+    hostname?: string;
+    blacklist?: APIBanItem.AsObject;
+    rights?: APIIPRights.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for APIIP
+   */
+  export interface AsProtobufJSON {
+    address?: string;
+    hostname?: string;
+    blacklist?: APIBanItem.AsProtobufJSON | null;
+    rights?: APIIPRights.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APICreateFeedbackRequest
+ */
+export class APICreateFeedbackRequest implements GrpcMessage {
+  static id = 'goautowp.APICreateFeedbackRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APICreateFeedbackRequest();
+    APICreateFeedbackRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APICreateFeedbackRequest) {
+    _instance.name = _instance.name || '';
+    _instance.email = _instance.email || '';
+    _instance.message = _instance.message || '';
+    _instance.captcha = _instance.captcha || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APICreateFeedbackRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.name = _reader.readString();
+          break;
+        case 2:
+          _instance.email = _reader.readString();
+          break;
+        case 3:
+          _instance.message = _reader.readString();
+          break;
+        case 4:
+          _instance.captcha = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APICreateFeedbackRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APICreateFeedbackRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.name) {
+      _writer.writeString(1, _instance.name);
+    }
+    if (_instance.email) {
+      _writer.writeString(2, _instance.email);
+    }
+    if (_instance.message) {
+      _writer.writeString(3, _instance.message);
+    }
+    if (_instance.captcha) {
+      _writer.writeString(4, _instance.captcha);
+    }
+  }
+
+  private _name?: string;
+  private _email?: string;
+  private _message?: string;
+  private _captcha?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APICreateFeedbackRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APICreateFeedbackRequest.AsObject>) {
+    _value = _value || {};
+    this.name = _value.name;
+    this.email = _value.email;
+    this.message = _value.message;
+    this.captcha = _value.captcha;
+    APICreateFeedbackRequest.refineValues(this);
+  }
+  get name(): string | undefined {
+    return this._name;
+  }
+  set name(value: string | undefined) {
+    this._name = value;
+  }
+  get email(): string | undefined {
+    return this._email;
+  }
+  set email(value: string | undefined) {
+    this._email = value;
+  }
+  get message(): string | undefined {
+    return this._message;
+  }
+  set message(value: string | undefined) {
+    this._message = value;
+  }
+  get captcha(): string | undefined {
+    return this._captcha;
+  }
+  set captcha(value: string | undefined) {
+    this._captcha = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APICreateFeedbackRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APICreateFeedbackRequest.AsObject {
+    return {
+      name: this.name,
+      email: this.email,
+      message: this.message,
+      captcha: this.captcha
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APICreateFeedbackRequest.AsProtobufJSON {
+    return {
+      name: this.name,
+      email: this.email,
+      message: this.message,
+      captcha: this.captcha
+    };
+  }
+}
+export module APICreateFeedbackRequest {
+  /**
+   * Standard JavaScript object representation for APICreateFeedbackRequest
+   */
+  export interface AsObject {
+    name?: string;
+    email?: string;
+    message?: string;
+    captcha?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APICreateFeedbackRequest
+   */
+  export interface AsProtobufJSON {
+    name?: string;
+    email?: string;
+    message?: string;
+    captcha?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteFromTrafficWhitelistRequest
+ */
+export class DeleteFromTrafficWhitelistRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteFromTrafficWhitelistRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteFromTrafficWhitelistRequest();
+    DeleteFromTrafficWhitelistRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteFromTrafficWhitelistRequest) {
+    _instance.ip = _instance.ip || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteFromTrafficWhitelistRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteFromTrafficWhitelistRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteFromTrafficWhitelistRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+  }
+
+  private _ip?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteFromTrafficWhitelistRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<DeleteFromTrafficWhitelistRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    DeleteFromTrafficWhitelistRequest.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteFromTrafficWhitelistRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteFromTrafficWhitelistRequest.AsObject {
+    return {
+      ip: this.ip
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteFromTrafficWhitelistRequest.AsProtobufJSON {
+    return {
+      ip: this.ip
+    };
+  }
+}
+export module DeleteFromTrafficWhitelistRequest {
+  /**
+   * Standard JavaScript object representation for DeleteFromTrafficWhitelistRequest
+   */
+  export interface AsObject {
+    ip?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteFromTrafficWhitelistRequest
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteFromTrafficBlacklistRequest
+ */
+export class DeleteFromTrafficBlacklistRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteFromTrafficBlacklistRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteFromTrafficBlacklistRequest();
+    DeleteFromTrafficBlacklistRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteFromTrafficBlacklistRequest) {
+    _instance.ip = _instance.ip || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteFromTrafficBlacklistRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteFromTrafficBlacklistRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteFromTrafficBlacklistRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+  }
+
+  private _ip?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteFromTrafficBlacklistRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<DeleteFromTrafficBlacklistRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    DeleteFromTrafficBlacklistRequest.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteFromTrafficBlacklistRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteFromTrafficBlacklistRequest.AsObject {
+    return {
+      ip: this.ip
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteFromTrafficBlacklistRequest.AsProtobufJSON {
+    return {
+      ip: this.ip
+    };
+  }
+}
+export module DeleteFromTrafficBlacklistRequest {
+  /**
+   * Standard JavaScript object representation for DeleteFromTrafficBlacklistRequest
+   */
+  export interface AsObject {
+    ip?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteFromTrafficBlacklistRequest
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.AddToTrafficBlacklistRequest
+ */
+export class AddToTrafficBlacklistRequest implements GrpcMessage {
+  static id = 'goautowp.AddToTrafficBlacklistRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AddToTrafficBlacklistRequest();
+    AddToTrafficBlacklistRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AddToTrafficBlacklistRequest) {
+    _instance.ip = _instance.ip || '';
+    _instance.period = _instance.period || 0;
+    _instance.reason = _instance.reason || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AddToTrafficBlacklistRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        case 2:
+          _instance.period = _reader.readInt32();
+          break;
+        case 3:
+          _instance.reason = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AddToTrafficBlacklistRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AddToTrafficBlacklistRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+    if (_instance.period) {
+      _writer.writeInt32(2, _instance.period);
+    }
+    if (_instance.reason) {
+      _writer.writeString(3, _instance.reason);
+    }
+  }
+
+  private _ip?: string;
+  private _period?: number;
+  private _reason?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AddToTrafficBlacklistRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<AddToTrafficBlacklistRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    this.period = _value.period;
+    this.reason = _value.reason;
+    AddToTrafficBlacklistRequest.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+  get period(): number | undefined {
+    return this._period;
+  }
+  set period(value: number | undefined) {
+    this._period = value;
+  }
+  get reason(): string | undefined {
+    return this._reason;
+  }
+  set reason(value: string | undefined) {
+    this._reason = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AddToTrafficBlacklistRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AddToTrafficBlacklistRequest.AsObject {
+    return {
+      ip: this.ip,
+      period: this.period,
+      reason: this.reason
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AddToTrafficBlacklistRequest.AsProtobufJSON {
+    return {
+      ip: this.ip,
+      period: this.period,
+      reason: this.reason
+    };
+  }
+}
+export module AddToTrafficBlacklistRequest {
+  /**
+   * Standard JavaScript object representation for AddToTrafficBlacklistRequest
+   */
+  export interface AsObject {
+    ip?: string;
+    period?: number;
+    reason?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for AddToTrafficBlacklistRequest
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+    period?: number;
+    reason?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.AddToTrafficWhitelistRequest
+ */
+export class AddToTrafficWhitelistRequest implements GrpcMessage {
+  static id = 'goautowp.AddToTrafficWhitelistRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AddToTrafficWhitelistRequest();
+    AddToTrafficWhitelistRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AddToTrafficWhitelistRequest) {
+    _instance.ip = _instance.ip || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AddToTrafficWhitelistRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AddToTrafficWhitelistRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AddToTrafficWhitelistRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+  }
+
+  private _ip?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AddToTrafficWhitelistRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<AddToTrafficWhitelistRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    AddToTrafficWhitelistRequest.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AddToTrafficWhitelistRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AddToTrafficWhitelistRequest.AsObject {
+    return {
+      ip: this.ip
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AddToTrafficWhitelistRequest.AsProtobufJSON {
+    return {
+      ip: this.ip
+    };
+  }
+}
+export module AddToTrafficWhitelistRequest {
+  /**
+   * Standard JavaScript object representation for AddToTrafficWhitelistRequest
+   */
+  export interface AsObject {
+    ip?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for AddToTrafficWhitelistRequest
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APITrafficWhitelistItem
+ */
+export class APITrafficWhitelistItem implements GrpcMessage {
+  static id = 'goautowp.APITrafficWhitelistItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APITrafficWhitelistItem();
+    APITrafficWhitelistItem.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APITrafficWhitelistItem) {
+    _instance.ip = _instance.ip || '';
+    _instance.description = _instance.description || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APITrafficWhitelistItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.ip = _reader.readString();
+          break;
+        case 2:
+          _instance.description = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APITrafficWhitelistItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APITrafficWhitelistItem,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.ip) {
+      _writer.writeString(1, _instance.ip);
+    }
+    if (_instance.description) {
+      _writer.writeString(2, _instance.description);
+    }
+  }
+
+  private _ip?: string;
+  private _description?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APITrafficWhitelistItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APITrafficWhitelistItem.AsObject>) {
+    _value = _value || {};
+    this.ip = _value.ip;
+    this.description = _value.description;
+    APITrafficWhitelistItem.refineValues(this);
+  }
+  get ip(): string | undefined {
+    return this._ip;
+  }
+  set ip(value: string | undefined) {
+    this._ip = value;
+  }
+  get description(): string | undefined {
+    return this._description;
+  }
+  set description(value: string | undefined) {
+    this._description = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APITrafficWhitelistItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APITrafficWhitelistItem.AsObject {
+    return {
+      ip: this.ip,
+      description: this.description
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APITrafficWhitelistItem.AsProtobufJSON {
+    return {
+      ip: this.ip,
+      description: this.description
+    };
+  }
+}
+export module APITrafficWhitelistItem {
+  /**
+   * Standard JavaScript object representation for APITrafficWhitelistItem
+   */
+  export interface AsObject {
+    ip?: string;
+    description?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APITrafficWhitelistItem
+   */
+  export interface AsProtobufJSON {
+    ip?: string;
+    description?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APITrafficWhitelistItems
+ */
+export class APITrafficWhitelistItems implements GrpcMessage {
+  static id = 'goautowp.APITrafficWhitelistItems';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APITrafficWhitelistItems();
+    APITrafficWhitelistItems.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APITrafficWhitelistItems) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APITrafficWhitelistItems,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APITrafficWhitelistItem();
+          _reader.readMessage(
+            messageInitializer1,
+            APITrafficWhitelistItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APITrafficWhitelistItems.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APITrafficWhitelistItems,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APITrafficWhitelistItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APITrafficWhitelistItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APITrafficWhitelistItems to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APITrafficWhitelistItems.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APITrafficWhitelistItem(m));
+    APITrafficWhitelistItems.refineValues(this);
+  }
+  get items(): APITrafficWhitelistItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APITrafficWhitelistItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APITrafficWhitelistItems.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APITrafficWhitelistItems.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APITrafficWhitelistItems.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APITrafficWhitelistItems {
+  /**
+   * Standard JavaScript object representation for APITrafficWhitelistItems
+   */
+  export interface AsObject {
+    items?: APITrafficWhitelistItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APITrafficWhitelistItems
+   */
+  export interface AsProtobufJSON {
+    items?: APITrafficWhitelistItem.AsProtobufJSON[] | null;
   }
 }

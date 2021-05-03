@@ -18,7 +18,8 @@ import {
 import {LanguageService} from '../../../services/language';
 import { sprintf } from 'sprintf-js';
 import { APIService } from '../../../services/api.service';
-import {APIIP, IpService} from '../../../services/ip';
+import {IpService} from '../../../services/ip';
+import {APIIP} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-pictures-item',
@@ -160,7 +161,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
               if (!picture.ip) {
                 return of({picture, ip: null as APIIP});
               }
-              return this.ipService.getIp(picture.ip, 'blacklist,rights').pipe(
+              return this.ipService.getIp(picture.ip, ['blacklist', 'rights']).pipe(
                 catchError(() => of(null as APIIP)),
                 map(ip => ({picture, ip}))
               );
