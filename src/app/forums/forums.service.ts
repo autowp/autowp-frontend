@@ -6,6 +6,9 @@ import { AuthService } from '../services/auth.service';
 import { APIPaginator, APIService } from '../services/api.service';
 import { APIUser } from '../services/user';
 import { APIComment } from '../api/comments/comments.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import { Empty } from '@ngx-grpc/well-known-types';
+import {APIForumsUserSummary} from '../../../generated/spec.pb';
 
 export interface APIForumGetTopicOptions {
   fields?: string;
@@ -81,10 +84,6 @@ export interface APIForumThemesGetResponse {
   items: APIForumTheme[];
 }
 
-export interface APIForumUserSummaryGetResponse {
-  subscriptionsCount: number;
-}
-
 export interface MessageStateParams {
   topic_id: number;
   page: number;
@@ -97,21 +96,21 @@ const LIMIT = 20;
 })
 export class ForumsService {
 
-  private readonly summary$: Observable<APIForumUserSummaryGetResponse>;
+  private readonly summary$: Observable<APIForumsUserSummary>;
 
-  constructor(private api: APIService, private auth: AuthService) {
+  constructor(private api: APIService, private auth: AuthService, private grpc: AutowpClient) {
     this.summary$ = this.auth.getUser().pipe(
       switchMap(user => {
         if (!user) {
           return of(null);
         }
-        return this.api.request<APIForumUserSummaryGetResponse>('GET', 'forum/user-summary');
+        return this.grpc.getForumsUserSummary(new Empty());
       }),
       shareReplay(1)
     );
   }
 
-  public getUserSummary(): Observable<APIForumUserSummaryGetResponse> {
+  public getUserSummary(): Observable<APIForumsUserSummary> {
     return this.summary$;
   }
 

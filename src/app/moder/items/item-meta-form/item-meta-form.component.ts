@@ -156,15 +156,15 @@ export class ItemMetaFormComponent implements OnChanges, OnInit, OnDestroy {
   private isConceptOptions = [
     {
       value: false,
-      name: 'moder/vehicle/is-concept/no'
+      name: $localize `no`
     },
     {
       value: true,
-      name: 'moder/vehicle/is-concept/yes'
+      name: $localize `yes`
     },
     {
       value: 'inherited',
-      name: 'moder/vehicle/is-concept/inherited'
+      name: $localize `inherited`
     }
   ];
   public defaultSpecOptions: ItemMetaFormAPISpec[] = [

@@ -6,6 +6,9 @@ import { APIUser } from './user';
 import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastsService} from '../toasts/toasts.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import { Empty } from '@ngx-grpc/well-known-types';
+import {APIMessageNewCount, APIMessageSummary} from '../../../generated/spec.pb';
 
 export interface APIMessagesGetOptions {
   folder: string;
@@ -32,33 +35,15 @@ export interface APIMessagesGetResponse {
   paginator: APIPaginator;
 }
 
-export interface APIMessageSummaryGetResponse {
-  inbox: {
-    count: number;
-    new_count: number;
-  };
-  sent: {
-    count: number;
-  };
-  system: {
-    count: number;
-    new_count: number;
-  };
-}
-
-export interface APIMessageNewGetResponse {
-  count: number;
-}
-
 @Injectable()
 export class MessageService {
-  private readonly summary$: Observable<APIMessageSummaryGetResponse>;
+  private readonly summary$: Observable<APIMessageSummary>;
   private readonly new$: Observable<number>;
   private deleted$ = new BehaviorSubject<void>(null);
   private sent$ = new BehaviorSubject<void>(null);
   private seen$ = new BehaviorSubject<void>(null);
 
-  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService) {
+  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService, private grpc: AutowpClient) {
     this.summary$ = combineLatest([
       this.deleted$,
       this.sent$,
@@ -69,10 +54,10 @@ export class MessageService {
       debounceTime(10),
       switchMap(user => {
         if (!user) {
-          return of(null as APIMessageSummaryGetResponse);
+          return of(null as APIMessageSummary);
         }
 
-        return this.api.request<APIMessageSummaryGetResponse>('GET', 'message/summary');
+        return this.grpc.getMessagesSummary(new Empty());
       }),
       shareReplay(1)
     );
@@ -86,14 +71,14 @@ export class MessageService {
       debounceTime(10),
       switchMap(user => {
         if (!user) {
-          return of(null as APIMessageNewGetResponse);
+          return of(null as APIMessageNewCount);
         }
 
-        return this.api.request<APIMessageNewGetResponse>('GET', 'message/new');
+        return this.grpc.getMessagesNewCount(new Empty());
       }),
       catchError((response: HttpErrorResponse) => {
         this.toasts.errorResponse(response);
-        return of(null);
+        return of(null as APIMessageNewCount);
       }),
       map(response => (response ? response.count : null))
     );
@@ -126,7 +111,7 @@ export class MessageService {
       .pipe(tap(() => this.deleted$.next(null)));
   }
 
-  public getSummary(): Observable<APIMessageSummaryGetResponse> {
+  public getSummary(): Observable<APIMessageSummary> {
     return this.summary$;
   }
 

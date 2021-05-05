@@ -6770,3 +6770,496 @@ export module APITrafficWhitelistItems {
     items?: APITrafficWhitelistItem.AsProtobufJSON[] | null;
   }
 }
+
+/**
+ * Message implementation for goautowp.APIForumsUserSummary
+ */
+export class APIForumsUserSummary implements GrpcMessage {
+  static id = 'goautowp.APIForumsUserSummary';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIForumsUserSummary();
+    APIForumsUserSummary.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIForumsUserSummary) {
+    _instance.subscriptionsCount = _instance.subscriptionsCount || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIForumsUserSummary,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.subscriptionsCount = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIForumsUserSummary.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIForumsUserSummary,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.subscriptionsCount) {
+      _writer.writeInt32(1, _instance.subscriptionsCount);
+    }
+  }
+
+  private _subscriptionsCount?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIForumsUserSummary to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIForumsUserSummary.AsObject>) {
+    _value = _value || {};
+    this.subscriptionsCount = _value.subscriptionsCount;
+    APIForumsUserSummary.refineValues(this);
+  }
+  get subscriptionsCount(): number | undefined {
+    return this._subscriptionsCount;
+  }
+  set subscriptionsCount(value: number | undefined) {
+    this._subscriptionsCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIForumsUserSummary.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIForumsUserSummary.AsObject {
+    return {
+      subscriptionsCount: this.subscriptionsCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIForumsUserSummary.AsProtobufJSON {
+    return {
+      subscriptionsCount: this.subscriptionsCount
+    };
+  }
+}
+export module APIForumsUserSummary {
+  /**
+   * Standard JavaScript object representation for APIForumsUserSummary
+   */
+  export interface AsObject {
+    subscriptionsCount?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for APIForumsUserSummary
+   */
+  export interface AsProtobufJSON {
+    subscriptionsCount?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIMessageNewCount
+ */
+export class APIMessageNewCount implements GrpcMessage {
+  static id = 'goautowp.APIMessageNewCount';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIMessageNewCount();
+    APIMessageNewCount.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIMessageNewCount) {
+    _instance.count = _instance.count || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIMessageNewCount,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.count = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIMessageNewCount.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIMessageNewCount,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.count) {
+      _writer.writeInt32(1, _instance.count);
+    }
+  }
+
+  private _count?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIMessageNewCount to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIMessageNewCount.AsObject>) {
+    _value = _value || {};
+    this.count = _value.count;
+    APIMessageNewCount.refineValues(this);
+  }
+  get count(): number | undefined {
+    return this._count;
+  }
+  set count(value: number | undefined) {
+    this._count = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIMessageNewCount.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIMessageNewCount.AsObject {
+    return {
+      count: this.count
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIMessageNewCount.AsProtobufJSON {
+    return {
+      count: this.count
+    };
+  }
+}
+export module APIMessageNewCount {
+  /**
+   * Standard JavaScript object representation for APIMessageNewCount
+   */
+  export interface AsObject {
+    count?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for APIMessageNewCount
+   */
+  export interface AsProtobufJSON {
+    count?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIMessageSummary
+ */
+export class APIMessageSummary implements GrpcMessage {
+  static id = 'goautowp.APIMessageSummary';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIMessageSummary();
+    APIMessageSummary.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIMessageSummary) {
+    _instance.inboxCount = _instance.inboxCount || 0;
+    _instance.inboxNewCount = _instance.inboxNewCount || 0;
+    _instance.sentCount = _instance.sentCount || 0;
+    _instance.systemCount = _instance.systemCount || 0;
+    _instance.systemNewCount = _instance.systemNewCount || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIMessageSummary,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.inboxCount = _reader.readInt32();
+          break;
+        case 2:
+          _instance.inboxNewCount = _reader.readInt32();
+          break;
+        case 3:
+          _instance.sentCount = _reader.readInt32();
+          break;
+        case 4:
+          _instance.systemCount = _reader.readInt32();
+          break;
+        case 5:
+          _instance.systemNewCount = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIMessageSummary.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIMessageSummary,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.inboxCount) {
+      _writer.writeInt32(1, _instance.inboxCount);
+    }
+    if (_instance.inboxNewCount) {
+      _writer.writeInt32(2, _instance.inboxNewCount);
+    }
+    if (_instance.sentCount) {
+      _writer.writeInt32(3, _instance.sentCount);
+    }
+    if (_instance.systemCount) {
+      _writer.writeInt32(4, _instance.systemCount);
+    }
+    if (_instance.systemNewCount) {
+      _writer.writeInt32(5, _instance.systemNewCount);
+    }
+  }
+
+  private _inboxCount?: number;
+  private _inboxNewCount?: number;
+  private _sentCount?: number;
+  private _systemCount?: number;
+  private _systemNewCount?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIMessageSummary to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIMessageSummary.AsObject>) {
+    _value = _value || {};
+    this.inboxCount = _value.inboxCount;
+    this.inboxNewCount = _value.inboxNewCount;
+    this.sentCount = _value.sentCount;
+    this.systemCount = _value.systemCount;
+    this.systemNewCount = _value.systemNewCount;
+    APIMessageSummary.refineValues(this);
+  }
+  get inboxCount(): number | undefined {
+    return this._inboxCount;
+  }
+  set inboxCount(value: number | undefined) {
+    this._inboxCount = value;
+  }
+  get inboxNewCount(): number | undefined {
+    return this._inboxNewCount;
+  }
+  set inboxNewCount(value: number | undefined) {
+    this._inboxNewCount = value;
+  }
+  get sentCount(): number | undefined {
+    return this._sentCount;
+  }
+  set sentCount(value: number | undefined) {
+    this._sentCount = value;
+  }
+  get systemCount(): number | undefined {
+    return this._systemCount;
+  }
+  set systemCount(value: number | undefined) {
+    this._systemCount = value;
+  }
+  get systemNewCount(): number | undefined {
+    return this._systemNewCount;
+  }
+  set systemNewCount(value: number | undefined) {
+    this._systemNewCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIMessageSummary.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIMessageSummary.AsObject {
+    return {
+      inboxCount: this.inboxCount,
+      inboxNewCount: this.inboxNewCount,
+      sentCount: this.sentCount,
+      systemCount: this.systemCount,
+      systemNewCount: this.systemNewCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIMessageSummary.AsProtobufJSON {
+    return {
+      inboxCount: this.inboxCount,
+      inboxNewCount: this.inboxNewCount,
+      sentCount: this.sentCount,
+      systemCount: this.systemCount,
+      systemNewCount: this.systemNewCount
+    };
+  }
+}
+export module APIMessageSummary {
+  /**
+   * Standard JavaScript object representation for APIMessageSummary
+   */
+  export interface AsObject {
+    inboxCount?: number;
+    inboxNewCount?: number;
+    sentCount?: number;
+    systemCount?: number;
+    systemNewCount?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for APIMessageSummary
+   */
+  export interface AsProtobufJSON {
+    inboxCount?: number;
+    inboxNewCount?: number;
+    sentCount?: number;
+    systemCount?: number;
+    systemNewCount?: number;
+  }
+}

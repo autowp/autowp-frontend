@@ -308,6 +308,27 @@ export class AutowpClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Autowp/GetForumsUserSummary
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIForumsUserSummary>>
+     */
+    getForumsUserSummary: (
+      requestData: googleProtobuf002.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIForumsUserSummary>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetForumsUserSummary',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf002.Empty,
+        responseClass: thisProto.APIForumsUserSummary
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Autowp/GetIP
      *
      * @param requestMessage Request message
@@ -326,6 +347,48 @@ export class AutowpClient {
         requestMetadata,
         requestClass: thisProto.APIGetIPRequest,
         responseClass: thisProto.APIIP
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetMessagesNewCount
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIMessageNewCount>>
+     */
+    getMessagesNewCount: (
+      requestData: googleProtobuf002.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIMessageNewCount>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetMessagesNewCount',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf002.Empty,
+        responseClass: thisProto.APIMessageNewCount
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Autowp/GetMessagesSummary
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIMessageSummary>>
+     */
+    getMessagesSummary: (
+      requestData: googleProtobuf002.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIMessageSummary>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetMessagesSummary',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf002.Empty,
+        responseClass: thisProto.APIMessageSummary
       });
     },
     /**
@@ -694,6 +757,22 @@ export class AutowpClient {
   }
 
   /**
+   * Unary RPC for /goautowp.Autowp/GetForumsUserSummary
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIForumsUserSummary>
+   */
+  getForumsUserSummary(
+    requestData: googleProtobuf002.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIForumsUserSummary> {
+    return this.$raw
+      .getForumsUserSummary(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
    * Unary RPC for /goautowp.Autowp/GetIP
    *
    * @param requestMessage Request message
@@ -706,6 +785,38 @@ export class AutowpClient {
   ): Observable<thisProto.APIIP> {
     return this.$raw
       .getIP(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetMessagesNewCount
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIMessageNewCount>
+   */
+  getMessagesNewCount(
+    requestData: googleProtobuf002.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIMessageNewCount> {
+    return this.$raw
+      .getMessagesNewCount(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/GetMessagesSummary
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIMessageSummary>
+   */
+  getMessagesSummary(
+    requestData: googleProtobuf002.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIMessageSummary> {
+    return this.$raw
+      .getMessagesSummary(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

@@ -130,10 +130,10 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               icon: 'comments-o',
               name: $localize `Inbox`,
               count: messageSummary
-                ? messageSummary.inbox.count
+                ? messageSummary.inboxCount
                 : null,
               newCount: messageSummary
-                ? messageSummary.inbox.new_count
+                ? messageSummary.inboxNewCount
                 : null
             },
             {
@@ -142,7 +142,7 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               routerLinkParams: { folder: 'sent' },
               icon: 'comments-o',
               name: $localize `Sent`,
-              count: messageSummary ? messageSummary.sent.count : null
+              count: messageSummary ? messageSummary.sentCount : null
             },
             {
               pageId: 81,
@@ -151,10 +151,10 @@ export class AccountSidebarComponent implements OnInit, OnDestroy {
               icon: 'comments',
               name: $localize `System messages`,
               count: messageSummary
-                ? messageSummary.system.count
+                ? messageSummary.systemCount
                 : null,
               newCount: messageSummary
-                ? messageSummary.system.new_count
+                ? messageSummary.systemNewCount
                 : null
             }
           ];
