@@ -65,7 +65,7 @@
     "@angular-eslint/template-parser": "4.2.0",
     "@angular/cli": "^11.2.11",
     "@angular/compiler-cli": "^11.2.12",
-    "@angular/language-service": "^11.2.12",
+    "@angular/language-service": "^11.2.13",
     "@brainly/onesky-utils": "^1.4.1",
     "@ngx-grpc/protoc-gen-ng": "^2.1.0",
     "@types/google-protobuf": "^3.15.2",
