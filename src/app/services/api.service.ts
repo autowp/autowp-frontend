@@ -72,6 +72,11 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+
+    if (req.url === '/api/oauth/token') {
+      return next.handle(req);
+    }
+
     return this.oauth.getAccessToken().pipe(
       switchMap(accessToken => {
         if (! accessToken) {
@@ -122,7 +127,6 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   constructor(private oauth: OAuthService) { }
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
-
     return this.oauth.getAccessToken().pipe(
       switchMap(accessToken => {
         if (! accessToken) {

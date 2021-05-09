@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import {map, catchError, shareReplay} from 'rxjs/operators';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 export interface TokenResponse {
@@ -52,6 +52,9 @@ export const externalLoginServices: ExternalLoginService[] = [
 
 @Injectable()
 export class OAuthService {
+
+  private token$: Observable<string>;
+
   constructor(private http: HttpClient) { }
 
   public setToken(response: TokenResponse) {
@@ -121,15 +124,13 @@ export class OAuthService {
     }
 
     const accessToken = localStorage.getItem('access_token');
-    const validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
+    if (accessToken) {
+      const validUntil = new Date(parseInt(localStorage.getItem('valid_until'), 10));
 
-    if (! accessToken) {
-      return of(null);
-    }
-
-    const isExpires = new Date() > validUntil;
-    if (! isExpires) {
-      return of(accessToken);
+      const isExpires = new Date() > validUntil;
+      if (! isExpires) {
+        return of(accessToken);
+      }
     }
 
     localStorage.removeItem('access_token');
@@ -139,7 +140,11 @@ export class OAuthService {
       return of(null);
     }
 
-    return this.http
+    if (this.token$) {
+      return this.token$;
+    }
+
+    this.token$ = this.http
       .request<TokenResponse>('POST', '/api/oauth/token', {
         body: {
           grant_type: 'refresh_token',
@@ -156,12 +161,16 @@ export class OAuthService {
           return throwError(response);
         }),
         map(token => {
+          this.token$ = null;
           if (! token) {
             return null;
           }
           this.setToken(token);
           return token.access_token;
-        })
+        }),
+        shareReplay(1)
       );
+
+    return this.token$;
   }
 }

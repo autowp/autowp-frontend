@@ -81,11 +81,10 @@ export class ACLService {
       return this.isAllowedCache.get(key);
     }
 
-    const o = this.auth.getUser()
-      .pipe(
-        switchMapTo(this.apiACL.isAllowed(resource, privilege)),
-        shareReplay(1)
-      );
+    const o = this.auth.getUser().pipe(
+      switchMapTo(this.apiACL.isAllowed(resource, privilege)),
+      shareReplay(1)
+    );
     this.isAllowedCache.set(key, o);
     return o;
   }
