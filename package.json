@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "^11.2.12",
     "@angular/router": "^11.2.12",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
-    "@ng-bootstrap/ng-bootstrap": "^9.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^9.1.1",
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
     "@ngx-grpc/common": "^2.1.0",
     "@ngx-grpc/core": "^2.1.0",
