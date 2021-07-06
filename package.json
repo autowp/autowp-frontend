@@ -31,7 +31,7 @@
     "@ngx-grpc/well-known-types": "^2.1.0",
     "@sentry/browser": "^6.8.0",
     "@types/url-parse": "^1.4.3",
-    "ajv": "^8.6.0",
+    "ajv": "^8.6.1",
     "angulartics2": "^10.0.0",
     "bootstrap": "^4.6.0",
     "caller-path": "^3.0.1",
