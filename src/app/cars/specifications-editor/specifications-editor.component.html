@@ -34,7 +34,7 @@
       <ng-container i18n>Info</ng-container>
     </a>
   </li>
-  <li class="nav-item" *ngIf="item && item.item_type_id == 1">
+  <li class="nav-item" *ngIf="item && item.item_type_id === 1">
     <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'engine'}" [class.active]="tab === 'engine'"
       class="nav-link">
       <span class="glyphicon glyphicon-align-left"></span>
@@ -83,7 +83,7 @@
 
 Все значения, которые здесь вводятся - отображаются на сайте, в характеристиках, используются в построении разделы &quot;самые-самые&quot;, а также отображаются в некоторых других местах сайта."></app-markdown>
   </div>
-  <div class="tab-pane active" id="engine" *ngIf="tab === 'engine' && item && item.item_type_id == 1">
+  <div class="tab-pane active" id="engine" *ngIf="tab === 'engine' && item && item.item_type_id === 1">
     <app-cars-specifications-editor-engine [item]="item" (changed)="onEngineChanged()"></app-cars-specifications-editor-engine>
   </div>
   <div class="tab-pane active" id="spec" *ngIf="tab === 'spec' && item">

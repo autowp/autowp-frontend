@@ -1,5 +1,5 @@
-<span class="text-muted" *ngIf="item.type_id == 1" i18n>Related</span>
-<span class="text-muted" *ngIf="item.type_id == 2" i18n>Sport</span>
+<span class="text-muted" *ngIf="item.type_id === 1" i18n>Related</span>
+<span class="text-muted" *ngIf="item.type_id === 2" i18n>Sport</span>
 
 <a href="#" *ngIf="item.item.childs_count <= 0" (click)="selectItem({itemId: item.item_id, perspectiveId: 0, type: 1})" [innerHTML]="item.item.name_html"></a>
 <br *ngIf="item.item.childs_count <= 0" />
