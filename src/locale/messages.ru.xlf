@@ -7821,7 +7821,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
       </trans-unit>
       <trans-unit id="8557005565028689964" datatype="html">
         <source>Resolution (large)</source>
-        <target>Разрешение (маленькие)</target>
+        <target>Разрешение (большие)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">202,203</context>
@@ -7837,7 +7837,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
       </trans-unit>
       <trans-unit id="8486654075116600448" datatype="html">
         <source>Filesize (large)</source>
-        <target>Размер (маленькие)</target>
+        <target>Размер (большие)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">210,211</context>

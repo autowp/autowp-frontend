@@ -10742,7 +10742,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="1126459348020285523" datatype="html">
         <source>2-floor bus</source>
-        <target>Autobus de 2 étages</target>
+        <target>Autobus à 2 étages</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">238,239</context>
@@ -10798,6 +10798,348 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">247,248</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/spyder" datatype="html">
+        <source>Spyders</source>
+        <target>Roadsters</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">248,249</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/cabriolet" datatype="html">
+        <source>Cabriolets</source>
+        <target>Cabriolets</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">249,250</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/cabrio-coupe" datatype="html">
+        <source>Cabrio-coupes</source>
+        <target>Cabriolets coupés</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">250,251</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/targa" datatype="html">
+        <source>Targa</source>
+        <target>Targa</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">251,252</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/coupe" datatype="html">
+        <source>Coupes</source>
+        <target>Coupés</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">252,253</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/sedan" datatype="html">
+        <source>Sedans</source>
+        <target>Berlines</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">253,254</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/hatchback" datatype="html">
+        <source>Hatchbacks</source>
+        <target>Hayons</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">254,255</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/crossover" datatype="html">
+        <source>Crossovers</source>
+        <target>Crossovers</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">255,256</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/universal" datatype="html">
+        <source>Tourings</source>
+        <target>Tourismes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">256,257</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/limousine" datatype="html">
+        <source>Limousines</source>
+        <target>Limousines</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">257,258</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/pickup" datatype="html">
+        <source>Pickups</source>
+        <target>Pick-ups</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">258,259</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/caravan" datatype="html">
+        <source>Light vans</source>
+        <target>Vans legers</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">259,260</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/offroad" datatype="html">
+        <source>SUVs</source>
+        <target>SUVs</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">260,261</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/minivan" datatype="html">
+        <source>Minivans</source>
+        <target>Camionnettes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">261,262</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/van" datatype="html">
+        <source>Vans</source>
+        <target>Vans</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">262,263</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/truck" datatype="html">
+        <source>Trucks</source>
+        <target>Camions</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">263,264</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/bus" datatype="html">
+        <source>Buses</source>
+        <target>Bus</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">264,265</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/phaeton" datatype="html">
+        <source>Phaetons</source>
+        <target>Phaetons</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">265,266</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/4door-hardtop" datatype="html">
+        <source>4-door hardtops</source>
+        <target>4-portes hardtops</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">266,267</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/landau" datatype="html">
+        <source>Landaus</source>
+        <target>Landaus</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">267,268</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/offroad-cabrio" datatype="html">
+        <source>SUV-cabrios</source>
+        <target>SUV-cabriolets</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">268,269</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/liftback-coupe" datatype="html">
+        <source>Liftback-coupes</source>
+        <target>Coupé à hayons</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">269,270</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/liftback-sedan" datatype="html">
+        <source>Liftback-sedans</source>
+        <target>Berline à hayons</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">270,271</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/2door-hardtop" datatype="html">
+        <source>2-door hardtops</source>
+        <target>2 portes hardtops</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">271,272</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/minibus" datatype="html">
+        <source>Minibuses</source>
+        <target>Minibus</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">272,273</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/car" datatype="html">
+        <source>Cars</source>
+        <target>Voitures</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">273,274</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/multiplex-bus" datatype="html">
+        <source>Multisection buses</source>
+        <target>Bus acordéons</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">274,275</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/offroad-short" datatype="html">
+        <source>Short-SUVs</source>
+        <target>SUV courts</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">275,276</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/brougham" datatype="html">
+        <source>Broughams</source>
+        <target>Broughams</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">276,277</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/fastback-sedan" datatype="html">
+        <source>Fastback-sedans</source>
+        <target>Berline à arrière profilés</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">277,278</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/fastback-coupe" datatype="html">
+        <source>Fastback-coupes</source>
+        <target>Coupé à arrière profilés</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">278,279</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/tonneau" datatype="html">
+        <source>Tonneaus</source>
+        <target>Tonneaux</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">279,280</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/2-floor-bus" datatype="html">
+        <source>2-floor buses</source>
+        <target>Autobus à 2 étages</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">280,281</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/town-car" datatype="html">
+        <source>Town cars</source>
+        <target>Voitures de ville</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">281,282</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/barchetta" datatype="html">
+        <source>Barchettas</source>
+        <target>Barchettas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">282,283</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/moto" datatype="html">
+        <source>Motos</source>
+        <target>Motos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">283,284</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/tractor" datatype="html">
+        <source>Tractors</source>
+        <target>Tracteurs</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">284,285</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/tracked" datatype="html">
+        <source>Tracked platforms</source>
+        <target>Plateformes à chenilles</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">285,286</context>
         </context-group>
         <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
       </trans-unit>
