@@ -1,9 +1,9 @@
 <div *ngIf="item.childs_count > 0">
   <i class="fa fa-folder-o" aria-hidden="true" [hidden]="item.open"></i>
   <i class="fa fa-folder-open-o" aria-hidden="true" [hidden]="!item.open"></i>
-  <span *ngIf="typeID == 1" i18n>Related</span>
-  <span *ngIf="typeID == 2" i18n>Sport</span>
-  <span *ngIf="typeID == 3" i18n>Design</span>
+  <span *ngIf="typeID === 1" i18n>Related</span>
+  <span *ngIf="typeID === 2" i18n>Sport</span>
+  <span *ngIf="typeID === 3" i18n>Design</span>
   <a href="#" class="toggle" (click)="item.open = !item.open; item.open && onLoadChilds(item)">
     <span [innerHTML]="item.name_html"></span>
   </a>
@@ -24,14 +24,14 @@
 </div>
 
 <span *ngIf="(!item.childs_count || item.childs_count <= 0) && !isDisabled(item)">
-  <span *ngIf="typeID == 1" i18n>Related</span>
-  <span *ngIf="typeID == 2" i18n>Sport</span>
-  <span *ngIf="typeID == 3" i18n>Design</span>
+  <span *ngIf="typeID === 1" i18n>Related</span>
+  <span *ngIf="typeID === 2" i18n>Sport</span>
+  <span *ngIf="typeID === 3" i18n>Design</span>
   <a href="#" (click)="onSelect(item)" [innerHTML]="item.name_html"></a>
 </span>
 <span *ngIf="isDisabled(item)">
-  <span *ngIf="typeID == 1" i18n>Related</span>
-  <span *ngIf="typeID == 2" i18n>Sport</span>
-  <span *ngIf="typeID == 3" i18n>Design</span>
+  <span *ngIf="typeID === 1" i18n>Related</span>
+  <span *ngIf="typeID === 2" i18n>Sport</span>
+  <span *ngIf="typeID === 3" i18n>Design</span>
   <span class="text-muted" [innerHTML]="item.name_html"></span>
 </span>

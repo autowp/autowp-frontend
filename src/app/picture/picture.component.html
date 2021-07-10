@@ -1,7 +1,7 @@
 <div class="page-header" *ngIf="picture">
   <h1>
     <span [innerHTML]="picture.name_html"></span>
-    <ng-container *ngIf="picture.items.length == 1 && picture.items[0].item.design">
+    <ng-container *ngIf="picture.items.length === 1 && picture.items[0].item.design">
       <sup class="design-brand">
         <ng-container i18n>designed by</ng-container>
         <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
@@ -16,7 +16,7 @@
       <span class="d-block rounded mb-4" (auxclick)="openSource($event)" (click)="openGallery($event)" style="cursor: pointer">
         <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
       </span>
-      <ng-container *ngIf="picture.items.length == 1">
+      <ng-container *ngIf="picture.items.length === 1">
         <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">
             <p i18n>In other languages</p>
             <ul class="list-unstyled">
@@ -52,7 +52,7 @@
     <app-share [url]="location.href" [text]="picture.name_text" *ngIf="showShareDialog"></app-share>
 
     <ng-container *ngFor="let item of picture.items">
-      <p *ngIf="item.type == 2">
+      <p *ngIf="item.type === 2">
         Author: <a [routerLink]="['/persons', item.item.id]" [innerHTML]="item.item.name_html"></a>
       </p>
     </ng-container>
@@ -62,11 +62,11 @@
     </div>
 
     <ng-container *ngFor="let item of picture.items">
-      <app-markdown [markdown]="item.item.description" *ngIf="item.type == 3 && item.item.description"></app-markdown>
+      <app-markdown [markdown]="item.item.description" *ngIf="item.type === 3 && item.item.description"></app-markdown>
     </ng-container>
 
     <ng-container *ngFor="let item of picture.items">
-      <app-markdown [markdown]="item.item.description" *ngIf="item.type == 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
+      <app-markdown [markdown]="item.item.description" *ngIf="item.type === 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
       <p *ngIf="item.item.has_text && item.item.route">
         <i class="fa fa-align-left" aria-hidden="true"></i>
         <a [routerLink]="item.item.route" i18n>details</a>
@@ -107,9 +107,9 @@
       </li>
       <li>
         <ng-container i18n>Picture status:</ng-container>
-        <ng-container *ngIf="picture.status == 'inbox'" i18n>Undecided</ng-container>
-        <ng-container *ngIf="picture.status == 'accepted'" i18n>Accepted</ng-container>
-        <span class="text-danger" i18n *ngIf="picture.status == 'removing'">Removing</span>
+        <ng-container *ngIf="picture.status === 'inbox'" i18n>Undecided</ng-container>
+        <ng-container *ngIf="picture.status === 'accepted'" i18n>Accepted</ng-container>
+        <span class="text-danger" i18n *ngIf="picture.status === 'removing'">Removing</span>
       </li>
     </ul>
     <app-markdown i18n-markdown markdown="All images have their owners.
@@ -167,7 +167,7 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         </button>
         <div ngbDropdownMenu>
           <ng-container *ngFor="let item of picture.items">
-            <a *ngIf="item.type == 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+            <a *ngIf="item.type === 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
               <i class="fa fa-upload" aria-hidden="true"></i>
               <ng-container i18n>Add picture</ng-container>
               <span [innerHTML]="item.item.name_html"></span>
@@ -176,9 +176,9 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         </div>
       </li>
 
-      <ng-container *ngIf="user && picture.items.length == 1">
+      <ng-container *ngIf="user && picture.items.length === 1">
         <li *ngFor="let item of picture.items">
-          <a *ngIf="item.type == 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+          <a *ngIf="item.type === 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
             <i class="fa fa-upload" aria-hidden="true"></i>
             <ng-container i18n>Add picture</ng-container>
             <span [innerHTML]="item.item.name_html"></span>
@@ -284,16 +284,16 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
   <div class="card card-body">
       <div class="row">
         <div class="col-md-4" *ngIf="picture.rights">
-          <div *ngIf="picture.status == 'inbox'">
+          <div *ngIf="picture.status === 'inbox'">
             <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept" i18n>Accept</button>
             <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete" i18n>Delete</button>
           </div>
 
-          <div *ngIf="picture.status == 'accepted'">
+          <div *ngIf="picture.status === 'accepted'">
             <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept" i18n>Unaccept</button>
           </div>
 
-          <div *ngIf="picture.status == 'removing'">
+          <div *ngIf="picture.status === 'removing'">
             <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore" i18n>Restore</button>
           </div>
           <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
@@ -303,7 +303,7 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <div class="col-md-4" *ngIf="picture.items.length > 0">
           <label class="d-block" i18n>Perspective</label>
           <ng-container *ngFor="let item of picture.items">
-            <div *ngIf="item.type == 1">
+            <div *ngIf="item.type === 1">
               <span [innerHTML]="item.item.name_html"></span>
               <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
             </div>

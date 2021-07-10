@@ -20,22 +20,22 @@
 </div>
 
 <div class="nav nav-pills" style="margin-bottom: 30px" *ngIf="!srcItemID">
-  <a [class.active]="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights" *ngIf="!srcType || srcType == 1"
+  <a [class.active]="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights" *ngIf="!srcType || srcType === 1"
     class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: null, show_copyrights: null}"
     queryParamsHandling="merge" i18n>Brands</a>
-  <a [class.active]="showFactories" *ngIf="!srcType || srcType == 1" class="nav-link" routerLink="." [queryParams]="{show_factories: 1, show_museums: null, show_persons: null, show_authors: null, show_copyrights: null}"
+  <a [class.active]="showFactories" *ngIf="!srcType || srcType === 1" class="nav-link" routerLink="." [queryParams]="{show_factories: 1, show_museums: null, show_persons: null, show_authors: null, show_copyrights: null}"
     queryParamsHandling="merge" i18n>Factories</a>
-  <a [class.active]="showMuseums" *ngIf="!srcType || srcType == 1" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: 1, show_persons: null, show_authors: null, show_copyrights: null}"
+  <a [class.active]="showMuseums" *ngIf="!srcType || srcType === 1" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: 1, show_persons: null, show_authors: null, show_copyrights: null}"
     queryParamsHandling="merge" i18n>Museums</a>
-  <a [class.active]="showPersons" *ngIf="!srcType || srcType == 1" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: 1, show_authors: null, show_copyrights: null}"
+  <a [class.active]="showPersons" *ngIf="!srcType || srcType === 1" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: 1, show_authors: null, show_copyrights: null}"
      queryParamsHandling="merge"><ng-container i18n>Persons</ng-container> (content)</a>
-  <a [class.active]="showAuthors" *ngIf="!srcType || srcType == 2" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: 1, show_copyrights: null}"
+  <a [class.active]="showAuthors" *ngIf="!srcType || srcType === 2" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: 1, show_copyrights: null}"
     queryParamsHandling="merge"><ng-container i18n>Persons</ng-container>(author)</a>
-  <a [class.active]="showCopyrights" *ngIf="!srcType || srcType == 3" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: null, show_copyrights: 1}"
+  <a [class.active]="showCopyrights" *ngIf="!srcType || srcType === 3" class="nav-link" routerLink="." [queryParams]="{show_factories: null, show_museums: null, show_persons: null, show_authors: null, show_copyrights: 1}"
     queryParamsHandling="merge" i18n>Copyright blocks</a>
 </div>
 
-<div *ngIf="showMuseums && !srcItemID && (!srcType || srcType == 1)">
+<div *ngIf="showMuseums && !srcItemID && (!srcType || srcType === 1)">
   <div class="card card-body">
     <ng-container *ngFor="let item of museums">
       <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.name_html"></a>
@@ -46,7 +46,7 @@
   <app-paginator [data]="museumsPaginator" *ngIf="museumsPaginator"></app-paginator>
 </div>
 
-<div *ngIf="showFactories && !srcItemID && (!srcType || srcType == 1)">
+<div *ngIf="showFactories && !srcItemID && (!srcType || srcType === 1)">
 
   <div class="card card-body">
     <ng-container *ngFor="let item of factories">
@@ -58,7 +58,7 @@
   <app-paginator [data]="factoriesPaginator" *ngIf="factoriesPaginator"></app-paginator>
 </div>
 
-<div *ngIf="showPersons && !srcItemID && (!srcType || srcType == 1)">
+<div *ngIf="showPersons && !srcItemID && (!srcType || srcType === 1)">
 
   <div class="card card-body">
     <div style="margin-bottom:20px">
@@ -73,7 +73,7 @@
   <app-paginator [data]="personsPaginator" *ngIf="personsPaginator"></app-paginator>
 </div>
 
-<div *ngIf="showAuthors && !srcItemID && (!srcType || srcType == 2)">
+<div *ngIf="showAuthors && !srcItemID && (!srcType || srcType === 2)">
 
   <div class="card card-body">
     <div style="margin-bottom:20px">
@@ -88,7 +88,7 @@
   <app-paginator [data]="authorsPaginator" *ngIf="authorsPaginator"></app-paginator>
 </div>
 
-<div *ngIf="showCopyrights && !srcItemID && (!srcType || srcType == 3)">
+<div *ngIf="showCopyrights && !srcItemID && (!srcType || srcType === 3)">
   <div class="card card-body">
     <ng-container *ngFor="let item of copyrights">
       <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 3})" [innerHTML]="item.name_html"></a>
@@ -99,7 +99,7 @@
   <app-paginator [data]="copyrightsPaginator" *ngIf="copyrightsPaginator"></app-paginator>
 </div>
 
-<div *ngIf="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights && (!srcType || srcType == 1)">
+<div *ngIf="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights && (!srcType || srcType === 1)">
   <div *ngIf="!brandID">
 
     <div class="card card-body">

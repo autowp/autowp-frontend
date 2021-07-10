@@ -10,9 +10,9 @@
   <tbody>
     <tr *ngFor="let topic of topics">
       <td>
-        <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status == 'closed'"></span>
-        <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name" *ngIf="topic.status != 'deleted'"></a>
-        <span [textContent]="topic.name" *ngIf="topic.status == 'deleted'"></span>
+        <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
+        <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name" *ngIf="topic.status !== 'deleted'"></a>
+        <span [textContent]="topic.name" *ngIf="topic.status === 'deleted'"></span>
         <span class="badge badge-pill badge-secondary">
           {{topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '')}}
         </span>

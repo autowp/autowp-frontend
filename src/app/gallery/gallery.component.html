@@ -1,7 +1,7 @@
 <div class="gallery">
   <div class="carousel slide">
     <ol class="carousel-indicators" *ngIf="MAX_INDICATORS >= gallery.length">
-      <li *ngFor="let item of gallery; let i = index" (click)="navigateToIndex(i)" [class.active]="currentItemIndex == i"></li>
+      <li *ngFor="let item of gallery; let i = index" (click)="navigateToIndex(i)" [class.active]="currentItemIndex === i"></li>
     </ol>
     <div class="carousel-numbers" *ngIf="gallery.length > MAX_INDICATORS">
       {{currentItemIndex + 1}} of {{gallery.length}}
@@ -10,7 +10,7 @@
       <ng-container *ngFor="let item of gallery; let i = index">
         <app-gallery-carousel-item
           class="carousel-item"
-          [class.active]="current == item.identity"
+          [class.active]="current === item.identity"
           [class.previous]="currentItemIndex > i"
           [class.next]="i > currentItemIndex"
           [item]="item"

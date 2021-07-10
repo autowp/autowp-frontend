@@ -23,7 +23,7 @@
         <a href="#" class="vote-up" [class.active]="message.user_vote > 0" (click)="vote(message, 1)">
           <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
         </a>
-        <a href="#" class="value" [class.zero]="message.vote == 0" (click)="showVotes(message)">
+        <a href="#" class="value" [class.zero]="message.vote === 0" (click)="showVotes(message)">
           {{(message.vote > 0 ? '+' : '') + message.vote}}
         </a>
         <a href="#" class="vote-down" [class.active]="message.user_vote > 0" (click)="vote(message, -1)">
@@ -41,7 +41,7 @@
         <span class="d-none d-md-inline" i18n>reply</span>
       </button>
 
-      <button class="btn btn-sm btn-success resolve" *ngIf="message.moderator_attention == 1 && isModer" (click)="reply(message, true)">
+      <button class="btn btn-sm btn-success resolve" *ngIf="message.moderator_attention === 1 && isModer" (click)="reply(message, true)">
         <i class="fa fa-reply mr-1" aria-hidden="true"></i>
         <ng-container i18n>reply & resolve</ng-container>
       </button>
@@ -56,14 +56,14 @@
       </button>
 
       <a routerLink="/forums/move-message" [queryParams]="{message_id: message.id}" class="btn btn-secondary btn-sm float-right"
-        *ngIf="typeID == 5 && canMoveMessage">
+        *ngIf="typeID === 5 && canMoveMessage">
         <i class="fa fa-arrows mr-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline" i18n>Move</span>
       </a>
 
       <i class="float-right fa fa-eye" aria-hidden="true" [ngbTooltip]="message.ip" style="margin-right:20px" *ngIf="message.ip"></i>
 
-      <div class="moderator-attention-sign" *ngIf="message.moderator_attention == 1">
+      <div class="moderator-attention-sign" *ngIf="message.moderator_attention === 1">
         <i class="fa fa-info-circle mr-1" aria-hidden="true"></i>
         <ng-container i18n>It requires attention of moderators</ng-container>
       </div>

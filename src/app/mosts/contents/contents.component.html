@@ -3,13 +3,13 @@
   <div class="d-inline-block" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
       <ng-container *ngFor="let rating of ratings">
-        <span *ngIf="rating.catname == ratingCatname" [textContent]="getMostsRatingsTranslation(rating.name)">
+        <span *ngIf="rating.catname === ratingCatname" [textContent]="getMostsRatingsTranslation(rating.name)">
         </span>
       </ng-container>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let rating of ratings" [class.active]="rating.catname == ratingCatname" class="dropdown-item" [routerLink]="prefix.concat([rating.catname])"
+      <a *ngFor="let rating of ratings" [class.active]="rating.catname === ratingCatname" class="dropdown-item" [routerLink]="prefix.concat([rating.catname])"
          [textContent]="getMostsRatingsTranslation(rating.name)">
       </a>
     </div>
@@ -20,13 +20,13 @@
   <div class="d-inline-block" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
       <ng-container *ngFor="let type of vehicleTypes">
-        <span *ngIf="type.catname == typeCatname" [textContent]="type.nameTranslated"></span>
+        <span *ngIf="type.catname === typeCatname" [textContent]="type.nameTranslated"></span>
       </ng-container>
       <span *ngIf="!typeCatname" i18n>Vehicle</span>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname == typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
+      <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname === typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
          [textContent]="type.nameTranslated"></a>
     </div>
   </div>
@@ -34,12 +34,12 @@
   <div class="d-inline-block" *ngIf="defaultTypeCatname" ngbDropdown>
     <a href="#" ngbDropdownToggle (click)="false">
       <ng-container *ngFor="let year of years">
-        <span *ngIf="year.catname ? year.catname == yearsCatname : !yearsCatname" [textContent]="getMostsPeriodsTranslation(year.name)"></span>
+        <span *ngIf="year.catname ? year.catname === yearsCatname : !yearsCatname" [textContent]="getMostsPeriodsTranslation(year.name)"></span>
       </ng-container>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </a>
     <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let year of years" [class.active]="year.catname ? year.catname == yearsCatname : !yearsCatname" class="dropdown-item"
+      <a *ngFor="let year of years" [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname" class="dropdown-item"
          [routerLink]="prefix.concat([ratingCatname, typeCatname ? typeCatname : defaultTypeCatname, year.catname ? year.catname : ''])"
          [textContent]="getMostsPeriodsTranslation(year.name)">
       </a>

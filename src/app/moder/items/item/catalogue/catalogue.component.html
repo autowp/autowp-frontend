@@ -105,9 +105,9 @@
       <tr *ngFor="let item of childs">
         <td>
           <i class="fa fa-arrow-down" aria-hidden="true"></i>
-          <span *ngIf="item.type_id == 1" i18n>Related:</span>
-          <span *ngIf="item.type_id == 3" i18n>Design:</span>
-          <span *ngIf="item.type_id == 2" i18n>Sport:</span>
+          <span *ngIf="item.type_id === 1" i18n>Related:</span>
+          <span *ngIf="item.type_id === 3" i18n>Design:</span>
+          <span *ngIf="item.type_id === 2" i18n>Sport:</span>
           <a [routerLink]="['/moder/items/item', item.item_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.item.name_html"></a>
           <div *ngIf="item.duplicate_child" class="text-warning">
             <small>
@@ -135,7 +135,7 @@
         </td>
       </tr>
 
-      <tr *ngIf="item.is_group && canMove && item.item_type_id == 5">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === 5">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
@@ -143,7 +143,7 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id == 5">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === 5">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
@@ -151,7 +151,7 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id == 3">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 3, parent_id: item.id}" i18n>add category</a>
@@ -159,7 +159,7 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id == 3">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
@@ -167,7 +167,7 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id == 3">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
@@ -175,12 +175,12 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && ([4, 6, 3].indexOf(item.item_type_id) == -1)">
+      <tr *ngIf="item.is_group && canMove && ([4, 6, 3].indexOf(item.item_type_id) === -1)">
         <td colspan="2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">
-            <ng-container i18n *ngIf="item.item_type_id == 2">add engine</ng-container>
-            <ng-container i18n *ngIf="item.item_type_id != 2">add vehicle</ng-container>
+            <ng-container i18n *ngIf="item.item_type_id === 2">add engine</ng-container>
+            <ng-container i18n *ngIf="item.item_type_id !== 2">add vehicle</ng-container>
           </a>
         </td>
         <td class="urls"></td>

@@ -24,11 +24,11 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
   <ul>
     <li *ngFor="let date of dates">
       <span *ngIf="date.free">
-        <span *ngIf="date.value == selectedDate">
+        <span *ngIf="date.value === selectedDate">
           <strong [textContent]="date.name"></strong>
           <span class="fa fa-check" aria-hidden="true"></span>
         </span>
-        <span *ngIf="date.value != selectedDate">
+        <span *ngIf="date.value !== selectedDate">
           <a routerLink="." [queryParams]="{date: date.value}" queryParamsHandling="merge" [textContent]="date.name"></a>
         </span>
       </span>

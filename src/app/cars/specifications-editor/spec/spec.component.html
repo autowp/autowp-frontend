@@ -31,27 +31,27 @@
                 <span class="fa fa-remove" aria-hidden="true"></span>
               </button>
             </div>
-            <select class="form-control form-control-sm" *ngIf="attribute.type_id == 5" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <select class="form-control form-control-sm" *ngIf="attribute.type_id === 5" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [disabled]="currentUserValues[attribute.id].empty" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
-            <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && !attribute.is_multiple"
+            <select class="form-control form-control-sm" *ngIf="(attribute.type_id === 6 || attribute.type_id === 7) && !attribute.is_multiple"
               [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty"
               [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
-            <select class="form-control form-control-sm" *ngIf="(attribute.type_id == 6 || attribute.type_id == 7) && attribute.is_multiple"
+            <select class="form-control form-control-sm" *ngIf="(attribute.type_id === 6 || attribute.type_id === 7) && attribute.is_multiple"
               [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value" [disabled]="currentUserValues[attribute.id].empty"
               multiple [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]" size="5" style="height: 100%;">
               <option *ngFor="let option of attribute.options" [value]="option.id">{{option.name}}</option>
             </select>
-            <input type="number" *ngIf="attribute.type_id == 2" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <input type="number" *ngIf="attribute.type_id === 2" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [disabled]="currentUserValues[attribute.id].empty" min="-2147483649" max="2147483648" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
             />
-            <input type="number" *ngIf="attribute.type_id == 3" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <input type="number" *ngIf="attribute.type_id === 3" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [step]="getStep(attribute)" min="-2147483649" max="2147483648" [disabled]="currentUserValues[attribute.id].empty"
               [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]" />
-            <input type="text" *ngIf="attribute.type_id == 1" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
+            <input type="text" *ngIf="attribute.type_id === 1" class="form-control form-control-sm" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"
               [disabled]="currentUserValues[attribute.id].empty" [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
             />
             <div class="input-group-append" *ngIf="attribute.unit">

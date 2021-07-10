@@ -12,11 +12,11 @@
       <h1>{{pageName}}</h1>
     </div>
 
-    <div style="margin:0 0 20px;" *ngIf="folder =='sent' && paginator && paginator.totalItemCount">
+    <div style="margin:0 0 20px;" *ngIf="folder ==='sent' && paginator && paginator.totalItemCount">
       <button class="btn btn-danger" (click)="clearFolder('sent')" i18n>Delete all sent messages</button>
     </div>
 
-    <div style="margin:0 0 20px;" *ngIf="folder =='system' && paginator && paginator.totalItemCount">
+    <div style="margin:0 0 20px;" *ngIf="folder ==='system' && paginator && paginator.totalItemCount">
       <button class="btn btn-danger" (click)="clearFolder('system')" i18n>Delete all system notifications</button>
     </div>
 

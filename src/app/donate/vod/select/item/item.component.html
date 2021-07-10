@@ -1,13 +1,13 @@
 <div *ngIf="!item.item.childs_count">
-  <span class="text-muted" *ngIf="item.type_id == 1" i18n>Related</span>
-  <span class="text-muted" *ngIf="item.type_id == 2" i18n>Sport</span>
+  <span class="text-muted" *ngIf="item.type_id === 1" i18n>Related</span>
+  <span class="text-muted" *ngIf="item.type_id === 2" i18n>Sport</span>
   <a *ngIf="item.item.is_compiles_item_of_day" routerLink="/donate/vod" [queryParams]="{item_id: item.item_id, brand_id: null}"
     queryParamsHandling="merge" [innerHTML]="item.item.name_html"></a>
   <span *ngIf="!item.item.is_compiles_item_of_day" class="text-muted" [innerHTML]="item.item.name_html"></span>
 </div>
 <div *ngIf="item.item.childs_count">
-  <span class="text-muted" *ngIf="item.type_id == 1" i18n>Related</span>
-  <span class="text-muted" *ngIf="item.type_id == 2" i18n>Sport</span>
+  <span class="text-muted" *ngIf="item.type_id === 1" i18n>Related</span>
+  <span class="text-muted" *ngIf="item.type_id === 2" i18n>Sport</span>
   <a href="" class="arrow" (click)="toggleItem()">
     <i class="fa fa-plus-circle mr-1" aria-hidden="true" [hidden]="item.expanded"></i>
     <i class="fa fa-minus-circle mr-1" aria-hidden="true" [hidden]="!item.expanded"></i>

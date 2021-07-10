@@ -96,11 +96,11 @@
           <a [routerLink]="['/moder/items/item', item.item_id]" [innerHTML]="item.item.name_html"></a>
         </td>
         <td>
-          <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type == 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
+          <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" *ngIf="item.type === 1" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
         </td>
         <td *ngIf="picture.rights.crop">
           <a class="btn btn-secondary" [class.btn-success]="item.area" [routerLink]="['/moder/pictures', picture.id, 'area']" [queryParams]="{item_id: item.item_id, type: item.type}"
-            arial-label="Area" style="margin:0" *ngIf="item.type == 1">
+            arial-label="Area" style="margin:0" *ngIf="item.type === 1">
             <i class="fa fa-crop" aria-hidden="true"></i>
             <ng-container i18n>Pick item area</ng-container>
           </a>
@@ -113,11 +113,11 @@
               <ng-container i18n>move to</ng-container> ...
             </a>
             <div class="btn-group" ngbDropdown role="group" placement="bottom-right">
-              <button class="btn btn-secondary" ngbDropdownToggle *ngIf="item.type == 1">
+              <button class="btn btn-secondary" ngbDropdownToggle *ngIf="item.type === 1">
                 <span class="caret" aria-hidden="true"></span>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
-              <div class="dropdown-menu" *ngIf="item.type == 1" ngbDropdownMenu>
+              <div class="dropdown-menu" *ngIf="item.type === 1" ngbDropdownMenu>
                 <button class="dropdown-item" (click)="moveItem(item.type, item.item_id, lastItem.id)" *ngIf="lastItem && !hasItem(lastItem.id)">
                   <i class="fa fa-arrow-right" aria-hidden="true"></i>
                   <ng-container i18n>move to</ng-container>
@@ -141,21 +141,21 @@
     </tbody>
   </table>
   <div *ngIf="picture.rights.move">
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id != 9">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id !== 9">
       <button class="btn btn-secondary" (click)="addItem(lastItem, 1)">
         <i class="fa fa-plus" aria-hidden="true"></i>
         <ng-container i18n>add to</ng-container> (content)
         <span [innerHTML]="lastItem.name_html"></span>
       </button>
     </div>
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id == 8">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id === 8">
       <button class="btn btn-secondary" (click)="addItem(lastItem, 2)">
         <i class="fa fa-plus" aria-hidden="true"></i>
         <ng-container i18n>add to</ng-container> (author)
         <span [innerHTML]="lastItem.name_html"></span>
       </button>
     </div>
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id == 9">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id === 9">
       <button class="btn btn-secondary" (click)="addItem(lastItem, 3)">
         <i class="fa fa-plus" aria-hidden="true"></i>
         <ng-container i18n>add to</ng-container> (copyrights)
@@ -270,7 +270,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
     <div class="card card-body mb-4">
       <app-user [user]="picture.change_status_user" *ngIf="picture.change_status_user"></app-user>
 
-      <div *ngIf="picture.status == 'inbox'">
+      <div *ngIf="picture.status === 'inbox'">
         <p>
           <strong class="badge badge-warning" i18n>Not accepted</strong>
         </p>
@@ -279,7 +279,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
         <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete" i18n>Delete</button>
       </div>
 
-      <div *ngIf="picture.status == 'accepted'">
+      <div *ngIf="picture.status === 'accepted'">
         <p>
           <strong class="badge badge-success" i18n>Accepted</strong>
         </p>
@@ -287,7 +287,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
         <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept" i18n>Unaccept</button>
       </div>
 
-      <div *ngIf="picture.status == 'removing'">
+      <div *ngIf="picture.status === 'removing'">
         <p>
           <strong class="badge badge-danger" i18n>In delete queue</strong>
         </p>
@@ -295,7 +295,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
         <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore" i18n>Restore</button>
       </div>
 
-      <div *ngIf="picture.status == 'removed'">
+      <div *ngIf="picture.status === 'removed'">
         <p>
           <strong class="badge badge-danger" i18n>Deleted</strong>
         </p>

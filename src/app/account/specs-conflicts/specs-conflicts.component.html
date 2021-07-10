@@ -15,10 +15,10 @@
 </p>
 
 <div class="nav nav-pills" style="margin-bottom:10px">
-  <a class="nav-link" [class.active]="filter == '0'" routerLink="." [queryParams]="{filter: 0}" queryParamsHandling="merge" i18n>All</a>
-  <a class="nav-link" [class.active]="filter == '-1'" routerLink="." [queryParams]="{filter: -1}" queryParamsHandling="merge" i18n>I disagree</a>
-  <a class="nav-link" [class.active]="filter == '1'" routerLink="." [queryParams]="{filter: 1}" queryParamsHandling="merge" i18n>Do not agree with me</a>
-  <a class="nav-link" [class.active]="filter == 'minus-weight'" routerLink="." [queryParams]="{filter: 'minus-weight'}" queryParamsHandling="merge" i18n>Errors</a>
+  <a class="nav-link" [class.active]="filter === '0'" routerLink="." [queryParams]="{filter: 0}" queryParamsHandling="merge" i18n>All</a>
+  <a class="nav-link" [class.active]="filter === '-1'" routerLink="." [queryParams]="{filter: -1}" queryParamsHandling="merge" i18n>I disagree</a>
+  <a class="nav-link" [class.active]="filter === '1'" routerLink="." [queryParams]="{filter: 1}" queryParamsHandling="merge" i18n>Do not agree with me</a>
+  <a class="nav-link" [class.active]="filter === 'minus-weight'" routerLink="." [queryParams]="{filter: 'minus-weight'}" queryParamsHandling="merge" i18n>Errors</a>
 </div>
 
 <table class="table">
@@ -36,7 +36,7 @@
       <td [textContent]="conflict.attribute"></td>
       <td>
         <ng-container *ngFor="let value of conflict.values">
-          <div *ngIf="value.user_id == user.id">
+          <div *ngIf="value.user_id === user.id">
             <em *ngIf="value.value === null" i18n>none</em>
             <span *ngIf="value.value !== null">
               {{value.value}}
@@ -50,7 +50,7 @@
       </td>
       <td>
         <ng-container *ngFor="let value of conflict.values">
-          <div *ngIf="value.user_id != user.id">
+          <div *ngIf="value.user_id !== user.id">
             <em *ngIf="value.value === null" i18n>none</em>
             <span *ngIf="value.value !== null">
               {{value.value}}

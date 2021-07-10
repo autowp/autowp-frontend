@@ -112,11 +112,11 @@
         <li class="nav-item " ngbDropdown placement="bottom-right">
           <a href="#" class="nav-link" ngbDropdownToggle (click)="false">
             <ng-container *ngFor="let lang of languages">
-              <i [ngClass]="lang.flag" aria-hidden="true" *ngIf="lang.code == language"></i>
+              <i [ngClass]="lang.flag" aria-hidden="true" *ngIf="lang.code === language"></i>
             </ng-container>
           </a>
           <div ngbDropdownMenu>
-            <a class="dropdown-item" [href]="'//' + lang.hostname + urlPath" [class.active]="lang.code == language" *ngFor="let lang of languages">
+            <a class="dropdown-item" [href]="'//' + lang.hostname + urlPath" [class.active]="lang.code === language" *ngFor="let lang of languages">
               <i [ngClass]="lang.flag" aria-hidden="true"></i>
               {{lang.name}}
             </a>

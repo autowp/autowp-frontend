@@ -10,7 +10,7 @@
       <span *ngIf="item.produced_exactly" i18n="@@n-produced">{item.produced, plural, one {Produced in {{item.produced}} copy} other {Produced in {{item.produced}} copies}}</span>
       <span *ngIf="!item.produced_exactly" i18n="@@n-produced-about">{item.produced, plural, one {Produced in about {{item.produced}} copy} other {Produced in about {{item.produced}} copies}}</span>
     </small>
-    <small i18n *ngIf="item.produced == 1" class="ml-2">Produced in a single copy</small>
+    <small i18n *ngIf="item.produced === 1" class="ml-2">Produced in a single copy</small>
   </h3>
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
@@ -71,7 +71,7 @@
       </a>
     </li>
 
-    <li *ngIf="item.item_type_id == 8" class="list-inline-item">
+    <li *ngIf="item.item_type_id === 8" class="list-inline-item">
       <i class="fa fa-align-left mr-1" aria-hidden="true"></i>
       <a [routerLink]="['/persons', item.id]" i18n>details</a>
     </li>

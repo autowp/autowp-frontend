@@ -7,15 +7,15 @@
       <a routerLink="/category" i18n>Categories</a>
     </li>
     <li class="breadcrumb-item" *ngFor="let item of path">
-      <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id != 3"></a>
-      <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id == 3">
+      <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id !== 3"></a>
+      <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id === 3">
         <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
         <a ngbDropdownToggle style="cursor:pointer"></a>
         <div ngbDropdownMenu>
           <div class="dropdown-item" *ngIf="!item.loaded">
             <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
           </div>
-          <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id == item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
+          <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id === item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
         </div>
       </div>
     </li>

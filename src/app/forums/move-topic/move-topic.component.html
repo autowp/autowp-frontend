@@ -20,7 +20,7 @@
 </div>
 
 <div *ngFor="let theme of themes">
-  <button class="btn btn-secondary" disabled [textContent]="getForumsThemeTranslation(theme.name)" *ngIf="topic.theme_id == theme.id"></button>
-  <button class="btn btn-secondary" type="submit" name="theme_id" [textContent]="getForumsThemeTranslation(theme.name)" *ngIf="topic.theme_id != theme.id"
+  <button class="btn btn-secondary" disabled [textContent]="getForumsThemeTranslation(theme.name)" *ngIf="topic.theme_id === theme.id"></button>
+  <button class="btn btn-secondary" type="submit" name="theme_id" [textContent]="getForumsThemeTranslation(theme.name)" *ngIf="topic.theme_id !== theme.id"
   (click)="selectTheme(theme)"></button>
 </div>
