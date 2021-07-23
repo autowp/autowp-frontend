@@ -85,7 +85,7 @@
     "popper.js": "^1.16.1",
     "showdown": "^1.9.1",
     "ts-node": "^10.1.0",
-    "webpack": "^5.45.1",
+    "webpack": "^5.46.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2"
   }
