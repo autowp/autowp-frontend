@@ -46,3 +46,4 @@ crt/*.key
 crt/*.crt
 
 /oneskyapp.sh
+sonar-scanner-*

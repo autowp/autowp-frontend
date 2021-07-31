@@ -1,0 +1,39 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375
+  SONAR_SCANNER_VERSION: "4.6.2.2472"
+  IMAGE: autowp/autowp-frontend
+
+stages:
+  - build
+  - publish
+
+build:
+  stage: build
+  image: node:16-alpine
+  artifacts:
+    paths:
+      - dist
+  before_script:
+    - npm install
+    - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
+    - unzip sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
+  script:
+    - ./node_modules/.bin/ng lint
+    - sonar-scanner-cli-$SONAR_SCANNER_VERSION/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
+    - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
+
+publish:
+  stage: publish
+  image: docker
+  services:
+    - name: docker:dind
+      alias: docker
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+    - docker pull $IMAGE:latest || true
+    - docker build . -t $IMAGE:latest
+    - docker push $IMAGE:latest
+  only:
+    - master
