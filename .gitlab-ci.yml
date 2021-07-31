@@ -21,7 +21,7 @@ build:
     - unzip sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
   script:
     - ./node_modules/.bin/ng lint
-    - sonar-scanner-cli-$SONAR_SCANNER_VERSION/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
+    - ./sonar-scanner-cli-$SONAR_SCANNER_VERSION/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
     - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
 
 publish:
