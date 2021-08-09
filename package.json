@@ -84,7 +84,7 @@
     "ngx-build-plus": "^12.2.0",
     "popper.js": "^1.16.1",
     "showdown": "^1.9.1",
-    "ts-node": "^10.1.0",
+    "ts-node": "^10.2.0",
     "webpack": "^5.49.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2"
