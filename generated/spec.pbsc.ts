@@ -623,6 +623,27 @@ export class AutowpClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Autowp/EmailChange
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    emailChange: (
+      requestData: thisProto.APIEmailChangeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/EmailChange',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIEmailChangeRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Autowp/EmailChangeConfirm
      *
      * @param requestMessage Request message
@@ -1098,6 +1119,22 @@ export class AutowpClient {
   ): Observable<thisProto.APIPasswordRecoveryConfirmResponse> {
     return this.$raw
       .passwordRecoveryConfirm(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Autowp/EmailChange
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  emailChange(
+    requestData: thisProto.APIEmailChangeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .emailChange(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

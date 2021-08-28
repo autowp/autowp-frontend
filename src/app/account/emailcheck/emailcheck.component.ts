@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
-import { APIService } from '../../services/api.service';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {APIEmailChangeConfirmRequest} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-account-emailcheck',
@@ -15,9 +16,9 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
   public failure = false;
 
   constructor(
-    private api: APIService,
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private grpc: AutowpClient
   ) {}
 
   ngOnInit(): void {
@@ -37,11 +38,7 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
         map(params => params.get('token')),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(token =>
-          this.api.request<void>('POST', 'user/emailcheck', {body: {
-            code: token
-          }})
-        )
+        switchMap(token => this.grpc.emailChangeConfirm(new APIEmailChangeConfirmRequest({code: token})))
       )
       .subscribe(() => (this.success = true), () => (this.failure = true));
   }

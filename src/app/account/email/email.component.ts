@@ -3,6 +3,10 @@ import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {APIEmailChangeRequest} from '../../../../generated/spec.pb';
+import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
 
 @Component({
   selector: 'app-account-email',
@@ -11,13 +15,14 @@ import { APIService } from '../../services/api.service';
 export class AccountEmailComponent {
   public email: string | null = null;
   public newEmail: string | null = null;
-  public invalidParams: any;
+  public invalidParams: InvalidParams;
   public sent = false;
 
   constructor(
     private api: APIService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: AutowpClient
   ) {
     setTimeout(
       () =>
@@ -42,18 +47,15 @@ export class AccountEmailComponent {
   public submit() {
     this.invalidParams = {};
 
-    this.api.request<void>('PUT', 'user/me', {body: {
-      email: this.newEmail
-    }})
-    .subscribe(
+    this.grpc.emailChange(new APIEmailChangeRequest({email: this.newEmail})).subscribe(
       () => {
         this.sent = true;
       },
       response => {
-        if (response.status === 400) {
-          this.invalidParams = response.error.invalid_params;
-        } else {
-          this.toastService.response(response);
+        this.toastService.grpcErrorResponse(response);
+        if (response.statusCode === 3) {
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
         }
       }
     );
