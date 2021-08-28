@@ -15,7 +15,7 @@ export class ContainerComponent {
       case 'success':
         return 'bg-success text-light';
       case 'danger':
-        return 'bg-danger';
+        return 'bg-danger text-light';
     }
 
     return null;

@@ -3,7 +3,11 @@ import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {APIPasswordRecoveryRequest} from '../../../generated/spec.pb';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../grpc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {InvalidParams} from '../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-restore-password',
@@ -16,15 +20,14 @@ export class RestorePasswordComponent {
     email: '',
     captcha: ''
   };
-  public invalidParams: any;
-  public failure = false;
+  public invalidParams: InvalidParams;
 
   constructor(
-    private api: APIService,
     private router: Router,
     private reCaptchaService: ReCaptchaService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: AutowpClient
   ) {
     this.reCaptchaService.get().subscribe(
       response => {
@@ -47,22 +50,20 @@ export class RestorePasswordComponent {
   }
 
   public submit() {
-    this.api
-      .request('POST', 'restore-password/request', {body: this.form})
-      .subscribe(
-        () => {
-          this.router.navigate(['/restore-password/sent']);
-        },
-        response => {
-          this.failure = response.status === 404;
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
+    this.grpc.passwordRecovery(new APIPasswordRecoveryRequest(this.form)).subscribe(
+      () => {
+        this.router.navigate(['/restore-password/sent']);
+      },
+      (response: GrpcStatusEvent) => {
 
-            this.showCaptcha = response.error.invalid_params && response.error.invalid_params.captcha;
-          } else if (response.status !== 404) {
-            this.toastService.response(response);
-          }
+        this.toastService.grpcErrorResponse(response);
+        if (response.statusCode === 3) {
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
+
+          this.showCaptcha = !!this.invalidParams.captcha;
         }
-      );
+      }
+    );
   }
 }

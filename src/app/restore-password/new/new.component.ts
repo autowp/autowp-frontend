@@ -5,12 +5,11 @@ import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap, catchError, map, tap } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import { AuthService } from '../../services/auth.service';
-import { APIService } from '../../services/api.service';
-import { HttpErrorResponse } from '@angular/common/http';
-
-interface APIRestorePasswordNewResponse {
-  username: string;
-}
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {APIPasswordRecoveryCheckCodeRequest, APIPasswordRecoveryConfirmRequest} from '../../../../generated/spec.pb';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {InvalidParams} from '../../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-restore-password-new',
@@ -21,18 +20,18 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
   public form = {
     code: '',
     password: '',
-    password_confirm: ''
+    passwordConfirm: ''
   };
-  public invalidParams: any;
+  public invalidParams: InvalidParams;
   public failure = false;
 
   constructor(
-    private api: APIService,
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private auth: AuthService
+    private auth: AuthService,
+    private grpc: AutowpClient
   ) {}
 
   ngOnInit(): void {
@@ -52,20 +51,14 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
         map(params => params.get('code')),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(code => this.api.request('GET', 'restore-password/new', {params: {code}}).pipe(
-          catchError((response: HttpErrorResponse) => {
-            if (response.status === 404) {
-              this.router.navigate(['/error-404'], {
-                skipLocationChange: true
-              });
-              return EMPTY;
-            }
-
-            this.toastService.errorResponse(response);
-
+        switchMap(code => this.grpc.passwordRecoveryCheckCode(new APIPasswordRecoveryCheckCodeRequest({code})).pipe(
+          catchError(() => {
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
             return EMPTY;
           }),
-          map(response => code)
+          map(() => code)
         )),
         tap(code => {
           this.form.code = code;
@@ -79,20 +72,17 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
   }
 
   public submit() {
-    this.api.request<APIRestorePasswordNewResponse>('POST', 'restore-password/new', {body: this.form})
+    this.grpc.passwordRecoveryConfirm(new APIPasswordRecoveryConfirmRequest(this.form))
       .pipe(
-        catchError((response: HttpErrorResponse) => {
-          this.failure = response.status === 404;
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
-          } else if (response.status !== 404) {
-            this.toastService.errorResponse(response);
+        catchError((response: GrpcStatusEvent) => {
+          this.toastService.grpcErrorResponse(response);
+          if (response.statusCode === 3) {
+            const fieldViolations = extractFieldViolations(response);
+            this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
           }
           return EMPTY;
         }),
-        switchMap(response => {
-          return this.auth.login(response.username, this.form.password);
-        }),
+        switchMap(response => this.auth.login(response.login, this.form.password)),
         catchError(response => {
           this.toastService.errorResponse(response);
           return EMPTY;
