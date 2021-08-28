@@ -4,6 +4,7 @@ import {catchError, map, switchMapTo} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {ContactItems, GetContactRequest, GetContactsRequest} from '../../../generated/spec.pb';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface APIContactsGetOptions {
   fields: string[];
@@ -16,8 +17,8 @@ export class ContactsService {
   public isInContacts(userId: number): Observable<boolean> {
     return this.grpc.getContact(new GetContactRequest({userId})).pipe(
       map(response => !!response.contactUserId),
-      catchError(err => {
-        if (err.status === 404) {
+      catchError((err: GrpcStatusEvent) => {
+        if (err.statusCode === 5) {
           return of(false);
         }
 
