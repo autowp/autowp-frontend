@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface Toast {
   message: string;
@@ -45,6 +46,14 @@ export class ToastsService {
       return;
     }
     this.error(response.status + ': ' + response.statusText);
+  }
+
+  public grpcErrorResponse(event: GrpcStatusEvent) {
+    if (event === undefined) {
+      this.error('undefined');
+      return;
+    }
+    this.error(event.statusMessage);
   }
 
   remove(toast) {

@@ -3,7 +3,11 @@ import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
+import {AutowpClient} from '../../../generated/spec.pbsc';
+import {APICreateUserRequest} from '../../../generated/spec.pb';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../grpc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {LanguageService} from '../services/language';
 
 @Component({
   selector: 'app-signup',
@@ -16,17 +20,18 @@ export class SignupComponent {
     email: '',
     name: '',
     password: '',
-    password_confirm: '',
+    passwordConfirm: '',
     captcha: ''
   };
   public invalidParams: any;
 
   constructor(
-    private api: APIService,
     private router: Router,
     private reCaptchaService: ReCaptchaService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: AutowpClient,
+    private languageService: LanguageService
   ) {
     this.reCaptchaService.get().subscribe(
       response => {
@@ -48,17 +53,17 @@ export class SignupComponent {
   }
 
   public submit() {
-    this.api.request<void>('POST', 'user', {body: this.form}).subscribe(
+    this.grpc.createUser(new APICreateUserRequest({...this.form, language: this.languageService.language})).subscribe(
       () => {
         this.router.navigate(['/signup/ok']);
       },
-      response => {
-        if (response.status === 400) {
-          this.invalidParams = response.error.invalid_params;
+      (response: GrpcStatusEvent) => {
+        this.toastService.grpcErrorResponse(response);
+        if (response.statusCode === 3) {
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
 
-          this.showCaptcha = response.error.invalid_params.captcha;
-        } else {
-          this.toastService.response(response);
+          this.showCaptcha = !!this.invalidParams.captcha;
         }
       }
     );

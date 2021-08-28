@@ -40,7 +40,7 @@
       <label class="col-md-2 col-form-label" for="password_confirm" i18n>Password (again)</label>
       <div class="col-md-10">
         <input type="password" [class.is-invalid]="invalidParams && invalidParams.password_confirm" size="50" maxlength="50" name="password_confirm"
-          class=" form-control" [(ngModel)]="form.password_confirm">
+          class=" form-control" [(ngModel)]="form.passwordConfirm">
         <p *ngFor="let message of invalidParams | invalidParams : 'password_confirm'" [textContent]="message" class="invalid-feedback"></p>
       </div>
     </div>

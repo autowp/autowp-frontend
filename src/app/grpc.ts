@@ -1,0 +1,53 @@
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {Status} from '../../generated/google/rpc/status.pb';
+import {ErrorDetails} from '../../generated/spec.pb';
+import {InvalidParams} from './utils/invalid-params.pipe';
+import {BadRequest} from '../../generated/google/rpc/error-details.pb';
+import FieldViolation = BadRequest.FieldViolation;
+
+const stringToUint8Array = (str: string): Uint8Array => {
+  const buf = new ArrayBuffer(str.length);
+  const bufView = new Uint8Array(buf);
+  for (let i = 0; i < str.length; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return bufView;
+};
+
+export const extractFieldViolations = (response: GrpcStatusEvent): FieldViolation[] => {
+  if (! (response instanceof GrpcStatusEvent)) {
+    return [];
+  }
+
+  const statusEncoded = response.metadata.get('grpc-status-details-bin');
+  if (! statusEncoded) {
+    return [];
+  }
+
+  const statusDecoded = stringToUint8Array(atob(statusEncoded))
+  const status = Status.deserializeBinary(statusDecoded);
+
+  const fieldViolations: FieldViolation[] = [];
+  status.details.forEach(detail => {
+    const deserialized = ErrorDetails.deserializeBinary(detail.serializeBinary());
+    deserialized.debugInfo.stackEntries.forEach(value => {
+      const fieldViolation = FieldViolation.deserializeBinary(stringToUint8Array(value));
+      fieldViolations.push(fieldViolation)
+    });
+  });
+
+  return fieldViolations;
+}
+
+export const fieldVolations2InvalidParams = (fvs: FieldViolation[]) : InvalidParams => {
+  const result: InvalidParams = {};
+
+  fvs.forEach(fv => {
+    if (! result[fv.field]) {
+      result[fv.field] = {};
+    }
+    result[fv.field][fv.description] = fv.description;
+  });
+
+  return result;
+}
