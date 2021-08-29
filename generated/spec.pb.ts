@@ -8396,3 +8396,180 @@ export module APIEmailChangeConfirmRequest {
     code?: string;
   }
 }
+
+/**
+ * Message implementation for goautowp.APISetPasswordRequest
+ */
+export class APISetPasswordRequest implements GrpcMessage {
+  static id = 'goautowp.APISetPasswordRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APISetPasswordRequest();
+    APISetPasswordRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APISetPasswordRequest) {
+    _instance.oldPassword = _instance.oldPassword || '';
+    _instance.newPassword = _instance.newPassword || '';
+    _instance.newPasswordConfirm = _instance.newPasswordConfirm || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APISetPasswordRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.oldPassword = _reader.readString();
+          break;
+        case 2:
+          _instance.newPassword = _reader.readString();
+          break;
+        case 3:
+          _instance.newPasswordConfirm = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APISetPasswordRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APISetPasswordRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.oldPassword) {
+      _writer.writeString(1, _instance.oldPassword);
+    }
+    if (_instance.newPassword) {
+      _writer.writeString(2, _instance.newPassword);
+    }
+    if (_instance.newPasswordConfirm) {
+      _writer.writeString(3, _instance.newPasswordConfirm);
+    }
+  }
+
+  private _oldPassword?: string;
+  private _newPassword?: string;
+  private _newPasswordConfirm?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APISetPasswordRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APISetPasswordRequest.AsObject>) {
+    _value = _value || {};
+    this.oldPassword = _value.oldPassword;
+    this.newPassword = _value.newPassword;
+    this.newPasswordConfirm = _value.newPasswordConfirm;
+    APISetPasswordRequest.refineValues(this);
+  }
+  get oldPassword(): string | undefined {
+    return this._oldPassword;
+  }
+  set oldPassword(value: string | undefined) {
+    this._oldPassword = value;
+  }
+  get newPassword(): string | undefined {
+    return this._newPassword;
+  }
+  set newPassword(value: string | undefined) {
+    this._newPassword = value;
+  }
+  get newPasswordConfirm(): string | undefined {
+    return this._newPasswordConfirm;
+  }
+  set newPasswordConfirm(value: string | undefined) {
+    this._newPasswordConfirm = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APISetPasswordRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APISetPasswordRequest.AsObject {
+    return {
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      newPasswordConfirm: this.newPasswordConfirm
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APISetPasswordRequest.AsProtobufJSON {
+    return {
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      newPasswordConfirm: this.newPasswordConfirm
+    };
+  }
+}
+export module APISetPasswordRequest {
+  /**
+   * Standard JavaScript object representation for APISetPasswordRequest
+   */
+  export interface AsObject {
+    oldPassword?: string;
+    newPassword?: string;
+    newPasswordConfirm?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APISetPasswordRequest
+   */
+  export interface AsProtobufJSON {
+    oldPassword?: string;
+    newPassword?: string;
+    newPasswordConfirm?: string;
+  }
+}

@@ -1,24 +1,28 @@
 import { Component} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {APISetPasswordRequest} from '../../../../generated/spec.pb';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 @Component({
   selector: 'app-account-access',
   templateUrl: './access.component.html'
 })
 export class AccountAccessComponent {
-  public invalidParams: any = {};
-  public form: any = {
-    password_old: null,
-    password: null,
-    password_confirm: null
+  public invalidParams: InvalidParams = {};
+  public form = {
+    oldPassword: null,
+    newPassword: null,
+    newPasswordConfirm: null
   };
 
   constructor(
-    private api: APIService,
     private pageEnv: PageEnvService,
-    public toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: AutowpClient
   ) {
     setTimeout(
       () =>
@@ -36,21 +40,21 @@ export class AccountAccessComponent {
   public submit() {
     this.invalidParams = {};
 
-    this.api.request<void>('PUT', 'user/me', this.form).subscribe(
+    this.grpc.setPassword(new APISetPasswordRequest(this.form)).subscribe(
       () => {
         this.form = {
-          password_old: null,
-          password: null,
-          password_confirm: null
+          oldPassword: null,
+          newPassword: null,
+          newPasswordConfirm: null
         };
 
-        this.toastService.success($localize `Password succesful changed`);
+        this.toastService.success($localize `Password successfully changed`);
       },
-      response => {
-        if (response.status === 400) {
-          this.invalidParams = response.error.invalid_params;
-        } else {
-          this.toastService.response(response);
+      (response: GrpcStatusEvent) => {
+        this.toastService.grpcErrorResponse(response);
+        if (response.statusCode === 3) {
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
         }
       }
     );
