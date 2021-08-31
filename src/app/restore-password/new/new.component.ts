@@ -5,7 +5,7 @@ import { PageEnvService } from '../../services/page-env.service';
 import { distinctUntilChanged, debounceTime, switchMap, catchError, map, tap } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import { AuthService } from '../../services/auth.service';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIPasswordRecoveryCheckCodeRequest, APIPasswordRecoveryConfirmRequest} from '../../../../generated/spec.pb';
 import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -31,7 +31,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private auth: AuthService,
-    private grpc: AutowpClient
+    private grpc: UsersClient
   ) {}
 
   ngOnInit(): void {

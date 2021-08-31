@@ -14,6 +14,10 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {APIImage, APIService} from '../../services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {UsersClient} from '../../../../generated/spec.pbsc';
+import {APIUpdateUserRequest} from '../../../../generated/spec.pb';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {InvalidParams} from '../../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-account-profile',
@@ -24,7 +28,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public profile = {
     name: null
   };
-  public profileInvalidParams: any = {};
+  public profileInvalidParams: InvalidParams = {};
   public settings = {
     timezone: null,
     language: null
@@ -46,7 +50,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private pageEnv: PageEnvService,
     private timezone: TimezoneService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private usersGrpc: UsersClient
   ) {
   }
 
@@ -120,17 +125,20 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public sendProfile() {
     this.profileInvalidParams = {};
 
-    this.api.request<void>('PUT', 'user/me', {body: this.profile}).subscribe(
+    this.usersGrpc.updateUser(new APIUpdateUserRequest({
+      name: this.profile.name,
+      userId: this.user.id.toString()
+    })).subscribe(
       () => {
         this.user.name = this.profile.name;
 
         this.showSavedMessage();
       },
       response => {
-        if (response.status === 400) {
-          this.profileInvalidParams = response.error.invalid_params;
-        } else {
-          this.toastService.response(response);
+        this.toastService.grpcErrorResponse(response);
+        if (response.statusCode === 3) {
+          const fieldViolations = extractFieldViolations(response);
+          this.profileInvalidParams = fieldVolations2InvalidParams(fieldViolations);
         }
       }
     );

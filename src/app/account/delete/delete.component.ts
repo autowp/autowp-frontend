@@ -3,7 +3,11 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {UsersClient} from '../../../../generated/spec.pbsc';
+import {APIDeleteUserRequest} from '../../../../generated/spec.pb';
+import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-delete',
@@ -13,14 +17,14 @@ export class AccountDeleteComponent {
   public form = {
     password_old: ''
   };
-  public invalidParams: any;
+  public invalidParams: InvalidParams;
 
   constructor(
-    private api: APIService,
     private router: Router,
     private auth: AuthService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private usersGrpc: UsersClient
   ) {
     setTimeout(
       () =>
@@ -36,19 +40,21 @@ export class AccountDeleteComponent {
   }
 
   public submit() {
-    this.api.request<void>('PUT', 'user/me', {body: {
-      password_old: this.form.password_old,
-      deleted: 1
-    }}).subscribe(
+    this.auth.getUser().pipe(
+      switchMap(user => this.usersGrpc.deleteUser(new APIDeleteUserRequest({
+        userId: user.id.toString(),
+        password: this.form.password_old
+      })))
+    ).subscribe(
       () => {
         this.auth.signOut();
         this.router.navigate(['/account/delete/deleted']);
       },
       response => {
-        if (response.status === 400) {
-          this.invalidParams = response.error.invalid_params;
-        } else {
-          this.toastService.response(response);
+        this.toastService.grpcErrorResponse(response);
+        if (response.statusCode === 3) {
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
         }
       }
     );

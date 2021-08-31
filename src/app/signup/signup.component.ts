@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {UsersClient} from '../../../generated/spec.pbsc';
 import {APICreateUserRequest} from '../../../generated/spec.pb';
 import {extractFieldViolations, fieldVolations2InvalidParams} from '../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -30,7 +30,7 @@ export class SignupComponent {
     private reCaptchaService: ReCaptchaService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private grpc: AutowpClient,
+    private usersGrpc: UsersClient,
     private languageService: LanguageService
   ) {
     this.reCaptchaService.get().subscribe(
@@ -53,7 +53,7 @@ export class SignupComponent {
   }
 
   public submit() {
-    this.grpc.createUser(new APICreateUserRequest({...this.form, language: this.languageService.language})).subscribe(
+    this.usersGrpc.createUser(new APICreateUserRequest({...this.form, language: this.languageService.language})).subscribe(
       () => {
         this.router.navigate(['/signup/ok']);
       },

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIEmailChangeConfirmRequest} from '../../../../generated/spec.pb';
 
 @Component({
@@ -18,7 +18,7 @@ export class AccountEmailcheckComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private grpc: AutowpClient
+    private grpc: UsersClient
   ) {}
 
   ngOnInit(): void {

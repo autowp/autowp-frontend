@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APISetPasswordRequest} from '../../../../generated/spec.pb';
 import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -22,7 +22,7 @@ export class AccountAccessComponent {
   constructor(
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private grpc: AutowpClient
+    private grpc: UsersClient
   ) {
     setTimeout(
       () =>

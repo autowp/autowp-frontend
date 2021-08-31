@@ -20,7 +20,10 @@ import {
 import { Observable } from 'rxjs';
 import * as thisProto from './spec.pb';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
-import { GRPC_AUTOWP_CLIENT_SETTINGS } from './spec.pbconf';
+import {
+  GRPC_AUTOWP_CLIENT_SETTINGS,
+  GRPC_USERS_CLIENT_SETTINGS
+} from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
  */
@@ -537,153 +540,6 @@ export class AutowpClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.VehicleTypeItems
       });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/CreateUser
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    createUser: (
-      requestData: thisProto.APICreateUserRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/CreateUser',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APICreateUserRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/PasswordRecovery
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    passwordRecovery: (
-      requestData: thisProto.APIPasswordRecoveryRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/PasswordRecovery',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APIPasswordRecoveryRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/PasswordRecoveryCheckCode
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    passwordRecoveryCheckCode: (
-      requestData: thisProto.APIPasswordRecoveryCheckCodeRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/PasswordRecoveryCheckCode',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APIPasswordRecoveryCheckCodeRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/PasswordRecoveryConfirm
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.APIPasswordRecoveryConfirmResponse>>
-     */
-    passwordRecoveryConfirm: (
-      requestData: thisProto.APIPasswordRecoveryConfirmRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.APIPasswordRecoveryConfirmResponse>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/PasswordRecoveryConfirm',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APIPasswordRecoveryConfirmRequest,
-        responseClass: thisProto.APIPasswordRecoveryConfirmResponse
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/EmailChange
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    emailChange: (
-      requestData: thisProto.APIEmailChangeRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/EmailChange',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APIEmailChangeRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/EmailChangeConfirm
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    emailChangeConfirm: (
-      requestData: thisProto.APIEmailChangeConfirmRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/EmailChangeConfirm',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APIEmailChangeConfirmRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/SetPassword
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    setPassword: (
-      requestData: thisProto.APISetPasswordRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/SetPassword',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.APISetPasswordRequest,
-        responseClass: googleProtobuf001.Empty
-      });
     }
   };
 
@@ -1078,9 +934,221 @@ export class AutowpClient {
       .getVehicleTypes(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
+}
+/**
+ * Service client implementation for goautowp.Users
+ */
+@Injectable({ providedIn: 'any' })
+export class UsersClient {
+  private client: GrpcClient<any>;
 
   /**
-   * Unary RPC for /goautowp.Autowp/CreateUser
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary RPC for /goautowp.Users/CreateUser
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    createUser: (
+      requestData: thisProto.APICreateUserRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/CreateUser',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APICreateUserRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/UpdateUser
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updateUser: (
+      requestData: thisProto.APIUpdateUserRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/UpdateUser',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIUpdateUserRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/DeleteUser
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteUser: (
+      requestData: thisProto.APIDeleteUserRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/DeleteUser',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIDeleteUserRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/EmailChange
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    emailChange: (
+      requestData: thisProto.APIEmailChangeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/EmailChange',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIEmailChangeRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/EmailChangeConfirm
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    emailChangeConfirm: (
+      requestData: thisProto.APIEmailChangeConfirmRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/EmailChangeConfirm',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIEmailChangeConfirmRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/PasswordRecovery
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    passwordRecovery: (
+      requestData: thisProto.APIPasswordRecoveryRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/PasswordRecovery',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIPasswordRecoveryRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/PasswordRecoveryCheckCode
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    passwordRecoveryCheckCode: (
+      requestData: thisProto.APIPasswordRecoveryCheckCodeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/PasswordRecoveryCheckCode',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIPasswordRecoveryCheckCodeRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/PasswordRecoveryConfirm
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIPasswordRecoveryConfirmResponse>>
+     */
+    passwordRecoveryConfirm: (
+      requestData: thisProto.APIPasswordRecoveryConfirmRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIPasswordRecoveryConfirmResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/PasswordRecoveryConfirm',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIPasswordRecoveryConfirmRequest,
+        responseClass: thisProto.APIPasswordRecoveryConfirmResponse
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/SetPassword
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setPassword: (
+      requestData: thisProto.APISetPasswordRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/SetPassword',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APISetPasswordRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_USERS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Users', settings);
+  }
+
+  /**
+   * Unary RPC for /goautowp.Users/CreateUser
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1096,55 +1164,39 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/PasswordRecovery
+   * Unary RPC for /goautowp.Users/UpdateUser
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
    * @returns Observable<googleProtobuf001.Empty>
    */
-  passwordRecovery(
-    requestData: thisProto.APIPasswordRecoveryRequest,
+  updateUser(
+    requestData: thisProto.APIUpdateUserRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
-      .passwordRecovery(requestData, requestMetadata)
+      .updateUser(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/PasswordRecoveryCheckCode
+   * Unary RPC for /goautowp.Users/DeleteUser
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
    * @returns Observable<googleProtobuf001.Empty>
    */
-  passwordRecoveryCheckCode(
-    requestData: thisProto.APIPasswordRecoveryCheckCodeRequest,
+  deleteUser(
+    requestData: thisProto.APIDeleteUserRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
-      .passwordRecoveryCheckCode(requestData, requestMetadata)
+      .deleteUser(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/PasswordRecoveryConfirm
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.APIPasswordRecoveryConfirmResponse>
-   */
-  passwordRecoveryConfirm(
-    requestData: thisProto.APIPasswordRecoveryConfirmRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.APIPasswordRecoveryConfirmResponse> {
-    return this.$raw
-      .passwordRecoveryConfirm(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/EmailChange
+   * Unary RPC for /goautowp.Users/EmailChange
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1160,7 +1212,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/EmailChangeConfirm
+   * Unary RPC for /goautowp.Users/EmailChangeConfirm
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1176,7 +1228,55 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/SetPassword
+   * Unary RPC for /goautowp.Users/PasswordRecovery
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  passwordRecovery(
+    requestData: thisProto.APIPasswordRecoveryRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .passwordRecovery(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Users/PasswordRecoveryCheckCode
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  passwordRecoveryCheckCode(
+    requestData: thisProto.APIPasswordRecoveryCheckCodeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .passwordRecoveryCheckCode(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Users/PasswordRecoveryConfirm
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIPasswordRecoveryConfirmResponse>
+   */
+  passwordRecoveryConfirm(
+    requestData: thisProto.APIPasswordRecoveryConfirmRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIPasswordRecoveryConfirmResponse> {
+    return this.$raw
+      .passwordRecoveryConfirm(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Users/SetPassword
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata

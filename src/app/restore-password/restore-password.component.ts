@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ReCaptchaService } from '../services/recaptcha';
 import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {UsersClient} from '../../../generated/spec.pbsc';
 import {APIPasswordRecoveryRequest} from '../../../generated/spec.pb';
 import {extractFieldViolations, fieldVolations2InvalidParams} from '../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -27,7 +27,7 @@ export class RestorePasswordComponent {
     private reCaptchaService: ReCaptchaService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private grpc: AutowpClient
+    private grpc: UsersClient
   ) {
     this.reCaptchaService.get().subscribe(
       response => {

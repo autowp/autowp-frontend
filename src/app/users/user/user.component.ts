@@ -13,8 +13,8 @@ import {MessageDialogService} from '../../message-dialog/message-dialog.service'
 import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
-import {APIIP, CreateContactRequest, DeleteContactRequest} from '../../../../generated/spec.pb';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {APIDeleteUserRequest, APIIP, CreateContactRequest, DeleteContactRequest} from '../../../../generated/spec.pb';
+import {AutowpClient, UsersClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',
@@ -61,7 +61,8 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private ipService: IpService,
-    private grpc: AutowpClient
+    private grpc: AutowpClient,
+    private usersGrpc: UsersClient
   ) {}
 
   ngOnInit(): void {
@@ -210,16 +211,14 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     if (!window.confirm('Are you sure?')) {
       return;
     }
-    this.api
-      .request<void>('PUT', 'user/' + this.user.id, {body: {
-        deleted: true
-      }})
-      .subscribe(
-        () => {
-          this.user.deleted = true;
-        },
-        response => this.toastService.response(response)
-      );
+    this.usersGrpc.deleteUser(new APIDeleteUserRequest({
+      userId: this.user.id.toString()
+    })).subscribe(
+      () => {
+        this.user.deleted = true;
+      },
+      response => this.toastService.grpcErrorResponse(response)
+    );
   }
 
   public unban() {
