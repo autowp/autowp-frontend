@@ -75,7 +75,7 @@
     "@typescript-eslint/parser": "4.31.0",
     "eslint": "^7.31.0",
     "font-awesome": "^4.7.0",
-    "google-protobuf": "^3.17.3",
+    "google-protobuf": "^3.18.0",
     "grpc-web": "^1.2.1",
     "html-comment-regex": "^1.1.2",
     "is-svg": "^4.3.1",
