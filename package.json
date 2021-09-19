@@ -63,7 +63,7 @@
     "@angular-eslint/schematics": "^12.4.1",
     "@angular-eslint/template-parser": "^12.4.1",
     "@angular/cli": "^12.2.6",
-    "@angular/compiler-cli": "^12.2.5",
+    "@angular/compiler-cli": "^12.2.6",
     "@angular/language-service": "^12.2.6",
     "@brainly/onesky-utils": "^1.4.1",
     "@ngx-grpc/protoc-gen-ng": "^2.3.0",
