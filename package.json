@@ -36,7 +36,7 @@
     "bootstrap": "^4.6.0",
     "caller-path": "^3.0.1",
     "chart.js": "^2.9.4",
-    "core-js": "^3.17.3",
+    "core-js": "^3.18.0",
     "install": "^0.13.0",
     "is-directory": "^0.3.1",
     "leaflet": "^1.7.1",
@@ -57,7 +57,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-eslint/builder": "^12.4.1",
+    "@angular-eslint/builder": "^12.5.0",
     "@angular-eslint/eslint-plugin": "^12.4.1",
     "@angular-eslint/eslint-plugin-template": "^12.5.0",
     "@angular-eslint/schematics": "^12.4.1",
