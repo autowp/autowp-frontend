@@ -6,7 +6,7 @@ import {ToastsService} from '../toasts/toasts.service';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {APICreateFeedbackRequest} from '../../../generated/spec.pb';
 import {InvalidParams} from '../utils/invalid-params.pipe';
-import {extractFieldViolations, fieldVolations2InvalidParams} from '../grpc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 
 @Component({
   selector: 'app-feedback',
@@ -58,7 +58,7 @@ export class FeedbackComponent {
       response => {
 
         const fieldViolations = extractFieldViolations(response);
-        this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
+        this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
 
         this.showCaptcha = !!this.invalidParams.captcha;
 

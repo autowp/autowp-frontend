@@ -2967,7 +2967,7 @@ export class CreateContactRequest implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: CreateContactRequest) {
-    _instance.userId = _instance.userId || 0;
+    _instance.userId = _instance.userId || '0';
   }
 
   /**
@@ -2984,7 +2984,7 @@ export class CreateContactRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.userId = _reader.readInt32();
+          _instance.userId = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -3004,11 +3004,11 @@ export class CreateContactRequest implements GrpcMessage {
     _writer: BinaryWriter
   ) {
     if (_instance.userId) {
-      _writer.writeInt32(1, _instance.userId);
+      _writer.writeInt64String(1, _instance.userId);
     }
   }
 
-  private _userId?: number;
+  private _userId?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -3019,10 +3019,10 @@ export class CreateContactRequest implements GrpcMessage {
     this.userId = _value.userId;
     CreateContactRequest.refineValues(this);
   }
-  get userId(): number | undefined {
+  get userId(): string | undefined {
     return this._userId;
   }
-  set userId(value: number | undefined) {
+  set userId(value: string | undefined) {
     this._userId = value;
   }
 
@@ -3071,14 +3071,14 @@ export module CreateContactRequest {
    * Standard JavaScript object representation for CreateContactRequest
    */
   export interface AsObject {
-    userId?: number;
+    userId?: string;
   }
 
   /**
    * Protobuf JSON representation for CreateContactRequest
    */
   export interface AsProtobufJSON {
-    userId?: number;
+    userId?: string;
   }
 }
 
@@ -3106,7 +3106,7 @@ export class DeleteContactRequest implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: DeleteContactRequest) {
-    _instance.userId = _instance.userId || 0;
+    _instance.userId = _instance.userId || '0';
   }
 
   /**
@@ -3123,7 +3123,7 @@ export class DeleteContactRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.userId = _reader.readInt32();
+          _instance.userId = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -3143,11 +3143,11 @@ export class DeleteContactRequest implements GrpcMessage {
     _writer: BinaryWriter
   ) {
     if (_instance.userId) {
-      _writer.writeInt32(1, _instance.userId);
+      _writer.writeInt64String(1, _instance.userId);
     }
   }
 
-  private _userId?: number;
+  private _userId?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -3158,10 +3158,10 @@ export class DeleteContactRequest implements GrpcMessage {
     this.userId = _value.userId;
     DeleteContactRequest.refineValues(this);
   }
-  get userId(): number | undefined {
+  get userId(): string | undefined {
     return this._userId;
   }
-  set userId(value: number | undefined) {
+  set userId(value: string | undefined) {
     this._userId = value;
   }
 
@@ -3210,14 +3210,14 @@ export module DeleteContactRequest {
    * Standard JavaScript object representation for DeleteContactRequest
    */
   export interface AsObject {
-    userId?: number;
+    userId?: string;
   }
 
   /**
    * Protobuf JSON representation for DeleteContactRequest
    */
   export interface AsProtobufJSON {
-    userId?: number;
+    userId?: string;
   }
 }
 
@@ -3245,7 +3245,7 @@ export class GetContactRequest implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: GetContactRequest) {
-    _instance.userId = _instance.userId || 0;
+    _instance.userId = _instance.userId || '0';
   }
 
   /**
@@ -3262,7 +3262,7 @@ export class GetContactRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.userId = _reader.readInt32();
+          _instance.userId = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -3282,11 +3282,11 @@ export class GetContactRequest implements GrpcMessage {
     _writer: BinaryWriter
   ) {
     if (_instance.userId) {
-      _writer.writeInt32(1, _instance.userId);
+      _writer.writeInt64String(1, _instance.userId);
     }
   }
 
-  private _userId?: number;
+  private _userId?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -3297,10 +3297,10 @@ export class GetContactRequest implements GrpcMessage {
     this.userId = _value.userId;
     GetContactRequest.refineValues(this);
   }
-  get userId(): number | undefined {
+  get userId(): string | undefined {
     return this._userId;
   }
-  set userId(value: number | undefined) {
+  set userId(value: string | undefined) {
     this._userId = value;
   }
 
@@ -3349,30 +3349,30 @@ export module GetContactRequest {
    * Standard JavaScript object representation for GetContactRequest
    */
   export interface AsObject {
-    userId?: number;
+    userId?: string;
   }
 
   /**
    * Protobuf JSON representation for GetContactRequest
    */
   export interface AsProtobufJSON {
-    userId?: number;
+    userId?: string;
   }
 }
 
 /**
- * Message implementation for goautowp.User
+ * Message implementation for goautowp.APIImage
  */
-export class User implements GrpcMessage {
-  static id = 'goautowp.User';
+export class APIImage implements GrpcMessage {
+  static id = 'goautowp.APIImage';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new User();
-    User.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    const instance = new APIImage();
+    APIImage.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
     return instance;
   }
 
@@ -3380,15 +3380,224 @@ export class User implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: User) {
+  static refineValues(_instance: APIImage) {
     _instance.id = _instance.id || 0;
+    _instance.src = _instance.src || '';
+    _instance.width = _instance.width || 0;
+    _instance.height = _instance.height || 0;
+    _instance.filesize = _instance.filesize || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIImage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt32();
+          break;
+        case 2:
+          _instance.src = _reader.readString();
+          break;
+        case 3:
+          _instance.width = _reader.readInt32();
+          break;
+        case 4:
+          _instance.height = _reader.readInt32();
+          break;
+        case 5:
+          _instance.filesize = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIImage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: APIImage, _writer: BinaryWriter) {
+    if (_instance.id) {
+      _writer.writeInt32(1, _instance.id);
+    }
+    if (_instance.src) {
+      _writer.writeString(2, _instance.src);
+    }
+    if (_instance.width) {
+      _writer.writeInt32(3, _instance.width);
+    }
+    if (_instance.height) {
+      _writer.writeInt32(4, _instance.height);
+    }
+    if (_instance.filesize) {
+      _writer.writeInt32(5, _instance.filesize);
+    }
+  }
+
+  private _id?: number;
+  private _src?: string;
+  private _width?: number;
+  private _height?: number;
+  private _filesize?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIImage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIImage.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.src = _value.src;
+    this.width = _value.width;
+    this.height = _value.height;
+    this.filesize = _value.filesize;
+    APIImage.refineValues(this);
+  }
+  get id(): number | undefined {
+    return this._id;
+  }
+  set id(value: number | undefined) {
+    this._id = value;
+  }
+  get src(): string | undefined {
+    return this._src;
+  }
+  set src(value: string | undefined) {
+    this._src = value;
+  }
+  get width(): number | undefined {
+    return this._width;
+  }
+  set width(value: number | undefined) {
+    this._width = value;
+  }
+  get height(): number | undefined {
+    return this._height;
+  }
+  set height(value: number | undefined) {
+    this._height = value;
+  }
+  get filesize(): number | undefined {
+    return this._filesize;
+  }
+  set filesize(value: number | undefined) {
+    this._filesize = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIImage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIImage.AsObject {
+    return {
+      id: this.id,
+      src: this.src,
+      width: this.width,
+      height: this.height,
+      filesize: this.filesize
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIImage.AsProtobufJSON {
+    return {
+      id: this.id,
+      src: this.src,
+      width: this.width,
+      height: this.height,
+      filesize: this.filesize
+    };
+  }
+}
+export module APIImage {
+  /**
+   * Standard JavaScript object representation for APIImage
+   */
+  export interface AsObject {
+    id?: number;
+    src?: string;
+    width?: number;
+    height?: number;
+    filesize?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for APIImage
+   */
+  export interface AsProtobufJSON {
+    id?: number;
+    src?: string;
+    width?: number;
+    height?: number;
+    filesize?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIUser
+ */
+export class APIUser implements GrpcMessage {
+  static id = 'goautowp.APIUser';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIUser();
+    APIUser.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIUser) {
+    _instance.id = _instance.id || '0';
     _instance.name = _instance.name || '';
     _instance.deleted = _instance.deleted || false;
     _instance.longAway = _instance.longAway || false;
     _instance.green = _instance.green || false;
     _instance.route = _instance.route || [];
     _instance.identity = _instance.identity || '';
-    _instance.avatar = _instance.avatar || '';
+    _instance.avatar = _instance.avatar || undefined;
     _instance.gravatar = _instance.gravatar || '';
     _instance.lastOnline = _instance.lastOnline || undefined;
   }
@@ -3398,13 +3607,16 @@ export class User implements GrpcMessage {
    * @param _instance message instance
    * @param _reader binary reader instance
    */
-  static deserializeBinaryFromReader(_instance: User, _reader: BinaryReader) {
+  static deserializeBinaryFromReader(
+    _instance: APIUser,
+    _reader: BinaryReader
+  ) {
     while (_reader.nextField()) {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.id = _reader.readInt32();
+          _instance.id = _reader.readInt64String();
           break;
         case 2:
           _instance.name = _reader.readString();
@@ -3425,7 +3637,11 @@ export class User implements GrpcMessage {
           _instance.identity = _reader.readString();
           break;
         case 8:
-          _instance.avatar = _reader.readString();
+          _instance.avatar = new APIImage();
+          _reader.readMessage(
+            _instance.avatar,
+            APIImage.deserializeBinaryFromReader
+          );
           break;
         case 9:
           _instance.gravatar = _reader.readString();
@@ -3442,7 +3658,7 @@ export class User implements GrpcMessage {
       }
     }
 
-    User.refineValues(_instance);
+    APIUser.refineValues(_instance);
   }
 
   /**
@@ -3450,9 +3666,9 @@ export class User implements GrpcMessage {
    * @param _instance message instance
    * @param _writer binary writer instance
    */
-  static serializeBinaryToWriter(_instance: User, _writer: BinaryWriter) {
+  static serializeBinaryToWriter(_instance: APIUser, _writer: BinaryWriter) {
     if (_instance.id) {
-      _writer.writeInt32(1, _instance.id);
+      _writer.writeInt64String(1, _instance.id);
     }
     if (_instance.name) {
       _writer.writeString(2, _instance.name);
@@ -3473,7 +3689,11 @@ export class User implements GrpcMessage {
       _writer.writeString(7, _instance.identity);
     }
     if (_instance.avatar) {
-      _writer.writeString(8, _instance.avatar);
+      _writer.writeMessage(
+        8,
+        _instance.avatar as any,
+        APIImage.serializeBinaryToWriter
+      );
     }
     if (_instance.gravatar) {
       _writer.writeString(9, _instance.gravatar);
@@ -3487,22 +3707,22 @@ export class User implements GrpcMessage {
     }
   }
 
-  private _id?: number;
+  private _id?: string;
   private _name?: string;
   private _deleted?: boolean;
   private _longAway?: boolean;
   private _green?: boolean;
   private _route?: string[];
   private _identity?: string;
-  private _avatar?: string;
+  private _avatar?: APIImage;
   private _gravatar?: string;
   private _lastOnline?: googleProtobuf002.Timestamp;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of User to deeply clone from
+   * @param _value initial values object or instance of APIUser to deeply clone from
    */
-  constructor(_value?: RecursivePartial<User.AsObject>) {
+  constructor(_value?: RecursivePartial<APIUser.AsObject>) {
     _value = _value || {};
     this.id = _value.id;
     this.name = _value.name;
@@ -3511,17 +3731,17 @@ export class User implements GrpcMessage {
     this.green = _value.green;
     this.route = (_value.route || []).slice();
     this.identity = _value.identity;
-    this.avatar = _value.avatar;
+    this.avatar = _value.avatar ? new APIImage(_value.avatar) : undefined;
     this.gravatar = _value.gravatar;
     this.lastOnline = _value.lastOnline
       ? new googleProtobuf002.Timestamp(_value.lastOnline)
       : undefined;
-    User.refineValues(this);
+    APIUser.refineValues(this);
   }
-  get id(): number | undefined {
+  get id(): string | undefined {
     return this._id;
   }
-  set id(value: number | undefined) {
+  set id(value: string | undefined) {
     this._id = value;
   }
   get name(): string | undefined {
@@ -3560,10 +3780,10 @@ export class User implements GrpcMessage {
   set identity(value: string | undefined) {
     this._identity = value;
   }
-  get avatar(): string | undefined {
+  get avatar(): APIImage | undefined {
     return this._avatar;
   }
-  set avatar(value: string | undefined) {
+  set avatar(value: APIImage | undefined) {
     this._avatar = value;
   }
   get gravatar(): string | undefined {
@@ -3585,14 +3805,14 @@ export class User implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    User.serializeBinaryToWriter(this, writer);
+    APIUser.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): User.AsObject {
+  toObject(): APIUser.AsObject {
     return {
       id: this.id,
       name: this.name,
@@ -3601,7 +3821,7 @@ export class User implements GrpcMessage {
       green: this.green,
       route: (this.route || []).slice(),
       identity: this.identity,
-      avatar: this.avatar,
+      avatar: this.avatar ? this.avatar.toObject() : undefined,
       gravatar: this.gravatar,
       lastOnline: this.lastOnline ? this.lastOnline.toObject() : undefined
     };
@@ -3622,7 +3842,7 @@ export class User implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): User.AsProtobufJSON {
+  ): APIUser.AsProtobufJSON {
     return {
       id: this.id,
       name: this.name,
@@ -3631,7 +3851,7 @@ export class User implements GrpcMessage {
       green: this.green,
       route: (this.route || []).slice(),
       identity: this.identity,
-      avatar: this.avatar,
+      avatar: this.avatar ? this.avatar.toProtobufJSON(options) : null,
       gravatar: this.gravatar,
       lastOnline: this.lastOnline
         ? this.lastOnline.toProtobufJSON(options)
@@ -3639,35 +3859,35 @@ export class User implements GrpcMessage {
     };
   }
 }
-export module User {
+export module APIUser {
   /**
-   * Standard JavaScript object representation for User
+   * Standard JavaScript object representation for APIUser
    */
   export interface AsObject {
-    id?: number;
+    id?: string;
     name?: string;
     deleted?: boolean;
     longAway?: boolean;
     green?: boolean;
     route?: string[];
     identity?: string;
-    avatar?: string;
+    avatar?: APIImage.AsObject;
     gravatar?: string;
     lastOnline?: googleProtobuf002.Timestamp.AsObject;
   }
 
   /**
-   * Protobuf JSON representation for User
+   * Protobuf JSON representation for APIUser
    */
   export interface AsProtobufJSON {
-    id?: number;
+    id?: string;
     name?: string;
     deleted?: boolean;
     longAway?: boolean;
     green?: boolean;
     route?: string[];
     identity?: string;
-    avatar?: string;
+    avatar?: APIImage.AsProtobufJSON | null;
     gravatar?: string;
     lastOnline?: googleProtobuf002.Timestamp.AsProtobufJSON | null;
   }
@@ -3694,7 +3914,7 @@ export class Contact implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: Contact) {
-    _instance.contactUserId = _instance.contactUserId || 0;
+    _instance.contactUserId = _instance.contactUserId || '0';
     _instance.user = _instance.user || undefined;
   }
 
@@ -3712,11 +3932,14 @@ export class Contact implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.contactUserId = _reader.readInt32();
+          _instance.contactUserId = _reader.readInt64String();
           break;
         case 2:
-          _instance.user = new User();
-          _reader.readMessage(_instance.user, User.deserializeBinaryFromReader);
+          _instance.user = new APIUser();
+          _reader.readMessage(
+            _instance.user,
+            APIUser.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -3733,19 +3956,19 @@ export class Contact implements GrpcMessage {
    */
   static serializeBinaryToWriter(_instance: Contact, _writer: BinaryWriter) {
     if (_instance.contactUserId) {
-      _writer.writeInt32(1, _instance.contactUserId);
+      _writer.writeInt64String(1, _instance.contactUserId);
     }
     if (_instance.user) {
       _writer.writeMessage(
         2,
         _instance.user as any,
-        User.serializeBinaryToWriter
+        APIUser.serializeBinaryToWriter
       );
     }
   }
 
-  private _contactUserId?: number;
-  private _user?: User;
+  private _contactUserId?: string;
+  private _user?: APIUser;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -3754,19 +3977,19 @@ export class Contact implements GrpcMessage {
   constructor(_value?: RecursivePartial<Contact.AsObject>) {
     _value = _value || {};
     this.contactUserId = _value.contactUserId;
-    this.user = _value.user ? new User(_value.user) : undefined;
+    this.user = _value.user ? new APIUser(_value.user) : undefined;
     Contact.refineValues(this);
   }
-  get contactUserId(): number | undefined {
+  get contactUserId(): string | undefined {
     return this._contactUserId;
   }
-  set contactUserId(value: number | undefined) {
+  set contactUserId(value: string | undefined) {
     this._contactUserId = value;
   }
-  get user(): User | undefined {
+  get user(): APIUser | undefined {
     return this._user;
   }
-  set user(value: User | undefined) {
+  set user(value: APIUser | undefined) {
     this._user = value;
   }
 
@@ -3817,16 +4040,16 @@ export module Contact {
    * Standard JavaScript object representation for Contact
    */
   export interface AsObject {
-    contactUserId?: number;
-    user?: User.AsObject;
+    contactUserId?: string;
+    user?: APIUser.AsObject;
   }
 
   /**
    * Protobuf JSON representation for Contact
    */
   export interface AsProtobufJSON {
-    contactUserId?: number;
-    user?: User.AsProtobufJSON | null;
+    contactUserId?: string;
+    user?: APIUser.AsProtobufJSON | null;
   }
 }
 
@@ -4445,8 +4668,11 @@ export class CommentVote implements GrpcMessage {
           _instance.value = _reader.readEnum();
           break;
         case 2:
-          _instance.user = new User();
-          _reader.readMessage(_instance.user, User.deserializeBinaryFromReader);
+          _instance.user = new APIUser();
+          _reader.readMessage(
+            _instance.user,
+            APIUser.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -4472,13 +4698,13 @@ export class CommentVote implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.user as any,
-        User.serializeBinaryToWriter
+        APIUser.serializeBinaryToWriter
       );
     }
   }
 
   private _value?: CommentVote.VoteValue;
-  private _user?: User;
+  private _user?: APIUser;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -4487,7 +4713,7 @@ export class CommentVote implements GrpcMessage {
   constructor(_value?: RecursivePartial<CommentVote.AsObject>) {
     _value = _value || {};
     this.value = _value.value;
-    this.user = _value.user ? new User(_value.user) : undefined;
+    this.user = _value.user ? new APIUser(_value.user) : undefined;
     CommentVote.refineValues(this);
   }
   get value(): CommentVote.VoteValue | undefined {
@@ -4496,10 +4722,10 @@ export class CommentVote implements GrpcMessage {
   set value(value: CommentVote.VoteValue | undefined) {
     this._value = value;
   }
-  get user(): User | undefined {
+  get user(): APIUser | undefined {
     return this._user;
   }
-  set user(value: User | undefined) {
+  set user(value: APIUser | undefined) {
     this._user = value;
   }
 
@@ -4551,7 +4777,7 @@ export module CommentVote {
    */
   export interface AsObject {
     value?: CommentVote.VoteValue;
-    user?: User.AsObject;
+    user?: APIUser.AsObject;
   }
 
   /**
@@ -4559,7 +4785,7 @@ export module CommentVote {
    */
   export interface AsProtobufJSON {
     value?: string;
-    user?: User.AsProtobufJSON | null;
+    user?: APIUser.AsProtobufJSON | null;
   }
   export enum VoteValue {
     UNKNOWN = 0,
@@ -4590,7 +4816,7 @@ export class APIBanItem implements GrpcMessage {
    */
   static refineValues(_instance: APIBanItem) {
     _instance.until = _instance.until || undefined;
-    _instance.byUserId = _instance.byUserId || 0;
+    _instance.byUserId = _instance.byUserId || '0';
     _instance.byUser = _instance.byUser || undefined;
     _instance.reason = _instance.reason || '';
   }
@@ -4616,13 +4842,13 @@ export class APIBanItem implements GrpcMessage {
           );
           break;
         case 2:
-          _instance.byUserId = _reader.readInt32();
+          _instance.byUserId = _reader.readInt64String();
           break;
         case 3:
-          _instance.byUser = new User();
+          _instance.byUser = new APIUser();
           _reader.readMessage(
             _instance.byUser,
-            User.deserializeBinaryFromReader
+            APIUser.deserializeBinaryFromReader
           );
           break;
         case 4:
@@ -4650,13 +4876,13 @@ export class APIBanItem implements GrpcMessage {
       );
     }
     if (_instance.byUserId) {
-      _writer.writeInt32(2, _instance.byUserId);
+      _writer.writeInt64String(2, _instance.byUserId);
     }
     if (_instance.byUser) {
       _writer.writeMessage(
         3,
         _instance.byUser as any,
-        User.serializeBinaryToWriter
+        APIUser.serializeBinaryToWriter
       );
     }
     if (_instance.reason) {
@@ -4665,8 +4891,8 @@ export class APIBanItem implements GrpcMessage {
   }
 
   private _until?: googleProtobuf002.Timestamp;
-  private _byUserId?: number;
-  private _byUser?: User;
+  private _byUserId?: string;
+  private _byUser?: APIUser;
   private _reason?: string;
 
   /**
@@ -4679,7 +4905,7 @@ export class APIBanItem implements GrpcMessage {
       ? new googleProtobuf002.Timestamp(_value.until)
       : undefined;
     this.byUserId = _value.byUserId;
-    this.byUser = _value.byUser ? new User(_value.byUser) : undefined;
+    this.byUser = _value.byUser ? new APIUser(_value.byUser) : undefined;
     this.reason = _value.reason;
     APIBanItem.refineValues(this);
   }
@@ -4689,16 +4915,16 @@ export class APIBanItem implements GrpcMessage {
   set until(value: googleProtobuf002.Timestamp | undefined) {
     this._until = value;
   }
-  get byUserId(): number | undefined {
+  get byUserId(): string | undefined {
     return this._byUserId;
   }
-  set byUserId(value: number | undefined) {
+  set byUserId(value: string | undefined) {
     this._byUserId = value;
   }
-  get byUser(): User | undefined {
+  get byUser(): APIUser | undefined {
     return this._byUser;
   }
-  set byUser(value: User | undefined) {
+  set byUser(value: APIUser | undefined) {
     this._byUser = value;
   }
   get reason(): string | undefined {
@@ -4760,8 +4986,8 @@ export module APIBanItem {
    */
   export interface AsObject {
     until?: googleProtobuf002.Timestamp.AsObject;
-    byUserId?: number;
-    byUser?: User.AsObject;
+    byUserId?: string;
+    byUser?: APIUser.AsObject;
     reason?: string;
   }
 
@@ -4770,8 +4996,8 @@ export module APIBanItem {
    */
   export interface AsProtobufJSON {
     until?: googleProtobuf002.Timestamp.AsProtobufJSON | null;
-    byUserId?: number;
-    byUser?: User.AsProtobufJSON | null;
+    byUserId?: string;
+    byUser?: APIUser.AsProtobufJSON | null;
     reason?: string;
   }
 }
@@ -8887,5 +9113,165 @@ export module APIUpdateUserRequest {
   export interface AsProtobufJSON {
     userId?: string;
     name?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetUserRequest
+ */
+export class APIGetUserRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetUserRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetUserRequest();
+    APIGetUserRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetUserRequest) {
+    _instance.userId = _instance.userId || '0';
+    _instance.fields = _instance.fields || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetUserRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 2:
+          (_instance.fields = _instance.fields || []).push(
+            _reader.readString()
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetUserRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetUserRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt64String(1, _instance.userId);
+    }
+    if (_instance.fields && _instance.fields.length) {
+      _writer.writeRepeatedString(2, _instance.fields);
+    }
+  }
+
+  private _userId?: string;
+  private _fields?: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetUserRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetUserRequest.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    this.fields = (_value.fields || []).slice();
+    APIGetUserRequest.refineValues(this);
+  }
+  get userId(): string | undefined {
+    return this._userId;
+  }
+  set userId(value: string | undefined) {
+    this._userId = value;
+  }
+  get fields(): string[] | undefined {
+    return this._fields;
+  }
+  set fields(value: string[] | undefined) {
+    this._fields = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetUserRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetUserRequest.AsObject {
+    return {
+      userId: this.userId,
+      fields: (this.fields || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetUserRequest.AsProtobufJSON {
+    return {
+      userId: this.userId,
+      fields: (this.fields || []).slice()
+    };
+  }
+}
+export module APIGetUserRequest {
+  /**
+   * Standard JavaScript object representation for APIGetUserRequest
+   */
+  export interface AsObject {
+    userId?: string;
+    fields?: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetUserRequest
+   */
+  export interface AsProtobufJSON {
+    userId?: string;
+    fields?: string[];
   }
 }

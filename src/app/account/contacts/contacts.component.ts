@@ -8,7 +8,7 @@ import {EMPTY} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {Contact, DeleteContactRequest} from '../../../../generated/spec.pb';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {ContactsClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-account-contacts',
@@ -24,7 +24,7 @@ export class AccountContactsComponent {
     private toastService: ToastsService,
     private auth: AuthService,
     private router: Router,
-    private grpc: AutowpClient
+    private contacts: ContactsClient
   ) {
     setTimeout(
       () =>
@@ -58,8 +58,8 @@ export class AccountContactsComponent {
     );
   }
 
-  public deleteContact(id: number) {
-    this.grpc.deleteContact(new DeleteContactRequest({userId: id})).subscribe(
+  public deleteContact(id: string) {
+    this.contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe(
       () => {
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i].contactUserId === id) {

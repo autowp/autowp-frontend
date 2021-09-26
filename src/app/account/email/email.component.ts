@@ -6,7 +6,7 @@ import { APIService } from '../../services/api.service';
 import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIEmailChangeRequest} from '../../../../generated/spec.pb';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
-import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 
 @Component({
   selector: 'app-account-email',
@@ -55,7 +55,7 @@ export class AccountEmailComponent {
         this.toastService.grpcErrorResponse(response);
         if (response.statusCode === 3) {
           const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
+          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
         }
       }
     );

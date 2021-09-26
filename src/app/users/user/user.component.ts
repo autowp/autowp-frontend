@@ -14,7 +14,7 @@ import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/c
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
 import {APIDeleteUserRequest, APIIP, CreateContactRequest, DeleteContactRequest} from '../../../../generated/spec.pb';
-import {AutowpClient, UsersClient} from '../../../../generated/spec.pbsc';
+import {ContactsClient, UsersClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',
@@ -61,7 +61,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private ipService: IpService,
-    private grpc: AutowpClient,
+    private contactsClient: ContactsClient,
     private usersGrpc: UsersClient
   ) {}
 
@@ -127,7 +127,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
           this.canBeInContacts = currentUser && !user.deleted && !this.isMe;
 
           if (currentUser && !this.isMe) {
-            this.contacts.isInContacts(user.id).subscribe(
+            this.contacts.isInContacts(user.id.toString()).subscribe(
               inContacts => (this.inContacts = inContacts),
               response => this.toastService.response(response)
             );
@@ -183,13 +183,13 @@ export class UsersUserComponent implements OnInit, OnDestroy {
 
   public toggleInContacts() {
     if (this.inContacts) {
-      this.grpc.deleteContact(new DeleteContactRequest({userId: this.user.id})).subscribe(() => {
+      this.contactsClient.deleteContact(new DeleteContactRequest({userId: this.user.id.toString()})).subscribe(() => {
         this.inContacts = false;
       });
       return;
     }
 
-    this.grpc.createContact(new CreateContactRequest({userId: this.user.id})).subscribe(() => {
+    this.contactsClient.createContact(new CreateContactRequest({userId: this.user.id.toString()})).subscribe(() => {
       this.inContacts = true;
     });
   }

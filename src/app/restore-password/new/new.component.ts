@@ -7,7 +7,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 import { AuthService } from '../../services/auth.service';
 import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIPasswordRecoveryCheckCodeRequest, APIPasswordRecoveryConfirmRequest} from '../../../../generated/spec.pb';
-import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
 
@@ -78,7 +78,7 @@ export class RestorePasswordNewComponent implements OnInit, OnDestroy {
           this.toastService.grpcErrorResponse(response);
           if (response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
+            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           }
           return EMPTY;
         }),

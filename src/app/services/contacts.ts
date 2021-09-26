@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
 import {catchError, map, switchMapTo} from 'rxjs/operators';
 import {AuthService} from './auth.service';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {ContactsClient} from '../../../generated/spec.pbsc';
 import {ContactItems, GetContactRequest, GetContactsRequest} from '../../../generated/spec.pb';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
@@ -12,10 +12,10 @@ export interface APIContactsGetOptions {
 
 @Injectable()
 export class ContactsService {
-  constructor(private auth: AuthService, private grpc: AutowpClient) {}
+  constructor(private auth: AuthService, private contactsClient: ContactsClient) {}
 
-  public isInContacts(userId: number): Observable<boolean> {
-    return this.grpc.getContact(new GetContactRequest({userId})).pipe(
+  public isInContacts(userId: string): Observable<boolean> {
+    return this.contactsClient.getContact(new GetContactRequest({userId})).pipe(
       map(response => !!response.contactUserId),
       catchError((err: GrpcStatusEvent) => {
         if (err.statusCode === 5) {
@@ -39,7 +39,7 @@ export class ContactsService {
     }
 
     return this.auth.getUser().pipe(
-      switchMapTo(this.grpc.getContacts(request))
+      switchMapTo(this.contactsClient.getContacts(request))
     );
   }
 }

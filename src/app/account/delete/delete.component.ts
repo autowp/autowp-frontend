@@ -5,7 +5,7 @@ import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIDeleteUserRequest} from '../../../../generated/spec.pb';
-import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
 import {switchMap} from 'rxjs/operators';
 
@@ -54,7 +54,7 @@ export class AccountDeleteComponent {
         this.toastService.grpcErrorResponse(response);
         if (response.statusCode === 3) {
           const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
+          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
         }
       }
     );

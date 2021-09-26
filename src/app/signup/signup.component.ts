@@ -5,7 +5,7 @@ import { PageEnvService } from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {UsersClient} from '../../../generated/spec.pbsc';
 import {APICreateUserRequest} from '../../../generated/spec.pb';
-import {extractFieldViolations, fieldVolations2InvalidParams} from '../grpc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {LanguageService} from '../services/language';
 
@@ -61,7 +61,7 @@ export class SignupComponent {
         this.toastService.grpcErrorResponse(response);
         if (response.statusCode === 3) {
           const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldVolations2InvalidParams(fieldViolations);
+          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
 
           this.showCaptcha = !!this.invalidParams.captcha;
         }

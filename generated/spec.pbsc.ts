@@ -22,6 +22,7 @@ import * as thisProto from './spec.pb';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
+  GRPC_CONTACTS_CLIENT_SETTINGS,
   GRPC_USERS_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
@@ -101,27 +102,6 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/CreateContact
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    createContact: (
-      requestData: thisProto.CreateContactRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/CreateContact',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.CreateContactRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
      * Unary RPC for /goautowp.Autowp/CreateFeedback
      *
      * @param requestMessage Request message
@@ -139,27 +119,6 @@ export class AutowpClient {
         requestData,
         requestMetadata,
         requestClass: thisProto.APICreateFeedbackRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/DeleteContact
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    deleteContact: (
-      requestData: thisProto.DeleteContactRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/DeleteContact',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.DeleteContactRequest,
         responseClass: googleProtobuf001.Empty
       });
     },
@@ -266,48 +225,6 @@ export class AutowpClient {
         requestMetadata,
         requestClass: thisProto.GetCommentVotesRequest,
         responseClass: thisProto.CommentVoteItems
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/GetContact
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.Contact>>
-     */
-    getContact: (
-      requestData: thisProto.GetContactRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.Contact>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetContact',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.GetContactRequest,
-        responseClass: thisProto.Contact
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/GetContacts
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.ContactItems>>
-     */
-    getContacts: (
-      requestData: thisProto.GetContactsRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.ContactItems>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetContacts',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.GetContactsRequest,
-        responseClass: thisProto.ContactItems
       });
     },
     /**
@@ -600,22 +517,6 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/CreateContact
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  createContact(
-    requestData: thisProto.CreateContactRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .createContact(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
    * Unary RPC for /goautowp.Autowp/CreateFeedback
    *
    * @param requestMessage Request message
@@ -628,22 +529,6 @@ export class AutowpClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .createFeedback(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/DeleteContact
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  deleteContact(
-    requestData: thisProto.DeleteContactRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .deleteContact(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -724,38 +609,6 @@ export class AutowpClient {
   ): Observable<thisProto.CommentVoteItems> {
     return this.$raw
       .getCommentVotes(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/GetContact
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.Contact>
-   */
-  getContact(
-    requestData: thisProto.GetContactRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.Contact> {
-    return this.$raw
-      .getContact(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/GetContacts
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.ContactItems>
-   */
-  getContacts(
-    requestData: thisProto.GetContactsRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.ContactItems> {
-    return this.$raw
-      .getContacts(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -936,6 +789,177 @@ export class AutowpClient {
   }
 }
 /**
+ * Service client implementation for goautowp.Contacts
+ */
+@Injectable({ providedIn: 'any' })
+export class ContactsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary RPC for /goautowp.Contacts/CreateContact
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    createContact: (
+      requestData: thisProto.CreateContactRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Contacts/CreateContact',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CreateContactRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Contacts/DeleteContact
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteContact: (
+      requestData: thisProto.DeleteContactRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Contacts/DeleteContact',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteContactRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Contacts/GetContact
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Contact>>
+     */
+    getContact: (
+      requestData: thisProto.GetContactRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Contact>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Contacts/GetContact',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetContactRequest,
+        responseClass: thisProto.Contact
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Contacts/GetContacts
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ContactItems>>
+     */
+    getContacts: (
+      requestData: thisProto.GetContactsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ContactItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Contacts/GetContacts',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetContactsRequest,
+        responseClass: thisProto.ContactItems
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_CONTACTS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Contacts', settings);
+  }
+
+  /**
+   * Unary RPC for /goautowp.Contacts/CreateContact
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  createContact(
+    requestData: thisProto.CreateContactRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .createContact(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Contacts/DeleteContact
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteContact(
+    requestData: thisProto.DeleteContactRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteContact(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Contacts/GetContact
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Contact>
+   */
+  getContact(
+    requestData: thisProto.GetContactRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Contact> {
+    return this.$raw
+      .getContact(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Contacts/GetContacts
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ContactItems>
+   */
+  getContacts(
+    requestData: thisProto.GetContactsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ContactItems> {
+    return this.$raw
+      .getContacts(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
  * Service client implementation for goautowp.Users
  */
 @Injectable({ providedIn: 'any' })
@@ -1009,6 +1033,27 @@ export class UsersClient {
         requestMetadata,
         requestClass: thisProto.APIDeleteUserRequest,
         responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Users/GetUser
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUser>>
+     */
+    getUser: (
+      requestData: thisProto.APIGetUserRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUser>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/GetUser',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetUserRequest,
+        responseClass: thisProto.APIUser
       });
     },
     /**
@@ -1192,6 +1237,22 @@ export class UsersClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .deleteUser(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Users/GetUser
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUser>
+   */
+  getUser(
+    requestData: thisProto.APIGetUserRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUser> {
+    return this.$raw
+      .getUser(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

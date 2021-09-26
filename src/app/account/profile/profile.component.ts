@@ -16,7 +16,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIUpdateUserRequest} from '../../../../generated/spec.pb';
-import {extractFieldViolations, fieldVolations2InvalidParams} from '../../grpc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
 
 @Component({
@@ -138,7 +138,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         this.toastService.grpcErrorResponse(response);
         if (response.statusCode === 3) {
           const fieldViolations = extractFieldViolations(response);
-          this.profileInvalidParams = fieldVolations2InvalidParams(fieldViolations);
+          this.profileInvalidParams = fieldViolations2InvalidParams(fieldViolations);
         }
       }
     );

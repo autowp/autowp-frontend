@@ -39,7 +39,7 @@ export const extractFieldViolations = (response: GrpcStatusEvent): FieldViolatio
   return fieldViolations;
 }
 
-export const fieldVolations2InvalidParams = (fvs: FieldViolation[]) : InvalidParams => {
+export const fieldViolations2InvalidParams = (fvs: FieldViolation[]) : InvalidParams => {
   const result: InvalidParams = {};
 
   fvs.forEach(fv => {

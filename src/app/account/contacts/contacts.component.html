@@ -17,7 +17,7 @@
           <li class="media" *ngFor="let contact of chunk">
             <div class="align-self-start mr-3">
               <a [routerLink]="['/users', contact.user.identity ? contact.user.identity : 'user' + contact.user.id]" *ngIf="!contact.user.deleted" class="photo">
-                <!-- <img alt="" [src]="contact.user.avatar.src" *ngIf="contact.user.avatar" class="rounded" loading="lazy" /> -->
+                <img alt="" [src]="contact.user.avatar.src" *ngIf="contact.user.avatar" class="rounded" loading="lazy" />
                 <img alt="" [src]="contact.user.gravatar" *ngIf="contact.user.gravatar && ! contact.user.avatar" class="rounded" loading="lazy" />
               </a>
             </div>
