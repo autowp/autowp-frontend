@@ -8,8 +8,6 @@ export class MarkdownEditComponent {
   @Input() text: string;
   @Output() textChange = new EventEmitter();
 
-  constructor() {}
-
   public onChange() {
     this.textChange.emit(this.text);
   }

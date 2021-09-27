@@ -93,7 +93,7 @@ export class AccountAccountsComponent implements OnInit, OnDestroy{
 
     this.api.request<APIAccountStartPostResponse>('GET', 'oauth/service', {params: {
       service: this.service,
-      redirect_uri: 'http://' + window.location.host + '/account/accounts'
+      redirect_uri: 'https://' + window.location.host + '/account/accounts'
     }})
     .subscribe(
       response => {

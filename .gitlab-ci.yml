@@ -37,7 +37,7 @@ build:
     paths:
       - dist
   script:
-    - ./node_modules/.bin/ng build --prod --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
+    - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
   interruptible: true
 
 publish:

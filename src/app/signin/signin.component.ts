@@ -90,7 +90,7 @@ export class SignInComponent implements OnInit, OnDestroy {
             };
           }
         },
-        error => {
+        () => {
           this.invalidParams = {
             password: {
               error: 'Error'
@@ -107,7 +107,7 @@ export class SignInComponent implements OnInit, OnDestroy {
       .request<APILoginStartGetResponse>('GET', 'oauth/service', {
         params: {
           service: serviceId,
-          redirect_uri: 'http://' + window.location.host + '/login'
+          redirect_uri: 'https://' + window.location.host + '/login'
         }
       })
       .subscribe(

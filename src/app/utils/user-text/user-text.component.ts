@@ -69,7 +69,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     const lines = text.split(/\r?\n/);
     const result: Observable<CommentTextLine>[] = [];
 
-    lines.map(line => {
+    lines.forEach(line => {
       result.push(this.prepareLine(line).pipe(
         map(value => ({
           elements: value
@@ -96,7 +96,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
         url = umatch;
       } else {
         umatch = res[2];
-        url = 'http://' + umatch;
+        url = 'https://' + umatch;
       }
 
       const linkPos = line.indexOf(umatch);
