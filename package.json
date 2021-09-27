@@ -72,7 +72,7 @@
     "@types/leaflet": "^1.7.4",
     "@types/node": "^16.10.1",
     "@typescript-eslint/eslint-plugin": "4.32.0",
-    "@typescript-eslint/parser": "4.31.2",
+    "@typescript-eslint/parser": "4.32.0",
     "eslint": "^7.31.0",
     "font-awesome": "^4.7.0",
     "google-protobuf": "^3.18.0",
