@@ -1,6 +1,12 @@
 // Core variables and mixins
 @import './bootstrap';
 
+app-index {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
 .navbar {
   margin-bottom: 1rem;
 }
