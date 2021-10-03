@@ -23,7 +23,8 @@ import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
-  GRPC_USERS_CLIENT_SETTINGS
+  GRPC_USERS_CLIENT_SETTINGS,
+  GRPC_ITEMS_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -1349,6 +1350,66 @@ export class UsersClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .setPassword(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Items
+ */
+@Injectable({ providedIn: 'any' })
+export class ItemsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary RPC for /goautowp.Items/GetTopBrandsList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITopBrandsList>>
+     */
+    getTopBrandsList: (
+      requestData: thisProto.GetTopBrandsListRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITopBrandsList>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTopBrandsList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTopBrandsListRequest,
+        responseClass: thisProto.APITopBrandsList
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_ITEMS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Items', settings);
+  }
+
+  /**
+   * Unary RPC for /goautowp.Items/GetTopBrandsList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITopBrandsList>
+   */
+  getTopBrandsList(
+    requestData: thisProto.GetTopBrandsListRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITopBrandsList> {
+    return this.$raw
+      .getTopBrandsList(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

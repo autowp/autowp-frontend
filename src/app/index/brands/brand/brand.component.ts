@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIIndexBrandsBrand} from '../brands.component';
 import { APIService } from '../../../services/api.service';
+import {APITopBrandsListItem} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-index-brands-brand',
@@ -8,7 +8,7 @@ import { APIService } from '../../../services/api.service';
   styleUrls: ['./brand.component.scss']
 })
 export class IndexBrandsBrandComponent {
-  @Input() brand: APIIndexBrandsBrand;
+  @Input() brand: APITopBrandsListItem;
   public loading = true;
   public html = '';
 
