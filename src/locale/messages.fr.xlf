@@ -4794,7 +4794,7 @@ Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) 
       </trans-unit>
       <trans-unit id="more-n-companies" datatype="html">
         <source>{VAR_PLURAL, plural, one {more <x id="INTERPOLATION"/> company} other {more <x id="INTERPOLATION"/> companies}}</source>
-        <target>{count, plural, one {plus <x id="INTERPOLATION"/> company} other {plus <x id="INTERPOLATION"/> companies}}</target>
+        <target>{VAR_PLURAL, plural, one {plus <x id="INTERPOLATION"/> company} other {plus <x id="INTERPOLATION"/> companies}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/brands/brands.component.ts</context>
           <context context-type="linenumber">42</context>
