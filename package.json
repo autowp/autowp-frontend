@@ -13,7 +13,7 @@
   "dependencies": {
     "@angular-devkit/architect": "^0.1202.8",
     "@angular-devkit/build-angular": "^12.2.7",
-    "@angular/animations": "^12.2.7",
+    "@angular/animations": "^12.2.9",
     "@angular/common": "^12.2.8",
     "@angular/compiler": "^12.2.7",
     "@angular/core": "^12.2.7",
@@ -21,7 +21,7 @@
     "@angular/localize": "^12.2.8",
     "@angular/platform-browser": "^12.2.8",
     "@angular/platform-browser-dynamic": "^12.2.9",
-    "@angular/router": "^12.2.7",
+    "@angular/router": "^12.2.9",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
@@ -85,8 +85,8 @@
     "popper.js": "^1.16.1",
     "showdown": "^1.9.1",
     "ts-node": "^10.2.1",
-    "webpack": "^5.57.1",
+    "webpack": "^5.58.0",
     "webpack-bundle-analyzer": "^4.4.2",
-    "webpack-cli": "^4.8.0"
+    "webpack-cli": "^4.9.0"
   }
 }
