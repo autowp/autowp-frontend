@@ -17,7 +17,7 @@
     "@angular/common": "^12.2.8",
     "@angular/compiler": "^12.2.7",
     "@angular/core": "^12.2.7",
-    "@angular/forms": "^12.2.8",
+    "@angular/forms": "^12.2.9",
     "@angular/localize": "^12.2.8",
     "@angular/platform-browser": "^12.2.9",
     "@angular/platform-browser-dynamic": "^12.2.9",
@@ -63,7 +63,7 @@
     "@angular-eslint/schematics": "^12.5.0",
     "@angular-eslint/template-parser": "^12.5.0",
     "@angular/cli": "^12.2.7",
-    "@angular/compiler-cli": "^12.2.6",
+    "@angular/compiler-cli": "^12.2.9",
     "@angular/language-service": "^12.2.9",
     "@brainly/onesky-utils": "^1.4.1",
     "@ngx-grpc/protoc-gen-ng": "^2.3.0",
@@ -85,7 +85,7 @@
     "popper.js": "^1.16.1",
     "showdown": "^1.9.1",
     "ts-node": "^10.2.1",
-    "webpack": "^5.57.1",
+    "webpack": "^5.58.1",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.9.0"
   }
