@@ -73,7 +73,7 @@
     "@types/node": "^16.10.3",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
-    "eslint": "^7.31.0",
+    "eslint": "^8.0.0",
     "font-awesome": "^4.7.0",
     "google-protobuf": "^3.18.1",
     "grpc-web": "^1.2.1",
