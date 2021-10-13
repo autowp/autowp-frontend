@@ -26,7 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
     "@ngx-grpc/common": "^2.3.0",
-    "@ngx-grpc/core": "^2.3.0",
+    "@ngx-grpc/core": "^2.4.0",
     "@ngx-grpc/grpc-web-client": "^2.3.0",
     "@ngx-grpc/well-known-types": "^2.3.0",
     "@sentry/browser": "^6.13.3",
