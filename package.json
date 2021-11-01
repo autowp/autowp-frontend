@@ -33,7 +33,7 @@
     "@types/url-parse": "^1.4.4",
     "ajv": "^8.6.3",
     "angulartics2": "^10.1.0",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^4.6.1",
     "caller-path": "^4.0.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.19.0",
