@@ -1,17 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEnvService } from '../services/page-env.service';
+import {Component, OnInit} from '@angular/core';
+import {PageEnvService} from '../services/page-env.service';
 import {APIUser} from '../services/user';
 import {APIItem} from '../services/item';
-import { APIService } from '../services/api.service';
-
-interface APIIndexPersonsItem {
-  id: number;
-  name: string;
-}
-
-interface APIIndexPersonsResponse {
-  items: APIIndexPersonsItem[];
-}
+import {APIService} from '../services/api.service';
+import {ItemsClient} from '../../../generated/spec.pbsc';
+import {APITopPersonsList, GetTopPersonsListRequest} from '../../../generated/spec.pb';
+import {LanguageService} from '../services/language';
+import {Observable} from 'rxjs';
 
 interface APIIndexItemOfDay {
   user: APIUser;
@@ -40,14 +35,12 @@ export class IndexComponent implements OnInit {
       name: $localize `Most heavy trucks`
     }
   ];
-  public contentPersons: APIIndexPersonsItem[];
-  public contentPersonsLoaded = false;
-  public persons: APIIndexPersonsItem[];
-  public personsLoaded = false;
   public itemOfDay: APIIndexItemOfDay;
   public itemOfDayLoaded = false;
+  public contentPersons$: Observable<APITopPersonsList>;
+  public authorPersons$: Observable<APITopPersonsList>;
 
-  constructor(private pageEnv: PageEnvService, private api: APIService) {}
+  constructor(private pageEnv: PageEnvService, private api: APIService, private items: ItemsClient, private languageService: LanguageService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -60,15 +53,15 @@ export class IndexComponent implements OnInit {
       });
     }, 0);
 
-    this.api.request<APIIndexPersonsResponse>('GET', 'index/persons-content').subscribe({
-      next: response => { this.contentPersons = response.items; },
-      complete: () => { this.contentPersonsLoaded = true; }
-    });
+    this.contentPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
+      language: this.languageService.language,
+      pictureItemType: GetTopPersonsListRequest.PictureItemType.PICTURE_CONTENT
+    }))
 
-    this.api.request<APIIndexPersonsResponse>('GET', 'index/persons-author').subscribe({
-      next: response => { this.persons = response.items; },
-      complete: () => { this.personsLoaded = true; }
-    });
+    this.authorPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
+      language: this.languageService.language,
+      pictureItemType: GetTopPersonsListRequest.PictureItemType.PICTURE_AUTHOR
+    }))
 
     this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day').subscribe({
       next: response => { this.itemOfDay = response; },

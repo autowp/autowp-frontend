@@ -1386,6 +1386,27 @@ export class ItemsClient {
         requestClass: thisProto.GetTopBrandsListRequest,
         responseClass: thisProto.APITopBrandsList
       });
+    },
+    /**
+     * Unary RPC for /goautowp.Items/GetTopPersonsList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITopPersonsList>>
+     */
+    getTopPersonsList: (
+      requestData: thisProto.GetTopPersonsListRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITopPersonsList>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTopPersonsList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTopPersonsListRequest,
+        responseClass: thisProto.APITopPersonsList
+      });
     }
   };
 
@@ -1410,6 +1431,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopBrandsList> {
     return this.$raw
       .getTopBrandsList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Items/GetTopPersonsList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITopPersonsList>
+   */
+  getTopPersonsList(
+    requestData: thisProto.GetTopPersonsListRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITopPersonsList> {
+    return this.$raw
+      .getTopPersonsList(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
