@@ -64,7 +64,7 @@ export class DonateComponent {
       'project-site': 'https://' + window.location.host + '/',
     };
 
-    const url = new URL('https://money.yandex.ru/quickpay/shop-widget');
+    const url = new URL('https://yoomoney.ru/quickpay/shop-widget');
     for (const key in map) {
       if (map.hasOwnProperty(key)) {
         url.searchParams.append(key, map[key]);

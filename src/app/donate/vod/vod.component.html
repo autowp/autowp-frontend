@@ -71,7 +71,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 
 <h1 i18n>4. Make a donation</h1>
 
-<form ngNoForm method="post" action="https://money.yandex.ru/quickpay/confirm.xml" (ngSubmit)="submit($event)" class="card card-body mb-4">
+<form ngNoForm method="post" action="https://yoomoney.ru/quickpay/confirm.xml" (ngSubmit)="submit($event)" class="card card-body mb-4">
   <div *ngIf="selectedDate && selectedItem">
     <input type="hidden" *ngFor="let param of formParams" [name]="param.name" [value]="param.value" />
     <div class="form-group">
@@ -98,7 +98,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </label>
         <label class="btn btn-secondary" ngbButtonLabel>
           <input type="radio" ngbButton name="paymentType" value="PC" autocomplete="off">
-          <ng-container i18n>Yandex.Money</ng-container>
+          <ng-container i18n>YooMoney</ng-container>
         </label>
       </div>
     </div>
@@ -113,6 +113,6 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
       <span class="fa fa-mobile" aria-hidden="true"></span>
       <ng-container i18n>Mobile operator account</ng-container>
     </button>
-    <button class="btn btn-secondary" disabled i18n>Yandex.Money</button>
+    <button class="btn btn-secondary" disabled i18n>YooMoney</button>
   </div>
 </form>
