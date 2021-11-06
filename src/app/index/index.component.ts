@@ -4,7 +4,7 @@ import {APIUser} from '../services/user';
 import {APIItem} from '../services/item';
 import {APIService} from '../services/api.service';
 import {ItemsClient} from '../../../generated/spec.pbsc';
-import {APITopPersonsList, GetTopPersonsListRequest} from '../../../generated/spec.pb';
+import {APITopPersonsList, GetTopPersonsListRequest, PictureItemType} from '../../../generated/spec.pb';
 import {LanguageService} from '../services/language';
 import {Observable} from 'rxjs';
 
@@ -55,12 +55,12 @@ export class IndexComponent implements OnInit {
 
     this.contentPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
       language: this.languageService.language,
-      pictureItemType: GetTopPersonsListRequest.PictureItemType.PICTURE_CONTENT
+      pictureItemType: PictureItemType.PICTURE_CONTENT
     }))
 
     this.authorPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
       language: this.languageService.language,
-      pictureItemType: GetTopPersonsListRequest.PictureItemType.PICTURE_AUTHOR
+      pictureItemType: PictureItemType.PICTURE_AUTHOR
     }))
 
     this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day').subscribe({

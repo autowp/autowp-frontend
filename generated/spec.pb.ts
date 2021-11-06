@@ -11,6 +11,37 @@ import {
 import { BinaryReader, BinaryWriter, ByteSource } from 'google-protobuf';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleRpc003 from './google/rpc/error-details.pb';
+export enum PictureItemType {
+  PICTURE_UNKNOWN = 0,
+  PICTURE_CONTENT = 1,
+  PICTURE_AUTHOR = 2,
+  PICTURE_COPYRIGHTS = 3
+}
+export enum ItemType {
+  ITEM_TYPE_UNKNOWN = 0,
+  ITEM_TYPE_VEHICLE = 1,
+  ITEM_TYPE_ENGINE = 2,
+  ITEM_TYPE_CATEGORY = 3,
+  ITEM_TYPE_TWINS = 4,
+  ITEM_TYPE_BRAND = 5,
+  ITEM_TYPE_FACTORY = 6,
+  ITEM_TYPE_MUSEUM = 7,
+  ITEM_TYPE_PERSON = 8,
+  ITEM_TYPE_COPYRIGHT = 9
+}
+export enum PictureStatus {
+  PICTURE_STATUS_UNKNOWN = 0,
+  PICTURE_STATUS_ACCEPTED = 1,
+  PICTURE_STATUS_REMOVING = 2,
+  PICTURE_STATUS_REMOVED = 3,
+  PICTURE_STATUS_INBOX = 4
+}
+export enum ItemPictureType {
+  ITEM_PICTURE_UNKNOWN = 0,
+  ITEM_PICTURE_CONTENT = 1,
+  ITEM_PICTURE_AUTHOR = 2,
+  ITEM_PICTURE_COPYRIGHTS = 3
+}
 /**
  * Message implementation for goautowp.ErrorDetails
  */
@@ -9873,7 +9904,7 @@ export class GetTopPersonsListRequest implements GrpcMessage {
   }
 
   private _language?: string;
-  private _pictureItemType?: GetTopPersonsListRequest.PictureItemType;
+  private _pictureItemType?: PictureItemType;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -9891,12 +9922,10 @@ export class GetTopPersonsListRequest implements GrpcMessage {
   set language(value: string | undefined) {
     this._language = value;
   }
-  get pictureItemType(): GetTopPersonsListRequest.PictureItemType | undefined {
+  get pictureItemType(): PictureItemType | undefined {
     return this._pictureItemType;
   }
-  set pictureItemType(
-    value: GetTopPersonsListRequest.PictureItemType | undefined
-  ) {
+  set pictureItemType(value: PictureItemType | undefined) {
     this._pictureItemType = value;
   }
 
@@ -9939,7 +9968,7 @@ export class GetTopPersonsListRequest implements GrpcMessage {
     return {
       language: this.language,
       pictureItemType:
-        GetTopPersonsListRequest.PictureItemType[
+        PictureItemType[
           this.pictureItemType === null || this.pictureItemType === undefined
             ? 0
             : this.pictureItemType
@@ -9953,7 +9982,7 @@ export module GetTopPersonsListRequest {
    */
   export interface AsObject {
     language?: string;
-    pictureItemType?: GetTopPersonsListRequest.PictureItemType;
+    pictureItemType?: PictureItemType;
   }
 
   /**
@@ -9962,12 +9991,6 @@ export module GetTopPersonsListRequest {
   export interface AsProtobufJSON {
     language?: string;
     pictureItemType?: string;
-  }
-  export enum PictureItemType {
-    PICTURE_UNKNOWN = 0,
-    PICTURE_CONTENT = 1,
-    PICTURE_AUTHOR = 2,
-    PICTURE_COPYRIGHTS = 3
   }
 }
 
@@ -10274,5 +10297,1506 @@ export module APITopPersonsListItem {
   export interface AsProtobufJSON {
     id?: string;
     name?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemPicturesRequest
+ */
+export class ItemPicturesRequest implements GrpcMessage {
+  static id = 'goautowp.ItemPicturesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemPicturesRequest();
+    ItemPicturesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemPicturesRequest) {
+    _instance.typeId = _instance.typeId || 0;
+    _instance.pictures = _instance.pictures || undefined;
+    _instance.perspectiveId = _instance.perspectiveId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemPicturesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 2:
+          _instance.pictures = new PicturesRequest();
+          _reader.readMessage(
+            _instance.pictures,
+            PicturesRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.perspectiveId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemPicturesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemPicturesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.typeId) {
+      _writer.writeEnum(1, _instance.typeId);
+    }
+    if (_instance.pictures) {
+      _writer.writeMessage(
+        2,
+        _instance.pictures as any,
+        PicturesRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.perspectiveId) {
+      _writer.writeInt32(3, _instance.perspectiveId);
+    }
+  }
+
+  private _typeId?: ItemPictureType;
+  private _pictures?: PicturesRequest;
+  private _perspectiveId?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemPicturesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemPicturesRequest.AsObject>) {
+    _value = _value || {};
+    this.typeId = _value.typeId;
+    this.pictures = _value.pictures
+      ? new PicturesRequest(_value.pictures)
+      : undefined;
+    this.perspectiveId = _value.perspectiveId;
+    ItemPicturesRequest.refineValues(this);
+  }
+  get typeId(): ItemPictureType | undefined {
+    return this._typeId;
+  }
+  set typeId(value: ItemPictureType | undefined) {
+    this._typeId = value;
+  }
+  get pictures(): PicturesRequest | undefined {
+    return this._pictures;
+  }
+  set pictures(value: PicturesRequest | undefined) {
+    this._pictures = value;
+  }
+  get perspectiveId(): number | undefined {
+    return this._perspectiveId;
+  }
+  set perspectiveId(value: number | undefined) {
+    this._perspectiveId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemPicturesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemPicturesRequest.AsObject {
+    return {
+      typeId: this.typeId,
+      pictures: this.pictures ? this.pictures.toObject() : undefined,
+      perspectiveId: this.perspectiveId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemPicturesRequest.AsProtobufJSON {
+    return {
+      typeId:
+        ItemPictureType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      pictures: this.pictures ? this.pictures.toProtobufJSON(options) : null,
+      perspectiveId: this.perspectiveId
+    };
+  }
+}
+export module ItemPicturesRequest {
+  /**
+   * Standard JavaScript object representation for ItemPicturesRequest
+   */
+  export interface AsObject {
+    typeId?: ItemPictureType;
+    pictures?: PicturesRequest.AsObject;
+    perspectiveId?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemPicturesRequest
+   */
+  export interface AsProtobufJSON {
+    typeId?: string;
+    pictures?: PicturesRequest.AsProtobufJSON | null;
+    perspectiveId?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PicturesRequest
+ */
+export class PicturesRequest implements GrpcMessage {
+  static id = 'goautowp.PicturesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PicturesRequest();
+    PicturesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PicturesRequest) {
+    _instance.status = _instance.status || 0;
+    _instance.itemPicture = _instance.itemPicture || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PicturesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.status = _reader.readEnum();
+          break;
+        case 2:
+          _instance.itemPicture = new ItemPicturesRequest();
+          _reader.readMessage(
+            _instance.itemPicture,
+            ItemPicturesRequest.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PicturesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PicturesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.status) {
+      _writer.writeEnum(1, _instance.status);
+    }
+    if (_instance.itemPicture) {
+      _writer.writeMessage(
+        2,
+        _instance.itemPicture as any,
+        ItemPicturesRequest.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _status?: PictureStatus;
+  private _itemPicture?: ItemPicturesRequest;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PicturesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PicturesRequest.AsObject>) {
+    _value = _value || {};
+    this.status = _value.status;
+    this.itemPicture = _value.itemPicture
+      ? new ItemPicturesRequest(_value.itemPicture)
+      : undefined;
+    PicturesRequest.refineValues(this);
+  }
+  get status(): PictureStatus | undefined {
+    return this._status;
+  }
+  set status(value: PictureStatus | undefined) {
+    this._status = value;
+  }
+  get itemPicture(): ItemPicturesRequest | undefined {
+    return this._itemPicture;
+  }
+  set itemPicture(value: ItemPicturesRequest | undefined) {
+    this._itemPicture = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PicturesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PicturesRequest.AsObject {
+    return {
+      status: this.status,
+      itemPicture: this.itemPicture ? this.itemPicture.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PicturesRequest.AsProtobufJSON {
+    return {
+      status:
+        PictureStatus[
+          this.status === null || this.status === undefined ? 0 : this.status
+        ],
+      itemPicture: this.itemPicture
+        ? this.itemPicture.toProtobufJSON(options)
+        : null
+    };
+  }
+}
+export module PicturesRequest {
+  /**
+   * Standard JavaScript object representation for PicturesRequest
+   */
+  export interface AsObject {
+    status?: PictureStatus;
+    itemPicture?: ItemPicturesRequest.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for PicturesRequest
+   */
+  export interface AsProtobufJSON {
+    status?: string;
+    itemPicture?: ItemPicturesRequest.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PictureFields
+ */
+export class PictureFields implements GrpcMessage {
+  static id = 'goautowp.PictureFields';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PictureFields();
+    PictureFields.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PictureFields) {
+    _instance.nameText = _instance.nameText || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PictureFields,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.nameText = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PictureFields.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PictureFields,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.nameText) {
+      _writer.writeBool(1, _instance.nameText);
+    }
+  }
+
+  private _nameText?: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PictureFields to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PictureFields.AsObject>) {
+    _value = _value || {};
+    this.nameText = _value.nameText;
+    PictureFields.refineValues(this);
+  }
+  get nameText(): boolean | undefined {
+    return this._nameText;
+  }
+  set nameText(value: boolean | undefined) {
+    this._nameText = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PictureFields.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PictureFields.AsObject {
+    return {
+      nameText: this.nameText
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PictureFields.AsProtobufJSON {
+    return {
+      nameText: this.nameText
+    };
+  }
+}
+export module PictureFields {
+  /**
+   * Standard JavaScript object representation for PictureFields
+   */
+  export interface AsObject {
+    nameText?: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for PictureFields
+   */
+  export interface AsProtobufJSON {
+    nameText?: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PreviewPicturesFields
+ */
+export class PreviewPicturesFields implements GrpcMessage {
+  static id = 'goautowp.PreviewPicturesFields';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PreviewPicturesFields();
+    PreviewPicturesFields.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PreviewPicturesFields) {
+    _instance.route = _instance.route || false;
+    _instance.picture = _instance.picture || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PreviewPicturesFields,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.route = _reader.readBool();
+          break;
+        case 2:
+          _instance.picture = new PictureFields();
+          _reader.readMessage(
+            _instance.picture,
+            PictureFields.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PreviewPicturesFields.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PreviewPicturesFields,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.route) {
+      _writer.writeBool(1, _instance.route);
+    }
+    if (_instance.picture) {
+      _writer.writeMessage(
+        2,
+        _instance.picture as any,
+        PictureFields.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _route?: boolean;
+  private _picture?: PictureFields;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PreviewPicturesFields to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PreviewPicturesFields.AsObject>) {
+    _value = _value || {};
+    this.route = _value.route;
+    this.picture = _value.picture
+      ? new PictureFields(_value.picture)
+      : undefined;
+    PreviewPicturesFields.refineValues(this);
+  }
+  get route(): boolean | undefined {
+    return this._route;
+  }
+  set route(value: boolean | undefined) {
+    this._route = value;
+  }
+  get picture(): PictureFields | undefined {
+    return this._picture;
+  }
+  set picture(value: PictureFields | undefined) {
+    this._picture = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PreviewPicturesFields.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PreviewPicturesFields.AsObject {
+    return {
+      route: this.route,
+      picture: this.picture ? this.picture.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PreviewPicturesFields.AsProtobufJSON {
+    return {
+      route: this.route,
+      picture: this.picture ? this.picture.toProtobufJSON(options) : null
+    };
+  }
+}
+export module PreviewPicturesFields {
+  /**
+   * Standard JavaScript object representation for PreviewPicturesFields
+   */
+  export interface AsObject {
+    route?: boolean;
+    picture?: PictureFields.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for PreviewPicturesFields
+   */
+  export interface AsProtobufJSON {
+    route?: boolean;
+    picture?: PictureFields.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemFields
+ */
+export class ItemFields implements GrpcMessage {
+  static id = 'goautowp.ItemFields';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemFields();
+    ItemFields.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemFields) {
+    _instance.nameHtml = _instance.nameHtml || false;
+    _instance.nameDefault = _instance.nameDefault || false;
+    _instance.description = _instance.description || false;
+    _instance.hasText = _instance.hasText || false;
+    _instance.previewPictures = _instance.previewPictures || undefined;
+    _instance.totalPictures = _instance.totalPictures || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemFields,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.nameHtml = _reader.readBool();
+          break;
+        case 2:
+          _instance.nameDefault = _reader.readBool();
+          break;
+        case 3:
+          _instance.description = _reader.readBool();
+          break;
+        case 4:
+          _instance.hasText = _reader.readBool();
+          break;
+        case 5:
+          _instance.previewPictures = new PreviewPicturesFields();
+          _reader.readMessage(
+            _instance.previewPictures,
+            PreviewPicturesFields.deserializeBinaryFromReader
+          );
+          break;
+        case 6:
+          _instance.totalPictures = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemFields.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: ItemFields, _writer: BinaryWriter) {
+    if (_instance.nameHtml) {
+      _writer.writeBool(1, _instance.nameHtml);
+    }
+    if (_instance.nameDefault) {
+      _writer.writeBool(2, _instance.nameDefault);
+    }
+    if (_instance.description) {
+      _writer.writeBool(3, _instance.description);
+    }
+    if (_instance.hasText) {
+      _writer.writeBool(4, _instance.hasText);
+    }
+    if (_instance.previewPictures) {
+      _writer.writeMessage(
+        5,
+        _instance.previewPictures as any,
+        PreviewPicturesFields.serializeBinaryToWriter
+      );
+    }
+    if (_instance.totalPictures) {
+      _writer.writeBool(6, _instance.totalPictures);
+    }
+  }
+
+  private _nameHtml?: boolean;
+  private _nameDefault?: boolean;
+  private _description?: boolean;
+  private _hasText?: boolean;
+  private _previewPictures?: PreviewPicturesFields;
+  private _totalPictures?: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemFields to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemFields.AsObject>) {
+    _value = _value || {};
+    this.nameHtml = _value.nameHtml;
+    this.nameDefault = _value.nameDefault;
+    this.description = _value.description;
+    this.hasText = _value.hasText;
+    this.previewPictures = _value.previewPictures
+      ? new PreviewPicturesFields(_value.previewPictures)
+      : undefined;
+    this.totalPictures = _value.totalPictures;
+    ItemFields.refineValues(this);
+  }
+  get nameHtml(): boolean | undefined {
+    return this._nameHtml;
+  }
+  set nameHtml(value: boolean | undefined) {
+    this._nameHtml = value;
+  }
+  get nameDefault(): boolean | undefined {
+    return this._nameDefault;
+  }
+  set nameDefault(value: boolean | undefined) {
+    this._nameDefault = value;
+  }
+  get description(): boolean | undefined {
+    return this._description;
+  }
+  set description(value: boolean | undefined) {
+    this._description = value;
+  }
+  get hasText(): boolean | undefined {
+    return this._hasText;
+  }
+  set hasText(value: boolean | undefined) {
+    this._hasText = value;
+  }
+  get previewPictures(): PreviewPicturesFields | undefined {
+    return this._previewPictures;
+  }
+  set previewPictures(value: PreviewPicturesFields | undefined) {
+    this._previewPictures = value;
+  }
+  get totalPictures(): boolean | undefined {
+    return this._totalPictures;
+  }
+  set totalPictures(value: boolean | undefined) {
+    this._totalPictures = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemFields.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemFields.AsObject {
+    return {
+      nameHtml: this.nameHtml,
+      nameDefault: this.nameDefault,
+      description: this.description,
+      hasText: this.hasText,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toObject()
+        : undefined,
+      totalPictures: this.totalPictures
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemFields.AsProtobufJSON {
+    return {
+      nameHtml: this.nameHtml,
+      nameDefault: this.nameDefault,
+      description: this.description,
+      hasText: this.hasText,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toProtobufJSON(options)
+        : null,
+      totalPictures: this.totalPictures
+    };
+  }
+}
+export module ItemFields {
+  /**
+   * Standard JavaScript object representation for ItemFields
+   */
+  export interface AsObject {
+    nameHtml?: boolean;
+    nameDefault?: boolean;
+    description?: boolean;
+    hasText?: boolean;
+    previewPictures?: PreviewPicturesFields.AsObject;
+    totalPictures?: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemFields
+   */
+  export interface AsProtobufJSON {
+    nameHtml?: boolean;
+    nameDefault?: boolean;
+    description?: boolean;
+    hasText?: boolean;
+    previewPictures?: PreviewPicturesFields.AsProtobufJSON | null;
+    totalPictures?: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ListItemsRequest
+ */
+export class ListItemsRequest implements GrpcMessage {
+  static id = 'goautowp.ListItemsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ListItemsRequest();
+    ListItemsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ListItemsRequest) {
+    _instance.language = _instance.language || '';
+    _instance.fields = _instance.fields || undefined;
+    _instance.typeId = _instance.typeId || 0;
+    _instance.descendantPictures = _instance.descendantPictures || undefined;
+    _instance.previewPictures = _instance.previewPictures || undefined;
+    _instance.limit = _instance.limit || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ListItemsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.language = _reader.readString();
+          break;
+        case 2:
+          _instance.fields = new ItemFields();
+          _reader.readMessage(
+            _instance.fields,
+            ItemFields.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 4:
+          _instance.descendantPictures = new ItemPicturesRequest();
+          _reader.readMessage(
+            _instance.descendantPictures,
+            ItemPicturesRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 5:
+          _instance.previewPictures = new ItemPicturesRequest();
+          _reader.readMessage(
+            _instance.previewPictures,
+            ItemPicturesRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 6:
+          _instance.limit = _reader.readUint64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ListItemsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ListItemsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.language) {
+      _writer.writeString(1, _instance.language);
+    }
+    if (_instance.fields) {
+      _writer.writeMessage(
+        2,
+        _instance.fields as any,
+        ItemFields.serializeBinaryToWriter
+      );
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(3, _instance.typeId);
+    }
+    if (_instance.descendantPictures) {
+      _writer.writeMessage(
+        4,
+        _instance.descendantPictures as any,
+        ItemPicturesRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.previewPictures) {
+      _writer.writeMessage(
+        5,
+        _instance.previewPictures as any,
+        ItemPicturesRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.limit) {
+      _writer.writeUint64String(6, _instance.limit);
+    }
+  }
+
+  private _language?: string;
+  private _fields?: ItemFields;
+  private _typeId?: ItemType;
+  private _descendantPictures?: ItemPicturesRequest;
+  private _previewPictures?: ItemPicturesRequest;
+  private _limit?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ListItemsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ListItemsRequest.AsObject>) {
+    _value = _value || {};
+    this.language = _value.language;
+    this.fields = _value.fields ? new ItemFields(_value.fields) : undefined;
+    this.typeId = _value.typeId;
+    this.descendantPictures = _value.descendantPictures
+      ? new ItemPicturesRequest(_value.descendantPictures)
+      : undefined;
+    this.previewPictures = _value.previewPictures
+      ? new ItemPicturesRequest(_value.previewPictures)
+      : undefined;
+    this.limit = _value.limit;
+    ListItemsRequest.refineValues(this);
+  }
+  get language(): string | undefined {
+    return this._language;
+  }
+  set language(value: string | undefined) {
+    this._language = value;
+  }
+  get fields(): ItemFields | undefined {
+    return this._fields;
+  }
+  set fields(value: ItemFields | undefined) {
+    this._fields = value;
+  }
+  get typeId(): ItemType | undefined {
+    return this._typeId;
+  }
+  set typeId(value: ItemType | undefined) {
+    this._typeId = value;
+  }
+  get descendantPictures(): ItemPicturesRequest | undefined {
+    return this._descendantPictures;
+  }
+  set descendantPictures(value: ItemPicturesRequest | undefined) {
+    this._descendantPictures = value;
+  }
+  get previewPictures(): ItemPicturesRequest | undefined {
+    return this._previewPictures;
+  }
+  set previewPictures(value: ItemPicturesRequest | undefined) {
+    this._previewPictures = value;
+  }
+  get limit(): string | undefined {
+    return this._limit;
+  }
+  set limit(value: string | undefined) {
+    this._limit = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ListItemsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ListItemsRequest.AsObject {
+    return {
+      language: this.language,
+      fields: this.fields ? this.fields.toObject() : undefined,
+      typeId: this.typeId,
+      descendantPictures: this.descendantPictures
+        ? this.descendantPictures.toObject()
+        : undefined,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toObject()
+        : undefined,
+      limit: this.limit
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ListItemsRequest.AsProtobufJSON {
+    return {
+      language: this.language,
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null,
+      typeId:
+        ItemType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      descendantPictures: this.descendantPictures
+        ? this.descendantPictures.toProtobufJSON(options)
+        : null,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toProtobufJSON(options)
+        : null,
+      limit: this.limit
+    };
+  }
+}
+export module ListItemsRequest {
+  /**
+   * Standard JavaScript object representation for ListItemsRequest
+   */
+  export interface AsObject {
+    language?: string;
+    fields?: ItemFields.AsObject;
+    typeId?: ItemType;
+    descendantPictures?: ItemPicturesRequest.AsObject;
+    previewPictures?: ItemPicturesRequest.AsObject;
+    limit?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for ListItemsRequest
+   */
+  export interface AsProtobufJSON {
+    language?: string;
+    fields?: ItemFields.AsProtobufJSON | null;
+    typeId?: string;
+    descendantPictures?: ItemPicturesRequest.AsProtobufJSON | null;
+    previewPictures?: ItemPicturesRequest.AsProtobufJSON | null;
+    limit?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIItem
+ */
+export class APIItem implements GrpcMessage {
+  static id = 'goautowp.APIItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIItem();
+    APIItem.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIItem) {
+    _instance.id = _instance.id || '0';
+    _instance.catname = _instance.catname || '';
+    _instance.name = _instance.name || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.catname = _reader.readString();
+          break;
+        case 3:
+          _instance.name = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: APIItem, _writer: BinaryWriter) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.catname) {
+      _writer.writeString(2, _instance.catname);
+    }
+    if (_instance.name) {
+      _writer.writeString(3, _instance.name);
+    }
+  }
+
+  private _id?: string;
+  private _catname?: string;
+  private _name?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIItem.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.catname = _value.catname;
+    this.name = _value.name;
+    APIItem.refineValues(this);
+  }
+  get id(): string | undefined {
+    return this._id;
+  }
+  set id(value: string | undefined) {
+    this._id = value;
+  }
+  get catname(): string | undefined {
+    return this._catname;
+  }
+  set catname(value: string | undefined) {
+    this._catname = value;
+  }
+  get name(): string | undefined {
+    return this._name;
+  }
+  set name(value: string | undefined) {
+    this._name = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIItem.AsObject {
+    return {
+      id: this.id,
+      catname: this.catname,
+      name: this.name
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIItem.AsProtobufJSON {
+    return {
+      id: this.id,
+      catname: this.catname,
+      name: this.name
+    };
+  }
+}
+export module APIItem {
+  /**
+   * Standard JavaScript object representation for APIItem
+   */
+  export interface AsObject {
+    id?: string;
+    catname?: string;
+    name?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIItem
+   */
+  export interface AsProtobufJSON {
+    id?: string;
+    catname?: string;
+    name?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIItemList
+ */
+export class APIItemList implements GrpcMessage {
+  static id = 'goautowp.APIItemList';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIItemList();
+    APIItemList.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIItemList) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIItemList,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIItem();
+          _reader.readMessage(
+            messageInitializer1,
+            APIItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIItemList.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIItemList,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIItemList to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIItemList.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIItem(m));
+    APIItemList.refineValues(this);
+  }
+  get items(): APIItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APIItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIItemList.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIItemList.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIItemList.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIItemList {
+  /**
+   * Standard JavaScript object representation for APIItemList
+   */
+  export interface AsObject {
+    items?: APIItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIItemList
+   */
+  export interface AsProtobufJSON {
+    items?: APIItem.AsProtobufJSON[] | null;
   }
 }
