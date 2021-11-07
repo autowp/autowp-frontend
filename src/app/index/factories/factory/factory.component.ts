@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIIndexFactoriesItem} from '../factories.component';
 import { APIService } from '../../../services/api.service';
+import {APITopFactoriesListItem} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-index-factories-factory',
@@ -8,7 +8,7 @@ import { APIService } from '../../../services/api.service';
   styleUrls: ['./factory.component.scss']
 })
 export class IndexFactoriesFactoryComponent {
-  @Input() factory: APIIndexFactoriesItem;
+  @Input() factory: APITopFactoriesListItem;
   public loading = true;
   public html = '';
 

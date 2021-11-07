@@ -6,6 +6,6 @@
 </ng-template>
 <span>
   <a [routerLink]="['/factories', factory.id]">{{factory.name}}</a>
-  <span class="count">({{factory.count - factory.new_count}}<span *ngIf="factory.new_count > 0"
-    [ngbPopover]="popover" triggers="mouseenter:mouseleave" (shown)="shown()" container="body">+{{factory.new_count}}</span>)</span>
+  <span class="count">({{factory.count - factory.newCount}}<span *ngIf="factory.newCount > 0"
+    [ngbPopover]="popover" triggers="mouseenter:mouseleave" (shown)="shown()" container="body">+{{factory.newCount}}</span>)</span>
 </span>

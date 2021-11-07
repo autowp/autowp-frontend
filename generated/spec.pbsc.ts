@@ -1409,6 +1409,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Items/GetTopFactoriesList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITopFactoriesList>>
+     */
+    getTopFactoriesList: (
+      requestData: thisProto.GetTopFactoriesListRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITopFactoriesList>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTopFactoriesList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTopFactoriesListRequest,
+        responseClass: thisProto.APITopFactoriesList
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Items/List
      *
      * @param requestMessage Request message
@@ -1468,6 +1489,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopPersonsList> {
     return this.$raw
       .getTopPersonsList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Items/GetTopFactoriesList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITopFactoriesList>
+   */
+  getTopFactoriesList(
+    requestData: thisProto.GetTopFactoriesListRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITopFactoriesList> {
+    return this.$raw
+      .getTopFactoriesList(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

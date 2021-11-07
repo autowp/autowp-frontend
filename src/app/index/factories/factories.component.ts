@@ -1,35 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import { APIService } from '../../services/api.service';
-
-export interface APIIndexFactoriesItem {
-  id: number;
-  name: string;
-  count: number;
-  new_count: number;
-}
-
-interface APIIndexFactoriesResponse {
-  items: APIIndexFactoriesItem[];
-}
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {ItemsClient} from '../../../../generated/spec.pbsc';
+import {APITopFactoriesList, GetTopFactoriesListRequest} from '../../../../generated/spec.pb';
+import {LanguageService} from '../../services/language';
 
 @Component({
   selector: 'app-index-factories',
   templateUrl: './factories.component.html'
 })
-export class IndexFactoriesComponent implements  OnInit, OnDestroy {
-  public factories: APIIndexFactoriesItem[];
-  private sub: Subscription;
+export class IndexFactoriesComponent implements  OnInit {
+  public factories$: Observable<APITopFactoriesList>;
 
-  constructor(private api: APIService) {}
+  constructor(private items: ItemsClient, private languageService: LanguageService) {}
 
   ngOnInit(): void {
-    this.sub = this.api.request<APIIndexFactoriesResponse>('GET', 'index/factories').subscribe(response => {
-      this.factories = response.items;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.factories$ = this.items.getTopFactoriesList(new GetTopFactoriesListRequest({
+      language: this.languageService.language
+    }))
   }
 }
