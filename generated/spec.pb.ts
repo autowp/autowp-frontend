@@ -9640,7 +9640,7 @@ export class APITopBrandsListItem implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: APITopBrandsListItem) {
-    _instance.id = _instance.id || 0;
+    _instance.id = _instance.id || '0';
     _instance.catname = _instance.catname || '';
     _instance.name = _instance.name || '';
     _instance.itemsCount = _instance.itemsCount || 0;
@@ -9661,7 +9661,7 @@ export class APITopBrandsListItem implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.id = _reader.readInt32();
+          _instance.id = _reader.readInt64String();
           break;
         case 2:
           _instance.catname = _reader.readString();
@@ -9693,7 +9693,7 @@ export class APITopBrandsListItem implements GrpcMessage {
     _writer: BinaryWriter
   ) {
     if (_instance.id) {
-      _writer.writeInt32(1, _instance.id);
+      _writer.writeInt64String(1, _instance.id);
     }
     if (_instance.catname) {
       _writer.writeString(2, _instance.catname);
@@ -9709,7 +9709,7 @@ export class APITopBrandsListItem implements GrpcMessage {
     }
   }
 
-  private _id?: number;
+  private _id?: string;
   private _catname?: string;
   private _name?: string;
   private _itemsCount?: number;
@@ -9728,10 +9728,10 @@ export class APITopBrandsListItem implements GrpcMessage {
     this.newItemsCount = _value.newItemsCount;
     APITopBrandsListItem.refineValues(this);
   }
-  get id(): number | undefined {
+  get id(): string | undefined {
     return this._id;
   }
-  set id(value: number | undefined) {
+  set id(value: string | undefined) {
     this._id = value;
   }
   get catname(): string | undefined {
@@ -9812,7 +9812,7 @@ export module APITopBrandsListItem {
    * Standard JavaScript object representation for APITopBrandsListItem
    */
   export interface AsObject {
-    id?: number;
+    id?: string;
     catname?: string;
     name?: string;
     itemsCount?: number;
@@ -9823,7 +9823,7 @@ export module APITopBrandsListItem {
    * Protobuf JSON representation for APITopBrandsListItem
    */
   export interface AsProtobufJSON {
-    id?: number;
+    id?: string;
     catname?: string;
     name?: string;
     itemsCount?: number;
