@@ -34,7 +34,6 @@ import {ThumbnailModule} from '../thumbnail/thumbnail.module';
     APICommentsModule,
     ThumbnailModule
   ],
-  entryComponents: [CommentsVotesComponent],
   exports: [CommentsComponent]
 })
 export class CommentsModule {}

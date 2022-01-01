@@ -11,7 +11,6 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     CommonModule,
     MapRoutingModule,
     LeafletModule
-  ],
-  entryComponents: [MapPopupComponent]
+  ]
 })
 export class MapModule { }

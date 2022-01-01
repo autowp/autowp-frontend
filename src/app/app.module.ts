@@ -86,10 +86,6 @@ export class SentryErrorHandler implements ErrorHandler {
     Error404Component,
     UsersOnlineComponent
   ],
-  entryComponents: [
-    VehicleTypesModalComponent,
-    UsersOnlineComponent
-  ],
   imports: [
     PaginatorModule,
     UserModule,
@@ -121,7 +117,7 @@ export class SentryErrorHandler implements ErrorHandler {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor, multi: true },
     { provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor, multi: true },
-    {provide: ErrorHandler, useClass: GlobalErrorHandler},
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     ConfigurationService,
     APIService,

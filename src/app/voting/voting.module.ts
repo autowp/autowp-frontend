@@ -25,7 +25,6 @@ import { VotingService } from './voting.service';
     CommentsModule,
     UserModule
   ],
-  entryComponents: [VotingVotesComponent],
   providers: [VotingService]
 })
 export class VotingModule {}

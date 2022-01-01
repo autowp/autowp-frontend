@@ -17,7 +17,6 @@ import { APIPictureModerVoteTemplateModule } from '../api/picture-moder-vote-tem
     APIPictureModerVoteTemplateModule,
     NgbModalModule
   ],
-  entryComponents: [PictureModerVoteModalComponent],
   exports: [PictureModerVoteComponent]
 })
 export class PictureModerVoteModule {}

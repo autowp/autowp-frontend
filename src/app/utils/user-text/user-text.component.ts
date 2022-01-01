@@ -153,7 +153,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  private tryUserLink(uri: URLParse): Observable<CommentTextElement|null>
+  private tryUserLink(uri: URLParse<string>): Observable<CommentTextElement|null>
   {
     const re = new RegExp(/^\/users\/([^\/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
@@ -194,7 +194,7 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
     return of(null);
   }
 
-  private tryPictureLink(uri: URLParse): Observable<CommentTextElement|null> {
+  private tryPictureLink(uri: URLParse<string>): Observable<CommentTextElement|null> {
     const re = new RegExp(/\/pictures?\/([^\/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
 

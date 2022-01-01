@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PulseRoutingModule } from './pulse-routing.module';
 import { PulseComponent } from './pulse.component';
-import { ChartsModule } from 'ng2-charts';
+import {NgChartsModule} from 'ng2-charts';
 import { UserModule } from '../user/user.module';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     PulseRoutingModule,
-    ChartsModule,
+    NgChartsModule,
     UserModule,
     HttpClientModule
   ]

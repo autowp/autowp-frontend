@@ -28,7 +28,6 @@ import { NgbProgressbarModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap
     NgbProgressbarModule,
     NgbModalModule,
     ThumbnailModule
-  ],
-  entryComponents: [UploadCropComponent]
+  ]
 })
 export class UploadModule {}

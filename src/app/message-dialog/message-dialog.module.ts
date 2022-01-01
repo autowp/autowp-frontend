@@ -12,9 +12,6 @@ import { MessageDialogService } from './message-dialog.service';
     NgbModalModule,
     FormsModule
   ],
-  entryComponents: [
-    ModalMessageComponent
-  ],
   providers: [
     MessageDialogService
   ]
