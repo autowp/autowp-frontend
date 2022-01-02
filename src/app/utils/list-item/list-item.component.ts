@@ -1,7 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPicture} from '../../services/picture';
-import {Subscription} from 'rxjs';
 import {APIImage} from '../../services/api.service';
 import {APIItem, APIItemChildsCounts} from '../../services/item';
 
@@ -51,11 +50,10 @@ export interface CatalogueListItem {
   selector: 'app-catalogue-list-item',
   templateUrl: './list-item.component.html'
 })
-export class CatalogueListItemComponent implements OnInit, OnDestroy {
+export class CatalogueListItemComponent {
   @Input() item: CatalogueListItem;
 
-  public isModer = false;
-  private sub: Subscription;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(private acl: ACLService) { }
 
@@ -72,16 +70,6 @@ export class CatalogueListItemComponent implements OnInit, OnDestroy {
 
   public canHavePhoto(item: CatalogueListItem) {
     return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
-  }
-
-  ngOnInit(): void {
-    this.sub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   public thumbnailColClass() {

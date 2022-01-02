@@ -29,15 +29,19 @@
 
 <div *ngIf="current">
 
-  <p *ngIf="isModer" class="mb-4">
-    <i class="fa fa-cog" aria-hidden="true"></i>
-    <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
+  <ng-container *ngIf="isModer$|async as isModer">
+    <p *ngIf="isModer" class="mb-4">
+      <i class="fa fa-cog" aria-hidden="true"></i>
+      <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
 
-    <span *ngIf="canAddCar">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-      <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{getItemTypeTranslation(category.item_type_id, 'add-sub-item')}}</a>
-    </span>
-  </p>
+      <ng-container *ngIf="canAddCar$|async as canAddCar">
+        <span *ngIf="canAddCar">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{getItemTypeTranslation(category.item_type_id, 'add-sub-item')}}</a>
+        </span>
+      </ng-container>
+    </p>
+  </ng-container>
 
   <app-markdown [markdown]="category.description" *ngIf="current.description && current.description.length > 0"></app-markdown>
 

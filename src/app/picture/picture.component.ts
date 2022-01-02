@@ -21,16 +21,14 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   @Input() galleryRoute: string[];
   @Output() changed = new EventEmitter<boolean>();
 
-  public isModer = false;
-  public canEditSpecs = false;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public canEditSpecs$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT);
   public showShareDialog = false;
   public user: APIUser;
   private sub: Subscription;
   public location;
   public engines: APIItem[] = [];
   public statusLoading = false;
-  private isModerSub: Subscription;
-  private canEditSpecsSub: Subscription;
 
   constructor(
     private acl: ACLService,
@@ -44,21 +42,11 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.location = location;
 
-    this.isModerSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe((isModer) => (this.isModer = isModer));
-
-    this.canEditSpecsSub = this.acl
-      .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT)
-      .subscribe((canEditSpecs) => (this.canEditSpecs = canEditSpecs));
-
     this.sub = this.auth.getUser().pipe(tap((user) => (this.user = user))).subscribe();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.isModerSub.unsubscribe();
-    this.canEditSpecsSub.unsubscribe();
   }
 
   public savePerspective(perspectiveID: number|null, item: APIPictureItem) {

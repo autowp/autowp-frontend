@@ -29,16 +29,20 @@
     <i class="fa fa-cog" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
 
-    <ng-container *ngIf="canAddItem && item.is_group">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-      <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{getItemTypeTranslation(item.item_type_id, 'add-sub-item')}}</a>
+    <ng-container *ngIf="canAddItem$|async as canAddItem">
+      <ng-container *ngIf="canAddItem && item.is_group">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{getItemTypeTranslation(item.item_type_id, 'add-sub-item')}}</a>
+      </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
-      <i class="fa fa-th" aria-hidden="true"></i>
-      <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
-        <ng-container i18n>inbox</ng-container> ({{item.inbox_pictures_count}})
-      </a>
+    <ng-container *ngIf="canAcceptPicture$|async as canAcceptPicture">
+      <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
+        <i class="fa fa-th" aria-hidden="true"></i>
+        <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
+          <ng-container i18n>inbox</ng-container> ({{item.inbox_pictures_count}})
+        </a>
+      </ng-container>
     </ng-container>
 
     <ng-container *ngIf="item.comments_attentions_count">

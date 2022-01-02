@@ -4,7 +4,6 @@ import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
 
 @Component({
   selector: 'app-twins-group',
@@ -13,7 +12,6 @@ import {ACLService, Privilege, Resource} from '../services/acl.service';
 export class TwinsGroupComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
-  public canEdit = false;
   public selectedBrands: string[] = [];
   private aclSub: Subscription;
 
@@ -21,14 +19,9 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private acl: ACLService
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.EDIT)
-      .subscribe(canEdit => (this.canEdit = canEdit));
-
     this.sub = this.route.paramMap
       .pipe(
         map(params => parseInt(params.get('group'), 10)),

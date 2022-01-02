@@ -20,10 +20,12 @@
 
   <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
   <a class="nav-link active" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
-  <a *ngIf="isModer" class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
-    <i class="fa fa-cog" aria-hidden="true"></i>
-    <ng-container i18n>edit</ng-container>
-  </a>
+  <ng-container *ngIf="isModer$|async as isModer">
+    <a *ngIf="isModer" class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
+      <i class="fa fa-cog" aria-hidden="true"></i>
+      <ng-container i18n>edit</ng-container>
+    </a>
+  </ng-container>
 </ul>
 
 <app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>

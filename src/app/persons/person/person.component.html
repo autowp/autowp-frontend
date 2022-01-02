@@ -13,10 +13,12 @@
   <h1 [innerHTML]="item.name_html"></h1>
 </div>
 
-<p *ngIf="isModer && item">
-  <i class="fa fa-cog mr-1" aria-hidden="true"></i>
-  <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-</p>
+<ng-container *ngIf="isModer$|async as isModer">
+  <p *ngIf="isModer && item">
+    <i class="fa fa-cog mr-1" aria-hidden="true"></i>
+    <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+  </p>
+</ng-container>
 
 <div class="card card-body mb-4" *ngIf="item && (links.length > 0 || item.description)">
   <app-markdown [markdown]="item.description"></app-markdown>

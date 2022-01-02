@@ -4,7 +4,6 @@ import {of, Subscription} from 'rxjs';
 import {PageEnvService} from '../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {APIPicture, PictureService} from '../services/picture';
 import {APIPaginator} from '../services/api.service';
 import {ToastsService} from '../toasts/toasts.service';
@@ -16,26 +15,19 @@ import {ToastsService} from '../toasts/toasts.service';
 export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
-  public canEdit = false;
   public selectedBrands: string[] = [];
   public pictures: APIPicture[] = [];
   public paginator: APIPaginator;
-  private aclSub: Subscription;
 
   constructor(
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private acl: ACLService,
     private pictureService: PictureService,
     private toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.EDIT)
-      .subscribe(canEdit => (this.canEdit = canEdit));
-
     this.sub = this.route.paramMap
       .pipe(
         map(params => parseInt(params.get('group'), 10)),
@@ -102,6 +94,5 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

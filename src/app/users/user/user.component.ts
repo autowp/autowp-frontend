@@ -44,7 +44,7 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   public canBeInContacts = false;
   public canViewIp = false;
   public canBan = false;
-  public isModer = false;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   private aclSub: Subscription;
 
   constructor(
@@ -66,10 +66,6 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     const fields =
       'identity,gravatar_hash,photo,renames,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip';
 

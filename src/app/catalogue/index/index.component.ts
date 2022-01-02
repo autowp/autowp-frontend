@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, Subscription, of, combineLatest} from 'rxjs';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
@@ -24,7 +24,7 @@ interface APIBrandSection {
   groups: APIBrandSectionGroup[];
 }
 
-interface ChunkedSesction {
+interface ChunkedSection {
   name: string;
   halfChuks: APIBrandSectionGroup[][][];
   routerLink: string[];
@@ -41,15 +41,14 @@ interface PictureRoute {
 })
 export class CatalogueIndexComponent implements OnInit, OnDestroy {
   public brand: APIItem;
-  public isModer = false;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
   private sub: Subscription;
-  private aclSub: Subscription;
   public pictures: PictureRoute[][];
   public officialLinks: APIItemLink[] = [];
   public clubLinks: APIItemLink[] = [];
   public otherLinks: APIItemLink[] = [];
   public factories: APIItem[] = [];
-  public sections: ChunkedSesction[];
+  public sections: ChunkedSection[];
 
   constructor(
     private pageEnv: PageEnvService,
@@ -65,10 +64,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     this.sub = this.getBrand().pipe(
       tap(brand => {
         this.brand = brand;
@@ -99,10 +94,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  private getIsModer() {
-    return this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  }
-
   private getCatname() {
     return this.route.paramMap.pipe(
       map(params => {
@@ -114,10 +105,8 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
   }
 
   private getBrand() {
-    return combineLatest([this.getIsModer(), this.getCatname()]).pipe(
+    return combineLatest([this.isModer$, this.getCatname()]).pipe(
       switchMap(([isModer, catname]) => {
-        this.isModer = isModer;
-
         if (!catname) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true
@@ -206,7 +195,6 @@ export class CatalogueIndexComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 
   public getCatalogueSectionsTranslation(id: string): string {

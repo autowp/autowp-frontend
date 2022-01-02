@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../../services/api.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit} from '@angular/core';
+import {EMPTY} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIItem, ItemService} from '../../services/item';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
@@ -12,10 +11,38 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item
   selector: 'app-cutaway-authors',
   templateUrl: './authors.component.html'
 })
-export class CutawayAuthorsComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public paginator: APIPaginator;
-  public items: CatalogueListItem[];
+export class CutawayAuthorsComponent implements OnInit {
+
+  public query$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(30),
+    switchMap(page =>
+      this.itemService.getItems({
+        fields: 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
+        type_id: 8,
+        descendant_pictures: {
+          type_id: 2,
+          status: 'accepted',
+          contains_perspective_id: 9,
+        },
+        preview_pictures: {
+          type_id: 2,
+          contains_perspective_id: 9,
+        },
+        page,
+        limit: 12,
+      })
+    ),
+    catchError(response => {
+      this.toastService.response(response)
+      return EMPTY;
+    }),
+    map(response => ({
+      items: this.prepareItems(response.items),
+      paginator: response.paginator
+    }))
+  );
 
   constructor(
     private itemService: ItemService,
@@ -36,42 +63,6 @@ export class CutawayAuthorsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => parseInt(params.get('page'), 10)),
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(page =>
-          this.itemService.getItems({
-            fields: 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
-            type_id: 8,
-            descendant_pictures: {
-              type_id: 2,
-              status: 'accepted',
-              contains_perspective_id: 9,
-            },
-            preview_pictures: {
-              type_id: 2,
-              contains_perspective_id: 9,
-            },
-            page,
-            limit: 12,
-            /*
-            fields:
-              'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-
-            order: 15*/
-          })
-        )
-      )
-      .subscribe(
-        response => {
-          this.items = this.prepareItems(response.items);
-          this.paginator = response.paginator;
-        },
-        response => this.toastService.response(response)
-      );
   }
 
   private prepareItems(items: APIItem[]): CatalogueListItem[] {
@@ -111,9 +102,5 @@ export class CutawayAuthorsComponent implements OnInit, OnDestroy {
         childs_counts: null
       };
     });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
   }
 }

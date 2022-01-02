@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {APIItem, ItemService} from '../../../../services/item';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {Observable, of, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemParent, ItemParentService} from '../../../../services/item-parent';
@@ -11,8 +11,7 @@ import {APIService} from '../../../../services/api.service';
   selector: 'app-moder-items-item-catalogue',
   templateUrl: './catalogue.component.html'
 })
-export class ModerItemsItemCatalogueComponent
-  implements OnInit, OnChanges, OnDestroy {
+export class ModerItemsItemCatalogueComponent implements OnChanges {
   @Input() item: APIItem;
 
   public loading = 0;
@@ -23,7 +22,7 @@ export class ModerItemsItemCatalogueComponent
 
   public canHaveParentBrand = false;
   public canHaveParents = false;
-  public canMove = false;
+  public canMove$ = this.acl.isAllowed(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
   public suggestions: APIItem[] = [];
   public parents: APIItemParent[] = [];
   public childs: APIItemParent[] = [];
@@ -31,7 +30,6 @@ export class ModerItemsItemCatalogueComponent
   public organizeTypeId: number;
 
   public itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]>;
-  private aclSub: Subscription;
 
   constructor(
     private acl: ACLService,
@@ -65,16 +63,6 @@ export class ModerItemsItemCatalogueComponent
             );
         })
       );
-  }
-
-  ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.MOVE)
-      .subscribe(allow => (this.canMove = !!allow));
-  }
-
-  ngOnDestroy(): void {
-    this.aclSub.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

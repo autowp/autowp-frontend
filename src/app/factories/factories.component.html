@@ -16,10 +16,12 @@
 <div class="nav nav-pills" style="margin-bottom:10px" *ngIf="factory">
   <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
   <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
-  <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]" *ngIf="isModer">
-    <i class="fa fa-cog" aria-hidden="true"></i>
-    <ng-container i18n>edit</ng-container>
-  </a>
+  <ng-container *ngIf="isModer$|async as isModer">
+    <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]" *ngIf="isModer">
+      <i class="fa fa-cog" aria-hidden="true"></i>
+      <ng-container i18n>edit</ng-container>
+    </a>
+  </ng-container>
 </div>
 
 <div style="width:100%;height:300px" class="mb-4" *ngIf="factory && factory.lng && factory.lat" leaflet [leafletOptions]="options"

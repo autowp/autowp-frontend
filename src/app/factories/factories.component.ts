@@ -28,7 +28,7 @@ export class FactoryComponent implements OnInit, OnDestroy {
   public factory: APIItem;
   public pictures: APIPicture[] = [];
   public relatedPictures: APIItemRelatedGroupItem[] = [];
-  public isModer = false;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   public markers: Marker[] = [];
   public options = {
@@ -40,7 +40,6 @@ export class FactoryComponent implements OnInit, OnDestroy {
     zoom: 4,
     center: latLng(50, 20)
   };
-  private aclSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -53,10 +52,6 @@ export class FactoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     this.querySub = this.route.paramMap
       .pipe(
         map(params => params.get('id')),
@@ -136,6 +131,5 @@ export class FactoryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.querySub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

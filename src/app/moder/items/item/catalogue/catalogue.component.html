@@ -1,12 +1,13 @@
+
 <div class="card card-body" *ngIf="item">
-  <div class="mb-3">
+  <div class="mb-3" *ngIf="canMove$|async as canMove">
     <span [hidden]="loading <= 0">
       <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
     </span>
     <a *ngIf="item && item.is_group && canMove && item.childs_count > 0" [routerLink]="['/moder/items/item', item.id, 'organize']"
       [queryParams]="{item_type_id: organizeTypeId}" class="btn btn-secondary" i18n>Turbo group creator</a>
   </div>
-  <table class="table">
+  <table class="table" *ngIf="canMove$|async as canMove">
     <thead>
       <tr>
         <th i18n scope="col">Name</th>

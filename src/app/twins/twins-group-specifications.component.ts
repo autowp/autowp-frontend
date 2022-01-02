@@ -4,7 +4,6 @@ import { Subscription, of } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
 import { APIService } from '../services/api.service';
 
 @Component({
@@ -14,7 +13,6 @@ import { APIService } from '../services/api.service';
 export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
-  public canEdit = false;
   public resultHtml = '';
   private aclSub: Subscription;
 
@@ -22,15 +20,10 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private acl: ACLService,
     private api: APIService
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.EDIT)
-      .subscribe(canEdit => (this.canEdit = canEdit));
-
     this.sub = this.route.paramMap
       .pipe(
         map(params => parseInt(params.get('group'), 10)),

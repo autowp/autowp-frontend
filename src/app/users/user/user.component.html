@@ -74,9 +74,11 @@
       </div>
       <p i18n *ngIf="user.pictures_added <= 0">Not upload pictures</p>
 
-      <p *ngIf="isModer">
-        <a routerLink="/log" [queryParams]="{user_id: user.id}" i18n>User's log</a>
-      </p>
+      <ng-container *ngIf="isModer$|async as isModer">
+        <p *ngIf="isModer">
+          <a routerLink="/log" [queryParams]="{user_id: user.id}" i18n>User's log</a>
+        </p>
+      </ng-container>
     </div>
 
 

@@ -1,9 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {HttpEventType} from '@angular/common/http';
 import {APIImage, APIService} from '../../../../services/api.service';
-import {EMPTY, Subscription} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
@@ -11,11 +11,10 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   selector: 'app-moder-items-item-logo',
   templateUrl: './logo.component.html'
 })
-export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
+export class ModerItemsItemLogoComponent {
   @Input() item: APIItem;
 
-  public canLogo = false;
-  private aclSub: Subscription;
+  public canLogo$ = this.acl.isAllowed(Resource.BRAND, Privilege.LOGO);
   public progress: {
     filename: any;
     percentage: number;
@@ -25,16 +24,6 @@ export class ModerItemsItemLogoComponent implements OnInit, OnDestroy {
   } = null;
 
   constructor(private acl: ACLService, private api: APIService, private toastService: ToastsService) {}
-
-  ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.BRAND, Privilege.LOGO)
-      .subscribe(allow => (this.canLogo = allow));
-  }
-
-  ngOnDestroy(): void {
-    this.aclSub.unsubscribe();
-  }
 
   public onChange(event: any) {
     if (event.target.files.length <= 0) {

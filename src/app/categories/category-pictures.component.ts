@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
 import { ActivatedRoute } from '@angular/router';
 import {switchMap, tap, map} from 'rxjs/operators';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
 import { APIPaginator } from '../services/api.service';
 import { PictureService, APIPicture } from '../services/picture';
 import { chunkBy } from '../chunk';
@@ -25,30 +24,18 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   public category: APIItem;
   public current: APIItem;
   public pictures: PictureRoute[][] = [];
-  public isModer = false;
-  public canAddCar = false;
   public paginator: APIPaginator;
   public path: PathItem[];
-  private isModerSub: Subscription;
-  private canAddCarSub: Subscription;
 
   constructor(
     private itemService: ItemService,
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
     private route: ActivatedRoute,
-    private acl: ACLService,
     private categoriesService: CatagoriesService
   ) {}
 
   ngOnInit(): void {
-    this.isModerSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-    this.canAddCarSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.ADD)
-      .subscribe(canAddCar => (this.canAddCar = canAddCar));
-
     this.sub = this.categoriesService.categoryPipe(this.route)
       .pipe(
         tap((data) => {
@@ -110,8 +97,6 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.isModerSub.unsubscribe();
-    this.canAddCarSub.unsubscribe();
   }
 
   public dropdownOpenChange(item: PathItem) {

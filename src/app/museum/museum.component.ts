@@ -22,7 +22,7 @@ import {ToastsService} from '../toasts/toasts.service';
 })
 export class MuseumComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
-  public museumModer = false;
+  public museumModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   public links: APIItemLink[] = [];
   public pictures: APIPicture[] = [];
   public item: APIItem;
@@ -37,7 +37,6 @@ export class MuseumComponent implements OnInit, OnDestroy {
     zoom: 4,
     center: latLng(50, 20)
   };
-  private aclSub: Subscription;
 
   constructor(
     private acl: ACLService,
@@ -51,10 +50,6 @@ export class MuseumComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.museumModer = isModer));
-
     this.routeSub = this.route.paramMap
       .pipe(
         map(params => parseInt(params.get('id'), 10)),
@@ -141,6 +136,5 @@ export class MuseumComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

@@ -94,10 +94,12 @@
       <a [routerLink]="parentRouterLink.concat(['pictures'])"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
     </li>
 
-    <li *ngIf="isModer" class="list-inline-item">
-      <i class="fa fa-cog mr-1" aria-hidden="true"></i>
-      <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-    </li>
+    <ng-container *ngIf="isModer$|async as isModer">
+      <li *ngIf="isModer" class="list-inline-item">
+        <i class="fa fa-cog mr-1" aria-hidden="true"></i>
+        <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+      </li>
+    </ng-container>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
       <i class="fa fa-pencil mr-1" aria-hidden="true"></i>

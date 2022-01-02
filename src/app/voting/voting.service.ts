@@ -20,6 +20,8 @@ export interface APIVoting {
   variants: APIVotingVariant[];
   can_vote: boolean;
   text: string;
+  begin_date: string;
+  end_date: string;
 }
 
 export interface APIVotingVariantVotesGetOptions {

@@ -37,7 +37,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   public item: APIItem = null;
   public specsAllowed = false;
-  public canEditSpecifications = false;
+  public canEditSpecifications$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT);
 
   public tree: APIItemTreeItem;
 
@@ -77,7 +77,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   };
 
   public activeTab = 'meta';
-  private aclSub: Subscription;
 
   constructor(
     private api: APIService,
@@ -91,10 +90,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT)
-      .subscribe(allow => (this.canEditSpecifications = allow));
-
     this.routeSub = this.route.paramMap
       .pipe(
         map(params => parseInt(params.get('id'), 10)),
@@ -216,7 +211,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 
   private initTreeTab() {

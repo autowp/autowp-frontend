@@ -19,7 +19,15 @@
   </li>
 </ul>
 
-<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+<ng-container *ngIf="query$|async as response; else loading">
+  <app-catalogue-list-item [item]="item" *ngFor="let item of response.items"></app-catalogue-list-item>
+
+  <app-paginator [data]="response.paginator" *ngIf="response.paginator"></app-paginator>
+</ng-container>
 

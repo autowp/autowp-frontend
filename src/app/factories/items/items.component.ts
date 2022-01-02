@@ -24,8 +24,7 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
   public factory: APIItem;
   public items: CatalogueListItem[] = [];
   public paginator: APIPaginator;
-  public isModer = false;
-  private aclSub: Subscription;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(
     private itemService: ItemService,
@@ -37,10 +36,6 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     this.routeSub = this.route.paramMap
       .pipe(
         map(params => parseInt(params.get('id'), 10)),
@@ -151,6 +146,5 @@ export class FactoryItemsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

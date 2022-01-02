@@ -17,13 +17,11 @@ import {AuthService} from '../../services/auth.service';
 export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
-  public canEdit = false;
   public selectedBrands: string[] = [];
   public picture: APIPicture;
   public paginator: APIPaginator;
   public user: APIUser;
   private changed$ = new BehaviorSubject<boolean>(false);
-  private aclSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -36,10 +34,6 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.EDIT)
-      .subscribe((canEdit) => (this.canEdit = canEdit));
-
     const groupPipe = this.route.paramMap.pipe(
       map(route => parseInt(route.get('group'), 10)),
       distinctUntilChanged(),
@@ -151,6 +145,5 @@ export class TwinsGroupPictureComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

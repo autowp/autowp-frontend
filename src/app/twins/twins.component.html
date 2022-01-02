@@ -56,10 +56,12 @@
           <span class="fa fa-th mr-1" aria-hidden="true"></span>
           <a [routerLink]="['/twins/group', group.item.id, 'pictures']"><ng-container i18n>all pictures</ng-container> ({{group.item.accepted_pictures_count}})</a>
         </li>
-        <li *ngIf="canEdit">
-          <i class="fa fa-cog mr-1" aria-hidden="true"></i>
-          <a [routerLink]="['/moder/items/item', group.item.id]" i18n>edit</a>
-        </li>
+        <ng-container *ngIf="canEdit$|async as canEdit">
+          <li *ngIf="canEdit">
+            <i class="fa fa-cog mr-1" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/items/item', group.item.id]" i18n>edit</a>
+          </li>
+        </ng-container>
       </ul>
     </div>
 

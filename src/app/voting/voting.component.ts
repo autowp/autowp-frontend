@@ -10,7 +10,6 @@ import { AuthService } from '../services/auth.service';
 import { PageEnvService } from '../services/page-env.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingVotesComponent } from './votes/votes.component';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
 
@@ -24,8 +23,6 @@ export class VotingComponent implements OnInit, OnDestroy {
   public voting: APIVoting;
   public filter = false;
   public selected: {};
-  public isModer = false; // TODO: fetch value
-  private aclSub: Subscription;
 
   constructor(
     private api: APIService,
@@ -35,7 +32,6 @@ export class VotingComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     private pageEnv: PageEnvService,
     private modalService: NgbModal,
-    private acl: ACLService,
     private toastService: ToastsService
   ) {}
 
@@ -57,10 +53,6 @@ export class VotingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     this.routeSub = this.route.paramMap.subscribe(params => {
       this.id = parseInt(params.get('id'), 10);
       this.load(() => {
@@ -77,7 +69,6 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 
   public vote() {

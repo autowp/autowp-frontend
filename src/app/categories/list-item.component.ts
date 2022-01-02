@@ -1,9 +1,8 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { APIItem } from '../services/item';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {APIPicture} from '../services/picture';
 import {APIImage} from '../services/api.service';
-import {Subscription} from 'rxjs';
 
 interface PictureThumbRoute {
   picture: APIPicture|null;
@@ -15,15 +14,14 @@ interface PictureThumbRoute {
   selector: 'app-categories-list-item',
   templateUrl: './list-item.component.html'
 })
-export class CategoriesListItemComponent implements OnChanges, OnInit, OnDestroy {
+export class CategoriesListItemComponent implements OnChanges {
   @Input() item: APIItem;
   @Input() parentRouterLink: string[];
 
-  public isModer = false;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   public havePhoto = false;
   public canHavePhoto = false;
   public pictures: PictureThumbRoute[] = [];
-  private sub: Subscription;
 
   constructor(private acl: ACLService) { }
 
@@ -51,15 +49,5 @@ export class CategoriesListItemComponent implements OnChanges, OnInit, OnDestroy
         route: pic && pic.picture && this.parentRouterLink ? this.parentRouterLink.concat(['pictures', pic.picture.identity]) : null
       }));
     }
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  ngOnInit(): void {
-    this.sub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
   }
 }

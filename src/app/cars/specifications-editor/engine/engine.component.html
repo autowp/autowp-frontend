@@ -1,37 +1,39 @@
 <h2 i18n>Engine from catalogue</h2>
 
-<div *ngIf="isAllowedEditEngine">
-  <div *ngIf="engine">
-    <p>
-      <a [routerLink]="['/moder/items/item', engine.id]" [innerHTML]="engine.name_html"></a>
-    </p>
+<ng-container *ngIf="isAllowedEditEngine$|async as isAllowedEditEngine">
+  <div *ngIf="isAllowedEditEngine">
+    <div *ngIf="engine">
+      <p>
+        <a [routerLink]="['/moder/items/item', engine.id]" [innerHTML]="engine.name_html"></a>
+      </p>
+      <ng-container *ngIf="item.engine_inherit">
+        <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
+              <em>
+                <ng-container i18n>Inherited from</ng-container>
+                <a [href]="car.url" [innerHTML]="car.name_html"></a>
+              </em>
+            </h6-->
+      </ng-container>
+      <a routerLink="/cars/select-engine" [queryParams]="{item_id: item.id}" class="btn btn-primary" i18n>Select another engine</a>
+      <button class="btn btn-warning" (click)="cancelInheritance()" i18n>Cancel engine</button>
+      <button class="btn btn-warning" (click)="inheritEngine()" *ngIf="!item.engine_inherit" i18n>Inherit engine</button>
+    </div>
+    <div *ngIf="!engine">
+      <p i18n>[not selected]</p>
+      <a routerLink="/cars/select-engine" [queryParams]="{item_id: item.id}" class="btn btn-primary" i18n>Select engine</a>
+      <button class="btn btn-warning" (click)="inheritEngine()" *ngIf="!item.engine_inherit" i18n>Inherit engine</button>
+      <button class="btn btn-warning" (click)="cancelInheritance()" *ngIf="item.engine_inherit" i18n>Don't inherit engine</button>
+    </div>
+  </div>
+  <div *ngIf="engine && !isAllowedEditEngine">
+    <p [innerHTML]="engine.name_html"></p>
     <ng-container *ngIf="item.engine_inherit">
       <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
             <em>
               <ng-container i18n>Inherited from</ng-container>
-              <a [href]="car.url" [innerHTML]="car.name_html"></a>
+              <span [innerHTML]="car.name_html"></span>
             </em>
           </h6-->
     </ng-container>
-    <a routerLink="/cars/select-engine" [queryParams]="{item_id: item.id}" class="btn btn-primary" i18n>Select another engine</a>
-    <button class="btn btn-warning" (click)="cancelInheritance()" i18n>Cancel engine</button>
-    <button class="btn btn-warning" (click)="inheritEngine()" *ngIf="!item.engine_inherit" i18n>Inherit engine</button>
   </div>
-  <div *ngIf="!engine">
-    <p i18n>[not selected]</p>
-    <a routerLink="/cars/select-engine" [queryParams]="{item_id: item.id}" class="btn btn-primary" i18n>Select engine</a>
-    <button class="btn btn-warning" (click)="inheritEngine()" *ngIf="!item.engine_inherit" i18n>Inherit engine</button>
-    <button class="btn btn-warning" (click)="cancelInheritance()" *ngIf="item.engine_inherit" i18n>Don't inherit engine</button>
-  </div>
-</div>
-<div *ngIf="engine && !isAllowedEditEngine">
-  <p [innerHTML]="engine.name_html"></p>
-  <ng-container *ngIf="item.engine_inherit">
-    <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
-          <em>
-            <ng-container i18n>Inherited from</ng-container>
-            <span [innerHTML]="car.name_html"></span>
-          </em>
-        </h6-->
-  </ng-container>
-</div>
+</ng-container>

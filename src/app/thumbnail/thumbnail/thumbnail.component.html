@@ -16,7 +16,7 @@
         <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removing'"></i>
       </span>
 
-      <span i18n-title title="Resolution" ngPreserveWhitespaces>
+      <span i18n-title title="Resolution" ngPreserveWhitespaces *ngIf="isModer$|async as isModer">
         {{picture.resolution}}
         <i *ngIf="isModer && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" i18n-title title="Image is cropped ({{picture.crop_resolution}})"></i>
       </span>
@@ -51,13 +51,15 @@
     </p>
 
     <label class="btn btn-sm float-left mr-1 mb-2" [class.btn-primary]="picture.selected" [class.btn-secondary]="!picture.selected"
-      (click)="onPictureSelect($event)" *ngIf="selectable">
+      (click)="onPictureSelect()" *ngIf="selectable">
       <i class="fa fa-check" aria-hidden="true"></i>
     </label>
 
-    <a [routerLink]="['/moder/pictures', picture.id]" [class.float-right]="selectable"  class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-    </a>
+    <ng-container *ngIf="isModer$|async as isModer">
+      <a [routerLink]="['/moder/pictures', picture.id]" [class.float-right]="selectable"  class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+      </a>
+    </ng-container>
     <select *ngIf="picture.perspective_item" class="form-control form-control-sm mr-1 mb-2" [(ngModel)]="picture.perspective_item.perspective_id"
       (change)="savePerspective()">
       <option [ngValue]="null">--</option>

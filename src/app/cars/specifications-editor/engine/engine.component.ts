@@ -1,22 +1,22 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {APIItem, ItemService} from '../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
-import {Subscription} from 'rxjs';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
+import {shareReplay} from 'rxjs/operators';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
   templateUrl: './engine.component.html'
 })
-export class CarsSpecificationsEditorEngineComponent
-  implements OnInit, OnChanges, OnDestroy {
+export class CarsSpecificationsEditorEngineComponent implements OnChanges {
   @Input() item: APIItem;
   @Output() changed = new EventEmitter<void>();
-  public isAllowedEditEngine = false;
+  public isAllowedEditEngine$ = this.acl
+    .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
+    .pipe(shareReplay(1));
   public engine: APIItem;
   public loading = 0;
-  private aclSub: Subscription;
 
   constructor(
     private acl: ACLService,
@@ -24,16 +24,6 @@ export class CarsSpecificationsEditorEngineComponent
     private api: APIService,
     private toastService: ToastsService
   ) {}
-
-  ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
-      .subscribe(allow => (this.isAllowedEditEngine = !!allow));
-  }
-
-  ngOnDestroy(): void {
-    this.aclSub.unsubscribe();
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {

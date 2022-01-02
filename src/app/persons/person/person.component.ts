@@ -22,8 +22,7 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
   public contentPictures: APIPicture[] = [];
   public contentPicturesPaginator: APIPaginator;
   public item: APIItem;
-  public isModer = false;
-  private aclSub: Subscription;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   public routerLink: string[] = [];
 
   constructor(
@@ -38,10 +37,6 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     this.routeSub = this.getPerson().pipe(
       tap(item => {
         this.routerLink = ['/persons', item.id.toString()];
@@ -136,6 +131,5 @@ export class PersonsPersonComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

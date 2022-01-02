@@ -1,30 +1,19 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIItem } from '../../services/item';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-twins-item',
   templateUrl: './item.component.html',
   styleUrls: ['./styles.scss']
 })
-export class TwinsItemComponent implements OnInit, OnDestroy {
+export class TwinsItemComponent {
   @Input() item: APIItem;
   @Input() group: APIItem;
 
-  public isModer = false;
-  private sub: Subscription;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(private acl: ACLService) {}
-
-  ngOnInit(): void {
-    this.sub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   public havePhoto(item: APIItem) {
     if (item.preview_pictures) {

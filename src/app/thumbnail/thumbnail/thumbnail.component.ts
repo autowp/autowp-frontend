@@ -24,8 +24,7 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   @Output() selected = new EventEmitter<boolean>();
 
   public perspectiveOptions: Perspective[] = [];
-  public isModer = false;
-  private sub: Subscription;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   private perspectiveSub: Subscription;
 
   constructor(
@@ -35,10 +34,6 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-
     if (this.picture.perspective_item) {
       this.perspectiveSub = this.perspectiveService
         .getPerspectives()
@@ -47,7 +42,6 @@ export class ThumbnailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
     if (this.perspectiveSub) {
       this.perspectiveSub.unsubscribe();
     }

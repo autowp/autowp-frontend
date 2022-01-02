@@ -13,18 +13,18 @@
 <div class="row">
   <div class="col-md-6">
     <div class="picture-preview-medium" *ngIf="picture.preview_large">
-      <span class="d-block rounded mb-4" (auxclick)="openSource($event)" (click)="openGallery($event)" style="cursor: pointer">
+      <span class="d-block rounded mb-4" (auxclick)="openSource()" (click)="openGallery($event)" style="cursor: pointer">
         <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
       </span>
       <ng-container *ngIf="picture.items.length === 1">
         <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">
-            <p i18n>In other languages</p>
-            <ul class="list-unstyled">
-              <li *ngFor="let altName of picture.items[0].item.alt_names">
-                  <sup *ngFor="let code of altName.languages" style="text-transform: uppercase">{{code}}</sup>
-                  {{altName.name}}
-              </li>
-            </ul>
+          <p i18n>In other languages</p>
+          <ul class="list-unstyled">
+            <li *ngFor="let altName of picture.items[0].item.alt_names">
+              <sup *ngFor="let code of altName.languages" style="text-transform: uppercase">{{code}}</sup>
+              {{altName.name}}
+            </li>
+          </ul>
         </div>
       </ng-container>
     </div>
@@ -35,18 +35,18 @@
           <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value <= 0" *ngIf="user" (click)="vote(1)"></a>
           <i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true" *ngIf="!user"></i>
           <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
-          <a href="#" class="fa fa-2x vote-down"  aria-hidden="true"[class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
+          <a href="#" class="fa fa-2x vote-down"  aria-hidden="true" [class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(-1)"></a>
           <i class="fa fa-2x fa-thumbs-o-down" aria-hidden="true" *ngIf="!user"></i>
           <span class="negative" [class.zero]="picture.votes.negative">{{picture.votes.negative}}</span>
         </div>
       </div>
-        <div class="col-xs-6 text-right">
-          <ng-container *ngIf="user">
-            <button class="picture-subscription" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
-            <button class="picture-subscription" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
-          </ng-container>
-          <a href="#" class="fa fa-2x fa-share-alt btn-share-dialog" aria-hidden="true" title="Share ..." (click)="toggleShareDialog()"></a>
-        </div>
+      <div class="col-xs-6 text-right">
+        <ng-container *ngIf="user">
+          <button class="picture-subscription" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
+          <button class="picture-subscription" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
+        </ng-container>
+        <a href="#" class="fa fa-2x fa-share-alt btn-share-dialog" aria-hidden="true" title="Share ..." (click)="toggleShareDialog()"></a>
+      </div>
     </div>
 
     <app-share [url]="location.href" [text]="picture.name_text" *ngIf="showShareDialog"></app-share>
@@ -141,23 +141,25 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         </a>
       </li>
 
-      <ng-container *ngFor="let item of picture.items">
-        <li *ngIf="canEditSpecs">
-          <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a>
-        </li>
-        <li *ngIf="item.item.has_specs && item.item.specs_route">
-          <a [routerLink]="item.item.specs_route">
-            <i class="fa fa-list-alt" aria-hidden="true"></i>
-            <span i18n>Specifications of</span>
-            <span [innerHTML]="item.item.name_html"></span>
-          </a>
-        </li>
-        <li *ngIf="item.item.design">
-          <a [routerLink]="item.item.design.route">
-            <ng-container i18n>designed by</ng-container>
-            {{item.item.design.name}}
-          </a>
-        </li>
+      <ng-container *ngIf="canEditSpecs$|async as canEditSpecs">
+        <ng-container *ngFor="let item of picture.items">
+          <li *ngIf="canEditSpecs">
+            <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a>
+          </li>
+          <li *ngIf="item.item.has_specs && item.item.specs_route">
+            <a [routerLink]="item.item.specs_route">
+              <i class="fa fa-list-alt" aria-hidden="true"></i>
+              <span i18n>Specifications of</span>
+              <span [innerHTML]="item.item.name_html"></span>
+            </a>
+          </li>
+          <li *ngIf="item.item.design">
+            <a [routerLink]="item.item.design.route">
+              <ng-container i18n>designed by</ng-container>
+              {{item.item.design.name}}
+            </a>
+          </li>
+        </ng-container>
       </ng-container>
 
       <li ngbDropdown *ngIf="user && picture.items.length > 1">
@@ -279,9 +281,10 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
   </ul>
 </div>
 
-<div *ngIf="isModer && picture">
-  <h3><a routerLink="/moder" i18n>Moderator page</a></h3>
-  <div class="card card-body">
+<ng-container *ngIf="isModer$|async as isModer">
+  <div *ngIf="isModer && picture">
+    <h3><a routerLink="/moder" i18n>Moderator page</a></h3>
+    <div class="card card-body">
       <div class="row">
         <div class="col-md-4" *ngIf="picture.rights">
           <div *ngIf="picture.status === 'inbox'">
@@ -329,5 +332,6 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
 
         </div>
       </div>
+    </div>
   </div>
-</div>
+</ng-container>

@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { APIItem } from '../../services/item';
-import { Subscription } from 'rxjs';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 
 @Component({
@@ -8,26 +7,16 @@ import {ACLService, Privilege, Resource} from '../../services/acl.service';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss']
 })
-export class ItemComponent implements OnInit, OnDestroy {
+export class ItemComponent {
 
   @Input() item: APIItem;
   @Input() disableTitle: boolean;
   @Input() disableDescription: boolean;
   @Input() disableDetailsLink: boolean;
 
-  public isModer = false;
-  private sub: Subscription;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(private acl: ACLService) {}
-
-  ngOnInit(): void {
-    this.sub = this.acl
-      .isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-      .subscribe(isModer => (this.isModer = isModer));
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   public havePhoto(item: APIItem) {
     if (item.preview_pictures) {

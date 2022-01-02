@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemLink, ItemLinkService} from '../../../../services/item-link';
-import {forkJoin, Observable, Subscription} from 'rxjs';
+import {forkJoin, Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {APIService} from '../../../../services/api.service';
 
@@ -10,13 +10,12 @@ import {APIService} from '../../../../services/api.service';
   selector: 'app-moder-items-item-links',
   templateUrl: './links.component.html'
 })
-export class ModerItemsItemLinksComponent
-  implements OnInit, OnChanges, OnDestroy {
+export class ModerItemsItemLinksComponent implements OnChanges {
   @Input() item: APIItem;
 
   public loading = 0;
 
-  public canEditMeta = false;
+  public canEditMeta$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT_META);
 
   public links: APIItemLink[];
   public newLink = {
@@ -24,23 +23,12 @@ export class ModerItemsItemLinksComponent
     url: '',
     type_id: 'default'
   };
-  private aclSub: Subscription;
 
   constructor(
     private acl: ACLService,
     private api: APIService,
     private itemLinkService: ItemLinkService
   ) {}
-
-  ngOnInit(): void {
-    this.aclSub = this.acl
-      .isAllowed(Resource.CAR, Privilege.EDIT_META)
-      .subscribe(allow => (this.canEditMeta = allow));
-  }
-
-  ngOnDestroy(): void {
-    this.aclSub.unsubscribe();
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
