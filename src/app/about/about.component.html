@@ -10,4 +10,10 @@
   <h1 i18n>About us</h1>
 </div>
 
-<div class="card card-body" [innerHTML]="html"></div>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
+
+<div class="card card-body" [innerHTML]="html" *ngIf="html$|async as html; else loading"></div>

@@ -1,10 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import {APIPaginator} from '../../services/api.service';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import { getVehicleTypeTranslation } from '../../utils/translations';
 import {AutowpClient} from '../../../../generated/spec.pbsc';
@@ -14,107 +13,95 @@ import {BrandVehicleType, GetBrandVehicleTypesRequest} from '../../../../generat
   selector: 'app-catalogue-cars',
   templateUrl: './cars.component.html'
 })
-export class CatalogueCarsComponent implements OnInit, OnDestroy {
-  public brand: APIItem;
-  private sub: Subscription;
-  public items: CatalogueListItem[];
-  public paginator: APIPaginator;
-  public vehicleTypes: BrandVehicleType[];
-  public currentVehicleType: BrandVehicleType;
+export class CatalogueCarsComponent {
+  public brand$: Observable<APIItem> = this.route.paramMap.pipe(
+    map(params => params.get('brand')),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(catname => {
+      if (!catname) {
+        return EMPTY;
+      }
+      return this.itemService.getItems({
+        catname,
+        fields: 'name_text,name_html',
+        limit: 1
+      }).pipe(
+        map(response => response && response.items.length ? response.items[0] : null),
+      );
+    }),
+    shareReplay(1)
+  );
 
-  constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private grpc: AutowpClient
-  ) {
-  }
-
-  ngOnInit(): void {
-
-    this.sub = this.route.paramMap.pipe(
-      map(params => {
-        return params.get('brand');
-      }),
-      distinctUntilChanged(),
-      debounceTime(10),
-      switchMap(catname => this.getBrand(catname)),
-      tap(brand => {
-        this.brand = brand;
-      }),
-      switchMap(brand => combineLatest([
-        this.grpc.getBrandVehicleTypes(new GetBrandVehicleTypesRequest({
-          brandId: brand.id
-        })),
-        this.route.paramMap.pipe(
-          map(params => params.get('vehicle_type')),
-          distinctUntilChanged(),
-          debounceTime(10),
-        ),
-        of(brand)
-      ])),
-      map(([vehicleTypes, vehicleTypeCatname, brand]) => {
-        this.vehicleTypes = vehicleTypes.items;
-        for (const type of this.vehicleTypes) {
-          if (type.catname === vehicleTypeCatname) {
-            this.currentVehicleType = type;
-            break;
-          }
-        }
-
-        const currentVehicleTypeID = this.currentVehicleType ? this.currentVehicleType.id : 0;
-
-        if (brand) {
-          if (this.currentVehicleType) {
-            this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
-              pageId: 138,
-              nameTranslated: $localize `${brand.name_text} ${this.currentVehicleType.name} in chronological order`
-            });
-          } else {
-            this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
-              pageId: 14,
-              nameTranslated: $localize `${brand.name_text} in chronological order`
-            });
-          }
-        }
-
-        return {
-          currentVehicleType: currentVehicleTypeID,
-          brand
-        };
-      }),
-      switchMap(data => this.route.queryParamMap.pipe(
-        map(params => +params.get('page')),
+  public vehicleTypes$: Observable<{vehicleTypes: BrandVehicleType[], currentVehicleType: BrandVehicleType, brand: APIItem}> = this.brand$.pipe(
+    switchMap(brand => combineLatest([
+      this.grpc.getBrandVehicleTypes(new GetBrandVehicleTypesRequest({
+        brandId: brand.id
+      })),
+      this.route.paramMap.pipe(
+        map(params => params.get('vehicle_type')),
         distinctUntilChanged(),
         debounceTime(10),
-        map(page => ({
-          currentVehicleType: data.currentVehicleType,
-          brandID: data.brand.id,
-          page
-        }))
-      )),
-      switchMap(data => this.getItems(data.brandID, data.currentVehicleType, data.page)),
-    ).subscribe(response => {
-      this.items = response.items;
-      this.paginator = response.paginator;
-    });
-  }
+      ),
+      of(brand)
+    ])),
+    map(([vehicleTypes, vehicleTypeCatname, brand]) => {
+      let currentVehicleType: BrandVehicleType = null;
+      for (const type of vehicleTypes.items) {
+        if (type.catname === vehicleTypeCatname) {
+          currentVehicleType = type;
+          break;
+        }
+      }
 
-  private getItems(brandID: number, vehicleTypeID: number, page: number) {
-    return this.itemService.getItems({
+      if (brand) {
+        if (currentVehicleType) {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            pageId: 138,
+            nameTranslated: $localize `${brand.name_text} ${currentVehicleType.name} in chronological order`
+          });
+        } else {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            pageId: 14,
+            nameTranslated: $localize `${brand.name_text} in chronological order`
+          });
+        }
+      }
+
+      return {
+        vehicleTypes: vehicleTypes.items,
+        currentVehicleType,
+        brand
+      };
+    }),
+    shareReplay(1)
+  );
+
+  public result$ = this.vehicleTypes$.pipe(
+    switchMap(data => this.route.queryParamMap.pipe(
+      map(params => +params.get('page')),
+      distinctUntilChanged(),
+      debounceTime(10),
+      map(page => ({
+        currentVehicleType: data.currentVehicleType,
+        brandID: data.brand.id,
+        page
+      }))
+    )),
+    switchMap(data => this.itemService.getItems({
       limit: 7,
       type_id: 1,
       order: 'age',
-      ancestor_id: brandID,
+      ancestor_id: data.brandID,
       dateful: true,
-      vehicle_type_id: vehicleTypeID,
-      route_brand_id: brandID,
+      vehicle_type_id: data.currentVehicleType ? data.currentVehicleType.id : 0,
+      route_brand_id: data.brandID,
       fields: [
         'name_html,name_default,description,has_text,produced,accepted_pictures_count',
         'design,engine_vehicles,route,categories.name_html',
@@ -122,7 +109,7 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
         'twins_groups',
         'childs_count,total_pictures,preview_pictures.picture.name_text'
       ].join(','),
-      page
+      page: data.page
     }).pipe(
       map(response => {
         const items: CatalogueListItem[] = response.items.map(item => {
@@ -165,24 +152,15 @@ export class CatalogueCarsComponent implements OnInit, OnDestroy {
           paginator: response.paginator
         };
       })
-    );
-  }
+    )),
+  );
 
-  private getBrand(catname: string) {
-    if (!catname) {
-      return EMPTY;
-    }
-    return this.itemService.getItems({
-      catname,
-      fields: 'name_text,name_html',
-      limit: 1
-    }).pipe(
-      map(response => response && response.items.length ? response.items[0] : null),
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
+  constructor(
+    private pageEnv: PageEnvService,
+    private itemService: ItemService,
+    private route: ActivatedRoute,
+    private grpc: AutowpClient
+  ) {
   }
 
   public getVehicleTypeTranslation(id: string): string {

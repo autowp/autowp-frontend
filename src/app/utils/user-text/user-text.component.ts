@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {APIUser, UserService} from '../../services/user';
 import {APIPicture, APIPictureGetResponse, PictureService} from '../../services/picture';
-import {BehaviorSubject, combineLatest, Observable, of, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import * as URLParse from 'url-parse';
 
@@ -21,9 +21,8 @@ interface CommentTextLine {
   selector: 'app-user-text',
   templateUrl: './user-text.component.html'
 })
-export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
+export class UserTextComponent implements OnChanges {
   @Input() text: string;
-  public textPrepared: CommentTextLine[];
 
   private parseUrlHosts = [
     'www.autowp.ru',
@@ -40,26 +39,16 @@ export class UserTextComponent implements OnChanges, OnInit, OnDestroy {
   ];
 
   private text$ = new BehaviorSubject<string>('');
-  private sub: Subscription;
+  public textPrepared$ = this.text$.pipe(
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(text => this.prepareText(text))
+  );
 
   constructor(
     private userService: UserService,
     private pictureService: PictureService
-  ) {
-
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  ngOnInit(): void {
-    this.sub = this.text$.pipe(
-      distinctUntilChanged(),
-      debounceTime(10),
-      switchMap(text => this.prepareText(text))
-    ).subscribe(text => this.textPrepared = text);
-  }
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.text$.next(this.text);

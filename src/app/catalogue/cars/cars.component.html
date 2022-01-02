@@ -1,30 +1,42 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/" i18n>Index page</a>
-    </li>
-    <li class="breadcrumb-item" *ngIf="brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
-    </li>
-    <li class="breadcrumb-item" *ngIf="brand && currentVehicleType">
-      <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
-    </li>
-  </ol>
-</nav>
+<ng-container *ngIf="brand$|async as brand; else loading">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/" i18n>Index page</a>
+      </li>
+      <li class="breadcrumb-item" *ngIf="brand">
+        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+      </li>
+      <li class="breadcrumb-item" *ngIf="vehicleTypes$|async as vehicleTypes">
+        <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
+      </li>
+    </ol>
+  </nav>
 
-<div class="page-header" *ngIf="brand">
-  <h1 *ngIf="!currentVehicleType" i18n>{{brand.name_text}} in chronological order</h1>
-  <h1 i18n *ngIf="currentVehicleType">{{brand.name_text}} {{getVehicleTypeTranslation(currentVehicleType.name)}} in chronological order</h1>
-</div>
+  <ng-container *ngIf="vehicleTypes$|async as vehicleTypes; else loading">
+    <div class="page-header" *ngIf="brand">
+      <h1 *ngIf="!vehicleTypes.currentVehicleType" i18n>{{brand.name_text}} in chronological order</h1>
+      <h1 i18n *ngIf="vehicleTypes.currentVehicleType">{{brand.name_text}} {{getVehicleTypeTranslation(vehicleTypes.currentVehicleType.name)}} in chronological order</h1>
+    </div>
 
-<ul class="nav nav-pills mb-4">
-  <li class="nav-item" *ngFor="let item of vehicleTypes">
-    <a [routerLink]="['/', brand.catname, 'cars', item.catname]" class="nav-link" [class.active]="currentVehicleType && item.id === currentVehicleType.id">
-      {{getVehicleTypeTranslation(item.name)}} <span class="badge badge-info">{{item.itemsCount}}</span>
-    </a>
-  </li>
-</ul>
+    <ul class="nav nav-pills mb-4">
+      <li class="nav-item" *ngFor="let item of vehicleTypes.vehicleTypes">
+        <a [routerLink]="['/', brand.catname, 'cars', item.catname]" class="nav-link" [class.active]="vehicleTypes.currentVehicleType && item.id === vehicleTypes.currentVehicleType.id">
+          {{getVehicleTypeTranslation(item.name)}} <span class="badge badge-info">{{item.itemsCount}}</span>
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>
 
-<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+<ng-container *ngIf="result$|async as items; else loading">
+  <app-catalogue-list-item [item]="item" *ngFor="let item of items.items"></app-catalogue-list-item>
+
+  <app-paginator [data]="items.paginator" *ngIf="items.paginator"></app-paginator>
+</ng-container>
