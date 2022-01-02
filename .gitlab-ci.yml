@@ -42,11 +42,12 @@ build:
 
 publish:
   stage: publish
-  image: docker
+  image: autowp/runner-base-image
   services:
     - name: docker:dind
       alias: docker
   script:
+    - waitforit -address=tcp://docker:2375 -timeout=30
     - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
     - docker pull $IMAGE:latest || true
     - docker build . -t $IMAGE:latest
