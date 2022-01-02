@@ -20,7 +20,7 @@ export class CutawayBrandsComponent implements OnInit {
     debounceTime(30),
     switchMap(page =>
       this.itemService.getItems({
-        fields: 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
+        fields: 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,current_pictures_count',
         type_id: ItemType.ITEM_TYPE_BRAND,
         descendant_pictures: {
           type_id: ItemPictureType.ITEM_PICTURE_CONTENT,
@@ -97,7 +97,7 @@ export class CutawayBrandsComponent implements OnInit {
         specsRouterLink: null,
         details: {
           routerLink: itemRouterLink,
-          count: item.total_pictures
+          count: item.current_pictures_count
         },
         childs_counts: null
       };
