@@ -15,10 +15,10 @@
     <a class="nav-link" routerLink="/cutaway/authors" i18n>Authors</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/cutaway/brands" i18n>Brands</a>
+    <a class="nav-link active" routerLink="/cutaway/brands" i18n>Brands</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" routerLink="/cutaway" i18n>Pictures</a>
+    <a class="nav-link" routerLink="/cutaway" i18n>Pictures</a>
   </li>
 </ul>
 
@@ -29,10 +29,8 @@
 </ng-template>
 
 <ng-container *ngIf="query$|async as response; else loading">
-  <div class="row">
-    <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of response.pictures">
-      <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-    </div>
-  </div>
+  <app-catalogue-list-item [item]="item" *ngFor="let item of response.items"></app-catalogue-list-item>
+
   <app-paginator [data]="response.paginator" *ngIf="response.paginator"></app-paginator>
 </ng-container>
+

@@ -2,9 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CutawayComponent } from './cutaway.component';
 import {CutawayAuthorsComponent} from './authors/authors.component';
+import {CutawayBrandsComponent} from './brands/brands.component';
+import {CutawayBrandsBrandComponent} from './brands/brand/brand.component';
 
 const routes: Routes = [
   { path: 'authors', pathMatch: 'full', component: CutawayAuthorsComponent },
+  { path: 'brands', children: [
+    { path: ':brand', pathMatch: 'full', component: CutawayBrandsBrandComponent },
+    { path: '', pathMatch: 'full', component: CutawayBrandsComponent}
+  ] },
   { path: '', pathMatch: 'full', component: CutawayComponent }
 ];
 

@@ -3,11 +3,14 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/cutaway" i18n>Cutaway</a>
+    </li>
   </ol>
 </nav>
 
-<div class="page-header">
-  <h1 i18n>Cutaway</h1>
+<div class="page-header" *ngIf="brand$|async as brand; else loading">
+  <h1 [innerHTML]="brand.name_html"></h1>
 </div>
 
 <ul class="nav nav-pills mb-4">
@@ -15,10 +18,10 @@
     <a class="nav-link" routerLink="/cutaway/authors" i18n>Authors</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/cutaway/brands" i18n>Brands</a>
+    <a class="nav-link active" routerLink="/cutaway/brands" i18n>Brands</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" routerLink="/cutaway" i18n>Pictures</a>
+    <a class="nav-link" routerLink="/cutaway" i18n>Pictures</a>
   </li>
 </ul>
 

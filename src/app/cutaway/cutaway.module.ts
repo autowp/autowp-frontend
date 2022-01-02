@@ -6,9 +6,11 @@ import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
 import {CutawayAuthorsComponent} from './authors/authors.component';
 import {UtilsModule} from '../utils/utils.module';
+import {CutawayBrandsComponent} from './brands/brands.component';
+import {CutawayBrandsBrandComponent} from './brands/brand/brand.component';
 
 @NgModule({
-  declarations: [CutawayComponent, CutawayAuthorsComponent],
+  declarations: [CutawayComponent, CutawayAuthorsComponent, CutawayBrandsComponent, CutawayBrandsBrandComponent],
   imports: [
     CommonModule,
     CutawayRoutingModule,
