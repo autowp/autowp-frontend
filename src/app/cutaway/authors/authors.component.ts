@@ -58,7 +58,7 @@ export class CutawayAuthorsComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Mascots`,
+          nameTranslated: $localize `Cutaway`,
           pageId: 201
         }),
       0
