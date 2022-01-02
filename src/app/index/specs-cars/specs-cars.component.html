@@ -1,18 +1,26 @@
-<ng-container *ngIf="items && items.length > 0">
-  <h4>
-    <ng-container i18n>Specifications</ng-container>
-    <small><a routerLink="/users/rating" i18n>Statistics</a></small>
-  </h4>
-  <div class="row" *ngFor="let chunk of items">
-    <div class="col-md-6" *ngFor="let item of chunk">
-      <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
-
-      <p *ngIf="item.contributors">
-        <ng-container *ngIf="item.contributors.length > 1" i18n>contributors</ng-container>
-        <ng-container *ngIf="item.contributors.length <= 1" i18n>contributor</ng-container>
-        <app-user [user]="contributor" *ngFor="let contributor of item.contributors"></app-user>
-      </p>
-    </div>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
   </div>
+</ng-template>
 
+<ng-container *ngIf="items$|async as items; else loading">
+  <ng-container *ngIf="items && items.length > 0">
+    <h4>
+      <ng-container i18n>Specifications</ng-container>
+      <small><a routerLink="/users/rating" i18n>Statistics</a></small>
+    </h4>
+    <div class="row" *ngFor="let chunk of items">
+      <div class="col-md-6" *ngFor="let item of chunk">
+        <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+
+        <p *ngIf="item.contributors">
+          <ng-container *ngIf="item.contributors.length > 1" i18n>contributors</ng-container>
+          <ng-container *ngIf="item.contributors.length <= 1" i18n>contributor</ng-container>
+          <app-user [user]="contributor" *ngFor="let contributor of item.contributors"></app-user>
+        </p>
+      </div>
+    </div>
+
+  </ng-container>
 </ng-container>

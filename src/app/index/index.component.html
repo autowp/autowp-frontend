@@ -1,7 +1,9 @@
-<div class="spinner-border" role="status" *ngIf="!itemOfDayLoaded">
-  <span class="sr-only" i18n>Loading...</span>
-</div>
-<app-item-of-day class="d-block mb-4" [item]="itemOfDay.item" [user]="itemOfDay.user" *ngIf="itemOfDay"></app-item-of-day>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
+<app-item-of-day class="d-block mb-4" [item]="itemOfDay.item" [user]="itemOfDay.user" *ngIf="itemOfDay$|async as itemOfDay; else loading"></app-item-of-day>
 
 <app-index-brands></app-index-brands>
 

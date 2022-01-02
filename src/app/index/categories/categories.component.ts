@@ -1,6 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {LanguageService} from '../../services/language';
-import {Subscription} from 'rxjs';
+import {Component} from '@angular/core';
 import { APIService } from '../../services/api.service';
 
 export interface APIIndexCategoriesItem {
@@ -19,22 +17,8 @@ interface APIIndexCategoriesResponse {
   selector: 'app-index-categories',
   templateUrl: './categories.component.html'
 })
-export class IndexCategoriesComponent implements OnInit, OnDestroy {
-  public language: string;
-  public categories: APIIndexCategoriesItem[];
-  private sub: Subscription;
+export class IndexCategoriesComponent {
+  constructor(private api: APIService) {}
 
-  constructor(private languageService: LanguageService, private api: APIService) {}
-
-  ngOnInit(): void {
-    this.language = this.languageService.language;
-
-    this.sub = this.api.request<APIIndexCategoriesResponse>('GET', 'index/categories').subscribe(response => {
-      this.categories = response.items;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+  public result$ = this.api.request<APIIndexCategoriesResponse>('GET', 'index/categories');
 }

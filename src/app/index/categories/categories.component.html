@@ -1,8 +1,13 @@
 <h4><ng-container i18n>Categories</ng-container> <small><a routerLink="/category" i18n>all</a></small></h4>
-<div class="spinner-border" role="status" *ngIf="!categories">
-  <span class="sr-only" i18n>Loading...</span>
-</div>
-<p *ngIf="categories">
-  <app-index-categories-category [category]="category" *ngFor="let category of categories"></app-index-categories-category>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
+<p *ngIf="result$|async as result; else loading">
+  <app-index-categories-category [category]="category" *ngFor="let category of result.items"></app-index-categories-category>
 </p>
-<app-markdown i18n-markdown markdown="А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел." *ngIf="['ru', 'zh', 'fr', 'be', 'pt-br', 'uk', 'es'].indexOf(language) > -1"></app-markdown>
+<app-markdown2 i18n>
+Do you know which cars helped to maintain law and order on the streets of world cities at different times?
+What cars did the Pope drive? Not? Then you are exactly in this section.
+</app-markdown2>

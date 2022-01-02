@@ -4,9 +4,8 @@ import {APIUser} from '../services/user';
 import {APIItem} from '../services/item';
 import {APIService} from '../services/api.service';
 import {ItemsClient} from '../../../generated/spec.pbsc';
-import {APITopPersonsList, GetTopPersonsListRequest, PictureItemType} from '../../../generated/spec.pb';
+import {GetTopPersonsListRequest, PictureItemType} from '../../../generated/spec.pb';
 import {LanguageService} from '../services/language';
-import {Observable} from 'rxjs';
 
 interface APIIndexItemOfDay {
   user: APIUser;
@@ -35,10 +34,15 @@ export class IndexComponent implements OnInit {
       name: $localize `Most heavy trucks`
     }
   ];
-  public itemOfDay: APIIndexItemOfDay;
-  public itemOfDayLoaded = false;
-  public contentPersons$: Observable<APITopPersonsList>;
-  public authorPersons$: Observable<APITopPersonsList>;
+  public itemOfDay$ = this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day');
+  public contentPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
+    language: this.languageService.language,
+    pictureItemType: PictureItemType.PICTURE_CONTENT
+  }));
+  public authorPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
+    language: this.languageService.language,
+    pictureItemType: PictureItemType.PICTURE_AUTHOR
+  }));
 
   constructor(private pageEnv: PageEnvService, private api: APIService, private items: ItemsClient, private languageService: LanguageService) {}
 
@@ -52,20 +56,5 @@ export class IndexComponent implements OnInit {
         pageId: 1
       });
     }, 0);
-
-    this.contentPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
-      language: this.languageService.language,
-      pictureItemType: PictureItemType.PICTURE_CONTENT
-    }))
-
-    this.authorPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
-      language: this.languageService.language,
-      pictureItemType: PictureItemType.PICTURE_AUTHOR
-    }))
-
-    this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day').subscribe({
-      next: response => { this.itemOfDay = response; },
-      complete: () => { this.itemOfDayLoaded = true; }
-    });
   }
 }

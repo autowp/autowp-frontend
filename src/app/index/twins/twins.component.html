@@ -1,14 +1,16 @@
 <h4><ng-container i18n>Twins</ng-container> <small><a routerLink="/twins" i18n>all</a></small></h4>
-<div class="spinner-border" role="status" *ngIf="!twins">
-  <span class="sr-only" i18n>Loading...</span>
-</div>
-<p *ngIf="twins">
-  <ng-container *ngFor="let brand of twins.brands">
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
+<p *ngIf="items$|async as items; else loading">
+  <ng-container *ngFor="let brand of items.brands">
     <a [routerLink]="['/twins', brand.catname]">{{brand.name}}</a>&#xa0;<span class="count">({{brand.count - brand.new_count}}<span *ngIf="brand.new_count > 0">+{{brand.new_count}}</span>)</span>
   </ng-container>
-  <ng-container *ngIf="twins.brands_count > twins.brands.length">
+  <ng-container *ngIf="items.brands_count > items.brands.length">
     <ng-container i18n>… and</ng-container>
-    <a routerLink="/twins" i18n="@@more-n-companies">{twins.brands_count - twins.brands.length, plural, one {more {{twins.brands_count - twins.brands.length}} company} other {more {{twins.brands_count - twins.brands.length}} companies}}</a>
+    <a routerLink="/twins" i18n="@@more-n-companies">{items.brands_count - items.brands.length, plural, one {more {{items.brands_count - items.brands.length}} company} other {more {{items.brands_count - items.brands.length}} companies}}</a>
   </ng-container>
 </p>
 <app-markdown i18n-markdown markdown="Do you know that Daewoo Matiz has as many as [six clones](/twins/group/118812)? And you know what [common in Lotus and Kia](/twins/group/118750)? We are sure that you will find this section interesting."></app-markdown>

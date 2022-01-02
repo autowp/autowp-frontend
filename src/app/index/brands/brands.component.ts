@@ -1,31 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component} from '@angular/core';
 import {ItemsClient} from '../../../../generated/spec.pbsc';
-import {APITopBrandsListItem, GetTopBrandsListRequest} from '../../../../generated/spec.pb';
+import {GetTopBrandsListRequest} from '../../../../generated/spec.pb';
 import {LanguageService} from '../../services/language';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-index-brands',
   templateUrl: './brands.component.html',
   styleUrls: ['./brands.component.scss']
 })
-export class IndexBrandsComponent implements OnInit, OnDestroy {
-  public more = 0;
-  private sub: Subscription;
-  private language: string;
-  public brands: APITopBrandsListItem[];
-
+export class IndexBrandsComponent {
   constructor(private items: ItemsClient, private languageService: LanguageService) {}
 
-  ngOnInit(): void {
-    this.language = this.languageService.language;
-    this.sub = this.items.getTopBrandsList(new GetTopBrandsListRequest({language: this.language})).subscribe(response => {
-      this.brands = response.brands;
-      this.more = this.brands ? response.total - this.brands.length : 0;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+  public result$ = this.items.getTopBrandsList(new GetTopBrandsListRequest({language: this.languageService.language})).pipe(map(response => ({
+    brands: response.brands,
+    more: response.brands ? response.total - response.brands.length : 0
+  })));
 }

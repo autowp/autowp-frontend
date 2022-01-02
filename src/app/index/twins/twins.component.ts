@@ -1,5 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component} from '@angular/core';
 import { APIService } from '../../services/api.service';
 
 interface APIIndexTwinsBrand {
@@ -19,19 +18,8 @@ interface APIIndexTwinsResponse {
   selector: 'app-index-twins',
   templateUrl: './twins.component.html'
 })
-export class IndexTwinsComponent implements  OnInit, OnDestroy {
-  public twins: APIIndexTwinsResponse;
-  private sub: Subscription;
+export class IndexTwinsComponent {
+  public items$ = this.api.request<APIIndexTwinsResponse>('GET', 'index/twins');
 
   constructor(private api: APIService) {}
-
-  ngOnInit(): void {
-    this.sub = this.api.request<APIIndexTwinsResponse>('GET', 'index/twins').subscribe(response => {
-      this.twins = response;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 }

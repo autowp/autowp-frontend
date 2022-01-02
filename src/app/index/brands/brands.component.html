@@ -3,13 +3,15 @@
   <small><a routerLink="/brands" i18n>all</a></small>
 </h4>
 
-<div class="spinner-border" role="status" *ngIf="!brands">
-  <span class="sr-only" i18n>Loading...</span>
-</div>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
 
-<p class="index-brands" *ngIf="brands">
-  <app-index-brands-brand [brand]="brand" *ngFor="let brand of brands"></app-index-brands-brand>
-  <ng-container *ngIf="more > 0">
-    <ng-container i18n>… and</ng-container>&#xa0;<a routerLink="/brands" i18n="@@more-n-companies">{more, plural, one {more {{more}} company} other {more {{more}} companies}}</a>
+<p class="index-brands" *ngIf="result$|async as result; else loading">
+  <app-index-brands-brand [brand]="brand" *ngFor="let brand of result.brands"></app-index-brands-brand>
+  <ng-container *ngIf="result.more > 0">
+    <ng-container i18n>… and</ng-container>&#xa0;<a routerLink="/brands" i18n="@@more-n-companies">{result.more, plural, one {more {{result.more}} company} other {more {{result.more}} companies}}</a>
   </ng-container>
 </p>
