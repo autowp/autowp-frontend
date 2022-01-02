@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIIndexCategoriesItem} from '../categories.component';
 import { APIService } from '../../../services/api.service';
+import {APITopCategoriesListItem} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-index-categories-category',
@@ -8,7 +8,7 @@ import { APIService } from '../../../services/api.service';
   styleUrls: ['./category.component.scss']
 })
 export class IndexCategoriesCategoryComponent {
-  @Input() category: APIIndexCategoriesItem;
+  @Input() category: APITopCategoriesListItem;
   public loading = true;
   public html = '';
 

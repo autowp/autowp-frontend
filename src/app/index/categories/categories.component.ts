@@ -1,24 +1,16 @@
 import {Component} from '@angular/core';
-import { APIService } from '../../services/api.service';
-
-export interface APIIndexCategoriesItem {
-  id: number;
-  catname: string;
-  short_name: string;
-  new_cars_count: number;
-  cars_count: number;
-}
-
-interface APIIndexCategoriesResponse {
-  items: APIIndexCategoriesItem[];
-}
+import {ItemsClient} from '../../../../generated/spec.pbsc';
+import {GetTopCategoriesListRequest} from '../../../../generated/spec.pb';
+import {LanguageService} from '../../services/language';
 
 @Component({
   selector: 'app-index-categories',
   templateUrl: './categories.component.html'
 })
 export class IndexCategoriesComponent {
-  constructor(private api: APIService) {}
+  constructor(private items: ItemsClient, private languageService: LanguageService) {}
 
-  public result$ = this.api.request<APIIndexCategoriesResponse>('GET', 'index/categories');
+  public result$ = this.items.getTopCategoriesList(new GetTopCategoriesListRequest({
+    language: this.languageService.language
+  }))
 }

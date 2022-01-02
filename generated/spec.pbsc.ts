@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @ts-nocheck
 //
 // THIS IS A GENERATED FILE
 // DO NOT MODIFY IT! YOUR CHANGES WILL BE LOST
@@ -1430,6 +1431,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Items/GetTopCategoriesList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITopCategoriesList>>
+     */
+    getTopCategoriesList: (
+      requestData: thisProto.GetTopCategoriesListRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITopCategoriesList>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTopCategoriesList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTopCategoriesListRequest,
+        responseClass: thisProto.APITopCategoriesList
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Items/List
      *
      * @param requestMessage Request message
@@ -1505,6 +1527,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopFactoriesList> {
     return this.$raw
       .getTopFactoriesList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Items/GetTopCategoriesList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITopCategoriesList>
+   */
+  getTopCategoriesList(
+    requestData: thisProto.GetTopCategoriesListRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITopCategoriesList> {
+    return this.$raw
+      .getTopCategoriesList(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
