@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as showdown from 'showdown';
 import * as escapeRegExp from 'lodash.escaperegexp';
 import { UserService, APIUser } from '../services/user';
@@ -96,7 +96,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
   selector: 'app-about',
   templateUrl: './about.component.html'
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
   public html$ = this.api.request<APIAbout>('GET', 'about').pipe(
     switchMap(about => {
       const ids: number[] = about.contributors;

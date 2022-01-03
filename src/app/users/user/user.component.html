@@ -52,7 +52,7 @@
 
       <p i18n>Database id: {{user.id}}</p>
 
-      <p *ngIf="user && !(isMe$|async)" ngPreserveWhitespaces>
+      <p *ngIf="user && isNotMe$|async" ngPreserveWhitespaces>
         <i class="fa fa-reply" aria-hidden="true"></i>
         <a href="#" (click)="openMessageForm(user)" i18n>Send personal message</a>
       </p>
@@ -121,8 +121,8 @@
     </div>
     <div class="col-md-6">
 
-      <div class="card card-body mb-4" *ngIf="(currentUser$|async) && !user.deleted && !(isMe$|async)">
-        <button type="submit" class="btn btn-lg btn-contact btn-primary" (click)="setInContacts(user, true)" *ngIf="!(inContacts$|async)">
+      <div class="card card-body mb-4" *ngIf="(currentUser$|async) && !user.deleted && (isNotMe$|async)">
+        <button type="submit" class="btn btn-lg btn-contact btn-primary" (click)="setInContacts(user, true)" *ngIf="(inContacts$|async) === false">
           <span class="fa fa-plus-circle mr-1" aria-hidden="true"></span>
           <ng-container i18n>Add to contacts</ng-container>
         </button>

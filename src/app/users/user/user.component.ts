@@ -115,17 +115,17 @@ export class UsersUserComponent {
 
   public currentUser$ = this.auth.getUser();
 
-  public isMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
+  public isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
     map(([user, currentUser]) => {
-      return currentUser && currentUser.id === user.id;
+      return !currentUser || currentUser.id !== user.id;
     })
   );
 
   private inContactsChange$ = new BehaviorSubject<boolean>(true);
 
-  public inContacts$ = combineLatest([this.user$, this.currentUser$, this.isMe$, this.inContactsChange$]).pipe(
-    switchMap(([user, currentUser, isMe]) => {
-      if (!currentUser || isMe) {
+  public inContacts$ = combineLatest([this.user$, this.currentUser$, this.isNotMe$, this.inContactsChange$]).pipe(
+    switchMap(([user, currentUser, isNotMe]) => {
+      if (!currentUser || !isNotMe) {
         return of(false);
       }
 
