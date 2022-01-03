@@ -73,7 +73,7 @@ export class CutawayBrandsComponent implements OnInit {
       const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
         picture: picture ? picture.picture : null,
         thumb: picture ? picture.thumb : null,
-        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
+        routerLink: picture ? ['/picture', picture.picture.identity] : null
       }));
 
       return {
