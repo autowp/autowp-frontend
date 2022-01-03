@@ -1,29 +1,3 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "../../variables";
-@import "~bootstrap/scss/mixins";
-
-.btn-contact {
-  @include button-variant($primary, $primary);
-  @include transition(color .2s, background-color .2s);
-
-  &.in-contacts {
-      @include button-variant($danger, $danger);
-
-      .in-contacts {
-          display: inline;
-      }
-
-      .not-in-contacts {
-          display: none;
-      }
-  }
-
-  .in-contacts {
-      display: none;
-  }
-}
-
 .user-photo {
   margin-bottom: 15px;
 

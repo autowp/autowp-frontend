@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ContactsService} from '../../services/contacts';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIUser, UserService} from '../../services/user';
-import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {IpService} from '../../services/ip';
 import {PageEnvService} from '../../services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
-import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
+import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
 import {APIDeleteUserRequest, APIIP, CreateContactRequest, DeleteContactRequest} from '../../../../generated/spec.pb';
@@ -21,9 +21,7 @@ import {ContactsClient, UsersClient} from '../../../../generated/spec.pbsc';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UsersUserComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  public user: APIUser;
+export class UsersUserComponent {
   public banPeriods = [
     { value: 1, name: $localize `hour` },
     { value: 2, name: $localize `2 hours` },
@@ -35,17 +33,110 @@ export class UsersUserComponent implements OnInit, OnDestroy {
   ];
   public banPeriod = 1;
   public banReason: string | null = null;
-  public ip: APIIP;
-  public inContacts = false;
-  public comments: APIComment[];
-  public pictures: APIPicture[];
-  public canDeleteUser = false;
-  public isMe = false;
+  public canDeleteUser$ = this.acl.isAllowed(Resource.USER, Privilege.DELETE);
   public canBeInContacts = false;
-  public canViewIp = false;
-  public canBan = false;
+  public canViewIp$ = this.acl.isAllowed(Resource.USER, Privilege.IP);
+  public canBan$ = this.acl.isAllowed(Resource.USER, Privilege.BAN);
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  private aclSub: Subscription;
+
+  public user$ = this.route.paramMap.pipe(
+    map(params => ''+params.get('identity')),
+    distinctUntilChanged(),
+    debounceTime(30),
+    switchMap(identity => this.userService.getByIdentity(identity, { fields: 'identity,gravatar_hash,photo,renames,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip' })),
+    catchError(err => {
+      this.toastService.response(err);
+      return EMPTY;
+    }),
+    switchMap(user => {
+      if (!user) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }
+
+      setTimeout(
+        () =>
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            nameTranslated: user.name,
+            pageId: 62
+          }),
+        0
+      );
+
+      return of(user);
+    }),
+    shareReplay(1)
+  );
+
+  public pictures$: Observable<APIPicture[]> = this.user$.pipe(
+    switchMap(user => this.pictureService.getPictures({
+      owner_id: user.id,
+      limit: 12,
+      order: 1,
+      fields: 'url,name_html'
+    }).pipe(
+      map(response => response.pictures)
+    ))
+  );
+
+  public comments$ = this.user$.pipe(
+    switchMap(user => {
+      if (user.deleted) {
+        return of({items: []} as APICommentGetResponse);
+      }
+
+      return this.commentService.getComments({
+        user_id: user.id,
+        limit: 15,
+        order: 'date_desc',
+        fields: ['preview', 'route']
+      });
+    }),
+    map(response => response.items)
+  );
+
+  private ipChange$ = new BehaviorSubject<boolean>(true);
+
+  public ip$ = combineLatest([this.user$, this.ipChange$]).pipe(
+    switchMap(([user]) => {
+      if (!user.last_ip) {
+        return of(null as APIIP);
+      }
+
+      return this.ipService.getIp(user.last_ip, ['blacklist', 'rights']);
+    }),
+    catchError(() => of(null as APIIP)),
+  );
+
+  public currentUser$ = this.auth.getUser();
+
+  public isMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
+    map(([user, currentUser]) => {
+      return currentUser && currentUser.id === user.id;
+    })
+  );
+
+  private inContactsChange$ = new BehaviorSubject<boolean>(true);
+
+  public inContacts$ = combineLatest([this.user$, this.currentUser$, this.isMe$, this.inContactsChange$]).pipe(
+    switchMap(([user, currentUser, isMe]) => {
+      if (!currentUser || isMe) {
+        return of(false);
+      }
+
+      return this.contacts.isInContacts(user.id.toString());
+    }),
+    catchError(response => {
+      this.toastService.response(response)
+      return EMPTY;
+    }),
+    shareReplay(1)
+  );
 
   constructor(
     private api: APIService,
@@ -65,198 +156,76 @@ export class UsersUserComponent implements OnInit, OnDestroy {
     private usersGrpc: UsersClient
   ) {}
 
-  ngOnInit(): void {
-    const fields =
-      'identity,gravatar_hash,photo,renames,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip';
-
-    this.routeSub = this.auth
-      .getUser()
-      .pipe(
-        switchMap(currentUser => this.route.paramMap.pipe(
-          map(params => ({
-            currentUser,
-            identity: params.get('identity')
-          }))
-        )),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        switchMap(data => combineLatest([
-          this.userService
-            .getByIdentity(data.identity, { fields })
-            .pipe(
-              catchError(err => {
-                this.toastService.response(err);
-                return EMPTY;
-              })
-            ),
-          this.acl.isAllowed(Resource.USER, Privilege.IP),
-          this.acl.isAllowed(Resource.USER, Privilege.BAN),
-          this.acl.isAllowed(Resource.USER, Privilege.DELETE),
-          of(data.currentUser)
-        ])),
-        switchMap(([user, canViewIp, canBan, canDeleteUser, currentUser]) => {
-          if (!user) {
-            this.router.navigate(['/error-404'], {
-              skipLocationChange: true
-            });
-            return EMPTY;
-          }
-
-          this.canViewIp = canViewIp;
-          this.canBan = canBan;
-          this.canDeleteUser = canDeleteUser;
-
-          setTimeout(
-            () =>
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                nameTranslated: user.name,
-                pageId: 62
-              }),
-            0
-          );
-
-          this.user = user;
-          this.isMe = currentUser && currentUser.id === user.id;
-          this.canBeInContacts = currentUser && !user.deleted && !this.isMe;
-
-          if (currentUser && !this.isMe) {
-            this.contacts.isInContacts(user.id.toString()).subscribe(
-              inContacts => (this.inContacts = inContacts),
-              response => this.toastService.response(response)
-            );
-          }
-
-          const pictures = this.pictureService.getPictures({
-            owner_id: user.id,
-            limit: 12,
-            order: 1,
-            fields: 'url,name_html'
-          }).pipe(
-            catchError(() => of(null))
-          );
-
-          let comments = of(null as APICommentGetResponse);
-          if (!user.deleted) {
-            comments = this.commentService.getComments({
-              user_id: user.id,
-              limit: 15,
-              order: 'date_desc',
-              fields: ['preview', 'route']
-            });
-          }
-
-          let ip = of(null as APIIP);
-          if (user.last_ip) {
-            ip = this.ipService.getIp(user.last_ip, ['blacklist', 'rights']).pipe(
-              catchError(() => of(null as APIIP))
-            );
-          }
-
-          return combineLatest([pictures, comments, ip]).pipe(
-            tap(([picturesResponse, commentsResponse, ipResponse]) => {
-              this.pictures = picturesResponse ? picturesResponse.pictures : [];
-              this.comments = commentsResponse.items;
-              this.ip = ipResponse;
-            })
-          );
-        })
-      )
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
-    this.aclSub.unsubscribe();
-  }
-
-  public openMessageForm() {
-    this.messageDialogService.showDialog(this.user.id);
+  public openMessageForm(user: APIUser) {
+    this.messageDialogService.showDialog(user.id);
     return false;
   }
 
-  public toggleInContacts() {
-    if (this.inContacts) {
-      this.contactsClient.deleteContact(new DeleteContactRequest({userId: this.user.id.toString()})).subscribe(() => {
-        this.inContacts = false;
+  public setInContacts(user: APIUser, value: boolean) {
+    if (value) {
+      this.contactsClient.createContact(new CreateContactRequest({userId: user.id.toString()})).subscribe(() => {
+        this.inContactsChange$.next(true);
       });
       return;
     }
 
-    this.contactsClient.createContact(new CreateContactRequest({userId: this.user.id.toString()})).subscribe(() => {
-      this.inContacts = true;
+    this.contactsClient.deleteContact(new DeleteContactRequest({userId: user.id.toString()})).subscribe(() => {
+      this.inContactsChange$.next(true);
     });
   }
 
-  public deletePhoto() {
+  public deletePhoto(user: APIUser) {
     if (!window.confirm('Are you sure?')) {
       return;
     }
 
-    this.api.request<void>('DELETE', 'user/' + this.user.id + '/photo').subscribe(
+    this.api.request<void>('DELETE', 'user/' + user.id + '/photo').subscribe(
       () => {
-        this.user.photo = null;
+        user.photo = null;
       },
       response => this.toastService.response(response)
     );
   }
 
-  public deleteUser() {
+  public deleteUser(user: APIUser) {
     if (!window.confirm('Are you sure?')) {
       return;
     }
     this.usersGrpc.deleteUser(new APIDeleteUserRequest({
-      userId: this.user.id.toString()
+      userId: user.id.toString()
     })).subscribe(
       () => {
-        this.user.deleted = true;
+        user.deleted = true;
       },
       response => this.toastService.grpcErrorResponse(response)
     );
   }
 
-  public unban() {
+  public removeFromBlacklist(ipAddress: string) {
     this.api
-      .request<void>('DELETE', 'traffic/blacklist/' + this.ip.address)
-      .subscribe(
-        () => {},
-        response => this.toastService.response(response)
-      );
-  }
-
-  public removeFromBlacklist() {
-    this.api
-      .request<void>('DELETE', 'traffic/blacklist/' + this.ip.address)
+      .request<void>('DELETE', 'traffic/blacklist/' + ipAddress)
       .subscribe(
         () => {
-          this.ip.blacklist = null;
+          this.ipChange$.next(true);
         },
         response => this.toastService.response(response)
       );
   }
 
   public addToBlacklist(ipAddress: string) {
-    this.api
-      .request<void>('POST', 'traffic/blacklist', {body: {
-        ip: ipAddress,
-        period: this.banPeriod,
-        reason: this.banReason
-      }})
-      .pipe(
-        catchError(err => {
-          this.toastService.response(err);
-          return EMPTY;
-        }),
-        switchMap(() => this.ipService.getIp(this.user.last_ip, ['blacklist', 'rights'])),
-        catchError(err => {
-          this.toastService.response(err);
-          return EMPTY;
-        })
-      )
-      .subscribe(data => {
-        this.ip = data;
-      });
+    this.api.request<void>('POST', 'traffic/blacklist', {body: {
+      ip: ipAddress,
+      period: this.banPeriod,
+      reason: this.banReason
+    }})
+    .pipe(
+      catchError(err => {
+        this.toastService.response(err);
+        return EMPTY;
+      }),
+    )
+    .subscribe(() => {
+      this.ipChange$.next(true);
+    });
   }
 }
