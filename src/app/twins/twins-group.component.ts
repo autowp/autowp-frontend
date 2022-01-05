@@ -13,7 +13,6 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public group: APIItem;
   public selectedBrands: string[] = [];
-  private aclSub: Subscription;
 
   constructor(
     private itemService: ItemService,
@@ -69,6 +68,5 @@ export class TwinsGroupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    this.aclSub.unsubscribe();
   }
 }

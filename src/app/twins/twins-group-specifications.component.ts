@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component} from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
-import { Subscription, of } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { APIService } from '../services/api.service';
 
@@ -10,52 +10,33 @@ import { APIService } from '../services/api.service';
   selector: 'app-twins-group-specifications',
   templateUrl: './twins-group-specifications.component.html'
 })
-export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public group: APIItem;
-  public resultHtml = '';
-  private aclSub: Subscription;
-
-  constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private api: APIService
-  ) {}
-
-  ngOnInit(): void {
-    this.sub = this.route.paramMap
-      .pipe(
-        map(params => parseInt(params.get('group'), 10)),
-        distinctUntilChanged(),
-        debounceTime(10),
-        distinctUntilChanged(),
-        debounceTime(10),
-        switchMap(group => {
-          if (!group) {
-            return of(null as APIItem);
-          }
-          return this.itemService.getItem(group, {
-            fields: 'name_text,name_html'
-          });
-        }),
-        switchMap(group => this.api.request(
-          'GET',
-          'item/' + group.id + '/child-specifications',
-          {
-            responseType: 'text'
-          }
-        ).pipe(
-          map(specsHtml => ({
-            group,
-            specsHtml
-          }))
-        ))
-      )
-      .subscribe(data => {
-        this.group = data.group;
-        this.resultHtml = data.specsHtml;
-
+export class TwinsGroupSpecificationsComponent {
+  public result$: Observable<{group: APIItem, specsHtml: string}> = this.route.paramMap
+    .pipe(
+      map(params => parseInt(params.get('group'), 10)),
+      distinctUntilChanged(),
+      debounceTime(10),
+      switchMap(group => {
+        if (!group) {
+          return of(null as APIItem);
+        }
+        return this.itemService.getItem(group, {
+          fields: 'name_text,name_html'
+        });
+      }),
+      switchMap(group => this.api.request(
+        'GET',
+        'item/' + group.id + '/child-specifications',
+        {
+          responseType: 'text'
+        }
+      ).pipe(
+        map(specsHtml => ({
+          group,
+          specsHtml
+        }))
+      )),
+      tap(data => {
         setTimeout(
           () =>
             this.pageEnv.set({
@@ -67,11 +48,13 @@ export class TwinsGroupSpecificationsComponent implements OnInit, OnDestroy {
             }),
           0
         );
-      });
-  }
+      })
+    );
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-    this.aclSub.unsubscribe();
-  }
+  constructor(
+    private itemService: ItemService,
+    private route: ActivatedRoute,
+    private pageEnv: PageEnvService,
+    private api: APIService
+  ) {}
 }

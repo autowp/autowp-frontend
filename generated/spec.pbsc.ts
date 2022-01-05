@@ -20,7 +20,10 @@ import {
 } from '@ngx-grpc/core';
 import { Observable } from 'rxjs';
 import * as thisProto from './spec.pb';
+import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
+import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
+import * as googleRpc003 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
@@ -1452,6 +1455,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Items/GetTopTwinsBrandsList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITopTwinsBrandsList>>
+     */
+    getTopTwinsBrandsList: (
+      requestData: thisProto.GetTopTwinsBrandsListRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITopTwinsBrandsList>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTopTwinsBrandsList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTopTwinsBrandsListRequest,
+        responseClass: thisProto.APITopTwinsBrandsList
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Items/List
      *
      * @param requestMessage Request message
@@ -1543,6 +1567,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopCategoriesList> {
     return this.$raw
       .getTopCategoriesList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Items/GetTopTwinsBrandsList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITopTwinsBrandsList>
+   */
+  getTopTwinsBrandsList(
+    requestData: thisProto.GetTopTwinsBrandsListRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITopTwinsBrandsList> {
+    return this.$raw
+      .getTopTwinsBrandsList(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

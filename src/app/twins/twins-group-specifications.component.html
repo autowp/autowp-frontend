@@ -1,19 +1,27 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/" i18n>Index page</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a routerLink="/twins" i18n>Twins</a>
-    </li>
-    <li class="breadcrumb-item" *ngIf="group">
-      <a [routerLink]="['/twins/group', group.id]" [innerHTML]="group.name_html"></a>
-    </li>
-  </ol>
-</nav>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
 
-<div class="page-header" *ngIf="group">
-  <h1 i18n>Specifications of {{group.name_text}}</h1>
-</div>
+<ng-container *ngIf="result$|async as result; else loading">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/" i18n>Index page</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/twins" i18n>Twins</a>
+      </li>
+      <li class="breadcrumb-item" *ngIf="result.group">
+        <a [routerLink]="['/twins/group', result.group.id]" [innerHTML]="result.group.name_html"></a>
+      </li>
+    </ol>
+  </nav>
 
-<div [innerHtml]="resultHtml"></div>
+  <div class="page-header" *ngIf="result.group">
+    <h1 i18n>Specifications of {{result.group.name_text}}</h1>
+  </div>
+
+  <div [innerHtml]="result.specsHtml"></div>
+</ng-container>
