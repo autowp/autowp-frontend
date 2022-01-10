@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import {map, catchError, shareReplay} from 'rxjs/operators';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
 export interface TokenResponse {
   access_token: string;
@@ -93,17 +93,21 @@ export class OAuthService {
         observe: 'response'
       })
       .pipe(
-        map(response => {
-          this.setToken(response.body);
-
-          return true;
-        }),
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            return of(false);
+          console.log('error', error);
+          if (error.status === 400 || error.status === 401) {
+            return of(null as HttpResponse<TokenResponse>);
           }
           return throwError(error);
-        })
+        }),
+        map(response => {
+          if (response) {
+            this.setToken(response.body);
+            return true;
+          }
+
+          return false;
+        }),
       );
   }
 
@@ -144,32 +148,31 @@ export class OAuthService {
       return this.token$;
     }
 
-    this.token$ = this.http
-      .request<TokenResponse>('POST', '/api/oauth/token', {
-        body: {
-          grant_type: 'refresh_token',
-          refresh_token: refreshToken
+    this.token$ = this.http.request<TokenResponse>('POST', '/api/oauth/token', {
+      body: {
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken
+      }
+    })
+    .pipe(
+      catchError((response: HttpErrorResponse) => {
+        if (response.status === 400 || response.status === 401) {
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('valid_until');
+          return of(null);
         }
-      })
-      .pipe(
-        catchError((response: HttpErrorResponse) => {
-          if (response.status === 401) {
-            localStorage.removeItem('refresh_token');
-            localStorage.removeItem('valid_until');
-            return of(null);
-          }
-          return throwError(response);
-        }),
-        map(token => {
-          this.token$ = null;
-          if (! token) {
-            return null;
-          }
-          this.setToken(token);
-          return token.access_token;
-        }),
-        shareReplay(1)
-      );
+        return throwError(response);
+      }),
+      map(token => {
+        this.token$ = null;
+        if (! token) {
+          return null;
+        }
+        this.setToken(token);
+        return token.access_token;
+      }),
+      shareReplay(1)
+    );
 
     return this.token$;
   }
