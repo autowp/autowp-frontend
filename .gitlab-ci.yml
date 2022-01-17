@@ -12,7 +12,7 @@ stages:
 
 lint:
   stage: test
-  image: node:16.13-alpine
+  image: node:17-alpine
   artifacts:
     paths:
       - node_modules
@@ -32,7 +32,7 @@ sonar:
 
 build:
   stage: build
-  image: node:16.13-alpine
+  image: node:17-alpine
   artifacts:
     paths:
       - dist
