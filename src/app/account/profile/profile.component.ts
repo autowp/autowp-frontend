@@ -15,7 +15,7 @@ import {APIImage, APIService} from '../../services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {UsersClient} from '../../../../generated/spec.pbsc';
-import {APIUpdateUserRequest} from '../../../../generated/spec.pb';
+import {APIGetKeycloakUserRequest, APIUpdateUserRequest} from '../../../../generated/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
 
@@ -26,7 +26,8 @@ import {InvalidParams} from '../../utils/invalid-params.pipe';
 export class AccountProfileComponent implements OnInit, OnDestroy {
   private user: APIUser;
   public profile = {
-    name: null
+    first_name: null,
+    last_name: null
   };
   public profileInvalidParams: InvalidParams = {};
   public settings = {
@@ -98,11 +99,19 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
               this.timezone.getTimezones()
             ]
           )
-        )
+        ),
+        switchMap(([user, timezones]) => {
+          return combineLatest([
+            of(user),
+            of(timezones),
+            this.usersGrpc.getKeycloakUser(new APIGetKeycloakUserRequest({userId: user.id+''}))
+          ])
+        })
       )
       .subscribe(
-        ([user, timezones]) => {
-          this.profile.name = user.name;
+        ([user, timezones, kcUser]) => {
+          this.profile.first_name = kcUser.firstName;
+          this.profile.last_name = kcUser.lastName;
           this.settings.timezone = user.timezone;
           this.settings.language = user.language;
           this.votesPerDay = user.votes_per_day;
@@ -126,11 +135,18 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     this.profileInvalidParams = {};
 
     this.usersGrpc.updateUser(new APIUpdateUserRequest({
-      name: this.profile.name,
+      firstName: this.profile.first_name,
+      lastName: this.profile.last_name,
       userId: this.user.id.toString()
-    })).subscribe(
-      () => {
-        this.user.name = this.profile.name;
+    })).pipe(
+      switchMapTo(this.api.request<APIUser>('GET', 'user/me', {
+        params: {
+          fields: 'name'
+        }
+      }))
+    ).subscribe(
+      (user) => {
+        this.user.name = user.name;
 
         this.showSavedMessage();
       },

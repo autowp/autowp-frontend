@@ -20,10 +20,7 @@ import {
 } from '@ngx-grpc/core';
 import { Observable } from 'rxjs';
 import * as thisProto from './spec.pb';
-import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
-import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
-import * as googleRpc003 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
@@ -999,6 +996,27 @@ export class UsersClient {
       });
     },
     /**
+     * Unary RPC for /goautowp.Users/GetKeycloakUser
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIGetKeycloakUserResponse>>
+     */
+    getKeycloakUser: (
+      requestData: thisProto.APIGetKeycloakUserRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIGetKeycloakUserResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/GetKeycloakUser',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetKeycloakUserRequest,
+        responseClass: thisProto.APIGetKeycloakUserResponse
+      });
+    },
+    /**
      * Unary RPC for /goautowp.Users/UpdateUser
      *
      * @param requestMessage Request message
@@ -1210,6 +1228,22 @@ export class UsersClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .createUser(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Users/GetKeycloakUser
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIGetKeycloakUserResponse>
+   */
+  getKeycloakUser(
+    requestData: thisProto.APIGetKeycloakUserRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIGetKeycloakUserResponse> {
+    return this.$raw
+      .getKeycloakUser(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

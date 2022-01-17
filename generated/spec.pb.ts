@@ -10,8 +10,6 @@ import {
   ToProtobufJSONOptions
 } from '@ngx-grpc/common';
 import { BinaryReader, BinaryWriter, ByteSource } from 'google-protobuf';
-import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
-import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleRpc003 from './google/rpc/error-details.pb';
 export enum PictureItemType {
@@ -7552,7 +7550,8 @@ export class APICreateUserRequest implements GrpcMessage {
    */
   static refineValues(_instance: APICreateUserRequest) {
     _instance.email = _instance.email || '';
-    _instance.name = _instance.name || '';
+    _instance.firstName = _instance.firstName || '';
+    _instance.lastName = _instance.lastName || '';
     _instance.password = _instance.password || '';
     _instance.passwordConfirm = _instance.passwordConfirm || '';
     _instance.language = _instance.language || '';
@@ -7576,18 +7575,21 @@ export class APICreateUserRequest implements GrpcMessage {
           _instance.email = _reader.readString();
           break;
         case 2:
-          _instance.name = _reader.readString();
+          _instance.firstName = _reader.readString();
           break;
         case 3:
-          _instance.password = _reader.readString();
+          _instance.lastName = _reader.readString();
           break;
         case 4:
-          _instance.passwordConfirm = _reader.readString();
+          _instance.password = _reader.readString();
           break;
         case 5:
-          _instance.language = _reader.readString();
+          _instance.passwordConfirm = _reader.readString();
           break;
         case 6:
+          _instance.language = _reader.readString();
+          break;
+        case 7:
           _instance.captcha = _reader.readString();
           break;
         default:
@@ -7610,25 +7612,29 @@ export class APICreateUserRequest implements GrpcMessage {
     if (_instance.email) {
       _writer.writeString(1, _instance.email);
     }
-    if (_instance.name) {
-      _writer.writeString(2, _instance.name);
+    if (_instance.firstName) {
+      _writer.writeString(2, _instance.firstName);
+    }
+    if (_instance.lastName) {
+      _writer.writeString(3, _instance.lastName);
     }
     if (_instance.password) {
-      _writer.writeString(3, _instance.password);
+      _writer.writeString(4, _instance.password);
     }
     if (_instance.passwordConfirm) {
-      _writer.writeString(4, _instance.passwordConfirm);
+      _writer.writeString(5, _instance.passwordConfirm);
     }
     if (_instance.language) {
-      _writer.writeString(5, _instance.language);
+      _writer.writeString(6, _instance.language);
     }
     if (_instance.captcha) {
-      _writer.writeString(6, _instance.captcha);
+      _writer.writeString(7, _instance.captcha);
     }
   }
 
   private _email?: string;
-  private _name?: string;
+  private _firstName?: string;
+  private _lastName?: string;
   private _password?: string;
   private _passwordConfirm?: string;
   private _language?: string;
@@ -7641,7 +7647,8 @@ export class APICreateUserRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<APICreateUserRequest.AsObject>) {
     _value = _value || {};
     this.email = _value.email;
-    this.name = _value.name;
+    this.firstName = _value.firstName;
+    this.lastName = _value.lastName;
     this.password = _value.password;
     this.passwordConfirm = _value.passwordConfirm;
     this.language = _value.language;
@@ -7654,11 +7661,17 @@ export class APICreateUserRequest implements GrpcMessage {
   set email(value: string | undefined) {
     this._email = value;
   }
-  get name(): string | undefined {
-    return this._name;
+  get firstName(): string | undefined {
+    return this._firstName;
   }
-  set name(value: string | undefined) {
-    this._name = value;
+  set firstName(value: string | undefined) {
+    this._firstName = value;
+  }
+  get lastName(): string | undefined {
+    return this._lastName;
+  }
+  set lastName(value: string | undefined) {
+    this._lastName = value;
   }
   get password(): string | undefined {
     return this._password;
@@ -7701,7 +7714,8 @@ export class APICreateUserRequest implements GrpcMessage {
   toObject(): APICreateUserRequest.AsObject {
     return {
       email: this.email,
-      name: this.name,
+      firstName: this.firstName,
+      lastName: this.lastName,
       password: this.password,
       passwordConfirm: this.passwordConfirm,
       language: this.language,
@@ -7727,7 +7741,8 @@ export class APICreateUserRequest implements GrpcMessage {
   ): APICreateUserRequest.AsProtobufJSON {
     return {
       email: this.email,
-      name: this.name,
+      firstName: this.firstName,
+      lastName: this.lastName,
       password: this.password,
       passwordConfirm: this.passwordConfirm,
       language: this.language,
@@ -7741,7 +7756,8 @@ export module APICreateUserRequest {
    */
   export interface AsObject {
     email?: string;
-    name?: string;
+    firstName?: string;
+    lastName?: string;
     password?: string;
     passwordConfirm?: string;
     language?: string;
@@ -7753,7 +7769,8 @@ export module APICreateUserRequest {
    */
   export interface AsProtobufJSON {
     email?: string;
-    name?: string;
+    firstName?: string;
+    lastName?: string;
     password?: string;
     passwordConfirm?: string;
     language?: string;
@@ -9020,7 +9037,8 @@ export class APIUpdateUserRequest implements GrpcMessage {
    */
   static refineValues(_instance: APIUpdateUserRequest) {
     _instance.userId = _instance.userId || '0';
-    _instance.name = _instance.name || '';
+    _instance.firstName = _instance.firstName || '';
+    _instance.lastName = _instance.lastName || '';
   }
 
   /**
@@ -9040,7 +9058,10 @@ export class APIUpdateUserRequest implements GrpcMessage {
           _instance.userId = _reader.readInt64String();
           break;
         case 2:
-          _instance.name = _reader.readString();
+          _instance.firstName = _reader.readString();
+          break;
+        case 3:
+          _instance.lastName = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -9062,13 +9083,17 @@ export class APIUpdateUserRequest implements GrpcMessage {
     if (_instance.userId) {
       _writer.writeInt64String(1, _instance.userId);
     }
-    if (_instance.name) {
-      _writer.writeString(2, _instance.name);
+    if (_instance.firstName) {
+      _writer.writeString(2, _instance.firstName);
+    }
+    if (_instance.lastName) {
+      _writer.writeString(3, _instance.lastName);
     }
   }
 
   private _userId?: string;
-  private _name?: string;
+  private _firstName?: string;
+  private _lastName?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -9077,7 +9102,8 @@ export class APIUpdateUserRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<APIUpdateUserRequest.AsObject>) {
     _value = _value || {};
     this.userId = _value.userId;
-    this.name = _value.name;
+    this.firstName = _value.firstName;
+    this.lastName = _value.lastName;
     APIUpdateUserRequest.refineValues(this);
   }
   get userId(): string | undefined {
@@ -9086,11 +9112,17 @@ export class APIUpdateUserRequest implements GrpcMessage {
   set userId(value: string | undefined) {
     this._userId = value;
   }
-  get name(): string | undefined {
-    return this._name;
+  get firstName(): string | undefined {
+    return this._firstName;
   }
-  set name(value: string | undefined) {
-    this._name = value;
+  set firstName(value: string | undefined) {
+    this._firstName = value;
+  }
+  get lastName(): string | undefined {
+    return this._lastName;
+  }
+  set lastName(value: string | undefined) {
+    this._lastName = value;
   }
 
   /**
@@ -9109,7 +9141,8 @@ export class APIUpdateUserRequest implements GrpcMessage {
   toObject(): APIUpdateUserRequest.AsObject {
     return {
       userId: this.userId,
-      name: this.name
+      firstName: this.firstName,
+      lastName: this.lastName
     };
   }
 
@@ -9131,7 +9164,8 @@ export class APIUpdateUserRequest implements GrpcMessage {
   ): APIUpdateUserRequest.AsProtobufJSON {
     return {
       userId: this.userId,
-      name: this.name
+      firstName: this.firstName,
+      lastName: this.lastName
     };
   }
 }
@@ -9141,7 +9175,8 @@ export module APIUpdateUserRequest {
    */
   export interface AsObject {
     userId?: string;
-    name?: string;
+    firstName?: string;
+    lastName?: string;
   }
 
   /**
@@ -9149,7 +9184,305 @@ export module APIUpdateUserRequest {
    */
   export interface AsProtobufJSON {
     userId?: string;
-    name?: string;
+    firstName?: string;
+    lastName?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetKeycloakUserRequest
+ */
+export class APIGetKeycloakUserRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetKeycloakUserRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetKeycloakUserRequest();
+    APIGetKeycloakUserRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetKeycloakUserRequest) {
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetKeycloakUserRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetKeycloakUserRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetKeycloakUserRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt64String(1, _instance.userId);
+    }
+  }
+
+  private _userId?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetKeycloakUserRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetKeycloakUserRequest.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    APIGetKeycloakUserRequest.refineValues(this);
+  }
+  get userId(): string | undefined {
+    return this._userId;
+  }
+  set userId(value: string | undefined) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetKeycloakUserRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetKeycloakUserRequest.AsObject {
+    return {
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetKeycloakUserRequest.AsProtobufJSON {
+    return {
+      userId: this.userId
+    };
+  }
+}
+export module APIGetKeycloakUserRequest {
+  /**
+   * Standard JavaScript object representation for APIGetKeycloakUserRequest
+   */
+  export interface AsObject {
+    userId?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetKeycloakUserRequest
+   */
+  export interface AsProtobufJSON {
+    userId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetKeycloakUserResponse
+ */
+export class APIGetKeycloakUserResponse implements GrpcMessage {
+  static id = 'goautowp.APIGetKeycloakUserResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetKeycloakUserResponse();
+    APIGetKeycloakUserResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetKeycloakUserResponse) {
+    _instance.firstName = _instance.firstName || '';
+    _instance.lastName = _instance.lastName || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetKeycloakUserResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.firstName = _reader.readString();
+          break;
+        case 2:
+          _instance.lastName = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetKeycloakUserResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetKeycloakUserResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.firstName) {
+      _writer.writeString(1, _instance.firstName);
+    }
+    if (_instance.lastName) {
+      _writer.writeString(2, _instance.lastName);
+    }
+  }
+
+  private _firstName?: string;
+  private _lastName?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetKeycloakUserResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetKeycloakUserResponse.AsObject>) {
+    _value = _value || {};
+    this.firstName = _value.firstName;
+    this.lastName = _value.lastName;
+    APIGetKeycloakUserResponse.refineValues(this);
+  }
+  get firstName(): string | undefined {
+    return this._firstName;
+  }
+  set firstName(value: string | undefined) {
+    this._firstName = value;
+  }
+  get lastName(): string | undefined {
+    return this._lastName;
+  }
+  set lastName(value: string | undefined) {
+    this._lastName = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetKeycloakUserResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetKeycloakUserResponse.AsObject {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetKeycloakUserResponse.AsProtobufJSON {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName
+    };
+  }
+}
+export module APIGetKeycloakUserResponse {
+  /**
+   * Standard JavaScript object representation for APIGetKeycloakUserResponse
+   */
+  export interface AsObject {
+    firstName?: string;
+    lastName?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetKeycloakUserResponse
+   */
+  export interface AsProtobufJSON {
+    firstName?: string;
+    lastName?: string;
   }
 }
 

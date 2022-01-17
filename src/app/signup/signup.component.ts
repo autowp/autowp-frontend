@@ -8,6 +8,7 @@ import {APICreateUserRequest} from '../../../generated/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {LanguageService} from '../services/language';
+import {InvalidParams} from '../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-signup',
@@ -18,12 +19,13 @@ export class SignupComponent {
   public showCaptcha = false;
   public form = {
     email: '',
-    name: '',
+    firstName: '',
+    lastName: '',
     password: '',
     passwordConfirm: '',
     captcha: ''
   };
-  public invalidParams: any;
+  public invalidParams: InvalidParams = {};
 
   constructor(
     private router: Router,
