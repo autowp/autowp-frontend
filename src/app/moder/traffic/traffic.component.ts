@@ -3,7 +3,7 @@ import { IpService } from '../../services/ip';
 import { PageEnvService } from '../../services/page-env.service';
 import {Subscription, BehaviorSubject} from 'rxjs';
 import {map, switchMapTo} from 'rxjs/operators';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {TrafficClient} from '../../../../generated/spec.pbsc';
 import { Empty } from '@ngx-grpc/well-known-types';
 import {
   AddToTrafficBlacklistRequest,
@@ -27,7 +27,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   private change$ = new BehaviorSubject<null>(null);
 
   constructor(
-    private grpc: AutowpClient,
+    private trafficGrpc: TrafficClient,
     private ipService: IpService,
     private pageEnv: PageEnvService
   ) {}
@@ -48,7 +48,7 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
 
     this.sub = this.change$
       .pipe(
-        switchMapTo(this.grpc.getTrafficTop(new Empty())),
+        switchMapTo(this.trafficGrpc.getTop(new Empty())),
         map(response => response.items.map(item => ({item, hostname: ''})))
       )
       .subscribe(items => {
@@ -66,11 +66,11 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   }
 
   public addToWhitelist(ip: string) {
-    this.grpc.addToTrafficWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.change$.next(null));
+    this.trafficGrpc.addToWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.change$.next(null));
   }
 
   public addToBlacklist(ip: string) {
-    this.grpc.addToTrafficBlacklist(new AddToTrafficBlacklistRequest({
+    this.trafficGrpc.addToBlacklist(new AddToTrafficBlacklistRequest({
       ip: ip,
       period: 240,
       reason: ''
@@ -78,6 +78,6 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
   }
 
   public removeFromBlacklist(ip: string) {
-    this.grpc.deleteFromTrafficBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe(() => this.change$.next(null));
+    this.trafficGrpc.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe(() => this.change$.next(null));
   }
 }

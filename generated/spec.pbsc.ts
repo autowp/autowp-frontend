@@ -23,6 +23,7 @@ import * as thisProto from './spec.pb';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
+  GRPC_TRAFFIC_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
   GRPC_USERS_CLIENT_SETTINGS,
   GRPC_ITEMS_CLIENT_SETTINGS
@@ -62,48 +63,6 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/AddToTrafficBlacklist
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    addToTrafficBlacklist: (
-      requestData: thisProto.AddToTrafficBlacklistRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/AddToTrafficBlacklist',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.AddToTrafficBlacklistRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/AddToTrafficWhitelist
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    addToTrafficWhitelist: (
-      requestData: thisProto.AddToTrafficWhitelistRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/AddToTrafficWhitelist',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.AddToTrafficWhitelistRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
      * Unary RPC for /goautowp.Autowp/CreateFeedback
      *
      * @param requestMessage Request message
@@ -121,48 +80,6 @@ export class AutowpClient {
         requestData,
         requestMetadata,
         requestClass: thisProto.APICreateFeedbackRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/DeleteFromTrafficBlacklist
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    deleteFromTrafficBlacklist: (
-      requestData: thisProto.DeleteFromTrafficBlacklistRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/DeleteFromTrafficBlacklist',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.DeleteFromTrafficBlacklistRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/DeleteFromTrafficWhitelist
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    deleteFromTrafficWhitelist: (
-      requestData: thisProto.DeleteFromTrafficWhitelistRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/DeleteFromTrafficWhitelist',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.DeleteFromTrafficWhitelistRequest,
         responseClass: googleProtobuf001.Empty
       });
     },
@@ -398,48 +315,6 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetTrafficTop
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.APITrafficTopResponse>>
-     */
-    getTrafficTop: (
-      requestData: googleProtobuf001.Empty,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.APITrafficTopResponse>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetTrafficTop',
-        requestData,
-        requestMetadata,
-        requestClass: googleProtobuf001.Empty,
-        responseClass: thisProto.APITrafficTopResponse
-      });
-    },
-    /**
-     * Unary RPC for /goautowp.Autowp/GetTrafficWhitelist
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.APITrafficWhitelistItems>>
-     */
-    getTrafficWhitelist: (
-      requestData: googleProtobuf001.Empty,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.APITrafficWhitelistItems>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetTrafficWhitelist',
-        requestData,
-        requestMetadata,
-        requestClass: googleProtobuf001.Empty,
-        responseClass: thisProto.APITrafficWhitelistItems
-      });
-    },
-    /**
      * Unary RPC for /goautowp.Autowp/GetVehicleTypes
      *
      * @param requestMessage Request message
@@ -487,38 +362,6 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/AddToTrafficBlacklist
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  addToTrafficBlacklist(
-    requestData: thisProto.AddToTrafficBlacklistRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .addToTrafficBlacklist(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/AddToTrafficWhitelist
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  addToTrafficWhitelist(
-    requestData: thisProto.AddToTrafficWhitelistRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .addToTrafficWhitelist(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
    * Unary RPC for /goautowp.Autowp/CreateFeedback
    *
    * @param requestMessage Request message
@@ -531,38 +374,6 @@ export class AutowpClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .createFeedback(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/DeleteFromTrafficBlacklist
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  deleteFromTrafficBlacklist(
-    requestData: thisProto.DeleteFromTrafficBlacklistRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .deleteFromTrafficBlacklist(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/DeleteFromTrafficWhitelist
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  deleteFromTrafficWhitelist(
-    requestData: thisProto.DeleteFromTrafficWhitelistRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .deleteFromTrafficWhitelist(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -743,38 +554,6 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetTrafficTop
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.APITrafficTopResponse>
-   */
-  getTrafficTop(
-    requestData: googleProtobuf001.Empty,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.APITrafficTopResponse> {
-    return this.$raw
-      .getTrafficTop(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary RPC for /goautowp.Autowp/GetTrafficWhitelist
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.APITrafficWhitelistItems>
-   */
-  getTrafficWhitelist(
-    requestData: googleProtobuf001.Empty,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.APITrafficWhitelistItems> {
-    return this.$raw
-      .getTrafficWhitelist(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
    * Unary RPC for /goautowp.Autowp/GetVehicleTypes
    *
    * @param requestMessage Request message
@@ -787,6 +566,251 @@ export class AutowpClient {
   ): Observable<thisProto.VehicleTypeItems> {
     return this.$raw
       .getVehicleTypes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Traffic
+ */
+@Injectable({ providedIn: 'any' })
+export class TrafficClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary RPC for /goautowp.Traffic/AddToBlacklist
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    addToBlacklist: (
+      requestData: thisProto.AddToTrafficBlacklistRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Traffic/AddToBlacklist',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AddToTrafficBlacklistRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Traffic/AddToWhitelist
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    addToWhitelist: (
+      requestData: thisProto.AddToTrafficWhitelistRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Traffic/AddToWhitelist',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AddToTrafficWhitelistRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Traffic/DeleteFromBlacklist
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteFromBlacklist: (
+      requestData: thisProto.DeleteFromTrafficBlacklistRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Traffic/DeleteFromBlacklist',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteFromTrafficBlacklistRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Traffic/DeleteFromWhitelist
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteFromWhitelist: (
+      requestData: thisProto.DeleteFromTrafficWhitelistRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Traffic/DeleteFromWhitelist',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteFromTrafficWhitelistRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Traffic/GetTop
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITrafficTopResponse>>
+     */
+    getTop: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITrafficTopResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Traffic/GetTop',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APITrafficTopResponse
+      });
+    },
+    /**
+     * Unary RPC for /goautowp.Traffic/GetWhitelist
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITrafficWhitelistItems>>
+     */
+    getWhitelist: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITrafficWhitelistItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Traffic/GetWhitelist',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APITrafficWhitelistItems
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_TRAFFIC_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Traffic', settings);
+  }
+
+  /**
+   * Unary RPC for /goautowp.Traffic/AddToBlacklist
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  addToBlacklist(
+    requestData: thisProto.AddToTrafficBlacklistRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .addToBlacklist(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Traffic/AddToWhitelist
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  addToWhitelist(
+    requestData: thisProto.AddToTrafficWhitelistRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .addToWhitelist(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Traffic/DeleteFromBlacklist
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteFromBlacklist(
+    requestData: thisProto.DeleteFromTrafficBlacklistRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteFromBlacklist(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Traffic/DeleteFromWhitelist
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteFromWhitelist(
+    requestData: thisProto.DeleteFromTrafficWhitelistRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteFromWhitelist(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Traffic/GetTop
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITrafficTopResponse>
+   */
+  getTop(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITrafficTopResponse> {
+    return this.$raw
+      .getTop(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /goautowp.Traffic/GetWhitelist
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITrafficWhitelistItems>
+   */
+  getWhitelist(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITrafficWhitelistItems> {
+    return this.$raw
+      .getWhitelist(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

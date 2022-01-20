@@ -13,8 +13,15 @@ import {MessageDialogService} from '../../message-dialog/message-dialog.service'
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
-import {APIDeleteUserRequest, APIIP, CreateContactRequest, DeleteContactRequest} from '../../../../generated/spec.pb';
-import {ContactsClient, UsersClient} from '../../../../generated/spec.pbsc';
+import {
+  AddToTrafficBlacklistRequest,
+  APIDeleteUserRequest,
+  APIIP,
+  CreateContactRequest,
+  DeleteContactRequest,
+  DeleteFromTrafficBlacklistRequest
+} from '../../../../generated/spec.pb';
+import {ContactsClient, TrafficClient, UsersClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',
@@ -34,7 +41,6 @@ export class UsersUserComponent {
   public banPeriod = 1;
   public banReason: string | null = null;
   public canDeleteUser$ = this.acl.isAllowed(Resource.USER, Privilege.DELETE);
-  public canBeInContacts = false;
   public canViewIp$ = this.acl.isAllowed(Resource.USER, Privilege.IP);
   public canBan$ = this.acl.isAllowed(Resource.USER, Privilege.BAN);
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
@@ -153,7 +159,8 @@ export class UsersUserComponent {
     private toastService: ToastsService,
     private ipService: IpService,
     private contactsClient: ContactsClient,
-    private usersGrpc: UsersClient
+    private usersGrpc: UsersClient,
+    private trafficClient: TrafficClient
   ) {}
 
   public openMessageForm(user: APIUser) {
@@ -201,31 +208,25 @@ export class UsersUserComponent {
     );
   }
 
-  public removeFromBlacklist(ipAddress: string) {
-    this.api
-      .request<void>('DELETE', 'traffic/blacklist/' + ipAddress)
-      .subscribe(
-        () => {
-          this.ipChange$.next(true);
-        },
-        response => this.toastService.response(response)
-      );
+  public removeFromBlacklist(ip: string) {
+    this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe(
+      () => {
+        this.ipChange$.next(true);
+      },
+      response => this.toastService.response(response)
+    );
   }
 
-  public addToBlacklist(ipAddress: string) {
-    this.api.request<void>('POST', 'traffic/blacklist', {body: {
-      ip: ipAddress,
+  public addToBlacklist(ip: string) {
+    this.trafficClient.addToBlacklist(new AddToTrafficBlacklistRequest({
+      ip,
       period: this.banPeriod,
       reason: this.banReason
-    }})
-    .pipe(
-      catchError(err => {
-        this.toastService.response(err);
-        return EMPTY;
-      }),
-    )
-    .subscribe(() => {
-      this.ipChange$.next(true);
-    });
+    })).subscribe(
+      () => {
+        this.ipChange$.next(true);
+      },
+      response => this.toastService.response(response)
+    );
   }
 }

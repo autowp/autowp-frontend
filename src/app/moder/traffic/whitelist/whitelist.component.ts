@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
-import {AutowpClient} from '../../../../../generated/spec.pbsc';
+import {TrafficClient} from '../../../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '../../../../../generated/spec.pb';
 
@@ -13,7 +13,7 @@ export class ModerTrafficWhitelistComponent {
   public items: APITrafficWhitelistItem[];
 
   constructor(
-    private grpc: AutowpClient,
+    private grpc: TrafficClient,
     private router: Router,
     private pageEnv: PageEnvService
   ) {
@@ -30,7 +30,7 @@ export class ModerTrafficWhitelistComponent {
       0
     );
 
-    this.grpc.getTrafficWhitelist(new Empty()).subscribe(
+    this.grpc.getWhitelist(new Empty()).subscribe(
       response => {
         this.items = response.items;
 
@@ -49,7 +49,7 @@ export class ModerTrafficWhitelistComponent {
   }
 
   public deleteItem(item: APITrafficWhitelistItem) {
-    this.grpc.deleteFromTrafficWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
+    this.grpc.deleteFromWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
       const index = this.items.indexOf(item);
       if (index !== -1) {
         this.items.splice(index, 1);
