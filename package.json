@@ -48,7 +48,7 @@
     "ng2-charts": "^3.0.8",
     "ngx-autosize": "^1.8.4",
     "ngx-moment": "<6.0.0",
-    "ngx-pipes": "^2.7.5",
+    "ngx-pipes": "^3.0.0",
     "npm": "^8.3.1",
     "sprintf-js": "^1.1.2",
     "tslib": "^2.3.1",
