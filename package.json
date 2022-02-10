@@ -30,7 +30,7 @@
     "@ngx-grpc/grpc-web-client": "^2.4.0",
     "@ngx-grpc/well-known-types": "^2.4.0",
     "@sentry/browser": "^6.14.0",
-    "@types/url-parse": "^1.4.4",
+    "@types/url-parse": "^1.4.8",
     "ajv": "^8.9.0",
     "angulartics2": "^10.1.0",
     "bootstrap": "^4.6.1",
