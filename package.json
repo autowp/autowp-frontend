@@ -35,7 +35,7 @@
     "angulartics2": "^10.1.0",
     "bootstrap": "^4.6.1",
     "caller-path": "^4.0.0",
-    "chart.js": "^3.7.0",
+    "chart.js": "^3.7.1",
     "core-js": "^3.21.0",
     "install": "^0.13.0",
     "is-directory": "^0.3.1",
