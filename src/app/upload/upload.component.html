@@ -11,9 +11,8 @@
 </div>
 
 <div class="alert alert-warning" *ngIf="!user">
-  <app-markdown i18n-markdown markdown="Only registered users can upload pictures
-
-[Login](/login) or [register](/signup)"></app-markdown>
+  <p i18n>Only registered users can upload pictures</p>
+  <button type="submit" class="btn btn-primary" i18n="@@login/sign-in" (submit)="doLogin()">Sign in</button>
 </div>
 
 <div *ngIf="user">
@@ -61,7 +60,7 @@
           <div class="form-group row">
             <label class="col-md-2 col-form-label" for="note" i18n>Note</label>
             <div class="col-md-10">
-              <textarea name="note" rows="3" class="form-control" [(ngModel)]="note"></textarea>
+              <textarea name="note" id="note" rows="3" class="form-control" [(ngModel)]="note"></textarea>
             </div>
           </div>
           <div class="row">

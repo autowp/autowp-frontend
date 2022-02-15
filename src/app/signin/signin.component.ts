@@ -5,11 +5,9 @@ import {
   APIService
 } from '../services/api.service';
 import { PageEnvService } from '../services/page-env.service';
-import { APIUser } from '../services/user';
-import {ActivatedRoute, Router} from '@angular/router';
-import {map, switchMap} from 'rxjs/operators';
-import {EMPTY, of, Subscription} from 'rxjs';
-import {externalLoginServices, OAuthService, TokenResponse} from '../services/oauth.service';
+import {Subscription} from 'rxjs';
+import {externalLoginServices} from '../services/oauth.service';
+import {APIUser} from '../../../generated/spec.pb';
 
 @Component({
   selector: 'app-signin',
@@ -24,38 +22,16 @@ export class SignInComponent implements OnInit, OnDestroy {
   };
   public invalidParams: any = {};
   public user: APIUser;
-  private tokenSub: Subscription;
   private userSub: Subscription;
 
   constructor(
     public auth: AuthService,
-    private oauth: OAuthService,
     private api: APIService,
     private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.userSub = this.auth.getUser().subscribe((user) => (this.user = user));
-
-    this.tokenSub = this.route.queryParamMap.pipe(
-      map(params => params.get('token')),
-      switchMap(token => {
-        if (! token) {
-          return EMPTY;
-        }
-
-        return of(JSON.parse(token) as TokenResponse);
-      })
-    ).subscribe(token => {
-      this.oauth.setToken(token);
-      this.auth.loadMe().subscribe({
-        next: () => {
-          this.router.navigate(['/login']);
-        }
-      });
-    });
 
     setTimeout(
       () =>
@@ -71,33 +47,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.tokenSub.unsubscribe();
     this.userSub.unsubscribe();
   }
 
   public submit($event) {
     $event.preventDefault();
 
-    this.auth
-      .login(this.form.login, this.form.password)
-      .subscribe(
-        result => {
-          if (! result) {
-            this.invalidParams = {
-              password: {
-                invalid: $localize `Login or password is incorrect`
-              }
-            };
-          }
-        },
-        () => {
-          this.invalidParams = {
-            password: {
-              error: 'Error'
-            }
-          };
-        }
-      );
 
     return false;
   }

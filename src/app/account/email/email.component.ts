@@ -3,10 +3,7 @@ import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
-import {UsersClient} from '../../../../generated/spec.pbsc';
-import {APIEmailChangeRequest} from '../../../../generated/spec.pb';
-import {InvalidParams} from '../../utils/invalid-params.pipe';
-import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-account-email',
@@ -14,15 +11,13 @@ import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc'
 })
 export class AccountEmailComponent {
   public email: string | null = null;
-  public newEmail: string | null = null;
-  public invalidParams: InvalidParams;
-  public sent = false;
+
+  public changeEmailUrl = environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
   constructor(
     private api: APIService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private grpc: UsersClient
+    private toastService: ToastsService
   ) {
     setTimeout(
       () =>
@@ -38,26 +33,8 @@ export class AccountEmailComponent {
     this.api.request<APIUser>('GET', 'user/me', {params: {fields: 'email'}}).subscribe(
       response => {
         this.email = response.email;
-        this.newEmail = response.email;
       },
       response => this.toastService.response(response)
-    );
-  }
-
-  public submit() {
-    this.invalidParams = {};
-
-    this.grpc.emailChange(new APIEmailChangeRequest({email: this.newEmail})).subscribe(
-      () => {
-        this.sent = true;
-      },
-      response => {
-        this.toastService.grpcErrorResponse(response);
-        if (response.statusCode === 3) {
-          const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
-        }
-      }
     );
   }
 }

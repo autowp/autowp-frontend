@@ -13,7 +13,6 @@ import { MomentModule } from 'ngx-moment';
 import { AccountDeletedComponent } from './delete/deleted/deleted.component';
 import { AccountDeleteComponent } from './delete/delete.component';
 import { AccountEmailComponent } from './email/email.component';
-import { AccountEmailcheckComponent } from './emailcheck/emailcheck.component';
 import { AccountInboxPicturesComponent } from './inbox-pictures/inbox-pictures.component';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { ThumbnailModule } from '../thumbnail/thumbnail.module';
@@ -34,7 +33,6 @@ import { MessageDialogModule } from '../message-dialog/message-dialog.module';
     AccountDeletedComponent,
     AccountDeleteComponent,
     AccountEmailComponent,
-    AccountEmailcheckComponent,
     AccountInboxPicturesComponent,
     AccountMessagesComponent,
     AccountProfileComponent,

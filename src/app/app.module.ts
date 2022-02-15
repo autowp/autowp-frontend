@@ -1,15 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {ErrorHandler, Injectable, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, Injectable, NgModule, Provider} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MomentModule } from 'ngx-moment';
 import {NgbTooltipModule, NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './not-found.component';
-
 import { AuthGuard } from './auth.guard';
 import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from './services/api.service';
 import { AuthService } from './services/auth.service';
@@ -36,7 +34,6 @@ import { TimezoneService } from './services/timezone';
 import { Error403Component } from './error/403/403.component';
 import { Error404Component } from './error/404/404.component';
 import { UsersOnlineComponent } from './users/online/online.component';
-
 import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
 import { PaginatorModule } from './paginator/paginator.module';
@@ -54,16 +51,11 @@ import {CanActivateCatalogue} from './catalogue/can-activate';
 import {ToastsModule} from './toasts/toasts.module';
 import * as Sentry from '@sentry/browser';
 import {environment} from '../environments/environment';
-import {OAuthService} from './services/oauth.service';
 import { GlobalErrorHandler } from './global-error-handler';
 import { Angulartics2Module } from 'angulartics2';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
-
-// AoT requires an exported function for factories
-/* export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/ng2/i18n/', '.json');
-}*/
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 
 if (environment.sentry) {
   Sentry.init(environment.sentry);
@@ -72,9 +64,79 @@ if (environment.sentry) {
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
   handleError(error) {
-    Sentry.captureException(error.originalError || error);
-    throw error;
+    if (error) {
+      Sentry.captureException(error.originalError || error);
+      throw error;
+    }
+    console.log("Empty error: ", error);
   }
+}
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  keycloak.keycloakEvents$.subscribe({
+    next: (e) => {
+      console.log('KK', e);
+    }
+  });
+
+  return () =>
+    keycloak.init({
+      config: environment.keycloak,
+      enableBearerInterceptor: false,
+      loadUserProfileAtStartUp: false,
+      initOptions: {
+        enableLogging: !environment.production,
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
+      }
+    });
+}
+
+let providers: Provider[] = [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  { provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor, multi: true },
+  { provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor, multi: true },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeKeycloak,
+    multi: true,
+    deps: [KeycloakService]
+  },
+  ConfigurationService,
+  APIService,
+  APIACL,
+  AuthService,
+  AuthGuard,
+  ACLService,
+  PictureService,
+  ItemService,
+  ReCaptchaService,
+  ItemParentService,
+  ItemLinkService,
+  ItemLanguageService,
+  MessageService,
+  PageService,
+  UserService,
+  DecimalPipe,
+  BytesPipe,
+  PictureModerVoteService,
+  VehicleTypeService,
+  SpecService,
+  PictureItemService,
+  ContactsService,
+  PageEnvService,
+  ContentLanguageService,
+  LanguageService,
+  TimezoneService,
+  IpService,
+  CanActivateCatalogue
+];
+if (environment.sentry) {
+  providers.push({provide: ErrorHandler, useClass: SentryErrorHandler});
+}
+if (environment.production) {
+  providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
 }
 
 @NgModule({
@@ -101,6 +163,7 @@ export class SentryErrorHandler implements ErrorHandler {
     MarkdownEditModule,
     PictureModerVoteModule,
     ItemModule,
+    KeycloakAngularModule,
     ModerMenuModule,
     NgbTooltipModule,
     NgbCollapseModule,
@@ -113,42 +176,7 @@ export class SentryErrorHandler implements ErrorHandler {
       settings: { host: '' },
     }),
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor, multi: true },
-    { provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    { provide: ErrorHandler, useClass: SentryErrorHandler },
-    ConfigurationService,
-    APIService,
-    APIACL,
-    AuthService,
-    OAuthService,
-    AuthGuard,
-    ACLService,
-    PictureService,
-    ItemService,
-    ReCaptchaService,
-    ItemParentService,
-    ItemLinkService,
-    ItemLanguageService,
-    MessageService,
-    PageService,
-    UserService,
-    DecimalPipe,
-    BytesPipe,
-    PictureModerVoteService,
-    VehicleTypeService,
-    SpecService,
-    PictureItemService,
-    ContactsService,
-    PageEnvService,
-    ContentLanguageService,
-    LanguageService,
-    TimezoneService,
-    IpService,
-    CanActivateCatalogue
-  ],
+  providers: providers,
   bootstrap: [AppComponent]
 })
 export class AppModule {}

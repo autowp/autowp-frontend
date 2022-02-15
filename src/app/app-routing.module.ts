@@ -78,17 +78,8 @@ const appRoutes: Routes = [
     loadChildren: () => import('./gallery/gallery.module').then(m => m.GalleryModule)
   },
   { path: 'pulse', loadChildren: () => import('./pulse/pulse.module').then(m => m.PulseModule) },
-  {
-    path: 'restore-password',
-    loadChildren:
-      () => import('./restore-password/restore-password.module').then(m => m.RestorePasswordModule)
-  },
   { path: 'rules', loadChildren: () => import('./rules/rules.module').then(m => m.RulesModule) },
   { path: 'policy', loadChildren: () => import('./policy/policy.module').then(m => m.PolicyModule) },
-  {
-    path: 'signup',
-    loadChildren: () => import('./signup/signup.module').then(m => m.SignupModule)
-  },
   {
     path: 'telegram',
     loadChildren: () => import('./telegram/telegram.module').then(m => m.TelegramModule)

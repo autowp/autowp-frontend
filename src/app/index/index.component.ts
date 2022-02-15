@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {PageEnvService} from '../services/page-env.service';
-import {APIUser} from '../services/user';
 import {APIItem} from '../services/item';
 import {APIService} from '../services/api.service';
-import {ItemsClient} from '../../../generated/spec.pbsc';
-import {GetTopPersonsListRequest, PictureItemType} from '../../../generated/spec.pb';
+import {ItemsClient, UsersClient} from '../../../generated/spec.pbsc';
+import {APIGetUserRequest, GetTopPersonsListRequest, PictureItemType} from '../../../generated/spec.pb';
 import {LanguageService} from '../services/language';
+import {switchMap} from 'rxjs/operators';
+import {combineLatest, of} from 'rxjs';
 
 interface APIIndexItemOfDay {
-  user: APIUser;
+  user_id: string;
   item: APIItem;
 }
 
@@ -34,7 +35,13 @@ export class IndexComponent implements OnInit {
       name: $localize `Most heavy trucks`
     }
   ];
-  public itemOfDay$ = this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day');
+  public itemOfDay$ = this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day').pipe(
+    switchMap(itemOfDay => combineLatest([
+      itemOfDay.user_id ? this.usersClient.getUser(new APIGetUserRequest({userId: itemOfDay.user_id})) : of(null),
+      of(itemOfDay)
+    ]))
+  );
+
   public contentPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
     language: this.languageService.language,
     pictureItemType: PictureItemType.PICTURE_CONTENT
@@ -44,7 +51,7 @@ export class IndexComponent implements OnInit {
     pictureItemType: PictureItemType.PICTURE_AUTHOR
   }));
 
-  constructor(private pageEnv: PageEnvService, private api: APIService, private items: ItemsClient, private languageService: LanguageService) {}
+  constructor(private pageEnv: PageEnvService, private api: APIService, private items: ItemsClient, private languageService: LanguageService, private usersClient: UsersClient) {}
 
   ngOnInit(): void {
     setTimeout(() => {

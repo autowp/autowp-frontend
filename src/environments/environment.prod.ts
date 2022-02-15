@@ -70,5 +70,10 @@ export const environment = {
       momentLocale: 'es',
       locale: 'es'
     }
-  ]
+  ],
+  keycloak: {
+    url: 'https://auth.wheelsage.org/auth/',
+    realm: 'autowp',
+    clientId: 'frontend'
+  }
 };

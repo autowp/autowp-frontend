@@ -7,13 +7,13 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { APIUser } from '../../services/user';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, Subscription} from 'rxjs';
 import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {APIUser} from '../../../../generated/spec.pb';
 
 interface State {
   itemID: number;

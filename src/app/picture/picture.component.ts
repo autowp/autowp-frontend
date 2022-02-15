@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {APIPicture, PictureService} from '../services/picture';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {APIUser} from '../services/user';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {tap} from 'rxjs/operators';
@@ -9,6 +8,7 @@ import {APICommentsService} from '../api/comments/comments.service';
 import {APIItem} from '../services/item';
 import {Router} from '@angular/router';
 import {APIPictureItem, PictureItemService} from '../services/picture-item';
+import {APIUser} from '../../../generated/spec.pb';
 
 @Component({
   selector: 'app-picture',

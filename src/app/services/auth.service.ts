@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {Observable, of, ReplaySubject} from 'rxjs';
-import { APIUser } from './user';
-import { switchMap, tap, map, catchError} from 'rxjs/operators';
-import {OAuthService} from './oauth.service';
-import {APIService} from './api.service';
+import {from, Observable, of, ReplaySubject} from 'rxjs';
+import { tap, catchError} from 'rxjs/operators';
+import {KeycloakService} from 'keycloak-angular';
+import {UsersClient} from '../../../generated/spec.pbsc';
+import {APIMeRequest, APIUser} from '../../../generated/spec.pb';
 
 @Injectable()
 export class AuthService {
   private user$ = new ReplaySubject<APIUser>(1);
 
-  constructor(private api: APIService, private oauth: OAuthService) {
-    this.oauth.getAccessToken().subscribe(accessToken => {
+  constructor(private keycloak: KeycloakService, private usersClient: UsersClient) {
+    this.keycloak.getToken().then(accessToken => {
       if (accessToken) {
         this.loadMe().subscribe();
       } else {
@@ -27,30 +27,14 @@ export class AuthService {
     return this.user$;
   }
 
-  public login(
-    username: string,
-    password: string
-  ): Observable<boolean> {
-    return this.oauth.login(username, password).pipe(
-      switchMap(result => {
-        if (! result) {
-          return of(false);
-        }
-        return this.loadMe().pipe(
-          map(() => result)
-        );
-      })
-    );
-  }
-
-  public signOut(): Observable<boolean> {
-    return this.oauth.signOut().pipe(
+  public signOut(): Observable<void> {
+    return from(this.keycloak.logout(window.location.href)).pipe(
       tap(() => this.setUser(null))
     );
   }
 
   public loadMe(): Observable<APIUser> {
-    return this.api.request<APIUser>('GET', 'user/me').pipe(
+    return this.usersClient.me(new APIMeRequest({})).pipe(
       catchError(() => {
         this.setUser(null);
         return of(null);

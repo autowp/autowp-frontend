@@ -22,7 +22,7 @@
   </a>
 </div>
 
-<app-markdown class="d-block alert alert-danger" *ngIf="specsWeight < 1" i18n-markdown markdown="**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+<app-markdown class="d-block alert alert-danger" *ngIf="(user$ | async).specsWeight < 1" i18n-markdown markdown="**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
 
 Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)"></app-markdown>
 

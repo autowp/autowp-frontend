@@ -3632,6 +3632,7 @@ export class APIUser implements GrpcMessage {
     _instance.avatar = _instance.avatar || undefined;
     _instance.gravatar = _instance.gravatar || '';
     _instance.lastOnline = _instance.lastOnline || undefined;
+    _instance.specsWeight = _instance.specsWeight || 0;
   }
 
   /**
@@ -3685,6 +3686,9 @@ export class APIUser implements GrpcMessage {
             googleProtobuf002.Timestamp.deserializeBinaryFromReader
           );
           break;
+        case 11:
+          _instance.specsWeight = _reader.readDouble();
+          break;
         default:
           _reader.skipField();
       }
@@ -3737,6 +3741,9 @@ export class APIUser implements GrpcMessage {
         googleProtobuf002.Timestamp.serializeBinaryToWriter
       );
     }
+    if (_instance.specsWeight) {
+      _writer.writeDouble(11, _instance.specsWeight);
+    }
   }
 
   private _id?: string;
@@ -3749,6 +3756,7 @@ export class APIUser implements GrpcMessage {
   private _avatar?: APIImage;
   private _gravatar?: string;
   private _lastOnline?: googleProtobuf002.Timestamp;
+  private _specsWeight?: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -3768,6 +3776,7 @@ export class APIUser implements GrpcMessage {
     this.lastOnline = _value.lastOnline
       ? new googleProtobuf002.Timestamp(_value.lastOnline)
       : undefined;
+    this.specsWeight = _value.specsWeight;
     APIUser.refineValues(this);
   }
   get id(): string | undefined {
@@ -3830,6 +3839,12 @@ export class APIUser implements GrpcMessage {
   set lastOnline(value: googleProtobuf002.Timestamp | undefined) {
     this._lastOnline = value;
   }
+  get specsWeight(): number | undefined {
+    return this._specsWeight;
+  }
+  set specsWeight(value: number | undefined) {
+    this._specsWeight = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -3855,7 +3870,8 @@ export class APIUser implements GrpcMessage {
       identity: this.identity,
       avatar: this.avatar ? this.avatar.toObject() : undefined,
       gravatar: this.gravatar,
-      lastOnline: this.lastOnline ? this.lastOnline.toObject() : undefined
+      lastOnline: this.lastOnline ? this.lastOnline.toObject() : undefined,
+      specsWeight: this.specsWeight
     };
   }
 
@@ -3887,7 +3903,8 @@ export class APIUser implements GrpcMessage {
       gravatar: this.gravatar,
       lastOnline: this.lastOnline
         ? this.lastOnline.toProtobufJSON(options)
-        : null
+        : null,
+      specsWeight: this.specsWeight
     };
   }
 }
@@ -3906,6 +3923,7 @@ export module APIUser {
     avatar?: APIImage.AsObject;
     gravatar?: string;
     lastOnline?: googleProtobuf002.Timestamp.AsObject;
+    specsWeight?: number;
   }
 
   /**
@@ -3922,6 +3940,7 @@ export module APIUser {
     avatar?: APIImage.AsProtobufJSON | null;
     gravatar?: string;
     lastOnline?: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    specsWeight?: number;
   }
 }
 
@@ -7526,1335 +7545,6 @@ export module APIMessageSummary {
 }
 
 /**
- * Message implementation for goautowp.APICreateUserRequest
- */
-export class APICreateUserRequest implements GrpcMessage {
-  static id = 'goautowp.APICreateUserRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APICreateUserRequest();
-    APICreateUserRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APICreateUserRequest) {
-    _instance.email = _instance.email || '';
-    _instance.firstName = _instance.firstName || '';
-    _instance.lastName = _instance.lastName || '';
-    _instance.password = _instance.password || '';
-    _instance.passwordConfirm = _instance.passwordConfirm || '';
-    _instance.language = _instance.language || '';
-    _instance.captcha = _instance.captcha || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APICreateUserRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.email = _reader.readString();
-          break;
-        case 2:
-          _instance.firstName = _reader.readString();
-          break;
-        case 3:
-          _instance.lastName = _reader.readString();
-          break;
-        case 4:
-          _instance.password = _reader.readString();
-          break;
-        case 5:
-          _instance.passwordConfirm = _reader.readString();
-          break;
-        case 6:
-          _instance.language = _reader.readString();
-          break;
-        case 7:
-          _instance.captcha = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APICreateUserRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APICreateUserRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.email) {
-      _writer.writeString(1, _instance.email);
-    }
-    if (_instance.firstName) {
-      _writer.writeString(2, _instance.firstName);
-    }
-    if (_instance.lastName) {
-      _writer.writeString(3, _instance.lastName);
-    }
-    if (_instance.password) {
-      _writer.writeString(4, _instance.password);
-    }
-    if (_instance.passwordConfirm) {
-      _writer.writeString(5, _instance.passwordConfirm);
-    }
-    if (_instance.language) {
-      _writer.writeString(6, _instance.language);
-    }
-    if (_instance.captcha) {
-      _writer.writeString(7, _instance.captcha);
-    }
-  }
-
-  private _email?: string;
-  private _firstName?: string;
-  private _lastName?: string;
-  private _password?: string;
-  private _passwordConfirm?: string;
-  private _language?: string;
-  private _captcha?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APICreateUserRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<APICreateUserRequest.AsObject>) {
-    _value = _value || {};
-    this.email = _value.email;
-    this.firstName = _value.firstName;
-    this.lastName = _value.lastName;
-    this.password = _value.password;
-    this.passwordConfirm = _value.passwordConfirm;
-    this.language = _value.language;
-    this.captcha = _value.captcha;
-    APICreateUserRequest.refineValues(this);
-  }
-  get email(): string | undefined {
-    return this._email;
-  }
-  set email(value: string | undefined) {
-    this._email = value;
-  }
-  get firstName(): string | undefined {
-    return this._firstName;
-  }
-  set firstName(value: string | undefined) {
-    this._firstName = value;
-  }
-  get lastName(): string | undefined {
-    return this._lastName;
-  }
-  set lastName(value: string | undefined) {
-    this._lastName = value;
-  }
-  get password(): string | undefined {
-    return this._password;
-  }
-  set password(value: string | undefined) {
-    this._password = value;
-  }
-  get passwordConfirm(): string | undefined {
-    return this._passwordConfirm;
-  }
-  set passwordConfirm(value: string | undefined) {
-    this._passwordConfirm = value;
-  }
-  get language(): string | undefined {
-    return this._language;
-  }
-  set language(value: string | undefined) {
-    this._language = value;
-  }
-  get captcha(): string | undefined {
-    return this._captcha;
-  }
-  set captcha(value: string | undefined) {
-    this._captcha = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APICreateUserRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APICreateUserRequest.AsObject {
-    return {
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      password: this.password,
-      passwordConfirm: this.passwordConfirm,
-      language: this.language,
-      captcha: this.captcha
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APICreateUserRequest.AsProtobufJSON {
-    return {
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      password: this.password,
-      passwordConfirm: this.passwordConfirm,
-      language: this.language,
-      captcha: this.captcha
-    };
-  }
-}
-export module APICreateUserRequest {
-  /**
-   * Standard JavaScript object representation for APICreateUserRequest
-   */
-  export interface AsObject {
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    password?: string;
-    passwordConfirm?: string;
-    language?: string;
-    captcha?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APICreateUserRequest
-   */
-  export interface AsProtobufJSON {
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    password?: string;
-    passwordConfirm?: string;
-    language?: string;
-    captcha?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIPasswordRecoveryRequest
- */
-export class APIPasswordRecoveryRequest implements GrpcMessage {
-  static id = 'goautowp.APIPasswordRecoveryRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIPasswordRecoveryRequest();
-    APIPasswordRecoveryRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIPasswordRecoveryRequest) {
-    _instance.email = _instance.email || '';
-    _instance.captcha = _instance.captcha || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIPasswordRecoveryRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.email = _reader.readString();
-          break;
-        case 2:
-          _instance.captcha = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIPasswordRecoveryRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIPasswordRecoveryRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.email) {
-      _writer.writeString(1, _instance.email);
-    }
-    if (_instance.captcha) {
-      _writer.writeString(2, _instance.captcha);
-    }
-  }
-
-  private _email?: string;
-  private _captcha?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIPasswordRecoveryRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<APIPasswordRecoveryRequest.AsObject>) {
-    _value = _value || {};
-    this.email = _value.email;
-    this.captcha = _value.captcha;
-    APIPasswordRecoveryRequest.refineValues(this);
-  }
-  get email(): string | undefined {
-    return this._email;
-  }
-  set email(value: string | undefined) {
-    this._email = value;
-  }
-  get captcha(): string | undefined {
-    return this._captcha;
-  }
-  set captcha(value: string | undefined) {
-    this._captcha = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIPasswordRecoveryRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIPasswordRecoveryRequest.AsObject {
-    return {
-      email: this.email,
-      captcha: this.captcha
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIPasswordRecoveryRequest.AsProtobufJSON {
-    return {
-      email: this.email,
-      captcha: this.captcha
-    };
-  }
-}
-export module APIPasswordRecoveryRequest {
-  /**
-   * Standard JavaScript object representation for APIPasswordRecoveryRequest
-   */
-  export interface AsObject {
-    email?: string;
-    captcha?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIPasswordRecoveryRequest
-   */
-  export interface AsProtobufJSON {
-    email?: string;
-    captcha?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIPasswordRecoveryCheckCodeRequest
- */
-export class APIPasswordRecoveryCheckCodeRequest implements GrpcMessage {
-  static id = 'goautowp.APIPasswordRecoveryCheckCodeRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIPasswordRecoveryCheckCodeRequest();
-    APIPasswordRecoveryCheckCodeRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIPasswordRecoveryCheckCodeRequest) {
-    _instance.code = _instance.code || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIPasswordRecoveryCheckCodeRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.code = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIPasswordRecoveryCheckCodeRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIPasswordRecoveryCheckCodeRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.code) {
-      _writer.writeString(1, _instance.code);
-    }
-  }
-
-  private _code?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIPasswordRecoveryCheckCodeRequest to deeply clone from
-   */
-  constructor(
-    _value?: RecursivePartial<APIPasswordRecoveryCheckCodeRequest.AsObject>
-  ) {
-    _value = _value || {};
-    this.code = _value.code;
-    APIPasswordRecoveryCheckCodeRequest.refineValues(this);
-  }
-  get code(): string | undefined {
-    return this._code;
-  }
-  set code(value: string | undefined) {
-    this._code = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIPasswordRecoveryCheckCodeRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIPasswordRecoveryCheckCodeRequest.AsObject {
-    return {
-      code: this.code
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIPasswordRecoveryCheckCodeRequest.AsProtobufJSON {
-    return {
-      code: this.code
-    };
-  }
-}
-export module APIPasswordRecoveryCheckCodeRequest {
-  /**
-   * Standard JavaScript object representation for APIPasswordRecoveryCheckCodeRequest
-   */
-  export interface AsObject {
-    code?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIPasswordRecoveryCheckCodeRequest
-   */
-  export interface AsProtobufJSON {
-    code?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIPasswordRecoveryConfirmRequest
- */
-export class APIPasswordRecoveryConfirmRequest implements GrpcMessage {
-  static id = 'goautowp.APIPasswordRecoveryConfirmRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIPasswordRecoveryConfirmRequest();
-    APIPasswordRecoveryConfirmRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIPasswordRecoveryConfirmRequest) {
-    _instance.code = _instance.code || '';
-    _instance.password = _instance.password || '';
-    _instance.passwordConfirm = _instance.passwordConfirm || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIPasswordRecoveryConfirmRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.code = _reader.readString();
-          break;
-        case 2:
-          _instance.password = _reader.readString();
-          break;
-        case 3:
-          _instance.passwordConfirm = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIPasswordRecoveryConfirmRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIPasswordRecoveryConfirmRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.code) {
-      _writer.writeString(1, _instance.code);
-    }
-    if (_instance.password) {
-      _writer.writeString(2, _instance.password);
-    }
-    if (_instance.passwordConfirm) {
-      _writer.writeString(3, _instance.passwordConfirm);
-    }
-  }
-
-  private _code?: string;
-  private _password?: string;
-  private _passwordConfirm?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIPasswordRecoveryConfirmRequest to deeply clone from
-   */
-  constructor(
-    _value?: RecursivePartial<APIPasswordRecoveryConfirmRequest.AsObject>
-  ) {
-    _value = _value || {};
-    this.code = _value.code;
-    this.password = _value.password;
-    this.passwordConfirm = _value.passwordConfirm;
-    APIPasswordRecoveryConfirmRequest.refineValues(this);
-  }
-  get code(): string | undefined {
-    return this._code;
-  }
-  set code(value: string | undefined) {
-    this._code = value;
-  }
-  get password(): string | undefined {
-    return this._password;
-  }
-  set password(value: string | undefined) {
-    this._password = value;
-  }
-  get passwordConfirm(): string | undefined {
-    return this._passwordConfirm;
-  }
-  set passwordConfirm(value: string | undefined) {
-    this._passwordConfirm = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIPasswordRecoveryConfirmRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIPasswordRecoveryConfirmRequest.AsObject {
-    return {
-      code: this.code,
-      password: this.password,
-      passwordConfirm: this.passwordConfirm
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIPasswordRecoveryConfirmRequest.AsProtobufJSON {
-    return {
-      code: this.code,
-      password: this.password,
-      passwordConfirm: this.passwordConfirm
-    };
-  }
-}
-export module APIPasswordRecoveryConfirmRequest {
-  /**
-   * Standard JavaScript object representation for APIPasswordRecoveryConfirmRequest
-   */
-  export interface AsObject {
-    code?: string;
-    password?: string;
-    passwordConfirm?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIPasswordRecoveryConfirmRequest
-   */
-  export interface AsProtobufJSON {
-    code?: string;
-    password?: string;
-    passwordConfirm?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIPasswordRecoveryConfirmResponse
- */
-export class APIPasswordRecoveryConfirmResponse implements GrpcMessage {
-  static id = 'goautowp.APIPasswordRecoveryConfirmResponse';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIPasswordRecoveryConfirmResponse();
-    APIPasswordRecoveryConfirmResponse.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIPasswordRecoveryConfirmResponse) {
-    _instance.login = _instance.login || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIPasswordRecoveryConfirmResponse,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.login = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIPasswordRecoveryConfirmResponse.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIPasswordRecoveryConfirmResponse,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.login) {
-      _writer.writeString(1, _instance.login);
-    }
-  }
-
-  private _login?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIPasswordRecoveryConfirmResponse to deeply clone from
-   */
-  constructor(
-    _value?: RecursivePartial<APIPasswordRecoveryConfirmResponse.AsObject>
-  ) {
-    _value = _value || {};
-    this.login = _value.login;
-    APIPasswordRecoveryConfirmResponse.refineValues(this);
-  }
-  get login(): string | undefined {
-    return this._login;
-  }
-  set login(value: string | undefined) {
-    this._login = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIPasswordRecoveryConfirmResponse.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIPasswordRecoveryConfirmResponse.AsObject {
-    return {
-      login: this.login
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIPasswordRecoveryConfirmResponse.AsProtobufJSON {
-    return {
-      login: this.login
-    };
-  }
-}
-export module APIPasswordRecoveryConfirmResponse {
-  /**
-   * Standard JavaScript object representation for APIPasswordRecoveryConfirmResponse
-   */
-  export interface AsObject {
-    login?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIPasswordRecoveryConfirmResponse
-   */
-  export interface AsProtobufJSON {
-    login?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIEmailChangeRequest
- */
-export class APIEmailChangeRequest implements GrpcMessage {
-  static id = 'goautowp.APIEmailChangeRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIEmailChangeRequest();
-    APIEmailChangeRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIEmailChangeRequest) {
-    _instance.email = _instance.email || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIEmailChangeRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.email = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIEmailChangeRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIEmailChangeRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.email) {
-      _writer.writeString(1, _instance.email);
-    }
-  }
-
-  private _email?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIEmailChangeRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<APIEmailChangeRequest.AsObject>) {
-    _value = _value || {};
-    this.email = _value.email;
-    APIEmailChangeRequest.refineValues(this);
-  }
-  get email(): string | undefined {
-    return this._email;
-  }
-  set email(value: string | undefined) {
-    this._email = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIEmailChangeRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIEmailChangeRequest.AsObject {
-    return {
-      email: this.email
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIEmailChangeRequest.AsProtobufJSON {
-    return {
-      email: this.email
-    };
-  }
-}
-export module APIEmailChangeRequest {
-  /**
-   * Standard JavaScript object representation for APIEmailChangeRequest
-   */
-  export interface AsObject {
-    email?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIEmailChangeRequest
-   */
-  export interface AsProtobufJSON {
-    email?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIEmailChangeConfirmRequest
- */
-export class APIEmailChangeConfirmRequest implements GrpcMessage {
-  static id = 'goautowp.APIEmailChangeConfirmRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIEmailChangeConfirmRequest();
-    APIEmailChangeConfirmRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIEmailChangeConfirmRequest) {
-    _instance.code = _instance.code || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIEmailChangeConfirmRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.code = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIEmailChangeConfirmRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIEmailChangeConfirmRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.code) {
-      _writer.writeString(1, _instance.code);
-    }
-  }
-
-  private _code?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIEmailChangeConfirmRequest to deeply clone from
-   */
-  constructor(
-    _value?: RecursivePartial<APIEmailChangeConfirmRequest.AsObject>
-  ) {
-    _value = _value || {};
-    this.code = _value.code;
-    APIEmailChangeConfirmRequest.refineValues(this);
-  }
-  get code(): string | undefined {
-    return this._code;
-  }
-  set code(value: string | undefined) {
-    this._code = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIEmailChangeConfirmRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIEmailChangeConfirmRequest.AsObject {
-    return {
-      code: this.code
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIEmailChangeConfirmRequest.AsProtobufJSON {
-    return {
-      code: this.code
-    };
-  }
-}
-export module APIEmailChangeConfirmRequest {
-  /**
-   * Standard JavaScript object representation for APIEmailChangeConfirmRequest
-   */
-  export interface AsObject {
-    code?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIEmailChangeConfirmRequest
-   */
-  export interface AsProtobufJSON {
-    code?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APISetPasswordRequest
- */
-export class APISetPasswordRequest implements GrpcMessage {
-  static id = 'goautowp.APISetPasswordRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APISetPasswordRequest();
-    APISetPasswordRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APISetPasswordRequest) {
-    _instance.oldPassword = _instance.oldPassword || '';
-    _instance.newPassword = _instance.newPassword || '';
-    _instance.newPasswordConfirm = _instance.newPasswordConfirm || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APISetPasswordRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.oldPassword = _reader.readString();
-          break;
-        case 2:
-          _instance.newPassword = _reader.readString();
-          break;
-        case 3:
-          _instance.newPasswordConfirm = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APISetPasswordRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APISetPasswordRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.oldPassword) {
-      _writer.writeString(1, _instance.oldPassword);
-    }
-    if (_instance.newPassword) {
-      _writer.writeString(2, _instance.newPassword);
-    }
-    if (_instance.newPasswordConfirm) {
-      _writer.writeString(3, _instance.newPasswordConfirm);
-    }
-  }
-
-  private _oldPassword?: string;
-  private _newPassword?: string;
-  private _newPasswordConfirm?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APISetPasswordRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<APISetPasswordRequest.AsObject>) {
-    _value = _value || {};
-    this.oldPassword = _value.oldPassword;
-    this.newPassword = _value.newPassword;
-    this.newPasswordConfirm = _value.newPasswordConfirm;
-    APISetPasswordRequest.refineValues(this);
-  }
-  get oldPassword(): string | undefined {
-    return this._oldPassword;
-  }
-  set oldPassword(value: string | undefined) {
-    this._oldPassword = value;
-  }
-  get newPassword(): string | undefined {
-    return this._newPassword;
-  }
-  set newPassword(value: string | undefined) {
-    this._newPassword = value;
-  }
-  get newPasswordConfirm(): string | undefined {
-    return this._newPasswordConfirm;
-  }
-  set newPasswordConfirm(value: string | undefined) {
-    this._newPasswordConfirm = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APISetPasswordRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APISetPasswordRequest.AsObject {
-    return {
-      oldPassword: this.oldPassword,
-      newPassword: this.newPassword,
-      newPasswordConfirm: this.newPasswordConfirm
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APISetPasswordRequest.AsProtobufJSON {
-    return {
-      oldPassword: this.oldPassword,
-      newPassword: this.newPassword,
-      newPasswordConfirm: this.newPasswordConfirm
-    };
-  }
-}
-export module APISetPasswordRequest {
-  /**
-   * Standard JavaScript object representation for APISetPasswordRequest
-   */
-  export interface AsObject {
-    oldPassword?: string;
-    newPassword?: string;
-    newPasswordConfirm?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APISetPasswordRequest
-   */
-  export interface AsProtobufJSON {
-    oldPassword?: string;
-    newPassword?: string;
-    newPasswordConfirm?: string;
-  }
-}
-
-/**
  * Message implementation for goautowp.APIDeleteUserRequest
  */
 export class APIDeleteUserRequest implements GrpcMessage {
@@ -9013,21 +7703,18 @@ export module APIDeleteUserRequest {
 }
 
 /**
- * Message implementation for goautowp.APIUpdateUserRequest
+ * Message implementation for goautowp.APIMeRequest
  */
-export class APIUpdateUserRequest implements GrpcMessage {
-  static id = 'goautowp.APIUpdateUserRequest';
+export class APIMeRequest implements GrpcMessage {
+  static id = 'goautowp.APIMeRequest';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIUpdateUserRequest();
-    APIUpdateUserRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
+    const instance = new APIMeRequest();
+    APIMeRequest.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
     return instance;
   }
 
@@ -9035,10 +7722,8 @@ export class APIUpdateUserRequest implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: APIUpdateUserRequest) {
-    _instance.userId = _instance.userId || '0';
-    _instance.firstName = _instance.firstName || '';
-    _instance.lastName = _instance.lastName || '';
+  static refineValues(_instance: APIMeRequest) {
+    _instance.fields = _instance.fields || [];
   }
 
   /**
@@ -9047,7 +7732,7 @@ export class APIUpdateUserRequest implements GrpcMessage {
    * @param _reader binary reader instance
    */
   static deserializeBinaryFromReader(
-    _instance: APIUpdateUserRequest,
+    _instance: APIMeRequest,
     _reader: BinaryReader
   ) {
     while (_reader.nextField()) {
@@ -9055,20 +7740,16 @@ export class APIUpdateUserRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.userId = _reader.readInt64String();
-          break;
-        case 2:
-          _instance.firstName = _reader.readString();
-          break;
-        case 3:
-          _instance.lastName = _reader.readString();
+          (_instance.fields = _instance.fields || []).push(
+            _reader.readString()
+          );
           break;
         default:
           _reader.skipField();
       }
     }
 
-    APIUpdateUserRequest.refineValues(_instance);
+    APIMeRequest.refineValues(_instance);
   }
 
   /**
@@ -9077,52 +7758,30 @@ export class APIUpdateUserRequest implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(
-    _instance: APIUpdateUserRequest,
+    _instance: APIMeRequest,
     _writer: BinaryWriter
   ) {
-    if (_instance.userId) {
-      _writer.writeInt64String(1, _instance.userId);
-    }
-    if (_instance.firstName) {
-      _writer.writeString(2, _instance.firstName);
-    }
-    if (_instance.lastName) {
-      _writer.writeString(3, _instance.lastName);
+    if (_instance.fields && _instance.fields.length) {
+      _writer.writeRepeatedString(1, _instance.fields);
     }
   }
 
-  private _userId?: string;
-  private _firstName?: string;
-  private _lastName?: string;
+  private _fields?: string[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIUpdateUserRequest to deeply clone from
+   * @param _value initial values object or instance of APIMeRequest to deeply clone from
    */
-  constructor(_value?: RecursivePartial<APIUpdateUserRequest.AsObject>) {
+  constructor(_value?: RecursivePartial<APIMeRequest.AsObject>) {
     _value = _value || {};
-    this.userId = _value.userId;
-    this.firstName = _value.firstName;
-    this.lastName = _value.lastName;
-    APIUpdateUserRequest.refineValues(this);
+    this.fields = (_value.fields || []).slice();
+    APIMeRequest.refineValues(this);
   }
-  get userId(): string | undefined {
-    return this._userId;
+  get fields(): string[] | undefined {
+    return this._fields;
   }
-  set userId(value: string | undefined) {
-    this._userId = value;
-  }
-  get firstName(): string | undefined {
-    return this._firstName;
-  }
-  set firstName(value: string | undefined) {
-    this._firstName = value;
-  }
-  get lastName(): string | undefined {
-    return this._lastName;
-  }
-  set lastName(value: string | undefined) {
-    this._lastName = value;
+  set fields(value: string[] | undefined) {
+    this._fields = value;
   }
 
   /**
@@ -9131,18 +7790,16 @@ export class APIUpdateUserRequest implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    APIUpdateUserRequest.serializeBinaryToWriter(this, writer);
+    APIMeRequest.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): APIUpdateUserRequest.AsObject {
+  toObject(): APIMeRequest.AsObject {
     return {
-      userId: this.userId,
-      firstName: this.firstName,
-      lastName: this.lastName
+      fields: (this.fields || []).slice()
     };
   }
 
@@ -9161,328 +7818,25 @@ export class APIUpdateUserRequest implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): APIUpdateUserRequest.AsProtobufJSON {
+  ): APIMeRequest.AsProtobufJSON {
     return {
-      userId: this.userId,
-      firstName: this.firstName,
-      lastName: this.lastName
+      fields: (this.fields || []).slice()
     };
   }
 }
-export module APIUpdateUserRequest {
+export module APIMeRequest {
   /**
-   * Standard JavaScript object representation for APIUpdateUserRequest
+   * Standard JavaScript object representation for APIMeRequest
    */
   export interface AsObject {
-    userId?: string;
-    firstName?: string;
-    lastName?: string;
+    fields?: string[];
   }
 
   /**
-   * Protobuf JSON representation for APIUpdateUserRequest
+   * Protobuf JSON representation for APIMeRequest
    */
   export interface AsProtobufJSON {
-    userId?: string;
-    firstName?: string;
-    lastName?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIGetKeycloakUserRequest
- */
-export class APIGetKeycloakUserRequest implements GrpcMessage {
-  static id = 'goautowp.APIGetKeycloakUserRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIGetKeycloakUserRequest();
-    APIGetKeycloakUserRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIGetKeycloakUserRequest) {
-    _instance.userId = _instance.userId || '0';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIGetKeycloakUserRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.userId = _reader.readInt64String();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIGetKeycloakUserRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIGetKeycloakUserRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.userId) {
-      _writer.writeInt64String(1, _instance.userId);
-    }
-  }
-
-  private _userId?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIGetKeycloakUserRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<APIGetKeycloakUserRequest.AsObject>) {
-    _value = _value || {};
-    this.userId = _value.userId;
-    APIGetKeycloakUserRequest.refineValues(this);
-  }
-  get userId(): string | undefined {
-    return this._userId;
-  }
-  set userId(value: string | undefined) {
-    this._userId = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIGetKeycloakUserRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIGetKeycloakUserRequest.AsObject {
-    return {
-      userId: this.userId
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIGetKeycloakUserRequest.AsProtobufJSON {
-    return {
-      userId: this.userId
-    };
-  }
-}
-export module APIGetKeycloakUserRequest {
-  /**
-   * Standard JavaScript object representation for APIGetKeycloakUserRequest
-   */
-  export interface AsObject {
-    userId?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIGetKeycloakUserRequest
-   */
-  export interface AsProtobufJSON {
-    userId?: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.APIGetKeycloakUserResponse
- */
-export class APIGetKeycloakUserResponse implements GrpcMessage {
-  static id = 'goautowp.APIGetKeycloakUserResponse';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new APIGetKeycloakUserResponse();
-    APIGetKeycloakUserResponse.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: APIGetKeycloakUserResponse) {
-    _instance.firstName = _instance.firstName || '';
-    _instance.lastName = _instance.lastName || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: APIGetKeycloakUserResponse,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.firstName = _reader.readString();
-          break;
-        case 2:
-          _instance.lastName = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    APIGetKeycloakUserResponse.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: APIGetKeycloakUserResponse,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.firstName) {
-      _writer.writeString(1, _instance.firstName);
-    }
-    if (_instance.lastName) {
-      _writer.writeString(2, _instance.lastName);
-    }
-  }
-
-  private _firstName?: string;
-  private _lastName?: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APIGetKeycloakUserResponse to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<APIGetKeycloakUserResponse.AsObject>) {
-    _value = _value || {};
-    this.firstName = _value.firstName;
-    this.lastName = _value.lastName;
-    APIGetKeycloakUserResponse.refineValues(this);
-  }
-  get firstName(): string | undefined {
-    return this._firstName;
-  }
-  set firstName(value: string | undefined) {
-    this._firstName = value;
-  }
-  get lastName(): string | undefined {
-    return this._lastName;
-  }
-  set lastName(value: string | undefined) {
-    this._lastName = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    APIGetKeycloakUserResponse.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): APIGetKeycloakUserResponse.AsObject {
-    return {
-      firstName: this.firstName,
-      lastName: this.lastName
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): APIGetKeycloakUserResponse.AsProtobufJSON {
-    return {
-      firstName: this.firstName,
-      lastName: this.lastName
-    };
-  }
-}
-export module APIGetKeycloakUserResponse {
-  /**
-   * Standard JavaScript object representation for APIGetKeycloakUserResponse
-   */
-  export interface AsObject {
-    firstName?: string;
-    lastName?: string;
-  }
-
-  /**
-   * Protobuf JSON representation for APIGetKeycloakUserResponse
-   */
-  export interface AsProtobufJSON {
-    firstName?: string;
-    lastName?: string;
+    fields?: string[];
   }
 }
 

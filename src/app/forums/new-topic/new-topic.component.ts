@@ -3,11 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
-import { APIUser } from '../../services/user';
 import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
 import { APIForumTheme, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { getForumsThemeTranslation } from '../../utils/translations';
+import {APIUser} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-forums-new-topic',

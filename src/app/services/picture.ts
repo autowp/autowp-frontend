@@ -170,7 +170,7 @@ export interface APIGetPicturesOptions {
   add_date?: string;
   car_type_id?: number;
   comments?: null | boolean;
-  owner_id?: number;
+  owner_id?: string;
   replace?: null | boolean;
   requests?: null | number;
   special_name?: boolean;
@@ -281,7 +281,7 @@ function converPicturesOptions(
   }
 
   if (options.owner_id) {
-    params.owner_id = options.owner_id.toString();
+    params.owner_id = options.owner_id;
   }
 
   if (options.requests !== null && options.requests !== undefined) {

@@ -42,7 +42,7 @@ export class AccountDeleteComponent {
   public submit() {
     this.auth.getUser().pipe(
       switchMap(user => this.usersGrpc.deleteUser(new APIDeleteUserRequest({
-        userId: user.id.toString(),
+        userId: user.id,
         password: this.form.password_old
       })))
     ).subscribe(

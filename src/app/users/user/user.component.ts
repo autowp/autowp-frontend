@@ -49,7 +49,7 @@ export class UsersUserComponent {
     map(params => ''+params.get('identity')),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap(identity => this.userService.getByIdentity(identity, { fields: 'identity,gravatar_hash,photo,renames,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip' })),
+    switchMap(identity => this.userService.getByIdentity(identity, { fields: 'identity,gravatar_hash,photo,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip' })),
     catchError(err => {
       this.toastService.response(err);
       return EMPTY;
@@ -81,7 +81,7 @@ export class UsersUserComponent {
 
   public pictures$: Observable<APIPicture[]> = this.user$.pipe(
     switchMap(user => this.pictureService.getPictures({
-      owner_id: user.id,
+      owner_id: user.id.toString(),
       limit: 12,
       order: 1,
       fields: 'url,name_html'
@@ -123,7 +123,7 @@ export class UsersUserComponent {
 
   public isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
     map(([user, currentUser]) => {
-      return !currentUser || currentUser.id !== user.id;
+      return !currentUser || currentUser.id !== user.id.toString();
     })
   );
 

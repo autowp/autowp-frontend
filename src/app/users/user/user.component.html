@@ -30,10 +30,6 @@
         <ng-container i18n>Known as:</ng-container>
         <strong>«{{user.name}}»</strong>
       </p>
-      <div style="color:#666666;margin-left:40px;cursor:help" [title]="rename.date | date:'medium'" *ngFor="let rename of user.renames">
-        <ng-container i18n>before known as:</ng-container>
-        <strong style="color:#666666">«{{rename.old_name}}»</strong>
-      </div>
 
       <p>
         <ng-container i18n>Account type:</ng-container>

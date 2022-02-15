@@ -9,14 +9,14 @@ import {
   HttpRequest,
   HttpHandler, HttpInterceptor
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {from, Observable, throwError} from 'rxjs';
 import { environment } from '../../environments/environment';
-import {OAuthService} from './oauth.service';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
+import {KeycloakService} from 'keycloak-angular';
 
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
@@ -68,7 +68,7 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private oauth: OAuthService
+    private keycloak: KeycloakService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -77,7 +77,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    return this.oauth.getAccessToken().pipe(
+    return from(this.keycloak.getToken()).pipe(
       switchMap(accessToken => {
         if (! accessToken) {
           return next.handle(req);
@@ -124,10 +124,10 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 @Injectable()
 export class GrpcAuthInterceptor implements GrpcInterceptor {
 
-  constructor(private oauth: OAuthService) { }
+  constructor(private keycloak: KeycloakService) { }
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
-    return this.oauth.getAccessToken().pipe(
+    return from(this.keycloak.getToken()).pipe(
       switchMap(accessToken => {
         if (! accessToken) {
           return next.handle(request);

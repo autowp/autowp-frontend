@@ -16,7 +16,6 @@ import {
 } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import {tap, switchMap, distinctUntilChanged, map} from 'rxjs/operators';
-import { APIUser } from '../../../services/user';
 import {
   APIAttrAttribute,
   APIAttrValue,
@@ -27,6 +26,7 @@ import {
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
 import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation } from '../../../utils/translations';
+import {APIUser} from '../../../../../generated/spec.pb';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;
@@ -106,7 +106,7 @@ export class CarsSpecificationsEditorSpecComponent
       if (!currentUserValues.hasOwnProperty(attr.id)) {
         currentUserValues[attr.id] = {
           item_id: this.item.id,
-          user_id: this.user.id,
+          user_id: +this.user.id,
           attribute_id: attr.id,
           value: null,
           empty: false,
@@ -145,7 +145,7 @@ export class CarsSpecificationsEditorSpecComponent
     return this.attrsService
       .getUserValues({
         item_id: item.id,
-        user_id: user.id,
+        user_id: +user.id,
         zone_id: item.attr_zone_id,
         limit: 500,
         fields: 'value'

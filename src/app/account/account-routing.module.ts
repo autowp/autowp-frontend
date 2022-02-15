@@ -7,7 +7,6 @@ import { AccountContactsComponent } from './contacts/contacts.component';
 import { AccountDeletedComponent } from './delete/deleted/deleted.component';
 import { AccountDeleteComponent } from './delete/delete.component';
 import { AccountEmailComponent } from './email/email.component';
-import { AccountEmailcheckComponent } from './emailcheck/emailcheck.component';
 import { AccountInboxPicturesComponent } from './inbox-pictures/inbox-pictures.component';
 import { AccountMessagesComponent } from './messages/messages.component';
 import { AccountProfileComponent } from './profile/profile.component';
@@ -45,10 +44,6 @@ const routes: Routes = [
     path: 'email',
     component: AccountEmailComponent,
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'emailcheck/:token',
-    component: AccountEmailcheckComponent
   },
   {
     path: 'inbox-pictures',

@@ -5,7 +5,8 @@
     "baseUrl": "./",
     "module": "esnext",
     "types": [ "node" ],
-    "typeRoots": [ "../node_modules/@types" ]
+    "typeRoots": [ "../node_modules/@types" ],
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "test.ts",

@@ -70,5 +70,10 @@ export const environment = {
       momentLocale: 'es',
       locale: 'es'
     }
-  ]
+  ],
+  keycloak: {
+    url: 'http://localhost:8081/auth/',
+    realm: 'autowp',
+    clientId: 'frontend'
+  }
 };

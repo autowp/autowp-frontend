@@ -7,8 +7,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '../../services/page-env.service';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {APIUser} from '../../services/user';
 import {AuthService} from '../../services/auth.service';
+import {APIUser} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-twins-group-picture',

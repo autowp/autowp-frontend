@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CommentsVotesComponent} from '../votes/votes.component';
 import {combineLatest, Subscription} from 'rxjs';
-import {APIUser} from '../../services/user';
 import {AuthService} from '../../services/auth.service';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {APIUser} from '../../../../generated/spec.pb';
 
 export interface APICommentInList extends APIComment {
   showReply?: boolean;
