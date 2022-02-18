@@ -21,7 +21,7 @@
     "@angular/localize": "^13.2.2",
     "@angular/platform-browser": "^13.2.3",
     "@angular/platform-browser-dynamic": "^13.2.2",
-    "@angular/router": "^13.2.2",
+    "@angular/router": "^13.2.3",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "@ng-bootstrap/ng-bootstrap": "^12.0.0",
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
