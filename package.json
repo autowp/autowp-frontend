@@ -13,7 +13,7 @@
   "dependencies": {
     "@angular-devkit/architect": "^0.1302.5",
     "@angular-devkit/build-angular": "^13.2.5",
-    "@angular/animations": "^13.1.2",
+    "@angular/animations": "^13.2.5",
     "@angular/common": "^13.2.5",
     "@angular/compiler": "^13.1.1",
     "@angular/core": "^13.2.4",
@@ -64,7 +64,7 @@
     "@angular-eslint/template-parser": "^13.1.0",
     "@angular/cli": "^13.2.5",
     "@angular/compiler-cli": "^13.2.5",
-    "@angular/language-service": "^13.2.4",
+    "@angular/language-service": "^13.2.5",
     "@brainly/onesky-utils": "^1.4.1",
     "@ngx-grpc/protoc-gen-ng": "^3.0.0",
     "@types/google-protobuf": "^3.15.5",
