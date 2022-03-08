@@ -38,7 +38,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   @ViewChild('input') input;
 
-  public changeProfileUrl = environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
+  public changeProfileUrl = environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
   constructor(
     private api: APIService,
