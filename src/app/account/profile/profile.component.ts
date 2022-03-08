@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
 import {switchMapTo, switchMap, catchError, tap} from 'rxjs/operators';
@@ -14,22 +13,16 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {APIImage, APIService} from '../../services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {UsersClient} from '../../../../generated/spec.pbsc';
-import {APIGetKeycloakUserRequest, APIUpdateUserRequest} from '../../../../generated/spec.pb';
-import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
-import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {APIUser} from '../../../../generated/spec.pb';
+import { APIUser as RESTAPIUser } from '../../services/user';
 
 @Component({
   selector: 'app-account-profile',
   templateUrl: './profile.component.html'
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {
-  private user: APIUser;
-  public profile = {
-    first_name: null,
-    last_name: null
-  };
-  public profileInvalidParams: InvalidParams = {};
+  public user: APIUser;
+
   public settings = {
     timezone: null,
     language: null
@@ -45,6 +38,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   @ViewChild('input') input;
 
+  public changeProfileUrl = environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
+
   constructor(
     private api: APIService,
     private router: Router,
@@ -52,7 +47,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private timezone: TimezoneService,
     private toastService: ToastsService,
-    private usersGrpc: UsersClient
   ) {
   }
 
@@ -91,7 +85,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         switchMapTo(
           combineLatest(
             [
-              this.api.request<APIUser>('GET', 'user/me', {
+              this.api.request<RESTAPIUser>('GET', 'user/me', {
                 params: {
                   fields: 'name,timezone,language,votes_per_day,votes_left,img'
                 }
@@ -100,18 +94,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
             ]
           )
         ),
-        switchMap(([user, timezones]) => {
-          return combineLatest([
-            of(user),
-            of(timezones),
-            this.usersGrpc.getKeycloakUser(new APIGetKeycloakUserRequest({userId: user.id+''}))
-          ])
-        })
       )
       .subscribe(
-        ([user, timezones, kcUser]) => {
-          this.profile.first_name = kcUser.firstName;
-          this.profile.last_name = kcUser.lastName;
+        ([user, timezones]) => {
           this.settings.timezone = user.timezone;
           this.settings.language = user.language;
           this.votesPerDay = user.votes_per_day;
@@ -129,35 +114,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   private showSavedMessage() {
     this.toastService.success($localize `Data saved`);
-  }
-
-  public sendProfile() {
-    this.profileInvalidParams = {};
-
-    this.usersGrpc.updateUser(new APIUpdateUserRequest({
-      firstName: this.profile.first_name,
-      lastName: this.profile.last_name,
-      userId: this.user.id.toString()
-    })).pipe(
-      switchMapTo(this.api.request<APIUser>('GET', 'user/me', {
-        params: {
-          fields: 'name'
-        }
-      }))
-    ).subscribe(
-      (user) => {
-        this.user.name = user.name;
-
-        this.showSavedMessage();
-      },
-      response => {
-        this.toastService.grpcErrorResponse(response);
-        if (response.statusCode === 3) {
-          const fieldViolations = extractFieldViolations(response);
-          this.profileInvalidParams = fieldViolations2InvalidParams(fieldViolations);
-        }
-      }
-    );
   }
 
   public sendSettings() {
@@ -217,7 +173,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       tap(() => {
         this.input.nativeElement.value = '';
       }),
-      switchMap(() => this.api.request<APIUser>('GET', 'user/me', {
+      switchMap(() => this.api.request<RESTAPIUser>('GET', 'user/me', {
         params: {
           fields: 'img'
         }

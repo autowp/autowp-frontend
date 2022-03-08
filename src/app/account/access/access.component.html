@@ -13,36 +13,7 @@
     </div>
     <h2 class="mb-2" i18n>Change password</h2>
     <div class="card card-body mb-4">
-      <form class="form-horizontal" (submit)="submit()">
-        <div class="form-group row">
-          <label class="col-md-2 col-form-label" i18n>Current</label>
-          <div class="col-md-10">
-            <input type="password" size="50" maxlength="50" name="password_old" class="form-control" [(ngModel)]="form.oldPassword"
-              [class.is-invalid]="invalidParams && invalidParams.oldPassword">
-            <p *ngFor="let message of invalidParams | invalidParams : 'oldPassword'" [textContent]="message" class="invalid-feedback"></p>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-2 col-form-label" i18n>New password</label>
-          <div class="col-md-10">
-            <input type="password" size="50" maxlength="50" name="password" class="form-control" [(ngModel)]="form.newPassword" [class.is-invalid]="invalidParams && invalidParams.newPassword">
-            <p *ngFor="let message of invalidParams | invalidParams : 'newPassword'" [textContent]="message" class="invalid-feedback"></p>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-2 col-form-label" i18n>New password (confirm)</label>
-          <div class="col-md-10">
-            <input type="password" size="50" maxlength="50" name="password_confirm" class="form-control" [(ngModel)]="form.newPasswordConfirm"
-              [class.is-invalid]="invalidParams && invalidParams.newPasswordConfirm">
-            <p *ngFor="let message of invalidParams | invalidParams : 'newPasswordConfirm'" [textContent]="message" class="invalid-feedback"></p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-10 offset-md-2">
-            <button type="submit" class="btn btn-primary" i18n>send</button>
-          </div>
-        </div>
-      </form>
+      <a [href]="changePasswordUrl" i18n>Change password</a>
     </div>
 
     <p>

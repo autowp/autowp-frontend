@@ -1,37 +1,44 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-
-import { Router, RouterEvent, NavigationStart } from '@angular/router';
+import {Component, Renderer2} from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
-import { APIUser } from './services/user';
-import { MessageService } from './services/message';
 import { PageEnvService, LayoutParams } from './services/page-env.service';
 import { Observable } from 'rxjs';
-import { LanguageService, Language } from './services/language';
-import {APIItem, ItemService} from './services/item';
+import {Language, LanguageService} from './services/language';
+import {ItemService} from './services/item';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import {APIUser} from '../../generated/spec.pb';
+import {map, shareReplay} from 'rxjs/operators';
+import {NavigationStart, Router, RouterEvent} from '@angular/router';
+import {MessageService} from './services/message';
+import {Angulartics2GoogleAnalytics} from 'angulartics2/ga';
 import {environment} from '../environments/environment';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   public languages: Language[] = [];
   public layoutParams$: Observable<LayoutParams>;
   public loginInvalidParams: any;
   public user: APIUser;
-  public newPersonalMessages; // = opt.sidebar.newPersonalMessages;
+  public newPersonalMessages$ = this.messageService.getNew().pipe(
+    map(result => ({
+      count: result
+    })),
+    shareReplay(1)
+  );
   public searchHostname: string;
-  public categories: APIItem[] = [];
-  public loginForm = {
-    login: '',
-    password: ''
-  };
+  public categories$ = this.itemService.getItems({
+    type_id: 3,
+    no_parent: true,
+    fields: 'name_text,catname,descendants_count',
+    limit: 20
+  });
   public language: string;
   public urlPath = '/';
   public isNavbarCollapsed = true;
@@ -46,6 +53,7 @@ export class AppComponent implements OnInit {
     private itemService: ItemService,
     private modalService: NgbModal,
     private renderer: Renderer2,
+    private keycloak: KeycloakService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.language = this.languageService.language;
@@ -75,59 +83,22 @@ export class AppComponent implements OnInit {
 
     this.searchHostname = searchHostname;
 
-    router.events.subscribe((val: RouterEvent) => {
+    this.router.events.subscribe((val: RouterEvent) => {
       if (val instanceof NavigationStart) {
         this.urlPath = val.url;
       }
     });
 
-    angulartics2GoogleAnalytics.startTracking();
+    if (environment.production) {
+      angulartics2GoogleAnalytics.startTracking();
+    }
   }
 
-  ngOnInit() {
-    this.messageService.getNew().subscribe(value => {
-      this.newPersonalMessages = value;
-    });
-
-    this.itemService
-      .getItems({
-        type_id: 3,
-        no_parent: true,
-        fields: 'name_text,catname,descendants_count',
-        limit: 20
-      })
-      .subscribe(response => {
-        this.categories = response.items;
-      });
-  }
-
-  public doLogin() {
-    this.auth
-      .login(
-        this.loginForm.login,
-        this.loginForm.password
-      )
-      .subscribe(
-        result => {
-          if (! result) {
-            this.loginInvalidParams = {
-              password: {
-                invalid: $localize `Login or password is incorrect`
-              }
-            };
-            return;
-          }
-
-          this.router.navigate(['/login']);
-        },
-        error => {
-          this.loginInvalidParams = {
-            password: {
-              error: 'Error'
-            }
-          };
-        }
-      );
+  doLogin() {
+    this.keycloak.login({
+      redirectUri: window.location.href,
+      locale: this.languageService.language
+    })
   }
 
   public signOut() {

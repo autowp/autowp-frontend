@@ -10,8 +10,8 @@ import {
   switchMap,
   map
 } from 'rxjs/operators';
-import { APIUser } from '../../services/user';
 import { APIDonateCarOfDayDate, DonateService } from '../donate.service';
+import {APIUser} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-donate-vod',
@@ -27,7 +27,7 @@ export class DonateVodComponent implements OnInit, OnDestroy {
   public selectedItem: APIItem;
   public anonymous: boolean;
   public user: APIUser;
-  public userID: number;
+  public userID: string;
   public sum: number;
   public dates: APIDonateCarOfDayDate[];
   public paymentType = 'AC';
@@ -81,7 +81,7 @@ export class DonateVodComponent implements OnInit, OnDestroy {
       this.selectedDate = params.date;
       this.selectedItem = item;
       this.user = user;
-      this.userID = user ? user.id : 0;
+      this.userID = user ? user.id : '';
       this.anonymous = this.userID ? !!params.anonymous : true;
 
       if (!this.selectedItem || !this.selectedDate) {

@@ -9,14 +9,14 @@ import {
   HttpRequest,
   HttpHandler, HttpInterceptor
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {from, Observable, of, throwError} from 'rxjs';
 import { environment } from '../../environments/environment';
-import {OAuthService} from './oauth.service';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
+import {KeycloakService} from 'keycloak-angular';
 
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
@@ -68,16 +68,19 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private oauth: OAuthService
+    private keycloak: KeycloakService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const promise = this.keycloak.getToken()
 
-    if (req.url === '/api/oauth/token') {
-      return next.handle(req);
-    }
+    promise.then(() => {}, d => console.log(d))
 
-    return this.oauth.getAccessToken().pipe(
+    return from(promise).pipe(
+      catchError((e, e2) => {
+        console.log('Handled error', e, e2);
+        return of('');
+      }),
       switchMap(accessToken => {
         if (! accessToken) {
           return next.handle(req);
@@ -112,7 +115,7 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
         const style = event instanceof GrpcDataEvent ? this.dataStyle : event.statusCode !== 0 ? this.errorStyle : this.statusOkStyle;
         console.groupCollapsed(`%c${Date.now() - start}ms -> ${request.path}`, style);
         console.log('%csc', style, request.client.getSettings());
-        console.log('%c>>', style, request.requestData.toObject());
+        console.log('%c>>', style, request.requestData);
         console.log('%c**', style, request.requestMetadata.toObject());
         console.log('%c<<', style, event instanceof GrpcDataEvent ? event.data.toObject() : event);
         console.groupEnd();
@@ -124,10 +127,19 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 @Injectable()
 export class GrpcAuthInterceptor implements GrpcInterceptor {
 
-  constructor(private oauth: OAuthService) { }
+  constructor(private keycloak: KeycloakService) { }
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
-    return this.oauth.getAccessToken().pipe(
+
+    const promise = this.keycloak.getToken()
+
+    promise.then(() => {}, d => console.log(d))
+
+    return from(promise).pipe(
+      catchError((e, e2) => {
+        console.log('Handled error', e, e2);
+        return of('');
+      }),
       switchMap(accessToken => {
         if (! accessToken) {
           return next.handle(request);

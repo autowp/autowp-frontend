@@ -100,7 +100,7 @@ export class UsersUserPicturesBrandComponent implements OnInit, OnDestroy {
             limit: 30,
             page,
             item_id: route.brand.id,
-            owner_id: route.user.id,
+            owner_id: route.user.id.toString(),
             order: 1
           })
         )

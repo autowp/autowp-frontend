@@ -14,29 +14,7 @@
 
     <h2 i18n>Personal info</h2>
     <div class="card card-body mb-4">
-      <form method="post" class="form-horizontal" (submit)="sendProfile()">
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="first_name" i18n>Fist Name</label>
-          <div class="col-md-9">
-            <input type="text" maxlength="50" id="first_name" size="50" name="first_name" class="form-control" [(ngModel)]="profile.first_name" [class.is-invalid]="profileInvalidParams && profileInvalidParams.first_name"
-            />
-            <p *ngFor="let message of profileInvalidParams | invalidParams : 'first_name'" [textContent]="message" class="invalid-feedback"></p>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="last_name" i18n>Last Name</label>
-          <div class="col-md-9">
-            <input type="text" maxlength="50" id="last_name" size="50" name="last_name" class="form-control" [(ngModel)]="profile.last_name" [class.is-invalid]="profileInvalidParams && profileInvalidParams.last_name"
-            />
-            <p *ngFor="let message of profileInvalidParams | invalidParams : 'last_name'" [textContent]="message" class="invalid-feedback"></p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-9 offset-md-3">
-            <button type="submit" class="btn btn-primary" i18n>send</button>
-          </div>
-        </div>
-      </form>
+      {{user.name}} (<a [href]="changeProfileUrl" i18n>Change</a>)
     </div>
 
     <h2 i18n>Photo</h2>

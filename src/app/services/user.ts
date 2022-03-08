@@ -51,10 +51,6 @@ export interface APIUser {
   pictures_accepted_count: number;
   accounts: APIAccount[];
   is_moder: boolean;
-  renames: {
-    date: string;
-    old_name: string;
-  }[];
 }
 
 function converUserOptions(

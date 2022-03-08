@@ -12,32 +12,13 @@
       <h1 i18n>My e-mail</h1>
     </div>
     <div class="card card-body">
-      <div *ngIf="!sent">
-        <p *ngIf="email">
-          <ng-container i18n>Your current e-mail address:</ng-container>
-          <a [href]="email" [textContent]="email"></a>
-        </p>
-        <p i18n *ngIf="!email">You don't input e-mail address</p>
-        <app-markdown i18n-markdown markdown="On this page you can change your e-mail address.
+      <p>
+        <ng-container i18n>Your current e-mail address:</ng-container>
+        <a [href]="email" [textContent]="email" *ngIf="email"></a>
+        <span *ngIf="!email" i18n>none</span>
+        (<a [href]="changeEmailUrl" i18n>Change</a>)
+      </p>
 
-Message with instructions to confirm will sent to new address."></app-markdown>
-        <form method="post" class="form-horizontal" (submit)="submit()" novalidate="">
-          <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="email">E-mail</label>
-            <div class="col-md-10">
-              <input type="email" name="email" class="form-control" [(ngModel)]="newEmail" maxlength="255" [class.is-invalid]="invalidParams && invalidParams.email" />
-              <p *ngFor="let message of invalidParams | invalidParams : 'email'" [textContent]="message" class="invalid-feedback"></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-10 offset-md-2">
-              <button type="submit" class="btn btn-primary" i18n>send</button>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <p i18n *ngIf="sent">E-mail with confirmation code was sent</p>
     </div>
   </div>
   <div class="col-lg-4 mb-4 order-1">

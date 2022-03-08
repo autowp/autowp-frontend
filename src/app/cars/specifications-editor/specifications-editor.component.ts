@@ -1,13 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {APIItem, ItemService} from '../../services/item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '../../services/page-env.service';
-import {APIUser} from '../../services/user';
 import {debounceTime, distinctUntilChanged, map, switchMap, switchMapTo} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
+import {AuthService} from '../../services/auth.service';
+import {APIUser} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-cars-specifications-editor',
@@ -22,7 +23,7 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
   public engine: APIItem;
   public tab = 'info';
   public loading = 0;
-  public specsWeight: number;
+  public user$: Observable<APIUser>
   private change$ = new BehaviorSubject<null>(null);
 
   constructor(
@@ -32,27 +33,14 @@ export class CarsSpecificationsEditorComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loading++;
-    this.api
-      .request<APIUser>('GET', 'user/me', {
-        params: {
-          fields: 'specs_weight'
-        }
-      })
-      .subscribe(
-        response => {
-          this.specsWeight = response.specs_weight;
-          this.loading--;
-        },
-        response => {
-          this.toastService.response(response);
-          this.loading--;
-        }
-      );
+
+    this.user$ = this.auth.getUser();
 
     this.querySub = this.route.queryParamMap
       .pipe(

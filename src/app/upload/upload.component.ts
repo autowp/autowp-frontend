@@ -25,11 +25,13 @@ import {
   distinctUntilChanged,
   debounceTime, map
 } from 'rxjs/operators';
-import { APIUser } from '../services/user';
 import { UploadCropComponent } from './crop/crop.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
+import {KeycloakService} from 'keycloak-angular';
+import {LanguageService} from '../services/language';
+import {APIUser} from '../../../generated/spec.pb';
 
 interface UploadProgress {
   filename: string;
@@ -67,7 +69,9 @@ export class UploadComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     private pageEnv: PageEnvService,
     private modalService: NgbModal,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private keycloak: KeycloakService,
+    private languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -130,6 +134,13 @@ export class UploadComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.querySub.unsubscribe();
+  }
+
+  doLogin() {
+    this.keycloak.login({
+      redirectUri: window.location.href,
+      locale: this.languageService.language
+    })
   }
 
   public onChange(event: any) {

@@ -1,7 +1,7 @@
 import { Component, SimpleChanges, OnChanges, Input } from '@angular/core';
 import {APIItem, APIItemOfDayPicture} from '../../services/item';
-import { APIUser } from '../../services/user';
 import { APIPicture } from '../../services/picture';
+import {APIUser} from '../../../../generated/spec.pb';
 
 interface ItemOfDayItem extends APIItem {
   public_route?: string;

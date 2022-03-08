@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   APIAccountStartPostResponse,
   APIAccountItemsGetResponse,
@@ -7,32 +7,23 @@ import {
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
-import {map, switchMap} from 'rxjs/operators';
-import {EMPTY, of, Subscription} from 'rxjs';
-import {externalLoginServices, OAuthService, TokenResponse} from '../../services/oauth.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {externalLoginServices} from '../../services/oauth.service';
 
 @Component({
   selector: 'app-account-accounts',
   templateUrl: './accounts.component.html'
 })
-export class AccountAccountsComponent implements OnInit, OnDestroy{
+export class AccountAccountsComponent implements OnInit {
   public service = null;
   public accounts: APIAccount[] = [];
   public connectFailed = false;
   public disconnectFailed = false;
   public services = externalLoginServices;
-  private tokenSub: Subscription;
 
   constructor(
     private api: APIService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private route: ActivatedRoute,
-    private auth: AuthService,
-    private oauth: OAuthService,
-    private router: Router
   ) {
   }
 
@@ -50,29 +41,6 @@ export class AccountAccountsComponent implements OnInit, OnDestroy{
     );
 
     this.load();
-
-    this.tokenSub = this.route.queryParamMap.pipe(
-      map(params => params.get('token')),
-      switchMap(token => {
-        if (! token) {
-          return EMPTY;
-        }
-
-        return of(JSON.parse(token) as TokenResponse);
-      })
-    ).subscribe(token => {
-      this.oauth.setToken(token);
-      this.auth.loadMe().subscribe({
-        next: () => {
-          this.router.navigate(['/account/accounts']);
-        }
-      });
-      this.load();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.tokenSub.unsubscribe();
   }
 
   public load() {

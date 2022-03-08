@@ -5,10 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import { AuthService } from '../../services/auth.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import { APIUser } from '../../services/user';
 import { APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { getForumsThemeTranslation } from '../../utils/translations';
+import {APIUser} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-forums-topic',

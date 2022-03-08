@@ -26,8 +26,8 @@
             <ng-container i18n>Categories</ng-container>
             <b class="caret" aria-hidden="true"></b>
           </button>
-          <div ngbDropdownMenu>
-            <a [routerLink]="['/category', category.catname]" class="dropdown-item" *ngFor="let category of categories">
+          <div ngbDropdownMenu *ngIf="categories$ | async as categories">
+            <a [routerLink]="['/category', category.catname]" class="dropdown-item" *ngFor="let category of categories.items">
               {{category.name_text}}&#xa0;
               <span class="count">
                 ({{category.descendants_count}})
@@ -53,14 +53,16 @@
         <li class="nav-item" *ngIf="user" [class.active]="isActive(49)|async">
           <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
             <i class="fa fa-comment" aria-hidden="true"></i>
-            <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages" *ngIf="newPersonalMessages"></span>
+            <ng-container *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
+              <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages.count" *ngIf="newPersonalMessages.count > 0"></span>
+            </ng-container>
           </a>
         </li>
         <li class="nav-item" *ngIf="!user" [class.active]="isActive(79)|async">
-          <a routerLink="/login" class="nav-link">
+          <button class="btn nav-link" (click)="doLogin()">
             <i class="fa fa-sign-in" aria-hidden="true"></i>
             <ng-container i18n="@@login/sign-in">Sign in</ng-container>
-          </a>
+          </button>
         </li>
         <li class="nav-item btn-group" ngbDropdown [class.active]="isActive(87)|async">
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
@@ -75,10 +77,6 @@
 
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
 
-            <a routerLink="/signup" class="dropdown-item" *ngIf="!user" [class.active]="isActive(52)|async">
-              <i class="fa fa-fw fa fa-pencil" aria-hidden="true"></i>
-              <ng-container i18n>Registration</ng-container>
-            </a>
             <a routerLink="/upload" class="dropdown-item" [class.active]="isActive(29)|async">
               <i class="fa fa-fw fa-upload" aria-hidden="true"></i>
               <ng-container i18n>Add picture</ng-container>
@@ -136,40 +134,23 @@
     <div class="col-sm-4" *ngIf="(layoutParams$|async).sidebar">
       <div class="card card-body" *ngIf="user">
         <div ngPreserveWhitespaces>
-          <app-user [user]="user"></app-user>
+          <app-user2 [user]="user"></app-user2>
           <br />
           <a routerLink="/account/profile" i18n>Cabinet</a>
           <br />
           <i class="fa fa-sign-out" aria-hidden="true"></i>
           <a href="#" (click)="signOut()" i18n="@@login/sign-out">Sign out</a>
         </div>
-        <p ngPreserveWhitespaces>
+        <p ngPreserveWhitespaces *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
           <i class="fa fa-comment" aria-hidden="true"></i>
-          <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages" i18n>{newPersonalMessages, plural, one {You have {{newPersonalMessages}} new message} other {You have {{newPersonalMessages}} new messages}}</a>
-          <a routerLink="/account/messages" *ngIf="!newPersonalMessages" i18n="@@layout/personal-messages">Personal messages</a>
+          <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages.count" i18n>{newPersonalMessages.count, plural, one {You have {{newPersonalMessages.count}} new message} other {You have {{newPersonalMessages.count}} new messages}}</a>
+          <a routerLink="/account/messages" *ngIf="!newPersonalMessages.count" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
       </div>
 
       <h3 *ngIf="!user" i18n="@@login/sign-in">Sign in</h3>
       <div class="card card-body mb-4" *ngIf="!user">
-        <form (submit)="doLogin()">
-          <p>
-            <input type="text" name="login" placeholder="login or e-mail" i18n-placeholder="@@login/login-or-email" class="form-control" [(ngModel)]="loginForm.login" />
-          </p>
-          <p *ngFor="let message of loginInvalidParams | invalidParams : 'login'" [textContent]="message" class="invalid-feedback"></p>
-          <p>
-            <input type="password" name="password" placeholder="Password" i18n-placeholder="@@user/password" class="form-control" [(ngModel)]="loginForm.password" />
-          </p>
-          <p *ngFor="let message of loginInvalidParams | invalidParams : 'password'" [textContent]="message" class="invalid-feedback"></p>
-          <div>
-            <div class="float-right text-right">
-              <a routerLink="/signup" i18n="@@login/registration">Sign up</a>
-              <br />
-              <a routerLink="/restore-password" i18n="@@login/forgot-password?">Forgot your password?</a>
-            </div>
-            <button type="submit" class="btn btn-primary" i18n="@@login/sign-in">Sign in</button>
-          </div>
-        </form>
+        <button type="submit" class="btn btn-primary" i18n="@@login/sign-in" (click)="doLogin()">Sign in</button>
       </div>
 
       <a class="twitter-timeline" href="https://twitter.com/autowp_ru" data-widget-id="323907714319253505" data-chrome="nofooter"
