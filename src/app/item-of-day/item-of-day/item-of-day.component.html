@@ -1,73 +1,75 @@
-<h2>
-  <span [innerHtml]="item.name_html"></span>
-  <small>
-    <span i18n *ngIf="item.item_type_id === 1">vehicle of the day</span>
-    <span i18n *ngIf="item.item_type_id !== 1">theme of the day</span>
-    <span *ngIf="user">
-      <span style="white-space:nowrap">by <app-user2 [user]="user"></app-user2></span>
-    </span>
-  </small>
-</h2>
+<ng-container *ngIf="item">
+  <h2>
+    <span [innerHtml]="item.name_html"></span>
+    <small>
+      <span i18n *ngIf="item.item_type_id === 1">vehicle of the day</span>
+      <span i18n *ngIf="item.item_type_id !== 1">theme of the day</span>
+      <span *ngIf="user">
+        <span style="white-space:nowrap">by <app-user2 [user]="user"></app-user2></span>
+      </span>
+    </small>
+  </h2>
 
-<div class="row" *ngIf="item.item_of_day_pictures">
-  <div class="col-sm-6">
-    <ng-container *ngFor="let picture of first">
-      <a [routerLink]="picture.route" class="d-block rounded mb-4" *ngIf="picture">
-        <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
-        />
-      </a>
-    </ng-container>
-  </div>
-  <div class="col-sm-6">
-    <div class="row">
-      <ng-container *ngFor="let picture of others">
-        <a [routerLink]="picture.route" class="d-block rounded mb-3 col-6" *ngIf="picture">
+  <div class="row" *ngIf="item.item_of_day_pictures">
+    <div class="col-sm-6">
+      <ng-container *ngFor="let picture of first">
+        <a [routerLink]="picture.route" class="d-block rounded mb-4" *ngIf="picture">
           <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
           />
         </a>
       </ng-container>
     </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <ng-container *ngFor="let picture of others">
+          <a [routerLink]="picture.route" class="d-block rounded mb-3 col-6" *ngIf="picture">
+            <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
+            />
+          </a>
+        </ng-container>
+      </div>
+    </div>
   </div>
-</div>
-<p>
-  <ng-container *ngIf="item.item_type_id === 3">
-    <span>
-      <span class="fa fa-align-left" aria-hidden="true"></span>
-      <a [routerLink]="['/category', item.catname]" i18n>details</a>
-    </span>
+  <p>
+    <ng-container *ngIf="item.item_type_id === 3">
+      <span>
+        <span class="fa fa-align-left" aria-hidden="true"></span>
+        <a [routerLink]="['/category', item.catname]" i18n>details</a>
+      </span>
 
-    <span *ngIf="item.accepted_pictures_count > 6">
+      <span *ngIf="item.accepted_pictures_count > 6">
+        <span class="fa fa-th" aria-hidden="true"></span>
+        <a [routerLink]="['/category', item.catname, '/pictures']"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
+      </span>
+    </ng-container>
+
+    <span *ngIf="item.item_type_id === 5 && item.accepted_pictures_count > 6 && item.public_route">
       <span class="fa fa-th" aria-hidden="true"></span>
-      <a [routerLink]="['/category', item.catname, '/pictures']"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
+      <a [routerLink]="item.public_route"><ng-container i18n>details</ng-container> ({{item.accepted_pictures_count}})</a>
     </span>
-  </ng-container>
 
-  <span *ngIf="item.item_type_id === 5 && item.accepted_pictures_count > 6 && item.public_route">
-    <span class="fa fa-th" aria-hidden="true"></span>
-    <a [routerLink]="item.public_route"><ng-container i18n>details</ng-container> ({{item.accepted_pictures_count}})</a>
-  </span>
-
-  <span *ngIf="item.item_type_id !== 3 && item.item_type_id !== 5 && item.accepted_pictures_count > 6 && item.public_route">
-    <span class="fa fa-th" aria-hidden="true"></span>
-    <a [routerLink]="item.public_route"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
-  </span>
-
-  <ng-container *ngIf="item.twins_groups">
-    <span *ngFor="let group of item.twins_groups">
-      <span class="fa fa-adjust" aria-hidden="true"></span>
-      <a [routerLink]="['/twins/group', group.id]" i18n>twins</a>
+    <span *ngIf="item.item_type_id !== 3 && item.item_type_id !== 5 && item.accepted_pictures_count > 6 && item.public_route">
+      <span class="fa fa-th" aria-hidden="true"></span>
+      <a [routerLink]="item.public_route"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
     </span>
-  </ng-container>
 
-  <ng-container *ngIf="item.categories">
-    <span *ngFor="let category of item.categories">
-      <span class="fa fa-tag" aria-hidden="true"></span>
-      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+    <ng-container *ngIf="item.twins_groups">
+      <span *ngFor="let group of item.twins_groups">
+        <span class="fa fa-adjust" aria-hidden="true"></span>
+        <a [routerLink]="['/twins/group', group.id]" i18n>twins</a>
+      </span>
+    </ng-container>
+
+    <ng-container *ngIf="item.categories">
+      <span *ngFor="let category of item.categories">
+        <span class="fa fa-tag" aria-hidden="true"></span>
+        <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+      </span>
+    </ng-container>
+
+    <span>
+      <span class="fa fa-trophy" aria-hidden="true"></span>
+      <a routerLink="/donate/vod" i18n>Want to choose next?</a>
     </span>
-  </ng-container>
-
-  <span>
-    <span class="fa fa-trophy" aria-hidden="true"></span>
-    <a routerLink="/donate/vod" i18n>Want to choose next?</a>
-  </span>
-</p>
+  </p>
+</ng-container>

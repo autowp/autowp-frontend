@@ -49,7 +49,6 @@ const appRoutes: Routes = [
     loadChildren: () => import('./info/info.module').then(m => m.InfoModule)
   },
   { path: 'log', loadChildren: () => import('./log/log.module').then(m => m.LogModule) },
-  { path: 'login', loadChildren: () => import('./signin/signin.module').then(m => m.SigninModule) },
   { path: 'map', loadChildren: () => import('./map/map.module').then(m => m.MapModule) },
   { path: 'mascots', loadChildren: () => import('./mascots/mascots.module').then(m => m.MascotsModule) },
   {

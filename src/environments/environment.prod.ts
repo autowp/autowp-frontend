@@ -75,5 +75,6 @@ export const environment = {
     url: 'https://auth.wheelsage.org/auth/',
     realm: 'autowp',
     clientId: 'frontend'
-  }
+  },
+  grpcHost: ''
 };

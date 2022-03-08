@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {APP_INITIALIZER, ErrorHandler, Injectable, NgModule, Provider} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, NgModule, Provider} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MomentModule } from 'ngx-moment';
@@ -49,7 +49,6 @@ import { IndexModule } from './index/index.module';
 import {ConfigurationService} from './services/configuration.service';
 import {CanActivateCatalogue} from './catalogue/can-activate';
 import {ToastsModule} from './toasts/toasts.module';
-import * as Sentry from '@sentry/browser';
 import {environment} from '../environments/environment';
 import { GlobalErrorHandler } from './global-error-handler';
 import { Angulartics2Module } from 'angulartics2';
@@ -57,28 +56,7 @@ import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 
-if (environment.sentry) {
-  Sentry.init(environment.sentry);
-}
-
-@Injectable()
-export class SentryErrorHandler implements ErrorHandler {
-  handleError(error) {
-    if (error) {
-      Sentry.captureException(error.originalError || error);
-      throw error;
-    }
-    console.log("Empty error: ", error);
-  }
-}
-
 function initializeKeycloak(keycloak: KeycloakService) {
-  keycloak.keycloakEvents$.subscribe({
-    next: (e) => {
-      console.log('KK', e);
-    }
-  });
-
   return () =>
     keycloak.init({
       config: environment.keycloak,
@@ -132,9 +110,6 @@ let providers: Provider[] = [
   IpService,
   CanActivateCatalogue
 ];
-if (environment.sentry) {
-  providers.push({provide: ErrorHandler, useClass: SentryErrorHandler});
-}
 if (environment.production) {
   providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
 }
@@ -170,11 +145,11 @@ if (environment.production) {
     NgbDropdownModule,
     IndexModule,
     ToastsModule,
-    Angulartics2Module.forRoot(),
     GrpcCoreModule.forRoot(),
     GrpcWebClientModule.forRoot({
-      settings: { host: '' },
+      settings: { host: environment.grpcHost },
     }),
+    Angulartics2Module.forRoot()
   ],
   providers: providers,
   bootstrap: [AppComponent]

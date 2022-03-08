@@ -42,7 +42,7 @@ export class AutowpClient {
    */
   $raw = {
     /**
-     * Unary RPC for /goautowp.Autowp/AclEnforce
+     * Unary call: /goautowp.Autowp/AclEnforce
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -63,7 +63,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/CreateFeedback
+     * Unary call: /goautowp.Autowp/CreateFeedback
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -84,7 +84,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetBrandIcons
+     * Unary call: /goautowp.Autowp/GetBrandIcons
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -105,7 +105,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetBrandVehicleTypes
+     * Unary call: /goautowp.Autowp/GetBrandVehicleTypes
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -126,7 +126,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetCommentVotes
+     * Unary call: /goautowp.Autowp/GetCommentVotes
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -147,7 +147,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetForumsUserSummary
+     * Unary call: /goautowp.Autowp/GetForumsUserSummary
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -168,7 +168,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetIP
+     * Unary call: /goautowp.Autowp/GetIP
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -189,7 +189,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetMessagesNewCount
+     * Unary call: /goautowp.Autowp/GetMessagesNewCount
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -210,7 +210,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetMessagesSummary
+     * Unary call: /goautowp.Autowp/GetMessagesSummary
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -231,7 +231,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetPerspectives
+     * Unary call: /goautowp.Autowp/GetPerspectives
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -252,7 +252,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetPerspectivePages
+     * Unary call: /goautowp.Autowp/GetPerspectivePages
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -273,7 +273,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetReCaptchaConfig
+     * Unary call: /goautowp.Autowp/GetReCaptchaConfig
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -294,7 +294,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetSpecs
+     * Unary call: /goautowp.Autowp/GetSpecs
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -315,7 +315,7 @@ export class AutowpClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Autowp/GetVehicleTypes
+     * Unary call: /goautowp.Autowp/GetVehicleTypes
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -346,7 +346,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/AclEnforce
+   * Unary call @/goautowp.Autowp/AclEnforce
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -362,7 +362,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/CreateFeedback
+   * Unary call @/goautowp.Autowp/CreateFeedback
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -378,7 +378,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetBrandIcons
+   * Unary call @/goautowp.Autowp/GetBrandIcons
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -394,7 +394,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetBrandVehicleTypes
+   * Unary call @/goautowp.Autowp/GetBrandVehicleTypes
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -410,7 +410,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetCommentVotes
+   * Unary call @/goautowp.Autowp/GetCommentVotes
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -426,7 +426,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetForumsUserSummary
+   * Unary call @/goautowp.Autowp/GetForumsUserSummary
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -442,7 +442,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetIP
+   * Unary call @/goautowp.Autowp/GetIP
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -458,7 +458,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetMessagesNewCount
+   * Unary call @/goautowp.Autowp/GetMessagesNewCount
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -474,7 +474,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetMessagesSummary
+   * Unary call @/goautowp.Autowp/GetMessagesSummary
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -490,7 +490,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetPerspectives
+   * Unary call @/goautowp.Autowp/GetPerspectives
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -506,7 +506,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetPerspectivePages
+   * Unary call @/goautowp.Autowp/GetPerspectivePages
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -522,7 +522,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetReCaptchaConfig
+   * Unary call @/goautowp.Autowp/GetReCaptchaConfig
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -538,7 +538,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetSpecs
+   * Unary call @/goautowp.Autowp/GetSpecs
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -554,7 +554,7 @@ export class AutowpClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Autowp/GetVehicleTypes
+   * Unary call @/goautowp.Autowp/GetVehicleTypes
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -583,7 +583,7 @@ export class TrafficClient {
    */
   $raw = {
     /**
-     * Unary RPC for /goautowp.Traffic/AddToBlacklist
+     * Unary call: /goautowp.Traffic/AddToBlacklist
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -604,7 +604,7 @@ export class TrafficClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Traffic/AddToWhitelist
+     * Unary call: /goautowp.Traffic/AddToWhitelist
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -625,7 +625,7 @@ export class TrafficClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Traffic/DeleteFromBlacklist
+     * Unary call: /goautowp.Traffic/DeleteFromBlacklist
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -646,7 +646,7 @@ export class TrafficClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Traffic/DeleteFromWhitelist
+     * Unary call: /goautowp.Traffic/DeleteFromWhitelist
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -667,7 +667,7 @@ export class TrafficClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Traffic/GetTop
+     * Unary call: /goautowp.Traffic/GetTop
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -688,7 +688,7 @@ export class TrafficClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Traffic/GetWhitelist
+     * Unary call: /goautowp.Traffic/GetWhitelist
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -719,7 +719,7 @@ export class TrafficClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Traffic/AddToBlacklist
+   * Unary call @/goautowp.Traffic/AddToBlacklist
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -735,7 +735,7 @@ export class TrafficClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Traffic/AddToWhitelist
+   * Unary call @/goautowp.Traffic/AddToWhitelist
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -751,7 +751,7 @@ export class TrafficClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Traffic/DeleteFromBlacklist
+   * Unary call @/goautowp.Traffic/DeleteFromBlacklist
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -767,7 +767,7 @@ export class TrafficClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Traffic/DeleteFromWhitelist
+   * Unary call @/goautowp.Traffic/DeleteFromWhitelist
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -783,7 +783,7 @@ export class TrafficClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Traffic/GetTop
+   * Unary call @/goautowp.Traffic/GetTop
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -799,7 +799,7 @@ export class TrafficClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Traffic/GetWhitelist
+   * Unary call @/goautowp.Traffic/GetWhitelist
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -828,7 +828,7 @@ export class ContactsClient {
    */
   $raw = {
     /**
-     * Unary RPC for /goautowp.Contacts/CreateContact
+     * Unary call: /goautowp.Contacts/CreateContact
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -849,7 +849,7 @@ export class ContactsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Contacts/DeleteContact
+     * Unary call: /goautowp.Contacts/DeleteContact
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -870,7 +870,7 @@ export class ContactsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Contacts/GetContact
+     * Unary call: /goautowp.Contacts/GetContact
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -891,7 +891,7 @@ export class ContactsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Contacts/GetContacts
+     * Unary call: /goautowp.Contacts/GetContacts
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -922,7 +922,7 @@ export class ContactsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Contacts/CreateContact
+   * Unary call @/goautowp.Contacts/CreateContact
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -938,7 +938,7 @@ export class ContactsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Contacts/DeleteContact
+   * Unary call @/goautowp.Contacts/DeleteContact
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -954,7 +954,7 @@ export class ContactsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Contacts/GetContact
+   * Unary call @/goautowp.Contacts/GetContact
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -970,7 +970,7 @@ export class ContactsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Contacts/GetContacts
+   * Unary call @/goautowp.Contacts/GetContacts
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -999,7 +999,7 @@ export class UsersClient {
    */
   $raw = {
     /**
-     * Unary RPC for /goautowp.Users/DeleteUser
+     * Unary call: /goautowp.Users/DeleteUser
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1020,7 +1020,7 @@ export class UsersClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Users/GetUser
+     * Unary call: /goautowp.Users/GetUser
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1041,7 +1041,7 @@ export class UsersClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Users/Me
+     * Unary call: /goautowp.Users/Me
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1072,7 +1072,7 @@ export class UsersClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Users/DeleteUser
+   * Unary call @/goautowp.Users/DeleteUser
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1088,7 +1088,7 @@ export class UsersClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Users/GetUser
+   * Unary call @/goautowp.Users/GetUser
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1104,7 +1104,7 @@ export class UsersClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Users/Me
+   * Unary call @/goautowp.Users/Me
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1133,7 +1133,7 @@ export class ItemsClient {
    */
   $raw = {
     /**
-     * Unary RPC for /goautowp.Items/GetTopBrandsList
+     * Unary call: /goautowp.Items/GetTopBrandsList
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1154,7 +1154,7 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Items/GetTopPersonsList
+     * Unary call: /goautowp.Items/GetTopPersonsList
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1175,7 +1175,7 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Items/GetTopFactoriesList
+     * Unary call: /goautowp.Items/GetTopFactoriesList
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1196,7 +1196,7 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Items/GetTopCategoriesList
+     * Unary call: /goautowp.Items/GetTopCategoriesList
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1217,7 +1217,7 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Items/GetTopTwinsBrandsList
+     * Unary call: /goautowp.Items/GetTopTwinsBrandsList
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1238,7 +1238,7 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary RPC for /goautowp.Items/List
+     * Unary call: /goautowp.Items/List
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
@@ -1269,7 +1269,7 @@ export class ItemsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Items/GetTopBrandsList
+   * Unary call @/goautowp.Items/GetTopBrandsList
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1285,7 +1285,7 @@ export class ItemsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Items/GetTopPersonsList
+   * Unary call @/goautowp.Items/GetTopPersonsList
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1301,7 +1301,7 @@ export class ItemsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Items/GetTopFactoriesList
+   * Unary call @/goautowp.Items/GetTopFactoriesList
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1317,7 +1317,7 @@ export class ItemsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Items/GetTopCategoriesList
+   * Unary call @/goautowp.Items/GetTopCategoriesList
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1333,7 +1333,7 @@ export class ItemsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Items/GetTopTwinsBrandsList
+   * Unary call @/goautowp.Items/GetTopTwinsBrandsList
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
@@ -1349,7 +1349,7 @@ export class ItemsClient {
   }
 
   /**
-   * Unary RPC for /goautowp.Items/List
+   * Unary call @/goautowp.Items/List
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata

@@ -16,6 +16,9 @@ export class AuthService {
       } else {
         this.setUser(null);
       }
+    }, error => {
+      console.log('ERROR', error);
+      this.setUser(null);
     });
   }
 

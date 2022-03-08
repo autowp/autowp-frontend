@@ -80,5 +80,6 @@ export const environment = {
     url: 'http://localhost:8081/auth/',
     realm: 'autowp',
     clientId: 'frontend'
-  }
+  },
+  grpcHost: ''
 };
