@@ -5,33 +5,33 @@
 </ng-template>
 <app-item-of-day class="d-block mb-4" [item]="itemOfDay[1].item" [user]="itemOfDay[0]" *ngIf="itemOfDay$|async as itemOfDay; else loading"></app-item-of-day>
 
-<div *ngIf="languageService.language === 'ru'">
-  <p>
-    Здравствуйте. В связи с финансовыми ограничениями и сложной экономической ситуацией в регионах проживания большинства наших контрибьюторов, мы открываем сбор средств на оплату хостинга для нашего сайта.<br />
-    Наш проект хочет оставаться бесплатным и свободным от рекламы и в дальнейшем.
-  </p>
-  <p>Наша цель: 2500 Евро на покрытие текущих расходов на год.</p>
-  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="text-center" ngNoForm>
-    <input type="hidden" name="cmd" value="_s-xclick">
-    <input type="hidden" name="hosted_button_id" value="APTV6TLLJ4W32">
-    <input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal">
-    <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-  </form>
-</div>
+<!--<div *ngIf="languageService.language === 'ru'">-->
+<!--  <p>-->
+<!--    Здравствуйте. В связи с финансовыми ограничениями и сложной экономической ситуацией в регионах проживания большинства наших контрибьюторов, мы открываем сбор средств на оплату хостинга для нашего сайта.<br />-->
+<!--    Наш проект хочет оставаться бесплатным и свободным от рекламы и в дальнейшем.-->
+<!--  </p>-->
+<!--  <p>Наша цель: 2500 Евро на покрытие текущих расходов на год.</p>-->
+<!--  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="text-center" ngNoForm>-->
+<!--    <input type="hidden" name="cmd" value="_s-xclick">-->
+<!--    <input type="hidden" name="hosted_button_id" value="APTV6TLLJ4W32">-->
+<!--    <input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal">-->
+<!--    <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">-->
+<!--  </form>-->
+<!--</div>-->
 
-<div *ngIf="languageService.language !== 'ru'">
-  <p>
-    Dear visitors of WheelsAge.org. Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.<br />
-    This project is aimed to remain free to use and fully advertising free in the future.
-  </p>
-  <p>Our goal is to cover 2500 EUR that is the cost of 1 year of website existence.</p>
-  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="text-center" *ngIf="languageService.language !== 'fr' && languageService.language !== 'ru'" ngNoForm>
-    <input type="hidden" name="cmd" value="_s-xclick">
-    <input type="hidden" name="hosted_button_id" value="PHRAPAMQWV4SJ">
-    <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal">
-    <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-  </form>
-</div>
+<!--<div *ngIf="languageService.language !== 'ru'">-->
+<!--  <p>-->
+<!--    Dear visitors of WheelsAge.org. Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.<br />-->
+<!--    This project is aimed to remain free to use and fully advertising free in the future.-->
+<!--  </p>-->
+<!--  <p>Our goal is to cover 2500 EUR that is the cost of 1 year of website existence.</p>-->
+<!--  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="text-center" *ngIf="languageService.language !== 'fr' && languageService.language !== 'ru'" ngNoForm>-->
+<!--    <input type="hidden" name="cmd" value="_s-xclick">-->
+<!--    <input type="hidden" name="hosted_button_id" value="PHRAPAMQWV4SJ">-->
+<!--    <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal">-->
+<!--    <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">-->
+<!--  </form>-->
+<!--</div>-->
 
 <app-index-brands></app-index-brands>
 
