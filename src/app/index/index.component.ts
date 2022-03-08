@@ -51,7 +51,13 @@ export class IndexComponent implements OnInit {
     pictureItemType: PictureItemType.PICTURE_AUTHOR
   }));
 
-  constructor(private pageEnv: PageEnvService, private api: APIService, private items: ItemsClient, private languageService: LanguageService, private usersClient: UsersClient) {}
+  constructor(
+    private pageEnv: PageEnvService,
+    private api: APIService,
+    private items: ItemsClient,
+    public languageService: LanguageService,
+    private usersClient: UsersClient
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
