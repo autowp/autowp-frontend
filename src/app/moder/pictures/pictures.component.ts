@@ -430,7 +430,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             perspective_id: this.perspectiveID,
             item_id: this.itemID,
             exclude_item_id: this.excludeItemID,
-            owner_id: this.ownerID.toString(),
+            owner_id: this.ownerID ? this.ownerID.toString() : null,
             requests: this.requests,
             special_name: this.specialName,
             lost: this.lost,
