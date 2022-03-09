@@ -55,6 +55,7 @@ import { Angulartics2Module } from 'angulartics2';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {LoginComponent} from './login/login.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -121,7 +122,8 @@ if (environment.production) {
     VehicleTypesModalComponent,
     Error403Component,
     Error404Component,
-    UsersOnlineComponent
+    UsersOnlineComponent,
+    LoginComponent
   ],
   imports: [
     PaginatorModule,

@@ -3,7 +3,6 @@ import {
   OnInit,
   OnDestroy, ViewChild
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
@@ -15,6 +14,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {APIUser} from '../../../../generated/spec.pb';
 import { APIUser as RESTAPIUser } from '../../services/user';
+import {LanguageService} from '../../services/language';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-account-profile',
@@ -42,7 +43,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: APIService,
-    private router: Router,
+    private languageService: LanguageService,
+    private keycloak: KeycloakService,
     private auth: AuthService,
     private pageEnv: PageEnvService,
     private timezone: TimezoneService,
@@ -74,7 +76,10 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(user => {
           if (!user) {
-            this.router.navigate(['/login']);
+            this.keycloak.login({
+              redirectUri: window.location.href,
+              locale: this.languageService.language
+            });
             return EMPTY;
           }
 

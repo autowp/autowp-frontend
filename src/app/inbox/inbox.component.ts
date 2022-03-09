@@ -15,6 +15,8 @@ import {
   map
 } from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
+import {LanguageService} from '../services/language';
+import {KeycloakService} from 'keycloak-angular';
 
 const ALL_BRANDS = 'all';
 
@@ -45,6 +47,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     private router: Router,
     private auth: AuthService,
     private route: ActivatedRoute,
+    private languageService: LanguageService,
+    private keycloak: KeycloakService,
     private pictureService: PictureService,
     private inboxService: InboxService,
     private pageEnv: PageEnvService,
@@ -68,7 +72,10 @@ export class InboxComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(user => {
           if (!user) {
-            this.router.navigate(['/login']);
+            this.keycloak.login({
+              redirectUri: window.location.href,
+              locale: this.languageService.language
+            });
             return EMPTY;
           }
 

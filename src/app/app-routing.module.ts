@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PageNotFoundComponent } from './not-found.component';
+import {LoginComponent} from './login/login.component';
 
 const appRoutes: Routes = [
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
@@ -96,6 +97,7 @@ const appRoutes: Routes = [
   { path: 'voting', loadChildren: () => import('./voting/voting.module').then(m => m.VotingModule) },
   { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule) },
   { path: 'error-404', component: PageNotFoundComponent },
+  { path: 'login', component: LoginComponent },
   {
     // matcher: cataloguePathMatcher,
     path: ':brand',

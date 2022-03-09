@@ -6,9 +6,10 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {map, switchMapTo} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
 import {Contact, DeleteContactRequest} from '../../../../generated/spec.pb';
 import {ContactsClient} from '../../../../generated/spec.pbsc';
+import {LanguageService} from '../../services/language';
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-account-contacts',
@@ -23,8 +24,9 @@ export class AccountContactsComponent {
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private auth: AuthService,
-    private router: Router,
-    private contacts: ContactsClient
+    private contacts: ContactsClient,
+    private languageService: LanguageService,
+    private keycloak: KeycloakService
   ) {
     setTimeout(
       () =>
@@ -41,7 +43,10 @@ export class AccountContactsComponent {
     this.auth.getUser().pipe(
       map(user => {
         if (! user) {
-          this.router.navigate(['/login']);
+          this.keycloak.login({
+            redirectUri: window.location.href,
+            locale: this.languageService.language
+          });
           return EMPTY;
         }
         return user;
