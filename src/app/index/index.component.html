@@ -5,30 +5,30 @@
 </ng-template>
 <app-item-of-day class="d-block mb-4" [item]="itemOfDay[1].item" [user]="itemOfDay[0]" *ngIf="itemOfDay$|async as itemOfDay; else loading"></app-item-of-day>
 
-<div *ngIf="languageService.language === 'ru'">
-  <p>
-    Здравствуйте. В связи с финансовыми ограничениями и сложной экономической ситуацией в регионах проживания большинства наших контрибьюторов, мы открываем сбор средств на оплату хостинга для нашего сайта.<br />
-    Наш проект хочет оставаться бесплатным и свободным от рекламы и в дальнейшем.
-  </p>
-  <p>Наша цель: 2500 Евро на покрытие текущих расходов на год.</p>
-  <form action="https://www.paypal.com/donate" method="post" target="_top" ngNoForm class="text-center mb-2">
-    <input type="hidden" name="hosted_button_id" value="JND8ZMAHY63VQ" />
-    <input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal" />
-    <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-  </form>
-</div>
-
-<div *ngIf="languageService.language !== 'ru'">
-  <p>
-    Dear visitors of WheelsAge.org. Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.<br />
-    This project is aimed to remain free to use and fully advertising free in the future.
-  </p>
-  <p>Our goal is to cover 2500 EUR that is the cost of 1 year of website existence.</p>
-  <form action="https://www.paypal.com/donate" method="post" target="_top" ngNoForm class="text-center mb-2">
-    <input type="hidden" name="hosted_button_id" value="JND8ZMAHY63VQ" />
-    <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal" />
-    <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-  </form>
+<h4 *ngIf="languageService.language === 'ru'">Помощь проекту</h4>
+<h4 *ngIf="languageService.language !== 'ru'">Help the project</h4>
+<div class="row">
+  <div class="col-sm-6" *ngIf="languageService.language === 'ru'">
+    <p>В связи с финансовыми ограничениями и сложной экономической ситуацией в регионах проживания большинства наших контрибьюторов, мы открываем сбор средств на оплату хостинга для нашего сайта.</p>
+    <p>Наш проект хочет оставаться бесплатным и свободным от рекламы и в дальнейшем.</p>
+  </div>
+  <div class="col-sm-6" *ngIf="languageService.language !== 'ru'">
+    <p>Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.</p>
+    <p>This project is aimed to remain free to use and fully advertising free in the future.</p>
+  </div>
+  <div class="col-sm-6">
+    <p *ngIf="languageService.language === 'ru'">Наша цель: 2500 Евро на покрытие текущих расходов на год.</p>
+    <p *ngIf="languageService.language !== 'ru'">Our goal is to cover 2500€ that is the cost of 1 year of website existence.</p>
+    <div class="progress mb-4" style="height: 30px;">
+      <div class="progress-bar progress-bar-striped bg-success" style="min-width:3%"><span class="mx-2">4 donations, 73.91€</span></div>
+    </div>
+    <form action="https://www.paypal.com/donate" method="post" target="_top" ngNoForm class="text-center mb-2">
+      <input type="hidden" name="hosted_button_id" value="JND8ZMAHY63VQ" />
+      <input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal" *ngIf="languageService.language === 'ru'" />
+      <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal" *ngIf="languageService.language !== 'ru'" />
+      <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+    </form>
+  </div>
 </div>
 
 <app-index-brands></app-index-brands>
