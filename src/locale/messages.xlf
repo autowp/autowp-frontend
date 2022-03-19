@@ -765,11 +765,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">72,78</context>
+          <context context-type="linenumber">51,57</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">87,97</context>
+          <context context-type="linenumber">66,76</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
@@ -1532,7 +1532,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">25,28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
@@ -3321,7 +3321,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="415f73cbdba5d09762df6c89878273c3aa6da51e" datatype="html">
@@ -3344,7 +3344,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,80</context>
+          <context context-type="linenumber">57,59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
@@ -4128,15 +4128,15 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,51</context>
+          <context context-type="linenumber">25,30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,66</context>
+          <context context-type="linenumber">42,45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,81</context>
+          <context context-type="linenumber">57,60</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
@@ -4186,8 +4186,8 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       <trans-unit id="3425f5b3497cd225710125f73fe94ae5d791da3b" datatype="html">
         <source>Help the project</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">8,12</context>
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">1,5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="166a6f50558f556fb83ed7700380c73625df0a7d" datatype="html">
@@ -4197,29 +4197,29 @@ Due to financial restrictions and difficult economy situation in regions where m
 This project is aimed to remain free to use and fully advertising free in the future.
     </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">12,19</context>
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">5,11</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="0a5726af2f12d384a8f4399519246f7f0682f55a" datatype="html">
-        <source>Our goal is to cover 2500€ that is the cost of 1 year of website existence.</source>
+      <trans-unit id="b79e3409a94ee76af31c8641a373f556709a14d6" datatype="html">
+        <source>Our goal is to cover <x id="INTERPOLATION" equiv-text="{{goal | curren"/> that is the cost of 1 year of website existence.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">18,20</context>
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
         <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">53,62</context>
+          <context context-type="linenumber">32,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cbc05a3823d4b0070e9a8bcc68c19ed0e2f81452" datatype="html">
         <source>Persons on photo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,65</context>
+          <context context-type="linenumber">42,44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
@@ -4230,14 +4230,14 @@ This project is aimed to remain free to use and fully advertising free in the fu
         <source>Also</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c4f29228dfeec6faff18dfa053e0b59b0c8da5fc" datatype="html">
         <source>Mascots</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mascots/mascots.component.html</context>
@@ -7614,8 +7614,8 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="linenumber">16,21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b" datatype="html">
-        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
+      <trans-unit id="7d207c24cc0314422e2b59db8228436c110d6635" datatype="html">
+        <source>Thumbnail is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
           <context context-type="linenumber">21</context>
@@ -7626,6 +7626,13 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
           <context context-type="linenumber">26,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a21c313112c418fa2b1db6e35ade8f4caa2952d" datatype="html">
+        <source>Similar picture: <x id="INTERPOLATION" equiv-text="{{picture.simil"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3681d807a64b6964997706d900fd2cbc12563375" datatype="html">
@@ -7874,6 +7881,10 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/users/user/pictures/pictures.component.html</context>
           <context context-type="linenumber">13,18</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">75,81</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="6ff30100294588c4e3ac15ffee27890bd55d86f8" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="route]=&quot;[&apos;/pict"/> pictures</source>
@@ -7964,13 +7975,6 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">70,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8" datatype="html">
-        <source>Uploaded pictures</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">75,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="31e56cd3191db509b1925c1bf78a68fbe0e05b28" datatype="html">

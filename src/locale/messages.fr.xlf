@@ -12,9 +12,7 @@
       </trans-unit>
       <trans-unit id="ngb.carousel.slide-number" datatype="html">
         <source> Slide <x id="INTERPOLATION" equiv-text="sel using keybo"/> of <x id="INTERPOLATION_1" equiv-text="d &apos;arrow left&apos;"/> </source>
-        <target>
-Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLATION_1" equiv-text="r$ = new Behavi"/> 
- </target>
+        <target> Glisser <x id="INTERPOLATION" equiv-text="sel using keybo"/> of <x id="INTERPOLATION_1" equiv-text="d &apos;arrow left&apos;"/> </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/carousel/carousel.ts</context>
           <context context-type="linenumber">147,157</context>
@@ -151,7 +149,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       </trans-unit>
       <trans-unit id="ngb.progressbar.value" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="ts types based"/></source>
-        <target><x id="INTERPOLATION" equiv-text="ber { return th"/></target>
+        <target><x id="INTERPOLATION" equiv-text="ts types based"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/progressbar/progressbar.ts</context>
           <context context-type="linenumber">60,67</context>
@@ -255,8 +253,7 @@ Glisser <x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/> of <x id="INTERPOLA
       </trans-unit>
       <trans-unit id="ngb.timepicker.PM" datatype="html">
         <source><x id="INTERPOLATION"/></source>
-        <target>&lt;x id="INTERPOLATION" equiv-text=";
-private _mi"/&gt;</target>
+        <target><x id="INTERPOLATION"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">295</context>
@@ -264,9 +261,7 @@ private _mi"/&gt;</target>
       </trans-unit>
       <trans-unit id="ngb.timepicker.AM" datatype="html">
         <source><x id="INTERPOLATION"/></source>
-        <target>&lt;x id="INTERPOLATION" equiv-text="olean;
-
-/**"/&gt;</target>
+        <target><x id="INTERPOLATION"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">295</context>
@@ -805,11 +800,11 @@ private _mi"/&gt;</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">72,78</context>
+          <context context-type="linenumber">51,57</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">87,97</context>
+          <context context-type="linenumber">66,76</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
@@ -1189,7 +1184,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="4a13e38196955f0e75e76eb5a2b64b3cf8dccda5" datatype="html">
         <source>My e-mail</source>
-        <target>Mon e-mail</target>
+        <target>Mon adresse e-mail</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/email/email.component.html</context>
           <context context-type="linenumber">12,17</context>
@@ -1197,7 +1192,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="2befcb3e51c550031d0b428adcf2b6a1ff50e50a" datatype="html">
         <source>Your current e-mail address:</source>
-        <target>Votre adresse e-mail actuelle:</target>
+        <target>Votre adresse e-mail actuelle :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/email/email.component.html</context>
           <context context-type="linenumber">16,19</context>
@@ -1227,9 +1222,21 @@ Bonne chance.</target>
           <context context-type="linenumber">76,77</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="024cdb2814b0cb3f4ced148f1a0b9854447cb214" datatype="html">
+        <source>Change</source>
+        <target>Changer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/email/email.component.html</context>
+          <context context-type="linenumber">19,28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
+          <context context-type="linenumber">17,22</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1458806631225759930" datatype="html">
         <source>My e-mail</source>
-        <target>Mon e-mail</target>
+        <target>Mon adresse e-mail</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/email/email.component.ts</context>
           <context context-type="linenumber">28,33</context>
@@ -1409,7 +1416,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="7659e4c806781986dee1ba181edccc3ef7e260a7" datatype="html">
         <source>You can upload photo or use [Gravatar](http://gravatar.com/)</source>
-        <target>Vous pouvez télécharger votre photo ou utiliser le service [Gravatar](http://gravatar.com/)</target>
+        <target>Vous pouvez ajouter une photo ou utiliser le service [Gravatar](http://gravatar.com/)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
           <context context-type="linenumber">22,25</context>
@@ -1505,7 +1512,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="4889738496065545078" datatype="html">
         <source>Forums subscriptions</source>
-        <target>Abonnement aux forums</target>
+        <target>Forums abonnés</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
           <context context-type="linenumber">110,112</context>
@@ -1692,7 +1699,7 @@ Bonne chance.</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">25,28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
@@ -1797,7 +1804,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="login/sign-in" datatype="html">
         <source>Sign in</source>
-        <target>Entrée</target>
+        <target>Se connecter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">64,68</context>
@@ -1857,7 +1864,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="e9b20820eab2b7caad859fd12f5e211cdb4eae88" datatype="html">
         <source>Feedback</source>
-        <target>Retour d'information</target>
+        <target>Nous contacter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">86,89</context>
@@ -1927,6 +1934,14 @@ Bonne chance.</target>
           <context context-type="linenumber">142,145</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="e1ffd6a509b9104717aed42f5cba383ad539543e" datatype="html">
+        <source>{VAR_PLURAL, plural, one {You have <x id="INTERPOLATION"/> new message} other {You have <x id="INTERPOLATION"/> new messages}}</source>
+        <target>{VAR_PLURAL, plural, one {Vous avez <x id="INTERPOLATION"/> nouveau message} other {Vous avez <x id="INTERPOLATION"/> nouveaux messages}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">146,147</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="layout/personal-messages" datatype="html">
         <source>Personal messages</source>
         <target>Messages personnels</target>
@@ -1953,7 +1968,7 @@ Bonne chance.</target>
       </trans-unit>
       <trans-unit id="7898e09675b07f90ae57701b3bd781556a0d3f22" datatype="html">
         <source>Donate</source>
-        <target>Donation</target>
+        <target>Faire un don</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">199,203</context>
@@ -2293,7 +2308,7 @@ Toutes les images sont postées à des fins éducatives.
       </trans-unit>
       <trans-unit id="a87f84967611f4b77cc18e627d2727549f01b4f0" datatype="html">
         <source>Specs editor of <x id="INTERPOLATION" equiv-text="{{item.name_tex"/></source>
-        <target>Caractéristiques de l'éditeur de <x id="INTERPOLATION" equiv-text="{{item.name_text}}"/></target>
+        <target>Modification des caractéristiques techniques pour <x id="INTERPOLATION" equiv-text="{{item.name_text}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.html</context>
           <context context-type="linenumber">7</context>
@@ -2305,7 +2320,7 @@ Toutes les images sont postées à des fins éducatives.
       </trans-unit>
       <trans-unit id="8787971127662853316" datatype="html">
         <source>Specs editor of <x id="PH" equiv-text=": $localize `Specs editor of ${"/></source>
-        <target>Caractéristiques éditeur de <x id="PH" equiv-text="data.item.name_text"/></target>
+        <target>Caractéristiques éditeur de <x id="PH" equiv-text=": $localize `Specs editor of ${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.ts</context>
           <context context-type="linenumber">99</context>
@@ -2747,15 +2762,23 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="4e28a4c0bb739a19f86c2ad484ed94d952be3420" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="ronological ord"/> in chronological order</source>
-        <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> dans l'ordre chronologique</target>
+        <target><x id="INTERPOLATION" equiv-text="ronological ord"/> dans l'ordre chronologique</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
           <context context-type="linenumber">18,19</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="01d791858b92fb817ab9a29ab275333db582fb8b" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="Types.vehicleTy"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> in chronological order</source>
+        <target><x id="INTERPOLATION" equiv-text="Types.vehicleTy"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> par ordre chronologique</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
+          <context context-type="linenumber">19,23</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5900015257954376283" datatype="html">
         <source><x id="PH" equiv-text=": $localize `${"/> <x id="PH_1" equiv-text=": $localize `${brand.name_text} ${"/> in chronological order</source>
-        <target><x id="PH" equiv-text="brand.name_text"/> <x id="PH_1" equiv-text="this.currentVehicleType.name"/> dans l'ordre chronologique</target>
+        <target><x id="PH" equiv-text=": $localize `${"/> <x id="PH_1" equiv-text=": $localize `${brand.name_text} ${"/> dans l'ordre chronologique</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
           <context context-type="linenumber">65</context>
@@ -2763,7 +2786,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="3968566556790194898" datatype="html">
         <source><x id="PH" equiv-text=": $localize `${"/> in chronological order</source>
-        <target><x id="PH" equiv-text="brand.name_text"/> dans l'ordre chronologique</target>
+        <target><x id="PH" equiv-text=": $localize `${"/> dans l'ordre chronologique</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
           <context context-type="linenumber">73</context>
@@ -2807,7 +2830,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="13d3919b0999f6c651ff434389d4b9f7501243bc" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="ator&quot;&gt;&lt;/app-pag"/> concepts &amp; prototypes</source>
-        <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> concepts &amp; prototypes</target>
+        <target><x id="INTERPOLATION" equiv-text="ator&quot;&gt;&lt;/app-pag"/> concepts &amp; prototypes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.html</context>
           <context context-type="linenumber">13,18</context>
@@ -2815,7 +2838,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="5067286152764154298" datatype="html">
         <source><x id="PH" equiv-text=": $localize `${"/> concepts &amp; prototypes</source>
-        <target><x id="PH" equiv-text="brand.name_text"/> concepts &amp; prototypes</target>
+        <target><x id="PH" equiv-text=": $localize `${"/> concepts &amp; prototypes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.ts</context>
           <context context-type="linenumber">55</context>
@@ -2823,7 +2846,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="fda4b772b566937cc8855751da0dba7633340a79" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="ator&quot;&gt;&lt;/app-pag"/> Engines</source>
-        <target>Moteurs <x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/></target>
+        <target>Moteurs <x id="INTERPOLATION" equiv-text="ator&quot;&gt;&lt;/app-pag"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/engines/engines.component.html</context>
           <context context-type="linenumber">13,18</context>
@@ -2831,7 +2854,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="1739839265970357596" datatype="html">
         <source><x id="PH" equiv-text=": $localize `${"/> Engines</source>
-        <target>Moteurs <x id="PH" equiv-text="brand.name_text"/></target>
+        <target>Moteurs <x id="PH" equiv-text=": $localize `${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/engines/engines.component.ts</context>
           <context context-type="linenumber">39</context>
@@ -2851,7 +2874,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="e7b789a602dd1d936437d6d594c2283114ef7866" datatype="html">
         <source>New pictures</source>
-        <target>Nouvelles photos</target>
+        <target>Nouvelles images</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.html</context>
           <context context-type="linenumber">24,28</context>
@@ -2963,7 +2986,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="90724db11a1a7ff710e73a6083eb398290ef3909" datatype="html">
         <source>Last pictures of <x id="INTERPOLATION" equiv-text="{{brand.name_te"/></source>
-        <target>Les dernières photos de <x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/></target>
+        <target>Dernières images de <x id="INTERPOLATION" equiv-text="{{brand.name_te"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/recent/recent.component.html</context>
           <context context-type="linenumber">13</context>
@@ -2971,7 +2994,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="729499279769796692" datatype="html">
         <source>Last pictures of <x id="PH" equiv-text=": $localize `Last pictures of ${"/></source>
-        <target>Les dernières photos de <x id="PH" equiv-text="brand.name_text"/></target>
+        <target>Dernières images de <x id="PH" equiv-text=": $localize `Last pictures of ${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/recent/recent.component.ts</context>
           <context context-type="linenumber">62</context>
@@ -2987,7 +3010,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="e134d2f0ae25bd9b96e568d997cca5037557c3e2" datatype="html">
         <source>inbox</source>
-        <target>boite de récéption</target>
+        <target>en attente de modération</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.html</context>
           <context context-type="linenumber">40,45</context>
@@ -2999,7 +3022,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="8029570085896501802" datatype="html">
         <source>All pictures of <x id="PH" equiv-text=": $localize `All pictures of ${"/></source>
-        <target>Toutes les images de <x id="PH" equiv-text="this.item.name_text"/></target>
+        <target>Toutes les images de <x id="PH" equiv-text=": $localize `All pictures of ${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
           <context context-type="linenumber">83</context>
@@ -3011,7 +3034,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="fdf27a4043b960ec8f2a2069e1db25a7efc8e7e3" datatype="html">
         <source>Specifications of</source>
-        <target>Caractéristiques de</target>
+        <target>Caractéristiques techniques de</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/specifications/specifications.component.html</context>
           <context context-type="linenumber">18,22</context>
@@ -3023,7 +3046,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="8026363153001555875" datatype="html">
         <source>Specifications of</source>
-        <target>Caractéristiques de</target>
+        <target>Caractéristiques techniques de</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/specifications/specifications.component.ts</context>
           <context context-type="linenumber">50,53</context>
@@ -3363,7 +3386,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="d501047c7933b8dfd7cf2fdb256a996245dfbade" datatype="html">
         <source>edit specs</source>
-        <target>éditer les spécifications</target>
+        <target>modifier les Caractéristiques techniques</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
           <context context-type="linenumber">106,110</context>
@@ -3543,7 +3566,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="628ec23ea91c60f3bc22e508102d290b64be36a1" datatype="html">
         <source>Vehicle type</source>
-        <target>Type de véhicules</target>
+        <target>Type de véhicule</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/vehicle-types-modal/vehicle-types-modal.component.html</context>
           <context context-type="linenumber">3,7</context>
@@ -3606,7 +3629,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="415f73cbdba5d09762df6c89878273c3aa6da51e" datatype="html">
@@ -3630,7 +3653,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,80</context>
+          <context context-type="linenumber">57,59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
@@ -3715,7 +3738,7 @@ Avec votre don, vous aurez en plus la possibilité de [choisir le prochain véhi
       </trans-unit>
       <trans-unit id="89970906091089947" datatype="html">
         <source>Donate</source>
-        <target>Donation</target>
+        <target>Faire un don</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
           <context context-type="linenumber">27,33</context>
@@ -3735,7 +3758,7 @@ Avec votre don, vous aurez en plus la possibilité de [choisir le prochain véhi
       </trans-unit>
       <trans-unit id="3373711458637414496" datatype="html">
         <source>For website work</source>
-        <target>Pour le travaille du site web</target>
+        <target>Pour le travaille fait sur le site</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
           <context context-type="linenumber">51,53</context>
@@ -3763,7 +3786,7 @@ Avec votre don, vous aurez en plus la possibilité de [choisir le prochain véhi
       </trans-unit>
       <trans-unit id="8bdaa5065f56b57878bf81a68ec8d42a577d6a8c" datatype="html">
         <source>Donate success</source>
-        <target>Donation avec succes</target>
+        <target>Don fait avec succès</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/success/success.component.html</context>
           <context context-type="linenumber">13,19</context>
@@ -3779,7 +3802,7 @@ Avec votre don, vous aurez en plus la possibilité de [choisir le prochain véhi
 We will try not to disappoint you.</source>
         <target>Merci pour votre soutien.
 
-Allons essayer de ne pas vous décevoir.</target>
+Nous tacherons de ne pas vous décevoir.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/success/success.component.html</context>
           <context context-type="linenumber">16,19</context>
@@ -3855,11 +3878,11 @@ Nous tacherons de ne pas vous décevoir.</target>
 Follow the instructions below.
 
 We will be happy if you want to [perform selfless donation](/donate) to an arbitrary amount.</source>
-        <target>Le moins que l&#039;on puisse faire en remerciement du soutien financier pour le site est de laisser l&#039;opportunité de choisir le prochain “véhicule du jour”.
+        <target>Le moins que l&#039;on puisse faire, en échange d&#039;un soutien financier pour le site, c&#039;est de laisser l&#039;opportunité de choisir le prochain “véhicule du jour”.
 
 Suivez les instructions ci-dessous.
 
-Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/donate) d&#039;un montant arbitraire.</target>
+Nous serions heureux si vous vouliez [faire un don désintéressé](/donate) d&#039;un montant de votre choix.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">16,26</context>
@@ -3867,7 +3890,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="c5e7fe22ed5ee9727a45f6cd22b12ab60eaae9e2" datatype="html">
         <source>1. Choose a date</source>
-        <target>1. Choisir une date</target>
+        <target>1. Choisissez une date</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">22,27</context>
@@ -3894,9 +3917,9 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
 
 - the vehicle must be selected for the first time
 - the vehicle must have at least 3 photos</source>
-        <target>Virtuellement tous les véhicules peuvent être “Véhicule du jour”, tant qu&#039;ils respectent les conditions suivantes:
+        <target>Presque tous les véhicules peuvent être &quot;Le véhicule du jour&quot; mais il y a quelques limitations :
 
-- le véhicule ne doit pas avoir déjà été sélectionné
+- le véhicule doit être sélectionné pour la première fois
 - le véhicule doit avoir au moins 3 photos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
@@ -3913,7 +3936,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
         <source>Choose ...</source>
-        <target>Choisir ...</target>
+        <target>Sélectionner un véhicule</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">58,65</context>
@@ -3937,7 +3960,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="a7de1ff48f4271fb987f6acd9fb322b2899062bf" datatype="html">
         <source>With the name (registration required)</source>
-        <target>Avec le nom (inscription requise)</target>
+        <target>Avec votre nom (inscription au site requise)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">66,72</context>
@@ -3977,7 +4000,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="eca9562ec3177808301c691b830155b8c7974bc8" datatype="html">
         <source>about <x id="INTERPOLATION" equiv-text="{{&apos;$&apos;+(sum / 59"/></source>
-        <target>A propos <x id="INTERPOLATION" equiv-text="{{&apos;$&apos;+(sum / 59.70).toFixed(2)}}"/></target>
+        <target>A propos <x id="INTERPOLATION" equiv-text="{{&apos;$&apos;+(sum / 59"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">84</context>
@@ -4007,6 +4030,18 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
           <context context-type="linenumber">114,119</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="31b71b101e358ade17cd844b3bf6daeb29f0e477" datatype="html">
+        <source>YooMoney</source>
+        <target>YooMoney</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
+          <context context-type="linenumber">101,107</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
+          <context context-type="linenumber">116,119</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="506a8569098f2412ee410abf96f805a1eb097987" datatype="html">
         <source>Pay</source>
         <target>Payer</target>
@@ -4029,7 +4064,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="5663726564538439975" datatype="html">
         <source>Order <x id="PH" equiv-text=": $localize `Order ${"/></source>
-        <target>Commande <x id="PH" equiv-text="label"/></target>
+        <target>Commande <x id="PH" equiv-text=": $localize `Order ${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
           <context context-type="linenumber">111</context>
@@ -4061,7 +4096,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="ae51d565bb8279d1b9f6f74d534b076d267009e5" datatype="html">
         <source>Page not found</source>
-        <target>Page non trouvé</target>
+        <target>Page non trouvée</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/error/404/404.component.html</context>
           <context context-type="linenumber">13,14</context>
@@ -4121,7 +4156,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="71c77bb8cecdf11ec3eead24dd1ba506573fa9cd" datatype="html">
         <source>Submit</source>
-        <target>Soumetre</target>
+        <target>Envoyer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/feedback/feedback.component.html</context>
           <context context-type="linenumber">53,59</context>
@@ -4165,7 +4200,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="9068595c80977e09052fc9c59473acc4eea58254" datatype="html">
         <source>If you have come here to express words of support, it is possible to [express it in hard currency](/donate)</source>
-        <target>Si vous êtes venu ici pour exprimer des mots de soutien, il est possible [de l'exprimer en devises](/donate)</target>
+        <target>Si vous êtes ici pour exprimer votre soutien, il est possible [de l'exprimer en faisant un don](/donate)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/feedback/feedback.component.html</context>
           <context context-type="linenumber">59,62</context>
@@ -4173,7 +4208,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="8429316238784832901" datatype="html">
         <source>Feedback</source>
-        <target>Retour d'information</target>
+        <target>Nous contacter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/feedback/feedback.component.ts</context>
           <context context-type="linenumber">46,52</context>
@@ -4229,7 +4264,7 @@ Nous serions heureux si vous souhaitiez [faire une donation désintéressée](/d
       </trans-unit>
       <trans-unit id="c63c90a247bcaf4fdf9de22fd5b5dcd1f52721da" datatype="html">
         <source>Last message in topic «<x id="INTERPOLATION" equiv-text="{{theme.last_to"/>»</source>
-        <target>Dernier message dans le sujet «<x id="INTERPOLATION" equiv-text="{{theme.last_topic.name}}"/>»</target>
+        <target>Dernier message dans le sujet «<x id="INTERPOLATION" equiv-text="{{theme.last_to"/>»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">47</context>
@@ -4504,15 +4539,15 @@ Si vous n'êtes pas encore inscrit sur le site, vous [pouvez le faire](/signup) 
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,51</context>
+          <context context-type="linenumber">25,30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,66</context>
+          <context context-type="linenumber">42,45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,81</context>
+          <context context-type="linenumber">57,60</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
@@ -4562,12 +4597,36 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">11,14</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3425f5b3497cd225710125f73fe94ae5d791da3b" datatype="html">
+        <source>Help the project</source>
+        <target>Aider le projet</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">1,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="166a6f50558f556fb83ed7700380c73625df0a7d" datatype="html">
+        <source>
+Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.
+
+This project is aimed to remain free to use and fully advertising free in the future.
+    </source>
+        <target>
+En raison des restrictions financières et de la situation économique difficile, dans les régions où vivent la plupart de nos contributeurs, nous sommes contraints d'ouvrir une collecte de fonds pour payer l'hébergement du site web.
+
+Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
+</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">5,11</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
         <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
         <target>Vous voulez savoir quelle voiture est la plus rapide? Ou combien pèse le plus puissant camion d'exploitation minière? C'est ici que vous trouverez les réponses!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">53,62</context>
+          <context context-type="linenumber">32,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cbc05a3823d4b0070e9a8bcc68c19ed0e2f81452" datatype="html">
@@ -4575,7 +4634,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>Personnes sur la photo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,65</context>
+          <context context-type="linenumber">42,44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
@@ -4587,7 +4646,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>Aussi</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c4f29228dfeec6faff18dfa053e0b59b0c8da5fc" datatype="html">
@@ -4595,7 +4654,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>Mascottes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mascots/mascots.component.html</context>
@@ -4772,7 +4831,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="19266554517cbf82a6cd4725910cb285e769e483" datatype="html">
         <source>Want to choose next?</source>
-        <target>Vous voulez choisir la prochaine?</target>
+        <target>Vous voulez choisir la prochaine ?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.html</context>
           <context context-type="linenumber">72,76</context>
@@ -4780,7 +4839,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="4ee2cd1ae844f3fd7a0b1b8cb62695e7e09ef9a1" datatype="html">
         <source>specifications</source>
-        <target>caractéristiques</target>
+        <target>caractéristiques techniques</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
           <context context-type="linenumber">93,98</context>
@@ -5268,7 +5327,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="257753c3fbbb2d31946d88d0629eb4e4398e6ce1" datatype="html">
         <source>Not matters</source>
-        <target>N'importe pas</target>
+        <target>sans importance</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
           <context context-type="linenumber">38,41</context>
@@ -5336,7 +5395,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="7823909fb1d8d313382f6f4bd842f1a7ef6f08d1" datatype="html">
         <source>Accepted</source>
-        <target>Accepté</target>
+        <target>Acceptée</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
           <context context-type="linenumber">74,76</context>
@@ -5508,7 +5567,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="cd288fa98cf6c33de60ccad97394870fc19c20f0" datatype="html">
         <source>New copyright block</source>
-        <target>Nouveau bloquage par copyright</target>
+        <target>Nouveau bloc de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/index/index.component.html</context>
           <context context-type="linenumber">56,65</context>
@@ -5928,7 +5987,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="d1de9a561f71369731a4fbab4653f446b0e18d24" datatype="html">
         <source>Brand <x id="INTERPOLATION" equiv-text="{{brand.name_te"/></source>
-        <target>Marque <x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/></target>
+        <target>Marque <x id="INTERPOLATION" equiv-text="{{brand.name_te"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
           <context context-type="linenumber">43</context>
@@ -6044,7 +6103,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="58f40388c247d35eb329dce81583251d8f4fcfac" datatype="html">
         <source>Database id: <x id="INTERPOLATION" equiv-text="{{item.id}}&lt;/p&gt;"/></source>
-        <target>Base de donnée id: <x id="INTERPOLATION" equiv-text="{{item.id}}"/></target>
+        <target>Numéro d'identification de la base de données : <x id="INTERPOLATION" equiv-text="{{item.id}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/item.component.html</context>
           <context context-type="linenumber">26</context>
@@ -6183,10 +6242,10 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
 * All transparent regions must be transparent but not white!
 * Logotype must be close to edges. Margin not required
 * Upload images in maximum resolution - thats give quality and ability to use it in future. On website logo scaled automatically</source>
-        <target>* Les logos doivent être au format d'image PNG ;
-* Les zones transparentes doivent bien être transparentes et non pas blanches!
-* L'image doit être recadrée aux bords du logo. Les marges ne sont pas nécessaires ;
-* Les images doivent avoir la plus grande définition possible - pour garantir la qualité ainsi qu'une réutilisation future. Le site se charge automatiquement de la mise à l'échelle.</target>
+        <target>* Les logos doivent être au format PNG.
+* Les zones transparentes doivent être transparentes et non pas blanches !
+* Le logo doit toucher les bords de l'image, les marges ne sont pas nécessaires. 
+* Publier les images avec la meilleure définition possible. Pour garantir la qualité ainsi qu'une utilisation future. Le site redimensionne le logo automatiquement.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/logo/logo.component.html</context>
           <context context-type="linenumber">3,9</context>
@@ -6294,7 +6353,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="da4d26b88e0ab0a700411720af357954c19f029c" datatype="html">
         <source>Item type</source>
-        <target>Type d'item</target>
+        <target>Type d'élément</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
           <context context-type="linenumber">35,37</context>
@@ -6354,7 +6413,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="9795901b6a82548726311f9cd6958d820785a414" datatype="html">
         <source>Copyright block</source>
-        <target>Bloquage par Copyright</target>
+        <target>Bloc de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
           <context context-type="linenumber">46,51</context>
@@ -6594,7 +6653,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="c81975bebd77622cd01e052ad33bd82cf0968111" datatype="html">
         <source>Picture №<x id="INTERPOLATION" equiv-text="{{picture.id}}&lt;"/></source>
-        <target>Image №<x id="INTERPOLATION" equiv-text="{{picture.id}}"/></target>
+        <target>Image №<x id="INTERPOLATION" equiv-text="&lt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/area/area.component.html</context>
           <context context-type="linenumber">13</context>
@@ -6634,7 +6693,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="149171064e1055bf6146ce500d397b996fd92d63" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="d]&quot; class=&quot;btn"/> (aspect is about <x id="INTERPOLATION_1" equiv-text="{{aspect}})&lt;/sp"/>)</source>
-        <target><x id="INTERPOLATION" equiv-text="{{resolution}}"/> (l'aspect est a propos de <x id="INTERPOLATION_1" equiv-text="{{aspect}}"/>)</target>
+        <target><x id="INTERPOLATION" equiv-text="d]&quot; class=&quot;btn"/> (l'aspect est a propos de <x id="INTERPOLATION_1" equiv-text=")&lt;/sp"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/area/area.component.html</context>
           <context context-type="linenumber">27,30</context>
@@ -6726,7 +6785,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="1f2ee97edc7e8c2c898f2ff1089cf99f64a761c0" datatype="html">
         <source>Public URL:</source>
-        <target>Lien public:</target>
+        <target>Lien public :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">41,44</context>
@@ -6734,7 +6793,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="b73b07702cb04459adc172bdeb8ff76f2cfd1736" datatype="html">
         <source>Image:</source>
-        <target>Image:</target>
+        <target>Image :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">45,49</context>
@@ -6742,7 +6801,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="6f04347e8f2ae4bb8d71031dc9a3eb9a39f22404" datatype="html">
         <source>Database id: <x id="INTERPOLATION" equiv-text="{{picture.id}}&lt;"/></source>
-        <target>Base de donnée id: <x id="INTERPOLATION" equiv-text="{{picture.id}}"/></target>
+        <target>Numéro d'identification de la base de données : <x id="INTERPOLATION" equiv-text="{{picture.id}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">61</context>
@@ -6750,7 +6809,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="9fa37704969eeebd496a172c5077370f569df3ae" datatype="html">
         <source>Resolution:</source>
-        <target>Résolution:</target>
+        <target>Définition :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">63,67</context>
@@ -6758,7 +6817,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="109c6f4a5e46efb933612ededfaf52a13178b7e0" datatype="html">
         <source>File size:</source>
-        <target>Taille du fichier:</target>
+        <target>Taille du fichier :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">71,75</context>
@@ -6766,7 +6825,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="5f6a22934db952959fbb24afcb06aa96769b7824" datatype="html">
         <source>Upload date:</source>
-        <target>Date de mise en ligne:</target>
+        <target>Date de mise en ligne :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">75,78</context>
@@ -6798,7 +6857,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="b5dc802abeaf915308d0dcae10e84136548bbf7e" datatype="html">
         <source>Pick item area</source>
-        <target>Choisir la zone de l'item</target>
+        <target>Sélectionner une zone de l'image</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">105,110</context>
@@ -6806,7 +6865,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
       </trans-unit>
       <trans-unit id="8491d277365a71a0864d86dc87d6e48d6c933fc1" datatype="html">
         <source>move to</source>
-        <target>déplacer à</target>
+        <target>déplacer vers</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">113,116</context>
@@ -6976,7 +7035,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="45745fdb08e3a9de6f14bb6aab43aeb0eab89a70" datatype="html">
         <source>In delete queue</source>
-        <target>En attente de suppression</target>
+        <target>en cours de suppression</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">292,296</context>
@@ -6992,7 +7051,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="0fa81c6bd3ae6611602550d95509e170bea1c795" datatype="html">
         <source>Accepted pictures count still <x id="INTERPOLATION" equiv-text="{{picture.accep"/></source>
-        <target>Nombre d'images accepté immobile <x id="INTERPOLATION" equiv-text="{{picture.accepted_count}}"/></target>
+        <target>Nombre d'images accepté immobile <x id="INTERPOLATION" equiv-text="{{picture.accep"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">310</context>
@@ -7048,7 +7107,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="f8c7be184fefd6750e4e5d0c7a90e74721c58f8a" datatype="html">
         <source>Uploader</source>
-        <target>Mettre en ligne</target>
+        <target>Expéditeur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">365,368</context>
@@ -7064,7 +7123,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="0fe4de4a62d62e75719f3b6417916c68a0da3a0d" datatype="html">
         <source>IP-address of uploader:</source>
-        <target>Adresse IP du metteur en ligne:</target>
+        <target>Adresse IP de l'expéditeur :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">370,374</context>
@@ -7228,7 +7287,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="4321866948825971677" datatype="html">
         <source>Picture №<x id="PH" equiv-text=": $localize `Picture №${"/></source>
-        <target>Image №<x id="PH" equiv-text="id"/></target>
+        <target>Image №<x id="PH" equiv-text=": $localize `Picture №${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
           <context context-type="linenumber">126</context>
@@ -7236,7 +7295,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="8b2492390e53ab9063ba2a6d35280cf517504370" datatype="html">
         <source>Move picture</source>
-        <target>Image déplacer</target>
+        <target>Déplacer l'image</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/move/move.component.html</context>
           <context context-type="linenumber">19,23</context>
@@ -7280,7 +7339,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="d784865c6707e344054891c58cdd24fe9e938ad6" datatype="html">
         <source>Copyright blocks</source>
-        <target>Bloquage par Copyright</target>
+        <target>Blocs de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/move/move.component.html</context>
           <context context-type="linenumber">35,40</context>
@@ -7336,7 +7395,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="5785589475073855681" datatype="html">
         <source>Move picture</source>
-        <target>Image déplacer</target>
+        <target>Déplacer l'image</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/move/move.component.ts</context>
           <context context-type="linenumber">95,99</context>
@@ -7436,7 +7495,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="5df02f9b28cf05e370dff8752b4842355db35aaf" datatype="html">
         <source>Not linked</source>
-        <target>Non lié</target>
+        <target>Non relié</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
           <context context-type="linenumber">162,165</context>
@@ -7524,7 +7583,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="2881579763422103751" datatype="html">
         <source>in delete queue</source>
-        <target>dans la file d'attente de suppression</target>
+        <target>en cours de suppression</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">87,91</context>
@@ -7548,7 +7607,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="945022801908605918" datatype="html">
         <source>not matters</source>
-        <target>pas les questions</target>
+        <target>sans importance</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">121,125</context>
@@ -7740,7 +7799,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="3af23bddf814c38be930b7dfa33f09e8d8f71573" datatype="html">
         <source>Photos with copyrights</source>
-        <target>Photos avec droits d'auteur</target>
+        <target>Images créditées</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/stat/stat.component.html</context>
           <context context-type="linenumber">19,20</context>
@@ -7756,7 +7815,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="425a33d3b791a818bfd86e294cd10c751108a9f8" datatype="html">
         <source>Specifications values</source>
-        <target>Valeurs caractéristiques</target>
+        <target>Nombre de caractéristiques techniques</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/stat/stat.component.html</context>
           <context context-type="linenumber">21,23</context>
@@ -7764,7 +7823,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="3cb09fca611e7987c9332c18b037a061c3771d11" datatype="html">
         <source>Brand logotypes</source>
-        <target>Logos de la marque</target>
+        <target>Logos de marques</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/stat/stat.component.html</context>
           <context context-type="linenumber">22,24</context>
@@ -7920,7 +7979,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="4832648236620985717" datatype="html">
         <source>New pictures</source>
-        <target>Nouvelles photos</target>
+        <target>Nouvelles images</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/new.component.ts</context>
           <context context-type="linenumber">70,76</context>
@@ -8048,7 +8107,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="553791b26c74d11b72267a2e92bfd181de918e8e" datatype="html">
         <source>Image specifications:</source>
-        <target>Caractéristiques de l'image:</target>
+        <target>Détails de l'image :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
           <context context-type="linenumber">83,87</context>
@@ -8076,7 +8135,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="614572b1ab760b97aef5491e3ed62b993865b7c8" datatype="html">
         <source>Added by:</source>
-        <target>Ajouter par:</target>
+        <target>Mise en ligne par :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
           <context context-type="linenumber">97,99</context>
@@ -8100,7 +8159,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="845e2a1e3d87da8f4be76eef1a16c2c6a016b818" datatype="html">
         <source>Picture status:</source>
-        <target>Statut de l'image:</target>
+        <target>Statut de l'image :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
           <context context-type="linenumber">109,111</context>
@@ -8140,7 +8199,7 @@ Que vous vouliez bavarder d'automobiles ou tout autre chose, vous pouvez le fair
       </trans-unit>
       <trans-unit id="picture/propose-image-replacement" datatype="html">
         <source>Propose image replacement</source>
-        <target>Propose de remplacer l'image</target>
+        <target>Proposer une image en remplacement</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
           <context context-type="linenumber">256,266</context>
@@ -8156,7 +8215,7 @@ Que vous vouliez bavarder d'automobiles ou tout autre chose, vous pouvez le fair
       </trans-unit>
       <trans-unit id="8320be17dc027dace01289257fae775820599e34" datatype="html">
         <source>Edit picture №<x id="INTERPOLATION" equiv-text="{{picture.id}}&lt;"/></source>
-        <target>Editer l'image №<x id="INTERPOLATION" equiv-text="{{picture.id}}"/></target>
+        <target>Editer l'image №<x id="INTERPOLATION" equiv-text="&lt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
           <context context-type="linenumber">318</context>
@@ -8441,9 +8500,9 @@ Ou `ХХХХХХХХХХХХХХХХ` - le code qui vous sera envoyer par [le sy
           <context context-type="linenumber">16,21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b" datatype="html">
-        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
-        <target>L'image a été élaguée (<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
+      <trans-unit id="7d207c24cc0314422e2b59db8228436c110d6635" datatype="html">
+        <source>Thumbnail is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
+        <target>La miniature est recadrée (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
           <context context-type="linenumber">21</context>
@@ -8467,7 +8526,7 @@ Ou `ХХХХХХХХХХХХХХХХ` - le code qui vous sera envoyer par [le sy
       </trans-unit>
       <trans-unit id="b6357073e5268b6b7434cdb196ae2b0ed8c47e49" datatype="html">
         <source>All pictures of <x id="INTERPOLATION" equiv-text="{{group.name_te"/></source>
-        <target>Toutes les images de <x id="INTERPOLATION" equiv-text="{{group.name_text}}"/></target>
+        <target>Toutes les images de <x id="INTERPOLATION" equiv-text="{{group.name_te"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-picture/twins-group-picture.component.html</context>
           <context context-type="linenumber">13</context>
@@ -8477,9 +8536,17 @@ Ou `ХХХХХХХХХХХХХХХХ` - le code qui vous sera envoyer par [le sy
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7037c5e4d9d17cfa549a0075d81b3fc9f0c2c26c" datatype="html">
+        <source>Specifications of <x id="INTERPOLATION" equiv-text="{{result.group."/></source>
+        <target>Caractéristiques techniques de <x id="INTERPOLATION" equiv-text="{{result.group."/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5525884622010514657" datatype="html">
         <source>Specifications of <x id="PH" equiv-text=": $localize `Specifications of ${"/></source>
-        <target>Caractéristiques de <x id="PH" equiv-text="data.group.name_text"/></target>
+        <target>Caractéristiques techniques de <x id="PH" equiv-text="data.group.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.ts</context>
           <context context-type="linenumber">46</context>
@@ -8519,6 +8586,14 @@ Ou `ХХХХХХХХХХХХХХХХ` - le code qui vous sera envoyer par [le sy
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/select/select.component.ts</context>
           <context context-type="linenumber">63,69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="32ea16269840d89e5b8787b37c0e709a10c6b2af" datatype="html">
+        <source>Only registered users can upload pictures</source>
+        <target>Seuls les utilisateurs enregistrés peuvent ajouter des photos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/upload/upload.component.html</context>
+          <context context-type="linenumber">14,19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bc23857484d32bf837d29fff71651b6254cf94a5" datatype="html">
@@ -8608,7 +8683,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="f7798e9a8edd64fb9c53f4a187558b88a7aed9d5" datatype="html">
         <source>cropped to <x id="INTERPOLATION" equiv-text="{{picture.crop."/></source>
-        <target>rogner pour <x id="INTERPOLATION" equiv-text="{{picture.crop.width + &apos;×&apos; + picture.crop.height + &apos;+&apos; + picture.crop.left + &apos;+&apos; +picture.crop.top}}"/></target>
+        <target>rogner pour <x id="INTERPOLATION" equiv-text="{{picture.crop."/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.html</context>
           <context context-type="linenumber">95</context>
@@ -8733,10 +8808,14 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
           <context context-type="sourcefile">src/app/users/user/pictures/pictures.component.html</context>
           <context context-type="linenumber">13,18</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">75,81</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="6ff30100294588c4e3ac15ffee27890bd55d86f8" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="route]=&quot;[&apos;/pict"/> pictures</source>
-        <target>Images de <x id="INTERPOLATION" equiv-text="{{brand.name_only}}"/></target>
+        <target>Images de <x id="INTERPOLATION" equiv-text="route]=&quot;[&apos;/pict"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/pictures/brand/brand.component.html</context>
           <context context-type="linenumber">16,21</context>
@@ -8744,7 +8823,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="5931963497694018396" datatype="html">
         <source><x id="PH" equiv-text=": $localize `${"/> pictures</source>
-        <target>Images de <x id="PH" equiv-text="data.brand.name_only"/></target>
+        <target>Images de <x id="PH" equiv-text=": $localize `${"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/pictures/brand/brand.component.ts</context>
           <context context-type="linenumber">83</context>
@@ -8760,7 +8839,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="ad718f329f743525a1963b1cb9f79d4d5c770412" datatype="html">
         <source>Known as:</source>
-        <target>Connu comme: </target>
+        <target>Connu en tant que :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">30,36</context>
@@ -8792,7 +8871,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="9f73a9bcbb4a132a4adc5497ebf3da8570b3a27c" datatype="html">
         <source>Registration date</source>
-        <target>Date d'enregistremen</target>
+        <target>Date d'inscription :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">41,45</context>
@@ -8800,7 +8879,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="787d09d5651fddce3fbffe3438d761c4495d81a1" datatype="html">
         <source>Last visited</source>
-        <target>Dernière visite</target>
+        <target>Dernière visite :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">45,49</context>
@@ -8808,7 +8887,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="ae990daed6c75eb536a955dd9ea3f6ccde2b4ff2" datatype="html">
         <source>Database id: <x id="INTERPOLATION" equiv-text="{{user.id}}&lt;/p&gt;"/></source>
-        <target>Base de données id: <x id="INTERPOLATION" equiv-text="{{user.id}}"/></target>
+        <target>Numéro d'identification de la base de données : <x id="INTERPOLATION" equiv-text="{{user.id}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">49</context>
@@ -8816,7 +8895,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="6da8476de99e85ceeccba0f54eb9f195a1ff41b9" datatype="html">
         <source>Recent activity</source>
-        <target>Activité récente</target>
+        <target>Activités sur le site</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">62,66</context>
@@ -8824,7 +8903,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="85256f7837eac982f5b6da68762fa9c580ce6b9e" datatype="html">
         <source>Images uploaded:</source>
-        <target>Images mise en ligne:</target>
+        <target>Images mises en ligne :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">66,69</context>
@@ -8832,18 +8911,10 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="0c56f6fa245393650f570610eb6b5a8f47d0eb73" datatype="html">
         <source>left on site:</source>
-        <target>Encore sur le site:</target>
+        <target>Restées sur le site :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">70,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8" datatype="html">
-        <source>Uploaded pictures</source>
-        <target>Images mise en ligne:</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">75,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="31e56cd3191db509b1925c1bf78a68fbe0e05b28" datatype="html">
@@ -8864,7 +8935,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="bed514562f78d6a07ddae301933cbb44f5bcfd50" datatype="html">
         <source>Recent uploads</source>
-        <target>Mise en ligne récente</target>
+        <target>Mises en ligne récemment</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">87,91</context>
@@ -8872,7 +8943,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="6f74acc02cb624b1abab465ff2408c56d46632ab" datatype="html">
         <source>Recent comments</source>
-        <target>Commentaire récent</target>
+        <target>Commentaires récents</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">101,104</context>
@@ -9172,7 +9243,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="5860972437008129823" datatype="html">
         <source>Copyright block</source>
-        <target>Bloquage par copyright</target>
+        <target>Bloc de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">52,54</context>
@@ -9180,7 +9251,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="746277056637502716" datatype="html">
         <source>New copyright block</source>
-        <target>Nouveau bloquage par copyright</target>
+        <target>Nouveau bloc de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">53,54</context>
@@ -9188,7 +9259,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="6330390902440534404" datatype="html">
         <source>Copyright blocks</source>
-        <target>Bloquages par copyright</target>
+        <target>Blocs de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">54,55</context>
@@ -9196,7 +9267,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="5645726980768164553" datatype="html">
         <source>Add sub copyright block</source>
-        <target>Ajouter une sous bloquage par copyright</target>
+        <target>Ajouter un sous bloc de droits d'auteur</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">55,61</context>
@@ -14164,7 +14235,7 @@ La transmission n'est pas pris en compte.</target>
       </trans-unit>
       <trans-unit id="40bb11f45343d78d048668318237434ab9fc0534" datatype="html">
         <source>Voting during <x id="INTERPOLATION" equiv-text="{{voting.begin_"/> to <x id="INTERPOLATION_1" equiv-text="{{voting.end_da"/></source>
-        <target>Vote au cours de <x id="INTERPOLATION" equiv-text="{{voting.begin_date | amDateFormat : &apos;LL&apos;}}"/> à <x id="INTERPOLATION_1" equiv-text="{{voting.end_date | amDateFormat : &apos;LL&apos;}}"/></target>
+        <target>Vote au cours de <x id="INTERPOLATION" equiv-text="{{voting.begin_"/> to <x id="INTERPOLATION_1" equiv-text="{{voting.end_da"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/voting/voting.component.html</context>
           <context context-type="linenumber">49</context>
@@ -14173,6 +14244,10 @@ La transmission n'est pas pris en compte.</target>
       <trans-unit id="7735231791018201329">
         <source>Password succesful changed</source>
         <target>Mot de passe changé avec succes</target>
+      </trans-unit>
+      <trans-unit id="3353074209762858468">
+        <source>Password successfully changed</source>
+        <target>Le mot de passe a été changé avec succès</target>
       </trans-unit>
       <trans-unit id="bd5a3b1c5a3c185c7bbb0e09a061d4cdc88ce5ad">
         <source>Current</source>
@@ -14188,7 +14263,7 @@ La transmission n'est pas pris en compte.</target>
       </trans-unit>
       <trans-unit id="287d3301a32a65a1b31116bda5d3a6463158c42a">
         <source>Sign in</source>
-        <target>Entrée</target>
+        <target>Se connecter</target>
       </trans-unit>
       <trans-unit id="login/sign-in-using-account">
         <source>Sign in using existing account</source>
@@ -14260,7 +14335,7 @@ Un email de vérification vous sera envoyé afin de confirmer votre nouvelle adr
       </trans-unit>
       <trans-unit id="04a1e9ed5e17ecb1e51bb5572bf4273a744b07f5">
         <source><x id="INTERPOLATION" equiv-text="k]=&quot;[&apos;/&apos;, brand"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> in chronological order</source>
-        <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTypeTranslation(currentVehicleType.name)}}"/> dans l'ordre chronologique</target>
+        <target><x id="INTERPOLATION" equiv-text="k]=&quot;[&apos;/&apos;, brand"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> dans l'ordre chronologique</target>
       </trans-unit>
       <trans-unit id="1f1f0b1fa7e0f3406f4c128c6f0cea5144e8bce0">
         <source>Yandex.Money</source>
@@ -14269,6 +14344,10 @@ Un email de vérification vous sera envoyé afin de confirmer votre nouvelle adr
       <trans-unit id="4eb2164d8ef5d328ef6bc1e66da011218bac968f">
         <source>Add account</source>
         <target>Ajouter un compte</target>
+      </trans-unit>
+      <trans-unit id="0a5726af2f12d384a8f4399519246f7f0682f55a">
+        <source>Our goal is to cover 2500€ that is the cost of 1 year of website existence.</source>
+        <target>Notre objectif est de couvrir 2500€, soit le coût d'un an d'existence du site.</target>
       </trans-unit>
       <trans-unit id="86ead51aaacaca48bc1e3c8f98b8ec52ad2ce2d5">
         <source>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</source>
@@ -14352,7 +14431,7 @@ Ne l'oubliez pas.</target>
       </trans-unit>
       <trans-unit id="5207635742003539443">
         <source>Sign in</source>
-        <target>Entrée</target>
+        <target>Se connecter</target>
       </trans-unit>
       <trans-unit id="353e37a92a18f1759b21cbd61aa48276deb8c89a">
         <source>Successful registration</source>
@@ -14378,9 +14457,13 @@ Ne l'oubliez pas.</target>
         <source>Registration</source>
         <target>Inscription</target>
       </trans-unit>
+      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b">
+        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
+        <target>La miniature est recadrée (<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
+      </trans-unit>
       <trans-unit id="fdfef85751dc1d9f3a0cca5d18613de0df9a5a9d">
         <source>Specifications of <x id="INTERPOLATION" equiv-text="{{group.name_te"/></source>
-        <target>Caractéristiques de <x id="INTERPOLATION" equiv-text="{{group.name_text}}"/></target>
+        <target>Caractéristiques techniques de <x id="INTERPOLATION" equiv-text="{{group.name_text}}"/></target>
       </trans-unit>
       <trans-unit id="156cbb37f7b1d88813f4ad8bf363f8be78a6e700">
         <source>Only registered users can upload pictures
@@ -14392,7 +14475,11 @@ Ne l'oubliez pas.</target>
       </trans-unit>
       <trans-unit id="43801dbd94349580021609c70a30d8b4457802be">
         <source>before known as:</source>
-        <target>avant connu comme:</target>
+        <target>Anciennement connu en tant que :</target>
+      </trans-unit>
+      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8">
+        <source>Uploaded pictures</source>
+        <target>Images de l'utilisateur</target>
       </trans-unit>
     </body>
   </file>

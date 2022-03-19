@@ -18,7 +18,7 @@
 
       <span i18n-title title="Resolution" ngPreserveWhitespaces>
         {{picture.resolution}}
-        <i *ngIf="(isModer$|async) && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" i18n-title title="Image is cropped ({{picture.crop_resolution}})"></i>
+        <i *ngIf="(isModer$|async) && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" i18n-title title="Thumbnail is cropped ({{picture.crop_resolution}})"></i>
       </span>
 
       <br />
@@ -65,7 +65,7 @@
     </select>
     <p class="alert alert-warning" role="alert" *ngIf="picture.similar">
       <span class="fa fa-file-image-o mr-1" aria-hidden="true"></span>
-      <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces>Similar picture: {{picture.similar.distance}}</a>
+      <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces i18n>Similar picture: {{picture.similar.distance}}</a>
     </p>
   </div>
 </div>

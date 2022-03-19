@@ -72,7 +72,7 @@
           </p>
 
           <p>
-            <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n>Uploaded pictures</a>
+            <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n>User's pictures</a>
           </p>
         </div>
         <p i18n *ngIf="user.pictures_added <= 0">Not upload pictures</p>

@@ -1595,7 +1595,7 @@ Este processo é irreversível, então pense cautelosamente para não tomar deci
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">25,28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
@@ -3477,7 +3477,7 @@ Todos os valores inseridos aqui aparecem nas páginas de especificações de cad
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="415f73cbdba5d09762df6c89878273c3aa6da51e" datatype="html">
@@ -3501,7 +3501,7 @@ Todos os valores inseridos aqui aparecem nas páginas de especificações de cad
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,80</context>
+          <context context-type="linenumber">57,59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
@@ -4335,15 +4335,15 @@ Se você ainda não possui conta no site, você pode [criar sua conta agora](/si
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,51</context>
+          <context context-type="linenumber">25,30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,66</context>
+          <context context-type="linenumber">42,45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,81</context>
+          <context context-type="linenumber">57,60</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
@@ -4398,7 +4398,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>Qual o carro mais veloz? Quanto pesa um caminhão de mineração? Venha descobrir!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">53,62</context>
+          <context context-type="linenumber">32,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cbc05a3823d4b0070e9a8bcc68c19ed0e2f81452" datatype="html">
@@ -4406,7 +4406,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>Pessoas nas fotos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,65</context>
+          <context context-type="linenumber">42,44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
@@ -4418,7 +4418,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>Mascotes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mascots/mascots.component.html</context>
@@ -8083,14 +8083,6 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
           <context context-type="linenumber">16,21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b" datatype="html">
-        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
-        <target>Imagem cortada (<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
-          <context context-type="linenumber">21</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="b7641aed03492978b4ec6843b1e53f30464294d9" datatype="html">
         <source>Views</source>
         <target>Visualizações</target>
@@ -8322,6 +8314,10 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
           <context context-type="sourcefile">src/app/users/user/pictures/pictures.component.html</context>
           <context context-type="linenumber">13,18</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">75,81</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="6ff30100294588c4e3ac15ffee27890bd55d86f8" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="route]=&quot;[&apos;/pict"/> pictures</source>
@@ -8425,14 +8421,6 @@ Onde `ХХХХХХХХХХХХХХХХ`é o código que será enviado a você vi
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">70,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8" datatype="html">
-        <source>Uploaded pictures</source>
-        <target>Imagens adicionadas</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">75,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="31e56cd3191db509b1925c1bf78a68fbe0e05b28" datatype="html">
@@ -13247,6 +13235,10 @@ Não a esqueça.</target>
         <source>Registration</source>
         <target>Registro</target>
       </trans-unit>
+      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b">
+        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
+        <target>Imagem cortada (<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
+      </trans-unit>
       <trans-unit id="fdfef85751dc1d9f3a0cca5d18613de0df9a5a9d">
         <source>Specifications of <x id="INTERPOLATION" equiv-text="{{group.name_te"/></source>
         <target>Caractéristiques de <x id="INTERPOLATION" equiv-text="{{group.name_text}}"/></target>
@@ -13262,6 +13254,10 @@ Não a esqueça.</target>
       <trans-unit id="43801dbd94349580021609c70a30d8b4457802be">
         <source>before known as:</source>
         <target>Anteriormente conhecido como: </target>
+      </trans-unit>
+      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8">
+        <source>Uploaded pictures</source>
+        <target>Imagens adicionadas</target>
       </trans-unit>
     </body>
   </file>

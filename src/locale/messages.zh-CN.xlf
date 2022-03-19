@@ -1605,7 +1605,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">25,28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
@@ -3475,7 +3475,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5ec194d40909d4ba0a93ad1e374cf53aeb70830b" datatype="html">
@@ -4265,15 +4265,15 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">46,51</context>
+          <context context-type="linenumber">25,30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">63,66</context>
+          <context context-type="linenumber">42,45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">78,81</context>
+          <context context-type="linenumber">57,60</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
@@ -4328,7 +4328,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>想知道哪款车是最快的？想知道最强大的矿用卡车有多重？快来了解一下。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">53,62</context>
+          <context context-type="linenumber">32,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c4f29228dfeec6faff18dfa053e0b59b0c8da5fc" datatype="html">
@@ -4336,7 +4336,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>立标</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
-          <context context-type="linenumber">97,99</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/mascots/mascots.component.html</context>
@@ -6919,9 +6919,9 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
           <context context-type="linenumber">16,21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b" datatype="html">
-        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
-        <target>剪裁后图片(<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
+      <trans-unit id="7d207c24cc0314422e2b59db8228436c110d6635" datatype="html">
+        <source>Thumbnail is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
+        <target>剪裁后图片(<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
           <context context-type="linenumber">21</context>
@@ -7202,6 +7202,10 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
           <context context-type="sourcefile">src/app/users/user/pictures/pictures.component.html</context>
           <context context-type="linenumber">13,18</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">75,81</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="6ff30100294588c4e3ac15ffee27890bd55d86f8" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="route]=&quot;[&apos;/pict"/> pictures</source>
@@ -7305,14 +7309,6 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">70,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8" datatype="html">
-        <source>Uploaded pictures</source>
-        <target>已上传图片</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">75,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="31e56cd3191db509b1925c1bf78a68fbe0e05b28" datatype="html">
@@ -10244,6 +10240,10 @@ Don&apos;t forget it.</source>
         <source>Registration</source>
         <target>注册</target>
       </trans-unit>
+      <trans-unit id="919b82b36a0c38e23fc74b082bd2d9788f7a0b9b">
+        <source>Image is cropped (<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</source>
+        <target>剪裁后图片(<x id="INTERPOLATION" equiv-text="{{picture.crop_resolution}}"/>)</target>
+      </trans-unit>
       <trans-unit id="fdfef85751dc1d9f3a0cca5d18613de0df9a5a9d">
         <source>Specifications of <x id="INTERPOLATION" equiv-text="{{group.name_te"/></source>
         <target><x id="INTERPOLATION" equiv-text="{{group.name_text}}"/>技术参数</target>
@@ -10259,6 +10259,10 @@ Don&apos;t forget it.</source>
       <trans-unit id="43801dbd94349580021609c70a30d8b4457802be">
         <source>before known as:</source>
         <target>先前用户名： </target>
+      </trans-unit>
+      <trans-unit id="34b733506966989c866aa72a19baea7309add8d8">
+        <source>Uploaded pictures</source>
+        <target>已上传图片</target>
       </trans-unit>
     </body>
   </file>
