@@ -12,10 +12,11 @@ import {IndexTwinsComponent} from './twins/twins.component';
 import {IndexPicturesComponent} from './pictures/pictures.component';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {UserModule} from '../user/user.module';
-import {NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {IndexBrandsBrandComponent} from './brands/brand/brand.component';
 import {IndexCategoriesCategoryComponent} from './categories/category/category.component';
 import {IndexFactoriesFactoryComponent} from './factories/factory/factory.component';
+import {IndexDonateComponent} from './donate/donate.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {IndexFactoriesFactoryComponent} from './factories/factory/factory.compon
     IndexFactoriesFactoryComponent,
     IndexSpecsCarsComponent,
     IndexTwinsComponent,
-    IndexPicturesComponent
+    IndexPicturesComponent,
+    IndexDonateComponent
   ],
     imports: [
         CommonModule,
@@ -37,7 +39,8 @@ import {IndexFactoriesFactoryComponent} from './factories/factory/factory.compon
         IndexRoutingModule,
         ThumbnailModule,
         UserModule,
-        NgbPopoverModule
+        NgbPopoverModule,
+        NgbTooltipModule
     ]
 })
 export class IndexModule {

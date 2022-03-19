@@ -1,0 +1,87 @@
+[
+  {
+    "sum": -209.11,
+    "currency": "EUR",
+    "date": "2022-03-19T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "March/April hosting"
+  },
+  {
+    "sum": 21.07,
+    "currency": "EUR",
+    "date": "2022-03-17T00:00:00+00:00",
+    "contributor": "Alberto de Prado Rodriguez"
+  },
+  {
+    "sum": 21.07,
+    "currency": "EUR",
+    "date": "2022-03-14T00:00:00+00:00",
+    "contributor": "周 峻亮"
+  },
+  {
+    "sum": 9.78,
+    "currency": "EUR",
+    "date": "2022-03-14T00:00:00+00:00",
+    "contributor": "Yefim Shifrin"
+  },
+  {
+    "sum": 48.96,
+    "currency": "EUR",
+    "date": "2022-03-13T00:00:00+00:00",
+    "contributor": "Yunce Liang"
+  },
+  {
+    "sum": 10.00,
+    "currency": "EUR",
+    "date": "2022-03-12T00:00:00+00:00",
+    "contributor": "Razvan Grigoriu"
+  },
+  {
+    "sum": 50.00,
+    "currency": "EUR",
+    "date": "2022-03-12T00:00:00+00:00",
+    "contributor": "Bernard Campourcy"
+  },
+  {
+    "sum": 96.25,
+    "currency": "EUR",
+    "date": "2022-03-11T00:00:00+00:00",
+    "contributor": "LM2M"
+  },
+  {
+    "sum": 4.89,
+    "currency": "EUR",
+    "date": "2022-03-11T00:00:00+00:00",
+    "contributor": "Zac Boblitz"
+  },
+  {
+    "sum": 50.00,
+    "currency": "EUR",
+    "date": "2022-03-10T00:00:00+00:00",
+    "contributor": "Vasily Markin"
+  },
+  {
+    "sum": 4.89,
+    "currency": "EUR",
+    "date": "2022-03-10T00:00:00+00:00",
+    "contributor": "Peter Racz"
+  },
+  {
+    "sum": 10.00,
+    "currency": "EUR",
+    "date": "2022-03-10T00:00:00+00:00",
+    "contributor": "Hadrien Membre"
+  },
+  {
+    "sum": 5.00,
+    "currency": "EUR",
+    "date": "2022-03-10T00:00:00+00:00",
+    "contributor": "Matteo Licata"
+  },
+  {
+    "sum": 19.58,
+    "currency": "EUR",
+    "date": "2022-03-10T00:00:00+00:00",
+    "contributor": "Duncan Streeter"
+  }
+]

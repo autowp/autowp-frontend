@@ -5,28 +5,7 @@
 </ng-template>
 <app-item-of-day class="d-block mb-4" [item]="itemOfDay[1].item" [user]="itemOfDay[0]" *ngIf="itemOfDay$|async as itemOfDay; else loading"></app-item-of-day>
 
-<h4 i18n>Help the project</h4>
-<div class="row">
-  <div class="col-sm-6">
-    <app-markdown2 i18n>
-Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.
-
-This project is aimed to remain free to use and fully advertising free in the future.
-    </app-markdown2>
-  </div>
-  <div class="col-sm-6">
-    <p i18n>Our goal is to cover 2500€ that is the cost of 1 year of website existence.</p>
-    <div class="progress mb-4" style="height: 30px;">
-      <div class="progress-bar progress-bar-striped bg-success" style="min-width:13%"><span class="mx-2">12 donations, 334.51€</span></div>
-    </div>
-    <form action="https://www.paypal.com/donate" method="post" target="_top" ngNoForm class="text-center mb-2">
-      <input type="hidden" name="hosted_button_id" value="JND8ZMAHY63VQ" />
-      <input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal" *ngIf="languageService.language === 'ru'" />
-      <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal" *ngIf="languageService.language !== 'ru'" />
-      <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-    </form>
-  </div>
-</div>
+<app-index-donate></app-index-donate>
 
 <app-index-brands></app-index-brands>
 
