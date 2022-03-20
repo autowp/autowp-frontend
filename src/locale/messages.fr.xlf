@@ -4621,6 +4621,14 @@ Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
           <context context-type="linenumber">5,11</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="b79e3409a94ee76af31c8641a373f556709a14d6" datatype="html">
+        <source>Our goal is to cover <x id="INTERPOLATION" equiv-text="{{goal | curren"/> that is the cost of 1 year of website existence.</source>
+        <target>Notre objectif est de couvrir <x id="INTERPOLATION" equiv-text="{{goal | curren"/>, soit le coût d'un an d'existence du site.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
         <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
         <target>Vous voulez savoir quelle voiture est la plus rapide? Ou combien pèse le plus puissant camion d'exploitation minière? C'est ici que vous trouverez les réponses!</target>

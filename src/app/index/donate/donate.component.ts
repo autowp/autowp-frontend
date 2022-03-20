@@ -13,7 +13,8 @@ interface Donation {
 
 @Component({
   selector: 'app-index-donate',
-  templateUrl: './donate.component.html'
+  templateUrl: './donate.component.html',
+  styleUrls: ['./donate.component.scss']
 })
 export class IndexDonateComponent {
 

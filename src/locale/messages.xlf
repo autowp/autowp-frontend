@@ -4208,6 +4208,13 @@ This project is aimed to remain free to use and fully advertising free in the fu
           <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="840ac161ba55cea730f1b843665ea080997758c1" datatype="html">
+        <source>Cryptocurrencies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">45,48</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
         <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
         <context-group purpose="location">
