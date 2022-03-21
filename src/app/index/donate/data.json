@@ -1,5 +1,23 @@
 [
   {
+    "sum": 0.008,
+    "currency": "ETH",
+    "date": "2022-03-21T00:00:00+00:00",
+    "contributor": "Ethereum user"
+  },
+  {
+    "sum": 100.00,
+    "currency": "EUR",
+    "date": "2022-03-21T00:00:00+00:00",
+    "contributor": "Alexey Ceballos"
+  },
+  {
+    "sum": 18.57,
+    "currency": "EUR",
+    "date": "2022-03-21T00:00:00+00:00",
+    "contributor": "Mark Siegenthaler"
+  },
+  {
     "sum": -209.11,
     "currency": "EUR",
     "date": "2022-03-19T00:00:00+00:00",

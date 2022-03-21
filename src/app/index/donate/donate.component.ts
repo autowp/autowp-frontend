@@ -3,6 +3,11 @@ import {LanguageService} from '../../services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
+const rates = {
+  'EUR': 1,
+  'ETH': 2590.64,
+}
+
 interface Donation {
   sum: number;
   currency: string;
@@ -23,11 +28,12 @@ export class IndexDonateComponent {
 
   public $state = of(require('./data.json') as Donation[]).pipe(
     map(operations => {
+      operations = operations.reverse();
       const donations = operations.filter(d => d.sum > 0);
-      const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum, 0);
+      const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
       const charges = operations.filter(d => d.sum < 0);
-      const totalChargesSum = charges.reduce((sum, d) => sum + d.sum, 0);
+      const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
       const total = this.goal - totalChargesSum;
 
@@ -42,12 +48,14 @@ export class IndexDonateComponent {
         needForNextTwoMonthsPercent: 100 * needForNextTwoMonths / total,
         donations: donations.map(o => ({
           sum: o.sum,
-          percent: 100 * o.sum / total,
+          currency: o.currency,
+          percent: 100 * o.sum * rates[o.currency] / total,
           contributor: o.contributor
         })),
         charges: charges.map(o => ({
           sum: o.sum,
-          percent: -100 * o.sum / total,
+          currency: o.currency,
+          percent: -100 * o.sum * rates[o.currency] / total,
           purpose: o.purpose
         })),
       };
