@@ -29,7 +29,7 @@
     "@ngx-grpc/core": "^3.0.0",
     "@ngx-grpc/grpc-web-client": "^3.0.0",
     "@ngx-grpc/well-known-types": "^3.0.0",
-    "@sentry/browser": "^6.18.2",
+    "@sentry/browser": "^6.19.2",
     "@types/url-parse": "^1.4.8",
     "ajv": "^8.10.0",
     "angulartics2": "^10.1.0",
