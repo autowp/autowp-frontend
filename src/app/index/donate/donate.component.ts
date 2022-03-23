@@ -6,6 +6,7 @@ import {map} from 'rxjs/operators';
 const rates = {
   'EUR': 1,
   'ETH': 2590.64,
+  'RUB': 0.00934,
 }
 
 interface Donation {
