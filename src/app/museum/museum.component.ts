@@ -77,7 +77,7 @@ export class MuseumComponent implements OnInit, OnDestroy {
 
           this.pageEnv.set({
             layout: {
-              needRight: true
+              needRight: false
             },
             nameTranslated: item.name_text,
             pageId: 159
