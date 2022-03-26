@@ -4629,6 +4629,14 @@ Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
           <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="840ac161ba55cea730f1b843665ea080997758c1" datatype="html">
+        <source>Cryptocurrencies</source>
+        <target>Cryptomonnaie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">45,48</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
         <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
         <target>Vous voulez savoir quelle voiture est la plus rapide? Ou combien pèse le plus puissant camion d'exploitation minière? C'est ici que vous trouverez les réponses!</target>
@@ -4695,7 +4703,7 @@ Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
       </trans-unit>
       <trans-unit id="1411689812615399977" datatype="html">
         <source>Most heavy trucks</source>
-        <target>Les plus impressionnants poids lourds</target>
+        <target>Les camion les plus lourds</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.ts</context>
           <context context-type="linenumber">35,38</context>
@@ -5955,7 +5963,7 @@ Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
       </trans-unit>
       <trans-unit id="3c4c080864b313cfdff5fdea6aae5da276246d99" datatype="html">
         <source>Public</source>
-        <target>Public</target>
+        <target>Publique</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
           <context context-type="linenumber">15,21</context>
@@ -7575,7 +7583,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="2165076409283691119" datatype="html">
         <source>inbox</source>
-        <target>inbox</target>
+        <target>boîte de réception</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.ts</context>
           <context context-type="linenumber">79,83</context>
@@ -8522,6 +8530,14 @@ Ou `ХХХХХХХХХХХХХХХХ` - le code qui vous sera envoyer par [le sy
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
           <context context-type="linenumber">26,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a21c313112c418fa2b1db6e35ade8f4caa2952d" datatype="html">
+        <source>Similar picture: <x id="INTERPOLATION" equiv-text="{{picture.simil"/></source>
+        <target>Image similaire:  <x id="INTERPOLATION" equiv-text="{{picture.simil"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3681d807a64b6964997706d900fd2cbc12563375" datatype="html">
@@ -10011,7 +10027,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="6708650518042032396" datatype="html">
         <source>mascot</source>
-        <target>mascot</target>
+        <target>mascotte</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">198,199</context>
@@ -11670,7 +11686,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="397593115877304479" datatype="html">
         <source>diameter</source>
-        <target>diameter</target>
+        <target>diametre</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">422,423</context>
@@ -11750,7 +11766,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="8371858900123801189" datatype="html">
         <source>electric</source>
-        <target>electric</target>
+        <target>electrique</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">435,436</context>
@@ -14199,7 +14215,7 @@ La transmission n'est pas pris en compte.</target>
       </trans-unit>
       <trans-unit id="532245970961686886" datatype="html">
         <source>Tractors</source>
-        <target>Tractors</target>
+        <target>Tracteurs</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">823,824</context>
@@ -14215,7 +14231,7 @@ La transmission n'est pas pris en compte.</target>
       </trans-unit>
       <trans-unit id="8936925927844134941" datatype="html">
         <source>Trucks</source>
-        <target>Trucks</target>
+        <target>Camion</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">825,826</context>
@@ -14379,7 +14395,7 @@ Un email de vérification vous sera envoyé afin de confirmer votre nouvelle adr
       </trans-unit>
       <trans-unit id="f60c6c571ed1e6266976ca261a2b2d0ebaa16c6e">
         <source>Class</source>
-        <target>Class</target>
+        <target>Classe</target>
       </trans-unit>
       <trans-unit id="7585826646011739428">
         <source>Edit</source>
