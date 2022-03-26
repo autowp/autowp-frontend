@@ -4,11 +4,11 @@ import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {tap} from 'rxjs/operators';
-import {APICommentsService} from '../api/comments/comments.service';
 import {APIItem} from '../services/item';
 import {Router} from '@angular/router';
 import {APIPictureItem, PictureItemService} from '../services/picture-item';
-import {APIUser} from '../../../generated/spec.pb';
+import {APIUser, CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest} from '../../../generated/spec.pb';
+import {CommentsClient} from '../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-picture',
@@ -33,10 +33,10 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private acl: ACLService,
     private auth: AuthService,
-    private commentsService: APICommentsService,
     private pictureService: PictureService,
     private router: Router,
-    private pictureItemService: PictureItemService
+    private pictureItemService: PictureItemService,
+    private commentsGrpc: CommentsClient,
   ) {}
 
   ngOnInit(): void {
@@ -69,11 +69,18 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public setSubscribed(value: boolean) {
-    this.commentsService
-      .setSubscribed(this.picture.id, 1, value)
-      .subscribe(() => {
-        this.picture.subscribed = value;
-      });
+    (value
+      ? this.commentsGrpc.subscribe(new CommentsSubscribeRequest({
+        itemId: ''+this.picture.id,
+        typeId: CommentsType.PICTURES_TYPE_ID,
+      }))
+      : this.commentsGrpc.unSubscribe(new CommentsUnSubscribeRequest({
+        itemId: ''+this.picture.id,
+        typeId: CommentsType.PICTURES_TYPE_ID,
+      }))
+    ).subscribe(() => {
+      this.picture.subscribed = value;
+    });
   }
 
   public vote(value) {

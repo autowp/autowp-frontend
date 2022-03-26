@@ -13,7 +13,8 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, Subscription} from 'r
 import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {APIUser} from '../../../../generated/spec.pb';
+import {APIUser, CommentsViewRequest} from '../../../../generated/spec.pb';
+import {CommentsClient} from '../../../../generated/spec.pbsc';
 
 interface State {
   itemID: number;
@@ -44,7 +45,8 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
     private router: Router,
     private commentService: APICommentsService,
     public auth: AuthService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private commentsGrpc: CommentsClient,
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +69,10 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
           this.paginator = data.response.paginator;
 
           if (data.user) {
-            this.commentService.postView(data.state.itemID, data.state.typeID).subscribe();
+            this.commentsGrpc.view(new CommentsViewRequest({
+              itemId: ''+data.state.itemID,
+              typeId: data.state.typeID
+            })).subscribe();
           }
         })
       )

@@ -1,19 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import {Subscription, of, combineLatest, EMPTY} from 'rxjs';
-import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  catchError,
-  map,
-  switchMapTo
-} from 'rxjs/operators';
-import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
+import {PageEnvService} from '../../services/page-env.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, switchMapTo} from 'rxjs/operators';
+import {APIForumTheme, APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
-import { getForumsThemeTranslation } from '../../utils/translations';
+import {getForumsThemeTranslation} from '../../utils/translations';
+import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {CommentsMoveCommentRequest, CommentsType} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-forums-move-message',
@@ -27,12 +21,12 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
   public topics: APIForumTopic[] = [];
 
   constructor(
-    private api: APIService,
     private forumService: ForumsService,
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private commentsGrpc: CommentsClient,
   ) {
     setTimeout(
       () =>
@@ -96,11 +90,11 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
   }
 
   public selectTopic(topic: APIForumTopic) {
-    this.api
-      .request<void>('PUT', 'comment/' + this.messageID, {body: {
-        item_id: topic.id
-      }})
-      .pipe(
+    this.commentsGrpc.moveComment(new CommentsMoveCommentRequest({
+      commentId: ''+this.messageID,
+      itemId: ''+topic.id,
+      typeId: CommentsType.FORUMS_TYPE_ID,
+    })).pipe(
         switchMapTo(this.forumService.getMessageStateParams(this.messageID))
       )
       .subscribe(
@@ -110,7 +104,7 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
               page: params.page
             }
           }),
-        subresponse => this.toastService.response(subresponse)
+        subresponse => this.toastService.grpcErrorResponse(subresponse)
       );
   }
 

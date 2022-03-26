@@ -26,7 +26,8 @@ import {
   GRPC_TRAFFIC_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
   GRPC_USERS_CLIENT_SETTINGS,
-  GRPC_ITEMS_CLIENT_SETTINGS
+  GRPC_ITEMS_CLIENT_SETTINGS,
+  GRPC_COMMENTS_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -123,27 +124,6 @@ export class AutowpClient {
         requestMetadata,
         requestClass: thisProto.GetBrandVehicleTypesRequest,
         responseClass: thisProto.BrandVehicleTypeItems
-      });
-    },
-    /**
-     * Unary call: /goautowp.Autowp/GetCommentVotes
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.CommentVoteItems>>
-     */
-    getCommentVotes: (
-      requestData: thisProto.GetCommentVotesRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.CommentVoteItems>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetCommentVotes',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.GetCommentVotesRequest,
-        responseClass: thisProto.CommentVoteItems
       });
     },
     /**
@@ -406,22 +386,6 @@ export class AutowpClient {
   ): Observable<thisProto.BrandVehicleTypeItems> {
     return this.$raw
       .getBrandVehicleTypes(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary call @/goautowp.Autowp/GetCommentVotes
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.CommentVoteItems>
-   */
-  getCommentVotes(
-    requestData: thisProto.GetCommentVotesRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.CommentVoteItems> {
-    return this.$raw
-      .getCommentVotes(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -1361,6 +1325,288 @@ export class ItemsClient {
   ): Observable<thisProto.APIItemList> {
     return this.$raw
       .list(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Comments
+ */
+@Injectable({ providedIn: 'any' })
+export class CommentsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Comments/GetCommentVotes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.CommentVoteItems>>
+     */
+    getCommentVotes: (
+      requestData: thisProto.GetCommentVotesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.CommentVoteItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/GetCommentVotes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetCommentVotesRequest,
+        responseClass: thisProto.CommentVoteItems
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/Subscribe
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    subscribe: (
+      requestData: thisProto.CommentsSubscribeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/Subscribe',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CommentsSubscribeRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/UnSubscribe
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    unSubscribe: (
+      requestData: thisProto.CommentsUnSubscribeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/UnSubscribe',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CommentsUnSubscribeRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/View
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    view: (
+      requestData: thisProto.CommentsViewRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/View',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CommentsViewRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/SetDeleted
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setDeleted: (
+      requestData: thisProto.CommentsSetDeletedRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/SetDeleted',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CommentsSetDeletedRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/MoveComment
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    moveComment: (
+      requestData: thisProto.CommentsMoveCommentRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/MoveComment',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CommentsMoveCommentRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/VoteComment
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.CommentsVoteCommentResponse>>
+     */
+    voteComment: (
+      requestData: thisProto.CommentsVoteCommentRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.CommentsVoteCommentResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/VoteComment',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CommentsVoteCommentRequest,
+        responseClass: thisProto.CommentsVoteCommentResponse
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_COMMENTS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Comments', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/GetCommentVotes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.CommentVoteItems>
+   */
+  getCommentVotes(
+    requestData: thisProto.GetCommentVotesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.CommentVoteItems> {
+    return this.$raw
+      .getCommentVotes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/Subscribe
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  subscribe(
+    requestData: thisProto.CommentsSubscribeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .subscribe(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/UnSubscribe
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  unSubscribe(
+    requestData: thisProto.CommentsUnSubscribeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .unSubscribe(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/View
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  view(
+    requestData: thisProto.CommentsViewRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .view(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/SetDeleted
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  setDeleted(
+    requestData: thisProto.CommentsSetDeletedRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .setDeleted(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/MoveComment
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  moveComment(
+    requestData: thisProto.CommentsMoveCommentRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .moveComment(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/VoteComment
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.CommentsVoteCommentResponse>
+   */
+  voteComment(
+    requestData: thisProto.CommentsVoteCommentRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.CommentsVoteCommentResponse> {
+    return this.$raw
+      .voteComment(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

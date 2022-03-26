@@ -6,10 +6,10 @@ import {
   OnInit
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CommentVote} from '../../../../generated/spec.pb';
+import {CommentVote, GetCommentVotesRequest} from '../../../../generated/spec.pb';
 import {map} from 'rxjs/operators';
+import {CommentsClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-comments-votes',
@@ -25,8 +25,8 @@ export class CommentsVotesComponent implements OnInit, OnChanges {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private commentService: APICommentsService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private commentsGrpc: CommentsClient,
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -38,14 +38,16 @@ export class CommentsVotesComponent implements OnInit, OnChanges {
   }
 
   private load() {
-    this.commentService.getVotes(this.messageID).pipe(
+    this.commentsGrpc.getCommentVotes(new GetCommentVotesRequest({
+      commentId: ''+this.messageID,
+    })).pipe(
       map(votes => ({
-        positive: votes.filter(v => v.value === CommentVote.VoteValue.POSITIVE),
-        negative: votes.filter(v => v.value === CommentVote.VoteValue.NEGATIVE)
+        positive: votes.items.filter(v => v.value === CommentVote.VoteValue.POSITIVE),
+        negative: votes.items.filter(v => v.value === CommentVote.VoteValue.NEGATIVE)
       }))
     ).subscribe(
       response => (this.votes = response),
-      response => this.toastService.response(response)
+      response => this.toastService.grpcErrorResponse(response)
     );
   }
 }

@@ -6,7 +6,9 @@ import {AuthService} from '../../services/auth.service';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIUser} from '../../../../generated/spec.pb';
+import {APIUser, CommentsSetDeletedRequest, CommentsVoteCommentRequest} from '../../../../generated/spec.pb';
+import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface APICommentInList extends APIComment {
   showReply?: boolean;
@@ -36,7 +38,8 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     private commentService: APICommentsService,
     public auth: AuthService,
     private modalService: NgbModal,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private commentsGrpc: CommentsClient,
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +61,10 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   }
 
   public vote(message: APIComment, value: number) {
-    this.commentService.vote(message.id, value).subscribe(
+    this.commentsGrpc.voteComment(new CommentsVoteCommentRequest({
+      commentId: ''+message.id,
+      vote: value,
+    })).subscribe(
       () => {
         message.user_vote = value;
 
@@ -71,21 +77,8 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
         // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
       },
-      response => {
-        if (response.status === 400) {
-          Object.entries(response.error.invalid_params).forEach(
-            ([paramKey, param]) =>
-              Object.entries(param).forEach(([messageKey, iMessage]) =>
-                this.toastService.show({
-                  icon: 'fa fa-exclamation-triangle',
-                  message: iMessage,
-                  type: 'warning'
-                })
-              )
-          );
-        } else {
-          this.toastService.response(response);
-        }
+      (response: GrpcStatusEvent) => {
+        this.toastService.grpcErrorResponse(response);
       }
     );
 
@@ -93,11 +86,13 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   }
 
   public setIsDeleted(message: APIComment, value: boolean) {
-    this.commentService
-      .setIsDeleted(message.id, value)
+    this.commentsGrpc.setDeleted(new CommentsSetDeletedRequest({
+      commentId: ''+message.id,
+      deleted: value,
+    }))
       .subscribe(
         () => (message.deleted = value),
-        response => this.toastService.response(response)
+        response => this.toastService.grpcErrorResponse(response)
       );
   }
 

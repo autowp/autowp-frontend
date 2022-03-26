@@ -43,6 +43,14 @@ export enum ItemPictureType {
   ITEM_PICTURE_AUTHOR = 2,
   ITEM_PICTURE_COPYRIGHTS = 3
 }
+export enum CommentsType {
+  UNKNOWN = 0,
+  PICTURES_TYPE_ID = 1,
+  ITEM_TYPE_ID = 2,
+  VOTINGS_TYPE_ID = 3,
+  ARTICLES_TYPE_ID = 4,
+  FORUMS_TYPE_ID = 5
+}
 /**
  * Message implementation for goautowp.ErrorDetails
  */
@@ -4387,145 +4395,6 @@ export module GetContactsRequest {
    */
   export interface AsProtobufJSON {
     fields?: string[];
-  }
-}
-
-/**
- * Message implementation for goautowp.GetCommentVotesRequest
- */
-export class GetCommentVotesRequest implements GrpcMessage {
-  static id = 'goautowp.GetCommentVotesRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new GetCommentVotesRequest();
-    GetCommentVotesRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: GetCommentVotesRequest) {
-    _instance.commentId = _instance.commentId || 0;
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: GetCommentVotesRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.commentId = _reader.readInt32();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    GetCommentVotesRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: GetCommentVotesRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.commentId) {
-      _writer.writeInt32(1, _instance.commentId);
-    }
-  }
-
-  private _commentId?: number;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of GetCommentVotesRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<GetCommentVotesRequest.AsObject>) {
-    _value = _value || {};
-    this.commentId = _value.commentId;
-    GetCommentVotesRequest.refineValues(this);
-  }
-  get commentId(): number | undefined {
-    return this._commentId;
-  }
-  set commentId(value: number | undefined) {
-    this._commentId = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    GetCommentVotesRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): GetCommentVotesRequest.AsObject {
-    return {
-      commentId: this.commentId
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): GetCommentVotesRequest.AsProtobufJSON {
-    return {
-      commentId: this.commentId
-    };
-  }
-}
-export module GetCommentVotesRequest {
-  /**
-   * Standard JavaScript object representation for GetCommentVotesRequest
-   */
-  export interface AsObject {
-    commentId?: number;
-  }
-
-  /**
-   * Protobuf JSON representation for GetCommentVotesRequest
-   */
-  export interface AsProtobufJSON {
-    commentId?: number;
   }
 }
 
@@ -11998,5 +11867,1262 @@ export module APIItemList {
    */
   export interface AsProtobufJSON {
     items?: APIItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsSubscribeRequest
+ */
+export class CommentsSubscribeRequest implements GrpcMessage {
+  static id = 'goautowp.CommentsSubscribeRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsSubscribeRequest();
+    CommentsSubscribeRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsSubscribeRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.typeId = _instance.typeId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsSubscribeRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.typeId = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsSubscribeRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsSubscribeRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(2, _instance.typeId);
+    }
+  }
+
+  private _itemId?: string;
+  private _typeId?: CommentsType;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsSubscribeRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsSubscribeRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.typeId = _value.typeId;
+    CommentsSubscribeRequest.refineValues(this);
+  }
+  get itemId(): string | undefined {
+    return this._itemId;
+  }
+  set itemId(value: string | undefined) {
+    this._itemId = value;
+  }
+  get typeId(): CommentsType | undefined {
+    return this._typeId;
+  }
+  set typeId(value: CommentsType | undefined) {
+    this._typeId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsSubscribeRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsSubscribeRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      typeId: this.typeId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsSubscribeRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      typeId:
+        CommentsType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ]
+    };
+  }
+}
+export module CommentsSubscribeRequest {
+  /**
+   * Standard JavaScript object representation for CommentsSubscribeRequest
+   */
+  export interface AsObject {
+    itemId?: string;
+    typeId?: CommentsType;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsSubscribeRequest
+   */
+  export interface AsProtobufJSON {
+    itemId?: string;
+    typeId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsUnSubscribeRequest
+ */
+export class CommentsUnSubscribeRequest implements GrpcMessage {
+  static id = 'goautowp.CommentsUnSubscribeRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsUnSubscribeRequest();
+    CommentsUnSubscribeRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsUnSubscribeRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.typeId = _instance.typeId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsUnSubscribeRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.typeId = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsUnSubscribeRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsUnSubscribeRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(2, _instance.typeId);
+    }
+  }
+
+  private _itemId?: string;
+  private _typeId?: CommentsType;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsUnSubscribeRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsUnSubscribeRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.typeId = _value.typeId;
+    CommentsUnSubscribeRequest.refineValues(this);
+  }
+  get itemId(): string | undefined {
+    return this._itemId;
+  }
+  set itemId(value: string | undefined) {
+    this._itemId = value;
+  }
+  get typeId(): CommentsType | undefined {
+    return this._typeId;
+  }
+  set typeId(value: CommentsType | undefined) {
+    this._typeId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsUnSubscribeRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsUnSubscribeRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      typeId: this.typeId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsUnSubscribeRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      typeId:
+        CommentsType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ]
+    };
+  }
+}
+export module CommentsUnSubscribeRequest {
+  /**
+   * Standard JavaScript object representation for CommentsUnSubscribeRequest
+   */
+  export interface AsObject {
+    itemId?: string;
+    typeId?: CommentsType;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsUnSubscribeRequest
+   */
+  export interface AsProtobufJSON {
+    itemId?: string;
+    typeId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetCommentVotesRequest
+ */
+export class GetCommentVotesRequest implements GrpcMessage {
+  static id = 'goautowp.GetCommentVotesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetCommentVotesRequest();
+    GetCommentVotesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetCommentVotesRequest) {
+    _instance.commentId = _instance.commentId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetCommentVotesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.commentId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetCommentVotesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetCommentVotesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.commentId) {
+      _writer.writeInt64String(1, _instance.commentId);
+    }
+  }
+
+  private _commentId?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetCommentVotesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetCommentVotesRequest.AsObject>) {
+    _value = _value || {};
+    this.commentId = _value.commentId;
+    GetCommentVotesRequest.refineValues(this);
+  }
+  get commentId(): string | undefined {
+    return this._commentId;
+  }
+  set commentId(value: string | undefined) {
+    this._commentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetCommentVotesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetCommentVotesRequest.AsObject {
+    return {
+      commentId: this.commentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetCommentVotesRequest.AsProtobufJSON {
+    return {
+      commentId: this.commentId
+    };
+  }
+}
+export module GetCommentVotesRequest {
+  /**
+   * Standard JavaScript object representation for GetCommentVotesRequest
+   */
+  export interface AsObject {
+    commentId?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for GetCommentVotesRequest
+   */
+  export interface AsProtobufJSON {
+    commentId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsViewRequest
+ */
+export class CommentsViewRequest implements GrpcMessage {
+  static id = 'goautowp.CommentsViewRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsViewRequest();
+    CommentsViewRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsViewRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.typeId = _instance.typeId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsViewRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.typeId = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsViewRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsViewRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(2, _instance.typeId);
+    }
+  }
+
+  private _itemId?: string;
+  private _typeId?: CommentsType;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsViewRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsViewRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.typeId = _value.typeId;
+    CommentsViewRequest.refineValues(this);
+  }
+  get itemId(): string | undefined {
+    return this._itemId;
+  }
+  set itemId(value: string | undefined) {
+    this._itemId = value;
+  }
+  get typeId(): CommentsType | undefined {
+    return this._typeId;
+  }
+  set typeId(value: CommentsType | undefined) {
+    this._typeId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsViewRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsViewRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      typeId: this.typeId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsViewRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      typeId:
+        CommentsType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ]
+    };
+  }
+}
+export module CommentsViewRequest {
+  /**
+   * Standard JavaScript object representation for CommentsViewRequest
+   */
+  export interface AsObject {
+    itemId?: string;
+    typeId?: CommentsType;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsViewRequest
+   */
+  export interface AsProtobufJSON {
+    itemId?: string;
+    typeId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsSetDeletedRequest
+ */
+export class CommentsSetDeletedRequest implements GrpcMessage {
+  static id = 'goautowp.CommentsSetDeletedRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsSetDeletedRequest();
+    CommentsSetDeletedRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsSetDeletedRequest) {
+    _instance.commentId = _instance.commentId || '0';
+    _instance.deleted = _instance.deleted || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsSetDeletedRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.commentId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.deleted = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsSetDeletedRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsSetDeletedRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.commentId) {
+      _writer.writeInt64String(1, _instance.commentId);
+    }
+    if (_instance.deleted) {
+      _writer.writeBool(2, _instance.deleted);
+    }
+  }
+
+  private _commentId?: string;
+  private _deleted?: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsSetDeletedRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsSetDeletedRequest.AsObject>) {
+    _value = _value || {};
+    this.commentId = _value.commentId;
+    this.deleted = _value.deleted;
+    CommentsSetDeletedRequest.refineValues(this);
+  }
+  get commentId(): string | undefined {
+    return this._commentId;
+  }
+  set commentId(value: string | undefined) {
+    this._commentId = value;
+  }
+  get deleted(): boolean | undefined {
+    return this._deleted;
+  }
+  set deleted(value: boolean | undefined) {
+    this._deleted = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsSetDeletedRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsSetDeletedRequest.AsObject {
+    return {
+      commentId: this.commentId,
+      deleted: this.deleted
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsSetDeletedRequest.AsProtobufJSON {
+    return {
+      commentId: this.commentId,
+      deleted: this.deleted
+    };
+  }
+}
+export module CommentsSetDeletedRequest {
+  /**
+   * Standard JavaScript object representation for CommentsSetDeletedRequest
+   */
+  export interface AsObject {
+    commentId?: string;
+    deleted?: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsSetDeletedRequest
+   */
+  export interface AsProtobufJSON {
+    commentId?: string;
+    deleted?: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsMoveCommentRequest
+ */
+export class CommentsMoveCommentRequest implements GrpcMessage {
+  static id = 'goautowp.CommentsMoveCommentRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsMoveCommentRequest();
+    CommentsMoveCommentRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsMoveCommentRequest) {
+    _instance.commentId = _instance.commentId || '0';
+    _instance.itemId = _instance.itemId || '0';
+    _instance.typeId = _instance.typeId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsMoveCommentRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.commentId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.typeId = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsMoveCommentRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsMoveCommentRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.commentId) {
+      _writer.writeInt64String(1, _instance.commentId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(3, _instance.typeId);
+    }
+  }
+
+  private _commentId?: string;
+  private _itemId?: string;
+  private _typeId?: CommentsType;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsMoveCommentRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsMoveCommentRequest.AsObject>) {
+    _value = _value || {};
+    this.commentId = _value.commentId;
+    this.itemId = _value.itemId;
+    this.typeId = _value.typeId;
+    CommentsMoveCommentRequest.refineValues(this);
+  }
+  get commentId(): string | undefined {
+    return this._commentId;
+  }
+  set commentId(value: string | undefined) {
+    this._commentId = value;
+  }
+  get itemId(): string | undefined {
+    return this._itemId;
+  }
+  set itemId(value: string | undefined) {
+    this._itemId = value;
+  }
+  get typeId(): CommentsType | undefined {
+    return this._typeId;
+  }
+  set typeId(value: CommentsType | undefined) {
+    this._typeId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsMoveCommentRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsMoveCommentRequest.AsObject {
+    return {
+      commentId: this.commentId,
+      itemId: this.itemId,
+      typeId: this.typeId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsMoveCommentRequest.AsProtobufJSON {
+    return {
+      commentId: this.commentId,
+      itemId: this.itemId,
+      typeId:
+        CommentsType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ]
+    };
+  }
+}
+export module CommentsMoveCommentRequest {
+  /**
+   * Standard JavaScript object representation for CommentsMoveCommentRequest
+   */
+  export interface AsObject {
+    commentId?: string;
+    itemId?: string;
+    typeId?: CommentsType;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsMoveCommentRequest
+   */
+  export interface AsProtobufJSON {
+    commentId?: string;
+    itemId?: string;
+    typeId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsVoteCommentRequest
+ */
+export class CommentsVoteCommentRequest implements GrpcMessage {
+  static id = 'goautowp.CommentsVoteCommentRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsVoteCommentRequest();
+    CommentsVoteCommentRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsVoteCommentRequest) {
+    _instance.commentId = _instance.commentId || '0';
+    _instance.vote = _instance.vote || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsVoteCommentRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.commentId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.vote = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsVoteCommentRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsVoteCommentRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.commentId) {
+      _writer.writeInt64String(1, _instance.commentId);
+    }
+    if (_instance.vote) {
+      _writer.writeInt32(2, _instance.vote);
+    }
+  }
+
+  private _commentId?: string;
+  private _vote?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsVoteCommentRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsVoteCommentRequest.AsObject>) {
+    _value = _value || {};
+    this.commentId = _value.commentId;
+    this.vote = _value.vote;
+    CommentsVoteCommentRequest.refineValues(this);
+  }
+  get commentId(): string | undefined {
+    return this._commentId;
+  }
+  set commentId(value: string | undefined) {
+    this._commentId = value;
+  }
+  get vote(): number | undefined {
+    return this._vote;
+  }
+  set vote(value: number | undefined) {
+    this._vote = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsVoteCommentRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsVoteCommentRequest.AsObject {
+    return {
+      commentId: this.commentId,
+      vote: this.vote
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsVoteCommentRequest.AsProtobufJSON {
+    return {
+      commentId: this.commentId,
+      vote: this.vote
+    };
+  }
+}
+export module CommentsVoteCommentRequest {
+  /**
+   * Standard JavaScript object representation for CommentsVoteCommentRequest
+   */
+  export interface AsObject {
+    commentId?: string;
+    vote?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsVoteCommentRequest
+   */
+  export interface AsProtobufJSON {
+    commentId?: string;
+    vote?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CommentsVoteCommentResponse
+ */
+export class CommentsVoteCommentResponse implements GrpcMessage {
+  static id = 'goautowp.CommentsVoteCommentResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentsVoteCommentResponse();
+    CommentsVoteCommentResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentsVoteCommentResponse) {
+    _instance.votes = _instance.votes || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentsVoteCommentResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.votes = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentsVoteCommentResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentsVoteCommentResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.votes) {
+      _writer.writeInt32(1, _instance.votes);
+    }
+  }
+
+  private _votes?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentsVoteCommentResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentsVoteCommentResponse.AsObject>) {
+    _value = _value || {};
+    this.votes = _value.votes;
+    CommentsVoteCommentResponse.refineValues(this);
+  }
+  get votes(): number | undefined {
+    return this._votes;
+  }
+  set votes(value: number | undefined) {
+    this._votes = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentsVoteCommentResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentsVoteCommentResponse.AsObject {
+    return {
+      votes: this.votes
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentsVoteCommentResponse.AsProtobufJSON {
+    return {
+      votes: this.votes
+    };
+  }
+}
+export module CommentsVoteCommentResponse {
+  /**
+   * Standard JavaScript object representation for CommentsVoteCommentResponse
+   */
+  export interface AsObject {
+    votes?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentsVoteCommentResponse
+   */
+  export interface AsProtobufJSON {
+    votes?: number;
   }
 }
