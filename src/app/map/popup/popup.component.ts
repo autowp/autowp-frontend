@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { MapItem } from '../map.component';
+import {MapPoint} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-map-popup',
   templateUrl: './popup.component.html'
 })
 export class MapPopupComponent {
-  @Input() item: MapItem;
+  @Input() item: MapPoint;
 }

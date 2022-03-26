@@ -53,3 +53,11 @@ export const GRPC_ITEMS_CLIENT_SETTINGS = new InjectionToken<any>(
 export const GRPC_COMMENTS_CLIENT_SETTINGS = new InjectionToken<any>(
   'GRPC_COMMENTS_CLIENT_SETTINGS'
 );
+
+/**
+ * Specific GrpcClientSettings for Map.
+ * Use it only if your default settings are not set or the service requires other settings.
+ */
+export const GRPC_MAP_CLIENT_SETTINGS = new InjectionToken<any>(
+  'GRPC_MAP_CLIENT_SETTINGS'
+);

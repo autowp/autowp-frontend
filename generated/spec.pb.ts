@@ -13126,3 +13126,696 @@ export module CommentsVoteCommentResponse {
     votes?: number;
   }
 }
+
+/**
+ * Message implementation for goautowp.MapGetPointsRequest
+ */
+export class MapGetPointsRequest implements GrpcMessage {
+  static id = 'goautowp.MapGetPointsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MapGetPointsRequest();
+    MapGetPointsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MapGetPointsRequest) {
+    _instance.pointsOnly = _instance.pointsOnly || false;
+    _instance.bounds = _instance.bounds || '';
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MapGetPointsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pointsOnly = _reader.readBool();
+          break;
+        case 2:
+          _instance.bounds = _reader.readString();
+          break;
+        case 3:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MapGetPointsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MapGetPointsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pointsOnly) {
+      _writer.writeBool(1, _instance.pointsOnly);
+    }
+    if (_instance.bounds) {
+      _writer.writeString(2, _instance.bounds);
+    }
+    if (_instance.language) {
+      _writer.writeString(3, _instance.language);
+    }
+  }
+
+  private _pointsOnly?: boolean;
+  private _bounds?: string;
+  private _language?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MapGetPointsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MapGetPointsRequest.AsObject>) {
+    _value = _value || {};
+    this.pointsOnly = _value.pointsOnly;
+    this.bounds = _value.bounds;
+    this.language = _value.language;
+    MapGetPointsRequest.refineValues(this);
+  }
+  get pointsOnly(): boolean | undefined {
+    return this._pointsOnly;
+  }
+  set pointsOnly(value: boolean | undefined) {
+    this._pointsOnly = value;
+  }
+  get bounds(): string | undefined {
+    return this._bounds;
+  }
+  set bounds(value: string | undefined) {
+    this._bounds = value;
+  }
+  get language(): string | undefined {
+    return this._language;
+  }
+  set language(value: string | undefined) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MapGetPointsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MapGetPointsRequest.AsObject {
+    return {
+      pointsOnly: this.pointsOnly,
+      bounds: this.bounds,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MapGetPointsRequest.AsProtobufJSON {
+    return {
+      pointsOnly: this.pointsOnly,
+      bounds: this.bounds,
+      language: this.language
+    };
+  }
+}
+export module MapGetPointsRequest {
+  /**
+   * Standard JavaScript object representation for MapGetPointsRequest
+   */
+  export interface AsObject {
+    pointsOnly?: boolean;
+    bounds?: string;
+    language?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MapGetPointsRequest
+   */
+  export interface AsProtobufJSON {
+    pointsOnly?: boolean;
+    bounds?: string;
+    language?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Point
+ */
+export class Point implements GrpcMessage {
+  static id = 'goautowp.Point';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Point();
+    Point.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Point) {
+    _instance.lat = _instance.lat || 0;
+    _instance.lng = _instance.lng || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: Point, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.lat = _reader.readDouble();
+          break;
+        case 2:
+          _instance.lng = _reader.readDouble();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Point.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Point, _writer: BinaryWriter) {
+    if (_instance.lat) {
+      _writer.writeDouble(1, _instance.lat);
+    }
+    if (_instance.lng) {
+      _writer.writeDouble(2, _instance.lng);
+    }
+  }
+
+  private _lat?: number;
+  private _lng?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Point to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Point.AsObject>) {
+    _value = _value || {};
+    this.lat = _value.lat;
+    this.lng = _value.lng;
+    Point.refineValues(this);
+  }
+  get lat(): number | undefined {
+    return this._lat;
+  }
+  set lat(value: number | undefined) {
+    this._lat = value;
+  }
+  get lng(): number | undefined {
+    return this._lng;
+  }
+  set lng(value: number | undefined) {
+    this._lng = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Point.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Point.AsObject {
+    return {
+      lat: this.lat,
+      lng: this.lng
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Point.AsProtobufJSON {
+    return {
+      lat: this.lat,
+      lng: this.lng
+    };
+  }
+}
+export module Point {
+  /**
+   * Standard JavaScript object representation for Point
+   */
+  export interface AsObject {
+    lat?: number;
+    lng?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for Point
+   */
+  export interface AsProtobufJSON {
+    lat?: number;
+    lng?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MapPoints
+ */
+export class MapPoints implements GrpcMessage {
+  static id = 'goautowp.MapPoints';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MapPoints();
+    MapPoints.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MapPoints) {
+    _instance.points = _instance.points || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MapPoints,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new MapPoint();
+          _reader.readMessage(
+            messageInitializer1,
+            MapPoint.deserializeBinaryFromReader
+          );
+          (_instance.points = _instance.points || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MapPoints.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: MapPoints, _writer: BinaryWriter) {
+    if (_instance.points && _instance.points.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.points as any,
+        MapPoint.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _points?: MapPoint[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MapPoints to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MapPoints.AsObject>) {
+    _value = _value || {};
+    this.points = (_value.points || []).map(m => new MapPoint(m));
+    MapPoints.refineValues(this);
+  }
+  get points(): MapPoint[] | undefined {
+    return this._points;
+  }
+  set points(value: MapPoint[] | undefined) {
+    this._points = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MapPoints.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MapPoints.AsObject {
+    return {
+      points: (this.points || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MapPoints.AsProtobufJSON {
+    return {
+      points: (this.points || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module MapPoints {
+  /**
+   * Standard JavaScript object representation for MapPoints
+   */
+  export interface AsObject {
+    points?: MapPoint.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for MapPoints
+   */
+  export interface AsProtobufJSON {
+    points?: MapPoint.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MapPoint
+ */
+export class MapPoint implements GrpcMessage {
+  static id = 'goautowp.MapPoint';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MapPoint();
+    MapPoint.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MapPoint) {
+    _instance.location = _instance.location || undefined;
+    _instance.id = _instance.id || '';
+    _instance.name = _instance.name || '';
+    _instance.url = _instance.url || [];
+    _instance.image = _instance.image || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MapPoint,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.location = new Point();
+          _reader.readMessage(
+            _instance.location,
+            Point.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.id = _reader.readString();
+          break;
+        case 3:
+          _instance.name = _reader.readString();
+          break;
+        case 4:
+          (_instance.url = _instance.url || []).push(_reader.readString());
+          break;
+        case 5:
+          _instance.image = new APIImage();
+          _reader.readMessage(
+            _instance.image,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MapPoint.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: MapPoint, _writer: BinaryWriter) {
+    if (_instance.location) {
+      _writer.writeMessage(
+        1,
+        _instance.location as any,
+        Point.serializeBinaryToWriter
+      );
+    }
+    if (_instance.id) {
+      _writer.writeString(2, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(3, _instance.name);
+    }
+    if (_instance.url && _instance.url.length) {
+      _writer.writeRepeatedString(4, _instance.url);
+    }
+    if (_instance.image) {
+      _writer.writeMessage(
+        5,
+        _instance.image as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _location?: Point;
+  private _id?: string;
+  private _name?: string;
+  private _url?: string[];
+  private _image?: APIImage;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MapPoint to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MapPoint.AsObject>) {
+    _value = _value || {};
+    this.location = _value.location ? new Point(_value.location) : undefined;
+    this.id = _value.id;
+    this.name = _value.name;
+    this.url = (_value.url || []).slice();
+    this.image = _value.image ? new APIImage(_value.image) : undefined;
+    MapPoint.refineValues(this);
+  }
+  get location(): Point | undefined {
+    return this._location;
+  }
+  set location(value: Point | undefined) {
+    this._location = value;
+  }
+  get id(): string | undefined {
+    return this._id;
+  }
+  set id(value: string | undefined) {
+    this._id = value;
+  }
+  get name(): string | undefined {
+    return this._name;
+  }
+  set name(value: string | undefined) {
+    this._name = value;
+  }
+  get url(): string[] | undefined {
+    return this._url;
+  }
+  set url(value: string[] | undefined) {
+    this._url = value;
+  }
+  get image(): APIImage | undefined {
+    return this._image;
+  }
+  set image(value: APIImage | undefined) {
+    this._image = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MapPoint.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MapPoint.AsObject {
+    return {
+      location: this.location ? this.location.toObject() : undefined,
+      id: this.id,
+      name: this.name,
+      url: (this.url || []).slice(),
+      image: this.image ? this.image.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MapPoint.AsProtobufJSON {
+    return {
+      location: this.location ? this.location.toProtobufJSON(options) : null,
+      id: this.id,
+      name: this.name,
+      url: (this.url || []).slice(),
+      image: this.image ? this.image.toProtobufJSON(options) : null
+    };
+  }
+}
+export module MapPoint {
+  /**
+   * Standard JavaScript object representation for MapPoint
+   */
+  export interface AsObject {
+    location?: Point.AsObject;
+    id?: string;
+    name?: string;
+    url?: string[];
+    image?: APIImage.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for MapPoint
+   */
+  export interface AsProtobufJSON {
+    location?: Point.AsProtobufJSON | null;
+    id?: string;
+    name?: string;
+    url?: string[];
+    image?: APIImage.AsProtobufJSON | null;
+  }
+}

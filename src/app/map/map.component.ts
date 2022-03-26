@@ -17,26 +17,13 @@ import {
   Marker,
   marker,
   icon,
-  Popup
+  Popup, MapOptions
 } from 'leaflet';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { MapPopupComponent } from './popup/popup.component';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
-
-export interface MapItem {
-  location: {
-    lat: number;
-    lng: number;
-  };
-  id: string;
-  name: string;
-  url: string[];
-  image: string;
-}
-
-// require('leaflet-webgl-heatmap/src/webgl-heatmap/webgl-heatmap');
-// require('leaflet-webgl-heatmap/dist/leaflet-webgl-heatmap.min');
+import {MapClient} from '../../../generated/spec.pbsc';
+import {MapGetPointsRequest, MapPoint} from '../../../generated/spec.pb';
 
 function createMarker(lat, lng): Marker {
   return marker([lat, lng], {
@@ -60,24 +47,28 @@ export class MapComponent implements OnInit {
 
   private bounds$ = new BehaviorSubject<LatLngBounds>(null);
 
-  public options = {
+  public options: MapOptions = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18
       })
     ],
     zoom: 4,
-    center: latLng(50, 20)
+    center: latLng(50, 20),
+    zoomControl: true,
+    dragging: true,
+    zoomAnimation: true,
+    doubleClickZoom: true
   };
 
   constructor(
-    private api: APIService,
     private pageEnv: PageEnvService,
     private zone: NgZone,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
     private appRef: ApplicationRef,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private mapClient: MapClient
   ) {
     setTimeout(
       () =>
@@ -102,13 +93,12 @@ export class MapComponent implements OnInit {
             return EMPTY;
           }
 
-          return this.api.request<MapItem[]>('GET', 'map/data', {
-            params: {
-              bounds: bounds.toBBoxString(),
-              'points-only': '0'
-            }
-          });
-        })
+          return this.mapClient.getPoints(new MapGetPointsRequest({
+            bounds: bounds.toBBoxString(),
+            pointsOnly: false,
+          }));
+        }),
+        map(response => response.points)
       )
       .subscribe(
         response => {
@@ -119,7 +109,7 @@ export class MapComponent implements OnInit {
   }
 
   onMapReady(lmap: Map) {
-    lmap.on('moveend', event => {
+    lmap.on('moveend', () => {
       this.zone.run(() => {
         this.bounds$.next(lmap.getBounds());
       });
@@ -130,7 +120,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  renderData(data: MapItem[]) {
+  renderData(data: MapPoint[]) {
     for (const m of this.markers) {
       m.remove();
     }

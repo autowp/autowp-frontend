@@ -27,7 +27,8 @@ import {
   GRPC_CONTACTS_CLIENT_SETTINGS,
   GRPC_USERS_CLIENT_SETTINGS,
   GRPC_ITEMS_CLIENT_SETTINGS,
-  GRPC_COMMENTS_CLIENT_SETTINGS
+  GRPC_COMMENTS_CLIENT_SETTINGS,
+  GRPC_MAP_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -1607,6 +1608,66 @@ export class CommentsClient {
   ): Observable<thisProto.CommentsVoteCommentResponse> {
     return this.$raw
       .voteComment(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Map
+ */
+@Injectable({ providedIn: 'any' })
+export class MapClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Map/GetPoints
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.MapPoints>>
+     */
+    getPoints: (
+      requestData: thisProto.MapGetPointsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.MapPoints>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Map/GetPoints',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MapGetPointsRequest,
+        responseClass: thisProto.MapPoints
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_MAP_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Map', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Map/GetPoints
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.MapPoints>
+   */
+  getPoints(
+    requestData: thisProto.MapGetPointsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.MapPoints> {
+    return this.$raw
+      .getPoints(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
