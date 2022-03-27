@@ -10,7 +10,7 @@ export class MessageDialogService {
   constructor(private modalService: NgbModal) {}
 
   public showDialog(
-    userId: number,
+    userId: string,
     sentCallback?: () => void,
     cancelCallback?: () => void
   ) {

@@ -7,8 +7,8 @@ import {tap} from 'rxjs/operators';
 import {APIItem} from '../services/item';
 import {Router} from '@angular/router';
 import {APIPictureItem, PictureItemService} from '../services/picture-item';
-import {APIUser, CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest} from '../../../generated/spec.pb';
-import {CommentsClient} from '../../../generated/spec.pbsc';
+import {APIUser, CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest, PicturesViewRequest} from '../../../generated/spec.pb';
+import {CommentsClient, PicturesClient} from '../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-picture',
@@ -37,6 +37,7 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private pictureItemService: PictureItemService,
     private commentsGrpc: CommentsClient,
+    private picturesClient: PicturesClient,
   ) {}
 
   ngOnInit(): void {
@@ -134,7 +135,9 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.picture && this.picture) {
-      this.pictureService.incView(this.picture.id).subscribe();
+      this.picturesClient.view(new PicturesViewRequest({
+        pictureId: ''+this.picture.id
+      })).subscribe();
     }
   }
 }

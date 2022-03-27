@@ -6,9 +6,15 @@ import { APIUser } from './user';
 import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastsService} from '../toasts/toasts.service';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {MessagingClient} from '../../../generated/spec.pbsc';
 import { Empty } from '@ngx-grpc/well-known-types';
-import {APIMessageNewCount, APIMessageSummary} from '../../../generated/spec.pb';
+import {
+  APIMessageNewCount,
+  APIMessageSummary,
+  MessagingClearFolder,
+  MessagingCreateMessage,
+  MessagingDeleteMessage
+} from '../../../generated/spec.pb';
 
 export interface APIMessagesGetOptions {
   folder: string;
@@ -43,7 +49,7 @@ export class MessageService {
   private sent$ = new BehaviorSubject<void>(null);
   private seen$ = new BehaviorSubject<void>(null);
 
-  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService, private grpc: AutowpClient) {
+  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService, private messagingClient: MessagingClient) {
     this.summary$ = combineLatest([
       this.deleted$,
       this.sent$,
@@ -57,7 +63,7 @@ export class MessageService {
           return of(null as APIMessageSummary);
         }
 
-        return this.grpc.getMessagesSummary(new Empty());
+        return this.messagingClient.getMessagesSummary(new Empty());
       }),
       shareReplay(1)
     );
@@ -74,7 +80,7 @@ export class MessageService {
           return of(null as APIMessageNewCount);
         }
 
-        return this.grpc.getMessagesNewCount(new Empty());
+        return this.messagingClient.getMessagesNewCount(new Empty());
       }),
       catchError((response: HttpErrorResponse) => {
         this.toasts.errorResponse(response);
@@ -97,18 +103,15 @@ export class MessageService {
     }
   }
 
-  public clearFolder(folder: string): Observable<void> {
-    return this.api
-      .request<void>('DELETE', 'message', {
-        params: { folder }
-      })
+  public clearFolder(folder: string): Observable<Empty> {
+    return this.messagingClient.clearFolder(new MessagingClearFolder({folder: folder}))
       .pipe(tap(() => this.deleted$.next(null)));
   }
 
-  public deleteMessage(id: number): Observable<void> {
-    return this.api
-      .request<void>('DELETE', 'message/' + id)
-      .pipe(tap(() => this.deleted$.next(null)));
+  public deleteMessage(id: number): Observable<Empty> {
+    return this.messagingClient.deleteMessage(new MessagingDeleteMessage({
+      messageId: ''+id,
+    })).pipe(tap(() => this.deleted$.next(null)));
   }
 
   public getSummary(): Observable<APIMessageSummary> {
@@ -119,13 +122,11 @@ export class MessageService {
     return this.new$;
   }
 
-  public send(userId: number, text: string): Observable<void> {
-    return this.api
-      .request<void>('POST', 'message', {body: {
-        user_id: userId,
-        text
-      }})
-      .pipe(tap(() => this.sent$.next(null)));
+  public send(userId: string, text: string): Observable<Empty> {
+    return this.messagingClient.createMessage(new MessagingCreateMessage({
+      userId: userId,
+      message: text,
+    })).pipe(tap(() => this.sent$.next(null)));
   }
 
   public getMessages(

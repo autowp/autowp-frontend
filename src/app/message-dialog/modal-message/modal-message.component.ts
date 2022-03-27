@@ -8,7 +8,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './modal-message.component.html'
 })
 export class ModalMessageComponent {
-  @Input() userId: number;
+  @Input() userId: string;
 
   public text = '';
   public sending = false;

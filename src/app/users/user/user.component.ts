@@ -164,7 +164,7 @@ export class UsersUserComponent {
   ) {}
 
   public openMessageForm(user: APIUser) {
-    this.messageDialogService.showDialog(user.id);
+    this.messageDialogService.showDialog(''+user.id);
     return false;
   }
 

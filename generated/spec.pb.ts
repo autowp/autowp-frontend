@@ -13819,3 +13819,578 @@ export module MapPoint {
     image?: APIImage.AsProtobufJSON | null;
   }
 }
+
+/**
+ * Message implementation for goautowp.PicturesViewRequest
+ */
+export class PicturesViewRequest implements GrpcMessage {
+  static id = 'goautowp.PicturesViewRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PicturesViewRequest();
+    PicturesViewRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PicturesViewRequest) {
+    _instance.pictureId = _instance.pictureId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PicturesViewRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PicturesViewRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PicturesViewRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(1, _instance.pictureId);
+    }
+  }
+
+  private _pictureId?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PicturesViewRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PicturesViewRequest.AsObject>) {
+    _value = _value || {};
+    this.pictureId = _value.pictureId;
+    PicturesViewRequest.refineValues(this);
+  }
+  get pictureId(): string | undefined {
+    return this._pictureId;
+  }
+  set pictureId(value: string | undefined) {
+    this._pictureId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PicturesViewRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PicturesViewRequest.AsObject {
+    return {
+      pictureId: this.pictureId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PicturesViewRequest.AsProtobufJSON {
+    return {
+      pictureId: this.pictureId
+    };
+  }
+}
+export module PicturesViewRequest {
+  /**
+   * Standard JavaScript object representation for PicturesViewRequest
+   */
+  export interface AsObject {
+    pictureId?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PicturesViewRequest
+   */
+  export interface AsProtobufJSON {
+    pictureId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MessagingDeleteMessage
+ */
+export class MessagingDeleteMessage implements GrpcMessage {
+  static id = 'goautowp.MessagingDeleteMessage';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MessagingDeleteMessage();
+    MessagingDeleteMessage.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MessagingDeleteMessage) {
+    _instance.messageId = _instance.messageId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MessagingDeleteMessage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.messageId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MessagingDeleteMessage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MessagingDeleteMessage,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.messageId) {
+      _writer.writeInt64String(1, _instance.messageId);
+    }
+  }
+
+  private _messageId?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MessagingDeleteMessage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MessagingDeleteMessage.AsObject>) {
+    _value = _value || {};
+    this.messageId = _value.messageId;
+    MessagingDeleteMessage.refineValues(this);
+  }
+  get messageId(): string | undefined {
+    return this._messageId;
+  }
+  set messageId(value: string | undefined) {
+    this._messageId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MessagingDeleteMessage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MessagingDeleteMessage.AsObject {
+    return {
+      messageId: this.messageId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MessagingDeleteMessage.AsProtobufJSON {
+    return {
+      messageId: this.messageId
+    };
+  }
+}
+export module MessagingDeleteMessage {
+  /**
+   * Standard JavaScript object representation for MessagingDeleteMessage
+   */
+  export interface AsObject {
+    messageId?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MessagingDeleteMessage
+   */
+  export interface AsProtobufJSON {
+    messageId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MessagingClearFolder
+ */
+export class MessagingClearFolder implements GrpcMessage {
+  static id = 'goautowp.MessagingClearFolder';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MessagingClearFolder();
+    MessagingClearFolder.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MessagingClearFolder) {
+    _instance.folder = _instance.folder || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MessagingClearFolder,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.folder = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MessagingClearFolder.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MessagingClearFolder,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.folder) {
+      _writer.writeString(1, _instance.folder);
+    }
+  }
+
+  private _folder?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MessagingClearFolder to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MessagingClearFolder.AsObject>) {
+    _value = _value || {};
+    this.folder = _value.folder;
+    MessagingClearFolder.refineValues(this);
+  }
+  get folder(): string | undefined {
+    return this._folder;
+  }
+  set folder(value: string | undefined) {
+    this._folder = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MessagingClearFolder.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MessagingClearFolder.AsObject {
+    return {
+      folder: this.folder
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MessagingClearFolder.AsProtobufJSON {
+    return {
+      folder: this.folder
+    };
+  }
+}
+export module MessagingClearFolder {
+  /**
+   * Standard JavaScript object representation for MessagingClearFolder
+   */
+  export interface AsObject {
+    folder?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MessagingClearFolder
+   */
+  export interface AsProtobufJSON {
+    folder?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MessagingCreateMessage
+ */
+export class MessagingCreateMessage implements GrpcMessage {
+  static id = 'goautowp.MessagingCreateMessage';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MessagingCreateMessage();
+    MessagingCreateMessage.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MessagingCreateMessage) {
+    _instance.userId = _instance.userId || '0';
+    _instance.message = _instance.message || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MessagingCreateMessage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.message = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MessagingCreateMessage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MessagingCreateMessage,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt64String(1, _instance.userId);
+    }
+    if (_instance.message) {
+      _writer.writeString(2, _instance.message);
+    }
+  }
+
+  private _userId?: string;
+  private _message?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MessagingCreateMessage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MessagingCreateMessage.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    this.message = _value.message;
+    MessagingCreateMessage.refineValues(this);
+  }
+  get userId(): string | undefined {
+    return this._userId;
+  }
+  set userId(value: string | undefined) {
+    this._userId = value;
+  }
+  get message(): string | undefined {
+    return this._message;
+  }
+  set message(value: string | undefined) {
+    this._message = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MessagingCreateMessage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MessagingCreateMessage.AsObject {
+    return {
+      userId: this.userId,
+      message: this.message
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MessagingCreateMessage.AsProtobufJSON {
+    return {
+      userId: this.userId,
+      message: this.message
+    };
+  }
+}
+export module MessagingCreateMessage {
+  /**
+   * Standard JavaScript object representation for MessagingCreateMessage
+   */
+  export interface AsObject {
+    userId?: string;
+    message?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MessagingCreateMessage
+   */
+  export interface AsProtobufJSON {
+    userId?: string;
+    message?: string;
+  }
+}

@@ -28,7 +28,9 @@ import {
   GRPC_USERS_CLIENT_SETTINGS,
   GRPC_ITEMS_CLIENT_SETTINGS,
   GRPC_COMMENTS_CLIENT_SETTINGS,
-  GRPC_MAP_CLIENT_SETTINGS
+  GRPC_MAP_CLIENT_SETTINGS,
+  GRPC_PICTURES_CLIENT_SETTINGS,
+  GRPC_MESSAGING_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -167,48 +169,6 @@ export class AutowpClient {
         requestMetadata,
         requestClass: thisProto.APIGetIPRequest,
         responseClass: thisProto.APIIP
-      });
-    },
-    /**
-     * Unary call: /goautowp.Autowp/GetMessagesNewCount
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.APIMessageNewCount>>
-     */
-    getMessagesNewCount: (
-      requestData: googleProtobuf001.Empty,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.APIMessageNewCount>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetMessagesNewCount',
-        requestData,
-        requestMetadata,
-        requestClass: googleProtobuf001.Empty,
-        responseClass: thisProto.APIMessageNewCount
-      });
-    },
-    /**
-     * Unary call: /goautowp.Autowp/GetMessagesSummary
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.APIMessageSummary>>
-     */
-    getMessagesSummary: (
-      requestData: googleProtobuf001.Empty,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.APIMessageSummary>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/GetMessagesSummary',
-        requestData,
-        requestMetadata,
-        requestClass: googleProtobuf001.Empty,
-        responseClass: thisProto.APIMessageSummary
       });
     },
     /**
@@ -419,38 +379,6 @@ export class AutowpClient {
   ): Observable<thisProto.APIIP> {
     return this.$raw
       .getIP(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary call @/goautowp.Autowp/GetMessagesNewCount
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.APIMessageNewCount>
-   */
-  getMessagesNewCount(
-    requestData: googleProtobuf001.Empty,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.APIMessageNewCount> {
-    return this.$raw
-      .getMessagesNewCount(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary call @/goautowp.Autowp/GetMessagesSummary
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.APIMessageSummary>
-   */
-  getMessagesSummary(
-    requestData: googleProtobuf001.Empty,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.APIMessageSummary> {
-    return this.$raw
-      .getMessagesSummary(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -1668,6 +1596,274 @@ export class MapClient {
   ): Observable<thisProto.MapPoints> {
     return this.$raw
       .getPoints(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Pictures
+ */
+@Injectable({ providedIn: 'any' })
+export class PicturesClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Pictures/View
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    view: (
+      requestData: thisProto.PicturesViewRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/View',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PicturesViewRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_PICTURES_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Pictures', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/View
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  view(
+    requestData: thisProto.PicturesViewRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .view(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Messaging
+ */
+@Injectable({ providedIn: 'any' })
+export class MessagingClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Messaging/GetMessagesNewCount
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIMessageNewCount>>
+     */
+    getMessagesNewCount: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIMessageNewCount>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Messaging/GetMessagesNewCount',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIMessageNewCount
+      });
+    },
+    /**
+     * Unary call: /goautowp.Messaging/GetMessagesSummary
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIMessageSummary>>
+     */
+    getMessagesSummary: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIMessageSummary>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Messaging/GetMessagesSummary',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIMessageSummary
+      });
+    },
+    /**
+     * Unary call: /goautowp.Messaging/DeleteMessage
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteMessage: (
+      requestData: thisProto.MessagingDeleteMessage,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Messaging/DeleteMessage',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MessagingDeleteMessage,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Messaging/ClearFolder
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    clearFolder: (
+      requestData: thisProto.MessagingClearFolder,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Messaging/ClearFolder',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MessagingClearFolder,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Messaging/CreateMessage
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    createMessage: (
+      requestData: thisProto.MessagingCreateMessage,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Messaging/CreateMessage',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MessagingCreateMessage,
+        responseClass: googleProtobuf001.Empty
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_MESSAGING_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Messaging', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Messaging/GetMessagesNewCount
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIMessageNewCount>
+   */
+  getMessagesNewCount(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIMessageNewCount> {
+    return this.$raw
+      .getMessagesNewCount(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Messaging/GetMessagesSummary
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIMessageSummary>
+   */
+  getMessagesSummary(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIMessageSummary> {
+    return this.$raw
+      .getMessagesSummary(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Messaging/DeleteMessage
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteMessage(
+    requestData: thisProto.MessagingDeleteMessage,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteMessage(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Messaging/ClearFolder
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  clearFolder(
+    requestData: thisProto.MessagingClearFolder,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .clearFolder(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Messaging/CreateMessage
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  createMessage(
+    requestData: thisProto.MessagingCreateMessage,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .createMessage(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

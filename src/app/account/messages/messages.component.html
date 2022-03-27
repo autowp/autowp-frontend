@@ -44,7 +44,7 @@
             </a>
             <span *ngIf="message.can_reply" ngPreserveWhitespaces>
               <i class="fa fa-reply" aria-hidden="true"></i>
-              <a href="#" (click)="openMessageForm(message.author.id)" i18n>reply</a>
+              <a href="#" (click)="openMessageForm(''+message.author.id)" i18n>reply</a>
               &nbsp;
             </span>
             <span *ngIf="message.all_messages_link && message.dialog_with_user_id" ngPreserveWhitespaces>

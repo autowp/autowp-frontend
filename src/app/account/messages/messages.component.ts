@@ -109,7 +109,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
           }
         }
       },
-      response => this.toastService.response(response)
+      response => this.toastService.grpcErrorResponse(response)
     );
 
     return false;
@@ -123,11 +123,11 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
           this.paginator = null;
         }
       },
-      response => this.toastService.response(response)
+      response => this.toastService.grpcErrorResponse(response)
     );
   }
 
-  public openMessageForm(userId: number) {
+  public openMessageForm(userId: string) {
     this.messageDialogService.showDialog(userId, () => {
       switch (this.folder) {
         case 'sent':
