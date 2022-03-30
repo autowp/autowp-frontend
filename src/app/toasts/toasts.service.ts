@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpResponseBase} from '@angular/common/http';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface Toast {
@@ -32,7 +32,7 @@ export class ToastsService {
     });
   }
 
-  public response(response: HttpResponse<any>) {
+  public response(response: HttpResponseBase) {
     if (response === undefined) {
       this.error('undefined');
       return;

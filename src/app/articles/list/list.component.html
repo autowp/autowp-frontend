@@ -10,9 +10,15 @@
   <h1 i18n>Articles</h1>
 </div>
 
-<div class="card card-body">
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
+
+<div class="card card-body" *ngIf="articles$|async as response; else loading">
   <ul class="articleList">
-    <li *ngFor="let article of articles">
+    <li *ngFor="let article of response.items">
       <a [routerLink]="['/articles', article.catname]" *ngIf="article.preview_url">
         <img alt="" [src]="article.preview_url" style="float:left;margin:0 10px 4px 0" loading="lazy" />
       </a>
@@ -31,5 +37,5 @@
     </li>
   </ul>
 
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="response.paginator"></app-paginator>
 </div>

@@ -9,12 +9,20 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="article">
-  <h1>{{article.name}}</h1>
-</div>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading...</span>
+  </div>
+</ng-template>
 
-<div class="card card-body" *ngIf="article">
-  <div class="article clearfix" [innerHTML]="article.html"></div>
-</div>
+<ng-container *ngIf="article$|async as article; else loading">
+  <div class="page-header" *ngIf="article">
+    <h1>{{article.name}}</h1>
+  </div>
 
-<app-comments style="text-align:left;margin-bottom:20px;clear:both" [itemID]="article.id" [typeID]="4" *ngIf="article && article.enabled"></app-comments>
+  <div class="card card-body" *ngIf="article">
+    <div class="article clearfix" [innerHTML]="article.html"></div>
+  </div>
+
+  <app-comments style="text-align:left;margin-bottom:20px;clear:both" [itemID]="article.id" [typeID]="4" *ngIf="article && article.enabled"></app-comments>
+</ng-container>

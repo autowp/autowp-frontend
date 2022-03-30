@@ -1,5 +1,17 @@
 [
   {
+    "sum": 103.88,
+    "currency": "EUR",
+    "date": "2022-03-30T10:47:59+00:00",
+    "contributor": "Anonymous"
+  },
+  {
+    "sum": 52.12,
+    "currency": "EUR",
+    "date": "2022-03-29T00:00:00+00:00",
+    "contributor": "Bojun Ding"
+  },
+  {
     "sum": 0.008,
     "currency": "ETH",
     "date": "2022-03-21T00:00:00+00:00",

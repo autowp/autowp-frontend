@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { APIPaginator } from '../../services/api.service';
+import { Component} from '@angular/core';
+import {EMPTY} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
-import { APIArticle, ArticleService } from '../article.service';
+import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
+import { ArticleService } from '../article.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -12,11 +11,22 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent {
 
-  private querySub: Subscription;
-  public articles: APIArticle[];
-  public paginator: APIPaginator;
+  public articles$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(30),
+    switchMap(page => this.articleService.getArticles({
+      page,
+      limit: 10,
+      fields: 'description,author'
+    })),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    })
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -35,33 +45,6 @@ export class ListComponent implements OnInit, OnDestroy {
         }),
       0
     );
-  }
-
-  ngOnInit(): void {
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => parseInt(params.get('page'), 10)),
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(page =>
-          this.articleService.getArticles({
-            page,
-            limit: 10,
-            fields: 'description,author'
-          })
-        )
-      )
-      .subscribe(
-        response => {
-          this.articles = response.items;
-          this.paginator = response.paginator;
-        },
-        response => this.toastService.response(response)
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
   }
 
 }
