@@ -1,45 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import { AuthService } from './auth.service';
-import { APIPaginator, APIService } from './api.service';
-import { APIUser } from './user';
 import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastsService} from '../toasts/toasts.service';
 import {MessagingClient} from '../../../generated/spec.pbsc';
 import { Empty } from '@ngx-grpc/well-known-types';
 import {
+  APIMessage,
   APIMessageNewCount,
   APIMessageSummary,
   MessagingClearFolder,
   MessagingCreateMessage,
   MessagingDeleteMessage
 } from '../../../generated/spec.pb';
-
-export interface APIMessagesGetOptions {
-  folder: string;
-  page: number;
-  fields: string;
-  user_id?: number;
-}
-
-export interface APIMessage {
-  id: number;
-  is_new: boolean;
-  author: APIUser;
-  can_delete: boolean;
-  text: string;
-  can_reply: boolean;
-  dialog_with_user_id: number;
-  all_messages_link: boolean;
-  dialog_count: number;
-  date: string;
-}
-
-export interface APIMessagesGetResponse {
-  items: APIMessage[];
-  paginator: APIPaginator;
-}
 
 @Injectable()
 export class MessageService {
@@ -49,7 +23,7 @@ export class MessageService {
   private sent$ = new BehaviorSubject<void>(null);
   private seen$ = new BehaviorSubject<void>(null);
 
-  constructor(private api: APIService, private auth: AuthService, private toasts: ToastsService, private messagingClient: MessagingClient) {
+  constructor(private auth: AuthService, private toasts: ToastsService, private messagingClient: MessagingClient) {
     this.summary$ = combineLatest([
       this.deleted$,
       this.sent$,
@@ -93,7 +67,7 @@ export class MessageService {
   public seen(messages: APIMessage[]) {
     let newFound = false;
     for (const message of messages) {
-      if (message.is_new) {
+      if (message.isNew) {
         newFound = true;
       }
     }
@@ -108,9 +82,9 @@ export class MessageService {
       .pipe(tap(() => this.deleted$.next(null)));
   }
 
-  public deleteMessage(id: number): Observable<Empty> {
+  public deleteMessage(id: string): Observable<Empty> {
     return this.messagingClient.deleteMessage(new MessagingDeleteMessage({
-      messageId: ''+id,
+      messageId: id,
     })).pipe(tap(() => this.deleted$.next(null)));
   }
 
@@ -127,31 +101,5 @@ export class MessageService {
       userId: userId,
       message: text,
     })).pipe(tap(() => this.sent$.next(null)));
-  }
-
-  public getMessages(
-    options: APIMessagesGetOptions
-  ): Observable<APIMessagesGetResponse> {
-    const params: { [param: string]: string } = {};
-
-    if (options.folder) {
-      params.folder = options.folder;
-    }
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.page) {
-      params.page = options.page.toString();
-    }
-
-    if (options.user_id) {
-      params.user_id = options.user_id.toString();
-    }
-
-    return this.api.request<APIMessagesGetResponse>('GET', 'message', {
-      params
-    });
   }
 }

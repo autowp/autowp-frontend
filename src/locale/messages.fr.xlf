@@ -756,8 +756,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="94516fa213706c67ce5a5b5765681d7fb032033a" datatype="html">
-        <source>Loading...</source>
-        <target>Chargement...</target>
+        <source>Loading…</source>
+        <target>Chargement…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.html</context>
           <context context-type="linenumber">15,20</context>
@@ -3935,7 +3935,7 @@ Nous serions heureux si vous vouliez [faire un don désintéressé](/donate) d&#
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose ...</source>
+        <source>Choose …</source>
         <target>Sélectionner un véhicule</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
@@ -4256,7 +4256,7 @@ Nous serions heureux si vous vouliez [faire un don désintéressé](/donate) d&#
       </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
         <source>Go to forum …</source>
-        <target>Aller au forum ...</target>
+        <target>Aller au forum …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">38,44</context>
@@ -4958,7 +4958,7 @@ Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
         </context-group>
       </trans-unit>
       <trans-unit id="3e7bef971ac1d6be93c3a7a5ca49cbeeca8b1e05" datatype="html">
-        <source>sending ...</source>
+        <source>sending …</source>
         <target>envoi …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/message-dialog/modal-message/modal-message.component.html</context>
@@ -6260,7 +6260,7 @@ Ce projet a pour but de rester gratuit et sans publicité à l'avenir.
 * Upload images in maximum resolution - thats give quality and ability to use it in future. On website logo scaled automatically</source>
         <target>* Les logos doivent être au format PNG.
 * Les zones transparentes doivent être transparentes et non pas blanches !
-* Le logo doit toucher les bords de l'image, les marges ne sont pas nécessaires. 
+* Le logo doit toucher les bords de l'image, les marges ne sont pas nécessaires.
 * Publier les images avec la meilleure définition possible. Pour garantir la qualité ainsi qu'une utilisation future. Le site redimensionne le logo automatiquement.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/logo/logo.component.html</context>
@@ -6961,7 +6961,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
 Quelques guides/manuels:
 [1](https://en.wikipedia.org/wiki/Markdown),
 [2](https://guides.github.com/features/mastering-markdown/),
-[3](https://daringfireball.net/projects/markdown/basics), 
+[3](https://daringfireball.net/projects/markdown/basics),
 
 Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <context-group purpose="location">

@@ -3765,9 +3765,9 @@ Ficaremos felizes se você desejar [fazer uma doação](/donate) de qualquer val
 
 - the vehicle must be selected for the first time
 - the vehicle must have at least 3 photos</source>
-        <target>Praticamente todo veículo nesse site pode ser escolhido como &quot;veículo do dia&quot;, porém há algumas limitações: 
+        <target>Praticamente todo veículo nesse site pode ser escolhido como &quot;veículo do dia&quot;, porém há algumas limitações:
 
-- o veículo deve ser selecionado pela primeira vez 
+- o veículo deve ser selecionado pela primeira vez
 - o veículo deve ter pelo menos 3 fotos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
@@ -3783,8 +3783,8 @@ Ficaremos felizes se você desejar [fazer uma doação](/donate) de qualquer val
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose ...</source>
-        <target>Escolher...</target>
+        <source>Choose …</source>
+        <target>Escolher…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">58,65</context>
@@ -4060,7 +4060,7 @@ Ficaremos felizes se você desejar [fazer uma doação](/donate) de qualquer val
       </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
         <source>Go to forum …</source>
-        <target>Ir para o fórum...</target>
+        <target>Ir para o fórum…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">38,44</context>
@@ -6626,10 +6626,10 @@ Few manuals:
 Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>Sintaxe do Markdown
 
-Alguns manuais: 
-[1](https://pt.wikipedia.org/wiki/Markdown), 
-[2](https://guides.github.com/features/mastering-markdown/), 
-[3](https://daringfireball.net/projects/markdown/basics) 
+Alguns manuais:
+[1](https://pt.wikipedia.org/wiki/Markdown),
+[2](https://guides.github.com/features/mastering-markdown/),
+[3](https://daringfireball.net/projects/markdown/basics)
 
 Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <context-group purpose="location">

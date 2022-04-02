@@ -756,8 +756,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="94516fa213706c67ce5a5b5765681d7fb032033a" datatype="html">
-        <source>Loading...</source>
-        <target>Загрузка...</target>
+        <source>Loading…</source>
+        <target>Загрузка…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.html</context>
           <context context-type="linenumber">15,20</context>
@@ -3919,7 +3919,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 
 - the vehicle must be selected for the first time
 - the vehicle must have at least 3 photos</source>
-        <target>На роль автомобиля дня подойдет почти любой, из имеющихся, но есть некоторые ограничения: 
+        <target>На роль автомобиля дня подойдет почти любой, из имеющихся, но есть некоторые ограничения:
 
 - автомобиль должен быть выбран впервые
 - автомобиль должен иметь по крайней мере 3 фотографии</target>
@@ -3937,8 +3937,8 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose ...</source>
-        <target>Выбрать ...</target>
+        <source>Choose …</source>
+        <target>Выбрать …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">58,65</context>
@@ -4958,8 +4958,8 @@ This project is aimed to remain free to use and fully advertising free in the fu
         </context-group>
       </trans-unit>
       <trans-unit id="3e7bef971ac1d6be93c3a7a5ca49cbeeca8b1e05" datatype="html">
-        <source>sending ...</source>
-        <target>отправляется ...</target>
+        <source>sending …</source>
+        <target>отправляется …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/message-dialog/modal-message/modal-message.component.html</context>
           <context context-type="linenumber">12,16</context>

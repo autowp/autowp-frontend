@@ -14394,3 +14394,974 @@ export module MessagingCreateMessage {
     message?: string;
   }
 }
+
+/**
+ * Message implementation for goautowp.APIMessage
+ */
+export class APIMessage implements GrpcMessage {
+  static id = 'goautowp.APIMessage';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIMessage();
+    APIMessage.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIMessage) {
+    _instance.id = _instance.id || '0';
+    _instance.text = _instance.text || '';
+    _instance.isNew = _instance.isNew || false;
+    _instance.canDelete = _instance.canDelete || false;
+    _instance.canReply = _instance.canReply || false;
+    _instance.date = _instance.date || undefined;
+    _instance.allMessagesLink = _instance.allMessagesLink || false;
+    _instance.dialogCount = _instance.dialogCount || 0;
+    _instance.authorId = _instance.authorId || '0';
+    _instance.toUserId = _instance.toUserId || '0';
+    _instance.dialogWithUserId = _instance.dialogWithUserId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIMessage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.text = _reader.readString();
+          break;
+        case 3:
+          _instance.isNew = _reader.readBool();
+          break;
+        case 4:
+          _instance.canDelete = _reader.readBool();
+          break;
+        case 5:
+          _instance.canReply = _reader.readBool();
+          break;
+        case 6:
+          _instance.date = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.date,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.allMessagesLink = _reader.readBool();
+          break;
+        case 8:
+          _instance.dialogCount = _reader.readInt32();
+          break;
+        case 9:
+          _instance.authorId = _reader.readInt64String();
+          break;
+        case 10:
+          _instance.toUserId = _reader.readInt64String();
+          break;
+        case 11:
+          _instance.dialogWithUserId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIMessage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: APIMessage, _writer: BinaryWriter) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.text) {
+      _writer.writeString(2, _instance.text);
+    }
+    if (_instance.isNew) {
+      _writer.writeBool(3, _instance.isNew);
+    }
+    if (_instance.canDelete) {
+      _writer.writeBool(4, _instance.canDelete);
+    }
+    if (_instance.canReply) {
+      _writer.writeBool(5, _instance.canReply);
+    }
+    if (_instance.date) {
+      _writer.writeMessage(
+        6,
+        _instance.date as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.allMessagesLink) {
+      _writer.writeBool(7, _instance.allMessagesLink);
+    }
+    if (_instance.dialogCount) {
+      _writer.writeInt32(8, _instance.dialogCount);
+    }
+    if (_instance.authorId) {
+      _writer.writeInt64String(9, _instance.authorId);
+    }
+    if (_instance.toUserId) {
+      _writer.writeInt64String(10, _instance.toUserId);
+    }
+    if (_instance.dialogWithUserId) {
+      _writer.writeInt64String(11, _instance.dialogWithUserId);
+    }
+  }
+
+  private _id?: string;
+  private _text?: string;
+  private _isNew?: boolean;
+  private _canDelete?: boolean;
+  private _canReply?: boolean;
+  private _date?: googleProtobuf002.Timestamp;
+  private _allMessagesLink?: boolean;
+  private _dialogCount?: number;
+  private _authorId?: string;
+  private _toUserId?: string;
+  private _dialogWithUserId?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIMessage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIMessage.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.text = _value.text;
+    this.isNew = _value.isNew;
+    this.canDelete = _value.canDelete;
+    this.canReply = _value.canReply;
+    this.date = _value.date
+      ? new googleProtobuf002.Timestamp(_value.date)
+      : undefined;
+    this.allMessagesLink = _value.allMessagesLink;
+    this.dialogCount = _value.dialogCount;
+    this.authorId = _value.authorId;
+    this.toUserId = _value.toUserId;
+    this.dialogWithUserId = _value.dialogWithUserId;
+    APIMessage.refineValues(this);
+  }
+  get id(): string | undefined {
+    return this._id;
+  }
+  set id(value: string | undefined) {
+    this._id = value;
+  }
+  get text(): string | undefined {
+    return this._text;
+  }
+  set text(value: string | undefined) {
+    this._text = value;
+  }
+  get isNew(): boolean | undefined {
+    return this._isNew;
+  }
+  set isNew(value: boolean | undefined) {
+    this._isNew = value;
+  }
+  get canDelete(): boolean | undefined {
+    return this._canDelete;
+  }
+  set canDelete(value: boolean | undefined) {
+    this._canDelete = value;
+  }
+  get canReply(): boolean | undefined {
+    return this._canReply;
+  }
+  set canReply(value: boolean | undefined) {
+    this._canReply = value;
+  }
+  get date(): googleProtobuf002.Timestamp | undefined {
+    return this._date;
+  }
+  set date(value: googleProtobuf002.Timestamp | undefined) {
+    this._date = value;
+  }
+  get allMessagesLink(): boolean | undefined {
+    return this._allMessagesLink;
+  }
+  set allMessagesLink(value: boolean | undefined) {
+    this._allMessagesLink = value;
+  }
+  get dialogCount(): number | undefined {
+    return this._dialogCount;
+  }
+  set dialogCount(value: number | undefined) {
+    this._dialogCount = value;
+  }
+  get authorId(): string | undefined {
+    return this._authorId;
+  }
+  set authorId(value: string | undefined) {
+    this._authorId = value;
+  }
+  get toUserId(): string | undefined {
+    return this._toUserId;
+  }
+  set toUserId(value: string | undefined) {
+    this._toUserId = value;
+  }
+  get dialogWithUserId(): string | undefined {
+    return this._dialogWithUserId;
+  }
+  set dialogWithUserId(value: string | undefined) {
+    this._dialogWithUserId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIMessage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIMessage.AsObject {
+    return {
+      id: this.id,
+      text: this.text,
+      isNew: this.isNew,
+      canDelete: this.canDelete,
+      canReply: this.canReply,
+      date: this.date ? this.date.toObject() : undefined,
+      allMessagesLink: this.allMessagesLink,
+      dialogCount: this.dialogCount,
+      authorId: this.authorId,
+      toUserId: this.toUserId,
+      dialogWithUserId: this.dialogWithUserId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIMessage.AsProtobufJSON {
+    return {
+      id: this.id,
+      text: this.text,
+      isNew: this.isNew,
+      canDelete: this.canDelete,
+      canReply: this.canReply,
+      date: this.date ? this.date.toProtobufJSON(options) : null,
+      allMessagesLink: this.allMessagesLink,
+      dialogCount: this.dialogCount,
+      authorId: this.authorId,
+      toUserId: this.toUserId,
+      dialogWithUserId: this.dialogWithUserId
+    };
+  }
+}
+export module APIMessage {
+  /**
+   * Standard JavaScript object representation for APIMessage
+   */
+  export interface AsObject {
+    id?: string;
+    text?: string;
+    isNew?: boolean;
+    canDelete?: boolean;
+    canReply?: boolean;
+    date?: googleProtobuf002.Timestamp.AsObject;
+    allMessagesLink?: boolean;
+    dialogCount?: number;
+    authorId?: string;
+    toUserId?: string;
+    dialogWithUserId?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIMessage
+   */
+  export interface AsProtobufJSON {
+    id?: string;
+    text?: string;
+    isNew?: boolean;
+    canDelete?: boolean;
+    canReply?: boolean;
+    date?: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    allMessagesLink?: boolean;
+    dialogCount?: number;
+    authorId?: string;
+    toUserId?: string;
+    dialogWithUserId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MessagingGetMessagesRequest
+ */
+export class MessagingGetMessagesRequest implements GrpcMessage {
+  static id = 'goautowp.MessagingGetMessagesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MessagingGetMessagesRequest();
+    MessagingGetMessagesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MessagingGetMessagesRequest) {
+    _instance.userId = _instance.userId || '0';
+    _instance.folder = _instance.folder || '';
+    _instance.page = _instance.page || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MessagingGetMessagesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.folder = _reader.readString();
+          break;
+        case 3:
+          _instance.page = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MessagingGetMessagesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MessagingGetMessagesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt64String(1, _instance.userId);
+    }
+    if (_instance.folder) {
+      _writer.writeString(2, _instance.folder);
+    }
+    if (_instance.page) {
+      _writer.writeInt32(3, _instance.page);
+    }
+  }
+
+  private _userId?: string;
+  private _folder?: string;
+  private _page?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MessagingGetMessagesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MessagingGetMessagesRequest.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    this.folder = _value.folder;
+    this.page = _value.page;
+    MessagingGetMessagesRequest.refineValues(this);
+  }
+  get userId(): string | undefined {
+    return this._userId;
+  }
+  set userId(value: string | undefined) {
+    this._userId = value;
+  }
+  get folder(): string | undefined {
+    return this._folder;
+  }
+  set folder(value: string | undefined) {
+    this._folder = value;
+  }
+  get page(): number | undefined {
+    return this._page;
+  }
+  set page(value: number | undefined) {
+    this._page = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MessagingGetMessagesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MessagingGetMessagesRequest.AsObject {
+    return {
+      userId: this.userId,
+      folder: this.folder,
+      page: this.page
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MessagingGetMessagesRequest.AsProtobufJSON {
+    return {
+      userId: this.userId,
+      folder: this.folder,
+      page: this.page
+    };
+  }
+}
+export module MessagingGetMessagesRequest {
+  /**
+   * Standard JavaScript object representation for MessagingGetMessagesRequest
+   */
+  export interface AsObject {
+    userId?: string;
+    folder?: string;
+    page?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for MessagingGetMessagesRequest
+   */
+  export interface AsProtobufJSON {
+    userId?: string;
+    folder?: string;
+    page?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MessagingGetMessagesResponse
+ */
+export class MessagingGetMessagesResponse implements GrpcMessage {
+  static id = 'goautowp.MessagingGetMessagesResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MessagingGetMessagesResponse();
+    MessagingGetMessagesResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MessagingGetMessagesResponse) {
+    _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MessagingGetMessagesResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIMessage();
+          _reader.readMessage(
+            messageInitializer1,
+            APIMessage.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MessagingGetMessagesResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MessagingGetMessagesResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIMessage.serializeBinaryToWriter
+      );
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIMessage[];
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MessagingGetMessagesResponse to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<MessagingGetMessagesResponse.AsObject>
+  ) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIMessage(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    MessagingGetMessagesResponse.refineValues(this);
+  }
+  get items(): APIMessage[] | undefined {
+    return this._items;
+  }
+  set items(value: APIMessage[] | undefined) {
+    this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MessagingGetMessagesResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MessagingGetMessagesResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MessagingGetMessagesResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module MessagingGetMessagesResponse {
+  /**
+   * Standard JavaScript object representation for MessagingGetMessagesResponse
+   */
+  export interface AsObject {
+    items?: APIMessage.AsObject[];
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for MessagingGetMessagesResponse
+   */
+  export interface AsProtobufJSON {
+    items?: APIMessage.AsProtobufJSON[] | null;
+    paginator?: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Pages
+ */
+export class Pages implements GrpcMessage {
+  static id = 'goautowp.Pages';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Pages();
+    Pages.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Pages) {
+    _instance.pageCount = _instance.pageCount || 0;
+    _instance.first = _instance.first || 0;
+    _instance.current = _instance.current || 0;
+    _instance.next = _instance.next || 0;
+    _instance.previous = _instance.previous || 0;
+    _instance.firstPageInRange = _instance.firstPageInRange || 0;
+    _instance.lastPageInRange = _instance.lastPageInRange || 0;
+    _instance.pagesInRange = _instance.pagesInRange || [];
+    _instance.totalItemCount = _instance.totalItemCount || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: Pages, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pageCount = _reader.readInt32();
+          break;
+        case 2:
+          _instance.first = _reader.readInt32();
+          break;
+        case 3:
+          _instance.current = _reader.readInt32();
+          break;
+        case 5:
+          _instance.next = _reader.readInt32();
+          break;
+        case 6:
+          _instance.previous = _reader.readInt32();
+          break;
+        case 7:
+          _instance.firstPageInRange = _reader.readInt32();
+          break;
+        case 8:
+          _instance.lastPageInRange = _reader.readInt32();
+          break;
+        case 9:
+          (_instance.pagesInRange = _instance.pagesInRange || []).push(
+            ...(_reader.readPackedInt32() || [])
+          );
+          break;
+        case 10:
+          _instance.totalItemCount = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Pages.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Pages, _writer: BinaryWriter) {
+    if (_instance.pageCount) {
+      _writer.writeInt32(1, _instance.pageCount);
+    }
+    if (_instance.first) {
+      _writer.writeInt32(2, _instance.first);
+    }
+    if (_instance.current) {
+      _writer.writeInt32(3, _instance.current);
+    }
+    if (_instance.next) {
+      _writer.writeInt32(5, _instance.next);
+    }
+    if (_instance.previous) {
+      _writer.writeInt32(6, _instance.previous);
+    }
+    if (_instance.firstPageInRange) {
+      _writer.writeInt32(7, _instance.firstPageInRange);
+    }
+    if (_instance.lastPageInRange) {
+      _writer.writeInt32(8, _instance.lastPageInRange);
+    }
+    if (_instance.pagesInRange && _instance.pagesInRange.length) {
+      _writer.writePackedInt32(9, _instance.pagesInRange);
+    }
+    if (_instance.totalItemCount) {
+      _writer.writeInt32(10, _instance.totalItemCount);
+    }
+  }
+
+  private _pageCount?: number;
+  private _first?: number;
+  private _current?: number;
+  private _next?: number;
+  private _previous?: number;
+  private _firstPageInRange?: number;
+  private _lastPageInRange?: number;
+  private _pagesInRange?: number[];
+  private _totalItemCount?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Pages to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Pages.AsObject>) {
+    _value = _value || {};
+    this.pageCount = _value.pageCount;
+    this.first = _value.first;
+    this.current = _value.current;
+    this.next = _value.next;
+    this.previous = _value.previous;
+    this.firstPageInRange = _value.firstPageInRange;
+    this.lastPageInRange = _value.lastPageInRange;
+    this.pagesInRange = (_value.pagesInRange || []).slice();
+    this.totalItemCount = _value.totalItemCount;
+    Pages.refineValues(this);
+  }
+  get pageCount(): number | undefined {
+    return this._pageCount;
+  }
+  set pageCount(value: number | undefined) {
+    this._pageCount = value;
+  }
+  get first(): number | undefined {
+    return this._first;
+  }
+  set first(value: number | undefined) {
+    this._first = value;
+  }
+  get current(): number | undefined {
+    return this._current;
+  }
+  set current(value: number | undefined) {
+    this._current = value;
+  }
+  get next(): number | undefined {
+    return this._next;
+  }
+  set next(value: number | undefined) {
+    this._next = value;
+  }
+  get previous(): number | undefined {
+    return this._previous;
+  }
+  set previous(value: number | undefined) {
+    this._previous = value;
+  }
+  get firstPageInRange(): number | undefined {
+    return this._firstPageInRange;
+  }
+  set firstPageInRange(value: number | undefined) {
+    this._firstPageInRange = value;
+  }
+  get lastPageInRange(): number | undefined {
+    return this._lastPageInRange;
+  }
+  set lastPageInRange(value: number | undefined) {
+    this._lastPageInRange = value;
+  }
+  get pagesInRange(): number[] | undefined {
+    return this._pagesInRange;
+  }
+  set pagesInRange(value: number[] | undefined) {
+    this._pagesInRange = value;
+  }
+  get totalItemCount(): number | undefined {
+    return this._totalItemCount;
+  }
+  set totalItemCount(value: number | undefined) {
+    this._totalItemCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Pages.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Pages.AsObject {
+    return {
+      pageCount: this.pageCount,
+      first: this.first,
+      current: this.current,
+      next: this.next,
+      previous: this.previous,
+      firstPageInRange: this.firstPageInRange,
+      lastPageInRange: this.lastPageInRange,
+      pagesInRange: (this.pagesInRange || []).slice(),
+      totalItemCount: this.totalItemCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Pages.AsProtobufJSON {
+    return {
+      pageCount: this.pageCount,
+      first: this.first,
+      current: this.current,
+      next: this.next,
+      previous: this.previous,
+      firstPageInRange: this.firstPageInRange,
+      lastPageInRange: this.lastPageInRange,
+      pagesInRange: (this.pagesInRange || []).slice(),
+      totalItemCount: this.totalItemCount
+    };
+  }
+}
+export module Pages {
+  /**
+   * Standard JavaScript object representation for Pages
+   */
+  export interface AsObject {
+    pageCount?: number;
+    first?: number;
+    current?: number;
+    next?: number;
+    previous?: number;
+    firstPageInRange?: number;
+    lastPageInRange?: number;
+    pagesInRange?: number[];
+    totalItemCount?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for Pages
+   */
+  export interface AsProtobufJSON {
+    pageCount?: number;
+    first?: number;
+    current?: number;
+    next?: number;
+    previous?: number;
+    firstPageInRange?: number;
+    lastPageInRange?: number;
+    pagesInRange?: number[];
+    totalItemCount?: number;
+  }
+}

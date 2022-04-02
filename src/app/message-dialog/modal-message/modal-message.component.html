@@ -9,7 +9,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn" (click)="send()" [disabled]="sending || text.length <= 0" [class.btn-success]="sent" [class.btn-primary]="!sent">
-      <span i18n *ngIf="sending">sending ...</span>
+      <span i18n *ngIf="sending">sending …</span>
       <span i18n *ngIf="sent">sent</span>
       <span i18n *ngIf="!sending && !sent">send</span>
     </button>

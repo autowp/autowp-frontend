@@ -24,18 +24,18 @@
               <ng-template #itemTemplate let-model="result">
                 <span [innerHTML]="model.name_html"></span>
               </ng-template>
-              <input type="text" name="parent" [ngbTypeahead]="itemsDataSource" class="form-control item-autocomplete" placeholder="Add parent ..." i18n-placeholder
+              <input type="text" name="parent" [ngbTypeahead]="itemsDataSource" class="form-control item-autocomplete" placeholder="Add parent …" i18n-placeholder
                 autocomplete="off" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
                 [resultTemplate]="itemTemplate" />
 
               <div class="input-group-append" style="white-space:nowrap">
-                <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n>Select ...</a>
+                <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n>Select …</a>
                 <div ngbDropdown>
                   <button type="button" ngbDropdownToggle class="btn btn-secondary"></button>
                   <div ngbDropdownMenu>
                     <a *ngIf="canHaveParentBrand" class="dropdown-item" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'brands'}">
                       <i class="fa fa-plus" aria-hidden="true"></i>
-                      <ng-container i18n>Brand ...</ng-container>
+                      <ng-container i18n>Brand …</ng-container>
                     </a>
                     <ng-container *ngIf="canHaveParentBrand">
                       <a class="dropdown-item" href="#" (click)="addParent(brand.id)" *ngFor="let brand of suggestions">

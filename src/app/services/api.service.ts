@@ -43,7 +43,6 @@ export interface APIImage {
 
 export interface APIPaginator {
   pageCount: number;
-  itemCountPerPage: number;
   first: number;
   current: number;
   last: number;
@@ -52,10 +51,11 @@ export interface APIPaginator {
   pagesInRange: { [key: number]: number };
   firstPageInRange: number;
   lastPageInRange: number;
-  currentItemCount: number;
   totalItemCount: number;
-  firstItemNumber: number;
-  lastItemNumber: number;
+  // itemCountPerPage: number;
+  // currentItemCount: number;
+  // firstItemNumber: number;
+  // lastItemNumber: number;
 }
 
 export interface APILoginStartGetResponse {

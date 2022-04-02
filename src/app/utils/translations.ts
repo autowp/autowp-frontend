@@ -159,15 +159,15 @@ const themes = {
 
 const themesDescription = {
   'forums/theme/all-other/description': $localize `Other topics not included in the above sections`,
-  'forums/theme/german-cars/description': $localize `Audi, BMW, Mercedes-Benz, Opel, Volkswagen, ...`,
-  'forums/theme/italian-cars/description': $localize `Alfa Romeo, Ferrari, Fiat, Lamborghini, Lancia, ...`,
-  'forums/theme/french-cars/description': $localize `Peugeot, Renault, Citroën, Delahaye ...`,
-  'forums/theme/japan-cars/description': $localize `Nissan, Toyota, Honda, Mazda, ...`,
-  'forums/theme/korean-cars/description': $localize `Kia, Hyundai, ...`,
-  'forums/theme/chinese-cars/description': $localize `Chery, Geely, Great Wall, ...`,
-  'forums/theme/russian-cars/description': $localize `VAZ, GAZ, UAZ, ...`,
-  'forums/theme/american-cars/description': $localize `Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, ...`,
-  'forums/theme/british-cars/description': $localize `Aston Martin, Bentley, MG, Rover, ...`,
+  'forums/theme/german-cars/description': $localize `Audi, BMW, Mercedes-Benz, Opel, Volkswagen, …`,
+  'forums/theme/italian-cars/description': $localize `Alfa Romeo, Ferrari, Fiat, Lamborghini, Lancia, …`,
+  'forums/theme/french-cars/description': $localize `Peugeot, Renault, Citroën, Delahaye …`,
+  'forums/theme/japan-cars/description': $localize `Nissan, Toyota, Honda, Mazda, …`,
+  'forums/theme/korean-cars/description': $localize `Kia, Hyundai, ….`,
+  'forums/theme/chinese-cars/description': $localize `Chery, Geely, Great Wall, …`,
+  'forums/theme/russian-cars/description': $localize `VAZ, GAZ, UAZ, …`,
+  'forums/theme/american-cars/description': $localize `Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …`,
+  'forums/theme/british-cars/description': $localize `Aston Martin, Bentley, MG, Rover, …`,
 };
 
 const prespectives = {

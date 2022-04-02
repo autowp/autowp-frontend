@@ -4,7 +4,7 @@ import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-login',
-  template: 'Redirecting ...',
+  template: 'Redirecting …',
   styleUrls: []
 })
 export class LoginComponent implements OnInit {

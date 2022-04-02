@@ -6,7 +6,7 @@
         <button class="dropdown-item" *ngIf="template.vote > 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
-      <button class="dropdown-item" (click)="showCustomDialog(1)" i18n>Custom ...</button>
+      <button class="dropdown-item" (click)="showCustomDialog(1)" i18n>Custom …</button>
     </div>
   </div>
 
@@ -17,7 +17,7 @@
         <button class="dropdown-item" *ngIf="template.vote < 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
-      <button class="dropdown-item" (click)="showCustomDialog(-1)" i18n>Custom ...</button>
+      <button class="dropdown-item" (click)="showCustomDialog(-1)" i18n>Custom …</button>
     </div>
   </div>
 

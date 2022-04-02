@@ -3721,8 +3721,8 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose ...</source>
-        <target>选择 ...</target>
+        <source>Choose …</source>
+        <target>选择 …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">58,65</context>
@@ -5272,24 +5272,24 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
       </trans-unit>
       <trans-unit id="30c796a915ebcbb6fbeb31e78aaecff721b11ee4" datatype="html">
-        <source>Add parent ...</source>
-        <target>添加上级目录 ...</target>
+        <source>Add parent …</source>
+        <target>添加上级目录 …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
           <context context-type="linenumber">27,29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="31c006f128232f4114051922f9446f139e119a33" datatype="html">
-        <source>Select ...</source>
-        <target>选择 ...</target>
+        <source>Select …</source>
+        <target>选择 …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
           <context context-type="linenumber">32,35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ccd37f5486642b40809f363c8480b84565eb0e5d" datatype="html">
-        <source>Brand ...</source>
-        <target>品牌...</target>
+        <source>Brand …</source>
+        <target>品牌…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
           <context context-type="linenumber">38,41</context>

@@ -1776,6 +1776,27 @@ export class MessagingClient {
         requestClass: thisProto.MessagingCreateMessage,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Messaging/GetMessages
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.MessagingGetMessagesResponse>>
+     */
+    getMessages: (
+      requestData: thisProto.MessagingGetMessagesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.MessagingGetMessagesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Messaging/GetMessages',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MessagingGetMessagesRequest,
+        responseClass: thisProto.MessagingGetMessagesResponse
+      });
     }
   };
 
@@ -1864,6 +1885,22 @@ export class MessagingClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .createMessage(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Messaging/GetMessages
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.MessagingGetMessagesResponse>
+   */
+  getMessages(
+    requestData: thisProto.MessagingGetMessagesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.MessagingGetMessagesResponse> {
+    return this.$raw
+      .getMessages(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

@@ -2495,7 +2495,7 @@ All images are posted for educational purposes.
         <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
 
 Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
-        <target>**Увага!** Імовірно, у вас накопичилася велика кількість помилок. 
+        <target>**Увага!** Імовірно, у вас накопичилася велика кількість помилок.
 
 Деякі з них, помічені іншими користувачами, ви можете знайти [тут](/account/specs-conflicts)</target>
         <context-group purpose="location">
@@ -3780,8 +3780,8 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose ...</source>
-        <target>Вибрати ...</target>
+        <source>Choose …</source>
+        <target>Вибрати …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">58,65</context>
@@ -4695,8 +4695,8 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
       </trans-unit>
       <trans-unit id="3e7bef971ac1d6be93c3a7a5ca49cbeeca8b1e05" datatype="html">
-        <source>sending ...</source>
-        <target>відправляється ...</target>
+        <source>sending …</source>
+        <target>відправляється …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/message-dialog/modal-message/modal-message.component.html</context>
           <context context-type="linenumber">12,16</context>
@@ -6608,7 +6608,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>Синтаксис Markdown.
 
 Декілька описів мови:
-[1](https://ru.wikipedia.org/wiki/Markdown), 
+[1](https://ru.wikipedia.org/wiki/Markdown),
 [2](https://en.wikipedia.org/wiki/Markdown),
 [3](https://guides.github.com/features/mastering-markdown/),
 [4](https://daringfireball.net/projects/markdown/basics),

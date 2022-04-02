@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIPaginator, APIImage, APIService } from './api.service';
-import { Observable, forkJoin } from 'rxjs';
+import {Observable, forkJoin, of} from 'rxjs';
 import { APIAccount } from '../account/account.service';
 import { tap, map } from 'rxjs/operators';
 
@@ -138,6 +138,10 @@ export class UserService {
       for (const id of toRequest) {
         this.promises.set(id, promise);
       }
+    }
+
+    if (waitFor.length <= 0) {
+      return of(null);
     }
 
     return forkJoin(waitFor);

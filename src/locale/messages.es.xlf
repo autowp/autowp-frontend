@@ -750,8 +750,8 @@ private _mi"/&gt;</target>
         </context-group>
       </trans-unit>
       <trans-unit id="94516fa213706c67ce5a5b5765681d7fb032033a" datatype="html">
-        <source>Loading...</source>
-        <target>Cargando...</target>
+        <source>Loading…</source>
+        <target>Cargando…</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.html</context>
           <context context-type="linenumber">15,20</context>
@@ -1081,7 +1081,7 @@ Esto sucede cuando la cuenta vinculada, es el único medio de autenticación. Es
 Этот процесс необратим, поэтому хорошенько подумайте и не принимайте поспешных решений.</source>
         <target>Lamentamos que se encuentre en esta página y planee abandonar nuestro sitio, pero no podemos negarle esto.
 
-Al hacer clic en el botón rojo, todos sus datos serán eliminados. 
+Al hacer clic en el botón rojo, todos sus datos serán eliminados.
 
 Este proceso es irreversible, así que piense con cuidado y no tome decisiones apresuradas.</target>
         <context-group purpose="location">
@@ -1980,7 +1980,7 @@ The site administration does not have information on the legality of the publica
 All images are posted for educational purposes.
 
 [Report copyright violation](mailto:autowp@yandex.ru)</source>
-        <target>Por favor, considerar que todo el material disponible en el servidor autowp.ru ha sido agregado por sus propios visitantes. 
+        <target>Por favor, considerar que todo el material disponible en el servidor autowp.ru ha sido agregado por sus propios visitantes.
 
 La administración de este sitio no posee información sobre la legalidad de la publicación de estos contenidos.
 
@@ -2592,7 +2592,7 @@ Todas las imágenes son posteadas para propósitos educativos.
         <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
 
 Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
-        <target>** ¡Atención! ** Probablemente, ha acumulado una cantidad significativa de errores. 
+        <target>** ¡Atención! ** Probablemente, ha acumulado una cantidad significativa de errores.
 
 Puede encontrar algunos de ellos descubiertos por otros visitantes [aquí] (/ account / specs-conflict)</target>
         <context-group purpose="location">
@@ -3821,8 +3821,8 @@ Estaremos felices si desea [realizar una donación desinteresada] (/ donar) a un
         </context-group>
       </trans-unit>
       <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose ...</source>
-        <target>Seleccione ...</target>
+        <source>Choose …</source>
+        <target>Seleccione …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
           <context context-type="linenumber">58,65</context>
@@ -4106,7 +4106,7 @@ Estaremos felices si desea [realizar una donación desinteresada] (/ donar) a un
       </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
         <source>Go to forum …</source>
-        <target>Ir al foro ...</target>
+        <target>Ir al foro …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">38,44</context>
@@ -4720,8 +4720,8 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
       </trans-unit>
       <trans-unit id="3e7bef971ac1d6be93c3a7a5ca49cbeeca8b1e05" datatype="html">
-        <source>sending ...</source>
-        <target>enviando ...</target>
+        <source>sending …</source>
+        <target>enviando …</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/message-dialog/modal-message/modal-message.component.html</context>
           <context context-type="linenumber">12,16</context>
@@ -6631,7 +6631,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
 Algunos manuales para consultar:
 [1] (https://es.wikipedia.org/wiki/Markdown),
 [2] (https://guides.github.com/features/mastering-markdown/),
-[3] (https://daringfireball.net/projects/markdown/basics), 
+[3] (https://daringfireball.net/projects/markdown/basics),
 
 Los hipervínculos internos deben ser relativos: ~~ http: //autowp.ru/bmw/~~ * / bmw / *</target>
         <context-group purpose="location">

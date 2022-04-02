@@ -100,7 +100,7 @@
         </td>
         <td *ngIf="picture.rights.crop">
           <a class="btn btn-secondary" [class.btn-success]="item.area" [routerLink]="['/moder/pictures', picture.id, 'area']" [queryParams]="{item_id: item.item_id, type: item.type}"
-            arial-label="Area" style="margin:0" *ngIf="item.type === 1">
+            style="margin:0" *ngIf="item.type === 1">
             <i class="fa fa-crop" aria-hidden="true"></i>
             <ng-container i18n>Pick item area</ng-container>
           </a>
@@ -110,7 +110,7 @@
             <a [routerLink]="['/moder/pictures', picture.id, 'move']" [queryParams]="{src_item_id: item.item_id, src_type: item.type}"
               class="btn btn-secondary">
               <i class="fa fa-arrow-right" aria-hidden="true"></i>
-              <ng-container i18n>move to</ng-container> ...
+              <ng-container i18n>move to</ng-container> …
             </a>
             <div class="btn-group" ngbDropdown role="group" placement="bottom-right">
               <button class="btn btn-secondary" ngbDropdownToggle *ngIf="item.type === 1">
@@ -126,7 +126,7 @@
                 <a *ngFor="let brand of item.item.brands" class="dropdown-item" [routerLink]="['/moder/pictures', picture.id, 'move']" [queryParams]="{src_item_id: item.item_id, src_type: item.type, brand_id: brand.id}">
                   <i class="fa fa-arrow-right" aria-hidden="true"></i>
                   <ng-container i18n>move to</ng-container>
-                  <span [innerHTML]="brand.name_html"></span> ...
+                  <span [innerHTML]="brand.name_html"></span> …
                 </a>
               </div>
             </div>
@@ -165,7 +165,7 @@
     <div>
       <a class="btn btn-success" [routerLink]="['/moder/pictures', picture.id, 'move']">
         <i class="fa fa-plus" aria-hidden="true"></i>
-        <ng-container i18n>add to</ng-container> ...
+        <ng-container i18n>add to</ng-container> …
       </a>
     </div>
   </div>
