@@ -55,7 +55,7 @@
             <app-user-text [text]="message.message.text"></app-user-text>
           </div>
           <div ngPreserveWhitespaces>
-            <span class="badge badge-info" *ngIf="message.message.isNew" i18n>new</span>
+            <span class="badge bg-info text-dark" *ngIf="message.message.isNew" i18n>new</span>
             <a href="#" class="float-end" (click)="deleteMessage(message.message.id)" *ngIf="message.message.canDelete" ngPreserveWhitespaces>
               <i class="fa fa-trash" aria-hidden="true"></i>
               <ng-container i18n>delete</ng-container>
