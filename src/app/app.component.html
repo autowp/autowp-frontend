@@ -143,7 +143,7 @@
         </div>
         <p ngPreserveWhitespaces *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
           <i class="fa fa-comment" aria-hidden="true"></i>
-          <a routerLink="/account/messages" class="badge badge-danger" *ngIf="newPersonalMessages.count" i18n>{newPersonalMessages.count, plural, one {You have {{newPersonalMessages.count}} new message} other {You have {{newPersonalMessages.count}} new messages}}</a>
+          <a routerLink="/account/messages" class="badge bg-danger" *ngIf="newPersonalMessages.count" i18n>{newPersonalMessages.count, plural, one {You have {{newPersonalMessages.count}} new message} other {You have {{newPersonalMessages.count}} new messages}}</a>
           <a routerLink="/account/messages" *ngIf="!newPersonalMessages.count" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
       </div>

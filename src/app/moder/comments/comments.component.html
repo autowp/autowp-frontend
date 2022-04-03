@@ -69,8 +69,8 @@
 
     <ul class="comments">
       <li *ngFor="let comment of comments" ngPreserveWhitespaces>
-        <span class="badge badge-warning" *ngIf="comment.is_new" i18n>not readed</span>
-        <span class="badge badge-{{comment.status.class}}" *ngIf="comment.status" [ngSwitch]="comment.status.name">
+        <span class="badge bg-warning text-dark" *ngIf="comment.is_new" i18n>not readed</span>
+        <span class="badge bg-{{comment.status.class}}" *ngIf="comment.status" [ngSwitch]="comment.status.name">
           <ng-container *ngSwitchCase="'moder/picture/acceptance/accepted'" i18n>Accepted</ng-container>
           <ng-container *ngSwitchCase="'moder/picture/acceptance/inbox'" i18n>Inbox</ng-container>
           <ng-container *ngSwitchCase="'moder/picture/acceptance/removed'" i18n>Deleted</ng-container>
