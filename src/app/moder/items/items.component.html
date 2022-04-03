@@ -84,11 +84,9 @@
         <div class="input-group mb-3">
           <input [ngbTypeahead]="ancestorsDataSource" name="ancestor" [(ngModel)]="ancestorQuery" [inputFormatter]="ancestorFormatter"
             (selectItem)="ancestorOnSelect($event)" [resultTemplate]="ancestorTemplate" class="form-control" [class.border-primary]="ancestorID">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" [disabled]="!ancestorID" (click)="clearAncestor()">
-              <span class="fa fa-close" aria-hidden="true"></span>
-            </button>
-          </div>
+          <button class="btn btn-outline-secondary" type="button" [disabled]="!ancestorID" (click)="clearAncestor()">
+            <span class="fa fa-close" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
       <div class="mb-3">

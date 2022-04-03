@@ -28,22 +28,20 @@
                 autocomplete="off" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
                 [resultTemplate]="itemTemplate" />
 
-              <div class="input-group-append" style="white-space:nowrap">
-                <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n>Select …</a>
-                <div ngbDropdown>
-                  <button type="button" ngbDropdownToggle class="btn btn-secondary"></button>
-                  <div ngbDropdownMenu>
-                    <a *ngIf="canHaveParentBrand" class="dropdown-item" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'brands'}">
+              <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n>Select …</a>
+              <div ngbDropdown>
+                <button type="button" ngbDropdownToggle class="btn btn-secondary"></button>
+                <div ngbDropdownMenu>
+                  <a *ngIf="canHaveParentBrand" class="dropdown-item" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'brands'}">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <ng-container i18n>Brand …</ng-container>
+                  </a>
+                  <ng-container *ngIf="canHaveParentBrand">
+                    <a class="dropdown-item" href="#" (click)="addParent(brand.id)" *ngFor="let brand of suggestions">
                       <i class="fa fa-plus" aria-hidden="true"></i>
-                      <ng-container i18n>Brand …</ng-container>
+                      <span i18n>Brand {{brand.name_text}}</span>
                     </a>
-                    <ng-container *ngIf="canHaveParentBrand">
-                      <a class="dropdown-item" href="#" (click)="addParent(brand.id)" *ngFor="let brand of suggestions">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        <span i18n>Brand {{brand.name_text}}</span>
-                      </a>
-                    </ng-container>
-                  </div>
+                  </ng-container>
                 </div>
               </div>
             </div>

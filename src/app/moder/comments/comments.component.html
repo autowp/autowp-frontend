@@ -24,11 +24,9 @@
         <div class="input-group">
           <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
             [resultTemplate]="userTemplate" i18n-placeholder placeholder="User №" class="form-control" [class.border-primary]="userID">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" [disabled]="!userID" (click)="clearUser()">
-              <span class="fa fa-close" aria-hidden="true"></span>
-            </button>
-          </div>
+          <button class="btn btn-outline-secondary" type="button" [disabled]="!userID" (click)="clearUser()">
+            <span class="fa fa-close" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
       <div class="mb-3">
@@ -49,11 +47,9 @@
           <input [ngbTypeahead]="itemsDataSource" name="item" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
             [resultTemplate]="itemTemplate" i18n-placeholder placeholder="Item" class="form-control"
             [class.border-primary]="itemID">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
-              <span class="fa fa-close" aria-hidden="true"></span>
-            </button>
-          </div>
+          <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
+            <span class="fa fa-close" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
     </form>
