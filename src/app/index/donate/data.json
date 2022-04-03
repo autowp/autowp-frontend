@@ -1,5 +1,11 @@
 [
   {
+    "sum": 20.00,
+    "currency": "EUR",
+    "date": "2022-04-03T00:00:00+00:00",
+    "contributor": "Fakhri Mammadov"
+  },
+  {
     "sum": 103.88,
     "currency": "EUR",
     "date": "2022-03-30T10:47:59+00:00",
