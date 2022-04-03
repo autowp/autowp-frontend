@@ -80,7 +80,7 @@ export class AccountMessagesComponent {
     map(response => ({
       items: response.items.map(msg => ({
         message: msg,
-        author$: msg.authorId ? this.userService.getUser(parseInt(msg.authorId, 10), {}) : of(null as APIUser)
+        author$: msg.authorId && msg.authorId.length ? this.userService.getUser(parseInt(msg.authorId, 10), {}) : of(null as APIUser)
       })),
       paginator: response.paginator
     })),
