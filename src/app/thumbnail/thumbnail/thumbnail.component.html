@@ -9,19 +9,19 @@
     </h6>
 
     <p class="picture-behaviour clearfix">
-      <span title="Status" *ngIf="picture.status">
-        <i class="fa fa-check text-success" aria-hidden="true" *ngIf="picture.status==='accepted'"></i>
-        <i class="fa fa-hourglass text-warning" aria-hidden="true" *ngIf="picture.status==='inbox'"></i>
-        <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removed'"></i>
-        <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removing'"></i>
-      </span>
+      <ng-container *ngIf="isModer$|async">
+        <span title="Status" *ngIf="picture.status">
+          <i class="fa fa-check text-success" aria-hidden="true" *ngIf="picture.status==='accepted'"></i>
+          <i class="fa fa-hourglass text-warning" aria-hidden="true" *ngIf="picture.status==='inbox'"></i>
+          <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removed'"></i>
+          <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removing'"></i>
+        </span>
+      </ng-container>
 
-      <span i18n-title title="Resolution" ngPreserveWhitespaces>
+      <span i18n-title title="Resolution" class="me-2" ngPreserveWhitespaces>
         {{picture.resolution}}
         <i *ngIf="(isModer$|async) && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" i18n-title title="Thumbnail is cropped ({{picture.crop_resolution}})"></i>
       </span>
-
-      <br />
 
       <span i18n-title title="Views" *ngIf="picture.views > 0" class="me-2" ngPreserveWhitespaces>
         <i class="fa fa-eye" aria-hidden="true"></i>
