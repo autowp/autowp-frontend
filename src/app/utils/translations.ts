@@ -832,7 +832,6 @@ export function getItemTypeTranslation(id: number, type: string): string {
 }
 
 export function getUnitTranslation(id: number, type: string): string {
-  console.log(id, type);
   return units[id] && units[id][type] ? units[id][type] : id;
 }
 

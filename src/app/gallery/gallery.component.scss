@@ -40,7 +40,21 @@
 
   .carousel-indicators {
     bottom: auto;
-    top: 10px;
+    top: 17px;
+
+    li {
+      width: 14px;
+      height: 14px;
+      background: transparent;
+      border-radius: 7px;
+      cursor: pointer;
+      border: 1px solid #fff;
+      margin: 0 4px;
+
+      &.active {
+        background: #fff;
+      }
+    }
   }
 
   .carousel-control {
