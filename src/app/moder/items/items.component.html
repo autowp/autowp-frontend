@@ -21,17 +21,17 @@
   <div class="col-lg-4 col-md-4">
     <h2 i18n>Filter</h2>
     <form class="card card-body form-vertical">
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Name</label>
         <input placeholder="% - any characters" type="text" name="name" class="form-control" [(ngModel)]="name" (input)="onNameChanged()"
         />
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Name (exclude)</label>
         <input placeholder="_ - any single character" type="text" name="name_exclude" class="form-control" [(ngModel)]="nameExclude"
           (input)="onNameExcludeChanged()" />
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Item type</label>
         <select name="item_type_id" class="form-control" [(ngModel)]="itemTypeID" (change)="onItemTypeChanged()">
           <option [ngValue]="null">Any</option>
@@ -46,7 +46,7 @@
           <option [ngValue]="9" i18n>Copyright block</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Vehicle type</label>
         <select name="vehicle_type_id" class="form-control" [(ngModel)]="vehicleTypeID" (change)="onVehicleTypeChanged()">
           <option [ngValue]="null">Any</option>
@@ -54,29 +54,29 @@
           <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name}}</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Have childs with type</label>
         <select name="vehicle_childs_type_id" class="form-control" [(ngModel)]="vehicleChildsTypeID" (change)="onVehicleChildsTypeChanged()">
           <option [ngValue]="null" i18n>Any</option>
           <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name}}</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Spec</label>
         <select name="spec" class="form-control" [(ngModel)]="specID" (change)="onSpecChanged()">
           <option [ngValue]="null" i18n>Any</option>
           <option [ngValue]="item.id" *ngFor="let item of specOptions">{{'...'.repeat(item.deep)}}{{item.shortName}}</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Year from</label>
         <input type="text" name="from_year" class="form-control" [(ngModel)]="fromYear" (input)="onFromYearChanged()" maxlength="4" />
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Year to</label>
         <input type="text" name="to_year" class="form-control" [(ngModel)]="toYear" (input)="onToYearChanged()" maxlength="4" />
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Parent</label>
         <ng-template #ancestorTemplate let-model="result">
           <span [innerHTML]="model.name_html"></span>
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Text</label>
         <input type="text" name="text" class="form-control" [(ngModel)]="text" (input)="onTextChanged()" />
       </div>
@@ -101,7 +101,7 @@
           <ng-container i18n>Without parents</ng-container>
         </label>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Order</label>
         <select name="order" class="form-control" [(ngModel)]="order" (change)="onOrderChanged()">
           <option ngValue="id_desc" i18n>id desc</option>
@@ -114,7 +114,7 @@
   </div>
   <div class="col-lg-8 col-md-8">
 
-    <div class="btn-group float-right">
+    <div class="btn-group float-end">
       <a routerLink="." [queryParams]="{list: null}" queryParamsHandling="merge" class="btn btn-outline-secondary" [class.active]="!listMode">
         <i class="fa fa-th" aria-hidden="true"></i>
       </a>

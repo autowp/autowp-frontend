@@ -26,27 +26,27 @@
     </h2>
     <div class="card card-body mb-4">
       <form class="form-vertical" (submit)="saveAttribute()" *ngIf="attribute">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="name" i18n>Name</label>
           <input type="text" name="name" class="form-control" [(ngModel)]="attribute.name" />
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="type_id" i18n>Type</label>
           <select name="type_id" class="form-control" [(ngModel)]="attribute.type_id">
             <option *ngFor="let option of typeOptions" [ngValue]="option.id">{{option.name}}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="precision" i18n>Precision (for float attribute)</label>
           <input type="text" name="precision" class="form-control" [(ngModel)]="attribute.precision">
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="unit_id" i18n>Unit</label>
           <select name="unit_id" class="form-control" [(ngModel)]="attribute.unit_id">
             <option *ngFor="let option of unitOptions" [ngValue]="option.id">{{option.name}}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="description" i18n>Description</label>
           <textarea name="description" class="form-control" [(ngModel)]="attribute.description"></textarea>
         </div>
@@ -67,13 +67,13 @@
     </h2>
     <div class="card card-body mb-4">
       <form class="form-vertical" (submit)="addListOption()">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="parent_id" i18n>Parent</label>
           <select name="parent_id" class="form-control" [(ngModel)]="newListOption.parent_id">
             <option *ngFor="let option of listOptionsOptions" [ngValue]="option.id">{{option.name}}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="name" i18n>Name</label>
           <input type="text" name="name" class="form-control" [(ngModel)]="newListOption.name" />
         </div>
@@ -116,27 +116,27 @@
     </h2>
     <div class="card card-body mb-4">
       <form class="form-vertical" (submit)="addAttribute()">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="name" i18n>Name</label>
           <input type="text" name="name" class="form-control" [(ngModel)]="newAttribute.name" />
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="type_id" i18n>Type</label>
           <select name="type_id" class="form-control" [(ngModel)]="newAttribute.type_id">
             <option *ngFor="let option of typeOptions" [value]="option.id">{{option.name}}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="precision" i18n>Precision (for float attribute)</label>
           <input type="text" name="precision" class="form-control" [(ngModel)]="newAttribute.precision">
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="unit_id" i18n>Unit</label>
           <select name="unit_id" class="form-control" [(ngModel)]="newAttribute.unit_id">
             <option *ngFor="let option of unitOptions" [value]="option.id">{{option.name}}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="description" i18n>Description</label>
           <textarea name="description" class="form-control" [(ngModel)]="newAttribute.description"></textarea>
         </div>

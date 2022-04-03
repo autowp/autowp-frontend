@@ -119,11 +119,11 @@
 
       <div class="card card-body mb-4" *ngIf="(currentUser$|async) && !user.deleted && (isNotMe$|async)">
         <button type="submit" class="btn btn-lg btn-contact btn-primary" (click)="setInContacts(user, true)" *ngIf="(inContacts$|async) === false">
-          <span class="fa fa-plus-circle mr-1" aria-hidden="true"></span>
+          <span class="fa fa-plus-circle me-1" aria-hidden="true"></span>
           <ng-container i18n>Add to contacts</ng-container>
         </button>
         <button type="submit" class="btn btn-lg btn-contact btn-danger" (click)="setInContacts(user, false)" *ngIf="inContacts$|async">
-          <span class="fa fa-minus-circle mr-1" aria-hidden="true"></span>
+          <span class="fa fa-minus-circle me-1" aria-hidden="true"></span>
           <ng-container i18n>Remove from contacts</ng-container>
         </button>
       </div>
@@ -164,13 +164,13 @@
             </div>
 
             <form class="form-vertical" *ngIf="ip && ! ip.blacklist && ip.rights.addToBlacklist">
-              <div class="form-group">
+              <div class="mb-3">
                 <label i18n>For period</label>
                 <select [(ngModel)]="banPeriod" name="period" class="form-control" required>
                   <option *ngFor="let period of banPeriods" [value]="period.value">{{period.name}}</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="mb-3">
                 <label i18n>Reason</label>
                 <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
               </div>

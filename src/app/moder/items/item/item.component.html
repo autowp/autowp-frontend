@@ -28,7 +28,7 @@
       <ng-container *ngIf="canEditSpecifications$|async as canEditSpecifications">
         <p *ngIf="specsAllowed && canEditSpecifications" ngPreserveWhitespaces>
           <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
-          <span class="badge badge-pill badge-secondary" *ngIf="item.specifications_count" [textContent]="item.specifications_count"></span>
+          <span class="badge rounded-pill bg-secondary" *ngIf="item.specifications_count" [textContent]="item.specifications_count"></span>
         </p>
       </ng-container>
       <p>
@@ -59,40 +59,40 @@
   <a ngPreserveWhitespaces [class.active]="activeTab === 'meta'" class="nav-link" routerLink="." [queryParams]="{tab: 'meta'}">
     <span class="glyphicon glyphicon-pencil"></span>
     <span i18n>Meta</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="metaTab.count" [textContent]="metaTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="metaTab.count" [textContent]="metaTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'name'" class="nav-link" routerLink="." [queryParams]="{tab: 'name'}">
     <span class="glyphicon glyphicon-align-left"></span>
     <span i18n>Name and description</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="nameTab.count" [textContent]="nameTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="nameTab.count" [textContent]="nameTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'logo'" class="nav-link" routerLink="." [queryParams]="{tab: 'logo'}" *ngIf="logoTab.visible">
     <span class="glyphicon glyphicon-align-left"></span>
     <span i18n>Logotype</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="logoTab.count" [textContent]="logoTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="logoTab.count" [textContent]="logoTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'catalogue'" class="nav-link" routerLink="." [queryParams]="{tab: 'catalogue'}" *ngIf="catalogueTab.visible">
     <span i18n>Catalogue</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="catalogueTab.count" [textContent]="catalogueTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="catalogueTab.count" [textContent]="catalogueTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'vehicles'" class="nav-link" routerLink="." [queryParams]="{tab: 'vehicles'}" *ngIf="vehiclesTab.visible">
     <span i18n>Vehicles</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="vehiclesTab.count" [textContent]="vehiclesTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="vehiclesTab.count" [textContent]="vehiclesTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'tree'" class="nav-link" routerLink="." [queryParams]="{tab: 'tree'}" *ngIf="treeTab.visible">
     <span class="fa fa-tree" aria-hidden="true"></span>
     <span i18n>Tree</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="treeTab.count" [textContent]="treeTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="treeTab.count" [textContent]="treeTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'pictures'" class="nav-link" routerLink="." [queryParams]="{tab: 'pictures'}" *ngIf="picturesTab.visible">
     <span class="glyphicon glyphicon-th"></span>
     <span i18n>Pictures</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="picturesTab.count" [textContent]="picturesTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="picturesTab.count" [textContent]="picturesTab.count"></span>
   </a>
   <a ngPreserveWhitespaces [class.active]="activeTab === 'links'" class="nav-link" routerLink="." [queryParams]="{tab: 'links'}" *ngIf="linksTab.visible">
     <span class="glyphicon glyphicon-globe"></span>
     <span i18n>Links</span>
-    <span class="badge badge-pill badge-secondary" *ngIf="linksTab.count" [textContent]="linksTab.count"></span>
+    <span class="badge rounded-pill bg-secondary" *ngIf="linksTab.count" [textContent]="linksTab.count"></span>
   </a>
 </div>
 

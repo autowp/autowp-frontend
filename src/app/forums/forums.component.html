@@ -79,7 +79,7 @@
         <td ngPreserveWhitespaces>
           <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
           <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name"></a>
-          <span class="badge badge-pill badge-secondary">
+          <span class="badge rounded-pill bg-secondary">
             {{topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '')}}
           </span>
         </td>

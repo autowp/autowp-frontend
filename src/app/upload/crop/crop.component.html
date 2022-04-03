@@ -7,12 +7,12 @@
     <img alt="" [src]="picture.image_gallery_full.src" (load)="onLoad($event)" *ngIf="picture && picture.image_gallery_full" />
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary float-left select-all" (click)="selectAll()">
+    <button type="button" class="btn btn-secondary float-start select-all" (click)="selectAll()">
       <i class="fa fa-arrows-alt" aria-hidden="true"></i>
       <span i18n>Select all</span>
     </button>
     <span></span>
-    <button type="button" disabled class="btn btn-secondary float-left" i18n>{{resolution}} (aspect is about {{aspect}})</button>
+    <button type="button" disabled class="btn btn-secondary float-start" i18n>{{resolution}} (aspect is about {{aspect}})</button>
     <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()" i18n>Close</button>
     <button type="button" class="btn btn-primary" (click)="onSave()" i18n>Save changes</button>
   </div>

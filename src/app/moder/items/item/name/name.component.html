@@ -4,19 +4,19 @@
       <li [ngbNavItem]="language.language" *ngFor="let language of itemLanguages">
         <a ngbNavLink>
           {{language.language.toUpperCase()}}
-          <span class="badge badge-pill badge-secondary" *ngIf="language.name || language.text || language.full_text">
+          <span class="badge rounded-pill bg-secondary" *ngIf="language.name || language.text || language.full_text">
             {{((language.name && language.name.length) ? 1 : 0) + ((language.text && language.text.length) ? 1 : 0) + ((language.full_text
             && language.full_text.length) ? 1 : 0)}}
           </span>
         </a>
         <ng-template ngbNavContent>
-          <div class="form-group row mt-4">
+          <div class="mb-3 row mt-4">
             <label class="col-md-2 col-form-label" i18n>Name</label>
             <div class="col-md-10">
               <input type="text" [(ngModel)]="language.name" name="name" maxlength="255" class="form-control" />
             </div>
           </div>
-          <div class="form-group row">
+          <div class="mb-3 row">
             <label class="col-md-2 col-form-label" i18n>Short description</label>
             <div class="col-md-10">
               <app-markdown-edit [(text)]="language.text"></app-markdown-edit>
@@ -25,7 +25,7 @@
               </p>
             </div>
           </div>
-          <div class="form-group row">
+          <div class="mb-3 row">
             <label class="col-md-2 col-form-label" i18n>Full description</label>
             <div class="col-md-10">
               <app-markdown-edit [(text)]="language.full_text"></app-markdown-edit>

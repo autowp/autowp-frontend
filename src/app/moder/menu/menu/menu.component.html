@@ -8,7 +8,7 @@
       <a [routerLink]="item.routerLink" [queryParams]="item.queryParams" class="dropdown-item" *ngFor="let item of items">
         <i class="fa-fw" aria-hidden="true" [ngClass]="item.icon" *ngIf="item.icon"></i>
         {{item.label}}
-        <span class="badge badge-pill badge-secondary" *ngIf="item.count" [textContent]="item.count"></span>
+        <span class="badge rounded-pill bg-secondary" *ngIf="item.count" [textContent]="item.count"></span>
       </a>
       <div class="dropdown-divider"></div>
       <a routerLink="/moder" class="dropdown-item">

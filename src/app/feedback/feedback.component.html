@@ -17,7 +17,7 @@
         <fieldset>
           <legend i18n>Feedback</legend>
 
-          <div class="form-group row">
+          <div class="mb-3 row">
             <label class="col-md-2 col-form-label" for="name" i18n>Your name</label>
             <div class="col-md-10">
               <input type="text" [class.is-invalid]="invalidParams && invalidParams.name" name="name" maxlength="255" size="80" autocomplete="name"
@@ -25,7 +25,7 @@
               <p *ngFor="let message of invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
             </div>
           </div>
-          <div class="form-group row">
+          <div class="mb-3 row">
             <label class="col-md-2 col-form-label" for="email">E-mail</label>
             <div class="col-md-10">
               <input type="text" [class.is-invalid]="invalidParams && invalidParams.email" name="email" maxlength="255" size="80" autocomplete="email"
@@ -33,7 +33,7 @@
               <p *ngFor="let message of invalidParams | invalidParams : 'email'" [textContent]="message" class="invalid-feedback"></p>
             </div>
           </div>
-          <div class="form-group row">
+          <div class="mb-3 row">
             <label class="col-md-2 col-form-label" for="message" i18n>Message</label>
             <div class="col-md-10">
               <textarea name="message" [class.is-invalid]="invalidParams && invalidParams.message" cols="80" rows="8" class="form-control"
@@ -41,13 +41,13 @@
               <p *ngFor="let message of invalidParams | invalidParams : 'message'" [textContent]="message" class="invalid-feedback"></p>
             </div>
           </div>
-          <div class="form-group row" *ngIf="showCaptcha">
+          <div class="mb-3 row" *ngIf="showCaptcha">
             <div class="col-md-10 offset-md-2">
               <re-captcha [(ngModel)]="form.captcha" name="captcha" required [siteKey]="recaptchaKey" *ngIf="recaptchaKey"></re-captcha>
               <p *ngFor="let message of invalidParams | invalidParams : 'captcha'" [textContent]="message" class="invalid-feedback"></p>
             </div>
           </div>
-          <div class="form-group row">
+          <div class="mb-3 row">
             <div class="col-md-2"></div>
             <div class="col-md-10">
               <button type="submit" class="btn btn-primary" i18n>Submit</button>

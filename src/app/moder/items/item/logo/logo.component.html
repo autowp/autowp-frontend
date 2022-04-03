@@ -6,7 +6,7 @@
 * Upload images in maximum resolution - thats give quality and ability to use it in future. On website logo scaled automatically"></app-markdown>
     <img alt="" [src]="item.logo.src" style="max-width:100%" *ngIf="item.logo" />
     <div *ngIf="canLogo">
-      <div class="form-group">
+      <div class="mb-3">
         <input type="file" #input name="file" class="form-control" (change)="onChange($event)" accept="image/*" />
       </div>
       <ngb-progressbar class="d-block mb-2" [type]="progress.success ? 'success' : progress.failed ? 'danger' : 'info'" [value]="progress.percentage"

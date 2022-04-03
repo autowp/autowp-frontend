@@ -17,7 +17,7 @@
   <div class="col-md-4">
     <h2 i18n>Filter</h2>
     <form class="card card-body form-vertical">
-      <div class="form-group">
+      <div class="mb-3">
         <ng-template #userTemplate let-model="result">
           <span [innerHTML]="model.name"></span>
         </ng-template>
@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Moderator attention</label>
         <select name="moderator_attention" class="form-control" [(ngModel)]="moderatorAttention" (change)="setModeratorAttention()"
           [class.border-primary]="moderatorAttention !== null">
@@ -41,7 +41,7 @@
           <option [ngValue]="2" i18n>Resolved</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <ng-template #itemTemplate let-model="result">
           <span [innerHTML]="model.name_html"></span>
         </ng-template>

@@ -31,11 +31,11 @@
 <form class="card card-body form-vertical" name="add" (submit)="createTemplate()">
   <h2 i18n>Add template</h2>
 
-  <div class="form-group">
+  <div class="mb-3">
     <label i18n>Reason</label>
     <input type="text" name="name" class="form-control" [(ngModel)]="name" required maxlength="50" />
   </div>
-  <div class="form-group">
+  <div class="mb-3">
     <label i18n>Vote</label>
     <select name="vote" [(ngModel)]="vote" required class="form-control">
       <option value="-1" class="text-danger" i18n>Negative</option>

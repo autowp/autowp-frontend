@@ -27,7 +27,7 @@
     <li class="nav-item" *ngIf="brand.descendant_twins_groups_count">
       <a class="nav-link" [routerLink]="['/twins', brand.catname]">
         <i class="fa fa-adjust" aria-hidden="true"></i> <ng-container i18n>Twins</ng-container>
-        <span class="badge badge-pill badge-secondary">{{brand.descendant_twins_groups_count}}</span>
+        <span class="badge rounded-pill bg-secondary">{{brand.descendant_twins_groups_count}}</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.mosts_active">
@@ -39,14 +39,14 @@
       <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{status: 'inbox', item_id: brand.id}">
         <i class="fa-fw fa fa-th" aria-hidden="true"></i>
         <ng-container i18n>Brand inbox</ng-container>
-        <span class="badge badge-pill badge-secondary">{{brand.inbox_pictures_count}}</span>
+        <span class="badge rounded-pill bg-secondary">{{brand.inbox_pictures_count}}</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.comments_attentions_count">
       <a class="nav-link" routerLink="/moder/comments" [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}">
         <i class="fa fa-comment" aria-hidden="true"></i>
         <ng-container i18n>comments</ng-container>
-        <span class="badge badge-pill badge-secondary">{{brand.comments_attentions_count}}</span>
+        <span class="badge rounded-pill bg-secondary">{{brand.comments_attentions_count}}</span>
       </a>
     </li>
     <ng-container *ngIf="isModer$|async as isModer">
@@ -70,7 +70,7 @@
             <div class="col-12 col-lg-6" *ngFor="let chunk of halfChunk">
               <a class="nav-link" [routerLink]="group.routerLink" *ngFor="let group of chunk">
                 {{group.name}}
-                <span *ngIf="group.count" class="badge badge-pill badge-secondary">{{group.count}}</span>
+                <span *ngIf="group.count" class="badge rounded-pill bg-secondary">{{group.count}}</span>
               </a>
             </div>
           </div>

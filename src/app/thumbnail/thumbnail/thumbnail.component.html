@@ -23,18 +23,18 @@
 
       <br />
 
-      <span i18n-title title="Views" *ngIf="picture.views > 0" class="mr-2" ngPreserveWhitespaces>
+      <span i18n-title title="Views" *ngIf="picture.views > 0" class="me-2" ngPreserveWhitespaces>
         <i class="fa fa-eye" aria-hidden="true"></i>
         <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
         <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
       </span>
 
-      <span class="mr-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>
+      <span class="me-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>
         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
         {{picture.votes.positive}}
       </span>
 
-      <span i18n-title title="Comments" *ngIf="picture.comments_count.total > 0" class="mr-2">
+      <span i18n-title title="Comments" *ngIf="picture.comments_count.total > 0" class="me-2">
         <a [routerLink]="route" *ngIf="route">
           <ng-container *ngIf="picture.comments_count.new > 0">
             {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger" aria-hidden="true"></i>
@@ -50,21 +50,21 @@
       <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
     </p>
 
-    <label class="btn btn-sm float-left mr-1 mb-2" [class.btn-primary]="picture.selected" [class.btn-secondary]="!picture.selected"
+    <label class="btn btn-sm float-start me-1 mb-2" [class.btn-primary]="picture.selected" [class.btn-secondary]="!picture.selected"
       (click)="onPictureSelect()" *ngIf="selectable">
       <i class="fa fa-check" aria-hidden="true"></i>
     </label>
 
-    <a [routerLink]="['/moder/pictures', picture.id]" [class.float-right]="selectable"  class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer$|async">
+    <a [routerLink]="['/moder/pictures', picture.id]" [class.float-end]="selectable"  class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer$|async">
       <i class="fa fa-cog" aria-hidden="true"></i>
     </a>
-    <select *ngIf="picture.perspective_item" class="form-control form-control-sm mr-1 mb-2" [(ngModel)]="picture.perspective_item.perspective_id"
+    <select *ngIf="picture.perspective_item" class="form-control form-control-sm me-1 mb-2" [(ngModel)]="picture.perspective_item.perspective_id"
       (change)="savePerspective()">
       <option [ngValue]="null">--</option>
       <option *ngFor="let item of perspectiveOptions" [ngValue]="item.id">{{getPerspectiveTranslation(item.name)}}</option>
     </select>
     <p class="alert alert-warning" role="alert" *ngIf="picture.similar">
-      <span class="fa fa-file-image-o mr-1" aria-hidden="true"></span>
+      <span class="fa fa-file-image-o me-1" aria-hidden="true"></span>
       <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces i18n>Similar picture: {{picture.similar.distance}}</a>
     </p>
   </div>

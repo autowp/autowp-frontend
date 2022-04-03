@@ -5,8 +5,8 @@
 <br *ngIf="item.item.childs_count <= 0" />
 <div *ngIf="item.item.childs_count > 0">
   <a href="" class="arrow" (click)="toggleItem(item)">
-    <i class="fa fa-plus-circle mr-1" aria-hidden="true" [hidden]="item.expanded"></i>
-    <i class="fa fa-minus-circle mr-1" aria-hidden="true" [hidden]="!item.expanded"></i>
+    <i class="fa fa-plus-circle me-1" aria-hidden="true" [hidden]="item.expanded"></i>
+    <i class="fa fa-minus-circle me-1" aria-hidden="true" [hidden]="!item.expanded"></i>
     <span [innerHTML]="item.item.name_html"></span>
   </a>
   <div style="margin:0 0 4px 18px;" [hidden]="!item.expanded">

@@ -17,7 +17,7 @@
 </div>
 
 <form method="post" class="form-horizontal" *ngIf="user" (submit)="submit()">
-  <div class="form-group row">
+  <div class="mb-3 row">
     <label class="col-md-2 col-form-label" for="name" i18n>Subject</label>
     <div class="col-md-10">
       <input type="text" name="name" size="80" maxlength="100" class="form-control" [(ngModel)]="form.name" [class.is-invalid]="invalidParams && invalidParams.name"
@@ -25,14 +25,14 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row">
+  <div class="mb-3 row">
     <label class="col-md-2 col-form-label" for="text" i18n>Message</label>
     <div class="col-md-10">
       <textarea name="text" cols="140" rows="15" maxlength="4096" class="form-control" [(ngModel)]="form.text" [class.is-invalid]="invalidParams && invalidParams.text"></textarea>
       <p *ngFor="let message of invalidParams | invalidParams : 'text'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row">
+  <div class="mb-3 row">
     <div class="col-md-2"></div>
     <div class="col-md-10">
       <div class="checkbox">
@@ -44,7 +44,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'moderator_attention'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row">
+  <div class="mb-3 row">
     <div class="col-md-2"></div>
     <div class="col-md-10">
       <div class="checkbox">

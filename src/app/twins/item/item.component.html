@@ -6,11 +6,11 @@
       <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
-    <small *ngIf="item.produced > 1" class="ml-2">
+    <small *ngIf="item.produced > 1" class="ms-2">
       <span *ngIf="item.produced_exactly" i18n="@@n-produced">{item.produced, plural, one {Produced in {{item.produced}} copy} other {Produced in {{item.produced}} copies}}</span>
       <span *ngIf="!item.produced_exactly" i18n="@@n-produced-about">{item.produced, plural, one {Produced in about {{item.produced}} copy} other {Produced in about {{item.produced}} copies}}</span>
     </small>
-    <small i18n *ngIf="item.produced === 1" class="ml-2">Produced in a single copy</small>
+    <small i18n *ngIf="item.produced === 1" class="ms-2">Produced in a single copy</small>
   </h3>
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
@@ -48,19 +48,19 @@
   <ul class="list-inline" ngPreserveWhitespaces>
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
-      <i class="fa fa-tag mr-1" aria-hidden="true"></i>
+      <i class="fa fa-tag me-1" aria-hidden="true"></i>
       <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
     <ng-container *ngIf="isModer$|async as isModer">
       <li *ngIf="isModer" class="list-inline-item">
-        <i class="fa fa-cog mr-1" aria-hidden="true"></i>
+        <i class="fa fa-cog me-1" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
       </li>
     </ng-container>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
+      <i class="fa fa-pencil me-1" aria-hidden="true"></i>
       <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
     </li>
   </ul>

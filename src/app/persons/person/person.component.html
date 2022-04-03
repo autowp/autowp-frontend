@@ -15,7 +15,7 @@
 
 <ng-container *ngIf="isModer$|async as isModer">
   <p *ngIf="isModer && item">
-    <i class="fa fa-cog mr-1" aria-hidden="true"></i>
+    <i class="fa fa-cog me-1" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
   </p>
 </ng-container>

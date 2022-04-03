@@ -74,7 +74,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 <form ngNoForm method="post" action="https://yoomoney.ru/quickpay/confirm.xml" (submit)="submit($event)" class="card card-body mb-4">
   <div *ngIf="selectedDate && selectedItem">
     <input type="hidden" *ngFor="let param of formParams" [name]="param.name" [value]="param.value" />
-    <div class="form-group">
+    <div class="mb-3">
       <textarea name="comment" i18n-placeholder placeholder="Your wishes" class="form-control" maxlength="200"></textarea>
     </div>
   </div>
@@ -84,7 +84,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
     (<span i18n>about {{'$'+(sum / 59.70).toFixed(2)}}</span>)
   </p>
   <div *ngIf="selectedDate && selectedItem">
-    <div class="form-group">
+    <div class="mb-3">
       <div class="btn-group btn-group-toggle" ngbRadioGroup name="paymentType" [(ngModel)]="paymentType">
         <label class="btn btn-secondary" ngbButtonLabel>
           <input type="radio" ngbButton name="paymentType" value="AC" autocomplete="off">

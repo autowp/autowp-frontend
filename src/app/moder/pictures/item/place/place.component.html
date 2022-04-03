@@ -20,7 +20,7 @@
 </div>
 
 <form method="post" class="form-horizontal" (ngSubmit)="doSubmit()" *ngIf="picture">
-  <div class="form-group row">
+  <div class="mb-3 row">
     <label class="col-md-2 col-form-label" i18n>Point</label>
     <div class="col-md-10 coords">
       <input type="text" name="lat" [(ngModel)]="lat" maxlength="20" size="20" placeholder="Latitude" i18n-placeholder class="form-control" (input)="coordsChanged()" />
@@ -28,7 +28,7 @@
       <div style="width:100%;height:300px" class="mb-4" leaflet [leafletCenter]="center" [leafletOptions]="leafletOptions" [leafletLayers]="markers" (leafletMapReady)="onMapReady($event)"></div>
     </div>
   </div>
-  <div class="row">
+  <div class="mb-3 row">
     <div class="col-md-10 offset-md-2">
       <button type="submit" name="submit" class="btn btn-primary" i18n>Submit</button>
     </div>

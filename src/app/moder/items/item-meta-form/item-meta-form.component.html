@@ -1,5 +1,5 @@
 <form method="post" class="form-horizontal" (ngSubmit)="doSubmit($event)" *ngIf="item">
-  <div class="form-group row">
+  <div class="mb-3 row">
     <label class="col-md-2 col-form-label" i18n>Name</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.name" type="text" name="name" [(ngModel)]="item.name" class="form-control"
@@ -7,7 +7,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 5">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 5">
     <label class="col-md-2 col-form-label" i18n>Full name</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.full_name" type="text" name="full_name" [(ngModel)]="item.full_name"
@@ -15,7 +15,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'full_name'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 5 || item.item_type_id === 3">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 5 || item.item_type_id === 3">
     <label class="col-md-2 col-form-label" i18n>Catname</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.catname" type="text" name="catname" [(ngModel)]="item.catname"
@@ -23,7 +23,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'catname'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
     <label class="col-md-2 col-form-label" i18n>Body number</label>
     <div class="col-md-10">
       <input [class.is-invalid]="invalidParams && invalidParams.body" type="text" name="body" [(ngModel)]="item.body" style="width: 30%"
@@ -31,7 +31,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'body'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
     <label class="col-md-2 col-form-label" i18n>Spec</label>
     <div class="col-md-10">
       <select [class.is-invalid]="invalidParams && invalidParams.spec_id" name="spec_id" [(ngModel)]="item.spec_id" style="width: 30%"
@@ -41,7 +41,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'spec_id'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 4">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 4">
     <label class="col-md-2 col-form-label" i18n>Type</label>
     <div class="col-md-10">
       <button class="btn btn-sm btn-info" type="button" *ngFor="let type of vehicleTypes" (click)="showVehicleTypesModal()">{{getVehicleTypeTranslation(type.name)}}</button>
@@ -56,26 +56,26 @@
       <div>{{'...'.repeat(data.deep)}}{{data.nameTranslated}}</div>
     </script>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
     <label class="col-md-2 col-form-label" i18n>Model years</label>
     <div class="col-md-10">
-      <div class="form-row">
-        <div class="form-group col-md-2 col-sm-4 mb-0">
+      <div class="row">
+        <div class="col-md-2 col-sm-4 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.begin_model_year" name="begin_model_year" [(ngModel)]="item.begin_model_year"
             placeholder="from" i18n-placeholder min="1800" [max]="modelYearMax" class="form-control"
             maxlength="4" />
         </div>
-        <div class="form-group col-md-1 col-sm-2 mb-0">
+        <div class="col-md-1 col-sm-2 mb-0">
           <select class="form-control" [class.is-invalid]="invalidParams && invalidParams.begin_model_year_fraction" name="begin_model_year_fraction" [(ngModel)]="item.begin_model_year_fraction">
             <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">{{option.name}}</option>
           </select>
         </div>
-        <div class="form-group col-md-2 col-sm-4 mb-0">
+        <div class="col-md-2 col-sm-4 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.end_model_year" name="end_model_year" [(ngModel)]="item.end_model_year"
             placeholder="to" i18n-placeholder min="1800" [max]="modelYearMax" class="form-control"
             maxlength="4" />
         </div>
-        <div class="form-group col-md-1 col-sm-2 mb-0">
+        <div class="col-md-1 col-sm-2 mb-0">
           <select class="form-control" [class.is-invalid]="invalidParams && invalidParams.end_model_year_fraction" name="end_model_year_fraction" [(ngModel)]="item.end_model_year_fraction">
             <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">{{option.name}}</option>
           </select>
@@ -85,16 +85,16 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'end_model_year'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id !== 9">
+  <div class="mb-3 row" *ngIf="item.item_type_id !== 9">
     <label class="col-md-2 col-form-label" i18n>Begin</label>
     <div class="col-md-10">
-      <div class="form-row">
-        <div class="form-group col-md-2 col-sm-2 mb-0">
+      <div class="row">
+        <div class="col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.begin_year" name="begin_year" [(ngModel)]="item.begin_year"
             placeholder="year" i18n-placeholder [min]="1800" [max]="yearMax" class="form-control" [attr.maxlength]="4"
           />
         </div>
-        <div class="form-group col-md-4 col-sm-7 mb-0">
+        <div class="col-md-4 col-sm-7 mb-0">
           <select name="begin_month" [class.is-invalid]="invalidParams && invalidParams.begin_month" [(ngModel)]="item.begin_month"
             title="month" i18n-title class="form-control">
             <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
@@ -105,22 +105,22 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'begin_month'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id !== 9">
+  <div class="mb-3 row" *ngIf="item.item_type_id !== 9">
     <label class="col-md-2 col-form-label" i18n>End</label>
     <div class="col-md-10">
-      <div class="form-row">
-        <div class="form-group col-md-2 col-sm-2 mb-0">
+      <div class="row">
+        <div class="col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.end_year" name="end_year" [(ngModel)]="item.end_year"
             placeholder="year" i18n-placeholder min="1800" [max]="yearMax" class="form-control" maxlength="4"
           />
         </div>
-        <div class="form-group col-md-4 col-sm-7 mb-0">
+        <div class="col-md-4 col-sm-7 mb-0">
           <select name="end_month" [class.is-invalid]="invalidParams && invalidParams.end_month" [(ngModel)]="item.end_month" title="month" i18n-title
             class="form-control">
             <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
           </select>
         </div>
-        <div class="form-group col-md-4 col-sm-3 mb-0">
+        <div class="col-md-4 col-sm-3 mb-0">
           <select name="today" [class.is-invalid]="invalidParams && invalidParams.today" [(ngModel)]="item.today" title="today" i18n-title
             class="form-control">
             <option *ngFor="let option of todayOptions" [ngValue]="option.value">{{option.name}}</option>
@@ -132,15 +132,15 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'today'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
     <label class="col-md-2 col-form-label" i18n>Produced</label>
     <div class="col-md-10">
-      <div class="form-row">
-        <div class="form-group col-md-2 col-sm-2 mb-0">
+      <div class="row">
+        <div class="col-md-2 col-sm-2 mb-0">
           <input type="number" [class.is-invalid]="invalidParams && invalidParams.produced_count" name="produced" [(ngModel)]="item.produced"
             min="0" max="100000000" class="form-control" title="number" i18n-title />
         </div>
-        <div class="form-group col-md-4 col-sm-4 mb-0">
+        <div class="col-md-4 col-sm-4 mb-0">
           <select name="produced_exactly" [class.is-invalid]="invalidParams && invalidParams.produced_exactly" [(ngModel)]="item.produced_exactly"
             class="form-control">
             <option *ngFor="let option of producedOptions" [ngValue]="option.value">{{option.name}}</option>
@@ -151,7 +151,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'produced_exactly'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
     <label class="col-md-2 col-form-label" i18n>Concept (prototype)</label>
     <div class="col-md-10">
       <select name="is_concept" [class.is-invalid]="invalidParams && invalidParams.is_concept" [(ngModel)]="item.is_concept" style="width: 20%"
@@ -161,7 +161,7 @@
       <p *ngFor="let message of invalidParams | invalidParams : 'is_concept'" [textContent]="message" class="invalid-feedback"></p>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 1 || item.item_type_id === 2">
     <div class="col-md-2">
     </div>
     <div class="col-md-10">
@@ -173,7 +173,7 @@
       </div>
     </div>
   </div>
-  <div class="form-group row" *ngIf="item.item_type_id === 6 || item.item_type_id === 7">
+  <div class="mb-3 row" *ngIf="item.item_type_id === 6 || item.item_type_id === 7">
     <label class="col-md-2 col-form-label">Point</label>
     <div class="col-md-10 coords">
       <input type="text" name="lat" [(ngModel)]="item.lat" maxlength="20" size="20" placeholder="Latitude" i18n-placeholder

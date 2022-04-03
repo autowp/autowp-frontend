@@ -178,21 +178,21 @@
     <h3 i18n>Settings</h3>
     <form class="card card-body form-vertical mb-4">
 
-      <div class="form-group row">
+      <div class="mb-3 row">
         <label class="col-md-3 col-form-label" i18n>Date of photo</label>
         <div class="col-md-9">
-          <div class="form-row">
-            <div class="form-group col-3">
+          <div class="row">
+            <div class="col-3">
               <input type="number" name="taken_year" [(ngModel)]="picture.taken_year"
                      placeholder="Year" [min]="1800" [max]="2030" class="form-control" [attr.maxlength]="4"
               />
             </div>
-            <div class="form-group col-6">
+            <div class="col-6">
               <select name="taken_month" [(ngModel)]="picture.taken_month" title="Month" class="form-control">
                 <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
               </select>
             </div>
-            <div class="form-group col-3">
+            <div class="col-3">
               <select name="taken_day" [(ngModel)]="picture.taken_day" title="Day" class="form-control">
                 <option *ngFor="let day of dayOptions" [ngValue]="day.value">{{day.name}}</option>
               </select>
@@ -207,7 +207,7 @@
         <p class="text-danger">Поле использовать в ИСКЛЮЧИТЕЛЬНЫХ случаях. А лучше вообще никогда не использовать.</p>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <label i18n>Special name</label>
         <input type="text" class="form-control" maxlength="255" name="special_name" [(ngModel)]="picture.special_name" />
       </div>
@@ -380,13 +380,13 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
         <button *ngIf="ip.blacklist && ip.rights.removeFromBlacklist" class="btn btn-success" (click)="removeFromBlacklist(ip.address)" i18n>unban</button>
 
         <form class="form-vertical" *ngIf="!ip.blacklist && ip.rights.addToBlacklist">
-          <div class="form-group">
+          <div class="mb-3">
             <label i18n>For period</label>
             <select [(ngModel)]="banPeriod" name="period" class="form-control" required>
               <option *ngFor="let period of banPeriods" [value]="period.value">{{period.name}}</option>
             </select>
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label i18n>Reason</label>
             <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
           </div>

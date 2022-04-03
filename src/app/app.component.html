@@ -14,7 +14,7 @@
     </a>
 
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <ul class="navbar-nav me-auto mt-2 mt-lg-0">
         <li class="nav-item d-md-none d-lg-block" [class.active]="isActive(25)|async">
           <a class="nav-link" routerLink="/twins" i18n>Twins</a>
         </li>
@@ -43,7 +43,7 @@
           <a class="nav-link" routerLink="/forums" i18n>Forums</a>
         </li>
       </ul>
-      <form action="//www.google.com/search" method="get" class="form-inline my-2 my-lg-0 mr-4" *ngIf="searchHostname" ngNoForm>
+      <form action="//www.google.com/search" method="get" class="form-inline my-2 my-lg-0 me-4" *ngIf="searchHostname" ngNoForm>
         <input type="hidden" name="ie" value="utf-8" />
         <input type="hidden" name="domains" [value]="searchHostname" />
         <input type="hidden" name="sitesearch" [value]="searchHostname" />
@@ -54,7 +54,7 @@
           <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
             <i class="fa fa-comment" aria-hidden="true"></i>
             <ng-container *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
-              <span class="badge badge-pill badge-secondary" [textContent]="newPersonalMessages.count" *ngIf="newPersonalMessages.count > 0"></span>
+              <span class="badge rounded-pill bg-secondary" [textContent]="newPersonalMessages.count" *ngIf="newPersonalMessages.count > 0"></span>
             </ng-container>
           </a>
         </li>
@@ -171,25 +171,22 @@
     <div class="row">
       <div class="col-md-6">
         <p class="links">
-          <a href="https://twitter.com/autowp_ru" placement="top" ngbTooltip="Twitter">
+          <a href="https://twitter.com/autowp_ru" placement="top" ngbTooltip="Twitter" class="d-inline-block">
             <i class="fa fa-twitter" aria-hidden="true"></i>
           </a>
-          <a href="https://www.facebook.com/WheelsAge" placement="top" ngbTooltip="Facebook">
+          <a href="https://www.facebook.com/WheelsAge" placement="top" ngbTooltip="Facebook" class="d-inline-block" *ngIf="language != 'ru'">
             <i class="fa fa-facebook" aria-hidden="true"></i>
           </a>
-          <a href="https://vk.com/wheelsage" placement="top" ngbTooltip="VK">
-            <i class="fa fa-vk" aria-hidden="true"></i>
-          </a>
-          <a href="https://github.com/autowp/autowp" placement="top" ngbTooltip="GitHub">
+          <a href="https://github.com/autowp/autowp" placement="top" ngbTooltip="GitHub" class="d-inline-block">
             <i class="fa fa-github" aria-hidden="true"></i>
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.autowp.wallpaper" placement="top" ngbTooltip="Android wallpaper">
+          <a href="https://play.google.com/store/apps/details?id=com.autowp.wallpaper" placement="top" ngbTooltip="Android wallpaper" class="d-inline-block">
             <i class="fa fa-android" aria-hidden="true"></i>
           </a>
-          <a routerLink="/telegram" placement="top" ngbTooltip="Telegram">
+          <a routerLink="/telegram" placement="top" ngbTooltip="Telegram" class="d-inline-block">
             <i class="fa fa-telegram" aria-hidden="true"></i>
           </a>
-          <a routerLink="/feedback" placement="top" ngbTooltip="Feedback" i18n-ngbTooltip>
+          <a routerLink="/feedback" placement="top" ngbTooltip="Feedback" i18n-ngbTooltip class="d-inline-block">
             <i class="fa fa-comment" aria-hidden="true"></i>
           </a>
         </p>

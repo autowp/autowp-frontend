@@ -1,5 +1,4 @@
 import { Component} from '@angular/core';
-import { chunkBy } from '../../chunk';
 import { ContactsService } from '../../services/contacts';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -17,7 +16,6 @@ import {KeycloakService} from 'keycloak-angular';
 })
 export class AccountContactsComponent {
   public items: Contact[] = [];
-  public chunks: Contact[][];
 
   constructor(
     private contactsService: ContactsService,
@@ -57,7 +55,6 @@ export class AccountContactsComponent {
     ).subscribe(
       response => {
         this.items = response.items;
-        this.chunks = chunkBy(this.items, 2);
       },
       response => this.toastService.response(response)
     );
@@ -72,7 +69,6 @@ export class AccountContactsComponent {
             break;
           }
         }
-        this.chunks = chunkBy(this.items, 2);
       },
       response => this.toastService.response(response)
     );

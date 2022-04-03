@@ -32,7 +32,7 @@
 
   <ng-container *ngIf="!voting.can_vote">
     <div *ngFor="let variant of voting.variants" class="mb-3">
-      <p class="float-right" *ngIf="variant.votes > 0">
+      <p class="float-end" *ngIf="variant.votes > 0">
         <a class="who-vote" href="#" i18n (click)="showWhoVoted(variant)">Who voted?</a>
       </p>
       {{variant.name}}
@@ -41,7 +41,7 @@
     </div>
   </ng-container>
 </div>
-<!--<p class="float-right" *ngIf="isModer">
+<!--<p class="float-end" *ngIf="isModer">
   <a routerLink="." [queryParams]="{filter: null}" *ngIf="filter" i18n>show all</a>
   <a routerLink="." [queryParams]="{filter: 1}" *ngIf="!filter" i18n>show from 100 uploaded pictures</a>
 </p>-->

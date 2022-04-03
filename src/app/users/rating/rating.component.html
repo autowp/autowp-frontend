@@ -56,7 +56,7 @@
         <small *ngIf="row.fans && row.fans.length > 0">
           <ng-container *ngFor="let fan of row.fans">
             <app-user [user]="fan.user"></app-user>
-            <span class="badge badge-pill badge-secondary" [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"></span>
+            <span class="badge rounded-pill bg-secondary" [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"></span>
             <span>, </span>
           </ng-container>
           …
