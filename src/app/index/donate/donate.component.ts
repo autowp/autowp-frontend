@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {LanguageService} from '../../services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
+import * as moment from 'moment';
 
 const rates = {
   'EUR': 1,
@@ -30,7 +31,14 @@ export class IndexDonateComponent {
   public $state = of(require('./data.json') as Donation[]).pipe(
     map(operations => {
       operations = operations.reverse();
-      const donations = operations.filter(d => d.sum > 0);
+      const donations = operations.filter(d => d.sum > 0).map(d => ({
+        sum: d.sum,
+        normalizedSum: rates[d.currency] *d.sum,
+        currency: d.currency,
+        date: moment(d.date).toDate(),
+        contributor: d.contributor,
+        purpose: d.purpose
+      })).sort((a,b)=>a.date.getTime()-b.date.getTime());
       const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
       const charges = operations.filter(d => d.sum < 0);
@@ -48,12 +56,14 @@ export class IndexDonateComponent {
         needForNextTwoMonths,
         needForNextTwoMonthsPercent: 100 * needForNextTwoMonths / total,
         donations: donations.map(o => ({
+          date: o.date,
           sum: o.sum,
           currency: o.currency,
           percent: 100 * o.sum * rates[o.currency] / total,
           contributor: o.contributor
         })),
         charges: charges.map(o => ({
+          date: o.date,
           sum: o.sum,
           currency: o.currency,
           percent: -100 * o.sum * rates[o.currency] / total,
