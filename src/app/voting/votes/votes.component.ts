@@ -1,55 +1,40 @@
 import {
   Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnInit
+  Input
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { VotingService, APIVotingVariantVote } from '../voting.service';
+import {APIVotingVariantVote, VotingService} from '../voting.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-voting-votes',
   templateUrl: './votes.component.html'
 })
-export class VotingVotesComponent implements OnChanges, OnInit {
-  @Input() votingID: number;
-  @Input() variantID: number;
+export class VotingVotesComponent {
+  @Input('votingID') set votingID(value: number) { this.votingID$.next(value); };
+  private votingID$ = new BehaviorSubject<number>(null);
 
-  public votes: APIVotingVariantVote[] = [];
+  @Input('variantID') set variantID(value: number) { this.variantID$.next(value); };
+  private variantID$ = new BehaviorSubject<number>(null);
+
+  public votes$: Observable<APIVotingVariantVote[]> = combineLatest([this.votingID$, this.variantID$]).pipe(
+    switchMap(([votingID, variantID]) => this.votingService
+      .getVariantVotes(votingID, variantID, {
+        fields: 'user'
+      })
+    ),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    }),
+    map(response => response.items)
+  );
 
   constructor(
     public activeModal: NgbActiveModal,
     private votingService: VotingService,
     private toastService: ToastsService
   ) {}
-
-  ngOnInit(): void {
-    this.load();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.load();
-  }
-
-  private load() {
-    this.votes = [];
-
-    const votingID = this.votingID ? this.votingID : 0;
-    const variantID = this.variantID ? this.variantID : 0;
-
-    if (votingID && variantID) {
-      this.votingService
-        .getVariantVotes(votingID, variantID, {
-          fields: 'user'
-        })
-        .subscribe(
-          response => {
-            this.votes = response.items;
-          },
-          response => this.toastService.response(response)
-        );
-    }
-  }
 }

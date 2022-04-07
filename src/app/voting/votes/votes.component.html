@@ -1,10 +1,18 @@
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading…</span>
+  </div>
+</ng-template>
+
 <div class="modal-content">
   <div class="modal-header">
     <h3 class="modal-title" i18n>Who voted?</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
-    <app-user [user]="vote.user" *ngFor="let vote of votes"></app-user>
+    <ng-container *ngIf="votes$|async as votes; else loading">
+      <app-user [user]="vote.user" *ngFor="let vote of votes"></app-user>
+    </ng-container>
   </div>
   <div class="modal-footer">
     <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Close</button>
