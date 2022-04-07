@@ -13,10 +13,10 @@ import {catchError, map, switchMap} from 'rxjs/operators';
   templateUrl: './votes.component.html'
 })
 export class VotingVotesComponent {
-  @Input('votingID') set votingID(value: number) { this.votingID$.next(value); };
+  @Input() set votingID(value: number) { this.votingID$.next(value); };
   private votingID$ = new BehaviorSubject<number>(null);
 
-  @Input('variantID') set variantID(value: number) { this.variantID$.next(value); };
+  @Input() set variantID(value: number) { this.variantID$.next(value); };
   private variantID$ = new BehaviorSubject<number>(null);
 
   public votes$: Observable<APIVotingVariantVote[]> = combineLatest([this.votingID$, this.variantID$]).pipe(
