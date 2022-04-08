@@ -1,24 +1,37 @@
 [
+
   {
-    "sum": 10.00,
+    "sum": 9.18,
     "currency": "EUR",
-    "date": "2022-04-08T00:00:00+00:00",
-    "contributor": "yuinli ran"
+    "date": "2022-04-07T00:00:00+00:00",
+    "contributor": "Fabio Mendez"
   },
   {
-    "sum": 103.88,
+    "sum": 9.18,
+    "currency": "EUR",
+    "date": "2022-04-06T00:00:00+00:00",
+    "contributor": "Yinli Ran"
+  },
+  {
+    "sum": 100.00,
     "currency": "EUR",
     "date": "2022-04-06T00:00:00+00:00",
     "contributor": "Mieke Stuart"
   },
   {
-    "sum": 20.00,
+    "sum": 0.62,
     "currency": "EUR",
-    "date": "2022-04-03T00:00:00+00:00",
+    "date": "2022-04-04T00:00:00+00:00",
+    "contributor": "Oscar Pulido"
+  },
+  {
+    "sum": 18.57,
+    "currency": "EUR",
+    "date": "2022-04-02T00:00:00+00:00",
     "contributor": "Fakhri Mammadov"
   },
   {
-    "sum": 103.88,
+    "sum": 100.00,
     "currency": "EUR",
     "date": "2022-03-30T10:47:59+00:00",
     "contributor": "Anonymous"
