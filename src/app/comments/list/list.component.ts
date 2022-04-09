@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CommentsVotesComponent} from '../votes/votes.component';
-import {combineLatest, Subscription} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIUser, CommentsSetDeletedRequest, CommentsVoteCommentRequest} from '../../../../generated/spec.pb';
+import {CommentsSetDeletedRequest, CommentsType, CommentsVoteCommentRequest} from '../../../../generated/spec.pb';
 import {CommentsClient} from '../../../../generated/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {BehaviorSubject} from 'rxjs';
 
 export interface APICommentInList extends APIComment {
   showReply?: boolean;
@@ -19,19 +19,26 @@ export interface APICommentInList extends APIComment {
   selector: 'app-comments-list',
   templateUrl: './list.component.html'
 })
-export class CommentsListComponent implements OnInit, OnDestroy {
-  public canRemoveComments = false;
-  public canMoveMessage = false;
+export class CommentsListComponent {
 
-  @Input() itemID: number;
-  @Input() typeID: number;
-  @Input() messages: APICommentInList[];
-  @Input() deep: number;
+  @Input() set itemID(itemID: number) { this.itemID$.next(itemID); };
+  public itemID$ = new BehaviorSubject<number>(null);
+
+  @Input() set typeID(typeID: CommentsType) { this.typeID$.next(typeID); };
+  public typeID$ = new BehaviorSubject<CommentsType>(null);
+
+  @Input() set messages(messages: APICommentInList[]) { this.messages$.next(messages); };
+  public messages$ = new BehaviorSubject<APICommentInList[]>([]);
+
+  @Input() set deep(deep: number) { this.deep$.next(deep); };
+  public deep$ = new BehaviorSubject<number>(null);
+
   @Output() sent = new EventEmitter<string>();
 
-  public isModer: boolean;
-  private sub: Subscription;
-  public user: APIUser;
+  public canRemoveComments$ = this.acl.isAllowed(Resource.COMMENT, Privilege.REMOVE);
+  public canMoveMessage$ = this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public user$ = this.auth.getUser();
 
   constructor(
     private acl: ACLService,
@@ -41,24 +48,6 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     private toastService: ToastsService,
     private commentsGrpc: CommentsClient,
   ) {}
-
-  ngOnInit(): void {
-    this.sub = combineLatest([
-      this.auth.getUser(),
-      this.acl.isAllowed(Resource.COMMENT, Privilege.REMOVE),
-      this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE),
-      this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-    ]).subscribe(([user, canRemoveComments, canMoveMessage, isModer]) => {
-      this.user = user;
-      this.canRemoveComments = canRemoveComments;
-      this.canMoveMessage = canMoveMessage;
-      this.isModer = isModer;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   public vote(message: APIComment, value: number) {
     this.commentsGrpc.voteComment(new CommentsVoteCommentRequest({

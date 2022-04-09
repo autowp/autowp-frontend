@@ -1,45 +1,70 @@
-import { APIPaginator } from '../../services/api.service';
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, Subscription} from 'rxjs';
-import {APIComment, APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
+import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {APIUser, CommentsViewRequest} from '../../../../generated/spec.pb';
+import {CommentsType, CommentsViewRequest} from '../../../../generated/spec.pb';
 import {CommentsClient} from '../../../../generated/spec.pbsc';
-
-interface State {
-  itemID: number;
-  typeID: number;
-  limit: number;
-  page: number;
-}
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html'
 })
-export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
-  private sub: Subscription;
-
-  public messages: APIComment[] = [];
-  public paginator: APIPaginator;
-  public user: APIUser;
-  private change$ = new BehaviorSubject<State>(null);
+export class CommentsComponent {
   private reload$ = new BehaviorSubject<null>(null);
 
-  @Input() itemID: number;
-  @Input() typeID: number;
-  @Input() limit: number;
-  @Input() page: number;
+  @Input() set itemID(itemID: number) { this.itemID$.next(itemID); };
+  public itemID$ = new BehaviorSubject<number>(null);
+
+  @Input() set typeID(typeID: CommentsType) { this.typeID$.next(typeID); };
+  public typeID$ = new BehaviorSubject<CommentsType>(null);
+
+  @Input() set limit(limit: number) { this.limit$.next(limit); };
+  public limit$ = new BehaviorSubject<number>(null);
+
+  @Input() set page(page: number) { this.page$.next(page); };
+  public page$ = new BehaviorSubject<number>(null);
+
+  public user$ = this.auth.getUser();
+
+  public data$ = combineLatest([
+    this.user$,
+    this.itemID$.pipe(
+      debounceTime(10),
+      distinctUntilChanged(),
+    ),
+    this.typeID$.pipe(
+      debounceTime(10),
+      distinctUntilChanged(),
+    ),
+    this.limit$.pipe(
+      debounceTime(10),
+      distinctUntilChanged(),
+    ),
+    this.page$.pipe(
+      debounceTime(10),
+      distinctUntilChanged(),
+    ),
+    this.reload$
+  ])
+    .pipe(
+      switchMap(([user, itemID, typeID, limit, page]) => this.load(itemID, typeID, limit, page).pipe(
+        tap(() => {
+          if (user) {
+            this.commentsGrpc.view(new CommentsViewRequest({
+              itemId: ''+itemID,
+              typeId: typeID
+            })).subscribe();
+          }
+        }),
+        map(response => ({
+          messages: response.items,
+          paginator: response.paginator
+        }))
+      )),
+    );
 
   constructor(
     private router: Router,
@@ -48,39 +73,6 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
     private toastService: ToastsService,
     private commentsGrpc: CommentsClient,
   ) {}
-
-  ngOnInit(): void {
-    this.sub = combineLatest([
-      this.auth.getUser().pipe(
-        tap(user => (this.user = user))
-      ),
-      this.change$.pipe(
-        debounceTime(10),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-      ),
-      this.reload$
-    ])
-      .pipe(
-        switchMap(([user, state]) => this.load(state).pipe(
-          map(response => ({response, user, state}))
-        )),
-        map(data => {
-          this.messages = data.response.items;
-          this.paginator = data.response.paginator;
-
-          if (data.user) {
-            this.commentsGrpc.view(new CommentsViewRequest({
-              itemId: ''+data.state.itemID,
-              typeId: data.state.typeID
-            })).subscribe();
-          }
-        })
-      )
-      .subscribe();
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   public onSent(location: string) {
     if (! this.limit) {
@@ -108,28 +100,19 @@ export class CommentsComponent implements OnChanges, OnInit, OnDestroy {
       );
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.change$.next({
-      itemID: this.itemID,
-      typeID: this.typeID,
-      limit: this.limit,
-      page: this.page,
-    });
-  }
-
-  public load(state: State): Observable<APICommentGetResponse> {
-    if (!state.typeID || !state.itemID) {
+  public load(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
+    if (!typeID || !itemID) {
       return EMPTY;
     }
 
     return this.commentService.getComments({
-      type_id: state.typeID,
-      item_id: state.itemID,
+      type_id: typeID,
+      item_id: itemID,
       no_parents: true,
       fields: ['user.avatar', 'user.gravatar', 'replies', 'text', 'vote', 'user_vote'],
       order: 'date_asc',
-      limit: state.limit ? state.limit : null,
-      page: state.page
+      limit: limit ? limit : null,
+      page: page
     });
   }
 }

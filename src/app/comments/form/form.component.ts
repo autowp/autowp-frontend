@@ -1,6 +1,7 @@
 import {Input, Component, EventEmitter, Output, OnChanges, SimpleChanges} from '@angular/core';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
+import {CommentsType} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-comments-form',
@@ -9,7 +10,7 @@ import { APIService } from '../../services/api.service';
 export class CommentsFormComponent implements OnChanges {
   @Input() parentID: number;
   @Input() itemID: number;
-  @Input() typeID: number;
+  @Input() typeID: CommentsType;
   @Input() resolve = false;
   @Output() sent = new EventEmitter<string>();
   @Output() canceled = new EventEmitter<string>();
