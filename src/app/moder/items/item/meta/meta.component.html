@@ -1,43 +1,43 @@
-<ng-container *ngIf="canEditMeta$|async as canEditMeta">
-  <div class="card card-body" *ngIf="item">
-    <ngb-progressbar type="success" [striped]="true" [animated]="true" [value]="100" [hidden]="loading <= 0"></ngb-progressbar>
-    <app-item-meta-form *ngIf="canEditMeta" [item]="item" (submited)="saveMeta()" [invalidParams]="invalidParams" [(vehicleTypeIDs)]="vehicleTypeIDs"></app-item-meta-form>
+<div class="card card-body" *ngIf="item$|async as item">
+  <ngb-progressbar type="success" [striped]="true" [animated]="true" [value]="100" [hidden]="loadingNumber <= 0"></ngb-progressbar>
+  <ng-container *ngIf="canEditMeta$|async">
+    <app-item-meta-form [item]="item" *ngIf="vehicleTypeIDs$|async as vehicleTypeIDs" (submited)="saveMeta(item, vehicleTypeIDs)" [invalidParams]="invalidParams" [vehicleTypeIDs]="vehicleTypeIDs"></app-item-meta-form>
+  </ng-container>
 
-    <table class="table table-condensed" *ngIf="!canEditMeta">
-      <tr>
-        <td><ng-container i18n>Name</ng-container>:</td>
-        <td [innerHTML]="item.name_html"></td>
-      </tr>
-      <tr>
-        <td><ng-container i18n>Body number</ng-container>:</td>
-        <td [textContent]="item.body"></td>
-      </tr>
-      <tr>
-        <td><ng-container i18n>Begin</ng-container>:</td>
-        <td>
-          {{item.begin_year > 0 ? item.begin_year : '????'}} {{item.begin_month > 0 ? item.begin_month : '??'}}
-        </td>
-      </tr>
-      <tr>
-        <td><ng-container i18n>End</ng-container>:</td>
-        <td>
-          {{item.end_year > 0 ? item.end_year : '????'}} {{item.end_month > 0 ? item.end_month : '??'}}
-          <span *ngIf="item.today === true" i18n>continue in pr.</span>
-          <span *ngIf="item.today === false" i18n>ended</span>
-        </td>
-      </tr>
-      <tr>
-        <td><ng-container i18n>Produced</ng-container>:</td>
-        <td>
-          {{item.produced}}
-          <span *ngIf="item.produced_exactly" i18n>exactly</span>
-          <span *ngIf="!item.produced_exactly" i18n>about</span>
-        </td>
-      </tr>
-      <tr>
-        <td><ng-container i18n>Concept (prototype)</ng-container>:</td>
-        <td>{{item.is_concept ? 'Yes' : 'No'}}</td>
-      </tr>
-    </table>
-  </div>
-</ng-container>
+  <table class="table table-condensed" *ngIf="!(canEditMeta$|async)">
+    <tr>
+      <td><ng-container i18n>Name</ng-container>:</td>
+      <td [innerHTML]="item.name_html"></td>
+    </tr>
+    <tr>
+      <td><ng-container i18n>Body number</ng-container>:</td>
+      <td [textContent]="item.body"></td>
+    </tr>
+    <tr>
+      <td><ng-container i18n>Begin</ng-container>:</td>
+      <td>
+        {{item.begin_year > 0 ? item.begin_year : '????'}} {{item.begin_month > 0 ? item.begin_month : '??'}}
+      </td>
+    </tr>
+    <tr>
+      <td><ng-container i18n>End</ng-container>:</td>
+      <td>
+        {{item.end_year > 0 ? item.end_year : '????'}} {{item.end_month > 0 ? item.end_month : '??'}}
+        <span *ngIf="item.today === true" i18n>continue in pr.</span>
+        <span *ngIf="item.today === false" i18n>ended</span>
+      </td>
+    </tr>
+    <tr>
+      <td><ng-container i18n>Produced</ng-container>:</td>
+      <td>
+        {{item.produced}}
+        <span *ngIf="item.produced_exactly" i18n>exactly</span>
+        <span *ngIf="!item.produced_exactly" i18n>about</span>
+      </td>
+    </tr>
+    <tr>
+      <td><ng-container i18n>Concept (prototype)</ng-container>:</td>
+      <td>{{item.is_concept ? 'Yes' : 'No'}}</td>
+    </tr>
+  </table>
+</div>
