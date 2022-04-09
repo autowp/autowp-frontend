@@ -1,4 +1,4 @@
-<ng-container *ngIf="item">
+<ng-container *ngIf="item$|async as item">
   <h2>
     <span [innerHtml]="item.name_html"></span>
     <small>
@@ -10,9 +10,9 @@
     </small>
   </h2>
 
-  <div class="row" *ngIf="item.item_of_day_pictures">
+  <div class="row" *ngIf="itemOfDayPictures$|async as pictures">
     <div class="col-sm-6">
-      <ng-container *ngFor="let picture of first">
+      <ng-container *ngFor="let picture of pictures.first">
         <a [routerLink]="picture.route" class="d-block rounded mb-4" *ngIf="picture">
           <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
           />
@@ -21,7 +21,7 @@
     </div>
     <div class="col-sm-6">
       <div class="row">
-        <ng-container *ngFor="let picture of others">
+        <ng-container *ngFor="let picture of pictures.others">
           <a [routerLink]="picture.route" class="d-block rounded mb-3 col-6" *ngIf="picture">
             <img [src]="picture.thumb.src" [alt]="picture.name" [title]="picture.name" class="rounded w-100 border border-light"
             />
