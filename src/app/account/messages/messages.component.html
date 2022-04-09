@@ -49,7 +49,7 @@
         <ng-container *ngIf="message.message.authorId !== '0'; else noAuthor">
           <ng-container *ngIf="message.author$|async as author; else loadingAuthor">
             <div>
-              <app-user [user]="author" *ngIf="author"></app-user>
+              <app-user [user]="author"></app-user>
             </div>
             <div class="photo">
               <a [routerLink]="author.route" *ngIf="! author.deleted">
