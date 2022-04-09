@@ -60,7 +60,7 @@
       </table>
     </form>
   </ng-container>
-  <table class="table table-condensed table-stripped" *ngIf="!(canEditMeta$|async)">
+  <table class="table table-condensed table-stripped" *ngIf="(canEditMeta$|async) === false">
     <tbody>
       <tr>
         <th i18n scope="col">Text</th>
