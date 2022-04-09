@@ -1,18 +1,17 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-past-time-indicator',
   templateUrl: './past-time-indicator.component.html',
   styleUrls: ['./styles.scss']
 })
-export class PastTimeIndicatorComponent implements OnChanges {
-  @Input() date: string|Date;
-  past: boolean;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.date) {
-      this.past = new Date(this.date).getTime() < new Date().getTime() - 86400 * 1000;
-    }
-  }
+export class PastTimeIndicatorComponent {
+  @Input() set date(value: string|Date) { this.date$.next(value); };
+  public date$ = new BehaviorSubject<string|Date>(null);
+  public past$ = this.date$.pipe(
+    map(date => ({past: new Date(date).getTime() < new Date().getTime() - 86400 * 1000})),
+  )
 }
 
