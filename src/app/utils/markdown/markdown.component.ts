@@ -1,42 +1,20 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnInit
-} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import * as showdown from 'showdown';
+import {BehaviorSubject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-markdown',
   templateUrl: './markdown.component.html',
   styleUrls: ['markdown.component.scss']
 })
-export class MarkdownComponent implements OnChanges, OnInit {
-  @Input() markdown: string;
+export class MarkdownComponent {
+  @Input() set markdown(value: string) { this.markdown$.next(value); };
+  private markdown$ = new BehaviorSubject<string>(null);
 
-  private markdownConverter: showdown.Converter;
-  public html = '';
+  private markdownConverter = new showdown.Converter({});
 
-  constructor() {
-    this.markdownConverter = new showdown.Converter({});
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.markdown) {
-      this.markdown = changes.markdown.currentValue;
-    }
-
-    this.refresh();
-  }
-
-  ngOnInit() {
-    this.refresh();
-  }
-
-  refresh() {
-    this.html = this.markdown
-      ? this.markdownConverter.makeHtml(this.markdown)
-      : '';
-  }
+  public html$ = this.markdown$.pipe(
+    map(markdown => markdown ? this.markdownConverter.makeHtml(markdown) : '')
+  );
 }
