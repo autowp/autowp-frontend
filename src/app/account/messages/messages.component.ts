@@ -78,7 +78,6 @@ export class AccountMessagesComponent {
       this.messageService.seen(response.items);
     }),
     map(response => {
-      console.log(response.items);
       return ({
         items: response.items.map(msg => ({
           message: msg,

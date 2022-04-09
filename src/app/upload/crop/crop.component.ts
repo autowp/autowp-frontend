@@ -40,7 +40,6 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
-    this.picture$.next(this.picture);
     this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
       if (img && picture) {
 
@@ -101,8 +100,8 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public selectAll() {
-    this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+  public selectAll(picture: APIPicture) {
+    this.jcrop.setSelect([0, 0, picture.width, picture.height]);
   }
 
   private updateSelectionText() {
@@ -120,19 +119,19 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     this.img$.next(e.target);
   }
 
-  public onSave() {
-    if (!this.picture.crop) {
-      this.picture.crop = {
+  public onSave(picture: APIPicture) {
+    if (!picture.crop) {
+      picture.crop = {
         left: 0,
         top: 0,
         width: 0,
         height: 0
       };
     }
-    this.picture.crop.left = this.currentCrop.x;
-    this.picture.crop.top = this.currentCrop.y;
-    this.picture.crop.width = this.currentCrop.w;
-    this.picture.crop.height = this.currentCrop.h;
+    picture.crop.left = this.currentCrop.x;
+    picture.crop.top = this.currentCrop.y;
+    picture.crop.width = this.currentCrop.w;
+    picture.crop.height = this.currentCrop.h;
 
     this.changed.emit();
     this.activeModal.close();
