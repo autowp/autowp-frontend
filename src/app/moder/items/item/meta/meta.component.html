@@ -4,7 +4,7 @@
     <app-item-meta-form [item]="item" *ngIf="vehicleTypeIDs$|async as vehicleTypeIDs" (submited)="saveMeta(item, vehicleTypeIDs)" [invalidParams]="invalidParams" [vehicleTypeIDs]="vehicleTypeIDs"></app-item-meta-form>
   </ng-container>
 
-  <table class="table table-condensed" *ngIf="!(canEditMeta$|async)">
+  <table class="table table-condensed" *ngIf="(canEditMeta$|async) === false">
     <tr>
       <td><ng-container i18n>Name</ng-container>:</td>
       <td [innerHTML]="item.name_html"></td>

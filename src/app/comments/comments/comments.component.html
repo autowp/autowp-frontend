@@ -13,5 +13,5 @@
   </ng-container>
 
   <app-comments-form [itemID]="itemID$|async" [typeID]="typeID$|async" (sent)="onSent($event)" *ngIf="user$|async"></app-comments-form>
-  <app-markdown *ngIf="!(user$|async)" class="alert alert-block alert-info" i18n-markdown markdown="To be able to post a comment, you must [create an account or sign in using social networks account](/login)"></app-markdown>
+  <app-markdown *ngIf="(user$|async) === null" class="alert alert-block alert-info" i18n-markdown markdown="To be able to post a comment, you must [create an account or sign in using social networks account](/login)"></app-markdown>
 </div>
