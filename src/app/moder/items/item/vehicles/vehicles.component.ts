@@ -1,29 +1,24 @@
-import {Component, OnChanges, Input, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { APIItem, ItemService } from '../../../../services/item';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-moder-items-item-vehicles',
   templateUrl: './vehicles.component.html'
 })
-export class ModerItemsItemVehiclesComponent implements OnChanges {
-  @Input() item: APIItem;
+export class ModerItemsItemVehiclesComponent {
+  @Input() set item(item: APIItem) { this.item$.next(item); };
+  private item$ = new BehaviorSubject<APIItem>(null);
 
-  public loading = 0;
-  public engineVehicles: APIItem[];
+  public engineVehicles$: Observable<APIItem[]> = this.item$.pipe(
+    switchMap(item => this.itemService.getItems({
+      engine_id: item.id,
+      limit: 100,
+      fields: 'name_html'
+    })),
+    map(response => response.items)
+  );
 
   constructor(private itemService: ItemService) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
-      this.itemService
-        .getItems({
-          engine_id: this.item.id,
-          limit: 100,
-          fields: 'name_html'
-        })
-        .subscribe(response => {
-          this.engineVehicles = response.items;
-        });
-    }
-  }
 }
