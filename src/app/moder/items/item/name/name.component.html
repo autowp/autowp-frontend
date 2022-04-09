@@ -1,46 +1,52 @@
-<div class="card card-body">
-  <ng-container *ngIf="itemLanguages && itemLanguages.length">
-    <ul ngbNav #nav="ngbNav" [activeId]="itemLanguages[0].language" class="nav-tabs">
-      <li [ngbNavItem]="language.language" *ngFor="let language of itemLanguages">
-        <a ngbNavLink>
-          {{language.language.toUpperCase()}}
-          <span class="badge rounded-pill bg-secondary" *ngIf="language.name || language.text || language.full_text">
-            {{((language.name && language.name.length) ? 1 : 0) + ((language.text && language.text.length) ? 1 : 0) + ((language.full_text
-            && language.full_text.length) ? 1 : 0)}}
-          </span>
-        </a>
-        <ng-template ngbNavContent>
-          <div class="mb-3 row mt-4">
-            <label class="col-md-2 col-form-label" i18n>Name</label>
-            <div class="col-md-10">
-              <input type="text" [(ngModel)]="language.name" name="name" maxlength="255" class="form-control" />
-            </div>
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading…</span>
+  </div>
+</ng-template>
+
+<div class="card card-body" *ngIf="data$|async as data; else loading">
+  <ul ngbNav #nav="ngbNav" [activeId]="data.languages[0].language" class="nav-tabs">
+    <li [ngbNavItem]="language.language" *ngFor="let language of data.languages">
+      <a ngbNavLink>
+        {{language.language.toUpperCase()}}
+        <span class="badge rounded-pill bg-secondary" *ngIf="language.name || language.text || language.full_text">
+          {{((language.name && language.name.length) ? 1 : 0) + ((language.text && language.text.length) ? 1 : 0) + ((language.full_text
+          && language.full_text.length) ? 1 : 0)}}
+        </span>
+      </a>
+      <ng-template ngbNavContent>
+        <div class="mb-3 row mt-4">
+          <label class="col-md-2 col-form-label" i18n>Name</label>
+          <div class="col-md-10">
+            <input type="text" [(ngModel)]="language.name" name="name" maxlength="255" class="form-control" />
           </div>
-          <div class="mb-3 row">
-            <label class="col-md-2 col-form-label" i18n>Short description</label>
-            <div class="col-md-10">
-              <app-markdown-edit [(text)]="language.text"></app-markdown-edit>
-              <p *ngIf="language.text_id" class="text-right">
-                <a [routerLink]="['/info/text', language.text_id]" i18n>History</a>
-              </p>
-            </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-md-2 col-form-label" i18n>Short description</label>
+          <div class="col-md-10">
+            <app-markdown-edit [(text)]="language.text"></app-markdown-edit>
+            <p *ngIf="language.text_id" class="text-right">
+              <a [routerLink]="['/info/text', language.text_id]" i18n>History</a>
+            </p>
           </div>
-          <div class="mb-3 row">
-            <label class="col-md-2 col-form-label" i18n>Full description</label>
-            <div class="col-md-10">
-              <app-markdown-edit [(text)]="language.full_text"></app-markdown-edit>
-              <p *ngIf="language.full_text_id" class="text-right">
-                <a [routerLink]="['/info/text', language.full_text_id]" i18n>History</a>
-              </p>
-            </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-md-2 col-form-label" i18n>Full description</label>
+          <div class="col-md-10">
+            <app-markdown-edit [(text)]="language.full_text"></app-markdown-edit>
+            <p *ngIf="language.full_text_id" class="text-right">
+              <a [routerLink]="['/info/text', language.full_text_id]" i18n>History</a>
+            </p>
           </div>
-        </ng-template>
-      </li>
-    </ul>
-    <div [ngbNavOutlet]="nav"></div>
-    <button type="submit" class="btn btn-primary" (click)="saveLanguages()" i18n>Submit</button>
-  </ng-container>
-  <span [hidden]="loading <= 0">
-    <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-  </span>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+  <button type="submit" class="btn btn-primary" (click)="saveLanguages(data.itemId, data.languages)" [disabled]="loadingNumber > 0">
+    <span *ngIf="loadingNumber > 0">
+      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+    </span>
+    <ng-container i18n>Submit</ng-container>
+  </button>
 </div>

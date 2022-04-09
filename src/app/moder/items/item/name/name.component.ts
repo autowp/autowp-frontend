@@ -1,35 +1,55 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { APIItem } from '../../../../services/item';
-import {
-  APIItemLanguage,
-  ItemLanguageService
-} from '../../../../services/item-language';
+import {APIItemLanguage, ItemLanguageService} from '../../../../services/item-language';
 import { ContentLanguageService } from '../../../../services/content-language';
-import { combineLatest, BehaviorSubject, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import {combineLatest, BehaviorSubject, Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import { APIService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-name',
   templateUrl: './name.component.html'
 })
-export class ModerItemsItemNameComponent
-  implements OnChanges, OnInit, OnDestroy {
-  @Input() item: APIItem;
+export class ModerItemsItemNameComponent {
 
-  public loading = 0;
+  @Input() set item(item: APIItem) { this.item$.next(item); };
 
-  public itemLanguages: APIItemLanguage[] = [];
-  public currentLanguage: string = null;
+  public loadingNumber = 0;
+
+  public languages$ = this.contentLanguage.getList().pipe(
+    map(contentLanguages => {
+      const languages = new Map<string, APIItemLanguage>();
+
+      for (const language of contentLanguages) {
+        languages.set(language, {
+          language,
+          name: null,
+          text: null,
+          full_text: null,
+          text_id: null,
+          full_text_id: null
+        });
+      }
+
+      return languages;
+    })
+  );
+
   private item$ = new BehaviorSubject<APIItem>(null);
-  private sub: Subscription;
+
+  public data$: Observable<{itemId: number; languages: APIItemLanguage[] }> = this.item$.pipe(
+    switchMap(item => combineLatest([of(item.id), this.itemLanguageService.getItems(item.id), this.languages$])),
+    map(([itemId, {items}, languages]) => {
+      for (const value of items) {
+        languages.set(value.language, value);
+      }
+
+      return {
+        itemId: itemId,
+        languages: Array.from(languages.values())
+      };
+    })
+  )
 
   constructor(
     private api: APIService,
@@ -37,79 +57,25 @@ export class ModerItemsItemNameComponent
     private contentLanguage: ContentLanguageService
   ) {}
 
-  ngOnInit(): void {
-    this.sub = combineLatest(
-      [
-        this.contentLanguage.getList().pipe(
-          map(contentLanguages => {
-            const languages = new Map<string, APIItemLanguage>();
-
-            for (const language of contentLanguages) {
-              languages.set(language, {
-                language,
-                name: null,
-                text: null,
-                full_text: null,
-                text_id: null,
-                full_text_id: null
-              });
-            }
-
-            this.currentLanguage = contentLanguages[0];
-
-            return languages;
-          })
-        ),
-        this.item$
-      ]
-    )
-      .pipe(
-        switchMap(([languages, item]) => this.itemLanguageService.getItems(item.id).pipe(
-          map(values => ({
-            languages,
-            values: values.items
-          }))
-        ))
-      )
-      .subscribe(data => {
-        for (const value of data.values) {
-          data.languages.set(value.language, value);
+  public saveLanguages(itemId: number, itemLanguages: APIItemLanguage[]) {
+    for (const language of itemLanguages) {
+      this.loadingNumber++;
+      this.api.request<void>(
+        'PUT',
+        'item/' + itemId + '/language/' + language.language,
+        {body: {
+          name: language.name,
+          text: language.text,
+          full_text: language.full_text
+        }}
+      ).subscribe(
+        () => {
+          this.loadingNumber--;
+        },
+        () => {
+          this.loadingNumber--;
         }
-
-        this.itemLanguages = Array.from(data.languages.values());
-      });
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
-      this.item$.next(this.item);
-    }
-  }
-
-  public saveLanguages() {
-    for (const language of this.itemLanguages) {
-      this.loading++;
-      this.api
-        .request<void>(
-          'PUT',
-          'item/' + this.item.id + '/language/' + language.language,
-          {body: {
-            name: language.name,
-            text: language.text,
-            full_text: language.full_text
-          }}
-        )
-        .subscribe(
-          () => {
-            this.loading--;
-          },
-          () => {
-            this.loading--;
-          }
-        );
+      );
     }
   }
 }
