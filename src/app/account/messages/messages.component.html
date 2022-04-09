@@ -22,6 +22,14 @@
   </div>
 </ng-template>
 
+<ng-template #noAuthor>
+  <div>
+    <span i18n>System notification</span>
+  </div>
+  <div class="photo">
+  </div>
+</ng-template>
+
 <div class="row">
   <div class="col-lg-8 mb-4 order-2" *ngIf="messages$|async as data; else loading">
     <div class="page-header">
@@ -38,17 +46,18 @@
 
     <div class="comments">
       <div class="message" *ngFor="let message of data.items">
-        <ng-container *ngIf="message.author$|async as author; else loadingAuthor">
-          <div>
-            <app-user [user]="author" *ngIf="author"></app-user>
-            <span i18n *ngIf="! author">System notification</span>
-          </div>
-          <div class="photo">
-            <a [routerLink]="author.route" *ngIf="author && ! author.deleted">
-              <img alt="" [src]="author.avatar.src" *ngIf="author.avatar" class="rounded" loading="lazy" />
-              <img alt="" [src]="author.gravatar" *ngIf="author.gravatar && ! author.avatar" class="rounded" loading="lazy" />
-            </a>
-          </div>
+        <ng-container *ngIf="message.message.authorId !== '0'; else noAuthor">
+          <ng-container *ngIf="message.author$|async as author; else loadingAuthor">
+            <div>
+              <app-user [user]="author" *ngIf="author"></app-user>
+            </div>
+            <div class="photo">
+              <a [routerLink]="author.route" *ngIf="! author.deleted">
+                <img alt="" [src]="author.avatar.src" *ngIf="author.avatar" class="rounded" loading="lazy" />
+                <img alt="" [src]="author.gravatar" *ngIf="author.gravatar && ! author.avatar" class="rounded" loading="lazy" />
+              </a>
+            </div>
+          </ng-container>
         </ng-container>
         <div class="content">
           <div class="text">
