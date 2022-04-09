@@ -3,7 +3,7 @@
     <h3 class="modal-title" i18n>Cropper</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" *ngIf="picture$|async as picture">
     <img alt="" [src]="picture.image_gallery_full.src" (load)="onLoad($event)" *ngIf="picture && picture.image_gallery_full" />
   </div>
   <div class="modal-footer">

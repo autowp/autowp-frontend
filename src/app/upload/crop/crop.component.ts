@@ -1,13 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnInit,
-  EventEmitter,
-  Output,
-  OnDestroy
-} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output, OnDestroy} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { APIPicture } from '../../services/picture';
@@ -25,12 +16,12 @@ interface JcropCrop {
   selector: 'app-upload-crop',
   templateUrl: './crop.component.html'
 })
-export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
+export class UploadCropComponent implements OnInit, OnDestroy {
 
-  @Input() picture: APIPicture;
   @Output() changed = new EventEmitter();
 
-  private picture$ = new BehaviorSubject<APIPicture>(null);
+  @Input() set picture(picture: APIPicture) { this.picture$.next(picture); };
+  public picture$ = new BehaviorSubject<APIPicture>(null);
 
   private minSize = [400, 300];
 
@@ -112,12 +103,6 @@ export class UploadCropComponent implements OnChanges, OnInit, OnDestroy {
 
   public selectAll() {
     this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.picture) {
-      this.picture$.next(changes.picture.currentValue);
-    }
   }
 
   private updateSelectionText() {
