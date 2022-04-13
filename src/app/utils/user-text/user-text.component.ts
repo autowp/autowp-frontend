@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {APIUser, UserService} from '../../services/user';
 import {APIPicture, APIPictureGetResponse, PictureService} from '../../services/picture';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
@@ -21,8 +21,9 @@ interface CommentTextLine {
   selector: 'app-user-text',
   templateUrl: './user-text.component.html'
 })
-export class UserTextComponent implements OnChanges {
-  @Input() text: string;
+export class UserTextComponent {
+  @Input() set text(text: string) { this.text$.next(text); };
+  private text$ = new BehaviorSubject<string>(null);
 
   private parseUrlHosts = [
     'www.autowp.ru',
@@ -38,7 +39,6 @@ export class UserTextComponent implements OnChanges {
     'wheelsage.org',
   ];
 
-  private text$ = new BehaviorSubject<string>('');
   public textPrepared$ = this.text$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
@@ -49,10 +49,6 @@ export class UserTextComponent implements OnChanges {
     private userService: UserService,
     private pictureService: PictureService
   ) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.text$.next(this.text);
-  }
 
   private prepareText(text: string): Observable<CommentTextLine[]> {
     const lines = text.split(/\r?\n/);

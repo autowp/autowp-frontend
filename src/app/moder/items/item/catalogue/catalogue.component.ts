@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {APIItem, ItemService} from '../../../../services/item';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemParent, ItemParentService} from '../../../../services/item-parent';
@@ -11,34 +11,33 @@ import {APIService} from '../../../../services/api.service';
   selector: 'app-moder-items-item-catalogue',
   templateUrl: './catalogue.component.html'
 })
-export class ModerItemsItemCatalogueComponent implements OnChanges {
-  @Input() item: APIItem;
+export class ModerItemsItemCatalogueComponent {
+  @Input() set item(item: APIItem) { this.item$.next(item); };
+  public item$ = new BehaviorSubject<APIItem>(null);
 
-  public loading = 0;
-  public childsLoading = 0;
-  public parentsLoading = 0;
+  public reloadChilds$ = new BehaviorSubject<boolean>(false);
+  public reloadParents$ = new BehaviorSubject<boolean>(false);
+  public reloadSuggestions$ = new BehaviorSubject<boolean>(false);
 
   public itemQuery = '';
 
-  public canHaveParentBrand = false;
-  public canHaveParents = false;
   public canMove$ = this.acl.isAllowed(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
-  public suggestions: APIItem[] = [];
-  public parents: APIItemParent[] = [];
-  public childs: APIItemParent[] = [];
 
-  public organizeTypeId: number;
+  public organizeTypeId$ = this.item$.pipe(
+    map(item => item.item_type_id === 5 ? 1 : item.item_type_id)
+  );
 
-  public itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]>;
+  public canHaveParentBrand$ = this.item$.pipe(
+    map(item => [1, 2].indexOf(item.item_type_id) > -1)
+  );
 
-  constructor(
-    private acl: ACLService,
-    private api: APIService,
-    private itemService: ItemService,
-    private itemParentService: ItemParentService
-  ) {
-    this.itemsDataSource = (text$: Observable<string>) =>
-      text$.pipe(
+  public canHaveParents$ = this.item$.pipe(
+    map(item => [4, 6].indexOf(item.item_type_id) === -1)
+  );
+
+  public itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (text$: Observable<string>) =>
+    this.item$.pipe(
+      switchMap(item => text$.pipe(
         debounceTime(50),
         map(text => text.trim()),
         distinctUntilChanged(),
@@ -47,152 +46,96 @@ export class ModerItemsItemCatalogueComponent implements OnChanges {
             return of([]);
           }
 
-          return this.itemService
-            .getItems({
-              autocomplete: query,
-              exclude_self_and_childs: this.item.id,
-              is_group: true,
-              parent_types_of: this.item.item_type_id,
-              fields: 'name_html,name_text,brandicon',
-              limit: 15
-            })
-            .pipe(
-              map(response => {
-                return response.items;
-              })
-            );
+          return this.itemService.getItems({
+            autocomplete: query,
+            exclude_self_and_childs: item.id,
+            is_group: true,
+            parent_types_of: item.item_type_id,
+            fields: 'name_html,name_text,brandicon',
+            limit: 15
+          }).pipe(
+            map(response => response.items)
+          );
         })
-      );
-  }
+      ))
+    );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
-      this.canHaveParentBrand = [1, 2].indexOf(this.item.item_type_id) > -1;
-      this.canHaveParents = [4, 6].indexOf(this.item.item_type_id) === -1;
+  public childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
+    switchMap(([item]) => this.itemParentService.getItems({
+      parent_id: item.id,
+      limit: 500,
+      fields: 'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
+      order: 'type_auto'
+    })),
+    map(response => response.items)
+  );
 
-      this.organizeTypeId = this.item.item_type_id;
-      if (this.organizeTypeId === 5) {
-          this.organizeTypeId = 1;
-      }
+  public parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
+    switchMap(([item]) => this.itemParentService.getItems({
+      item_id: item.id,
+      limit: 500,
+      fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes'
+    })),
+    map(response => response.items)
+  );
 
-      this.loadChilds();
-      this.loadParents();
-      this.loadSuggestions();
-    }
-  }
+  public suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
+    switchMap(([item]) => this.itemService.getItems({
+      suggestions_to: item.id,
+      limit: 3,
+      fields: 'name_text'
+    })),
+    map(response => response.items)
+  );
 
-  private loadChilds() {
-    this.childsLoading++;
-    this.itemParentService
-      .getItems({
-        parent_id: this.item.id,
-        limit: 500,
-        fields:
-          'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
-        order: 'type_auto'
-      })
-      .subscribe(
-        response => {
-          this.childs = response.items;
-          this.childsLoading--;
-        },
-        () => {
-          this.childsLoading--;
-        }
-      );
-  }
-
-  private loadParents() {
-    this.parentsLoading++;
-    this.itemParentService
-      .getItems({
-        item_id: this.item.id,
-        limit: 500,
-        fields:
-          'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes'
-      })
-      .subscribe(
-        response => {
-          this.parents = response.items;
-          this.parentsLoading--;
-        },
-        () => {
-          this.parentsLoading--;
-        }
-      );
-  }
-
-  private loadSuggestions() {
-    this.loading++;
-    this.itemService
-      .getItems({
-        suggestions_to: this.item.id,
-        limit: 3,
-        fields: 'name_text'
-      })
-      .subscribe(
-        response => {
-          this.suggestions = response.items;
-          this.loading--;
-        },
-        () => {
-          this.loading--;
-        }
-      );
+  constructor(
+    private acl: ACLService,
+    private api: APIService,
+    private itemService: ItemService,
+    private itemParentService: ItemParentService
+  ) {
   }
 
   public itemFormatter(x: APIItem) {
     return x.name_text;
   }
 
-  public itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  public itemOnSelect(item: APIItem, e: NgbTypeaheadSelectItemEvent): void {
     e.preventDefault();
-    this.addParent(e.item.id);
+    this.addParent(item, e.item.id);
     this.itemQuery = '';
   }
 
-  public addParent(parentId: number) {
-    this.loading++;
-    this.api
-      .request<void>('POST', 'item-parent', {body: {
-        item_id: this.item.id,
-        parent_id: parentId
-      }})
-      .subscribe(
-        () => {
-          this.loadParents();
-          this.loadSuggestions();
-          this.loading--;
-        },
-        () => {
-          this.loading--;
-        }
-      );
+  public addParent(item: APIItem, parentId: number) {
+    this.api.request<void>('POST', 'item-parent', {body: {
+      item_id: item.id,
+      parent_id: parentId
+    }}).subscribe(
+      () => {
+        this.reloadParents$.next(true);
+        this.reloadSuggestions$.next(true);
+      }
+    );
 
     return false;
   }
   private deleteItemParent(itemID: number, parentID: number) {
-    this.loading++;
     this.api
       .request<void>('DELETE', 'item-parent/' + itemID + '/' + parentID)
       .subscribe(
         () => {
-          this.loadChilds();
-          this.loadParents();
-          this.loadSuggestions();
-          this.loading--;
-        },
-        () => {
-          this.loading--;
+          this.reloadChilds$.next(true);
+          this.reloadParents$.next(true);
+          this.reloadSuggestions$.next(true);
         }
       );
   }
 
-  public deleteChild(itemId: number) {
-    this.deleteItemParent(itemId, this.item.id);
+  public deleteChild(item: APIItem, itemId: number) {
+    this.deleteItemParent(itemId, item.id);
   }
 
-  public deleteParent(parentId: number) {
-    this.deleteItemParent(this.item.id, parentId);
+  public deleteParent(item: APIItem, parentId: number) {
+    this.deleteItemParent(item.id, parentId);
   }
 }
