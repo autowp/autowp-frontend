@@ -7,7 +7,7 @@
         <target>关闭</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/alert/alert.ts</context>
-          <context context-type="linenumber">79,80</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.carousel.previous" datatype="html">
@@ -15,7 +15,7 @@
         <target>上一页</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">177,181</context>
+          <context context-type="linenumber">181,184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.carousel.next" datatype="html">
@@ -23,7 +23,7 @@
         <target>下一页</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">200,202</context>
+          <context context-type="linenumber">202,205</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.datepicker.select-month" datatype="html">
@@ -79,7 +79,7 @@
         <target>««</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">247,251</context>
+          <context context-type="linenumber">247,252</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.previous" datatype="html">
@@ -87,7 +87,7 @@
         <target>«</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">266,267</context>
+          <context context-type="linenumber">267</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.next" datatype="html">
@@ -95,7 +95,7 @@
         <target>»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">290,292</context>
+          <context context-type="linenumber">290,294</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.last" datatype="html">
@@ -103,7 +103,7 @@
         <target>»»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">308,311</context>
+          <context context-type="linenumber">311,316</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.first-aria" datatype="html">
@@ -111,7 +111,7 @@
         <target>第一</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">326,328</context>
+          <context context-type="linenumber">328,333</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.previous-aria" datatype="html">
@@ -119,7 +119,7 @@
         <target>上一页</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">339,342</context>
+          <context context-type="linenumber">342,347</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.next-aria" datatype="html">
@@ -127,7 +127,7 @@
         <target>下一页</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">352,354</context>
+          <context context-type="linenumber">355,362</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.last-aria" datatype="html">
@@ -135,15 +135,15 @@
         <target>持续</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">373,374</context>
+          <context context-type="linenumber">376,379</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.progressbar.value" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="ts types based"/></source>
+        <source><x id="INTERPOLATION" equiv-text="variants, like:"/></source>
         <target><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/progressbar/progressbar.ts</context>
-          <context context-type="linenumber">60,67</context>
+          <context context-type="linenumber">62,67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.HH" datatype="html">
@@ -151,7 +151,7 @@
         <target>HH</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">133,138</context>
+          <context context-type="linenumber">135,140</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.hours" datatype="html">
@@ -159,7 +159,7 @@
         <target>小时</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">155,161</context>
+          <context context-type="linenumber">158,161</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.MM" datatype="html">
@@ -167,7 +167,7 @@
         <target>MM</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">178,181</context>
+          <context context-type="linenumber">181,182</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.minutes" datatype="html">
@@ -175,7 +175,7 @@
         <target>分钟</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">191,198</context>
+          <context context-type="linenumber">197,199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
@@ -183,7 +183,7 @@
         <target>增量小时</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">210,213</context>
+          <context context-type="linenumber">212,218</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
@@ -191,7 +191,7 @@
         <target>减少时间</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">230,235</context>
+          <context context-type="linenumber">235,240</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
@@ -199,7 +199,7 @@
         <target>增量分钟</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">256,259</context>
+          <context context-type="linenumber">260,268</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
@@ -207,7 +207,7 @@
         <target>减少分钟</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">277,279</context>
+          <context context-type="linenumber">283,288</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.SS" datatype="html">
@@ -263,7 +263,7 @@
         <target>关闭</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/toast/toast.ts</context>
-          <context context-type="linenumber">106,109</context>
+          <context context-type="linenumber">108,112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="23de86c09080f96ebb665692bd6b1b4cb37aa3b1" datatype="html">
@@ -303,7 +303,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">4,13</context>
+          <context context-type="linenumber">4,12</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
@@ -315,11 +315,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/articles/article/article.component.html</context>
-          <context context-type="linenumber">4,12</context>
+          <context context-type="linenumber">4,13</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/articles/list/list.component.html</context>
-          <context context-type="linenumber">4,15</context>
+          <context context-type="linenumber">4,14</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/brands/brands.component.html</context>
@@ -339,7 +339,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">4,13</context>
+          <context context-type="linenumber">4,11</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
@@ -743,7 +743,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">197,203</context>
+          <context context-type="linenumber">194,200</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2771927147587296201" datatype="html">
@@ -970,7 +970,7 @@ Brazilian portuguese site translation: %pt-br-translator%
         <target>好友</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/contacts/contacts.component.html</context>
-          <context context-type="linenumber">12,17</context>
+          <context context-type="linenumber">12,16</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
@@ -982,7 +982,7 @@ Brazilian portuguese site translation: %pt-br-translator%
         <target>好友</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/contacts/contacts.component.ts</context>
-          <context context-type="linenumber">37,43</context>
+          <context context-type="linenumber">35,41</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1133,11 +1133,11 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">67,69</context>
+          <context context-type="linenumber">65,67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">76,77</context>
+          <context context-type="linenumber">74,75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1458806631225759930" datatype="html">
@@ -1172,12 +1172,20 @@ Good luck.</source>
           <context context-type="linenumber">101,103</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="aafa6092b73dd4c5b495257fb4b4b375f05f08a1" datatype="html">
+        <source>System notification</source>
+        <target>系统提示</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
+          <context context-type="linenumber">27,34</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1a3cece7b0378da0d4444fc1930dc909fcfff8be" datatype="html">
         <source>Delete all sent messages</source>
         <target>清空发件箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">16,20</context>
+          <context context-type="linenumber">40,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="031bc77c2b4e61841484f7a391a9df1ff259d08f" datatype="html">
@@ -1185,15 +1193,7 @@ Good luck.</source>
         <target>清空系统提示</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">20,26</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="aafa6092b73dd4c5b495257fb4b4b375f05f08a1" datatype="html">
-        <source>System notification</source>
-        <target>系统提示</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">27,31</context>
+          <context context-type="linenumber">44,49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="50b3e721b5c4731ab004595b348ce2a7737e81b3" datatype="html">
@@ -1201,7 +1201,7 @@ Good luck.</source>
         <target>新</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">40,42</context>
+          <context context-type="linenumber">67,69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70ef158c584bafe788e319a0bffa11b02ee9abf1" datatype="html">
@@ -1209,7 +1209,7 @@ Good luck.</source>
         <target>删除</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">43,46</context>
+          <context context-type="linenumber">70,73</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
@@ -1221,7 +1221,7 @@ Good luck.</source>
         <target>回复</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">48,51</context>
+          <context context-type="linenumber">75,77</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.html</context>
@@ -1233,7 +1233,7 @@ Good luck.</source>
         <target>全部会话</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
-          <context context-type="linenumber">52,56</context>
+          <context context-type="linenumber">79,83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="799485662157076328" datatype="html">
@@ -1241,7 +1241,7 @@ Good luck.</source>
         <target>收件箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">50,52</context>
+          <context context-type="linenumber">39,42</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1249,7 +1249,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.ts</context>
-          <context context-type="linenumber">65,71</context>
+          <context context-type="linenumber">125,131</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/menu/menu/menu.component.ts</context>
@@ -1261,7 +1261,7 @@ Good luck.</source>
         <target>已发送</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">54,56</context>
+          <context context-type="linenumber">43,46</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1273,7 +1273,7 @@ Good luck.</source>
         <target>系统消息</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">58,60</context>
+          <context context-type="linenumber">47,50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1285,7 +1285,7 @@ Good luck.</source>
         <target>站内信</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">62,64</context>
+          <context context-type="linenumber">51,53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1501,7 +1501,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.html</context>
-          <context context-type="linenumber">38,43</context>
+          <context context-type="linenumber">36,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c64747f0bc3848d47c89e0af17d0c199b44ad0de" datatype="html">
@@ -1777,7 +1777,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">192,197</context>
+          <context context-type="linenumber">189,194</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/feedback/feedback.component.html</context>
@@ -1829,7 +1829,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">219,226</context>
+          <context context-type="linenumber">216,223</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login/sign-out" datatype="html">
@@ -1869,7 +1869,7 @@ Good luck.</source>
         <target>捐助</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">199,203</context>
+          <context context-type="linenumber">196,200</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.html</context>
@@ -1913,7 +1913,7 @@ All images are posted for educational purposes.
 [举报侵权行为](mailto:autowp@yandex.ru)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">203,214</context>
+          <context context-type="linenumber">200,211</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b8d10cd55fae4e4ad4f87d28e18251694f159bf7" datatype="html">
@@ -1921,7 +1921,7 @@ All images are posted for educational purposes.
         <target>隐私政策</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">220,226</context>
+          <context context-type="linenumber">217,223</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3b6143a528c6f4586e60e9af4ced8ac0fbe08251" datatype="html">
@@ -1929,11 +1929,11 @@ All images are posted for educational purposes.
         <target>相关文章</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/articles/article/article.component.html</context>
-          <context context-type="linenumber">7,16</context>
+          <context context-type="linenumber">7,15</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/articles/list/list.component.html</context>
-          <context context-type="linenumber">10,16</context>
+          <context context-type="linenumber">10,17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="409adc47d32b4f33e6b9dbf174669f2f43e10eed" datatype="html">
@@ -1941,7 +1941,7 @@ All images are posted for educational purposes.
         <target>详细分类</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/articles/list/list.component.html</context>
-          <context context-type="linenumber">25,29</context>
+          <context context-type="linenumber">31,35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.html</context>
@@ -1997,7 +1997,7 @@ All images are posted for educational purposes.
         <target>相关文章</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/articles/list/list.component.ts</context>
-          <context context-type="linenumber">33,39</context>
+          <context context-type="linenumber">43,49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="79d58c0d38ce66b62219873e129046e404dc3d21" datatype="html">
@@ -2009,7 +2009,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.html</context>
-          <context context-type="linenumber">16,21</context>
+          <context context-type="linenumber">23,27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7303630345645048857" datatype="html">
@@ -2053,11 +2053,11 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/name/name.component.html</context>
-          <context context-type="linenumber">24,29</context>
+          <context context-type="linenumber">29,34</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/name/name.component.html</context>
-          <context context-type="linenumber">33,41</context>
+          <context context-type="linenumber">38,46</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -2073,7 +2073,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.html</context>
-          <context context-type="linenumber">38,41</context>
+          <context context-type="linenumber">36,39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.html</context>
@@ -2085,7 +2085,7 @@ All images are posted for educational purposes.
         <target>日期</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.html</context>
-          <context context-type="linenumber">37,40</context>
+          <context context-type="linenumber">35,38</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.html</context>
@@ -2097,7 +2097,7 @@ All images are posted for educational purposes.
         <target>数据</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.html</context>
-          <context context-type="linenumber">40,46</context>
+          <context context-type="linenumber">38,44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.html</context>
@@ -2109,7 +2109,7 @@ All images are posted for educational purposes.
         <target>编辑器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.html</context>
-          <context context-type="linenumber">41,46</context>
+          <context context-type="linenumber">39,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e2342a19d2ce35048f78e52233425de275539dae" datatype="html">
@@ -2117,7 +2117,7 @@ All images are posted for educational purposes.
         <target>前往编辑器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/attrs-change-log/attrs-change-log.component.html</context>
-          <context context-type="linenumber">66,72</context>
+          <context context-type="linenumber">64,70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="186236568870281953" datatype="html">
@@ -2205,7 +2205,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8787971127662853316" datatype="html">
@@ -2217,7 +2217,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.ts</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="270715a9eece0f3748aaec0940560574342337c5" datatype="html">
@@ -2409,7 +2409,7 @@ All images are posted for educational purposes.
         <target>上传</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">85,91</context>
+          <context context-type="linenumber">83,89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2420525563530770652" datatype="html">
@@ -2445,7 +2445,7 @@ All images are posted for educational purposes.
         <target>编辑</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">16,19</context>
+          <context context-type="linenumber">17,20</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/index/index.component.html</context>
@@ -2509,19 +2509,7 @@ All images are posted for educational purposes.
         <target>输入数据</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">21,25</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07" datatype="html">
-        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
-
-Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
-        <target>**注意!** 您输入的数据已经积累了大量误差。
-
-您可以到[这里](/account/specs-conflicts)查看其它用户的数据</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">25,42</context>
+          <context context-type="linenumber">22,27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="321e4419a943044e674beb55b8039f42a9761ca5" datatype="html">
@@ -2529,7 +2517,7 @@ All images are posted for educational purposes.
         <target>信息</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">34,38</context>
+          <context context-type="linenumber">38,42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="be18feb28e6f1a3c14c9abccffc2761b3335821b" datatype="html">
@@ -2537,7 +2525,7 @@ All images are posted for educational purposes.
         <target>发动机</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">41,45</context>
+          <context context-type="linenumber">45,49</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
@@ -2549,7 +2537,7 @@ All images are posted for educational purposes.
         <target>性能参数</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">49,53</context>
+          <context context-type="linenumber">53,57</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/specs-cars/specs-cars.component.html</context>
@@ -2565,7 +2553,7 @@ All images are posted for educational purposes.
         <target>结果</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">56,60</context>
+          <context context-type="linenumber">60,64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="408cb6073e60c5d966296a3207fc596adca75e01" datatype="html">
@@ -2573,11 +2561,11 @@ All images are posted for educational purposes.
         <target>Admin</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">62,69</context>
+          <context context-type="linenumber">66,72</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">98,103</context>
+          <context context-type="linenumber">99,102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="057e24bcc2fc96f82a44c6e21979b6563c285a7c" datatype="html">
@@ -2607,7 +2595,7 @@ All images are posted for educational purposes.
 所有被输入的数据都会显示在网站上，如“汽车之最”中的技术参数和网站其它一些地方。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">72,104</context>
+          <context context-type="linenumber">73,107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="57cf305f9bfd681c70dc26e914108d06384ade9f" datatype="html">
@@ -2619,7 +2607,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.html</context>
-          <context context-type="linenumber">61,64</context>
+          <context context-type="linenumber">61,65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/move-message/move-message.component.html</context>
@@ -3019,7 +3007,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">193,197</context>
+          <context context-type="linenumber">187,191</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/museum/museum.component.html</context>
@@ -3275,7 +3263,7 @@ All images are posted for educational purposes.
         <target>评论</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/comments/comments.component.html</context>
-          <context context-type="linenumber">2,3</context>
+          <context context-type="linenumber">9,10</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
@@ -3283,7 +3271,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">63,67</context>
+          <context context-type="linenumber">59,63</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/index/index.component.html</context>
@@ -3295,7 +3283,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">96,98</context>
+          <context context-type="linenumber">92,94</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
@@ -3311,7 +3299,7 @@ All images are posted for educational purposes.
         <target>为方便发表评论，您需要[注册账号或用社交网站账号登陆](/login)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/comments/comments.component.html</context>
-          <context context-type="linenumber">8,10</context>
+          <context context-type="linenumber">16,18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="abfb2bbc93dbacaca5d2d1a9c12b8e4a563a3b52" datatype="html">
@@ -3387,7 +3375,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
-          <context context-type="linenumber">279,284</context>
+          <context context-type="linenumber">279,285</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
@@ -3410,25 +3398,29 @@ All images are posted for educational purposes.
           <context context-type="linenumber">300,304</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="628ec23ea91c60f3bc22e508102d290b64be36a1" datatype="html">
-        <source>Vehicle type</source>
-        <target>车型</target>
+      <trans-unit id="5e29ddde3eccf8b25e541e11b260098361553fd5" datatype="html">
+        <source>Votes</source>
+        <target>表决</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/vehicle-types-modal/vehicle-types-modal.component.html</context>
+          <context context-type="sourcefile">src/app/comments/votes/votes.component.html</context>
           <context context-type="linenumber">3,7</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
-          <context context-type="linenumber">50,52</context>
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
+          <context context-type="linenumber">22,23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">46,48</context>
+          <context context-type="linenumber">130,132</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
         <source>Close</source>
         <target>关闭</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/comments/votes/votes.component.html</context>
+          <context context-type="linenumber">17,20</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/vehicle-types-modal/vehicle-types-modal.component.html</context>
           <context context-type="linenumber">20,23</context>
@@ -3451,7 +3443,23 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/voting/votes/votes.component.html</context>
-          <context context-type="linenumber">10,13</context>
+          <context context-type="linenumber">18,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="628ec23ea91c60f3bc22e508102d290b64be36a1" datatype="html">
+        <source>Vehicle type</source>
+        <target>车型</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/vehicle-types-modal/vehicle-types-modal.component.html</context>
+          <context context-type="linenumber">3,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
+          <context context-type="linenumber">50,52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
+          <context context-type="linenumber">46,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e003a87189e13865782e67cc9366a851a508919a" datatype="html">
@@ -3720,14 +3728,6 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
           <context context-type="linenumber">53,57</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f" datatype="html">
-        <source>Choose …</source>
-        <target>选择 …</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
-          <context context-type="linenumber">58,65</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="89a82ad9b7aef17c27803091557c01270670f0e2" datatype="html">
         <source>3. Preview</source>
         <target>3. 预览</target>
@@ -3905,11 +3905,11 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">45,51</context>
+          <context context-type="linenumber">55,63</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/name/name.component.html</context>
-          <context context-type="linenumber">41,47</context>
+          <context context-type="linenumber">50,53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/pictures/organize/organize.component.html</context>
@@ -4105,7 +4105,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>移动</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/move-message/move-message.component.ts</context>
-          <context context-type="linenumber">43,49</context>
+          <context context-type="linenumber">37,43</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/move-topic/move-topic.component.ts</context>
@@ -4205,11 +4205,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>收件箱</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.html</context>
-          <context context-type="linenumber">10,15</context>
+          <context context-type="linenumber">10,17</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">75,77</context>
+          <context context-type="linenumber">71,73</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
@@ -4221,19 +4221,19 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/>  张图片} other {<x id="INTERPOLATION"/>  张图片}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.html</context>
-          <context context-type="linenumber">27,32</context>
+          <context context-type="linenumber">34,38</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.html</context>
-          <context context-type="linenumber">34,39</context>
+          <context context-type="linenumber">41,45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox.component.html</context>
-          <context context-type="linenumber">41,48</context>
+          <context context-type="linenumber">48,53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">197,202</context>
+          <context context-type="linenumber">191,196</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/new.component.html</context>
@@ -4540,7 +4540,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>操作日志</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/log/log.component.html</context>
-          <context context-type="linenumber">10,16</context>
+          <context context-type="linenumber">10,17</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/item.component.html</context>
@@ -4556,7 +4556,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>操作日志</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/log/log.component.ts</context>
-          <context context-type="linenumber">46,52</context>
+          <context context-type="linenumber">87,93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1932d12b58ffd6534b96ad1c0cfeaa4f63787062" datatype="html">
@@ -4572,7 +4572,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>地图</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/map/map.component.ts</context>
-          <context context-type="linenumber">88,93</context>
+          <context context-type="linenumber">79,84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="28f86ffd419b869711aa13f5e5ff54be6d70731c" datatype="html">
@@ -4800,15 +4800,15 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">14,18</context>
+          <context context-type="linenumber">10,14</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">8,12</context>
+          <context context-type="linenumber">9,14</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/name/name.component.html</context>
-          <context context-type="linenumber">14,16</context>
+          <context context-type="linenumber">19,21</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
@@ -4848,7 +4848,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>用户№</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">26,28</context>
+          <context context-type="linenumber">26,27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="n-comments" datatype="html">
@@ -4856,7 +4856,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> 个评论} other {<x id="INTERPOLATION"/> 个评论}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">67,72</context>
+          <context context-type="linenumber">63,68</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.html</context>
@@ -4868,7 +4868,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>未读</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">72,74</context>
+          <context context-type="linenumber">68,70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7823909fb1d8d313382f6f4bd842f1a7ef6f08d1" datatype="html">
@@ -4876,7 +4876,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>已通过</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">74,76</context>
+          <context context-type="linenumber">70,72</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -4892,7 +4892,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>已删除</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">76,79</context>
+          <context context-type="linenumber">72,75</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -5084,7 +5084,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">12,17</context>
+          <context context-type="linenumber">13,19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1140bc539f94ea3d77e9ea609436503e62d6cb1f" datatype="html">
@@ -5116,7 +5116,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">16,19</context>
+          <context context-type="linenumber">17,20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="752daa6baad0f8b4684b5c6775345b02bed6746e" datatype="html">
@@ -5128,7 +5128,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">114,117</context>
+          <context context-type="linenumber">114,118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2790ad2c08306240a508576e942fcfdf271f5a79" datatype="html">
@@ -5152,7 +5152,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">22,25</context>
+          <context context-type="linenumber">23,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4149ca4ed93feb54286994f98ba61254e841ffd1" datatype="html">
@@ -5172,7 +5172,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">30,34</context>
+          <context context-type="linenumber">31,35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="72fdf685513ba113d32cfaee18951c224ae47431" datatype="html">
@@ -5184,7 +5184,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">38,44</context>
+          <context context-type="linenumber">39,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4c90059afafb7e160384d9f512797c95bb95c6dc" datatype="html">
@@ -5192,7 +5192,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>组</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">171,176</context>
+          <context context-type="linenumber">171,177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8822888260357046990" datatype="html">
@@ -5244,7 +5244,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>涡轮制造商</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">8,14</context>
+          <context context-type="linenumber">4,10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e03b6cba7c88318e4f91a60a079870e8fba4bee7" datatype="html">
@@ -5252,7 +5252,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>链接</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">15,20</context>
+          <context context-type="linenumber">11,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3c4c080864b313cfdff5fdea6aae5da276246d99" datatype="html">
@@ -5260,7 +5260,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>发布</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">15,21</context>
+          <context context-type="linenumber">11,17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71a275fa6f4bf661ad0404affa215db170afa58c" datatype="html">
@@ -5268,31 +5268,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>删除</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">17,22</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="30c796a915ebcbb6fbeb31e78aaecff721b11ee4" datatype="html">
-        <source>Add parent …</source>
-        <target>添加上级目录 …</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">27,29</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="31c006f128232f4114051922f9446f139e119a33" datatype="html">
-        <source>Select …</source>
-        <target>选择 …</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">32,35</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ccd37f5486642b40809f363c8480b84565eb0e5d" datatype="html">
-        <source>Brand …</source>
-        <target>品牌…</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">38,41</context>
+          <context context-type="linenumber">13,18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d1de9a561f71369731a4fbab4653f446b0e18d24" datatype="html">
@@ -5300,7 +5276,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>品牌<x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b0b7b850a5cedef6768e7c6e4e2ad0751894e98d" datatype="html">
@@ -5308,7 +5284,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>可能原因: 车型已通过:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">64,66</context>
+          <context context-type="linenumber">53,54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="620a0bcc66a9b489e507717d068fa42ae9ab06b6" datatype="html">
@@ -5316,7 +5292,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>相关:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">109,112</context>
+          <context context-type="linenumber">93,96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d97f320b0fab7a8241432fd01a08ce24a288b37f" datatype="html">
@@ -5324,7 +5300,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>设计:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">110,112</context>
+          <context context-type="linenumber">94,96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0d0478c7fd6764cf753b9b25f0d284cb345b9c59" datatype="html">
@@ -5332,7 +5308,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>赛事:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">111,113</context>
+          <context context-type="linenumber">95,96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1c54b594c265b49fa7ffd79c6a8fe360db7c752c" datatype="html">
@@ -5340,7 +5316,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>可能原因: 车型已存在于子目录:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">115,117</context>
+          <context context-type="linenumber">99,100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1c7cc5fbb5bef070456cbd0abbe8b5571639e030" datatype="html">
@@ -5348,15 +5324,15 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>添加发动机</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">142,148</context>
+          <context context-type="linenumber">126,132</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">166,172</context>
+          <context context-type="linenumber">150,156</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">183,187</context>
+          <context context-type="linenumber">167,171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d7d6f7ca5855c706898af02d8a745afe0fceb44e" datatype="html">
@@ -5364,15 +5340,15 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>添加车型</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">150,156</context>
+          <context context-type="linenumber">134,140</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">174,179</context>
+          <context context-type="linenumber">158,163</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">184,193</context>
+          <context context-type="linenumber">168,177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="12192410dbce428c99723505c15afefead324bbf" datatype="html">
@@ -5464,15 +5440,15 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>文章</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">8,13</context>
+          <context context-type="linenumber">14,19</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">55,59</context>
+          <context context-type="linenumber">67,71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
-          <context context-type="linenumber">95,98</context>
+          <context context-type="linenumber">93,96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html">
@@ -5480,11 +5456,11 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>地址</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">8,14</context>
+          <context context-type="linenumber">14,19</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">55,60</context>
+          <context context-type="linenumber">67,72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5591345e588912477a129283044468e7361c8c4e" datatype="html">
@@ -5492,11 +5468,11 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>相关链接</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">22,26</context>
+          <context context-type="linenumber">28,31</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">37,41</context>
+          <context context-type="linenumber">43,46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dea2a74561e9782fc44d7330f02f7341e12cdf73" datatype="html">
@@ -5504,11 +5480,11 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>官方网站</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">23,30</context>
+          <context context-type="linenumber">29,35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">38,44</context>
+          <context context-type="linenumber">44,50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="84a08d17d44836f9e0b37234db39181689a5b8d0" datatype="html">
@@ -5516,11 +5492,11 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>俱乐部</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">24,30</context>
+          <context context-type="linenumber">30,36</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">39,45</context>
+          <context context-type="linenumber">45,51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0beef660d67617ee35d5000c54be88ea106d840d" datatype="html">
@@ -5534,7 +5510,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
 * 上传最大分辨率的图像——这是为了追求更好的质量和未来使用它的能力。商标在网站上自动缩放。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/logo/logo.component.html</context>
-          <context context-type="linenumber">3,9</context>
+          <context context-type="linenumber">3,10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c29d47fe5a0f95ff47d0f37191edf45d55e4cfc4" datatype="html">
@@ -5542,7 +5518,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>至今.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">25,30</context>
+          <context context-type="linenumber">26,31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6bff2b8e116aa0df42492383bfed8c7846faf250" datatype="html">
@@ -5550,7 +5526,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>截止</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">26,33</context>
+          <context context-type="linenumber">27,34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e24b46c9aa62dbd25c9fe782b5ce22f37994898b" datatype="html">
@@ -5558,7 +5534,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>exactly</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/meta/meta.component.html</context>
-          <context context-type="linenumber">33,38</context>
+          <context context-type="linenumber">34,39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="512b045163a7187b2fc5d554e5f59fb3e49e174b" datatype="html">
@@ -5566,7 +5542,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>简介</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/name/name.component.html</context>
-          <context context-type="linenumber">20,23</context>
+          <context context-type="linenumber">25,28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="aa74b6bca3bcf70381c466f278e89f379fa33201" datatype="html">
@@ -5574,7 +5550,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>配备该发动机的车型</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/vehicles/vehicles.component.html</context>
-          <context context-type="linenumber">2,4</context>
+          <context context-type="linenumber">2,5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5e9de887ae3c45f7ec15c8a3e8d9183384dd0f2d" datatype="html">
@@ -5634,7 +5610,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>名称</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
-          <context context-type="linenumber">110,118</context>
+          <context context-type="linenumber">108,116</context>
         </context-group>
       </trans-unit>
       <trans-unit id="n-items" datatype="html">
@@ -5642,7 +5618,7 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <target>{VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> 项目} other {<x id="INTERPOLATION"/> 项目}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/items.component.html</context>
-          <context context-type="linenumber">132,137</context>
+          <context context-type="linenumber">130,135</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5f5ad3ae04363a22a6cc59a7b26e7c59cf81b1ab" datatype="html">
@@ -5932,7 +5908,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">123,125</context>
+          <context context-type="linenumber">117,119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="27aae003cbd4ba5f456112f2a3bb740d76cd60ff" datatype="html">
@@ -5976,7 +5952,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">202,204</context>
+          <context context-type="linenumber">196,198</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
@@ -6339,18 +6315,6 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
           <context context-type="linenumber">20,22</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5e29ddde3eccf8b25e541e11b260098361553fd5" datatype="html">
-        <source>Votes</source>
-        <target>表决</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">22,23</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">136,138</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="5b9e84b1b5b6c343b05549d43a0b673cdf77220b" datatype="html">
         <source>New votes</source>
         <target>新表决</target>
@@ -6380,7 +6344,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>由上传</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">112,114</context>
+          <context context-type="linenumber">108,109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="915c991d01f23c4cbd666c95a1bce97739e04bed" datatype="html">
@@ -6388,7 +6352,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>求通过</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">205,209</context>
+          <context context-type="linenumber">199,203</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture-moder-vote/picture-moder-vote/picture-moder-vote.component.html</context>
@@ -6400,7 +6364,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         <target>求删除</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">216,220</context>
+          <context context-type="linenumber">210,214</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture-moder-vote/picture-moder-vote/picture-moder-vote.component.html</context>
@@ -6768,7 +6732,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</target>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
-          <context context-type="linenumber">19,21</context>
+          <context context-type="linenumber">21,23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="48c180ef2dabc4feb0ef34e8cf5771227fa96631" datatype="html">
@@ -6924,7 +6888,7 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <target>剪裁后图片(<x id="INTERPOLATION" equiv-text="{{picture.crop_"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/thumbnail/thumbnail/thumbnail.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b7641aed03492978b4ec6843b1e53f30464294d9" datatype="html">
@@ -7048,7 +7012,7 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <target>选择另一个目录</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.html</context>
-          <context context-type="linenumber">45,49</context>
+          <context context-type="linenumber">45,50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7a2d1d937b201c243f89b3cc2a6cc1102e01c4d1" datatype="html">
@@ -8422,7 +8386,7 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
       </trans-unit>
       <trans-unit id="car-type-rp/limousine" datatype="html">
         <source>Limousines</source>
-        <target>加长轿车</target>
+        <target>豪华轿车</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">257,258</context>
@@ -8444,6 +8408,15 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">259,260</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/offroad" datatype="html">
+        <source>SUVs</source>
+        <target>运动型多功能车（SUV）</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">260,261</context>
         </context-group>
         <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
       </trans-unit>
@@ -8498,6 +8471,15 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">268,269</context>
+        </context-group>
+        <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
+      </trans-unit>
+      <trans-unit id="car-type-rp/liftback-sedan" datatype="html">
+        <source>Liftback-sedans</source>
+        <target>掀背轿车</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">270,271</context>
         </context-group>
         <note priority="1" from="description">Vehicle type in context of &quot;most fastest among Roadsters&quot;</note>
       </trans-unit>
@@ -9124,6 +9106,58 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
           <context context-type="linenumber">378,379</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8488447454438959842" datatype="html">
+        <source>torque</source>
+        <target>扭矩</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">379,380</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">380,381</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9161178180902362952" datatype="html">
+        <source>turbo</source>
+        <target>涡轮增压</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">383,384</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2324950157785039167" datatype="html">
+        <source>gearbox</source>
+        <target>变速箱</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">390,391</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2951665671088301638" datatype="html">
+        <source>clutch</source>
+        <target>离合</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">394,395</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6850933795436253190" datatype="html">
+        <source>suspension and steering</source>
+        <target>悬挂与转向</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">395,396</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6981776881303372148" datatype="html">
+        <source>front suspension</source>
+        <target>前悬挂</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">396,397</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6777974573583289938" datatype="html">
         <source>description</source>
         <target>简介</target>
@@ -9150,6 +9184,14 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">775,776</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6912904425387668973" datatype="html">
+        <source>acceleration to 100 km/h</source>
+        <target>百公里加速</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">440,441</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9139280231181462" datatype="html">
@@ -9206,6 +9248,14 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">475,476</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6069983946261448262" datatype="html">
+        <source>emission standard</source>
+        <target>排放标准</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">503,504</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7364771993966081309" datatype="html">
@@ -9422,10 +9472,18 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
       </trans-unit>
       <trans-unit id="3598576391140925703" datatype="html">
         <source>CNG</source>
-        <target>CNG</target>
+        <target>压缩天然气</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">547,548</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3936730786370372185" datatype="html">
+        <source>LPG</source>
+        <target>液化石油气</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">548,549</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2894758632738215638" datatype="html">
@@ -9474,6 +9532,122 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">570,571</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="816595197681616096" datatype="html">
+        <source>front-wheel drive</source>
+        <target>前轮驱动</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">597,598</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6660031585359808129" datatype="html">
+        <source>rear-wheel drive</source>
+        <target>后轮驱动</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">598,599</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="916644119670524759" datatype="html">
+        <source>all-wheel drive</source>
+        <target>全轮驱动</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">599,600</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2233560223291461480" datatype="html">
+        <source>Manual</source>
+        <target>手动变速</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">605,606</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="810888510148304696" datatype="html">
+        <source>Automatic</source>
+        <target>自动变速</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">606,607</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5438948989457871764" datatype="html">
+        <source>Semi-automatic</source>
+        <target>手自一体</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">608,609</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6212135705060315393" datatype="html">
+        <source>sequential</source>
+        <target>序列式变速</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">610,611</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4671050175816763733" datatype="html">
+        <source>torsion bar with the push rod</source>
+        <target>扭力梁悬挂（带推杆）</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">624,625</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">682,683</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3509222618002501193" datatype="html">
+        <source>torsion bar with the pull rod</source>
+        <target>扭力梁悬挂（带拉杆）</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">625,626</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">684,685</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6460100282769505516" datatype="html">
+        <source>dependent</source>
+        <target>非独立悬挂</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">632,633</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">685,686</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3259099069996269882" datatype="html">
+        <source>independent</source>
+        <target>独立悬挂</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">633,634</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">686,687</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4765986763775881147" datatype="html">
+        <source>semidependent</source>
+        <target>半独立悬挂</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">634,635</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">687,688</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9127482397132428967" datatype="html">
@@ -10025,7 +10199,7 @@ Discuss anything and just talk about cars and not only can you on [the forum](/f
         <target>表决用户</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/voting/votes/votes.component.html</context>
-          <context context-type="linenumber">3,7</context>
+          <context context-type="linenumber">9,13</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/voting/voting.component.html</context>
@@ -10124,9 +10298,21 @@ Message with instructions to confirm will sent to new address.</source>
         <source>Login or password is incorrect</source>
         <target>您已登录或密码错误</target>
       </trans-unit>
+      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07">
+        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+
+Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+        <target>**注意!** 您输入的数据已经积累了大量误差。
+
+您可以到[这里](/account/specs-conflicts)查看其它用户的数据</target>
+      </trans-unit>
       <trans-unit id="04a1e9ed5e17ecb1e51bb5572bf4273a744b07f5">
         <source><x id="INTERPOLATION" equiv-text="k]=&quot;[&apos;/&apos;, brand"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> in chronological order</source>
         <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTypeTranslation(currentVehicleType.name)}}"/> 按推出时间排序</target>
+      </trans-unit>
+      <trans-unit id="7eb10b5f67c43ee9b78bc5558a8d9b6f0f4e8b0f">
+        <source>Choose ...</source>
+        <target>选择 ...</target>
       </trans-unit>
       <trans-unit id="1f1f0b1fa7e0f3406f4c128c6f0cea5144e8bce0">
         <source>Yandex.Money</source>
@@ -10139,6 +10325,18 @@ Message with instructions to confirm will sent to new address.</source>
       <trans-unit id="86ead51aaacaca48bc1e3c8f98b8ec52ad2ce2d5">
         <source>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</source>
         <target>你知道在不同时期是哪种技术帮助了全世界的城市街道遵守法律和秩序的吗？教皇乘坐哪些车？不知道？那么你应该阅读这一版块。</target>
+      </trans-unit>
+      <trans-unit id="30c796a915ebcbb6fbeb31e78aaecff721b11ee4">
+        <source>Add parent ...</source>
+        <target>添加上级目录 ...</target>
+      </trans-unit>
+      <trans-unit id="31c006f128232f4114051922f9446f139e119a33">
+        <source>Select ...</source>
+        <target>选择 ...</target>
+      </trans-unit>
+      <trans-unit id="ccd37f5486642b40809f363c8480b84565eb0e5d">
+        <source>Brand ...</source>
+        <target>品牌...</target>
       </trans-unit>
       <trans-unit id="3249513483374643425">
         <source>Add</source>
