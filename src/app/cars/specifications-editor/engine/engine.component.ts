@@ -1,21 +1,32 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {APIItem, ItemService} from '../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
-import {shareReplay} from 'rxjs/operators';
+import {shareReplay, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, of} from 'rxjs';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
   templateUrl: './engine.component.html'
 })
-export class CarsSpecificationsEditorEngineComponent implements OnChanges {
-  @Input() item: APIItem;
+export class CarsSpecificationsEditorEngineComponent {
+  @Input() set item(item: APIItem) { this.item$.next(item); };
+  public item$ = new BehaviorSubject<APIItem>(null);
+
   @Output() changed = new EventEmitter<void>();
   public isAllowedEditEngine$ = this.acl
     .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
     .pipe(shareReplay(1));
-  public engine: APIItem;
+  public engine$ = this.item$.pipe(
+    switchMap(item => {
+      if (! item.engine_id) {
+        return of(null as APIItem);
+      }
+
+      return this.itemService.getItem(item.engine_id, {fields: 'name_html,name_text,engine_id'});
+    })
+  )
   public loading = 0;
 
   constructor(
@@ -25,33 +36,9 @@ export class CarsSpecificationsEditorEngineComponent implements OnChanges {
     private toastService: ToastsService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
-      if (this.item.engine_id) {
-        this.loading++;
-        this.itemService
-          .getItem(this.item.engine_id, {
-            fields: 'name_html,name_text,engine_id'
-          })
-          .subscribe(
-            engine => {
-              this.engine = engine;
-              this.loading--;
-            },
-            response => {
-              this.toastService.response(response);
-              this.loading--;
-            }
-          );
-      } else {
-        this.engine = null;
-      }
-    }
-  }
-
-  private setEngineID(value: string) {
+  private setEngineID(item:APIItem, value: string) {
     this.api
-      .request<void>('PUT', 'item/' + this.item.id, {body: {
+      .request<void>('PUT', 'item/' + item.id, {body: {
         engine_id: value
       }})
       .subscribe(
@@ -60,11 +47,11 @@ export class CarsSpecificationsEditorEngineComponent implements OnChanges {
       );
   }
 
-  public inheritEngine() {
-    this.setEngineID('inherited');
+  public inheritEngine(item:APIItem) {
+    this.setEngineID(item, 'inherited');
   }
 
-  public cancelInheritance() {
-    this.setEngineID('');
+  public cancelInheritance(item:APIItem) {
+    this.setEngineID(item, '');
   }
 }

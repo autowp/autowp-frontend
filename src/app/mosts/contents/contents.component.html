@@ -1,83 +1,91 @@
-<h1 class="mb-4 mosts-header" *ngIf="ratingCatname" ngPreserveWhitespaces>
-  <span i18n>Most</span>
-  <div class="d-inline-block" ngbDropdown>
-    <a href="#" ngbDropdownToggle (click)="false">
-      <ng-container *ngFor="let rating of ratings">
-        <span *ngIf="rating.catname === ratingCatname" [textContent]="getMostsRatingsTranslation(rating.name)">
-        </span>
-      </ng-container>
-      <i class="fa fa-caret-down" aria-hidden="true"></i>
-    </a>
-    <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let rating of ratings" [class.active]="rating.catname === ratingCatname" class="dropdown-item" [routerLink]="prefix.concat([rating.catname])"
-         [textContent]="getMostsRatingsTranslation(rating.name)">
+<ng-template #loading>
+  <div class="spinner-border" role="status">
+    <span class="sr-only" i18n>Loading…</span>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="ratingCatname$|async as ratingCatname">
+  <h1 class="mb-4 mosts-header" *ngIf="typeCatname$|async as typeCatname" ngPreserveWhitespaces>
+    <span i18n>Most</span>
+    <div class="d-inline-block" ngbDropdown *ngIf="ratings$|async as ratings">
+      <a href="#" ngbDropdownToggle (click)="false">
+        <ng-container *ngFor="let rating of ratings">
+          <span *ngIf="rating.catname === ratingCatname" [textContent]="getMostsRatingsTranslation(rating.name)">
+          </span>
+        </ng-container>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
       </a>
+      <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
+        <a *ngFor="let rating of ratings" [class.active]="rating.catname === ratingCatname" class="dropdown-item" [routerLink]="prefix.concat([rating.catname])"
+           [textContent]="getMostsRatingsTranslation(rating.name)">
+        </a>
+      </div>
     </div>
-  </div>
 
-  <span i18n>among</span>
+    <span i18n>among</span>
 
-  <div class="d-inline-block" ngbDropdown>
-    <a href="#" ngbDropdownToggle (click)="false">
-      <ng-container *ngFor="let type of vehicleTypes">
-        <span *ngIf="type.catname === typeCatname" [textContent]="type.nameTranslated"></span>
-      </ng-container>
-      <span *ngIf="!typeCatname" i18n>Vehicle</span>
-      <i class="fa fa-caret-down" aria-hidden="true"></i>
-    </a>
-    <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname === typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
-         [textContent]="type.nameTranslated"></a>
-    </div>
-  </div>
-
-  <div class="d-inline-block" *ngIf="defaultTypeCatname" ngbDropdown>
-    <a href="#" ngbDropdownToggle (click)="false">
-      <ng-container *ngFor="let year of years">
-        <span *ngIf="year.catname ? year.catname === yearsCatname : !yearsCatname" [textContent]="getMostsPeriodsTranslation(year.name)"></span>
-      </ng-container>
-      <i class="fa fa-caret-down" aria-hidden="true"></i>
-    </a>
-    <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-      <a *ngFor="let year of years" [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname" class="dropdown-item"
-         [routerLink]="prefix.concat([ratingCatname, typeCatname ? typeCatname : defaultTypeCatname, year.catname ? year.catname : ''])"
-         [textContent]="getMostsPeriodsTranslation(year.name)">
+    <div class="d-inline-block" ngbDropdown *ngIf="vehicleTypes$|async as vehicleTypes">
+      <a href="#" ngbDropdownToggle (click)="false">
+        <ng-container *ngFor="let type of vehicleTypes">
+          <span *ngIf="type.catname === typeCatname" [textContent]="type.nameTranslated"></span>
+        </ng-container>
+        <span *ngIf="!typeCatname" i18n>Vehicle</span>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
       </a>
+      <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
+        <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname === typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
+           [textContent]="type.nameTranslated"></a>
+      </div>
     </div>
-  </div>
-</h1>
 
-<span [hidden]="loading <= 0">
-  <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-</span>
-
-<ng-container *ngFor="let item of items; let i = index">
-  <div class="row">
-    <div class="col-md-9">
-      <h3 [innerHTML]="item.item.name_html"></h3>
-    </div>
-    <div class="col-md-3">
-      <h3 [textContent]="getMostsRatingParamsTranslation('most/' + ratingCatname + '/param')" *ngIf="!i"></h3>
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-4" *ngFor="let picture of item.pictures">
-          <a [routerLink]="picture.route" class="rounded d-block mb-4" *ngIf="picture">
-            <img class="rounded w-100 border border-light" [src]="picture.src" [alt]="picture.name" [title]="picture.name" loading="lazy" />
+    <ng-container *ngIf="yearsCatname$|async as yearsCatname">
+      <div class="d-inline-block" ngbDropdown *ngIf="years$|async as years">
+        <a href="#" ngbDropdownToggle (click)="false">
+          <ng-container *ngFor="let year of years">
+            <span *ngIf="year.catname ? year.catname === yearsCatname : !yearsCatname" [textContent]="getMostsPeriodsTranslation(year.name)"></span>
+          </ng-container>
+          <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </a>
+        <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;" *ngIf="defaultTypeCatname$|async as defaultTypeCatname">
+          <a *ngFor="let year of years" [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname" class="dropdown-item"
+             [routerLink]="prefix.concat([ratingCatname, typeCatname ? typeCatname : defaultTypeCatname, year.catname ? year.catname : ''])"
+             [textContent]="getMostsPeriodsTranslation(year.name)">
           </a>
-          <span *ngIf="!picture">&#xa0;</span>
         </div>
       </div>
-      <app-markdown *ngIf="item.item.description" [markdown]="item.item.description"></app-markdown>
-    </div>
-    <div class="col-md-3">
-      <h3 ngPreserveWhitespaces>
-        <span *ngIf="item.value_html" [innerHTML]="item.value_html"></span>
-        <span *ngIf="!item.value_html && item.value_text" [innerHTML]="item.value_text"></span>
-        <small class="unit" *ngIf="item.unit" [textContent]="getUnitTranslation(item.unit.id, 'abbr')" placement="top" [ngbTooltip]="getUnitTranslation(item.unit.id, 'name')"></small>
-      </h3>
-    </div>
-  </div>
+    </ng-container>
+  </h1>
+
+  <ng-container *ngIf="items$|async as items; else loading">
+    <ng-container *ngFor="let item of items; let i = index">
+      <div class="row">
+        <div class="col-md-9">
+          <h3 [innerHTML]="item.item.name_html"></h3>
+        </div>
+        <div class="col-md-3">
+          <h3 [textContent]="getMostsRatingParamsTranslation('most/' + ratingCatname + '/param')" *ngIf="!i"></h3>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-4" *ngFor="let picture of item.pictures">
+              <a [routerLink]="picture.route" class="rounded d-block mb-4" *ngIf="picture">
+                <img class="rounded w-100 border border-light" [src]="picture.src" [alt]="picture.name" [title]="picture.name" loading="lazy" />
+              </a>
+              <span *ngIf="!picture">&#xa0;</span>
+            </div>
+          </div>
+          <app-markdown *ngIf="item.item.description" [markdown]="item.item.description"></app-markdown>
+        </div>
+        <div class="col-md-3">
+          <h3 ngPreserveWhitespaces>
+            <span *ngIf="item.value_html" [innerHTML]="item.value_html"></span>
+            <span *ngIf="!item.value_html && item.value_text" [innerHTML]="item.value_text"></span>
+            <small class="unit" *ngIf="item.unit" [textContent]="getUnitTranslation(item.unit.id, 'abbr')" placement="top" [ngbTooltip]="getUnitTranslation(item.unit.id, 'name')"></small>
+          </h3>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
 </ng-container>

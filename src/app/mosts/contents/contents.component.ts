@@ -1,18 +1,13 @@
-import {Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {
-  MostsService,
-  APIMostsItem,
-  APIMostsMenuRating,
-  APIMostsMenuYear
-} from '../mosts.service';
-import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
+import {Component, Input} from '@angular/core';
+import {APIMostsItem, MostsService} from '../mosts.service';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import { APIVehicleType } from '../../services/vehicle-type';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
   debounceTime,
   tap,
-  switchMap, map
+  switchMap, map, shareReplay
 } from 'rxjs/operators';
 import {
   getMostsPeriodsTranslation,
@@ -41,94 +36,82 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   templateUrl: './contents.component.html',
   styleUrls: ['./styles.scss']
 })
-export class MostsContentsComponent implements OnInit, OnDestroy, OnChanges {
-  public items: APIMostsItem[];
-  public years: APIMostsMenuYear[];
-  public ratings: APIMostsMenuRating[];
-  public vehicleTypes: APIVehicleType[];
-  public loading = 0;
+export class MostsContentsComponent {
   @Input() prefix: string[] = ['/mosts'];
-  @Input() ratingCatname: string;
-  @Input() typeCatname: string;
-  @Input() yearsCatname: string;
-  @Input() brandID: number;
-  public defaultTypeCatname: string;
-  private params$ = new BehaviorSubject({
-    ratingCatname: null,
-    typeCatname: null,
-    yearsCatname: null
-  });
-  private brandID$ = new BehaviorSubject(0);
-  private sub: Subscription;
+
+  @Input() set ratingCatname(ratingCatname: string) { this.ratingCatname$.next(ratingCatname); };
+  public ratingCatname$ = new BehaviorSubject<string>(null);
+
+  @Input() set typeCatname(typeCatname: string) { this.typeCatname$.next(typeCatname); };
+  public typeCatname$ = new BehaviorSubject<string>(null);
+
+  @Input() set yearsCatname(yearsCatname: string) { this.yearsCatname$.next(yearsCatname); };
+  public yearsCatname$ = new BehaviorSubject<string>(null);
+
+  @Input() set brandID(brandID: number) { this.brandID$.next(brandID); };
+  public brandID$ = new BehaviorSubject<number>(null);
+
+  private menu$ = this.brandID$.pipe(
+    distinctUntilChanged(),
+    debounceTime(30),
+    switchMap(brandID => this.mostsService.getMenu(brandID)),
+    shareReplay(1),
+  );
+
+  public years$ = this.menu$.pipe(
+    map(menu => menu.years),
+  );
+
+  public ratings$ = this.menu$.pipe(
+    map(menu => menu.ratings),
+  );
+
+  public vehicleTypes$ = this.menu$.pipe(
+    map(menu => vehicleTypesToList(menu.vehilce_types)),
+    shareReplay(1),
+  );
+
+  public defaultTypeCatname$ = this.vehicleTypes$.pipe(
+    map(vehicleTypes => vehicleTypes[0].catname)
+  );
+
+  public items$: Observable<APIMostsItem[]> = combineLatest([
+    this.ratingCatname$.pipe(
+      distinctUntilChanged(),
+      debounceTime(30),
+      switchMap(ratingCatname => this.menu$.pipe(
+        map(menu => ratingCatname ? ratingCatname : menu.ratings[0].catname)
+      ))
+    ),
+    this.typeCatname$.pipe(
+      distinctUntilChanged(),
+      debounceTime(30)
+    ),
+    this.yearsCatname$.pipe(
+      distinctUntilChanged(),
+      debounceTime(30)
+    )
+  ]).pipe(
+    tap(() => {
+      this.initPageEnv();
+    }),
+    switchMap(([ratingCatname, typeCatname, yearsCatname]) =>
+      this.brandID$.pipe(
+        switchMap(brandID => this.mostsService.getItems({
+          rating_catname: ratingCatname,
+          type_catname: typeCatname,
+          years_catname: yearsCatname,
+          brand_id: brandID
+        }))
+      )
+    ),
+    map(response => response.items)
+  );
 
   constructor(
     private mostsService: MostsService,
     private pageEnv: PageEnvService
   ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.ratingCatname || changes.typeCatname || changes.yearsCatname) {
-      this.params$.next({
-        ratingCatname: this.ratingCatname,
-        typeCatname: this.typeCatname,
-        yearsCatname: this.yearsCatname
-      });
-    }
-
-    if (changes.brandID) {
-      this.brandID$.next(this.brandID);
-    }
-  }
-
-  ngOnInit(): void {
-    this.sub = combineLatest([
-      this.params$.pipe(
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30)
-      ),
-      this.brandID$.pipe(
-        switchMap(brandID => this.mostsService.getMenu(brandID)),
-        tap(menu => {
-          this.years = menu.years;
-          this.ratings = menu.ratings;
-          this.vehicleTypes = vehicleTypesToList(menu.vehilce_types);
-          this.defaultTypeCatname = this.vehicleTypes[0].catname;
-        })
-      )
-    ])
-      .pipe(
-        map(([params, menu]) => {
-          if (!params.ratingCatname) {
-            params.ratingCatname = menu.ratings[0].catname;
-          }
-
-          this.ratingCatname = params.ratingCatname;
-          this.typeCatname = params.typeCatname;
-          this.yearsCatname = params.yearsCatname;
-
-          this.initPageEnv();
-
-          return params;
-        }),
-        switchMap(params =>
-          this.brandID$.pipe(
-            switchMap(brandID => this.mostsService.getItems({
-              rating_catname: params.ratingCatname,
-              type_catname: params.typeCatname,
-              years_catname: params.yearsCatname,
-              brand_id: brandID
-            }))
-          )
-        )
-      )
-      .subscribe(response => {
-        this.items = response.items;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   private initPageEnv() {
     this.pageEnv.set({

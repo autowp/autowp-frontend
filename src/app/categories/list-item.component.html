@@ -1,4 +1,4 @@
-<div class="car item-list-item" *ngIf="parentRouterLink">
+<div class="car item-list-item" *ngIf="item$|async as item">
   <h3>
     <span [innerHTML]="item.name_html"></span>
     <sup class="design-brand mx-2" *ngIf="item.design"><ng-container i18n>designed by</ng-container>
@@ -14,34 +14,36 @@
 
   <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
 
-  <div class="row" *ngIf="havePhoto && pictures.length > 4">
-    <div class="col-12 col-lg-6" *ngFor="let picture of pictures.slice(0, 1)">
-      <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
-        <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
-      </a>
-      <span *ngIf="!picture">&#xa0;</span>
-    </div>
-    <div class="col-12 col-lg-6">
-      <div class="row">
-        <div class="col-6" *ngFor="let picture of pictures.slice(1)">
-          <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
-            <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
-          </a>
-          <span *ngIf="!picture">&#xa0;</span>
+  <ng-container *ngIf="pictures$|async as pictures">
+    <div class="row" *ngIf="(havePhoto$|async) && pictures.length > 4">
+      <div class="col-12 col-lg-6" *ngFor="let picture of pictures.slice(0, 1)">
+        <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
+          <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
+        </a>
+        <span *ngIf="!picture">&#xa0;</span>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row">
+          <div class="col-6" *ngFor="let picture of pictures.slice(1)">
+            <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
+              <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
+            </a>
+            <span *ngIf="!picture">&#xa0;</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row" *ngIf="havePhoto && pictures.length <= 4">
-    <div class="col-6 col-lg-3" *ngFor="let picture of pictures">
-      <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
-        <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
-      </a>
-      <span *ngIf="!picture">&#xa0;</span>
+    <div class="row" *ngIf="(havePhoto$|async) && pictures.length <= 4">
+      <div class="col-6 col-lg-3" *ngFor="let picture of pictures">
+        <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
+          <img [src]="picture.thumb.src" [alt]="picture.picture.name_text" [title]="picture.picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
+        </a>
+        <span *ngIf="!picture">&#xa0;</span>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
-  <div class="row" *ngIf="!havePhoto && canHavePhoto">
+  <div class="row" *ngIf="(havePhoto$|async) === false && (canHavePhoto$|async)">
     <div class="col-6 col-lg-3">
       <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
         <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="fa fa-plus-circle text-success" aria-hidden="true"></a>
@@ -61,7 +63,7 @@
     </ul>
   </div>
 
-  <ul class="list-inline" ngPreserveWhitespaces>
+  <ul class="list-inline" ngPreserveWhitespaces *ngIf="parentRouterLink$|async as parentRouterLink">
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id === 3" class="list-inline-item">
       <i class="fa fa-align-left me-1" aria-hidden="true"></i>

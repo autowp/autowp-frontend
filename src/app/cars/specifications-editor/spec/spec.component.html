@@ -1,5 +1,4 @@
-<form class="spec-editor-form" (submit)="saveSpecs()">
-  {{invalidParams|json}}
+<form class="spec-editor-form" (submit)="saveSpecs(item)" *ngIf="item$|async as item">
   <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items">
     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
     <ng-container i18n>Data not saved because of error. Details below</ng-container>

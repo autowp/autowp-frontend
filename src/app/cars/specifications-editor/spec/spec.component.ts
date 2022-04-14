@@ -1,11 +1,4 @@
-import {
-  OnChanges,
-  OnInit,
-  Component,
-  Input,
-  SimpleChanges,
-  OnDestroy
-} from '@angular/core';
+import {OnInit, Component, Input, OnDestroy} from '@angular/core';
 import { APIItem } from '../../../services/item';
 import {
   Observable,
@@ -65,9 +58,11 @@ function toPlain(
   styleUrls: ['./spec.component.scss']
 })
 export class CarsSpecificationsEditorSpecComponent
-  implements OnInit, OnChanges, OnDestroy {
-  @Input() item: APIItem;
-  private item$ = new BehaviorSubject<APIItem>(null);
+  implements OnInit, OnDestroy {
+
+  @Input() set item(item: APIItem) { this.item$.next(item); };
+  public item$ = new BehaviorSubject<APIItem>(null);
+
   public loading = 0;
   public attributes: APIAttrAttributeInSpecEditor[] = [];
   public values = new Map<number, APIAttrValue>();
@@ -85,7 +80,7 @@ export class CarsSpecificationsEditorSpecComponent
     private toastService: ToastsService
   ) {}
 
-  private applyCurrentUserValues(values) {
+  private applyCurrentUserValues(item: APIItem, values) {
     const currentUserValues: { [key: number]: APIAttrUserValue } = {};
     for (const value of values) {
       const attribute = this.getAttribute(value.attribute_id);
@@ -105,7 +100,7 @@ export class CarsSpecificationsEditorSpecComponent
     for (const attr of this.attributes) {
       if (!currentUserValues.hasOwnProperty(attr.id)) {
         currentUserValues[attr.id] = {
-          item_id: this.item.id,
+          item_id: item.id,
           user_id: +this.user.id,
           attribute_id: attr.id,
           value: null,
@@ -150,7 +145,7 @@ export class CarsSpecificationsEditorSpecComponent
         limit: 500,
         fields: 'value'
       })
-      .pipe(tap(response => this.applyCurrentUserValues(response.items)));
+      .pipe(tap(response => this.applyCurrentUserValues(item, response.items)));
   }
 
   private userValues$(item: APIItem) {
@@ -261,18 +256,12 @@ export class CarsSpecificationsEditorSpecComponent
     this.sub.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
-      this.item$.next(changes.item.currentValue);
-    }
-  }
-
-  public saveSpecs() {
+  public saveSpecs(item: APIItem) {
     const items = [];
     for (const attributeID in this.currentUserValues) {
       if (this.currentUserValues.hasOwnProperty(attributeID)) {
         items.push({
-          item_id: this.item.id,
+          item_id: item.id,
           attribute_id: attributeID,
           user_id: this.user.id,
           value: this.currentUserValues[attributeID].value,
