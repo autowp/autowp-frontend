@@ -1,8 +1,6 @@
 import {
   Component,
   Input,
-  OnChanges,
-  SimpleChanges,
   OnInit,
   OnDestroy,
   HostListener, Output, EventEmitter
@@ -31,15 +29,17 @@ interface APIGalleryFilter {
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() filter: APIGalleryFilter;
-  @Input() current: string;
+export class GalleryComponent implements OnInit, OnDestroy {
+  @Input() set filter(filter: APIGalleryFilter) { this.filter$.next(filter); };
+  private filter$ = new BehaviorSubject<APIGalleryFilter>(null);
+
+  @Input() set current(current: string) { this.current$.next(current); };
+  public current$ = new BehaviorSubject<string>(null);
+
   @Input() galleryPrefix: string[];
   @Input() picturePrefix: string[];
   @Output() pictureSelected = new EventEmitter<APIGalleryItem>();
 
-  private filter$ = new BehaviorSubject<APIGalleryFilter>(null);
-  private current$ = new BehaviorSubject<string>(null);
   public gallery: APIGalleryItem[] = [];
   private status: string;
   public currentFilter: APIGalleryFilter;
@@ -55,9 +55,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private api: APIService, private router: Router) {}
 
-  @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    this.router.navigate(this.picturePrefix.concat([this.current]));
+  @HostListener('document:keydown.escape', ['current', '$event'])
+  onKeydownHandler(current: string, event: KeyboardEvent) {
+    this.router.navigate(this.picturePrefix.concat([current]));
   }
 
   @HostListener('document:keydown.arrowright', ['$event'])
@@ -88,7 +88,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         )),
         distinctUntilChanged(),
         switchMap(data => {
-          this.current = data.current;
           if (!this.getGalleryItem(data.current)) {
             const params = this.filterParams(data.filter);
             params.picture_identity = data.current;
@@ -221,15 +220,5 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.filter) {
-      this.filter$.next(changes.filter.currentValue);
-    }
-
-    if (changes.current) {
-      this.current$.next(changes.current.currentValue);
-    }
   }
 }

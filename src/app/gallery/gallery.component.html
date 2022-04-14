@@ -10,7 +10,7 @@
       <ng-container *ngFor="let item of gallery; let i = index">
         <app-gallery-carousel-item
           class="carousel-item"
-          [class.active]="current === item.identity"
+          [class.active]="(current$|async) === item.identity"
           [class.previous]="currentItemIndex > i"
           [class.next]="i > currentItemIndex"
           [item]="item"
