@@ -1,5 +1,11 @@
 [
-
+  {
+    "sum": -212.52,
+    "currency": "EUR",
+    "date": "2022-04-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "April/May hosting"
+  },
   {
     "sum": 9.18,
     "currency": "EUR",
@@ -75,7 +81,7 @@
   {
     "sum": -209.11,
     "currency": "EUR",
-    "date": "2022-03-19T00:00:00+00:00",
+    "date": "2022-03-18T00:00:00+00:00",
     "contributor": null,
     "purpose": "March/April hosting"
   },
