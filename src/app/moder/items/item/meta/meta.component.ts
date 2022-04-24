@@ -5,6 +5,8 @@ import {APIItemVehicleTypeGetResponse, APIService} from '../../../../services/ap
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ItemType} from '../../../../../../generated/spec.pb';
+import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
+import {InvalidParams} from '../../../../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-moder-items-item-meta',
@@ -17,7 +19,7 @@ export class ModerItemsItemMetaComponent {
   public loadingNumber = 0;
 
   public canEditMeta$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT_META);
-  public invalidParams: any;
+  public invalidParams: InvalidParams;
 
   public vehicleTypeIDs$: Observable<number[]> = this.item$.pipe(
     switchMap(item => {
@@ -41,43 +43,50 @@ export class ModerItemsItemMetaComponent {
     private itemService: ItemService
   ) {}
 
-  public saveMeta(item: APIItem, vehicleTypeIDs: number[]) {
+  public saveMeta(item: APIItem, event: ItemMetaFormResult) {
     this.loadingNumber++;
 
     const data = {
-      // item_type_id: this.$state.params.item_type_id,
-      name: item.name,
-      full_name: item.full_name,
-      catname: item.catname,
-      body: item.body,
-      spec_id: item.spec_id,
-      begin_model_year: item.begin_model_year,
-      end_model_year: item.end_model_year,
-      begin_model_year_fraction: item.begin_model_year_fraction,
-      end_model_year_fraction: item.end_model_year_fraction,
-      begin_year: item.begin_year,
-      begin_month: item.begin_month,
-      end_year: item.end_year,
-      end_month: item.end_month,
-      today: item.today,
-      produced: item.produced,
-      produced_exactly: item.produced_exactly,
-      is_concept: item.is_concept,
-      is_group: item.is_group,
-      lat: item.lat,
-      lng: item.lng
+      name: event.name,
+      full_name: event.full_name,
+      catname: event.catname,
+      body: event.body,
+      spec_id: event.spec_id,
+      begin_model_year: event.model_years?.begin_year,
+      begin_model_year_fraction: event.model_years?.begin_year_fraction,
+      end_model_year: event.model_years?.end_year,
+      end_model_year_fraction: event.model_years?.end_year_fraction,
+      begin_year: event.begin?.year,
+      begin_month: event.begin?.month,
+      end_year: event.end?.year,
+      end_month: event.end?.month,
+      today: event.end?.today,
+      produced: event.produced?.count,
+      produced_exactly: event.produced?.exactly,
+      is_concept: event.is_concept === 'inherited' ? false : event.is_concept,
+      is_concept_inherit: event.is_concept === 'inherited',
+      is_group: event.is_group,
+      lat: event.point?.lat,
+      lng: event.point?.lng
     };
 
-    forkJoin([
+    const pipes: Observable<any>[] = [
       this.api.request<void>('PUT', 'item/' + item.id, {body: data}).pipe(
         catchError(response => {
           this.invalidParams = response.error.invalid_params;
           return EMPTY;
         }),
         tap(() => (this.invalidParams = {}))
-      ),
-      this.itemService.setItemVehicleTypes(item.id, vehicleTypeIDs)
-    ]).subscribe({
+      )
+    ];
+    if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
+      pipes.push(this.itemService.setItemVehicleTypes(
+        item.id,
+        event.vehicle_type_id
+      ));
+    }
+
+    forkJoin(pipes).subscribe({
       complete: () => {
         this.loadingNumber--
       }

@@ -8,6 +8,7 @@ import {
 import {forkJoin, Observable, of} from 'rxjs';
 import { APIPicture } from './picture';
 import {switchMap} from 'rxjs/operators';
+import {ItemType} from '../../../generated/spec.pb';
 
 export interface APIPathTreeItemParent {
   catname: string;
@@ -210,6 +211,16 @@ export interface GetPathServiceOptions {
   catname: string;
   path: string;
 }
+
+export const allowedItemTypeCombinations = {
+  [ItemType.ITEM_TYPE_VEHICLE]:  [ItemType.ITEM_TYPE_VEHICLE],
+  [ItemType.ITEM_TYPE_ENGINE]:   [ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_CATEGORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_CATEGORY, ItemType.ITEM_TYPE_BRAND],
+  [ItemType.ITEM_TYPE_TWINS]:    [ItemType.ITEM_TYPE_VEHICLE],
+  [ItemType.ITEM_TYPE_BRAND]:    [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_FACTORY]:  [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_PERSON]:   [ItemType.ITEM_TYPE_COPYRIGHT]
+};
 
 function convertItemOptions(
   options: GetItemServiceOptions

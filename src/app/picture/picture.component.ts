@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {APIPicture, PictureService} from '../services/picture';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {Subscription} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {tap} from 'rxjs/operators';
 import {APIItem} from '../services/item';
@@ -15,11 +15,19 @@ import {CommentsClient, PicturesClient} from '../../../generated/spec.pbsc';
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss']
 })
-export class PictureComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() picture: APIPicture;
+export class PictureComponent implements OnInit, OnDestroy {
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[];
   @Output() changed = new EventEmitter<boolean>();
+
+  @Input() set picture(picture: APIPicture) {
+    this.picture$.next(picture);
+
+    this.picturesClient.view(new PicturesViewRequest({
+      pictureId: ''+picture.id
+    })).subscribe();
+  };
+  public picture$ = new BehaviorSubject<APIPicture>(null);
 
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   public canEditSpecs$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT);
@@ -69,43 +77,43 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
     return false;
   }
 
-  public setSubscribed(value: boolean) {
+  public setSubscribed(picture: APIPicture, value: boolean) {
     (value
       ? this.commentsGrpc.subscribe(new CommentsSubscribeRequest({
-        itemId: ''+this.picture.id,
+        itemId: ''+picture.id,
         typeId: CommentsType.PICTURES_TYPE_ID,
       }))
       : this.commentsGrpc.unSubscribe(new CommentsUnSubscribeRequest({
-        itemId: ''+this.picture.id,
+        itemId: ''+picture.id,
         typeId: CommentsType.PICTURES_TYPE_ID,
       }))
     ).subscribe(() => {
-      this.picture.subscribed = value;
+      picture.subscribed = value;
     });
   }
 
-  public vote(value) {
-    this.pictureService.vote(this.picture.id, value).subscribe((votes) => {
-      this.picture.votes = votes;
+  public vote(picture: APIPicture, value: number) {
+    this.pictureService.vote(picture.id, value).subscribe((votes) => {
+      picture.votes = votes;
     });
     return false;
   }
 
-  public openSource() {
-    window.open(this.picture.image.src);
+  public openSource(picture: APIPicture) {
+    window.open(picture.image.src);
   }
 
-  public openGallery($event) {
+  public openGallery(picture: APIPicture, $event) {
     if ($event.ctrlKey) {
-      this.openSource();
+      this.openSource(picture);
       return;
     }
-    this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', this.picture.identity]);
+    this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', picture.identity]);
   }
 
-  private setPictureStatus(status: string) {
+  private setPictureStatus(picture: APIPicture, status: string) {
     this.statusLoading = true;
-    this.pictureService.setPictureStatus(this.picture.id, status)
+    this.pictureService.setPictureStatus(picture.id, status)
       .subscribe(
         () => {
           this.changed.emit(true);
@@ -117,27 +125,19 @@ export class PictureComponent implements OnInit, OnDestroy, OnChanges {
       );
   }
 
-  public unacceptPicture() {
-    this.setPictureStatus('inbox');
+  public unacceptPicture(picture: APIPicture) {
+    this.setPictureStatus(picture, 'inbox');
   }
 
-  public acceptPicture() {
-    this.setPictureStatus('accepted');
+  public acceptPicture(picture: APIPicture) {
+    this.setPictureStatus(picture, 'accepted');
   }
 
-  public deletePicture() {
-    this.setPictureStatus('removing');
+  public deletePicture(picture: APIPicture) {
+    this.setPictureStatus(picture, 'removing');
   }
 
-  public restorePicture() {
-    this.setPictureStatus('inbox');
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.picture && this.picture) {
-      this.picturesClient.view(new PicturesViewRequest({
-        pictureId: ''+this.picture.id
-      })).subscribe();
-    }
+  public restorePicture(picture: APIPicture) {
+    this.setPictureStatus(picture, 'inbox');
   }
 }

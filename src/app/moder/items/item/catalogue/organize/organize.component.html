@@ -9,38 +9,34 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item">
+    <li class="breadcrumb-item" *ngIf="item$|async as item">
       <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header">
-  <h1 i18n>Organize</h1>
+  <h1>
+    <ng-container i18n>Organize</ng-container>
+    <span [hidden]="loading <= 0">
+      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+    </span>
+  </h1>
 </div>
 
 <app-markdown i18n-markdown markdown="Tool for join few vehicles into sub-model"></app-markdown>
 
-<app-item-meta-form class="mb-4" [hidden]="loading > 0" [disableIsGroup]="true" [hideSubmit]="true" [(item)]="newItem"
-                    (submited)="submit()"
-                    [invalidParams]="invalidParams" [(vehicleTypeIDs)]="vehicleTypeIDs"></app-item-meta-form>
+<ng-container *ngIf="item$|async as item">
+  <ng-container *ngIf="newItem$|async as newItem">
+    <app-item-meta-form class="mb-4"
+                        [hidden]="loading > 0"
+                        [disableIsGroup]="true"
+                        [item]="newItem"
+                        (submitted)="submit(item, newItem.item_type_id, $event)"
+                        [invalidParams]="invalidParams"
+                        [vehicleTypeIDs]="vehicleTypeIDs$|async"
+                        [items]="childs$|async">
+    </app-item-meta-form>
+  </ng-container>
+</ng-container>
 
-<div class="mb-3 row" [hidden]="loading > 0">
-  <label class="col-md-2 col-form-label text-right" i18n>Vehicles</label>
-  <div class="col-md-10">
-    <div class="checkbox" *ngFor="let child of childs">
-      <label>
-        <input type="checkbox" [(ngModel)]="child.selected" (change)="childSelected()" />
-        <span [innerHTML]="child.item.name_html"></span>
-      </label>
-    </div>
-  </div>
-</div>
-<div class="mb-3 row">
-  <div class="col-md-10 offset-md-2">
-    <button type="submit" name="submit" class="btn btn-primary" (click)="submit()" [disabled]="!hasSelectedChild || loading > 0" i18n>Submit</button>
-    <span [hidden]="loading <= 0">
-      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-    </span>
-  </div>
-</div>

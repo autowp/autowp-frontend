@@ -39,6 +39,18 @@ export class VehicleTypeService {
     return this.types$;
   }
 
+  public getTypesPlain(): Observable<VehicleType[]> {
+    return this.types$.pipe(
+      map(types => {
+        const result: VehicleType[] = [];
+        this.walkTypes(types, type => {
+          result.push(type);
+        });
+        return result;
+      })
+    );
+  }
+
   public getTypesById(ids: number[]): Observable<VehicleType[]> {
     if (ids.length <= 0) {
       return of([]);

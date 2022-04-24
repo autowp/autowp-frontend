@@ -1,46 +1,23 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  OnDestroy
-} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   VehicleTypeService
 } from '../../services/vehicle-type';
-import { Subscription } from 'rxjs';
-import {ToastsService} from '../../toasts/toasts.service';
 import { getVehicleTypeTranslation } from '../../utils/translations';
-import {VehicleType} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-vehicle-types-modal',
   templateUrl: './vehicle-types-modal.component.html'
 })
-export class VehicleTypesModalComponent implements OnInit, OnDestroy {
+export class VehicleTypesModalComponent {
   @Input() ids: number[] = [];
-  @Output() changed = new EventEmitter();
-  public types: VehicleType[];
-  private sub: Subscription;
+  @Output() changed = new EventEmitter<number[]>();
+  public types$ = this.vehicleTypeService.getTypes();
 
   constructor(
     public activeModal: NgbActiveModal,
     private vehicleTypeService: VehicleTypeService,
-    private toastService: ToastsService
   ) { }
-
-  ngOnInit(): void {
-    this.sub = this.vehicleTypeService.getTypes().subscribe(
-      types => this.types = types,
-      error => this.toastService.response(error)
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   public isActive(id: number): boolean {
     return this.ids.indexOf(id) > -1;
@@ -56,7 +33,7 @@ export class VehicleTypesModalComponent implements OnInit, OnDestroy {
       this.ids.push(id);
     }
 
-    this.changed.emit();
+    this.changed.emit(this.ids);
   }
 
   public getVehicleTypeTranslation(id: string): string {

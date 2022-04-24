@@ -1,9 +1,24 @@
+@import "../../../variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 :host {
   display: block;
+}
 
-  .coords > .form-control {
-    display: inline-block;
-    margin-bottom: 20px;
-    max-width: 200px;
+.multicheckbox-pictures {
+  .btn {
+    img {
+      opacity: .5;
+      @include transition(opacity .2s);
+    }
+
+    &.btn-success {
+      img {
+        opacity: 1;
+      }
+    }
   }
 }
+

@@ -5,7 +5,7 @@ import { ModerItemsAlphaComponent } from './alpha/alpha.component';
 import { PaginatorModule } from '../../paginator/paginator.module';
 import { ModerItemsItemOrganizeComponent } from './item/catalogue/organize/organize.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UtilsModule } from '../../utils/utils.module';
 import { ModerItemsItemCatalogueComponent } from './item/catalogue/catalogue.component';
 import { ModerItemsItemLinksComponent } from './item/links/links.component';
@@ -28,6 +28,7 @@ import { ItemMetaFormComponent } from './item-meta-form/item-meta-form.component
 import { ModerItemsComponent } from './items.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {MapPointComponent} from './item-meta-form/map-point/map-point.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbDropdownMod
     ModerItemsNewComponent,
     ModerItemsTooBigComponent,
     ItemMetaFormComponent,
-    ModerItemsComponent
+    ModerItemsComponent,
+    MapPointComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +67,8 @@ import {NgbTypeaheadModule, NgbModalModule, NgbProgressbarModule, NgbDropdownMod
     ThumbnailModule,
     LeafletModule,
     NgbDropdownModule,
-    NgbNavModule
+    NgbNavModule,
+    ReactiveFormsModule
   ]
 })
 export class ItemsModule {}

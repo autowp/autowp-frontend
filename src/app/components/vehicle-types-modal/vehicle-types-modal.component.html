@@ -4,7 +4,7 @@
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
-    <div class="mb-3" *ngFor="let type of types">
+    <div class="mb-3" *ngFor="let type of types$|async">
       <button class="btn d-block" (click)="toggle(type.id)" [class.btn-success]="isActive(type.id)" [class.btn-outline-secondary]="!isActive(type.id)">{{getVehicleTypeTranslation(type.name)}}</button>
       <div *ngIf="type.childs.length > 0" class="mb-3 ms-4">
         <ng-container *ngFor="let subtype of type.childs">

@@ -12,17 +12,21 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item">
-  <h1>{{getItemTypeTranslation(item.item_type_id, 'new-item')}}</h1>
+<div class="page-header" *ngIf="itemType$|async as itemTypeName">
+  <h1>{{itemTypeName}}</h1>
 </div>
 
-<p *ngIf="parent">
+<p *ngIf="parent$|async as parent">
   <ng-container i18n>As submodel</ng-container>
   <span [innerHTML]="parent.name_html"></span>
 </p>
 
-<span [hidden]="loading <= 0">
-  <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-</span>
-
-<app-item-meta-form [item]="item" (submited)="submit()" [parent]="parent" [vehicleTypeIDs]="vehicleTypeIDs" [invalidParams]="invalidParams"></app-item-meta-form>
+<ng-container *ngIf="item$|async as item">
+  <app-item-meta-form [item]="item"
+                      (submitted)="submit(item.item_type_id, $event)"
+                      [parent]="parent$|async"
+                      [vehicleTypeIDs]="vehicleTypeIDs$|async"
+                      [invalidParams]="invalidParams"
+                      class="d-block mb-4"
+  ></app-item-meta-form>
+</ng-container>

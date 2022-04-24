@@ -6,6 +6,7 @@ import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemParent, ItemParentService} from '../../../../services/item-parent';
 import {APIService} from '../../../../services/api.service';
+import {ItemType} from '../../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-catalogue',
@@ -24,15 +25,15 @@ export class ModerItemsItemCatalogueComponent {
   public canMove$ = this.acl.isAllowed(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
 
   public organizeTypeId$ = this.item$.pipe(
-    map(item => item.item_type_id === 5 ? 1 : item.item_type_id)
+    map(item => item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id)
   );
 
   public canHaveParentBrand$ = this.item$.pipe(
-    map(item => [1, 2].indexOf(item.item_type_id) > -1)
+    map(item => [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].includes(item.item_type_id))
   );
 
   public canHaveParents$ = this.item$.pipe(
-    map(item => [4, 6].indexOf(item.item_type_id) === -1)
+    map(item => ![ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_FACTORY].includes(item.item_type_id))
   );
 
   public itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (text$: Observable<string>) =>

@@ -1,7 +1,7 @@
 <div class="card card-body" *ngIf="item$|async as item">
-  <ngb-progressbar type="success" [striped]="true" [animated]="true" [value]="100" [hidden]="loadingNumber <= 0"></ngb-progressbar>
+  <ngb-progressbar type="success" class="mb-2" [striped]="true" [animated]="true" [value]="100" [hidden]="loadingNumber <= 0"></ngb-progressbar>
   <ng-container *ngIf="canEditMeta$|async">
-    <app-item-meta-form [item]="item" *ngIf="vehicleTypeIDs$|async as vehicleTypeIDs" (submited)="saveMeta(item, vehicleTypeIDs)" [invalidParams]="invalidParams" [vehicleTypeIDs]="vehicleTypeIDs"></app-item-meta-form>
+    <app-item-meta-form [item]="item" *ngIf="vehicleTypeIDs$|async as vehicleTypeIDs" (submitted)="saveMeta(item, $event)" [invalidParams]="invalidParams" [vehicleTypeIDs]="vehicleTypeIDs"></app-item-meta-form>
   </ng-container>
 
   <table class="table table-condensed" *ngIf="(canEditMeta$|async) === false">
