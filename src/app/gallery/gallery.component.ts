@@ -10,7 +10,7 @@ import {
   switchMap,
   tap,
   debounceTime,
-  distinctUntilChanged, map
+  distinctUntilChanged, map, take
 } from 'rxjs/operators';
 import { APIGalleryItem, APIGallery } from './definitions';
 import { Router } from '@angular/router';
@@ -55,20 +55,23 @@ export class GalleryComponent implements OnInit, OnDestroy {
 
   constructor(private api: APIService, private router: Router) {}
 
-  @HostListener('document:keydown.escape', ['current', '$event'])
-  onKeydownHandler(current: string, event: KeyboardEvent) {
-    this.router.navigate(this.picturePrefix.concat([current]));
+  @HostListener('document:keydown.escape')
+  onKeydownHandler() {
+    this.current$.pipe(
+      take(1),
+      switchMap(current => this.router.navigate(this.picturePrefix.concat([current])))
+    ).subscribe();
   }
 
-  @HostListener('document:keydown.arrowright', ['$event'])
-  onRightKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.arrowright')
+  onRightKeydownHandler() {
     if (this.currentItemIndex + 1 < this.gallery.length) {
       this.navigateToIndex(this.currentItemIndex + 1);
     }
   }
 
-  @HostListener('document:keydown.arrowleft', ['$event'])
-  onLeftKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.arrowleft')
+  onLeftKeydownHandler() {
     if (this.currentItemIndex > 0) {
       this.navigateToIndex(this.currentItemIndex - 1);
     }
@@ -166,24 +169,19 @@ export class GalleryComponent implements OnInit, OnDestroy {
     return Math.floor(index / this.PER_PAGE) + 1;
   }
 
-  public navigateToIndex(index): boolean {
+  public navigateToIndex(index): Promise<boolean> {
     const item = this.getGalleryItemByIndex(index);
     if (!item) {
       const page = this.getGalleryPageNumberByIndex(index);
-      let success = false;
       this.loadPage(this.currentFilter, page).subscribe(() => {
         const sitem = this.getGalleryItemByIndex(index);
         if (sitem) {
-          this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
-          success = true;
+          return this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
         }
       });
-      return success;
     }
 
-    this.router.navigate(this.galleryPrefix.concat([item.identity]));
-
-    return false;
+    return this.router.navigate(this.galleryPrefix.concat([item.identity]));
   }
 
   private getGalleryItemIndex(identity: string): number {
