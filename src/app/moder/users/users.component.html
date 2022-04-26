@@ -10,13 +10,13 @@
 </nav>
 
 <div class="page-header">
-  <h1 i18n>Users</h1>
+  <h1 i18n id="header">Users</h1>
 </div>
 
 <span *ngIf="loading > 0">
   <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
 </span>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" aria-describedby="header">
   <thead>
     <tr>
       <th scope="col">id</th>

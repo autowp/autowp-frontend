@@ -16,17 +16,15 @@
 <ul>
   <li *ngFor="let page of pages">
     [{{ page.id }}] {{ page.name }}
-    <table style="margin-bottom:20px">
-      <tr>
-        <td *ngFor="let group of page.groups">
-          [{{ group.id }}] {{ group.name }}
-          <ul>
-            <li *ngFor="let perspective of group.perspectives">
-              [{{ perspective.id }}] {{ getPerspectiveTranslation(perspective.name) }}
-            </li>
-          </ul>
-        </td>
-      </tr>
-    </table>
+    <div class="mb-4 row">
+      <div class="col-4" *ngFor="let group of page.groups">
+        [{{ group.id }}] {{ group.name }}
+        <ul>
+          <li *ngFor="let perspective of group.perspectives">
+            [{{ perspective.id }}] {{ getPerspectiveTranslation(perspective.name) }}
+          </li>
+        </ul>
+      </div>
+    </div>
   </li>
 </ul>

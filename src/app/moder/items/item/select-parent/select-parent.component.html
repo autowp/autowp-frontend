@@ -38,18 +38,14 @@
 
 <div class="card card-body" *ngIf="tab === 'catalogue'">
   <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search …" autofocus />
-  <table class="table" *ngIf="!brandID">
-    <tbody>
-      <tr>
-        <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
-          <ng-container *ngFor="let item of chunk">
-            <a routerLink="." [queryParams]="{brand_id: item.id}" queryParamsHandling="merge" [innerHTML]="item.name_html"></a>
-            <br />
-          </ng-container>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row" *ngIf="!brandID">
+    <div class="col-2" *ngFor="let chunk of brands">
+      <ng-container *ngFor="let item of chunk">
+        <a routerLink="." [queryParams]="{brand_id: item.id}" queryParamsHandling="merge" [innerHTML]="item.name_html"></a>
+        <br />
+      </ng-container>
+    </div>
+  </div>
   <ul *ngIf="brandID">
     <li class="car-node" *ngFor="let citem of items">
       <app-moder-items-item-select-parent-tree [item]="citem" (selected)="select($event)" [disableItemID]="item.id" (loadChilds)="loadChildCatalogues($event)">
@@ -61,18 +57,14 @@
 
 <div class="card card-body" *ngIf="tab === 'brands'">
   <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search …" autofocus />
-  <table class="table">
-    <tbody>
-      <tr>
-        <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
-          <ng-container *ngFor="let item of chunk">
-            <a href="" (click)="select(item)" [innerHTML]="item.name_html"></a>
-            <br />
-          </ng-container>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-2" *ngFor="let chunk of brands">
+      <ng-container *ngFor="let item of chunk">
+        <a href="" (click)="select(item)" [innerHTML]="item.name_html"></a>
+        <br />
+      </ng-container>
+    </div>
+  </div>
   <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
 </div>
 
@@ -88,18 +80,14 @@
 </div>
 
 <div class="card card-body" *ngIf="tab === 'twins'">
-  <table class="table" *ngIf="!brandID">
-    <tbody>
-      <tr>
-        <td [ngStyle]="{width: 100/6 + '%'}" *ngFor="let chunk of brands">
-          <ng-container *ngFor="let item of chunk">
-            <a routerLink="." [queryParams]="{brand_id: item.id}" queryParamsHandling="merge" [innerHTML]="item.name_html"></a>
-            <br />
-          </ng-container>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row" *ngIf="!brandID">
+    <div class="col-2" *ngFor="let chunk of brands">
+      <ng-container *ngFor="let item of chunk">
+        <a routerLink="." [queryParams]="{brand_id: item.id}" queryParamsHandling="merge" [innerHTML]="item.name_html"></a>
+        <br />
+      </ng-container>
+    </div>
+  </div>
   <ul *ngIf="brandID">
     <li class="car-node" *ngFor="let citem of items">
       <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" [disableItemID]="item.id">

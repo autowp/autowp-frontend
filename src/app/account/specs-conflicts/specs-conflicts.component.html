@@ -7,7 +7,7 @@
 </nav>
 
 <div class="page-header">
-  <h1 i18n>Conflicts</h1>
+  <h1 i18n id="header">Conflicts</h1>
 </div>
 
 <p class="float-end" *ngIf="user && user.specs_weight !== null">
@@ -21,7 +21,7 @@
   <a class="nav-link" [class.active]="filter === 'minus-weight'" routerLink="." [queryParams]="{filter: 'minus-weight'}" queryParamsHandling="merge" i18n>Errors</a>
 </div>
 
-<table class="table">
+<table class="table" aria-describedby="header">
   <thead>
     <tr>
       <th i18n scope="col">Object</th>

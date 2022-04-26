@@ -83,9 +83,9 @@
   </div>
   <div class="col-md-6">
     <div *ngIf="attributes.length > 0">
-      <h2 i18n>Attributes</h2>
+      <h2 i18n id="header">Attributes</h2>
       <div class="card card-body mb-4">
-        <table class="table">
+        <table class="table" aria-describedby="header">
           <tr>
             <th i18n scope="col">Name</th>
             <th i18n scope="col">Type</th>

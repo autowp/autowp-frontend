@@ -13,20 +13,15 @@
   <h1 i18n>Picture vote templates</h1>
 </div>
 
-<table class="table">
-  <tr *ngFor="let template of templates">
-    <td>
-      <i class="fa fa-thumbs-up text-success" aria-hidden="true" *ngIf="template.vote > 0"></i>
-      <i class="fa fa-thumbs-down text-danger" aria-hidden="true" *ngIf="template.vote < 0"></i>
-    </td>
-    <td [textContent]="template.name"></td>
-    <td>
-      <button class="btn btn-danger btn-sm" aria-label="Delete" (click)="deleteTemplate(template)">
-        <span class="fa fa-times" aria-hidden="true"></span>
-      </button>
-    </td>
-  </tr>
-</table>
+<p *ngFor="let template of templates">
+  <i class="fa fa-thumbs-up text-success" aria-hidden="true" *ngIf="template.vote > 0"></i>
+  <i class="fa fa-thumbs-down text-danger" aria-hidden="true" *ngIf="template.vote < 0"></i>
+  <span [textContent]="template.name"></span>
+
+  <button class="btn btn-danger btn-sm" aria-label="Delete" (click)="deleteTemplate(template)">
+    <span class="fa fa-times" aria-hidden="true"></span>
+  </button>
+</p>
 
 <form class="card card-body form-vertical" name="add" (submit)="createTemplate()">
   <h2 i18n>Add template</h2>

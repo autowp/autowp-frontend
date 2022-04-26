@@ -24,17 +24,7 @@
         </p>
       </div>
     </div>
-    <!--
-    <div class="card card-body" *ngIf="!disconnectFailed && !connectFailed">
-      <h3 i18n>Add account</h3>
-      <div class="form-group">
-        <select name="service" class="form-control" [(ngModel)]="service">
-          <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary" i18n (click)="start()" [disabled]="!service">Submit</button>
-    </div>
-    -->
+
     <div class="card card-body" *ngIf="disconnectFailed">
       <app-markdown i18n-markdown markdown="Не удалось удалить учетную запись.
 

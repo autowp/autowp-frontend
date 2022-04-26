@@ -7,7 +7,7 @@
 </nav>
 
 <div class="page-header">
-  <h1 i18n>Log of events</h1>
+  <h1 i18n id="header">Log of events</h1>
 </div>
 
 <ng-template #loading>
@@ -17,24 +17,33 @@
 </ng-template>
 
 <ng-container *ngIf="response$|async as response; else loading">
-  <table class="table table-condensed table-striped">
-    <tr *ngFor="let event of response.items">
-      <td>
-        <app-user [user]="event.user" *ngIf="event.user"></app-user>
-        <div *ngIf="event.date" [textContent]="event.date | amTimeAgo" [ngbTooltip]="event.date | date: 'medium'"></div>
-      </td>
-      <td [innerHTML]="event.desc"></td>
-      <td>
-        <div *ngFor="let item of event.items">
-          Item:
-          <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
-        </div>
-        <div *ngFor="let picture of event.pictures">
-          Picture:
-          <a [routerLink]="['/moder/pictures', picture.id]" [innerHTML]="picture.name_html"></a>
-        </div>
-      </td>
-    </tr>
+  <table class="table table-condensed table-striped" aria-describedby="header">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Event</th>
+        <th>Object</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of response.items">
+        <td>
+          <app-user [user]="event.user" *ngIf="event.user"></app-user>
+          <div *ngIf="event.date" [textContent]="event.date | amTimeAgo" [ngbTooltip]="event.date | date: 'medium'"></div>
+        </td>
+        <td [innerHTML]="event.desc"></td>
+        <td>
+          <div *ngFor="let item of event.items">
+            Item:
+            <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+          </div>
+          <div *ngFor="let picture of event.pictures">
+            Picture:
+            <a [routerLink]="['/moder/pictures', picture.id]" [innerHTML]="picture.name_html"></a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
   </table>
 
   <app-paginator [data]="response.paginator"></app-paginator>

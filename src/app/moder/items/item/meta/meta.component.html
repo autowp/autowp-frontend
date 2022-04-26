@@ -4,40 +4,28 @@
     <app-item-meta-form [item]="item" *ngIf="vehicleTypeIDs$|async as vehicleTypeIDs" (submitted)="saveMeta(item, $event)" [invalidParams]="invalidParams" [vehicleTypeIDs]="vehicleTypeIDs"></app-item-meta-form>
   </ng-container>
 
-  <table class="table table-condensed" *ngIf="(canEditMeta$|async) === false">
-    <tr>
-      <td><ng-container i18n>Name</ng-container>:</td>
-      <td [innerHTML]="item.name_html"></td>
-    </tr>
-    <tr>
-      <td><ng-container i18n>Body number</ng-container>:</td>
-      <td [textContent]="item.body"></td>
-    </tr>
-    <tr>
-      <td><ng-container i18n>Begin</ng-container>:</td>
-      <td>
-        {{item.begin_year > 0 ? item.begin_year : '????'}} {{item.begin_month > 0 ? item.begin_month : '??'}}
-      </td>
-    </tr>
-    <tr>
-      <td><ng-container i18n>End</ng-container>:</td>
-      <td>
-        {{item.end_year > 0 ? item.end_year : '????'}} {{item.end_month > 0 ? item.end_month : '??'}}
-        <span *ngIf="item.today === true" i18n>continue in pr.</span>
-        <span *ngIf="item.today === false" i18n>ended</span>
-      </td>
-    </tr>
-    <tr>
-      <td><ng-container i18n>Produced</ng-container>:</td>
-      <td>
-        {{item.produced}}
-        <span *ngIf="item.produced_exactly" i18n>exactly</span>
-        <span *ngIf="!item.produced_exactly" i18n>about</span>
-      </td>
-    </tr>
-    <tr>
-      <td><ng-container i18n>Concept (prototype)</ng-container>:</td>
-      <td>{{item.is_concept ? 'Yes' : 'No'}}</td>
-    </tr>
-  </table>
+  <div class="row" *ngIf="(canEditMeta$|async) === false">
+    <div class="col-3 mb-4"><ng-container i18n>Name</ng-container>:</div>
+    <div class="col9 mb-4" [innerHTML]="item.name_html"></div>
+    <div class="col-3 mb-4"><ng-container i18n>Body number</ng-container>:</div>
+    <div class="col9 mb-4" [textContent]="item.body"></div>
+    <div class="col-3 mb-4"><ng-container i18n>Begin</ng-container>:</div>
+    <div class="col9 mb-4">
+      {{item.begin_year > 0 ? item.begin_year : '????'}} {{item.begin_month > 0 ? item.begin_month : '??'}}
+    </div>
+    <div class="col-3 mb-4"><ng-container i18n>End</ng-container>:</div>
+    <div class="col9 mb-4">
+      {{item.end_year > 0 ? item.end_year : '????'}} {{item.end_month > 0 ? item.end_month : '??'}}
+      <span *ngIf="item.today === true" i18n>continue in pr.</span>
+      <span *ngIf="item.today === false" i18n>ended</span>
+    </div>
+    <div class="col-3 mb-4"><ng-container i18n>Produced</ng-container>:</div>
+    <div class="col9 mb-4">
+      {{item.produced}}
+      <span *ngIf="item.produced_exactly" i18n>exactly</span>
+      <span *ngIf="!item.produced_exactly" i18n>about</span>
+    </div>
+    <div class="col-3 mb-4"><ng-container i18n>Concept (prototype)</ng-container>:</div>
+    <div class="col9 mb-4">{{item.is_concept ? 'Yes' : 'No'}}</div>
+  </div>
 </div>

@@ -81,13 +81,14 @@
 
 <div class="card card-body mb-4" *ngIf="picture">
   <table class="table" *ngIf="picture.items.length">
+    <caption i18n>Catalogue</caption>
     <thead>
       <tr>
-        <td i18n>Item</td>
-        <td i18n>Perspective</td>
-        <td i18n *ngIf="picture.rights.crop">Area</td>
-        <td i18n *ngIf="picture.rights.move">Move</td>
-        <td *ngIf="picture.rights.move"></td>
+        <th i18n>Item</th>
+        <th i18n>Perspective</th>
+        <th i18n *ngIf="picture.rights.crop">Area</th>
+        <th i18n *ngIf="picture.rights.move">Move</th>
+        <th *ngIf="picture.rights.move"></th>
       </tr>
     </thead>
     <tbody>

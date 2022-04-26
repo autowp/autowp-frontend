@@ -8,6 +8,7 @@
   <ng-container *ngIf="item$|async as item">
     <form *ngIf="canEditMeta$|async" method="post" (submit)="saveLinks(item.id, links)">
       <table class="table table-condensed table-striped">
+        <caption i18n>Links</caption>
         <thead>
           <tr>
             <th i18n scope="col">Text</th>
@@ -61,6 +62,7 @@
     </form>
   </ng-container>
   <table class="table table-condensed table-stripped" *ngIf="(canEditMeta$|async) === false">
+    <caption i18n>Links</caption>
     <tbody>
       <tr>
         <th i18n scope="col">Text</th>
