@@ -216,12 +216,11 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private initTreeTab() {
     this.api
       .request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree')
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.tree = response.item;
-        },
-        () => {}
-      );
+        }
+      });
   }
 
   public toggleSubscription() {

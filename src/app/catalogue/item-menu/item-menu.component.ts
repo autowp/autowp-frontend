@@ -12,6 +12,4 @@ export class CatalogueItemMenuComponent {
   @Input() childsCounts: APIItemChildsCounts;
   @Input() picturesCount: number;
   @Input() active = 'default';
-
-  constructor() { }
 }

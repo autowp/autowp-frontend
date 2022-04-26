@@ -102,12 +102,11 @@ export class AppComponent {
   }
 
   public signOut() {
-    this.auth.signOut().subscribe(
-      () => {},
-      error => {
+    this.auth.signOut().subscribe({
+      error: error => {
         console.log(error);
       }
-    );
+    });
 
     return false;
   }

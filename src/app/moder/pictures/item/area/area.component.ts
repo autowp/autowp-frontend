@@ -201,8 +201,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.router.navigate(['/moder/pictures', this.picture.id]);
-        },
-        () => {}
+        }
       );
   }
 

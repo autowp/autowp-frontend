@@ -72,10 +72,9 @@ export class ModerItemsItemLinksComponent {
     }
 
     this.loadingNumber++;
-    forkJoin(promises).subscribe(
-      () => this.reload$.next(null),
-      () => {},
-      () => this.loadingNumber--
-    );
+    forkJoin(promises).subscribe({
+      next: () => this.reload$.next(null),
+      complete: () => this.loadingNumber--
+    });
   }
 }

@@ -83,17 +83,11 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
           zone_id: this.zone.id,
           attribute_id: change.id
         }})
-        .subscribe(
-          () => {},
-          response => this.toastService.response(response)
-        );
+        .subscribe({error: response => this.toastService.response(response)});
     } else {
       this.api
         .request('DELETE', 'attr/zone-attribute/' + this.zone.id + '/' + change.id)
-        .subscribe(
-          () => {},
-          response => this.toastService.response(response)
-        );
+        .subscribe({error: response => this.toastService.response(response)});
     }
   }
 

@@ -114,15 +114,14 @@ export class PictureComponent implements OnInit, OnDestroy {
   private setPictureStatus(picture: APIPicture, status: string) {
     this.statusLoading = true;
     this.pictureService.setPictureStatus(picture.id, status)
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.changed.emit(true);
         },
-        () => {},
-        () => {
+        complete: () => {
           this.statusLoading = false;
         }
-      );
+      });
   }
 
   public unacceptPicture(picture: APIPicture) {

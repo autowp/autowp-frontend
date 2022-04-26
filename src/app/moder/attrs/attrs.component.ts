@@ -53,8 +53,6 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
         response => (this.attributes = response.items),
         response => this.toastService.response(response)
       );
-
-    this.loadAttributes();
   }
 
   ngOnDestroy(): void {
@@ -80,6 +78,4 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
   public moveDown(id: number) {
     this.move(id, 'down');
   }
-
-  private loadAttributes() {}
 }

@@ -249,7 +249,9 @@ export class CarsSpecificationsEditorSpecComponent
           );
         })
       )
-      .subscribe(() => {}, response => this.toastService.response(response));
+      .subscribe({
+        error: response => this.toastService.response(response)
+      });
   }
 
   ngOnDestroy(): void {
