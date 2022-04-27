@@ -230,7 +230,7 @@ export class ItemMetaFormComponent {
         elements.catname = [item.catname];
       }
       if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_ENGINE) {
-        elements.body = [item.body, Validators.max(this.bodyMaxlength)];
+        elements.body = [item.body, Validators.maxLength(this.bodyMaxlength)];
         elements.spec_id = [item.spec_id];
         elements.model_years = this.fb.group({
           begin_year: [item.begin_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]],
