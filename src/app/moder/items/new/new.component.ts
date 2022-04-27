@@ -82,21 +82,16 @@ export class ModerItemsNewComponent {
 
   public vehicleTypeIDs$ = this.parent$.pipe(
     switchMap(item => {
-      if (
-        item &&
-        (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE ||
-          item.item_type_id === ItemType.ITEM_TYPE_TWINS)
-      ) {
-        this.api.request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
+      if (item && ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id))) {
+        return this.api.request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
           params: {
             item_id: item.id.toString()
           }
         }).pipe(
           map(response => response.items.map(row => row.vehicle_type_id))
         );
-      } else {
-        return of([] as number[])
       }
+      return of([] as number[])
     })
   );
 
