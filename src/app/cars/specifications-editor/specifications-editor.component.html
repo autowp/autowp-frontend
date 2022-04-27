@@ -26,7 +26,7 @@
   <ng-container *ngIf="user$|async as user">
     <app-markdown class="d-block alert alert-danger" *ngIf="user.specsWeight < 1" i18n-markdown markdown="**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
 
-  Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)"></app-markdown>
+Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)"></app-markdown>
   </ng-container>
 
   <ng-container *ngIf="tab$|async as tab">

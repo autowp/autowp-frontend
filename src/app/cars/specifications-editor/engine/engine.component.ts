@@ -25,7 +25,8 @@ export class CarsSpecificationsEditorEngineComponent {
       }
 
       return this.itemService.getItem(item.engine_id, {fields: 'name_html,name_text,engine_id'});
-    })
+    }),
+    shareReplay(1)
   )
   public loading = 0;
 
