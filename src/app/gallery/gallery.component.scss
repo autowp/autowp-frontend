@@ -76,6 +76,14 @@
     width: 15%;
     color: #fff;
     z-index: 1;
+    background: none;
+    border: none;
+    outline: none;
+
+    &:focus, &:active {
+      border: none;
+      outline: none;
+    }
 
     .fa {
       margin-top: 15px;

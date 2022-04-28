@@ -19,14 +19,14 @@
         </app-gallery-carousel-item>
       </ng-container>
     </div>
-    <a class="carousel-control-prev" href="#" role="button" (click)="navigateToIndex(currentItemIndex - 1)" *ngIf="currentItemIndex > 0">
+    <button class="carousel-control-prev" href="#" role="button" (click)="navigateToIndex(currentItemIndex - 1)" *ngIf="currentItemIndex > 0">
       <i class="fa fa-chevron-left glyphicon glyphicon-chevron-left" aria-hidden="true"></i>
-    </a>
-    <a class="carousel-control-next" href="#" role="button" (click)="navigateToIndex(currentItemIndex + 1)" *ngIf="gallery.length - 1 > currentItemIndex">
+    </button>
+    <button class="carousel-control-next" href="#" role="button" (click)="navigateToIndex(currentItemIndex + 1)" *ngIf="gallery.length - 1 > currentItemIndex">
       <i class="fa fa-chevron-right glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
-    </a>
-    <a class="carousel-control-close" [routerLink]="picturePrefix.concat([currentItem.identity])" role="button" *ngIf="currentItem">
+    </button>
+    <button class="carousel-control-close" [routerLink]="picturePrefix.concat([currentItem.identity])" role="button" *ngIf="currentItem">
       <i class="fa fa-times" aria-hidden="true"></i>
-    </a>
+    </button>
   </div>
 </div>
