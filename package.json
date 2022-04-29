@@ -20,7 +20,7 @@
     "@angular/forms": "^13.3.5",
     "@angular/localize": "^13.3.5",
     "@angular/platform-browser": "^13.3.4",
-    "@angular/platform-browser-dynamic": "^13.3.4",
+    "@angular/platform-browser-dynamic": "^13.3.5",
     "@angular/router": "^13.3.5",
     "@asymmetrik/ngx-leaflet": "^13.0.2",
     "@ng-bootstrap/ng-bootstrap": "^12",
