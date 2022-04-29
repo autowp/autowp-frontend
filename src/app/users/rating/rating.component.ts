@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Subscription, EMPTY} from 'rxjs';
+import { Component, OnInit} from '@angular/core';
+import {EMPTY, Observable} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { APIUser } from '../../services/user';
 import { PageEnvService } from '../../services/page-env.service';
@@ -8,7 +8,7 @@ import {
   debounceTime,
   switchMap,
   catchError,
-  finalize, map
+  finalize, map, shareReplay, tap
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -35,12 +35,42 @@ export interface APIUsersRatingGetResponse {
   selector: 'app-users-rating',
   templateUrl: './rating.component.html'
 })
-export class UsersRatingComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  public rating: string;
+export class UsersRatingComponent implements OnInit {
+  public rating$ = this.route.paramMap.pipe(
+    map(params => params.get('rating')),
+    debounceTime(30),
+    distinctUntilChanged(),
+    map(rating => rating || 'specs'),
+    shareReplay(1)
+  );
+
   public loading = 0;
-  public valueTitle: string;
-  public users: APIRatingUser[];
+  public valueTitle$: Observable<string> = this.rating$.pipe(
+    map(rating => {
+      switch (rating) {
+        case 'specs':
+          return $localize `Specs volume`;
+        case 'pictures':
+          return $localize `Pictures`;
+        case 'likes':
+          return $localize `Likes`;
+        case 'picture-likes':
+          return $localize `Picture likes`;
+      }
+      return rating;
+    })
+  );
+
+  public users$: Observable<APIRatingUser[]> = this.rating$.pipe(
+    tap(() => this.loading++),
+    switchMap(rating => this.api.request<APIUsersRatingGetResponse>('GET', 'rating/' + rating)),
+    finalize(() => {this.loading--;}),
+    catchError(err => {
+      this.toastService.response(err);
+      return EMPTY;
+    }),
+    map(response => response.users)
+  );
 
   constructor(
     private api: APIService,
@@ -61,50 +91,5 @@ export class UsersRatingComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.routeSub = this.route.paramMap
-      .pipe(
-        map(params => params.get('rating')),
-        debounceTime(30),
-        distinctUntilChanged(),
-        switchMap(rating => {
-          this.rating = rating || 'specs';
-
-          switch (this.rating) {
-            case 'specs':
-              this.valueTitle = $localize `Specs volume`;
-              break;
-            case 'pictures':
-              this.valueTitle = $localize `Pictures`;
-              break;
-            case 'likes':
-              this.valueTitle = $localize `Likes`;
-              break;
-            case 'picture-likes':
-              this.valueTitle = $localize `Picture likes`;
-              break;
-          }
-
-          this.loading++;
-          return this.api
-            .request<APIUsersRatingGetResponse>('GET', 'rating/' + this.rating)
-            .pipe(
-              finalize(() => {
-                this.loading--;
-              }),
-              catchError(err => {
-                this.toastService.response(err);
-                return EMPTY;
-              })
-            );
-        })
-      )
-      .subscribe(response => {
-        this.users = response.users;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
   }
 }

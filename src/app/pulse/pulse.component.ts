@@ -72,9 +72,7 @@ export class PulseComponent implements OnInit {
     colors: []
   };
 
-  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {
-
-  }
+  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {}
 
   ngOnInit(): void {
     setTimeout(

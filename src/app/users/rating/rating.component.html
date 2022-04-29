@@ -10,61 +10,63 @@
   <h1 id="header" i18n>Statistics</h1>
 </div>
 
-<ul class="nav nav-pills" style="margin-bottom:10px">
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="rating === 'specs'" routerLink="/users/rating/specs" i18n>Specifications</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="rating === 'pictures'" routerLink="/users/rating/pictures" i18n>Pictures</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="rating === 'likes'" routerLink="/users/rating/likes" i18n>Likes</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="rating === 'picture-likes'" routerLink="/users/rating/picture-likes" i18n>Picture likes</a>
-  </li>
-</ul>
+<ng-container *ngIf="rating$|async as rating">
+  <ul class="nav nav-pills" style="margin-bottom:10px">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="rating === 'specs'" routerLink="/users/rating/specs" i18n>Specifications</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="rating === 'pictures'" routerLink="/users/rating/pictures" i18n>Pictures</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="rating === 'likes'" routerLink="/users/rating/likes" i18n>Likes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="rating === 'picture-likes'" routerLink="/users/rating/picture-likes" i18n>Picture likes</a>
+    </li>
+  </ul>
 
-<span [hidden]="loading <= 0">
-  <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-</span>
+  <span [hidden]="loading <= 0">
+    <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+  </span>
 
-<table class="table" aria-describedby="header">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
-      <th scope="col" class="text-right" [textContent]="valueTitle"></th>
-      <th scope="col" class="text-right" *ngIf="rating === 'specs'" i18n>Specs volume</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of users; let i = index">
-      <td [textContent]="i + 1"></td>
-      <td>
-        <app-user [user]="row.user"></app-user>
-      </td>
-      <td>
-        <div *ngIf="row.brands.length > 0">
-          <ng-container *ngFor="let brand of row.brands">
-            <a [routerLink]="brand.route" [textContent]="brand.name"></a>
-            <span>, </span>
-          </ng-container>
-          …
-        </div>
-        <small *ngIf="row.fans && row.fans.length > 0">
-          <ng-container *ngFor="let fan of row.fans">
-            <app-user [user]="fan.user"></app-user>
-            <span class="badge rounded-pill bg-secondary" [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"></span>
-            <span>, </span>
-          </ng-container>
-          …
-        </small>
-      </td>
-      <td class="text-right" [textContent]="row.volume | number: '1.0-0'"></td>
-      <td class="text-right" [class.danger]="row.weight < 0.50" [class.warning]="row.weight >= 0.50 && row.weight < 1.50" *ngIf="rating === 'specs'"
-        [textContent]="row.weight | number : '1.2-2'"></td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table" aria-describedby="header">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col" class="text-right" [textContent]="valueTitle$|async"></th>
+        <th scope="col" class="text-right" *ngIf="rating === 'specs'" i18n>Specs volume</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of users$|async; let i = index">
+        <td [textContent]="i + 1"></td>
+        <td>
+          <app-user [user]="row.user"></app-user>
+        </td>
+        <td>
+          <div *ngIf="row.brands.length > 0">
+            <ng-container *ngFor="let brand of row.brands">
+              <a [routerLink]="brand.route" [textContent]="brand.name"></a>
+              <span>, </span>
+            </ng-container>
+            …
+          </div>
+          <small *ngIf="row.fans && row.fans.length > 0">
+            <ng-container *ngFor="let fan of row.fans">
+              <app-user [user]="fan.user"></app-user>
+              <span class="badge rounded-pill bg-secondary" [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"></span>
+              <span>, </span>
+            </ng-container>
+            …
+          </small>
+        </td>
+        <td class="text-right" [textContent]="row.volume | number: '1.0-0'"></td>
+        <td class="text-right" [class.danger]="row.weight < 0.50" [class.warning]="row.weight >= 0.50 && row.weight < 1.50" *ngIf="rating === 'specs'"
+          [textContent]="row.weight | number : '1.2-2'"></td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

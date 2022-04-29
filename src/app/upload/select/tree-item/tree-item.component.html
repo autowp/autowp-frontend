@@ -1,28 +1,39 @@
-<div *ngIf="item.item.childs_count > 0">
-  <i class="fa fa-folder-o" aria-hidden="true" [hidden]="open"></i>
-  <i class="fa fa-folder-open-o" aria-hidden="true" [hidden]="!open"></i>
-  <span *ngIf="item.type_id === 1" i18n>Related</span>
-  <span *ngIf="item.type_id === 2" i18n>Sport</span>
-  <span *ngIf="item.type_id === 3" i18n>Design</span>
-  <a href="#" class="toggle" (click)="open = !open; open && loadChilds()" [innerHTML]="item.item.name_html"></a>
-  <ul [hidden]="!open" class="list-unstyled">
-    <li [hidden]="!loading" style="margin-left:16px">
-      <span>
-        <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-      </span>
-    </li>
-    <li *ngFor="let child of childs" style="margin-left:16px">
-      <app-upload-select-tree-item [item]="child">
-      </app-upload-select-tree-item>
-    </li>
-    <li style="margin-left:16px">
-      <a routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}" i18n>other modification</a>
-    </li>
-  </ul>
-</div>
-<span *ngIf="(!item.item.childs_count || item.item.childs_count <= 0)">
-  <span *ngIf="item.type_id === 1" i18n>Related</span>
-  <span *ngIf="item.type_id === 2" i18n>Sport</span>
-  <span *ngIf="item.type_id === 3" i18n>Design</span>
-  <a routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}" [innerHTML]="item.item.name_html"></a>
-</span>
+<ng-template #childsLoading>
+  <li class="ms-4">
+    <span>
+      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+    </span>
+  </li>
+</ng-template>
+
+<ng-container *ngIf="item$|async as item">
+  <div *ngIf="item.item.childs_count > 0">
+    <button class="btn btn-link toggle" (click)="open = !open">
+      <i class="fa fa-folder-o" aria-hidden="true" *ngIf="!open"></i>
+      <i class="fa fa-folder-open-o" aria-hidden="true" *ngIf="open"></i>
+      <span *ngIf="item.type_id === 1" i18n>Related</span>
+      <span *ngIf="item.type_id === 2" i18n>Sport</span>
+      <span *ngIf="item.type_id === 3" i18n>Design</span>
+      <span [innerHTML]="item.item.name_html"></span>
+    </button>
+    <ul *ngIf="open" class="list-unstyled">
+      <ng-container *ngIf="childs$|async as childs; else childsLoading">
+        <li *ngFor="let child of childs" class="ms-4">
+          <app-upload-select-tree-item [item]="child">
+          </app-upload-select-tree-item>
+        </li>
+      </ng-container>
+      <li class="ms-4">
+        <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}" i18n>other modification</a>
+      </li>
+    </ul>
+  </div>
+  <span *ngIf="(!item.item.childs_count || item.item.childs_count <= 0)">
+    <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}">
+      <span *ngIf="item.type_id === 1" i18n>Related</span>
+      <span *ngIf="item.type_id === 2" i18n>Sport</span>
+      <span *ngIf="item.type_id === 3" i18n>Design</span>
+      <span [innerHTML]="item.item.name_html"></span>
+    </a>
+  </span>
+</ng-container>
