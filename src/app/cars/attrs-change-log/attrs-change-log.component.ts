@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {APIPaginator} from '../../services/api.service';
 import {APIUser, UserService} from '../../services/user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {PageEnvService} from '../../services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {APIAttrsService, APIAttrUserValue} from '../../api/attrs/attrs.service';
+import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations';
 
 @Component({
@@ -17,11 +16,38 @@ import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations
 })
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
-  public items: APIAttrUserValue[] = [];
-  public paginator: APIPaginator;
-  public isModer = false;
 
-  public userID: number;
+  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+
+  public userID$: Observable<number> = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('user_id'), 10)),
+    map(userID => userID ? userID : 0),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public itemID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('item_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public items$ = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
+    switchMap(([userID, itemID, page]) => this.attrService.getUserValues({
+      user_id: userID ? userID : null,
+      item_id: itemID,
+      page: page,
+      fields: 'user,item.name_html,path,unit,value_text'
+    })),
+    shareReplay(1)
+  );
+
   public userQuery = '';
   public usersDataSource: (text$: Observable<string>) => Observable<any[]>;
 
@@ -76,35 +102,11 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => ({
-          user_id: parseInt(params.get('user_id'), 10),
-          item_id: parseInt(params.get('item_id'), 10),
-          page: parseInt(params.get('page'), 10),
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        switchMap(params => combineLatest([
-          of(params),
-          this.attrService.getUserValues({
-            user_id: params.user_id ? params.user_id : null,
-            item_id: params.item_id,
-            page: params.page,
-            fields: 'user,item.name_html,path,unit,value_text'
-          }),
-          this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE)
-        ]))
-      )
-      .subscribe(([params, items, isModer]) => {
-        this.isModer = isModer;
-        this.userID = params.user_id ? params.user_id : 0;
-        if (this.userID && !this.userQuery) {
-          this.userQuery = '#' + this.userID;
-        }
-        this.items = items.items;
-        this.paginator = items.paginator;
-      });
+    this.querySub = this.userID$.subscribe(userID => {
+      if (userID && !this.userQuery) {
+        this.userQuery = '#' + userID;
+      }
+    });
   }
 
   public userFormatter(x: APIUser) {

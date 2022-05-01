@@ -20,8 +20,8 @@
         </ng-template>
         <div class="input-group mb-3">
           <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
-            [resultTemplate]="userTemplate" class="form-control" [class.border-primary]="userID">
-          <button class="btn btn-outline-secondary" type="button" [disabled]="!userID" (click)="clearUser()">
+            [resultTemplate]="userTemplate" class="form-control" [class.border-primary]="userID$|async" id="user_id">
+          <button class="btn btn-outline-secondary" type="button" [disabled]="(userID$|async) === null" (click)="clearUser()">
             <span class="fa fa-close" aria-hidden="true"></span>
           </button>
         </div>
@@ -39,7 +39,7 @@
         <th i18n scope="col">Editor</th>
       </tr>
     </thead>
-    <tr *ngFor="let item of items">
+    <tr *ngFor="let item of (items$|async).items">
       <td>
         <p *ngIf="item.update_date" [textContent]="item.update_date | amTimeAgo" [ngbTooltip]="item.update_date | date: 'medium'"></p>
       </td>
@@ -47,8 +47,10 @@
         <app-user [user]="item.user" *ngIf="item.user"></app-user>
       </td>
       <td>
-        <a [routerLink]="['/moder/items/item', item.item_id]" *ngIf="isModer" [innerHTML]="item.item.name_html"></a>
-        <span *ngIf="!isModer" [innerHTML]="item.item.name_html"></span>
+        <a [routerLink]="['/moder/items/item', item.item_id]" *ngIf="isModer$|async else notModer" [innerHTML]="item.item.name_html"></a>
+        <ng-template #notModer>
+          <span [innerHTML]="item.item.name_html"></span>
+        </ng-template>
       </td>
       <td class="attribute">
         <ng-container *ngFor="let node of item.path; let i = index">
@@ -66,4 +68,4 @@
     </tr>
   </table>
 </div>
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+<app-paginator [data]="data.paginator" *ngIf="items$|async as data"></app-paginator>
