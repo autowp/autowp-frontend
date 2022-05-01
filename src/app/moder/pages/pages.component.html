@@ -25,7 +25,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="data-row" *ngFor="let page of items">
+    <tr class="data-row" *ngFor="let page of items$|async">
       <td [textContent]="page.id"></td>
       <td [ngStyle]="{'padding-left': page.level * 20 + 'px'}" [textContent]="'page/' + page.id + '/name'"></td>
       <td [textContent]="page.breadcrumbs"></td>

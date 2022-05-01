@@ -1,17 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {APIPageLinearized, PageService} from '../../services/page';
+import {Component, OnInit} from '@angular/core';
+import {PageService} from '../../services/page';
 import {PageEnvService} from '../../services/page-env.service';
-import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
-import {switchMapTo} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
+import {map, switchMapTo} from 'rxjs/operators';
 
 @Component({
   selector: 'app-moder-pages',
   templateUrl: './pages.component.html'
 })
-export class ModerPagesComponent implements OnInit, OnDestroy {
-  public items: APIPageLinearized[] = [];
+export class ModerPagesComponent implements OnInit {
   private load$ = new BehaviorSubject<null>(null);
-  private sub: Subscription;
+
+  public items$ = this.load$.pipe(switchMapTo(this.pageService.getPagesPipe())).pipe(
+    map( items => this.pageService.toPlainArray(items.items, 0))
+  );
 
   constructor(
     private pageService: PageService,
@@ -31,15 +33,5 @@ export class ModerPagesComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = combineLatest([
-      this.load$.pipe(switchMapTo(this.pageService.getPagesPipe()))
-    ]).subscribe(([ items]) => {
-      this.items = this.pageService.toPlainArray(items.items, 0);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
-import { Subscription } from 'rxjs';
 import {
   APIPictureModerVoteTemplate,
   APIPictureModerVoteTemplateService
@@ -10,11 +9,10 @@ import {
   selector: 'app-moder-picture-vote-templates',
   templateUrl: './picture-vote-templates.component.html'
 })
-export class ModerPictureVoteTemplatesComponent implements OnInit, OnDestroy {
-  public templates: APIPictureModerVoteTemplate[];
+export class ModerPictureVoteTemplatesComponent implements OnInit {
+  public templates$ = this.voteTemplateService.getTemplates();
   public vote = -1;
   public name = '';
-  private sub: Subscription;
 
   constructor(
     private voteTemplateService: APIPictureModerVoteTemplateService,
@@ -34,13 +32,6 @@ export class ModerPictureVoteTemplatesComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = this.voteTemplateService
-      .getTemplates()
-      .subscribe(templates => (this.templates = templates));
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   public deleteTemplate(template: APIPictureModerVoteTemplate) {

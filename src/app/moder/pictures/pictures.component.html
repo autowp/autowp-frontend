@@ -29,7 +29,7 @@
     <div class="card card-body">
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="status !== null" [class.btn-outline-secondary]="status === null"
-          type="button" id="dropdownMenuButton">
+          type="button">
           <ng-container i18n>Status</ng-container>:
           <ng-container *ngFor="let option of statusOptions">
             <ng-container *ngIf="option.value === status">{{option.name}}</ng-container>
@@ -42,27 +42,27 @@
       </div>
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="vehicleTypeID !== null" [class.btn-outline-secondary]="vehicleTypeID === null"
-          type="button" id="dropdownMenuButton">
+          type="button">
           <ng-container i18n>Vehicle type</ng-container>:
-          <ng-container *ngFor="let option of vehicleTypeOptions">
+          <ng-container *ngFor="let option of vehicleTypeOptions$|async">
             <ng-container *ngIf="option.value === vehicleTypeID">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu style="max-height:200px;overflow-y:auto">
-          <a *ngFor="let option of vehicleTypeOptions" class="dropdown-item" [class.active]="option.value === vehicleTypeID" routerLink="."
+          <a *ngFor="let option of vehicleTypeOptions$|async" class="dropdown-item" [class.active]="option.value === vehicleTypeID" routerLink="."
             [queryParams]="{vehicle_type_id: option.value}" queryParamsHandling="merge">{{'...'.repeat(option.deep)}}{{option.name}}</a>
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="perspectiveID !== null" [class.btn-outline-secondary]="perspectiveID === null"
-          type="button" id="dropdownMenuButton">
+          type="button">
           <ng-container i18n>Perspective</ng-container>:
-          <ng-container *ngFor="let option of perspectiveOptions">
+          <ng-container *ngFor="let option of perspectiveOptions$|async">
             <ng-container *ngIf="option.value === perspectiveID">{{option.name}}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu style="max-height:200px;overflow-y:auto">
-          <a *ngFor="let option of perspectiveOptions" class="dropdown-item" [class.active]="option.value === perspectiveID" routerLink="."
+          <a *ngFor="let option of perspectiveOptions$|async" class="dropdown-item" [class.active]="option.value === perspectiveID" routerLink="."
             [queryParams]="{perspective_id: option.value}" queryParamsHandling="merge">{{option.name}}</a>
         </div>
       </div>
@@ -88,7 +88,7 @@
 
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="comments !== null" [class.btn-outline-secondary]="comments === null"
-          type="button" id="dropdownMenuButton">
+          type="button">
           <ng-container i18n>Comments</ng-container>:
           <ng-container *ngFor="let option of commentsOptions">
             <ng-container *ngIf="option.value === comments">{{option.name}}</ng-container>
@@ -113,7 +113,7 @@
 
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="replace !== null" [class.btn-outline-secondary]="replace === null"
-          type="button" id="dropdownMenuButton">
+          type="button">
           <ng-container i18n>Replacement</ng-container>:
           <ng-container *ngFor="let option of replaceOptions">
             <ng-container *ngIf="option.value === replace">{{option.name}}</ng-container>
@@ -126,7 +126,7 @@
       </div>
       <div class="btn-group mb-3" ngbDropdown>
         <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="requests !== null" [class.btn-outline-secondary]="requests === null"
-          type="button" id="dropdownMenuButton">
+          type="button">
           <ng-container i18n>Votes</ng-container>:
           <ng-container *ngFor="let option of requestsOptions">
             <ng-container *ngIf="option.value === requests">{{option.name}}</ng-container>
@@ -185,23 +185,28 @@
 
     <h2>
       <ng-container i18n>Pictures</ng-container>
-      <span [hidden]="loading <= 0">
+
+      <ng-container *ngIf="data$|async as data; else loading">
+        <ng-container *ngIf="data.paginator as paginator">
+          <small *ngIf="paginator.totalItemCount" i18n="@@n-pictures">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} picture} other {{{paginator.totalItemCount}} pictures}}</small>
+        </ng-container>
+      </ng-container>
+      <ng-template #loading>
         <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-      </span>
-      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-pictures">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} picture} other {{{paginator.totalItemCount}} pictures}}</small>
+      </ng-template>
     </h2>
 
     <div style="margin-bottom:20px">
       <div class="btn-group">
-        <button [disabled]="!hasSelectedItem" class="btn btn-success" (click)="acceptPictures()" i18n>Accept</button>
+        <button [disabled]="!hasSelectedItem" class="btn btn-success" (click)="acceptPictures(data.pictures)" i18n *ngIf="data$|async as data">Accept</button>
         <div class="btn-group" ngbDropdown>
           <button class="btn btn-success" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem">
             <ng-container i18n>Want accept</ng-container>
             <span class="caret" aria-hidden="true"></span>
           </button>
-          <div ngbDropdownMenu>
-            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
-              <button *ngIf="template.vote > 0" class="btn btn-link dropdown-item" [textContent]="template.name" (click)="votePictures(template.vote, template.name);"></button>
+          <div ngbDropdownMenu *ngIf="data$|async as data">
+            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$|async">
+              <button *ngIf="template.vote > 0" class="btn btn-link dropdown-item" [textContent]="template.name" (click)="votePictures(data.pictures, template.vote, template.name);"></button>
             </div>
           </div>
         </div>
@@ -210,23 +215,25 @@
             <ng-container i18n>Want delete</ng-container>
             <span class="caret" aria-hidden="true"></span>
           </button>
-          <div ngbDropdownMenu>
-            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions">
-              <a *ngIf="template.vote < 0" class="dropdown-item" [textContent]="template.name" (click)="votePictures(template.vote, template.name);"></a>
+          <div ngbDropdownMenu *ngIf="data$|async as data">
+            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$|async">
+              <a *ngIf="template.vote < 0" class="dropdown-item" [textContent]="template.name" (click)="votePictures(data.pictures, template.vote, template.name);"></a>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+    <ng-container *ngIf="data$|async as data">
+      <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
 
-    <div class="row" *ngFor="let chunk of chunks">
-      <div class="col-sm-4" *ngFor="let picture of chunk">
-        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]" [selectable]="true" (selected)="onPictureSelect($event, picture)"></app-thumbnail>
+      <div class="row" *ngFor="let chunk of data.chunks">
+        <div class="col-sm-4" *ngFor="let picture of chunk">
+          <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]" [selectable]="true" (selected)="onPictureSelect($event, picture)"></app-thumbnail>
+        </div>
       </div>
-    </div>
 
-    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+      <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+    </ng-container>
   </div>
 </div>

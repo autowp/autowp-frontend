@@ -13,7 +13,7 @@
   <h1 i18n>Picture vote templates</h1>
 </div>
 
-<p *ngFor="let template of templates">
+<p *ngFor="let template of templates$|async">
   <i class="fa fa-thumbs-up text-success" aria-hidden="true" *ngIf="template.vote > 0"></i>
   <i class="fa fa-thumbs-down text-danger" aria-hidden="true" *ngIf="template.vote < 0"></i>
   <span [textContent]="template.name"></span>
