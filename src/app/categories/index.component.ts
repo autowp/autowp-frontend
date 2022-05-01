@@ -1,16 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ItemService, APIItem } from '../services/item';
-import { Subscription } from 'rxjs';
+import { Component, OnInit} from '@angular/core';
+import { ItemService} from '../services/item';
 import { PageEnvService } from '../services/page-env.service';
 import { chunkBy } from '../chunk';
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-categories-index',
   templateUrl: './index.component.html'
 })
-export class CategoriesIndexComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public items: APIItem[][] = [];
+export class CategoriesIndexComponent implements OnInit {
+
+  public items$ = this.itemService.getItems({
+    fields: 'name_html,front_picture.thumb_medium,descendants_count',
+    limit: 30,
+    type_id: 3, // category
+    no_parent: true
+  }).pipe(
+    map(response => chunkBy(response.items, 4))
+  );
 
   constructor(
     private itemService: ItemService,
@@ -29,20 +36,5 @@ export class CategoriesIndexComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = this.itemService
-      .getItems({
-        fields: 'name_html,front_picture.thumb_medium,descendants_count',
-        limit: 30,
-        type_id: 3, // category
-        no_parent: true
-      })
-      .subscribe(response => {
-        this.items = chunkBy(response.items, 4);
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

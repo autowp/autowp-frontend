@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, map, distinctUntilChanged} from 'rxjs/operators';
-import { APIItem, ItemService } from '../services/item';
+import {APIItem, APIPathItem, ItemService} from '../services/item';
 import { PathItem } from './definitions';
+import {Observable} from "rxjs";
+
+export interface CategoryPipeResult {
+  current: APIItem,
+  category: APIItem,
+  path: APIPathItem[],
+  pathItems: PathItem[],
+  pathCatnames: string[]
+}
 
 @Injectable()
 export class CatagoriesService {
@@ -10,7 +19,7 @@ export class CatagoriesService {
     private itemService: ItemService
   ) {}
 
-  public categoryPipe(route: ActivatedRoute) {
+  public categoryPipe(route: ActivatedRoute): Observable<CategoryPipeResult> {
 
     const categoryPipe = route.paramMap.pipe(
       map(params => params.get('category')),

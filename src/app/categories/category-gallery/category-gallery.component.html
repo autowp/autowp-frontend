@@ -1,8 +1,10 @@
-<app-gallery
-  [filter]="{itemID: currentItem.id}"
-  [current]="current"
-  [galleryPrefix]="currentRouterLinkPrefix().concat(['gallery'])"
-  [picturePrefix]="currentRouterLinkPrefix().concat(['pictures'])"
-  *ngIf="currentItem"
-  (pictureSelected)="pictureSelected($event)"
-></app-gallery>
+<ng-container *ngIf="data$|async as data">
+  <app-gallery
+    [filter]="{itemID: data.current.id}"
+    [current]="identity$|async"
+    [galleryPrefix]="currentRouterLinkPrefix(data.category, data.current, data.pathCatnames).concat(['gallery'])"
+    [picturePrefix]="currentRouterLinkPrefix(data.category, data.current, data.pathCatnames).concat(['pictures'])"
+    *ngIf="data.current"
+    (pictureSelected)="pictureSelected($event)"
+  ></app-gallery>
+</ng-container>

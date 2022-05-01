@@ -10,7 +10,7 @@
   <h1 i18n>Categories</h1>
 </div>
 
-<div class="row" *ngFor="let chunk of items">
+<div class="row" *ngFor="let chunk of items$|async">
   <div class="col-md-3" *ngFor="let category of chunk">
     <div class="card mb-4">
       <a [routerLink]="['/category', category.catname]" *ngIf="category.front_picture && category.front_picture.thumb_medium">

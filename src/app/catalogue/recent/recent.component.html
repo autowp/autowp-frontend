@@ -3,20 +3,22 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
+    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand">
+<div class="page-header" *ngIf="brand$|async as brand">
   <h1 i18n>Last pictures of {{brand.name_text}}</h1>
 </div>
 
-<div class="row" *ngFor="let chunk of pictures">
-  <div class="col-sm-3" *ngFor="let item of chunk">
-    <app-thumbnail [picture]="item.picture" [route]="item.route">></app-thumbnail>
+<ng-container *ngIf="data$|async as data">
+  <div class="row" *ngFor="let chunk of data.pictures">
+    <div class="col-sm-3" *ngFor="let item of chunk">
+      <app-thumbnail [picture]="item.picture" [route]="item.route">></app-thumbnail>
+    </div>
   </div>
-</div>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>
