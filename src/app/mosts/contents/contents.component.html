@@ -4,8 +4,8 @@
   </div>
 </ng-template>
 
-<ng-container *ngIf="ratingCatname$|async as ratingCatname">
-  <h1 class="mb-4 mosts-header" *ngIf="typeCatname$|async as typeCatname" ngPreserveWhitespaces>
+<ng-container *ngIf="ratingCatnameNormalized$|async as ratingCatname">
+  <h1 class="mb-4 mosts-header" ngPreserveWhitespaces>
     <span i18n>Most</span>
     <div class="d-inline-block" ngbDropdown *ngIf="ratings$|async as ratings">
       <a href="#" ngbDropdownToggle (click)="false">
@@ -26,14 +26,18 @@
 
     <div class="d-inline-block" ngbDropdown *ngIf="vehicleTypes$|async as vehicleTypes">
       <a href="#" ngbDropdownToggle (click)="false">
-        <ng-container *ngFor="let type of vehicleTypes">
-          <span *ngIf="type.catname === typeCatname" [textContent]="type.nameTranslated"></span>
+        <ng-container *ngIf="typeCatname$|async as typeCatname; else noTypeCatname">
+          <ng-container *ngFor="let type of vehicleTypes">
+            <span *ngIf="type.catname === (typeCatname$|async)" [textContent]="type.nameTranslated"></span>
+          </ng-container>
         </ng-container>
-        <span *ngIf="!typeCatname" i18n>Vehicle</span>
+        <ng-template #noTypeCatname>
+          <span i18n>Vehicle</span>
+        </ng-template>
         <i class="fa fa-caret-down" aria-hidden="true"></i>
       </a>
       <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;">
-        <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname === typeCatname" [routerLink]="prefix.concat([ratingCatname, type.catname])"
+        <a *ngFor="let type of vehicleTypes" class="dropdown-item" [class.active]="type.catname === (typeCatname$|async)" [routerLink]="prefix.concat([ratingCatname, type.catname])"
            [textContent]="type.nameTranslated"></a>
       </div>
     </div>
@@ -47,10 +51,18 @@
           <i class="fa fa-caret-down" aria-hidden="true"></i>
         </a>
         <div ngbDropdownMenu style="max-height: 200px;overflow-x: hidden;" *ngIf="defaultTypeCatname$|async as defaultTypeCatname">
-          <a *ngFor="let year of years" [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname" class="dropdown-item"
-             [routerLink]="prefix.concat([ratingCatname, typeCatname ? typeCatname : defaultTypeCatname, year.catname ? year.catname : ''])"
-             [textContent]="getMostsPeriodsTranslation(year.name)">
-          </a>
+          <ng-container *ngIf="typeCatname$|async as typeCatname; else noTypeCatname2">
+            <a *ngFor="let year of years" [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname" class="dropdown-item"
+               [routerLink]="prefix.concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
+               [textContent]="getMostsPeriodsTranslation(year.name)">
+            </a>
+          </ng-container>
+          <ng-template #noTypeCatname2>
+            <a *ngFor="let year of years" [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname" class="dropdown-item"
+               [routerLink]="prefix.concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
+               [textContent]="getMostsPeriodsTranslation(year.name)">
+            </a>
+          </ng-template>
         </div>
       </div>
     </ng-container>

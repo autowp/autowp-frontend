@@ -4,10 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
-  debounceTime, map, switchMap
+  debounceTime, map, switchMap, shareReplay
 } from 'rxjs/operators';
-import {APIItem, ItemService} from '../../services/item';
-
+import {ItemService} from '../../services/item';
 
 @Component({
   selector: 'app-catalogue-mosts',
@@ -18,7 +17,33 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
   public ratingCatname: string;
   public typeCatname: string;
   public yearsCatname: string;
-  public brand: APIItem;
+
+  public brand$ = this.route.paramMap.pipe(
+    map(params => params.get('brand')),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(catname => {
+      if (!catname) {
+        return EMPTY;
+      }
+      return this.itemService.getItems({
+        catname,
+        fields: 'catname,name_text,name_html',
+        limit: 1
+      }).pipe(
+        switchMap(response => {
+          if (response.items.length <= 0) {
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true
+            });
+            return EMPTY;
+          }
+          return of(response.items[0]);
+        })
+      );
+    }),
+    shareReplay(1)
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -28,9 +53,8 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.getBrand().pipe(
+    this.routeSub = this.brand$.pipe(
       switchMap(brand => {
-        this.brand = brand;
         this.pageEnv.set({
           layout: {
             needRight: false
@@ -56,8 +80,7 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
           }))
         );
       }),
-    )
-    .subscribe(data => {
+    ).subscribe(data => {
       this.ratingCatname = data.ratingCatname;
       this.typeCatname = data.typeCatname;
       this.yearsCatname = data.yearsCatname;
@@ -66,33 +89,5 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-  }
-
-  private getBrand() {
-    return this.route.paramMap.pipe(
-      map(params => params.get('brand')),
-      distinctUntilChanged(),
-      debounceTime(10),
-      switchMap(catname => {
-        if (!catname) {
-          return EMPTY;
-        }
-        return this.itemService.getItems({
-          catname,
-          fields: 'catname,name_text,name_html',
-          limit: 1
-        }).pipe(
-          switchMap(response => {
-            if (response.items.length <= 0) {
-              this.router.navigate(['/error-404'], {
-                skipLocationChange: true
-              });
-              return EMPTY;
-            }
-            return of(response.items[0]);
-          })
-        );
-      })
-    );
   }
 }

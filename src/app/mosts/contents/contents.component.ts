@@ -42,6 +42,12 @@ export class MostsContentsComponent {
   @Input() set ratingCatname(ratingCatname: string) { this.ratingCatname$.next(ratingCatname); };
   public ratingCatname$ = new BehaviorSubject<string>(null);
 
+  public ratingCatnameNormalized$ = this.ratingCatname$.pipe(
+    switchMap(ratingCatname => this.menu$.pipe(
+      map(menu => ratingCatname ? ratingCatname : menu.ratings[0].catname)
+    ))
+  )
+
   @Input() set typeCatname(typeCatname: string) { this.typeCatname$.next(typeCatname); };
   public typeCatname$ = new BehaviorSubject<string>(null);
 
@@ -53,7 +59,7 @@ export class MostsContentsComponent {
 
   private menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
-    debounceTime(30),
+    debounceTime(10),
     switchMap(brandID => this.mostsService.getMenu(brandID)),
     shareReplay(1),
   );
@@ -76,20 +82,17 @@ export class MostsContentsComponent {
   );
 
   public items$: Observable<APIMostsItem[]> = combineLatest([
-    this.ratingCatname$.pipe(
+    this.ratingCatnameNormalized$.pipe(
       distinctUntilChanged(),
-      debounceTime(30),
-      switchMap(ratingCatname => this.menu$.pipe(
-        map(menu => ratingCatname ? ratingCatname : menu.ratings[0].catname)
-      ))
+      debounceTime(10),
     ),
     this.typeCatname$.pipe(
       distinctUntilChanged(),
-      debounceTime(30)
+      debounceTime(10)
     ),
     this.yearsCatname$.pipe(
       distinctUntilChanged(),
-      debounceTime(30)
+      debounceTime(10)
     )
   ]).pipe(
     tap(() => {

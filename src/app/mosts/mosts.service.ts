@@ -57,7 +57,7 @@ export class MostsService {
     if (! this.menus$.has(brandID)) {
       const o = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
         params: {
-          brand_id: brandID.toString()
+          brand_id: brandID ? brandID.toString() : null
         }
       });
       this.menus$.set(brandID, o);
