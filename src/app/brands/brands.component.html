@@ -10,21 +10,23 @@
   <h1 i18n>All brands</h1>
 </div>
 
-<div *ngFor="let line of items">
-  <div *ngIf="line">
-    <div class="btn-group">
-      <a class="btn btn-secondary" [href]="'#char' + info.id" (click)="scrollTo(info)" [textContent]="info.char" *ngFor="let info of line"></a>
-    </div>
-  </div>
-</div>
-
-<div *ngFor="let line of items">
-  <div *ngFor="let info of line">
-    <h2 [id]="'char' + info.id">→ {{info.char}}</h2>
-    <div class="brand-icons row">
-      <div *ngFor="let brand of info.brands" class="col-12 col-sm-6 col-md-4 col-lg-4">
-        <app-brands-item [brand]="brand" [icons]="icons"></app-brands-item>
+<ng-container *ngIf="items$|async as items">
+  <div *ngFor="let line of items">
+    <div *ngIf="line">
+      <div class="btn-group">
+        <a class="btn btn-secondary" [href]="'#char' + info.id" (click)="scrollTo(info)" [textContent]="info.char" *ngFor="let info of line"></a>
       </div>
     </div>
   </div>
-</div>
+
+  <div *ngFor="let line of items">
+    <div *ngFor="let info of line">
+      <h2 [id]="'char' + info.id">→ {{info.char}}</h2>
+      <div class="brand-icons row">
+        <div *ngFor="let brand of info.brands" class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <app-brands-item [brand]="brand" [icons]="icons" *ngIf="icons$|async as icons"></app-brands-item>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

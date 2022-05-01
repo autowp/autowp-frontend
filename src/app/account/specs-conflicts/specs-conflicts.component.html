@@ -10,58 +10,62 @@
   <h1 i18n id="header">Conflicts</h1>
 </div>
 
-<p class="float-end" *ngIf="user && user.specs_weight !== null">
-  <ng-container i18n>Weight</ng-container>: {{user.specs_weight.toFixed(2)}}
-</p>
+<ng-container *ngIf="user$|async as user">
+  <p class="float-end" *ngIf="user.specs_weight !== null">
+    <ng-container i18n>Weight</ng-container>: {{user.specs_weight.toFixed(2)}}
+  </p>
+</ng-container>
 
-<div class="nav nav-pills" style="margin-bottom:10px">
+<div class="nav nav-pills" style="margin-bottom:10px" *ngIf="filter$|async as filter">
   <a class="nav-link" [class.active]="filter === '0'" routerLink="." [queryParams]="{filter: 0}" queryParamsHandling="merge" i18n>All</a>
   <a class="nav-link" [class.active]="filter === '-1'" routerLink="." [queryParams]="{filter: -1}" queryParamsHandling="merge" i18n>I disagree</a>
   <a class="nav-link" [class.active]="filter === '1'" routerLink="." [queryParams]="{filter: 1}" queryParamsHandling="merge" i18n>Do not agree with me</a>
   <a class="nav-link" [class.active]="filter === 'minus-weight'" routerLink="." [queryParams]="{filter: 'minus-weight'}" queryParamsHandling="merge" i18n>Errors</a>
 </div>
 
-<table class="table" aria-describedby="header">
-  <thead>
-    <tr>
-      <th i18n scope="col">Object</th>
-      <th i18n scope="col">Parameter</th>
-      <th i18n scope="col">My value</th>
-      <th i18n scope="col">Other values</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let conflict of conflicts">
-      <td [textContent]="conflict.object"></td>
-      <td [textContent]="conflict.attribute"></td>
-      <td>
-        <ng-container *ngFor="let value of conflict.values">
-          <div *ngIf="value.user_id === user.id">
-            <em *ngIf="value.value === null" i18n>none</em>
-            <span *ngIf="value.value !== null">
-              {{value.value}}
-              <span *ngIf="conflict.unit">{{getUnitTranslation(conflict.unit.id, 'abbr')}}</span>
-            </span>
-            <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: conflict.item_id}" >
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-          </div>
-        </ng-container>
-      </td>
-      <td>
-        <ng-container *ngFor="let value of conflict.values">
-          <div *ngIf="value.user_id !== user.id">
-            <em *ngIf="value.value === null" i18n>none</em>
-            <span *ngIf="value.value !== null">
-              {{value.value}}
-              <span *ngIf="conflict.unit">{{getUnitTranslation(conflict.unit.id, 'abbr')}}</span>
-            </span>
-            <app-user [user]="value.user" *ngIf="value.user"></app-user>
-          </div>
-        </ng-container>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<ng-container *ngIf="data$|async as data">
+  <table class="table" aria-describedby="header">
+    <thead>
+      <tr>
+        <th i18n scope="col">Object</th>
+        <th i18n scope="col">Parameter</th>
+        <th i18n scope="col">My value</th>
+        <th i18n scope="col">Other values</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let conflict of data.conflicts">
+        <td [textContent]="conflict.object"></td>
+        <td [textContent]="conflict.attribute"></td>
+        <td>
+          <ng-container *ngFor="let value of conflict.values">
+            <div *ngIf="!value.user$">
+              <em *ngIf="value.value === null" i18n>none</em>
+              <span *ngIf="value.value !== null">
+                {{value.value}}
+                <span *ngIf="conflict.unit">{{getUnitTranslation(conflict.unit.id, 'abbr')}}</span>
+              </span>
+              <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: conflict.item_id}" >
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
+            </div>
+          </ng-container>
+        </td>
+        <td>
+          <ng-container *ngFor="let value of conflict.values">
+            <div *ngIf="value.user$">
+              <em *ngIf="value.value === null" i18n>none</em>
+              <span *ngIf="value.value !== null">
+                {{value.value}}
+                <span *ngIf="conflict.unit">{{getUnitTranslation(conflict.unit.id, 'abbr')}}</span>
+              </span>
+              <app-user [user]="user" *ngIf="value.user$|async as user"></app-user>
+            </div>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>

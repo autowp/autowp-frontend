@@ -1,12 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../../services/api.service';
+import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import {Subscription, combineLatest, EMPTY} from 'rxjs';
-import {
-  PictureService,
-  APIPicture
-} from '../../services/picture';
+import {combineLatest, EMPTY} from 'rxjs';
+import {PictureService} from '../../services/picture';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -15,10 +11,28 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-account-inbox-pictures',
   templateUrl: './inbox-pictures.component.html'
 })
-export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public pictures: APIPicture[] = [];
-  public paginator: APIPaginator;
+export class AccountInboxPicturesComponent implements OnInit {
+  public data$ = combineLatest([
+    this.route.queryParamMap.pipe(
+      map(params => parseInt(params.get('page'), 10)),
+      distinctUntilChanged(),
+      debounceTime(10),
+    ),
+    this.auth.getUser()
+  ]).pipe(
+    switchMap(([page, user]) => this.pictureService.getPictures({
+      status: 'inbox',
+      owner_id: user.id,
+      fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+      limit: 15,
+      page,
+      order: 1
+    })),
+    catchError(err => {
+      this.toastService.response(err);
+      return EMPTY;
+    })
+  );
 
   constructor(
     private auth: AuthService,
@@ -40,33 +54,5 @@ export class AccountInboxPicturesComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.querySub = combineLatest([this.route.queryParamMap, this.auth.getUser()])
-      .pipe(
-        map(([params, user]) => ({ page: params.get('page'), user })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        switchMap(data => this.pictureService.getPictures({
-          status: 'inbox',
-          owner_id: data.user.id,
-          fields:
-            'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-          limit: 15,
-          page: parseInt(data.page, 10),
-          order: 1
-        })),
-        catchError(err => {
-          this.toastService.response(err);
-          return EMPTY;
-        })
-      )
-      .subscribe(response => {
-        this.pictures = response.pictures;
-        this.paginator = response.paginator;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
   }
 }

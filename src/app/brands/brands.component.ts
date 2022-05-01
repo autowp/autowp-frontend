@@ -1,15 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  APIBrandsGetResponse,
-  APIBrandsLines
-} from '../services/brands.service';
+import { Component, OnInit} from '@angular/core';
+import {APIBrandsGetResponse, APIBrandsLines} from '../services/brands.service';
 import { PageEnvService } from '../services/page-env.service';
-import { combineLatest, Subscription } from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {BrandIcons} from '../../../generated/spec.pb';
+import {catchError, map, shareReplay, tap} from "rxjs/operators";
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -29,10 +27,31 @@ function addCSS(url: string) {
   selector: 'app-brands',
   templateUrl: './brands.component.html'
 })
-export class BrandsComponent implements OnInit, OnDestroy {
-  public items: APIBrandsLines;
-  public icons: BrandIcons;
-  private sub: Subscription;
+export class BrandsComponent implements OnInit {
+  public items$: Observable<APIBrandsLines> = this.api.request<APIBrandsGetResponse>('GET', 'brands').pipe(
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    }),
+    map(response => {
+      const items = response.items;
+      for (const line of items) {
+        for (const info of line) {
+          for (const item of info.brands) {
+            item.cssClass = item.catname.replace(/\./g, '_');
+          }
+        }
+      }
+      return items;
+    })
+  );
+
+  public icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
+    tap(icons => {
+      addCSS(icons.css);
+    }),
+    shareReplay(1)
+  );
 
   constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: AutowpClient) {}
 
@@ -48,29 +67,6 @@ export class BrandsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = combineLatest([
-      this.api.request<APIBrandsGetResponse>('GET', 'brands'),
-      this.grpc.getBrandIcons(new Empty())
-    ]).subscribe(
-      ([response, icons]) => {
-        this.icons = icons;
-        addCSS(this.icons.css);
-        this.items = response.items;
-        for (const line of this.items) {
-          for (const info of line) {
-            for (const item of info.brands) {
-              item.cssClass = item.catname.replace(/\./g, '_');
-            }
-          }
-        }
-        // BrandPopover.apply('.popover-handler');
-      },
-      response => this.toastService.response(response)
-    );
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   public scrollTo(info) {

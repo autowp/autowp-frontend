@@ -1,21 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator, APIService } from '../../services/api.service';
+import { Component, OnInit} from '@angular/core';
+import { APIService } from '../../services/api.service';
 import { UserService, APIUser } from '../../services/user';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Subscription, combineLatest } from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
-  switchMapTo, map
+  switchMapTo, map, shareReplay
 } from 'rxjs/operators';
 import { APIAttrConflictValue, APIAttrConflict, APIAttrsService } from '../../api/attrs/attrs.service';
 import { getUnitTranslation } from '../../utils/translations';
 
 interface APIAttrConflictValueInList extends APIAttrConflictValue {
-  user?: APIUser;
+  user$?: Observable<APIUser>;
 }
 
 interface APIAttrConflictInList extends APIAttrConflict {
@@ -26,13 +26,57 @@ interface APIAttrConflictInList extends APIAttrConflict {
   selector: 'app-account-specs-conflicts',
   templateUrl: './specs-conflicts.component.html'
 })
-export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public filter: string;
-  public conflicts: APIAttrConflictInList[] = [];
-  public paginator: APIPaginator;
-  public page: number;
-  public user: APIUser;
+export class AccountSpecsConflictsComponent implements OnInit {
+  public page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public filter$ = this.route.queryParamMap.pipe(
+    map(params => params.get('filter')),
+    distinctUntilChanged(),
+    debounceTime(10),
+    map(filter => filter || '0')
+  );
+
+  public user$ = this.auth.getUser().pipe(
+    switchMapTo(
+      this.api.request<APIUser>('GET', 'user/me', {
+        params: { fields: 'specs_weight' }
+      })
+    ),
+    shareReplay(1)
+  );
+
+  public data$ = combineLatest([
+    this.page$,
+    this.filter$
+  ]).pipe(
+    switchMap(([page, filter]) => combineLatest([
+      this.attrService.getConfilicts({
+        filter,
+        page,
+        fields: 'values'
+      }),
+      this.user$
+    ])),
+    map(([data, user]) => {
+      const conflicts: APIAttrConflictInList[] = data.items;
+      for (const conflict of conflicts) {
+        for (const value of conflict.values) {
+          if (user.id !== value.user_id) {
+            value.user$ = this.userService.getUser(value.user_id, {});
+          }
+        }
+      }
+
+      return {
+        conflicts,
+        paginator: data.paginator
+      };
+    })
+  );
 
   constructor(
     private api: APIService,
@@ -55,61 +99,6 @@ export class AccountSpecsConflictsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.querySub = combineLatest([
-      this.route.queryParamMap.pipe(
-        map(params => ({
-          filter: params.get('filter'),
-          page: parseInt(params.get('page'), 10),
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30)
-      ),
-      this.auth.getUser().pipe(
-        switchMapTo(
-          this.api.request<APIUser>('GET', 'user/me', {
-            params: { fields: 'specs_weight' }
-          })
-        )
-      )
-    ])
-      .pipe(
-        switchMap(
-          ([params, user]) => {
-            this.filter = params.filter || '0';
-            this.page = params.page;
-            this.user = user;
-
-            return this.attrService.getConfilicts({
-              filter: params.filter || '0',
-              page: params.page,
-              fields: 'values'
-            }).pipe(
-              map(conflicts => ({
-                user,
-                conflicts
-              }))
-            );
-          }
-        )
-      )
-      .subscribe(data => {
-        this.conflicts = data.conflicts.items;
-        for (const conflict of this.conflicts) {
-          for (const value of conflict.values) {
-            if (data.user.id !== value.user_id) {
-              this.userService.getUser(value.user_id, {}).subscribe(user => {
-                value.user = user;
-              });
-            }
-          }
-        }
-        this.paginator = data.conflicts.paginator;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
   }
 
   public getUnitTranslation(id: number, type: string): string {

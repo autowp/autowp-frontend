@@ -1,4 +1,4 @@
-<header class="mb-4" *ngIf="brand">
+<header class="mb-4" *ngIf="brand$|async as brand">
   <div class="p-5 mb-4 rounded-3 brand-hero-unit clearfix">
     <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
     <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" loading="lazy" />
@@ -60,10 +60,10 @@
   </ul>
 </header>
 
-<ng-container *ngFor="let section of sections">
+<ng-container *ngFor="let section of sections$|async">
   <div class="card mb-4" *ngIf="section.halfChuks.length">
     <div class="card-body">
-      <h5 class="card-title" *ngIf="section.name">{{getCatalogueSectionsTranslation(section.name)}}</h5>
+      <h5 class="card-title" *ngIf="section.name">{{section.name}}</h5>
       <div class="row">
         <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChuks">
           <div class="row">
@@ -81,45 +81,51 @@
   </div>
 </ng-container>
 
-<section *ngIf="factories && factories.length">
-  <h2 i18n>Factories</h2>
-  <div class="row">
-    <div class="col-6 col-lg-3" *ngFor="let factory of factories">
-      <a class="d-block rounded mb-4" [routerLink]="['/factories', factory.id]" *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium">
-        <img class="rounded w-100 border border-light" [src]="factory.exact_picture.thumb_medium.src" alt="" loading="lazy" />
-      </a>
-      <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
+<ng-container *ngIf="factories$|async as factories">
+  <section *ngIf="factories.length">
+    <h2 i18n>Factories</h2>
+    <div class="row">
+      <div class="col-6 col-lg-3" *ngFor="let factory of factories">
+        <a class="d-block rounded mb-4" [routerLink]="['/factories', factory.id]" *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium">
+          <img class="rounded w-100 border border-light" [src]="factory.exact_picture.thumb_medium.src" alt="" loading="lazy" />
+        </a>
+        <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</ng-container>
 
-<section *ngIf="pictures && pictures.length">
-  <h2 i18n>Popular images</h2>
-  <div class="row" *ngFor="let chunk of pictures">
-    <div class="col-sm-3" *ngFor="let item of chunk">
-      <app-thumbnail [picture]="item.picture" [route]="item.route"></app-thumbnail>
+<ng-container *ngIf="pictures$|async as pictures">
+  <section *ngIf="pictures.length">
+    <h2 i18n>Popular images</h2>
+    <div class="row" *ngFor="let chunk of pictures">
+      <div class="col-sm-3" *ngFor="let item of chunk">
+        <app-thumbnail [picture]="item.picture" [route]="item.route"></app-thumbnail>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</ng-container>
 
-<section *ngIf="officialLinks.length + clubLinks.length + otherLinks.length > 0">
-  <h2 i18n>Links</h2>
-  <p *ngIf="officialLinks.length > 0">
-    <strong i18n>Official websites</strong><br />
-    <ng-container *ngFor="let link of officialLinks">
-      <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
-    </ng-container>
-  </p>
-  <p *ngIf="clubLinks.length > 0">
-    <strong i18n>Car clubs</strong><br />
-    <ng-container *ngFor="let link of clubLinks">
-      <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
-    </ng-container>
-  </p>
-  <p *ngIf="otherLinks.length > 0">
-    <strong i18n>Other</strong><br />
-    <ng-container *ngFor="let link of otherLinks">
-      <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
-    </ng-container>
-  </p>
-</section>
+<ng-container *ngIf="links$|async as links">
+  <section *ngIf="links.official.length + links.club.length + links.other.length > 0">
+    <h2 i18n>Links</h2>
+    <p *ngIf="links.official.length > 0">
+      <strong i18n>Official websites</strong><br />
+      <ng-container *ngFor="let link of links.official">
+        <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+      </ng-container>
+    </p>
+    <p *ngIf="links.club.length > 0">
+      <strong i18n>Car clubs</strong><br />
+      <ng-container *ngFor="let link of links.club">
+        <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+      </ng-container>
+    </p>
+    <p *ngIf="links.other.length > 0">
+      <strong i18n>Other</strong><br />
+      <ng-container *ngFor="let link of links.other">
+        <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+      </ng-container>
+    </p>
+  </section>
+</ng-container>
