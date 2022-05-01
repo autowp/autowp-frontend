@@ -1,5 +1,11 @@
 [
   {
+    "sum": 1.54,
+    "currency": "EUR",
+    "date": "2022-05-01T00:00:00+00:00",
+    "contributor": "Leonardo Campos"
+  },
+  {
     "sum": -212.52,
     "currency": "EUR",
     "date": "2022-04-18T00:00:00+00:00",
