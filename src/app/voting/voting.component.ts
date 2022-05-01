@@ -1,26 +1,42 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription} from 'rxjs';
+import { Component} from '@angular/core';
+import {BehaviorSubject, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router} from '@angular/router';
-import {
-  VotingService,
-  APIVoting,
-  APIVotingVariant
-} from './voting.service';
+import {VotingService, APIVotingVariant, APIVoting} from './voting.service';
 import { AuthService } from '../services/auth.service';
 import { PageEnvService } from '../services/page-env.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingVotesComponent } from './votes/votes.component';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, switchMapTo, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-voting',
   templateUrl: './voting.component.html'
 })
-export class VotingComponent implements OnInit, OnDestroy {
-  private id: number;
-  private routeSub: Subscription;
-  public voting: APIVoting;
+export class VotingComponent {
+  private reload$ = new BehaviorSubject<boolean>(true);
+  public voting$ = this.route.paramMap.pipe(
+    map(params => parseInt(params.get('id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(id => this.reload$.pipe(switchMapTo(this.votingService.getVoting(id)))),
+    catchError(() => {
+      this.router.navigate(['/error-404'], {
+        skipLocationChange: true
+      });
+      return EMPTY;
+    }),
+    tap(voting => {
+      this.pageEnv.set({
+        layout: {
+          needRight: true
+        },
+        nameTranslated: voting.name,
+        pageId: 157
+      });
+    })
+  );
   public filter = false;
   public selected: {};
 
@@ -35,46 +51,10 @@ export class VotingComponent implements OnInit, OnDestroy {
     private toastService: ToastsService
   ) {}
 
-  public load(callback?: () => void) {
-    this.votingService.getVoting(this.id).subscribe(
-      response => {
-        this.voting = response;
-
-        if (callback) {
-          callback();
-        }
-      },
-      () => {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true
-        });
-      }
-    );
-  }
-
-  ngOnInit(): void {
-    this.routeSub = this.route.paramMap.subscribe(params => {
-      this.id = parseInt(params.get('id'), 10);
-      this.load(() => {
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          nameTranslated: this.voting.name,
-          pageId: 157
-        });
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
-  }
-
-  public vote() {
+  public vote(voting: APIVoting) {
     const ids: number[] = [];
 
-    if (!this.voting.multivariant) {
+    if (!voting.multivariant) {
       if (this.selected) {
         ids.push(this.selected as number);
       }
@@ -89,22 +69,20 @@ export class VotingComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.api
-      .request<void>('PATCH', 'voting/' + this.id, {body: {
-        vote: ids
-      }})
-      .subscribe(
-        () => {
-          this.load();
-        },
-        response => this.toastService.response(response)
-      );
+    this.api.request<void>('PATCH', 'voting/' + voting.id, {body: {
+      vote: ids
+    }}).subscribe(
+      () => {
+        this.reload$.next(true);
+      },
+      response => this.toastService.response(response)
+    );
 
     return false;
   }
 
-  public isVariantSelected(): boolean {
-    if (!this.voting.multivariant) {
+  public isVariantSelected(voting: APIVoting): boolean {
+    if (!voting.multivariant) {
       return this.selected > 0;
     }
 
@@ -120,13 +98,13 @@ export class VotingComponent implements OnInit, OnDestroy {
     return count > 0;
   }
 
-  public showWhoVoted(variant: APIVotingVariant) {
+  public showWhoVoted(voting: APIVoting, variant: APIVotingVariant) {
     const modalRef = this.modalService.open(VotingVotesComponent, {
       size: 'lg',
       centered: true
     });
 
-    modalRef.componentInstance.votingID = this.id;
+    modalRef.componentInstance.votingID = voting.id;
     modalRef.componentInstance.variantID = variant.id;
 
     return false;

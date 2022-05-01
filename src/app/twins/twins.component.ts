@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../services/api.service';
-import { ItemService, APIItem } from '../services/item';
-import { Subscription, of } from 'rxjs';
+import { Component, OnInit} from '@angular/core';
+import {ItemService, APIItem, APIItemsGetResponse} from '../services/item';
+import {of, combineLatest, Observable} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import {tap, switchMap, map, distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import {tap, switchMap, map, distinctUntilChanged, debounceTime, shareReplay} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { chunkBy } from '../chunk';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {APIPaginator} from '../services/api.service';
 
 interface ChunkedGroup {
   item: APIItem;
@@ -18,13 +18,84 @@ interface ChunkedGroup {
   selector: 'app-twins',
   templateUrl: './twins.component.html'
 })
-export class TwinsComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public paginator: APIPaginator;
-  public groups: ChunkedGroup[] = [];
+export class TwinsComponent implements OnInit {
   public canEdit$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT);
-  public currentBrandCatname: string;
-  public brand: APIItem;
+
+  private page$ = this.route.queryParamMap.pipe(
+    map(query => parseInt(query.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public currentBrandCatname$ = this.route.paramMap.pipe(
+    map(params => params.get('brand')),
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay(1)
+  );
+
+  public brand$: Observable<APIItem|null> = this.currentBrandCatname$.pipe(
+    switchMap(brand => {
+      if (!brand) {
+        return of(null as APIItemsGetResponse);
+      }
+
+      return this.itemService.getItems({
+        catname: brand,
+        fields: 'name_only,catname',
+        limit: 1,
+        type_id: 5 // brand
+      });
+    }),
+    map(response =>
+      response && response.items.length > 0 ? response.items[0] : null
+    ),
+    tap(brand => {
+      setTimeout(() => {
+        if (brand) {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            nameTranslated: brand.name_only,
+            pageId: 153
+          });
+        } else {
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            nameTranslated: $localize `Twins`,
+            pageId: 25
+          });
+        }
+      }, 0);
+    }),
+    shareReplay(1)
+  );
+
+  public data$: Observable<{
+    groups: ChunkedGroup[],
+    paginator: APIPaginator
+  }> = combineLatest([this.page$, this.brand$]).pipe(
+    switchMap(([page, brand]) => this.itemService.getItems({
+      type_id: 4,
+      limit: 20,
+      fields:
+        'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
+        'childs.front_picture.thumb_medium,childs.front_picture.name_text',
+      page: page,
+      have_common_childs_with: brand ? brand.id : null
+    })),
+    map(response => ({
+      groups: response.items.map(group => ({
+        item: group,
+        childs: chunkBy(group.childs, 3),
+        hasMoreImages: TwinsComponent.hasMoreImages(group)
+      })),
+      paginator: response.paginator
+    }))
+  );
 
   constructor(
     private itemService: ItemService,
@@ -57,82 +128,5 @@ export class TwinsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = this.route.paramMap
-      .pipe(
-        map(params => params.get('brand')),
-        distinctUntilChanged(),
-        debounceTime(10),
-        switchMap(brand => {
-          this.currentBrandCatname = brand;
-          if (!brand) {
-            return of(null);
-          }
-
-          return this.itemService.getItems({
-            catname: brand,
-            fields: 'name_only,catname',
-            limit: 1,
-            type_id: 5 // brand
-          });
-        }),
-        map(response =>
-          response && response.items.length > 0 ? response.items[0] : null
-        ),
-        tap(brand => {
-          this.brand = brand;
-          setTimeout(() => {
-            if (brand) {
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                nameTranslated: brand.name_only,
-                pageId: 153
-              });
-            } else {
-              this.pageEnv.set({
-                layout: {
-                  needRight: false
-                },
-                nameTranslated: $localize `Twins`,
-                pageId: 25
-              });
-            }
-          }, 0);
-        }),
-        switchMap(brand => this.route.queryParamMap.pipe(
-          map(query => ({
-            brand,
-            page: parseInt(query.get('page'), 10)
-          })),
-          distinctUntilChanged(),
-          debounceTime(10)
-        )),
-        switchMap(params => {
-          return this.itemService.getItems({
-            type_id: 4,
-            limit: 20,
-            fields:
-              'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
-              'childs.front_picture.thumb_medium,childs.front_picture.name_text',
-            page: params.page,
-            have_common_childs_with: params.brand ? params.brand.id : null
-          });
-        }),
-        tap(response => {
-          this.groups = response.items.map(group => ({
-            item: group,
-            childs: chunkBy(group.childs, 3),
-            hasMoreImages: TwinsComponent.hasMoreImages(group)
-          }));
-          this.paginator = response.paginator;
-        })
-      )
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

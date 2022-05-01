@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/twins" i18n>Twins</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="group">
+    <li class="breadcrumb-item" *ngIf="group$|async as group">
       <a [routerLink]="['/twins/group', group.id]" [innerHTML]="group.name_html"></a>
     </li>
   </ol>
@@ -14,18 +14,22 @@
 
 <div class="row">
   <div class="col-sm-8 order-2">
-    <div class="page-header" *ngIf="group">
-      <h1 i18n>All pictures of {{group.name_text}}</h1>
-    </div>
-
-    <div class="row" *ngIf="group">
-      <div class="col-lg-3 col-md-3" *ngFor="let picture of pictures">
-        <app-thumbnail [picture]="picture" [route]="['/twins/group', group.id+'', 'pictures', picture.identity]"></app-thumbnail>
+    <ng-container *ngIf="group$|async as group">
+      <div class="page-header" *ngIf="group">
+        <h1 i18n>All pictures of {{group.name_text}}</h1>
       </div>
-    </div>
-    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+
+      <ng-container *ngIf="data$|async as data">
+        <div class="row" *ngIf="group">
+          <div class="col-lg-3 col-md-3" *ngFor="let picture of data.pictures">
+            <app-thumbnail [picture]="picture" [route]="['/twins/group', group.id+'', 'pictures', picture.identity]"></app-thumbnail>
+          </div>
+        </div>
+        <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+      </ng-container>
+    </ng-container>
   </div>
   <div class="col-sm-4 order-1">
-    <app-twins-sidebar [selected]="selectedBrands"></app-twins-sidebar>
+    <app-twins-sidebar [selected]="selectedBrands" *ngIf="selectedBrands$|async as selectedBrands"></app-twins-sidebar>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="card card-body">
   <ul class="nav flex-column nav-pills">
-    <li class="nav-item" *ngFor="let item of brands">
+    <li class="nav-item" *ngFor="let item of brands$|async">
       <a [routerLink]="['/twins', item.catname]" class="nav-link" [class.active]="active(item)">
         {{ item.name }}
         <span *ngIf="item.new_count <= 0" class="count">({{ item.count }})</span>

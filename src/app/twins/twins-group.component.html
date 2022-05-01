@@ -10,7 +10,7 @@
 </nav>
 
 <div class="row">
-  <div class="col-sm-8 order-2" *ngIf="group">
+  <div class="col-sm-8 order-2" *ngIf="group$|async as group">
     <div class="page-header mb-4" *ngIf="group">
       <h1 [innerHTML]="group.name_html"></h1>
     </div>
@@ -38,6 +38,6 @@
     <app-comments [itemID]="group.id" [typeID]="2"></app-comments>
   </div>
   <div class="col-sm-4 order-1">
-    <app-twins-sidebar [selected]="selectedBrands"></app-twins-sidebar>
+    <app-twins-sidebar [selected]="selectedBrands" *ngIf="selectedBrands$|async as selectedBrands"></app-twins-sidebar>
   </div>
 </div>

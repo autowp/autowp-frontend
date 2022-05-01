@@ -3,22 +3,26 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="user">
-      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{user.name}}</a>
-    </li>
-    <li class="breadcrumb-item" *ngIf="user">
-      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n>User's pictures</a>
-    </li>
+    <ng-container *ngIf="user$|async as user">
+      <li class="breadcrumb-item" *ngIf="user">
+        <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{user.name}}</a>
+      </li>
+      <li class="breadcrumb-item" *ngIf="user">
+        <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n>User's pictures</a>
+      </li>
+    </ng-container>
   </ol>
 </nav>
 
-<div class="page-header">
+<div class="page-header" *ngIf="brand$|async as brand">
   <h1 i18n *ngIf="brand">{{brand.name_only}} pictures</h1>
 </div>
 
-<div class="row">
-  <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of pictures">
-    <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+<ng-container *ngIf="data$|async as data">
+  <div class="row">
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of data.pictures">
+      <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+    </div>
   </div>
-</div>
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>

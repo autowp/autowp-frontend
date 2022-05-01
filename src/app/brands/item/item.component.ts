@@ -2,33 +2,29 @@ import { Component, Input } from '@angular/core';
 import { APIBrandsBrand } from '../../services/brands.service';
 import { APIService } from '../../services/api.service';
 import {BrandIcons} from '../../../../generated/spec.pb';
+import {BehaviorSubject} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-brands-item',
   templateUrl: './item.component.html'
 })
 export class BrandsItemComponent {
-  @Input() brand: APIBrandsBrand;
+  @Input() set brand(item: APIBrandsBrand) { this.brand$.next(item); };
+  public brand$ = new BehaviorSubject<APIBrandsBrand>(null);
+
   @Input() icons: BrandIcons;
 
-  public loading = false;
-  public html: string;
+  public html$ = this.brand$.pipe(
+    switchMap(brand => this.api.request('GET', 'brands/' + brand.id + '/new-items', {
+      responseType: 'text',
+      observe: 'body'
+    }))
+  );
 
   constructor(private api: APIService) {}
 
   public cssClass(item: APIBrandsBrand): string {
     return item.catname.replace(/\./g, '_');
-  }
-
-  public shown() {
-    this.loading = true;
-
-    this.api.request('GET', 'brands/' + this.brand.id + '/new-items', {
-      responseType: 'text',
-      observe: 'body'
-    }).subscribe(html => {
-      this.html = html;
-      this.loading = false;
-    });
   }
 }

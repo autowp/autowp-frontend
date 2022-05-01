@@ -1,23 +1,77 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {APIItem, ItemService} from '../services/item';
-import {of, Subscription} from 'rxjs';
+import {combineLatest, of} from 'rxjs';
 import {PageEnvService} from '../services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {APIPicture, PictureService} from '../services/picture';
-import {APIPaginator} from '../services/api.service';
+import {APIPictureGetResponse, PictureService} from '../services/picture';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-twins-group-pictures',
   templateUrl: './twins-group-pictures.component.html'
 })
-export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public group: APIItem;
-  public selectedBrands: string[] = [];
-  public pictures: APIPicture[] = [];
-  public paginator: APIPaginator;
+export class TwinsGroupPicturesComponent {
+  public group$ = this.route.paramMap.pipe(
+    map(params => parseInt(params.get('group'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(group => {
+      if (!group) {
+        return of(null as APIItem);
+      }
+      return this.itemService.getItem(group, {
+        fields: 'name_text,name_html,childs.brands'
+      });
+    }),
+    tap(group => {
+      setTimeout(
+        () =>
+          this.pageEnv.set({
+            layout: {
+              needRight: false
+            },
+            nameTranslated: $localize `All pictures of ${group.name_text}`,
+            pageId: 28
+          }),
+        0
+      );
+    }),
+    shareReplay(1)
+  );
+
+  private page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public selectedBrands$ = this.group$.pipe(
+    map(group => {
+      const result = [];
+      for (const item of group.childs) {
+        for (const brand of item.brands) {
+          result.push(brand.catname);
+        }
+      }
+      return result;
+    })
+  );
+
+  public data$ = combineLatest([this.page$, this.group$]).pipe(
+    switchMap(([page, group]) => this.pictureService.getPictures({
+      status: 'accepted',
+      item_id: group.id,
+      fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+      limit: 24,
+      order: 16,
+      page: page
+    })),
+    catchError(err => {
+      this.toastService.response(err);
+      return of(null as APIPictureGetResponse);
+    }),
+  );
 
   constructor(
     private itemService: ItemService,
@@ -26,73 +80,4 @@ export class TwinsGroupPicturesComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private toastService: ToastsService
   ) {}
-
-  ngOnInit(): void {
-    this.sub = this.route.paramMap
-      .pipe(
-        map(params => parseInt(params.get('group'), 10)),
-        distinctUntilChanged(),
-        debounceTime(10),
-        switchMap(group => {
-          if (!group) {
-            return of(null);
-          }
-          return this.itemService.getItem(group, {
-            fields: 'name_text,name_html,childs.brands'
-          });
-        }),
-        switchMap(group => this.route.queryParamMap.pipe(
-          map(params => ({ group, page: parseInt(params.get('page'), 10) }))
-        )),
-        switchMap(data => this.pictureService.getPictures({
-          status: 'accepted',
-          item_id: data.group.id,
-          fields:
-            'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-          limit: 24,
-          order: 16,
-          page: data.page
-        }).pipe(
-          catchError(err => {
-            this.toastService.response(err);
-            return of(null);
-          }),
-          map(response => ({
-            group: data.group,
-            pictures: response.pictures,
-            paginator: response.paginator
-          }))
-        ))
-      )
-      .subscribe(data => {
-        this.group = data.group;
-        this.pictures = data.pictures;
-        this.paginator = data.paginator;
-
-        setTimeout(
-          () =>
-            this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
-              nameTranslated: $localize `All pictures of ${data.group.name_text}`,
-              pageId: 28
-            }),
-          0
-        );
-
-        const result = [];
-        for (const item of data.group.childs) {
-          for (const brand of item.brands) {
-            result.push(brand.catname);
-          }
-        }
-
-        this.selectedBrands = result;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 }
