@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { IpService } from '../../services/ip';
 import { PageEnvService } from '../../services/page-env.service';
-import {Subscription, BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMapTo} from 'rxjs/operators';
 import {TrafficClient} from '../../../../generated/spec.pbsc';
 import { Empty } from '@ngx-grpc/well-known-types';
@@ -14,17 +14,23 @@ import {
 
 interface ListItem {
   item: APITrafficTopItem;
-  hostname: string;
+  hostname$: Observable<string>;
 }
 
 @Component({
   selector: 'app-moder-traffic',
   templateUrl: './traffic.component.html'
 })
-export class ModerTrafficComponent implements OnInit, OnDestroy {
-  public items: ListItem[];
-  private sub: Subscription;
+export class ModerTrafficComponent implements OnInit {
   private change$ = new BehaviorSubject<null>(null);
+
+  public items$: Observable<ListItem[]> = this.change$.pipe(
+    switchMapTo(this.trafficGrpc.getTop(new Empty())),
+    map(response => response.items.map(item => ({
+      item,
+      hostname$: this.ipService.getHostByAddr(item.ip)
+    })))
+  );
 
   constructor(
     private trafficGrpc: TrafficClient,
@@ -45,24 +51,6 @@ export class ModerTrafficComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = this.change$
-      .pipe(
-        switchMapTo(this.trafficGrpc.getTop(new Empty())),
-        map(response => response.items.map(item => ({item, hostname: ''})))
-      )
-      .subscribe(items => {
-        this.items = items;
-        items.forEach(item => {
-          this.ipService.getHostByAddr(item.item.ip).subscribe(hostname => {
-            item.hostname = hostname;
-          });
-        })
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   public addToWhitelist(ip: string) {

@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
+import {EMPTY, of} from 'rxjs';
 import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, switchMapTo} from 'rxjs/operators';
-import {APIForumTheme, APIForumTopic, ForumsService} from '../forums.service';
+import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
 import {CommentsClient} from '../../../../generated/spec.pbsc';
@@ -13,12 +13,42 @@ import {CommentsMoveCommentRequest, CommentsType} from '../../../../generated/sp
   selector: 'app-forums-move-message',
   templateUrl: './move-message.component.html'
 })
-export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public messageID: number;
-  public themeID: number;
-  public themes: APIForumTheme[] = [];
-  public topics: APIForumTopic[] = [];
+export class ForumsMoveMessageComponent implements OnInit {
+
+  public messageID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('message_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+
+  public themeID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('theme_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+
+  public topics$ = this.themeID$.pipe(
+    switchMap(themeID => {
+      if (!themeID) {
+        return of(null as APIForumTopic[])
+      }
+      return this.forumService.getTopics({theme_id: themeID}).pipe(
+        catchError(response => {
+          this.toastService.response(response);
+          return EMPTY;
+        }),
+        map(response => response.items)
+      );
+    }),
+  );
+
+  public themes$ = this.forumService.getThemes({}).pipe(
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    }),
+    map(response => response.items)
+  )
 
   constructor(
     private forumService: ForumsService,
@@ -27,7 +57,9 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private commentsGrpc: CommentsClient,
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -41,61 +73,13 @@ export class ForumsMoveMessageComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => ({
-          message_id: parseInt(params.get('message_id'), 10),
-          theme_id: parseInt(params.get('theme_id'), 10)
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        switchMap(params => {
-          this.messageID = params.message_id;
-          this.themeID = params.theme_id;
-
-          let topics = of(null as APIForumTopic[]);
-          let themes = of(null as APIForumTheme[]);
-          if (this.themeID) {
-            topics = this.forumService
-              .getTopics({ theme_id: this.themeID })
-              .pipe(
-                catchError(response => {
-                  this.toastService.response(response);
-                  return EMPTY;
-                }),
-                map(response => response.items)
-              );
-          } else {
-            themes = this.forumService.getThemes({}).pipe(
-              catchError(response => {
-                this.toastService.response(response);
-                return EMPTY;
-              }),
-              map(response => response.items)
-            );
-          }
-
-          return combineLatest([topics, themes]);
-        })
-      )
-      .subscribe(([topics, themes]) => {
-        this.topics = topics;
-        this.themes = themes;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-  }
-
-  public selectTopic(topic: APIForumTopic) {
+  public selectTopic(messageID: number, topic: APIForumTopic) {
     this.commentsGrpc.moveComment(new CommentsMoveCommentRequest({
-      commentId: ''+this.messageID,
+      commentId: ''+messageID,
       itemId: ''+topic.id,
       typeId: CommentsType.FORUMS_TYPE_ID,
     })).pipe(
-        switchMapTo(this.forumService.getMessageStateParams(this.messageID))
+        switchMapTo(this.forumService.getMessageStateParams(messageID))
       )
       .subscribe(
         params =>

@@ -1,26 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
-import { Subscription } from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
 import {AutowpClient} from '../../../../generated/spec.pbsc';
-import {Spec} from '../../../../generated/spec.pb';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {catchError, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-info-spec',
   templateUrl: './spec.component.html'
 })
-export class InfoSpecComponent implements OnInit, OnDestroy {
-  public specs: Spec[];
-  private sub: Subscription;
+export class InfoSpecComponent implements OnInit {
+  public specs$ = this.grpc.getSpecs(new Empty()).pipe(
+    catchError(response => {
+      this.toastService.grpcErrorResponse(response)
+      return EMPTY;
+    }),
+    map(specs => specs.items)
+  );
 
   constructor(
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
     private grpc: AutowpClient
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     setTimeout(
@@ -34,13 +37,5 @@ export class InfoSpecComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.sub = this.grpc.getSpecs(new Empty()).subscribe(
-      specs => (this.specs = specs.items),
-      response => this.toastService.response(response)
-    );
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

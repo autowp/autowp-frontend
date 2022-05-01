@@ -1,20 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator, APIService } from '../../services/api.service';
+import { Component, OnInit} from '@angular/core';
+import { APIService } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
-import { APIForumTopic, ForumsService } from '../forums.service';
+import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
+import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-subscriptions',
   templateUrl: './subscriptions.component.html'
 })
-export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public topics: APIForumTopic[] = [];
-  public paginator: APIPaginator;
+export class ForumsSubscriptionsComponent implements OnInit {
+
+  public data$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(page => this.forumService.getTopics({
+      fields: 'author,messages,last_message.user',
+      subscription: true,
+      page
+    })),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    })
+  );
 
   constructor(
     private api: APIService,
@@ -36,43 +48,18 @@ export class ForumsSubscriptionsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => parseInt(params.get('page'), 10)),
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(page =>
-          this.forumService.getTopics({
-            fields: 'author,messages,last_message.user',
-            subscription: true,
-            page
-          })
-        )
-      )
-      .subscribe(
-        response => {
-          this.topics = response.items;
-          this.paginator = response.paginator;
-        },
-        response => this.toastService.response(response)
-      );
   }
 
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-  }
-
-  public unsubscribe(topic: APIForumTopic) {
+  public unsubscribe(topic: APIForumTopic, topics: APIForumTopic[]) {
     this.api
       .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         subscription: 0
       }})
       .subscribe(
         () => {
-          for (let i = this.topics.length - 1; i >= 0; i--) {
-            if (this.topics[i].id === topic.id) {
-              this.topics.splice(i, 1);
+          for (let i = topics.length - 1; i >= 0; i--) {
+            if (topics[i].id === topic.id) {
+              topics.splice(i, 1);
               break;
             }
           }

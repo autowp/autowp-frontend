@@ -1,16 +1,13 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
-import {Subscription} from 'rxjs';
 import { getPerspectiveTranslation } from '../../../utils/translations';
-import {Perspective} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-pictures-perspective-picker',
   templateUrl: './perspective-picker.component.html'
 })
-export class ModerPicturesPerspectivePickerComponent implements OnInit, OnDestroy {
-  private perspectiveSub: Subscription;
-  public perspectives: Perspective[];
+export class ModerPicturesPerspectivePickerComponent {
+  public perspectives$ = this.perspectiveService.getPerspectives();
 
   @Input() perspectiveID: number;
   @Output() perspectiveChanged = new EventEmitter<number>();
@@ -18,16 +15,6 @@ export class ModerPicturesPerspectivePickerComponent implements OnInit, OnDestro
   constructor(
     private perspectiveService: APIPerspectiveService
   ) { }
-
-  ngOnInit(): void {
-    this.perspectiveSub = this.perspectiveService
-      .getPerspectives()
-      .subscribe(perspectives => (this.perspectives = perspectives));
-  }
-
-  ngOnDestroy(): void {
-    this.perspectiveSub.unsubscribe();
-  }
 
   public change() {
     this.perspectiveChanged.emit(this.perspectiveID);

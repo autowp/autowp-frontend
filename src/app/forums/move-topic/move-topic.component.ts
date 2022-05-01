@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import { APIForumTheme, APIForumTopic, ForumsService } from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
@@ -12,10 +12,28 @@ import { getForumsThemeTranslation } from '../../utils/translations';
   selector: 'app-forums-move-topic',
   templateUrl: './move-topic.component.html'
 })
-export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public themes: APIForumTheme[] = [];
-  public topic: APIForumTopic = null;
+export class ForumsMoveTopicComponent implements OnInit {
+
+  public themes$ = this.forumService.getThemes({}).pipe(
+    catchError(response => {
+      this.toastService.response(response)
+      return EMPTY;
+    }),
+    map(response => response.items)
+  );
+
+  public topic$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('topic_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(30),
+    switchMap(topicID => this.forumService.getTopic(topicID, {})),
+    catchError(() => {
+      this.router.navigate(['/error-404'], {
+        skipLocationChange: true
+      });
+      return EMPTY;
+    })
+  );
 
   constructor(
     private api: APIService,
@@ -34,45 +52,16 @@ export class ForumsMoveTopicComponent implements OnInit, OnDestroy {
       nameTranslated: $localize `Move`,
       pageId: 83
     });
-
-    this.forumService.getThemes({}).subscribe(
-      response => {
-        this.themes = response.items;
-      },
-      response => this.toastService.response(response)
-    );
-
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => parseInt(params.get('topic_id'), 10)),
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(topicID => this.forumService.getTopic(topicID, {}))
-      )
-      .subscribe(
-        response => {
-          this.topic = response;
-        },
-        () => {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-        }
-      );
   }
 
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-  }
-
-  public selectTheme(theme: APIForumTheme) {
+  public selectTheme(topic: APIForumTopic, theme: APIForumTheme) {
     this.api
-      .request<void>('PUT', 'forum/topic/' + this.topic.id, {body: {
+      .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         theme_id: theme.id
       }})
       .subscribe(
         () => {
-          this.router.navigate(['/forums/topic', this.topic.id]);
+          this.router.navigate(['/forums/topic', topic.id]);
         },
         response => this.toastService.response(response)
       );

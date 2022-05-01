@@ -2,7 +2,7 @@
   <div ngbDropdown *ngIf="!picture.moder_voted">
     <button class="btn btn-success" type="button" ngbDropdownToggle i18n>Want accept</button>
     <div ngbDropdownMenu>
-      <ng-container *ngFor="let template of moderVoteTemplateOptions">
+      <ng-container *ngFor="let template of moderVoteTemplateOptions$|async">
         <button class="dropdown-item" *ngIf="template.vote > 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
@@ -13,7 +13,7 @@
   <div ngbDropdown *ngIf="!picture.moder_voted">
     <button class="btn btn-danger" type="button" ngbDropdownToggle i18n>Want delete</button>
     <div ngbDropdownMenu>
-      <ng-container *ngFor="let template of moderVoteTemplateOptions">
+      <ng-container *ngFor="let template of moderVoteTemplateOptions$|async">
         <button class="dropdown-item" *ngIf="template.vote < 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>

@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { APIPicture } from '../../services/picture';
-import { Subscription } from 'rxjs';
+import {Observable} from 'rxjs';
 import { PictureItemService } from '../../services/picture-item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import { APIPerspectiveService } from '../../api/perspective/perspective.service';
@@ -16,36 +16,21 @@ interface ThumbnailAPIPicture extends APIPicture {
   templateUrl: './thumbnail.component.html',
   styleUrls: ['./thumbnail.component.scss']
 })
-export class ThumbnailComponent implements OnInit, OnDestroy {
+export class ThumbnailComponent {
 
   @Input() picture: ThumbnailAPIPicture;
   @Input() route: string[];
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  public perspectiveOptions: Perspective[] = [];
+  public perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives();
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  private perspectiveSub: Subscription;
 
   constructor(
     private perspectiveService: APIPerspectiveService,
     private pictureItemService: PictureItemService,
     private acl: ACLService
   ) {}
-
-  ngOnInit(): void {
-    if (this.picture.perspective_item) {
-      this.perspectiveSub = this.perspectiveService
-        .getPerspectives()
-        .subscribe(perspectives => (this.perspectiveOptions = perspectives));
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.perspectiveSub) {
-      this.perspectiveSub.unsubscribe();
-    }
-  }
 
   public savePerspective() {
     if (this.picture.perspective_item) {

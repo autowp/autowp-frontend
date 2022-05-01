@@ -1,48 +1,50 @@
-<table class="table table-striped">
-  <caption i18n>Subscriptions</caption>
-  <thead>
-    <tr>
-      <th i18n scope="col">Topics</th>
-      <th i18n scope="col">Author</th>
-      <th i18n scope="col">Last message</th>
-      <th i18n scope="col">Subscription</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let topic of topics">
-      <td>
-        <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
-        <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name" *ngIf="topic.status !== 'deleted'"></a>
-        <span [textContent]="topic.name" *ngIf="topic.status === 'deleted'"></span>
-        <span class="badge rounded-pill bg-secondary">
-          {{topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '')}}
-        </span>
-      </td>
-      <td>
-        <app-past-time-indicator [date]="topic.add_datetime"></app-past-time-indicator>
-        <br />
-        <app-user [user]="topic.author" *ngIf="topic.author"></app-user>
-      </td>
-      <td>
-        <div *ngIf="topic.last_message">
-          <ng-container *ngIf="topic.last_message.datetime">
-            <small>
-              <app-past-time-indicator [date]="topic.last_message.datetime"></app-past-time-indicator>
-            </small>
-            <br />
-          </ng-container>
-          <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
-          <a [routerLink]="['/forums/message', topic.last_message.id]" title="Go to last message" i18n-title>
-            <i class="fa fa-share" aria-hidden="true"></i>
-          </a>
-        </div>
-        <span *ngIf="!topic.last_message">&#x2014;</span>
-      </td>
-      <td>
-        <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic)" i18n>Unsubscribe</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<ng-container *ngIf="data$|async as data">
+  <table class="table table-striped">
+    <caption i18n>Subscriptions</caption>
+    <thead>
+      <tr>
+        <th i18n scope="col">Topics</th>
+        <th i18n scope="col">Author</th>
+        <th i18n scope="col">Last message</th>
+        <th i18n scope="col">Subscription</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let topic of data.items">
+        <td>
+          <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
+          <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name" *ngIf="topic.status !== 'deleted'"></a>
+          <span [textContent]="topic.name" *ngIf="topic.status === 'deleted'"></span>
+          <span class="badge rounded-pill bg-secondary">
+            {{topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '')}}
+          </span>
+        </td>
+        <td>
+          <app-past-time-indicator [date]="topic.add_datetime"></app-past-time-indicator>
+          <br />
+          <app-user [user]="topic.author" *ngIf="topic.author"></app-user>
+        </td>
+        <td>
+          <div *ngIf="topic.last_message">
+            <ng-container *ngIf="topic.last_message.datetime">
+              <small>
+                <app-past-time-indicator [date]="topic.last_message.datetime"></app-past-time-indicator>
+              </small>
+              <br />
+            </ng-container>
+            <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
+            <a [routerLink]="['/forums/message', topic.last_message.id]" title="Go to last message" i18n-title>
+              <i class="fa fa-share" aria-hidden="true"></i>
+            </a>
+          </div>
+          <span *ngIf="!topic.last_message">&#x2014;</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic, data.items)" i18n>Unsubscribe</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>

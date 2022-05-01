@@ -13,13 +13,17 @@
   <h1 i18n>Move</h1>
 </div>
 
-<ul *ngIf="!themeID">
-  <li *ngFor="let theme of themes">
-    <a [routerLink]="['.']" [queryParams]="{theme_id: theme.id}" queryParamsHandling="merge" [textContent]="getForumsThemeTranslation(theme.name)"></a>
-  </li>
-</ul>
-<div *ngIf="themeID">
-  <p *ngFor="let topic of topics">
-    <button class="btn btn-link" [textContent]="topic.name" (click)="selectTopic(topic)"></button>
-  </p>
-</div>
+<ng-container *ngIf="messageID$|async as messageID">
+  <div *ngIf="themeID$|async; else noTheme">
+    <p *ngFor="let topic of topics$|async">
+      <button class="btn btn-link" [textContent]="topic.name" (click)="selectTopic(messageID, topic)"></button>
+    </p>
+  </div>
+  <ng-template #noTheme>
+    <ul>
+      <li *ngFor="let theme of themes$|async">
+        <a [routerLink]="['.']" [queryParams]="{theme_id: theme.id}" queryParamsHandling="merge" [textContent]="getForumsThemeTranslation(theme.name)"></a>
+      </li>
+    </ul>
+  </ng-template>
+</ng-container>

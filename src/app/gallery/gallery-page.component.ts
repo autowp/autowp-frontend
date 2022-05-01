@@ -1,6 +1,5 @@
-import { OnInit, OnDestroy, Component } from '@angular/core';
-import {Subscription} from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { OnInit, Component } from '@angular/core';
+import { ActivatedRoute} from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {APIGalleryItem} from './definitions';
@@ -9,42 +8,28 @@ import {APIGalleryItem} from './definitions';
   selector: 'app-gallery-page',
   templateUrl: './gallery-page.component.html'
 })
-export class GalleryPageComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  public current: string;
+export class GalleryPageComponent implements OnInit {
+  public identity$ = this.route.paramMap.pipe(
+    map(route => route.get('identity')),
+    distinctUntilChanged()
+  );
 
   constructor(
     private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private router: Router
+    private pageEnv: PageEnvService
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.route.paramMap.pipe(
-      map(route => route.get('identity')),
-      distinctUntilChanged()
-    )
-      .subscribe(identity => {
-        if (!identity) {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-          return;
-        }
-
-        setTimeout(() => {
-          this.pageEnv.set({
-            layout: {
-              needRight: false,
-              isGalleryPage: true
-            },
-            nameTranslated: '', // data.picture.name_text,
-            pageId: 187
-          });
-        }, 0);
-
-        this.current = identity;
+    setTimeout(() => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false,
+          isGalleryPage: true
+        },
+        nameTranslated: '', // data.picture.name_text,
+        pageId: 187
       });
+    }, 0);
   }
 
   pictureSelected(item: APIGalleryItem) {
@@ -56,9 +41,5 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
       nameTranslated: item.name,
       pageId: 187
     });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

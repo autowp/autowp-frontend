@@ -1,52 +1,31 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { APIPicture } from '../../services/picture';
-import { Subscription } from 'rxjs';
 import { PictureModerVoteService } from '../../services/picture-moder-vote';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PictureModerVoteModalComponent } from './modal/modal.component';
-import {
-  APIPictureModerVoteTemplate,
-  APIPictureModerVoteTemplateService
-} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
+import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
+import {shareReplay} from 'rxjs/operators';
 
 @Component({
   selector: 'app-picture-moder-vote',
   templateUrl: './picture-moder-vote.component.html'
 })
-export class PictureModerVoteComponent implements OnInit, OnDestroy {
+export class PictureModerVoteComponent {
   @Input() picture: APIPicture;
   @Output() changed = new EventEmitter();
 
-  public moderVoteTemplateOptions: APIPictureModerVoteTemplate[] = [];
+  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates().pipe(
+    shareReplay(1)
+  );
   public vote: any = null;
   public reason = '';
   public save = false;
-  private sub: Subscription;
 
   constructor(
     private moderVoteService: PictureModerVoteService,
     private moderVoteTemplateService: APIPictureModerVoteTemplateService,
     private modalService: NgbModal
   ) {}
-
-  ngOnInit(): void {
-    this.sub = this.moderVoteTemplateService
-      .getTemplates()
-      .subscribe(templates => {
-        this.moderVoteTemplateOptions = templates;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   votePicture(vote: number, reason: string): void {
     this.moderVoteService

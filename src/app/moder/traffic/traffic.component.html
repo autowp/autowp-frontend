@@ -18,7 +18,7 @@
   <a class="nav-link" routerLink="/moder/traffic/whitelist">Whitelist</a>
 </div>
 
-<div class="row" *ngFor="let item of items">
+<div class="row" *ngFor="let item of items$|async">
   <div class="col-sm-2">
     <h3 [textContent]="item.item.count"></h3>
   </div>
@@ -26,7 +26,7 @@
     <h3>{{item.item.ip}}
       <a [href]="item.item.whoisUrl">whois</a>
     </h3>
-    <p>{{item.hostname}}</p>
+    <p>{{item.hostname$|async}}</p>
   </div>
   <div class="col-sm-6">
     <div *ngIf="item.item.ban">

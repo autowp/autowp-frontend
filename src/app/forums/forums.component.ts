@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {APIPaginator, APIService} from '../services/api.service';
+import {Component} from '@angular/core';
+import {APIService} from '../services/api.service';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {combineLatest, Observable, Subscription} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '../services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '../utils/translations';
@@ -14,12 +14,68 @@ import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '.
   templateUrl: './forums.component.html',
   styles: ['app-forums {display:block}']
 })
-export class ForumsComponent implements OnInit, OnDestroy {
-  private paramsSub: Subscription;
-  public paginator: APIPaginator;
-  public forumAdmin = false;
-  public theme: APIForumTheme;
-  public themes: APIForumTheme[];
+export class ForumsComponent {
+  public forumAdmin$ = this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE);
+
+  private page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  private themeID$ = this.route.paramMap.pipe(
+    map(params => parseInt(params.get('theme_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public data$ = combineLatest([this.page$, this.themeID$]).pipe(
+    switchMap(([page, themeID]) => {
+      if (!themeID) {
+        return this.forumService.getThemes({
+          fields: 'last_message.user,last_topic,description,themes',
+          topics: { page }
+        }).pipe(
+          map(response => ({
+            theme: null as APIForumTheme,
+            themes: response.items
+          }))
+        );
+      } else {
+        return this.forumService.getTheme(themeID, {
+          fields:
+            'themes.last_message.user,themes.last_topic,' +
+            'themes.description,topics.author,topics.messages,topics.last_message.user',
+          topics: { page }
+        }).pipe(
+          map(response => ({
+            theme: response,
+            themes: response.themes
+          }))
+        );
+      }
+    }),
+    tap(data => {
+      if (data.theme) {
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          nameTranslated: getForumsThemeTranslation(data.theme.name),
+          pageId: 43
+        });
+      } else {
+        this.pageEnv.set({
+          layout: {
+            needRight: false
+          },
+          nameTranslated: $localize `Forums`,
+          pageId: 42
+        });
+      }
+    }),
+    shareReplay(1)
+  );
 
   constructor(
     private api: APIService,
@@ -29,81 +85,6 @@ export class ForumsComponent implements OnInit, OnDestroy {
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
   ) {}
-
-  ngOnInit(): void {
-    this.paramsSub = combineLatest([
-      this.route.paramMap.pipe(
-        map(params => parseInt(params.get('theme_id'), 10))
-      ),
-      this.route.queryParamMap.pipe(
-        map(params => parseInt(params.get('page'), 10))
-      ),
-      this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE)
-    ])
-      .pipe(
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(50),
-        switchMap(([themeID, page, forumAdmin]) => {
-          if (!themeID) {
-            return this.forumService
-              .getThemes({
-                fields:
-                  'last_message.user,last_topic,description,themes',
-                topics: { page }
-              })
-              .pipe(
-                map(response => ({
-                  forumAdmin,
-                  theme: null as APIForumTheme,
-                  themes: response.items
-                }))
-              );
-          } else {
-            return this.forumService
-              .getTheme(themeID, {
-                fields:
-                  'themes.last_message.user,themes.last_topic,' +
-                  'themes.description,topics.author,topics.messages,topics.last_message.user',
-                topics: { page }
-              })
-              .pipe(
-                map(response => ({
-                  forumAdmin,
-                  theme: response,
-                  themes: response.themes
-                }))
-              );
-          }
-        })
-      )
-      .subscribe(data => {
-        this.forumAdmin = data.forumAdmin;
-        this.theme = data.theme;
-        this.themes = data.themes;
-
-        if (this.theme) {
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            nameTranslated: getForumsThemeTranslation(this.theme.name),
-            pageId: 43
-          });
-        } else {
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            nameTranslated: $localize `Forums`,
-            pageId: 42
-          });
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.paramsSub.unsubscribe();
-  }
 
   private setTopicStatus(topic: APIForumTopic, status: string): Observable<void> {
     const o = this.api.request<void>('PUT', 'forum/topic/' + topic.id, {body: {
@@ -127,12 +108,12 @@ export class ForumsComponent implements OnInit, OnDestroy {
     this.setTopicStatus(topic, 'closed');
   }
 
-  public deleteTopic(topic: APIForumTopic) {
+  public deleteTopic(theme: APIForumTheme, topic: APIForumTopic) {
     this.setTopicStatus(topic, 'deleted').subscribe(
       () => {
-        for (let i = this.theme.topics.items.length - 1; i >= 0; i--) {
-          if (this.theme.topics.items[i].id === topic.id) {
-            this.theme.topics.items.splice(i, 1);
+        for (let i = theme.topics.items.length - 1; i >= 0; i--) {
+          if (theme.topics.items[i].id === topic.id) {
+            theme.topics.items.splice(i, 1);
             break;
           }
         }

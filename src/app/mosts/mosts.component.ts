@@ -1,22 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription} from 'rxjs';
+import { Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  tap
-} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-mosts',
   templateUrl: './mosts.component.html'
 })
-export class MostsComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  public ratingCatname: string;
-  public typeCatname: string;
-  public yearsCatname: string;
+export class MostsComponent implements OnInit {
+  public ratingCatname$: Observable<string> = this.route.paramMap.pipe(
+    map(params => params.get('rating_catname')),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+  public typeCatname$: Observable<string> = this.route.paramMap.pipe(
+    map(params => params.get('type_catname')),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+  public yearsCatname$: Observable<string> = this.route.paramMap.pipe(
+    map(params => params.get('years_catname')),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +31,6 @@ export class MostsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
     setTimeout(() => {
       this.pageEnv.set({
         layout: {
@@ -34,19 +40,5 @@ export class MostsComponent implements OnInit, OnDestroy {
         pageId: 21
       });
     }, 0);
-
-    this.routeSub = this.route.paramMap.pipe(
-      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-      debounceTime(30),
-      tap(params => {
-        this.ratingCatname = params.get('rating_catname');
-        this.typeCatname = params.get('type_catname');
-        this.yearsCatname = params.get('years_catname');
-      })
-    ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
   }
 }

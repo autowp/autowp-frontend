@@ -6,4 +6,4 @@
   </ol>
 </nav>
 
-<app-mosts-contents [prefix]="['/mosts']" [ratingCatname]="ratingCatname" [typeCatname]="typeCatname" [yearsCatname]="yearsCatname"></app-mosts-contents>
+<app-mosts-contents [prefix]="['/mosts']" [ratingCatname]="ratingCatname$|async" [typeCatname]="typeCatname$|async" [yearsCatname]="yearsCatname$|async"></app-mosts-contents>

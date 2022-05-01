@@ -61,7 +61,7 @@
     <select *ngIf="picture.perspective_item" class="form-control form-control-sm me-1 mb-2" [(ngModel)]="picture.perspective_item.perspective_id"
       (change)="savePerspective()">
       <option [ngValue]="null">--</option>
-      <option *ngFor="let item of perspectiveOptions" [ngValue]="item.id">{{getPerspectiveTranslation(item.name)}}</option>
+      <option *ngFor="let item of perspectiveOptions$|async" [ngValue]="item.id">{{getPerspectiveTranslation(item.name)}}</option>
     </select>
     <p class="alert alert-warning" role="alert" *ngIf="picture.similar">
       <span class="fa fa-file-image-o me-1" aria-hidden="true"></span>
