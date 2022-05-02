@@ -9,47 +9,53 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item">
-  <h1 [innerHTML]="item.name_html"></h1>
-</div>
+<ng-container *ngIf="item$|async as item">
+  <div class="page-header">
+    <h1 [innerHTML]="item.name_html"></h1>
+  </div>
 
-<ng-container *ngIf="isModer$|async as isModer">
-  <p *ngIf="isModer && item">
+  <p *ngIf="isModer$|async">
     <i class="fa fa-cog me-1" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
   </p>
+
+  <ng-container *ngIf="links$|async as links">
+    <div class="card card-body mb-4" *ngIf="(links.length > 0 || item.description)">
+      <app-markdown [markdown]="item.description"></app-markdown>
+
+      <p *ngIf="links.length > 0">
+        <ng-container i18n>Web-site:</ng-container>
+        <ng-container *ngFor="let link of links">
+          <a [href]="link.url" [textContent]="link.name ? link.name : link.url"></a>
+          <br />
+        </ng-container>
+      </p>
+    </div>
+  </ng-container>
 </ng-container>
 
-<div class="card card-body mb-4" *ngIf="item && (links.length > 0 || item.description)">
-  <app-markdown [markdown]="item.description"></app-markdown>
-
-  <p *ngIf="links.length > 0">
-    <ng-container i18n>Web-site:</ng-container>
-    <ng-container *ngFor="let link of links">
-      <a [href]="link.url" [textContent]="link.name ? link.name : link.url"></a>
-      <br />
-    </ng-container>
-  </p>
-</div>
-
-<div *ngIf="authorPictures.length > 0">
-  <h3 i18n>Pictures</h3>
-  <div class="row">
-    <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of authorPictures">
-      <app-thumbnail [picture]="picture" [route]="['author', picture.identity]"></app-thumbnail>
+<ng-container *ngIf="authorPictures$|async as data">
+  <div *ngIf="data.pictures.length > 0">
+    <h3 i18n>Pictures</h3>
+    <div class="row">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of data.pictures">
+        <app-thumbnail [picture]="picture" [route]="['author', picture.identity]"></app-thumbnail>
+      </div>
     </div>
+
+    <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
   </div>
+</ng-container>
 
-  <app-paginator [data]="authorPicturesPaginator" *ngIf="authorPicturesPaginator"></app-paginator>
-</div>
-
-<div *ngIf="contentPictures.length > 0">
-  <h3 i18n>Pictures</h3>
-  <div class="row">
-    <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of contentPictures">
-      <app-thumbnail [picture]="picture" [route]="[picture.identity]"></app-thumbnail>
+<ng-container *ngIf="contentPictures$|async as data">
+  <div *ngIf="data.pictures.length > 0">
+    <h3 i18n>Pictures</h3>
+    <div class="row">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of data.pictures">
+        <app-thumbnail [picture]="picture" [route]="[picture.identity]"></app-thumbnail>
+      </div>
     </div>
-  </div>
 
-  <app-paginator [data]="contentPicturesPaginator" *ngIf="contentPicturesPaginator"></app-paginator>
-</div>
+    <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+  </div>
+</ng-container>

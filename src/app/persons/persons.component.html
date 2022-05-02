@@ -12,13 +12,15 @@
 
 <ul class="nav nav-pills mb-4">
   <li class="nav-item">
-    <a class="nav-link" routerLink="/persons" i18n [class.active]="!authors">Persons on photo</a>
+    <a class="nav-link" routerLink="/persons" i18n [class.active]="(authors$|async) === false">Persons on photo</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/persons/authors" i18n [class.active]="authors">Authors</a>
+    <a class="nav-link" routerLink="/persons/authors" i18n [class.active]="authors$|async">Authors</a>
   </li>
 </ul>
 
-<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+<ng-container *ngIf="data$|async as data">
+  <app-catalogue-list-item [item]="item" *ngFor="let item of data.items"></app-catalogue-list-item>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>

@@ -6,14 +6,21 @@
     <li class="breadcrumb-item">
       <a routerLink="/persons" i18n>Persons</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item">
+    <li class="breadcrumb-item" *ngIf="item$|async as item">
       <a [routerLink]="['/persons', item.id]" [innerHTML]="item.name_html"></a>
     </li>
   </ol>
 </nav>
 
-<app-picture [picture]="picture" [prefix]="picturesRouterLink" [galleryRoute]="galleryRouterLink" *ngIf="picture" (changed)="reloadPicture()"></app-picture>
+<ng-container *ngIf="picture$|async as picture">
+  <app-picture [picture]="picture"
+               [prefix]="['/persons', item.id.toString()]"
+               [galleryRoute]="['/persons', item.id.toString(), 'gallery', identity$|async]"
+               *ngIf="item$|async as item"
+               (changed)="reloadPicture()"
+  ></app-picture>
 
-<div id="comments" *ngIf="picture">
-  <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
-</div>
+  <div id="comments" *ngIf="picture">
+    <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
+  </div>
+</ng-container>

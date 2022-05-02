@@ -6,20 +6,22 @@
     <li class="breadcrumb-item">
       <a routerLink="/new" i18n>New pictures</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="date">
-      <a [routerLink]="['/new', date]">{{dateStr}}</a>
+    <li class="breadcrumb-item" *ngIf="date$|async as date">
+      <a [routerLink]="['/new', date]">{{dateStr$}}</a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item">
+<div class="page-header" *ngIf="item$|async as item">
   <h1 [innerHTML]="item.name_html"></h1>
 </div>
 
-<div class="row">
-  <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of pictures">
-    <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+<ng-container *ngIf="pictures$|async as data">
+  <div class="row">
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of data.pictures">
+      <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+    </div>
   </div>
-</div>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>

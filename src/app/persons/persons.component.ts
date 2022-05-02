@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../services/api.service';
+import { Component} from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
-import {combineLatest, Subscription} from 'rxjs';
+import {combineLatest} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, tap} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import {CatalogueListItem, CatalogueListItemPicture} from '../utils/list-item/list-item.component';
 
@@ -11,11 +10,63 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../utils/list-item/li
   selector: 'app-persons',
   templateUrl: './persons.component.html'
 })
-export class PersonsComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public paginator: APIPaginator;
-  public items: CatalogueListItem[];
-  public authors = false;
+export class PersonsComponent {
+  private page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+
+  public authors$ = this.route.data.pipe(
+    map(params => !!params.authors),
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay(1)
+  );
+
+  public data$ = combineLatest([
+    this.page$,
+    this.authors$
+  ]).pipe(
+    switchMap(([page, authors]) => {
+      const fields = 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures';
+
+      if (authors) {
+        return this.itemService.getItems({
+          type_id: 8,
+          fields,
+          descendant_pictures: {
+            status: 'accepted',
+            type_id: 2
+          },
+          preview_pictures: {
+            type_id: 2
+          },
+          order: 'name',
+          limit: 10,
+          page
+        });
+      }
+      return this.itemService.getItems({
+        type_id: 8,
+        fields,
+        descendant_pictures: {
+          status: 'accepted',
+          type_id: 1
+        },
+        preview_pictures: {
+          type_id: 1
+        },
+        order: 'name',
+        limit: 10,
+        page
+      });
+    }),
+    map(response => ({
+      items: this.prepareItems(response.items),
+      paginator: response.paginator
+    }))
+  );
 
   constructor(
     private itemService: ItemService,
@@ -35,64 +86,6 @@ export class PersonsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.querySub = combineLatest([
-      this.route.queryParamMap.pipe(
-        map(params => parseInt(params.get('page'), 10))
-      ),
-      this.route.data.pipe(
-        map(params => !!params.authors)
-      )
-    ])
-      .pipe(
-        map(([page, authors]) => ({authors, page})),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        tap(params => {
-          this.authors = params.authors;
-        }),
-        switchMap(params => this.getPictures(params.authors, params.page))
-      )
-      .subscribe(data => {
-        this.items = this.prepareItems(data.items);
-        this.paginator = data.paginator;
-      });
-  }
-
-  getPictures(authors: boolean, page: number) {
-
-    const fields = 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures';
-
-    if (authors) {
-      return this.itemService.getItems({
-        type_id: 8,
-        fields,
-        descendant_pictures: {
-          status: 'accepted',
-          type_id: 2
-        },
-        preview_pictures: {
-          type_id: 2
-        },
-        order: 'name',
-        limit: 10,
-        page
-      });
-    }
-    return this.itemService.getItems({
-      type_id: 8,
-      fields,
-      descendant_pictures: {
-        status: 'accepted',
-        type_id: 1
-      },
-      preview_pictures: {
-        type_id: 1
-      },
-      order: 'name',
-      limit: 10,
-      page
-    });
   }
 
   private prepareItems(items: APIItem[]): CatalogueListItem[] {
@@ -132,9 +125,5 @@ export class PersonsComponent implements OnInit, OnDestroy {
         childs_counts: null
       };
     });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
   }
 }
