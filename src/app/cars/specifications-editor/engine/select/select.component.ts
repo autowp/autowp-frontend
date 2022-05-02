@@ -1,42 +1,93 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, BehaviorSubject, combineLatest, of } from 'rxjs';
+import { Component} from '@angular/core';
+import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  APIItem,
-  ItemService,
-  APIItemsGetResponse
-} from '../../../../services/item';
-import { APIPaginator, APIService } from '../../../../services/api.service';
-import {
-  APIItemParent,
-  ItemParentService,
-  APIItemParentGetResponse
-} from '../../../../services/item-parent';
+import {APIItem, ItemService} from '../../../../services/item';
+import { APIService } from '../../../../services/api.service';
+import {ItemParentService} from '../../../../services/item-parent';
 import { PageEnvService } from '../../../../services/page-env.service';
 import { chunk } from '../../../../chunk';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {ItemType} from "../../../../../../generated/spec.pb";
 
 @Component({
   selector: 'app-cars-engine-select',
   templateUrl: './select.component.html'
 })
-export class CarsEngineSelectComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public item: APIItem;
-  public loading = 0;
-  public paginator: APIPaginator;
-  public brands: APIItem[][];
-  public items: APIItemParent[];
-  public brandId: number;
+export class CarsEngineSelectComponent {
   public search: string;
-  public search$ = new BehaviorSubject<string>('');
+  private search$ = new BehaviorSubject<string>('');
+
+  public itemID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('item_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay(1)
+  );
+
+  public brandID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('brand_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  private page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public item$ = this.itemID$.pipe(
+    switchMap(itemID => this.itemService.getItem(itemID, {
+      fields: 'name_html,name_text'
+    })),
+    tap(item => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false
+        },
+        nameTranslated: $localize `Specs editor of ${item.name_text}`,
+        pageId: 102
+      });
+    }),
+    shareReplay(1)
+  );
+
+  public items$ = combineLatest([this.brandID$, this.page$]).pipe(
+    switchMap(([brandID, page]) => this.itemParentService.getItems({
+      limit: 500,
+      fields: 'item.name_html,item.childs_count',
+      parent_id: brandID,
+      item_type_id: ItemType.ITEM_TYPE_ENGINE,
+      page
+    })),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    }),
+  );
+
+  public brands$ = this.search$.pipe(
+    map(str => str.trim()),
+    distinctUntilChanged(),
+    debounceTime(50),
+    switchMap(search => this.itemService.getItems({
+      type_id: ItemType.ITEM_TYPE_BRAND,
+      order: 'name',
+      limit: 500,
+      fields: 'name_only',
+      have_childs_of_type: ItemType.ITEM_TYPE_ENGINE,
+      name: search ? '%' + search + '%' : null
+    })),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    }),
+    map(response => ({
+      items: chunk<APIItem>(response.items, 6),
+      paginator: response.paginator
+    }))
+  );
 
   constructor(
     private api: APIService,
@@ -52,102 +103,24 @@ export class CarsEngineSelectComponent implements OnInit, OnDestroy {
     this.search$.next(this.search);
   }
 
-  public selectEngine(engineId: number) {
-    this.api
-      .request<void>('PUT', 'item/' + this.item.id, {body: {
-        engine_id: engineId
-      }})
-      .subscribe(
-        () => {
-          this.router.navigate(['/cars/specifications-editor'], {
-            queryParams: {
-              item_id: this.item.id,
-              tab: 'engine'
-            }
-          });
-        },
-        response => this.toastService.response(response)
-      );
-  }
-
-  ngOnInit(): void {
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => ({
-          item_id: parseInt(params.get('item_id'), 10),
-          brand_id: parseInt(params.get('brand_id'), 10),
-          page: parseInt(params.get('page'), 10)
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        switchMap(
-          params =>
-            this.itemService.getItem(params.item_id, {
-              fields: 'name_html,name_text'
-            }).pipe(
-              map(item => ({ params, item }))
-            )
-        ),
-        tap(data => {
-          this.item = data.item;
-          this.brandId = data.params.brand_id;
-
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            nameTranslated: $localize `Specs editor of ${data.item.name_text}`,
-            pageId: 102
-          });
-        }),
-        switchMap(data => {
-          return combineLatest([
-            data.params.brand_id
-              ? this.itemParentService.getItems({
-                  limit: 500,
-                  fields: 'item.name_html,item.childs_count',
-                  parent_id: data.params.brand_id,
-                  item_type_id: 2,
-                  page: data.params.page
-                })
-              : of(null as APIItemParentGetResponse),
-            data.params.brand_id
-              ? of(null as APIItemsGetResponse)
-              : this.search$.pipe(
-                  map(str => str.trim()),
-                  distinctUntilChanged(),
-                  debounceTime(50),
-                  switchMap(search =>
-                    this.itemService.getItems({
-                      type_id: 5,
-                      order: 'name',
-                      limit: 500,
-                      fields: 'name_only',
-                      have_childs_of_type: 2,
-                      name: search ? '%' + search + '%' : null
-                    })
-                  )
-                )
-          ]);
-        })
-      )
-      .subscribe(
-        ([items, brands]) => {
-          if (this.brandId) {
-            this.items = items.items;
-            this.paginator = items.paginator;
-            this.brands = [];
-          } else {
-            this.items = [];
-            this.brands = chunk<APIItem>(brands.items, 6);
-            this.paginator = brands.paginator;
+  public selectEngine(itemID: number, engineId: number) {
+    this.api.request<void>('PUT', 'item/' + itemID, {body: {
+      engine_id: engineId
+    }}).pipe(
+      catchError(response => {
+        this.toastService.response(response);
+        return EMPTY;
+      })
+    )
+    .subscribe(
+      () => {
+        this.router.navigate(['/cars/specifications-editor'], {
+          queryParams: {
+            item_id: itemID,
+            tab: 'engine'
           }
-        },
-        response => this.toastService.response(response)
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
+        });
+      }
+    );
   }
 }

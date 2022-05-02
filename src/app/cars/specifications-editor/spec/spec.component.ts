@@ -1,14 +1,8 @@
-import {OnInit, Component, Input, OnDestroy} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { APIItem } from '../../../services/item';
-import {
-  Observable,
-  Subscription,
-  forkJoin,
-  BehaviorSubject,
-  combineLatest
-} from 'rxjs';
+import {Observable, forkJoin, BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
-import {tap, switchMap, distinctUntilChanged, map} from 'rxjs/operators';
+import {tap, switchMap, distinctUntilChanged, map, catchError, shareReplay} from 'rxjs/operators';
 import {
   APIAttrAttribute,
   APIAttrValue,
@@ -37,6 +31,21 @@ interface APIAttrUserValuePatchResponse {
   type: string;
 }
 
+const booleanOptions = [
+  {
+    name: '—',
+    id: null
+  },
+  {
+    name: $localize`no`,
+    id: 0
+  },
+  {
+    name: $localize`yes`,
+    id: 1
+  }
+];
+
 function toPlain(
   options: APIAttrAttributeInSpecEditor[],
   deep: number
@@ -52,26 +61,76 @@ function toPlain(
   return result;
 }
 
+function applyUserValues(userValues: Map<number, APIAttrUserValue[]>, items: APIAttrUserValue[]) {
+  for (const value of items) {
+    const values = userValues.get(value.attribute_id);
+    if (values === undefined) {
+      userValues.set(value.attribute_id, [value]);
+    } else {
+      values.push(value);
+      userValues.set(value.attribute_id, values);
+    }
+  }
+}
+
+function getAttribute(attributes:  APIAttrAttributeInSpecEditor[], id: number): APIAttrAttribute {
+  for (const attribute of attributes) {
+    if (attribute.id === id) {
+      return attribute;
+    }
+  }
+
+  return undefined;
+}
+
 @Component({
   selector: 'app-cars-specifications-editor-spec',
   templateUrl: './spec.component.html',
   styleUrls: ['./spec.component.scss']
 })
-export class CarsSpecificationsEditorSpecComponent
-  implements OnInit, OnDestroy {
+export class CarsSpecificationsEditorSpecComponent {
 
   @Input() set item(item: APIItem) { this.item$.next(item); };
   public item$ = new BehaviorSubject<APIItem>(null);
 
   public loading = 0;
-  public attributes: APIAttrAttributeInSpecEditor[] = [];
-  public values = new Map<number, APIAttrValue>();
-  public userValues = new Map<number, APIAttrUserValue[]>();
-  public currentUserValues: { [key: number]: APIAttrUserValue } = {};
-  private user: APIUser;
-  private sub: Subscription;
   private change$ = new BehaviorSubject<null>(null);
   public invalidParams: InvalidParams;
+
+  public user$ = this.auth.getUser();
+
+  public attributes$ = this.item$.pipe(
+    distinctUntilChanged(),
+    switchMap(item => this.attrsService.getAttributes({
+      fields: 'unit,options,childs.unit,childs.options',
+      zone_id: item.attr_zone_id,
+      recursive: true
+    }).pipe(
+      catchError(response => {
+        this.toastService.response(response);
+        return EMPTY;
+      }),
+      map(attributes => ({ item, attributes }))
+    )),
+    map(({ item, attributes }) => {
+      const attrs = toPlain(attributes.items, 0);
+      for (const attribute of attrs) {
+        if (attribute.options) {
+          attribute.options.splice(0, 0, {
+            name: '—',
+            id: null
+          });
+        }
+
+        if (attribute.type_id === 5) {
+          attribute.options = booleanOptions;
+        }
+      }
+
+      return attrs;
+    }),
+    shareReplay(1)
+  );
 
   constructor(
     private api: APIService,
@@ -80,194 +139,121 @@ export class CarsSpecificationsEditorSpecComponent
     private toastService: ToastsService
   ) {}
 
-  private applyCurrentUserValues(item: APIItem, values) {
-    const currentUserValues: { [key: number]: APIAttrUserValue } = {};
-    for (const value of values) {
-      const attribute = this.getAttribute(value.attribute_id);
-      if (attribute.type_id === 2 || attribute.type_id === 3) {
-        if (value.value !== null) {
-          value.value = +value.value;
+  public values$ = combineLatest([this.item$, this.change$]).pipe(
+    switchMap(([item]) => this.attrsService.getValues({
+      item_id: item.id,
+      zone_id: item.attr_zone_id,
+      limit: 500,
+      fields: 'value,value_text'
+    })),
+    map(response => {
+      const values = new Map<number, APIAttrValue>();
+      for (const value of response.items) {
+        values.set(value.attribute_id, value);
+      }
+      return values;
+    }),
+    shareReplay(1)
+  );
+
+  public currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
+    switchMap(([item, user, attributes]) => this.attrsService.getUserValues({
+      item_id: item.id,
+      user_id: +user.id,
+      zone_id: item.attr_zone_id,
+      limit: 500,
+      fields: 'value'
+    }).pipe(
+      map(response => ({response, user, item, attributes}))
+    )),
+    map(({response, user, item, attributes}) => {
+      const currentUserValues: { [key: number]: APIAttrUserValue } = {};
+      for (const value of response.items) {
+        const attribute = getAttribute(attributes, value.attribute_id);
+        if (attribute.type_id === 2 || attribute.type_id === 3) {
+          if (value.value !== null) {
+            value.value = +value.value;
+          }
+        }
+        if (attribute.is_multiple) {
+          if (!(value.value instanceof Array)) {
+            value.value = [value.value.toString()];
+          }
+        }
+        currentUserValues[value.attribute_id] = value;
+      }
+
+      for (const attr of attributes) {
+        if (!currentUserValues.hasOwnProperty(attr.id)) {
+          currentUserValues[attr.id] = {
+            item_id: item.id,
+            user_id: +user.id,
+            attribute_id: attr.id,
+            value: null,
+            empty: false,
+            value_text: '',
+            user: null,
+            update_date: null,
+            item: null,
+            unit: null,
+            path: null
+          };
         }
       }
-      if (attribute.is_multiple) {
-        if (!(value.value instanceof Array)) {
-          value.value = [value.value.toString()];
-        }
+
+      return  currentUserValues;
+    })
+  );
+
+  public userValues$: Observable<Map<number, APIAttrUserValue[]>> = combineLatest([this.item$, this.change$]).pipe(
+    switchMap(([item]) => this.attrsService.getUserValues({
+      item_id: item.id,
+      page: 1,
+      zone_id: item.attr_zone_id,
+      limit: 500,
+      fields: 'value_text,user'
+    }).pipe(
+      map(response => ({response, item}))
+    )),
+    map(({response, item}) => {
+      const uv = new Map<number, APIAttrUserValue[]>();
+      applyUserValues(uv, response.items);
+      return ({uv, paginator: response.paginator, item});
+    }),
+    switchMap(({uv, paginator, item}) => {
+      const observables: Observable<APIAttrUserValueGetResponse>[] = [];
+      for (let i = 2; i <= paginator.pageCount; i++) {
+        observables.push(
+          this.attrsService.getUserValues({
+            item_id: item.id,
+            page: i,
+            zone_id: item.attr_zone_id,
+            limit: 500,
+            fields: 'value_text,user'
+          }).pipe(
+            tap(subresponse => {
+              applyUserValues(uv, subresponse.items);
+            })
+          )
+        );
       }
-      currentUserValues[value.attribute_id] = value;
-    }
 
-    for (const attr of this.attributes) {
-      if (!currentUserValues.hasOwnProperty(attr.id)) {
-        currentUserValues[attr.id] = {
-          item_id: item.id,
-          user_id: +this.user.id,
-          attribute_id: attr.id,
-          value: null,
-          empty: false,
-          value_text: '',
-          user: null,
-          update_date: null,
-          item: null,
-          unit: null,
-          path: null
-        };
-      }
-    }
-
-    this.currentUserValues = currentUserValues;
-  }
-
-  private values$(item: APIItem) {
-    return this.attrsService
-      .getValues({
-        item_id: item.id,
-        zone_id: item.attr_zone_id,
-        limit: 500,
-        fields: 'value,value_text'
-      })
-      .pipe(
-        tap(values => {
-          this.values.clear();
-          for (const value of values.items) {
-            this.values.set(value.attribute_id, value);
-          }
-        })
+      return forkJoin(observables).pipe(
+        map(() => uv)
       );
-  }
+    })
+  );
 
-  private currentUserValues$(item: APIItem, user: APIUser) {
-    return this.attrsService
-      .getUserValues({
-        item_id: item.id,
-        user_id: +user.id,
-        zone_id: item.attr_zone_id,
-        limit: 500,
-        fields: 'value'
-      })
-      .pipe(tap(response => this.applyCurrentUserValues(item, response.items)));
-  }
-
-  private userValues$(item: APIItem) {
-    return this.attrsService
-      .getUserValues({
-        item_id: item.id,
-        page: 1,
-        zone_id: item.attr_zone_id,
-        limit: 500,
-        fields: 'value_text,user'
-      })
-      .pipe(
-        tap(response => {
-          this.userValues.clear();
-          this.applyUserValues(response.items);
-        }),
-        switchMap(response => {
-          const observables: Observable<APIAttrUserValueGetResponse>[] = [];
-          for (let i = 2; i <= response.paginator.pageCount; i++) {
-            observables.push(
-              this.attrsService
-                .getUserValues({
-                  item_id: item.id,
-                  page: i,
-                  zone_id: item.attr_zone_id,
-                  limit: 500,
-                  fields: 'value_text,user'
-                })
-                .pipe(
-                  tap(subresponse => {
-                    this.userValues.clear();
-                    this.applyUserValues(subresponse.items);
-                  })
-                )
-            );
-          }
-
-          return forkJoin(observables);
-        })
-      );
-  }
-
-  ngOnInit(): void {
-    this.sub = this.item$
-      .pipe(
-        distinctUntilChanged(),
-        switchMap(
-          item =>
-            this.attrsService.getAttributes({
-              fields: 'unit,options,childs.unit,childs.options',
-              zone_id: item.attr_zone_id,
-              recursive: true
-            }).pipe(
-              map(attributes => ({ item, attributes }))
-            )
-        ),
-        switchMap(data => {
-
-          const booleanOptions = [
-            {
-              name: '—',
-              id: null
-            },
-            {
-              name: $localize`no`,
-              id: 0
-            },
-            {
-              name: $localize`yes`,
-              id: 1
-            }
-          ];
-
-          const attibutes = toPlain(data.attributes.items, 0);
-          for (const attribute of attibutes) {
-            if (attribute.options) {
-              attribute.options.splice(0, 0, {
-                name: '—',
-                id: null
-              });
-            }
-
-            if (attribute.type_id === 5) {
-              attribute.options = booleanOptions;
-            }
-          }
-
-          this.attributes = attibutes;
-
-          return combineLatest([
-            this.auth.getUser().pipe(tap(user => (this.user = user))),
-            this.change$
-          ]).pipe(
-            switchMap(user =>
-              combineLatest([
-                this.values$(data.item),
-                this.currentUserValues$(data.item, user[0]),
-                this.userValues$(data.item)
-              ])
-            )
-          );
-        })
-      )
-      .subscribe({
-        error: response => this.toastService.response(response)
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  public saveSpecs(item: APIItem) {
+  public saveSpecs(user: APIUser, item: APIItem, currentUserValues:  {[p: number]: APIAttrUserValue}) {
     const items = [];
-    for (const attributeID in this.currentUserValues) {
-      if (this.currentUserValues.hasOwnProperty(attributeID)) {
+    for (const attributeID in currentUserValues) {
+      if (currentUserValues.hasOwnProperty(attributeID)) {
         items.push({
           item_id: item.id,
           attribute_id: attributeID,
-          user_id: this.user.id,
-          value: this.currentUserValues[attributeID].value,
-          empty: this.currentUserValues[attributeID].empty
+          user_id: user.id,
+          value: currentUserValues[attributeID].value,
+          empty: currentUserValues[attributeID].empty
         });
       }
     }
@@ -296,28 +282,6 @@ export class CarsSpecificationsEditorSpecComponent
 
   public getStep(attribute: APIAttrAttribute): number {
     return Math.pow(10, -attribute.precision);
-  }
-
-  private applyUserValues(items: APIAttrUserValue[]) {
-    for (const value of items) {
-      const values = this.userValues.get(value.attribute_id);
-      if (values === undefined) {
-        this.userValues.set(value.attribute_id, [value]);
-      } else {
-        values.push(value);
-        this.userValues.set(value.attribute_id, values);
-      }
-    }
-  }
-
-  private getAttribute(id: number): APIAttrAttribute {
-    for (const attribute of this.attributes) {
-      if (attribute.id === id) {
-        return attribute;
-      }
-    }
-
-    return undefined;
   }
 
   public getInvalidParams(id: number): string[] {

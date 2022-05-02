@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
-import {combineLatest, EMPTY, of, Subscription} from 'rxjs';
+import {EMPTY, of, Subscription} from 'rxjs';
 import {switchMapTo, switchMap, catchError, tap} from 'rxjs/operators';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -33,13 +33,14 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public votesPerDay: number | null = null;
   public votesLeft: number | null = null;
   public photo: APIImage;
-  public timezones: string[];
   public languages: { name: string; value: string }[];
   private sub: Subscription;
 
   @ViewChild('input') input;
 
   public changeProfileUrl = environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
+
+  public timezones$ = this.timezone.getTimezones();
 
   constructor(
     private api: APIService,
@@ -88,29 +89,25 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           return of(user);
         }),
         switchMapTo(
-          combineLatest(
-            [
-              this.api.request<RESTAPIUser>('GET', 'user/me', {
-                params: {
-                  fields: 'name,timezone,language,votes_per_day,votes_left,img'
-                }
-              }),
-              this.timezone.getTimezones()
-            ]
-          )
+          this.api.request<RESTAPIUser>('GET', 'user/me', {
+            params: {
+              fields: 'name,timezone,language,votes_per_day,votes_left,img'
+            }
+          })
         ),
+        catchError(response => {
+          this.toastService.response(response);
+          return EMPTY;
+        })
       )
       .subscribe(
-        ([user, timezones]) => {
+        user => {
           this.settings.timezone = user.timezone;
           this.settings.language = user.language;
           this.votesPerDay = user.votes_per_day;
           this.votesLeft = user.votes_left;
           this.photo = user.img;
-
-          this.timezones = timezones;
-        },
-        response => this.toastService.response(response)
+        }
       );
   }
   ngOnDestroy(): void {

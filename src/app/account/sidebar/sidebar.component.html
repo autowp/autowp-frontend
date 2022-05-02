@@ -1,6 +1,6 @@
 <div class="card card-body">
   <div class="nav flex-column nav-pills">
-    <ng-container *ngFor="let item of items">
+    <ng-container *ngFor="let item of items$|async">
       <a class="nav-link" [routerLink]="item.routerLink" [queryParams]="item.routerLinkParams" *ngIf="item.routerLink" [class.active]="item.active">
         <span class="badge rounded-pill bg-secondary float-end" [class.alert-danger]="item.newCount > 0" *ngIf="item.count !== undefined">
           <span *ngIf="item.count <= 0" i18n="@@count-zero">none</span>

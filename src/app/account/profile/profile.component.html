@@ -57,7 +57,7 @@
           <label class="col-md-3 col-form-label" for="timezone" i18n>Timezone</label>
           <div class="col-md-9">
             <select name="timezone" id="timezone" class="form-control" [(ngModel)]="settings.timezone" [class.is-invalid]="settingsInvalidParams.timezone">
-              <option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</option>
+              <option *ngFor="let timezone of timezones$|async" [value]="timezone">{{timezone}}</option>
             </select>
             <p *ngFor="let message of settingsInvalidParams | invalidParams : 'timezone'" [textContent]="message" class="invalid-feedback"></p>
           </div>
