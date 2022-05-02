@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/map" i18n>Map</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="factory">
+    <li class="breadcrumb-item" *ngIf="factory$|async as factory">
       <a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
     </li>
   </ol>
@@ -16,7 +16,7 @@
   <h1 i18n>Products</h1>
 </div>
 
-<ul class="nav nav-pills" style="margin-bottom:10px" *ngIf="factory">
+<ul class="nav nav-pills mb-3" *ngIf="factory$|async as factory">
 
   <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
   <a class="nav-link active" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
@@ -28,6 +28,8 @@
   </ng-container>
 </ul>
 
-<app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+<ng-container *ngIf="items$|async as data">
+  <app-catalogue-list-item [item]="item" *ngFor="let item of data.items"></app-catalogue-list-item>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+</ng-container>

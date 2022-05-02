@@ -1,4 +1,4 @@
-<div class="moderator-menu-container" *ngIf="items.length > 0">
+<div class="moderator-menu-container" *ngIf="items$|async as items">
   <div class="btn-group" ngbDropdown placement="top-right">
     <button ngbDropdownToggle class="btn btn-secondary">
       <ng-container i18n>Moderator menu</ng-container>

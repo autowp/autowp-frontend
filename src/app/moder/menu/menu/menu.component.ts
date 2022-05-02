@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {combineLatest, Subscription} from 'rxjs';
+import {Component} from '@angular/core';
+import {combineLatest, Observable} from 'rxjs';
 import {AuthService} from '../../../services/auth.service';
 import {ACLService, Privilege, Resource} from '../../../services/acl.service';
 import {PictureService} from '../../../services/picture';
@@ -19,10 +19,46 @@ interface MenuItem {
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit, OnDestroy {
+export class MenuComponent {
 
-  public items: MenuItem[] = [];
-  private sub: Subscription;
+  public items$: Observable<MenuItem[]> = combineLatest([
+    this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE),
+    this.pictureService.getInboxSize(),
+    this.commentService.getAttentionCommentsCount()
+  ]).pipe(
+    map(([isModer, inboxCount, attentionItemCount]) => {
+      if (!isModer) {
+        return null;
+      }
+
+      return [
+        {
+          routerLink: ['/moder/pictures'],
+          queryParams: {
+            order: '1',
+            status: 'inbox'
+          },
+          label: $localize `Inbox`,
+          count: inboxCount,
+          icon: 'fa fa-th'
+        },
+        {
+          routerLink: ['/moder/comments'],
+          queryParams: {
+            moderator_attention: '1'
+          },
+          label: $localize `Comments`,
+          count: attentionItemCount,
+          icon: 'fa fa-comment'
+        },
+        {
+          routerLink: ['/moder/items'],
+          label: $localize `Items`,
+          icon: 'fa fa-car'
+        }
+      ];
+    })
+  );
 
   constructor(
     public auth: AuthService,
@@ -30,54 +66,4 @@ export class MenuComponent implements OnInit, OnDestroy {
     private pictureService: PictureService,
     private commentService: APICommentsService
   ) {}
-
-  ngOnInit() {
-    this.sub = combineLatest([
-      this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE),
-      this.pictureService.getInboxSize(),
-      this.commentService.getAttentionCommentsCount()
-    ])
-      .pipe(
-        map(([isModer, inboxCount, attentionItemCount]) => {
-          if (!isModer) {
-            return [];
-          }
-
-          return [
-            {
-              routerLink: ['/moder/pictures'],
-              queryParams: {
-                order: '1',
-                status: 'inbox'
-              },
-              label: $localize `Inbox`,
-              count: inboxCount,
-              icon: 'fa fa-th'
-            },
-            {
-              routerLink: ['/moder/comments'],
-              queryParams: {
-                moderator_attention: '1'
-              },
-              label: $localize `Comments`,
-              count: attentionItemCount,
-              icon: 'fa fa-comment'
-            },
-            {
-              routerLink: ['/moder/items'],
-              label: $localize `Items`,
-              icon: 'fa fa-car'
-            }
-          ];
-        })
-      )
-      .subscribe(items => {
-        this.items = items;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
 }

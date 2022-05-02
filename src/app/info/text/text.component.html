@@ -10,33 +10,35 @@
   <h1 i18n>Text history</h1>
 </div>
 
-<p>
-  <span *ngIf="prev && prev.revision">
-    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-    <a routerLink="." [queryParams]="{revision: prev.revision}">Previous revision</a>
-  </span>
-  <span class="float-end" *ngIf="next && next.revision">
-    <a routerLink="." [queryParams]="{revision: next.revision}">Next revision</a>
-    <i class="fa fa-arrow-right" aria-hidden="true"></i>
-  </span>
-</p>
-<div class="row">
-  <div class="col-md-6" *ngIf="prev">
-    <h3 *ngIf="prev.revision">
-      Revision {{prev.revision}}
-      <small *ngIf="prev.user">
-        <app-user [user]="prev.user"></app-user>
-      </small>
-    </h3>
-    <pre [hidden]="!prev.revision" [textContent]="prev.text"></pre>
+<ng-container *ngIf="data$|async as data">
+  <p>
+    <span *ngIf="data.prev && data.prev.revision">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      <a routerLink="." [queryParams]="{revision: data.prev.revision}" i18n>Previous revision</a>
+    </span>
+    <span class="float-end" *ngIf="data.next && data.next.revision">
+      <a routerLink="." [queryParams]="{revision: data.next.revision}" i18n>Next revision</a>
+      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    </span>
+  </p>
+  <div class="row">
+    <div class="col-md-6" *ngIf="data.prev">
+      <h3 *ngIf="data.prev.revision">
+        <ng-container i18n>Revision {{data.prev.revision}}</ng-container>
+        <small *ngIf="data.prev.user$|async as user">
+          <app-user [user]="user"></app-user>
+        </small>
+      </h3>
+      <pre [hidden]="!data.prev.revision" [textContent]="data.prev.text"></pre>
+    </div>
+    <div class="col-md-6" *ngIf="data.current">
+      <h3>
+        <ng-container i18n>Revision {{data.current.revision}}</ng-container>
+        <small *ngIf="data.current.user$|async as user">
+          <app-user [user]="user"></app-user>
+        </small>
+      </h3>
+      <pre class="diff"><ng-container *ngFor="let i of data.diff"><del *ngIf="i.removed" [textContent]="i.value"></del><ins *ngIf="i.added" [textContent]="i.value"></ins><ng-container *ngIf="!i.added && !i.removed">{{i.value}}</ng-container></ng-container></pre>
+    </div>
   </div>
-  <div class="col-md-6" *ngIf="current">
-    <h3>
-      Revision {{current.revision}}
-      <small *ngIf="current.user">
-        <app-user [user]="current.user"></app-user>
-      </small>
-    </h3>
-    <pre #pre class="diff"><ng-container *ngFor="let i of diff"><del *ngIf="i.removed" [textContent]="i.value"></del><ins *ngIf="i.added" [textContent]="i.value"></ins><ng-container *ngIf="!i.added && !i.removed">{{i.value}}</ng-container></ng-container></pre>
-  </div>
-</div>
+</ng-container>
