@@ -1,42 +1,44 @@
-<table class="table table-stripped">
-  <caption i18n>Attribute values</caption>
-  <thead>
-    <tr>
-      <th i18n scope="col">Date</th>
-      <th i18n scope="col">User</th>
-      <th i18n scope="col">Parameter</th>
-      <th i18n scope="col">Value</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let value of values">
-      <td>
-        <span [textContent]="value.update_date | amTimeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
-      </td>
-      <td>
-        <app-user [user]="value.user" *ngIf="value.user"></app-user>
-      </td>
-      <td>
-        <span *ngFor="let node of value.path; let i = index">
-          <span *ngIf="i"> / </span>
-          <span [textContent]="getAttrsTranslation(node)"></span>
-        </span>
-        <span *ngIf="value.unit" [textContent]="getUnitTranslation(value.unit.id, 'name')"></span>
-      </td>
-      <td>{{value.value}}</td>
-      <td>
-        <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(value)">
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<ng-container *ngIf="data$|async as data">
+  <table class="table table-stripped">
+    <caption i18n>Attribute values</caption>
+    <thead>
+      <tr>
+        <th i18n scope="col">Date</th>
+        <th i18n scope="col">User</th>
+        <th i18n scope="col">Parameter</th>
+        <th i18n scope="col">Value</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let value of data.items">
+        <td>
+          <span [textContent]="value.update_date | amTimeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
+        </td>
+        <td>
+          <app-user [user]="value.user" *ngIf="value.user"></app-user>
+        </td>
+        <td>
+          <span *ngFor="let node of value.path; let i = index">
+            <span *ngIf="i"> / </span>
+            <span [textContent]="getAttrsTranslation(node)"></span>
+          </span>
+          <span *ngIf="value.unit" [textContent]="getUnitTranslation(value.unit.id, 'name')"></span>
+        </td>
+        <td>{{value.value}}</td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(data.items, value)">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
 
-<form (submit)="moveValues()">
-  <input type="text" name="item_id" placeholder="id" class="form-control" style="max-width:200px" [(ngModel)]="move.item_id" />
-  <button type="submit" class="btn btn-secondary" i18n>Move</button>
-</form>
+  <form (submit)="moveValues(itemID)" *ngIf="itemID$|async as itemID">
+    <input type="text" name="item_id" placeholder="id" class="form-control" style="max-width:200px" [(ngModel)]="move.item_id" />
+    <button type="submit" class="btn btn-secondary" i18n>Move</button>
+  </form>
+</ng-container>

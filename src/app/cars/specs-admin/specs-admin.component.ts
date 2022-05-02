@@ -1,15 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator, APIService } from '../../services/api.service';
+import { Component, OnInit} from '@angular/core';
+import { APIService } from '../../services/api.service';
 import { ActivatedRoute} from '@angular/router';
-import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
+import {combineLatest, BehaviorSubject, EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  switchMap,
-  catchError,
-  tap, map
-} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay} from 'rxjs/operators';
 import { APIAttrsService, APIAttrUserValue } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations';
@@ -18,16 +12,44 @@ import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations
   selector: 'app-cars-specs-admin',
   templateUrl: './specs-admin.component.html'
 })
-export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  public values: APIAttrUserValue[] = [];
-  public paginator: APIPaginator;
+export class CarsSpecsAdminComponent implements OnInit {
+
   public move = {
     item_id: null
   };
-  public move$ = new BehaviorSubject<boolean>(false);
+  private move$ = new BehaviorSubject<boolean>(false);
 
-  private itemID = 0;
+  public itemID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('item_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay(1)
+  );
+
+  private page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  public data$ = combineLatest(
+    [
+      this.itemID$,
+      this.page$,
+      this.move$
+    ]).pipe(
+    switchMap(([itemID, page]) => this.attrService.getUserValues({
+      item_id: itemID,
+      page: page,
+      fields: 'user,path,unit'
+    })),
+    catchError(err => {
+      if (err.status !== -1) {
+        this.toastService.response(err);
+      }
+      return EMPTY;
+    })
+  );
 
   constructor(
     private api: APIService,
@@ -35,7 +57,9 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
     private attrService: APIAttrsService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -49,49 +73,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {
-    this.querySub = combineLatest(
-    [
-      this.route.queryParamMap.pipe(
-        map(params => ({
-          item_id: parseInt(params.get('item_id'), 10),
-          page: parseInt(params.get('page'), 10),
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(10),
-        tap(params => (this.itemID = params.item_id))
-      ),
-      this.move$
-    ])
-      .pipe(
-        switchMap(([query]) => {
-          return this.attrService.getUserValues({
-            item_id: query.item_id,
-            page: query.page,
-            fields: 'user,path,unit'
-          });
-        }),
-        catchError(err => {
-          if (err.status !== -1) {
-            this.toastService.response(err);
-          }
-          return of({
-            items: [],
-            paginator: null
-          });
-        })
-      )
-      .subscribe(data => {
-        this.values = data.items;
-        this.paginator = data.paginator;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-  }
-
-  public deleteValue(value: APIAttrUserValue) {
+  public deleteValue(values: APIAttrUserValue[], value: APIAttrUserValue) {
     this.api
       .request(
         'DELETE',
@@ -99,9 +81,9 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         () => {
-          for (let i = 0; i < this.values.length; i++) {
-            if (this.values[i] === value) {
-              this.values.splice(i, 1);
+          for (let i = 0; i < values.length; i++) {
+            if (values[i] === value) {
+              values.splice(i, 1);
               break;
             }
           }
@@ -110,7 +92,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
       );
   }
 
-  public moveValues() {
+  public moveValues(itemID: number) {
     this.api
       .request<void>(
         'PATCH',
@@ -120,7 +102,7 @@ export class CarsSpecsAdminComponent implements OnInit, OnDestroy {
             item_id: this.move.item_id
           },
           params: {
-            item_id: this.itemID.toString()
+            item_id: itemID.toString()
           }
         }
       )

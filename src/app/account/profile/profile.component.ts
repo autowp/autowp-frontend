@@ -33,7 +33,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public votesPerDay: number | null = null;
   public votesLeft: number | null = null;
   public photo: APIImage;
-  public languages: { name: string; value: string }[];
   private sub: Subscription;
 
   @ViewChild('input') input;
@@ -41,6 +40,11 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public changeProfileUrl = environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
   public timezones$ = this.timezone.getTimezones();
+
+  public languages: { name: string; value: string }[] = environment.languages.map(language => ({
+    name: language.name,
+    value: language.code
+  }));
 
   constructor(
     private api: APIService,
@@ -67,48 +71,40 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.languages = environment.languages.map(language => ({
-      name: language.name,
-      value: language.code
-    }));
-
-    this.sub = this.auth
-      .getUser()
-      .pipe(
-        switchMap(user => {
-          if (!user) {
-            this.keycloak.login({
-              redirectUri: window.location.href,
-              locale: this.languageService.language
-            });
-            return EMPTY;
-          }
-
-          this.user = user;
-
-          return of(user);
-        }),
-        switchMapTo(
-          this.api.request<RESTAPIUser>('GET', 'user/me', {
-            params: {
-              fields: 'name,timezone,language,votes_per_day,votes_left,img'
-            }
-          })
-        ),
-        catchError(response => {
-          this.toastService.response(response);
+    this.sub = this.auth.getUser().pipe(
+      switchMap(user => {
+        if (!user) {
+          this.keycloak.login({
+            redirectUri: window.location.href,
+            locale: this.languageService.language
+          });
           return EMPTY;
-        })
-      )
-      .subscribe(
-        user => {
-          this.settings.timezone = user.timezone;
-          this.settings.language = user.language;
-          this.votesPerDay = user.votes_per_day;
-          this.votesLeft = user.votes_left;
-          this.photo = user.img;
         }
-      );
+
+        this.user = user;
+
+        return of(user);
+      }),
+      switchMapTo(
+        this.api.request<RESTAPIUser>('GET', 'user/me', {
+          params: {
+            fields: 'name,timezone,language,votes_per_day,votes_left,img'
+          }
+        })
+      ),
+      catchError(response => {
+        this.toastService.response(response);
+        return EMPTY;
+      })
+    ).subscribe(
+      user => {
+        this.settings.timezone = user.timezone;
+        this.settings.language = user.language;
+        this.votesPerDay = user.votes_per_day;
+        this.votesLeft = user.votes_left;
+        this.photo = user.img;
+      }
+    );
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();

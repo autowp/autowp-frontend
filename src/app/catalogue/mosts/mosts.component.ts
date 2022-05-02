@@ -1,22 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {EMPTY, of, Subscription} from 'rxjs';
+import { Component} from '@angular/core';
+import {EMPTY, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime, map, switchMap, shareReplay
-} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, map, switchMap, shareReplay, tap} from 'rxjs/operators';
 import {ItemService} from '../../services/item';
 
 @Component({
   selector: 'app-catalogue-mosts',
   templateUrl: './mosts.component.html'
 })
-export class CatalogueMostsComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  public ratingCatname: string;
-  public typeCatname: string;
-  public yearsCatname: string;
+export class CatalogueMostsComponent {
+
+  public ratingCatname$ = this.route.paramMap.pipe(
+    map(params => params.get('rating_catname')),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+  public typeCatname$ = this.route.paramMap.pipe(
+    map(params => params.get('type_catname')),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
+  public yearsCatname$ = this.route.paramMap.pipe(
+    map(params => params.get('years_catname')),
+    distinctUntilChanged(),
+    debounceTime(10),
+  );
 
   public brand$ = this.route.paramMap.pipe(
     map(params => params.get('brand')),
@@ -42,6 +51,15 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
         })
       );
     }),
+    tap(brand => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false
+        },
+        pageId: 208,
+        nameTranslated: $localize `${brand.name_text} Engines`
+      });
+    }),
     shareReplay(1)
   );
 
@@ -51,43 +69,4 @@ export class CatalogueMostsComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private pageEnv: PageEnvService
   ) {}
-
-  ngOnInit(): void {
-    this.routeSub = this.brand$.pipe(
-      switchMap(brand => {
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 208,
-          nameTranslated: $localize `${brand.name_text} Engines`
-        });
-
-        return this.route.paramMap.pipe(
-          map(params => ({
-            ratingCatname: params.get('rating_catname'),
-            typeCatname: params.get('type_catname'),
-            yearsCatname: params.get('years_catname')
-          })),
-          distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-          debounceTime(30),
-        ).pipe(
-          map(params => ({
-            brand,
-            ratingCatname: params.ratingCatname,
-            typeCatname: params.typeCatname,
-            yearsCatname: params.yearsCatname
-          }))
-        );
-      }),
-    ).subscribe(data => {
-      this.ratingCatname = data.ratingCatname;
-      this.typeCatname = data.typeCatname;
-      this.yearsCatname = data.yearsCatname;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
-  }
 }

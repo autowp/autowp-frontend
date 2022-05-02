@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { APIAttrAttribute, APIAttrZone, APIAttrsService } from '../../api/attrs/attrs.service';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
+import { APIAttrsService } from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import { APIService } from '../../services/api.service';
 
@@ -10,12 +10,23 @@ import { APIService } from '../../services/api.service';
   selector: 'app-moder-attrs',
   templateUrl: './attrs.component.html'
 })
-export class ModerAttrsComponent implements OnInit, OnDestroy {
-  public attributes: APIAttrAttribute[] = [];
-  public zones: APIAttrZone[] = [];
-  private zonesSub: Subscription;
-  private attributesSub: Subscription;
+export class ModerAttrsComponent {
   private attributesChange$ = new BehaviorSubject<null>(null);
+
+  public attributes$ = this.attributesChange$.pipe(
+    switchMap(() => this.attrsService.getAttributes({ recursive: true })),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    })
+  );
+
+  public zones$ = this.attrsService.getZones().pipe(
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    })
+  );
 
   constructor(
     private api: APIService,
@@ -37,27 +48,6 @@ export class ModerAttrsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.zonesSub = this.attrsService
-      .getZones()
-      .subscribe(
-        zones => (this.zones = zones),
-        response => this.toastService.response(response)
-      );
-
-    this.attributesSub = this.attributesChange$
-      .pipe(
-        switchMap(() => this.attrsService.getAttributes({ recursive: true }))
-      )
-      .subscribe(
-        response => (this.attributes = response.items),
-        response => this.toastService.response(response)
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.zonesSub.unsubscribe();
-    this.attributesSub.unsubscribe();
   }
 
   private move(id: number, dir: string) {

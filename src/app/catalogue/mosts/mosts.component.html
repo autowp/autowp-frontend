@@ -12,8 +12,8 @@
 <app-mosts-contents
   *ngIf="brand$|async as brand"
   [prefix]="['/', brand.catname, 'mosts']"
-  [ratingCatname]="ratingCatname"
-  [typeCatname]="typeCatname"
-  [yearsCatname]="yearsCatname"
+  [ratingCatname]="ratingCatname$|async"
+  [typeCatname]="typeCatname$|async"
+  [yearsCatname]="yearsCatname$|async"
   [brandID]="brand.id"
 ></app-mosts-contents>

@@ -24,6 +24,26 @@ interface APIGalleryFilter {
   perspectiveExclude?: string;
 }
 
+function filterParams(filter: APIGalleryFilter): { [key: string]: string; } {
+  const params: { [key: string]: string; } = {};
+  if (filter.itemID) {
+    params.item_id = filter.itemID.toString();
+  }
+  if (filter.exactItemID) {
+    params.exact_item_id = filter.exactItemID.toString();
+  }
+  if (filter.exactItemLinkType) {
+    params.exact_item_link_type = filter.exactItemLinkType.toString();
+  }
+  if (filter.perspectiveID) {
+    params.perspective_id = filter.perspectiveID.toString();
+  }
+  if (filter.perspectiveExclude) {
+    params.perspective_exclude = filter.perspectiveExclude;
+  }
+  return params;
+}
+
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -78,66 +98,40 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.filter$
-      .pipe(
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(50),
-        tap(filter => {
-          this.gallery = [];
-          this.currentFilter = filter;
-        }),
-        switchMap(filter => this.current$.pipe(
-          map(current => ({ filter, current }))
-        )),
-        distinctUntilChanged(),
-        switchMap(data => {
-          if (!this.getGalleryItem(data.current)) {
-            const params = this.filterParams(data.filter);
-            params.picture_identity = data.current;
-            return this.api
-              .request<APIGallery>('GET', 'gallery', {
-                params
-              })
-              .pipe(
-                tap(response => {
-                  this.applyResponse(response);
-                }),
-                map(() => ({ filter: data.filter, identity: data.current }))
-              );
-          }
-          return of({ filter: data.filter, identity: data.current });
-        }),
-        tap((data) => {
-          const index = this.getGalleryItemIndex(data.identity);
-          this.currentItemIndex = index;
+    this.sub = this.filter$.pipe(
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      debounceTime(50),
+      tap(filter => {
+        this.gallery = [];
+        this.currentFilter = filter;
+      }),
+      switchMap(filter => this.current$.pipe(
+        map(current => ({ filter, current }))
+      )),
+      distinctUntilChanged(),
+      switchMap(data => {
+        if (!this.getGalleryItem(data.current)) {
+          const params = filterParams(data.filter);
+          params.picture_identity = data.current;
+          return this.api.request<APIGallery>('GET', 'gallery', {params}).pipe(
+            tap(response => {
+              this.applyResponse(response);
+            }),
+            map(() => ({ filter: data.filter, identity: data.current }))
+          );
+        }
+        return of({ filter: data.filter, identity: data.current });
+      }),
+      tap((data) => {
+        const index = this.getGalleryItemIndex(data.identity);
+        this.currentItemIndex = index;
 
-          this.prevGalleryItem = this.getGalleryItemByIndex(index - 1);
-          this.currentItem = this.getGalleryItemByIndex(index);
-          this.pictureSelected.emit(this.currentItem);
-          this.nextGalleryItem = this.getGalleryItemByIndex(index + 1);
-        })
-      )
-      .subscribe();
-  }
-
-  private filterParams(filter: APIGalleryFilter): { [key: string]: string; } {
-    const params: { [key: string]: string; } = {};
-    if (filter.itemID) {
-      params.item_id = filter.itemID.toString();
-    }
-    if (filter.exactItemID) {
-      params.exact_item_id = filter.exactItemID.toString();
-    }
-    if (filter.exactItemLinkType) {
-      params.exact_item_link_type = filter.exactItemLinkType.toString();
-    }
-    if (filter.perspectiveID) {
-      params.perspective_id = filter.perspectiveID.toString();
-    }
-    if (filter.perspectiveExclude) {
-      params.perspective_exclude = filter.perspectiveExclude;
-    }
-    return params;
+        this.prevGalleryItem = this.getGalleryItemByIndex(index - 1);
+        this.currentItem = this.getGalleryItemByIndex(index);
+        this.pictureSelected.emit(this.currentItem);
+        this.nextGalleryItem = this.getGalleryItemByIndex(index + 1);
+      })
+    ).subscribe();
   }
 
   private applyResponse(response: APIGallery) {
@@ -153,7 +147,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   private loadPage(filter: APIGalleryFilter, page: number): Observable<APIGallery> {
-    const params = this.filterParams(filter);
+    const params = filterParams(filter);
     params.status = this.status;
     params.page = page + '';
     return this.api
