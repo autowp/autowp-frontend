@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ItemService, APIItem } from '../../../services/item';
 import { ActivatedRoute } from '@angular/router';
-import { UserService, APIUser } from '../../../services/user';
-import { Subscription, combineLatest } from 'rxjs';
+import { UserService} from '../../../services/user';
+import {EMPTY, Observable} from 'rxjs';
 import { PageEnvService } from '../../../services/page-env.service';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {AutowpClient} from '../../../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {BrandIcons} from '../../../../../generated/spec.pb';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -28,12 +27,45 @@ function addCSS(url: string) {
   selector: 'app-users-user-pictures',
   templateUrl: './pictures.component.html'
 })
-export class UsersUserPicturesComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  public brands: APIItem[];
-  public identity: string;
-  public icons: BrandIcons;
-  public user: APIUser;
+export class UsersUserPicturesComponent implements OnInit {
+
+  public icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
+    tap(icons => {
+      addCSS(icons.css);
+    }),
+    shareReplay(1)
+  );
+
+  public user$ = this.route.paramMap.pipe(
+    map(params => params.get('identity')),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(identity => this.userService.getByIdentity(identity, {fields: 'identity'})),
+    map(user => ({
+      id: user.id,
+      name: user.name,
+      identity: user.identity ? user.identity : 'user' + user.id
+    })),
+    shareReplay(1)
+  );
+
+  public brands$: Observable<APIItem[]> = this.user$.pipe(
+    switchMap(user => this.itemService.getItems({
+      type_id: 5,
+      limit: 3000,
+      order: 'name_nat',
+      fields: 'name_only,catname,current_pictures_count',
+      descendant_pictures: {
+        status: 'accepted',
+        owner_id: user.id
+      }
+    })),
+    catchError(response => {
+      this.toastService.response(response);
+      return EMPTY;
+    }),
+    map(brands => brands.items)
+  );
 
   constructor(
     private itemService: ItemService,
@@ -45,53 +77,15 @@ export class UsersUserPicturesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeSub = this.route.paramMap
-      .pipe(
-        map(params => params.get('identity')),
-        switchMap(identity =>
-          this.userService.getByIdentity(identity, {
-            fields: 'identity'
-          })
-        ),
-        tap(user => {
-          this.user = user;
-          this.identity = user.identity ? user.identity : 'user' + user.id;
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            nameTranslated: $localize `User's pictures`,
-            pageId: 63
-          });
-        }),
-        switchMap(user =>
-          combineLatest([
-            this.itemService.getItems({
-              type_id: 5,
-              limit: 3000,
-              order: 'name_nat',
-              fields: 'name_only,catname,current_pictures_count',
-              descendant_pictures: {
-                status: 'accepted',
-                owner_id: user.id
-              }
-            }),
-            this.grpc.getBrandIcons(new Empty())
-          ])
-        )
-      )
-      .subscribe(
-        ([brands, icons]) => {
-          this.brands = brands.items;
-          this.icons = icons;
-          addCSS(this.icons.css);
+    setTimeout(() => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false
         },
-        response => this.toastService.response(response)
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+        nameTranslated: $localize `User's pictures`,
+        pageId: 63
+      });
+    }, 0)
   }
 
   public cssClass(item: APIItem) {
