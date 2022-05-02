@@ -22,7 +22,7 @@
             <p i18n>In other languages</p>
             <ul class="list-unstyled">
               <li *ngFor="let altName of picture.items[0].item.alt_names">
-                <sup *ngFor="let code of altName.languages" style="text-transform: uppercase">{{code}}</sup>
+                <sup *ngFor="let code of altName.languages" class="text-uppercase">{{code}}</sup>
                 {{altName.name}}
               </li>
             </ul>
@@ -33,16 +33,16 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="picture-vote">
-            <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value <= 0" *ngIf="user" (click)="vote(picture, 1)"></a>
-            <i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true" *ngIf="!user"></i>
+            <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value <= 0" *ngIf="user$|async else noUser1" (click)="vote(picture, 1)"></a>
+            <ng-template #noUser1><i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true"></i></ng-template>
             <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
-            <a href="#" class="fa fa-2x vote-down"  aria-hidden="true" [class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user" (click)="vote(picture, -1)"></a>
-            <i class="fa fa-2x fa-thumbs-o-down" aria-hidden="true" *ngIf="!user"></i>
+            <a href="#" class="fa fa-2x vote-down"  aria-hidden="true" [class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user$|async else noUser2" (click)="vote(picture, -1)"></a>
+            <ng-template #noUser2><i class="fa fa-2x fa-thumbs-o-down" aria-hidden="true"></i></ng-template>
             <span class="negative" [class.zero]="picture.votes.negative">{{picture.votes.negative}}</span>
           </div>
         </div>
         <div class="col-xs-6 text-right">
-          <ng-container *ngIf="user">
+          <ng-container *ngIf="user$|async">
             <button class="picture-subscription" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(picture, true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
             <button class="picture-subscription" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(picture, false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
           </ng-container>
@@ -163,30 +163,32 @@
           </ng-container>
         </ng-container>
 
-        <li ngbDropdown *ngIf="user && picture.items.length > 1">
-          <button ngbDropdownToggle class="btn btn-link" style="padding:0">
-            <ng-container i18n>Add picture</ng-container>
-            <span class="caret" aria-hidden="true"></span>
-          </button>
-          <div ngbDropdownMenu>
-            <ng-container *ngFor="let item of picture.items">
-              <a *ngIf="item.type === 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+        <ng-container *ngIf="user$|async">
+          <li ngbDropdown *ngIf="picture.items.length > 1">
+            <button ngbDropdownToggle class="btn btn-link" style="padding:0">
+              <ng-container i18n>Add picture</ng-container>
+              <span class="caret" aria-hidden="true"></span>
+            </button>
+            <div ngbDropdownMenu>
+              <ng-container *ngFor="let item of picture.items">
+                <a *ngIf="item.type === 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+                  <i class="fa fa-upload" aria-hidden="true"></i>
+                  <ng-container i18n>Add picture</ng-container>
+                  <span [innerHTML]="item.item.name_html"></span>
+                </a>
+              </ng-container>
+            </div>
+          </li>
+
+          <ng-container *ngIf="picture.items.length === 1">
+            <li *ngFor="let item of picture.items">
+              <a *ngIf="item.type === 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
                 <i class="fa fa-upload" aria-hidden="true"></i>
                 <ng-container i18n>Add picture</ng-container>
                 <span [innerHTML]="item.item.name_html"></span>
               </a>
-            </ng-container>
-          </div>
-        </li>
-
-        <ng-container *ngIf="user && picture.items.length === 1">
-          <li *ngFor="let item of picture.items">
-            <a *ngIf="item.type === 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
-              <i class="fa fa-upload" aria-hidden="true"></i>
-              <ng-container i18n>Add picture</ng-container>
-              <span [innerHTML]="item.item.name_html"></span>
-            </a>
-          </li>
+            </li>
+          </ng-container>
         </ng-container>
 
         <!--<ng-container *ngFor="let engine of engines">
@@ -251,12 +253,14 @@
         </ng-container>
         -->
 
-        <li *ngIf="user && (picture.items && picture.items.length > 0 || engines && engines.length > 0)">
-          <a routerLink="/upload" [queryParams]="{replace: picture.id}">
-            <i class="fa fa-exchange" aria-hidden="true"></i>
-            <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
-          </a>
-        </li>
+        <ng-container *ngIf="user$|async">
+          <li *ngIf="picture.items && picture.items.length > 0 || engines && engines.length > 0">
+            <a routerLink="/upload" [queryParams]="{replace: picture.id}">
+              <i class="fa fa-exchange" aria-hidden="true"></i>
+              <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
+            </a>
+          </li>
+        </ng-container>
       </ul>
 
       <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix"></app-picture-paginator>
