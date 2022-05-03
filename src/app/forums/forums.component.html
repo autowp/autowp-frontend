@@ -9,14 +9,14 @@
   </ol>
 </nav>
 
-<div class="page-header">
-  <h1 *ngIf="data$|async as data; else noTheme">{{getForumsThemeTranslation(data.theme.name)}}</h1>
-  <ng-template #noTheme>
-    <h1 i18n id="header">Forums</h1>
-  </ng-template>
-</div>
-
 <ng-container *ngIf="data$|async as data">
+  <div class="page-header">
+    <h1 *ngIf="data.theme else noTheme">{{getForumsThemeTranslation(data.theme.name)}}</h1>
+    <ng-template #noTheme>
+      <h1 i18n id="header">Forums</h1>
+    </ng-template>
+  </div>
+
   <div class="row" *ngFor="let theme of data.themes">
     <div class="col-md-6">
       <div class="card card-body mb-4">
