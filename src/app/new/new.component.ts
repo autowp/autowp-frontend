@@ -49,8 +49,8 @@ export class NewComponent implements OnInit {
     debounceTime(10),
   );
 
-  public date$ = this.route.queryParamMap.pipe(
-    map(params => params.get('date'), 10),
+  public date$ = this.route.paramMap.pipe(
+    map(params => params.get('date')),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
