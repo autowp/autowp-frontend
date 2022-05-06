@@ -1,8 +1,8 @@
 <app-gallery
-  [filter]="{itemID: exact ? null : item.id, exactItemID: exact ? item.id : null}"
-  [current]="current"
-  [galleryPrefix]="galleryRouterLink"
-  [picturePrefix]="picturesRouterLink"
-  *ngIf="item"
+  [filter]="filter"
+  [current]="identity$|async"
+  [galleryPrefix]="galleryRouterLink$|async"
+  [picturePrefix]="picturesRouterLink$|async"
+  *ngIf="filter$|async as filter"
   (pictureSelected)="pictureSelected($event)"
 ></app-gallery>

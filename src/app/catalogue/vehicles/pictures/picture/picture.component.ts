@@ -1,31 +1,125 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {APIItem} from '../../../../services/item';
+import {Component} from '@angular/core';
 import {PageEnvService} from '../../../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, of, Subscription} from 'rxjs';
-import {Breadcrumbs, CatalogueService} from '../../../catalogue-service';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
+import {CatalogueService} from '../../../catalogue-service';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {APIItemParent} from '../../../../services/item-parent';
-import {APIGetPicturesOptions, APIPicture, PictureService} from '../../../../services/picture';
+import {PictureService} from '../../../../services/picture';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures-picture',
   templateUrl: './picture.component.html'
 })
-export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDestroy {
-  public brand: APIItem;
-  private sub: Subscription;
-  public isModer: boolean;
-  public path: APIItemParent[] = [];
-  public breadcrumbs: Breadcrumbs[] = [];
-  public routerLink: string[];
-  public picturesRouterLink: string[];
-  private galleryRouterLink: string[];
-  public galleryPictureRouterLink: string[];
-  public item: APIItem;
-  public picture: APIPicture;
+export class CatalogueVehiclesPicturesPictureComponent {
   private changed$ = new BehaviorSubject<boolean>(false);
+
+  private identity$ = this.route.paramMap.pipe(
+    map(route => route.get('identity')),
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap(identity => {
+      if (!identity) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }
+      return of(identity);
+    })
+  );
+
+  private exact$ = this.route.data.pipe(
+    map(params => !!params.exact),
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay(1)
+  );
+
+  private isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+
+  private catalogue$ = this.isModer$.pipe(
+    switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
+    switchMap(data => {
+      if (!data || ! data.brand || !data.path || data.path.length <= 0) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }
+      return of(data);
+    }),
+    shareReplay(1)
+  );
+
+  private routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
+    map(([{brand, path}, exact]) => ['/', brand.catname, ...path.map(node => node.catname), ...exact ? ['exact'] : []])
+  );
+
+  public brand$ = this.catalogue$.pipe(
+    map(({brand}) => brand)
+  );
+
+  public breadcrumbs$ = this.catalogue$.pipe(
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+  );
+
+  public picturesRouterLink$ = this.routerLink$.pipe(
+    map(routerLink => [...routerLink, 'pictures'])
+  );
+
+  public galleryPictureRouterLink$ = combineLatest([this.identity$, this.routerLink$]).pipe(
+    map(([identity, routerLink]) => [...routerLink, 'gallery', identity])
+  );
+
+  public picture$ = combineLatest([
+    this.catalogue$,
+    this.identity$
+  ]).pipe(
+    switchMap(([{path}, identity]) => {
+      const itemID = path[path.length - 1].item_id;
+
+      const fields =
+        'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
+        'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
+        'items.item.name_html,categories.name_html,copyrights,items.item.has_text,items.item.route,' +
+        'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
+
+      return this.changed$.pipe(
+        switchMap(() => this.pictureService.getPictures({
+          identity,
+          item_id: itemID,
+          fields,
+          limit: 1,
+          items: {
+            type_id: 1
+          },
+          paginator: {
+            item_id: itemID
+          }
+        })),
+        map(response => response.pictures.length ? response.pictures[0] : null)
+      );
+    }),
+    switchMap(picture => {
+      if (!picture) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true
+        });
+        return EMPTY;
+      }
+      return of(picture);
+    }),
+    tap(picture => {
+      this.pageEnv.set({
+        layout: {
+          needRight: false
+        },
+        pageId: 34,
+        nameTranslated: picture.name_text
+      });
+    })
+  );
 
   constructor(
     private pageEnv: PageEnvService,
@@ -34,145 +128,9 @@ export class CatalogueVehiclesPicturesPictureComponent implements OnInit, OnDest
     private acl: ACLService,
     private pictureService: PictureService,
     private router: Router
-  ) {
-  }
-
-  ngOnInit(): void {
-    this.sub = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
-      tap(isModer => (this.isModer = isModer)),
-      switchMap(isModer => combineLatest([
-        this.catalogueService.resolveCatalogue(this.route, isModer, ''),
-        this.getExact()
-      ])),
-      switchMap(([data, exact]) => {
-        if (!data || ! data.brand || !data.path || data.path.length <= 0) {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true
-          });
-          return EMPTY;
-        }
-
-        this.brand = data.brand;
-        this.path = data.path;
-        this.breadcrumbs = CatalogueService.pathToBreadcrumbs(data.brand, data.path);
-        const routerLink = ['/', this.brand.catname];
-
-        for (const node of this.path) {
-          routerLink.push(node.catname);
-        }
-
-        this.routerLink = routerLink;
-        this.picturesRouterLink = [...routerLink];
-        this.galleryRouterLink = [...routerLink];
-        if (exact) {
-          this.picturesRouterLink.push('exact');
-          this.galleryRouterLink.push('exact');
-        }
-        this.picturesRouterLink.push('pictures');
-        this.galleryRouterLink.push('gallery');
-
-        return of({
-          brand: data.brand,
-          path: data.path,
-          type: data.type,
-          exact,
-          galleryRouterLink: this.galleryRouterLink
-        });
-      }),
-      switchMap(data => this.getIdentity().pipe(
-        map(identity => {
-
-          this.galleryPictureRouterLink = [...data.galleryRouterLink, identity];
-
-          return {
-            brand: data.brand,
-            path: data.path,
-            type: data.type,
-            exact: data.exact,
-            identity
-          };
-        })
-      )),
-      switchMap(data => {
-        const last = data.path[data.path.length - 1];
-        this.item = last.item;
-
-        return this.getPicture(data.identity, last.item_id);
-      })
-    ).subscribe(picture => {
-      if (!picture) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true
-        });
-        return EMPTY;
-      }
-      this.picture = picture;
-      this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
-        pageId: 34,
-        nameTranslated: picture.name_text
-      });
-    });
-  }
-
-  private getPicture(identity: string, itemID: number) {
-    if (!identity) {
-      this.router.navigate(['/error-404'], {
-        skipLocationChange: true
-      });
-      return EMPTY;
-    }
-
-    const fields =
-      'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
-      'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-      'items.item.name_html,categories.name_html,copyrights,items.item.has_text,items.item.route,' +
-      'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
-
-    const options: APIGetPicturesOptions = {
-      identity,
-      item_id: itemID,
-      fields,
-      limit: 1,
-      items: {
-        type_id: 1
-      },
-      paginator: {
-        item_id: itemID
-      }
-    };
-
-    return this.changed$.pipe(
-      switchMap(() => this.pictureService.getPictures(options)),
-      map(response => response.pictures.length ? response.pictures[0] : null)
-    );
-  }
-
-  private getExact() {
-    return this.route.data.pipe(
-      map(params => {
-        return !!params.exact;
-      }),
-      distinctUntilChanged(),
-      debounceTime(10)
-    );
-  }
-
-  private getIdentity() {
-    return this.route.paramMap.pipe(
-      map(route => route.get('identity')),
-      distinctUntilChanged()
-    );
-  }
+  ) { }
 
   reloadPicture() {
     this.changed$.next(true);
   }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
 }

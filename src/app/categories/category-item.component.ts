@@ -10,6 +10,7 @@ import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '../ser
 import {APIPicture, APIPictureGetResponse, PictureService} from '../services/picture';
 import {CatagoriesService} from './service';
 import { getItemTypeTranslation } from '../utils/translations';
+import {ItemType} from '../../../generated/spec.pb';
 
 interface PathItem {
   routerLink: string[];
@@ -30,7 +31,7 @@ interface ItemParentRoute {
 }
 
 function currentRouterLink(category: APIItem, current: APIItem, pathCatnames: string[]): string[] {
-  if (current.item_type_id === 3) {
+  if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
     return ['/category', current.catname];
   }
 
@@ -42,7 +43,7 @@ function getCurrentRouterLinkPrefix(category: APIItem, current: APIItem, pathCat
     return null;
   }
 
-  if (current.item_type_id === 3) {
+  if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
     return ['/category', current.catname];
   }
 
@@ -53,7 +54,7 @@ function getCurrentRouterLinkPrefix(category: APIItem, current: APIItem, pathCat
 }
 
 function itemRouterLink(category: APIItem, pathCatnames: string[], itemParent: APIItemParent): string[] {
-  if (itemParent.item.item_type_id === 3) {
+  if (itemParent.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
     return ['/category', itemParent.item.catname];
   }
 
@@ -126,7 +127,7 @@ export class CategoriesCategoryItemComponent implements OnInit, OnDestroy {
           this.pictures = null;
           this.item = null;
 
-          if (data.current.item_type_id === 3) {
+          if (data.current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
             return of(null);
           }
 

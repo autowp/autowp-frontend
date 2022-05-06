@@ -3,10 +3,10 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
+    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <ng-container *ngIf="breadcrumbs">
+    <ng-container *ngIf="breadcrumbs$|async as breadcrumbs">
       <li class="breadcrumb-item" *ngFor="let node of breadcrumbs.slice(0, breadcrumbs.length-1)">
         <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
       </li>
@@ -14,7 +14,7 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="item">
+<ng-container *ngIf="item$|async as item">
   <div class="page-header">
     <h1>
       <app-item-header [item]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"></app-item-header>
@@ -25,7 +25,7 @@
     <p *ngFor="let name of item.other_names">{{name}}</p>
   </ng-container>
 
-  <p *ngIf="isModer">
+  <p *ngIf="isModer$|async">
     <i class="fa fa-cog" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
 
@@ -54,11 +54,12 @@
   </p>
 
   <app-catalogue-item-menu
+    *ngIf="menu$|async as menu"
     [header]="{nameHTML: item.name_html, produced: {count: item.produced, exactly: item.produced_exactly}}"
-    [itemRouterLink]="routerLink"
+    [itemRouterLink]="menu.routerLink"
     [picturesCount]="item.accepted_pictures_count"
     [childsCounts]="item.childs_counts"
-    [active]="type"
+    [active]="menu.type"
   ></app-catalogue-item-menu>
 
   <div class="text" *ngIf="item.text">
@@ -69,26 +70,28 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="items">
-  <app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
+<ng-container *ngIf="items$|async as items">
+  <app-catalogue-list-item [item]="item" *ngFor="let item of items.items"></app-catalogue-list-item>
 </ng-container>
 
-<ng-container *ngIf="item && otherPictures.length > 0">
-  <h3><ng-container i18n>Other pictures of</ng-container> <span [innerHTML]="item.name_html"></span></h3>
+<ng-container *ngIf="otherPictures$|async as otherPictures">
+  <h3 *ngIf="item$|async as item"><ng-container i18n>Other pictures of</ng-container> <span [innerHTML]="item.name_html"></span></h3>
   <div class="row">
-    <div class="col-6 col-lg-3" *ngFor="let picture of otherPictures">
-      <a [routerLink]="otherPicturesRouterLink.concat(picture.identity)" *ngIf="picture && picture.thumb_medium" class="d-block rounded mb-4">
+    <div class="col-6 col-lg-3" *ngFor="let picture of otherPictures.pictures">
+      <a [routerLink]="otherPictures.routerLink.concat(picture.identity)" *ngIf="picture && picture.thumb_medium" class="d-block rounded mb-4">
         <img [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light" loading="lazy" />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
   </div>
-  <ng-container *ngIf="otherPicturesCount > otherPictures.length">
+  <ng-container *ngIf="otherPictures.count > otherPictures.pictures.length">
     <i class="fa fa-th" aria-hidden="true"></i>
-    <a [routerLink]="otherPicturesRouterLink">
-      <ng-container i18n>all pictures</ng-container> ({{otherPicturesCount}})
+    <a [routerLink]="otherPictures.routerLink">
+      <ng-container i18n>all pictures</ng-container> ({{otherPictures.count}})
     </a>
   </ng-container>
 </ng-container>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+<ng-container *ngIf="items$|async as items">
+  <app-paginator [data]="items.paginator" *ngIf="items.paginator"></app-paginator>
+</ng-container>

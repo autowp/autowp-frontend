@@ -3,22 +3,29 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
+    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <ng-container *ngIf="breadcrumbs">
+    <ng-container *ngIf="breadcrumbs$|async as breadcrumbs">
       <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
         <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
       </li>
     </ng-container>
-    <li class="breadcrumb-item" *ngIf="picturesRouterLink">
+    <li class="breadcrumb-item" *ngIf="picturesRouterLink$|async as picturesRouterLink">
       <a [routerLink]="picturesRouterLink" i18n>All pictures</a>
     </li>
   </ol>
 </nav>
 
-<app-picture [picture]="picture" [prefix]="picturesRouterLink" [galleryRoute]="galleryPictureRouterLink" *ngIf="picture" (changed)="reloadPicture()"></app-picture>
+<ng-container *ngIf="picture$|async as picture">
+  <app-picture [picture]="picture"
+               [prefix]="picturesRouterLink$|async"
+               [galleryRoute]="galleryPictureRouterLink$|async"
+               *ngIf="picture"
+               (changed)="reloadPicture()"
+  ></app-picture>
 
-<div id="comments" *ngIf="picture">
-  <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
-</div>
+  <div id="comments" *ngIf="picture">
+    <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
+  </div>
+</ng-container>

@@ -3,10 +3,10 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
+    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <ng-container *ngIf="breadcrumbs">
+    <ng-container *ngIf="breadcrumbs$|async as breadcrumbs">
       <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
         <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
       </li>
@@ -14,8 +14,8 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item">
+<div class="page-header" *ngIf="item$|async as item">
   <h1><ng-container i18n>Specifications of</ng-container> <span [innerHTML]="item.name_html"></span></h1>
 </div>
 
-<div [innerHtml]="html"></div>
+<div [innerHtml]="html" *ngIf="html$|async as html"></div>

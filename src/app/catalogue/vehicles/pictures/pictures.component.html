@@ -3,10 +3,10 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand">
+    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <ng-container *ngIf="breadcrumbs">
+    <ng-container *ngIf="breadcrumbs$|async as breadcrumbs">
       <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
         <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
       </li>
@@ -14,7 +14,7 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="item">
+<ng-container *ngIf="item$|async as item">
   <div class="page-header">
     <h1>
       <ng-container i18n>All pictures of</ng-container>
@@ -22,7 +22,7 @@
     </h1>
   </div>
 
-  <p *ngIf="isModer">
+  <p *ngIf="isModer$|async">
     <i class="fa fa-cog" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
 
@@ -52,7 +52,7 @@
 
   <app-catalogue-item-menu
     [header]="{nameHTML: item.name_html, produced: {count: item.produced, exactly: item.produced_exactly}}"
-    [itemRouterLink]="routerLink"
+    [itemRouterLink]="routerLink$|async"
     [picturesCount]="item.accepted_pictures_count"
     [childsCounts]="item.childs_counts"
     [active]="'pictures'"
@@ -60,10 +60,14 @@
 </ng-container>
 
 
-<div class="row" *ngFor="let chunk of pictures">
-  <div class="col-sm-3" *ngFor="let picture of chunk">
-    <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
-  </div>
-</div>
+<ng-container *ngIf="pictures$|async as pictures">
+  <ng-container *ngIf="picturesRouterLink$|async as picturesRouterLink">
+    <div class="row" *ngFor="let chunk of pictures.pictures">
+      <div class="col-sm-3" *ngFor="let picture of chunk">
+        <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
+      </div>
+    </div>
+  </ng-container>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <app-paginator [data]="pictures.paginator" *ngIf="pictures.paginator"></app-paginator>
+</ng-container>
