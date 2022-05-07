@@ -11,7 +11,7 @@
     <h1 i18n>Specs editor of {{item.name_text}}</h1>
   </div>
 
-  <div class="nav nav-pills" style="margin-bottom: 20px">
+  <div class="nav nav-pills mb-3">
     <a class="nav-link" [routerLink]="['/moder/items/item', item.id]" *ngIf="isModer$|async as isModer">
       <i class="fa fa-cog" aria-hidden="true"></i>
       <ng-container i18n>edit</ng-container>

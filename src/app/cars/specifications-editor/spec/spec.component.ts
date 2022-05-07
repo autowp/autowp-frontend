@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import { APIItem } from '../../../services/item';
-import {Observable, forkJoin, BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
+import {Observable, forkJoin, BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import {tap, switchMap, distinctUntilChanged, map, catchError, shareReplay} from 'rxjs/operators';
 import {
@@ -238,10 +238,11 @@ export class CarsSpecificationsEditorSpecComponent {
         );
       }
 
-      return forkJoin(observables).pipe(
+      return (observables.length ? forkJoin(observables) : of(null)).pipe(
         map(() => uv)
       );
-    })
+    }),
+    shareReplay(1)
   );
 
   public saveSpecs(user: APIUser, item: APIItem, currentUserValues:  {[p: number]: APIAttrUserValue}) {
