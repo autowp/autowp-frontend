@@ -22,13 +22,13 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 <h1 i18n>1. Choose a date</h1>
 <div class="card card-body mb-4">
   <ul>
-    <li *ngFor="let date of dates">
+    <li *ngFor="let date of dates$|async">
       <span *ngIf="date.free">
-        <span *ngIf="date.value === selectedDate">
+        <span *ngIf="date.active">
           <strong [textContent]="date.name"></strong>
           <span class="fa fa-check" aria-hidden="true"></span>
         </span>
-        <span *ngIf="date.value !== selectedDate">
+        <span *ngIf="!date.active">
           <a routerLink="." [queryParams]="{date: date.value}" queryParamsHandling="merge" [textContent]="date.name"></a>
         </span>
       </span>
@@ -49,12 +49,12 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 - the vehicle must be selected for the first time
 - the vehicle must have at least 3 photos"></app-markdown>
 
-  <p *ngIf="selectedItem">
+  <p *ngIf="item$|async as item">
     <ng-container i18n>Selection:</ng-container>
-    <strong [innerHTML]="selectedItem.name_html"></strong>
+    <strong [innerHTML]="item.name_html"></strong>
   </p>
 
-  <a routerLink="/donate/vod/select" [queryParams]="{date: selectedDate, anonymous: anonymous ? 1 : null}" class="btn btn-primary btn-lg"
+  <a routerLink="/donate/vod/select" [queryParams]="{date: date$|async, anonymous: (anonymous$|async) ? 1 : null}" class="btn btn-primary btn-lg"
     i18n>Choose …</a>
 </div>
 
@@ -62,28 +62,28 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 
 <div class="card card-body mb-4">
   <div class="btn-group">
-    <a routerLink="." [queryParams]="{anonymous: '1'}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="anonymous" i18n>Anonymously</a>
-    <a routerLink="." [queryParams]="{anonymous: null}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="!anonymous" [class.disabled]="!userID" i18n>With the name (registration required)</a>
+    <a routerLink="." [queryParams]="{anonymous: '1'}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="anonymous$|async" i18n>Anonymously</a>
+    <a routerLink="." [queryParams]="{anonymous: null}" queryParamsHandling="merge" class="btn btn-secondary" [class.active]="(anonymous$|async) === null" [class.disabled]="(userID$|async) === null" i18n>With the name (registration required)</a>
   </div>
 </div>
 
-<app-item-of-day *ngIf="selectedItem" [item]="selectedItem" [user]="anonymous ? null : user"></app-item-of-day>
+<app-item-of-day *ngIf="item$|async as item" [item]="item" [user]="itemOfDayUser$|async"></app-item-of-day>
 
 <h1 i18n>4. Make a donation</h1>
 
 <form ngNoForm method="post" action="https://yoomoney.ru/quickpay/confirm.xml" (submit)="submit($event)" class="card card-body mb-4">
-  <div *ngIf="selectedDate && selectedItem">
-    <input type="hidden" *ngFor="let param of formParams" [name]="param.name" [value]="param.value" />
+  <div *ngIf="(date$|async) && (item$|async)">
+    <input type="hidden" *ngFor="let param of formParams$|async" [name]="param.name" [value]="param.value" />
     <div class="mb-3">
       <textarea name="comment" i18n-placeholder placeholder="Your wishes" class="form-control" maxlength="200"></textarea>
     </div>
   </div>
-  <p>
+  <p *ngIf="vod$|async as vod">
     <ng-container i18n>Price:</ng-container>
-    <strong>{{sum}}<ng-container i18n>rubles</ng-container></strong>
-    (<span i18n>about {{'$'+(sum / 59.70).toFixed(2)}}</span>)
+    <strong>{{vod.sum}}<ng-container i18n>rubles</ng-container></strong>
+    (<span i18n>about {{'$'+(vod.sum / 66.50).toFixed(2)}}</span>)
   </p>
-  <div *ngIf="selectedDate && selectedItem">
+  <div *ngIf="(date$|async) && (item$|async)">
     <div class="mb-3">
       <div class="btn-group btn-group-toggle" ngbRadioGroup name="paymentType" [(ngModel)]="paymentType">
         <label class="btn btn-secondary" ngbButtonLabel>
@@ -104,7 +104,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
     </div>
     <button type="submit" class="btn btn-primary" i18n>Pay</button>
   </div>
-  <div *ngIf="!selectedDate || !selectedItem">
+  <div *ngIf="(date$|async) === null || (item$|async) === null">
     <button class="btn btn-secondary" disabled>
       <span class="fa fa-credit-card" aria-hidden="true"></span>
       <ng-container i18n>Credit card</ng-container>
