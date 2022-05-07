@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/category" i18n>Categories</a>
     </li>
-    <ng-container *ngFor="let item of path; let last = last">
+    <ng-container *ngFor="let item of path$|async; let last = last">
       <li class="breadcrumb-item" *ngIf="!last">
         <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id !== 3"></a>
         <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id === 3">
@@ -23,33 +23,35 @@
     </ng-container>
   </ol>
 </nav>
-<div class="page-header" *ngIf="current">
+<div class="page-header" *ngIf="current$|async as current">
   <h1 [innerHtml]="current.name_html"></h1>
 </div>
 
-<div *ngIf="current">
+<div *ngIf="current$|async as current">
 
-  <ng-container *ngIf="isModer$|async as isModer">
-    <p *ngIf="isModer" class="mb-4">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-      <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
+  <ng-container *ngIf="category$|async as category">
+    <ng-container *ngIf="isModer$|async as isModer">
+      <p *ngIf="isModer" class="mb-4">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+        <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
 
-      <ng-container *ngIf="canAddCar$|async as canAddCar">
-        <span *ngIf="canAddCar">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{getItemTypeTranslation(category.item_type_id, 'add-sub-item')}}</a>
-        </span>
-      </ng-container>
-    </p>
+        <ng-container *ngIf="canAddCar$|async as canAddCar">
+          <span *ngIf="canAddCar">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{getItemTypeTranslation(category.item_type_id, 'add-sub-item')}}</a>
+          </span>
+        </ng-container>
+      </p>
+    </ng-container>
+
+    <app-markdown [markdown]="category.description" *ngIf="current.description && current.description.length > 0"></app-markdown>
   </ng-container>
 
-  <app-markdown [markdown]="category.description" *ngIf="current.description && current.description.length > 0"></app-markdown>
+  <app-categories-list-item [item]="itemParent.item.item" [parentRouterLink]="itemParent.parentRouterLink" *ngFor="let itemParent of (itemParents$|async).items"></app-categories-list-item>
 
-  <app-categories-list-item [item]="itemParent.item.item" [parentRouterLink]="itemParent.parentRouterLink" *ngFor="let itemParent of items"></app-categories-list-item>
+  <app-categories-list-item [item]="item" [parentRouterLink]="currentRouterLinkPrefix$|async" *ngIf="item$|async as item"></app-categories-list-item>
 
-  <app-categories-list-item [item]="item" [parentRouterLink]="currentRouterLinkPrefix" *ngIf="item"></app-categories-list-item>
-
-  <div class="twins row" *ngIf="pictures">
+  <div class="twins row" *ngIf="pictures$|async as pictures">
     <div class="col-lg-3 col-md-3" *ngFor="let i of pictures">
       <div class="card mb-4">
         <a [routerLink]="i.route">
@@ -79,7 +81,9 @@
     </span>
   </div>-->
 
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+  <ng-container *ngIf="itemParents$|async as itemParents">
+    <app-paginator [data]="itemParents.paginator" *ngIf="itemParents.paginator"></app-paginator>
+  </ng-container>
   <!--
   <p *ngIf="contributors.length > 0">
       <ng-container i18n>Contributors:</ng-container>
