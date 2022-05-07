@@ -1,5 +1,11 @@
 [
   {
+    "sum": 19.58,
+    "currency": "EUR",
+    "date": "2022-05-07T00:00:00+00:00",
+    "contributor": "Fabio Mendez"
+  },
+  {
     "sum": 1.54,
     "currency": "EUR",
     "date": "2022-05-01T00:00:00+00:00",
