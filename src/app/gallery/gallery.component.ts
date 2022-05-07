@@ -21,7 +21,7 @@ class Gallery {
   public current: number;
   public status: string;
   public get useCircleIndicator(): boolean {
-    return this.items.length > this.MAX_INDICATORS;
+    return this.items.length <= this.MAX_INDICATORS;
   }
 
   constructor(public filter: APIGalleryFilter, public items: APIGalleryItem[]) {
@@ -74,7 +74,7 @@ class Gallery {
 
   public applyResponse(response: APIGallery) {
     if (this.items.length < response.count) {
-      this[response.count - 1] = null;
+      this.items[response.count - 1] = null;
       this.status = response.status;
     }
 
