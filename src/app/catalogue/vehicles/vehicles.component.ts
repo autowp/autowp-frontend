@@ -195,11 +195,16 @@ export class CatalogueVehiclesComponent {
               }),
               this.routerLink$
             ])),
-            map(([response, routerLink]) => ({
-              pictures: response.pictures,
-              count: response.paginator.totalItemCount,
-              routerLink: routerLink.concat(['exact', 'pictures'])
-            }))
+            map(([response, routerLink]) => {
+              if (response.pictures.length <= 0) {
+                return null;
+              }
+              return {
+                pictures: response.pictures,
+                count: response.paginator.totalItemCount,
+                routerLink: routerLink.concat(['exact', 'pictures'])
+              };
+            })
           )
         })
       )
