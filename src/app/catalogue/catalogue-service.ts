@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {APIItemParent, ItemParentService} from '../services/item-parent';
 import {APIItem, APIPathTreeItemParent, ItemService} from '../services/item';
 import {APIPicture} from '../services/picture';
+import {ItemType} from '../../../generated/spec.pb';
 
 interface Parent {
   id: number;
@@ -21,8 +22,6 @@ type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
 
 @Injectable()
 export class CatalogueService {
-
-
   constructor(
     private itemService: ItemService,
     private itemParentService: ItemParentService
@@ -163,10 +162,10 @@ export class CatalogueService {
 
   private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[] {
     switch (parent.item.item_type_id) {
-      case 5: // brand
+      case ItemType.ITEM_TYPE_BRAND:
         return ['/', parent.item.catname, parent.catname];
-      case 1: // vehicle
-      case 2: // engine
+      case ItemType.ITEM_TYPE_VEHICLE:
+      case ItemType.ITEM_TYPE_ENGINE:
         for (const sparent of parent.item.parents) {
           const path = this.pictureRouterLinkItem(sparent);
           if (path) {
@@ -182,7 +181,7 @@ export class CatalogueService {
     for (const pictureItem of picture.path) {
       if (pictureItem.type === 1) {
         switch (pictureItem.item.item_type_id) {
-          case 5: // brand
+          case ItemType.ITEM_TYPE_BRAND:
             switch (pictureItem.perspective_id) {
               case 25: // mixed
                 return ['/', pictureItem.item.catname, 'mixed', picture.identity];
@@ -191,8 +190,8 @@ export class CatalogueService {
               default:
                 return ['/', pictureItem.item.catname, 'other', picture.identity];
             }
-          case 1: // vehicle
-          case 2: // engine
+          case ItemType.ITEM_TYPE_VEHICLE:
+          case ItemType.ITEM_TYPE_ENGINE:
             for (const parent of pictureItem.item.parents) {
               const path = this.pictureRouterLinkItem(parent);
               if (path) {
