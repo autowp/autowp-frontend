@@ -6,7 +6,7 @@ import {
   APIItem
 } from '../../services/item';
 import { UserService, APIUser } from '../../services/user';
-import {Subscription, Observable, of, EMPTY} from 'rxjs';
+import {Subscription, Observable, of, EMPTY, combineLatest} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEnvService } from '../../services/page-env.service';
 import {switchMap, debounceTime, catchError, map, distinctUntilChanged} from 'rxjs/operators';
@@ -32,6 +32,30 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
   public userID: number;
   public userQuery = '';
   public usersDataSource: (text$: Observable<string>) => Observable<any[]>;
+
+  public userID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('user_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  private moderatorAttention$ = this.route.queryParamMap.pipe(
+    map(params => params.get('moderator_attention')),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  private picturesOfItemID$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('pictures_of_item_id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
+
+  private page$ = this.route.queryParamMap.pipe(
+    map(params => parseInt(params.get('page'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10)
+  );
 
   constructor(
     private itemService: ItemService,
@@ -116,48 +140,40 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map(params => ({
-          user_id: parseInt(params.get('user_id'), 10),
-          moderator_attention: params.get('moderator_attention'),
-          pictures_of_item_id: parseInt(params.get('pictures_of_item_id'), 10),
-          page: parseInt(params.get('page'), 10)
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(10),
-        switchMap(params => {
-          this.userID = params.user_id;
-          this.moderatorAttention =
-            params.moderator_attention === undefined
-              ? null
-              : +params.moderator_attention;
-          this.itemID = params.pictures_of_item_id;
+    this.querySub = combineLatest([
+      this.userID$,
+      this.moderatorAttention$,
+      this.picturesOfItemID$,
+      this.page$
+    ]).pipe(
+      switchMap(([userID, moderatorAttention, picturesOfItemID, page]) => {
+        this.userID = userID;
+        this.moderatorAttention = moderatorAttention === undefined ? null : +moderatorAttention;
+        this.itemID = picturesOfItemID;
 
-          this.loading++;
+        this.loading++;
 
-          return this.commentService.getComments({
-            user: this.userID,
-            moderator_attention: this.moderatorAttention,
-            pictures_of_item_id: this.itemID ? this.itemID : 0,
-            page: params.page,
-            order: 'date_desc',
-            limit: 30,
-            fields: ['preview', 'user', 'is_new', 'status', 'route']
-          });
-        })
-      )
-      .subscribe(
-        response => {
-          this.comments = response.items;
-          this.paginator = response.paginator;
-          this.loading--;
-        },
-        response => {
-          this.toastService.response(response);
-          this.loading--;
-        }
-      );
+        return this.commentService.getComments({
+          user: this.userID,
+          moderator_attention: this.moderatorAttention,
+          pictures_of_item_id: this.itemID ? this.itemID : 0,
+          page,
+          order: 'date_desc',
+          limit: 30,
+          fields: ['preview', 'user', 'is_new', 'status', 'route']
+        });
+      })
+    ).subscribe(
+      response => {
+        this.comments = response.items;
+        this.paginator = response.paginator;
+        this.loading--;
+      },
+      response => {
+        this.toastService.response(response);
+        this.loading--;
+      }
+    );
   }
 
   ngOnDestroy(): void {

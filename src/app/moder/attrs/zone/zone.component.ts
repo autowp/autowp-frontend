@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Subscription, combineLatest, of} from 'rxjs';
+import { Component} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageEnvService } from '../../../services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map} from 'rxjs/operators';
-import { APIAttrZone, APIAttrAttribute, APIAttrsService } from '../../../api/attrs/attrs.service';
+import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay, tap} from 'rxjs/operators';
+import {APIAttrsService, APIAttrZone} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import { APIService } from '../../../services/api.service';
 
-export interface APIAttrZoneAttributesGetResponse {
+interface APIAttrZoneAttributesGetResponse {
   items: {
     attribute_id: number;
     zone_id: number;
@@ -23,13 +22,49 @@ export interface APIAttrZoneAttributeChange {
   selector: 'app-moder-attrs-zone',
   templateUrl: './zone.component.html'
 })
-export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  public zone: APIAttrZone;
-  public attributes: APIAttrAttribute[] = [];
-  public zoneAttribute: {
-    [key: number]: boolean;
-  } = {};
+export class ModerAttrsZoneComponent {
+  public zoneID$ = this.route.paramMap.pipe(
+    map(params => parseInt(params.get('id'), 10)),
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay(1)
+  );
+
+  public zone$ = this.zoneID$.pipe(
+    switchMap(id => this.attrsService.getZone(id)),
+    tap(zone => {
+      this.pageEnv.set({
+        layout: {
+          isAdminPage: true,
+          needRight: false
+        },
+        nameTranslated: zone.name,
+        pageId: 142
+      });
+    }),
+    shareReplay(1)
+  );
+
+  public attributes$ = this.attrsService.getAttributes({ recursive: true }).pipe(
+    map(response => response.items)
+  );
+
+  public zoneAttributes$ = this.zoneID$.pipe(
+    switchMap(zoneID => this.api.request<APIAttrZoneAttributesGetResponse>('GET', 'attr/zone-attribute', {
+      params: {
+        zone_id: zoneID.toString()
+      }
+    })),
+    map(zoneAttributes => {
+      const zoneAttribute: {
+        [key: number]: boolean;
+      } = {}
+      for (const item of zoneAttributes.items) {
+        zoneAttribute[item.attribute_id] = true;
+      }
+      return zoneAttribute;
+    })
+  );
 
   constructor(
     private api: APIService,
@@ -39,59 +74,16 @@ export class ModerAttrsZoneComponent implements OnInit, OnDestroy {
     private toastService: ToastsService
   ) {}
 
-  ngOnInit(): void {
-    this.routeSub = this.route.paramMap
-      .pipe(
-        map(params => parseInt(params.get('id'), 10)),
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap(id => this.attrsService.getZone(id)),
-        switchMap(zone => combineLatest([
-          of(zone),
-          this.attrsService.getAttributes({ recursive: true }),
-          this.api.request<APIAttrZoneAttributesGetResponse>('GET', 'attr/zone-attribute', {
-            params: {
-              zone_id: zone.id.toString()
-            }
-          })
-        ]))
-      )
-      .subscribe(([zone, attributes, zoneAttributes]) => {
-        this.zone = zone;
-
-        this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
-          nameTranslated: zone.name,
-          pageId: 142
-        });
-
-        this.attributes = attributes.items;
-
-        for (const item of zoneAttributes.items) {
-          this.zoneAttribute[item.attribute_id] = true;
-        }
-      });
-  }
-
-  public change(change: APIAttrZoneAttributeChange) {
+  public change(zone: APIAttrZone, change: APIAttrZoneAttributeChange) {
     if (change.value) {
-      this.api
-        .request<void>('POST', 'attr/zone-attribute', {body: {
-          zone_id: this.zone.id,
-          attribute_id: change.id
-        }})
-        .subscribe({error: response => this.toastService.response(response)});
+      this.api.request<void>('POST', 'attr/zone-attribute', {body: {
+        zone_id: zone.id,
+        attribute_id: change.id
+      }}).subscribe({error: response => this.toastService.response(response)});
     } else {
-      this.api
-        .request('DELETE', 'attr/zone-attribute/' + this.zone.id + '/' + change.id)
-        .subscribe({error: response => this.toastService.response(response)});
+      this.api.request('DELETE', 'attr/zone-attribute/' + zone.id + '/' + change.id).subscribe({
+        error: response => this.toastService.response(response)
+      });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
   }
 }

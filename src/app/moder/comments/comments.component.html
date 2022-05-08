@@ -23,8 +23,8 @@
         </ng-template>
         <div class="input-group">
           <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
-            [resultTemplate]="userTemplate" i18n-placeholder placeholder="User №" class="form-control" [class.border-primary]="userID">
-          <button class="btn btn-outline-secondary" type="button" [disabled]="!userID" (click)="clearUser()">
+            [resultTemplate]="userTemplate" i18n-placeholder placeholder="User №" class="form-control" [class.border-primary]="!!(userID$|async)">
+          <button class="btn btn-outline-secondary" type="button" [disabled]="(userID$|async) === null" (click)="clearUser()">
             <span class="fa fa-close" aria-hidden="true"></span>
           </button>
         </div>

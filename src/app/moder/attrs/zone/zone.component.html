@@ -12,11 +12,13 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="zone">
-  <h1>{{zone.name}}</h1>
-</div>
+<ng-container *ngIf="zone$|async as zone">
+  <div class="page-header">
+    <h1>{{zone.name}}</h1>
+  </div>
 
-<h2 i18n>Attributes order</h2>
-<div class="card card-body">
-  <app-moder-attrs-zone-attribute-list [attributes]="attributes" [map]="zoneAttribute" (changed)="change($event)"></app-moder-attrs-zone-attribute-list>
-</div>
+  <h2 i18n>Attributes order</h2>
+  <div class="card card-body">
+    <app-moder-attrs-zone-attribute-list [attributes]="attributes$|async" [map]="zoneAttributes$|async" (changed)="change(zone, $event)"></app-moder-attrs-zone-attribute-list>
+  </div>
+</ng-container>
