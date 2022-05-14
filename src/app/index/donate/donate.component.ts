@@ -26,7 +26,7 @@ interface Donation {
 export class IndexDonateComponent {
 
   public goal = 2500;
-  private monthlyCharge = 209.11;
+  private monthlyCharge = 212.52;
 
   public $state = of(require('./data.json') as Donation[]).pipe(
     map(operations => {
@@ -39,22 +39,14 @@ export class IndexDonateComponent {
         contributor: d.contributor,
         purpose: d.purpose
       })).sort((a,b)=>a.date.getTime()-b.date.getTime());
-      const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
-
       const charges = operations.filter(d => d.sum < 0);
       const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
       const total = this.goal - totalChargesSum;
 
-      const balance = totalDonationsSum + totalChargesSum;
-      const needForNextMonth = this.monthlyCharge - balance;
-      const needForNextTwoMonths = this.monthlyCharge * 2 - balance;
-
       return {
-        needForNextMonth,
-        needForNextMonthPercent: 100 * needForNextMonth / total,
-        needForNextTwoMonths,
-        needForNextTwoMonthsPercent: 100 * needForNextTwoMonths / total,
+        monthlyCharge: this.monthlyCharge,
+        monthlyChargePercent: 100 * this.monthlyCharge / total,
         donations: donations.map(o => ({
           date: o.date,
           sum: o.sum,

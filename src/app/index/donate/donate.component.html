@@ -9,26 +9,31 @@ This project is aimed to remain free to use and fully advertising free in the fu
   </div>
   <div class="col-md-6">
     <p i18n>Our goal is to cover {{goal | currency : 'EUR'}} that is the cost of 1 year of website existence.</p>
-    <div class="progress mb-4" style="height: 30px;" *ngIf="$state | async as state">
-      <div class="progress-bar bg-danger" [style.min-width]="operation.percent + '%'" *ngFor="let operation of state.charges" placement="top" ngbTooltip="{{(operation.sum | currency : operation.currency)}}, {{operation.purpose}}, {{operation.date | amTimeAgo}}"></div>
-      <div class="progress-bar"
-           *ngFor="let operation of state.donations; let i = index"
-           [style.background-color]="i%2 ? '#28a745' : 'rgb(97, 202, 91)'"
-           [style.width]="operation.percent + '%'"
-           placement="top"
-           ngbTooltip="{{(operation.sum | currency : operation.currency)}} by {{operation.contributor}}, {{operation.date | amTimeAgo}}">
+    <div style="position: relative" *ngIf="$state | async as state">
+      <div class="progress" style="height: 10px; border-bottom-right-radius: 0; border-bottom-left-radius: 0">
+        <div class="progress-bar bg-danger" [style.min-width]="operation.percent + '%'" *ngFor="let operation of state.charges" placement="top" ngbTooltip="{{(operation.sum | currency : operation.currency)}}, {{operation.purpose}}, {{operation.date | amTimeAgo}}"></div>
+        <div
+             class="progress-bar bg-warning"
+             [style.width]="state.monthlyChargePercent + '%'"
+             placement="top"
+             ngbTooltip="{{(state.monthlyCharge | currency : 'EUR')}} required for the next month">
+        </div>
+        <div
+             class="progress-bar bg-warning"
+             style="opacity:.5"
+             [style.width]="state.monthlyChargePercent + '%'"
+             placement="top"
+             ngbTooltip="{{(state.monthlyCharge | currency : 'EUR')}} required for the next two months">
+        </div>
       </div>
-      <div *ngIf="state.needForNextMonth > 0"
-           class="progress-bar bg-warning"
-           [style.width]="state.needForNextMonthPercent + '%'"
-           placement="top"
-           ngbTooltip="{{(state.needForNextMonth | currency : 'EUR')}} required for the next month">
-      </div>
-      <div *ngIf="state.needForNextTwoMonths > 0"
-           class="progress-bar bg-warning"
-           [style.width]="state.needForNextTwoMonthsPercent + '%'"
-           placement="top"
-           ngbTooltip="{{(state.needForNextTwoMonths | currency : 'EUR')}} required for the next two months">
+      <div class="progress mb-4" style="height: 30px; border-top-right-radius: 0; border-top-left-radius: 0">
+        <div class="progress-bar"
+             *ngFor="let operation of state.donations; let i = index"
+             [style.background-color]="i%2 ? '#28a745' : 'rgb(97, 202, 91)'"
+             [style.width]="operation.percent + '%'"
+             placement="top"
+             ngbTooltip="{{(operation.sum | currency : operation.currency)}} by {{operation.contributor}}, {{operation.date | amTimeAgo}}">
+        </div>
       </div>
     </div>
 
