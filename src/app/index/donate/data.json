@@ -1,5 +1,11 @@
 [
   {
+    "sum": 5.00,
+    "currency": "EUR",
+    "date": "2022-05-16T00:00:00+00:00",
+    "contributor": "Alexander Degenhartt"
+  },
+  {
     "sum": 14.14,
     "currency": "EUR",
     "date": "2022-05-14T00:00:00+00:00",
