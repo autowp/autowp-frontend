@@ -99,7 +99,7 @@ export class MessageService {
   public send(userId: string, text: string): Observable<Empty> {
     return this.messagingClient.createMessage(new MessagingCreateMessage({
       userId: userId,
-      message: text,
+      text: text,
     })).pipe(tap(() => this.sent$.next(null)));
   }
 }

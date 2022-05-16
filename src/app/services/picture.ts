@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { APIUser } from './user';
 import { APIPictureItem } from './picture-item';
-import { switchMap, shareReplay, map, tap } from 'rxjs/operators';
+import { switchMap, shareReplay, map} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import {ACLService, Privilege, Resource} from './acl.service';
 import {APIItem, APIPathTreeItem} from './item';
 import { APIItemLink } from './item-link';
+import {PicturesClient} from '../../../generated/spec.pbsc';
+import {PicturesVoteRequest, PicturesVoteSummary} from '../../../generated/spec.pb';
 
 export interface APIPictureGetResponse {
   pictures: APIPicture[];
@@ -356,7 +358,8 @@ export class PictureService {
   constructor(
     private api: APIService,
     private auth: AuthService,
-    private acl: ACLService
+    private acl: ACLService,
+    private pictures: PicturesClient
   ) {
     this.summary$ = this.auth.getUser().pipe(
       switchMap(user => {
@@ -421,25 +424,16 @@ export class PictureService {
     return this.inboxSize$;
   }
 
-  public vote(pictureID: number, value: number): Observable<APIPictureVotes> {
-    return this.api
-      .request<APIPictureVotes>('PUT', 'picture-vote/' + pictureID, {body: {
-        value
-      }})
-      .pipe(
-        tap(() => {
-          // ga('send', 'event', 'vote', value > 0 ? 'like' : 'dislike');
-        })
-      );
+  public vote(pictureID: number, value: number): Observable<PicturesVoteSummary> {
+    return this.pictures.vote(new PicturesVoteRequest({
+      pictureId: pictureID.toString(),
+      value
+    }));
   }
 
   public setPictureStatus(id: number, status: string): Observable<void> {
     return this.api.request<void>('PUT', 'picture/' + id.toString(), {body: {
       status
     }});
-  }
-
-  public incView(id: number): Observable<void> {
-    return this.api.request<void>('POST', 'picture/' + id.toString() + '/view', {});
   }
 }

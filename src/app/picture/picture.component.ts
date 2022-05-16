@@ -84,7 +84,7 @@ export class PictureComponent {
   }
 
   public vote(picture: APIPicture, value: number) {
-    this.pictureService.vote(picture.id, value).subscribe((votes) => {
+    this.pictureService.vote(picture.id, value).subscribe(votes => {
       picture.votes = votes;
     });
     return false;

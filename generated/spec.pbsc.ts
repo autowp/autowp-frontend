@@ -1632,6 +1632,27 @@ export class PicturesClient {
         requestClass: thisProto.PicturesViewRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/Vote
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.PicturesVoteSummary>>
+     */
+    vote: (
+      requestData: thisProto.PicturesVoteRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.PicturesVoteSummary>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/Vote',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PicturesVoteRequest,
+        responseClass: thisProto.PicturesVoteSummary
+      });
     }
   };
 
@@ -1656,6 +1677,22 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .view(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/Vote
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.PicturesVoteSummary>
+   */
+  vote(
+    requestData: thisProto.PicturesVoteRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.PicturesVoteSummary> {
+    return this.$raw
+      .vote(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

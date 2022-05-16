@@ -13960,6 +13960,341 @@ export module PicturesViewRequest {
 }
 
 /**
+ * Message implementation for goautowp.PicturesVoteRequest
+ */
+export class PicturesVoteRequest implements GrpcMessage {
+  static id = 'goautowp.PicturesVoteRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PicturesVoteRequest();
+    PicturesVoteRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PicturesVoteRequest) {
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.value = _instance.value || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PicturesVoteRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.value = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PicturesVoteRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PicturesVoteRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(1, _instance.pictureId);
+    }
+    if (_instance.value) {
+      _writer.writeInt32(2, _instance.value);
+    }
+  }
+
+  private _pictureId?: string;
+  private _value?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PicturesVoteRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PicturesVoteRequest.AsObject>) {
+    _value = _value || {};
+    this.pictureId = _value.pictureId;
+    this.value = _value.value;
+    PicturesVoteRequest.refineValues(this);
+  }
+  get pictureId(): string | undefined {
+    return this._pictureId;
+  }
+  set pictureId(value: string | undefined) {
+    this._pictureId = value;
+  }
+  get value(): number | undefined {
+    return this._value;
+  }
+  set value(value: number | undefined) {
+    this._value = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PicturesVoteRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PicturesVoteRequest.AsObject {
+    return {
+      pictureId: this.pictureId,
+      value: this.value
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PicturesVoteRequest.AsProtobufJSON {
+    return {
+      pictureId: this.pictureId,
+      value: this.value
+    };
+  }
+}
+export module PicturesVoteRequest {
+  /**
+   * Standard JavaScript object representation for PicturesVoteRequest
+   */
+  export interface AsObject {
+    pictureId?: string;
+    value?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for PicturesVoteRequest
+   */
+  export interface AsProtobufJSON {
+    pictureId?: string;
+    value?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PicturesVoteSummary
+ */
+export class PicturesVoteSummary implements GrpcMessage {
+  static id = 'goautowp.PicturesVoteSummary';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PicturesVoteSummary();
+    PicturesVoteSummary.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PicturesVoteSummary) {
+    _instance.value = _instance.value || 0;
+    _instance.positive = _instance.positive || 0;
+    _instance.negative = _instance.negative || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PicturesVoteSummary,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.value = _reader.readInt32();
+          break;
+        case 2:
+          _instance.positive = _reader.readInt32();
+          break;
+        case 3:
+          _instance.negative = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PicturesVoteSummary.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PicturesVoteSummary,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.value) {
+      _writer.writeInt32(1, _instance.value);
+    }
+    if (_instance.positive) {
+      _writer.writeInt32(2, _instance.positive);
+    }
+    if (_instance.negative) {
+      _writer.writeInt32(3, _instance.negative);
+    }
+  }
+
+  private _value?: number;
+  private _positive?: number;
+  private _negative?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PicturesVoteSummary to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PicturesVoteSummary.AsObject>) {
+    _value = _value || {};
+    this.value = _value.value;
+    this.positive = _value.positive;
+    this.negative = _value.negative;
+    PicturesVoteSummary.refineValues(this);
+  }
+  get value(): number | undefined {
+    return this._value;
+  }
+  set value(value: number | undefined) {
+    this._value = value;
+  }
+  get positive(): number | undefined {
+    return this._positive;
+  }
+  set positive(value: number | undefined) {
+    this._positive = value;
+  }
+  get negative(): number | undefined {
+    return this._negative;
+  }
+  set negative(value: number | undefined) {
+    this._negative = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PicturesVoteSummary.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PicturesVoteSummary.AsObject {
+    return {
+      value: this.value,
+      positive: this.positive,
+      negative: this.negative
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PicturesVoteSummary.AsProtobufJSON {
+    return {
+      value: this.value,
+      positive: this.positive,
+      negative: this.negative
+    };
+  }
+}
+export module PicturesVoteSummary {
+  /**
+   * Standard JavaScript object representation for PicturesVoteSummary
+   */
+  export interface AsObject {
+    value?: number;
+    positive?: number;
+    negative?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for PicturesVoteSummary
+   */
+  export interface AsProtobufJSON {
+    value?: number;
+    positive?: number;
+    negative?: number;
+  }
+}
+
+/**
  * Message implementation for goautowp.MessagingDeleteMessage
  */
 export class MessagingDeleteMessage implements GrpcMessage {
@@ -14262,7 +14597,7 @@ export class MessagingCreateMessage implements GrpcMessage {
    */
   static refineValues(_instance: MessagingCreateMessage) {
     _instance.userId = _instance.userId || '0';
-    _instance.message = _instance.message || '';
+    _instance.text = _instance.text || '';
   }
 
   /**
@@ -14282,7 +14617,7 @@ export class MessagingCreateMessage implements GrpcMessage {
           _instance.userId = _reader.readInt64String();
           break;
         case 2:
-          _instance.message = _reader.readString();
+          _instance.text = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -14304,13 +14639,13 @@ export class MessagingCreateMessage implements GrpcMessage {
     if (_instance.userId) {
       _writer.writeInt64String(1, _instance.userId);
     }
-    if (_instance.message) {
-      _writer.writeString(2, _instance.message);
+    if (_instance.text) {
+      _writer.writeString(2, _instance.text);
     }
   }
 
   private _userId?: string;
-  private _message?: string;
+  private _text?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -14319,7 +14654,7 @@ export class MessagingCreateMessage implements GrpcMessage {
   constructor(_value?: RecursivePartial<MessagingCreateMessage.AsObject>) {
     _value = _value || {};
     this.userId = _value.userId;
-    this.message = _value.message;
+    this.text = _value.text;
     MessagingCreateMessage.refineValues(this);
   }
   get userId(): string | undefined {
@@ -14328,11 +14663,11 @@ export class MessagingCreateMessage implements GrpcMessage {
   set userId(value: string | undefined) {
     this._userId = value;
   }
-  get message(): string | undefined {
-    return this._message;
+  get text(): string | undefined {
+    return this._text;
   }
-  set message(value: string | undefined) {
-    this._message = value;
+  set text(value: string | undefined) {
+    this._text = value;
   }
 
   /**
@@ -14351,7 +14686,7 @@ export class MessagingCreateMessage implements GrpcMessage {
   toObject(): MessagingCreateMessage.AsObject {
     return {
       userId: this.userId,
-      message: this.message
+      text: this.text
     };
   }
 
@@ -14373,7 +14708,7 @@ export class MessagingCreateMessage implements GrpcMessage {
   ): MessagingCreateMessage.AsProtobufJSON {
     return {
       userId: this.userId,
-      message: this.message
+      text: this.text
     };
   }
 }
@@ -14383,7 +14718,7 @@ export module MessagingCreateMessage {
    */
   export interface AsObject {
     userId?: string;
-    message?: string;
+    text?: string;
   }
 
   /**
@@ -14391,7 +14726,7 @@ export module MessagingCreateMessage {
    */
   export interface AsProtobufJSON {
     userId?: string;
-    message?: string;
+    text?: string;
   }
 }
 
