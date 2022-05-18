@@ -1,5 +1,12 @@
 [
   {
+    "sum": -212.52,
+    "currency": "EUR",
+    "date": "2022-05-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "May/June hosting"
+  },
+  {
     "sum": 5.00,
     "currency": "EUR",
     "date": "2022-05-16T00:00:00+00:00",

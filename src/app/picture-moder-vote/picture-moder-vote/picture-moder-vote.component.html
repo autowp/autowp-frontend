@@ -3,7 +3,7 @@
     <button class="btn btn-success" type="button" ngbDropdownToggle i18n>Want accept</button>
     <div ngbDropdownMenu>
       <ng-container *ngFor="let template of moderVoteTemplateOptions$|async">
-        <button class="dropdown-item" *ngIf="template.vote > 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
+        <button class="dropdown-item" *ngIf="template.vote > 0" [textContent]="template.message" (click)="votePicture(template.vote, template.message);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
       <button class="dropdown-item" (click)="showCustomDialog(1)" i18n>Custom …</button>
@@ -14,7 +14,7 @@
     <button class="btn btn-danger" type="button" ngbDropdownToggle i18n>Want delete</button>
     <div ngbDropdownMenu>
       <ng-container *ngFor="let template of moderVoteTemplateOptions$|async">
-        <button class="dropdown-item" *ngIf="template.vote < 0" [textContent]="template.name" (click)="votePicture(template.vote, template.name);"></button>
+        <button class="dropdown-item" *ngIf="template.vote < 0" [textContent]="template.message" (click)="votePicture(template.vote, template.message);"></button>
       </ng-container>
       <div class="dropdown-divider"></div>
       <button class="dropdown-item" (click)="showCustomDialog(-1)" i18n>Custom …</button>

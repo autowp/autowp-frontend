@@ -206,7 +206,7 @@
           </button>
           <div ngbDropdownMenu *ngIf="data$|async as data">
             <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$|async">
-              <button *ngIf="template.vote > 0" class="btn btn-link dropdown-item" [textContent]="template.name" (click)="votePictures(data.pictures, template.vote, template.name);"></button>
+              <button *ngIf="template.vote > 0" class="btn btn-link dropdown-item" [textContent]="template.message" (click)="votePictures(data.pictures, template.vote, template.message);"></button>
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@
           </button>
           <div ngbDropdownMenu *ngIf="data$|async as data">
             <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$|async">
-              <a *ngIf="template.vote < 0" class="dropdown-item" [textContent]="template.name" (click)="votePictures(data.pictures, template.vote, template.name);"></a>
+              <a *ngIf="template.vote < 0" class="dropdown-item" [textContent]="template.message" (click)="votePictures(data.pictures, template.vote, template.message);"></a>
             </div>
           </div>
         </div>

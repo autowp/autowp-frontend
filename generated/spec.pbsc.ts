@@ -1653,6 +1653,69 @@ export class PicturesClient {
         requestClass: thisProto.PicturesVoteRequest,
         responseClass: thisProto.PicturesVoteSummary
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/CreateModerVoteTemplate
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ModerVoteTemplate>>
+     */
+    createModerVoteTemplate: (
+      requestData: thisProto.ModerVoteTemplate,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ModerVoteTemplate>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/CreateModerVoteTemplate',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ModerVoteTemplate,
+        responseClass: thisProto.ModerVoteTemplate
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/DeleteModerVoteTemplate
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteModerVoteTemplate: (
+      requestData: thisProto.DeleteModerVoteTemplateRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/DeleteModerVoteTemplate',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteModerVoteTemplateRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/GetModerVoteTemplates
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ModerVoteTemplates>>
+     */
+    getModerVoteTemplates: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ModerVoteTemplates>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetModerVoteTemplates',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.ModerVoteTemplates
+      });
     }
   };
 
@@ -1693,6 +1756,54 @@ export class PicturesClient {
   ): Observable<thisProto.PicturesVoteSummary> {
     return this.$raw
       .vote(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/CreateModerVoteTemplate
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ModerVoteTemplate>
+   */
+  createModerVoteTemplate(
+    requestData: thisProto.ModerVoteTemplate,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ModerVoteTemplate> {
+    return this.$raw
+      .createModerVoteTemplate(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/DeleteModerVoteTemplate
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteModerVoteTemplate(
+    requestData: thisProto.DeleteModerVoteTemplateRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteModerVoteTemplate(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetModerVoteTemplates
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ModerVoteTemplates>
+   */
+  getModerVoteTemplates(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ModerVoteTemplates> {
+    return this.$raw
+      .getModerVoteTemplates(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

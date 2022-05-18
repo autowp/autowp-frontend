@@ -14295,6 +14295,491 @@ export module PicturesVoteSummary {
 }
 
 /**
+ * Message implementation for goautowp.ModerVoteTemplate
+ */
+export class ModerVoteTemplate implements GrpcMessage {
+  static id = 'goautowp.ModerVoteTemplate';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ModerVoteTemplate();
+    ModerVoteTemplate.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ModerVoteTemplate) {
+    _instance.id = _instance.id || '0';
+    _instance.userID = _instance.userID || '0';
+    _instance.message = _instance.message || '';
+    _instance.vote = _instance.vote || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ModerVoteTemplate,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.userID = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.message = _reader.readString();
+          break;
+        case 4:
+          _instance.vote = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ModerVoteTemplate.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ModerVoteTemplate,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.userID) {
+      _writer.writeInt64String(2, _instance.userID);
+    }
+    if (_instance.message) {
+      _writer.writeString(3, _instance.message);
+    }
+    if (_instance.vote) {
+      _writer.writeInt32(4, _instance.vote);
+    }
+  }
+
+  private _id?: string;
+  private _userID?: string;
+  private _message?: string;
+  private _vote?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ModerVoteTemplate to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ModerVoteTemplate.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.userID = _value.userID;
+    this.message = _value.message;
+    this.vote = _value.vote;
+    ModerVoteTemplate.refineValues(this);
+  }
+  get id(): string | undefined {
+    return this._id;
+  }
+  set id(value: string | undefined) {
+    this._id = value;
+  }
+  get userID(): string | undefined {
+    return this._userID;
+  }
+  set userID(value: string | undefined) {
+    this._userID = value;
+  }
+  get message(): string | undefined {
+    return this._message;
+  }
+  set message(value: string | undefined) {
+    this._message = value;
+  }
+  get vote(): number | undefined {
+    return this._vote;
+  }
+  set vote(value: number | undefined) {
+    this._vote = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ModerVoteTemplate.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ModerVoteTemplate.AsObject {
+    return {
+      id: this.id,
+      userID: this.userID,
+      message: this.message,
+      vote: this.vote
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ModerVoteTemplate.AsProtobufJSON {
+    return {
+      id: this.id,
+      userID: this.userID,
+      message: this.message,
+      vote: this.vote
+    };
+  }
+}
+export module ModerVoteTemplate {
+  /**
+   * Standard JavaScript object representation for ModerVoteTemplate
+   */
+  export interface AsObject {
+    id?: string;
+    userID?: string;
+    message?: string;
+    vote?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for ModerVoteTemplate
+   */
+  export interface AsProtobufJSON {
+    id?: string;
+    userID?: string;
+    message?: string;
+    vote?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ModerVoteTemplates
+ */
+export class ModerVoteTemplates implements GrpcMessage {
+  static id = 'goautowp.ModerVoteTemplates';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ModerVoteTemplates();
+    ModerVoteTemplates.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ModerVoteTemplates) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ModerVoteTemplates,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new ModerVoteTemplate();
+          _reader.readMessage(
+            messageInitializer1,
+            ModerVoteTemplate.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ModerVoteTemplates.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ModerVoteTemplates,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        ModerVoteTemplate.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: ModerVoteTemplate[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ModerVoteTemplates to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ModerVoteTemplates.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new ModerVoteTemplate(m));
+    ModerVoteTemplates.refineValues(this);
+  }
+  get items(): ModerVoteTemplate[] | undefined {
+    return this._items;
+  }
+  set items(value: ModerVoteTemplate[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ModerVoteTemplates.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ModerVoteTemplates.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ModerVoteTemplates.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module ModerVoteTemplates {
+  /**
+   * Standard JavaScript object representation for ModerVoteTemplates
+   */
+  export interface AsObject {
+    items?: ModerVoteTemplate.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for ModerVoteTemplates
+   */
+  export interface AsProtobufJSON {
+    items?: ModerVoteTemplate.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteModerVoteTemplateRequest
+ */
+export class DeleteModerVoteTemplateRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteModerVoteTemplateRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteModerVoteTemplateRequest();
+    DeleteModerVoteTemplateRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteModerVoteTemplateRequest) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteModerVoteTemplateRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteModerVoteTemplateRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteModerVoteTemplateRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteModerVoteTemplateRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<DeleteModerVoteTemplateRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.id = _value.id;
+    DeleteModerVoteTemplateRequest.refineValues(this);
+  }
+  get id(): string | undefined {
+    return this._id;
+  }
+  set id(value: string | undefined) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteModerVoteTemplateRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteModerVoteTemplateRequest.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteModerVoteTemplateRequest.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module DeleteModerVoteTemplateRequest {
+  /**
+   * Standard JavaScript object representation for DeleteModerVoteTemplateRequest
+   */
+  export interface AsObject {
+    id?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteModerVoteTemplateRequest
+   */
+  export interface AsProtobufJSON {
+    id?: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.MessagingDeleteMessage
  */
 export class MessagingDeleteMessage implements GrpcMessage {
