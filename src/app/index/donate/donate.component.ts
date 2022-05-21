@@ -6,7 +6,7 @@ import * as moment from 'moment';
 
 const rates = {
   'EUR': 1,
-  'ETH': 2590.64,
+  'ETH': 1950.17,
   'RUB': 0.00934,
 }
 
