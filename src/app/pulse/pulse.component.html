@@ -17,12 +17,13 @@
       [textContent]="period.name"></a>
   </div>
 
-  <canvas baseChart width="400" height="150" [datasets]="chart.data" [labels]="chart.labels" [options]="chart.options" [legend]="false"
-    [colors]="chart.colors" chartType="bar" *ngIf="chart.data.length"></canvas>
+  <ng-container *ngIf="data$|async as data">
+    <canvas baseChart width="400" height="150" [datasets]="gridData.data" [labels]="labels$|async" [options]="chartOptions" [legend]="false" type="bar" *ngIf="gridData$|async as gridData"></canvas>
 
-  <p>
-    <span [style.color]="item.color" (mouseover)="selectUser(i)" (mouseout)="deselectUser(i)" *ngFor="let item of legend; let i = index">
-      <app-user [user]="item.user" *ngIf="item.user"></app-user>
-    </span>
-  </p>
+    <p *ngIf="legend$|async as legend">
+      <span *ngFor="let item of legend; let i = index">
+        <app-user [user]="user" *ngIf="item.user$|async as user"></app-user>
+      </span>
+    </p>
+  </ng-container>
 </div>

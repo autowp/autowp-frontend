@@ -415,6 +415,675 @@ export module ErrorDetails {
 }
 
 /**
+ * Message implementation for goautowp.PulseRequest
+ */
+export class PulseRequest implements GrpcMessage {
+  static id = 'goautowp.PulseRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PulseRequest();
+    PulseRequest.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PulseRequest) {
+    _instance.period = _instance.period || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PulseRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.period = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PulseRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PulseRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.period) {
+      _writer.writeEnum(1, _instance.period);
+    }
+  }
+
+  private _period?: PulseRequest.Period;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PulseRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PulseRequest.AsObject>) {
+    _value = _value || {};
+    this.period = _value.period;
+    PulseRequest.refineValues(this);
+  }
+  get period(): PulseRequest.Period | undefined {
+    return this._period;
+  }
+  set period(value: PulseRequest.Period | undefined) {
+    this._period = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PulseRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PulseRequest.AsObject {
+    return {
+      period: this.period
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PulseRequest.AsProtobufJSON {
+    return {
+      period:
+        PulseRequest.Period[
+          this.period === null || this.period === undefined ? 0 : this.period
+        ]
+    };
+  }
+}
+export module PulseRequest {
+  /**
+   * Standard JavaScript object representation for PulseRequest
+   */
+  export interface AsObject {
+    period?: PulseRequest.Period;
+  }
+
+  /**
+   * Protobuf JSON representation for PulseRequest
+   */
+  export interface AsProtobufJSON {
+    period?: string;
+  }
+  export enum Period {
+    DEFAULT = 0,
+    YEAR = 1,
+    MONTH = 2
+  }
+}
+
+/**
+ * Message implementation for goautowp.PulseGrid
+ */
+export class PulseGrid implements GrpcMessage {
+  static id = 'goautowp.PulseGrid';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PulseGrid();
+    PulseGrid.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PulseGrid) {
+    _instance.line = _instance.line || [];
+    _instance.color = _instance.color || '';
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PulseGrid,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          (_instance.line = _instance.line || []).push(
+            ...(_reader.readPackedFloat() || [])
+          );
+          break;
+        case 2:
+          _instance.color = _reader.readString();
+          break;
+        case 3:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PulseGrid.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: PulseGrid, _writer: BinaryWriter) {
+    if (_instance.line && _instance.line.length) {
+      _writer.writePackedFloat(1, _instance.line);
+    }
+    if (_instance.color) {
+      _writer.writeString(2, _instance.color);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(3, _instance.userId);
+    }
+  }
+
+  private _line?: number[];
+  private _color?: string;
+  private _userId?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PulseGrid to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PulseGrid.AsObject>) {
+    _value = _value || {};
+    this.line = (_value.line || []).slice();
+    this.color = _value.color;
+    this.userId = _value.userId;
+    PulseGrid.refineValues(this);
+  }
+  get line(): number[] | undefined {
+    return this._line;
+  }
+  set line(value: number[] | undefined) {
+    this._line = value;
+  }
+  get color(): string | undefined {
+    return this._color;
+  }
+  set color(value: string | undefined) {
+    this._color = value;
+  }
+  get userId(): string | undefined {
+    return this._userId;
+  }
+  set userId(value: string | undefined) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PulseGrid.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PulseGrid.AsObject {
+    return {
+      line: (this.line || []).slice(),
+      color: this.color,
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PulseGrid.AsProtobufJSON {
+    return {
+      line: (this.line || []).slice(),
+      color: this.color,
+      userId: this.userId
+    };
+  }
+}
+export module PulseGrid {
+  /**
+   * Standard JavaScript object representation for PulseGrid
+   */
+  export interface AsObject {
+    line?: number[];
+    color?: string;
+    userId?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PulseGrid
+   */
+  export interface AsProtobufJSON {
+    line?: number[];
+    color?: string;
+    userId?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PulseLegend
+ */
+export class PulseLegend implements GrpcMessage {
+  static id = 'goautowp.PulseLegend';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PulseLegend();
+    PulseLegend.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PulseLegend) {
+    _instance.userId = _instance.userId || '0';
+    _instance.color = _instance.color || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PulseLegend,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.color = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PulseLegend.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PulseLegend,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt64String(1, _instance.userId);
+    }
+    if (_instance.color) {
+      _writer.writeString(2, _instance.color);
+    }
+  }
+
+  private _userId?: string;
+  private _color?: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PulseLegend to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PulseLegend.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    this.color = _value.color;
+    PulseLegend.refineValues(this);
+  }
+  get userId(): string | undefined {
+    return this._userId;
+  }
+  set userId(value: string | undefined) {
+    this._userId = value;
+  }
+  get color(): string | undefined {
+    return this._color;
+  }
+  set color(value: string | undefined) {
+    this._color = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PulseLegend.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PulseLegend.AsObject {
+    return {
+      userId: this.userId,
+      color: this.color
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PulseLegend.AsProtobufJSON {
+    return {
+      userId: this.userId,
+      color: this.color
+    };
+  }
+}
+export module PulseLegend {
+  /**
+   * Standard JavaScript object representation for PulseLegend
+   */
+  export interface AsObject {
+    userId?: string;
+    color?: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PulseLegend
+   */
+  export interface AsProtobufJSON {
+    userId?: string;
+    color?: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PulseResponse
+ */
+export class PulseResponse implements GrpcMessage {
+  static id = 'goautowp.PulseResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PulseResponse();
+    PulseResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PulseResponse) {
+    _instance.grid = _instance.grid || [];
+    _instance.legend = _instance.legend || [];
+    _instance.labels = _instance.labels || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PulseResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new PulseGrid();
+          _reader.readMessage(
+            messageInitializer1,
+            PulseGrid.deserializeBinaryFromReader
+          );
+          (_instance.grid = _instance.grid || []).push(messageInitializer1);
+          break;
+        case 2:
+          const messageInitializer2 = new PulseLegend();
+          _reader.readMessage(
+            messageInitializer2,
+            PulseLegend.deserializeBinaryFromReader
+          );
+          (_instance.legend = _instance.legend || []).push(messageInitializer2);
+          break;
+        case 3:
+          (_instance.labels = _instance.labels || []).push(
+            _reader.readString()
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PulseResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PulseResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.grid && _instance.grid.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.grid as any,
+        PulseGrid.serializeBinaryToWriter
+      );
+    }
+    if (_instance.legend && _instance.legend.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.legend as any,
+        PulseLegend.serializeBinaryToWriter
+      );
+    }
+    if (_instance.labels && _instance.labels.length) {
+      _writer.writeRepeatedString(3, _instance.labels);
+    }
+  }
+
+  private _grid?: PulseGrid[];
+  private _legend?: PulseLegend[];
+  private _labels?: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PulseResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PulseResponse.AsObject>) {
+    _value = _value || {};
+    this.grid = (_value.grid || []).map(m => new PulseGrid(m));
+    this.legend = (_value.legend || []).map(m => new PulseLegend(m));
+    this.labels = (_value.labels || []).slice();
+    PulseResponse.refineValues(this);
+  }
+  get grid(): PulseGrid[] | undefined {
+    return this._grid;
+  }
+  set grid(value: PulseGrid[] | undefined) {
+    this._grid = value;
+  }
+  get legend(): PulseLegend[] | undefined {
+    return this._legend;
+  }
+  set legend(value: PulseLegend[] | undefined) {
+    this._legend = value;
+  }
+  get labels(): string[] | undefined {
+    return this._labels;
+  }
+  set labels(value: string[] | undefined) {
+    this._labels = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PulseResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PulseResponse.AsObject {
+    return {
+      grid: (this.grid || []).map(m => m.toObject()),
+      legend: (this.legend || []).map(m => m.toObject()),
+      labels: (this.labels || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PulseResponse.AsProtobufJSON {
+    return {
+      grid: (this.grid || []).map(m => m.toProtobufJSON(options)),
+      legend: (this.legend || []).map(m => m.toProtobufJSON(options)),
+      labels: (this.labels || []).slice()
+    };
+  }
+}
+export module PulseResponse {
+  /**
+   * Standard JavaScript object representation for PulseResponse
+   */
+  export interface AsObject {
+    grid?: PulseGrid.AsObject[];
+    legend?: PulseLegend.AsObject[];
+    labels?: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for PulseResponse
+   */
+  export interface AsProtobufJSON {
+    grid?: PulseGrid.AsProtobufJSON[] | null;
+    legend?: PulseLegend.AsProtobufJSON[] | null;
+    labels?: string[];
+  }
+}
+
+/**
  * Message implementation for goautowp.Spec
  */
 export class Spec implements GrpcMessage {

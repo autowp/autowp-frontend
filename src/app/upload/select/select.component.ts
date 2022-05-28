@@ -2,24 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { APIPaginator } from '../../services/api.service';
 import { ItemService, APIItem, APIItemsGetResponse } from '../../services/item';
 import { chunk } from '../../chunk';
-import {
-  Observable,
-  forkJoin,
-  of,
-  BehaviorSubject,
-  combineLatest, EMPTY
-} from 'rxjs';
+import {Observable, forkJoin, of, BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import { ActivatedRoute, Router} from '@angular/router';
 import { ItemParentService, APIItemParent } from '../../services/item-parent';
 import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  switchMap,
-  map,
-  catchError,
-  tap,
-  debounceTime
-} from 'rxjs/operators';
+import {distinctUntilChanged, switchMap, map, catchError, tap, debounceTime} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -29,9 +16,9 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class UploadSelectComponent implements OnInit {
   public brand: {
     item: APIItem;
-    vehicles: APIItem[];
-    engines: APIItem[];
-    concepts: APIItem[];
+    vehicles: APIItemParent[];
+    engines: APIItemParent[];
+    concepts: APIItemParent[];
   };
   public brands: APIItem[][];
   public paginator: APIPaginator;
@@ -146,7 +133,7 @@ export class UploadSelectComponent implements OnInit {
         });
         return EMPTY;
       }),
-      switchMap((item, sindex) => this.brandItemsObservable(item)),
+      switchMap(item => this.brandItemsObservable(item)),
       map(([item, vehicles, engines, concepts]) => ({item, vehicles, engines, concepts}))
     );
   }
@@ -154,53 +141,47 @@ export class UploadSelectComponent implements OnInit {
   private brandItemsObservable(item: APIItem) {
     return forkJoin([
       of(item),
-      this.itemParentService
-        .getItems({
-          limit: 500,
-          fields: 'item.name_html,item.childs_count',
-          parent_id: item.id,
-          exclude_concept: true,
-          order: 'name',
-          item_type_id: 1
+      this.itemParentService.getItems({
+        limit: 500,
+        fields: 'item.name_html,item.childs_count',
+        parent_id: item.id,
+        exclude_concept: true,
+        order: 'name',
+        item_type_id: 1
+      }).pipe(
+        map(response => response.items),
+        catchError(err => {
+          this.toastService.response(err);
+          return EMPTY;
         })
-        .pipe(
-          map(response => response.items),
-          catchError(err => {
-            this.toastService.response(err);
-            return EMPTY;
-          })
-        ),
-      this.itemParentService
-        .getItems({
-          limit: 500,
-          fields: 'item.name_html,item.childs_count',
-          parent_id: item.id,
-          exclude_concept: true,
-          order: 'name',
-          item_type_id: 2
+      ),
+      this.itemParentService.getItems({
+        limit: 500,
+        fields: 'item.name_html,item.childs_count',
+        parent_id: item.id,
+        exclude_concept: true,
+        order: 'name',
+        item_type_id: 2
+      }).pipe(
+        map(response => response.items),
+        catchError(err => {
+          this.toastService.response(err);
+          return EMPTY;
         })
-        .pipe(
-          map(response => response.items),
-          catchError(err => {
-            this.toastService.response(err);
-            return EMPTY;
-          })
-        ),
-      this.itemParentService
-        .getItems({
-          limit: 500,
-          fields: 'item.name_html,item.childs_count',
-          parent_id: item.id,
-          concept: true,
-          order: 'name'
+      ),
+      this.itemParentService.getItems({
+        limit: 500,
+        fields: 'item.name_html,item.childs_count',
+        parent_id: item.id,
+        concept: true,
+        order: 'name'
+      }).pipe(
+        map(response => response.items),
+        catchError(err => {
+          this.toastService.response(err);
+          return EMPTY;
         })
-        .pipe(
-          map(response => response.items),
-          catchError(err => {
-            this.toastService.response(err);
-            return EMPTY;
-          })
-        )
+      )
     ]);
   }
 }

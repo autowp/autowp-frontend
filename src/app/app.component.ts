@@ -12,7 +12,7 @@ import {APIUser} from '../../generated/spec.pb';
 import {map, shareReplay} from 'rxjs/operators';
 import {NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MessageService} from './services/message';
-import {Angulartics2GoogleAnalytics} from 'angulartics2/ga';
+import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {environment} from '../environments/environment';
 import {KeycloakService} from 'keycloak-angular';
 

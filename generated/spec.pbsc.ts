@@ -30,7 +30,8 @@ import {
   GRPC_COMMENTS_CLIENT_SETTINGS,
   GRPC_MAP_CLIENT_SETTINGS,
   GRPC_PICTURES_CLIENT_SETTINGS,
-  GRPC_MESSAGING_CLIENT_SETTINGS
+  GRPC_MESSAGING_CLIENT_SETTINGS,
+  GRPC_STATISTICS_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -2049,6 +2050,66 @@ export class MessagingClient {
   ): Observable<thisProto.MessagingGetMessagesResponse> {
     return this.$raw
       .getMessages(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Statistics
+ */
+@Injectable({ providedIn: 'any' })
+export class StatisticsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Statistics/GetPulse
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.PulseResponse>>
+     */
+    getPulse: (
+      requestData: thisProto.PulseRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.PulseResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Statistics/GetPulse',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PulseRequest,
+        responseClass: thisProto.PulseResponse
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_STATISTICS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Statistics', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Statistics/GetPulse
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.PulseResponse>
+   */
+  getPulse(
+    requestData: thisProto.PulseRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.PulseResponse> {
+    return this.$raw
+      .getPulse(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

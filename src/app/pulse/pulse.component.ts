@@ -1,21 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEnvService } from '../services/page-env.service';
-import { APIUser } from '../services/user';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
-
-export interface APIPulseResponse {
-  legend: {
-    color: string;
-    user: APIUser;
-  }[];
-  grid: {
-    line: number[];
-    color: string;
-    label: string;
-  }[];
-  labels: string[];
-}
+import {StatisticsClient} from '../../../generated/spec.pbsc';
+import {PulseRequest} from '../../../generated/spec.pb';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
+import {ChartConfiguration} from 'chart.js';
+import {UserService} from '../services/user';
 
 @Component({
   selector: 'app-pulse',
@@ -23,56 +14,80 @@ export interface APIPulseResponse {
 })
 export class PulseComponent implements OnInit {
 
-  public legend: {
-    color: string;
-    user: APIUser;
-  }[] = [];
-
-  public periods = [
+  public periods: {
+    value: PulseRequest.Period,
+    name: string,
+    active: boolean
+  }[] = [
     {
-      value: 'day',
+      value: PulseRequest.Period.DEFAULT,
       name: 'Day',
       active: true
     },
     {
-      value: 'month',
+      value: PulseRequest.Period.MONTH,
       name: 'Month',
       active: false
     },
     {
-      value: 'year',
+      value: PulseRequest.Period.YEAR,
       name: 'Year',
       active: false
     }
   ];
 
-  private period = 'day';
+  private period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
 
-  public chart = {
-    data: [],
-    labels: [],
-    options: {
-      responsive: true,
-      scales: {
-        xAxes: [
-          {
-            stacked: true
-          }
-        ],
-        yAxes: [
-          {
-            stacked: true,
-            ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
+  public chartOptions: ChartConfiguration<'bar', any, any>["options"] = {
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true
       }
-    },
-    colors: []
+    }
   };
 
-  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {}
+  public data$ = this.period$.pipe(
+    debounceTime(10),
+    distinctUntilChanged(),
+    switchMap(period => this.grpc.getPulse(new PulseRequest({period}))),
+    catchError(response => {
+      this.toastService.grpcErrorResponse(response);
+      return EMPTY;
+    }),
+    shareReplay(1)
+  );
+
+  public legend$ = this.data$.pipe(
+    map(response => {
+      return response.legend.map(item => ({
+        color: item.color,
+        user$: this.usersService.getUser(parseInt(item.userId, 10), {})
+      }))
+    })
+  );
+
+  public labels$ = this.data$.pipe(
+    map(response => response.labels)
+  );
+
+  public gridData$ = this.data$.pipe(
+    switchMap(response => combineLatest(response.grid.map(dataset => combineLatest([
+      this.usersService.getUser(parseInt(dataset.userId, 10), {}),
+      of(dataset)
+    ])))),
+    map(response => ({
+      data: response.map(([user, dataset]) => ({
+        label: user.name,
+        data: dataset.line
+      }))
+    }))
+  );
+
+  constructor(private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: StatisticsClient, private usersService: UserService) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -86,41 +101,6 @@ export class PulseComponent implements OnInit {
         }),
       0
     );
-    this.loadData();
-  }
-
-  private loadData() {
-    this.chart.data = [];
-
-    this.api.request<APIPulseResponse>('GET', 'pulse', {params: {period: this.period}}).subscribe(
-      response => {
-        this.chart.data = response.grid.map(dataset => ({
-          label: dataset.label,
-          data: dataset.line
-        }));
-        this.chart.colors = response.grid.map(dataset => ({
-          backgroundColor: dataset.color,
-          borderColor: dataset.color,
-          pointBackgroundColor: 'rgba(148,159,177,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        }));
-
-        this.chart.labels = response.labels;
-        this.legend = response.legend;
-      },
-      response => this.toastService.response(response)
-    );
-  }
-
-  public selectUser(i: number) {
-    this.chart.colors[i].backup = this.chart.colors[i].backgroundColor;
-    this.chart.colors[i].backgroundColor = 'blue';
-  }
-
-  public deselectUser(i: number) {
-    this.chart.colors[i].backgroundColor = this.chart.colors[i].backup;
   }
 
   public selectPeriod(period) {
@@ -128,8 +108,7 @@ export class PulseComponent implements OnInit {
       p.active = false;
     }
     period.active = true;
-    this.period = period.value;
-    this.loadData();
+    this.period$.next(period.value);
 
     return false;
   }

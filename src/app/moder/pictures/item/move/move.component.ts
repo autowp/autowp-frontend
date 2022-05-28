@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIPaginator } from '../../../../services/api.service';
-import { Subscription, of, combineLatest, BehaviorSubject } from 'rxjs';
+import {Subscription, of, combineLatest, BehaviorSubject, Observable} from 'rxjs';
 import { PictureItemService } from '../../../../services/picture-item';
 import { ItemService, APIItem } from '../../../../services/item';
 import { chunk } from '../../../../chunk';
@@ -126,7 +126,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             this.showAuthors = true;
           }
 
-          let museums$ = of(null);
+          let museums$: Observable<any> = of(null);
           if (this.showMuseums) {
             museums$ = this.itemService
               .getItems({
@@ -143,7 +143,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let factories$ = of(null);
+          let factories$: Observable<any> = of(null);
           if (this.showFactories) {
             factories$ = this.itemService
               .getItems({
@@ -160,7 +160,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let persons$ = of(null);
+          let persons$: Observable<any> = of(null);
           if (this.showPersons) {
             persons$ = this.searchPerson$.pipe(
               distinctUntilChanged(),
@@ -181,7 +181,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             );
           }
 
-          let authors$ = of(null);
+          let authors$: Observable<any> = of(null);
           if (this.showAuthors) {
             authors$ = this.searchAuthor$.pipe(
               distinctUntilChanged(),
@@ -202,7 +202,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             );
           }
 
-          let copyrights$ = of(null);
+          let copyrights$: Observable<any> = of(null);
           if (this.showCopyrights) {
             copyrights$ = this.itemService
               .getItems({
@@ -219,8 +219,8 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let brandItems$ = of(null);
-          let brands$ = of(null);
+          let brandItems$: Observable<any> = of(null);
+          let brands$: Observable<any> = of(null);
           if (
             !this.showMuseums &&
             !this.showFactories &&
