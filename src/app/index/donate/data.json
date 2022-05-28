@@ -1,5 +1,17 @@
 [
   {
+    "sum": 30.00,
+    "currency": "EUR",
+    "date": "2022-05-26T00:00:00+00:00",
+    "contributor": "Vasily Markin"
+  },
+  {
+    "sum": 46.95,
+    "currency": "EUR",
+    "date": "2022-05-25T00:00:00+00:00",
+    "contributor": "Peter Atkinson"
+  },
+  {
     "sum": 42.22,
     "currency": "EUR",
     "date": "2022-05-20T00:00:00+00:00",
@@ -11,6 +23,12 @@
     "date": "2022-05-18T00:00:00+00:00",
     "contributor": null,
     "purpose": "May/June hosting"
+  },
+  {
+    "sum": 15.00,
+    "currency": "EUR",
+    "date": "2022-05-17T00:00:00+00:00",
+    "contributor": "Ward Frensen"
   },
   {
     "sum": 5.00,
