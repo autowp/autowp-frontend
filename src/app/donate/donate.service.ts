@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APIService } from '../services/api.service';
-
-export interface APIDonateCarOfDayDate {
-  name: string;
-  value: string;
-  free: boolean;
-}
-
-export interface APIDonateVODGetResponse {
-  sum: number;
-  dates: APIDonateCarOfDayDate[];
-}
+import {DonationsClient} from '../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {VODDataResponse} from '../../../generated/spec.pb';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DonateService {
 
-  constructor(private api: APIService) {}
+  constructor(private grpc: DonationsClient) {}
 
-  public getVOD(): Observable<APIDonateVODGetResponse> {
-    return this.api.request<APIDonateVODGetResponse>('GET', 'donate/vod');
+  public getVOD(): Observable<VODDataResponse> {
+    return this.grpc.getVODData(new Empty());
   }
 }

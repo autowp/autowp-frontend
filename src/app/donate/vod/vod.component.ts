@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import { APIItem, ItemService } from '../../services/item';
 import { ActivatedRoute } from '@angular/router';
 import {combineLatest, Observable, of} from 'rxjs';
@@ -7,6 +7,9 @@ import { PageEnvService } from '../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, map, shareReplay} from 'rxjs/operators';
 import { DonateService } from '../donate.service';
 import {APIUser} from '../../../../generated/spec.pb';
+import {formatDate} from '@angular/common';
+
+const VOD_TIMEZONE = 'UTC';
 
 @Component({
   selector: 'app-donate-vod',
@@ -68,12 +71,16 @@ export class DonateVodComponent implements OnInit {
   );
 
   public dates$ = combineLatest([this.vod$, this.date$]).pipe(
-    map(([vod, date]) => vod.dates.map(d => ({
-      name: d.name,
-      free: d.free,
-      value: d.value,
-      active: d.value === date
-    })))
+    map(([vod, currentDate]) => vod.dates.map(d => {
+      const date = d.date.toDate();
+      const value = formatDate(date, 'yyyy-MM-dd', this.locale, VOD_TIMEZONE);
+      return {
+        name: formatDate(date, 'longDate', this.locale, VOD_TIMEZONE),
+        free: d.free,
+        value,
+        active: value === currentDate
+      };
+    }))
   );
 
   public formParams$ = combineLatest([
@@ -112,7 +119,8 @@ export class DonateVodComponent implements OnInit {
     private route: ActivatedRoute,
     public auth: AuthService,
     private donateService: DonateService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    @Inject(LOCALE_ID) public locale: string
   ) {
   }
 

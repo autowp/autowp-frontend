@@ -16854,3 +16854,335 @@ export module Pages {
     totalItemCount?: number;
   }
 }
+
+/**
+ * Message implementation for goautowp.VODDataResponse
+ */
+export class VODDataResponse implements GrpcMessage {
+  static id = 'goautowp.VODDataResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new VODDataResponse();
+    VODDataResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: VODDataResponse) {
+    _instance.dates = _instance.dates || [];
+    _instance.sum = _instance.sum || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: VODDataResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new VODDataDate();
+          _reader.readMessage(
+            messageInitializer1,
+            VODDataDate.deserializeBinaryFromReader
+          );
+          (_instance.dates = _instance.dates || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.sum = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    VODDataResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: VODDataResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.dates && _instance.dates.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.dates as any,
+        VODDataDate.serializeBinaryToWriter
+      );
+    }
+    if (_instance.sum) {
+      _writer.writeInt32(2, _instance.sum);
+    }
+  }
+
+  private _dates?: VODDataDate[];
+  private _sum?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of VODDataResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<VODDataResponse.AsObject>) {
+    _value = _value || {};
+    this.dates = (_value.dates || []).map(m => new VODDataDate(m));
+    this.sum = _value.sum;
+    VODDataResponse.refineValues(this);
+  }
+  get dates(): VODDataDate[] | undefined {
+    return this._dates;
+  }
+  set dates(value: VODDataDate[] | undefined) {
+    this._dates = value;
+  }
+  get sum(): number | undefined {
+    return this._sum;
+  }
+  set sum(value: number | undefined) {
+    this._sum = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    VODDataResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): VODDataResponse.AsObject {
+    return {
+      dates: (this.dates || []).map(m => m.toObject()),
+      sum: this.sum
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): VODDataResponse.AsProtobufJSON {
+    return {
+      dates: (this.dates || []).map(m => m.toProtobufJSON(options)),
+      sum: this.sum
+    };
+  }
+}
+export module VODDataResponse {
+  /**
+   * Standard JavaScript object representation for VODDataResponse
+   */
+  export interface AsObject {
+    dates?: VODDataDate.AsObject[];
+    sum?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for VODDataResponse
+   */
+  export interface AsProtobufJSON {
+    dates?: VODDataDate.AsProtobufJSON[] | null;
+    sum?: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.VODDataDate
+ */
+export class VODDataDate implements GrpcMessage {
+  static id = 'goautowp.VODDataDate';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new VODDataDate();
+    VODDataDate.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: VODDataDate) {
+    _instance.date = _instance.date || undefined;
+    _instance.free = _instance.free || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: VODDataDate,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.date = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.date,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.free = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    VODDataDate.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: VODDataDate,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.date) {
+      _writer.writeMessage(
+        1,
+        _instance.date as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.free) {
+      _writer.writeBool(2, _instance.free);
+    }
+  }
+
+  private _date?: googleProtobuf002.Timestamp;
+  private _free?: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of VODDataDate to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<VODDataDate.AsObject>) {
+    _value = _value || {};
+    this.date = _value.date
+      ? new googleProtobuf002.Timestamp(_value.date)
+      : undefined;
+    this.free = _value.free;
+    VODDataDate.refineValues(this);
+  }
+  get date(): googleProtobuf002.Timestamp | undefined {
+    return this._date;
+  }
+  set date(value: googleProtobuf002.Timestamp | undefined) {
+    this._date = value;
+  }
+  get free(): boolean | undefined {
+    return this._free;
+  }
+  set free(value: boolean | undefined) {
+    this._free = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    VODDataDate.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): VODDataDate.AsObject {
+    return {
+      date: this.date ? this.date.toObject() : undefined,
+      free: this.free
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): VODDataDate.AsProtobufJSON {
+    return {
+      date: this.date ? this.date.toProtobufJSON(options) : null,
+      free: this.free
+    };
+  }
+}
+export module VODDataDate {
+  /**
+   * Standard JavaScript object representation for VODDataDate
+   */
+  export interface AsObject {
+    date?: googleProtobuf002.Timestamp.AsObject;
+    free?: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for VODDataDate
+   */
+  export interface AsProtobufJSON {
+    date?: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    free?: boolean;
+  }
+}
