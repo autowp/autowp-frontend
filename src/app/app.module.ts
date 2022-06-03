@@ -46,8 +46,6 @@ import { PictureModerVoteModule } from './picture-moder-vote/picture-moder-vote.
 import { PictureModerVoteService } from './services/picture-moder-vote';
 import { ModerMenuModule } from './moder/menu/menu.module';
 import { IndexModule } from './index/index.module';
-import {ConfigurationService} from './services/configuration.service';
-import {CanActivateCatalogue} from './catalogue/can-activate';
 import {ToastsModule} from './toasts/toasts.module';
 import {environment} from '../environments/environment';
 import { GlobalErrorHandler } from './global-error-handler';
@@ -82,7 +80,6 @@ let providers: Provider[] = [
     multi: true,
     deps: [KeycloakService]
   },
-  ConfigurationService,
   APIService,
   APIACL,
   AuthService,
@@ -108,8 +105,7 @@ let providers: Provider[] = [
   ContentLanguageService,
   LanguageService,
   TimezoneService,
-  IpService,
-  CanActivateCatalogue
+  IpService
 ];
 if (environment.production) {
   providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
