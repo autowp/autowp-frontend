@@ -7,21 +7,8 @@ import { DecimalPipe } from '@angular/common';
 import { BytesPipe } from 'ngx-pipes';
 import { PageEnvService } from '../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
-import { APIService } from '../services/api.service';
-
-export interface APIAbout {
-  developer: number;
-  fr_translator: number;
-  zh_translator: number;
-  be_translator: number;
-  pt_br_translator: number;
-  contributors: number[];
-  total_pictures: number;
-  pictures_size: number;
-  total_users: number;
-  total_cars: number;
-  total_comments: number;
-}
+import {StatisticsClient} from '../../../generated/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 
 function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
@@ -97,14 +84,14 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
   templateUrl: './about.component.html'
 })
 export class AboutComponent implements OnInit {
-  public html$ = this.api.request<APIAbout>('GET', 'about').pipe(
+  public html$ = this.statGrpc.getAboutData(new Empty()).pipe(
     switchMap(about => {
-      const ids: number[] = about.contributors;
+      const ids: string[] = about.contributors;
       ids.push(about.developer);
-      ids.push(about.fr_translator);
-      ids.push(about.zh_translator);
-      ids.push(about.be_translator);
-      ids.push(about.pt_br_translator);
+      ids.push(about.frTranslator);
+      ids.push(about.zhTranslator);
+      ids.push(about.beTranslator);
+      ids.push(about.ptBrTranslator);
 
       return this.userService.getUserMap(ids).pipe(
         map(users => ({
@@ -124,40 +111,40 @@ export class AboutComponent implements OnInit {
     return replacePairs(markdownConverter.makeHtml(data.aboutText), {
       '%users%': contributorsHtml.join(' '),
       '%total-pictures%': this.decimalPipe.transform(
-        data.about.total_pictures
+        data.about.totalPictures
       ),
-      '%total-vehicles%': data.about.total_cars.toString(),
+      '%total-vehicles%': data.about.totalItems.toString(),
       '%total-size%': this.bytesPipe
-        .transform(data.about.pictures_size, 1)
+        .transform(data.about.picturesSize, 1)
         .toString(),
-      '%total-users%': data.about.total_users.toString(),
-      '%total-comments%': data.about.total_comments.toString(),
+      '%total-users%': data.about.totalUsers.toString(),
+      '%total-comments%': data.about.totalComments.toString(),
       '%github%':
         '<i class="fa fa-github" aria-hidden="true"></i> ' +
         '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
       '%developer%': this.userHtml(data.users.get(data.about.developer)),
       '%fr-translator%': this.userHtml(
-        data.users.get(data.about.fr_translator)
+        data.users.get(data.about.frTranslator)
       ),
       '%zh-translator%': this.userHtml(
-        data.users.get(data.about.zh_translator)
+        data.users.get(data.about.zhTranslator)
       ),
       '%be-translator%': this.userHtml(
-        data.users.get(data.about.be_translator)
+        data.users.get(data.about.beTranslator)
       ),
       '%pt-br-translator%': this.userHtml(
-        data.users.get(data.about.pt_br_translator)
+        data.users.get(data.about.ptBrTranslator)
       )
     });
   }));
 
   constructor(
-    private api: APIService,
     private userService: UserService,
     private router: Router,
     private decimalPipe: DecimalPipe,
     private bytesPipe: BytesPipe,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private statGrpc: StatisticsClient
   ) {}
 
   ngOnInit(): void {

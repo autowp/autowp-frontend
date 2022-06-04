@@ -2087,6 +2087,27 @@ export class StatisticsClient {
         requestClass: thisProto.PulseRequest,
         responseClass: thisProto.PulseResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Statistics/GetAboutData
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AboutDataResponse>>
+     */
+    getAboutData: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AboutDataResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Statistics/GetAboutData',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.AboutDataResponse
+      });
     }
   };
 
@@ -2111,6 +2132,22 @@ export class StatisticsClient {
   ): Observable<thisProto.PulseResponse> {
     return this.$raw
       .getPulse(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Statistics/GetAboutData
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AboutDataResponse>
+   */
+  getAboutData(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AboutDataResponse> {
+    return this.$raw
+      .getAboutData(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

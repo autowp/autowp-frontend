@@ -10,7 +10,7 @@ export interface APIGetUserOptions {
 
 export interface APIGetUsersOptions {
   limit?: number;
-  id?: number[];
+  id?: (number|string)[];
   search?: string;
   page?: number;
   fields?: string;
@@ -99,13 +99,13 @@ function converUsersOptions(
 
 @Injectable()
 export class UserService {
-  private cache: Map<number, APIUser> = new Map<number, APIUser>();
-  private promises = new Map<number, Observable<void>>();
+  private cache: Map<string, APIUser> = new Map<string, APIUser>();
+  private promises = new Map<string, Observable<void>>();
 
   constructor(private api: APIService) {}
 
-  private queryUsers(ids: number[]): Observable<any> {
-    const toRequest: number[] = [];
+  private queryUsers(ids: string[]): Observable<any> {
+    const toRequest: string[] = [];
     const waitFor: Observable<void>[] = [];
     for (const id of ids) {
       const oldUser = this.cache.get(id);
@@ -127,7 +127,7 @@ export class UserService {
       }).pipe(
         tap(response => {
           for (const item of response.items) {
-            this.cache.set(item.id, item);
+            this.cache.set(item.id.toString(), item);
           }
         }),
         map(() => null)
@@ -147,7 +147,7 @@ export class UserService {
     return forkJoin(waitFor);
   }
 
-  public getUsers(ids: number[]): Observable<APIUser[]> {
+  public getUsers(ids: string[]): Observable<APIUser[]> {
     return this.queryUsers(ids).pipe(
       map(() => {
         const result: APIUser[] = [];
@@ -163,10 +163,10 @@ export class UserService {
     );
   }
 
-  public getUserMap(ids: number[]): Observable<Map<number, APIUser>> {
+  public getUserMap(ids: string[]): Observable<Map<string, APIUser>> {
     return this.queryUsers(ids).pipe(
       map(() => {
-        const result = new Map<number, APIUser>();
+        const result = new Map<string, APIUser>();
         for (const id of ids) {
           const user = this.cache.get(id);
           if (user === undefined) {
@@ -188,7 +188,7 @@ export class UserService {
       });
     }
 
-    return this.getUsers([id]).pipe(
+    return this.getUsers([id.toString()]).pipe(
       map(users => {
         if (users.length > 0) {
           return users[0];

@@ -17186,3 +17186,334 @@ export module VODDataDate {
     free?: boolean;
   }
 }
+
+/**
+ * Message implementation for goautowp.AboutDataResponse
+ */
+export class AboutDataResponse implements GrpcMessage {
+  static id = 'goautowp.AboutDataResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AboutDataResponse();
+    AboutDataResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AboutDataResponse) {
+    _instance.developer = _instance.developer || '';
+    _instance.frTranslator = _instance.frTranslator || '';
+    _instance.zhTranslator = _instance.zhTranslator || '';
+    _instance.beTranslator = _instance.beTranslator || '';
+    _instance.ptBrTranslator = _instance.ptBrTranslator || '';
+    _instance.contributors = _instance.contributors || [];
+    _instance.totalPictures = _instance.totalPictures || 0;
+    _instance.picturesSize = _instance.picturesSize || 0;
+    _instance.totalUsers = _instance.totalUsers || 0;
+    _instance.totalItems = _instance.totalItems || 0;
+    _instance.totalComments = _instance.totalComments || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AboutDataResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.developer = _reader.readString();
+          break;
+        case 2:
+          _instance.frTranslator = _reader.readString();
+          break;
+        case 3:
+          _instance.zhTranslator = _reader.readString();
+          break;
+        case 4:
+          _instance.beTranslator = _reader.readString();
+          break;
+        case 5:
+          _instance.ptBrTranslator = _reader.readString();
+          break;
+        case 6:
+          (_instance.contributors = _instance.contributors || []).push(
+            _reader.readString()
+          );
+          break;
+        case 7:
+          _instance.totalPictures = _reader.readInt32();
+          break;
+        case 8:
+          _instance.picturesSize = _reader.readInt32();
+          break;
+        case 9:
+          _instance.totalUsers = _reader.readInt32();
+          break;
+        case 10:
+          _instance.totalItems = _reader.readInt32();
+          break;
+        case 11:
+          _instance.totalComments = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AboutDataResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AboutDataResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.developer) {
+      _writer.writeString(1, _instance.developer);
+    }
+    if (_instance.frTranslator) {
+      _writer.writeString(2, _instance.frTranslator);
+    }
+    if (_instance.zhTranslator) {
+      _writer.writeString(3, _instance.zhTranslator);
+    }
+    if (_instance.beTranslator) {
+      _writer.writeString(4, _instance.beTranslator);
+    }
+    if (_instance.ptBrTranslator) {
+      _writer.writeString(5, _instance.ptBrTranslator);
+    }
+    if (_instance.contributors && _instance.contributors.length) {
+      _writer.writeRepeatedString(6, _instance.contributors);
+    }
+    if (_instance.totalPictures) {
+      _writer.writeInt32(7, _instance.totalPictures);
+    }
+    if (_instance.picturesSize) {
+      _writer.writeInt32(8, _instance.picturesSize);
+    }
+    if (_instance.totalUsers) {
+      _writer.writeInt32(9, _instance.totalUsers);
+    }
+    if (_instance.totalItems) {
+      _writer.writeInt32(10, _instance.totalItems);
+    }
+    if (_instance.totalComments) {
+      _writer.writeInt32(11, _instance.totalComments);
+    }
+  }
+
+  private _developer?: string;
+  private _frTranslator?: string;
+  private _zhTranslator?: string;
+  private _beTranslator?: string;
+  private _ptBrTranslator?: string;
+  private _contributors?: string[];
+  private _totalPictures?: number;
+  private _picturesSize?: number;
+  private _totalUsers?: number;
+  private _totalItems?: number;
+  private _totalComments?: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AboutDataResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AboutDataResponse.AsObject>) {
+    _value = _value || {};
+    this.developer = _value.developer;
+    this.frTranslator = _value.frTranslator;
+    this.zhTranslator = _value.zhTranslator;
+    this.beTranslator = _value.beTranslator;
+    this.ptBrTranslator = _value.ptBrTranslator;
+    this.contributors = (_value.contributors || []).slice();
+    this.totalPictures = _value.totalPictures;
+    this.picturesSize = _value.picturesSize;
+    this.totalUsers = _value.totalUsers;
+    this.totalItems = _value.totalItems;
+    this.totalComments = _value.totalComments;
+    AboutDataResponse.refineValues(this);
+  }
+  get developer(): string | undefined {
+    return this._developer;
+  }
+  set developer(value: string | undefined) {
+    this._developer = value;
+  }
+  get frTranslator(): string | undefined {
+    return this._frTranslator;
+  }
+  set frTranslator(value: string | undefined) {
+    this._frTranslator = value;
+  }
+  get zhTranslator(): string | undefined {
+    return this._zhTranslator;
+  }
+  set zhTranslator(value: string | undefined) {
+    this._zhTranslator = value;
+  }
+  get beTranslator(): string | undefined {
+    return this._beTranslator;
+  }
+  set beTranslator(value: string | undefined) {
+    this._beTranslator = value;
+  }
+  get ptBrTranslator(): string | undefined {
+    return this._ptBrTranslator;
+  }
+  set ptBrTranslator(value: string | undefined) {
+    this._ptBrTranslator = value;
+  }
+  get contributors(): string[] | undefined {
+    return this._contributors;
+  }
+  set contributors(value: string[] | undefined) {
+    this._contributors = value;
+  }
+  get totalPictures(): number | undefined {
+    return this._totalPictures;
+  }
+  set totalPictures(value: number | undefined) {
+    this._totalPictures = value;
+  }
+  get picturesSize(): number | undefined {
+    return this._picturesSize;
+  }
+  set picturesSize(value: number | undefined) {
+    this._picturesSize = value;
+  }
+  get totalUsers(): number | undefined {
+    return this._totalUsers;
+  }
+  set totalUsers(value: number | undefined) {
+    this._totalUsers = value;
+  }
+  get totalItems(): number | undefined {
+    return this._totalItems;
+  }
+  set totalItems(value: number | undefined) {
+    this._totalItems = value;
+  }
+  get totalComments(): number | undefined {
+    return this._totalComments;
+  }
+  set totalComments(value: number | undefined) {
+    this._totalComments = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AboutDataResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AboutDataResponse.AsObject {
+    return {
+      developer: this.developer,
+      frTranslator: this.frTranslator,
+      zhTranslator: this.zhTranslator,
+      beTranslator: this.beTranslator,
+      ptBrTranslator: this.ptBrTranslator,
+      contributors: (this.contributors || []).slice(),
+      totalPictures: this.totalPictures,
+      picturesSize: this.picturesSize,
+      totalUsers: this.totalUsers,
+      totalItems: this.totalItems,
+      totalComments: this.totalComments
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AboutDataResponse.AsProtobufJSON {
+    return {
+      developer: this.developer,
+      frTranslator: this.frTranslator,
+      zhTranslator: this.zhTranslator,
+      beTranslator: this.beTranslator,
+      ptBrTranslator: this.ptBrTranslator,
+      contributors: (this.contributors || []).slice(),
+      totalPictures: this.totalPictures,
+      picturesSize: this.picturesSize,
+      totalUsers: this.totalUsers,
+      totalItems: this.totalItems,
+      totalComments: this.totalComments
+    };
+  }
+}
+export module AboutDataResponse {
+  /**
+   * Standard JavaScript object representation for AboutDataResponse
+   */
+  export interface AsObject {
+    developer?: string;
+    frTranslator?: string;
+    zhTranslator?: string;
+    beTranslator?: string;
+    ptBrTranslator?: string;
+    contributors?: string[];
+    totalPictures?: number;
+    picturesSize?: number;
+    totalUsers?: number;
+    totalItems?: number;
+    totalComments?: number;
+  }
+
+  /**
+   * Protobuf JSON representation for AboutDataResponse
+   */
+  export interface AsProtobufJSON {
+    developer?: string;
+    frTranslator?: string;
+    zhTranslator?: string;
+    beTranslator?: string;
+    ptBrTranslator?: string;
+    contributors?: string[];
+    totalPictures?: number;
+    picturesSize?: number;
+    totalUsers?: number;
+    totalItems?: number;
+    totalComments?: number;
+  }
+}
