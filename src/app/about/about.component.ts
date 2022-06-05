@@ -115,7 +115,7 @@ export class AboutComponent implements OnInit {
       ),
       '%total-vehicles%': data.about.totalItems.toString(),
       '%total-size%': this.bytesPipe
-        .transform(data.about.picturesSize, 1)
+        .transform(data.about.picturesSize * 1024 * 1024, 1)
         .toString(),
       '%total-users%': data.about.totalUsers.toString(),
       '%total-comments%': data.about.totalComments.toString(),
