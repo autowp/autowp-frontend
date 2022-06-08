@@ -52,22 +52,41 @@ import { GlobalErrorHandler } from './global-error-handler';
 import { Angulartics2Module } from 'angulartics2';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
-import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {KeycloakAngularModule, KeycloakEventType, KeycloakService} from 'keycloak-angular';
 import {LoginComponent} from './login/login.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
-      config: environment.keycloak,
-      enableBearerInterceptor: false,
-      loadUserProfileAtStartUp: false,
-      initOptions: {
-        enableLogging: !environment.production,
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html'
+  return () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await keycloak.init({
+          config: environment.keycloak,
+          enableBearerInterceptor: false,
+          loadUserProfileAtStartUp: false,
+          initOptions: {
+            enableLogging: !environment.production,
+            onLoad: 'check-sso',
+            silentCheckSsoRedirectUri:
+              window.location.origin + '/assets/silent-check-sso.html'
+          }
+        });
+
+        keycloak.keycloakEvents$.subscribe({
+          next: (e) => {
+            if (e.type == KeycloakEventType.OnTokenExpired) {
+              keycloak.updateToken().then(() => {}, error => {
+                console.error('Failed to refresh token', error);
+              });
+            }
+          }
+        });
+
+        resolve(res);
+      } catch(error) {
+        reject(error);
       }
-    });
+    })
+  }
 }
 
 let providers: Provider[] = [
