@@ -48,3 +48,4 @@ crt/*.crt
 
 /oneskyapp.sh
 sonar-scanner-*
+/.scannerwork/
