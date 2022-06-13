@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { switchMapTo, map, shareReplay, tap } from 'rxjs/operators';
+import {map, shareReplay, tap, switchMap} from 'rxjs/operators';
 import {PicturesClient} from '../../../../generated/spec.pbsc';
 import {DeleteModerVoteTemplateRequest, ModerVoteTemplate} from '../../../../generated/spec.pb';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -22,9 +22,7 @@ export class APIPictureModerVoteTemplateService {
 
   public getTemplates(): Observable<ModerVoteTemplate[]> {
     return combineLatest([this.change$, this.auth.getUser()]).pipe(
-      switchMapTo(
-        this.pictures.getModerVoteTemplates(new Empty({}))
-      ),
+      switchMap(() => this.pictures.getModerVoteTemplates(new Empty({}))),
       map(response => response.items),
       shareReplay(1)
     );

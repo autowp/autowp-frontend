@@ -5,12 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import {combineLatest, Observable} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  switchMapTo, map, shareReplay
-} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
 import { APIAttrConflictValue, APIAttrConflict, APIAttrsService } from '../../api/attrs/attrs.service';
 import { getUnitTranslation } from '../../utils/translations';
 
@@ -41,8 +36,8 @@ export class AccountSpecsConflictsComponent implements OnInit {
   );
 
   public user$ = this.auth.getUser().pipe(
-    switchMapTo(
-      this.api.request<APIUser>('GET', 'user/me', {
+    switchMap(
+      () => this.api.request<APIUser>('GET', 'user/me', {
         params: { fields: 'specs_weight' }
       })
     ),

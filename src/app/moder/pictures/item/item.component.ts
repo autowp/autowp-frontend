@@ -8,13 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {Subscription, BehaviorSubject, of} from 'rxjs';
 import { PictureService, APIPicture } from '../../../services/picture';
 import { PageEnvService } from '../../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  tap,
-  switchMapTo, map, catchError
-} from 'rxjs/operators';
+import {distinctUntilChanged, debounceTime, switchMap, tap, map, catchError} from 'rxjs/operators';
 import {LanguageService} from '../../../services/language';
 import { sprintf } from 'sprintf-js';
 import { APIService } from '../../../services/api.service';
@@ -129,8 +123,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         ),
         switchMap(id =>
           this.change$.pipe(
-            switchMapTo(
-              this.pictureService.getPicture(id, {
+            switchMap(
+              () => this.pictureService.getPicture(id, {
                 fields: [
                   'owner',
                   'thumb',

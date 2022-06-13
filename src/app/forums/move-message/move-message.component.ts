@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EMPTY, of} from 'rxjs';
 import {PageEnvService} from '../../services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, switchMapTo} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
@@ -79,7 +79,7 @@ export class ForumsMoveMessageComponent implements OnInit {
       itemId: ''+topic.id,
       typeId: CommentsType.FORUMS_TYPE_ID,
     })).pipe(
-        switchMapTo(this.forumService.getMessageStateParams(messageID))
+        switchMap(() => this.forumService.getMessageStateParams(messageID))
       )
       .subscribe(
         params =>

@@ -1,12 +1,8 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy, ViewChild
-} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { PageEnvService } from '../../services/page-env.service';
 import {EMPTY, of, Subscription} from 'rxjs';
-import {switchMapTo, switchMap, catchError, tap} from 'rxjs/operators';
+import {switchMap, catchError, tap} from 'rxjs/operators';
 import { TimezoneService } from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIImage, APIService} from '../../services/api.service';
@@ -85,8 +81,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
         return of(user);
       }),
-      switchMapTo(
-        this.api.request<RESTAPIUser>('GET', 'user/me', {
+      switchMap(
+        () => this.api.request<RESTAPIUser>('GET', 'user/me', {
           params: {
             fields: 'name,timezone,language,votes_per_day,votes_left,img'
           }

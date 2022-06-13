@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { ContactsService } from '../../services/contacts';
 import { PageEnvService } from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {map, switchMapTo} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {Contact, DeleteContactRequest} from '../../../../generated/spec.pb';
@@ -49,7 +49,7 @@ export class AccountContactsComponent {
         }
         return user;
       }),
-      switchMapTo(this.contactsService.getContacts({
+      switchMap(() => this.contactsService.getContacts({
         fields: ['avatar', 'gravatar', 'last_online']
       }))
     ).subscribe(

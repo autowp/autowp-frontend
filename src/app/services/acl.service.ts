@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  map, shareReplay,
-  switchMapTo
-} from 'rxjs/operators';
+import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {AclEnforceRequest} from '../../../generated/spec.pb';
 
@@ -82,7 +78,7 @@ export class ACLService {
     }
 
     const o = this.auth.getUser().pipe(
-      switchMapTo(this.apiACL.isAllowed(resource, privilege)),
+      switchMap(() => this.apiACL.isAllowed(resource, privilege)),
       shareReplay(1)
     );
     this.isAllowedCache.set(key, o);

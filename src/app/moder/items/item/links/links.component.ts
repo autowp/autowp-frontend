@@ -3,7 +3,7 @@ import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemLink, ItemLinkService} from '../../../../services/item-link';
 import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
-import {map, switchMap, switchMapTo, tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {APIService} from '../../../../services/api.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ModerItemsItemLinksComponent {
   };
 
   public links$: Observable<APIItemLink[]> = this.reload$.pipe(
-    switchMapTo(this.item$),
+    switchMap(() => this.item$),
     switchMap(item => this.itemLinkService.getItems({item_id: item.id})),
     map(response => response.items)
   );

@@ -4,7 +4,7 @@ import {APIItem, ItemService} from '../../services/item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '../../services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, switchMap, switchMapTo, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '../../services/api.service';
 import {AuthService} from '../../services/auth.service';
@@ -27,7 +27,7 @@ export class CarsSpecificationsEditorComponent {
     distinctUntilChanged(),
     debounceTime(30),
     switchMap(itemID => this.change$.pipe(
-      switchMapTo(this.itemService.getItem(itemID, {
+      switchMap(() => this.itemService.getItem(itemID, {
         fields: 'name_html,name_text,engine_id,attr_zone_id'
       })),
     )),

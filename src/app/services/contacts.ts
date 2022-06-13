@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
-import {catchError, map, switchMapTo} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {ContactsClient} from '../../../generated/spec.pbsc';
 import {ContactItems, GetContactRequest, GetContactsRequest} from '../../../generated/spec.pb';
@@ -39,7 +39,7 @@ export class ContactsService {
     }
 
     return this.auth.getUser().pipe(
-      switchMapTo(this.contactsClient.getContacts(request))
+      switchMap(() => this.contactsClient.getContacts(request))
     );
   }
 }

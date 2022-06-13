@@ -44,14 +44,14 @@ export class AccountAccountsComponent implements OnInit {
   }
 
   public load() {
-    this.api.request<APIAccountItemsGetResponse>('GET', 'account').subscribe(
-      response => {
+    this.api.request<APIAccountItemsGetResponse>('GET', 'account').subscribe({
+      next: response => {
         this.accounts = response.items;
       },
-      response => {
+      error: response => {
         this.toastService.response(response);
       }
-    );
+    });
   }
 
   public start() {
@@ -63,27 +63,27 @@ export class AccountAccountsComponent implements OnInit {
       service: this.service,
       redirect_uri: 'https://' + window.location.host + '/account/accounts'
     }})
-    .subscribe(
-      response => {
+    .subscribe({
+      next: response => {
         window.location.href = response.url;
       },
-      response => {
+      error: response => {
         this.toastService.response(response);
       }
-    );
+    });
   }
 
   public remove(account: APIAccount) {
-    this.api.request('DELETE', 'account/' + account.id).subscribe(
-      () => {
-        this.toastService.success($localize `Account removed`);
+    this.api.request('DELETE', 'account/' + account.id).subscribe({
+      next: () => {
+        this.toastService.success($localize`Account removed`);
 
         this.load();
       },
-      response => {
+      error: response => {
         this.disconnectFailed = true;
         this.toastService.response(response);
       }
-    );
+    });
   }
 }

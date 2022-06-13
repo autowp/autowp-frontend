@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { IpService } from '../../services/ip';
 import { PageEnvService } from '../../services/page-env.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {map, switchMapTo} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {TrafficClient} from '../../../../generated/spec.pbsc';
 import { Empty } from '@ngx-grpc/well-known-types';
 import {
@@ -25,7 +25,7 @@ export class ModerTrafficComponent implements OnInit {
   private change$ = new BehaviorSubject<null>(null);
 
   public items$: Observable<ListItem[]> = this.change$.pipe(
-    switchMapTo(this.trafficGrpc.getTop(new Empty())),
+    switchMap(() => this.trafficGrpc.getTop(new Empty())),
     map(response => response.items.map(item => ({
       item,
       hostname$: this.ipService.getHostByAddr(item.ip)

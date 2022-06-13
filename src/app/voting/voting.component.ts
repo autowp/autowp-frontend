@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotingVotesComponent } from './votes/votes.component';
 import {ToastsService} from '../toasts/toasts.service';
 import { APIService } from '../services/api.service';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, switchMapTo, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-voting',
@@ -20,7 +20,7 @@ export class VotingComponent {
     map(params => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(id => this.reload$.pipe(switchMapTo(this.votingService.getVoting(id)))),
+    switchMap(id => this.reload$.pipe(switchMap(() => this.votingService.getVoting(id)))),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true

@@ -5,7 +5,7 @@ import {of, Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIPicture, PictureService} from '../../../services/picture';
 import {PageEnvService} from '../../../services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, switchMapTo, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
 import { getItemTypeTranslation } from '../../../utils/translations';
@@ -191,7 +191,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.randomPicture =
             data.pictures.length > 0 ? data.pictures[0] : null;
         }),
-        switchMapTo(this.route.queryParamMap),
+        switchMap(() => this.route.queryParamMap),
         map(params => params.get('tab')),
         distinctUntilChanged(),
         debounceTime(30),
