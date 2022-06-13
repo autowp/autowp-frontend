@@ -47,8 +47,8 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
           observe: 'response'
         }
       ))
-    ).subscribe(
-      response => {
+    ).subscribe({
+      next: response => {
         this.form.message = '';
         this.form.moderator_attention = false;
 
@@ -56,14 +56,14 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
 
         this.sent.emit(location);
       },
-      response => {
+      error: response => {
         if (response.status === 400) {
           this.invalidParams = response.error.invalid_params;
         } else {
           this.toastService.response(response);
         }
       }
-    );
+    });
   }
 
   public cancel() {

@@ -79,8 +79,8 @@ export class CarsSpecsAdminComponent implements OnInit {
         'DELETE',
         'attr/user-value/' + value.attribute_id + '/' + value.item_id + '/' + value.user_id
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           for (let i = 0; i < values.length; i++) {
             if (values[i] === value) {
               values.splice(i, 1);
@@ -88,8 +88,8 @@ export class CarsSpecsAdminComponent implements OnInit {
             }
           }
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public moveValues(itemID: number) {
@@ -106,12 +106,12 @@ export class CarsSpecsAdminComponent implements OnInit {
           }
         }
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.move$.next(true);
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public getUnitTranslation(id: number, type: string): string {

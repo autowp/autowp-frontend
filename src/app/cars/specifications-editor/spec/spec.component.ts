@@ -265,12 +265,12 @@ export class CarsSpecificationsEditorSpecComponent {
       .request<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {body: {
         items
       }})
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.change$.next(null);
           this.loading--;
         },
-        response => {
+        error: response => {
           if (response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
@@ -278,7 +278,7 @@ export class CarsSpecificationsEditorSpecComponent {
           }
           this.loading--;
         }
-      );
+      });
   }
 
   public getStep(attribute: APIAttrAttribute): number {

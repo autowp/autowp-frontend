@@ -34,11 +34,11 @@ export class ModerStatComponent {
       0
     );
 
-    this.api.request<APIStatGlobalSummary>('GET', 'stat/global-summary').subscribe(
-      response => {
+    this.api.request<APIStatGlobalSummary>('GET', 'stat/global-summary').subscribe({
+      next: response => {
         this.items = response.items;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 }

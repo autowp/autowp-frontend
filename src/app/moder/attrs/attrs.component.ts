@@ -55,10 +55,10 @@ export class ModerAttrsComponent {
       .request<void>('PATCH', 'attr/attribute/' + id, {body: {
         move: dir
       }})
-      .subscribe(
-        () => this.attributesChange$.next(null),
-        response => this.toastService.response(response)
-      );
+      .subscribe({
+        next: () => this.attributesChange$.next(null),
+        error: response => this.toastService.response(response)
+      });
   }
 
   public moveUp(id: number) {

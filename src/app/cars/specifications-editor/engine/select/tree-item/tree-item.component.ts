@@ -29,16 +29,16 @@ export class CarsSelectEngineTreeItemComponent {
         item_type_id: 2,
         order: 'type_auto'
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.childs = response.items;
           this.loading = false;
         },
-        response => {
+        error: response => {
           this.toastService.response(response);
           this.loading = false;
         }
-      );
+      });
   }
 
   public selectEngine(engineId: number) {

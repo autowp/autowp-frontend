@@ -66,25 +66,25 @@ export class ForumsNewTopicComponent implements OnInit {
       text: this.form.text,
       moderator_attention: this.form.moderator_attention,
       subscription: this.form.subscription
-    }).subscribe(
-      response => {
+    }).subscribe({
+      next: response => {
         const location = response.headers.get('Location');
 
-        this.forumService.getTopicByLocation(location, {}).subscribe(
-          topic => {
+        this.forumService.getTopicByLocation(location, {}).subscribe({
+          next: topic => {
             this.router.navigate(['/forums/topic', topic.id]);
           },
-          subresponse => this.toastService.response(subresponse)
-        );
+          error: subresponse => this.toastService.response(subresponse)
+        });
       },
-      response => {
+      error: response => {
         if (response.status === 400) {
           this.invalidParams = response.error.invalid_params;
         } else {
           this.toastService.response(response);
         }
       }
-    );
+    });
   }
 
   public getForumsThemeTranslation(id: string): string {

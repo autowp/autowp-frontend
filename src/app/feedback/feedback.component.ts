@@ -30,12 +30,12 @@ export class FeedbackComponent {
     private pageEnv: PageEnvService,
     private toastService: ToastsService
   ) {
-    this.reCaptchaService.get().subscribe(
-      response => {
+    this.reCaptchaService.get().subscribe({
+      next: response => {
         this.recaptchaKey = response.publicKey;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
 
     setTimeout(
       () =>

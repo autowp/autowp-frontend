@@ -64,8 +64,8 @@ export class CarsSpecificationsEditorComponent {
   }
 
   public refreshInheritance(item: APIItem) {
-    this.api.request<void>('POST', 'item/' + item.id + '/refresh-inheritance', {body: {}}).subscribe(
-      () => {
+    this.api.request<void>('POST', 'item/' + item.id + '/refresh-inheritance', {body: {}}).subscribe({
+      next: () => {
         this.router.navigate(['/cars/specifications-editor'], {
           queryParams: {
             item_id: item.id,
@@ -73,7 +73,7 @@ export class CarsSpecificationsEditorComponent {
           }
         });
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 }

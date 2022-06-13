@@ -171,8 +171,8 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
         return forkJoin(promises);
       })
-    ).subscribe(
-      () => {
+    ).subscribe({
+      next: () => {
         this.loading--;
         if (localStorage) {
           localStorage.setItem('last_item', item.id.toString());
@@ -183,10 +183,10 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
           }
         });
       },
-      response => {
+      error: response => {
         this.invalidParams = response.error.invalid_params;
         this.loading--;
       }
-    );
+    });
   }
 }

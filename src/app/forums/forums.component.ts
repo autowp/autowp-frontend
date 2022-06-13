@@ -90,12 +90,12 @@ export class ForumsComponent {
     const o = this.api.request<void>('PUT', 'forum/topic/' + topic.id, {body: {
       status
     }});
-    o.subscribe(
-      () => {
+    o.subscribe({
+      next: () => {
         topic.status = status;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
 
     return o;
   }

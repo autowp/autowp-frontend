@@ -26,12 +26,12 @@ export class ModerPerspectivesComponent {
       0
     );
 
-    this.grpc.getPerspectivePages(new Empty()).subscribe(
-      response => {
+    this.grpc.getPerspectivePages(new Empty()).subscribe({
+      next: response => {
         this.pages = response.items;
       },
-      response => console.log(response)
-    );
+      error: response => console.log(response)
+    });
   }
 
   public getPerspectiveTranslation(id: string): string {

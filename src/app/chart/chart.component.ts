@@ -75,13 +75,13 @@ export class ChartComponent {
       0
     );
 
-    this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe(
-      response => {
+    this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe({
+      next: response => {
         this.parameters = response.parameters;
         this.selectParam(this.parameters[0]);
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 
   private loadData(id: number) {
@@ -91,16 +91,16 @@ export class ChartComponent {
       .request<APIChartData>('GET', 'chart/data', {
         params: { id: id.toString() }
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.chart.data = response.datasets.map(dataset => ({
             label: dataset.name,
             data: dataset.values
           }));
           this.chart.labels = response.years;
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public selectParam(param: APIChartParameter) {

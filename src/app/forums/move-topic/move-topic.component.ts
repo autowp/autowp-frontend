@@ -59,12 +59,12 @@ export class ForumsMoveTopicComponent implements OnInit {
       .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         theme_id: theme.id
       }})
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.router.navigate(['/forums/topic', topic.id]);
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public getForumsThemeTranslation(id: string): string {

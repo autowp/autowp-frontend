@@ -133,47 +133,47 @@ export class ModerAttrsAttributeComponent {
 
   public saveAttribute(attribute: APIAttrAttribute) {
     this.loading++;
-    this.attrsService.updateAttribute(attribute.id, attribute).subscribe(
-      () => {
+    this.attrsService.updateAttribute(attribute.id, attribute).subscribe({
+      next: () => {
         this.loading--;
       },
-      response => {
+      error: response => {
         this.toastService.response(response);
         this.loading--;
       }
-    );
+    });
   }
 
   public addAttribute(attribute: APIAttrAttribute) {
     this.newAttribute.parent_id = attribute.id;
 
     this.addLoading++;
-    this.attrsService.createAttribute(this.newAttribute).subscribe(
-      response => {
+    this.attrsService.createAttribute(this.newAttribute).subscribe({
+      next: response => {
         const location = response.headers.get('Location');
 
         Object.assign(this.newAttribute, this.defaultAttribute);
 
         this.addLoading++;
-        this.attrsService.getAttributeByLocation(location).subscribe(
-          subresponse => {
+        this.attrsService.getAttributeByLocation(location).subscribe({
+          next: subresponse => {
             this.router.navigate(['/moder/attrs/attribute', subresponse.id]);
 
             this.addLoading--;
           },
-          subresponse => {
+          error: subresponse => {
             this.toastService.response(subresponse);
             this.addLoading--;
           }
-        );
+        });
 
         this.addLoading--;
       },
-      response => {
+      error: response => {
         this.toastService.response(response);
         this.addLoading--;
       }
-    );
+    });
   }
 
   public addListOption(attribute: APIAttrAttribute) {
@@ -185,19 +185,19 @@ export class ModerAttrsAttributeComponent {
         parent_id: this.newListOption.parent_id,
         name: this.newListOption.name
       })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.newListOption.name = '';
 
           this.$listOptionsChange.next(null);
 
           this.addListOptionLoading--;
         },
-        response => {
+        error: response => {
           this.toastService.response(response);
           this.addListOptionLoading--;
         }
-      );
+      });
 
     return false;
   }

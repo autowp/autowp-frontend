@@ -99,23 +99,23 @@ export class AccountMessagesComponent {
   ) {}
 
   public deleteMessage(id: string) {
-    this.messageService.deleteMessage(id).subscribe(
-      () => {
+    this.messageService.deleteMessage(id).subscribe({
+      next: () => {
         this.change$.next(null);
       },
-      response => this.toastService.grpcErrorResponse(response)
-    );
+      error: response => this.toastService.grpcErrorResponse(response)
+    });
 
     return false;
   }
 
   public clearFolder(folder: string) {
-    this.messageService.clearFolder(folder).subscribe(
-      () => {
+    this.messageService.clearFolder(folder).subscribe({
+      next: () => {
         this.change$.next(null);
       },
-      response => this.toastService.grpcErrorResponse(response)
-    );
+      error: response => this.toastService.grpcErrorResponse(response)
+    });
   }
 
   public openMessageForm(userId: string) {

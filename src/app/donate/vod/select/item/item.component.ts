@@ -33,13 +33,13 @@ export class DonateVodSelectItemComponent {
             'item.name_html,item.childs_count,item.is_compiles_item_of_day',
           limit: 500
         })
-        .subscribe(
-          response => {
+        .subscribe({
+          next: response => {
             this.loading = false;
             this.childs = response.items;
           },
-          response => this.toastService.response(response)
-        );
+          error: response => this.toastService.response(response)
+        });
     }
 
     return false;

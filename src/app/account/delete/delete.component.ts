@@ -45,18 +45,18 @@ export class AccountDeleteComponent {
         userId: user.id,
         password: this.form.password_old
       })))
-    ).subscribe(
-      () => {
+    ).subscribe({
+      next: () => {
         this.auth.signOut();
         this.router.navigate(['/account/delete/deleted']);
       },
-      response => {
+      error: response => {
         this.toastService.grpcErrorResponse(response);
         if (response.statusCode === 3) {
           const fieldViolations = extractFieldViolations(response);
           this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
         }
       }
-    );
+    });
   }
 }

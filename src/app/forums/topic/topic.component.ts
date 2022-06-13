@@ -61,12 +61,12 @@ export class ForumsTopicComponent {
       .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         subscription: 1
       }})
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           topic.subscription = true;
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public unsubscribe(topic: APIForumTopic) {
@@ -74,12 +74,12 @@ export class ForumsTopicComponent {
       .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         subscription: 0
       }})
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           topic.subscription = false;
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public getForumsThemeTranslation(id: string): string {

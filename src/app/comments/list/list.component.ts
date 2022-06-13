@@ -59,10 +59,10 @@ export class CommentsListComponent {
 
         this.commentService
           .getComment(message.id, { fields: 'vote' })
-          .subscribe(
-            response => (message.vote = response.vote),
-            response => this.toastService.response(response)
-          );
+          .subscribe({
+            next: response => (message.vote = response.vote),
+            error: response => this.toastService.response(response)
+          });
 
         // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
       },
@@ -79,10 +79,10 @@ export class CommentsListComponent {
       commentId: ''+message.id,
       deleted: value,
     }))
-      .subscribe(
-        () => (message.deleted = value),
-        response => this.toastService.grpcErrorResponse(response)
-      );
+      .subscribe({
+        next: () => (message.deleted = value),
+        error: response => this.toastService.grpcErrorResponse(response)
+      });
   }
 
   public reply(message: APICommentInList, resolve: boolean) {

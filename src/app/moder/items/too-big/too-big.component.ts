@@ -34,14 +34,14 @@ export class ModerItemsTooBigComponent {
         limit: 100,
         fields: 'childs_count,name_html'
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.items = response.items;
           this.loading = false;
         },
-        () => {
+        error: () => {
           this.loading = false;
         }
-      );
+      });
   }
 }

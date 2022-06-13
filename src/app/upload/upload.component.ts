@@ -239,22 +239,22 @@ export class UploadComponent implements OnInit {
         .request<void>('PUT', 'picture/' + picture.id, {body: {
           crop: picture.crop
         }})
-        .subscribe(
-          () => {
+        .subscribe({
+          next: () => {
             this.pictureService
               .getPicture(picture.id, {
                 fields: 'crop,thumb_medium'
               })
-              .subscribe(
-                response => {
+              .subscribe({
+                next: response => {
                   picture.crop = response.crop;
                   picture.thumb_medium = response.thumb_medium;
                 },
-                response => this.toastService.response(response)
-              );
+                error: response => this.toastService.response(response)
+              });
           },
-          response => this.toastService.response(response)
-        );
+          error: response => this.toastService.response(response)
+        });
     });
 
     return false;

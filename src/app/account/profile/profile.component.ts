@@ -113,18 +113,18 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public sendSettings() {
     this.settingsInvalidParams = {};
 
-    this.api.request<void>('PUT', 'user/me', {body: this.settings}).subscribe(
-      () => {
+    this.api.request<void>('PUT', 'user/me', {body: this.settings}).subscribe({
+      next: () => {
         this.showSavedMessage();
       },
-      response => {
+      error: response => {
         if (response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
         } else {
           this.toastService.response(response);
         }
       }
-    );
+    });
   }
 
   /*public showFileSelectDialog() {
@@ -133,13 +133,13 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   }*/
 
   public resetPhoto() {
-    this.api.request('DELETE', 'user/me/photo').subscribe(
-      () => {
+    this.api.request('DELETE', 'user/me/photo').subscribe({
+      next: () => {
         this.user.avatar = null;
         this.photo = null;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 
   public onChange(event: any) {

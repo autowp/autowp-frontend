@@ -147,12 +147,12 @@ export class AccountSidebarComponent {
 
       for (const item of items) {
         if (item.pageId) {
-          this.pageEnv.isActive(item.pageId).subscribe(
-            active => {
+          this.pageEnv.isActive(item.pageId).subscribe({
+            next: active => {
               item.active = active;
             },
-            response => this.toastService.response(response)
-          );
+            error: response => this.toastService.response(response)
+          });
         }
       }
       return items;

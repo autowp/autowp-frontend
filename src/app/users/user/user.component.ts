@@ -186,12 +186,12 @@ export class UsersUserComponent {
       return;
     }
 
-    this.api.request<void>('DELETE', 'user/' + user.id + '/photo').subscribe(
-      () => {
+    this.api.request<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
+      next: () => {
         user.photo = null;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 
   public deleteUser(user: APIUser) {
@@ -200,21 +200,21 @@ export class UsersUserComponent {
     }
     this.usersGrpc.deleteUser(new APIDeleteUserRequest({
       userId: user.id.toString()
-    })).subscribe(
-      () => {
+    })).subscribe({
+      next: () => {
         user.deleted = true;
       },
-      response => this.toastService.grpcErrorResponse(response)
-    );
+      error: response => this.toastService.grpcErrorResponse(response)
+    });
   }
 
   public removeFromBlacklist(ip: string) {
-    this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe(
-      () => {
+    this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe({
+      next: () => {
         this.ipChange$.next(true);
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 
   public addToBlacklist(ip: string) {
@@ -222,11 +222,11 @@ export class UsersUserComponent {
       ip,
       period: this.banPeriod,
       reason: this.banReason
-    })).subscribe(
-      () => {
+    })).subscribe({
+      next: () => {
         this.ipChange$.next(true);
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 }

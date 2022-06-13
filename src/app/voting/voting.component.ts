@@ -71,12 +71,12 @@ export class VotingComponent {
 
     this.api.request<void>('PATCH', 'voting/' + voting.id, {body: {
       vote: ids
-    }}).subscribe(
-      () => {
+    }}).subscribe({
+      next: () => {
         this.reload$.next(true);
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
 
     return false;
   }

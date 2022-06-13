@@ -42,10 +42,10 @@ export class CarsSpecificationsEditorEngineComponent {
       .request<void>('PUT', 'item/' + item.id, {body: {
         engine_id: value
       }})
-      .subscribe(
-        () => this.changed.emit(),
-        response => this.toastService.response(response)
-      );
+      .subscribe({
+        next: () => this.changed.emit(),
+        error: response => this.toastService.response(response)
+      });
   }
 
   public inheritEngine(item:APIItem) {

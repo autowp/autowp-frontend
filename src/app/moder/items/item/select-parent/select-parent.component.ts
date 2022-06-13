@@ -56,12 +56,12 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         is_group: true,
         order
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           parent.childLinks = response.items;
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public loadChildCategories(parent: APIItemInSelectParent) {
@@ -111,13 +111,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     item_type_id: this.item.item_type_id,
                     page: this.page
                   })
-                  .subscribe(
-                    response => {
+                  .subscribe({
+                    next: response => {
                       this.items = response.items;
                       this.paginator = response.paginator;
                     },
-                    response => this.toastService.response(response)
-                  );
+                    error: response => this.toastService.response(response)
+                  });
               } else {
                 this.loadCatalogueBrands();
               }
@@ -136,13 +136,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                   page: this.page,
                   no_parent: true
                 })
-                .subscribe(
-                  response => {
+                .subscribe({
+                  next: response => {
                     this.categories = response.items;
                     this.paginator = response.paginator;
                   },
-                  response => this.toastService.response(response)
-                );
+                  error: response => this.toastService.response(response)
+                });
             }
 
             if (this.tab === 'twins') {
@@ -155,13 +155,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     have_common_childs_with: this.brandID,
                     page: this.page
                   })
-                  .subscribe(
-                    response => {
+                  .subscribe({
+                    next: response => {
                       this.items = response.items;
                       this.paginator = response.paginator;
                     },
-                    response => this.toastService.response(response)
-                  );
+                    error: response => this.toastService.response(response)
+                  });
               } else {
                 this.itemService
                   .getItems({
@@ -171,13 +171,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     have_childs_with_parent_of_type: 4,
                     page: this.page
                   })
-                  .subscribe(
-                    response => {
+                  .subscribe({
+                    next: response => {
                       this.brands = chunk<APIItem>(response.items, 6);
                       this.paginator = response.paginator;
                     },
-                    response => this.toastService.response(response)
-                  );
+                    error: response => this.toastService.response(response)
+                  });
               }
             }
 
@@ -189,13 +189,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                   fields: 'name_html',
                   page: this.page
                 })
-                .subscribe(
-                  response => {
+                .subscribe({
+                  next: response => {
                     this.factories = response.items;
                     this.paginator = response.paginator;
                   },
-                  response => this.toastService.response(response)
-                );
+                  error: response => this.toastService.response(response)
+                });
             }
           },
           () => {
@@ -217,16 +217,16 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         item_id: this.item.id,
         parent_id: parent.id
       }})
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {
               tab: 'catalogue'
             }
           });
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
 
     return false;
   }
@@ -253,13 +253,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         name: this.search ? '%' + this.search + '%' : null,
         page: this.page
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.brands = chunk<APIItem>(response.items, 6);
           this.paginator = response.paginator;
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   private loadBrands() {
@@ -271,12 +271,12 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         name: this.search ? '%' + this.search + '%' : null,
         page: this.page
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.brands = chunk<APIItem>(response.items, 6);
           this.paginator = response.paginator;
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 }

@@ -100,12 +100,12 @@ export class MapComponent implements OnInit {
         }),
         map(response => response.points)
       )
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.renderData(response);
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   onMapReady(lmap: Map) {

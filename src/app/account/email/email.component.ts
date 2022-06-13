@@ -30,11 +30,11 @@ export class AccountEmailComponent {
         }),
       0
     );
-    this.api.request<APIUser>('GET', 'user/me', {params: {fields: 'email'}}).subscribe(
-      response => {
+    this.api.request<APIUser>('GET', 'user/me', {params: {fields: 'email'}}).subscribe({
+      next: response => {
         this.email = response.email;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 }

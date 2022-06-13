@@ -81,15 +81,15 @@ export class ForumsMoveMessageComponent implements OnInit {
     })).pipe(
         switchMap(() => this.forumService.getMessageStateParams(messageID))
       )
-      .subscribe(
-        params =>
+      .subscribe({
+        next: params =>
           this.router.navigate(['/forums/topic', params.topic_id], {
             queryParams: {
               page: params.page
             }
           }),
-        subresponse => this.toastService.grpcErrorResponse(subresponse)
-      );
+        error: subresponse => this.toastService.grpcErrorResponse(subresponse)
+      });
   }
 
   public getForumsThemeTranslation(id: string): string {

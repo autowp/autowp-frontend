@@ -163,17 +163,17 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           fields: ['preview', 'user', 'is_new', 'status', 'route']
         });
       })
-    ).subscribe(
-      response => {
+    ).subscribe({
+      next: response => {
         this.comments = response.items;
         this.paginator = response.paginator;
         this.loading--;
       },
-      response => {
+      error: response => {
         this.toastService.response(response);
         this.loading--;
       }
-    );
+    });
   }
 
   ngOnDestroy(): void {

@@ -55,8 +55,8 @@ export class ForumsSubscriptionsComponent implements OnInit {
       .request<void>('PUT', 'forum/topic/' + topic.id, {body: {
         subscription: 0
       }})
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           for (let i = topics.length - 1; i >= 0; i--) {
             if (topics[i].id === topic.id) {
               topics.splice(i, 1);
@@ -64,7 +64,7 @@ export class ForumsSubscriptionsComponent implements OnInit {
             }
           }
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 }

@@ -52,12 +52,12 @@ export class AccountContactsComponent {
       switchMap(() => this.contactsService.getContacts({
         fields: ['avatar', 'gravatar', 'last_online']
       }))
-    ).subscribe(
-      response => {
+    ).subscribe({
+      next: response => {
         this.items = response.items;
       },
-      response => this.toastService.response(response)
-    );
+      error: response => this.toastService.response(response)
+    });
   }
 
   public deleteContact(id: string) {

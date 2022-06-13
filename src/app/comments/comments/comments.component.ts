@@ -85,19 +85,19 @@ export class CommentsComponent {
         fields: 'page',
         limit: this.limit
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           if (this.page !== response.page) {
             this.router.navigate([], {
-              queryParams: { page: response.page },
+              queryParams: {page: response.page},
               queryParamsHandling: 'merge'
             });
           } else {
             this.reload$.next(null);
           }
         },
-        response => this.toastService.response(response)
-      );
+        error: response => this.toastService.response(response)
+      });
   }
 
   public load(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
