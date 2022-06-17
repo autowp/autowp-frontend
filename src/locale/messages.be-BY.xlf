@@ -746,6 +746,122 @@
           <context context-type="linenumber">194,200</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6df3069422db26773a9ec6e7e5d80ccbd1ec1d21" datatype="html">
+        <source>Loading…</source>
+        <target>Ідзе загрузка…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/about/about.component.html</context>
+          <context context-type="linenumber">15,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
+          <context context-type="linenumber">11,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/messages/messages.component.html</context>
+          <context context-type="linenumber">20,30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/articles/article/article.component.html</context>
+          <context context-type="linenumber">14,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/articles/list/list.component.html</context>
+          <context context-type="linenumber">15,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
+          <context context-type="linenumber">34,39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/comments/comments/comments.component.html</context>
+          <context context-type="linenumber">3,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/authors/authors.component.html</context>
+          <context context-type="linenumber">27,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/brands/brand/brand.component.html</context>
+          <context context-type="linenumber">30,36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/brands/brands.component.html</context>
+          <context context-type="linenumber">27,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/cutaway.component.html</context>
+          <context context-type="linenumber">27,33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/inbox/inbox.component.html</context>
+          <context context-type="linenumber">15,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/brands/brands.component.html</context>
+          <context context-type="linenumber">8,13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/categories/categories.component.html</context>
+          <context context-type="linenumber">4,8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/factories/factories.component.html</context>
+          <context context-type="linenumber">7,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">3,6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">51,57</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">66,76</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/pictures/pictures.component.html</context>
+          <context context-type="linenumber">6,11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/specs-cars/specs-cars.component.html</context>
+          <context context-type="linenumber">3,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/twins/twins.component.html</context>
+          <context context-type="linenumber">4,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/log/log.component.html</context>
+          <context context-type="linenumber">15,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
+          <context context-type="linenumber">3,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/name/name.component.html</context>
+          <context context-type="linenumber">3,8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/mosts/contents/contents.component.html</context>
+          <context context-type="linenumber">3,8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/twins-group-specifications.component.html</context>
+          <context context-type="linenumber">3,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/user.component.html</context>
+          <context context-type="linenumber">11,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/voting/votes/votes.component.html</context>
+          <context context-type="linenumber">3,10</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2771927147587296201" datatype="html">
         <source>### People
 
@@ -860,7 +976,7 @@ Brazilian portuguese site translation: %pt-br-translator%
 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">39,205</context>
+          <context context-type="linenumber">26,192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2501489806101473286" datatype="html">
@@ -868,7 +984,7 @@ Brazilian portuguese site translation: %pt-br-translator%
         <target>Аб праекце</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">170,177</context>
+          <context context-type="linenumber">157,164</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c6045daf544bdad844619af3fdcc0565555a1dd" datatype="html">
@@ -1142,6 +1258,18 @@ Good luck.</source>
           <context context-type="linenumber">79,80</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="024cdb2814b0cb3f4ced148f1a0b9854447cb214" datatype="html">
+        <source>Change</source>
+        <target>Змяніць</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/email/email.component.html</context>
+          <context context-type="linenumber">19,28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
+          <context context-type="linenumber">17,22</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1458806631225759930" datatype="html">
         <source>My e-mail</source>
         <target>Мой e-mail</target>
@@ -1387,7 +1515,7 @@ Good luck.</source>
         <target>Профіль</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.ts</context>
-          <context context-type="linenumber">68,74</context>
+          <context context-type="linenumber">64,70</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1399,7 +1527,7 @@ Good luck.</source>
         <target>Дадзеныя захаваны</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.ts</context>
-          <context context-type="linenumber">114,117</context>
+          <context context-type="linenumber">110,113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="count-zero" datatype="html">
@@ -1443,7 +1571,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/specs-conflicts/specs-conflicts.component.ts</context>
-          <context context-type="linenumber">97,102</context>
+          <context context-type="linenumber">92,97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="53ba6b716d795671602352557761ee52e7b5b2a6" datatype="html">
@@ -2230,6 +2358,14 @@ All images are posted for educational purposes.
           <context context-type="linenumber">16,23</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="73339332bcae6f0a8ee8e849b48b775ceda2981c" datatype="html">
+        <source>Type to search …</source>
+        <target>Увядзіце для пошуку …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.html</context>
+          <context context-type="linenumber">29,34</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8787971127662853316" datatype="html">
         <source>Specs editor of <x id="PH" equiv-text=": $localize `Specs editor of ${"/></source>
         <target>Рэдактар характарыстык <x id="PH" equiv-text="data.item.name_text"/></target>
@@ -2618,6 +2754,18 @@ All images are posted for educational purposes.
           <context context-type="linenumber">60,64</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="408cb6073e60c5d966296a3207fc596adca75e01" datatype="html">
+        <source>Admin</source>
+        <target>Адмін</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
+          <context context-type="linenumber">66,72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
+          <context context-type="linenumber">99,102</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="057e24bcc2fc96f82a44c6e21979b6563c285a7c" datatype="html">
         <source>Просьба отнестить со всей ответственностью ко всем выполняемым действиям, т.к. они станут достоянием общественности.
 
@@ -2646,6 +2794,22 @@ All images are posted for educational purposes.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
           <context context-type="linenumber">73,107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="47ffe3728496ab4bf347c8e404a055019ad2e5c7" datatype="html">
+        <source>Refresh inheritance</source>
+        <target>Абнавіць атрыманне спадчыны</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
+          <context context-type="linenumber">101,107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e44261719a840f1b09d970cbbaaf6c9038b0681f" datatype="html">
+        <source>Attribute values</source>
+        <target>Значэнні атрыбутаў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.html</context>
+          <context context-type="linenumber">3,8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="57cf305f9bfd681c70dc26e914108d06384ade9f" datatype="html">
@@ -2686,6 +2850,14 @@ All images are posted for educational purposes.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
           <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01d791858b92fb817ab9a29ab275333db582fb8b" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="Types.vehicleTy"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> in chronological order</source>
+        <target><x id="INTERPOLATION" equiv-text="Types.vehicleTy"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> у храналагічным парадку</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
+          <context context-type="linenumber">19,23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5900015257954376283" datatype="html">
@@ -3448,6 +3620,14 @@ All images are posted for educational purposes.
           <context context-type="linenumber">19,23</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="e1734c5a0c7cfdc0388f17cb221e296612276f00" datatype="html">
+        <source>reply &amp; resolve</source>
+        <target>адказаць і вырашыць</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/comments/list/list.component.html</context>
+          <context context-type="linenumber">46,49</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="826b25211922a1b46436589233cb6f1a163d89b7" datatype="html">
         <source>Delete</source>
         <target>Выдаліць</target>
@@ -3568,6 +3748,34 @@ All images are posted for educational purposes.
           <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="415f73cbdba5d09762df6c89878273c3aa6da51e" datatype="html">
+        <source>Authors</source>
+        <target>Аўтары</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/authors/authors.component.html</context>
+          <context context-type="linenumber">15,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/brands/brand/brand.component.html</context>
+          <context context-type="linenumber">18,24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/brands/brands.component.html</context>
+          <context context-type="linenumber">15,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cutaway/cutaway.component.html</context>
+          <context context-type="linenumber">15,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">57,59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/persons/persons.component.html</context>
+          <context context-type="linenumber">18,23</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5ec194d40909d4ba0a93ad1e374cf53aeb70830b" datatype="html">
         <source>Brands</source>
         <target>Маркі</target>
@@ -3661,7 +3869,7 @@ In addition, we can offer in return to [choose the next vehicle of the day](/don
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">126,133</context>
+          <context context-type="linenumber">134,141</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3373711458637414496" datatype="html">
@@ -3690,6 +3898,14 @@ In addition, we can offer in return to [choose the next vehicle of the day](/don
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
           <context context-type="linenumber">63,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1783096eea865eab33ea5a06462733feb8bd725a" datatype="html">
+        <source>Donate log</source>
+        <target>Журнал данатаў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/log/log.component.html</context>
+          <context context-type="linenumber">13,22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8bdaa5065f56b57878bf81a68ec8d42a577d6a8c" datatype="html">
@@ -3834,6 +4050,14 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
           <context context-type="linenumber">53,57</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="9b81dc0f77dc475d1b1f4b468104fd83fd258f13" datatype="html">
+        <source>Choose …</source>
+        <target>Выберыце …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
+          <context context-type="linenumber">58,65</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="89a82ad9b7aef17c27803091557c01270670f0e2" datatype="html">
         <source>3. Preview</source>
         <target>3. Папярэдні прагляд</target>
@@ -3914,6 +4138,18 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
           <context context-type="linenumber">114,119</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="31b71b101e358ade17cd844b3bf6daeb29f0e477" datatype="html">
+        <source>YooMoney</source>
+        <target>YooMoney</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
+          <context context-type="linenumber">101,107</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/vod/vod.component.html</context>
+          <context context-type="linenumber">116,119</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="506a8569098f2412ee410abf96f805a1eb097987" datatype="html">
         <source>Pay</source>
         <target>Аплаціць</target>
@@ -3927,11 +4163,11 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>WheelsAge.org: аўтамабіль дня</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">100,101</context>
+          <context context-type="linenumber">107,108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">101,103</context>
+          <context context-type="linenumber">108,110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5663726564538439975" datatype="html">
@@ -3939,7 +4175,39 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <target>Заказ <x id="PH" equiv-text="label"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dede0f4ecdc3e3d6c27698f42301f88f64086226" datatype="html">
+        <source>403 Forbidden</source>
+        <target>403 Забаронена</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/error/403/403.component.html</context>
+          <context context-type="linenumber">10,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d032b18f297cd564c139c905bf01a1e5dda9158c" datatype="html">
+        <source>Access forbidden</source>
+        <target>Доступ забаронены</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/error/403/403.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ef60a738a565f498b858e903e42bc5ffc3cc1299" datatype="html">
+        <source>404 Not Found</source>
+        <target>404 Не знойдзена</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/error/404/404.component.html</context>
+          <context context-type="linenumber">10,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ae51d565bb8279d1b9f6f74d534b076d267009e5" datatype="html">
+        <source>Page not found</source>
+        <target>Старонка не знойдзена</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/error/404/404.component.html</context>
+          <context context-type="linenumber">13,14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="48dfb134cb8d324bb45f2f9f3bd7d7afc49bc3f8" datatype="html">
@@ -4218,6 +4486,14 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
           <context context-type="linenumber">16,20</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4b0ca852bafa5037c4e64c7b18f9cd1e14b799de" datatype="html">
+        <source>Subject</source>
+        <target>Тэма</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/new-topic/new-topic.component.html</context>
+          <context context-type="linenumber">22,24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9ea85e2b6fc61c916d75fbd52e213a34ed07bc88" datatype="html">
         <source>Subscribe to new messages</source>
         <target>Падпісацца на новыя паведамленні</target>
@@ -4248,6 +4524,14 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/new-topic/new-topic.component.ts</context>
           <context context-type="linenumber">54,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="357064ca9d9ac859eb618e28e8126fa32be049e2" datatype="html">
+        <source>Subscriptions</source>
+        <target>Падпіскі</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
+          <context context-type="linenumber">3,8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="47bbc861efa59ba4135e6aa8f63213420e3f3b91" datatype="html">
@@ -4421,12 +4705,72 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">11,14</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3425f5b3497cd225710125f73fe94ae5d791da3b" datatype="html">
+        <source>Help the project</source>
+        <target>Дапамажыце праекту</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">1,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="166a6f50558f556fb83ed7700380c73625df0a7d" datatype="html">
+        <source>
+Due to financial restrictions and difficult economy situation in regions where most of our contributors live, we are forced to open a fundraiser to pay the hosting for our website.
+
+This project is aimed to remain free to use and fully advertising free in the future.
+    </source>
+        <target>
+У сувязі з фінансавымі абмежаваннямі і складанай эканамічнай сітуацыяй у рэгіёнах, дзе пражывае большасць нашых удзельнікаў, мы вымушаныя адкрыць збор сродкаў для аплаты хостынгу для нашага сайта.
+
+Наша мэта, каб у будучыні мы заставалісь бясплатным у выкарыстанні і цалкам свабодным ад рэкламы сайтам.
+</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">5,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b79e3409a94ee76af31c8641a373f556709a14d6" datatype="html">
+        <source>Our goal is to cover <x id="INTERPOLATION" equiv-text="{{goal | curren"/> that is the cost of 1 year of website existence.</source>
+        <target>Наша мэта - пакрыць <x id="INTERPOLATION" equiv-text="{{goal | curren"/>, гэта кошт 1 года існавання вэб-сайта.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="840ac161ba55cea730f1b843665ea080997758c1" datatype="html">
+        <source>Cryptocurrencies</source>
+        <target>Крыптавалюты</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">50,53</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="12b2194e1ba131774c7856a082d02b4464e62036" datatype="html">
         <source>Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out.</source>
         <target>Хочаце ведаць, які аўтамабіль быў самым хуткім? Хочаце ведаць, колькі важыць самы магутны кар'ерны самазвал? Заходзьце і пазнаеце.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/index.component.html</context>
           <context context-type="linenumber">32,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cbc05a3823d4b0070e9a8bcc68c19ed0e2f81452" datatype="html">
+        <source>Persons on photo</source>
+        <target>Асобы на фота</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">42,44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/persons/persons.component.html</context>
+          <context context-type="linenumber">15,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="136e408117a582726c86a0bae471584b88a2182d" datatype="html">
+        <source>Also</source>
+        <target>Таксама</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c4f29228dfeec6faff18dfa053e0b59b0c8da5fc" datatype="html">
@@ -4563,6 +4907,22 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/info/text/text.component.html</context>
           <context context-type="linenumber">10,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0b922d2f5857178e41989b41cc89e527107ded15" datatype="html">
+        <source>Previous revision</source>
+        <target>Папярэдняя рэвізія</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/info/text/text.component.html</context>
+          <context context-type="linenumber">17,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="befba88a115638957ac9acedd1ae9c37e7a7cebe" datatype="html">
+        <source>Next revision</source>
+        <target>Наступная рэвізія</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/info/text/text.component.html</context>
+          <context context-type="linenumber">20,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5356981420568270901" datatype="html">
@@ -4719,6 +5079,14 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
           <context context-type="linenumber">53,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7e829fbcde17bc4efa22c8573b323a78220fb2f" datatype="html">
+        <source>sending …</source>
+        <target>адпраўка …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/message-dialog/modal-message/modal-message.component.html</context>
+          <context context-type="linenumber">12,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d3c6f3a68864eecdf33d0932ec03d63948ad0507" datatype="html">
@@ -5321,6 +5689,14 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">52,56</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="cd288fa98cf6c33de60ccad97394870fc19c20f0" datatype="html">
+        <source>New copyright block</source>
+        <target>Новы блок аўтарскіх правоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/index/index.component.html</context>
+          <context context-type="linenumber">56,65</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="179986faf13b911989a3d617c3d3906a3204784a" datatype="html">
         <source>Other tools</source>
         <target>Iншыя інструменты</target>
@@ -5351,6 +5727,14 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/perspectives/perspectives.component.html</context>
           <context context-type="linenumber">13,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac5a419c652f02b9e3c23e71369dedcdb186322f" datatype="html">
+        <source>Hotlinks</source>
+        <target>Гарачыя спасылкі</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/index/index.component.html</context>
+          <context context-type="linenumber">110,116</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5e348358bbe27ea8aec177c4e5a1de4e2a9473e6" datatype="html">
@@ -5725,6 +6109,30 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">14,19</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="25ccbbde37f08b8a9c8b46c9934d56602b752a96" datatype="html">
+        <source>Add parent …</source>
+        <target>Дадаць бацькоў …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b526225acb493808474e4b2ac2e8cc0ed8670c95" datatype="html">
+        <source>Select …</source>
+        <target>Выберыце …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
+          <context context-type="linenumber">28,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8459d76d3be5eb72c1819e6b471cf9a30253f924" datatype="html">
+        <source>Brand …</source>
+        <target>Брэнд …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="d1de9a561f71369731a4fbab4653f446b0e18d24" datatype="html">
         <source>Brand <x id="INTERPOLATION" equiv-text="{{brand.name_te"/></source>
         <target>Марка <x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/></target>
@@ -6031,6 +6439,22 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">2,5</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="917e959e93d07f22713510022ef227e6886af94b" datatype="html">
+        <source>Parent selection</source>
+        <target>Выбар бацькоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/select-parent/select-parent.component.html</context>
+          <context context-type="linenumber">19,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6707982161582486769" datatype="html">
+        <source>Parent selection</source>
+        <target>Выбар бацькоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/item/select-parent/select-parent.component.ts</context>
+          <context context-type="linenumber">94,98</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="16bd21c1b48036d54c6a595f5cff2540cfba7f60" datatype="html">
         <source>here</source>
         <target>сюды</target>
@@ -6211,6 +6635,23 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">20,26</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="0c50fb952047199b94eb65a9c2685a1e83493943" datatype="html">
+        <source>Too big</source>
+        <target>Занадта вялікая выява</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/too-big/too-big.component.html</context>
+          <context context-type="linenumber">16,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06412bce0f4fe4311193e9763666089bf9d980da" datatype="html">
+        <source>Count</source>
+        <target>Лічыць
+</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/items/too-big/too-big.component.html</context>
+          <context context-type="linenumber">28,35</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5f5ad3ae04363a22a6cc59a7b26e7c59cf81b1ab" datatype="html">
         <source>Moderator menu</source>
         <target>Меню мадэратара</target>
@@ -6241,6 +6682,22 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pages/pages.component.html</context>
           <context context-type="linenumber">23,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f0f8e2b0600c98f8f28c95d7d5b205be1f0c5bb2" datatype="html">
+        <source>Breadcrumbs</source>
+        <target>Крошкі</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pages/pages.component.html</context>
+          <context context-type="linenumber">23,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0aadd79c1ce15bdef2da0aa465414a9c0f82344c" datatype="html">
+        <source>Is Group?</source>
+        <target>Група?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pages/pages.component.html</context>
+          <context context-type="linenumber">24,30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3817498941817715969" datatype="html">
@@ -6579,6 +7036,14 @@ What cars did the Pope drive? Not? Then you are exactly in this section.
           <context context-type="linenumber">179,183</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="007d4f5b57fe654b7b1293a18a47ae2c2d2804df" datatype="html">
+        <source>Date of photo</source>
+        <target>Дата фота</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
+          <context context-type="linenumber">183,187</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2968e9912d3ba86cee4ee86d55ead3f635b73c4a" datatype="html">
         <source>Special name</source>
         <target>Адмысловая назва</target>
@@ -6872,7 +7337,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>гадзіна</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">41,43</context>
+          <context context-type="linenumber">35,37</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6884,7 +7349,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>2 гадзіны</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">42,44</context>
+          <context context-type="linenumber">36,38</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6896,7 +7361,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>4 гадзіны</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">43,45</context>
+          <context context-type="linenumber">37,39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6908,7 +7373,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>8 гадзін</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">44,46</context>
+          <context context-type="linenumber">38,40</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6920,7 +7385,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>16 гадзін</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">45,47</context>
+          <context context-type="linenumber">39,41</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6932,7 +7397,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>суткі</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">40,43</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6944,7 +7409,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>двое сутак</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">47,50</context>
+          <context context-type="linenumber">41,44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6956,7 +7421,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <target>Выява №<x id="PH" equiv-text="id"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">126</context>
+          <context context-type="linenumber">120</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8b2492390e53ab9063ba2a6d35280cf517504370" datatype="html">
@@ -7001,6 +7466,14 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/persons.component.html</context>
           <context context-type="linenumber">10,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d784865c6707e344054891c58cdd24fe9e938ad6" datatype="html">
+        <source>Copyright blocks</source>
+        <target>Блокі аўтарскіх правоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/pictures/item/move/move.component.html</context>
+          <context context-type="linenumber">35,40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1af1a69cefa2eb0e22efc3e54f8baddf6f4c8554" datatype="html">
@@ -7523,6 +7996,38 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="linenumber">27,33</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="84738b1bbb866302445901b1bca1e9cb5bf8d006" datatype="html">
+        <source>IP</source>
+        <target>IP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/whitelist/whitelist.component.html</context>
+          <context context-type="linenumber">27,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4ec4f14c98fa5c798c58717854323f915cede5ef" datatype="html">
+        <source>Whois</source>
+        <target>Whois</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/whitelist/whitelist.component.html</context>
+          <context context-type="linenumber">28,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1bd5e17c9582661e20763a7634ef07881e33bbd7" datatype="html">
+        <source>Action</source>
+        <target>Дзеянне</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/whitelist/whitelist.component.html</context>
+          <context context-type="linenumber">29,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f3381eb623763d93081c3ae90c452b43e5e96c95" datatype="html">
+        <source>whois</source>
+        <target>whois</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/moder/traffic/whitelist/whitelist.component.html</context>
+          <context context-type="linenumber">38,41</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
         <source>Login</source>
         <target>Лагін</target>
@@ -7795,6 +8300,22 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="linenumber">113,118</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="02e5852eb4c6a802de258ba23cb45673fa4653c2" datatype="html">
+        <source>All images have their owners.
+
+  If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
+
+  Discuss anything and just talk about cars and not only can you on [the forum](/forums/).</source>
+        <target>Усе выявы маюць сваіх уладальнікаў.
+
+Калі вы лічыце, што карыстальнікі сайта памыліліся, размясціўшы выяву ў гэтым раздзеле, было б нядрэнна, каб вы напісалі пра гэта ў каментарах ці ўказалі на нам памылку.
+
+Абмяркоўвайце што заўгодна і проста расказвайце пра аўтамабілі і не толькі на нашым [форуме](/forums/).</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.html</context>
+          <context context-type="linenumber">116,124</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="picture/propose-image-replacement" datatype="html">
         <source>Propose image replacement</source>
         <target>Прапанаваць замену карцінцы</target>
@@ -7933,6 +8454,14 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/select/select.component.ts</context>
           <context context-type="linenumber">50,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="32ea16269840d89e5b8787b37c0e709a10c6b2af" datatype="html">
+        <source>Only registered users can upload pictures</source>
+        <target>Толькі зарэгістраваныя карыстальнікі могуць загружаць выявы</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/upload/upload.component.html</context>
+          <context context-type="linenumber">15,20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bc23857484d32bf837d29fff71651b6254cf94a5" datatype="html">
@@ -8579,6 +9108,38 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="linenumber">49,52</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5860972437008129823" datatype="html">
+        <source>Copyright block</source>
+        <target>Блок аўтарскіх правоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">52,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="746277056637502716" datatype="html">
+        <source>New copyright block</source>
+        <target>Новы блок аўтарскіх правоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6330390902440534404" datatype="html">
+        <source>Copyright blocks</source>
+        <target>Блокі аўтарскіх правоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5645726980768164553" datatype="html">
+        <source>Add sub copyright block</source>
+        <target>Дадаць субблок аўтарскіх правоў</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">55,61</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="93640329153309638" datatype="html">
         <source>mm</source>
         <target>мм</target>
@@ -9019,12 +9580,92 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="linenumber">161,162</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1831318973096244511" datatype="html">
+        <source>Audi, BMW, Mercedes-Benz, Opel, Volkswagen, …</source>
+        <target>Audi, BMW, Mercedes-Benz, Opel, Volkswagen, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">162,163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7827266123460551770" datatype="html">
+        <source>Alfa Romeo, Ferrari, Fiat, Lamborghini, Lancia, …</source>
+        <target>Alfa Romeo, Ferrari, Fiat, Lamborghini, Lancia, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">163,164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7990288761904176406" datatype="html">
+        <source>Peugeot, Renault, Citroën, Delahaye …</source>
+        <target>Peugeot, Renault, Citroën, Delahaye …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">164,165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4888517719492389140" datatype="html">
+        <source>Nissan, Toyota, Honda, Mazda, …</source>
+        <target>Nissan, Toyota, Honda, Mazda, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">165,166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4330719633731766639" datatype="html">
+        <source>Kia, Hyundai, ….</source>
+        <target>Kia, Hyundai, ….</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">166,167</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2527332074381213872" datatype="html">
+        <source>Chery, Geely, Great Wall, …</source>
+        <target>Chery, Geely, Great Wall, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">167,168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2933559242660632719" datatype="html">
+        <source>VAZ, GAZ, UAZ, …</source>
+        <target>VAZ, GAZ, UAZ, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">168,169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3190015344076251517" datatype="html">
+        <source>Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …</source>
+        <target>Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">169,170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9072446668502099425" datatype="html">
+        <source>Aston Martin, Bentley, MG, Rover, …</source>
+        <target>Aston Martin, Bentley, MG, Rover, …</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">170,173</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1367858305811203827" datatype="html">
         <source>chassis</source>
         <target>шасі</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">174,175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6409942993488031121" datatype="html">
+        <source>mockup</source>
+        <target>макет</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">175,176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1610028252266709917" datatype="html">
@@ -13451,8 +14092,16 @@ Transmission is not considered</source>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="94516fa213706c67ce5a5b5765681d7fb032033a">
+        <source>Loading...</source>
+        <target>Ідзе загрузка…</target>
+      </trans-unit>
       <trans-unit id="7735231791018201329">
         <source>Password succesful changed</source>
+        <target>Пароль паспяхова зменены</target>
+      </trans-unit>
+      <trans-unit id="3353074209762858468">
+        <source>Password successfully changed</source>
         <target>Пароль паспяхова зменены</target>
       </trans-unit>
       <trans-unit id="bd5a3b1c5a3c185c7bbb0e09a061d4cdc88ce5ad">
@@ -13544,6 +14193,14 @@ other {У вас <x id="INTERPOLATION"/> новых паведамленняў}
         <source>Login or password is incorrect</source>
         <target>Лагін або пароль няправільны</target>
       </trans-unit>
+      <trans-unit id="2915fa274c5670ec73fcaf71e3d01b61728d7e4c">
+        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+
+  Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+        <target>**Увага!**  Верагодна, у вас назапасілася значная колькасць памылак.
+
+Некаторыя з іх, выяўленыя іншымі наведвальнікамі, вы можаце знайсці [тут](/account/specs-conflicts)</target>
+      </trans-unit>
       <trans-unit id="04a1e9ed5e17ecb1e51bb5572bf4273a744b07f5">
         <source><x id="INTERPOLATION" equiv-text="k]=&quot;[&apos;/&apos;, brand"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTyp"/> in chronological order</source>
         <target><x id="INTERPOLATION" equiv-text="{{brand.name_text}}"/> <x id="INTERPOLATION_1" equiv-text="{{getVehicleTypeTranslation(currentVehicleType.name)}}"/> ў храналагічным парадку</target>
@@ -13563,6 +14220,10 @@ other {У вас <x id="INTERPOLATION"/> новых паведамленняў}
       <trans-unit id="4eb2164d8ef5d328ef6bc1e66da011218bac968f">
         <source>Add account</source>
         <target>Дадаць акаўнт</target>
+      </trans-unit>
+      <trans-unit id="0a5726af2f12d384a8f4399519246f7f0682f55a">
+        <source>Our goal is to cover 2500€ that is the cost of 1 year of website existence.</source>
+        <target>Наша мэта - аплаціць 2500 еўра, гэта кошт 1 года існавання сайта.</target>
       </trans-unit>
       <trans-unit id="86ead51aaacaca48bc1e3c8f98b8ec52ad2ce2d5">
         <source>А знаете ли вы, какая техника помогала блюсти правопорядок на улицах мировых городов в разное время? А на каких автомобилях ездил Папа Римский? Нет? Тогда вам точно в этот раздел.</source>
@@ -13607,18 +14268,6 @@ other {У вас <x id="INTERPOLATION"/> новых паведамленняў}
       <trans-unit id="acef1abd007d02783fe3764c49826d52ef0be62a">
         <source>Custom ...</source>
         <target>Свая ...</target>
-      </trans-unit>
-      <trans-unit id="f03bd4d937b79f324f15d9350d42c8d049d1a361">
-        <source>All images have their owners.
-
-If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
-
-Discuss anything and just talk about cars and not only can you on [the forum](/forums/).</source>
-        <target>Усе выявы з'яўляюцца чыёй-небудзь ўласнасцю.
-
-Калі вы лічыце, што карыстальнікі сайта памыліліся, размясціўшы дадзеную карцінку ў гэтым раздзеле, то было б выдатна, калі б вы напісалі пра гэта ў каментарах і паказаўшы памылку.
-
-Падзяліцца сваёй радасцю, абмеркаваць набалелае і проста пабалбатаць аб аўтамабілях і не толькі вы можаце на нашым [форуме](/forums/).</target>
       </trans-unit>
       <trans-unit id="db3c2aa1a1399501be2b6c03071eaac680a68aea">
         <source>Password recovery</source>
@@ -13667,6 +14316,18 @@ Don&apos;t forget it.</source>
       <trans-unit id="5fcbff662da8119a640bf9babdbb588df0bf1ef3">
         <source>Instructions sent to your e-mail</source>
         <target>На ваш e-mail адпраўленыя далейшыя інструкцыі</target>
+      </trans-unit>
+      <trans-unit id="f03bd4d937b79f324f15d9350d42c8d049d1a361">
+        <source>All images have their owners.
+
+If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
+
+Discuss anything and just talk about cars and not only can you on [the forum](/forums/).</source>
+        <target>Усе выявы з'яўляюцца чыёй-небудзь ўласнасцю.
+
+Калі вы лічыце, што карыстальнікі сайта памыліліся, размясціўшы дадзеную карцінку ў гэтым раздзеле, то было б выдатна, калі б вы напісалі пра гэта ў каментарах і паказаўшы памылку.
+
+Падзяліцца сваёй радасцю, абмеркаваць набалелае і проста пабалбатаць аб аўтамабілях і не толькі вы можаце на нашым [форуме](/forums/).</target>
       </trans-unit>
       <trans-unit id="5207635742003539443">
         <source>Sign in</source>

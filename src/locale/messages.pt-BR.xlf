@@ -859,7 +859,7 @@ Você pode contribuir para este site de forma [financeira](/donate) ou [moral](/
 Ajude-nos a [traduzir este site](https://github.com/autowp/autowp/tree/master/module/Application/language) para outros idiomas.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">39,205</context>
+          <context context-type="linenumber">26,192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2501489806101473286" datatype="html">
@@ -867,7 +867,7 @@ Ajude-nos a [traduzir este site](https://github.com/autowp/autowp/tree/master/mo
         <target>Sobre nós</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">170,177</context>
+          <context context-type="linenumber">157,164</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c6045daf544bdad844619af3fdcc0565555a1dd" datatype="html">
@@ -1375,7 +1375,7 @@ Este processo é irreversível, então pense cautelosamente para não tomar deci
         <target>Perfil</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.ts</context>
-          <context context-type="linenumber">68,74</context>
+          <context context-type="linenumber">64,70</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/sidebar/sidebar.component.ts</context>
@@ -1387,7 +1387,7 @@ Este processo é irreversível, então pense cautelosamente para não tomar deci
         <target>Dados salvos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.ts</context>
-          <context context-type="linenumber">114,117</context>
+          <context context-type="linenumber">110,113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="count-zero" datatype="html">
@@ -1431,7 +1431,7 @@ Este processo é irreversível, então pense cautelosamente para não tomar deci
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/specs-conflicts/specs-conflicts.component.ts</context>
-          <context context-type="linenumber">97,102</context>
+          <context context-type="linenumber">92,97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="53ba6b716d795671602352557761ee52e7b5b2a6" datatype="html">
@@ -3673,7 +3673,7 @@ Ou ainda, podemos lhe oferecer a opção de [escolher o próximo veículo do dia
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">126,133</context>
+          <context context-type="linenumber">134,141</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3373711458637414496" datatype="html">
@@ -3939,11 +3939,11 @@ Ficaremos felizes se você desejar [fazer uma doação](/donate) de qualquer val
         <target>WheelsAge.org: veículo do dia</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">100,101</context>
+          <context context-type="linenumber">107,108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">101,103</context>
+          <context context-type="linenumber">108,110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5663726564538439975" datatype="html">
@@ -3951,7 +3951,7 @@ Ficaremos felizes se você desejar [fazer uma doação](/donate) de qualquer val
         <target>Ordenar <x id="PH" equiv-text="label"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">111</context>
         </context-group>
       </trans-unit>
       <trans-unit id="48dfb134cb8d324bb45f2f9f3bd7d7afc49bc3f8" datatype="html">
@@ -6886,7 +6886,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>1 hora</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">41,43</context>
+          <context context-type="linenumber">35,37</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6898,7 +6898,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>2 hora</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">42,44</context>
+          <context context-type="linenumber">36,38</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6910,7 +6910,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>4 horas</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">43,45</context>
+          <context context-type="linenumber">37,39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6922,7 +6922,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>8 horas</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">44,46</context>
+          <context context-type="linenumber">38,40</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6934,7 +6934,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>16 horas</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">45,47</context>
+          <context context-type="linenumber">39,41</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6946,7 +6946,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>1 dia</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">40,43</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6958,7 +6958,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>2 dias</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">47,50</context>
+          <context context-type="linenumber">41,44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.ts</context>
@@ -6970,7 +6970,7 @@ Hiperlinks internos devem ser relativos: ~~http://autowp.ru/bmw/~~ */bmw/*</targ
         <target>Imagem nº<x id="PH" equiv-text="id"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">126</context>
+          <context context-type="linenumber">120</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8b2492390e53ab9063ba2a6d35280cf517504370" datatype="html">
@@ -12901,10 +12901,6 @@ other {Você tem <x id="INTERPOLATION"/> novas mensagens}
         <source>Add</source>
         <target>Adicionar</target>
       </trans-unit>
-      <trans-unit id="fdf7cbdc140d0aab0f0b6c06065a0fd448ed6a2e">
-        <source>Title</source>
-        <target>Título</target>
-      </trans-unit>
       <trans-unit id="801b98c6f02fe3b32f6afa3ee854c99ed83474e6">
         <source>URL</source>
         <target>URL</target>
@@ -12921,21 +12917,13 @@ other {Você tem <x id="INTERPOLATION"/> novas mensagens}
         <source>Add</source>
         <target>Adicionar</target>
       </trans-unit>
+      <trans-unit id="fdf7cbdc140d0aab0f0b6c06065a0fd448ed6a2e">
+        <source>Title</source>
+        <target>Título</target>
+      </trans-unit>
       <trans-unit id="acef1abd007d02783fe3764c49826d52ef0be62a">
         <source>Custom ...</source>
         <target>Escrever motivo ...</target>
-      </trans-unit>
-      <trans-unit id="f03bd4d937b79f324f15d9350d42c8d049d1a361">
-        <source>All images have their owners.
-
-If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
-
-Discuss anything and just talk about cars and not only can you on [the forum](/forums/).</source>
-        <target>Todas as imagens têm seus proprietários.
-
-Se você acha que os usuários do site cometeram algum erro em postar esta imagem nessa seção, você pode deixar um comentário apontando o erro.
-
-Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/forums/)</target>
       </trans-unit>
       <trans-unit id="db3c2aa1a1399501be2b6c03071eaac680a68aea">
         <source>Password recovery</source>
@@ -12984,6 +12972,18 @@ Não a esqueça.</target>
       <trans-unit id="5fcbff662da8119a640bf9babdbb588df0bf1ef3">
         <source>Instructions sent to your e-mail</source>
         <target>Instruções enviadas para o seu e-mail</target>
+      </trans-unit>
+      <trans-unit id="f03bd4d937b79f324f15d9350d42c8d049d1a361">
+        <source>All images have their owners.
+
+If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
+
+Discuss anything and just talk about cars and not only can you on [the forum](/forums/).</source>
+        <target>Todas as imagens têm seus proprietários.
+
+Se você acha que os usuários do site cometeram algum erro em postar esta imagem nessa seção, você pode deixar um comentário apontando o erro.
+
+Você pode discutir sobre carros ou outros assuntos do site em [nosso fórum](/forums/)</target>
       </trans-unit>
       <trans-unit id="5207635742003539443">
         <source>Sign in</source>
