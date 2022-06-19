@@ -53,6 +53,7 @@ publish:
     - docker pull "$CI_REGISTRY_IMAGE" || true
     - docker build . -t "$CI_REGISTRY_IMAGE"
     - docker push "$CI_REGISTRY_IMAGE"
+    - npx semantic-release
   only:
     - master
   interruptible: true
