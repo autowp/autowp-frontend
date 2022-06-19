@@ -12,7 +12,7 @@ stages:
 
 lint:
   stage: test
-  image: node:17-alpine
+  image: node:18-alpine
   artifacts:
     paths:
       - node_modules
@@ -24,7 +24,7 @@ lint:
 
 sonar:
   stage: test
-  image: sonarsource/sonar-scanner-cli
+  image: $CI_REGISTRY/autowp/runner-base-image
   script:
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
@@ -32,7 +32,7 @@ sonar:
 
 build:
   stage: build
-  image: node:17-alpine
+  image: node:18-alpine
   artifacts:
     paths:
       - dist
@@ -53,6 +53,7 @@ publish:
     - docker pull "$CI_REGISTRY_IMAGE" || true
     - docker build . -t "$CI_REGISTRY_IMAGE"
     - docker push "$CI_REGISTRY_IMAGE"
+    - npx semantic-release
   only:
     - master
   interruptible: true
