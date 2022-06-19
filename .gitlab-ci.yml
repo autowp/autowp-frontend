@@ -68,6 +68,7 @@ publish-dockerhub:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY_IMAGE"
     - docker pull "$CI_REGISTRY_IMAGE"
+    - docker tag "$CI_REGISTRY_IMAGE" autowp/autowp-frontend:latest
     - docker push autowp/autowp-frontend:latest
   only:
     - master
