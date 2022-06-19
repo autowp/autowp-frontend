@@ -39,7 +39,6 @@ build-master:
   stage: build
   script:
     - npm install
-    - "jq -n --arg release '$CI_COMMIT_TAG' '{release: $release}' > version.json"
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
     - npx semantic-release
   rules:
