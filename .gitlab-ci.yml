@@ -8,6 +8,7 @@ stages:
   - test
   - build
   - publish
+  - publish-dockerhub
 
 lint:
   stage: test
@@ -57,7 +58,7 @@ publish:
   interruptible: true
 
 publish-dockerhub:
-  stage: publish
+  stage: publish-dockerhub
   image: $CI_REGISTRY/autowp/runner-base-image
   services:
     - name: docker:dind
