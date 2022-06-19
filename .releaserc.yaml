@@ -4,10 +4,7 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/gitlab", {
-      "gitlabUrl": "https://gitlab.pereslegin.ru",
-      "assets": [
-        {"path": "dist.tar.gz", "label": "Distribution"}
-      ]
+      "gitlabUrl": "https://gitlab.pereslegin.ru"
     }]
   ]
 }
