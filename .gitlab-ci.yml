@@ -34,7 +34,7 @@ build:
     - npm install
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
   rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d.*/
+    - if: $CI_COMMIT_TAG !~ /^v\d.*/
 
 build-release:
   stage: build
