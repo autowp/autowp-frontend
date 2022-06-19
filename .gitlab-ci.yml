@@ -2,7 +2,6 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375
-  IMAGE: autowp/autowp-frontend
   SONAR_HOST_URL: https://sonarcloud.io
 
 stages:
@@ -42,16 +41,33 @@ build:
 
 publish:
   stage: publish
-  image: autowp/runner-base-image
+  image: $CI_REGISTRY/autowp/runner-base-image
   services:
     - name: docker:dind
       alias: docker
   script:
     - waitforit -address=tcp://docker:2375 -timeout=30
-    - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
-    - docker pull $IMAGE:latest || true
-    - docker build . -t $IMAGE:latest
-    - docker push $IMAGE:latest
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY_IMAGE"
+    - docker pull "$CI_REGISTRY_IMAGE" || true
+    - docker build . -t "$CI_REGISTRY_IMAGE"
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+  interruptible: true
+
+publish-dockerhub:
+  stage: publish
+  image: $CI_REGISTRY/autowp/runner-base-image
+  services:
+    - name: docker:dind
+      alias: docker
+  script:
+    - waitforit -address=tcp://docker:2375 -timeout=30
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY_IMAGE"
+    - docker pull "$CI_REGISTRY_IMAGE"
+    - docker push autowp/autowp-frontend:latest
   only:
     - master
   interruptible: true
