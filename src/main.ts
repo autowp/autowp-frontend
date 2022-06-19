@@ -9,9 +9,12 @@ if (environment.production) {
   enableProdMode();
 }
 
+const version = require('./version.json')
+
 Sentry.init({
   dsn: environment.sentry.dsn,
   environment: environment.sentry.environment,
+  release: version.release,
   integrations: [
     new BrowserTracing({
       tracingOrigins: [environment.apiUrl],

@@ -35,6 +35,15 @@ build:
   rules:
     - if: $CI_COMMIT_TAG !~ /^v\d.*/
 
+build-master:
+  stage: build
+  script:
+    - npm install
+    - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
+    - npx semantic-release
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
 build-release:
   stage: build
   services:
@@ -44,9 +53,8 @@ build-release:
     - waitforit -address=tcp://docker:2375 -timeout=30
   script:
     - npm install
+    - "jq -n --arg release '$CI_COMMIT_TAG' '{release: $release}' > src/version.json"
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
-    - tar -zcf dist.tar.gz dist
-    - npx semantic-release
 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY_IMAGE"
