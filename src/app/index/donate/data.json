@@ -1,5 +1,11 @@
 [
   {
+    "sum": 40.00,
+    "currency": "EUR",
+    "date": "2022-06-19T00:00:00+00:00",
+    "contributor": "Ward Frensen"
+  },
+  {
     "sum": -212.52,
     "currency": "EUR",
     "date": "2022-06-18T00:00:00+00:00",
