@@ -13,10 +13,16 @@ stages:
 sonar:
   stage: test
   image: $CI_REGISTRY/autowp/runner-base-image
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
   script:
+    - npm install
     - ./node_modules/.bin/ng lint
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN
-  allow_failure: true
   interruptible: true
 
 build:
@@ -26,6 +32,7 @@ build:
     paths:
       - dist
   script:
+    - npm install
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
     - npx semantic-release
 
