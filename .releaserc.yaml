@@ -6,7 +6,7 @@
     ["@semantic-release/gitlab", {
       "gitlabUrl": "https://gitlab.pereslegin.ru",
       "assets": [
-        {"path": "dist", "label": "Distribution"}
+        {"path": "dist.tar.gz", "label": "Distribution"}
       ]
     }]
   ]

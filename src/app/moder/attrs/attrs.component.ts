@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PageEnvService } from '../../services/page-env.service';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { APIService } from '../../services/api.service';
   selector: 'app-moder-attrs',
   templateUrl: './attrs.component.html'
 })
-export class ModerAttrsComponent {
+export class ModerAttrsComponent implements OnInit {
   private attributesChange$ = new BehaviorSubject<null>(null);
 
   public attributes$ = this.attributesChange$.pipe(

@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ItemService, APIItem } from '../services/item';
 import {combineLatest} from 'rxjs';
 import { PageEnvService } from '../services/page-env.service';
@@ -10,7 +10,7 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../utils/list-item/li
   selector: 'app-persons',
   templateUrl: './persons.component.html'
 })
-export class PersonsComponent {
+export class PersonsComponent implements OnInit {
   private page$ = this.route.queryParamMap.pipe(
     map(params => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
