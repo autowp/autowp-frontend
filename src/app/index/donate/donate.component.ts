@@ -6,8 +6,8 @@ import * as moment from 'moment';
 
 const rates = {
   'EUR': 1,
-  'ETH': 1950.17,
-  'RUB': 0.00934,
+  'ETH': 1067.07,
+  'RUB': 0.017337,
 }
 
 interface Donation {
