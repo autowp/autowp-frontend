@@ -94,7 +94,7 @@ export class AppComponent {
     }
   }
 
-  doLogin() {
+  public doLogin() {
     this.keycloak.login({
       redirectUri: window.location.href,
       locale: this.languageService.language
