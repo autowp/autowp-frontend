@@ -16,4 +16,6 @@
   </div>
 </ng-template>
 
-<div class="card card-body" [innerHTML]="html" *ngIf="html$|async as html; else loading"></div>
+<div class="card card-body mb-3" [innerHTML]="html" *ngIf="html$|async as html; else loading"></div>
+
+<p>Version: {{version.release}}</p>

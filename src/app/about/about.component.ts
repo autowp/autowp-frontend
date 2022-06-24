@@ -84,6 +84,9 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
   templateUrl: './about.component.html'
 })
 export class AboutComponent implements OnInit {
+
+  public version = require('../../version.json');
+
   public html$ = this.statGrpc.getAboutData(new Empty()).pipe(
     switchMap(about => {
       const ids: string[] = about.contributors;
