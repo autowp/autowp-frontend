@@ -101,7 +101,7 @@ publish-master-to-github:
     - cat "$SSHKEY" > ~/.ssh/id_rsa
     - chmod 0400 ~/.ssh/id_rsa
   script:
-    - git remote origin add github git@github.com:autowp/autowp-frontend.git
+    - git remote add github git@github.com:autowp/autowp-frontend.git
     - git push github $CI_COMMIT_BRANCH
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
