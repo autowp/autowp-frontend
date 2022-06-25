@@ -9,6 +9,7 @@ image: $CI_REGISTRY/autowp/runner-base-image
 stages:
   - test
   - build
+  - deploy
   - publish
 
 test:
@@ -53,6 +54,19 @@ build-release:
     - docker pull "$CI_REGISTRY_IMAGE" || true
     - docker build . -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d.*/
+
+deploy-chart:
+  stage: deploy
+  trigger:
+    project: autowp/helm
+    branch: master
+  variables:
+    FRONTEND_VERSION: $CI_COMMIT_TAG
+  environment:
+    name: production
+    url: https://www.wheelsage.org/
   rules:
     - if: $CI_COMMIT_TAG =~ /^v\d.*/
 
