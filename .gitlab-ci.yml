@@ -82,7 +82,7 @@ publish-master-to-github:
   before_script:
     - mkdir -p /root/.ssh
     - touch /root/.ssh/known_hosts
-    - chmod 0600 ~/.ssh/id_rsa
+    - chmod 0600 ~/.ssh/known_hosts
     - cat "$SSHKEY" > ~/.ssh/id_rsa
     - chmod 0400 ~/.ssh/id_rsa
     - ssh-keygen -R github.com
