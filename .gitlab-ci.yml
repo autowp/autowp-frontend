@@ -66,6 +66,8 @@ update-chart:
     - waitforit -address=tcp://docker:2375 -timeout=30
   script:
     - sentry-cli releases new "$CI_COMMIT_TAG"
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_NAME"
     - git clone -b master https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.pereslegin.ru/autowp/helm.git
     - cd helm
     - yq -i '.frontend.version = strenv(CI_COMMIT_TAG)' values.yaml
