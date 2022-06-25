@@ -97,6 +97,7 @@ publish-dockerhub:
 publish-master-to-github:
   stage: publish
   before_script:
+    - mkdir -p /root/.ssh
     - cat "$SSHKEY" > ~/.ssh/id_rsa
     - chmod 0400 ~/.ssh/id_rsa
   script:
