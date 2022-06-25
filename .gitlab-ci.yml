@@ -70,8 +70,8 @@ update-chart:
     - git config --global user.name "$GITLAB_USER_NAME"
     - git clone -b master https://gitpush:${GITPUSH_TOKEN}@gitlab.pereslegin.ru/autowp/helm.git
     - cd helm
-    - yq -i '.frontend.version = strenv(CI_COMMIT_TAG)' values.yaml
-    - git add values.yaml
+    - FRONTEND_IMAGE=$CI_REGISTRY/autowp/frontend:$CI_COMMIT_TAG yq -i '.spec.template.spec.containers[0].image = strenv(FRONTEND_IMAGE)' templates/frontend.yaml
+    - git add templates/frontend.yaml
     - "git commit -m \"feat: Update frontend to $CI_COMMIT_TAG\""
     - git push origin master
     - sentry-cli releases finalize "$CI_COMMIT_TAG"
