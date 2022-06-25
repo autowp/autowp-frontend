@@ -67,6 +67,17 @@ deploy-chart:
   rules:
     - if: $CI_COMMIT_TAG =~ /^v\d.*/
 
+deploy-sentry:
+  stage: deploy
+  script:
+    - sentry-cli releases new "$CI_COMMIT_TAG"
+    - sentry-cli releases finalize "$CI_COMMIT_TAG"
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d.*/
+  environment:
+    name: production
+    url: https://www.wheelsage.org/
+
 publish:
   stage: publish
   services:
