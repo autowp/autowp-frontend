@@ -37,8 +37,8 @@ build:
   rules:
     - if: $CI_COMMIT_TAG !~ /^v\d.*/
 
-build-release:
-  stage: build
+deploy:
+  stage: deploy
   services:
     - name: docker:dind
       alias: docker
@@ -54,17 +54,7 @@ build-release:
     - docker pull "$CI_REGISTRY_IMAGE" || true
     - docker build . -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d.*/
 
-update-chart:
-  stage: deploy
-  services:
-    - name: docker:dind
-      alias: docker
-  before_script:
-    - waitforit -address=tcp://docker:2375 -timeout=30
-  script:
     - sentry-cli releases new "$CI_COMMIT_TAG"
     - git config --global user.email "$GITLAB_USER_EMAIL"
     - git config --global user.name "$GITLAB_USER_NAME"
@@ -93,9 +83,10 @@ publish-master-to-github:
     - mkdir -p /root/.ssh
     - cat "$SSHKEY" > ~/.ssh/id_rsa
     - chmod 0400 ~/.ssh/id_rsa
-  script:
+    - ssh-keygen -R github.com
     - git config --global user.email "$GITLAB_USER_EMAIL"
     - git config --global user.name "$GITLAB_USER_NAME"
+  script:
     - git checkout -b "$CI_COMMIT_BRANCH"
     - git remote add github git@github.com:autowp/autowp-frontend.git
     - git push github "$CI_COMMIT_BRANCH"
