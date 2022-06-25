@@ -92,6 +92,8 @@ publish-master-to-github:
     - cat "$SSHKEY" > ~/.ssh/id_rsa
     - chmod 0400 ~/.ssh/id_rsa
   script:
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_NAME"
     - git checkout -b "$CI_COMMIT_BRANCH"
     - git remote add github git@github.com:autowp/autowp-frontend.git
     - git push github "$CI_COMMIT_BRANCH"
