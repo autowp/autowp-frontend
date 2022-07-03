@@ -16,7 +16,7 @@ import {APIService} from '../../services/api.service';
 import {
   AddToTrafficBlacklistRequest,
   APIDeleteUserRequest,
-  APIIP,
+  APIIP, APIUserPreferencesRequest,
   CreateContactRequest,
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest
@@ -144,6 +144,23 @@ export class UsersUserComponent {
     shareReplay(1)
   );
 
+  private userUserPreferencesChanged$ = new BehaviorSubject<boolean>(true);
+
+  public userUserPreferences$ = combineLatest([this.user$, this.currentUser$, this.isNotMe$, this.userUserPreferencesChanged$]).pipe(
+    switchMap(([user, currentUser, isNotMe]) => {
+      if (!currentUser || !isNotMe) {
+        return of(false);
+      }
+
+      return this.usersGrpc.getUserPreferences(new APIUserPreferencesRequest({userId: user.id.toString()}));
+    }),
+    catchError(response => {
+      this.toastService.response(response)
+      return EMPTY;
+    }),
+    shareReplay(1)
+  );
+
   constructor(
     private api: APIService,
     private contacts: ContactsService,
@@ -178,6 +195,19 @@ export class UsersUserComponent {
 
     this.contactsClient.deleteContact(new DeleteContactRequest({userId: user.id.toString()})).subscribe(() => {
       this.inContactsChange$.next(true);
+    });
+  }
+
+  public setCommentNotificationsDisabled(user: APIUser, value: boolean) {
+    if (value) {
+      this.usersGrpc.disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()})).subscribe(() => {
+        this.userUserPreferencesChanged$.next(true);
+      });
+      return;
+    }
+
+    this.usersGrpc.enableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()})).subscribe(() => {
+      this.userUserPreferencesChanged$.next(true);
     });
   }
 

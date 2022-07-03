@@ -955,6 +955,69 @@ export class UsersClient {
         requestClass: thisProto.APIMeRequest,
         responseClass: thisProto.APIUser
       });
+    },
+    /**
+     * Unary call: /goautowp.Users/GetUserPreferences
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUserPreferencesResponse>>
+     */
+    getUserPreferences: (
+      requestData: thisProto.APIUserPreferencesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUserPreferencesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/GetUserPreferences',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIUserPreferencesRequest,
+        responseClass: thisProto.APIUserPreferencesResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Users/DisableUserCommentsNotifications
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    disableUserCommentsNotifications: (
+      requestData: thisProto.APIUserPreferencesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/DisableUserCommentsNotifications',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIUserPreferencesRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Users/EnableUserCommentsNotifications
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    enableUserCommentsNotifications: (
+      requestData: thisProto.APIUserPreferencesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/EnableUserCommentsNotifications',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIUserPreferencesRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -1011,6 +1074,54 @@ export class UsersClient {
   ): Observable<thisProto.APIUser> {
     return this.$raw
       .me(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/GetUserPreferences
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUserPreferencesResponse>
+   */
+  getUserPreferences(
+    requestData: thisProto.APIUserPreferencesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUserPreferencesResponse> {
+    return this.$raw
+      .getUserPreferences(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/DisableUserCommentsNotifications
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  disableUserCommentsNotifications(
+    requestData: thisProto.APIUserPreferencesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .disableUserCommentsNotifications(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/EnableUserCommentsNotifications
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  enableUserCommentsNotifications(
+    requestData: thisProto.APIUserPreferencesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .enableUserCommentsNotifications(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
@@ -1152,6 +1263,27 @@ export class ItemsClient {
         requestClass: thisProto.ListItemsRequest,
         responseClass: thisProto.APIItemList
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetTree
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITreeItem>>
+     */
+    getTree: (
+      requestData: thisProto.GetTreeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITreeItem>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTree',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTreeRequest,
+        responseClass: thisProto.APITreeItem
+      });
     }
   };
 
@@ -1256,6 +1388,22 @@ export class ItemsClient {
   ): Observable<thisProto.APIItemList> {
     return this.$raw
       .list(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetTree
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITreeItem>
+   */
+  getTree(
+    requestData: thisProto.GetTreeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITreeItem> {
+    return this.$raw
+      .getTree(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

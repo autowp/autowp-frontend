@@ -118,17 +118,32 @@
     <div class="col-md-6">
 
       <div class="card card-body mb-4" *ngIf="(currentUser$|async) && !user.deleted && (isNotMe$|async)">
-        <button type="submit" class="btn btn-lg btn-contact btn-primary" (click)="setInContacts(user, true)" *ngIf="(inContacts$|async) === false">
-          <span class="fa fa-plus-circle me-1" aria-hidden="true"></span>
-          <ng-container i18n>Add to contacts</ng-container>
-        </button>
-        <button type="submit" class="btn btn-lg btn-contact btn-danger" (click)="setInContacts(user, false)" *ngIf="inContacts$|async">
-          <span class="fa fa-minus-circle me-1" aria-hidden="true"></span>
-          <ng-container i18n>Remove from contacts</ng-container>
-        </button>
+        <div class="row">
+          <div class="col-6">
+            <button type="submit" class="btn btn-lg btn-contact btn-primary" (click)="setInContacts(user, true)" *ngIf="(inContacts$|async) === false">
+              <span class="fa fa-plus-circle me-1" aria-hidden="true"></span>
+              <ng-container i18n>Add to contacts</ng-container>
+            </button>
+            <button type="submit" class="btn btn-lg btn-contact btn-danger" (click)="setInContacts(user, false)" *ngIf="inContacts$|async">
+              <span class="fa fa-minus-circle me-1" aria-hidden="true"></span>
+              <ng-container i18n>Remove from contacts</ng-container>
+            </button>
+          </div>
+
+          <div class="col-6" *ngIf="userUserPreferences$|async as userPrefs">
+            <button type="submit" class="btn btn-lg btn-contact"
+                    [class.btn-primary]="userPrefs.disableCommentsNotifications"
+                    [class.btn-danger]="!userPrefs.disableCommentsNotifications"
+                    (click)="setCommentNotificationsDisabled(user, !userPrefs.disableCommentsNotifications)">
+              <span class="fa fa-envelope me-1" aria-hidden="true"></span>
+              <ng-container i18n *ngIf="userPrefs.disableCommentsNotifications">Enable comments notifications</ng-container>
+              <ng-container i18n *ngIf="!userPrefs.disableCommentsNotifications">Disable comments notifications</ng-container>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div *ngIf="canViewIp$|async as canViewIp">
+      <div *ngIf="canViewIp$|async">
         <h2 i18n>For moderators</h2>
         <div class="card card-body mb-4">
           <p *ngIf="(canBan$|async) && user.photo">
