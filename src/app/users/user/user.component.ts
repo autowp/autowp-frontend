@@ -114,9 +114,10 @@ export class UsersUserComponent {
         return of(null as APIIP);
       }
 
-      return this.ipService.getIp(user.last_ip, ['blacklist', 'rights']);
+      return this.ipService.getIp(user.last_ip, ['blacklist', 'rights']).pipe(
+        catchError(() => of(null as APIIP)),
+      );
     }),
-    catchError(() => of(null as APIIP)),
   );
 
   public currentUser$ = this.auth.getUser();
