@@ -11,11 +11,11 @@ import { MomentModule } from 'ngx-moment';
 import { UserModule } from '../user/user.module';
 import { UtilsModule } from '../utils/utils.module';
 import { PaginatorModule } from '../paginator/paginator.module';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ItemOfDayModule } from '../item-of-day/item-of-day.module';
 import { DonateComponent } from './donate.component';
 import { DonateService } from './donate.service';
-import { NgbTooltipModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -34,10 +34,10 @@ import { NgbTooltipModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
     UserModule,
     UtilsModule,
     NgbTooltipModule,
-    NgbButtonsModule,
     PaginatorModule,
     FormsModule,
-    ItemOfDayModule
+    ItemOfDayModule,
+    ReactiveFormsModule
   ],
   providers: [DonateService]
 })

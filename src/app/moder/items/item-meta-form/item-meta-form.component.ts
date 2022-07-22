@@ -9,7 +9,7 @@ import { LanguageService } from '../../../services/language';
 import { VehicleTypesModalComponent } from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {ItemType, Spec, VehicleType} from '../../../../../generated/spec.pb';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {getVehicleTypeTranslation} from '../../../utils/translations';
 import {VehicleTypeService} from '../../../services/vehicle-type';
 import {APIPictureItem} from '../../../services/picture-item';
@@ -279,7 +279,7 @@ export class ItemMetaFormComponent {
     private vehicleTypeService: VehicleTypeService,
     private languageService: LanguageService,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
@@ -295,7 +295,7 @@ export class ItemMetaFormComponent {
     }
   }
 
-  public doSubmit(form: FormGroup) {
+  public doSubmit(form: UntypedFormGroup) {
     this.submitted.emit(form.value);
     return false;
   }
@@ -322,10 +322,10 @@ export class ItemMetaFormComponent {
   }
 
   onCheckboxChange(e: Event, control: AbstractControl) {
-    const ctrl = control as FormArray;
+    const ctrl = control as UntypedFormArray;
     const target = e.target as HTMLInputElement;
     if (target.checked) {
-      ctrl.push(new FormControl(target.value));
+      ctrl.push(new UntypedFormControl(target.value));
     } else {
       let i: number = 0;
       ctrl.controls.forEach((item) => {
@@ -339,10 +339,10 @@ export class ItemMetaFormComponent {
   }
 
   onPictureClick(e: PicturesListItem, control: AbstractControl) {
-    const ctrl = control as FormArray;
+    const ctrl = control as UntypedFormArray;
     e.selected = ! e.selected;
     if (e.selected) {
-      ctrl.push(new FormControl(e.pictureItem.picture_id));
+      ctrl.push(new UntypedFormControl(e.pictureItem.picture_id));
     } else {
       let i: number = 0;
       ctrl.controls.forEach((item) => {

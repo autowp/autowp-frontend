@@ -16,8 +16,6 @@ const VOD_TIMEZONE = 'UTC';
   templateUrl: './vod.component.html'
 })
 export class DonateVodComponent implements OnInit {
-  public paymentType = 'AC';
-
   private user$ = this.auth.getUser();
 
   public anonymous$ = combineLatest([

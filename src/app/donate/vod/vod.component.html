@@ -84,23 +84,19 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
     (<span i18n>about {{'$'+(vod.sum / 63.75).toFixed(2)}}</span>)
   </p>
   <div *ngIf="(date$|async) && (item$|async)">
-    <div class="mb-3">
-      <div class="btn-group btn-group-toggle" ngbRadioGroup name="paymentType" [(ngModel)]="paymentType">
-        <label class="btn btn-secondary" ngbButtonLabel>
-          <input type="radio" ngbButton name="paymentType" value="AC" autocomplete="off">
-          <span class="fa fa-credit-card" aria-hidden="true"></span>
-          <ng-container i18n>Credit card</ng-container>
-        </label>
-        <label class="btn btn-secondary" ngbButtonLabel>
-          <input type="radio" ngbButton name="paymentType" value="MC" autocomplete="off">
-          <span class="fa fa-mobile" aria-hidden="true"></span>
-          <ng-container i18n>Mobile operator account</ng-container>
-        </label>
-        <label class="btn btn-secondary" ngbButtonLabel>
-          <input type="radio" ngbButton name="paymentType" value="PC" autocomplete="off">
-          <ng-container i18n>YooMoney</ng-container>
-        </label>
-      </div>
+    <div class="btn-group mb-3" role="group">
+      <input type="radio" class="btn-check" name="paymentType" value="AC" autocomplete="off" checked id="btn1">
+      <label class="btn btn-secondary" for="btn1">
+        <span class="fa fa-credit-card" aria-hidden="true"></span>
+        <ng-container i18n>Credit card</ng-container>
+      </label>
+      <input type="radio" class="btn-check" name="paymentType" value="MC" autocomplete="off" id="btn2">
+      <label class="btn btn-secondary" for="btn2">
+        <span class="fa fa-mobile" aria-hidden="true"></span>
+        <ng-container i18n>Mobile operator account</ng-container>
+      </label>
+      <input type="radio" class="btn-check" name="paymentType" value="PC" autocomplete="off" id="btn3">
+      <label class="btn btn-secondary" for="btn3" i18n>YooMoney</label>
     </div>
     <button type="submit" class="btn btn-primary" i18n>Pay</button>
   </div>
