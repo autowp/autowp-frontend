@@ -21,7 +21,7 @@ test:
     paths:
       - node_modules/
   script:
-    - npm install
+    - npm ci
     - ./node_modules/.bin/ng lint
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN
   interruptible: true
@@ -31,7 +31,7 @@ test:
 build:
   stage: build
   script:
-    - npm install
+    - npm ci
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
     - npx semantic-release
   rules:
@@ -45,7 +45,7 @@ deploy:
   before_script:
     - waitforit -address=tcp://docker:2375 -timeout=30
   script:
-    - npm install
+    - npm ci
     - "jq -n --arg release \"$CI_COMMIT_TAG\" '{release: $release}' > src/version.json"
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
 
