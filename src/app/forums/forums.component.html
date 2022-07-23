@@ -53,7 +53,7 @@
             <app-past-time-indicator [date]="theme.last_message.datetime"></app-past-time-indicator>
             <app-user [user]="theme.last_message.user" *ngIf="theme.last_message.user"></app-user>
             <a [routerLink]="['/forums/message', theme.last_message.id]" i18n-title title="Go to last message">
-              <i class="bi bi-share" aria-hidden="true"></i>
+              <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
             </a>
           </p>
         </div>
@@ -103,7 +103,7 @@
               </ng-container>
               <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
               <a [routerLink]="['/forums/message', topic.last_message.id]" i18n-title title="Go to last message">
-                <i class="bi bi-share" aria-hidden="true"></i>
+                <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
               </a>
             </div>
             <span *ngIf="!topic.last_message">&#x2014;</span>
@@ -117,7 +117,7 @@
                 <i class="bi bi-x-circle-fill" aria-hidden="true"></i>
               </button>
               <a routerLink="/forums/move-topic" [queryParams]="{topic_id: topic.id}" class="btn btn-secondary btn-sm" title="move" i18n-title>
-                <i class="bi bi-share" aria-hidden="true"></i>
+                <i class="bi bi-arrows-move" aria-hidden="true"></i>
               </a>
               <button i18n-title title="delete" class="btn btn-sm btn-danger delete" (click)="deleteTopic(data.theme, topic)">
                 <i class="bi bi-slash-circle" aria-hidden="true"></i>
