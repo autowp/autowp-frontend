@@ -19,11 +19,11 @@
 
     <ul class="carLinks">
       <li *ngIf="group.has_child_specs">
-        <i class="fa fa-list-alt" aria-hidden="true"></i>
+        <i class="bi bi-card-list" aria-hidden="true"></i>
         <a [routerLink]="['/twins/group', group.id, 'specifications']" i18n>specifications</a>
       </li>
       <li *ngIf="group.accepted_pictures_count > 0">
-        <i class="fa fa-th" aria-hidden="true"></i>
+        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
         <a [routerLink]="['/twins/group', group.id, 'pictures']"><ng-container i18n>all pictures</ng-container> ({{group.accepted_pictures_count}})</a>
       </li>
     </ul>

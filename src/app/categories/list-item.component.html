@@ -46,8 +46,8 @@
   <div class="row" *ngIf="(havePhoto$|async) === false && (canHavePhoto$|async)">
     <div class="col-6 col-lg-3">
       <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
-        <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="fa fa-plus-circle text-success" aria-hidden="true"></a>
-        <span class="fa fa-camera fa-lg fa-4x" aria-hidden="true"></span>
+        <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="bi bi-plus-circle text-success" aria-hidden="true"></a>
+        <span class="bi bi-camera fs-1" aria-hidden="true"></span>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
   <ul class="list-inline" ngPreserveWhitespaces *ngIf="parentRouterLink$|async as parentRouterLink">
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id === 3" class="list-inline-item">
-      <i class="fa fa-align-left me-1" aria-hidden="true"></i>
+      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="parentRouterLink">
         <ng-container i18n>details</ng-container>
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
@@ -74,7 +74,7 @@
     </li>
 
     <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id !== 3" class="list-inline-item">
-      <i class="fa fa-align-left me-1" aria-hidden="true"></i>
+      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="parentRouterLink">
         <ng-container i18n>details</ng-container>
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
@@ -82,29 +82,29 @@
     </li>
 
     <li *ngIf="item.item_type_id === 8" class="list-inline-item">
-      <i class="fa fa-align-left me-1" aria-hidden="true"></i>
+      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="['/persons', item.id]" i18n>details</a>
     </li>
 
     <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id === 3" class="list-inline-item">
-      <span class="fa fa-th me-1" aria-hidden="true"></span>
+      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
       <a [routerLink]="parentRouterLink.concat(['pictures'])"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
     </li>
 
     <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id !== 3" class="list-inline-item">
-      <span class="fa fa-th me-1" aria-hidden="true"></span>
+      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
       <a [routerLink]="parentRouterLink.concat(['pictures'])"><ng-container i18n>all pictures</ng-container> ({{item.accepted_pictures_count}})</a>
     </li>
 
     <ng-container *ngIf="isModer$|async as isModer">
       <li *ngIf="isModer" class="list-inline-item">
-        <i class="fa fa-cog me-1" aria-hidden="true"></i>
+        <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
       </li>
     </ng-container>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="fa fa-pencil me-1" aria-hidden="true"></i>
+      <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
       <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
     </li>
   </ul>

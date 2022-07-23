@@ -13,12 +13,12 @@
 <ng-container *ngIf="data$|async as data">
   <p>
     <span *ngIf="data.prev && data.prev.revision">
-      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
       <a routerLink="." [queryParams]="{revision: data.prev.revision}" i18n>Previous revision</a>
     </span>
     <span class="float-end" *ngIf="data.next && data.next.revision">
       <a routerLink="." [queryParams]="{revision: data.next.revision}" i18n>Next revision</a>
-      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
     </span>
   </p>
   <div class="row">

@@ -13,12 +13,12 @@
 
   <div class="nav nav-pills mb-3">
     <a class="nav-link" [routerLink]="['/moder/items/item', item.id]" *ngIf="isModer$|async as isModer">
-      <i class="fa fa-cog" aria-hidden="true"></i>
+      <i class="bi bi-gear-fill" aria-hidden="true"></i>
       <ng-container i18n>edit</ng-container>
       <span [innerHTML]="item.name_html"></span>
     </a>
     <a class="nav-link" routerLink="/cars/attrs-change-log" [queryParams]="{item_id: item.id}">
-      <i class="fa fa-list" aria-hidden="true"></i>
+      <i class="bi bi-list" aria-hidden="true"></i>
       <ng-container i18n>Log of values</ng-container>
     </a>
   </div>
@@ -34,7 +34,7 @@
       <li class="nav-item">
         <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'info'}" [class.active]="tab === 'info'"
           class="nav-link">
-          <span class="fa fa-info" aria-hidden="true"></span>
+          <span class="bi bi-info" aria-hidden="true"></span>
           <ng-container i18n>Info</ng-container>
         </a>
       </li>
@@ -49,20 +49,20 @@
       <li class="nav-item">
         <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'spec'}" [class.active]="tab === 'spec'"
           class="nav-link">
-          <span class="fa fa-car" aria-hidden="true"></span>
+          <span class="bi bi-car-front" aria-hidden="true"></span>
           <ng-container i18n>Specifications</ng-container>
         </a>
       </li>
       <li class="nav-item" *ngIf="item">
         <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'result'}" [class.active]="tab === 'result'"
           class="nav-link">
-          <span class="fa fa-table" aria-hidden="true"></span>
+          <span class="bi bi-table" aria-hidden="true"></span>
           <ng-container i18n>Result</ng-container>
         </a>
       </li>
       <li *ngIf="(isSpecsAdmin$|async) && item" class="nav-item">
         <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id, tab: 'admin'}" [class.active]="tab === 'admin'" class="nav-link">
-          <span class="fa fa-table" aria-hidden="true"></span>
+          <span class="bi bi-table" aria-hidden="true"></span>
           <ng-container i18n>Admin</ng-container>
         </a>
       </li>

@@ -22,13 +22,13 @@
   <section class="forum-topic-page comments" *ngIf="topic">
     <app-comments [itemID]="topic.id" [typeID]="5" *ngIf="topic" [limit]="limit" [page]="page$|async"></app-comments>
 
-    <div class="text-right mb-3" *ngIf="user$|async">
+    <div class="text-end mb-3" *ngIf="user$|async">
       <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe(topic)">
-        <i class="fa fa-envelope" aria-hidden="true"></i>
+        <i class="bi bi-envelope" aria-hidden="true"></i>
         <ng-container i18n>Subscribe to new replies notifications</ng-container>
       </button>
       <button class="btn btn-link subscription" *ngIf="topic.subscription" (click)="unsubscribe(topic)">
-        <i class="fa fa-envelope" aria-hidden="true"></i>
+        <i class="bi bi-envelope" aria-hidden="true"></i>
         <ng-container i18n>Unsubscribe from notifications</ng-container>
       </button>
     </div>

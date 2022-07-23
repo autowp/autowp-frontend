@@ -7,9 +7,7 @@
 </nav>
 
 <ng-template #loading>
-  <div class="spinner-border" role="status">
-    <span class="sr-only" i18n>Loading…</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
 <ng-container *ngIf="user$|async as user; else loading">
@@ -49,12 +47,12 @@
       <p i18n>Database id: {{user.id}}</p>
 
       <p *ngIf="user && isNotMe$|async" ngPreserveWhitespaces>
-        <i class="fa fa-reply" aria-hidden="true"></i>
+        <i class="bi bi-reply" aria-hidden="true"></i>
         <a href="#" (click)="openMessageForm(user)" i18n>Send personal message</a>
       </p>
 
       <p *ngFor="let account of user.accounts" ngPreserveWhitespaces>
-        <i class="{{account.icon}} fa-fw" aria-hidden="true"></i>
+        <i class="{{account.icon}}" aria-hidden="true"></i>
         <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
         <span *ngIf="!account.link" [textContent]="account.name"></span>
       </p>
@@ -121,11 +119,11 @@
         <div class="row">
           <div class="col-6">
             <button type="submit" class="btn btn-lg btn-contact btn-primary" (click)="setInContacts(user, true)" *ngIf="(inContacts$|async) === false">
-              <span class="fa fa-plus-circle me-1" aria-hidden="true"></span>
+              <span class="bi bi-plus-circle me-1" aria-hidden="true"></span>
               <ng-container i18n>Add to contacts</ng-container>
             </button>
             <button type="submit" class="btn btn-lg btn-contact btn-danger" (click)="setInContacts(user, false)" *ngIf="inContacts$|async">
-              <span class="fa fa-minus-circle me-1" aria-hidden="true"></span>
+              <span class="bi bi-dash-circle me-1" aria-hidden="true"></span>
               <ng-container i18n>Remove from contacts</ng-container>
             </button>
           </div>
@@ -135,7 +133,7 @@
                     [class.btn-primary]="userPrefs.disableCommentsNotifications"
                     [class.btn-danger]="!userPrefs.disableCommentsNotifications"
                     (click)="setCommentNotificationsDisabled(user, !userPrefs.disableCommentsNotifications)">
-              <span class="fa fa-envelope me-1" aria-hidden="true"></span>
+              <span class="bi bi-envelope me-1" aria-hidden="true"></span>
               <ng-container i18n *ngIf="userPrefs.disableCommentsNotifications">Enable comments notifications</ng-container>
               <ng-container i18n *ngIf="!userPrefs.disableCommentsNotifications">Disable comments notifications</ng-container>
             </button>

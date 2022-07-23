@@ -93,7 +93,7 @@
           <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
           <p>
             <a href="#" (click)="crop(picture)">
-              <i class="fa fa-crop" aria-hidden="true"></i>
+              <i class="bi bi-crop" aria-hidden="true"></i>
               <span *ngIf="!picture.crop" i18n>crop</span>
               <span *ngIf="picture.crop" i18n>cropped to {{picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' +picture.crop.top}}</span>
             </a>
@@ -122,7 +122,7 @@
 Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."></app-markdown>
       <p style="margin:10px">
         <a routerLink="/upload/select" class="btn btn-primary btn-lg">
-          <i class="fa fa-upload" aria-hidden="true"></i>
+          <i class="bi bi-upload" aria-hidden="true"></i>
           <ng-container i18n>Add picture</ng-container>
         </a>
       </p>

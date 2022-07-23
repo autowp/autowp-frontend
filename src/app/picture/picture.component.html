@@ -31,22 +31,46 @@
       </div>
 
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-6">
           <div class="picture-vote">
-            <a href="#" class="fa fa-2x vote-up" aria-hidden="true" [class.fa-thumbs-up]="picture.votes.value > 0" [class.fa-thumbs-o-up]="picture.votes.value <= 0" *ngIf="user$|async else noUser1" (click)="vote(picture, 1)"></a>
-            <ng-template #noUser1><i class="fa fa-2x fa-thumbs-o-up" aria-hidden="true"></i></ng-template>
-            <span class="positive" [class.zero]="picture.votes.positive">{{picture.votes.positive}}</span>
-            <a href="#" class="fa fa-2x vote-down"  aria-hidden="true" [class.fa-thumbs-down]="picture.votes.value < 0" [class.fa-thumbs-o-down]="picture.votes.value >= 0" *ngIf="user$|async else noUser2" (click)="vote(picture, -1)"></a>
-            <ng-template #noUser2><i class="fa fa-2x fa-thumbs-o-down" aria-hidden="true"></i></ng-template>
-            <span class="negative" [class.zero]="picture.votes.negative">{{picture.votes.negative}}</span>
+
+            <button type="button" class="btn btn-link position-relative p-0 me-2" *ngIf="user$|async else noUser1" (click)="vote(picture, 1)">
+              <i class="bi fs-1 vote-up" aria-hidden="true"
+                 [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
+                 [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
+              ></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
+            </button>
+            <ng-template #noUser1>
+              <button type="button" class="btn btn-link position-relative p-0 me-2" disabled>
+                <i class="bi fs-1 bi-hand-thumbs-up" aria-hidden="true"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
+              </button>
+            </ng-template>
+
+            <button type="button" class="btn btn-link position-relative p-0" *ngIf="user$|async else noUser2" (click)="vote(picture, -1)">
+              <i class="bi fs-1 vote-down" aria-hidden="true"
+                 [class.bi-hand-thumbs-down-fill]="picture.votes.value < 0"
+                 [class.bi-hand-thumbs-down]="picture.votes.value >= 0"
+              ></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="picture.votes.negative > 0">{{picture.votes.negative}}</span>
+            </button>
+            <ng-template #noUser2>
+              <button type="button" class="btn btn-link position-relative p-0" disabled>
+                <i class="bi fs-1 bi-hand-thumbs-down" aria-hidden="true"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="picture.votes.negative > 0">{{picture.votes.negative}}</span>
+              </button>
+            </ng-template>
           </div>
         </div>
-        <div class="col-xs-6 text-right">
+        <div class="col-6 text-end">
           <ng-container *ngIf="user$|async">
-            <button class="picture-subscription" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(picture, true)"><i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i></button>
-            <button class="picture-subscription" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(picture, false)"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-link p-0" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(picture, true)"><i class="bi bi-envelope-open fs-1" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-link p-0" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(picture, false)"><i class="bi bi-envelope fs-1" aria-hidden="true"></i></button>
           </ng-container>
-          <a href="#" class="fa fa-2x fa-share-alt btn-share-dialog" aria-hidden="true" title="Share …" (click)="toggleShareDialog()"></a>
+          <button type="button" class="btn btn-link p-0 btn-share-dialog" aria-hidden="true" title="Share …" i18n-title (click)="toggleShareDialog()">
+            <i class="bi bi-share-fill fs-1" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
 
@@ -69,7 +93,7 @@
       <ng-container *ngFor="let item of picture.items">
         <app-markdown [markdown]="item.item.description" *ngIf="item.type === 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
         <p *ngIf="item.item.has_text && item.item.route">
-          <i class="fa fa-align-left" aria-hidden="true"></i>
+          <i class="bi bi-text-left" aria-hidden="true"></i>
           <a [routerLink]="item.item.route" i18n>details</a>
         </p>
       </ng-container>
@@ -103,7 +127,7 @@
           <ng-container i18n>Date taken:</ng-container> {{picture.taken_date}}
         </li>
         <li *ngIf="picture.point">
-          <span class="fa fa-map-pin" aria-hidden="true"></span>
+          <span class="bi bi-pin-map" aria-hidden="true"></span>
           <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" i18n="@@picture/location">Coordinates</a>
         </li>
         <li>
@@ -121,35 +145,35 @@
 
       <ul class="unstyled">
         <li *ngFor="let link of picture.of_links">
-          <a [href]="link.url"><i class="fa fa-globe" aria-hidden="true"></i> {{link.name}}</a>
+          <a [href]="link.url"><i class="bi bi-globe" aria-hidden="true"></i> {{link.name}}</a>
         </li>
 
         <li *ngFor="let category of picture.categories">
           <a [routerLink]="['/category', category.catname]">
-            <i class="fa fa-tag" aria-hidden="true"></i> <span [innerHTML]="category.name_html"></span>
+            <i class="bi bi-tag-fill" aria-hidden="true"></i> <span [innerHTML]="category.name_html"></span>
           </a>
         </li>
 
         <li *ngFor="let group of picture.twins">
           <a [routerLink]="['/twins/group', group.id]">
-            <i class="fa fa-adjust" aria-hidden="true"></i> <span [innerHTML]="group.name_html"></span>
+            <i class="bi bi-circle-half" aria-hidden="true"></i> <span [innerHTML]="group.name_html"></span>
           </a>
         </li>
 
         <li *ngFor="let factory of picture.factories">
           <a [routerLink]="['/factories', factory.id]">
-            <i class="fa fa-cogs" aria-hidden="true"></i> <span [innerHTML]="factory.name_html"></span>
+            <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <span [innerHTML]="factory.name_html"></span>
           </a>
         </li>
 
         <ng-container *ngIf="canEditSpecs$|async as canEditSpecs">
           <ng-container *ngFor="let item of picture.items">
             <li *ngIf="canEditSpecs">
-              <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="fa fa-pencil" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a>
+              <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="bi bi-pencil-fill" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a>
             </li>
             <li *ngIf="item.item.has_specs && item.item.specs_route">
               <a [routerLink]="item.item.specs_route">
-                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                <i class="bi bi-card-list" aria-hidden="true"></i>
                 <span i18n>Specifications of</span>
                 <span [innerHTML]="item.item.name_html"></span>
               </a>
@@ -172,7 +196,7 @@
             <div ngbDropdownMenu>
               <ng-container *ngFor="let item of picture.items">
                 <a *ngIf="item.type === 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
-                  <i class="fa fa-upload" aria-hidden="true"></i>
+                  <i class="bi bi-upload" aria-hidden="true"></i>
                   <ng-container i18n>Add picture</ng-container>
                   <span [innerHTML]="item.item.name_html"></span>
                 </a>
@@ -183,7 +207,7 @@
           <ng-container *ngIf="picture.items.length === 1">
             <li *ngFor="let item of picture.items">
               <a *ngIf="item.type === 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
-                <i class="fa fa-upload" aria-hidden="true"></i>
+                <i class="bi bi-upload" aria-hidden="true"></i>
                 <ng-container i18n>Add picture</ng-container>
                 <span [innerHTML]="item.item.name_html"></span>
               </a>
@@ -212,7 +236,7 @@
         <!--<ng-container *ngFor="let engine of engines">
           <li *ngIf="engine.hasSpecs">
             <a [href]="engine.specsUrl">
-              <i class="fa fa-list-alt" aria-hidden="true"></i>
+              <i class="bi bi-card-list" aria-hidden="true"></i>
               sprintf(
                 $this->escapeHtml($this->translate('catalogue/specifications-of-%1$s')),
                 $this->escapeHtml($engine['name'])
@@ -221,7 +245,7 @@
           </li>
           <li *ngIf="engine.specsEditUrl">
             <a [href]="engine.specsEditUrl">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
+              <i class="bi bi-pencil-fill" aria-hidden="true"></i>
               <ng-container i18n>edit specs</ng-container>
             </a>
           </li>
@@ -256,7 +280,7 @@
         <ng-container *ngIf="user$|async">
           <li *ngIf="picture.items && picture.items.length > 0 || engines && engines.length > 0">
             <a routerLink="/upload" [queryParams]="{replace: picture.id}">
-              <i class="fa fa-exchange" aria-hidden="true"></i>
+              <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
               <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
             </a>
           </li>
@@ -273,12 +297,12 @@
     <ul class="list-unstyled">
       <li *ngFor="let moderVote of picture.moder_votes">
         <span *ngIf="moderVote.vote">
-          <i style="color:green" class="fa fa-thumbs-up" aria-hidden="true"></i>
+          <i style="color:green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
           <app-user [user]="moderVote.user"></app-user>
           <span style="color:green">{{moderVote.reason}}</span>
         </span>
         <span *ngIf="!moderVote.vote">
-          <i style="color:red" class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <i style="color:red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
           <app-user [user]="moderVote.user"></app-user>
           <span style="color:red">{{moderVote.reason}}</span>
         </span>
@@ -319,18 +343,18 @@
           </div>
           <div class="col-md-4">
             <p>
-              <i class="fa fa-cog" aria-hidden="true"></i>
+              <i class="bi bi-gear-fill" aria-hidden="true"></i>
               <a [routerLink]="['/moder/pictures', picture.id]" i18n>Edit picture №{{picture.id}}</a>
             </p>
 
             <p *ngFor="let item of picture.items">
-              <i class="fa fa-cog" aria-hidden="true"></i>
+              <i class="bi bi-gear-fill" aria-hidden="true"></i>
               <a [routerLink]="['/moder/items/item', item.item_id]"><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span></a>
             </p>
 
             <ng-container *ngFor="let item of picture.items">
               <p *ngFor="let brand of item.item.brands">
-                <i class="fa fa-cog" aria-hidden="true"></i>
+                <i class="bi bi-gear-fill" aria-hidden="true"></i>
                 <a [routerLink]="['/moder/items/item', brand.id]"><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span></a>
               </p>
             </ng-container>

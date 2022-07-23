@@ -40,31 +40,31 @@ export class AccountSidebarComponent {
         {
           pageId: 129,
           routerLink: ['/account/profile'],
-          icon: 'user',
+          icon: 'bi-person',
           name: $localize `Profile`
         },
         {
           pageId: 198,
           routerLink: ['/account/contacts'],
-          icon: 'address-book',
+          icon: 'bi-person-lines-fill',
           name: $localize `Contacts`
         },
         {
           pageId: 55,
           routerLink: ['/account/email'],
-          icon: 'envelope-o',
+          icon: 'bi-envelope-open',
           name: $localize `My e-mail`
         },
         {
           pageId: 133,
           routerLink: ['/account/access'],
-          icon: 'lock',
+          icon: 'bi-lock',
           name: $localize `Access Control`
         },
         {
           pageId: 123,
           routerLink: ['/account/accounts'],
-          icon: 'asterisk',
+          icon: 'bi-asterisk',
           name: $localize `My accounts`
         },
         {
@@ -74,7 +74,7 @@ export class AccountSidebarComponent {
             user.identity ? user.identity : 'user' + user.id,
             'pictures'
           ],
-          icon: 'th',
+          icon: 'bi-grid-3x2-gap-fill',
           name: $localize `My pictures`,
           count: picturesSummary
             ? picturesSummary.acceptedCount
@@ -83,7 +83,7 @@ export class AccountSidebarComponent {
         {
           pageId: 94,
           routerLink: ['/account/inbox-pictures'],
-          icon: 'th',
+          icon: 'bi-grid-3x2-gap-fill',
           name: $localize `Unmoderated`,
           count: picturesSummary
             ? picturesSummary.inboxCount
@@ -92,7 +92,7 @@ export class AccountSidebarComponent {
         {
           pageId: 57,
           routerLink: ['/forums/subscriptions'],
-          icon: 'bookmark',
+          icon: 'bi-bookmark',
           name: $localize `Forums subscriptions`,
           count: forumSummary
             ? forumSummary.subscriptionsCount
@@ -104,7 +104,7 @@ export class AccountSidebarComponent {
         {
           pageId: 188,
           routerLink: ['/account/specs-conflicts'],
-          icon: 'exclamation-triangle',
+          icon: 'bi-exclamation-triangle',
           name: $localize `Conflicts`
         },
         {
@@ -113,7 +113,7 @@ export class AccountSidebarComponent {
         {
           pageId: 128,
           routerLink: ['/account/messages'],
-          icon: 'comments-o',
+          icon: 'bi-chat-text',
           name: $localize `Inbox`,
           count: messageSummary
             ? messageSummary.inboxCount
@@ -126,7 +126,7 @@ export class AccountSidebarComponent {
           pageId: 80,
           routerLink: ['/account/messages'],
           routerLinkParams: { folder: 'sent' },
-          icon: 'comments-o',
+          icon: 'bi-chat-text',
           name: $localize `Sent`,
           count: messageSummary ? messageSummary.sentCount : null
         },
@@ -134,7 +134,7 @@ export class AccountSidebarComponent {
           pageId: 81,
           routerLink: ['/account/messages'],
           routerLinkParams: { folder: 'system' },
-          icon: 'comments',
+          icon: 'bi-chat-text',
           name: $localize `System messages`,
           count: messageSummary
             ? messageSummary.systemCount

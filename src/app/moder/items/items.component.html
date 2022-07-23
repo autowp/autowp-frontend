@@ -85,7 +85,7 @@
           <input [ngbTypeahead]="ancestorsDataSource" name="ancestor" [(ngModel)]="ancestorQuery" [inputFormatter]="ancestorFormatter"
             (selectItem)="ancestorOnSelect($event)" [resultTemplate]="ancestorTemplate" class="form-control" [class.border-primary]="ancestorID">
           <button class="btn btn-outline-secondary" type="button" [disabled]="!ancestorID" (click)="clearAncestor()">
-            <span class="fa fa-close" aria-hidden="true"></span>
+            <span class="bi bi-x" aria-hidden="true"></span>
           </button>
         </div>
       </div>
@@ -114,18 +114,18 @@
 
     <div class="btn-group float-end">
       <a routerLink="." [queryParams]="{list: null}" queryParamsHandling="merge" class="btn btn-outline-secondary" [class.active]="!listMode">
-        <i class="fa fa-th" aria-hidden="true"></i>
+        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
       </a>
       <a routerLink="." [queryParams]="{list: '1', order: 'name'}" queryParamsHandling="merge" class="btn btn-outline-secondary"
         [class.active]="listMode">
-        <i class="fa fa-align-justify" aria-hidden="true"></i>
+        <i class="bi bi-list" aria-hidden="true"></i>
       </a>
     </div>
 
     <h2>
       <ng-container i18n>Items</ng-container>
       <span [hidden]="loading <= 0">
-        <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+        <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       </span>
       <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-items">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} item} other {{{paginator.totalItemCount}} items}}</small>
     </h2>

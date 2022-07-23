@@ -20,13 +20,13 @@
       </ng-container>
     </div>
     <button type="button" class="carousel-control-prev" href="#" role="button" (click)="navigateToIndex(gallery.current - 1, gallery)" *ngIf="gallery.current > 0">
-      <i class="fa fa-chevron-left glyphicon glyphicon-chevron-left" aria-hidden="true"></i>
+      <i class="bi bi-chevron-left glyphicon glyphicon-chevron-left" aria-hidden="true"></i>
     </button>
     <button type="button" class="carousel-control-next" href="#" role="button" (click)="navigateToIndex(gallery.current + 1, gallery)" *ngIf="gallery.items.length - 1 > gallery.current">
-      <i class="fa fa-chevron-right glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
+      <i class="bi bi-chevron-right glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
     </button>
     <button type="button" class="carousel-control-close" [routerLink]="picturePrefix.concat([identity])" role="button" *ngIf="identity$|async as identity">
-      <i class="fa fa-times" aria-hidden="true"></i>
+      <i class="bi bi-x" aria-hidden="true"></i>
     </button>
   </div>
 </div>

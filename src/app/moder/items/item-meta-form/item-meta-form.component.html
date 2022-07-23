@@ -50,7 +50,7 @@
           <button class="btn btn-sm btn-info" type="button" (click)="showVehicleTypesModal(vehicleTypeID)">{{vehicleTypeName$(typeID)|async}}</button>
         </ng-container>
         <button class="btn btn-sm btn-success" type="button" (click)="showVehicleTypesModal(vehicleTypeID)">
-          <span class="fa fa-plus" aria-hidden="true"></span>
+          <span class="bi bi-plus" aria-hidden="true"></span>
         </button>
       </div>
       <script type="text/ng-template" id="vehicle-type-tag-template">
@@ -184,7 +184,7 @@
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('items') as control">
-      <label class="col-md-2 col-form-label text-right" i18n>Vehicles</label>
+      <label class="col-md-2 col-form-label text-end" i18n>Vehicles</label>
       <div class="col-md-10" *ngIf="items$|async as items">
         <div class="checkbox" *ngFor="let child of items; let idx = index">
           <label>
@@ -195,7 +195,7 @@
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('pictures') as control">
-      <label class="col-md-2 col-form-label text-right" i18n>Pictures</label>
+      <label class="col-md-2 col-form-label text-end" i18n>Pictures</label>
       <div class="col-md-10 multicheckbox-pictures row" *ngIf="pictures$|async as data">
         <div *ngFor="let picture of data; let idx = index" class="col-md-3 mb-4">
           <label class="btn btn-secondary" [class.btn-success]="picture.selected" (click)="onPictureClick(picture, control)">

@@ -14,37 +14,37 @@
   <ul class="nav nav-pills">
     <li class="nav-item">
       <a class="nav-link" [routerLink]="['/', brand.catname, 'cars']">
-        <i class="fa fa-road" aria-hidden="true"></i>
+        <i class="bi bi-sort-down-alt" aria-hidden="true"></i>
         <ng-container i18n>Chronological</ng-container>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" [routerLink]="['/', brand.catname, 'recent']">
-        <i class="fa fa-th" aria-hidden="true"></i>
+        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
         <ng-container i18n>New pictures</ng-container>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.descendant_twins_groups_count">
       <a class="nav-link" [routerLink]="['/twins', brand.catname]">
-        <i class="fa fa-adjust" aria-hidden="true"></i> <ng-container i18n>Twins</ng-container>
+        <i class="bi bi-circle-half" aria-hidden="true"></i> <ng-container i18n>Twins</ng-container>
         <span class="badge rounded-pill bg-secondary">{{brand.descendant_twins_groups_count}}</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.mosts_active">
       <a class="nav-link" [routerLink]="['/', brand.catname, 'mosts']">
-        <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> <ng-container i18n>Mostly</ng-container>
+        <i class="bi bi-sort-down" aria-hidden="true"></i> <ng-container i18n>Mostly</ng-container>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.inbox_pictures_count">
       <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{status: 'inbox', item_id: brand.id}">
-        <i class="fa-fw fa fa-th" aria-hidden="true"></i>
+        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
         <ng-container i18n>Brand inbox</ng-container>
         <span class="badge rounded-pill bg-secondary">{{brand.inbox_pictures_count}}</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.comments_attentions_count">
       <a class="nav-link" routerLink="/moder/comments" [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}">
-        <i class="fa fa-comment" aria-hidden="true"></i>
+        <i class="bi bi-chat-fill" aria-hidden="true"></i>
         <ng-container i18n>comments</ng-container>
         <span class="badge rounded-pill bg-secondary">{{brand.comments_attentions_count}}</span>
       </a>
@@ -52,7 +52,7 @@
     <ng-container *ngIf="isModer$|async as isModer">
       <li class="nav-item" *ngIf="isModer">
         <a class="nav-link" [routerLink]="['/moder/items/item', brand.id]">
-          <i class="fa fa-cog" aria-hidden="true"></i>
+          <i class="bi bi-gear-fill" aria-hidden="true"></i>
           <ng-container i18n>edit</ng-container>
         </a>
       </li>

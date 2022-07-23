@@ -28,8 +28,8 @@
   <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
     <div class="col-6 col-lg-3">
       <div class="no-photo rounded w-100 border border-light mb-4" i18n-title title="No photos available">
-        <a routerLink="/upload" [queryParams]="{item_id: item.id}" i18n-title title="Add photo" class="fa fa-plus-circle text-success" aria-hidden="true"></a>
-        <span class="fa fa-camera fa-lg fa-4x" aria-hidden="true"></span>
+        <a routerLink="/upload" [queryParams]="{item_id: item.id}" i18n-title title="Add photo" class="bi bi-plus-circle text-success" aria-hidden="true"></a>
+        <span class="bi bi-camera fs-1" aria-hidden="true"></span>
       </div>
     </div>
   </div>
@@ -48,19 +48,19 @@
   <ul class="list-inline" ngPreserveWhitespaces>
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
-      <i class="fa fa-tag me-1" aria-hidden="true"></i>
+      <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
       <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
     <ng-container *ngIf="isModer$|async as isModer">
       <li *ngIf="isModer" class="list-inline-item">
-        <i class="fa fa-cog me-1" aria-hidden="true"></i>
+        <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
       </li>
     </ng-container>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="fa fa-pencil me-1" aria-hidden="true"></i>
+      <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
       <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
     </li>
   </ul>

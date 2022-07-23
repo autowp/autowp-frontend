@@ -15,7 +15,7 @@
   </div>
 
   <p *ngIf="museumModer$|async">
-    <i class="fa fa-cog" aria-hidden="true"></i>
+    <i class="bi bi-gear-fill" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
   </p>
 
@@ -23,12 +23,12 @@
     [leafletLayers]="map.markers"></div>
 
   <ng-container *ngIf="links$|async as links">
-    <div class="card card-body" *ngIf="item && (links.length > 0 || item.description)">
+    <div class="card card-body" *ngIf="item && (links.items.length > 0 || item.description)">
       <app-markdown [markdown]="item.description"></app-markdown>
 
-      <p *ngIf="links.length > 0">
+      <p *ngIf="links.items.length > 0">
         <ng-container i18n>Web-site:</ng-container>
-        <ng-container *ngFor="let link of links">
+        <ng-container *ngFor="let link of links.items">
           <a [href]="link.url" [textContent]="link.name ? link.name : link.url"></a>
           <br />
         </ng-container>

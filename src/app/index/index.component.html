@@ -1,7 +1,5 @@
 <ng-template #loading xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-  <div class="spinner-border" role="status">
-    <span class="sr-only" i18n>Loading…</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 <app-item-of-day class="d-block mb-4" [item]="itemOfDay[1].item" [user]="itemOfDay[0]" *ngIf="itemOfDay$|async as itemOfDay; else loading"></app-item-of-day>
 
@@ -47,9 +45,7 @@
       …
     </p>
     <ng-template #contentLoading>
-      <div class="spinner-border" role="status">
-        <span class="sr-only" i18n>Loading…</span>
-      </div>
+      <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
     </ng-template>
   </div>
 
@@ -62,9 +58,7 @@
       …
     </p>
     <ng-template #authorLoading>
-      <div class="spinner-border" role="status">
-        <span class="sr-only" i18n>Loading…</span>
-      </div>
+      <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
     </ng-template>
   </div>
 </div>

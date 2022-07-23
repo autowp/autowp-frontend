@@ -25,7 +25,7 @@
 <div [hidden]="!items">
   <div class="card card-body">
     <span [hidden]="loading <= 0">
-      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
     </span>
     <div *ngFor="let item of items">
       <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>

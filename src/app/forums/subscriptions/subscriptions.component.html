@@ -12,7 +12,7 @@
     <tbody>
       <tr *ngFor="let topic of data.items">
         <td>
-          <span class="fa fa-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
+          <span class="bi bi-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
           <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name" *ngIf="topic.status !== 'deleted'"></a>
           <span [textContent]="topic.name" *ngIf="topic.status === 'deleted'"></span>
           <span class="badge rounded-pill bg-secondary">
@@ -34,7 +34,7 @@
             </ng-container>
             <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
             <a [routerLink]="['/forums/message', topic.last_message.id]" title="Go to last message" i18n-title>
-              <i class="fa fa-share" aria-hidden="true"></i>
+              <i class="bi bi-share" aria-hidden="true"></i>
             </a>
           </div>
           <span *ngIf="!topic.last_message">&#x2014;</span>

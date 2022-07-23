@@ -27,7 +27,7 @@
   </ul>
 
   <span [hidden]="loading <= 0">
-    <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+    <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
   </span>
 
   <table class="table" aria-describedby="header">
@@ -36,8 +36,8 @@
         <th scope="col">#</th>
         <th scope="col"></th>
         <th scope="col"></th>
-        <th scope="col" class="text-right" [textContent]="valueTitle$|async"></th>
-        <th scope="col" class="text-right" *ngIf="rating === 'specs'" i18n>Specs volume</th>
+        <th scope="col" class="text-end" [textContent]="valueTitle$|async"></th>
+        <th scope="col" class="text-end" *ngIf="rating === 'specs'" i18n>Specs volume</th>
       </tr>
     </thead>
     <tbody>
@@ -63,8 +63,8 @@
             …
           </small>
         </td>
-        <td class="text-right" [textContent]="row.volume | number: '1.0-0'"></td>
-        <td class="text-right" [class.danger]="row.weight < 0.50" [class.warning]="row.weight >= 0.50 && row.weight < 1.50" *ngIf="rating === 'specs'"
+        <td class="text-end" [textContent]="row.volume | number: '1.0-0'"></td>
+        <td class="text-end" [class.danger]="row.weight < 0.50" [class.warning]="row.weight >= 0.50 && row.weight < 1.50" *ngIf="rating === 'specs'"
           [textContent]="row.weight | number : '1.2-2'"></td>
       </tr>
     </tbody>

@@ -45,23 +45,23 @@
 
         <ul class="carLinks">
           <li>
-            <i class="fa fa-file me-1" aria-hidden="true"></i>
+            <i class="bi bi-file-earmark me-1" aria-hidden="true"></i>
             <a [routerLink]="['/twins/group', group.item.id]">
               <ng-container i18n>details</ng-container> …
               <span *ngIf="group.item.comments_topic_stat.messages > 0">(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural, one {{{group.item.comments_topic_stat.messages}} comment} other {{{group.item.comments_topic_stat.messages}} comments}}</span>)</span>
             </a>
           </li>
           <li *ngIf="group.item.has_child_specs">
-            <i class="fa fa-list-alt me-1" aria-hidden="true"></i>
+            <i class="bi bi-card-list me-1" aria-hidden="true"></i>
             <a [routerLink]="['/twins/group', group.item.id, 'specifications']" i18n>specifications</a>
           </li>
           <li *ngIf="group.hasMoreImages">
-            <span class="fa fa-th me-1" aria-hidden="true"></span>
+            <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
             <a [routerLink]="['/twins/group', group.item.id, 'pictures']"><ng-container i18n>all pictures</ng-container> ({{group.item.accepted_pictures_count}})</a>
           </li>
           <ng-container *ngIf="canEdit$|async as canEdit">
             <li *ngIf="canEdit">
-              <i class="fa fa-cog me-1" aria-hidden="true"></i>
+              <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
               <a [routerLink]="['/moder/items/item', group.item.id]" i18n>edit</a>
             </li>
           </ng-container>

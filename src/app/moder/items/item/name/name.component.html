@@ -1,7 +1,5 @@
 <ng-template #loading>
-  <div class="spinner-border" role="status">
-    <span class="sr-only" i18n>Loading…</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
 <div class="card card-body" *ngIf="data$|async as data; else loading">
@@ -25,7 +23,7 @@
           <label class="col-md-2 col-form-label" i18n>Short description</label>
           <div class="col-md-10">
             <app-markdown-edit [(text)]="language.text"></app-markdown-edit>
-            <p *ngIf="language.text_id" class="text-right">
+            <p *ngIf="language.text_id" class="text-end">
               <a [routerLink]="['/info/text', language.text_id]" i18n>History</a>
             </p>
           </div>
@@ -34,7 +32,7 @@
           <label class="col-md-2 col-form-label" i18n>Full description</label>
           <div class="col-md-10">
             <app-markdown-edit [(text)]="language.full_text"></app-markdown-edit>
-            <p *ngIf="language.full_text_id" class="text-right">
+            <p *ngIf="language.full_text_id" class="text-end">
               <a [routerLink]="['/info/text', language.full_text_id]" i18n>History</a>
             </p>
           </div>
@@ -45,7 +43,7 @@
   <div [ngbNavOutlet]="nav"></div>
   <button type="submit" class="btn btn-primary" (click)="saveLanguages(data.itemId, data.languages)" [disabled]="loadingNumber > 0">
     <span *ngIf="loadingNumber > 0">
-      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
     </span>
     <ng-container i18n>Submit</ng-container>
   </button>

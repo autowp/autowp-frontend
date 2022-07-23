@@ -24,10 +24,10 @@
   <ul>
     <li *ngFor="let comment of data.items">
       <strong *ngIf="comment.vote > 0">+{{comment.vote}}
-        <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
+        <span class="bi bi-hand-thumbs-up" aria-hidden="true"></span>
       </strong>
       <strong *ngIf="comment.vote < 0">{{comment.vote}}
-        <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
+        <span class="bi bi-hand-thumbs-down" aria-hidden="true"></span>
       </strong>
       <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
     </li>

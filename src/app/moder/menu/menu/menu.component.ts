@@ -40,7 +40,7 @@ export class MenuComponent {
           },
           label: $localize `Inbox`,
           count: inboxCount,
-          icon: 'fa fa-th'
+          icon: 'bi bi-grid-3x2-gap-fill'
         },
         {
           routerLink: ['/moder/comments'],
@@ -49,12 +49,12 @@ export class MenuComponent {
           },
           label: $localize `Comments`,
           count: attentionItemCount,
-          icon: 'fa fa-comment'
+          icon: 'bi bi-chat-fill'
         },
         {
           routerLink: ['/moder/items'],
           label: $localize `Items`,
-          icon: 'fa fa-car'
+          icon: 'bi bi-car-front'
         }
       ];
     })

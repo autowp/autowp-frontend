@@ -13,7 +13,7 @@
         <a ngbDropdownToggle style="cursor:pointer"></a>
         <div ngbDropdownMenu>
           <div class="dropdown-item" *ngIf="!item.loaded">
-            <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+            <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
           </div>
           <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id === item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
         </div>

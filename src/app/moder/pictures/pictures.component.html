@@ -74,7 +74,7 @@
         <input [ngbTypeahead]="itemsDataSource" name="item" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
           [resultTemplate]="itemTemplate" placeholder="Item" i18n-placeholder class="form-control" [class.border-primary]="itemID">
         <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
-          <span class="fa fa-close" aria-hidden="true"></span>
+          <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
 
@@ -82,7 +82,7 @@
         <input [ngbTypeahead]="itemsDataSource" name="exclude_item" [(ngModel)]="excludeItemQuery" [inputFormatter]="itemFormatter" (selectItem)="excludeItemOnSelect($event)"
           [resultTemplate]="itemTemplate" placeholder="Exclude item" class="form-control" [class.border-primary]="excludeItemID">
         <button class="btn btn-outline-secondary" type="button" [disabled]="!excludeItemID" (click)="clearExcludeItem()">
-          <span class="fa fa-close" aria-hidden="true"></span>
+          <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
 
@@ -107,7 +107,7 @@
         <input [ngbTypeahead]="ownersDataSource" name="owner" [(ngModel)]="ownerQuery" [inputFormatter]="ownerFormatter" (selectItem)="ownerOnSelect($event)"
           [resultTemplate]="ownerTemplate" placeholder="Uploaded by" i18n-placeholder class="form-control" [class.border-primary]="ownerID">
         <button class="btn btn-outline-secondary" type="button" [disabled]="!ownerID" (click)="clearOwner()">
-          <span class="fa fa-close" aria-hidden="true"></span>
+          <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
 
@@ -192,7 +192,7 @@
         </ng-container>
       </ng-container>
       <ng-template #loading>
-        <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+        <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
       </ng-template>
     </h2>
 

@@ -31,11 +31,11 @@
                 <div ngbDropdownMenu *ngIf="canHaveParentBrand$|async">
                   <ng-container>
                     <a class="dropdown-item" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'brands'}">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      <i class="bi bi-plus" aria-hidden="true"></i>
                       <ng-container i18n>Brand …</ng-container>
                     </a>
                     <a class="dropdown-item" href="#" (click)="addParent(item, brand.id)" *ngFor="let brand of (suggestions$|async)">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      <i class="bi bi-plus" aria-hidden="true"></i>
                       <span i18n>Brand {{brand.name_text}}</span>
                     </a>
                   </ng-container>
@@ -47,7 +47,7 @@
       </tr>
       <tr *ngFor="let parentsItem of (parents$|async)">
         <td ngPreserveWhitespaces>
-          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          <i class="bi bi-arrow-up" aria-hidden="true"></i>
           <a [routerLink]="['/moder/items/item', parentsItem.parent_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="parentsItem.parent.name_html"></a>
           <div class="text-warning" *ngIf="parentsItem.duplicate_parent">
             <small>
@@ -59,7 +59,7 @@
         <td>
           <a [routerLink]="['/moder/item-parent', parentsItem.item_id, parentsItem.parent_id]">
             {{item.name}}
-            <span class="fa fa-pencil" aria-hidden="true"></span>
+            <span class="bi bi-pencil-fill" aria-hidden="true"></span>
           </a>
         </td>
         <td class="urls">
@@ -70,14 +70,14 @@
         </td>
         <td *ngIf="canMove">
           <button type="submit" class="btn btn-sm btn-danger" (click)="deleteParent(item, parentsItem.parent_id)">
-            <i class="fa fa-times" aria-hidden="true"></i>
+            <i class="bi bi-x" aria-hidden="true"></i>
           </button>
         </td>
       </tr>
       <tr class="success">
         <td colspan="2" ngPreserveWhitespaces>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          <i class="bi bi-arrow-right" aria-hidden="true"></i>
           <span [innerHTML]="item.name_html"></span>
         </td>
         <td class="urls">
@@ -90,7 +90,7 @@
       </tr>
       <tr *ngFor="let childsItem of (childs$|async)">
         <td>
-          <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          <i class="bi bi-arrow-down" aria-hidden="true"></i>
           <span *ngIf="childsItem.type_id === 1" i18n>Related:</span>
           <span *ngIf="childsItem.type_id === 3" i18n>Design:</span>
           <span *ngIf="childsItem.type_id === 2" i18n>Sport:</span>
@@ -105,7 +105,7 @@
         <td>
           <a [routerLink]="['/moder/item-parent', childsItem.item_id, childsItem.parent_id]">
             {{item.name}}
-            <span class="fa fa-pencil" aria-hidden="true"></span>
+            <span class="bi bi-pencil-fill" aria-hidden="true"></span>
           </a>
         </td>
         <td class="urls">
@@ -116,14 +116,14 @@
         </td>
         <td *ngIf="canMove">
           <button class="btn btn-sm btn-danger" (click)="deleteChild(item, childsItem.item_id)">
-            <i class="fa fa-times" aria-hidden="true"></i>
+            <i class="bi bi-x" aria-hidden="true"></i>
           </button>
         </td>
       </tr>
 
       <tr *ngIf="item.is_group && canMove && item.item_type_id === 5">
         <td colspan="2">
-          <i class="fa fa-plus" aria-hidden="true"></i>
+          <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
         </td>
         <td class="urls"></td>
@@ -131,7 +131,7 @@
       </tr>
       <tr *ngIf="item.is_group && canMove && item.item_type_id === 5">
         <td colspan="2">
-          <i class="fa fa-plus" aria-hidden="true"></i>
+          <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
         </td>
         <td class="urls"></td>
@@ -139,7 +139,7 @@
       </tr>
       <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
         <td colspan="2">
-          <i class="fa fa-plus" aria-hidden="true"></i>
+          <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 3, parent_id: item.id}" i18n>add category</a>
         </td>
         <td class="urls"></td>
@@ -147,7 +147,7 @@
       </tr>
       <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
         <td colspan="2">
-          <i class="fa fa-plus" aria-hidden="true"></i>
+          <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
         </td>
         <td class="urls"></td>
@@ -155,7 +155,7 @@
       </tr>
       <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
         <td colspan="2">
-          <i class="fa fa-plus" aria-hidden="true"></i>
+          <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
         </td>
         <td class="urls"></td>
@@ -163,7 +163,7 @@
       </tr>
       <tr *ngIf="item.is_group && canMove && ([4, 6, 3].indexOf(item.item_type_id) === -1)">
         <td colspan="2">
-          <i class="fa fa-plus" aria-hidden="true"></i>
+          <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">
             <ng-container i18n *ngIf="item.item_type_id === 2">add engine</ng-container>
             <ng-container i18n *ngIf="item.item_type_id !== 2">add vehicle</ng-container>

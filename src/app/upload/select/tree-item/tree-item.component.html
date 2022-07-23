@@ -1,7 +1,7 @@
 <ng-template #childsLoading>
   <li class="ms-4">
     <span>
-      <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
     </span>
   </li>
 </ng-template>
@@ -9,8 +9,8 @@
 <ng-container *ngIf="item$|async as item">
   <div *ngIf="item.item.childs_count > 0">
     <button class="btn btn-link toggle" (click)="open = !open">
-      <i class="fa fa-folder-o" aria-hidden="true" *ngIf="!open"></i>
-      <i class="fa fa-folder-open-o" aria-hidden="true" *ngIf="open"></i>
+      <i class="bi bi-folder2" aria-hidden="true" *ngIf="!open"></i>
+      <i class="bi bi-folder2-open" aria-hidden="true" *ngIf="open"></i>
       <span *ngIf="item.type_id === 1" i18n>Related</span>
       <span *ngIf="item.type_id === 2" i18n>Sport</span>
       <span *ngIf="item.type_id === 3" i18n>Design</span>

@@ -7,18 +7,14 @@
 </nav>
 
 <ng-template #loading>
-  <div class="spinner-border" role="status">
-    <span class="sr-only" i18n>Loading…</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
 <ng-template #loadingAuthor>
   <div>
   </div>
   <div class="photo">
-    <div class="spinner-border" role="status">
-      <span class="sr-only" i18n>Loading…</span>
-    </div>
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
   </div>
 </ng-template>
 
@@ -66,16 +62,16 @@
           <div ngPreserveWhitespaces>
             <span class="badge bg-info text-dark" *ngIf="message.message.isNew" i18n>new</span>
             <a href="#" class="float-end" (click)="deleteMessage(message.message.id)" *ngIf="message.message.canDelete" ngPreserveWhitespaces>
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <i class="bi bi-trash" aria-hidden="true"></i>
               <ng-container i18n>delete</ng-container>
             </a>
             <span *ngIf="message.message.canReply" ngPreserveWhitespaces>
-              <i class="fa fa-reply" aria-hidden="true"></i>
+              <i class="bi bi-reply" aria-hidden="true"></i>
               <a href="#" (click)="openMessageForm(message.message.authorId)" i18n>reply</a>
               &nbsp;
             </span>
             <span *ngIf="message.message.allMessagesLink && message.message.dialogWithUserId" ngPreserveWhitespaces>
-              <i class="fa fa-comments-o" aria-hidden="true"></i>
+              <i class="bi bi-chat-text" aria-hidden="true"></i>
               <a routerLink="/account/messages" [queryParams]="{folder: 'dialog', user_id: message.message.dialogWithUserId}" i18n>entire dialog</a>
               <small>({{message.message.dialogCount}})</small>
               &nbsp;

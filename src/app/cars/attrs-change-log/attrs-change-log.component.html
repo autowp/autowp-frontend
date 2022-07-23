@@ -22,7 +22,7 @@
           <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
             [resultTemplate]="userTemplate" class="form-control" [class.border-primary]="userID$|async" id="user_id">
           <button class="btn btn-outline-secondary" type="button" [disabled]="(userID$|async) === null" (click)="clearUser()">
-            <span class="fa fa-close" aria-hidden="true"></span>
+            <span class="bi bi-x" aria-hidden="true"></span>
           </button>
         </div>
       </div>

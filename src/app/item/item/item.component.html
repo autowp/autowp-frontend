@@ -45,8 +45,8 @@
   <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
     <div [class]="thumbnailColClass()">
       <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
-        <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="fa fa-plus-circle text-success" aria-hidden="true"></a>
-        <span class="fa fa-camera fa-lg fa-4x" aria-hidden="true"></span>
+        <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="bi bi-plus-circle text-success" aria-hidden="true"></a>
+        <span class="bi bi-camera fs-1" aria-hidden="true"></span>
       </div>
     </div>
   </div>
@@ -65,53 +65,53 @@
   <ul class="list-inline" ngPreserveWhitespaces>
 
     <li *ngIf="(item.has_text || item.childs_count) && item.route" class="list-inline-item">
-      <i class="fa fa-align-left me-1" aria-hidden="true"></i>
+      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="item.route"><ng-container i18n>details</ng-container>
         <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
       </a>
     </li>
 
     <li *ngIf="item.item_type_id === 8" class="list-inline-item">
-      <i class="fa fa-align-left me-1" aria-hidden="true"></i>
+      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="['/persons', item.id]" i18n>details</a>
     </li>
 
     <!--<li *ngIf="item.more_pictures_url" class="list-inline-item">
-      <span class="fa fa-th me-1" aria-hidden="true"></span>
+      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
       <a [href]="item.more_pictures_url"><ng-container i18n>all pictures</ng-container> ({{item.total_pictures}})</a>
     </li>-->
 
     <!--
         <li *ngIf="item.specsLinks.length > 1" class="list-inline-item">
-            <i class="fa fa-list-alt me-1" aria-hidden="true"></i>
+            <i class="bi bi-card-list me-1" aria-hidden="true"></i>
             <ng-container i18n>specifications</ng-container>
             <a [href]="specLink.url" [textContent]="specLink.name" *ngFor="let specLink of item.specsLinks"></a>
         </li>
          -->
     <li *ngIf="item.specs_route" class="list-inline-item">
-      <i class="fa fa-list-alt me-1" aria-hidden="true"></i>
+      <i class="bi bi-card-list me-1" aria-hidden="true"></i>
       <a [routerLink]="item.specs_route" i18n>specifications</a>
     </li>
 
     <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
-      <i class="fa fa-adjust me-1" aria-hidden="true"></i>
+      <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
       <a [routerLink]="['/twins/group', twinsGroup.id]" i18n>twins</a>
     </li>
 
     <li *ngFor="let category of item.categories" class="list-inline-item">
-      <i class="fa fa-tag me-1" aria-hidden="true"></i>
+      <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
       <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
     <ng-container *ngIf="isModer$|async as isModer">
       <li *ngIf="isModer" class="list-inline-item">
-        <i class="fa fa-cog me-1" aria-hidden="true"></i>
+        <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
       </li>
     </ng-container>
 
     <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="fa fa-pencil me-1" aria-hidden="true"></i>
+      <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
       <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
     </li>
   </ul>

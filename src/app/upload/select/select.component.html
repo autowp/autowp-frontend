@@ -18,7 +18,7 @@
     <input type="text" [(ngModel)]="search" (input)="onSearchInput()" class="form-control" placeholder="Type to search …" autofocus />
   </div>
   <span [hidden]="loading <= 0">
-    <i class="fa fa-spinner fa-spin fa-fw fa-4x" aria-hidden="true"></i>
+    <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
   </span>
   <div class="row">
     <div class="col-md-2" *ngFor="let chunk of brands">
@@ -35,7 +35,7 @@
 <div class="select-in-brand" *ngIf="brand">
 
   <span [hidden]="loading <= 0">
-    <i class="fa fa-spinner fa-spin fa-fw fa-4x" aria-hidden="true"></i>
+    <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
   </span>
 
   <div style="margin: 5px 0" *ngIf="brand.vehicles.length > 0">
@@ -59,8 +59,8 @@
   </div>
 
   <div *ngIf="brand.concepts.length > 0">
-    <i class="fa fa-folder-o" aria-hidden="true" [hidden]="conceptsOpen"></i>
-    <i class="fa fa-folder-open-o"  aria-hidden="true"[hidden]="!conceptsOpen"></i>
+    <i class="bi bi-folder2" aria-hidden="true" [hidden]="conceptsOpen"></i>
+    <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!conceptsOpen"></i>
     <a href="#" (click)="conceptsOpen = !conceptsOpen" i18n>Concepts & prototypes</a>
     <ul class="list-unstyled" [hidden]="!conceptsOpen">
       <li *ngFor="let item of brand.concepts" style="margin-left:16px">

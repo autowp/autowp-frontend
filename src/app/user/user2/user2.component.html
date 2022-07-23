@@ -1,5 +1,5 @@
 <span class="user" [class.muted]="user.deleted" [class.long-away]="user.longAway" [class.green-man]="user.green" ngPreserveWhitespaces>
-  <i class="fa fa-user" aria-hidden="true"></i>
+  <i class="bi bi-person-fill" aria-hidden="true"></i>
   <span *ngIf="user.deleted" i18n>deleted user</span>
   <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]" [textContent]="user.name" *ngIf="!user.deleted"></a>
 </span>

@@ -52,7 +52,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item" *ngIf="user" [class.active]="isActive(49)|async">
           <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
-            <i class="fa fa-comment" aria-hidden="true"></i>
+            <i class="bi bi-chat-fill" aria-hidden="true"></i>
             <ng-container *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
               <span class="badge rounded-pill bg-secondary" [textContent]="newPersonalMessages.count" *ngIf="newPersonalMessages.count > 0"></span>
             </ng-container>
@@ -60,7 +60,7 @@
         </li>
         <li class="nav-item" *ngIf="!user" [class.active]="isActive(79)|async">
           <button class="btn nav-link" (click)="doLogin()">
-            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
             <ng-container i18n="@@login/sign-in">Sign in</ng-container>
           </button>
         </li>
@@ -78,31 +78,31 @@
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
 
             <a routerLink="/upload" class="dropdown-item" [class.active]="isActive(29)|async">
-              <i class="fa fa-fw fa-upload" aria-hidden="true"></i>
+              <i class="bi bi-upload" aria-hidden="true"></i>
               <ng-container i18n>Add picture</ng-container>
             </a>
             <a routerLink="/feedback" class="dropdown-item" [class.active]="isActive(89)|async">
-              <i class="fa fa-fw fa-comment" aria-hidden="true"></i>
+              <i class="bi bi-chat-fill" aria-hidden="true"></i>
               <ng-container i18n>Feedback</ng-container>
             </a>
             <a href="#" (click)="showOnlineUsers()" class="dropdown-item">
-              <i class="fa fa-fw fa fa-users" aria-hidden="true"></i>
+              <i class="bi bi-people-fill" aria-hidden="true"></i>
               <ng-container i18n>Who is online?</ng-container>
             </a>
             <a routerLink="/account/contacts" class="dropdown-item" *ngIf="user" [class.active]="isActive(211)|async">
-              <i class="fa fa-fw fa-address-book" aria-hidden="true"></i>
+              <i class="bi bi-people-fill" aria-hidden="true"></i>
               <ng-container i18n>Contacts</ng-container>
             </a>
             <a routerLink="/account" class="dropdown-item" *ngIf="user" [class.active]="isActive(48)|async">
-              <i class="fa fa-fw fa-user" aria-hidden="true"></i>
+              <i class="bi bi-person-fill" aria-hidden="true"></i>
               <ng-container i18n>Cabinet</ng-container>
             </a>
             <a routerLink="/about" class="dropdown-item" [class.active]="isActive(136)|async">
-              <i class="fa fa-fw fa-info" aria-hidden="true"></i>
+              <i class="bi bi-info" aria-hidden="true"></i>
               <ng-container i18n>About us</ng-container>
             </a>
             <a href="#" (click)="signOut()" class="dropdown-item" *ngIf="user">
-              <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
+              <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
               <ng-container i18n>Sign out</ng-container>
             </a>
           </div>
@@ -138,11 +138,11 @@
           <br />
           <a routerLink="/account/profile" i18n>Cabinet</a>
           <br />
-          <i class="fa fa-sign-out" aria-hidden="true"></i>
+          <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
           <a href="#" (click)="signOut()" i18n="@@login/sign-out">Sign out</a>
         </div>
         <p ngPreserveWhitespaces *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
-          <i class="fa fa-comment" aria-hidden="true"></i>
+          <i class="bi bi-chat-fill" aria-hidden="true"></i>
           <a routerLink="/account/messages" class="badge bg-danger" *ngIf="newPersonalMessages.count" i18n>{newPersonalMessages.count, plural, one {You have {{newPersonalMessages.count}} new message} other {You have {{newPersonalMessages.count}} new messages}}</a>
           <a routerLink="/account/messages" *ngIf="!newPersonalMessages.count" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
@@ -172,22 +172,22 @@
       <div class="col-md-6">
         <p class="links">
           <a href="https://twitter.com/autowp_ru" placement="top" ngbTooltip="Twitter" class="d-inline-block">
-            <i class="fa fa-twitter" aria-hidden="true"></i>
+            <i class="bi bi-twitter" aria-hidden="true"></i>
           </a>
           <a href="https://www.facebook.com/WheelsAge" placement="top" ngbTooltip="Facebook" class="d-inline-block" *ngIf="language !== 'ru'">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
+            <i class="bi bi-facebook" aria-hidden="true"></i>
           </a>
           <a href="https://github.com/autowp/autowp" placement="top" ngbTooltip="GitHub" class="d-inline-block">
-            <i class="fa fa-github" aria-hidden="true"></i>
+            <i class="bi bi-github" aria-hidden="true"></i>
           </a>
           <a href="https://play.google.com/store/apps/details?id=com.autowp.wallpaper" placement="top" ngbTooltip="Android wallpaper" class="d-inline-block">
-            <i class="fa fa-android" aria-hidden="true"></i>
+            <i class="bi bi-android2" aria-hidden="true"></i>
           </a>
           <a routerLink="/telegram" placement="top" ngbTooltip="Telegram" class="d-inline-block">
-            <i class="fa fa-telegram" aria-hidden="true"></i>
+            <i class="bi bi-telegram" aria-hidden="true"></i>
           </a>
           <a routerLink="/feedback" placement="top" ngbTooltip="Feedback" i18n-ngbTooltip class="d-inline-block">
-            <i class="fa fa-comment" aria-hidden="true"></i>
+            <i class="bi bi-chat-fill" aria-hidden="true"></i>
           </a>
         </p>
         <p>

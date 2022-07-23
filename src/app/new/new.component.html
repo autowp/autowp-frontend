@@ -13,7 +13,7 @@
 <ng-container *ngIf="data$|async as data">
   <div class="row mb-4">
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-left" *ngIf="data.prev && data.prev.date">
+      <h3 class="text-start" *ngIf="data.prev && data.prev.date">
         &#x2190;
         <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | amDateFormat: 'LL'"></a>
         <br />
@@ -28,7 +28,7 @@
       </h3>
     </div>
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-right" *ngIf="data.next && data.next.date">
+      <h3 class="text-end" *ngIf="data.next && data.next.date">
         <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | amDateFormat: 'LL'"></a>
         <br />
         <small>(<span i18n="@@n-pictures">{data.next.count, plural, one {{{data.next.count}} picture} other {{{data.next.count}} pictures}}</span>)</small>

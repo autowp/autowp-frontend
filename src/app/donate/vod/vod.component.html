@@ -26,7 +26,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
       <span *ngIf="date.free">
         <span *ngIf="date.active">
           <strong [textContent]="date.name"></strong>
-          <span class="fa fa-check" aria-hidden="true"></span>
+          <span class="bi bi-check" aria-hidden="true"></span>
         </span>
         <span *ngIf="!date.active">
           <a routerLink="." [queryParams]="{date: date.value}" queryParamsHandling="merge" [textContent]="date.name"></a>
@@ -87,12 +87,12 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
     <div class="btn-group mb-3" role="group">
       <input type="radio" class="btn-check" name="paymentType" value="AC" autocomplete="off" checked id="btn1">
       <label class="btn btn-secondary" for="btn1">
-        <span class="fa fa-credit-card" aria-hidden="true"></span>
+        <span class="bi bi-credit-card" aria-hidden="true"></span>
         <ng-container i18n>Credit card</ng-container>
       </label>
       <input type="radio" class="btn-check" name="paymentType" value="MC" autocomplete="off" id="btn2">
       <label class="btn btn-secondary" for="btn2">
-        <span class="fa fa-mobile" aria-hidden="true"></span>
+        <span class="bi bi-phone" aria-hidden="true"></span>
         <ng-container i18n>Mobile operator account</ng-container>
       </label>
       <input type="radio" class="btn-check" name="paymentType" value="PC" autocomplete="off" id="btn3">
@@ -102,11 +102,11 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
   </div>
   <div *ngIf="(date$|async) === null || (item$|async) === null">
     <button class="btn btn-secondary" disabled>
-      <span class="fa fa-credit-card" aria-hidden="true"></span>
+      <span class="bi bi-credit-card" aria-hidden="true"></span>
       <ng-container i18n>Credit card</ng-container>
     </button>
     <button class="btn btn-secondary" disabled>
-      <span class="fa fa-mobile" aria-hidden="true"></span>
+      <span class="bi bi-phone" aria-hidden="true"></span>
       <ng-container i18n>Mobile operator account</ng-container>
     </button>
     <button class="btn btn-secondary" disabled i18n>YooMoney</button>

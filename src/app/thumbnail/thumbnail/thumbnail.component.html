@@ -11,37 +11,37 @@
     <p class="picture-behaviour clearfix">
       <ng-container *ngIf="isModer$|async">
         <span title="Status" *ngIf="picture.status">
-          <i class="fa fa-check text-success" aria-hidden="true" *ngIf="picture.status==='accepted'"></i>
-          <i class="fa fa-hourglass text-warning" aria-hidden="true" *ngIf="picture.status==='inbox'"></i>
-          <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removed'"></i>
-          <i class="fa fa-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removing'"></i>
+          <i class="bi bi-check text-success" aria-hidden="true" *ngIf="picture.status==='accepted'"></i>
+          <i class="bi bi-hourglass text-warning" aria-hidden="true" *ngIf="picture.status==='inbox'"></i>
+          <i class="bi bi-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removed'"></i>
+          <i class="bi bi-trash text-danger" aria-hidden="true" *ngIf="picture.status==='removing'"></i>
         </span>
       </ng-container>
 
       <span i18n-title title="Resolution" class="text-nowrap me-2" ngPreserveWhitespaces>
         {{picture.resolution}}
-        <i *ngIf="(isModer$|async) && picture.cropped" class="fa fa-scissors" aria-hidden="true" style="cursor:help" i18n-title title="Thumbnail is cropped ({{picture.crop_resolution}})"></i>
+        <i *ngIf="(isModer$|async) && picture.cropped" class="bi bi-crop" aria-hidden="true" style="cursor:help" i18n-title title="Thumbnail is cropped ({{picture.crop_resolution}})"></i>
       </span>
 
       <span i18n-title title="Views" *ngIf="picture.views > 0" class="text-nowrap me-2" ngPreserveWhitespaces>
-        <i class="fa fa-eye" aria-hidden="true"></i>
+        <i class="bi bi-eye" aria-hidden="true"></i>
         <span *ngIf="picture.views >= 1000">{{picture.views/1000 | number:'1.0-1'}}K</span>
         <span *ngIf="picture.views < 1000">{{picture.views | number:'1.0-0'}}</span>
       </span>
 
       <span class="text-nowrap me-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>
-        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+        <i class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
         {{picture.votes.positive}}
       </span>
 
       <span i18n-title title="Comments" *ngIf="picture.comments_count.total > 0" class="text-nowrap me-2">
         <a [routerLink]="route" *ngIf="route">
           <ng-container *ngIf="picture.comments_count.new > 0">
-            {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="fa fa-comment text-danger" aria-hidden="true"></i>
+            {{picture.comments_count.total > picture.comments_count.new ? picture.comments_count.total - picture.comments_count.new : ''}}<span class="text-danger">+{{picture.comments_count.new}}</span><i class="bi bi-chat-fill text-danger" aria-hidden="true"></i>
           </ng-container>
           <ng-container *ngIf="picture.comments_count.new === 0">
             {{picture.comments_count.total}}
-            <i class="fa fa-comment" aria-hidden="true"></i>
+            <i class="bi bi-chat-fill" aria-hidden="true"></i>
           </ng-container>
         </a>
       </span>
@@ -52,11 +52,11 @@
 
     <label class="btn btn-sm float-start me-1 mb-2" [class.btn-primary]="picture.selected" [class.btn-secondary]="!picture.selected"
       (click)="onPictureSelect()" *ngIf="selectable">
-      <i class="fa fa-check" aria-hidden="true"></i>
+      <i class="bi bi-check" aria-hidden="true"></i>
     </label>
 
     <a [routerLink]="['/moder/pictures', picture.id]" [class.float-end]="selectable"  class="btn btn-secondary btn-sm settings mb-2" title="Settings" *ngIf="isModer$|async">
-      <i class="fa fa-cog" aria-hidden="true"></i>
+      <i class="bi bi-gear-fill" aria-hidden="true"></i>
     </a>
     <select *ngIf="picture.perspective_item" class="form-control form-control-sm me-1 mb-2" [(ngModel)]="picture.perspective_item.perspective_id"
       (change)="savePerspective()">
@@ -64,7 +64,7 @@
       <option *ngFor="let item of perspectiveOptions$|async" [ngValue]="item.id">{{getPerspectiveTranslation(item.name)}}</option>
     </select>
     <p class="alert alert-warning" role="alert" *ngIf="picture.similar">
-      <span class="fa fa-file-image-o me-1" aria-hidden="true"></span>
+      <span class="bi bi-file-earmark-image me-1" aria-hidden="true"></span>
       <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces i18n>Similar picture: {{picture.similar.distance}}</a>
     </p>
   </div>

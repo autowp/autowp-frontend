@@ -9,31 +9,25 @@ export const externalLoginServices: ExternalLoginService[] = [
   {
     id: 'facebook',
     name: 'Facebook',
-    icon: 'fa-facebook',
+    icon: 'bi-facebook',
     color: '#3b5998',
-  },
-  {
-    id: 'vk',
-    name: 'VK',
-    icon: 'fa-vk',
-    color: '#43648c',
   },
   {
     id: 'google-plus',
     name: 'Google+',
-    icon: 'fa-google',
+    icon: 'bi-google',
     color: '#dd4b39',
   },
   /*{
     id: 'twitter',
     name: 'Twitter',
-    icon: 'fa-twitter',
+    icon: 'bi-twitter',
     color: '#55acee',
   },
   {
     id: 'github',
     name: 'Github',
-    icon: 'fa-github',
+    icon: 'bi bi-github',
     color: '#000000',
   }*/
 ];

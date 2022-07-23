@@ -123,7 +123,7 @@ export class AboutComponent implements OnInit {
       '%total-users%': data.about.totalUsers.toString(),
       '%total-comments%': data.about.totalComments.toString(),
       '%github%':
-        '<i class="fa fa-github" aria-hidden="true"></i> ' +
+        '<i class="bi bi-github" aria-hidden="true"></i> ' +
         '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
       '%developer%': this.userHtml(data.users.get(data.about.developer)),
       '%fr-translator%': this.userHtml(
@@ -189,6 +189,6 @@ export class AboutComponent implements OnInit {
     );
     a.innerText = user.name;
 
-    return '<i class="fa fa-user" aria-hidden="true"></i> ' + span.appendChild(a).outerHTML;
+    return '<i class="bi bi-person-fill" aria-hidden="true"></i> ' + span.appendChild(a).outerHTML;
   }
 }

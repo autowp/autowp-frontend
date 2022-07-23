@@ -20,7 +20,7 @@ export class ToastsService {
     this.show({
       message,
       type: 'danger',
-      icon: 'fa fa-exclamation-triangle'
+      icon: 'bi bi-exclamation-triangle'
     });
   }
 
@@ -28,7 +28,7 @@ export class ToastsService {
     this.show({
       message,
       type: 'success',
-      icon: 'fa fa-check'
+      icon: 'bi bi-check'
     });
   }
 

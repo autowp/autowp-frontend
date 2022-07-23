@@ -1,13 +1,10 @@
 <div class="share">
-  <a rel="noopener" [href]="buildURL('https://facebook.com/sharer/sharer.php?', {u: url})" target="_blank" class="fa fa-facebook" aria-hidden="true" title="Facebook"></a>
-  <a rel="noopener" [href]="buildURL('https://twitter.com/intent/tweet/?', {url: url, text: text})" target="_blank" class="fa fa-twitter" aria-hidden="true" title="Twitter"></a>
-  <a rel="noopener" [href]="buildURL('https://plus.google.com/share?', {url: url})" target="_blank" class="fa fa-google-plus" aria-hidden="true" title="G+"></a>
-  <a rel="noopener" [href]="buildURL('https://www.linkedin.com/shareArticle?', {mini: 'true', url: url, title: text, source: url})" target="_blank" class="fa fa-linkedin" aria-hidden="true" title="LinkedIn"></a>
-  <a rel="noopener" [href]="buildURL('https://reddit.com/submit/?', {url: url})" target="_blank" class="fa fa-reddit" aria-hidden="true" title="Reddit"></a>
-  <a rel="noopener" [href]="buildURL('https://www.tumblr.com/widgets/share/tool?', {posttype: 'link', title: text, caption: text, content: url, canonicalUrl: url, shareSource: 'tumblr_share_button'})" target="_blank" class="fa fa-tumblr" aria-hidden="true" title="Tumblr"></a>
-  <a rel="noopener" [href]="buildURL('https://pinterest.com/pin/create/button/?', {url: url, media: url, description: text})" target="_blank" class="fa fa-pinterest" aria-hidden="true" title="Pinterest"></a>
-  <a rel="noopener" [href]="buildURL('http://vk.com/share.php?', {title: text, url: url})" target="_blank" class="fa fa-vk" aria-hidden="true" title="VK"></a>
-  <a rel="noopener" [href]="buildURL('whatsapp://send?', {url: url, text: text + ' ' + url})" target="_blank" class="fa fa-whatsapp" aria-hidden="true" title="Whatsapp"></a>
-  <a rel="noopener" [href]="buildURL('https://telegram.me/share/url?', {text: text, url: url})" target="_blank" class="fa fa-telegram" aria-hidden="true" title="Telegram"></a>
-  <a rel="noopener" [href]="buildURL('mailto:?', {subject: text, body: url})" target="_blank" class="fa fa-envelope-o" aria-hidden="true" title="E-mail"></a>
+  <a rel="noopener" [href]="buildURL('https://twitter.com/intent/tweet/?', {url: url, text: text})" target="_blank" class="btn btn-sm bi bi-twitter" aria-hidden="true" title="Twitter"></a>
+  <a rel="noopener" [href]="buildURL('https://plus.google.com/share?', {url: url})" target="_blank" class="btn btn-sm bi bi-google" aria-hidden="true" title="Google"></a>
+  <a rel="noopener" [href]="buildURL('https://www.linkedin.com/shareArticle?', {mini: 'true', url: url, title: text, source: url})" target="_blank" class="btn btn-sm bi bi-linkedin" aria-hidden="true" title="LinkedIn"></a>
+  <a rel="noopener" [href]="buildURL('https://reddit.com/submit/?', {url: url})" target="_blank" class="btn btn-sm bi bi-reddit" aria-hidden="true" title="Reddit"></a>
+  <a rel="noopener" [href]="buildURL('https://pinterest.com/pin/create/button/?', {url: url, media: url, description: text})" target="_blank" class="btn btn-sm bi bi-pinterest" aria-hidden="true" title="Pinterest"></a>
+  <a rel="noopener" [href]="buildURL('whatsapp://send?', {url: url, text: text + ' ' + url})" target="_blank" class="btn btn-sm bi bi-whatsapp" aria-hidden="true" title="Whatsapp"></a>
+  <a rel="noopener" [href]="buildURL('https://telegram.me/share/url?', {text: text, url: url})" target="_blank" class="btn btn-sm bi bi-telegram" aria-hidden="true" title="Telegram"></a>
+  <a rel="noopener" [href]="buildURL('mailto:?', {subject: text, body: url})" target="_blank" class="btn btn-sm bi bi-envelope-open" aria-hidden="true" title="E-mail"></a>
 </div>

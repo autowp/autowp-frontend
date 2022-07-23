@@ -26,19 +26,19 @@
   </ng-container>
 
   <p *ngIf="isModer$|async">
-    <i class="fa fa-cog" aria-hidden="true"></i>
+    <i class="bi bi-gear-fill" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
 
     <ng-container *ngIf="canAddItem$|async as canAddItem">
       <ng-container *ngIf="canAddItem && item.is_group">
-        <i class="fa fa-plus" aria-hidden="true"></i>
+        <i class="bi bi-plus" aria-hidden="true"></i>
         <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{getItemTypeTranslation(item.item_type_id, 'add-sub-item')}}</a>
       </ng-container>
     </ng-container>
 
     <ng-container *ngIf="canAcceptPicture$|async as canAcceptPicture">
       <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
-        <i class="fa fa-th" aria-hidden="true"></i>
+        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
         <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
           <ng-container i18n>inbox</ng-container> ({{item.inbox_pictures_count}})
         </a>
@@ -46,7 +46,7 @@
     </ng-container>
 
     <ng-container *ngIf="item.comments_attentions_count">
-      <i class="fa fa-comment" aria-hidden="true"></i>
+      <i class="bi bi-chat-fill" aria-hidden="true"></i>
       <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
         <ng-container i18n>comments</ng-container> ({{item.comments_attentions_count}})
       </a>
@@ -85,7 +85,7 @@
     </div>
   </div>
   <ng-container *ngIf="otherPictures.count > otherPictures.pictures.length">
-    <i class="fa fa-th" aria-hidden="true"></i>
+    <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
     <a [routerLink]="otherPictures.routerLink">
       <ng-container i18n>all pictures</ng-container> ({{otherPictures.count}})
     </a>

@@ -11,9 +11,7 @@
 </div>
 
 <ng-template #loading>
-  <div class="spinner-border" role="status">
-    <span class="sr-only" i18n>Loading…</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
 <ng-container *ngIf="inbox$|async as data; else loading">
@@ -27,7 +25,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-left" *ngIf="data.inbox.prev && data.inbox.prev.date">
+      <h3 class="text-start" *ngIf="data.inbox.prev && data.inbox.prev.date">
         &#x2190;
         <a [routerLink]="['/inbox', data.brandCatname, data.inbox.prev.date]" [textContent]="data.inbox.prev.date | amDateFormat: 'LL'"></a>
         <br />
@@ -42,7 +40,7 @@
       </h3>
     </div>
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-right" *ngIf="data.inbox.next && data.inbox.next.date">
+      <h3 class="text-end" *ngIf="data.inbox.next && data.inbox.next.date">
         <a [routerLink]="['/inbox', data.brandCatname, data.inbox.next.date]" [textContent]="data.inbox.next.date | amDateFormat: 'LL'"></a>
         <br />
         <small>(<span i18n="@@n-pictures">{data.inbox.next.count, plural, one {{{data.inbox.next.count}} picture} other {{{data.inbox.next.count}} pictures}}</span>)</small>

@@ -2,7 +2,7 @@
   <ng-container *ngIf="user$|async as user">
     <form class="spec-editor-form" (submit)="saveSpecs(user, item, currentUserValues)" *ngIf="item$|async as item">
       <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items">
-        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
         <ng-container i18n>Data not saved because of error. Details below</ng-container>
       </p>
       <table class="table table-condensed">
@@ -30,7 +30,7 @@
                 <div class="input-group-prepend">
                   <button type="button" class="btn btn-secondary btn-sm" (click)="currentUserValues[attribute.id].empty = !currentUserValues[attribute.id].empty"
                     [class.active]="attribute.disabled">
-                    <span class="fa fa-remove" aria-hidden="true"></span>
+                    <span class="bi bi-trash" aria-hidden="true"></span>
                   </button>
                 </div>
                 <select class="form-control form-control-sm" *ngIf="attribute.type_id === 5" [name]="'attr'+attribute.id" [(ngModel)]="currentUserValues[attribute.id].value"

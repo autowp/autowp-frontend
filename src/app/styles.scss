@@ -1,6 +1,8 @@
 // Core variables and mixins
 @import './bootstrap';
 
+@import '~bootstrap-icons/font/bootstrap-icons';
+
 app-index {
   display: block;
   //-webkit-filter: grayscale(100%);
@@ -273,7 +275,7 @@ img.avatar {
   opacity: 0.5;
   background: #fff;
 
-  .fa-lg {
+  .bi-camera {
     vertical-align: middle;
   }
 
@@ -371,10 +373,10 @@ span.unit {
 
 .car-node {
   > a {
-    > .fa-folder-open-o {
+    > .bi-folder2-open {
       display: none;
     }
-    > .fa-folder-o {
+    > .bi-folder2 {
       display: inline-block;
     }
   }
@@ -385,10 +387,10 @@ span.unit {
 
   &.open {
     > a {
-      > .fa-folder-open-o {
+      > .bi-folder2-open {
         display: inline-block;
       }
-      > .fa-folder-o {
+      > .bi bi-folder2 {
         display: none;
       }
     }

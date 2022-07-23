@@ -2,9 +2,7 @@
   <h4><ng-container i18n>New pictures</ng-container> <small><a routerLink="/new" i18n>all</a></small></h4>
 </div>
 <ng-template #loading>
-  <div class="spinner-border" role="status">
-    <span class="sr-only" i18n>Loading…</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
 <div class="row" *ngIf="items$|async as items; else loading">
@@ -14,6 +12,6 @@
 </div>
 
 <p>
-  <span class="fa fa-th" aria-hidden="true"></span>
+  <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
   <a routerLink="/new" i18n>All new pictures …</a>
 </p>

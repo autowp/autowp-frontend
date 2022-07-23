@@ -14,7 +14,7 @@
           <a ngbDropdownToggle style="cursor:pointer"></a>
           <div ngbDropdownMenu>
             <div class="dropdown-item" *ngIf="!item.loaded">
-              <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+              <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
             </div>
             <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id === item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
           </div>
@@ -32,12 +32,12 @@
   <ng-container *ngIf="category$|async as category">
     <ng-container *ngIf="isModer$|async as isModer">
       <p *ngIf="isModer" class="mb-4">
-        <i class="fa fa-cog" aria-hidden="true"></i>
+        <i class="bi bi-gear-fill" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
 
         <ng-container *ngIf="canAddCar$|async as canAddCar">
           <span *ngIf="canAddCar">
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="bi bi-plus" aria-hidden="true"></i>
             <a routerLink="/moder/items/new" [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}">{{getItemTypeTranslation(category.item_type_id, 'add-sub-item')}}</a>
           </span>
         </ng-container>
@@ -76,7 +76,7 @@
       </div>
     </div>
     <span class="canAddCar">
-      <i class="fa fa-align-left" aria-hidden="true"></i>
+      <i class="bi bi-text-left" aria-hidden="true"></i>
       <a [routerLink]="['/category', category.catname, 'other']">details ({{otherItemsCount}})</a>
     </span>
   </div>-->
