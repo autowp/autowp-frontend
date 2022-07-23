@@ -45,7 +45,7 @@
 
         <ul class="carLinks">
           <li>
-            <i class="bi bi-file-earmark me-1" aria-hidden="true"></i>
+            <i class="bi bi-text-left me-1" aria-hidden="true"></i>
             <a [routerLink]="['/twins/group', group.item.id]">
               <ng-container i18n>details</ng-container> …
               <span *ngIf="group.item.comments_topic_stat.messages > 0">(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural, one {{{group.item.comments_topic_stat.messages}} comment} other {{{group.item.comments_topic_stat.messages}} comments}}</span>)</span>
