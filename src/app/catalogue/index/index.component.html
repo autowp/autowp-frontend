@@ -67,7 +67,7 @@
       <div class="row">
         <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChuks">
           <div class="row">
-            <div class="col-12 col-lg-6" *ngFor="let chunk of halfChunk">
+            <div class="col-12 col-lg-6 nav" *ngFor="let chunk of halfChunk">
               <a class="nav-link" [routerLink]="group.routerLink" *ngFor="let group of chunk">
                 {{group.name}}
                 <span *ngIf="group.count" class="badge rounded-pill bg-secondary">{{group.count}}</span>
