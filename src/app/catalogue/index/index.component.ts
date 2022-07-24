@@ -3,7 +3,7 @@ import {ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {EMPTY, of, combineLatest} from 'rxjs';
+import {EMPTY, of, combineLatest, Observable} from 'rxjs';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
@@ -136,11 +136,11 @@ export class CatalogueIndexComponent {
     map(response => response.items)
   );
 
-  public sections$ = this.brand$.pipe(
+  public sections$: Observable<{name: string, halfChunks: APIBrandSectionGroup[][][], routerLink: string[] }[]> = this.brand$.pipe(
     switchMap(brand => this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
     map(response => response.map(section => ({
       name: getCatalogueSectionsTranslation(section.name),
-      halfChuks: chunk(section.groups, 2).map(halfChunk => chunk(halfChunk, 2)),
+      halfChunks: chunk(section.groups, 2).map(halfChunk => chunk(halfChunk, 2)),
       routerLink: section.routerLink
     })))
   );
