@@ -39,12 +39,12 @@
                  [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
                  [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
               ></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
             </button>
             <ng-template #noUser1>
               <button type="button" class="btn btn-link position-relative p-0 me-2" disabled>
                 <i class="bi fs-1 bi-hand-thumbs-up" aria-hidden="true"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
               </button>
             </ng-template>
 
