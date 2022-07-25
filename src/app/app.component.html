@@ -54,7 +54,7 @@
           <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
             <i class="bi bi-chat-fill" aria-hidden="true"></i>
             <ng-container *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
-              <span class="badge rounded-pill bg-secondary" [textContent]="newPersonalMessages.count" *ngIf="newPersonalMessages.count > 0"></span>
+              <span class="badge rounded-pill text-bg-secondary" [textContent]="newPersonalMessages.count" *ngIf="newPersonalMessages.count > 0"></span>
             </ng-container>
           </a>
         </li>
@@ -143,7 +143,7 @@
         </div>
         <p ngPreserveWhitespaces *ngIf="(newPersonalMessages$ | async) as newPersonalMessages">
           <i class="bi bi-chat-fill" aria-hidden="true"></i>
-          <a routerLink="/account/messages" class="badge bg-danger" *ngIf="newPersonalMessages.count" i18n>{newPersonalMessages.count, plural, one {You have {{newPersonalMessages.count}} new message} other {You have {{newPersonalMessages.count}} new messages}}</a>
+          <a routerLink="/account/messages" class="badge text-bg-danger" *ngIf="newPersonalMessages.count" i18n>{newPersonalMessages.count, plural, one {You have {{newPersonalMessages.count}} new message} other {You have {{newPersonalMessages.count}} new messages}}</a>
           <a routerLink="/account/messages" *ngIf="!newPersonalMessages.count" i18n="@@layout/personal-messages">Personal messages</a>
         </p>
       </div>

@@ -273,7 +273,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
 
       <div *ngIf="picture.status === 'inbox'">
         <p>
-          <strong class="badge bg-warning text-dark" i18n>Not accepted</strong>
+          <strong class="badge text-bg-warning text-dark" i18n>Not accepted</strong>
         </p>
 
         <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept" i18n>Accept</button>
@@ -282,7 +282,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
 
       <div *ngIf="picture.status === 'accepted'">
         <p>
-          <strong class="badge bg-success" i18n>Accepted</strong>
+          <strong class="badge text-bg-success" i18n>Accepted</strong>
         </p>
 
         <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept" i18n>Unaccept</button>
@@ -290,7 +290,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
 
       <div *ngIf="picture.status === 'removing'">
         <p>
-          <strong class="badge bg-danger" i18n>In delete queue</strong>
+          <strong class="badge text-bg-danger" i18n>In delete queue</strong>
         </p>
 
         <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore" i18n>Restore</button>
@@ -298,17 +298,17 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"></app-m
 
       <div *ngIf="picture.status === 'removed'">
         <p>
-          <strong class="badge bg-danger" i18n>Deleted</strong>
+          <strong class="badge text-bg-danger" i18n>Deleted</strong>
         </p>
       </div>
 
       <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
 
       <p *ngIf="picture.is_last">
-        <span class="badge bg-warning text-dark" i18n>That is single picture of that vehicle</span>
+        <span class="badge text-bg-warning text-dark" i18n>That is single picture of that vehicle</span>
       </p>
       <p *ngIf="!picture.is_last && (picture.accepted_count <= 4)">
-        <span class="badge bg-warning text-dark" i18n>Accepted pictures count still {{picture.accepted_count}}</span>
+        <span class="badge text-bg-warning text-dark" i18n>Accepted pictures count still {{picture.accepted_count}}</span>
       </p>
 
       <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="!statusLoading"></ngb-progressbar>
