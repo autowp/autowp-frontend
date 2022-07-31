@@ -1,5 +1,11 @@
 [
   {
+    "sum": 18.97,
+    "currency": "EUR",
+    "date": "2022-07-31T00:00:00+00:00",
+    "contributor": "Christian Späth"
+  },
+  {
     "sum": -212.52,
     "currency": "EUR",
     "date": "2022-07-18T00:00:00+00:00",
