@@ -49,11 +49,23 @@
         <span class="badge rounded-pill text-bg-secondary">{{brand.comments_attentions_count}}</span>
       </a>
     </li>
-    <ng-container *ngIf="isModer$|async as isModer">
-      <li class="nav-item" *ngIf="isModer">
+    <ng-container *ngIf="isModer$|async">
+      <li class="nav-item">
         <a class="nav-link" [routerLink]="['/moder/items/item', brand.id]">
           <i class="bi bi-gear-fill" aria-hidden="true"></i>
           <ng-container i18n>edit</ng-container>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: brand.id}">
+          <i class="bi bi-plus" aria-hidden="true"></i>
+          <ng-container i18n>add vehicle</ng-container>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: brand.id}">
+          <i class="bi bi-plus" aria-hidden="true"></i>
+          <ng-container i18n>add engine</ng-container>
         </a>
       </li>
     </ng-container>
