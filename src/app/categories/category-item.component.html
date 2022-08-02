@@ -23,11 +23,12 @@
     </ng-container>
   </ol>
 </nav>
+
 <div class="page-header" *ngIf="current$|async as current">
   <h1 [innerHtml]="current.name_html"></h1>
 </div>
 
-<div *ngIf="current$|async as current">
+<div *ngIf="current$|async as current; else loading">
 
   <ng-container *ngIf="category$|async as category">
     <ng-container *ngIf="isModer$|async as isModer">
@@ -91,3 +92,7 @@
   </p>
   -->
 </div>
+
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>

@@ -10,7 +10,11 @@
   <h1 i18n>New pictures</h1>
 </div>
 
-<ng-container *ngIf="data$|async as data">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="data$|async as data; else loading">
   <div class="row mb-4">
     <div class="col-lg-4 col-md-4">
       <h3 class="text-start" *ngIf="data.prev && data.prev.date">

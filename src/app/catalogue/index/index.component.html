@@ -1,4 +1,4 @@
-<header class="mb-4" *ngIf="brand$|async as brand">
+<header class="mb-4" *ngIf="brand$|async as brand; else loading">
   <div class="p-5 mb-4 rounded-3 brand-hero-unit clearfix">
     <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
     <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" loading="lazy" />
@@ -93,7 +93,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="factories$|async as factories">
+<ng-container *ngIf="factories$|async as factories; else loading">
   <section *ngIf="factories.length">
     <h2 i18n>Factories</h2>
     <div class="row">
@@ -107,7 +107,7 @@
   </section>
 </ng-container>
 
-<ng-container *ngIf="pictures$|async as pictures">
+<ng-container *ngIf="pictures$|async as pictures; else loading">
   <section *ngIf="pictures.length">
     <h2 i18n>Popular images</h2>
     <div class="row" *ngFor="let chunk of pictures">
@@ -118,7 +118,7 @@
   </section>
 </ng-container>
 
-<ng-container *ngIf="links$|async as links">
+<ng-container *ngIf="links$|async as links; else loading">
   <section *ngIf="links.official.length + links.club.length + links.other.length > 0">
     <h2 i18n>Links</h2>
     <p *ngIf="links.official.length > 0">
@@ -141,3 +141,7 @@
     </p>
   </section>
 </ng-container>
+
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>

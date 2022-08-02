@@ -10,7 +10,11 @@
   <h1 i18n>All brands</h1>
 </div>
 
-<ng-container *ngIf="items$|async as items">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="items$|async as items; else loading">
   <div *ngFor="let line of items">
     <div *ngIf="line">
       <div class="btn-group">
