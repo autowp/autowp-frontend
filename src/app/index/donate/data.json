@@ -1,5 +1,11 @@
 [
   {
+    "sum": 94.26,
+    "currency": "EUR",
+    "date": "2022-08-03T00:00:00+00:00",
+    "contributor": "Ivan Diachkov"
+  },
+  {
     "sum": 18.97,
     "currency": "EUR",
     "date": "2022-07-31T00:00:00+00:00",
