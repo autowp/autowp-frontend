@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   apiUrl: '/api/',
   sentry: {
-    dsn: 'https://d7c8e45b178e44c0bf827c3e97d42154@sentry.pereslegin.ru/2',
+    dsn: 'https://ad1e4834fdfd4dafa9acd46c5b0ae616@sentry.pereslegin.ru/2',
     environment: 'testing'
   },
   languages: [
