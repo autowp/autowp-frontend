@@ -28,7 +28,7 @@
     "@ngx-grpc/common": "^3.0.0",
     "@ngx-grpc/core": "^3.0.1",
     "@ngx-grpc/grpc-web-client": "^3.0.1",
-    "@ngx-grpc/well-known-types": "^3.0.1",
+    "@ngx-grpc/well-known-types": "^3.0.3",
     "@sentry/angular": "^7.2.0",
     "@sentry/browser": "^7.0.0",
     "@sentry/tracing": "^7.2.0",
