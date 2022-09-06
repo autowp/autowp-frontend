@@ -6,12 +6,16 @@
   </ol>
 </nav>
 
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
 <div class="row">
   <div class="col-lg-8 mb-4 order-2">
     <div class="page-header">
       <h1 i18n>Unmoderated</h1>
     </div>
-    <ng-container *ngIf="data$|async as data">
+    <ng-container *ngIf="data$|async as data; else loading">
       <div class="row">
         <div class="col-12 cols-sm-6 col-md-6 col-lg-4" *ngFor="let picture of data.pictures">
           <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>

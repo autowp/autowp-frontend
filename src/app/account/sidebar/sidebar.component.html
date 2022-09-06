@@ -1,6 +1,10 @@
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
 <div class="card card-body">
-  <div class="nav flex-column nav-pills">
-    <ng-container *ngFor="let item of items$|async">
+  <div class="nav flex-column nav-pills" *ngIf="items$|async as items; else loading">
+    <ng-container *ngFor="let item of items">
       <a class="nav-link" [routerLink]="item.routerLink" [queryParams]="item.routerLinkParams" *ngIf="item.routerLink" [class.active]="item.active">
         <span class="badge rounded-pill float-end"
               [class.text-bg-secondary]="item.newCount <= 0"

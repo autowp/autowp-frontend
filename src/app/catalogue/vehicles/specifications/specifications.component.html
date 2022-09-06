@@ -14,7 +14,11 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item$|async as item">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<div class="page-header" *ngIf="item$|async as item; else loading">
   <h1><ng-container i18n>Specifications of</ng-container> <span [innerHTML]="item.name_html"></span></h1>
 </div>
 

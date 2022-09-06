@@ -9,8 +9,12 @@
   </ol>
 </nav>
 
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
 <app-mosts-contents
-  *ngIf="brand$|async as brand"
+  *ngIf="brand$|async as brand; else loading"
   [prefix]="['/', brand.catname, 'mosts']"
   [ratingCatname]="ratingCatname$|async"
   [typeCatname]="typeCatname$|async"

@@ -22,7 +22,11 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="picture$|async as picture">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="picture$|async as picture; else loading">
   <div *ngIf="category$|async as category">
     <app-picture [picture]="picture"
                  [prefix]="currentRouterLinkPrefix$|async"

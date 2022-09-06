@@ -13,7 +13,11 @@
   <h1>{{data.title}}</h1>
 </div>
 
-<ng-container *ngIf="pictures$|async as pictures">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="pictures$|async as pictures; else loading">
   <ng-container *ngIf="data$|async as data">
     <ng-container *ngIf="brand$|async as brand">
       <div class="row" *ngFor="let chunk of pictures.pictures">

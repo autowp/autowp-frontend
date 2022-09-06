@@ -6,7 +6,7 @@
   <div [innerHTML]="html" *ngIf="html$|async as html; else loading"></div>
 </ng-template>
 
-<ng-container *ngIf="brand$|async as brand">
+<ng-container *ngIf="brand$|async as brand; else loading">
   <a [routerLink]="['/', brand.catname]" class="brandicon" [ngClass]="'brandicon-' + cssClass(brand)" [ngStyle]="{'background-image': 'url(' + icons.image + ')'}"></a>
   <h4>
     <a [routerLink]="['/', brand.catname]" [textContent]="brand.name"></a>

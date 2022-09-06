@@ -1,6 +1,10 @@
 <h2 i18n>Engine from catalogue</h2>
 
-<ng-container *ngIf="item$|async as item">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="item$|async as item; else loading">
   <div *ngIf="isAllowedEditEngine$|async">
     <div *ngIf="engine$|async as engine; else noengine">
       <p>

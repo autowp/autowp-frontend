@@ -6,7 +6,11 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="data$|async as item">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="data$|async as item; else loading">
   <div class="page-header">
     <h1 i18n>Specs editor of {{item.name_text}}</h1>
   </div>

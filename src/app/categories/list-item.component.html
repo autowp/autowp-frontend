@@ -1,4 +1,8 @@
-<div class="car item-list-item" *ngIf="item$|async as item">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<div class="car item-list-item" *ngIf="item$|async as item; else loading">
   <h3>
     <span [innerHTML]="item.name_html"></span>
     <sup class="design-brand mx-2" *ngIf="item.design"><ng-container i18n>designed by</ng-container>

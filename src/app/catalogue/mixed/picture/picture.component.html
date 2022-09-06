@@ -14,8 +14,12 @@
   </ol>
 </nav>
 
-<div *ngIf="brand$|async as brand">
-  <ng-container *ngIf="picture$|async as picture">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<div *ngIf="brand$|async as brand; else loading">
+  <ng-container *ngIf="picture$|async as picture; else loading">
     <app-picture
       *ngIf="data$|async as data"
       [picture]="picture"

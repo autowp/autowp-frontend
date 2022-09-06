@@ -14,7 +14,11 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="item$|async as item">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="item$|async as item; else loading">
   <div class="page-header">
     <h1>
       <app-item-header [item]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"></app-item-header>
@@ -54,7 +58,7 @@
   </p>
 
   <app-catalogue-item-menu
-    *ngIf="menu$|async as menu"
+    *ngIf="menu$|async as menu; else loading"
     [header]="{nameHTML: item.name_html, produced: {count: item.produced, exactly: item.produced_exactly}}"
     [itemRouterLink]="menu.routerLink"
     [picturesCount]="item.accepted_pictures_count"
@@ -70,11 +74,11 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="items$|async as items">
+<ng-container *ngIf="items$|async as items; else loading">
   <app-catalogue-list-item [item]="item" *ngFor="let item of items.items"></app-catalogue-list-item>
 </ng-container>
 
-<ng-container *ngIf="otherPictures$|async as otherPictures">
+<ng-container *ngIf="otherPictures$|async as otherPictures; else loading">
   <h3 *ngIf="item$|async as item"><ng-container i18n>Other pictures of</ng-container> <span [innerHTML]="item.name_html"></span></h3>
   <div class="row">
     <div class="col-6 col-lg-3" *ngFor="let picture of otherPictures.pictures">

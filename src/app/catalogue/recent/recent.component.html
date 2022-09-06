@@ -9,11 +9,15 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand$|async as brand">
+<div class="page-header" *ngIf="brand$|async as brand; else loading">
   <h1 i18n>Last pictures of {{brand.name_text}}</h1>
 </div>
 
-<ng-container *ngIf="data$|async as data">
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
+
+<ng-container *ngIf="data$|async as data; else loading">
   <div class="row" *ngFor="let chunk of data.pictures">
     <div class="col-sm-3" *ngFor="let item of chunk">
       <app-thumbnail [picture]="item.picture" [route]="item.route">></app-thumbnail>

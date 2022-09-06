@@ -72,25 +72,27 @@
   </ul>
 </header>
 
-<ng-container *ngFor="let section of sections$|async">
-  <div class="card mb-4" *ngIf="section.halfChunks.length">
-    <div class="card-body">
-      <h5 class="card-title" *ngIf="section.name">{{section.name}}</h5>
-      <div class="row">
-        <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChunks">
-          <div class="row">
-            <div class="col-12 col-lg-6 nav" *ngFor="let chunk of halfChunk">
-              <a class="nav-link w-100" [routerLink]="group.routerLink" *ngFor="let group of chunk">
-                {{group.name}}
-                <span *ngIf="group.count" class="badge rounded-pill text-bg-secondary">{{group.count}}</span>
-              </a>
+<ng-container *ngIf="sections$|async; else loading">
+  <ng-container *ngFor="let section of sections$|async">
+    <div class="card mb-4" *ngIf="section.halfChunks.length">
+      <div class="card-body">
+        <h5 class="card-title" *ngIf="section.name">{{section.name}}</h5>
+        <div class="row">
+          <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChunks">
+            <div class="row">
+              <div class="col-12 col-lg-6 nav" *ngFor="let chunk of halfChunk">
+                <a class="nav-link w-100" [routerLink]="group.routerLink" *ngFor="let group of chunk">
+                  {{group.name}}
+                  <span *ngIf="group.count" class="badge rounded-pill text-bg-secondary">{{group.count}}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+        <a [routerLink]="section.routerLink" i18n *ngIf="section.routerLink && section.name">details</a>
       </div>
-      <a [routerLink]="section.routerLink" i18n *ngIf="section.routerLink && section.name">details</a>
     </div>
-  </div>
+  </ng-container>
 </ng-container>
 
 <ng-container *ngIf="factories$|async as factories; else loading">
