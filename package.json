@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/architect": "^0.1401.0",
+    "@angular-devkit/architect": "^0.1402.1",
     "@angular-devkit/build-angular": "^14.1.0",
     "@angular/animations": "^14.1.0",
     "@angular/common": "^14.1.0",
@@ -21,7 +21,7 @@
     "@angular/localize": "^14.1.0",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
-    "@angular/router": "^14.1.0",
+    "@angular/router": "^14.2.1",
     "@asymmetrik/ngx-leaflet": "^14.0.0",
     "@ng-bootstrap/ng-bootstrap": "^13.0.0-beta.1",
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
