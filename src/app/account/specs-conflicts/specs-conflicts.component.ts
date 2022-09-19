@@ -89,7 +89,6 @@ export class AccountSpecsConflictsComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Conflicts`,
           pageId: 188
         }),
       0

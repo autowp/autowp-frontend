@@ -52,7 +52,6 @@ export class FeedbackComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Feedback`,
           pageId: 89
         }),
       0

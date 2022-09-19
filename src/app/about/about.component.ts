@@ -155,9 +155,8 @@ export class AboutComponent implements OnInit {
       () =>
         this.pageEnv.set({
           layout: {
-            needRight: true
+            needRight: false
           },
-          nameTranslated: $localize `About us`,
           pageId: 136
         }),
       0

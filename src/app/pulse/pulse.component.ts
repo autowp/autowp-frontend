@@ -96,7 +96,6 @@ export class PulseComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Pulse`,
           pageId: 161
         }),
       0

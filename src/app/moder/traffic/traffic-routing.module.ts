@@ -8,12 +8,14 @@ const routes: Routes = [
   {
     path: 'whitelist',
     component: ModerTrafficWhitelistComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Traffic`
   },
   {
     path: '',
     component: ModerTrafficComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Traffic`
   }
 ];
 

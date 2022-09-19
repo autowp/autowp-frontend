@@ -65,7 +65,6 @@ export class TwinsComponent implements OnInit {
             layout: {
               needRight: false
             },
-            nameTranslated: $localize `Twins`,
             pageId: 25
           });
         }

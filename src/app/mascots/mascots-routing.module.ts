@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MascotsComponent } from './mascots.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: MascotsComponent }
+  { path: '', pathMatch: 'full', component: MascotsComponent, title: $localize `Mascots` }
 ];
 
 @NgModule({

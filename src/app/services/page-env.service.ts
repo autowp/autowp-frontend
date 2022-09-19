@@ -43,10 +43,7 @@ export class PageEnvService {
 
         if (data.nameTranslated) {
           this.titleService.setTitle(data.nameTranslated);
-          return;
         }
-
-        this.titleService.setTitle('');
       }
     });
   }

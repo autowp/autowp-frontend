@@ -32,7 +32,6 @@ export class AccountContactsComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Contacts`,
           pageId: 198
         }),
       0

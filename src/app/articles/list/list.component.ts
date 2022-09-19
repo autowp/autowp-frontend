@@ -40,7 +40,6 @@ export class ListComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Articles`,
           pageId: 31
         }),
       0

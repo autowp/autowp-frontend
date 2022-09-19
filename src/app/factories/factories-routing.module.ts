@@ -6,6 +6,7 @@ import { FactoryComponent } from './factories.component';
 const routes: Routes = [
   {
     path: ':id',
+    title: $localize `Products`,
     children: [
       { path: 'items', component: FactoryItemsComponent },
       { path: '', component: FactoryComponent, pathMatch: 'full' }

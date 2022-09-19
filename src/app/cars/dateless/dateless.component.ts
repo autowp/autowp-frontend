@@ -48,7 +48,6 @@ export class CarsDatelessComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `History`,
           pageId: 1
         }),
       0

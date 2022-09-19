@@ -96,7 +96,6 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize`History`,
           pageId: 103
         }),
       0

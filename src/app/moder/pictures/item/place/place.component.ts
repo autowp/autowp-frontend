@@ -92,7 +92,6 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Location`,
           pageId: 72
         }),
       0

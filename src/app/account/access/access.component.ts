@@ -19,7 +19,6 @@ export class AccountAccessComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Access Control`,
           pageId: 133
         }),
       0

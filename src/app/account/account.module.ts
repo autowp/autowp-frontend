@@ -19,7 +19,6 @@ import { ThumbnailModule } from '../thumbnail/thumbnail.module';
 import { AccountMessagesComponent } from './messages/messages.component';
 import { AccountProfileComponent } from './profile/profile.component';
 import { AccountSpecsConflictsComponent } from './specs-conflicts/specs-conflicts.component';
-import { AccountComponent } from './account.component';
 import { NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { APIAttrsModule } from '../api/attrs/attrs.module';
 import { MessageDialogModule } from '../message-dialog/message-dialog.module';
@@ -36,8 +35,7 @@ import { MessageDialogModule } from '../message-dialog/message-dialog.module';
     AccountInboxPicturesComponent,
     AccountMessagesComponent,
     AccountProfileComponent,
-    AccountSpecsConflictsComponent,
-    AccountComponent
+    AccountSpecsConflictsComponent
   ],
   imports: [
     CommonModule,

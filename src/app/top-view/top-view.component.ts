@@ -43,7 +43,6 @@ export class TopViewComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Mascots`,
           pageId: 201
         }),
       0

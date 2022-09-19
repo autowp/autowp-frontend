@@ -69,7 +69,6 @@ export class ForumsComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Forums`,
           pageId: 42
         });
       }

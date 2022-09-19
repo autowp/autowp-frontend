@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PulseComponent } from './pulse.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: PulseComponent },
+  { path: '', pathMatch: 'full', component: PulseComponent, title: $localize `Pulse` },
 ];
 
 @NgModule({

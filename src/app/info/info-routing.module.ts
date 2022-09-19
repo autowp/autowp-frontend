@@ -4,8 +4,8 @@ import { InfoSpecComponent } from './spec/spec.component';
 import { InfoTextComponent } from './text/text.component';
 
 const routes: Routes = [
-  { path: 'spec', component: InfoSpecComponent },
-  { path: 'text/:id', component: InfoTextComponent }
+  { path: 'spec', component: InfoSpecComponent, title: $localize `Specs` },
+  { path: 'text/:id', component: InfoTextComponent, title: $localize `Text history` }
 ];
 
 @NgModule({

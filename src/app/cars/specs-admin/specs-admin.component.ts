@@ -66,7 +66,6 @@ export class CarsSpecsAdminComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `History`,
           pageId: 103
         }),
       0

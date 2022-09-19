@@ -6,23 +6,28 @@ import { NewItemComponent } from './item/item.component';
 const routes: Routes = [
   {
     path: ':date',
-    component: NewComponent
+    component: NewComponent,
+    title: $localize `New pictures`
   },
   {
     path: ':date/:page',
-    component: NewComponent
+    component: NewComponent,
+    title: $localize `New pictures`
   },
   {
     path: ':date/item/:item_id',
-    component: NewItemComponent
+    component: NewItemComponent,
+    title: $localize `New pictures`
   },
   {
     path: ':date/item/:item_id/:page',
-    component: NewItemComponent
+    component: NewItemComponent,
+    title: $localize `New pictures`
   },
   {
     path: '',
-    component: NewComponent
+    component: NewComponent,
+    title: $localize `New pictures`
   }
 ];
 

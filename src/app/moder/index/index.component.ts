@@ -16,7 +16,6 @@ export class ModerIndexComponent implements AfterViewInit {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Moderator page`,
           pageId: 67
         }),
       0

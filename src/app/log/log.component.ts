@@ -84,7 +84,6 @@ export class LogComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Log of events`,
           pageId: 75
         }),
       0

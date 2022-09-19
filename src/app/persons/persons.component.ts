@@ -81,7 +81,6 @@ export class PersonsComponent implements OnInit {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Persons`,
           pageId: 214
         }),
       0

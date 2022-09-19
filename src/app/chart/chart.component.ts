@@ -69,7 +69,6 @@ export class ChartComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: 'Charts',
           pageId: 1
         }),
       0

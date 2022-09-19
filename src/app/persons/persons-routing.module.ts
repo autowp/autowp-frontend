@@ -13,10 +13,12 @@ const routes: Routes = [
     component: PersonsComponent,
     data: {
       authors: true
-    }
+    },
+    title: $localize `Persons`
   },
   {
     path: ':id',
+    title: $localize `Persons`,
     children: [
       {
         path: 'author',
@@ -52,7 +54,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: PersonsComponent
+    component: PersonsComponent,
+    title: $localize `Persons`
   }
 ];
 

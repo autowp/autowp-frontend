@@ -8,17 +8,18 @@ import { DonateVodComponent } from './vod/vod.component';
 import { DonateComponent } from './donate.component';
 
 const routes: Routes = [
-  { path: 'log', component: DonateLogComponent },
-  { path: 'success', component: DonateSuccessComponent },
+  { path: 'log', component: DonateLogComponent, title: $localize `Donate log` },
+  { path: 'success', component: DonateSuccessComponent, title: $localize `Donate success` },
   {
     path: 'vod',
+    title: $localize `Donate`,
     children: [
       { path: 'select', component: DonateVodSelectComponent },
-      { path: 'success', component: DonateVodSuccessComponent },
+      { path: 'success', component: DonateVodSuccessComponent, title: $localize `Donate success` },
       { path: '', component: DonateVodComponent }
     ]
   },
-  { path: '', component: DonateComponent }
+  { path: '', component: DonateComponent, title: $localize `Donate` }
 ];
 
 @NgModule({

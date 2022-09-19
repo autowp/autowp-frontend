@@ -31,7 +31,6 @@ export class CategoriesIndexComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Categories`,
           pageId: 22
         }),
       0

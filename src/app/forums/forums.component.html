@@ -3,9 +3,11 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="(data$|async).theme">
-      <a routerLink="/forums" i18n>Forums</a>
-    </li>
+    <ng-container *ngIf="data$|async as data">
+      <li class="breadcrumb-item" *ngIf="data && data.theme">
+        <a routerLink="/forums" i18n>Forums</a>
+      </li>
+    </ng-container>
   </ol>
 </nav>
 

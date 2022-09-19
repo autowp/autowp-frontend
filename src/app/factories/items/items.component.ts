@@ -48,7 +48,6 @@ export class FactoryItemsComponent {
         layout: {
           needRight: true
         },
-        nameTranslated: $localize `Products`,
         pageId: 182
       });
 

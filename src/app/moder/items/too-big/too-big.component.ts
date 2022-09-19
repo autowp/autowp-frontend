@@ -19,7 +19,6 @@ export class ModerItemsTooBigComponent {
       () =>
         this.pageEnv.set({
           pageId: 131,
-          nameTranslated: 'Too big',
           layout: {
             isAdminPage: true,
             needRight: false

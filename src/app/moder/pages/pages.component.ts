@@ -28,7 +28,6 @@ export class ModerPagesComponent implements OnInit {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Pages`,
           pageId: 68
         }),
       0

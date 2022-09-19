@@ -35,7 +35,6 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Alphabetical vehicles list`,
           pageId: 74
         }),
       0

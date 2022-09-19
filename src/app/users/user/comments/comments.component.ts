@@ -66,7 +66,6 @@ export class UsersUserCommentsComponent {
             layout: {
               needRight: false
             },
-            nameTranslated: $localize `Comments`,
             pageId: 205
           }),
         0

@@ -32,7 +32,6 @@ export class AccountDeleteComponent {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Account delete`,
           pageId: 137
         }),
       0

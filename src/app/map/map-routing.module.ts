@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MapComponent } from './map.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: MapComponent },
+  { path: '', pathMatch: 'full', component: MapComponent, title: $localize `Map` },
 ];
 
 @NgModule({

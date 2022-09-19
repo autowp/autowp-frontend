@@ -5,7 +5,7 @@ import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
   { path: ':catname', component: ArticlesArticleComponent },
-  { path: '', component: ListComponent, pathMatch: 'full' }
+  { path: '', component: ListComponent, pathMatch: 'full', title: $localize `Articles` }
 ];
 
 @NgModule({

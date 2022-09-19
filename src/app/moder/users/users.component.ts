@@ -26,7 +26,6 @@ export class ModerUsersComponent {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Users`,
           pageId: 203
         }),
       0

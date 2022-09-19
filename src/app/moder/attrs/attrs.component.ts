@@ -43,7 +43,6 @@ export class ModerAttrsComponent implements OnInit {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Attributes`,
           pageId: 100
         }),
       0

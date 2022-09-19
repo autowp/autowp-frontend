@@ -24,7 +24,6 @@ export class ModerTrafficWhitelistComponent {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Traffic`,
           pageId: 77
         }),
       0

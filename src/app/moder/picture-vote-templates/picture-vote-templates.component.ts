@@ -25,7 +25,6 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Picture vote templates`,
           pageId: 212
         }),
       0

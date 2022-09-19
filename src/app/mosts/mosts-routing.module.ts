@@ -5,19 +5,23 @@ import { MostsComponent } from './mosts.component';
 const routes: Routes = [
   {
     path: '',
-    component: MostsComponent
+    component: MostsComponent,
+    title: $localize `Mostly`
   },
   {
     path: ':rating_catname',
-    component: MostsComponent
+    component: MostsComponent,
+    title: $localize `Mostly`
   },
   {
     path: ':rating_catname/:type_catname',
-    component: MostsComponent
+    component: MostsComponent,
+    title: $localize `Mostly`
   },
   {
     path: ':rating_catname/:type_catname/:years_catname',
-    component: MostsComponent
+    component: MostsComponent,
+    title: $localize `Mostly`
   }
 ];
 

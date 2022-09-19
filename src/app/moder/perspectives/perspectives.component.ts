@@ -20,7 +20,6 @@ export class ModerPerspectivesComponent {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Perspectives`,
           pageId: 202
         }),
       0

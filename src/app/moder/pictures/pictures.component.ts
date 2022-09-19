@@ -444,7 +444,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Pictures`,
           pageId: 73
         }),
       0

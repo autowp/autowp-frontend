@@ -86,7 +86,6 @@ export class UsersRatingComponent implements OnInit {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Statistics`,
           pageId: 173
         }),
       0

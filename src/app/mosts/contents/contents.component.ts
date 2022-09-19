@@ -121,7 +121,6 @@ export class MostsContentsComponent {
       layout: {
         needRight: false
       },
-      nameTranslated: $localize `Mostly`,
       pageId: 21
     });
   }

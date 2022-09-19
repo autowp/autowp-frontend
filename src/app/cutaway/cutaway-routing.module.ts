@@ -6,12 +6,12 @@ import {CutawayBrandsComponent} from './brands/brands.component';
 import {CutawayBrandsBrandComponent} from './brands/brand/brand.component';
 
 const routes: Routes = [
-  { path: 'authors', pathMatch: 'full', component: CutawayAuthorsComponent },
+  { path: 'authors', pathMatch: 'full', component: CutawayAuthorsComponent, title: $localize `Cutaway` },
   { path: 'brands', children: [
-    { path: ':brand', pathMatch: 'full', component: CutawayBrandsBrandComponent },
-    { path: '', pathMatch: 'full', component: CutawayBrandsComponent}
+    { path: ':brand', pathMatch: 'full', component: CutawayBrandsBrandComponent, title: $localize `Cutaway` },
+    { path: '', pathMatch: 'full', component: CutawayBrandsComponent, title: $localize `Cutaway`}
   ] },
-  { path: '', pathMatch: 'full', component: CutawayComponent }
+  { path: '', pathMatch: 'full', component: CutawayComponent, title: $localize `Cutaway` }
 ];
 
 @NgModule({

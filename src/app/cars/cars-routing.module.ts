@@ -9,11 +9,13 @@ import { CarsAttrsChangeLogComponent } from './attrs-change-log/attrs-change-log
 const routes: Routes = [
   {
     path: 'attrs-change-log',
-    component: CarsAttrsChangeLogComponent
+    component: CarsAttrsChangeLogComponent,
+    title: $localize `History`
   },
   {
     path: 'dateless',
-    component: CarsDatelessComponent
+    component: CarsDatelessComponent,
+    title: $localize `Dateless`
   },
   {
     path: 'select-engine',
@@ -25,7 +27,8 @@ const routes: Routes = [
   },
   {
     path: 'specs-admin',
-    component: CarsSpecsAdminComponent
+    component: CarsSpecsAdminComponent,
+    title: $localize `Specifications Admin`
   }
 ];
 

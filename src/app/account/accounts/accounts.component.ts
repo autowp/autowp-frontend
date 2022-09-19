@@ -34,7 +34,6 @@ export class AccountAccountsComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `My accounts`,
           pageId: 123
         }),
       0

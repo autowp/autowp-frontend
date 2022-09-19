@@ -13,7 +13,6 @@ export class RulesComponent {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Rules`,
           pageId: 106
         }),
       0

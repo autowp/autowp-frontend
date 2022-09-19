@@ -101,7 +101,6 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
           isAdminPage: true,
           needRight: false
         },
-        nameTranslated: 'Organize',
         pageId: 215
       });
     }, 0);

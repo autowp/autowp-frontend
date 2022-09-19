@@ -13,7 +13,6 @@ export class DonateSuccessComponent {
           layout: {
             needRight: true
           },
-          nameTranslated: 'Donate success',
           pageId: 196
         }),
       0

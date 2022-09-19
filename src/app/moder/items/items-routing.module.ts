@@ -14,12 +14,14 @@ const routes: Routes = [
   {
     path: 'alpha',
     component: ModerItemsAlphaComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Alphabetical vehicles list`
   },
   {
     path: 'too-big',
     component: ModerItemsTooBigComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Too big`
   },
   {
     path: 'new',
@@ -32,17 +34,20 @@ const routes: Routes = [
       {
         path: 'organize',
         component: ModerItemsItemOrganizeComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Organize`
       },
       {
         path: 'organize-pictures',
         component: ModerItemsItemPicturesOrganizeComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Organize pictures`
       },
       {
         path: 'select-parent',
         component: ModerItemsItemSelectParentComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Parent selection`
       },
       {
         path: '',

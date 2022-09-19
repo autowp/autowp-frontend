@@ -46,7 +46,6 @@ export class ModerTrafficComponent implements OnInit {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Traffic`,
           pageId: 77
         }),
       0

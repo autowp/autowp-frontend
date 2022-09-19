@@ -25,6 +25,7 @@ const routes: Routes = [
                 path: '',
                 pathMatch: 'full',
                 component: CategoriesCategoryPicturesComponent,
+                title: $localize `Pictures`
               }
             ]
           },
@@ -50,7 +51,8 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: CategoriesIndexComponent
+    component: CategoriesIndexComponent,
+    title: $localize `Categories`
   }
 ];
 

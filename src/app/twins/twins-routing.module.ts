@@ -48,8 +48,8 @@ const routes: Routes = [
       }
     ]
   },
-  { path: ':brand', component: TwinsComponent },
-  { path: '', pathMatch: 'full', component: TwinsComponent }
+  { path: ':brand', component: TwinsComponent, title: $localize `Twins` },
+  { path: '', pathMatch: 'full', component: TwinsComponent, title: $localize `Twins` }
 ];
 
 @NgModule({

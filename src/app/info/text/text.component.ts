@@ -102,7 +102,6 @@ export class InfoTextComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Text history`,
           pageId: 197
         }),
       0

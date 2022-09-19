@@ -49,7 +49,6 @@ export class ForumsMoveTopicComponent implements OnInit {
       layout: {
         needRight: false
       },
-      nameTranslated: $localize `Move`,
       pageId: 83
     });
   }

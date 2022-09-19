@@ -13,7 +13,6 @@ export class TelegramComponent {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Telegram`,
           pageId: 204
         }),
       0

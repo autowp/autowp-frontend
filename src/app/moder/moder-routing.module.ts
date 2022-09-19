@@ -17,7 +17,8 @@ const routes: Routes = [
   {
     path: 'comments',
     component: ModerCommentsComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Comments`
   },
   {
     path: 'item-parent/:item_id/:parent_id',
@@ -30,6 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'pages',
+    title: $localize `Pages`,
     children: [
       {
         path: '',
@@ -41,12 +43,14 @@ const routes: Routes = [
   {
     path: 'perspectives',
     component: ModerPerspectivesComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Perspectives`
   },
   {
     path: 'picture-vote-templates',
     component: ModerPictureVoteTemplatesComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Picture vote templates`
   },
   {
     path: 'pictures',
@@ -55,7 +59,8 @@ const routes: Routes = [
   {
     path: 'stat',
     component: ModerStatComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Statistics`
   },
   {
     path: 'traffic',
@@ -64,10 +69,12 @@ const routes: Routes = [
   {
     path: 'users',
     component: ModerUsersComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Users`
   },
   {
     path: 'attrs',
+    title: $localize `Attributes`,
     children: [
       {
         path: 'attribute/:id',
@@ -89,7 +96,8 @@ const routes: Routes = [
   {
     path: '',
     component: ModerIndexComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Moderator page`
   }
 ];
 

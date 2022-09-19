@@ -46,7 +46,6 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
             layout: {
               needRight: false
             },
-            nameTranslated: $localize `Pictures`,
             pageId: 22
           });
         }),

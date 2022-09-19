@@ -43,7 +43,6 @@ export class CutawayComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Cutaway`,
           pageId: 109
         }),
       0

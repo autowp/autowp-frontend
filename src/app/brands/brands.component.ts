@@ -62,7 +62,6 @@ export class BrandsComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `All brands`,
           pageId: 61
         }),
       0

@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { InboxComponent } from './inbox.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: InboxComponent },
-  { path: ':brand', component: InboxComponent },
-  { path: ':brand/:date', component: InboxComponent }
+  { path: '', pathMatch: 'full', component: InboxComponent, title: $localize `Inbox` },
+  { path: ':brand', component: InboxComponent, title: $localize `Inbox` },
+  { path: ':brand/:date', component: InboxComponent, title: $localize `Inbox` }
 ];
 
 @NgModule({

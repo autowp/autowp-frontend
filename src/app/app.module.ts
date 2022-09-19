@@ -31,8 +31,6 @@ import { ContentLanguageService } from './services/content-language';
 import { LanguageService } from './services/language';
 import { VehicleTypesModalComponent } from './components/vehicle-types-modal/vehicle-types-modal.component';
 import { TimezoneService } from './services/timezone';
-import { Error403Component } from './error/403/403.component';
-import { Error404Component } from './error/404/404.component';
 import { UsersOnlineComponent } from './users/online/online.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IpService } from './services/ip';
@@ -153,8 +151,6 @@ if (environment.production) {
     AppComponent,
     PageNotFoundComponent,
     VehicleTypesModalComponent,
-    Error403Component,
-    Error404Component,
     UsersOnlineComponent,
     LoginComponent
   ],

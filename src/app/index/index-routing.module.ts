@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './index.component';
 
 const routes: Routes = [
-  { path: '', component: IndexComponent, pathMatch: 'full' }
+  { path: '', component: IndexComponent, pathMatch: 'full', title: $localize `Index page` }
 ];
 
 @NgModule({

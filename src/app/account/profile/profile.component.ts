@@ -61,7 +61,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Profile`,
           pageId: 129
         }),
       0

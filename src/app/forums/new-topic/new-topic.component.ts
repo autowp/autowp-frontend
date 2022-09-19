@@ -51,7 +51,6 @@ export class ForumsNewTopicComponent implements OnInit {
         layout: {
           needRight: false
         },
-        nameTranslated: $localize `New topic`,
         pageId: 45
       });
     }, 0);

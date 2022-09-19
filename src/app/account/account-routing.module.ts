@@ -11,28 +11,31 @@ import { AccountInboxPicturesComponent } from './inbox-pictures/inbox-pictures.c
 import { AccountMessagesComponent } from './messages/messages.component';
 import { AccountProfileComponent } from './profile/profile.component';
 import { AccountSpecsConflictsComponent } from './specs-conflicts/specs-conflicts.component';
-import { AccountComponent } from './account.component';
 
 const routes: Routes = [
   {
     path: 'access',
     component: AccountAccessComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `Access Control`
   },
   {
     path: 'accounts',
     component: AccountAccountsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `My accounts`
   },
   {
     path: 'contacts',
     component: AccountContactsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `Contacts`
   },
   {
     path: 'delete',
+    title: $localize `Account delete`,
     children: [
-      { path: 'deleted', component: AccountDeletedComponent },
+      { path: 'deleted', component: AccountDeletedComponent, title: $localize `Account deleted` },
       {
         path: '',
         component: AccountDeleteComponent,
@@ -43,12 +46,14 @@ const routes: Routes = [
   {
     path: 'email',
     component: AccountEmailComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `My e-mail`
   },
   {
     path: 'inbox-pictures',
     component: AccountInboxPicturesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `Unmoderated`
   },
   {
     path: 'messages',
@@ -58,14 +63,16 @@ const routes: Routes = [
   {
     path: 'profile',
     component: AccountProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `Profile`
   },
   {
     path: 'specs-conflicts',
     component: AccountSpecsConflictsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    title: $localize `Conflicts`
   },
-  { path: '', component: AccountComponent, canActivate: [AuthGuard] }
+  { path: '', redirectTo: '/account/profile', pathMatch: 'full' }
 ];
 
 @NgModule({

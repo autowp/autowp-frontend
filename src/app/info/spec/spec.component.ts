@@ -32,7 +32,6 @@ export class InfoSpecComponent implements OnInit {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Specs`,
           pageId: 174
         }),
       0

@@ -82,7 +82,6 @@ export class UsersUserPicturesComponent implements OnInit {
         layout: {
           needRight: false
         },
-        nameTranslated: $localize `User's pictures`,
         pageId: 63
       });
     }, 0)

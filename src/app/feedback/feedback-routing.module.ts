@@ -4,8 +4,8 @@ import { FeedbackSentComponent } from './sent/sent.component';
 import { FeedbackComponent } from './feedback.component';
 
 const routes: Routes = [
-  { path: 'sent', component: FeedbackSentComponent, pathMatch: 'full' },
-  { path: '', component: FeedbackComponent, pathMatch: 'full' }
+  { path: 'sent', component: FeedbackSentComponent, pathMatch: 'full', title: $localize `Message sent` },
+  { path: '', component: FeedbackComponent, pathMatch: 'full', title: $localize `Feedback` }
 ];
 
 @NgModule({

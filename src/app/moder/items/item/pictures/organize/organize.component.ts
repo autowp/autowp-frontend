@@ -89,7 +89,6 @@ export class ModerItemsItemPicturesOrganizeComponent
           isAdminPage: true,
           needRight: false
         },
-        nameTranslated: 'Organize pictures',
         pageId: 78
       });
     }, 0);

@@ -9,6 +9,7 @@ import { UsersUserComponent } from './user/user.component';
 const routes: Routes = [
   {
     path: 'rating',
+    title: $localize `Statistics`,
     children: [
       {
         path: ':rating',
@@ -23,9 +24,10 @@ const routes: Routes = [
   {
     path: ':identity',
     children: [
-      { path: 'comments', component: UsersUserCommentsComponent },
+      { path: 'comments', component: UsersUserCommentsComponent, title: $localize `Comments` },
       {
         path: 'pictures',
+        title: $localize `User's pictures`,
         children: [
           { path: ':brand', component: UsersUserPicturesBrandComponent },
           { path: '', component: UsersUserPicturesComponent }

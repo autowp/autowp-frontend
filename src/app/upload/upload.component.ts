@@ -97,7 +97,6 @@ export class UploadComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Add picture`,
           pageId: 29
         }),
       0

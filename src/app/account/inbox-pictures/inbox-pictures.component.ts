@@ -49,7 +49,6 @@ export class AccountInboxPicturesComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Unmoderated`,
           pageId: 94
         }),
       0

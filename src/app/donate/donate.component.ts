@@ -24,7 +24,6 @@ export class DonateComponent {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Donate`,
           pageId: 196
         }),
       0

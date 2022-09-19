@@ -122,7 +122,6 @@ export class InboxComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Inbox`,
           pageId: 76
         }),
       0

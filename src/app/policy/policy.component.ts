@@ -13,7 +13,6 @@ export class PolicyComponent {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Index page`,
           pageId: 1
         }),
       0

@@ -129,7 +129,6 @@ export class DonateVodComponent implements OnInit {
           layout: {
             needRight: true
           },
-          nameTranslated: $localize `Donate`,
           pageId: 196
         }),
       0

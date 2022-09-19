@@ -15,22 +15,26 @@ const routes: Routes = [
       {
         path: 'area',
         component: ModerPicturesItemAreaComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Cropper`
       },
       {
         path: 'crop',
         component: ModerPicturesItemCropComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Cropper`
       },
       {
         path: 'move',
         component: ModerPicturesItemMoveComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Move picture`
       },
       {
         path: 'place',
         component: ModerPicturesItemPlaceComponent,
-        canActivate: [ModerGuard]
+        canActivate: [ModerGuard],
+        title: $localize `Location`
       },
       {
         path: '',
@@ -42,7 +46,8 @@ const routes: Routes = [
   {
     path: '',
     component: ModerPicturesComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Pictures`
   }
 ];
 

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TelegramComponent } from './telegram.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: TelegramComponent }
+  { path: '', pathMatch: 'full', component: TelegramComponent, title: $localize `Telegram` }
 ];
 
 @NgModule({

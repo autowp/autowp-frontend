@@ -36,7 +36,6 @@ export class MostsComponent implements OnInit {
         layout: {
           needRight: false
         },
-        nameTranslated: $localize `Mostly`,
         pageId: 21
       });
     }, 0);

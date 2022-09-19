@@ -28,7 +28,6 @@ export class ModerStatComponent {
             isAdminPage: true,
             needRight: false
           },
-          nameTranslated: $localize `Statistics`,
           pageId: 119
         }),
       0

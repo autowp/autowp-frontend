@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChartComponent } from './chart.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: ChartComponent }
+  { path: '', pathMatch: 'full', component: ChartComponent, title: $localize `Charts` }
 ];
 
 @NgModule({

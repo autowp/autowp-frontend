@@ -43,7 +43,6 @@ export class ForumsSubscriptionsComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `Forums`,
           pageId: 42
         }),
       0

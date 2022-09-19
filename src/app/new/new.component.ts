@@ -143,7 +143,6 @@ export class NewComponent implements OnInit {
           layout: {
             needRight: false
           },
-          nameTranslated: $localize `New pictures`,
           pageId: 51
         }),
       0
