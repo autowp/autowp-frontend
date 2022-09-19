@@ -97,10 +97,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.pageEnv.set({
-        layout: {
-          isAdminPage: true,
-          needRight: false
-        },
+        layout: {isAdminPage: true},
         pageId: 215
       });
     }, 0);

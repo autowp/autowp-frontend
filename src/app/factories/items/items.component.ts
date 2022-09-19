@@ -44,12 +44,7 @@ export class FactoryItemsComponent {
         return EMPTY;
       }
 
-      this.pageEnv.set({
-        layout: {
-          needRight: true
-        },
-        pageId: 182
-      });
+      this.pageEnv.set({pageId: 182});
 
       return of(factory);
     }),

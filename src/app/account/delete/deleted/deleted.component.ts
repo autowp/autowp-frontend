@@ -9,12 +9,7 @@ export class AccountDeletedComponent {
   constructor(private pageEnv: PageEnvService) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 93
-        }),
+        this.pageEnv.set({pageId: 93}),
       0
     );
   }

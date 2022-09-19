@@ -440,10 +440,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 73
         }),
       0

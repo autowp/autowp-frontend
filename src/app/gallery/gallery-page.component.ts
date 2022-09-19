@@ -22,10 +22,7 @@ export class GalleryPageComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.pageEnv.set({
-        layout: {
-          needRight: false,
-          isGalleryPage: true
-        },
+        layout: {isGalleryPage: true},
         nameTranslated: '', // data.picture.name_text,
         pageId: 187
       });
@@ -34,10 +31,7 @@ export class GalleryPageComponent implements OnInit {
 
   pictureSelected(item: APIGalleryItem) {
     this.pageEnv.set({
-      layout: {
-        needRight: false,
-        isGalleryPage: true
-      },
+      layout: {isGalleryPage: true},
       nameTranslated: item.name,
       pageId: 187
     });

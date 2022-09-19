@@ -112,9 +112,6 @@ export class TwinsGroupPictureComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
             nameTranslated: picture.name_text,
             pageId: 28
           }),

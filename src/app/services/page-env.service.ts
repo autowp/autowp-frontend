@@ -6,15 +6,13 @@ import { switchMap } from 'rxjs/operators';
 
 export interface LayoutParams {
   isAdminPage: boolean;
-  sidebar: boolean;
   isGalleryPage: boolean;
 }
 
 export interface PageEnv {
   pageId?: number;
   nameTranslated?: string;
-  layout: {
-    needRight: boolean;
+  layout?: {
     isAdminPage?: boolean;
     isGalleryPage?: boolean;
   };
@@ -25,7 +23,6 @@ export class PageEnvService {
   public pageEnv$ = new BehaviorSubject<PageEnv>(null);
   public layoutParams$ = new BehaviorSubject<LayoutParams>({
     isAdminPage: false,
-    sidebar: false,
     isGalleryPage: false
   });
 
@@ -36,9 +33,8 @@ export class PageEnvService {
     this.pageEnv$.subscribe(data => {
       if (data) {
         this.layoutParams$.next({
-          isAdminPage: data.layout.isAdminPage,
-          sidebar: data.layout.needRight,
-          isGalleryPage: data.layout.isGalleryPage
+          isAdminPage: data.layout?.isAdminPage,
+          isGalleryPage: data.layout?.isGalleryPage
         });
 
         if (data.nameTranslated) {

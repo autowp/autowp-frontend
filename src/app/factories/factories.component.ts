@@ -42,9 +42,6 @@ export class FactoryComponent {
     }),
     tap(factory => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: factory.name_text,
         pageId: 181
       });

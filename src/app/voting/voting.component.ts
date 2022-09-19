@@ -29,9 +29,6 @@ export class VotingComponent {
     }),
     tap(voting => {
       this.pageEnv.set({
-        layout: {
-          needRight: true
-        },
         nameTranslated: voting.name,
         pageId: 157
       });

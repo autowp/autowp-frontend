@@ -58,12 +58,7 @@ export class BrandsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 61
-        }),
+        this.pageEnv.set({pageId: 61}),
       0
     );
   }

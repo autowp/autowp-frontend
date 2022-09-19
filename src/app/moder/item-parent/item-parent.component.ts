@@ -96,10 +96,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         }
 
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           nameTranslated: getItemTypeTranslation(this.item.item_type_id, 'name') + ': ' + this.item.name_text,
           pageId: 78
         });

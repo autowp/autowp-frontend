@@ -45,12 +45,7 @@ export class ForumsMoveTopicComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.pageEnv.set({
-      layout: {
-        needRight: false
-      },
-      pageId: 83
-    });
+    this.pageEnv.set({pageId: 83});
   }
 
   public selectTheme(topic: APIForumTopic, theme: APIForumTheme) {

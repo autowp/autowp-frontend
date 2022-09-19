@@ -37,9 +37,6 @@ export class ForumsTopicComponent {
     })),
     tap(topic => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: topic.name,
         pageId: 44
       });

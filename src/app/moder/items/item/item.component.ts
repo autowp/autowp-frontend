@@ -181,10 +181,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         }),
         tap(data => {
           this.pageEnv.set({
-            layout: {
-              isAdminPage: true,
-              needRight: false
-            },
+            layout: {isAdminPage: true},
             nameTranslated: data.item.name_text,
             pageId: 78
           });

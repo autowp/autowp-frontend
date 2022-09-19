@@ -32,12 +32,7 @@ export class MostsComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
-        pageId: 21
-      });
+      this.pageEnv.set({pageId: 21});
     }, 0);
   }
 }

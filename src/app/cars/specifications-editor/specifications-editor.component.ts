@@ -39,9 +39,6 @@ export class CarsSpecificationsEditorComponent {
         return;
       }
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: $localize `Specs editor of ${item.name_text}`,
         pageId: 102
       });

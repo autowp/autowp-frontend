@@ -153,12 +153,7 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 136
-        }),
+        this.pageEnv.set({pageId: 136}),
       0
     );
   }

@@ -77,12 +77,7 @@ export class PersonsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 214
-        }),
+        this.pageEnv.set({pageId: 214}),
       0
     );
   }

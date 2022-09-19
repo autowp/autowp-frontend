@@ -9,12 +9,7 @@ export class TelegramComponent {
   constructor(private pageEnv: PageEnvService) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 204
-        }),
+        this.pageEnv.set({pageId: 204}),
       0
     );
   }

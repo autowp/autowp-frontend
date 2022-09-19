@@ -67,10 +67,7 @@ export class CatalogueMixedGalleryComponent {
   pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
-        layout: {
-          needRight: false,
-          isGalleryPage: true
-        },
+        layout: {isGalleryPage: true},
         nameTranslated: item.name,
         pageId: data.picture_page.id
       });

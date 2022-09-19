@@ -46,10 +46,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 148
         }),
       0

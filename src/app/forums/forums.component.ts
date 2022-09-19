@@ -58,19 +58,11 @@ export class ForumsComponent {
     tap(data => {
       if (data.theme) {
         this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
           nameTranslated: getForumsThemeTranslation(data.theme.name),
           pageId: 43
         });
       } else {
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 42
-        });
+        this.pageEnv.set({pageId: 42});
       }
     }),
     shareReplay(1)

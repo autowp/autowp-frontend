@@ -52,9 +52,6 @@ export class UsersUserPicturesBrandComponent {
       }
 
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: $localize `${brand.name_only} pictures`,
         pageId: 141
       });

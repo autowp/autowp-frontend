@@ -82,12 +82,7 @@ export class UsersRatingComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 173
-        }),
+        this.pageEnv.set({pageId: 173}),
       0
     );
   }

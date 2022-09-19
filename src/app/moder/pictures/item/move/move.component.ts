@@ -88,10 +88,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         tap(data => {
           this.picture = data;
           this.pageEnv.set({
-            layout: {
-              isAdminPage: true,
-              needRight: false
-            },
+            layout: {isAdminPage: true},
             pageId: 149
           });
         })

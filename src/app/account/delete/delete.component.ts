@@ -28,12 +28,7 @@ export class AccountDeleteComponent {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 137
-        }),
+        this.pageEnv.set({pageId: 137}),
       0
     );
   }

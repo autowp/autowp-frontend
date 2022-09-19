@@ -34,10 +34,7 @@ export class ModerAttrsZoneComponent {
     switchMap(id => this.attrsService.getZone(id)),
     tap(zone => {
       this.pageEnv.set({
-        layout: {
-          isAdminPage: true,
-          needRight: false
-        },
+        layout: {isAdminPage: true},
         nameTranslated: zone.name,
         pageId: 142
       });

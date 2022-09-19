@@ -32,9 +32,6 @@ export class CatalogueVehiclesSpecificationsComponent {
     map(({brand}) => brand),
     tap(brand => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         pageId: 36,
         nameTranslated: ($localize`Specifications of`) + ' ' + brand.name_text
       });

@@ -15,12 +15,7 @@ export class AccountAccessComponent {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 133
-        }),
+        this.pageEnv.set({pageId: 133}),
       0
     );
   }

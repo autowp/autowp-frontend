@@ -20,12 +20,7 @@ export class DonateComponent {
 
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 196
-        }),
+        this.pageEnv.set({pageId: 196}),
       0
     );
 

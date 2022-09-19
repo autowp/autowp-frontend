@@ -39,12 +39,7 @@ export class ForumsSubscriptionsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 42
-        }),
+        this.pageEnv.set({pageId: 42}),
       0
     );
   }

@@ -117,12 +117,7 @@ export class MostsContentsComponent {
   ) {}
 
   private initPageEnv() {
-    this.pageEnv.set({
-      layout: {
-        needRight: false
-      },
-      pageId: 21
-    });
+    this.pageEnv.set({pageId: 21});
   }
 
   public getUnitTranslation(id: number, type: string): string {

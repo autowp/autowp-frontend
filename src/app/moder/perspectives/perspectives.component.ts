@@ -16,10 +16,7 @@ export class ModerPerspectivesComponent {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 202
         }),
       0

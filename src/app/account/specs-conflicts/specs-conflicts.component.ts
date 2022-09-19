@@ -85,12 +85,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 188
-        }),
+        this.pageEnv.set({pageId: 188}),
       0
     );
   }

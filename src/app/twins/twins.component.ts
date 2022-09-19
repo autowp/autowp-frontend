@@ -54,19 +54,11 @@ export class TwinsComponent implements OnInit {
       setTimeout(() => {
         if (brand) {
           this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
             nameTranslated: brand.name_only,
             pageId: 153
           });
         } else {
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            pageId: 25
-          });
+          this.pageEnv.set({pageId: 25});
         }
       }, 0);
     }),
@@ -119,10 +111,6 @@ export class TwinsComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          nameTranslated: $localize `Twins`,
           pageId: 25
         }),
       0

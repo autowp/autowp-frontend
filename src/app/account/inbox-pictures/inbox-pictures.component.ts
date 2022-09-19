@@ -45,12 +45,7 @@ export class AccountInboxPicturesComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 94
-        }),
+        this.pageEnv.set({pageId: 94}),
       0
     );
   }

@@ -49,10 +49,7 @@ export class CategoryGalleryComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageEnv.set({
-      layout: {
-        needRight: false,
-        isGalleryPage: true
-      },
+      layout: {isGalleryPage: true},
       nameTranslated: '', // data.picture.name_text,
       pageId: 187
     });
@@ -72,10 +69,7 @@ export class CategoryGalleryComponent implements OnInit {
 
   pictureSelected(item: APIGalleryItem) {
     this.pageEnv.set({
-      layout: {
-        needRight: false,
-        isGalleryPage: true
-      },
+      layout: {isGalleryPage: true},
       nameTranslated: item.name,
       pageId: 187
     });

@@ -65,9 +65,6 @@ export class CatalogueVehiclesPicturesComponent {
     map(({path}) => path[path.length - 1].item),
     tap(item => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         pageId: 34,
         nameTranslated: $localize `All pictures of ${item.name_text}`
       });

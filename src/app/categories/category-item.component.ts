@@ -35,9 +35,6 @@ export class CategoriesCategoryItemComponent {
   private categoryData$ = this.categoriesService.categoryPipe(this.route).pipe(
     tap(({current}) => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: current.name_text,
         pageId: 22
       });

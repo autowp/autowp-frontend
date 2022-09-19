@@ -45,9 +45,6 @@ export class CatalogueConceptsComponent {
     tap(brand => {
       if (brand) {
         this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
           pageId: 37,
           nameTranslated: $localize `${brand.name_text} concepts & prototypes`
         });

@@ -36,12 +36,7 @@ export class ListComponent {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 31
-        }),
+        this.pageEnv.set({pageId: 31}),
       0
     );
   }

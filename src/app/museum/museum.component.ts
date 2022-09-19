@@ -70,9 +70,6 @@ export class MuseumComponent {
     }),
     tap(item => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: item.name_text,
         pageId: 159
       });

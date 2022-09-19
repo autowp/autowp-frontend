@@ -43,12 +43,7 @@ export class UploadSelectComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 30
-        }),
+        this.pageEnv.set({pageId: 30}),
       0
     );
 

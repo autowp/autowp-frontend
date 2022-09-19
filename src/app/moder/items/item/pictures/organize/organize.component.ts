@@ -85,10 +85,7 @@ export class ModerItemsItemPicturesOrganizeComponent
   ngOnInit(): void {
     setTimeout(() => {
       this.pageEnv.set({
-        layout: {
-          isAdminPage: true,
-          needRight: false
-        },
+        layout: {isAdminPage: true},
         pageId: 78
       });
     }, 0);

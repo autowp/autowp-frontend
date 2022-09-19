@@ -40,9 +40,6 @@ export class TwinsGroupSpecificationsComponent {
         setTimeout(
           () =>
             this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
               nameTranslated: $localize `Specifications of ${data.group.name_text}`,
               pageId: 27
             }),

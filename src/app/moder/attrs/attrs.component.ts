@@ -39,10 +39,7 @@ export class ModerAttrsComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 100
         }),
       0

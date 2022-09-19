@@ -29,10 +29,7 @@ export class ModerItemsNewComponent {
     shareReplay(1),
     tap(itemTypeID => {
       this.pageEnv.set({
-        layout: {
-          isAdminPage: true,
-          needRight: false
-        },
+        layout: {isAdminPage: true},
         nameTranslated: getItemTypeTranslation(itemTypeID, 'new-item'),
         pageId: 163
       });

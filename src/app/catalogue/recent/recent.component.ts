@@ -41,9 +41,6 @@ export class CatalogueRecentComponent {
         tap(brand => {
           if (brand) {
             this.pageEnv.set({
-              layout: {
-                needRight: false
-              },
               pageId: 15,
               nameTranslated: $localize `Last pictures of ${brand.name_text}`
             });

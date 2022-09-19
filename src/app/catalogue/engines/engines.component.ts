@@ -44,9 +44,6 @@ export class CatalogueEnginesComponent {
     }),
     tap(brand => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         pageId: 208,
         nameTranslated: $localize `${brand.name_text} Engines`
       });

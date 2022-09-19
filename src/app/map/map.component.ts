@@ -72,12 +72,7 @@ export class MapComponent implements OnInit {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 117
-        }),
+        this.pageEnv.set({pageId: 117}),
       0
     );
   }

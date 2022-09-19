@@ -9,12 +9,7 @@ export class RulesComponent {
   constructor(private pageEnv: PageEnvService) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 106
-        }),
+        this.pageEnv.set({pageId: 106}),
       0
     );
   }

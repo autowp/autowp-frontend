@@ -88,10 +88,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 72
         }),
       0

@@ -27,12 +27,7 @@ export class CategoriesIndexComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 22
-        }),
+        this.pageEnv.set({pageId: 22}),
       0
     );
   }

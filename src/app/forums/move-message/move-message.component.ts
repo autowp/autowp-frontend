@@ -62,12 +62,7 @@ export class ForumsMoveMessageComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 83
-        }),
+        this.pageEnv.set({pageId: 83}),
       0
     );
   }

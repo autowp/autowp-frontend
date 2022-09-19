@@ -139,12 +139,7 @@ export class NewComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 51
-        }),
+        this.pageEnv.set({pageId: 51}),
       0
     );
   }

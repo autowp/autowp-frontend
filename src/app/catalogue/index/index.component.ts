@@ -75,9 +75,6 @@ export class CatalogueIndexComponent {
     }),
     tap(brand => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: brand.name_text,
         pageId: 10
       });

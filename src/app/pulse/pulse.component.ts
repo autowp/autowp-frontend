@@ -92,12 +92,7 @@ export class PulseComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 161
-        }),
+        this.pageEnv.set({pageId: 161}),
       0
     );
   }

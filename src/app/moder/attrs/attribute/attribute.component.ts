@@ -68,10 +68,7 @@ export class ModerAttrsAttributeComponent {
     switchMap(id => this.attrsService.getAttribute(id)),
     tap(attribute => {
       this.pageEnv.set({
-        layout: {
-          isAdminPage: true,
-          needRight: false
-        },
+        layout: {isAdminPage: true},
         nameTranslated: attribute.name,
         pageId: 101
       });

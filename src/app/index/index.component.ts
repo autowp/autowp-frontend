@@ -61,12 +61,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
-        pageId: 1
-      });
+      this.pageEnv.set({pageId: 1});
     }, 0);
   }
 }

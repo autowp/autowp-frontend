@@ -151,10 +151,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           nameTranslated: $localize `Items`,
           pageId: 131
         }),

@@ -78,12 +78,7 @@ export class UsersUserPicturesComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
-        pageId: 63
-      });
+      this.pageEnv.set({pageId: 63});
     }, 0)
   }
 

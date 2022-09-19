@@ -42,12 +42,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
           this.current = data.current;
           this.category = data.category;
           this.path = data.pathItems;
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            pageId: 22
-          });
+          this.pageEnv.set({pageId: 22});
         }),
         switchMap(data => this.route.queryParamMap.pipe(
           map(query => ({

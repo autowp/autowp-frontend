@@ -60,12 +60,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 196
-        }),
+        this.pageEnv.set({pageId: 196}),
       0
     );
 

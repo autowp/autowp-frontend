@@ -22,10 +22,7 @@ export class ModerUsersComponent {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 203
         }),
       0

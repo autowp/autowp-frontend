@@ -28,12 +28,7 @@ export class InfoSpecComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: true
-          },
-          pageId: 174
-        }),
+        this.pageEnv.set({pageId: 174}),
       0
     );
   }

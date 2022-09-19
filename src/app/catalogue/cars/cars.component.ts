@@ -58,17 +58,11 @@ export class CatalogueCarsComponent {
         if (currentVehicleType) {
           const vehicleTypeName = getVehicleTypeTranslation(currentVehicleType.name)
           this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
             pageId: 138,
             nameTranslated: $localize `${brand.name_text} ${vehicleTypeName} in chronological order`
           });
         } else {
           this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
             pageId: 14,
             nameTranslated: $localize `${brand.name_text} in chronological order`
           });

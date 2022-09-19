@@ -42,10 +42,7 @@ export class ModerTrafficComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 77
         }),
       0

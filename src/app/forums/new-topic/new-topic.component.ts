@@ -47,12 +47,7 @@ export class ForumsNewTopicComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
-        pageId: 45
-      });
+      this.pageEnv.set({pageId: 45});
     }, 0);
   }
 

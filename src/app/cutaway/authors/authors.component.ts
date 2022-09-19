@@ -54,12 +54,7 @@ export class CutawayAuthorsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 201
-        }),
+        this.pageEnv.set({pageId: 201}),
       0
     );
   }

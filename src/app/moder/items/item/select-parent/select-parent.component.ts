@@ -87,10 +87,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
             this.item = item;
 
             this.pageEnv.set({
-              layout: {
-                isAdminPage: true,
-                needRight: false
-              },
+              layout: {isAdminPage: true},
               pageId: 144
             });
 

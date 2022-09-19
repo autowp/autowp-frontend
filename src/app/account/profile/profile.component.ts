@@ -57,12 +57,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 129
-        }),
+        this.pageEnv.set({pageId: 129}),
       0
     );
 

@@ -60,12 +60,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 109
-        }),
+        this.pageEnv.set({pageId: 109}),
       0
     );
   }

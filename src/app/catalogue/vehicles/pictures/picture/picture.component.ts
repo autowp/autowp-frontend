@@ -112,9 +112,6 @@ export class CatalogueVehiclesPicturesPictureComponent {
     }),
     tap(picture => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         pageId: 34,
         nameTranslated: picture.name_text
       });

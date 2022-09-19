@@ -54,9 +54,6 @@ export class AccountMessagesComponent {
       }
 
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: this.pageName,
         pageId
       });

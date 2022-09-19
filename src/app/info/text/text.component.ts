@@ -98,12 +98,7 @@ export class InfoTextComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 197
-        }),
+        this.pageEnv.set({pageId: 197}),
       0
     );
   }

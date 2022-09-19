@@ -32,9 +32,6 @@ export class ArticlesArticleComponent {
       const article = response.items[0];
 
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: article.name,
         pageId: 32
       });

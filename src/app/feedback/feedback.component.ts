@@ -48,12 +48,7 @@ export class FeedbackComponent implements OnInit {
 
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 89
-        }),
+        this.pageEnv.set({pageId: 89}),
       0
     );
   }

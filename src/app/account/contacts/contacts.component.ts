@@ -28,12 +28,7 @@ export class AccountContactsComponent {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 198
-        }),
+        this.pageEnv.set({pageId: 198}),
       0
     );
 

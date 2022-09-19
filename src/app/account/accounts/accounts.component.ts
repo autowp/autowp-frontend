@@ -30,12 +30,7 @@ export class AccountAccountsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 123
-        }),
+        this.pageEnv.set({pageId: 123}),
       0
     );
 

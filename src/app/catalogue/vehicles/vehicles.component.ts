@@ -77,9 +77,6 @@ export class CatalogueVehiclesComponent {
     }),
     tap(item => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         pageId: 33,
         nameTranslated: item.name_text
       });

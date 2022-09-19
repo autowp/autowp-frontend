@@ -31,10 +31,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 74
         }),
       0

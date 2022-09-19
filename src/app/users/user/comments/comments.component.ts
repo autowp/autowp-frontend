@@ -62,12 +62,7 @@ export class UsersUserCommentsComponent {
     tap(() => {
       setTimeout(
         () =>
-          this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
-            pageId: 205
-          }),
+          this.pageEnv.set({pageId: 205}),
         0
       );
     }),

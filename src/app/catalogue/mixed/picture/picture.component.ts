@@ -102,9 +102,6 @@ export class CatalogueMixedPictureComponent {
         }),
         tap(picture => {
           this.pageEnv.set({
-            layout: {
-              needRight: false
-            },
             nameTranslated: picture.name_text,
             pageId: data.picture_page.id
           });

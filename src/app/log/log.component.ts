@@ -80,12 +80,7 @@ export class LogComponent {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 75
-        }),
+        this.pageEnv.set({pageId: 75}),
       0
     );
   }

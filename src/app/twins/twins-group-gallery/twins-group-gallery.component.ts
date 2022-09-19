@@ -39,10 +39,7 @@ export class TwinsGroupGalleryComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            layout: {
-              needRight: false,
-              isGalleryPage: true
-            },
+            layout: {isGalleryPage: true},
             nameTranslated: group.name_text,
             pageId: 28
           }),
@@ -66,10 +63,7 @@ export class TwinsGroupGalleryComponent {
   pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
-        layout: {
-          needRight: false,
-          isGalleryPage: true
-        },
+        layout: {isGalleryPage: true},
         nameTranslated: item.name,
         pageId: 28
       });

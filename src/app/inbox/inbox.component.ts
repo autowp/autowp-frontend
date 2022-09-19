@@ -118,12 +118,7 @@ export class InboxComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 76
-        }),
+        this.pageEnv.set({pageId: 76}),
       0
     );
   }

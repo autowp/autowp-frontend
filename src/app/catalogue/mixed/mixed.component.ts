@@ -52,9 +52,6 @@ export class CatalogueMixedComponent {
   public data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(
     tap(data => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         pageId: data.page_id,
         nameTranslated: data.title
       });

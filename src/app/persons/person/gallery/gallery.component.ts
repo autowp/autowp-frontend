@@ -66,10 +66,7 @@ export class PersonsPersonGalleryComponent {
   pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
-        layout: {
-          needRight: false,
-          isGalleryPage: true
-        },
+        layout: {isGalleryPage: true},
         nameTranslated: item.name,
         pageId: 34
       });

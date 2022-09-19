@@ -43,9 +43,6 @@ export class CarsEngineSelectComponent {
     })),
     tap(item => {
       this.pageEnv.set({
-        layout: {
-          needRight: false
-        },
         nameTranslated: $localize `Specs editor of ${item.name_text}`,
         pageId: 102
       });

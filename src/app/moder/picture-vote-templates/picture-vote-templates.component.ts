@@ -21,10 +21,7 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          layout: {
-            isAdminPage: true,
-            needRight: false
-          },
+          layout: {isAdminPage: true},
           pageId: 212
         }),
       0

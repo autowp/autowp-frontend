@@ -21,12 +21,7 @@ export class AccountEmailComponent {
   ) {
     setTimeout(
       () =>
-        this.pageEnv.set({
-          layout: {
-            needRight: false
-          },
-          pageId: 55
-        }),
+        this.pageEnv.set({pageId: 55}),
       0
     );
     this.api.request<APIUser>('GET', 'user/me', {params: {fields: 'email'}}).subscribe({
