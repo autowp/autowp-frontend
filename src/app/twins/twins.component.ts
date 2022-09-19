@@ -54,7 +54,7 @@ export class TwinsComponent implements OnInit {
       setTimeout(() => {
         if (brand) {
           this.pageEnv.set({
-            nameTranslated: brand.name_only,
+            title: brand.name_only,
             pageId: 153
           });
         } else {

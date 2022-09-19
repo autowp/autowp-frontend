@@ -58,7 +58,7 @@ export class ForumsComponent {
     tap(data => {
       if (data.theme) {
         this.pageEnv.set({
-          nameTranslated: getForumsThemeTranslation(data.theme.name),
+          title: getForumsThemeTranslation(data.theme.name),
           pageId: 43
         });
       } else {

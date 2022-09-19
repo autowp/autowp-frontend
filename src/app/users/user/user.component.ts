@@ -65,7 +65,7 @@ export class UsersUserComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            nameTranslated: user.name,
+            title: user.name,
             pageId: 62
           }),
         0

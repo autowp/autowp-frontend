@@ -92,7 +92,7 @@ export class PersonsPersonAuthorPictureComponent {
     tap(picture => {
       this.pageEnv.set({
         pageId: 34,
-        nameTranslated: picture ? picture.name_text : ''
+        title: picture ? picture.name_text : ''
       });
     })
   );

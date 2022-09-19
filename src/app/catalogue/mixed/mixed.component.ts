@@ -53,7 +53,7 @@ export class CatalogueMixedComponent {
     tap(data => {
       this.pageEnv.set({
         pageId: data.page_id,
-        nameTranslated: data.title
+        title: data.title
       });
     }),
     shareReplay(1)

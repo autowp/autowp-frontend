@@ -46,7 +46,7 @@ export class CatalogueConceptsComponent {
       if (brand) {
         this.pageEnv.set({
           pageId: 37,
-          nameTranslated: $localize `${brand.name_text} concepts & prototypes`
+          title: $localize `${brand.name_text} concepts & prototypes`
         });
       }
     }),

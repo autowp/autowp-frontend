@@ -68,7 +68,7 @@ export class CatalogueMixedGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        nameTranslated: item.name,
+        title: item.name,
         pageId: data.picture_page.id
       });
     }, 0);

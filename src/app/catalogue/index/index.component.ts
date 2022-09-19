@@ -75,7 +75,7 @@ export class CatalogueIndexComponent {
     }),
     tap(brand => {
       this.pageEnv.set({
-        nameTranslated: brand.name_text,
+        title: brand.name_text,
         pageId: 10
       });
     }),

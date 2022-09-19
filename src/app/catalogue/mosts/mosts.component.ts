@@ -54,7 +54,7 @@ export class CatalogueMostsComponent {
     tap(brand => {
       this.pageEnv.set({
         pageId: 208,
-        nameTranslated: $localize `${brand.name_text} Engines`
+        title: $localize `${brand.name_text} Engines`
       });
     }),
     shareReplay(1)

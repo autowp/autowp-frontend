@@ -66,7 +66,7 @@ export class CatalogueVehiclesPicturesComponent {
     tap(item => {
       this.pageEnv.set({
         pageId: 34,
-        nameTranslated: $localize `All pictures of ${item.name_text}`
+        title: $localize `All pictures of ${item.name_text}`
       });
     })
   );

@@ -67,7 +67,7 @@ export class PersonsPersonGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        nameTranslated: item.name,
+        title: item.name,
         pageId: 34
       });
     }, 0);

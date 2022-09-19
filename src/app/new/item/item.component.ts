@@ -46,7 +46,7 @@ export class NewItemComponent {
     }),
     tap(item => {
       this.pageEnv.set({
-        nameTranslated: item.name_text,
+        title: item.name_text,
         pageId: 210
       });
     }),

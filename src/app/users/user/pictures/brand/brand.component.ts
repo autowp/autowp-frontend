@@ -52,7 +52,7 @@ export class UsersUserPicturesBrandComponent {
       }
 
       this.pageEnv.set({
-        nameTranslated: $localize `${brand.name_only} pictures`,
+        title: $localize `${brand.name_only} pictures`,
         pageId: 141
       });
     }),

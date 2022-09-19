@@ -32,7 +32,7 @@ export class TwinsGroupComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            nameTranslated: group.name_text,
+            title: group.name_text,
             pageId: 25
           }),
         0

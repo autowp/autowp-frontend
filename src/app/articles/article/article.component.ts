@@ -32,7 +32,7 @@ export class ArticlesArticleComponent {
       const article = response.items[0];
 
       this.pageEnv.set({
-        nameTranslated: article.name,
+        title: article.name,
         pageId: 32
       });
 

@@ -78,7 +78,7 @@ export class CatalogueVehiclesComponent {
     tap(item => {
       this.pageEnv.set({
         pageId: 33,
-        nameTranslated: item.name_text
+        title: item.name_text
       });
     }),
     shareReplay(1)

@@ -28,7 +28,7 @@ export class TwinsGroupPicturesComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            nameTranslated: $localize `All pictures of ${group.name_text}`,
+            title: $localize `All pictures of ${group.name_text}`,
             pageId: 28
           }),
         0

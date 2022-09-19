@@ -114,7 +114,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         tap(id =>
           this.pageEnv.set({
             layout: {isAdminPage: true},
-            nameTranslated: $localize `Picture №${id}`,
+            title: $localize `Picture №${id}`,
             pageId: 72
           })
         ),

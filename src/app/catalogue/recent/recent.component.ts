@@ -42,7 +42,7 @@ export class CatalogueRecentComponent {
           if (brand) {
             this.pageEnv.set({
               pageId: 15,
-              nameTranslated: $localize `Last pictures of ${brand.name_text}`
+              title: $localize `Last pictures of ${brand.name_text}`
             });
           }
         })

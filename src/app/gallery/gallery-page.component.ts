@@ -23,7 +23,7 @@ export class GalleryPageComponent implements OnInit {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        nameTranslated: '', // data.picture.name_text,
+        title: '', // data.picture.name_text,
         pageId: 187
       });
     }, 0);
@@ -32,7 +32,7 @@ export class GalleryPageComponent implements OnInit {
   pictureSelected(item: APIGalleryItem) {
     this.pageEnv.set({
       layout: {isGalleryPage: true},
-      nameTranslated: item.name,
+      title: item.name,
       pageId: 187
     });
   }

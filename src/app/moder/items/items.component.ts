@@ -152,7 +152,6 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          nameTranslated: $localize `Items`,
           pageId: 131
         }),
       0

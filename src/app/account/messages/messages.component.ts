@@ -54,7 +54,7 @@ export class AccountMessagesComponent {
       }
 
       this.pageEnv.set({
-        nameTranslated: this.pageName,
+        title: this.pageName,
         pageId
       });
 

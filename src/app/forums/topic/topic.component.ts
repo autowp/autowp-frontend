@@ -37,7 +37,7 @@ export class ForumsTopicComponent {
     })),
     tap(topic => {
       this.pageEnv.set({
-        nameTranslated: topic.name,
+        title: topic.name,
         pageId: 44
       });
     }),

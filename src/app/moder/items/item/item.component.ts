@@ -182,7 +182,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         tap(data => {
           this.pageEnv.set({
             layout: {isAdminPage: true},
-            nameTranslated: data.item.name_text,
+            title: data.item.name_text,
             pageId: 78
           });
           this.randomPicture =

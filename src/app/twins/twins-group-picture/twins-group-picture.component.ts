@@ -112,7 +112,7 @@ export class TwinsGroupPictureComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            nameTranslated: picture.name_text,
+            title: picture.name_text,
             pageId: 28
           }),
         0

@@ -30,7 +30,7 @@ export class ModerItemsNewComponent {
     tap(itemTypeID => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
-        nameTranslated: getItemTypeTranslation(itemTypeID, 'new-item'),
+        title: getItemTypeTranslation(itemTypeID, 'new-item'),
         pageId: 163
       });
     })

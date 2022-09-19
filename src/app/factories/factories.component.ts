@@ -42,7 +42,7 @@ export class FactoryComponent {
     }),
     tap(factory => {
       this.pageEnv.set({
-        nameTranslated: factory.name_text,
+        title: factory.name_text,
         pageId: 181
       });
     }),

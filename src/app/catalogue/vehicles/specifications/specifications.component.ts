@@ -33,7 +33,7 @@ export class CatalogueVehiclesSpecificationsComponent {
     tap(brand => {
       this.pageEnv.set({
         pageId: 36,
-        nameTranslated: ($localize`Specifications of`) + ' ' + brand.name_text
+        title: ($localize`Specifications of`) + ' ' + brand.name_text
       });
     }),
     shareReplay(1)

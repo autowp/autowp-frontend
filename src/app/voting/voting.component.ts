@@ -29,7 +29,7 @@ export class VotingComponent {
     }),
     tap(voting => {
       this.pageEnv.set({
-        nameTranslated: voting.name,
+        title: voting.name,
         pageId: 157
       });
     })

@@ -40,7 +40,7 @@ export class TwinsGroupGalleryComponent {
         () =>
           this.pageEnv.set({
             layout: {isGalleryPage: true},
-            nameTranslated: group.name_text,
+            title: group.name_text,
             pageId: 28
           }),
         0
@@ -64,7 +64,7 @@ export class TwinsGroupGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        nameTranslated: item.name,
+        title: item.name,
         pageId: 28
       });
     });

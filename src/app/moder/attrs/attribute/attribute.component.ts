@@ -69,7 +69,7 @@ export class ModerAttrsAttributeComponent {
     tap(attribute => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
-        nameTranslated: attribute.name,
+        title: attribute.name,
         pageId: 101
       });
     }),

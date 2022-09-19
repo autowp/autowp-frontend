@@ -39,7 +39,7 @@ export class CarsSpecificationsEditorComponent {
         return;
       }
       this.pageEnv.set({
-        nameTranslated: $localize `Specs editor of ${item.name_text}`,
+        title: $localize `Specs editor of ${item.name_text}`,
         pageId: 102
       });
     }),

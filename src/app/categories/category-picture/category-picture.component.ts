@@ -105,7 +105,7 @@ export class CategoryPictureComponent {
     }),
     tap(picture => {
       this.pageEnv.set({
-        nameTranslated: picture.name_text,
+        title: picture.name_text,
         pageId: 187
       });
     })

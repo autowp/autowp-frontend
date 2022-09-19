@@ -59,7 +59,8 @@ const routes: Routes = [
   {
     path: '',
     component: ModerItemsComponent,
-    canActivate: [ModerGuard]
+    canActivate: [ModerGuard],
+    title: $localize `Items`
   }
 ];
 

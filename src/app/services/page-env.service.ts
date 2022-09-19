@@ -11,7 +11,7 @@ export interface LayoutParams {
 
 export interface PageEnv {
   pageId?: number;
-  nameTranslated?: string;
+  title?: string;
   layout?: {
     isAdminPage?: boolean;
     isGalleryPage?: boolean;
@@ -37,8 +37,8 @@ export class PageEnvService {
           isGalleryPage: data.layout?.isGalleryPage
         });
 
-        if (data.nameTranslated) {
-          this.titleService.setTitle(data.nameTranslated);
+        if (data.title) {
+          this.titleService.setTitle(data.title);
         }
       }
     });

@@ -113,7 +113,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
     tap(picture => {
       this.pageEnv.set({
         pageId: 34,
-        nameTranslated: picture.name_text
+        title: picture.name_text
       });
     })
   );

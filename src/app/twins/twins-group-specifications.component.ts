@@ -40,7 +40,7 @@ export class TwinsGroupSpecificationsComponent {
         setTimeout(
           () =>
             this.pageEnv.set({
-              nameTranslated: $localize `Specifications of ${data.group.name_text}`,
+              title: $localize `Specifications of ${data.group.name_text}`,
               pageId: 27
             }),
           0

@@ -35,7 +35,7 @@ export class ModerAttrsZoneComponent {
     tap(zone => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
-        nameTranslated: zone.name,
+        title: zone.name,
         pageId: 142
       });
     }),
