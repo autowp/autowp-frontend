@@ -4,6 +4,25 @@
     "currency": "EUR",
     "date": "2022-08-18T00:00:00+00:00",
     "contributor": null,
+    "purpose": "September/October hosting"
+  },
+  {
+    "sum": 193.55,
+    "currency": "EUR",
+    "date": "2022-08-07T00:00:00+00:00",
+    "contributor": "Cadillac"
+  },
+  {
+    "sum": 18.97,
+    "currency": "EUR",
+    "date": "2022-09-14T00:00:00+00:00",
+    "contributor": "Guilherme Costa"
+  },
+  {
+    "sum": -212.52,
+    "currency": "EUR",
+    "date": "2022-08-18T00:00:00+00:00",
+    "contributor": null,
     "purpose": "August/September hosting"
   },
   {
