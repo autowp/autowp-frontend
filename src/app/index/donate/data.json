@@ -1,5 +1,11 @@
 [
   {
+    "sum": 18.57,
+    "currency": "EUR",
+    "date": "2022-09-27T00:00:00+00:00",
+    "contributor": "Andy Haslam"
+  },
+  {
     "sum": 100.00,
     "currency": "EUR",
     "date": "2022-09-22T00:00:00+00:00",
