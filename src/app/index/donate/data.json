@@ -1,5 +1,17 @@
 [
   {
+    "sum": 15.00,
+    "currency": "EUR",
+    "date": "2022-10-08T00:00:00+00:00",
+    "contributor": "Bartosz Dorazinski"
+  },
+  {
+    "sum": 9.78,
+    "currency": "EUR",
+    "date": "2022-10-06T00:00:00+00:00",
+    "contributor": "Alexander Moore"
+  },
+  {
     "sum": 18.57,
     "currency": "EUR",
     "date": "2022-09-27T00:00:00+00:00",
