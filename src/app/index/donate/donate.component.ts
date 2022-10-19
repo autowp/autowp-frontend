@@ -26,7 +26,7 @@ interface Donation {
 export class IndexDonateComponent {
 
   public goal = 2500;
-  private monthlyCharge = 212.52;
+  private monthlyCharge = 177.10;
 
   public $state = of(require('./data.json') as Donation[]).pipe(
     map(operations => {
