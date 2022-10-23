@@ -23,6 +23,7 @@ import * as thisProto from './spec.pb';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
+  GRPC_ARTICLES_CLIENT_SETTINGS,
   GRPC_TRAFFIC_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
   GRPC_USERS_CLIENT_SETTINGS,
@@ -461,6 +462,103 @@ export class AutowpClient {
   ): Observable<thisProto.VehicleTypeItems> {
     return this.$raw
       .getVehicleTypes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Articles
+ */
+@Injectable({ providedIn: 'any' })
+export class ArticlesClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Articles/GetList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ArticlesResponse>>
+     */
+    getList: (
+      requestData: thisProto.ArticlesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ArticlesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Articles/GetList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ArticlesRequest,
+        responseClass: thisProto.ArticlesResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Articles/GetItemByCatname
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Article>>
+     */
+    getItemByCatname: (
+      requestData: thisProto.ArticleByCatnameRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Article>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Articles/GetItemByCatname',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ArticleByCatnameRequest,
+        responseClass: thisProto.Article
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_ARTICLES_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Articles', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Articles/GetList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ArticlesResponse>
+   */
+  getList(
+    requestData: thisProto.ArticlesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ArticlesResponse> {
+    return this.$raw
+      .getList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Articles/GetItemByCatname
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Article>
+   */
+  getItemByCatname(
+    requestData: thisProto.ArticleByCatnameRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Article> {
+    return this.$raw
+      .getItemByCatname(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

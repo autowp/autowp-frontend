@@ -459,10 +459,10 @@ export module QuotaFailure {
   }
 
   /**
-   * Message implementation for google.rpc.Violation
+   * Message implementation for google.rpc.QuotaFailure.Violation
    */
   export class Violation implements GrpcMessage {
-    static id = 'google.rpc.Violation';
+    static id = 'google.rpc.QuotaFailure.Violation';
 
     /**
      * Deserialize binary data to message
@@ -818,10 +818,10 @@ export module ErrorInfo {
   }
 
   /**
-   * Message implementation for google.rpc.MetadataEntry
+   * Message implementation for google.rpc.ErrorInfo.MetadataEntry
    */
   export class MetadataEntry implements GrpcMessage {
-    static id = 'google.rpc.MetadataEntry';
+    static id = 'google.rpc.ErrorInfo.MetadataEntry';
 
     /**
      * Deserialize binary data to message
@@ -1128,10 +1128,10 @@ export module PreconditionFailure {
   }
 
   /**
-   * Message implementation for google.rpc.Violation
+   * Message implementation for google.rpc.PreconditionFailure.Violation
    */
   export class Violation implements GrpcMessage {
-    static id = 'google.rpc.Violation';
+    static id = 'google.rpc.PreconditionFailure.Violation';
 
     /**
      * Deserialize binary data to message
@@ -1450,10 +1450,10 @@ export module BadRequest {
   }
 
   /**
-   * Message implementation for google.rpc.FieldViolation
+   * Message implementation for google.rpc.BadRequest.FieldViolation
    */
   export class FieldViolation implements GrpcMessage {
-    static id = 'google.rpc.FieldViolation';
+    static id = 'google.rpc.BadRequest.FieldViolation';
 
     /**
      * Deserialize binary data to message
@@ -2095,10 +2095,10 @@ export module Help {
   }
 
   /**
-   * Message implementation for google.rpc.Link
+   * Message implementation for google.rpc.Help.Link
    */
   export class Link implements GrpcMessage {
-    static id = 'google.rpc.Link';
+    static id = 'google.rpc.Help.Link';
 
     /**
      * Deserialize binary data to message

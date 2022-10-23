@@ -9,7 +9,6 @@ import { ArticlesArticleComponent } from './article/article.component';
 import { UserModule } from '../user/user.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticleService } from './article.service';
-import { CommentsModule } from '../comments/comments.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -21,8 +20,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     NgbTooltipModule,
     PaginatorModule,
     UserModule,
-    HttpClientModule,
-    CommentsModule
+    HttpClientModule
   ],
   providers: [ArticleService]
 })

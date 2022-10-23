@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 import {EMPTY} from 'rxjs';
 import { PageEnvService } from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
-import { ArticleService } from '../article.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import {ArticlesClient} from "../../../../generated/spec.pbsc";
+import {ArticleByCatnameRequest} from "../../../../generated/spec.pb";
+import {GrpcStatusEvent} from "@ngx-grpc/common";
 
 @Component({
   selector: 'app-articles-article',
@@ -16,21 +17,8 @@ export class ArticlesArticleComponent {
     map(params => params.get('catname')),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap(catname => this.articleService.getArticles({
-      catname,
-      limit: 1,
-      fields: 'html'
-    })),
-    map(response => {
-      if (response.items.length <= 0) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true
-        });
-        return;
-      }
-
-      const article = response.items[0];
-
+    switchMap(catname => this.articlesClient.getItemByCatname(new ArticleByCatnameRequest({catname}))),
+    map(article => {
       this.pageEnv.set({
         title: article.name,
         pageId: 32
@@ -38,13 +26,13 @@ export class ArticlesArticleComponent {
 
       return article;
     }),
-    catchError((response: HttpErrorResponse) => {
-      if (response.status === 404) {
+    catchError((response: GrpcStatusEvent) => {
+      if (response.statusCode === 5) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true
         });
       } else {
-        this.toastService.response(response);
+        this.toastService.grpcErrorResponse(response);
       }
       return EMPTY;
     })
@@ -53,7 +41,7 @@ export class ArticlesArticleComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private articleService: ArticleService,
+    private articlesClient: ArticlesClient,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
   ) {}

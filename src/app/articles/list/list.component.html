@@ -16,20 +16,20 @@
 
 <div class="card card-body" *ngIf="articles$|async as response; else loading">
   <ul class="articleList">
-    <li *ngFor="let article of response.items">
-      <a [routerLink]="['/articles', article.catname]" *ngIf="article.preview_url">
-        <img alt="" [src]="article.preview_url" style="float:left;margin:0 10px 4px 0" loading="lazy" />
+    <li *ngFor="let article of response.articles">
+      <a [routerLink]="article.routerLink" *ngIf="article.previewUrl">
+        <img alt="" [src]="article.previewUrl" style="float:left;margin:0 10px 4px 0" loading="lazy" />
       </a>
 
       <p>
-        <a [routerLink]="['/articles', article.catname]" [textContent]="article.name"></a>
+        <a [routerLink]="article.routerLink" [textContent]="article.name"></a>
       </p>
       <p>
         {{article.description}}
-        <a [routerLink]="['/articles', article.catname]" i18n>details</a>
+        <a [routerLink]="article.routerLink" i18n>details</a>
       </p>
       <p>
-        <app-user *ngIf="article.author" [user]="article.author"></app-user>
+        <app-user *ngIf="article.author$|async as author" [user]="author"></app-user>
         <span class="date" *ngIf="article.date" [textContent]="article.date | amTimeAgo" [ngbTooltip]="article.date | date: 'medium'"></span>
       </p>
     </li>

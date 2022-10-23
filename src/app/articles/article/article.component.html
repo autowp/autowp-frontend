@@ -21,6 +21,4 @@
   <div class="card card-body" *ngIf="article">
     <div class="article clearfix" [innerHTML]="article.html"></div>
   </div>
-
-  <app-comments style="text-align:left;margin-bottom:20px;clear:both" [itemID]="article.id" [typeID]="4" *ngIf="article && article.enabled"></app-comments>
 </ng-container>
