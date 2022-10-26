@@ -1,24 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { APIService } from './api.service';
-
-export interface APIContentLanguageGetResponse {
-  items: string[];
-}
+import {ItemsClient} from "../../../generated/spec.pbsc";
+import {Empty} from "@ngx-grpc/well-known-types";
 
 @Injectable()
 export class ContentLanguageService {
-  private readonly languages$: Observable<string[]>;
+  public readonly languages$: Observable<string[]> = this.itemClient.getContentLanguages(new Empty()).pipe(
+    map(response => response.languages),
+    shareReplay(1)
+  );
 
-  constructor(private api: APIService) {
-    this.languages$ = this.api.request<APIContentLanguageGetResponse>('GET', 'content-language').pipe(
-      map(response => response.items),
-      shareReplay(1)
-    );
-  }
-
-  public getList(): Observable<string[]> {
-    return this.languages$;
-  }
+  constructor(private itemClient: ItemsClient) { }
 }

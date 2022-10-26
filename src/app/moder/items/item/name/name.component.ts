@@ -16,7 +16,7 @@ export class ModerItemsItemNameComponent {
 
   public loadingNumber = 0;
 
-  public languages$ = this.contentLanguage.getList().pipe(
+  public languages$ = this.contentLanguage.languages$.pipe(
     map(contentLanguages => {
       const languages = new Map<string, APIItemLanguage>();
 

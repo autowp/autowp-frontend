@@ -20,7 +20,10 @@ import {
 } from '@ngx-grpc/core';
 import { Observable } from 'rxjs';
 import * as thisProto from './spec.pb';
+import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
+import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
+import * as googleRpc003 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_ARTICLES_CLIENT_SETTINGS,
@@ -1382,6 +1385,27 @@ export class ItemsClient {
         requestClass: thisProto.GetTreeRequest,
         responseClass: thisProto.APITreeItem
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetContentLanguages
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIContentLanguages>>
+     */
+    getContentLanguages: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIContentLanguages>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetContentLanguages',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIContentLanguages
+      });
     }
   };
 
@@ -1502,6 +1526,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITreeItem> {
     return this.$raw
       .getTree(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetContentLanguages
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIContentLanguages>
+   */
+  getContentLanguages(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIContentLanguages> {
+    return this.$raw
+      .getContentLanguages(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

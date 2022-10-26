@@ -69,7 +69,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
             this.itemService.getItem(params.parent_id, {
               fields: ['name_text', 'name_html'].join(',')
             }),
-            this.ContentLanguage.getList(),
+            this.ContentLanguage.languages$,
             this.api.request<APIItemParentLanguageGetResponse>(
               'GET',
               'item-parent/' + params.item_id + '/' + params.parent_id + '/language'
