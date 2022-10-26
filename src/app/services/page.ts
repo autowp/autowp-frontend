@@ -1,35 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { APIService } from './api.service';
-
-export interface APIPage {
-  id: number;
-  childs: APIPage[];
-  name: string;
-  breadcrumbs: string;
-  is_group_node: boolean;
-  parent_id: number;
-  title: string;
-  url: string;
-  registered_only: boolean;
-  guest_only: boolean;
-  class: string;
-}
-
-export interface APIPageLinearized extends APIPage {
-  level: number;
-  moveUp: boolean;
-  moveDown: boolean;
-}
-
-export interface APIPagesGetResponse {
-  items: APIPage[];
-}
-
-export interface APIPageParentsGetResponse {
-  items: APIPage[];
-}
 
 export interface Page {
   id: number;
@@ -52,7 +23,7 @@ export class PageService {
 
   private pagesJson: Page[];
 
-  constructor(private api: APIService) {}
+  constructor() {}
 
   private walkPages(pages: Page[], parentID: number) {
     for (const page of pages) {
@@ -95,88 +66,6 @@ export class PageService {
         }
 
         return this.isDescendantPrivate(id, parentID);
-      })
-    );
-  }
-
-  public getPath(id: number): Observable<Page[]> {
-    return this.loadTree().pipe(
-      map(() => {
-        let pageID = id;
-        const result: Page[] = [];
-        while (pageID) {
-          if (!this.pages.has(pageID)) {
-            throw new Error('Page ' + pageID + ' not found');
-          }
-
-          result.push(this.pages.get(pageID));
-
-          pageID = this.parents.get(pageID);
-        }
-
-        return result.reverse();
-      })
-    );
-  }
-
-  public getPagesPipe(): Observable<APIPagesGetResponse> {
-    return this.api.request<APIPagesGetResponse>('GET', 'page');
-  }
-
-  public toPlainArray(pages: APIPage[], level: number): APIPageLinearized[] {
-    const result: APIPageLinearized[] = [];
-    for (let i = 0; i < pages.length; i++) {
-      const page = pages[i];
-      const mPage: APIPageLinearized = {
-        id: page.id,
-        name: page.name,
-        title: page.title,
-        url: page.url,
-        breadcrumbs: page.breadcrumbs,
-        is_group_node: page.is_group_node,
-        childs: page.childs,
-        level,
-        moveUp: i > 0,
-        moveDown: i < pages.length - 1,
-        parent_id: null,
-        registered_only: page.registered_only,
-        guest_only: page.guest_only,
-        class: page.class
-      };
-      result.push(mPage);
-      for (const child of this.toPlainArray(page.childs, level + 1)) {
-        result.push(child);
-      }
-    }
-    return result;
-  }
-
-  public getPage(id: number): Observable<APIPage> {
-    return this.api.request<APIPage>('GET', 'page/' + id);
-  }
-
-  private findPage(id: number, pages: Page[]): Page {
-    for (const page of pages) {
-      if (page.id === id) {
-        return page;
-      }
-
-      if (page.childs) {
-        const result = this.findPage(id, page.childs);
-        if (result) {
-          return result;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  public getMenu(parentId): Observable<Page[]> {
-    return this.loadTree().pipe(
-      map(() => {
-        const page = this.findPage(parentId, this.pagesJson);
-        return page.childs;
       })
     );
   }

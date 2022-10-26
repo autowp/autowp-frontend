@@ -10,7 +10,6 @@ import { ModerAttrsComponent } from './attrs/attrs.component';
 import { ModerAttrsAttributeComponent } from './attrs/attribute/attribute.component';
 import { ModerAttrsZoneComponent } from './attrs/zone/zone.component';
 import { ModerCommentsComponent } from './comments/comments.component';
-import { ModerPagesComponent } from './pages/pages.component';
 import { ModerPictureVoteTemplatesComponent } from './picture-vote-templates/picture-vote-templates.component';
 import { ModerAttrsAttributeListComponent } from './attrs/attribute-list/attribute-list.component';
 import { ModerAttrsZoneAttributeListComponent } from './attrs/zone/attribute-list/attribute-list.component';
@@ -37,7 +36,6 @@ import { APICommentsModule } from '../api/comments/comments.module';
     ModerAttrsAttributeComponent,
     ModerAttrsZoneComponent,
     ModerCommentsComponent,
-    ModerPagesComponent,
     ModerPictureVoteTemplatesComponent,
     ModerAttrsAttributeListComponent,
     ModerAttrsZoneAttributeListComponent,
