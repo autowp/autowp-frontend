@@ -1,5 +1,11 @@
 [
   {
+    "sum": 50.00,
+    "currency": "EUR",
+    "date": "2022-11-10T00:00:00+00:00",
+    "contributor": "Bernard Campourcy"
+  },
+  {
     "sum": 48.96,
     "currency": "EUR",
     "date": "2022-10-24T00:00:00+00:00",
