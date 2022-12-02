@@ -52,8 +52,8 @@ import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 import {KeycloakAngularModule, KeycloakEventType, KeycloakService} from 'keycloak-angular';
 import {LoginComponent} from './login/login.component';
-import * as Sentry from "@sentry/angular";
-import {Router} from '@angular/router';
+// import * as Sentry from "@sentry/angular";
+// import {Router} from '@angular/router';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () => {
@@ -125,7 +125,7 @@ let providers: Provider[] = [
   LanguageService,
   TimezoneService,
   IpService,
-  {
+  /*{
     provide: ErrorHandler,
     useValue: Sentry.createErrorHandler({
       showDialog: true,
@@ -140,7 +140,7 @@ let providers: Provider[] = [
     useFactory: () => () => {},
     deps: [Sentry.TraceService],
     multi: true,
-  },
+  },*/
 ];
 if (environment.production) {
   providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
