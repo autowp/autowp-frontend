@@ -55,7 +55,7 @@ deploy:
     - docker build . -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
 
-    - sentry-cli releases new "$CI_COMMIT_TAG"
+    - sentry-cli releases new "$CI_COMMIT_TAG" || true
     - git config --global user.email "$GITLAB_USER_EMAIL"
     - git config --global user.name "$GITLAB_USER_NAME"
     - git clone -b master https://gitpush:${GITPUSH_TOKEN}@gitlab.pereslegin.ru/autowp/helm.git
@@ -64,7 +64,7 @@ deploy:
     - git add templates/frontend.yaml
     - "git commit -m \"feat: Update frontend to $CI_COMMIT_TAG\""
     - git push origin master
-    - sentry-cli releases finalize "$CI_COMMIT_TAG"
+    - sentry-cli releases finalize "$CI_COMMIT_TAG" || true
 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY_IMAGE"
