@@ -30,7 +30,7 @@ export class IndexDonateComponent {
 
   public $state = of(require('./data.json') as Donation[]).pipe(
     map(operations => {
-      operations = operations.reverse();
+      operations = operations.sort((a,b)=>moment(a.date).toDate().getTime()-moment(b.date).toDate().getTime());
       const donations = operations.filter(d => d.sum > 0).map(d => ({
         sum: d.sum,
         normalizedSum: rates[d.currency] *d.sum,
@@ -38,7 +38,7 @@ export class IndexDonateComponent {
         date: moment(d.date).toDate(),
         contributor: d.contributor,
         purpose: d.purpose
-      })).sort((a,b)=>a.date.getTime()-b.date.getTime());
+      }));
       const charges = operations.filter(d => d.sum < 0);
       const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
