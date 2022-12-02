@@ -1,5 +1,18 @@
 [
   {
+    "sum": -177.10,
+    "currency": "EUR",
+    "date": "2022-11-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "November/December hosting"
+  },
+  {
+    "sum": 78.14,
+    "currency": "EUR",
+    "date": "2022-11-18T00:00:00+00:00",
+    "contributor": "Cadillac"
+  },
+  {
     "sum": 50.00,
     "currency": "EUR",
     "date": "2022-11-10T00:00:00+00:00",
