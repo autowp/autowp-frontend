@@ -11,7 +11,7 @@ import { ModerPictureMoveItemComponent } from './item/move/item/item.component';
 import { ModerPicturesItemComponent } from './item/item.component';
 import { ModerPicturesItemMoveComponent } from './item/move/move.component';
 import { ThumbnailModule } from '../../thumbnail/thumbnail.module';
-import { NgPipesModule } from 'ngx-pipes';
+import { NgPipesModule } from 'ngx-pipes/src/ng-pipes/ng-pipes.module';
 import { MomentModule } from 'ngx-moment';
 import { UtilsModule } from '../../utils/utils.module';
 import { UserModule } from '../../user/user.module';

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GalleryComponent } from './gallery.component';
 import { CarouselItemComponent } from './carousel-item.component';
-import { NgPipesModule } from 'ngx-pipes';
+import { NgPipesModule } from 'ngx-pipes/src/ng-pipes/ng-pipes.module';
 import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AreaComponent } from './area.component';
