@@ -4,7 +4,7 @@ import * as escapeRegExp from 'lodash.escaperegexp';
 import { UserService, APIUser } from '../services/user';
 import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
-import { BytesPipe } from 'ngx-pipes/src/ng-pipes/pipes/math/bytes';
+import { BytesPipe } from 'ngx-pipes';
 import { PageEnvService } from '../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
 import {StatisticsClient} from '../../../generated/spec.pbsc';
