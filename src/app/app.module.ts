@@ -3,7 +3,7 @@ import {APP_INITIALIZER, ErrorHandler, NgModule, Provider} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MomentModule } from 'ngx-moment';
-import {NgbTooltipModule, NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule, NgbCollapseModule, NgbDropdownModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgPipesModule, BytesPipe } from 'ngx-pipes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -180,7 +180,8 @@ if (environment.production) {
     GrpcWebClientModule.forRoot({
       settings: { host: environment.grpcHost },
     }),
-    Angulartics2Module.forRoot()
+    Angulartics2Module.forRoot(),
+    NgbModule
   ],
   providers: providers,
   bootstrap: [AppComponent]
