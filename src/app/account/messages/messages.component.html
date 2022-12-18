@@ -70,7 +70,7 @@
               <a href="#" (click)="openMessageForm(message.message.authorId)" i18n>reply</a>
               &nbsp;
             </span>
-            <span *ngIf="message.message.allMessagesLink && message.message.dialogWithUserId != '0'" ngPreserveWhitespaces>
+            <span *ngIf="message.message.allMessagesLink && message.message.dialogWithUserId !== '0'" ngPreserveWhitespaces>
               <i class="bi bi-chat-text" aria-hidden="true"></i>
               <a routerLink="/account/messages" [queryParams]="{folder: 'dialog', user_id: message.message.dialogWithUserId}" i18n>entire dialog</a>
               <small>({{message.message.dialogCount}})</small>
