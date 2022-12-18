@@ -1,5 +1,30 @@
 [
   {
+    "sum": -180.56,
+    "currency": "EUR",
+    "date": "2022-12-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "December/January hosting"
+  },
+  {
+    "sum": 180.56,
+    "currency": "EUR",
+    "date": "2022-12-18T00:00:00+00:00",
+    "contributor": "Dmitry"
+  },
+  {
+    "sum": 50.00,
+    "currency": "EUR",
+    "date": "2022-12-17T00:00:00+00:00",
+    "contributor": "Mieke Stuart"
+  },
+  {
+    "sum": 4.38,
+    "currency": "EUR",
+    "date": "2022-12-16T00:00:00+00:00",
+    "contributor": "Aleksei Evseev"
+  },
+  {
     "sum": -177.10,
     "currency": "EUR",
     "date": "2022-11-18T00:00:00+00:00",
