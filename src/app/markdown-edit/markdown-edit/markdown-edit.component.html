@@ -2,7 +2,15 @@
   <li ngbNavItem>
     <a ngbNavLink i18n>Edit</a>
     <ng-template ngbNavContent>
-      <textarea [(ngModel)]="text" class="form-control" maxlength="65536" rows="1" aria-label="Text" autosize (change)="onChange()"></textarea>
+      <textarea
+        [(ngModel)]="text"
+        class="form-control"
+        maxlength="65536"
+        rows="1"
+        aria-label="Text"
+        autosize
+        (change)="onChange()"
+      ></textarea>
     </ng-template>
   </li>
   <li ngbNavItem [disabled]="!text || !text.length">

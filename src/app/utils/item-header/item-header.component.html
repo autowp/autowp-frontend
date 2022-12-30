@@ -1,12 +1,19 @@
 <span [innerHTML]="item.nameHTML"></span>
-<sup class="design-brand mx-2" *ngIf="item.design"><ng-container i18n>designed by</ng-container>
+<sup class="design-brand mx-2" *ngIf="item.design"
+  ><ng-container i18n>designed by</ng-container>
   <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
 </sup>
 
 <ng-container *ngIf="item.produced">
   <small *ngIf="item.produced.count > 1" class="ms-2">
-    <span *ngIf="item.produced.exactly" i18n="@@n-produced">{item.produced.count, plural, one {Produced in {{item.produced.count}} copy} other {Produced in {{item.produced.count}} copies}}</span>
-    <span *ngIf="!item.produced.exactly" i18n="@@n-produced-about">{item.produced.count, plural, one {Produced in about {{item.produced.count}} copy} other {Produced in about {{item.produced.count}} copies}}</span>
+    <span *ngIf="item.produced.exactly" i18n="@@n-produced"
+      >{item.produced.count, plural, one {Produced in {{ item.produced.count }} copy} other {Produced in
+      {{ item.produced.count }} copies}}</span
+    >
+    <span *ngIf="!item.produced.exactly" i18n="@@n-produced-about"
+      >{item.produced.count, plural, one {Produced in about {{ item.produced.count }} copy} other {Produced in about
+      {{ item.produced.count }} copies}}</span
+    >
   </small>
   <small i18n *ngIf="item.produced.count === 1" class="ms-2">Produced in a single copy</small>
 </ng-container>

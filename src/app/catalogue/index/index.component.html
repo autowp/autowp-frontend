@@ -1,10 +1,10 @@
-<header class="mb-4" *ngIf="brand$|async as brand; else loading">
+<header class="mb-4" *ngIf="brand$ | async as brand; else loading">
   <div class="p-5 mb-4 rounded-3 brand-hero-unit clearfix">
     <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
     <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" loading="lazy" />
     <div class="content">
-      <h1 class="display-4">{{brand.name_text}}</h1>
-      <p *ngIf="brand.full_name && brand.full_name !== brand.name_only" class="lead">({{brand.full_name}})</p>
+      <h1 class="display-4">{{ brand.name_text }}</h1>
+      <p *ngIf="brand.full_name && brand.full_name !== brand.name_only" class="lead">({{ brand.full_name }})</p>
       <ng-container *ngIf="brand.description">
         <hr class="my-4" />
         <app-markdown [markdown]="brand.description"></app-markdown>
@@ -27,7 +27,7 @@
     <li class="nav-item" *ngIf="brand.descendant_twins_groups_count">
       <a class="nav-link" [routerLink]="['/twins', brand.catname]">
         <i class="bi bi-circle-half" aria-hidden="true"></i> <ng-container i18n>Twins</ng-container>
-        <span class="badge rounded-pill text-bg-secondary">{{brand.descendant_twins_groups_count}}</span>
+        <span class="badge rounded-pill text-bg-secondary">{{ brand.descendant_twins_groups_count }}</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.mosts_active">
@@ -39,17 +39,21 @@
       <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{status: 'inbox', item_id: brand.id}">
         <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
         <ng-container i18n>Brand inbox</ng-container>
-        <span class="badge rounded-pill text-bg-secondary">{{brand.inbox_pictures_count}}</span>
+        <span class="badge rounded-pill text-bg-secondary">{{ brand.inbox_pictures_count }}</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="brand.comments_attentions_count">
-      <a class="nav-link" routerLink="/moder/comments" [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}">
+      <a
+        class="nav-link"
+        routerLink="/moder/comments"
+        [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}"
+      >
         <i class="bi bi-chat-fill" aria-hidden="true"></i>
         <ng-container i18n>comments</ng-container>
-        <span class="badge rounded-pill text-bg-secondary">{{brand.comments_attentions_count}}</span>
+        <span class="badge rounded-pill text-bg-secondary">{{ brand.comments_attentions_count }}</span>
       </a>
     </li>
-    <ng-container *ngIf="isModer$|async">
+    <ng-container *ngIf="isModer$ | async">
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/moder/items/item', brand.id]">
           <i class="bi bi-gear-fill" aria-hidden="true"></i>
@@ -72,18 +76,18 @@
   </ul>
 </header>
 
-<ng-container *ngIf="sections$|async; else loading">
-  <ng-container *ngFor="let section of sections$|async">
+<ng-container *ngIf="sections$ | async; else loading">
+  <ng-container *ngFor="let section of sections$ | async">
     <div class="card mb-4" *ngIf="section.halfChunks.length">
       <div class="card-body">
-        <h5 class="card-title" *ngIf="section.name">{{section.name}}</h5>
+        <h5 class="card-title" *ngIf="section.name">{{ section.name }}</h5>
         <div class="row">
           <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChunks">
             <div class="row">
               <div class="col-12 col-lg-6 nav" *ngFor="let chunk of halfChunk">
                 <a class="nav-link w-100" [routerLink]="group.routerLink" *ngFor="let group of chunk">
-                  {{group.name}}
-                  <span *ngIf="group.count" class="badge rounded-pill text-bg-secondary">{{group.count}}</span>
+                  {{ group.name }}
+                  <span *ngIf="group.count" class="badge rounded-pill text-bg-secondary">{{ group.count }}</span>
                 </a>
               </div>
             </div>
@@ -95,13 +99,22 @@
   </ng-container>
 </ng-container>
 
-<ng-container *ngIf="factories$|async as factories; else loading">
+<ng-container *ngIf="factories$ | async as factories; else loading">
   <section *ngIf="factories.length">
     <h2 i18n>Factories</h2>
     <div class="row">
       <div class="col-6 col-lg-3" *ngFor="let factory of factories">
-        <a class="d-block rounded mb-4" [routerLink]="['/factories', factory.id]" *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium">
-          <img class="rounded w-100 border border-light" [src]="factory.exact_picture.thumb_medium.src" alt="" loading="lazy" />
+        <a
+          class="d-block rounded mb-4"
+          [routerLink]="['/factories', factory.id]"
+          *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium"
+        >
+          <img
+            class="rounded w-100 border border-light"
+            [src]="factory.exact_picture.thumb_medium.src"
+            alt=""
+            loading="lazy"
+          />
         </a>
         <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
       </div>
@@ -109,7 +122,7 @@
   </section>
 </ng-container>
 
-<ng-container *ngIf="pictures$|async as pictures; else loading">
+<ng-container *ngIf="pictures$ | async as pictures; else loading">
   <section *ngIf="pictures.length">
     <h2 i18n>Popular images</h2>
     <div class="row" *ngFor="let chunk of pictures">
@@ -120,25 +133,28 @@
   </section>
 </ng-container>
 
-<ng-container *ngIf="links$|async as links; else loading">
+<ng-container *ngIf="links$ | async as links; else loading">
   <section *ngIf="links.official.length + links.club.length + links.other.length > 0">
     <h2 i18n>Links</h2>
     <p *ngIf="links.official.length > 0">
       <strong i18n>Official websites</strong><br />
       <ng-container *ngFor="let link of links.official">
-        <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+        <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
+        ><br />
       </ng-container>
     </p>
     <p *ngIf="links.club.length > 0">
       <strong i18n>Car clubs</strong><br />
       <ng-container *ngFor="let link of links.club">
-        <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+        <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
+        ><br />
       </ng-container>
     </p>
     <p *ngIf="links.other.length > 0">
       <strong i18n>Other</strong><br />
       <ng-container *ngFor="let link of links.other">
-        <a [href]="link.url">{{link.name ? link.name : link.url}}</a><br />
+        <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
+        ><br />
       </ng-container>
     </p>
   </section>

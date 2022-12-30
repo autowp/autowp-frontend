@@ -3,8 +3,20 @@
     <legend i18n>Add comment</legend>
     <div class="mb-3">
       <div class="controls">
-        <textarea cols="80" rows="5" name="message" maxlength="16000" class="form-control" [(ngModel)]="form.message" [class.is-invalid]="invalidParams && invalidParams.message"></textarea>
-        <p *ngFor="let message of invalidParams | invalidParams : 'message'" [textContent]="message" class="invalid-feedback"></p>
+        <textarea
+          cols="80"
+          rows="5"
+          name="message"
+          maxlength="16000"
+          class="form-control"
+          [(ngModel)]="form.message"
+          [class.is-invalid]="invalidParams && invalidParams.message"
+        ></textarea>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'message'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3">

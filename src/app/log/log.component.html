@@ -14,7 +14,7 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="response$|async as response; else loading">
+<ng-container *ngIf="response$ | async as response; else loading">
   <table class="table table-condensed table-striped" aria-describedby="header">
     <thead>
       <tr>
@@ -27,7 +27,11 @@
       <tr *ngFor="let event of response.items">
         <td>
           <app-user [user]="event.user" *ngIf="event.user"></app-user>
-          <div *ngIf="event.date" [textContent]="event.date | amTimeAgo" [ngbTooltip]="event.date | date: 'medium'"></div>
+          <div
+            *ngIf="event.date"
+            [textContent]="event.date | amTimeAgo"
+            [ngbTooltip]="event.date | date : 'medium'"
+          ></div>
         </td>
         <td [innerHTML]="event.desc"></td>
         <td>

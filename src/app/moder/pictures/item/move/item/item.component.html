@@ -1,7 +1,12 @@
 <span class="text-muted" *ngIf="item.type_id === 1" i18n>Related</span>
 <span class="text-muted" *ngIf="item.type_id === 2" i18n>Sport</span>
 
-<a href="#" *ngIf="item.item.childs_count <= 0" (click)="selectItem({itemId: item.item_id, perspectiveId: 0, type: 1})" [innerHTML]="item.item.name_html"></a>
+<a
+  href="#"
+  *ngIf="item.item.childs_count <= 0"
+  (click)="selectItem({itemId: item.item_id, perspectiveId: 0, type: 1})"
+  [innerHTML]="item.item.name_html"
+></a>
 <br *ngIf="item.item.childs_count <= 0" />
 <div *ngIf="item.item.childs_count > 0">
   <a href="" class="arrow" (click)="toggleItem(item)">
@@ -9,8 +14,12 @@
     <i class="bi bi-dash-circle me-1" aria-hidden="true" [hidden]="!item.expanded"></i>
     <span [innerHTML]="item.item.name_html"></span>
   </a>
-  <div style="margin:0 0 4px 18px;" [hidden]="!item.expanded">
-    <app-moder-picture-move-item [item]="child" (selected)="selectItem($event)" *ngFor="let child of childs"></app-moder-picture-move-item>
+  <div style="margin: 0 0 4px 18px" [hidden]="!item.expanded">
+    <app-moder-picture-move-item
+      [item]="child"
+      (selected)="selectItem($event)"
+      *ngFor="let child of childs"
+    ></app-moder-picture-move-item>
     <span [hidden]="!loading">
       <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
     </span>

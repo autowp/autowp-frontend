@@ -18,7 +18,7 @@
     <h2 i18n>Zones</h2>
     <div class="card card-body">
       <ul>
-        <li *ngFor="let zone of zones$|async">
+        <li *ngFor="let zone of zones$ | async">
           <a [routerLink]="['/moder/attrs/zone', zone.id]" [textContent]="zone.name"></a>
         </li>
       </ul>
@@ -26,8 +26,12 @@
   </div>
   <div class="col-md-6">
     <h2 i18n>Attributes</h2>
-    <div class="card card-body" *ngIf="attributes$|async as attributes">
-      <app-moder-attrs-attribute-list [attributes]="attributes.items" (movedUp)="moveUp($event)" (movedDown)="moveDown($event)"></app-moder-attrs-attribute-list>
+    <div class="card card-body" *ngIf="attributes$ | async as attributes">
+      <app-moder-attrs-attribute-list
+        [attributes]="attributes.items"
+        (movedUp)="moveUp($event)"
+        (movedDown)="moveDown($event)"
+      ></app-moder-attrs-attribute-list>
     </div>
   </div>
 </div>

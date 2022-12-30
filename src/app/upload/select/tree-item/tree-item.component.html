@@ -6,7 +6,7 @@
   </li>
 </ng-template>
 
-<ng-container *ngIf="item$|async as item">
+<ng-container *ngIf="item$ | async as item">
   <div *ngIf="item.item.childs_count > 0">
     <button class="btn btn-link toggle" (click)="open = !open">
       <i class="bi bi-folder2" aria-hidden="true" *ngIf="!open"></i>
@@ -17,18 +17,19 @@
       <span [innerHTML]="item.item.name_html"></span>
     </button>
     <ul *ngIf="open" class="list-unstyled">
-      <ng-container *ngIf="childs$|async as childs; else childsLoading">
+      <ng-container *ngIf="childs$ | async as childs; else childsLoading">
         <li *ngFor="let child of childs" class="ms-4">
-          <app-upload-select-tree-item [item]="child">
-          </app-upload-select-tree-item>
+          <app-upload-select-tree-item [item]="child"> </app-upload-select-tree-item>
         </li>
       </ng-container>
       <li class="ms-4">
-        <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}" i18n>other modification</a>
+        <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}" i18n
+          >other modification</a
+        >
       </li>
     </ul>
   </div>
-  <span *ngIf="(!item.item.childs_count || item.item.childs_count <= 0)">
+  <span *ngIf="!item.item.childs_count || item.item.childs_count <= 0">
     <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}">
       <span *ngIf="item.type_id === 1" i18n>Related</span>
       <span *ngIf="item.type_id === 2" i18n>Sport</span>

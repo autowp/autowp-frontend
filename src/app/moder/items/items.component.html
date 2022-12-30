@@ -14,8 +14,12 @@
 </div>
 
 <div class="nav nav-pills mb-4">
-  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 19}">Buses without type</a>
-  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 17}">Truck without type</a>
+  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 19}"
+    >Buses without type</a
+  >
+  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 17}"
+    >Truck without type</a
+  >
 </div>
 <div class="row">
   <div class="col-lg-4 col-md-4">
@@ -23,13 +27,25 @@
     <form class="card card-body form-vertical">
       <div class="mb-3">
         <label i18n>Name</label>
-        <input placeholder="% - any characters" type="text" name="name" class="form-control" [(ngModel)]="name" (input)="onNameChanged()"
+        <input
+          placeholder="% - any characters"
+          type="text"
+          name="name"
+          class="form-control"
+          [(ngModel)]="name"
+          (input)="onNameChanged()"
         />
       </div>
       <div class="mb-3">
         <label i18n>Name (exclude)</label>
-        <input placeholder="_ - any single character" type="text" name="name_exclude" class="form-control" [(ngModel)]="nameExclude"
-          (input)="onNameExcludeChanged()" />
+        <input
+          placeholder="_ - any single character"
+          type="text"
+          name="name_exclude"
+          class="form-control"
+          [(ngModel)]="nameExclude"
+          (input)="onNameExcludeChanged()"
+        />
       </div>
       <div class="mb-3">
         <label i18n>Item type</label>
@@ -48,33 +64,63 @@
       </div>
       <div class="mb-3">
         <label i18n>Vehicle type</label>
-        <select name="vehicle_type_id" class="form-control" [(ngModel)]="vehicleTypeID" (change)="onVehicleTypeChanged()">
+        <select
+          name="vehicle_type_id"
+          class="form-control"
+          [(ngModel)]="vehicleTypeID"
+          (change)="onVehicleTypeChanged()"
+        >
           <option [ngValue]="null">Any</option>
           <option [ngValue]="'empty'" i18n>Empty</option>
-          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name}}</option>
+          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">
+            {{ '...'.repeat(item.deep) }}{{ item.name }}
+          </option>
         </select>
       </div>
       <div class="mb-3">
         <label i18n>Have childs with type</label>
-        <select name="vehicle_childs_type_id" class="form-control" [(ngModel)]="vehicleChildsTypeID" (change)="onVehicleChildsTypeChanged()">
+        <select
+          name="vehicle_childs_type_id"
+          class="form-control"
+          [(ngModel)]="vehicleChildsTypeID"
+          (change)="onVehicleChildsTypeChanged()"
+        >
           <option [ngValue]="null" i18n>Any</option>
-          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">{{'...'.repeat(item.deep)}}{{item.name}}</option>
+          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">
+            {{ '...'.repeat(item.deep) }}{{ item.name }}
+          </option>
         </select>
       </div>
       <div class="mb-3">
         <label i18n>Spec</label>
         <select name="spec" class="form-control" [(ngModel)]="specID" (change)="onSpecChanged()">
           <option [ngValue]="null" i18n>Any</option>
-          <option [ngValue]="item.id" *ngFor="let item of specOptions">{{'...'.repeat(item.deep)}}{{item.shortName}}</option>
+          <option [ngValue]="item.id" *ngFor="let item of specOptions">
+            {{ '...'.repeat(item.deep) }}{{ item.shortName }}
+          </option>
         </select>
       </div>
       <div class="mb-3">
         <label i18n>Year from</label>
-        <input type="text" name="from_year" class="form-control" [(ngModel)]="fromYear" (input)="onFromYearChanged()" maxlength="4" />
+        <input
+          type="text"
+          name="from_year"
+          class="form-control"
+          [(ngModel)]="fromYear"
+          (input)="onFromYearChanged()"
+          maxlength="4"
+        />
       </div>
       <div class="mb-3">
         <label i18n>Year to</label>
-        <input type="text" name="to_year" class="form-control" [(ngModel)]="toYear" (input)="onToYearChanged()" maxlength="4" />
+        <input
+          type="text"
+          name="to_year"
+          class="form-control"
+          [(ngModel)]="toYear"
+          (input)="onToYearChanged()"
+          maxlength="4"
+        />
       </div>
       <div class="mb-3">
         <label i18n>Parent</label>
@@ -82,8 +128,16 @@
           <span [innerHTML]="model.name_html"></span>
         </ng-template>
         <div class="input-group mb-3">
-          <input [ngbTypeahead]="ancestorsDataSource" name="ancestor" [(ngModel)]="ancestorQuery" [inputFormatter]="ancestorFormatter"
-            (selectItem)="ancestorOnSelect($event)" [resultTemplate]="ancestorTemplate" class="form-control" [class.border-primary]="ancestorID">
+          <input
+            [ngbTypeahead]="ancestorsDataSource"
+            name="ancestor"
+            [(ngModel)]="ancestorQuery"
+            [inputFormatter]="ancestorFormatter"
+            (selectItem)="ancestorOnSelect($event)"
+            [resultTemplate]="ancestorTemplate"
+            class="form-control"
+            [class.border-primary]="ancestorID"
+          />
           <button class="btn btn-outline-secondary" type="button" [disabled]="!ancestorID" (click)="clearAncestor()">
             <span class="bi bi-x" aria-hidden="true"></span>
           </button>
@@ -111,13 +165,23 @@
     </form>
   </div>
   <div class="col-lg-8 col-md-8">
-
     <div class="btn-group float-end">
-      <a routerLink="." [queryParams]="{list: null}" queryParamsHandling="merge" class="btn btn-outline-secondary" [class.active]="!listMode">
+      <a
+        routerLink="."
+        [queryParams]="{list: null}"
+        queryParamsHandling="merge"
+        class="btn btn-outline-secondary"
+        [class.active]="!listMode"
+      >
         <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
       </a>
-      <a routerLink="." [queryParams]="{list: '1', order: 'name'}" queryParamsHandling="merge" class="btn btn-outline-secondary"
-        [class.active]="listMode">
+      <a
+        routerLink="."
+        [queryParams]="{list: '1', order: 'name'}"
+        queryParamsHandling="merge"
+        class="btn btn-outline-secondary"
+        [class.active]="listMode"
+      >
         <i class="bi bi-list" aria-hidden="true"></i>
       </a>
     </div>
@@ -127,7 +191,10 @@
       <span [hidden]="loading <= 0">
         <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       </span>
-      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-items">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} item} other {{{paginator.totalItemCount}} items}}</small>
+      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-items"
+        >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} item} other
+        {{{paginator.totalItemCount}} items}}</small
+      >
     </h2>
 
     <div *ngIf="listMode">

@@ -3,12 +3,12 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <ng-container *ngIf="brand$|async as brand">
+    <ng-container *ngIf="brand$ | async as brand">
       <li class="breadcrumb-item">
         <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
       </li>
-      <li class="breadcrumb-item" *ngIf="data$|async as data">
-        <a [routerLink]="['/', brand.catname, data.catname]">{{data.picture_page.breadcrumbs}}</a>
+      <li class="breadcrumb-item" *ngIf="data$ | async as data">
+        <a [routerLink]="['/', brand.catname, data.catname]">{{ data.picture_page.breadcrumbs }}</a>
       </li>
     </ng-container>
   </ol>
@@ -18,10 +18,10 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<div *ngIf="brand$|async as brand; else loading">
-  <ng-container *ngIf="picture$|async as picture; else loading">
+<div *ngIf="brand$ | async as brand; else loading">
+  <ng-container *ngIf="picture$ | async as picture; else loading">
     <app-picture
-      *ngIf="data$|async as data"
+      *ngIf="data$ | async as data"
       [picture]="picture"
       [prefix]="['/', brand.catname, data.catname]"
       [galleryRoute]="['/', brand.catname, data.catname, 'gallery', picture.identity]"

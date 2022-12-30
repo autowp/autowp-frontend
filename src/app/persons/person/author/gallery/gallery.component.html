@@ -1,8 +1,8 @@
 <app-gallery
   [filter]="{exactItemID: item.id, exactItemLinkType: 2}"
-  [current]="identity$|async"
+  [current]="identity$ | async"
   [galleryPrefix]="['/persons', item.id.toString(), 'author', 'gallery']"
   [picturePrefix]="['/persons', item.id.toString(), 'author']"
-  *ngIf="item$|async as item"
+  *ngIf="item$ | async as item"
   (pictureSelected)="pictureSelected($event)"
 ></app-gallery>

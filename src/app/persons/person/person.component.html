@@ -9,18 +9,18 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="item$|async as item">
+<ng-container *ngIf="item$ | async as item">
   <div class="page-header">
     <h1 [innerHTML]="item.name_html"></h1>
   </div>
 
-  <p *ngIf="isModer$|async">
+  <p *ngIf="isModer$ | async">
     <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
   </p>
 
-  <ng-container *ngIf="links$|async as links">
-    <div class="card card-body mb-4" *ngIf="(links.length > 0 || item.description)">
+  <ng-container *ngIf="links$ | async as links">
+    <div class="card card-body mb-4" *ngIf="links.length > 0 || item.description">
       <app-markdown [markdown]="item.description"></app-markdown>
 
       <p *ngIf="links.length > 0">
@@ -34,7 +34,7 @@
   </ng-container>
 </ng-container>
 
-<ng-container *ngIf="authorPictures$|async as data">
+<ng-container *ngIf="authorPictures$ | async as data">
   <div *ngIf="data.pictures.length > 0">
     <h3 i18n>Pictures</h3>
     <div class="row">
@@ -47,7 +47,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="contentPictures$|async as data">
+<ng-container *ngIf="contentPictures$ | async as data">
   <div *ngIf="data.pictures.length > 0">
     <h3 i18n>Pictures</h3>
     <div class="row">

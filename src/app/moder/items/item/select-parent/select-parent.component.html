@@ -19,36 +19,83 @@
   <h1 i18n>Parent selection</h1>
 </div>
 
-<div class="nav nav-pills" style="margin-bottom:10px" *ngIf="item">
-  <a [class.active]="tab === 'catalogue'" *ngIf="showCatalogueTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'catalogue'}">
-    <i class="bi bi-list" aria-hidden="true"></i> Catalogue</a>
-  <a [class.active]="tab === 'brands'" *ngIf="showBrandsTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'brands'}">
-    <i class="bi bi-list" aria-hidden="true"></i> Brands</a>
-  <a [class.active]="tab === 'categories'" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'categories'}">
-    <i class="bi bi-tag-fill" aria-hidden="true"></i> Categories</a>
-  <a [class.active]="tab === 'twins'" *ngIf="showTwinsTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'twins'}">
-    <i class="bi bi-circle-half" aria-hidden="true"></i> Twins</a>
-  <a [class.active]="tab === 'factories'" *ngIf="showFactoriesTab" class="nav-link" [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'factories'}">
-    <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <ng-container i18n>Factories</ng-container></a>
+<div class="nav nav-pills" style="margin-bottom: 10px" *ngIf="item">
+  <a
+    [class.active]="tab === 'catalogue'"
+    *ngIf="showCatalogueTab"
+    class="nav-link"
+    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
+    [queryParams]="{tab: 'catalogue'}"
+  >
+    <i class="bi bi-list" aria-hidden="true"></i> Catalogue</a
+  >
+  <a
+    [class.active]="tab === 'brands'"
+    *ngIf="showBrandsTab"
+    class="nav-link"
+    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
+    [queryParams]="{tab: 'brands'}"
+  >
+    <i class="bi bi-list" aria-hidden="true"></i> Brands</a
+  >
+  <a
+    [class.active]="tab === 'categories'"
+    class="nav-link"
+    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
+    [queryParams]="{tab: 'categories'}"
+  >
+    <i class="bi bi-tag-fill" aria-hidden="true"></i> Categories</a
+  >
+  <a
+    [class.active]="tab === 'twins'"
+    *ngIf="showTwinsTab"
+    class="nav-link"
+    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
+    [queryParams]="{tab: 'twins'}"
+  >
+    <i class="bi bi-circle-half" aria-hidden="true"></i> Twins</a
+  >
+  <a
+    [class.active]="tab === 'factories'"
+    *ngIf="showFactoriesTab"
+    class="nav-link"
+    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
+    [queryParams]="{tab: 'factories'}"
+  >
+    <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <ng-container i18n>Factories</ng-container></a
+  >
 </div>
 
 <div class="card card-body" *ngIf="tab === 'catalogue'">
-  <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search …" autofocus />
+  <input
+    type="text"
+    [(ngModel)]="search"
+    (input)="doSearch()"
+    class="form-control mb-4"
+    placeholder="Type to search …"
+    autofocus
+  />
   <div class="row" *ngIf="!brandID">
     <div class="col-2" *ngFor="let chunk of brands">
       <ng-container *ngFor="let item of chunk">
-        <a routerLink="." [queryParams]="{brand_id: item.id}" queryParamsHandling="merge" [innerHTML]="item.name_html"></a>
+        <a
+          routerLink="."
+          [queryParams]="{brand_id: item.id}"
+          queryParamsHandling="merge"
+          [innerHTML]="item.name_html"
+        ></a>
         <br />
       </ng-container>
     </div>
   </div>
   <ul *ngIf="brandID">
     <li class="car-node" *ngFor="let citem of items">
-      <app-moder-items-item-select-parent-tree [item]="citem" (selected)="select($event)" [disableItemID]="item.id" (loadChilds)="loadChildCatalogues($event)">
+      <app-moder-items-item-select-parent-tree
+        [item]="citem"
+        (selected)="select($event)"
+        [disableItemID]="item.id"
+        (loadChilds)="loadChildCatalogues($event)"
+      >
       </app-moder-items-item-select-parent-tree>
     </li>
   </ul>
@@ -56,7 +103,14 @@
 </div>
 
 <div class="card card-body" *ngIf="tab === 'brands'">
-  <input type="text" [(ngModel)]="search" (input)="doSearch()" class="form-control mb-4" placeholder="Type to search …" autofocus />
+  <input
+    type="text"
+    [(ngModel)]="search"
+    (input)="doSearch()"
+    class="form-control mb-4"
+    placeholder="Type to search …"
+    autofocus
+  />
   <div class="row">
     <div class="col-2" *ngFor="let chunk of brands">
       <ng-container *ngFor="let item of chunk">
@@ -71,8 +125,12 @@
 <div class="card card-body" *ngIf="tab === 'categories'">
   <ul>
     <li class="car-node" *ngFor="let citem of categories">
-      <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" (loadChilds)="loadChildCategories($event)"
-                                                    [disableItemID]="item.id">
+      <app-moder-items-item-select-parent-tree-item
+        [item]="citem"
+        (selected)="select($event)"
+        (loadChilds)="loadChildCategories($event)"
+        [disableItemID]="item.id"
+      >
       </app-moder-items-item-select-parent-tree-item>
     </li>
   </ul>
@@ -83,14 +141,23 @@
   <div class="row" *ngIf="!brandID">
     <div class="col-2" *ngFor="let chunk of brands">
       <ng-container *ngFor="let item of chunk">
-        <a routerLink="." [queryParams]="{brand_id: item.id}" queryParamsHandling="merge" [innerHTML]="item.name_html"></a>
+        <a
+          routerLink="."
+          [queryParams]="{brand_id: item.id}"
+          queryParamsHandling="merge"
+          [innerHTML]="item.name_html"
+        ></a>
         <br />
       </ng-container>
     </div>
   </div>
   <ul *ngIf="brandID">
     <li class="car-node" *ngFor="let citem of items">
-      <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" [disableItemID]="item.id">
+      <app-moder-items-item-select-parent-tree-item
+        [item]="citem"
+        (selected)="select($event)"
+        [disableItemID]="item.id"
+      >
       </app-moder-items-item-select-parent-tree-item>
     </li>
   </ul>
@@ -100,7 +167,11 @@
 <div class="card card-body" *ngIf="tab === 'factories'">
   <ul>
     <li class="car-node" *ngFor="let citem of factories">
-      <app-moder-items-item-select-parent-tree-item [item]="citem" (selected)="select($event)" [disableItemID]="item.id">
+      <app-moder-items-item-select-parent-tree-item
+        [item]="citem"
+        (selected)="select($event)"
+        [disableItemID]="item.id"
+      >
       </app-moder-items-item-select-parent-tree-item>
     </li>
   </ul>

@@ -1,14 +1,18 @@
-<ul *ngIf="attributes.length > 0" class="list-unstyled" style="padding-left:24px">
+<ul *ngIf="attributes.length > 0" class="list-unstyled" style="padding-left: 24px">
   <li *ngFor="let attribute of attributes; let i = index">
-    <a href="#" (click)="moveDown(attribute.id)" *ngIf="i < attributes.length-1">
+    <a href="#" (click)="moveDown(attribute.id)" *ngIf="i < attributes.length - 1">
       <span class="bi bi-arrow-down" aria-hidden="true"></span>
     </a>
-    <span class="bi bi-arrow-down" aria-hidden="true" style="color:#999999" *ngIf="i >= attributes.length-1"></span>
+    <span class="bi bi-arrow-down" aria-hidden="true" style="color: #999999" *ngIf="i >= attributes.length - 1"></span>
     <a href="#" (click)="moveUp(attribute.id)" *ngIf="i > 0">
       <span class="bi bi-arrow-up" aria-hidden="true"></span>
     </a>
-    <span style="color:#999999" class="bi bi-arrow-up" aria-hidden="true" *ngIf="i <= 0"></span>
+    <span style="color: #999999" class="bi bi-arrow-up" aria-hidden="true" *ngIf="i <= 0"></span>
     <a [routerLink]="['/moder/attrs/attribute', attribute.id]" [textContent]="getAttrsTranslation(attribute.name)"></a>
-    <app-moder-attrs-attribute-list [attributes]="attribute.childs" (movedUp)="moveUp($event)" (movedDown)="moveDown($event)"></app-moder-attrs-attribute-list>
+    <app-moder-attrs-attribute-list
+      [attributes]="attribute.childs"
+      (movedUp)="moveUp($event)"
+      (movedDown)="moveDown($event)"
+    ></app-moder-attrs-attribute-list>
   </li>
 </ul>

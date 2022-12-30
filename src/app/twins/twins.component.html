@@ -3,7 +3,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$|async">
+    <li class="breadcrumb-item" *ngIf="brand$ | async">
       <a routerLink="/twins" i18n>Twins</a>
     </li>
   </ol>
@@ -12,13 +12,13 @@
 <div class="row">
   <div class="col-sm-8 order-2">
     <div class="page-header">
-      <h1 *ngIf="brand$|async as brand; else noBrand">{{brand.name_only}}</h1>
+      <h1 *ngIf="brand$ | async as brand; else noBrand">{{ brand.name_only }}</h1>
       <ng-template #noBrand>
         <h1 i18n>Twins</h1>
       </ng-template>
     </div>
 
-    <ng-container *ngIf="data$|async as data">
+    <ng-container *ngIf="data$ | async as data">
       <div *ngFor="let group of data.groups">
         <h3 [innerHtml]="group.item.name_html"></h3>
 
@@ -26,7 +26,10 @@
           <div class="twins row" *ngFor="let ch of group.childs">
             <div class="col-lg-4 col-md-4" *ngFor="let car of ch">
               <div class="card mb-4">
-                <a [routerLink]="['/twins/group', group.item.id, 'pictures', car.front_picture.identity]" *ngIf="car.front_picture">
+                <a
+                  [routerLink]="['/twins/group', group.item.id, 'pictures', car.front_picture.identity]"
+                  *ngIf="car.front_picture"
+                >
                   <img
                     [src]="car.front_picture.thumb_medium.src"
                     [alt]="car.front_picture.name_text"
@@ -48,7 +51,13 @@
             <i class="bi bi-text-left me-1" aria-hidden="true"></i>
             <a [routerLink]="['/twins/group', group.item.id]">
               <ng-container i18n>details</ng-container> …
-              <span *ngIf="group.item.comments_topic_stat.messages > 0">(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural, one {{{group.item.comments_topic_stat.messages}} comment} other {{{group.item.comments_topic_stat.messages}} comments}}</span>)</span>
+              <span *ngIf="group.item.comments_topic_stat.messages > 0"
+                >(<span i18n="@@n-comments"
+                  >{group.item.comments_topic_stat.messages, plural, one
+                  {{{group.item.comments_topic_stat.messages}} comment} other
+                  {{{group.item.comments_topic_stat.messages}} comments}}</span
+                >)</span
+              >
             </a>
           </li>
           <li *ngIf="group.item.has_child_specs">
@@ -57,9 +66,11 @@
           </li>
           <li *ngIf="group.hasMoreImages">
             <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-            <a [routerLink]="['/twins/group', group.item.id, 'pictures']"><ng-container i18n>all pictures</ng-container> ({{group.item.accepted_pictures_count}})</a>
+            <a [routerLink]="['/twins/group', group.item.id, 'pictures']"
+              ><ng-container i18n>all pictures</ng-container> ({{ group.item.accepted_pictures_count }})</a
+            >
           </li>
-          <ng-container *ngIf="canEdit$|async as canEdit">
+          <ng-container *ngIf="canEdit$ | async as canEdit">
             <li *ngIf="canEdit">
               <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
               <a [routerLink]="['/moder/items/item', group.item.id]" i18n>edit</a>
@@ -72,6 +83,6 @@
     </ng-container>
   </div>
   <div class="col-sm-4 order-1">
-    <app-twins-sidebar [selected]="[currentBrandCatname$|async]"></app-twins-sidebar>
+    <app-twins-sidebar [selected]="[currentBrandCatname$ | async]"></app-twins-sidebar>
   </div>
 </div>

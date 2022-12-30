@@ -3,6 +3,6 @@
   [current]="identity"
   [galleryPrefix]="['/picture', identity, 'gallery']"
   [picturePrefix]="['/picture']"
-  *ngIf="identity$|async as identity"
+  *ngIf="identity$ | async as identity"
   (pictureSelected)="pictureSelected($event)"
 ></app-gallery>

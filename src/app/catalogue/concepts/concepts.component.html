@@ -3,21 +3,21 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
+    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand$|async as brand">
-  <h1 i18n>{{brand.name_text}} concepts & prototypes</h1>
+<div class="page-header" *ngIf="brand$ | async as brand">
+  <h1 i18n>{{ brand.name_text }} concepts & prototypes</h1>
 </div>
 
 <ng-template #loading>
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="data$|async as data; else loading">
+<ng-container *ngIf="data$ | async as data; else loading">
   <app-catalogue-list-item [item]="item" *ngFor="let item of data.items"></app-catalogue-list-item>
 
   <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>

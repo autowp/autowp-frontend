@@ -3,7 +3,7 @@
     <a class="nav-link" [class.active]="active === 'default'" [routerLink]="itemRouterLink">
       <i class="bi bi-list" aria-hidden="true"></i>
       <app-item-header [item]="{nameHTML: header.nameHTML}"></app-item-header>
-      <span class="badge rounded-pill text-bg-secondary">{{childsCounts.stock}}</span>
+      <span class="badge rounded-pill text-bg-secondary">{{ childsCounts.stock }}</span>
     </a>
   </li>
   <li class="nav-item" *ngIf="childsCounts && childsCounts.tuning > 0">
@@ -11,7 +11,7 @@
       <i class="bi bi-list" aria-hidden="true"></i>
       <ng-container i18n>Related</ng-container>
       <app-item-header [item]="{nameHTML: header.nameHTML}"></app-item-header>
-      <span class="badge rounded-pill text-bg-secondary">{{childsCounts.tuning}}</span>
+      <span class="badge rounded-pill text-bg-secondary">{{ childsCounts.tuning }}</span>
     </a>
   </li>
   <li class="nav-item" *ngIf="childsCounts && childsCounts.sport > 0">
@@ -19,7 +19,7 @@
       <i class="bi bi-list" aria-hidden="true"></i>
       <app-item-header [item]="{nameHTML: header.nameHTML}"></app-item-header>
       <ng-container i18n>Sport</ng-container>
-      <span class="badge rounded-pill text-bg-secondary">{{childsCounts.sport}}</span>
+      <span class="badge rounded-pill text-bg-secondary">{{ childsCounts.sport }}</span>
     </a>
   </li>
   <li class="nav-item" *ngIf="picturesCount > 0">
@@ -27,7 +27,7 @@
       <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
       <ng-container i18n>All pictures of</ng-container>
       <app-item-header [item]="{nameHTML: header.nameHTML}"></app-item-header>
-      <span class="badge rounded-pill text-bg-secondary">{{picturesCount}}</span>
+      <span class="badge rounded-pill text-bg-secondary">{{ picturesCount }}</span>
     </a>
   </li>
 </ul>

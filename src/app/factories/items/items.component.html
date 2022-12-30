@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/map" i18n>Map</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="factory$|async as factory">
+    <li class="breadcrumb-item" *ngIf="factory$ | async as factory">
       <a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
     </li>
   </ol>
@@ -16,11 +16,10 @@
   <h1 i18n>Products</h1>
 </div>
 
-<ul class="nav nav-pills mb-3" *ngIf="factory$|async as factory">
-
+<ul class="nav nav-pills mb-3" *ngIf="factory$ | async as factory">
   <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
   <a class="nav-link active" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
-  <ng-container *ngIf="isModer$|async as isModer">
+  <ng-container *ngIf="isModer$ | async as isModer">
     <a *ngIf="isModer" class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
       <i class="bi bi-gear-fill" aria-hidden="true"></i>
       <ng-container i18n>edit</ng-container>
@@ -28,7 +27,7 @@
   </ng-container>
 </ul>
 
-<ng-container *ngIf="items$|async as data">
+<ng-container *ngIf="items$ | async as data">
   <app-catalogue-list-item [item]="item" *ngFor="let item of data.items"></app-catalogue-list-item>
 
   <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>

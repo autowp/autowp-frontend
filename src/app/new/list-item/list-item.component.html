@@ -1,13 +1,20 @@
 <div class="car item-list-item">
   <h3>
     <span [innerHTML]="item.name_html"></span>
-    <sup class="design-brand mx-2" *ngIf="item.design"><ng-container i18n>designed by</ng-container>
+    <sup class="design-brand mx-2" *ngIf="item.design"
+      ><ng-container i18n>designed by</ng-container>
       <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
     <small *ngIf="item.produced > 1" class="ms-2">
-      <span *ngIf="item.produced_exactly" i18n="@@n-produced">{item.produced, plural, one {Produced in {{item.produced}} copy} other {Produced in {{item.produced}} copies}}</span>
-      <span *ngIf="!item.produced_exactly" i18n="@@n-produced-about">{item.produced, plural, one {Produced in about {{item.produced}} copy} other {Produced in about {{item.produced}} copies}}</span>
+      <span *ngIf="item.produced_exactly" i18n="@@n-produced"
+        >{item.produced, plural, one {Produced in {{ item.produced }} copy} other {Produced in
+        {{ item.produced }} copies}}</span
+      >
+      <span *ngIf="!item.produced_exactly" i18n="@@n-produced-about"
+        >{item.produced, plural, one {Produced in about {{ item.produced }} copy} other {Produced in about
+        {{ item.produced }} copies}}</span
+      >
     </small>
     <small i18n *ngIf="item.produced === 1" class="ms-2">Produced in a single copy</small>
   </h3>
@@ -17,19 +24,30 @@
   <div class="row">
     <div class="col-6 col-sm-4 col-lg-2" *ngFor="let picture of pictures">
       <a [routerLink]="['/picture', picture.identity]" *ngIf="picture.thumb_medium" class="d-block rounded mb-4">
-        <img [src]="picture.thumb_medium.src" [alt]="picture.name_text" [title]="picture.name_text" class="rounded w-100 border border-light" loading="lazy"
+        <img
+          [src]="picture.thumb_medium.src"
+          [alt]="picture.name_text"
+          [title]="picture.name_text"
+          class="rounded w-100 border border-light"
+          loading="lazy"
         />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
   </div>
 
-  <app-markdown class="text" *ngIf="item.description && item.description.length" [markdown]="item.description"></app-markdown>
+  <app-markdown
+    class="text"
+    *ngIf="item.description && item.description.length"
+    [markdown]="item.description"
+  ></app-markdown>
 
   <ul class="list-inline">
     <li *ngIf="totalPictures > 6" class="list-inline-item">
       <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-      <a [routerLink]="['/new', date, 'item', item.id]"><ng-container i18n>all pictures</ng-container> ({{totalPictures}})</a>
+      <a [routerLink]="['/new', date, 'item', item.id]"
+        ><ng-container i18n>all pictures</ng-container> ({{ totalPictures }})</a
+      >
     </li>
 
     <li *ngIf="item.specs_route" class="list-inline-item">
@@ -47,7 +65,7 @@
       <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
-    <ng-container *ngIf="isModer$|async as isModer">
+    <ng-container *ngIf="isModer$ | async as isModer">
       <li *ngIf="isModer" class="list-inline-item">
         <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>

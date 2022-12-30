@@ -1,4 +1,10 @@
-<span *ngIf="date$|async as date" [ngbTooltip]="date | date: 'medium'">
-  <i class="bi" [class.bi-calendar]="past.past" [class.bi-clock]="!past.past" aria-hidden="true" *ngIf="past$|async as past"></i>
-  {{date | amTimeAgo}}
+<span *ngIf="date$ | async as date" [ngbTooltip]="date | date : 'medium'">
+  <i
+    class="bi"
+    [class.bi-calendar]="past.past"
+    [class.bi-clock]="!past.past"
+    aria-hidden="true"
+    *ngIf="past$ | async as past"
+  ></i>
+  {{ date | amTimeAgo }}
 </span>

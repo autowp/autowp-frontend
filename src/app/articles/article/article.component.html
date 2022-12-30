@@ -13,9 +13,9 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="article$|async as article; else loading">
+<ng-container *ngIf="article$ | async as article; else loading">
   <div class="page-header" *ngIf="article">
-    <h1>{{article.name}}</h1>
+    <h1>{{ article.name }}</h1>
   </div>
 
   <div class="card card-body" *ngIf="article">

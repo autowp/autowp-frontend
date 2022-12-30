@@ -23,9 +23,11 @@
     <div class="numberLinks">
       <ng-container *ngFor="let item of paginator.pagesInRange">
         <a [routerLink]="prefix.concat([item.identity])" *ngIf="item.identity !== paginator.current">
-          {{format(item.page, paginator.pageCount)}}
+          {{ format(item.page, paginator.pageCount) }}
         </a>
-        <strong style="font-size:1.5em" *ngIf="item.identity === paginator.current">{{format(item.page, paginator.pageCount)}}</strong>
+        <strong style="font-size: 1.5em" *ngIf="item.identity === paginator.current">{{
+          format(item.page, paginator.pageCount)
+        }}</strong>
       </ng-container>
     </div>
   </div>

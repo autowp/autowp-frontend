@@ -19,9 +19,23 @@
           <span [innerHTML]="model.name"></span>
         </ng-template>
         <div class="input-group mb-3">
-          <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
-            [resultTemplate]="userTemplate" class="form-control" [class.border-primary]="userID$|async" id="user_id">
-          <button class="btn btn-outline-secondary" type="button" [disabled]="(userID$|async) === null" (click)="clearUser()">
+          <input
+            [ngbTypeahead]="usersDataSource"
+            name="user"
+            [(ngModel)]="userQuery"
+            [inputFormatter]="userFormatter"
+            (selectItem)="userOnSelect($event)"
+            [resultTemplate]="userTemplate"
+            class="form-control"
+            [class.border-primary]="userID$ | async"
+            id="user_id"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            [disabled]="(userID$ | async) === null"
+            (click)="clearUser()"
+          >
             <span class="bi bi-x" aria-hidden="true"></span>
           </button>
         </div>
@@ -39,15 +53,23 @@
         <th i18n scope="col">Editor</th>
       </tr>
     </thead>
-    <tr *ngFor="let item of (items$|async).items">
+    <tr *ngFor="let item of (items$ | async).items">
       <td>
-        <p *ngIf="item.update_date" [textContent]="item.update_date | amTimeAgo" [ngbTooltip]="item.update_date | date: 'medium'"></p>
+        <p
+          *ngIf="item.update_date"
+          [textContent]="item.update_date | amTimeAgo"
+          [ngbTooltip]="item.update_date | date : 'medium'"
+        ></p>
       </td>
       <td>
         <app-user [user]="item.user" *ngIf="item.user"></app-user>
       </td>
       <td>
-        <a [routerLink]="['/moder/items/item', item.item_id]" *ngIf="isModer$|async else notModer" [innerHTML]="item.item.name_html"></a>
+        <a
+          [routerLink]="['/moder/items/item', item.item_id]"
+          *ngIf="isModer$ | async; else notModer"
+          [innerHTML]="item.item.name_html"
+        ></a>
         <ng-template #notModer>
           <span [innerHTML]="item.item.name_html"></span>
         </ng-template>
@@ -58,8 +80,8 @@
           <span *ngIf="!i"> / </span>
         </ng-container>
       </td>
-      <td style="text-align:center">
-        {{item.value_text}}
+      <td style="text-align: center">
+        {{ item.value_text }}
         <span class="unit" *ngIf="item.unit" [textContent]="getUnitTranslation(item.unit.id, 'abbr')"></span>
       </td>
       <td class="link">
@@ -68,7 +90,7 @@
     </tr>
   </table>
 </div>
-<app-paginator [data]="data.paginator" *ngIf="items$|async as data; else loading"></app-paginator>
+<app-paginator [data]="data.paginator" *ngIf="items$ | async as data; else loading"></app-paginator>
 
 <ng-template #loading>
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

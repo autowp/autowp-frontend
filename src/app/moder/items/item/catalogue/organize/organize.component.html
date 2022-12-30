@@ -9,7 +9,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item$|async as item">
+    <li class="breadcrumb-item" *ngIf="item$ | async as item">
       <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
     </li>
   </ol>
@@ -26,17 +26,18 @@
 
 <app-markdown i18n-markdown markdown="Tool for join few vehicles into sub-model"></app-markdown>
 
-<ng-container *ngIf="item$|async as item">
-  <ng-container *ngIf="newItem$|async as newItem">
-    <app-item-meta-form class="mb-4"
-                        [hidden]="loading > 0"
-                        [disableIsGroup]="true"
-                        [item]="newItem"
-                        (submitted)="submit(item, newItem.item_type_id, $event)"
-                        [invalidParams]="invalidParams"
-                        [vehicleTypeIDs]="vehicleTypeIDs$|async"
-                        [items]="childs$|async">
+<ng-container *ngIf="item$ | async as item">
+  <ng-container *ngIf="newItem$ | async as newItem">
+    <app-item-meta-form
+      class="mb-4"
+      [hidden]="loading > 0"
+      [disableIsGroup]="true"
+      [item]="newItem"
+      (submitted)="submit(item, newItem.item_type_id, $event)"
+      [invalidParams]="invalidParams"
+      [vehicleTypeIDs]="vehicleTypeIDs$ | async"
+      [items]="childs$ | async"
+    >
     </app-item-meta-form>
   </ng-container>
 </ng-container>
-

@@ -1,77 +1,137 @@
-<div class="message" [class.moderator-attention]="message.moderator_attention" [class.deleted]="message.deleted" *ngFor="let message of messages$|async">
+<div
+  class="message"
+  [class.moderator-attention]="message.moderator_attention"
+  [class.deleted]="message.deleted"
+  *ngFor="let message of messages$ | async"
+>
   <div>
-    <div class="float-end" *ngIf="message.datetime" [textContent]="message.datetime | amTimeAgo" [ngbTooltip]="message.datetime | date: 'medium'"></div>
+    <div
+      class="float-end"
+      *ngIf="message.datetime"
+      [textContent]="message.datetime | amTimeAgo"
+      [ngbTooltip]="message.datetime | date : 'medium'"
+    ></div>
     <app-user [user]="message.user" *ngIf="message.user"></app-user>
     <span *ngIf="!message.user" i18n>Anonymous</span>
   </div>
   <div class="photo">
-    <a [routerLink]="['/users', message.user.identity ? message.user.identity : 'user' + message.user.id]" class="photo" *ngIf="message.user && !message.user.deleted">
+    <a
+      [routerLink]="['/users', message.user.identity ? message.user.identity : 'user' + message.user.id]"
+      class="photo"
+      *ngIf="message.user && !message.user.deleted"
+    >
       <img alt="" [src]="message.user.avatar.src" *ngIf="message.user.avatar" class="rounded" loading="lazy" />
-      <img alt="" [src]="message.user.gravatar" *ngIf="message.user.gravatar && ! message.user.avatar" class="rounded" loading="lazy" />
+      <img
+        alt=""
+        [src]="message.user.gravatar"
+        *ngIf="message.user.gravatar && !message.user.avatar"
+        class="rounded"
+        loading="lazy"
+      />
     </a>
   </div>
   <div class="content">
-
-    <div class="text" *ngIf="((canRemoveComments$|async) || !message.deleted) && message.text">
+    <div class="text" *ngIf="((canRemoveComments$ | async) || !message.deleted) && message.text">
       <app-user-text [text]="message.text"></app-user-text>
     </div>
 
-    <p class="alert alert-warning deleted-message" *ngIf="(canRemoveComments$|async) || message.deleted" i18n>Message deleted by site administration</p>
+    <p class="alert alert-warning deleted-message" *ngIf="(canRemoveComments$ | async) || message.deleted" i18n>
+      Message deleted by site administration
+    </p>
 
     <div>
-      <span class="vote" *ngIf="(user$|async) && (message.vote !== undefined)">
+      <span class="vote" *ngIf="(user$ | async) && message.vote !== undefined">
         <a href="#" class="vote-up d-inline-block" [class.active]="message.user_vote > 0" (click)="vote(message, 1)">
           <i class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
         </a>
         <a href="#" class="value" [class.zero]="message.vote === 0" (click)="showVotes(message)">
-          {{(message.vote > 0 ? '+' : '') + message.vote}}
+          {{ (message.vote > 0 ? '+' : '') + message.vote }}
         </a>
         <a href="#" class="vote-down d-inline-block" [class.active]="message.user_vote > 0" (click)="vote(message, -1)">
           <i class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
         </a>
       </span>
-      <span class="vote" *ngIf="(user$|async) === null && (message.vote !== undefined)">
+      <span class="vote" *ngIf="(user$ | async) === null && message.vote !== undefined">
         <i class="bi bi-hand-thumbs-up" aria-hidden="true"></i>
         <span class="value" [textContent]="message.vote" (click)="showVotes(message)"></span>
         <i class="bi bi-hand-thumbs-down" aria-hidden="true"></i>
       </span>
 
-      <button class="btn btn-sm btn-primary reply" *ngIf="(user$|async) && (deep$|async) < 21 && !message.deleted" (click)="reply(message, false)">
+      <button
+        class="btn btn-sm btn-primary reply"
+        *ngIf="(user$ | async) && (deep$ | async) < 21 && !message.deleted"
+        (click)="reply(message, false)"
+      >
         <i class="bi bi-reply me-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline" i18n>reply</span>
       </button>
 
-      <button class="btn btn-sm btn-success resolve" *ngIf="message.moderator_attention === 1 && (isModer$|async)" (click)="reply(message, true)">
+      <button
+        class="btn btn-sm btn-success resolve"
+        *ngIf="message.moderator_attention === 1 && (isModer$ | async)"
+        (click)="reply(message, true)"
+      >
         <i class="bi bi-reply me-1" aria-hidden="true"></i>
         <ng-container i18n>reply & resolve</ng-container>
       </button>
 
-      <button class="btn btn-danger btn-sm float-end comment-remove-button" *ngIf="canRemoveComments$|async" (click)="setIsDeleted(message, true)">
+      <button
+        class="btn btn-danger btn-sm float-end comment-remove-button"
+        *ngIf="canRemoveComments$ | async"
+        (click)="setIsDeleted(message, true)"
+      >
         <i class="bi bi-trash me-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline" i18n>Delete</span>
       </button>
-      <button class="btn btn-success btn-sm float-end comment-restore-button" *ngIf="canRemoveComments$|async" (click)="setIsDeleted(message, false)">
+      <button
+        class="btn btn-success btn-sm float-end comment-restore-button"
+        *ngIf="canRemoveComments$ | async"
+        (click)="setIsDeleted(message, false)"
+      >
         <i class="bi bi-arrow-up me-1" aria-hidden="true"></i>
         <ng-container i18n>Restore</ng-container>
       </button>
 
-      <a routerLink="/forums/move-message" [queryParams]="{message_id: message.id}" class="btn btn-secondary btn-sm float-end"
-        *ngIf="(typeID$|async) === 5 && (canMoveMessage$|async)">
+      <a
+        routerLink="/forums/move-message"
+        [queryParams]="{message_id: message.id}"
+        class="btn btn-secondary btn-sm float-end"
+        *ngIf="(typeID$ | async) === 5 && (canMoveMessage$ | async)"
+      >
         <i class="bi bi-arrows-move me-1" aria-hidden="true"></i>
         <span class="d-none d-md-inline" i18n>Move</span>
       </a>
 
-      <i class="float-end bi bi-eye" aria-hidden="true" [ngbTooltip]="message.ip" style="margin-right:20px" *ngIf="message.ip"></i>
+      <i
+        class="float-end bi bi-eye"
+        aria-hidden="true"
+        [ngbTooltip]="message.ip"
+        style="margin-right: 20px"
+        *ngIf="message.ip"
+      ></i>
 
       <div class="moderator-attention-sign" *ngIf="message.moderator_attention === 1">
         <i class="bi bi-info-circle-fill me-1" aria-hidden="true"></i>
         <ng-container i18n>It requires attention of moderators</ng-container>
       </div>
-
     </div>
   </div>
-  <div class="replies" *ngIf="(deep$|async) < 21">
-    <app-comments-list [itemID]="itemID$|async" [typeID]="typeID$|async" (sent)="onSent($event)" [messages]="message.replies" [deep]="(deep$|async)+1"></app-comments-list>
-    <app-comments-form [itemID]="itemID$|async" [typeID]="typeID$|async" (sent)="onSent($event)" (canceled)="onCancel(message)" [parentID]="message.id" [resolve]="message.resolve" *ngIf="(user$|async) && message.showReply"></app-comments-form>
+  <div class="replies" *ngIf="(deep$ | async) < 21">
+    <app-comments-list
+      [itemID]="itemID$ | async"
+      [typeID]="typeID$ | async"
+      (sent)="onSent($event)"
+      [messages]="message.replies"
+      [deep]="(deep$ | async) + 1"
+    ></app-comments-list>
+    <app-comments-form
+      [itemID]="itemID$ | async"
+      [typeID]="typeID$ | async"
+      (sent)="onSent($event)"
+      (canceled)="onCancel(message)"
+      [parentID]="message.id"
+      [resolve]="message.resolve"
+      *ngIf="(user$ | async) && message.showReply"
+    ></app-comments-form>
   </div>
 </div>

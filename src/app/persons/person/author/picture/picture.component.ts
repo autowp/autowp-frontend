@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {ItemService} from '../../../../services/item';
 import {PictureService} from '../../../../services/picture';
 import {PageEnvService} from '../../../../services/page-env.service';
@@ -60,7 +60,7 @@ export class PersonsPersonAuthorPictureComponent {
 
   public picturesRouterLink$ = this.person$.pipe(map((person) => ['/persons', person.id.toString(), 'author']));
 
-  public galleryRouterLink$ = combineLatest([this.person$, this.identity$]).pipe(
+  public galleryRouterLink$: Observable<string[]> = combineLatest([this.person$, this.identity$]).pipe(
     map(([person, identity]) => ['/persons', person.id.toString(), 'author', 'gallery', identity])
   );
 

@@ -20,35 +20,81 @@
           <div class="mb-3 row" *ngIf="form.get('name') as control">
             <label class="col-md-2 col-form-label" for="name" i18n>Your name</label>
             <div class="col-md-10">
-              <input type="text" id="name" name="name" size="80" autocomplete="name"
-                     [class.is-invalid]="control.invalid && (control.dirty || control.touched) || invalidParams && invalidParams.name"
-                     class="form-control" placeholder="John" i18n-placeholder formControlName="name">
-              <p *ngFor="let message of invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                size="80"
+                autocomplete="name"
+                [class.is-invalid]="
+                  (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.name)
+                "
+                class="form-control"
+                placeholder="John"
+                i18n-placeholder
+                formControlName="name"
+              />
+              <p
+                *ngFor="let message of invalidParams | invalidParams : 'name'"
+                [textContent]="message"
+                class="invalid-feedback"
+              ></p>
             </div>
           </div>
           <div class="mb-3 row" *ngIf="form.get('email') as control">
             <label class="col-md-2 col-form-label" for="email" i18n>E-mail</label>
             <div class="col-md-10">
-              <input type="text" id="email" name="email" size="80" autocomplete="email"
-                     [class.is-invalid]="control.invalid && (control.dirty || control.touched) || invalidParams && invalidParams.email"
-                     class="form-control" placeholder="john@example.com" i18n-placeholder formControlName="email">
-              <p *ngFor="let message of invalidParams | invalidParams : 'email'" [textContent]="message" class="invalid-feedback"></p>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                size="80"
+                autocomplete="email"
+                [class.is-invalid]="
+                  (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.email)
+                "
+                class="form-control"
+                placeholder="john@example.com"
+                i18n-placeholder
+                formControlName="email"
+              />
+              <p
+                *ngFor="let message of invalidParams | invalidParams : 'email'"
+                [textContent]="message"
+                class="invalid-feedback"
+              ></p>
             </div>
           </div>
           <div class="mb-3 row" *ngIf="form.get('message') as control">
             <label class="col-md-2 col-form-label" for="message" i18n>Message</label>
             <div class="col-md-10">
-              <textarea id="message" name="message" cols="80" rows="8"
-                        [class.is-invalid]="control.invalid && (control.dirty || control.touched) || invalidParams && invalidParams.message"
-                        class="form-control" formControlName="message"></textarea>
-              <p *ngFor="let message of invalidParams | invalidParams : 'message'" [textContent]="message" class="invalid-feedback"></p>
+              <textarea
+                id="message"
+                name="message"
+                cols="80"
+                rows="8"
+                [class.is-invalid]="
+                  (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.message)
+                "
+                class="form-control"
+                formControlName="message"
+              ></textarea>
+              <p
+                *ngFor="let message of invalidParams | invalidParams : 'message'"
+                [textContent]="message"
+                class="invalid-feedback"
+              ></p>
             </div>
           </div>
           <ng-container *ngIf="form.get('captcha') as control">
             <div class="mb-3 row">
               <div class="col-md-10 offset-md-2">
                 <re-captcha [siteKey]="recaptchaKey" *ngIf="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
-                <p *ngFor="let message of invalidParams | invalidParams : 'captcha'" [textContent]="message" class="invalid-feedback"></p>
+                <p
+                  *ngFor="let message of invalidParams | invalidParams : 'captcha'"
+                  [textContent]="message"
+                  class="invalid-feedback"
+                ></p>
               </div>
             </div>
           </ng-container>
@@ -61,6 +107,9 @@
         </fieldset>
       </form>
     </div>
-    <app-markdown i18n-markdown markdown="If you have come here to express words of support, it is possible to [express it in hard currency](/donate)"></app-markdown>
+    <app-markdown
+      i18n-markdown
+      markdown="If you have come here to express words of support, it is possible to [express it in hard currency](/donate)"
+    ></app-markdown>
   </div>
 </div>

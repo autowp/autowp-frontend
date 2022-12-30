@@ -1,12 +1,18 @@
-<ng-container *ngIf="textPrepared$|async as textPrepared">
+<ng-container *ngIf="textPrepared$ | async as textPrepared">
   <p *ngFor="let line of textPrepared">
     <ng-container *ngFor="let element of line.elements" [ngSwitch]="element.type">
-      <a *ngSwitchCase="'a'" [href]="element.url">{{element.url}}</a>
+      <a *ngSwitchCase="'a'" [href]="element.url">{{ element.url }}</a>
       <app-user *ngSwitchCase="'user'" [user]="element.user"></app-user>
       <a [routerLink]="['/picture', element.picture.identity]" *ngSwitchCase="'picture'" class="thumbnail-inline">
-        <img class="card-img-top" [src]="element.picture.thumb.src" [alt]="element.picture.name_text" [title]="element.picture.name_text" loading="lazy">
+        <img
+          class="card-img-top"
+          [src]="element.picture.thumb.src"
+          [alt]="element.picture.name_text"
+          [title]="element.picture.name_text"
+          loading="lazy"
+        />
       </a>
-      <ng-container *ngSwitchCase="'text'">{{element.text}}</ng-container>
+      <ng-container *ngSwitchCase="'text'">{{ element.text }}</ng-container>
     </ng-container>
   </p>
 </ng-container>

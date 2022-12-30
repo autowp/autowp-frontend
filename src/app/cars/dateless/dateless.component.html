@@ -15,7 +15,7 @@
 </ng-template>
 
 <div class="row">
-  <div class="col-md-8 offset-md-2" *ngIf="data$|async as data; else loading">
+  <div class="col-md-8 offset-md-2" *ngIf="data$ | async as data; else loading">
     <app-item [item]="item" *ngFor="let item of data.items"></app-item>
 
     <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>

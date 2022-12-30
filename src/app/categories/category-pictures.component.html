@@ -8,14 +8,26 @@
     </li>
     <li class="breadcrumb-item" *ngFor="let item of path">
       <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id !== 3"></a>
-      <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id === 3">
+      <div
+        ngbDropdown
+        class="d-inline-block"
+        placement="bottom-right"
+        (openChange)="dropdownOpenChange(item)"
+        *ngIf="item.item.item_type_id === 3"
+      >
         <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
-        <a ngbDropdownToggle style="cursor:pointer"></a>
+        <a ngbDropdownToggle style="cursor: pointer"></a>
         <div ngbDropdownMenu>
           <div class="dropdown-item" *ngIf="!item.loaded">
             <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
           </div>
-          <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id === item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
+          <a
+            [routerLink]="['/category', child.catname]"
+            class="dropdown-item"
+            [class.active]="child.id === item.item.id"
+            [innerHTML]="child.name_html"
+            *ngFor="let child of item.childs"
+          ></a>
         </div>
       </div>
     </li>
@@ -26,7 +38,6 @@
 </div>
 
 <div *ngIf="category">
-
   <div class="row" *ngFor="let chunk of pictures">
     <div class="col-sm-3" *ngFor="let i of chunk">
       <app-thumbnail [picture]="i.picture" [route]="i.route"></app-thumbnail>

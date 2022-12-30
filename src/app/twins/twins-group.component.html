@@ -10,7 +10,7 @@
 </nav>
 
 <div class="row">
-  <div class="col-sm-8 order-2" *ngIf="group$|async as group">
+  <div class="col-sm-8 order-2" *ngIf="group$ | async as group">
     <div class="page-header mb-4" *ngIf="group">
       <h1 [innerHTML]="group.name_html"></h1>
     </div>
@@ -24,7 +24,9 @@
       </li>
       <li *ngIf="group.accepted_pictures_count > 0">
         <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
-        <a [routerLink]="['/twins/group', group.id, 'pictures']"><ng-container i18n>all pictures</ng-container> ({{group.accepted_pictures_count}})</a>
+        <a [routerLink]="['/twins/group', group.id, 'pictures']"
+          ><ng-container i18n>all pictures</ng-container> ({{ group.accepted_pictures_count }})</a
+        >
       </li>
     </ul>
 
@@ -38,6 +40,9 @@
     <app-comments [itemID]="group.id" [typeID]="2"></app-comments>
   </div>
   <div class="col-sm-4 order-1">
-    <app-twins-sidebar [selected]="selectedBrands" *ngIf="selectedBrands$|async as selectedBrands"></app-twins-sidebar>
+    <app-twins-sidebar
+      [selected]="selectedBrands"
+      *ngIf="selectedBrands$ | async as selectedBrands"
+    ></app-twins-sidebar>
   </div>
 </div>

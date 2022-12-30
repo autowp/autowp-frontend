@@ -1,8 +1,8 @@
 <app-gallery
   [filter]="filter"
-  [current]="identity$|async"
-  [galleryPrefix]="galleryRouterLink$|async"
-  [picturePrefix]="picturesRouterLink$|async"
-  *ngIf="filter$|async as filter"
+  [current]="identity$ | async"
+  [galleryPrefix]="galleryRouterLink$ | async"
+  [picturePrefix]="picturesRouterLink$ | async"
+  *ngIf="filter$ | async as filter"
   (pictureSelected)="pictureSelected($event)"
 ></app-gallery>

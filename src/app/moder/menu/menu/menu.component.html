@@ -1,13 +1,18 @@
-<div class="moderator-menu-container" *ngIf="items$|async as items">
+<div class="moderator-menu-container" *ngIf="items$ | async as items">
   <div class="btn-group" ngbDropdown placement="top-right">
     <button ngbDropdownToggle class="btn btn-secondary">
       <ng-container i18n>Moderator menu</ng-container>
       <span class="caret" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu-right" ngbDropdownMenu>
-      <a [routerLink]="item.routerLink" [queryParams]="item.queryParams" class="dropdown-item" *ngFor="let item of items">
+      <a
+        [routerLink]="item.routerLink"
+        [queryParams]="item.queryParams"
+        class="dropdown-item"
+        *ngFor="let item of items"
+      >
         <i aria-hidden="true" [ngClass]="item.icon" *ngIf="item.icon"></i>
-        {{item.label}}
+        {{ item.label }}
         <span class="badge rounded-pill text-bg-secondary" *ngIf="item.count" [textContent]="item.count"></span>
       </a>
       <div class="dropdown-divider"></div>

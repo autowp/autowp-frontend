@@ -2,11 +2,13 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="links$|async as links; else loading">
-  <ng-container *ngIf="item$|async as item">
-    <form *ngIf="canEditMeta$|async" method="post" (submit)="saveLinks(item.id, links)">
+<ng-container *ngIf="links$ | async as links; else loading">
+  <ng-container *ngIf="item$ | async as item">
+    <form *ngIf="canEditMeta$ | async" method="post" (submit)="saveLinks(item.id, links)">
       <table class="table table-condensed table-striped">
-        <caption i18n>Links</caption>
+        <caption i18n>
+          Links
+        </caption>
         <thead>
           <tr>
             <th i18n scope="col">Text</th>
@@ -17,13 +19,13 @@
         <tbody>
           <tr *ngFor="let link of links; let i = index">
             <td>
-              <input type="text" name="name{{i}}" [(ngModel)]="link.name" class="form-control" />
+              <input type="text" name="name{{ i }}" [(ngModel)]="link.name" class="form-control" />
             </td>
             <td>
-              <input type="text" name="url{{i}}" [(ngModel)]="link.url" class="form-control" />
+              <input type="text" name="url{{ i }}" [(ngModel)]="link.url" class="form-control" />
             </td>
             <td>
-              <select name="type{{i}}" [(ngModel)]="link.type_id" class="form-control">
+              <select name="type{{ i }}" [(ngModel)]="link.type_id" class="form-control">
                 <option value="default" i18n>interest link</option>
                 <option value="official" i18n>official</option>
                 <option value="club" i18n>club</option>
@@ -59,8 +61,10 @@
       </table>
     </form>
   </ng-container>
-  <table class="table table-condensed table-stripped" *ngIf="(canEditMeta$|async) === false">
-    <caption i18n>Links</caption>
+  <table class="table table-condensed table-stripped" *ngIf="(canEditMeta$ | async) === false">
+    <caption i18n>
+      Links
+    </caption>
     <tbody>
       <tr>
         <th i18n scope="col">Text</th>

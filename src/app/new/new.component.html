@@ -14,28 +14,41 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="data$|async as data; else loading">
+<ng-container *ngIf="data$ | async as data; else loading">
   <div class="row mb-4">
     <div class="col-lg-4 col-md-4">
       <h3 class="text-start" *ngIf="data.prev && data.prev.date">
         &#x2190;
-        <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | amDateFormat: 'LL'"></a>
+        <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | amDateFormat : 'LL'"></a>
         <br />
-        <small>(<span i18n="@@n-pictures">{data.prev.count, plural, one {{{data.prev.count}} picture} other {{{data.prev.count}} pictures}}</span>)</small>
+        <small
+          >(<span i18n="@@n-pictures"
+            >{data.prev.count, plural, one {{{data.prev.count}} picture} other {{{data.prev.count}} pictures}}</span
+          >)</small
+        >
       </h3>
     </div>
     <div class="col-lg-4 col-md-4">
       <h3 class="text-center" *ngIf="data.current">
-        <span [textContent]="data.current.date | amDateFormat: 'LL'"></span>
+        <span [textContent]="data.current.date | amDateFormat : 'LL'"></span>
         <br />
-        <small>(<span i18n="@@n-pictures">{data.current.count, plural, one {{{data.current.count}} picture} other {{{data.current.count}} pictures}}</span>)</small>
+        <small
+          >(<span i18n="@@n-pictures"
+            >{data.current.count, plural, one {{{data.current.count}} picture} other
+            {{{data.current.count}} pictures}}</span
+          >)</small
+        >
       </h3>
     </div>
     <div class="col-lg-4 col-md-4">
       <h3 class="text-end" *ngIf="data.next && data.next.date">
-        <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | amDateFormat: 'LL'"></a>
+        <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | amDateFormat : 'LL'"></a>
         <br />
-        <small>(<span i18n="@@n-pictures">{data.next.count, plural, one {{{data.next.count}} picture} other {{{data.next.count}} pictures}}</span>)</small>
+        <small
+          >(<span i18n="@@n-pictures"
+            >{data.next.count, plural, one {{{data.next.count}} picture} other {{{data.next.count}} pictures}}</span
+          >)</small
+        >
         &#x2192;
       </h3>
     </div>
@@ -43,7 +56,12 @@
 
   <div *ngFor="let group of data.groups">
     <div *ngIf="group.type === 'item'">
-      <app-new-list-item [item]="group.item" [pictures]="group.pictures" [totalPictures]="group.total_pictures" [date]="date$|async"></app-new-list-item>
+      <app-new-list-item
+        [item]="group.item"
+        [pictures]="group.pictures"
+        [totalPictures]="group.total_pictures"
+        [date]="date$ | async"
+      ></app-new-list-item>
     </div>
     <div *ngIf="group.type !== 'item'">
       <div class="row" *ngFor="let chunk of group.chunks">

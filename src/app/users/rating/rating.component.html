@@ -10,8 +10,8 @@
   <h1 id="header" i18n>Statistics</h1>
 </div>
 
-<ng-container *ngIf="rating$|async as rating">
-  <ul class="nav nav-pills" style="margin-bottom:10px">
+<ng-container *ngIf="rating$ | async as rating">
+  <ul class="nav nav-pills" style="margin-bottom: 10px">
     <li class="nav-item">
       <a class="nav-link" [class.active]="rating === 'specs'" routerLink="/users/rating/specs" i18n>Specifications</a>
     </li>
@@ -22,7 +22,9 @@
       <a class="nav-link" [class.active]="rating === 'likes'" routerLink="/users/rating/likes" i18n>Likes</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="rating === 'picture-likes'" routerLink="/users/rating/picture-likes" i18n>Picture likes</a>
+      <a class="nav-link" [class.active]="rating === 'picture-likes'" routerLink="/users/rating/picture-likes" i18n
+        >Picture likes</a
+      >
     </li>
   </ul>
 
@@ -36,12 +38,12 @@
         <th scope="col">#</th>
         <th scope="col"></th>
         <th scope="col"></th>
-        <th scope="col" class="text-end" [textContent]="valueTitle$|async"></th>
+        <th scope="col" class="text-end" [textContent]="valueTitle$ | async"></th>
         <th scope="col" class="text-end" *ngIf="rating === 'specs'" i18n>Specs volume</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of users$|async; let i = index">
+      <tr *ngFor="let row of users$ | async; let i = index">
         <td [textContent]="i + 1"></td>
         <td>
           <app-user [user]="row.user"></app-user>
@@ -57,15 +59,23 @@
           <small *ngIf="row.fans && row.fans.length > 0">
             <ng-container *ngFor="let fan of row.fans">
               <app-user [user]="fan.user"></app-user>
-              <span class="badge rounded-pill text-bg-secondary" [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"></span>
+              <span
+                class="badge rounded-pill text-bg-secondary"
+                [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"
+              ></span>
               <span>, </span>
             </ng-container>
             …
           </small>
         </td>
-        <td class="text-end" [textContent]="row.volume | number: '1.0-0'"></td>
-        <td class="text-end" [class.danger]="row.weight < 0.50" [class.warning]="row.weight >= 0.50 && row.weight < 1.50" *ngIf="rating === 'specs'"
-          [textContent]="row.weight | number : '1.2-2'"></td>
+        <td class="text-end" [textContent]="row.volume | number : '1.0-0'"></td>
+        <td
+          class="text-end"
+          [class.danger]="row.weight < 0.5"
+          [class.warning]="row.weight >= 0.5 && row.weight < 1.5"
+          *ngIf="rating === 'specs'"
+          [textContent]="row.weight | number : '1.2-2'"
+        ></td>
       </tr>
     </tbody>
   </table>

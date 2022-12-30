@@ -4,7 +4,7 @@
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
-    <app-user [user]="user" *ngFor="let user of users$|async"></app-user>
+    <app-user [user]="user" *ngFor="let user of users$ | async"></app-user>
   </div>
   <div class="modal-footer">
     <button type="button" (click)="load()" class="btn btn-secondary" i18n>Refresh</button>

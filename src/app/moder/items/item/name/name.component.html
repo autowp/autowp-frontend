@@ -2,14 +2,17 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<div class="card card-body" *ngIf="data$|async as data; else loading">
+<div class="card card-body" *ngIf="data$ | async as data; else loading">
   <ul ngbNav #nav="ngbNav" [activeId]="data.languages[0].language" class="nav-tabs">
     <li [ngbNavItem]="language.language" *ngFor="let language of data.languages">
       <a ngbNavLink>
-        {{language.language.toUpperCase()}}
+        {{ language.language.toUpperCase() }}
         <span class="badge rounded-pill text-bg-secondary" *ngIf="language.name || language.text || language.full_text">
-          {{((language.name && language.name.length) ? 1 : 0) + ((language.text && language.text.length) ? 1 : 0) + ((language.full_text
-          && language.full_text.length) ? 1 : 0)}}
+          {{
+            (language.name && language.name.length ? 1 : 0) +
+              (language.text && language.text.length ? 1 : 0) +
+              (language.full_text && language.full_text.length ? 1 : 0)
+          }}
         </span>
       </a>
       <ng-template ngbNavContent>
@@ -41,7 +44,12 @@
     </li>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
-  <button type="submit" class="btn btn-primary" (click)="saveLanguages(data.itemId, data.languages)" [disabled]="loadingNumber > 0">
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="saveLanguages(data.itemId, data.languages)"
+    [disabled]="loadingNumber > 0"
+  >
     <span *ngIf="loadingNumber > 0">
       <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
     </span>

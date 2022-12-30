@@ -10,7 +10,7 @@
       <a routerLink="/moder/pictures" i18n>Pictures</a>
     </li>
     <li class="breadcrumb-item" *ngIf="picture">
-      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{picture.id}}</a>
+      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{ picture.id }}</a>
     </li>
   </ol>
 </nav>
@@ -24,7 +24,7 @@
 </div>
 
 <div class="mb-4" *ngIf="picture">
-  <span i18n>{{resolution}} (aspect is about {{aspect}})</span>
+  <span i18n>{{ resolution }} (aspect is about {{ aspect }})</span>
   <button (click)="selectAll()" class="btn btn-secondary" i18n>Select all</button>
   <span class="float-end">
     <a [routerLink]="['/moder/pictures', picture.id]" class="btn btn-secondary" i18n>Close</a>

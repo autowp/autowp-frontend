@@ -3,26 +3,28 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
+    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="data$|async as data">
-  <h1>{{data.title}}</h1>
+<div class="page-header" *ngIf="data$ | async as data">
+  <h1>{{ data.title }}</h1>
 </div>
 
 <ng-template #loading>
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="pictures$|async as pictures; else loading">
-  <ng-container *ngIf="data$|async as data">
-    <ng-container *ngIf="brand$|async as brand">
+<ng-container *ngIf="pictures$ | async as pictures; else loading">
+  <ng-container *ngIf="data$ | async as data">
+    <ng-container *ngIf="brand$ | async as brand">
       <div class="row" *ngFor="let chunk of pictures.pictures">
         <div class="col-sm-3" *ngFor="let picture of chunk">
-          <app-thumbnail [picture]="picture" [route]="['/', brand.catname, data.catname, picture.identity]">></app-thumbnail>
+          <app-thumbnail [picture]="picture" [route]="['/', brand.catname, data.catname, picture.identity]"
+            >></app-thumbnail
+          >
         </div>
       </div>
     </ng-container>

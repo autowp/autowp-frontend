@@ -18,31 +18,34 @@
   <a class="nav-link" routerLink="/moder/traffic/whitelist">Whitelist</a>
 </div>
 
-<div class="row" *ngFor="let item of items$|async">
+<div class="row" *ngFor="let item of items$ | async">
   <div class="col-sm-2">
     <h3 [textContent]="item.item.count"></h3>
   </div>
   <div class="col-sm-4">
-    <h3>{{item.item.ip}}
+    <h3>
+      {{ item.item.ip }}
       <a [href]="item.item.whoisUrl">whois</a>
     </h3>
-    <p>{{item.hostname$|async}}</p>
+    <p>{{ item.hostname$ | async }}</p>
   </div>
   <div class="col-sm-6">
     <div *ngIf="item.item.ban">
-      <ng-container i18n>until</ng-container> {{item.item.ban.until.toDate() | date : 'fullDate'}}
+      <ng-container i18n>until</ng-container> {{ item.item.ban.until.toDate() | date : 'fullDate' }}
       <span *ngIf="item.item.ban.byUser">
         by
         <app-user2 [user]="item.item.ban.byUser"></app-user2>
-        <span *ngIf="item.item.ban.reason">
-          <ng-container i18n>Reason</ng-container> {{item.item.ban.reason}}
-        </span>
+        <span *ngIf="item.item.ban.reason"> <ng-container i18n>Reason</ng-container> {{ item.item.ban.reason }} </span>
       </span>
     </div>
     <div>
-      <button *ngIf="item.item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.item.ip)" i18n>unban</button>
+      <button *ngIf="item.item.ban" class="btn btn-secondary" (click)="removeFromBlacklist(item.item.ip)" i18n>
+        unban
+      </button>
       <button class="btn btn-danger" *ngIf="!item.item.ban" (click)="addToBlacklist(item.item.ip)" i18n>Ban</button>
-      <button *ngIf="!item.item.inWhitelist" class="btn btn-success" (click)="addToWhitelist(item.item.ip)" i18n>Whitelist</button>
+      <button *ngIf="!item.item.inWhitelist" class="btn btn-success" (click)="addToWhitelist(item.item.ip)" i18n>
+        Whitelist
+      </button>
     </div>
   </div>
 </div>

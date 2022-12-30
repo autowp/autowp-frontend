@@ -9,7 +9,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item$|async as item">
+    <li class="breadcrumb-item" *ngIf="item$ | async as item">
       <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
     </li>
   </ol>
@@ -19,16 +19,19 @@
   <h1>Organize pictures</h1>
 </div>
 
-
 <app-markdown i18n-markdown markdown="Turbo group creator from pictures"></app-markdown>
 
-<ng-container *ngIf="item$|async as item">
-  <ng-container *ngIf="newItem$|async as newItem">
-    <ng-container *ngIf="pictures$|async as pictures">
-      <app-item-meta-form class="mb-4" [hidden]="loading > 0" [item]="newItem" (submitted)="submit(item, $event, pictures)"
-                          [vehicleTypeIDs]="vehicleTypeIDs$|async"
-                          [invalidParams]="invalidParams"
-                          [pictures]="pictures"
+<ng-container *ngIf="item$ | async as item">
+  <ng-container *ngIf="newItem$ | async as newItem">
+    <ng-container *ngIf="pictures$ | async as pictures">
+      <app-item-meta-form
+        class="mb-4"
+        [hidden]="loading > 0"
+        [item]="newItem"
+        (submitted)="submit(item, $event, pictures)"
+        [vehicleTypeIDs]="vehicleTypeIDs$ | async"
+        [invalidParams]="invalidParams"
+        [pictures]="pictures"
       ></app-item-meta-form>
     </ng-container>
   </ng-container>

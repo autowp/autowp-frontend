@@ -10,7 +10,7 @@
   <h1 i18n>Text history</h1>
 </div>
 
-<ng-container *ngIf="data$|async as data">
+<ng-container *ngIf="data$ | async as data">
   <p>
     <span *ngIf="data.prev && data.prev.revision">
       <i class="bi bi-arrow-left" aria-hidden="true"></i>
@@ -24,8 +24,8 @@
   <div class="row">
     <div class="col-md-6" *ngIf="data.prev">
       <h3 *ngIf="data.prev.revision">
-        <ng-container i18n>Revision {{data.prev.revision}}</ng-container>
-        <small *ngIf="data.prev.user$|async as user">
+        <ng-container i18n>Revision {{ data.prev.revision }}</ng-container>
+        <small *ngIf="data.prev.user$ | async as user">
           <app-user [user]="user"></app-user>
         </small>
       </h3>
@@ -33,12 +33,14 @@
     </div>
     <div class="col-md-6" *ngIf="data.current">
       <h3>
-        <ng-container i18n>Revision {{data.current.revision}}</ng-container>
-        <small *ngIf="data.current.user$|async as user">
+        <ng-container i18n>Revision {{ data.current.revision }}</ng-container>
+        <small *ngIf="data.current.user$ | async as user">
           <app-user [user]="user"></app-user>
         </small>
       </h3>
-      <pre class="diff"><ng-container *ngFor="let i of data.diff"><del *ngIf="i.removed" [textContent]="i.value"></del><ins *ngIf="i.added" [textContent]="i.value"></ins><ng-container *ngIf="!i.added && !i.removed">{{i.value}}</ng-container></ng-container></pre>
+      <pre
+        class="diff"
+      ><ng-container *ngFor="let i of data.diff"><del *ngIf="i.removed" [textContent]="i.value"></del><ins *ngIf="i.added" [textContent]="i.value"></ins><ng-container *ngIf="!i.added && !i.removed">{{i.value}}</ng-container></ng-container></pre>
     </div>
   </div>
 </ng-container>

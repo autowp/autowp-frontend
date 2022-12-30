@@ -12,11 +12,11 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="attribute$|async as attribute">
-  <h1>{{attribute.name}}</h1>
+<div class="page-header" *ngIf="attribute$ | async as attribute">
+  <h1>{{ attribute.name }}</h1>
 </div>
 
-<div class="row" *ngIf="attributes$|async as attributes">
+<div class="row" *ngIf="attributes$ | async as attributes">
   <div class="col-md-6">
     <h2>
       <span i18n>Attribute parameters</span>
@@ -25,7 +25,7 @@
       </span>
     </h2>
     <div class="card card-body mb-4">
-      <form class="form-vertical" (submit)="saveAttribute(attribute)" *ngIf="attribute$|async as attribute">
+      <form class="form-vertical" (submit)="saveAttribute(attribute)" *ngIf="attribute$ | async as attribute">
         <div class="mb-3">
           <label i18n>Name</label>
           <input type="text" name="name" class="form-control" [(ngModel)]="attribute.name" />
@@ -33,17 +33,17 @@
         <div class="mb-3">
           <label i18n>Type</label>
           <select name="type_id" class="form-control" [(ngModel)]="attribute.type_id">
-            <option *ngFor="let option of typeOptions$|async" [ngValue]="option.id">{{option.name}}</option>
+            <option *ngFor="let option of typeOptions$ | async" [ngValue]="option.id">{{ option.name }}</option>
           </select>
         </div>
         <div class="mb-3">
           <label i18n>Precision (for float attribute)</label>
-          <input type="text" name="precision" class="form-control" [(ngModel)]="attribute.precision">
+          <input type="text" name="precision" class="form-control" [(ngModel)]="attribute.precision" />
         </div>
         <div class="mb-3">
           <label i18n>Unit</label>
           <select name="unit_id" class="form-control" [(ngModel)]="attribute.unit_id">
-            <option *ngFor="let option of unitOptions$|async" [ngValue]="option.id">{{option.name}}</option>
+            <option *ngFor="let option of unitOptions$ | async" [ngValue]="option.id">{{ option.name }}</option>
           </select>
         </div>
         <div class="mb-3">
@@ -56,7 +56,9 @@
 
     <h2 i18n>Values list (for select)</h2>
     <div class="card card-body mb-4">
-      <app-moder-attrs-attribute-list-options-tree [items]="listOptions$|async"></app-moder-attrs-attribute-list-options-tree>
+      <app-moder-attrs-attribute-list-options-tree
+        [items]="listOptions$ | async"
+      ></app-moder-attrs-attribute-list-options-tree>
     </div>
 
     <h2>
@@ -65,12 +67,12 @@
         <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       </span>
     </h2>
-    <div class="card card-body mb-4" *ngIf="attribute$|async as attribute">
+    <div class="card card-body mb-4" *ngIf="attribute$ | async as attribute">
       <form class="form-vertical" (submit)="addListOption(attribute)">
         <div class="mb-3">
           <label i18n>Parent</label>
           <select name="parent_id" class="form-control" [(ngModel)]="newListOption.parent_id">
-            <option *ngFor="let option of listOptionsOptions" [ngValue]="option.id">{{option.name}}</option>
+            <option *ngFor="let option of listOptionsOptions" [ngValue]="option.id">{{ option.name }}</option>
           </select>
         </div>
         <div class="mb-3">
@@ -81,10 +83,10 @@
       </form>
     </div>
   </div>
-  <div class="col-md-6" *ngIf="attributes$|async as attributes">
+  <div class="col-md-6" *ngIf="attributes$ | async as attributes">
     <div *ngIf="attributes.items.length > 0">
       <h2 i18n id="header">Attributes</h2>
-      <div class="card card-body mb-4" *ngIf="typeMap$|async as typeMap">
+      <div class="card card-body mb-4" *ngIf="typeMap$ | async as typeMap">
         <table class="table" aria-describedby="header">
           <tr>
             <th i18n scope="col">Name</th>
@@ -93,7 +95,10 @@
           </tr>
           <tr *ngFor="let attribute of attributes.items">
             <td>
-              <a [routerLink]="['/moder/attrs/attribute', attribute.id]" [textContent]="getAttrsTranslation(attribute.name)"></a>
+              <a
+                [routerLink]="['/moder/attrs/attribute', attribute.id]"
+                [textContent]="getAttrsTranslation(attribute.name)"
+              ></a>
             </td>
             <td>
               <span *ngIf="attribute.type_id" [textContent]="typeMap[attribute.type_id]"></span>
@@ -115,7 +120,7 @@
       </span>
     </h2>
     <div class="card card-body mb-4">
-      <form class="form-vertical" (submit)="addAttribute(attribute)" *ngIf="attribute$|async as attribute">
+      <form class="form-vertical" (submit)="addAttribute(attribute)" *ngIf="attribute$ | async as attribute">
         <div class="mb-3">
           <label i18n>Name</label>
           <input type="text" name="name" class="form-control" [(ngModel)]="newAttribute.name" />
@@ -123,17 +128,17 @@
         <div class="mb-3">
           <label i18n>Type</label>
           <select name="type_id" class="form-control" [(ngModel)]="newAttribute.type_id">
-            <option *ngFor="let option of typeOptions$|async" [value]="option.id">{{option.name}}</option>
+            <option *ngFor="let option of typeOptions$ | async" [value]="option.id">{{ option.name }}</option>
           </select>
         </div>
         <div class="mb-3">
           <label i18n>Precision (for float attribute)</label>
-          <input type="text" name="precision" class="form-control" [(ngModel)]="newAttribute.precision">
+          <input type="text" name="precision" class="form-control" [(ngModel)]="newAttribute.precision" />
         </div>
         <div class="mb-3">
           <label i18n>Unit</label>
           <select name="unit_id" class="form-control" [(ngModel)]="newAttribute.unit_id">
-            <option *ngFor="let option of unitOptions$|async" [value]="option.id">{{option.name}}</option>
+            <option *ngFor="let option of unitOptions$ | async" [value]="option.id">{{ option.name }}</option>
           </select>
         </div>
         <div class="mb-3">

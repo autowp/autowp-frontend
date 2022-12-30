@@ -1,14 +1,20 @@
 <div class="car item-list-item">
-
   <h3 *ngIf="!disableTitle">
     <span [innerHTML]="item.name_html"></span>
-    <sup class="design-brand mx-2" *ngIf="item.design"><ng-container i18n>designed by</ng-container>
+    <sup class="design-brand mx-2" *ngIf="item.design"
+      ><ng-container i18n>designed by</ng-container>
       <a [routerLink]="item.design.route" [textContent]="item.design.name"></a>
     </sup>
 
     <small *ngIf="item.produced > 1" class="ms-2">
-      <span *ngIf="item.produced_exactly" i18n="@@n-produced">{item.produced, plural, one {Produced in {{item.produced}} copy} other {Produced in {{item.produced}} copies}}</span>
-      <span *ngIf="!item.produced_exactly" i18n="@@n-produced-about">{item.produced, plural, one {Produced in about {{item.produced}} copy} other {Produced in about {{item.produced}} copies}}</span>
+      <span *ngIf="item.produced_exactly" i18n="@@n-produced"
+        >{item.produced, plural, one {Produced in {{ item.produced }} copy} other {Produced in
+        {{ item.produced }} copies}}</span
+      >
+      <span *ngIf="!item.produced_exactly" i18n="@@n-produced-about"
+        >{item.produced, plural, one {Produced in about {{ item.produced }} copy} other {Produced in about
+        {{ item.produced }} copies}}</span
+      >
     </small>
     <small i18n *ngIf="item.produced === 1" class="ms-2">Produced in a single copy</small>
   </h3>
@@ -18,7 +24,13 @@
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length > 4">
     <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
       <a [routerLink]="picture.route" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
-        <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy" />
+        <img
+          [src]="picture.thumb.src"
+          [alt]="picture.picture.name"
+          [title]="picture.picture.name"
+          class="rounded w-100 border border-light"
+          loading="lazy"
+        />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
@@ -26,7 +38,13 @@
       <div class="row">
         <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
           <a [routerLink]="picture.route" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
-            <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy" />
+            <img
+              [src]="picture.thumb.src"
+              [alt]="picture.picture.name"
+              [title]="picture.picture.name"
+              class="rounded w-100 border border-light"
+              loading="lazy"
+            />
           </a>
           <span *ngIf="!picture">&#xa0;</span>
         </div>
@@ -36,7 +54,13 @@
   <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.pictures.length <= 4">
     <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures.pictures">
       <a [routerLink]="picture.route" *ngIf="picture && picture.picture && picture.thumb" class="d-block rounded mb-4">
-        <img [src]="picture.thumb.src" [alt]="picture.picture.name" [title]="picture.picture.name" class="rounded w-100 border border-light" loading="lazy" />
+        <img
+          [src]="picture.thumb.src"
+          [alt]="picture.picture.name"
+          [title]="picture.picture.name"
+          class="rounded w-100 border border-light"
+          loading="lazy"
+        />
       </a>
       <span *ngIf="!picture">&#xa0;</span>
     </div>
@@ -45,13 +69,24 @@
   <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
     <div [class]="thumbnailColClass()">
       <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
-        <a routerLink="/upload" [queryParams]="{item_id: item.id}" title="Add photo" i18n-title class="bi bi-plus-circle text-success" aria-hidden="true"></a>
+        <a
+          routerLink="/upload"
+          [queryParams]="{item_id: item.id}"
+          title="Add photo"
+          i18n-title
+          class="bi bi-plus-circle text-success"
+          aria-hidden="true"
+        ></a>
         <span class="bi bi-camera fs-1" aria-hidden="true"></span>
       </div>
     </div>
   </div>
 
-  <app-markdown class="text" *ngIf="item.description && item.description.length" [markdown]="item.description"></app-markdown>
+  <app-markdown
+    class="text"
+    *ngIf="item.description && item.description.length"
+    [markdown]="item.description"
+  ></app-markdown>
 
   <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
     <p i18n>Mounted on:</p>
@@ -63,11 +98,11 @@
   </div>
 
   <ul class="list-inline" ngPreserveWhitespaces>
-
     <li *ngIf="(item.has_text || item.childs_count) && item.route" class="list-inline-item">
       <i class="bi bi-text-left me-1" aria-hidden="true"></i>
-      <a [routerLink]="item.route"><ng-container i18n>details</ng-container>
-        <span *ngIf="item.childs_count > 1"> ({{item.childs_count}})</span>
+      <a [routerLink]="item.route"
+        ><ng-container i18n>details</ng-container>
+        <span *ngIf="item.childs_count > 1"> ({{ item.childs_count }})</span>
       </a>
     </li>
 
@@ -103,7 +138,7 @@
       <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
     </li>
 
-    <ng-container *ngIf="isModer$|async as isModer">
+    <ng-container *ngIf="isModer$ | async as isModer">
       <li *ngIf="isModer" class="list-inline-item">
         <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
         <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>

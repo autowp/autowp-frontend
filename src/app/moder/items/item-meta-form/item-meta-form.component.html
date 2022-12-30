@@ -1,53 +1,122 @@
-<ng-container *ngIf="form$|async as form">
-  <form method="post" class="form-horizontal" (ngSubmit)="doSubmit(form)" *ngIf="item$|async as item" [formGroup]="form">
+<ng-container *ngIf="form$ | async as form">
+  <form
+    method="post"
+    class="form-horizontal"
+    (ngSubmit)="doSubmit(form)"
+    *ngIf="item$ | async as item"
+    [formGroup]="form"
+  >
     <div class="mb-3 row" *ngIf="form.get('name') as name">
       <label class="col-md-2 col-form-label" i18n>Name</label>
       <div class="col-md-10">
-        <input type="text" [class.is-invalid]="name.invalid && (name.dirty || name.touched) || invalidParams && invalidParams.name" name="name" class="form-control"
-          formControlName="name" required />
-        <p *ngFor="let message of invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
+        <input
+          type="text"
+          [class.is-invalid]="(name.invalid && (name.dirty || name.touched)) || (invalidParams && invalidParams.name)"
+          name="name"
+          class="form-control"
+          formControlName="name"
+          required
+        />
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'name'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('full_name') as fullName">
       <label class="col-md-2 col-form-label" i18n>Full name</label>
       <div class="col-md-10">
-        <input [class.is-invalid]="fullName.invalid && (fullName.dirty || fullName.touched) || invalidParams && invalidParams.full_name" type="text" name="full_name"
-          class="form-control" formControlName="full_name" />
-        <p *ngFor="let message of invalidParams | invalidParams : 'full_name'" [textContent]="message" class="invalid-feedback"></p>
+        <input
+          [class.is-invalid]="
+            (fullName.invalid && (fullName.dirty || fullName.touched)) || (invalidParams && invalidParams.full_name)
+          "
+          type="text"
+          name="full_name"
+          class="form-control"
+          formControlName="full_name"
+        />
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'full_name'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('catname') as catname">
       <label class="col-md-2 col-form-label" i18n>Catname</label>
       <div class="col-md-10">
-        <input [class.is-invalid]="catname.invalid && (catname.dirty || catname.touched) || invalidParams && invalidParams.catname" type="text" name="catname"
-          class="form-control" formControlName="catname" />
-        <p *ngFor="let message of invalidParams | invalidParams : 'catname'" [textContent]="message" class="invalid-feedback"></p>
+        <input
+          [class.is-invalid]="
+            (catname.invalid && (catname.dirty || catname.touched)) || (invalidParams && invalidParams.catname)
+          "
+          type="text"
+          name="catname"
+          class="form-control"
+          formControlName="catname"
+        />
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'catname'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('body') as body">
       <label class="col-md-2 col-form-label" i18n>Body number</label>
       <div class="col-md-10">
-        <input [class.is-invalid]="body.invalid && (body.dirty || body.touched) || invalidParams && invalidParams.body" type="text" name="body" style="width: 30%"
-          class="form-control" formControlName="body" />
-        <p *ngFor="let message of invalidParams | invalidParams : 'body'" [textContent]="message" class="invalid-feedback"></p>
+        <input
+          [class.is-invalid]="(body.invalid && (body.dirty || body.touched)) || (invalidParams && invalidParams.body)"
+          type="text"
+          name="body"
+          style="width: 30%"
+          class="form-control"
+          formControlName="body"
+        />
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'body'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('spec_id') as specID">
       <label class="col-md-2 col-form-label" i18n>Spec</label>
       <div class="col-md-10">
-        <select [class.is-invalid]="specID.invalid && (specID.dirty || specID.touched) || invalidParams && invalidParams.spec_id" name="spec_id" style="width: 30%"
-          class="form-control" formControlName="spec_id">
-          <option *ngFor="let spec of specs$|async" [ngValue]="spec.id">{{'…'.repeat(spec.deep) + spec.short_name}}</option>
+        <select
+          [class.is-invalid]="
+            (specID.invalid && (specID.dirty || specID.touched)) || (invalidParams && invalidParams.spec_id)
+          "
+          name="spec_id"
+          style="width: 30%"
+          class="form-control"
+          formControlName="spec_id"
+        >
+          <option *ngFor="let spec of specs$ | async" [ngValue]="spec.id">
+            {{ '…'.repeat(spec.deep) + spec.short_name }}
+          </option>
         </select>
-        <p *ngFor="let message of invalidParams | invalidParams : 'spec_id'" [textContent]="message" class="invalid-feedback"></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'spec_id'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('vehicle_type_id') as vehicleTypeID">
       <label class="col-md-2 col-form-label" i18n>Type</label>
       <div class="col-md-10">
         <ng-container *ngFor="let typeID of vehicleTypeID.value">
-          <input type="checkbox" name="vehicle_type_id" formControlName="vehicle_type_id" [value]="typeID" class="d-none" />
-          <button class="btn btn-sm btn-info" type="button" (click)="showVehicleTypesModal(vehicleTypeID)">{{vehicleTypeName$(typeID)|async}}</button>
+          <input
+            type="checkbox"
+            name="vehicle_type_id"
+            formControlName="vehicle_type_id"
+            [value]="typeID"
+            class="d-none"
+          />
+          <button class="btn btn-sm btn-info" type="button" (click)="showVehicleTypesModal(vehicleTypeID)">
+            {{ vehicleTypeName$(typeID) | async }}
+          </button>
         </ng-container>
         <button class="btn btn-sm btn-success" type="button" (click)="showVehicleTypesModal(vehicleTypeID)">
           <span class="bi bi-plus" aria-hidden="true"></span>
@@ -65,28 +134,76 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-2 col-sm-4 mb-0" *ngIf="modelYears.get('begin_year') as beginYear">
-            <input type="number" [class.is-invalid]="beginYear.invalid && (beginYear.dirty || beginYear.touched) || invalidParams && invalidParams.begin_model_year" name="begin_model_year"
-              placeholder="from" i18n-placeholder class="form-control" formControlName="begin_year"
-              maxlength="4" />
+            <input
+              type="number"
+              [class.is-invalid]="
+                (beginYear.invalid && (beginYear.dirty || beginYear.touched)) ||
+                (invalidParams && invalidParams.begin_model_year)
+              "
+              name="begin_model_year"
+              placeholder="from"
+              i18n-placeholder
+              class="form-control"
+              formControlName="begin_year"
+              maxlength="4"
+            />
           </div>
           <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.get('begin_year_fraction') as beginYearFraction">
-            <select class="form-control" [class.is-invalid]="beginYearFraction.invalid && (beginYearFraction.dirty || beginYearFraction.touched) || invalidParams && invalidParams.begin_model_year_fraction" name="begin_model_year_fraction" formControlName="begin_year_fraction">
-              <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">{{option.name}}</option>
+            <select
+              class="form-control"
+              [class.is-invalid]="
+                (beginYearFraction.invalid && (beginYearFraction.dirty || beginYearFraction.touched)) ||
+                (invalidParams && invalidParams.begin_model_year_fraction)
+              "
+              name="begin_model_year_fraction"
+              formControlName="begin_year_fraction"
+            >
+              <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">
+                {{ option.name }}
+              </option>
             </select>
           </div>
           <div class="col-md-2 col-sm-4 mb-0" *ngIf="modelYears.get('end_year') as endYear">
-            <input type="number" [class.is-invalid]="endYear.invalid && (endYear.dirty || endYear.touched) || invalidParams && invalidParams.end_model_year" name="end_model_year"
-              placeholder="to" i18n-placeholder class="form-control" formControlName="end_year"
-              maxlength="4" />
+            <input
+              type="number"
+              [class.is-invalid]="
+                (endYear.invalid && (endYear.dirty || endYear.touched)) ||
+                (invalidParams && invalidParams.end_model_year)
+              "
+              name="end_model_year"
+              placeholder="to"
+              i18n-placeholder
+              class="form-control"
+              formControlName="end_year"
+              maxlength="4"
+            />
           </div>
           <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.get('end_year') as endYearFraction">
-            <select class="form-control" [class.is-invalid]="endYearFraction.invalid && (endYearFraction.dirty || endYearFraction.touched) || invalidParams && invalidParams.end_model_year_fraction" name="end_model_year_fraction" formControlName="end_year_fraction">
-              <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">{{option.name}}</option>
+            <select
+              class="form-control"
+              [class.is-invalid]="
+                (endYearFraction.invalid && (endYearFraction.dirty || endYearFraction.touched)) ||
+                (invalidParams && invalidParams.end_model_year_fraction)
+              "
+              name="end_model_year_fraction"
+              formControlName="end_year_fraction"
+            >
+              <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">
+                {{ option.name }}
+              </option>
             </select>
           </div>
         </div>
-        <p *ngFor="let message of invalidParams | invalidParams : 'begin_model_year'" [textContent]="message" class="invalid-feedback"></p>
-        <p *ngFor="let message of invalidParams | invalidParams : 'end_model_year'" [textContent]="message" class="invalid-feedback"></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'begin_model_year'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'end_model_year'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('begin') as begin" formGroupName="begin">
@@ -94,19 +211,46 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-2 col-sm-2 mb-0" *ngIf="begin.get('year') as beginYear">
-            <input type="number" [class.is-invalid]="beginYear.invalid && (beginYear.dirty || beginYear.touched) || invalidParams && invalidParams.begin_year" name="begin_year"
-              placeholder="year" i18n-placeholder class="form-control" [attr.maxlength]="4" formControlName="year"
+            <input
+              type="number"
+              [class.is-invalid]="
+                (beginYear.invalid && (beginYear.dirty || beginYear.touched)) ||
+                (invalidParams && invalidParams.begin_year)
+              "
+              name="begin_year"
+              placeholder="year"
+              i18n-placeholder
+              class="form-control"
+              [attr.maxlength]="4"
+              formControlName="year"
             />
           </div>
           <div class="col-md-4 col-sm-7 mb-0" *ngIf="begin.get('month') as beginMonth">
-            <select name="begin_month" [class.is-invalid]="beginMonth.invalid && (beginMonth.dirty || beginMonth.touched) || invalidParams && invalidParams.begin_month"
-              title="month" i18n-title class="form-control" formControlName="month">
-              <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
+            <select
+              name="begin_month"
+              [class.is-invalid]="
+                (beginMonth.invalid && (beginMonth.dirty || beginMonth.touched)) ||
+                (invalidParams && invalidParams.begin_month)
+              "
+              title="month"
+              i18n-title
+              class="form-control"
+              formControlName="month"
+            >
+              <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
             </select>
           </div>
         </div>
-        <p *ngFor="let message of invalidParams | invalidParams : 'begin_year'" [textContent]="message" class="invalid-feedback"></p>
-        <p *ngFor="let message of invalidParams | invalidParams : 'begin_month'" [textContent]="message" class="invalid-feedback"></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'begin_year'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'begin_month'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('end') as end" formGroupName="end">
@@ -114,26 +258,63 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-2 col-sm-2 mb-0" *ngIf="end.get('year') as endYear">
-            <input type="number" [class.is-invalid]="endYear.invalid && (endYear.dirty || endYear.touched) || invalidParams && invalidParams.end_year" name="end_year"
-              placeholder="year" i18n-placeholder class="form-control" maxlength="4" formControlName="year"
+            <input
+              type="number"
+              [class.is-invalid]="
+                (endYear.invalid && (endYear.dirty || endYear.touched)) || (invalidParams && invalidParams.end_year)
+              "
+              name="end_year"
+              placeholder="year"
+              i18n-placeholder
+              class="form-control"
+              maxlength="4"
+              formControlName="year"
             />
           </div>
           <div class="col-md-4 col-sm-7 mb-0" *ngIf="end.get('month') as endMonth">
-            <select name="end_month" [class.is-invalid]="endMonth.invalid && (endMonth.dirty || endMonth.touched) || invalidParams && invalidParams.end_month" title="month" i18n-title
-              class="form-control" formControlName="month">
-              <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{month.name}}</option>
+            <select
+              name="end_month"
+              [class.is-invalid]="
+                (endMonth.invalid && (endMonth.dirty || endMonth.touched)) || (invalidParams && invalidParams.end_month)
+              "
+              title="month"
+              i18n-title
+              class="form-control"
+              formControlName="month"
+            >
+              <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
             </select>
           </div>
           <div class="col-md-4 col-sm-3 mb-0" *ngIf="end.get('today') as today">
-            <select name="today" [class.is-invalid]="today.invalid && (today.dirty || today.touched) || invalidParams && invalidParams.today" formControlName="today" title="today" i18n-title
-              class="form-control">
-              <option *ngFor="let option of todayOptions" [ngValue]="option.value">{{option.name}}</option>
+            <select
+              name="today"
+              [class.is-invalid]="
+                (today.invalid && (today.dirty || today.touched)) || (invalidParams && invalidParams.today)
+              "
+              formControlName="today"
+              title="today"
+              i18n-title
+              class="form-control"
+            >
+              <option *ngFor="let option of todayOptions" [ngValue]="option.value">{{ option.name }}</option>
             </select>
           </div>
         </div>
-        <p *ngFor="let message of invalidParams | invalidParams : 'end_year'" [textContent]="message" class="invalid-feedback"></p>
-        <p *ngFor="let message of invalidParams | invalidParams : 'end_month'" [textContent]="message" class="invalid-feedback"></p>
-        <p *ngFor="let message of invalidParams | invalidParams : 'today'" [textContent]="message" class="invalid-feedback"></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'end_year'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'end_month'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'today'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('produced') as produced" formGroupName="produced">
@@ -141,38 +322,82 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-2 col-sm-2 mb-0" *ngIf="produced.get('count') as count">
-            <input type="number" [class.is-invalid]="count.invalid && (count.dirty || count.touched) || invalidParams && invalidParams.produced_count" name="produced"
-              min="0" max="100000000" class="form-control" title="number" i18n-title formControlName="count" />
+            <input
+              type="number"
+              [class.is-invalid]="
+                (count.invalid && (count.dirty || count.touched)) || (invalidParams && invalidParams.produced_count)
+              "
+              name="produced"
+              min="0"
+              max="100000000"
+              class="form-control"
+              title="number"
+              i18n-title
+              formControlName="count"
+            />
           </div>
           <div class="col-md-4 col-sm-4 mb-0" *ngIf="produced.get('exactly') as exactly">
-            <select name="produced_exactly" [class.is-invalid]="exactly.invalid && (exactly.dirty || exactly.touched) || invalidParams && invalidParams.produced_exactly"
-              class="form-control" formControlName="exactly">
-              <option *ngFor="let option of producedOptions" [ngValue]="option.value">{{option.name}}</option>
+            <select
+              name="produced_exactly"
+              [class.is-invalid]="
+                (exactly.invalid && (exactly.dirty || exactly.touched)) ||
+                (invalidParams && invalidParams.produced_exactly)
+              "
+              class="form-control"
+              formControlName="exactly"
+            >
+              <option *ngFor="let option of producedOptions" [ngValue]="option.value">{{ option.name }}</option>
             </select>
           </div>
         </div>
-        <p *ngFor="let message of invalidParams | invalidParams : 'produced_count'" [textContent]="message" class="invalid-feedback"></p>
-        <p *ngFor="let message of invalidParams | invalidParams : 'produced_exactly'" [textContent]="message" class="invalid-feedback"></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'produced_count'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'produced_exactly'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('is_concept') as isConcept">
       <label class="col-md-2 col-form-label" i18n>Concept (prototype)</label>
       <div class="col-md-10">
-        <select name="is_concept" [class.is-invalid]="isConcept.invalid && (isConcept.dirty || isConcept.touched) || invalidParams && invalidParams.is_concept" style="width: 20%"
-          class="form-control" formControlName="is_concept">
-          <option *ngFor="let option of isConceptOptions$|async" [ngValue]="option.value">{{option.name}}</option>
+        <select
+          name="is_concept"
+          [class.is-invalid]="
+            (isConcept.invalid && (isConcept.dirty || isConcept.touched)) || (invalidParams && invalidParams.is_concept)
+          "
+          style="width: 20%"
+          class="form-control"
+          formControlName="is_concept"
+        >
+          <option *ngFor="let option of isConceptOptions$ | async" [ngValue]="option.value">{{ option.name }}</option>
         </select>
-        <p *ngFor="let message of invalidParams | invalidParams : 'is_concept'" [textContent]="message" class="invalid-feedback"></p>
+        <p
+          *ngFor="let message of invalidParams | invalidParams : 'is_concept'"
+          [textContent]="message"
+          class="invalid-feedback"
+        ></p>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.get('is_group') as isGroup">
-      <div class="col-md-2">
-      </div>
+      <div class="col-md-2"></div>
       <div class="col-md-10">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="is_group" [class.is-invalid]="isGroup.invalid && (isGroup.dirty || isGroup.touched) || invalidParams && invalidParams.is_group" value="1" formControlName="is_group"
-            /> <ng-container i18n>Group</ng-container>
+            <input
+              type="checkbox"
+              name="is_group"
+              [class.is-invalid]="
+                (isGroup.invalid && (isGroup.dirty || isGroup.touched)) || (invalidParams && invalidParams.is_group)
+              "
+              value="1"
+              formControlName="is_group"
+            />
+            <ng-container i18n>Group</ng-container>
           </label>
         </div>
       </div>
@@ -185,7 +410,7 @@
     </div>
     <div class="mb-3 row" *ngIf="form.get('items') as control">
       <label class="col-md-2 col-form-label text-end" i18n>Vehicles</label>
-      <div class="col-md-10" *ngIf="items$|async as items">
+      <div class="col-md-10" *ngIf="items$ | async as items">
         <div class="checkbox" *ngFor="let child of items; let idx = index">
           <label>
             <input type="checkbox" [value]="child.id" (change)="onCheckboxChange($event, control)" />
@@ -196,10 +421,19 @@
     </div>
     <div class="mb-3 row" *ngIf="form.get('pictures') as control">
       <label class="col-md-2 col-form-label text-end" i18n>Pictures</label>
-      <div class="col-md-10 multicheckbox-pictures row" *ngIf="pictures$|async as data">
+      <div class="col-md-10 multicheckbox-pictures row" *ngIf="pictures$ | async as data">
         <div *ngFor="let picture of data; let idx = index" class="col-md-3 mb-4">
-          <label class="btn btn-secondary" [class.btn-success]="picture.selected" (click)="onPictureClick(picture, control)">
-            <img [src]="picture.pictureItem.picture.thumb_medium.src" alt="" [title]="picture.pictureItem.picture.name_text" class="rounded w-100" />
+          <label
+            class="btn btn-secondary"
+            [class.btn-success]="picture.selected"
+            (click)="onPictureClick(picture, control)"
+          >
+            <img
+              [src]="picture.pictureItem.picture.thumb_medium.src"
+              alt=""
+              [title]="picture.pictureItem.picture.name_text"
+              class="rounded w-100"
+            />
           </label>
         </div>
       </div>

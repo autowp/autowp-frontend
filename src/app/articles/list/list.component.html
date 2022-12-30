@@ -14,23 +14,28 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<div class="card card-body" *ngIf="articles$|async as response; else loading">
+<div class="card card-body" *ngIf="articles$ | async as response; else loading">
   <ul class="articleList">
     <li *ngFor="let article of response.articles">
       <a [routerLink]="article.routerLink" *ngIf="article.previewUrl">
-        <img alt="" [src]="article.previewUrl" style="float:left;margin:0 10px 4px 0" loading="lazy" />
+        <img alt="" [src]="article.previewUrl" style="float: left; margin: 0 10px 4px 0" loading="lazy" />
       </a>
 
       <p>
         <a [routerLink]="article.routerLink" [textContent]="article.name"></a>
       </p>
       <p>
-        {{article.description}}
+        {{ article.description }}
         <a [routerLink]="article.routerLink" i18n>details</a>
       </p>
       <p>
-        <app-user *ngIf="article.author$|async as author" [user]="author"></app-user>
-        <span class="date" *ngIf="article.date" [textContent]="article.date | amTimeAgo" [ngbTooltip]="article.date | date: 'medium'"></span>
+        <app-user *ngIf="article.author$ | async as author" [user]="author"></app-user>
+        <span
+          class="date"
+          *ngIf="article.date"
+          [textContent]="article.date | amTimeAgo"
+          [ngbTooltip]="article.date | date : 'medium'"
+        ></span>
       </p>
     </li>
   </ul>

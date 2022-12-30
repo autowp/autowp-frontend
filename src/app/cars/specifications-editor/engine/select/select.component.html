@@ -3,19 +3,23 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item$|async as item">
-      <a routerLink="/" i18n>Specs editor of {{item.name_text}}</a>
+    <li class="breadcrumb-item" *ngIf="item$ | async as item">
+      <a routerLink="/" i18n>Specs editor of {{ item.name_text }}</a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item$|async">
+<div class="page-header" *ngIf="item$ | async">
   <h1 i18n>Select</h1>
 </div>
 
-<div *ngIf="brandID$|async else noBrand">
-  <div *ngFor="let item of (items$|async).items">
-    <app-cars-select-engine-tree-item [item]="item" (selected)="selectEngine(itemID, $event)" *ngIf="itemID$|async as itemID">
+<div *ngIf="brandID$ | async; else noBrand">
+  <div *ngFor="let item of (items$ | async).items">
+    <app-cars-select-engine-tree-item
+      [item]="item"
+      (selected)="selectEngine(itemID, $event)"
+      *ngIf="itemID$ | async as itemID"
+    >
     </app-cars-select-engine-tree-item>
   </div>
 </div>
@@ -26,14 +30,26 @@
 
 <ng-template #noBrand>
   <div class="mb-3">
-    <input type="text" [(ngModel)]="search" (input)="onInput()" class="form-control" placeholder="Type to search …" i18n-placeholder autofocus />
+    <input
+      type="text"
+      [(ngModel)]="search"
+      (input)="onInput()"
+      class="form-control"
+      placeholder="Type to search …"
+      i18n-placeholder
+      autofocus
+    />
   </div>
 
-  <ng-container *ngIf="brands$|async as brands; else loading">
+  <ng-container *ngIf="brands$ | async as brands; else loading">
     <div class="row">
       <div class="col-md-2" *ngFor="let chunk of brands.items">
         <ng-container *ngFor="let brand of chunk">
-          <a routerLink="/cars/select-engine" [queryParams]="{item_id: itemID$|async, brand_id: brand.id}" [textContent]="brand.name_only"></a>
+          <a
+            routerLink="/cars/select-engine"
+            [queryParams]="{item_id: itemID$ | async, brand_id: brand.id}"
+            [textContent]="brand.name_only"
+          ></a>
           <br />
         </ng-container>
       </div>

@@ -7,9 +7,11 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<p class="index-brands" *ngIf="result$|async as result; else loading">
+<p class="index-brands" *ngIf="result$ | async as result; else loading">
   <app-index-brands-brand [brand]="brand" *ngFor="let brand of result.brands"></app-index-brands-brand>
   <ng-container *ngIf="result.more > 0">
-    <ng-container i18n>… and</ng-container>&#xa0;<a routerLink="/brands" i18n="@@more-n-companies">{result.more, plural, one {more {{result.more}} company} other {more {{result.more}} companies}}</a>
+    <ng-container i18n>… and</ng-container>&#xa0;<a routerLink="/brands" i18n="@@more-n-companies"
+      >{result.more, plural, one {more {{ result.more }} company} other {more {{ result.more }} companies}}</a
+    >
   </ng-container>
 </p>

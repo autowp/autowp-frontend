@@ -9,30 +9,51 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/pictures" i18n>Pictures</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="picture$|async as picture">
-      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{picture.id}}</a>
+    <li class="breadcrumb-item" *ngIf="picture$ | async as picture">
+      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{ picture.id }}</a>
     </li>
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="picture$|async">
+<div class="page-header" *ngIf="picture$ | async">
   <h1 i18n>Location</h1>
 </div>
 
-<form method="post" class="form-horizontal" (ngSubmit)="doSubmit(picture)" *ngIf="picture$|async as picture">
-  <div class="mb-3 row" *ngIf="map$|async as map">
+<form method="post" class="form-horizontal" (ngSubmit)="doSubmit(picture)" *ngIf="picture$ | async as picture">
+  <div class="mb-3 row" *ngIf="map$ | async as map">
     <label class="col-md-2 col-form-label" i18n>Point</label>
     <div class="col-md-10 coords">
-      <input type="text" name="lat" [(ngModel)]="lat" maxlength="20" size="20" placeholder="Latitude" i18n-placeholder class="form-control" (input)="coordsChanged(map)" />
-      <input type="text" name="lng" [(ngModel)]="lng" maxlength="20" size="20" placeholder="Longitude" i18n-placeholder class="form-control" (input)="coordsChanged(map)" />
+      <input
+        type="text"
+        name="lat"
+        [(ngModel)]="lat"
+        maxlength="20"
+        size="20"
+        placeholder="Latitude"
+        i18n-placeholder
+        class="form-control"
+        (input)="coordsChanged(map)"
+      />
+      <input
+        type="text"
+        name="lng"
+        [(ngModel)]="lng"
+        maxlength="20"
+        size="20"
+        placeholder="Longitude"
+        i18n-placeholder
+        class="form-control"
+        (input)="coordsChanged(map)"
+      />
     </div>
-    <div style="height:500px"
-         class="mb-4 w-100"
-         leaflet
-         [leafletCenter]="map.center"
-         [leafletOptions]="map.leafletOptions"
-         [leafletLayers]="map.markers"
-         (leafletMapReady)="onMapReady(map, $event)"
+    <div
+      style="height: 500px"
+      class="mb-4 w-100"
+      leaflet
+      [leafletCenter]="map.center"
+      [leafletOptions]="map.leafletOptions"
+      [leafletLayers]="map.markers"
+      (leafletMapReady)="onMapReady(map, $event)"
     ></div>
   </div>
   <div class="mb-3 row">

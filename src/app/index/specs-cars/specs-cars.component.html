@@ -2,7 +2,7 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="items$|async as items; else loading">
+<ng-container *ngIf="items$ | async as items; else loading">
   <ng-container *ngIf="items && items.length > 0">
     <h4>
       <ng-container i18n>Specifications</ng-container>
@@ -19,6 +19,5 @@
         </p>
       </div>
     </div>
-
   </ng-container>
 </ng-container>

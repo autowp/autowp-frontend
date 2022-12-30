@@ -1,7 +1,7 @@
 <div class="map-infowindow">
   <h5 [textContent]="item.name"></h5>
   <p *ngIf="item.image">
-    <img alt="" [src]="item.image.src" style="max-width:100%" />
+    <img alt="" [src]="item.image.src" style="max-width: 100%" />
   </p>
   <p class="details">
     <a [routerLink]="item.url">подробнее…</a>

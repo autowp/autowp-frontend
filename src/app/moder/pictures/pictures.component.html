@@ -15,55 +15,102 @@
 
 <div class="nav nav-pills mb-4">
   <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 1, status: 'inbox'}" i18n>Inbox</a>
-  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 1, status: 'accepted', perspective_id: 'null', type_id: 1}"
-     i18n>Missing perspective</a>
+  <a
+    class="nav-link"
+    routerLink="/moder/pictures"
+    [queryParams]="{order: 1, status: 'accepted', perspective_id: 'null', type_id: 1}"
+    i18n
+    >Missing perspective</a
+  >
   <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 11, status: 'removing'}" i18n>Delete queue</a>
-  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 1, requests: 3, status: 'custom1'}" i18n>Votes</a>
+  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 1, requests: 3, status: 'custom1'}" i18n
+    >Votes</a
+  >
   <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 7, comments: 1}" i18n>Comments</a>
-  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 9, requests: 3, status: 'custom1'}" i18n>New votes</a>
-  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 1, status: 'inbox', replace: 'true'}" i18n>Replaces</a>
+  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 9, requests: 3, status: 'custom1'}" i18n
+    >New votes</a
+  >
+  <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{order: 1, status: 'inbox', replace: 'true'}" i18n
+    >Replaces</a
+  >
 </div>
 <div class="row">
   <div class="col-lg-4 col-md-4">
     <h2 i18n>Filter</h2>
     <div class="card card-body">
       <div class="btn-group mb-3" ngbDropdown>
-        <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="status !== null" [class.btn-outline-secondary]="status === null"
-          type="button">
+        <button
+          class="btn btn-block"
+          ngbDropdownToggle
+          [class.btn-primary]="status !== null"
+          [class.btn-outline-secondary]="status === null"
+          type="button"
+        >
           <ng-container i18n>Status</ng-container>:
           <ng-container *ngFor="let option of statusOptions">
-            <ng-container *ngIf="option.value === status">{{option.name}}</ng-container>
+            <ng-container *ngIf="option.value === status">{{ option.name }}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu>
-          <a *ngFor="let option of statusOptions" class="dropdown-item" [class.active]="option.value === status" routerLink="." [queryParams]="{status: option.value}"
-            queryParamsHandling="merge">{{option.name}}</a>
+          <a
+            *ngFor="let option of statusOptions"
+            class="dropdown-item"
+            [class.active]="option.value === status"
+            routerLink="."
+            [queryParams]="{status: option.value}"
+            queryParamsHandling="merge"
+            >{{ option.name }}</a
+          >
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
-        <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="vehicleTypeID !== null" [class.btn-outline-secondary]="vehicleTypeID === null"
-          type="button">
+        <button
+          class="btn btn-block"
+          ngbDropdownToggle
+          [class.btn-primary]="vehicleTypeID !== null"
+          [class.btn-outline-secondary]="vehicleTypeID === null"
+          type="button"
+        >
           <ng-container i18n>Vehicle type</ng-container>:
-          <ng-container *ngFor="let option of vehicleTypeOptions$|async">
-            <ng-container *ngIf="option.value === vehicleTypeID">{{option.name}}</ng-container>
+          <ng-container *ngFor="let option of vehicleTypeOptions$ | async">
+            <ng-container *ngIf="option.value === vehicleTypeID">{{ option.name }}</ng-container>
           </ng-container>
         </button>
-        <div ngbDropdownMenu style="max-height:200px;overflow-y:auto">
-          <a *ngFor="let option of vehicleTypeOptions$|async" class="dropdown-item" [class.active]="option.value === vehicleTypeID" routerLink="."
-            [queryParams]="{vehicle_type_id: option.value}" queryParamsHandling="merge">{{'...'.repeat(option.deep)}}{{option.name}}</a>
+        <div ngbDropdownMenu style="max-height: 200px; overflow-y: auto">
+          <a
+            *ngFor="let option of vehicleTypeOptions$ | async"
+            class="dropdown-item"
+            [class.active]="option.value === vehicleTypeID"
+            routerLink="."
+            [queryParams]="{vehicle_type_id: option.value}"
+            queryParamsHandling="merge"
+            >{{ '...'.repeat(option.deep) }}{{ option.name }}</a
+          >
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
-        <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="perspectiveID !== null" [class.btn-outline-secondary]="perspectiveID === null"
-          type="button">
+        <button
+          class="btn btn-block"
+          ngbDropdownToggle
+          [class.btn-primary]="perspectiveID !== null"
+          [class.btn-outline-secondary]="perspectiveID === null"
+          type="button"
+        >
           <ng-container i18n>Perspective</ng-container>:
-          <ng-container *ngFor="let option of perspectiveOptions$|async">
-            <ng-container *ngIf="option.value === perspectiveID">{{option.name}}</ng-container>
+          <ng-container *ngFor="let option of perspectiveOptions$ | async">
+            <ng-container *ngIf="option.value === perspectiveID">{{ option.name }}</ng-container>
           </ng-container>
         </button>
-        <div ngbDropdownMenu style="max-height:200px;overflow-y:auto">
-          <a *ngFor="let option of perspectiveOptions$|async" class="dropdown-item" [class.active]="option.value === perspectiveID" routerLink="."
-            [queryParams]="{perspective_id: option.value}" queryParamsHandling="merge">{{option.name}}</a>
+        <div ngbDropdownMenu style="max-height: 200px; overflow-y: auto">
+          <a
+            *ngFor="let option of perspectiveOptions$ | async"
+            class="dropdown-item"
+            [class.active]="option.value === perspectiveID"
+            routerLink="."
+            [queryParams]="{perspective_id: option.value}"
+            queryParamsHandling="merge"
+            >{{ option.name }}</a
+          >
         </div>
       </div>
 
@@ -71,32 +118,68 @@
         <span [innerHTML]="model.name_html"></span>
       </ng-template>
       <div class="input-group mb-3">
-        <input [ngbTypeahead]="itemsDataSource" name="item" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
-          [resultTemplate]="itemTemplate" placeholder="Item" i18n-placeholder class="form-control" [class.border-primary]="itemID">
+        <input
+          [ngbTypeahead]="itemsDataSource"
+          name="item"
+          [(ngModel)]="itemQuery"
+          [inputFormatter]="itemFormatter"
+          (selectItem)="itemOnSelect($event)"
+          [resultTemplate]="itemTemplate"
+          placeholder="Item"
+          i18n-placeholder
+          class="form-control"
+          [class.border-primary]="itemID"
+        />
         <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
           <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
 
       <div class="input-group mb-3">
-        <input [ngbTypeahead]="itemsDataSource" name="exclude_item" [(ngModel)]="excludeItemQuery" [inputFormatter]="itemFormatter" (selectItem)="excludeItemOnSelect($event)"
-          [resultTemplate]="itemTemplate" placeholder="Exclude item" class="form-control" [class.border-primary]="excludeItemID">
-        <button class="btn btn-outline-secondary" type="button" [disabled]="!excludeItemID" (click)="clearExcludeItem()">
+        <input
+          [ngbTypeahead]="itemsDataSource"
+          name="exclude_item"
+          [(ngModel)]="excludeItemQuery"
+          [inputFormatter]="itemFormatter"
+          (selectItem)="excludeItemOnSelect($event)"
+          [resultTemplate]="itemTemplate"
+          placeholder="Exclude item"
+          class="form-control"
+          [class.border-primary]="excludeItemID"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          [disabled]="!excludeItemID"
+          (click)="clearExcludeItem()"
+        >
           <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
 
       <div class="btn-group mb-3" ngbDropdown>
-        <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="comments !== null" [class.btn-outline-secondary]="comments === null"
-          type="button">
+        <button
+          class="btn btn-block"
+          ngbDropdownToggle
+          [class.btn-primary]="comments !== null"
+          [class.btn-outline-secondary]="comments === null"
+          type="button"
+        >
           <ng-container i18n>Comments</ng-container>:
           <ng-container *ngFor="let option of commentsOptions">
-            <ng-container *ngIf="option.value === comments">{{option.name}}</ng-container>
+            <ng-container *ngIf="option.value === comments">{{ option.name }}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu>
-          <a *ngFor="let option of commentsOptions" class="dropdown-item" [class.active]="option.value === comments" routerLink="."
-            [queryParams]="{comments: option.value}" queryParamsHandling="merge">{{option.name}}</a>
+          <a
+            *ngFor="let option of commentsOptions"
+            class="dropdown-item"
+            [class.active]="option.value === comments"
+            routerLink="."
+            [queryParams]="{comments: option.value}"
+            queryParamsHandling="merge"
+            >{{ option.name }}</a
+          >
         </div>
       </div>
 
@@ -104,65 +187,128 @@
         <span [innerHTML]="model.name"></span>
       </ng-template>
       <div class="input-group mb-3">
-        <input [ngbTypeahead]="ownersDataSource" name="owner" [(ngModel)]="ownerQuery" [inputFormatter]="ownerFormatter" (selectItem)="ownerOnSelect($event)"
-          [resultTemplate]="ownerTemplate" placeholder="Uploaded by" i18n-placeholder class="form-control" [class.border-primary]="ownerID">
+        <input
+          [ngbTypeahead]="ownersDataSource"
+          name="owner"
+          [(ngModel)]="ownerQuery"
+          [inputFormatter]="ownerFormatter"
+          (selectItem)="ownerOnSelect($event)"
+          [resultTemplate]="ownerTemplate"
+          placeholder="Uploaded by"
+          i18n-placeholder
+          class="form-control"
+          [class.border-primary]="ownerID"
+        />
         <button class="btn btn-outline-secondary" type="button" [disabled]="!ownerID" (click)="clearOwner()">
           <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
 
       <div class="btn-group mb-3" ngbDropdown>
-        <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="replace !== null" [class.btn-outline-secondary]="replace === null"
-          type="button">
+        <button
+          class="btn btn-block"
+          ngbDropdownToggle
+          [class.btn-primary]="replace !== null"
+          [class.btn-outline-secondary]="replace === null"
+          type="button"
+        >
           <ng-container i18n>Replacement</ng-container>:
           <ng-container *ngFor="let option of replaceOptions">
-            <ng-container *ngIf="option.value === replace">{{option.name}}</ng-container>
+            <ng-container *ngIf="option.value === replace">{{ option.name }}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
-          <a *ngFor="let option of replaceOptions" class="dropdown-item" [class.active]="option.value === replace" routerLink="." [queryParams]="{replace: option.value}"
-            queryParamsHandling="merge">{{option.name}}</a>
+          <a
+            *ngFor="let option of replaceOptions"
+            class="dropdown-item"
+            [class.active]="option.value === replace"
+            routerLink="."
+            [queryParams]="{replace: option.value}"
+            queryParamsHandling="merge"
+            >{{ option.name }}</a
+          >
         </div>
       </div>
       <div class="btn-group mb-3" ngbDropdown>
-        <button class="btn btn-block" ngbDropdownToggle [class.btn-primary]="requests !== null" [class.btn-outline-secondary]="requests === null"
-          type="button">
+        <button
+          class="btn btn-block"
+          ngbDropdownToggle
+          [class.btn-primary]="requests !== null"
+          [class.btn-outline-secondary]="requests === null"
+          type="button"
+        >
           <ng-container i18n>Votes</ng-container>:
           <ng-container *ngFor="let option of requestsOptions">
-            <ng-container *ngIf="option.value === requests">{{option.name}}</ng-container>
+            <ng-container *ngIf="option.value === requests">{{ option.name }}</ng-container>
           </ng-container>
         </button>
         <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton">
           <li role="menuitem" *ngFor="let option of requestsOptions">
-            <a class="dropdown-item" [class.active]="option.value === requests" routerLink="." [queryParams]="{requests: option.value}"
-              queryParamsHandling="merge">{{option.name}}</a>
+            <a
+              class="dropdown-item"
+              [class.active]="option.value === requests"
+              routerLink="."
+              [queryParams]="{requests: option.value}"
+              queryParamsHandling="merge"
+              >{{ option.name }}</a
+            >
           </li>
         </ul>
       </div>
 
       <div class="mb-3">
         <label>Added from (date)</label>
-        <input type="text" name="added_from" class="form-control" placeholder="2010-01-28" (input)="onAddedFromInput()" [(ngModel)]="addedFrom"
+        <input
+          type="text"
+          name="added_from"
+          class="form-control"
+          placeholder="2010-01-28"
+          (input)="onAddedFromInput()"
+          [(ngModel)]="addedFrom"
         />
       </div>
 
-      <a class="btn mb-3" [class.btn-primary]="specialName" [class.btn-outline-secondary]="!specialName" routerLink="." [queryParams]="{special_name: specialName ? null : 'true'}"
-        queryParamsHandling="merge">
+      <a
+        class="btn mb-3"
+        [class.btn-primary]="specialName"
+        [class.btn-outline-secondary]="!specialName"
+        routerLink="."
+        [queryParams]="{special_name: specialName ? null : 'true'}"
+        queryParamsHandling="merge"
+      >
         <ng-container i18n>Special name only</ng-container>
       </a>
 
-      <a class="btn mb-3" [class.btn-primary]="lost" [class.btn-outline-secondary]="!lost" routerLink="." [queryParams]="{lost: lost ? null : 'true'}"
-        queryParamsHandling="merge">
+      <a
+        class="btn mb-3"
+        [class.btn-primary]="lost"
+        [class.btn-outline-secondary]="!lost"
+        routerLink="."
+        [queryParams]="{lost: lost ? null : 'true'}"
+        queryParamsHandling="merge"
+      >
         <ng-container i18n>Not linked</ng-container>
       </a>
 
-      <a class="btn mb-3" [class.btn-primary]="gps" [class.btn-outline-secondary]="!gps" routerLink="." [queryParams]="{gps: gps ? null : 'true'}"
-        queryParamsHandling="merge">
+      <a
+        class="btn mb-3"
+        [class.btn-primary]="gps"
+        [class.btn-outline-secondary]="!gps"
+        routerLink="."
+        [queryParams]="{gps: gps ? null : 'true'}"
+        queryParamsHandling="merge"
+      >
         <ng-container i18n>With coordinates</ng-container>
       </a>
 
-      <a class="btn mb-3" [class.btn-primary]="similar" [class.btn-outline-secondary]="!similar" routerLink="." [queryParams]="{similar: similar ? null : 'true'}"
-        queryParamsHandling="merge">
+      <a
+        class="btn mb-3"
+        [class.btn-primary]="similar"
+        [class.btn-outline-secondary]="!similar"
+        routerLink="."
+        [queryParams]="{similar: similar ? null : 'true'}"
+        queryParamsHandling="merge"
+      >
         <ng-container i18n>Similar</ng-container>
       </a>
 
@@ -170,25 +316,33 @@
         <button class="btn btn-outline-secondary btn-block" ngbDropdownToggle type="button" id="dropdownMenuButton">
           <ng-container i18n>Order by</ng-container>:
           <ng-container *ngFor="let option of orderOptions">
-            <ng-container *ngIf="option.value === order">{{option.name}}</ng-container>
+            <ng-container *ngIf="option.value === order">{{ option.name }}</ng-container>
           </ng-container>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
-          <a *ngFor="let option of orderOptions" class="dropdown-item" [class.active]="option.value === order" routerLink="." [queryParams]="{order: option.value}"
-            queryParamsHandling="merge">{{option.name}}</a>
+          <a
+            *ngFor="let option of orderOptions"
+            class="dropdown-item"
+            [class.active]="option.value === order"
+            routerLink="."
+            [queryParams]="{order: option.value}"
+            queryParamsHandling="merge"
+            >{{ option.name }}</a
+          >
         </div>
       </div>
-
     </div>
   </div>
   <div class="col-lg-8 col-md-8">
-
     <h2>
       <ng-container i18n>Pictures</ng-container>
 
-      <ng-container *ngIf="data$|async as data; else loading">
+      <ng-container *ngIf="data$ | async as data; else loading">
         <ng-container *ngIf="data.paginator as paginator">
-          <small *ngIf="paginator.totalItemCount" i18n="@@n-pictures">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} picture} other {{{paginator.totalItemCount}} pictures}}</small>
+          <small *ngIf="paginator.totalItemCount" i18n="@@n-pictures"
+            >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} picture} other
+            {{{paginator.totalItemCount}} pictures}}</small
+          >
         </ng-container>
       </ng-container>
       <ng-template #loading>
@@ -196,17 +350,30 @@
       </ng-template>
     </h2>
 
-    <div style="margin-bottom:20px">
+    <div style="margin-bottom: 20px">
       <div class="btn-group">
-        <button [disabled]="!hasSelectedItem" class="btn btn-success" (click)="acceptPictures(data.pictures)" i18n *ngIf="data$|async as data">Accept</button>
+        <button
+          [disabled]="!hasSelectedItem"
+          class="btn btn-success"
+          (click)="acceptPictures(data.pictures)"
+          i18n
+          *ngIf="data$ | async as data"
+        >
+          Accept
+        </button>
         <div class="btn-group" ngbDropdown>
           <button class="btn btn-success" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem">
             <ng-container i18n>Want accept</ng-container>
             <span class="caret" aria-hidden="true"></span>
           </button>
-          <div ngbDropdownMenu *ngIf="data$|async as data">
-            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$|async">
-              <button *ngIf="template.vote > 0" class="btn btn-link dropdown-item" [textContent]="template.message" (click)="votePictures(data.pictures, template.vote, template.message);"></button>
+          <div ngbDropdownMenu *ngIf="data$ | async as data">
+            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$ | async">
+              <button
+                *ngIf="template.vote > 0"
+                class="btn btn-link dropdown-item"
+                [textContent]="template.message"
+                (click)="votePictures(data.pictures, template.vote, template.message)"
+              ></button>
             </div>
           </div>
         </div>
@@ -215,21 +382,31 @@
             <ng-container i18n>Want delete</ng-container>
             <span class="caret" aria-hidden="true"></span>
           </button>
-          <div ngbDropdownMenu *ngIf="data$|async as data">
-            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$|async">
-              <a *ngIf="template.vote < 0" class="dropdown-item" [textContent]="template.message" (click)="votePictures(data.pictures, template.vote, template.message);"></a>
+          <div ngbDropdownMenu *ngIf="data$ | async as data">
+            <div role="menuitem" *ngFor="let template of moderVoteTemplateOptions$ | async">
+              <a
+                *ngIf="template.vote < 0"
+                class="dropdown-item"
+                [textContent]="template.message"
+                (click)="votePictures(data.pictures, template.vote, template.message)"
+              ></a>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <ng-container *ngIf="data$|async as data">
+    <ng-container *ngIf="data$ | async as data">
       <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
 
       <div class="row" *ngFor="let chunk of data.chunks">
         <div class="col-sm-4" *ngFor="let picture of chunk">
-          <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]" [selectable]="true" (selected)="onPictureSelect($event, picture)"></app-thumbnail>
+          <app-thumbnail
+            [picture]="picture"
+            [route]="['/picture', picture.identity]"
+            [selectable]="true"
+            (selected)="onPictureSelect($event, picture)"
+          ></app-thumbnail>
         </div>
       </div>
 

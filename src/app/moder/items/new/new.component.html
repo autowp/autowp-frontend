@@ -12,21 +12,22 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="itemType$|async as itemTypeName">
-  <h1>{{itemTypeName}}</h1>
+<div class="page-header" *ngIf="itemType$ | async as itemTypeName">
+  <h1>{{ itemTypeName }}</h1>
 </div>
 
-<p *ngIf="parent$|async as parent">
+<p *ngIf="parent$ | async as parent">
   <ng-container i18n>As submodel</ng-container>
   <span [innerHTML]="parent.name_html"></span>
 </p>
 
-<ng-container *ngIf="item$|async as item">
-  <app-item-meta-form [item]="item"
-                      (submitted)="submit(item.item_type_id, $event)"
-                      [parent]="parent$|async"
-                      [vehicleTypeIDs]="vehicleTypeIDs$|async"
-                      [invalidParams]="invalidParams"
-                      class="d-block mb-4"
+<ng-container *ngIf="item$ | async as item">
+  <app-item-meta-form
+    [item]="item"
+    (submitted)="submit(item.item_type_id, $event)"
+    [parent]="parent$ | async"
+    [vehicleTypeIDs]="vehicleTypeIDs$ | async"
+    [invalidParams]="invalidParams"
+    class="d-block mb-4"
   ></app-item-meta-form>
 </ng-container>

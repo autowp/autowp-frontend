@@ -15,9 +15,19 @@
       <div class="col-md-6 mb-2" *ngFor="let contact of items">
         <div class="d-flex justify-content-start">
           <div class="align-self-start me-3">
-            <a [routerLink]="['/users', contact.user.identity ? contact.user.identity : 'user' + contact.user.id]" *ngIf="!contact.user.deleted" class="photo">
+            <a
+              [routerLink]="['/users', contact.user.identity ? contact.user.identity : 'user' + contact.user.id]"
+              *ngIf="!contact.user.deleted"
+              class="photo"
+            >
               <img alt="" [src]="contact.user.avatar.src" *ngIf="contact.user.avatar" class="rounded" loading="lazy" />
-              <img alt="" [src]="contact.user.gravatar" *ngIf="contact.user.gravatar && ! contact.user.avatar" class="rounded" loading="lazy" />
+              <img
+                alt=""
+                [src]="contact.user.gravatar"
+                *ngIf="contact.user.gravatar && !contact.user.avatar"
+                class="rounded"
+                loading="lazy"
+              />
             </a>
           </div>
           <div class="flex-grow-1">
@@ -25,7 +35,11 @@
             <h4>
               <app-user2 [user]="contact.user"></app-user2>
             </h4>
-            <p *ngIf="contact.user.lastOnline" [textContent]="contact.user.lastOnline.toDate() | amTimeAgo" [ngbTooltip]="contact.user.lastOnline.toDate() | date: 'medium'"></p>
+            <p
+              *ngIf="contact.user.lastOnline"
+              [textContent]="contact.user.lastOnline.toDate() | amTimeAgo"
+              [ngbTooltip]="contact.user.lastOnline.toDate() | date : 'medium'"
+            ></p>
           </div>
         </div>
       </div>

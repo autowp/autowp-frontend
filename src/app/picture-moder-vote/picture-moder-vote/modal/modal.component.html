@@ -17,6 +17,8 @@
   </div>
   <div class="modal-footer">
     <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Cancel</button>
-    <button type="button" (click)="ok()" class="btn" [class.btn-danger]="vote < 0" [class.btn-success]="vote > 0" i18n>Send</button>
+    <button type="button" (click)="ok()" class="btn" [class.btn-danger]="vote < 0" [class.btn-success]="vote > 0" i18n>
+      Send
+    </button>
   </div>
 </div>

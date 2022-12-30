@@ -3,7 +3,7 @@
     <h3 class="modal-title" i18n>Votes</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
-  <div class="modal-body" *ngIf="votes$|async as votes">
+  <div class="modal-body" *ngIf="votes$ | async as votes">
     <p *ngIf="votes && votes.positive.length">
       <strong>+1</strong>:
       <app-user2 *ngFor="let vote of votes.positive" [user]="vote.user"></app-user2>

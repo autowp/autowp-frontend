@@ -26,9 +26,8 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="query$|async as response; else loading">
+<ng-container *ngIf="query$ | async as response; else loading">
   <app-catalogue-list-item [item]="item" *ngFor="let item of response.items"></app-catalogue-list-item>
 
   <app-paginator [data]="response.paginator" *ngIf="response.paginator"></app-paginator>
 </ng-container>
-

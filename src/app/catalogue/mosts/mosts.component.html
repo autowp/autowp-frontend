@@ -3,7 +3,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
+    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
   </ol>
@@ -14,10 +14,10 @@
 </ng-template>
 
 <app-mosts-contents
-  *ngIf="brand$|async as brand; else loading"
+  *ngIf="brand$ | async as brand; else loading"
   [prefix]="['/', brand.catname, 'mosts']"
-  [ratingCatname]="ratingCatname$|async"
-  [typeCatname]="typeCatname$|async"
-  [yearsCatname]="yearsCatname$|async"
+  [ratingCatname]="ratingCatname$ | async"
+  [typeCatname]="typeCatname$ | async"
+  [yearsCatname]="yearsCatname$ | async"
   [brandID]="brand.id"
 ></app-mosts-contents>

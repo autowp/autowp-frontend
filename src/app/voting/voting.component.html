@@ -6,23 +6,23 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="voting$|async as voting">
+<ng-container *ngIf="voting$ | async as voting">
   <div class="page-header">
-    <h1>{{voting.name}}</h1>
+    <h1>{{ voting.name }}</h1>
   </div>
 
   <div class="card card-body mb-4" *ngIf="voting">
-    <p style="white-space:pre-line" [textContent]="voting.text"></p>
+    <p style="white-space: pre-line" [textContent]="voting.text"></p>
     <hr />
 
     <form *ngIf="voting.can_vote" (submit)="vote(voting)">
       <ul class="unstyled">
         <li *ngFor="let variant of voting.variants">
           <label class="checkbox inline" *ngIf="voting.multivariant">
-            <input type="checkbox" name="variant" [(ngModel)]="selected[variant.id]" /> {{variant.name}}
+            <input type="checkbox" name="variant" [(ngModel)]="selected[variant.id]" /> {{ variant.name }}
           </label>
           <label class="radio inline" *ngIf="!voting.multivariant">
-            <input type="radio" name="variant" [(ngModel)]="selected" [value]="variant.id" /> {{variant.name}}
+            <input type="radio" name="variant" [(ngModel)]="selected" [value]="variant.id" /> {{ variant.name }}
           </label>
 
           <p class="text-info" *ngIf="variant.text" [textContent]="variant.text"></p>
@@ -36,9 +36,14 @@
         <p class="float-end" *ngIf="variant.votes > 0">
           <a class="who-vote" href="#" i18n (click)="showWhoVoted(voting, variant)">Who voted?</a>
         </p>
-        {{variant.name}}
+        {{ variant.name }}
         <p class="text-info" *ngIf="variant.text" [textContent]="variant.text"></p>
-        <ngb-progressbar style="clear:both" [type]="variant.is_max ? 'success' : variant.is_min ? 'danger' : 'primary'" [value]="variant.percent">{{variant.votes > 0 ? variant.votes : ''}}</ngb-progressbar>
+        <ngb-progressbar
+          style="clear: both"
+          [type]="variant.is_max ? 'success' : variant.is_min ? 'danger' : 'primary'"
+          [value]="variant.percent"
+          >{{ variant.votes > 0 ? variant.votes : '' }}</ngb-progressbar
+        >
       </div>
     </ng-container>
   </div>
@@ -47,7 +52,9 @@
     <a routerLink="." [queryParams]="{filter: 1}" *ngIf="!filter" i18n>show from 100 uploaded pictures</a>
   </p>-->
 
-  <p *ngIf="voting" i18n>Voting during {{voting.begin_date | amDateFormat : 'LL'}} to {{voting.end_date | amDateFormat : 'LL'}}</p>
+  <p *ngIf="voting" i18n>
+    Voting during {{ voting.begin_date | amDateFormat : 'LL' }} to {{ voting.end_date | amDateFormat : 'LL' }}
+  </p>
 
   <app-comments [itemID]="voting.id" [typeID]="3"></app-comments>
 </ng-container>

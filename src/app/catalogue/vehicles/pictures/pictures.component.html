@@ -3,10 +3,10 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$|async as brand">
+    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
       <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
     </li>
-    <ng-container *ngIf="breadcrumbs$|async as breadcrumbs">
+    <ng-container *ngIf="breadcrumbs$ | async as breadcrumbs">
       <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
         <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
       </li>
@@ -18,30 +18,41 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="item$|async as item; else loading">
+<ng-container *ngIf="item$ | async as item; else loading">
   <div class="page-header">
     <h1>
       <ng-container i18n>All pictures of</ng-container>
-      <app-item-header [item]="{nameHTML: item.name_html, design: item.design, produced: {count: item.produced, exactly: item.produced_exactly}}"></app-item-header>
+      <app-item-header
+        [item]="{
+          nameHTML: item.name_html,
+          design: item.design,
+          produced: {count: item.produced, exactly: item.produced_exactly}
+        }"
+      ></app-item-header>
     </h1>
   </div>
 
-  <p *ngIf="isModer$|async">
+  <p *ngIf="isModer$ | async">
     <i class="bi bi-gear-fill" aria-hidden="true"></i>
     <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
 
-    <ng-container *ngIf="canAddItem$|async as canAddItem">
+    <ng-container *ngIf="canAddItem$ | async as canAddItem">
       <ng-container *ngIf="canAddItem && item.is_group">
         <i class="bi bi-plus" aria-hidden="true"></i>
-        <a style="text-transform: lowercase" routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">{{getItemTypeTranslation(item.item_type_id, 'add-sub-item')}}</a>
+        <a
+          style="text-transform: lowercase"
+          routerLink="/moder/items/new"
+          [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}"
+          >{{ getItemTypeTranslation(item.item_type_id, 'add-sub-item') }}</a
+        >
       </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="canAcceptPicture$|async as canAcceptPicture">
+    <ng-container *ngIf="canAcceptPicture$ | async as canAcceptPicture">
       <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
         <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
         <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
-          <ng-container i18n>inbox</ng-container> ({{item.inbox_pictures_count}})
+          <ng-container i18n>inbox</ng-container> ({{ item.inbox_pictures_count }})
         </a>
       </ng-container>
     </ng-container>
@@ -49,23 +60,22 @@
     <ng-container *ngIf="item.comments_attentions_count">
       <i class="bi bi-chat-fill" aria-hidden="true"></i>
       <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
-        <ng-container i18n>comments</ng-container> ({{item.comments_attentions_count}})
+        <ng-container i18n>comments</ng-container> ({{ item.comments_attentions_count }})
       </a>
     </ng-container>
   </p>
 
   <app-catalogue-item-menu
     [header]="{nameHTML: item.name_html, produced: {count: item.produced, exactly: item.produced_exactly}}"
-    [itemRouterLink]="routerLink$|async"
+    [itemRouterLink]="routerLink$ | async"
     [picturesCount]="item.accepted_pictures_count"
     [childsCounts]="item.childs_counts"
     [active]="'pictures'"
   ></app-catalogue-item-menu>
 </ng-container>
 
-
-<ng-container *ngIf="pictures$|async as pictures; else loading">
-  <ng-container *ngIf="picturesRouterLink$|async as picturesRouterLink">
+<ng-container *ngIf="pictures$ | async as pictures; else loading">
+  <ng-container *ngIf="picturesRouterLink$ | async as picturesRouterLink">
     <div class="row" *ngFor="let chunk of pictures.pictures">
       <div class="col-sm-3" *ngFor="let picture of chunk">
         <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>

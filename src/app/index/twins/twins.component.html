@@ -1,14 +1,26 @@
-<h4><ng-container i18n>Twins</ng-container> <small><a routerLink="/twins" i18n>all</a></small></h4>
+<h4>
+  <ng-container i18n>Twins</ng-container> <small><a routerLink="/twins" i18n>all</a></small>
+</h4>
 <ng-template #loading>
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
-<p *ngIf="items$|async as items; else loading">
+<p *ngIf="items$ | async as items; else loading">
   <ng-container *ngFor="let brand of items.items">
-    <a [routerLink]="['/twins', brand.catname]">{{brand.name}}</a>&#xa0;<span class="count">({{brand.count - brand.newCount}}<span *ngIf="brand.newCount > 0">+{{brand.newCount}}</span>)</span>
+    <a [routerLink]="['/twins', brand.catname]">{{ brand.name }}</a
+    >&#xa0;<span class="count"
+      >({{ brand.count - brand.newCount }}<span *ngIf="brand.newCount > 0">+{{ brand.newCount }}</span
+      >)</span
+    >
   </ng-container>
   <ng-container *ngIf="items.count > items.items.length">
     <ng-container i18n>… and</ng-container>
-    <a routerLink="/twins" i18n="@@more-n-companies">{items.count - items.items.length, plural, one {more {{items.count - items.items.length}} company} other {more {{items.count - items.items.length}} companies}}</a>
+    <a routerLink="/twins" i18n="@@more-n-companies"
+      >{items.count - items.items.length, plural, one {more {{ items.count - items.items.length }} company} other
+      {more {{ items.count - items.items.length }} companies}}</a
+    >
   </ng-container>
 </p>
-<app-markdown i18n-markdown markdown="Do you know that Daewoo Matiz has as many as [six clones](/twins/group/118812)? And you know what [common in Lotus and Kia](/twins/group/118750)? We are sure that you will find this section interesting."></app-markdown>
+<app-markdown
+  i18n-markdown
+  markdown="Do you know that Daewoo Matiz has as many as [six clones](/twins/group/118812)? And you know what [common in Lotus and Kia](/twins/group/118750)? We are sure that you will find this section interesting."
+></app-markdown>

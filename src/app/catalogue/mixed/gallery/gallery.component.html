@@ -2,11 +2,15 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="data$|async as data; else loading">
+<ng-container *ngIf="data$ | async as data; else loading">
   <app-gallery
-    *ngIf="brand$|async as brand"
-    [filter]="{exactItemID: brand.id, perspectiveID: data.perspective_id, perspectiveExclude: data.perspective_exclude_id}"
-    [current]="identity$|async"
+    *ngIf="brand$ | async as brand"
+    [filter]="{
+      exactItemID: brand.id,
+      perspectiveID: data.perspective_id,
+      perspectiveExclude: data.perspective_exclude_id
+    }"
+    [current]="identity$ | async"
     [galleryPrefix]="['/', brand.catname, data.catname, 'gallery']"
     [picturePrefix]="['/', brand.catname, data.catname]"
     (pictureSelected)="pictureSelected(data, $event)"

@@ -6,7 +6,7 @@
   </ol>
 </nav>
 
-<div *ngIf="picture$|async as picture">
+<div *ngIf="picture$ | async as picture">
   <app-picture [picture]="picture" [prefix]="['/picture']" (changed)="reloadPicture()"></app-picture>
 
   <div id="comments" *ngIf="picture">

@@ -1,7 +1,12 @@
 <ng-template #loading xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
-<app-item-of-day class="d-block mb-4" [item]="itemOfDay[1].item" [user]="itemOfDay[0]" *ngIf="itemOfDay$|async as itemOfDay; else loading"></app-item-of-day>
+<app-item-of-day
+  class="d-block mb-4"
+  [item]="itemOfDay[1].item"
+  [user]="itemOfDay[0]"
+  *ngIf="itemOfDay$ | async as itemOfDay; else loading"
+></app-item-of-day>
 
 <app-index-donate></app-index-donate>
 
@@ -20,14 +25,20 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h4><ng-container i18n>Mostly</ng-container> <small><a routerLink="/mosts" i18n>all</a></small></h4>
+    <h4>
+      <ng-container i18n>Mostly</ng-container> <small><a routerLink="/mosts" i18n>all</a></small>
+    </h4>
     <p>
       <ng-container *ngFor="let most of mosts">
-        <a [routerLink]="most.route">{{most.name}}</a>,
+        <a [routerLink]="most.route">{{ most.name }}</a
+        >,
       </ng-container>
       …
     </p>
-    <app-markdown i18n-markdown markdown="Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out."></app-markdown>
+    <app-markdown
+      i18n-markdown
+      markdown="Want to know which car was the fastest? Do you want to know how much the most powerful mining truck weighs? Come and find out."
+    ></app-markdown>
   </div>
 
   <div class="col-md-6">
@@ -37,10 +48,13 @@
 
 <div class="row mb-4">
   <div class="col-md-6">
-    <h4><ng-container i18n>Persons on photo</ng-container> <small><a routerLink="/persons" i18n>all</a></small></h4>
-    <p *ngIf="contentPersons$|async as persons; else contentLoading">
+    <h4>
+      <ng-container i18n>Persons on photo</ng-container> <small><a routerLink="/persons" i18n>all</a></small>
+    </h4>
+    <p *ngIf="contentPersons$ | async as persons; else contentLoading">
       <ng-container *ngFor="let person of persons.items">
-        <a [routerLink]="['/persons', person.id]">{{person.name}}</a>,
+        <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
+        >,
       </ng-container>
       …
     </p>
@@ -50,10 +64,13 @@
   </div>
 
   <div class="col-md-6">
-    <h4><ng-container i18n>Authors</ng-container> <small><a routerLink="/persons/authors" i18n>all</a></small></h4>
-    <p *ngIf="authorPersons$|async as persons; else authorLoading">
+    <h4>
+      <ng-container i18n>Authors</ng-container> <small><a routerLink="/persons/authors" i18n>all</a></small>
+    </h4>
+    <p *ngIf="authorPersons$ | async as persons; else authorLoading">
       <ng-container *ngFor="let person of persons.items">
-        <a [routerLink]="['/persons', person.id]">{{person.name}}</a>,
+        <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
+        >,
       </ng-container>
       …
     </p>

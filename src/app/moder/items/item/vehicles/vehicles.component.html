@@ -1,7 +1,7 @@
 <div class="card card-body">
   <h4 class="mb-3" i18n>Vehicles with that engine</h4>
   <ul>
-    <li *ngFor="let item of engineVehicles$|async">
+    <li *ngFor="let item of engineVehicles$ | async">
       <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'meta'}" [innerHTML]="item.name_html"></a>
     </li>
   </ul>

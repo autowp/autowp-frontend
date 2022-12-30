@@ -1,20 +1,36 @@
-<ng-container *ngIf="canLogo$|async as canLogo">
+<ng-container *ngIf="canLogo$ | async as canLogo">
   <div class="card card-body" *ngIf="item">
-    <app-markdown *ngIf="canLogo" i18n-markdown markdown="* Logotypes must be in PNG format.
+    <app-markdown
+      *ngIf="canLogo"
+      i18n-markdown
+      markdown="* Logotypes must be in PNG format.
 * All transparent regions must be transparent but not white!
 * Logotype must be close to edges. Margin not required
-* Upload images in maximum resolution - thats give quality and ability to use it in future. On website logo scaled automatically"></app-markdown>
-    <img alt="" [src]="item.logo.src" style="max-width:100%" *ngIf="item.logo" />
+* Upload images in maximum resolution - thats give quality and ability to use it in future. On website logo scaled automatically"
+    ></app-markdown>
+    <img alt="" [src]="item.logo.src" style="max-width: 100%" *ngIf="item.logo" />
     <div *ngIf="canLogo">
       <div class="mb-3">
         <input type="file" #input name="file" class="form-control" (change)="onChange($event)" accept="image/*" />
       </div>
-      <ngb-progressbar class="d-block mb-2" [type]="progress.success ? 'success' : progress.failed ? 'danger' : 'info'" [value]="progress.percentage"
-        *ngIf="progress && !progress.success">
+      <ngb-progressbar
+        class="d-block mb-2"
+        [type]="progress.success ? 'success' : progress.failed ? 'danger' : 'info'"
+        [value]="progress.percentage"
+        *ngIf="progress && !progress.success"
+      >
         <div>
           <span class="d-inline file-name" [textContent]="progress.filename">: </span>
-          <span class="d-inline percentage" [textContent]="progress.percentage + '% '" *ngIf="progress.percentage < 100"></span>
-          <span class="d-inline" *ngFor="let message of progress.invalidParams | invalidParams : 'file'" [textContent]="message + ' '"></span>
+          <span
+            class="d-inline percentage"
+            [textContent]="progress.percentage + '% '"
+            *ngIf="progress.percentage < 100"
+          ></span>
+          <span
+            class="d-inline"
+            *ngFor="let message of progress.invalidParams | invalidParams : 'file'"
+            [textContent]="message + ' '"
+          ></span>
         </div>
       </ngb-progressbar>
     </div>

@@ -30,7 +30,7 @@
       <i class="bi bi-plus-circle me-1" aria-hidden="true"></i>
       <ng-container i18n>Concepts & prototypes</ng-container>
     </a>
-    <div style="margin:0 0 4px 18px;" [hidden]="!conceptsExpanded">
+    <div style="margin: 0 0 4px 18px" [hidden]="!conceptsExpanded">
       <app-donate-vod-select-item [item]="item" *ngFor="let item of concepts"></app-donate-vod-select-item>
     </div>
   </div>
@@ -39,7 +39,12 @@
 <div class="row" *ngIf="!brand">
   <div class="col-md-2" *ngFor="let chunk of brands">
     <ng-container *ngFor="let brand of chunk">
-      <a routerLink="." [queryParams]="{brand_id: brand.id}" queryParamsHandling="merge" [textContent]="brand.name_only"></a>
+      <a
+        routerLink="."
+        [queryParams]="{brand_id: brand.id}"
+        queryParamsHandling="merge"
+        [textContent]="brand.name_only"
+      ></a>
       <br />
     </ng-container>
   </div>

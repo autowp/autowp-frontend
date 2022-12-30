@@ -20,7 +20,11 @@
 </div>
 
 <p *ngIf="parent && item">
-  <a [routerLink]="['/moder/items/item', parent.id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="parent.name_html"></a>
+  <a
+    [routerLink]="['/moder/items/item', parent.id]"
+    [queryParams]="{tab: 'catalogue'}"
+    [innerHTML]="parent.name_html"
+  ></a>
   &rarr;
   <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.name_html"></a>
 </p>
@@ -36,20 +40,31 @@
     <label class="col-md-2 col-form-label" for="type">Type</label>
     <div class="col-md-10">
       <select name="type_id" class="form-control" [(ngModel)]="itemParent.type_id">
-        <option *ngFor="let option of typeOptions" [value]="option.value">{{option.name}}</option>
+        <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.name }}</option>
       </select>
     </div>
   </div>
   <div class="mb-3 row" *ngFor="let language of languages">
-    <label class="col-md-2 col-form-label">{{language.language.toUpperCase()}} Name</label>
+    <label class="col-md-2 col-form-label">{{ language.language.toUpperCase() }} Name</label>
     <div class="col-md-10">
-      <input type="text" [class.is-invalid]="language.invalidParams" [name]="'name' + language.language" maxlength="255" class="form-control" [(ngModel)]="language.name" />
-      <p *ngFor="let message of language.invalidParams | invalidParams : 'name'" [textContent]="message" class="invalid-feedback"></p>
+      <input
+        type="text"
+        [class.is-invalid]="language.invalidParams"
+        [name]="'name' + language.language"
+        maxlength="255"
+        class="form-control"
+        [(ngModel)]="language.name"
+      />
+      <p
+        *ngFor="let message of language.invalidParams | invalidParams : 'name'"
+        [textContent]="message"
+        class="invalid-feedback"
+      ></p>
     </div>
   </div>
   <div class="row">
     <div class="col-md-10 offset-md-2">
-      <input type="submit" name="submit" class="btn btn-primary" value="Отправить">
+      <input type="submit" name="submit" class="btn btn-primary" value="Отправить" />
     </div>
   </div>
 </form>

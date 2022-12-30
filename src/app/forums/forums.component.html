@@ -3,7 +3,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <ng-container *ngIf="data$|async as data">
+    <ng-container *ngIf="data$ | async as data">
       <li class="breadcrumb-item" *ngIf="data && data.theme">
         <a routerLink="/forums" i18n>Forums</a>
       </li>
@@ -11,9 +11,9 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="data$|async as data">
+<ng-container *ngIf="data$ | async as data">
   <div class="page-header">
-    <h1 *ngIf="data.theme else noTheme">{{getForumsThemeTranslation(data.theme.name)}}</h1>
+    <h1 *ngIf="data.theme; else noTheme">{{ getForumsThemeTranslation(data.theme.name) }}</h1>
     <ng-template #noTheme>
       <h1 i18n id="header">Forums</h1>
     </ng-template>
@@ -30,13 +30,20 @@
         </p>
         <p [textContent]="getForumsThemeDescriptionTranslation(theme.description)" *ngIf="theme.description"></p>
         <p>
-          <ng-container i18n="@@n-topics">{theme.topics_count, plural, one {{{theme.topics_count}} topic} other {{{theme.topics_count}} topics}}</ng-container>,
-          <ng-container i18n="@@n-messages">{theme.messages_count, plural, one {{{theme.messages_count}} message} other {{{theme.messages_count}} messages}}</ng-container>
+          <ng-container i18n="@@n-topics"
+            >{theme.topics_count, plural, one {{{theme.topics_count}} topic} other
+            {{{theme.topics_count}} topics}}</ng-container
+          >,
+          <ng-container i18n="@@n-messages"
+            >{theme.messages_count, plural, one {{{theme.messages_count}} message} other
+            {{{theme.messages_count}} messages}}</ng-container
+          >
         </p>
         <div *ngIf="theme.themes && theme.themes.length > 0" ngPreserveWhitespaces>
           <ng-container i18n>Subforums</ng-container>
           <ng-container *ngFor="let subtheme of theme.themes; let last = last">
-            <a [routerLink]="['/forums', subtheme.id]">{{getForumsThemeTranslation(subtheme.name)}}</a><span *ngIf="!last">, </span>
+            <a [routerLink]="['/forums', subtheme.id]">{{ getForumsThemeTranslation(subtheme.name) }}</a
+            ><span *ngIf="!last">, </span>
           </ng-container>
         </div>
         <p *ngIf="!theme.themes">
@@ -49,7 +56,9 @@
         <div *ngIf="theme.last_message" ngPreserveWhitespaces>
           <p>
             <i class="bi bi-chat-fill" aria-hidden="true"></i>
-            <a [routerLink]="['/forums/topic', theme.last_topic.id]" i18n>Last message in topic «{{theme.last_topic.name}}»</a>
+            <a [routerLink]="['/forums/topic', theme.last_topic.id]" i18n
+              >Last message in topic «{{ theme.last_topic.name }}»</a
+            >
           </p>
           <p>
             <app-past-time-indicator [date]="theme.last_message.datetime"></app-past-time-indicator>
@@ -64,7 +73,6 @@
   </div>
 
   <div *ngIf="data.theme && !data.theme.disable_topics">
-
     <a [routerLink]="['/forums/new-topic', data.theme.id]" class="btn btn-info">
       <i class="bi bi-chat-fill" aria-hidden="true"></i>
       <ng-container i18n>Create new topic</ng-container>
@@ -76,7 +84,7 @@
           <th i18n scope="col">Topics</th>
           <th i18n scope="col">Author</th>
           <th i18n scope="col">Last message</th>
-          <th *ngIf="forumAdmin$|async" scope="col"></th>
+          <th *ngIf="forumAdmin$ | async" scope="col"></th>
         </tr>
       </thead>
       <tbody *ngIf="data.theme">
@@ -85,7 +93,7 @@
             <span class="bi bi-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
             <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name"></a>
             <span class="badge rounded-pill text-bg-secondary">
-              {{topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '')}}
+              {{ topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '') }}
             </span>
           </td>
           <td>
@@ -110,18 +118,41 @@
             </div>
             <span *ngIf="!topic.last_message">&#x2014;</span>
           </td>
-          <td *ngIf="forumAdmin$|async" ngPreserveWhitespaces>
+          <td *ngIf="forumAdmin$ | async" ngPreserveWhitespaces>
             <div class="btn-group">
-              <button i18n-title title="open" class="btn btn-sm btn-warning open" (click)="openTopic(topic)" *ngIf="topic.status === 'closed'">
+              <button
+                i18n-title
+                title="open"
+                class="btn btn-sm btn-warning open"
+                (click)="openTopic(topic)"
+                *ngIf="topic.status === 'closed'"
+              >
                 <i class="bi bi-check-circle" aria-hidden="true"></i>
               </button>
-              <button i18n-title title="close" class="btn btn-sm btn-warning close-topic" (click)="closeTopic(topic)" *ngIf="topic.status !== 'closed'">
+              <button
+                i18n-title
+                title="close"
+                class="btn btn-sm btn-warning close-topic"
+                (click)="closeTopic(topic)"
+                *ngIf="topic.status !== 'closed'"
+              >
                 <i class="bi bi-x-circle-fill" aria-hidden="true"></i>
               </button>
-              <a routerLink="/forums/move-topic" [queryParams]="{topic_id: topic.id}" class="btn btn-secondary btn-sm" title="move" i18n-title>
+              <a
+                routerLink="/forums/move-topic"
+                [queryParams]="{topic_id: topic.id}"
+                class="btn btn-secondary btn-sm"
+                title="move"
+                i18n-title
+              >
                 <i class="bi bi-arrows-move" aria-hidden="true"></i>
               </a>
-              <button i18n-title title="delete" class="btn btn-sm btn-danger delete" (click)="deleteTopic(data.theme, topic)">
+              <button
+                i18n-title
+                title="delete"
+                class="btn btn-sm btn-danger delete"
+                (click)="deleteTopic(data.theme, topic)"
+              >
                 <i class="bi bi-slash-circle" aria-hidden="true"></i>
               </button>
             </div>
@@ -133,7 +164,13 @@
   </div>
 
   <p class="text-end small" *ngIf="data.theme as theme">
-    <ng-container i18n="@@n-topics">{theme.topics_count, plural, one {{{theme.topics_count}} topic} other {{{theme.topics_count}} topics}}</ng-container>,
-    <ng-container i18n="@@n-messages">{theme.messages_count, plural, one {{{theme.messages_count}} message} other {{{theme.messages_count}} messages}}</ng-container>
+    <ng-container i18n="@@n-topics"
+      >{theme.topics_count, plural, one {{{theme.topics_count}} topic} other
+      {{{theme.topics_count}} topics}}</ng-container
+    >,
+    <ng-container i18n="@@n-messages"
+      >{theme.messages_count, plural, one {{{theme.messages_count}} message} other
+      {{{theme.messages_count}} messages}}</ng-container
+    >
   </p>
 </ng-container>

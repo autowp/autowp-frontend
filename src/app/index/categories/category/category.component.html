@@ -1,11 +1,20 @@
 <ng-template #popover>
-    <span [hidden]="!loading">
-      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-    </span>
+  <span [hidden]="!loading">
+    <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+  </span>
   <div [innerHTML]="html"></div>
 </ng-template>
 <span>
-  <a [routerLink]="['/category', category.catname]">{{category.name}}</a>
-  <span class="count">({{category.count - category.newCount}}<span *ngIf="category.newCount > 0"
-    [ngbPopover]="popover" triggers="mouseenter:mouseleave" (shown)="shown()" container="body">+{{category.newCount}}</span>)</span>
+  <a [routerLink]="['/category', category.catname]">{{ category.name }}</a>
+  <span class="count"
+    >({{ category.count - category.newCount
+    }}<span
+      *ngIf="category.newCount > 0"
+      [ngbPopover]="popover"
+      triggers="mouseenter:mouseleave"
+      (shown)="shown()"
+      container="body"
+      >+{{ category.newCount }}</span
+    >)</span
+  >
 </span>

@@ -8,7 +8,7 @@
     <a class="close" (click)="activeModal.dismiss()">×</a>
   </div>
   <div class="modal-body">
-    <ng-container *ngIf="votes$|async as votes; else loading">
+    <ng-container *ngIf="votes$ | async as votes; else loading">
       <app-user [user]="vote.user" *ngFor="let vote of votes"></app-user>
     </ng-container>
   </div>

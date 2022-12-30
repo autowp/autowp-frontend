@@ -3,8 +3,8 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="user$|async as user">
-      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{user.name}}</a>
+    <li class="breadcrumb-item" *ngIf="user$ | async as user">
+      <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{ user.name }}</a>
     </li>
   </ol>
 </nav>
@@ -13,20 +13,27 @@
   <h1 i18n>Comments</h1>
 </div>
 
-<ul class="nav nav-pills mb-3" *ngIf="order$|async as order">
+<ul class="nav nav-pills mb-3" *ngIf="order$ | async as order">
   <li class="nav-item" *ngFor="let corder of orders">
-    <a [class.active]="corder.value === order" class="nav-link" routerLink="." [queryParams]="{order: corder.value, page: null}"
-      [textContent]="corder.name"></a>
+    <a
+      [class.active]="corder.value === order"
+      class="nav-link"
+      routerLink="."
+      [queryParams]="{order: corder.value, page: null}"
+      [textContent]="corder.name"
+    ></a>
   </li>
 </ul>
 
-<ng-container *ngIf="comments$|async as data">
+<ng-container *ngIf="comments$ | async as data">
   <ul>
     <li *ngFor="let comment of data.items">
-      <strong *ngIf="comment.vote > 0">+{{comment.vote}}
+      <strong *ngIf="comment.vote > 0"
+        >+{{ comment.vote }}
         <span class="bi bi-hand-thumbs-up" aria-hidden="true"></span>
       </strong>
-      <strong *ngIf="comment.vote < 0">{{comment.vote}}
+      <strong *ngIf="comment.vote < 0"
+        >{{ comment.vote }}
         <span class="bi bi-hand-thumbs-down" aria-hidden="true"></span>
       </strong>
       <a [routerLink]="comment.route" [textContent]="comment.preview"></a>

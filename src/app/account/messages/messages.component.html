@@ -11,8 +11,7 @@
 </ng-template>
 
 <ng-template #loadingAuthor>
-  <div>
-  </div>
+  <div></div>
   <div class="photo">
     <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
   </div>
@@ -22,35 +21,40 @@
   <div>
     <span i18n>System notification</span>
   </div>
-  <div class="photo">
-  </div>
+  <div class="photo"></div>
 </ng-template>
 
 <div class="row">
-  <div class="col-lg-8 mb-4 order-2" *ngIf="messages$|async as data; else loading">
+  <div class="col-lg-8 mb-4 order-2" *ngIf="messages$ | async as data; else loading">
     <div class="page-header">
-      <h1>{{pageName}}</h1>
+      <h1>{{ pageName }}</h1>
     </div>
 
-    <div class="mb-4" *ngIf="folder ==='sent' && data.paginator && data.paginator.totalItemCount">
+    <div class="mb-4" *ngIf="folder === 'sent' && data.paginator && data.paginator.totalItemCount">
       <button class="btn btn-danger" (click)="clearFolder('sent')" i18n>Delete all sent messages</button>
     </div>
 
-    <div class="mb-4" *ngIf="folder ==='system' && data.paginator && data.paginator.totalItemCount">
+    <div class="mb-4" *ngIf="folder === 'system' && data.paginator && data.paginator.totalItemCount">
       <button class="btn btn-danger" (click)="clearFolder('system')" i18n>Delete all system notifications</button>
     </div>
 
     <div class="comments">
       <div class="message" *ngFor="let message of data.items">
         <ng-container *ngIf="message.message.authorId !== '0'; else noAuthor">
-          <ng-container *ngIf="message.author$|async as author; else loadingAuthor">
+          <ng-container *ngIf="message.author$ | async as author; else loadingAuthor">
             <div>
               <app-user [user]="author"></app-user>
             </div>
             <div class="photo">
-              <a [routerLink]="author.route" *ngIf="! author.deleted">
+              <a [routerLink]="author.route" *ngIf="!author.deleted">
                 <img alt="" [src]="author.avatar.src" *ngIf="author.avatar" class="rounded" loading="lazy" />
-                <img alt="" [src]="author.gravatar" *ngIf="author.gravatar && ! author.avatar" class="rounded" loading="lazy" />
+                <img
+                  alt=""
+                  [src]="author.gravatar"
+                  *ngIf="author.gravatar && !author.avatar"
+                  class="rounded"
+                  loading="lazy"
+                />
               </a>
             </div>
           </ng-container>
@@ -61,7 +65,13 @@
           </div>
           <div ngPreserveWhitespaces>
             <span class="badge text-bg-info text-dark" *ngIf="message.message.isNew" i18n>new</span>
-            <a href="#" class="float-end" (click)="deleteMessage(message.message.id)" *ngIf="message.message.canDelete" ngPreserveWhitespaces>
+            <a
+              href="#"
+              class="float-end"
+              (click)="deleteMessage(message.message.id)"
+              *ngIf="message.message.canDelete"
+              ngPreserveWhitespaces
+            >
               <i class="bi bi-trash" aria-hidden="true"></i>
               <ng-container i18n>delete</ng-container>
             </a>
@@ -70,10 +80,18 @@
               <a href="#" (click)="openMessageForm(message.message.authorId)" i18n>reply</a>
               &nbsp;
             </span>
-            <span *ngIf="message.message.allMessagesLink && message.message.dialogWithUserId !== '0'" ngPreserveWhitespaces>
+            <span
+              *ngIf="message.message.allMessagesLink && message.message.dialogWithUserId !== '0'"
+              ngPreserveWhitespaces
+            >
               <i class="bi bi-chat-text" aria-hidden="true"></i>
-              <a routerLink="/account/messages" [queryParams]="{folder: 'dialog', user_id: message.message.dialogWithUserId}" i18n>entire dialog</a>
-              <small>({{message.message.dialogCount}})</small>
+              <a
+                routerLink="/account/messages"
+                [queryParams]="{folder: 'dialog', user_id: message.message.dialogWithUserId}"
+                i18n
+                >entire dialog</a
+              >
+              <small>({{ message.message.dialogCount }})</small>
               &nbsp;
             </span>
             <app-past-time-indicator [date]="message.message.date.toDate()"></app-past-time-indicator>

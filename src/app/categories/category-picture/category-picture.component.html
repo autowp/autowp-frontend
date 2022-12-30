@@ -6,16 +6,28 @@
     <li class="breadcrumb-item">
       <a routerLink="/category" i18n>Categories</a>
     </li>
-    <li class="breadcrumb-item" *ngFor="let item of path$|async">
+    <li class="breadcrumb-item" *ngFor="let item of path$ | async">
       <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id !== 3"></a>
-      <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)" *ngIf="item.item.item_type_id === 3">
+      <div
+        ngbDropdown
+        class="d-inline-block"
+        placement="bottom-right"
+        (openChange)="dropdownOpenChange(item)"
+        *ngIf="item.item.item_type_id === 3"
+      >
         <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
-        <a ngbDropdownToggle style="cursor:pointer"></a>
+        <a ngbDropdownToggle style="cursor: pointer"></a>
         <div ngbDropdownMenu>
           <div class="dropdown-item" *ngIf="!item.loaded">
             <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
           </div>
-          <a [routerLink]="['/category', child.catname]" class="dropdown-item" [class.active]="child.id === item.item.id" [innerHTML]="child.name_html" *ngFor="let child of item.childs"></a>
+          <a
+            [routerLink]="['/category', child.catname]"
+            class="dropdown-item"
+            [class.active]="child.id === item.item.id"
+            [innerHTML]="child.name_html"
+            *ngFor="let child of item.childs"
+          ></a>
         </div>
       </div>
     </li>
@@ -26,12 +38,13 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="picture$|async as picture; else loading">
-  <div *ngIf="category$|async as category">
-    <app-picture [picture]="picture"
-                 [prefix]="currentRouterLinkPrefix$|async"
-                 [galleryRoute]="currentRouterLinkGallery$|async"
-                 (changed)="reloadPicture()"
+<ng-container *ngIf="picture$ | async as picture; else loading">
+  <div *ngIf="category$ | async as category">
+    <app-picture
+      [picture]="picture"
+      [prefix]="currentRouterLinkPrefix$ | async"
+      [galleryRoute]="currentRouterLinkGallery$ | async"
+      (changed)="reloadPicture()"
     ></app-picture>
 
     <div id="comments">

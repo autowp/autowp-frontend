@@ -22,17 +22,37 @@
           <span [innerHTML]="model.name"></span>
         </ng-template>
         <div class="input-group">
-          <input [ngbTypeahead]="usersDataSource" name="user" [(ngModel)]="userQuery" [inputFormatter]="userFormatter" (selectItem)="userOnSelect($event)"
-            [resultTemplate]="userTemplate" i18n-placeholder placeholder="User №" class="form-control" [class.border-primary]="!!(userID$|async)">
-          <button class="btn btn-outline-secondary" type="button" [disabled]="(userID$|async) === null" (click)="clearUser()">
+          <input
+            [ngbTypeahead]="usersDataSource"
+            name="user"
+            [(ngModel)]="userQuery"
+            [inputFormatter]="userFormatter"
+            (selectItem)="userOnSelect($event)"
+            [resultTemplate]="userTemplate"
+            i18n-placeholder
+            placeholder="User №"
+            class="form-control"
+            [class.border-primary]="!!(userID$ | async)"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            [disabled]="(userID$ | async) === null"
+            (click)="clearUser()"
+          >
             <span class="bi bi-x" aria-hidden="true"></span>
           </button>
         </div>
       </div>
       <div class="mb-3">
         <label i18n>Moderator attention</label>
-        <select name="moderator_attention" class="form-control" [(ngModel)]="moderatorAttention" (change)="setModeratorAttention()"
-          [class.border-primary]="moderatorAttention !== null">
+        <select
+          name="moderator_attention"
+          class="form-control"
+          [(ngModel)]="moderatorAttention"
+          (change)="setModeratorAttention()"
+          [class.border-primary]="moderatorAttention !== null"
+        >
           <option [ngValue]="null" i18n>Not matters</option>
           <option [ngValue]="0" i18n>Not required</option>
           <option [ngValue]="1" i18n>Required</option>
@@ -44,9 +64,18 @@
           <span [innerHTML]="model.name_html"></span>
         </ng-template>
         <div class="input-group">
-          <input [ngbTypeahead]="itemsDataSource" name="item" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect($event)"
-            [resultTemplate]="itemTemplate" i18n-placeholder placeholder="Item" class="form-control"
-            [class.border-primary]="itemID">
+          <input
+            [ngbTypeahead]="itemsDataSource"
+            name="item"
+            [(ngModel)]="itemQuery"
+            [inputFormatter]="itemFormatter"
+            (selectItem)="itemOnSelect($event)"
+            [resultTemplate]="itemTemplate"
+            i18n-placeholder
+            placeholder="Item"
+            class="form-control"
+            [class.border-primary]="itemID"
+          />
           <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
             <span class="bi bi-x" aria-hidden="true"></span>
           </button>
@@ -60,13 +89,16 @@
       <span [hidden]="loading <= 0">
         <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       </span>
-      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments">{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} comment} other {{{paginator.totalItemCount}} comments}}</small>
+      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments"
+        >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} comment} other
+        {{{paginator.totalItemCount}} comments}}</small
+      >
     </h2>
 
     <ul class="comments">
       <li *ngFor="let comment of comments" ngPreserveWhitespaces>
         <span class="badge text-bg-warning text-dark" *ngIf="comment.is_new" i18n>not readed</span>
-        <span class="badge text-bg-{{comment.status.class}}" *ngIf="comment.status" [ngSwitch]="comment.status.name">
+        <span class="badge text-bg-{{ comment.status.class }}" *ngIf="comment.status" [ngSwitch]="comment.status.name">
           <ng-container *ngSwitchCase="'moder/picture/acceptance/accepted'" i18n>Accepted</ng-container>
           <ng-container *ngSwitchCase="'moder/picture/acceptance/inbox'" i18n>Inbox</ng-container>
           <ng-container *ngSwitchCase="'moder/picture/acceptance/removed'" i18n>Deleted</ng-container>

@@ -1,6 +1,8 @@
-<ng-container *ngIf="data$|async as data">
+<ng-container *ngIf="data$ | async as data">
   <table class="table table-stripped">
-    <caption i18n>Attribute values</caption>
+    <caption i18n>
+      Attribute values
+    </caption>
     <thead>
       <tr>
         <th i18n scope="col">Date</th>
@@ -13,7 +15,7 @@
     <tbody>
       <tr *ngFor="let value of data.items">
         <td>
-          <span [textContent]="value.update_date | amTimeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
+          <span [textContent]="value.update_date | amTimeAgo" [ngbTooltip]="value.update_date | date : 'medium'"></span>
         </td>
         <td>
           <app-user [user]="value.user" *ngIf="value.user"></app-user>
@@ -25,7 +27,7 @@
           </span>
           <span *ngIf="value.unit" [textContent]="getUnitTranslation(value.unit.id, 'name')"></span>
         </td>
-        <td>{{value.value}}</td>
+        <td>{{ value.value }}</td>
         <td>
           <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(data.items, value)">
             <i class="bi bi-x" aria-hidden="true"></i>
@@ -37,8 +39,15 @@
 
   <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
 
-  <form (submit)="moveValues(itemID)" *ngIf="itemID$|async as itemID">
-    <input type="text" name="item_id" placeholder="id" class="form-control" style="max-width:200px" [(ngModel)]="move.item_id" />
+  <form (submit)="moveValues(itemID)" *ngIf="itemID$ | async as itemID">
+    <input
+      type="text"
+      name="item_id"
+      placeholder="id"
+      class="form-control"
+      style="max-width: 200px"
+      [(ngModel)]="move.item_id"
+    />
     <button type="submit" class="btn btn-secondary" i18n>Move</button>
   </form>
 </ng-container>

@@ -3,13 +3,30 @@
 </ng-template>
 
 <div class="comments">
-  <ng-container *ngIf="data$|async as data; else loading">
-    <h2 i18n *ngIf="data.messages && (typeID$|async) !== 5">Comments</h2>
-    <app-comments-list [itemID]="itemID$|async" [typeID]="typeID$|async" (sent)="onSent($event)" [messages]="data.messages" [deep]="0" *ngIf="data.messages"></app-comments-list>
+  <ng-container *ngIf="data$ | async as data; else loading">
+    <h2 i18n *ngIf="data.messages && (typeID$ | async) !== 5">Comments</h2>
+    <app-comments-list
+      [itemID]="itemID$ | async"
+      [typeID]="typeID$ | async"
+      (sent)="onSent($event)"
+      [messages]="data.messages"
+      [deep]="0"
+      *ngIf="data.messages"
+    ></app-comments-list>
 
     <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
   </ng-container>
 
-  <app-comments-form [itemID]="itemID$|async" [typeID]="typeID$|async" (sent)="onSent($event)" *ngIf="user$|async"></app-comments-form>
-  <app-markdown *ngIf="(user$|async) === null" class="alert alert-block alert-info" i18n-markdown markdown="To be able to post a comment, you must [create an account or sign in using social networks account](/login)"></app-markdown>
+  <app-comments-form
+    [itemID]="itemID$ | async"
+    [typeID]="typeID$ | async"
+    (sent)="onSent($event)"
+    *ngIf="user$ | async"
+  ></app-comments-form>
+  <app-markdown
+    *ngIf="(user$ | async) === null"
+    class="alert alert-block alert-info"
+    i18n-markdown
+    markdown="To be able to post a comment, you must [create an account or sign in using social networks account](/login)"
+  ></app-markdown>
 </div>

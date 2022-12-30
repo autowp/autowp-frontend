@@ -1,10 +1,18 @@
-<div class="card card-body" *ngIf="item$|async as item">
-  <div class="mb-3" *ngIf="canMove$|async as canMove">
-    <a *ngIf="item && item.is_group && canMove && item.childs_count > 0" [routerLink]="['/moder/items/item', item.id, 'organize']"
-      [queryParams]="{item_type_id: organizeTypeId$|async}" class="btn btn-secondary" i18n>Turbo group creator</a>
+<div class="card card-body" *ngIf="item$ | async as item">
+  <div class="mb-3" *ngIf="canMove$ | async as canMove">
+    <a
+      *ngIf="item && item.is_group && canMove && item.childs_count > 0"
+      [routerLink]="['/moder/items/item', item.id, 'organize']"
+      [queryParams]="{item_type_id: organizeTypeId$ | async}"
+      class="btn btn-secondary"
+      i18n
+      >Turbo group creator</a
+    >
   </div>
-  <table class="table" *ngIf="canMove$|async as canMove">
-    <caption i18n>Catalogue</caption>
+  <table class="table" *ngIf="canMove$ | async as canMove">
+    <caption i18n>
+      Catalogue
+    </caption>
     <thead>
       <tr>
         <th i18n scope="col">Name</th>
@@ -14,29 +22,50 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="(canHaveParents$|async) || !canMove">
+      <tr *ngIf="(canHaveParents$ | async) || !canMove">
         <td colspan="4">
           <form class="car-add-parent" method="post">
-            <div class="input-group" style="max-width:400px">
+            <div class="input-group" style="max-width: 400px">
               <ng-template #itemTemplate let-model="result">
                 <span [innerHTML]="model.name_html"></span>
               </ng-template>
-              <input type="text" name="parent" [ngbTypeahead]="itemsDataSource" class="form-control item-autocomplete" placeholder="Add parent …" i18n-placeholder
-                autocomplete="off" [(ngModel)]="itemQuery" [inputFormatter]="itemFormatter" (selectItem)="itemOnSelect(item, $event)"
-                [resultTemplate]="itemTemplate" />
+              <input
+                type="text"
+                name="parent"
+                [ngbTypeahead]="itemsDataSource"
+                class="form-control item-autocomplete"
+                placeholder="Add parent …"
+                i18n-placeholder
+                autocomplete="off"
+                [(ngModel)]="itemQuery"
+                [inputFormatter]="itemFormatter"
+                (selectItem)="itemOnSelect(item, $event)"
+                [resultTemplate]="itemTemplate"
+              />
 
-              <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n>Select …</a>
+              <a class="btn btn-secondary" [routerLink]="['/moder/items/item', item.id, 'select-parent']" i18n
+                >Select …</a
+              >
               <div ngbDropdown>
                 <button type="button" ngbDropdownToggle class="btn btn-secondary"></button>
-                <div ngbDropdownMenu *ngIf="canHaveParentBrand$|async">
+                <div ngbDropdownMenu *ngIf="canHaveParentBrand$ | async">
                   <ng-container>
-                    <a class="dropdown-item" [routerLink]="['/moder/items/item', item.id, 'select-parent']" [queryParams]="{tab: 'brands'}">
+                    <a
+                      class="dropdown-item"
+                      [routerLink]="['/moder/items/item', item.id, 'select-parent']"
+                      [queryParams]="{tab: 'brands'}"
+                    >
                       <i class="bi bi-plus" aria-hidden="true"></i>
                       <ng-container i18n>Brand …</ng-container>
                     </a>
-                    <a class="dropdown-item" href="#" (click)="addParent(item, brand.id)" *ngFor="let brand of (suggestions$|async)">
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      (click)="addParent(item, brand.id)"
+                      *ngFor="let brand of suggestions$ | async"
+                    >
                       <i class="bi bi-plus" aria-hidden="true"></i>
-                      <span i18n>Brand {{brand.name_text}}</span>
+                      <span i18n>Brand {{ brand.name_text }}</span>
                     </a>
                   </ng-container>
                 </div>
@@ -45,20 +74,27 @@
           </form>
         </td>
       </tr>
-      <tr *ngFor="let parentsItem of (parents$|async)">
+      <tr *ngFor="let parentsItem of parents$ | async">
         <td ngPreserveWhitespaces>
           <i class="bi bi-arrow-up" aria-hidden="true"></i>
-          <a [routerLink]="['/moder/items/item', parentsItem.parent_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="parentsItem.parent.name_html"></a>
+          <a
+            [routerLink]="['/moder/items/item', parentsItem.parent_id]"
+            [queryParams]="{tab: 'catalogue'}"
+            [innerHTML]="parentsItem.parent.name_html"
+          ></a>
           <div class="text-warning" *ngIf="parentsItem.duplicate_parent">
             <small>
               <ng-container i18n>Possible duplicate: vehicle already inherited via:</ng-container>
-              <a [routerLink]="['/moder/items/item', parentsItem.duplicate_parent.id]" [innerHTML]="parentsItem.duplicate_parent.name_html"></a>
+              <a
+                [routerLink]="['/moder/items/item', parentsItem.duplicate_parent.id]"
+                [innerHTML]="parentsItem.duplicate_parent.name_html"
+              ></a>
             </small>
           </div>
         </td>
         <td>
           <a [routerLink]="['/moder/item-parent', parentsItem.item_id, parentsItem.parent_id]">
-            {{item.name}}
+            {{ item.name }}
             <span class="bi bi-pencil-fill" aria-hidden="true"></span>
           </a>
         </td>
@@ -88,23 +124,30 @@
         </td>
         <td *ngIf="canMove"></td>
       </tr>
-      <tr *ngFor="let childsItem of (childs$|async)">
+      <tr *ngFor="let childsItem of childs$ | async">
         <td>
           <i class="bi bi-arrow-down" aria-hidden="true"></i>
           <span *ngIf="childsItem.type_id === 1" i18n>Related:</span>
           <span *ngIf="childsItem.type_id === 3" i18n>Design:</span>
           <span *ngIf="childsItem.type_id === 2" i18n>Sport:</span>
-          <a [routerLink]="['/moder/items/item', childsItem.item_id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="childsItem.item.name_html"></a>
+          <a
+            [routerLink]="['/moder/items/item', childsItem.item_id]"
+            [queryParams]="{tab: 'catalogue'}"
+            [innerHTML]="childsItem.item.name_html"
+          ></a>
           <div *ngIf="childsItem.duplicate_child" class="text-warning">
             <small>
               <ng-container i18n>Possible duplicate: vehicle already in submodel:</ng-container>
-              <a [routerLink]="['/moder/items/item', childsItem.duplicate_child.id]" [innerHTML]="childsItem.duplicate_child.name_html"></a>
+              <a
+                [routerLink]="['/moder/items/item', childsItem.duplicate_child.id]"
+                [innerHTML]="childsItem.duplicate_child.name_html"
+              ></a>
             </small>
           </div>
         </td>
         <td>
           <a [routerLink]="['/moder/item-parent', childsItem.item_id, childsItem.parent_id]">
-            {{item.name}}
+            {{ item.name }}
             <span class="bi bi-pencil-fill" aria-hidden="true"></span>
           </a>
         </td>
@@ -161,7 +204,7 @@
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && ([4, 6, 3].indexOf(item.item_type_id) === -1)">
+      <tr *ngIf="item.is_group && canMove && [4, 6, 3].indexOf(item.item_type_id) === -1">
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">

@@ -6,23 +6,23 @@
     <li class="breadcrumb-item">
       <a routerLink="/forums" i18n>Forums</a>
     </li>
-    <ng-container *ngIf="topic$|async as topic">
+    <ng-container *ngIf="topic$ | async as topic">
       <li class="breadcrumb-item" *ngIf="topic.theme">
-        <a [routerLink]="['/forums', topic.theme.id]">{{getForumsThemeTranslation(topic.theme.name)}}</a>
+        <a [routerLink]="['/forums', topic.theme.id]">{{ getForumsThemeTranslation(topic.theme.name) }}</a>
       </li>
     </ng-container>
   </ol>
 </nav>
 
-<ng-container *ngIf="topic$|async as topic">
+<ng-container *ngIf="topic$ | async as topic">
   <div class="page-header">
-    <h1>{{topic.name}}</h1>
+    <h1>{{ topic.name }}</h1>
   </div>
 
   <section class="forum-topic-page comments" *ngIf="topic">
-    <app-comments [itemID]="topic.id" [typeID]="5" *ngIf="topic" [limit]="limit" [page]="page$|async"></app-comments>
+    <app-comments [itemID]="topic.id" [typeID]="5" *ngIf="topic" [limit]="limit" [page]="page$ | async"></app-comments>
 
-    <div class="text-end mb-3" *ngIf="user$|async">
+    <div class="text-end mb-3" *ngIf="user$ | async">
       <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe(topic)">
         <i class="bi bi-envelope" aria-hidden="true"></i>
         <ng-container i18n>Subscribe to new replies notifications</ng-container>
@@ -33,6 +33,8 @@
       </button>
     </div>
 
-    <p class="alert alert-block alert-error" i18n *ngIf="topic.status === 'closed'">Topic is closed by site administration</p>
+    <p class="alert alert-block alert-error" i18n *ngIf="topic.status === 'closed'">
+      Topic is closed by site administration
+    </p>
   </section>
 </ng-container>

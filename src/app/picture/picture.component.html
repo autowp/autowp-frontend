@@ -1,4 +1,4 @@
-<ng-container *ngIf="picture$|async as picture">
+<ng-container *ngIf="picture$ | async as picture">
   <div class="page-header">
     <h1>
       <span [innerHTML]="picture.name_html"></span>
@@ -14,7 +14,12 @@
   <div class="row">
     <div class="col-md-6">
       <div class="picture-preview-medium" *ngIf="picture.preview_large">
-        <span class="d-block rounded mb-4" (auxclick)="openSource(picture)" (click)="openGallery(picture, $event)" style="cursor: pointer">
+        <span
+          class="d-block rounded mb-4"
+          (auxclick)="openSource(picture)"
+          (click)="openGallery(picture, $event)"
+          style="cursor: pointer"
+        >
           <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
         </span>
         <ng-container *ngIf="picture.items.length === 1">
@@ -22,8 +27,8 @@
             <p i18n>In other languages</p>
             <ul class="list-unstyled">
               <li *ngFor="let altName of picture.items[0].item.alt_names">
-                <sup *ngFor="let code of altName.languages" class="text-uppercase">{{code}}</sup>
-                {{altName.name}}
+                <sup *ngFor="let code of altName.languages" class="text-uppercase">{{ code }}</sup>
+                {{ altName.name }}
               </li>
             </ul>
           </div>
@@ -33,42 +38,96 @@
       <div class="row">
         <div class="col-6">
           <div class="picture-vote">
-
-            <button type="button" class="btn btn-link position-relative p-0 me-2" *ngIf="user$|async else noUser1" (click)="vote(picture, 1)">
-              <i class="bi fs-1 vote-up" aria-hidden="true"
-                 [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
-                 [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
+            <button
+              type="button"
+              class="btn btn-link position-relative p-0 me-2"
+              *ngIf="user$ | async; else noUser1"
+              (click)="vote(picture, 1)"
+            >
+              <i
+                class="bi fs-1 vote-up"
+                aria-hidden="true"
+                [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
+                [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
               ></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success"
+                *ngIf="picture.votes.positive > 0"
+                >{{ picture.votes.positive }}</span
+              >
             </button>
             <ng-template #noUser1>
               <button type="button" class="btn btn-link position-relative p-0 me-2" disabled>
                 <i class="bi fs-1 bi-hand-thumbs-up" aria-hidden="true"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success" *ngIf="picture.votes.positive > 0">{{picture.votes.positive}}</span>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success"
+                  *ngIf="picture.votes.positive > 0"
+                  >{{ picture.votes.positive }}</span
+                >
               </button>
             </ng-template>
 
-            <button type="button" class="btn btn-link position-relative p-0" *ngIf="user$|async else noUser2" (click)="vote(picture, -1)">
-              <i class="bi fs-1 vote-down" aria-hidden="true"
-                 [class.bi-hand-thumbs-down-fill]="picture.votes.value < 0"
-                 [class.bi-hand-thumbs-down]="picture.votes.value >= 0"
+            <button
+              type="button"
+              class="btn btn-link position-relative p-0"
+              *ngIf="user$ | async; else noUser2"
+              (click)="vote(picture, -1)"
+            >
+              <i
+                class="bi fs-1 vote-down"
+                aria-hidden="true"
+                [class.bi-hand-thumbs-down-fill]="picture.votes.value < 0"
+                [class.bi-hand-thumbs-down]="picture.votes.value >= 0"
               ></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger" *ngIf="picture.votes.negative > 0">{{picture.votes.negative}}</span>
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
+                *ngIf="picture.votes.negative > 0"
+                >{{ picture.votes.negative }}</span
+              >
             </button>
             <ng-template #noUser2>
               <button type="button" class="btn btn-link position-relative p-0" disabled>
                 <i class="bi fs-1 bi-hand-thumbs-down" aria-hidden="true"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger" *ngIf="picture.votes.negative > 0">{{picture.votes.negative}}</span>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
+                  *ngIf="picture.votes.negative > 0"
+                  >{{ picture.votes.negative }}</span
+                >
               </button>
             </ng-template>
           </div>
         </div>
         <div class="col-6 text-end">
-          <ng-container *ngIf="user$|async">
-            <button type="button" class="btn btn-link p-0" i18n-title title="Subscribe to new replies notifications" *ngIf="!picture.subscribed" (click)="setSubscribed(picture, true)"><i class="bi bi-envelope-open fs-1" aria-hidden="true"></i></button>
-            <button type="button" class="btn btn-link p-0" i18n-title title="Unsubscribe from notifications" *ngIf="picture.subscribed" (click)="setSubscribed(picture, false)"><i class="bi bi-envelope fs-1" aria-hidden="true"></i></button>
+          <ng-container *ngIf="user$ | async">
+            <button
+              type="button"
+              class="btn btn-link p-0"
+              i18n-title
+              title="Subscribe to new replies notifications"
+              *ngIf="!picture.subscribed"
+              (click)="setSubscribed(picture, true)"
+            >
+              <i class="bi bi-envelope-open fs-1" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-link p-0"
+              i18n-title
+              title="Unsubscribe from notifications"
+              *ngIf="picture.subscribed"
+              (click)="setSubscribed(picture, false)"
+            >
+              <i class="bi bi-envelope fs-1" aria-hidden="true"></i>
+            </button>
           </ng-container>
-          <button type="button" class="btn btn-link p-0 btn-share-dialog" aria-hidden="true" title="Share …" i18n-title (click)="toggleShareDialog()">
+          <button
+            type="button"
+            class="btn btn-link p-0 btn-share-dialog"
+            aria-hidden="true"
+            title="Share …"
+            i18n-title
+            (click)="toggleShareDialog()"
+          >
             <i class="bi bi-share-fill fs-1" aria-hidden="true"></i>
           </button>
         </div>
@@ -87,11 +146,18 @@
       </div>
 
       <ng-container *ngFor="let item of picture.items">
-        <app-markdown [markdown]="item.item.description" *ngIf="item.type === 3 && item.item.description"></app-markdown>
+        <app-markdown
+          [markdown]="item.item.description"
+          *ngIf="item.type === 3 && item.item.description"
+        ></app-markdown>
       </ng-container>
 
       <ng-container *ngFor="let item of picture.items">
-        <app-markdown [markdown]="item.item.description" *ngIf="item.type === 1 && item.item.description" style="margin-bottom:10px"></app-markdown>
+        <app-markdown
+          [markdown]="item.item.description"
+          *ngIf="item.type === 1 && item.item.description"
+          style="margin-bottom: 10px"
+        ></app-markdown>
         <p *ngIf="item.item.has_text && item.item.route">
           <i class="bi bi-text-left" aria-hidden="true"></i>
           <a [routerLink]="item.item.route" i18n>details</a>
@@ -102,33 +168,47 @@
         <ng-container i18n>Picture suggested to replace</ng-container>
         <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
       </p>
-
     </div>
     <div class="col-md-6">
       <p i18n>Image specifications:</p>
       <ul>
         <li>
-          <ng-container i18n>Resolution</ng-container>: <strong>{{picture.width + '×' + picture.height}}</strong>
+          <ng-container i18n>Resolution</ng-container>: <strong>{{ picture.width + '×' + picture.height }}</strong>
           <ng-container *ngIf="picture.dpi_x || picture.dpi_y">
-            @ <strong>{{picture.dpi_x + '×' + picture.dpi_y}}</strong>
+            @ <strong>{{ picture.dpi_x + '×' + picture.dpi_y }}</strong>
             <a href="https://en.wikipedia.org/wiki/Dots_per_inch"><abbr title="Dots Per Inch">DPI</abbr></a>
             <ng-container *ngIf="picture.dpi_x > 0 && picture.dpi_y > 0">
-              {{2.54 * picture.width / picture.dpi_x | number:'1.2-2'}}×{{2.54 * picture.height / picture.dpi_y | number:'1.2-2'}}cm
+              {{ (2.54 * picture.width) / picture.dpi_x | number : '1.2-2' }}×{{
+                (2.54 * picture.height) / picture.dpi_y | number : '1.2-2'
+              }}cm
             </ng-container>
           </ng-container>
         </li>
-        <li><ng-container i18n>Filesize</ng-container>: <strong>{{picture.filesize | bytes : 2}}</strong></li>
+        <li>
+          <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.filesize | bytes : 2 }}</strong>
+        </li>
         <li *ngIf="picture.owner">
           <ng-container i18n>Added by:</ng-container>
           <app-user [user]="picture.owner"></app-user>,
-          <span [ngbTooltip]="picture.add_date | date: 'medium'">{{picture.add_date|amTimeAgo}}</span>
+          <span [ngbTooltip]="picture.add_date | date : 'medium'">{{ picture.add_date | amTimeAgo }}</span>
         </li>
-        <li *ngIf="picture.taken_date">
-          <ng-container i18n>Date taken:</ng-container> {{picture.taken_date}}
-        </li>
+        <li *ngIf="picture.taken_date"><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
         <li *ngIf="picture.point">
           <span class="bi bi-pin-map" aria-hidden="true"></span>
-          <a [href]="'https://www.openstreetmap.org/?mlat=' + picture.point.lat + '&mlon=' + picture.point.lng + '#map=6/' + picture.point.lat + '/' + picture.point.lng" i18n="@@picture/location">Coordinates</a>
+          <a
+            [href]="
+              'https://www.openstreetmap.org/?mlat=' +
+              picture.point.lat +
+              '&mlon=' +
+              picture.point.lng +
+              '#map=6/' +
+              picture.point.lat +
+              '/' +
+              picture.point.lng
+            "
+            i18n="@@picture/location"
+            >Coordinates</a
+          >
         </li>
         <li>
           <ng-container i18n>Picture status:</ng-container>
@@ -137,15 +217,18 @@
           <span class="text-danger" i18n *ngIf="picture.status === 'removing'">Removing</span>
         </li>
       </ul>
-      <app-markdown i18n-markdown markdown="All images have their owners.
+      <app-markdown
+        i18n-markdown
+        markdown="All images have their owners.
 
   If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
 
-  Discuss anything and just talk about cars and not only can you on [the forum](/forums/)."></app-markdown>
+  Discuss anything and just talk about cars and not only can you on [the forum](/forums/)."
+      ></app-markdown>
 
       <ul class="unstyled">
         <li *ngFor="let link of picture.of_links">
-          <a [href]="link.url"><i class="bi bi-globe" aria-hidden="true"></i> {{link.name}}</a>
+          <a [href]="link.url"><i class="bi bi-globe" aria-hidden="true"></i> {{ link.name }}</a>
         </li>
 
         <li *ngFor="let category of picture.categories">
@@ -166,10 +249,12 @@
           </a>
         </li>
 
-        <ng-container *ngIf="canEditSpecs$|async as canEditSpecs">
+        <ng-container *ngIf="canEditSpecs$ | async as canEditSpecs">
           <ng-container *ngFor="let item of picture.items">
             <li *ngIf="canEditSpecs">
-              <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"><i class="bi bi-pencil-fill" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a>
+              <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"
+                ><i class="bi bi-pencil-fill" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a
+              >
             </li>
             <li *ngIf="item.item.has_specs && item.item.specs_route">
               <a [routerLink]="item.item.specs_route">
@@ -181,21 +266,26 @@
             <li *ngIf="item.item.design">
               <a [routerLink]="item.item.design.route">
                 <ng-container i18n>designed by</ng-container>
-                {{item.item.design.name}}
+                {{ item.item.design.name }}
               </a>
             </li>
           </ng-container>
         </ng-container>
 
-        <ng-container *ngIf="user$|async">
+        <ng-container *ngIf="user$ | async">
           <li ngbDropdown *ngIf="picture.items.length > 1">
-            <button ngbDropdownToggle class="btn btn-link" style="padding:0">
+            <button ngbDropdownToggle class="btn btn-link" style="padding: 0">
               <ng-container i18n>Add picture</ng-container>
               <span class="caret" aria-hidden="true"></span>
             </button>
             <div ngbDropdownMenu>
               <ng-container *ngFor="let item of picture.items">
-                <a *ngIf="item.type === 1" class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+                <a
+                  *ngIf="item.type === 1"
+                  class="dropdown-item"
+                  routerLink="/upload"
+                  [queryParams]="{item_id: item.item_id}"
+                >
                   <i class="bi bi-upload" aria-hidden="true"></i>
                   <ng-container i18n>Add picture</ng-container>
                   <span [innerHTML]="item.item.name_html"></span>
@@ -277,8 +367,8 @@
         </ng-container>
         -->
 
-        <ng-container *ngIf="user$|async">
-          <li *ngIf="picture.items && picture.items.length > 0 || engines && engines.length > 0">
+        <ng-container *ngIf="user$ | async">
+          <li *ngIf="(picture.items && picture.items.length > 0) || (engines && engines.length > 0)">
             <a routerLink="/upload" [queryParams]="{replace: picture.id}">
               <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
               <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
@@ -288,7 +378,6 @@
       </ul>
 
       <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix"></app-picture-paginator>
-
     </div>
   </div>
 
@@ -297,68 +386,88 @@
     <ul class="list-unstyled">
       <li *ngFor="let moderVote of picture.moder_votes">
         <span *ngIf="moderVote.vote">
-          <i style="color:green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
+          <i style="color: green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
           <app-user [user]="moderVote.user"></app-user>
-          <span style="color:green">{{moderVote.reason}}</span>
+          <span style="color: green">{{ moderVote.reason }}</span>
         </span>
         <span *ngIf="!moderVote.vote">
-          <i style="color:red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
+          <i style="color: red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
           <app-user [user]="moderVote.user"></app-user>
-          <span style="color:red">{{moderVote.reason}}</span>
+          <span style="color: red">{{ moderVote.reason }}</span>
         </span>
       </li>
     </ul>
   </div>
 
-  <ng-container *ngIf="isModer$|async as isModer">
+  <ng-container *ngIf="isModer$ | async as isModer">
     <div *ngIf="isModer && picture">
       <h3><a routerLink="/moder" i18n>Moderator page</a></h3>
       <div class="card card-body">
         <div class="row">
           <div class="col-md-4" *ngIf="picture.rights">
             <div *ngIf="picture.status === 'inbox'">
-              <button class="btn btn-success" (click)="acceptPicture(picture)" *ngIf="picture.rights.accept" i18n>Accept</button>
-              <button class="btn btn-danger" (click)="deletePicture(picture)" *ngIf="picture.rights.delete" i18n>Delete</button>
+              <button class="btn btn-success" (click)="acceptPicture(picture)" *ngIf="picture.rights.accept" i18n>
+                Accept
+              </button>
+              <button class="btn btn-danger" (click)="deletePicture(picture)" *ngIf="picture.rights.delete" i18n>
+                Delete
+              </button>
             </div>
 
             <div *ngIf="picture.status === 'accepted'">
-              <button class="btn btn-warning" (click)="unacceptPicture(picture)" *ngIf="picture.rights.unaccept" i18n>Unaccept</button>
+              <button class="btn btn-warning" (click)="unacceptPicture(picture)" *ngIf="picture.rights.unaccept" i18n>
+                Unaccept
+              </button>
             </div>
 
             <div *ngIf="picture.status === 'removing'">
-              <button class="btn btn-warning" (click)="restorePicture(picture)" *ngIf="picture.rights.restore" i18n>Restore</button>
+              <button class="btn btn-warning" (click)="restorePicture(picture)" *ngIf="picture.rights.restore" i18n>
+                Restore
+              </button>
             </div>
             <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
 
-            <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" [hidden]="!statusLoading"></ngb-progressbar>
+            <ngb-progressbar
+              type="primary"
+              [striped]="true"
+              [animated]="true"
+              [value]="100"
+              [hidden]="!statusLoading"
+            ></ngb-progressbar>
           </div>
           <div class="col-md-4" *ngIf="picture.items.length > 0">
             <label class="d-block" i18n>Perspective</label>
             <ng-container *ngFor="let item of picture.items">
               <div *ngIf="item.type === 1">
                 <span [innerHTML]="item.item.name_html"></span>
-                <app-moder-pictures-perspective-picker [perspectiveID]="item.perspective_id" (perspectiveChanged)="savePerspective($event, item)"></app-moder-pictures-perspective-picker>
+                <app-moder-pictures-perspective-picker
+                  [perspectiveID]="item.perspective_id"
+                  (perspectiveChanged)="savePerspective($event, item)"
+                ></app-moder-pictures-perspective-picker>
               </div>
             </ng-container>
           </div>
           <div class="col-md-4">
             <p>
               <i class="bi bi-gear-fill" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/pictures', picture.id]" i18n>Edit picture №{{picture.id}}</a>
+              <a [routerLink]="['/moder/pictures', picture.id]" i18n>Edit picture №{{ picture.id }}</a>
             </p>
 
             <p *ngFor="let item of picture.items">
               <i class="bi bi-gear-fill" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/items/item', item.item_id]"><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span></a>
+              <a [routerLink]="['/moder/items/item', item.item_id]"
+                ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span
+              ></a>
             </p>
 
             <ng-container *ngFor="let item of picture.items">
               <p *ngFor="let brand of item.item.brands">
                 <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                <a [routerLink]="['/moder/items/item', brand.id]"><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span></a>
+                <a [routerLink]="['/moder/items/item', brand.id]"
+                  ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span
+                ></a>
               </p>
             </ng-container>
-
           </div>
         </div>
       </div>

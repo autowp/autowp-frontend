@@ -17,11 +17,13 @@
   </div>
 </ng-template>
 
-<div *ngIf="user$|async else noUser">
-  <ng-container *ngIf="selection$|async as selection">
+<div *ngIf="user$ | async; else noUser">
+  <ng-container *ngIf="selection$ | async as selection">
     <div *ngIf="selection.selected">
       <div class="card card-body mb-4">
-        <app-markdown i18n-markdown markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+        <app-markdown
+          i18n-markdown
+          markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
 
 Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
 
@@ -37,12 +39,13 @@
 
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
 
-Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."></app-markdown>
+Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."
+        ></app-markdown>
         <div class="mv-3">
           <form class="form-horizontal" (submit)="submit()" [hidden]="formHidden">
             <div class="mb-3 row">
               <label class="col-md-2 col-form-label" i18n>Selection</label>
-              <div class="col-md-10" style="padding-top:7px">
+              <div class="col-md-10" style="padding-top: 7px">
                 <strong [innerHTML]="selection.name"></strong>
                 [
                 <a routerLink="/upload/select" i18n>select another catalogue</a>]
@@ -51,8 +54,14 @@
             <div class="mb-3 row">
               <label class="col-md-2 col-form-label" i18n>Image file</label>
               <div class="col-md-10">
-
-                <input type="file" #input name="file" class="form-control" (change)="onChange($event)" accept="image/*" [multiple]="(replace$|async) ? null : true"
+                <input
+                  type="file"
+                  #input
+                  name="file"
+                  class="form-control"
+                  (change)="onChange($event)"
+                  accept="image/*"
+                  [multiple]="(replace$ | async) ? null : true"
                 />
 
                 <div style="margin-top: 10px" *ngIf="files">
@@ -76,12 +85,20 @@
 
         <div class="progress-area">
           <ng-container *ngFor="let p of progress">
-            <ngb-progressbar class="mb-2" [type]="p.success ? 'success' : p.failed ? 'danger' : 'info'" [value]="p.percentage"
-              *ngIf="!p.success">
+            <ngb-progressbar
+              class="mb-2"
+              [type]="p.success ? 'success' : p.failed ? 'danger' : 'info'"
+              [value]="p.percentage"
+              *ngIf="!p.success"
+            >
               <div>
                 <span class="d-inline file-name" [textContent]="p.filename">: </span>
                 <span class="d-inline percentage" [textContent]="p.percentage + '% '" *ngIf="p.percentage < 100"></span>
-                <span class="d-inline" *ngFor="let message of p.invalidParams | invalidParams : 'file'" [textContent]="message + ' '"></span>
+                <span
+                  class="d-inline"
+                  *ngFor="let message of p.invalidParams | invalidParams : 'file'"
+                  [textContent]="message + ' '"
+                ></span>
               </div>
             </ngb-progressbar>
           </ng-container>
@@ -95,7 +112,12 @@
             <a href="#" (click)="crop(picture)">
               <i class="bi bi-crop" aria-hidden="true"></i>
               <span *ngIf="!picture.crop" i18n>crop</span>
-              <span *ngIf="picture.crop" i18n>cropped to {{picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' +picture.crop.top}}</span>
+              <span *ngIf="picture.crop" i18n
+                >cropped to
+                {{
+                  picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' + picture.crop.top
+                }}</span
+              >
             </a>
           </p>
         </div>
@@ -103,7 +125,9 @@
     </div>
 
     <div class="card card-body" *ngIf="!selection.selected">
-      <app-markdown i18n-markdown markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+      <app-markdown
+        i18n-markdown
+        markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
 
 Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
 
@@ -119,8 +143,9 @@
 
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
 
-Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."></app-markdown>
-      <p style="margin:10px">
+Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."
+      ></app-markdown>
+      <p style="margin: 10px">
         <a routerLink="/upload/select" class="btn btn-primary btn-lg">
           <i class="bi bi-upload" aria-hidden="true"></i>
           <ng-container i18n>Add picture</ng-container>
