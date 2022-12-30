@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {PageEnvService} from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {APIService} from '../services/api.service';
+import {ChartOptions} from 'chart.js';
 
 export interface APIChartParameter {
   id: number;
@@ -29,21 +30,13 @@ export interface APIChartData {
 })
 export class ChartComponent {
   public parameters: APIChartParameter[] = [];
+  public chartOptions: ChartOptions<'line'> = {
+    responsive: true,
+  };
+
   public chart = {
     data: [],
     labels: [],
-    options: {
-      responsive: true,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
-      },
-    },
     colors: [
       {
         backgroundColor: 'rgba(41,84,109,1)',

@@ -27,9 +27,9 @@
     height="250"
     [datasets]="chart.data"
     [labels]="chart.labels"
-    [options]="chart.options"
+    [options]="chartOptions"
     [legend]="true"
-    chartType="line"
+    [type]="'line'"
     *ngIf="chart.data.length"
   ></canvas>
 </div>
