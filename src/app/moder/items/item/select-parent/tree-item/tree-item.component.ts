@@ -1,10 +1,10 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { APIItem } from '../../../../../services/item';
-import { APIItemInSelectParent } from '../select-parent.component';
+import {Component, Input, EventEmitter, Output} from '@angular/core';
+import {APIItem} from '../../../../../services/item';
+import {APIItemInSelectParent} from '../select-parent.component';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-tree-item',
-  templateUrl: './tree-item.component.html'
+  templateUrl: './tree-item.component.html',
 })
 export class ModerItemsItemSelectParentTreeItemComponent {
   @Input() item: APIItemInSelectParent;

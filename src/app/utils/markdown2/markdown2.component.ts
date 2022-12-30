@@ -5,11 +5,10 @@ import * as showdown from 'showdown';
 @Component({
   selector: 'app-markdown2',
   templateUrl: './markdown2.component.html',
-  styleUrls: ['markdown2.component.scss']
+  styleUrls: ['markdown2.component.scss'],
 })
 export class Markdown2Component implements AfterViewInit {
-  constructor(private element: ElementRef, @Inject(PLATFORM_ID) private platform: object) {
-  }
+  constructor(private element: ElementRef, @Inject(PLATFORM_ID) private platform: object) {}
 
   private decodeHtml(html: string): string {
     if (isPlatformBrowser(this.platform)) {

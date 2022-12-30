@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
-import { APIPicturePaginator } from '../services/picture';
+import {Component, Input} from '@angular/core';
+import {APIPicturePaginator} from '../services/picture';
 import * as leftPad from 'left-pad';
 
 @Component({
   selector: 'app-picture-paginator',
-  templateUrl: './paginator.component.html'
+  templateUrl: './paginator.component.html',
 })
 export class PicturePaginatorComponent {
   @Input() paginator: APIPicturePaginator;

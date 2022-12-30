@@ -1,12 +1,12 @@
 import {Component, Renderer2} from '@angular/core';
-import { AuthService } from './services/auth.service';
-import { ACLService } from './services/acl.service';
-import { PageEnvService, LayoutParams } from './services/page-env.service';
-import { Observable } from 'rxjs';
+import {AuthService} from './services/auth.service';
+import {ACLService} from './services/acl.service';
+import {PageEnvService, LayoutParams} from './services/page-env.service';
+import {Observable} from 'rxjs';
 import {Language, LanguageService} from './services/language';
 import {ItemService} from './services/item';
-import { UsersOnlineComponent } from './users/online/online.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {UsersOnlineComponent} from './users/online/online.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {APIUser} from '../../generated/spec.pb';
 import {map, shareReplay} from 'rxjs/operators';
@@ -19,7 +19,7 @@ import {KeycloakService} from 'keycloak-angular';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   public languages: Language[] = [];
@@ -27,8 +27,8 @@ export class AppComponent {
   public loginInvalidParams: any;
   public user: APIUser;
   public newPersonalMessages$ = this.messageService.getNew().pipe(
-    map(result => ({
-      count: result
+    map((result) => ({
+      count: result,
     })),
     shareReplay(1)
   );
@@ -37,7 +37,7 @@ export class AppComponent {
     type_id: 3,
     no_parent: true,
     fields: 'name_text,catname,descendants_count',
-    limit: 20
+    limit: 20,
   });
   public language: string;
   public urlPath = '/';
@@ -61,7 +61,7 @@ export class AppComponent {
     moment.locale(this.languageService.momentLocale);
 
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
-    this.layoutParams$.subscribe(params => {
+    this.layoutParams$.subscribe((params) => {
       if (params.isGalleryPage) {
         this.renderer.addClass(document.body, 'gallery');
       } else {
@@ -69,7 +69,7 @@ export class AppComponent {
       }
     });
 
-    this.auth.getUser().subscribe(user => {
+    this.auth.getUser().subscribe((user) => {
       this.user = user;
     });
 
@@ -97,15 +97,15 @@ export class AppComponent {
   public doLogin() {
     this.keycloak.login({
       redirectUri: window.location.href,
-      locale: this.languageService.language
-    })
+      locale: this.languageService.language,
+    });
   }
 
   public signOut() {
     this.auth.signOut().subscribe({
-      error: error => {
+      error: (error) => {
         console.log(error);
-      }
+      },
     });
 
     return false;
@@ -118,7 +118,7 @@ export class AppComponent {
   public showOnlineUsers() {
     this.modalService.open(UsersOnlineComponent, {
       size: 'lg',
-      centered: true
+      centered: true,
     });
 
     return false;

@@ -8,7 +8,7 @@ import {PageEnvService} from '../../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
-import { getItemTypeTranslation } from '../../../utils/translations';
+import {getItemTypeTranslation} from '../../../utils/translations';
 
 export interface APIItemTreeItem {
   id: number;
@@ -29,7 +29,7 @@ interface Tab {
 
 @Component({
   selector: 'app-moder-items-item',
-  templateUrl: './item.component.html'
+  templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
@@ -45,35 +45,35 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   public metaTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public nameTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public logoTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public catalogueTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public vehiclesTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public treeTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public picturesTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
   public linksTab: Tab = {
     count: 0,
-    visible: true
+    visible: true,
   };
 
   public activeTab = 'meta';
@@ -92,10 +92,10 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub = this.route.paramMap
       .pipe(
-        map(params => parseInt(params.get('id'), 10)),
+        map((params) => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(30),
-        switchMap(id => {
+        switchMap((id) => {
           this.loading++;
           return this.itemService.getItem(id, {
             fields: [
@@ -125,21 +125,21 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
               'parents_count',
               'item_language_count',
               'engine_vehicles_count',
-              'logo'
-            ].join(',')
+              'logo',
+            ].join(','),
           });
         }),
         finalize(() => {
           this.loading--;
         }),
-        catchError(err => {
+        catchError((err) => {
           this.toastService.response(err);
           this.router.navigate(['/error-404'], {
-            skipLocationChange: true
+            skipLocationChange: true,
           });
           return of(null);
         }),
-        tap(item => {
+        tap((item) => {
           this.item = item;
 
           const typeID = item.item_type_id;
@@ -160,39 +160,39 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           this.linksTab.visible = [5, 7, 8].indexOf(typeID) !== -1;
           this.logoTab.visible = typeID === 5;
           this.vehiclesTab.visible = typeID === 2;
-          this.picturesTab.visible =
-            [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
+          this.picturesTab.visible = [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
         }),
-        switchMap(item => {
+        switchMap((item) => {
           this.loading++;
-          return this.pictureService.getPictures({
-            fields: 'thumb_medium',
-            limit: 1,
-            item_id: item.id
-          }).pipe(
-            map(pictures => ({
-              item,
-              pictures: pictures.pictures
-            }))
-          );
+          return this.pictureService
+            .getPictures({
+              fields: 'thumb_medium',
+              limit: 1,
+              item_id: item.id,
+            })
+            .pipe(
+              map((pictures) => ({
+                item,
+                pictures: pictures.pictures,
+              }))
+            );
         }),
         finalize(() => {
           this.loading--;
         }),
-        tap(data => {
+        tap((data) => {
           this.pageEnv.set({
             layout: {isAdminPage: true},
             title: data.item.name_text,
-            pageId: 78
+            pageId: 78,
           });
-          this.randomPicture =
-            data.pictures.length > 0 ? data.pictures[0] : null;
+          this.randomPicture = data.pictures.length > 0 ? data.pictures[0] : null;
         }),
         switchMap(() => this.route.queryParamMap),
-        map(params => params.get('tab')),
+        map((params) => params.get('tab')),
         distinctUntilChanged(),
         debounceTime(30),
-        tap(tab => {
+        tap((tab) => {
           this.activeTab = tab ? tab : 'meta';
 
           if (this.activeTab === 'tree') {
@@ -211,21 +211,21 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   }
 
   private initTreeTab() {
-    this.api
-      .request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree')
-      .subscribe({
-        next: response => {
-          this.tree = response.item;
-        }
-      });
+    this.api.request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
+      next: (response) => {
+        this.tree = response.item;
+      },
+    });
   }
 
   public toggleSubscription() {
     const newValue = !this.item.subscription;
     this.api
-      .request<void>('PUT', 'item/' + this.item.id, {body: {
-        subscription: newValue ? 1 : 0
-      }})
+      .request<void>('PUT', 'item/' + this.item.id, {
+        body: {
+          subscription: newValue ? 1 : 0,
+        },
+      })
       .subscribe(() => {
         this.item.subscription = newValue;
       });

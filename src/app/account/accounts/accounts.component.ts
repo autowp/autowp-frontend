@@ -1,17 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  APIAccountStartPostResponse,
-  APIAccountItemsGetResponse,
-  APIAccount
-} from '../account.service';
-import { PageEnvService } from '../../services/page-env.service';
+import {APIAccountStartPostResponse, APIAccountItemsGetResponse, APIAccount} from '../account.service';
+import {PageEnvService} from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {APIService} from '../../services/api.service';
 import {externalLoginServices} from '../../services/oauth.service';
 
 @Component({
   selector: 'app-account-accounts',
-  templateUrl: './accounts.component.html'
+  templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {
   public service = null;
@@ -20,31 +16,22 @@ export class AccountAccountsComponent implements OnInit {
   public disconnectFailed = false;
   public services = externalLoginServices;
 
-  constructor(
-    private api: APIService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-  ) {
-  }
+  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 123}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 123}), 0);
 
     this.load();
   }
 
   public load() {
     this.api.request<APIAccountItemsGetResponse>('GET', 'account').subscribe({
-      next: response => {
+      next: (response) => {
         this.accounts = response.items;
       },
-      error: response => {
+      error: (response) => {
         this.toastService.response(response);
-      }
+      },
     });
   }
 
@@ -53,18 +40,21 @@ export class AccountAccountsComponent implements OnInit {
       return;
     }
 
-    this.api.request<APIAccountStartPostResponse>('GET', 'oauth/service', {params: {
-      service: this.service,
-      redirect_uri: 'https://' + window.location.host + '/account/accounts'
-    }})
-    .subscribe({
-      next: response => {
-        window.location.href = response.url;
-      },
-      error: response => {
-        this.toastService.response(response);
-      }
-    });
+    this.api
+      .request<APIAccountStartPostResponse>('GET', 'oauth/service', {
+        params: {
+          service: this.service,
+          redirect_uri: 'https://' + window.location.host + '/account/accounts',
+        },
+      })
+      .subscribe({
+        next: (response) => {
+          window.location.href = response.url;
+        },
+        error: (response) => {
+          this.toastService.response(response);
+        },
+      });
   }
 
   public remove(account: APIAccount) {
@@ -74,10 +64,10 @@ export class AccountAccountsComponent implements OnInit {
 
         this.load();
       },
-      error: response => {
+      error: (response) => {
         this.disconnectFailed = true;
         this.toastService.response(response);
-      }
+      },
     });
   }
 }

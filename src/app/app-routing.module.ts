@@ -1,119 +1,117 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { PageNotFoundComponent } from './not-found.component';
+import {PageNotFoundComponent} from './not-found.component';
 import {LoginComponent} from './login/login.component';
 
 const appRoutes: Routes = [
-  { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
+  {path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)},
   {
     path: 'account',
-    loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
+    loadChildren: () => import('./account/account.module').then((m) => m.AccountModule),
   },
   {
     path: 'articles',
-    loadChildren: () => import('./articles/articles.module').then(m => m.ArticlesModule)
+    loadChildren: () => import('./articles/articles.module').then((m) => m.ArticlesModule),
   },
-  { path: 'brands', loadChildren: () => import('./brands/brands.module').then(m => m.BrandsModule) },
+  {path: 'brands', loadChildren: () => import('./brands/brands.module').then((m) => m.BrandsModule)},
   {
     path: 'cars',
-    loadChildren: () => import('./cars/cars.module').then(m => m.CarsModule)
+    loadChildren: () => import('./cars/cars.module').then((m) => m.CarsModule),
   },
   {
     path: 'category',
-    loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule)
+    loadChildren: () => import('./categories/categories.module').then((m) => m.CategoriesModule),
   },
-  { path: 'chart', loadChildren: () => import('./chart/chart.module').then(m => m.ChartModule) },
-  { path: 'cutaway', loadChildren: () => import('./cutaway/cutaway.module').then(m => m.CutawayModule) },
+  {path: 'chart', loadChildren: () => import('./chart/chart.module').then((m) => m.ChartModule)},
+  {path: 'cutaway', loadChildren: () => import('./cutaway/cutaway.module').then((m) => m.CutawayModule)},
   {
     path: 'donate',
-    loadChildren: () => import('./donate/donate.module').then(m => m.DonateModule)
+    loadChildren: () => import('./donate/donate.module').then((m) => m.DonateModule),
   },
   {
     path: 'factories',
-    loadChildren: () => import('./factories/factories.module').then(m => m.FactoriesModule)
+    loadChildren: () => import('./factories/factories.module').then((m) => m.FactoriesModule),
   },
   {
     path: 'feedback',
-    loadChildren: () => import('./feedback/feedback.module').then(m => m.FeedbackModule)
+    loadChildren: () => import('./feedback/feedback.module').then((m) => m.FeedbackModule),
   },
   {
     path: 'forums',
-    loadChildren: () => import('./forums/forums.module').then(m => m.ForumsModule)
+    loadChildren: () => import('./forums/forums.module').then((m) => m.ForumsModule),
   },
   {
     path: 'inbox',
-    loadChildren: () => import('./inbox/inbox.module').then(m => m.InboxModule)
+    loadChildren: () => import('./inbox/inbox.module').then((m) => m.InboxModule),
   },
   {
     path: 'info',
-    loadChildren: () => import('./info/info.module').then(m => m.InfoModule)
+    loadChildren: () => import('./info/info.module').then((m) => m.InfoModule),
   },
-  { path: 'log', loadChildren: () => import('./log/log.module').then(m => m.LogModule) },
-  { path: 'map', loadChildren: () => import('./map/map.module').then(m => m.MapModule) },
-  { path: 'mascots', loadChildren: () => import('./mascots/mascots.module').then(m => m.MascotsModule) },
+  {path: 'log', loadChildren: () => import('./log/log.module').then((m) => m.LogModule)},
+  {path: 'map', loadChildren: () => import('./map/map.module').then((m) => m.MapModule)},
+  {path: 'mascots', loadChildren: () => import('./mascots/mascots.module').then((m) => m.MascotsModule)},
   {
     path: 'moder',
-    loadChildren: () => import('./moder/moder.module').then(m => m.ModerModule)
+    loadChildren: () => import('./moder/moder.module').then((m) => m.ModerModule),
   },
   {
     path: 'mosts',
-    loadChildren: () => import('./mosts/mosts.module').then(m => m.MostsModule)
+    loadChildren: () => import('./mosts/mosts.module').then((m) => m.MostsModule),
   },
-  { path: 'museums', loadChildren: () => import('./museum/museum.module').then(m => m.MuseumModule) },
+  {path: 'museums', loadChildren: () => import('./museum/museum.module').then((m) => m.MuseumModule)},
   {
     path: 'new',
-    loadChildren: () => import('./new/new.module').then(m => m.NewModule)
+    loadChildren: () => import('./new/new.module').then((m) => m.NewModule),
   },
   {
     path: 'persons',
-    loadChildren: () => import('./persons/persons.module').then(m => m.PersonsModule)
+    loadChildren: () => import('./persons/persons.module').then((m) => m.PersonsModule),
   },
   {
     path: 'picture',
-    loadChildren: () => import('./picture/picture.module').then(m => m.PictureModule)
+    loadChildren: () => import('./picture/picture.module').then((m) => m.PictureModule),
   },
   {
     path: 'gallery',
-    loadChildren: () => import('./gallery/gallery.module').then(m => m.GalleryModule)
+    loadChildren: () => import('./gallery/gallery.module').then((m) => m.GalleryModule),
   },
-  { path: 'pulse', loadChildren: () => import('./pulse/pulse.module').then(m => m.PulseModule) },
-  { path: 'rules', loadChildren: () => import('./rules/rules.module').then(m => m.RulesModule) },
-  { path: 'policy', loadChildren: () => import('./policy/policy.module').then(m => m.PolicyModule) },
+  {path: 'pulse', loadChildren: () => import('./pulse/pulse.module').then((m) => m.PulseModule)},
+  {path: 'rules', loadChildren: () => import('./rules/rules.module').then((m) => m.RulesModule)},
+  {path: 'policy', loadChildren: () => import('./policy/policy.module').then((m) => m.PolicyModule)},
   {
     path: 'telegram',
-    loadChildren: () => import('./telegram/telegram.module').then(m => m.TelegramModule)
+    loadChildren: () => import('./telegram/telegram.module').then((m) => m.TelegramModule),
   },
   {
     path: 'twins',
-    loadChildren: () => import('./twins/twins.module').then(m => m.TwinsModule)
+    loadChildren: () => import('./twins/twins.module').then((m) => m.TwinsModule),
   },
-  { path: 'top-view', loadChildren: () => import('./top-view/top-view.module').then(m => m.TopViewModule) },
-  { path: 'upload', loadChildren: () => import('./upload/upload.module').then(m => m.UploadModule) },
+  {path: 'top-view', loadChildren: () => import('./top-view/top-view.module').then((m) => m.TopViewModule)},
+  {path: 'upload', loadChildren: () => import('./upload/upload.module').then((m) => m.UploadModule)},
   {
     path: 'users',
-    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
+    loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
   },
-  { path: 'voting', loadChildren: () => import('./voting/voting.module').then(m => m.VotingModule) },
-  { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule) },
-  { path: 'error-404', component: PageNotFoundComponent },
-  { path: 'login', component: LoginComponent },
+  {path: 'voting', loadChildren: () => import('./voting/voting.module').then((m) => m.VotingModule)},
+  {path: '', loadChildren: () => import('./index/index.module').then((m) => m.IndexModule)},
+  {path: 'error-404', component: PageNotFoundComponent},
+  {path: 'login', component: LoginComponent},
   {
     // matcher: cataloguePathMatcher,
     path: ':brand',
-    loadChildren: () => import('./catalogue/catalogue.module').then(m => m.CatalogueModule)
+    loadChildren: () => import('./catalogue/catalogue.module').then((m) => m.CatalogueModule),
   },
-  { path: '**', redirectTo: 'error-404' }
+  {path: '**', redirectTo: 'error-404'},
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      appRoutes, {
-        scrollPositionRestoration: 'enabled'
-      }
-    )
+    RouterModule.forRoot(appRoutes, {
+      scrollPositionRestoration: 'enabled',
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

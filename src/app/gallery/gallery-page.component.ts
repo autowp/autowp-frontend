@@ -1,30 +1,27 @@
-import { OnInit, Component } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
-import { PageEnvService } from '../services/page-env.service';
+import {OnInit, Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {PageEnvService} from '../services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {APIGalleryItem} from './definitions';
 
 @Component({
   selector: 'app-gallery-page',
-  templateUrl: './gallery-page.component.html'
+  templateUrl: './gallery-page.component.html',
 })
 export class GalleryPageComponent implements OnInit {
   public identity$ = this.route.paramMap.pipe(
-    map(route => route.get('identity')),
+    map((route) => route.get('identity')),
     distinctUntilChanged()
   );
 
-  constructor(
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService
-  ) {}
+  constructor(private route: ActivatedRoute, private pageEnv: PageEnvService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
         title: '', // data.picture.name_text,
-        pageId: 187
+        pageId: 187,
       });
     }, 0);
   }
@@ -33,7 +30,7 @@ export class GalleryPageComponent implements OnInit {
     this.pageEnv.set({
       layout: {isGalleryPage: true},
       title: item.name,
-      pageId: 187
+      pageId: 187,
     });
   }
 }

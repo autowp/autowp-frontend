@@ -16,27 +16,28 @@ import {APIService} from '../../services/api.service';
 import {
   AddToTrafficBlacklistRequest,
   APIDeleteUserRequest,
-  APIIP, APIUserPreferencesRequest,
+  APIIP,
+  APIUserPreferencesRequest,
   CreateContactRequest,
   DeleteContactRequest,
-  DeleteFromTrafficBlacklistRequest
+  DeleteFromTrafficBlacklistRequest,
 } from '../../../../generated/spec.pb';
 import {ContactsClient, TrafficClient, UsersClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
 })
 export class UsersUserComponent {
   public banPeriods = [
-    { value: 1, name: $localize `hour` },
-    { value: 2, name: $localize `2 hours` },
-    { value: 4, name: $localize `4 hours` },
-    { value: 8, name: $localize `8 hours` },
-    { value: 16, name: $localize `16 hours` },
-    { value: 24, name: $localize `day` },
-    { value: 48, name: $localize `2 days` }
+    {value: 1, name: $localize`hour`},
+    {value: 2, name: $localize`2 hours`},
+    {value: 4, name: $localize`4 hours`},
+    {value: 8, name: $localize`8 hours`},
+    {value: 16, name: $localize`16 hours`},
+    {value: 24, name: $localize`day`},
+    {value: 48, name: $localize`2 days`},
   ];
   public banPeriod = 1;
   public banReason: string | null = null;
@@ -46,18 +47,23 @@ export class UsersUserComponent {
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   public user$ = this.route.paramMap.pipe(
-    map(params => ''+params.get('identity')),
+    map((params) => '' + params.get('identity')),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap(identity => this.userService.getByIdentity(identity, { fields: 'identity,gravatar_hash,photo,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip' })),
-    catchError(err => {
+    switchMap((identity) =>
+      this.userService.getByIdentity(identity, {
+        fields:
+          'identity,gravatar_hash,photo,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip',
+      })
+    ),
+    catchError((err) => {
       this.toastService.response(err);
       return EMPTY;
     }),
-    switchMap(user => {
+    switchMap((user) => {
       if (!user) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -66,7 +72,7 @@ export class UsersUserComponent {
         () =>
           this.pageEnv.set({
             title: user.name,
-            pageId: 62
+            pageId: 62,
           }),
         0
       );
@@ -77,18 +83,20 @@ export class UsersUserComponent {
   );
 
   public pictures$: Observable<APIPicture[]> = this.user$.pipe(
-    switchMap(user => this.pictureService.getPictures({
-      owner_id: user.id.toString(),
-      limit: 12,
-      order: 1,
-      fields: 'url,name_html'
-    }).pipe(
-      map(response => response.pictures)
-    ))
+    switchMap((user) =>
+      this.pictureService
+        .getPictures({
+          owner_id: user.id.toString(),
+          limit: 12,
+          order: 1,
+          fields: 'url,name_html',
+        })
+        .pipe(map((response) => response.pictures))
+    )
   );
 
   public comments$ = this.user$.pipe(
-    switchMap(user => {
+    switchMap((user) => {
       if (user.deleted) {
         return of({items: []} as APICommentGetResponse);
       }
@@ -97,10 +105,10 @@ export class UsersUserComponent {
         user_id: user.id,
         limit: 15,
         order: 'date_desc',
-        fields: ['preview', 'route']
+        fields: ['preview', 'route'],
       });
     }),
-    map(response => response.items)
+    map((response) => response.items)
   );
 
   private ipChange$ = new BehaviorSubject<boolean>(true);
@@ -111,10 +119,8 @@ export class UsersUserComponent {
         return of(null as APIIP);
       }
 
-      return this.ipService.getIp(user.last_ip, ['blacklist', 'rights']).pipe(
-        catchError(() => of(null as APIIP)),
-      );
-    }),
+      return this.ipService.getIp(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
+    })
   );
 
   public currentUser$ = this.auth.getUser();
@@ -135,8 +141,8 @@ export class UsersUserComponent {
 
       return this.contacts.isInContacts(user.id.toString());
     }),
-    catchError(response => {
-      this.toastService.response(response)
+    catchError((response) => {
+      this.toastService.response(response);
       return EMPTY;
     }),
     shareReplay(1)
@@ -144,7 +150,12 @@ export class UsersUserComponent {
 
   private userUserPreferencesChanged$ = new BehaviorSubject<boolean>(true);
 
-  public userUserPreferences$ = combineLatest([this.user$, this.currentUser$, this.isNotMe$, this.userUserPreferencesChanged$]).pipe(
+  public userUserPreferences$ = combineLatest([
+    this.user$,
+    this.currentUser$,
+    this.isNotMe$,
+    this.userUserPreferencesChanged$,
+  ]).pipe(
     switchMap(([user, currentUser, isNotMe]) => {
       if (!currentUser || !isNotMe) {
         return of(false);
@@ -152,8 +163,8 @@ export class UsersUserComponent {
 
       return this.usersGrpc.getUserPreferences(new APIUserPreferencesRequest({userId: user.id.toString()}));
     }),
-    catchError(response => {
-      this.toastService.response(response)
+    catchError((response) => {
+      this.toastService.response(response);
       return EMPTY;
     }),
     shareReplay(1)
@@ -179,7 +190,7 @@ export class UsersUserComponent {
   ) {}
 
   public openMessageForm(user: APIUser) {
-    this.messageDialogService.showDialog(''+user.id);
+    this.messageDialogService.showDialog('' + user.id);
     return false;
   }
 
@@ -198,15 +209,19 @@ export class UsersUserComponent {
 
   public setCommentNotificationsDisabled(user: APIUser, value: boolean) {
     if (value) {
-      this.usersGrpc.disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()})).subscribe(() => {
-        this.userUserPreferencesChanged$.next(true);
-      });
+      this.usersGrpc
+        .disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
+        .subscribe(() => {
+          this.userUserPreferencesChanged$.next(true);
+        });
       return;
     }
 
-    this.usersGrpc.enableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()})).subscribe(() => {
-      this.userUserPreferencesChanged$.next(true);
-    });
+    this.usersGrpc
+      .enableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
+      .subscribe(() => {
+        this.userUserPreferencesChanged$.next(true);
+      });
   }
 
   public deletePhoto(user: APIUser) {
@@ -218,7 +233,7 @@ export class UsersUserComponent {
       next: () => {
         user.photo = null;
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 
@@ -226,14 +241,18 @@ export class UsersUserComponent {
     if (!window.confirm('Are you sure?')) {
       return;
     }
-    this.usersGrpc.deleteUser(new APIDeleteUserRequest({
-      userId: user.id.toString()
-    })).subscribe({
-      next: () => {
-        user.deleted = true;
-      },
-      error: response => this.toastService.grpcErrorResponse(response)
-    });
+    this.usersGrpc
+      .deleteUser(
+        new APIDeleteUserRequest({
+          userId: user.id.toString(),
+        })
+      )
+      .subscribe({
+        next: () => {
+          user.deleted = true;
+        },
+        error: (response) => this.toastService.grpcErrorResponse(response),
+      });
   }
 
   public removeFromBlacklist(ip: string) {
@@ -241,20 +260,24 @@ export class UsersUserComponent {
       next: () => {
         this.ipChange$.next(true);
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 
   public addToBlacklist(ip: string) {
-    this.trafficClient.addToBlacklist(new AddToTrafficBlacklistRequest({
-      ip,
-      period: this.banPeriod,
-      reason: this.banReason
-    })).subscribe({
-      next: () => {
-        this.ipChange$.next(true);
-      },
-      error: response => this.toastService.response(response)
-    });
+    this.trafficClient
+      .addToBlacklist(
+        new AddToTrafficBlacklistRequest({
+          ip,
+          period: this.banPeriod,
+          reason: this.banReason,
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.ipChange$.next(true);
+        },
+        error: (response) => this.toastService.response(response),
+      });
   }
 }

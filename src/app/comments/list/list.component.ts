@@ -17,20 +17,27 @@ export interface APICommentInList extends APIComment {
 
 @Component({
   selector: 'app-comments-list',
-  templateUrl: './list.component.html'
+  templateUrl: './list.component.html',
 })
 export class CommentsListComponent {
-
-  @Input() set itemID(itemID: number) { this.itemID$.next(itemID); };
+  @Input() set itemID(itemID: number) {
+    this.itemID$.next(itemID);
+  }
   public itemID$ = new BehaviorSubject<number>(null);
 
-  @Input() set typeID(typeID: CommentsType) { this.typeID$.next(typeID); };
+  @Input() set typeID(typeID: CommentsType) {
+    this.typeID$.next(typeID);
+  }
   public typeID$ = new BehaviorSubject<CommentsType>(null);
 
-  @Input() set messages(messages: APICommentInList[]) { this.messages$.next(messages); };
+  @Input() set messages(messages: APICommentInList[]) {
+    this.messages$.next(messages);
+  }
   public messages$ = new BehaviorSubject<APICommentInList[]>([]);
 
-  @Input() set deep(deep: number) { this.deep$.next(deep); };
+  @Input() set deep(deep: number) {
+    this.deep$.next(deep);
+  }
   public deep$ = new BehaviorSubject<number>(null);
 
   @Output() sent = new EventEmitter<string>();
@@ -46,42 +53,47 @@ export class CommentsListComponent {
     public auth: AuthService,
     private modalService: NgbModal,
     private toastService: ToastsService,
-    private commentsGrpc: CommentsClient,
+    private commentsGrpc: CommentsClient
   ) {}
 
   public vote(message: APIComment, value: number) {
-    this.commentsGrpc.voteComment(new CommentsVoteCommentRequest({
-      commentId: ''+message.id,
-      vote: value,
-    })).subscribe(
-      () => {
-        message.user_vote = value;
+    this.commentsGrpc
+      .voteComment(
+        new CommentsVoteCommentRequest({
+          commentId: '' + message.id,
+          vote: value,
+        })
+      )
+      .subscribe(
+        () => {
+          message.user_vote = value;
 
-        this.commentService
-          .getComment(message.id, { fields: 'vote' })
-          .subscribe({
-            next: response => (message.vote = response.vote),
-            error: response => this.toastService.response(response)
+          this.commentService.getComment(message.id, {fields: 'vote'}).subscribe({
+            next: (response) => (message.vote = response.vote),
+            error: (response) => this.toastService.response(response),
           });
 
-        // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
-      },
-      (response: GrpcStatusEvent) => {
-        this.toastService.grpcErrorResponse(response);
-      }
-    );
+          // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
+        },
+        (response: GrpcStatusEvent) => {
+          this.toastService.grpcErrorResponse(response);
+        }
+      );
 
     return false;
   }
 
   public setIsDeleted(message: APIComment, value: boolean) {
-    this.commentsGrpc.setDeleted(new CommentsSetDeletedRequest({
-      commentId: ''+message.id,
-      deleted: value,
-    }))
+    this.commentsGrpc
+      .setDeleted(
+        new CommentsSetDeletedRequest({
+          commentId: '' + message.id,
+          deleted: value,
+        })
+      )
       .subscribe({
         next: () => (message.deleted = value),
-        error: response => this.toastService.grpcErrorResponse(response)
+        error: (response) => this.toastService.grpcErrorResponse(response),
       });
   }
 
@@ -93,7 +105,7 @@ export class CommentsListComponent {
   public showVotes(message: APIComment) {
     const modalRef = this.modalService.open(CommentsVotesComponent, {
       size: 'lg',
-      centered: true
+      centered: true,
     });
 
     modalRef.componentInstance.messageID = message.id;
@@ -107,5 +119,4 @@ export class CommentsListComponent {
   public onCancel(message: APICommentInList) {
     message.showReply = false;
   }
-
 }

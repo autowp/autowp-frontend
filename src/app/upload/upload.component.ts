@@ -1,16 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { HttpEventType } from '@angular/common/http';
-import { APIItem, ItemService } from '../services/item';
+import {HttpEventType} from '@angular/common/http';
+import {APIItem, ItemService} from '../services/item';
 import {of, Observable, concat, combineLatest, EMPTY} from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { PictureService, APIPicture } from '../services/picture';
-import { AuthService } from '../services/auth.service';
-import { PageEnvService } from '../services/page-env.service';
+import {ActivatedRoute} from '@angular/router';
+import {PictureService, APIPicture} from '../services/picture';
+import {AuthService} from '../services/auth.service';
+import {PageEnvService} from '../services/page-env.service';
 import {switchMap, catchError, tap, distinctUntilChanged, debounceTime, map, take} from 'rxjs/operators';
-import { UploadCropComponent } from './crop/crop.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {UploadCropComponent} from './crop/crop.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
+import {APIService} from '../services/api.service';
 import {KeycloakService} from 'keycloak-angular';
 import {LanguageService} from '../services/language';
 
@@ -24,7 +24,7 @@ interface UploadProgress {
 
 @Component({
   selector: 'app-upload',
-  templateUrl: './upload.component.html'
+  templateUrl: './upload.component.html',
 })
 export class UploadComponent implements OnInit {
   public files: any[];
@@ -37,45 +37,41 @@ export class UploadComponent implements OnInit {
   @ViewChild('input') input;
 
   public perspectiveID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('perspective_id'), 10)),
+    map((params) => parseInt(params.get('perspective_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   public replace$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('replace'), 10)),
+    map((params) => parseInt(params.get('replace'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   private replacePicture$ = this.replace$.pipe(
-    switchMap(replace => {
-      return replace
-        ? this.pictureService.getPicture(replace, {fields: 'name_html'})
-        : of(null as APIPicture)
+    switchMap((replace) => {
+      return replace ? this.pictureService.getPicture(replace, {fields: 'name_html'}) : of(null as APIPicture);
     })
   );
 
   public itemID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   private item$ = this.itemID$.pipe(
-    switchMap(itemID => {
-      return itemID
-        ? this.itemService.getItem(itemID, {fields: 'name_html'})
-        : of(null as APIItem);
+    switchMap((itemID) => {
+      return itemID ? this.itemService.getItem(itemID, {fields: 'name_html'}) : of(null as APIItem);
     })
   );
 
   public selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
       selected: !!(replace || item),
-      name: replace ? replace.name_html : item ? item.name_html : ''
+      name: replace ? replace.name_html : item ? item.name_html : '',
     }))
-  )
+  );
 
   constructor(
     private api: APIService,
@@ -87,22 +83,18 @@ export class UploadComponent implements OnInit {
     private modalService: NgbModal,
     private toastService: ToastsService,
     private keycloak: KeycloakService,
-    private languageService: LanguageService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 29}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 29}), 0);
   }
 
   doLogin() {
     this.keycloak.login({
       redirectUri: window.location.href,
-      locale: this.languageService.language
-    })
+      locale: this.languageService.language,
+    });
   }
 
   public onChange(event: any) {
@@ -125,7 +117,7 @@ export class UploadComponent implements OnInit {
         this.input.nativeElement.value = '';
         this.formHidden = false;
         this.files = undefined;
-      }
+      },
     });
 
     return false;
@@ -137,7 +129,7 @@ export class UploadComponent implements OnInit {
       percentage: 0,
       success: false,
       failed: false,
-      invalidParams: {}
+      invalidParams: {},
     };
 
     this.progress.push(progress);
@@ -145,7 +137,7 @@ export class UploadComponent implements OnInit {
     return combineLatest([
       this.itemID$.pipe(take(1)),
       this.replace$.pipe(take(1)),
-      this.perspectiveID$.pipe(take(1))
+      this.perspectiveID$.pipe(take(1)),
     ]).pipe(
       map(([itemID, replace, perspectiveID]) => {
         const formData: FormData = new FormData();
@@ -166,12 +158,14 @@ export class UploadComponent implements OnInit {
 
         return formData;
       }),
-      switchMap(formData => this.api.request('POST', 'picture', {
-        body: formData,
-        observe: 'events',
-        reportProgress: true
-      })),
-      catchError(response => {
+      switchMap((formData) =>
+        this.api.request('POST', 'picture', {
+          body: formData,
+          observe: 'events',
+          reportProgress: true,
+        })
+      ),
+      catchError((response) => {
         progress.percentage = 100;
         progress.failed = true;
 
@@ -179,11 +173,9 @@ export class UploadComponent implements OnInit {
 
         return EMPTY;
       }),
-      switchMap(event => {
+      switchMap((event) => {
         if (event.type === HttpEventType.DownloadProgress) {
-          progress.percentage = Math.round(
-            50 + 25 * (event.loaded / event.total)
-          );
+          progress.percentage = Math.round(50 + 25 * (event.loaded / event.total));
           return EMPTY;
         }
 
@@ -201,14 +193,14 @@ export class UploadComponent implements OnInit {
           return this.pictureService
             .getPictureByLocation(location, {
               fields:
-                'crop,image_gallery_full,thumb_medium,votes,views,comments_count,perspective_item,name_html,name_text'
+                'crop,image_gallery_full,thumb_medium,votes,views,comments_count,perspective_item,name_html,name_text',
             })
             .pipe(
-              tap(picture => {
+              tap((picture) => {
                 progress.percentage = 100;
                 this.pictures.push(picture);
               }),
-              catchError(response => {
+              catchError((response) => {
                 this.toastService.response(response);
 
                 return EMPTY;
@@ -224,30 +216,32 @@ export class UploadComponent implements OnInit {
   public crop(picture: APIPicture) {
     const modalRef = this.modalService.open(UploadCropComponent, {
       size: 'lg',
-      centered: true
+      centered: true,
     });
 
     modalRef.componentInstance.picture = picture;
     modalRef.componentInstance.changed.subscribe(() => {
       this.api
-        .request<void>('PUT', 'picture/' + picture.id, {body: {
-          crop: picture.crop
-        }})
+        .request<void>('PUT', 'picture/' + picture.id, {
+          body: {
+            crop: picture.crop,
+          },
+        })
         .subscribe({
           next: () => {
             this.pictureService
               .getPicture(picture.id, {
-                fields: 'crop,thumb_medium'
+                fields: 'crop,thumb_medium',
               })
               .subscribe({
-                next: response => {
+                next: (response) => {
                   picture.crop = response.crop;
                   picture.thumb_medium = response.thumb_medium;
                 },
-                error: response => this.toastService.response(response)
+                error: (response) => this.toastService.response(response),
               });
           },
-          error: response => this.toastService.response(response)
+          error: (response) => this.toastService.response(response),
         });
     });
 

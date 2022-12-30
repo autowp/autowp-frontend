@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import { ItemService, APIItem } from '../../../services/item';
-import { ActivatedRoute } from '@angular/router';
-import { UserService} from '../../../services/user';
+import {ItemService, APIItem} from '../../../services/item';
+import {ActivatedRoute} from '@angular/router';
+import {UserService} from '../../../services/user';
 import {EMPTY, Observable} from 'rxjs';
-import { PageEnvService } from '../../../services/page-env.service';
+import {PageEnvService} from '../../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {AutowpClient} from '../../../../../generated/spec.pbsc';
@@ -25,46 +25,47 @@ function addCSS(url: string) {
 
 @Component({
   selector: 'app-users-user-pictures',
-  templateUrl: './pictures.component.html'
+  templateUrl: './pictures.component.html',
 })
 export class UsersUserPicturesComponent implements OnInit {
-
   public icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
-    tap(icons => {
+    tap((icons) => {
       addCSS(icons.css);
     }),
     shareReplay(1)
   );
 
   public user$ = this.route.paramMap.pipe(
-    map(params => params.get('identity')),
+    map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(identity => this.userService.getByIdentity(identity, {fields: 'identity'})),
-    map(user => ({
+    switchMap((identity) => this.userService.getByIdentity(identity, {fields: 'identity'})),
+    map((user) => ({
       id: user.id,
       name: user.name,
-      identity: user.identity ? user.identity : 'user' + user.id
+      identity: user.identity ? user.identity : 'user' + user.id,
     })),
     shareReplay(1)
   );
 
   public brands$: Observable<APIItem[]> = this.user$.pipe(
-    switchMap(user => this.itemService.getItems({
-      type_id: 5,
-      limit: 3000,
-      order: 'name_nat',
-      fields: 'name_only,catname,current_pictures_count',
-      descendant_pictures: {
-        status: 'accepted',
-        owner_id: user.id
-      }
-    })),
-    catchError(response => {
+    switchMap((user) =>
+      this.itemService.getItems({
+        type_id: 5,
+        limit: 3000,
+        order: 'name_nat',
+        fields: 'name_only,catname,current_pictures_count',
+        descendant_pictures: {
+          status: 'accepted',
+          owner_id: user.id,
+        },
+      })
+    ),
+    catchError((response) => {
       this.toastService.response(response);
       return EMPTY;
     }),
-    map(brands => brands.items)
+    map((brands) => brands.items)
   );
 
   constructor(
@@ -79,7 +80,7 @@ export class UsersUserPicturesComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.pageEnv.set({pageId: 63});
-    }, 0)
+    }, 0);
   }
 
   public cssClass(item: APIItem) {

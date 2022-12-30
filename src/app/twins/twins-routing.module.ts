@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { TwinsComponent } from './twins.component';
-import { TwinsGroupComponent } from './twins-group.component';
-import { TwinsGroupSpecificationsComponent } from './twins-group-specifications.component';
-import { TwinsGroupPicturesComponent } from './twins-group-pictures.component';
-import { TwinsGroupPictureComponent } from './twins-group-picture/twins-group-picture.component';
-import { TwinsGroupGalleryComponent } from './twins-group-gallery/twins-group-gallery.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {TwinsComponent} from './twins.component';
+import {TwinsGroupComponent} from './twins-group.component';
+import {TwinsGroupSpecificationsComponent} from './twins-group-specifications.component';
+import {TwinsGroupPicturesComponent} from './twins-group-pictures.component';
+import {TwinsGroupPictureComponent} from './twins-group-picture/twins-group-picture.component';
+import {TwinsGroupGalleryComponent} from './twins-group-gallery/twins-group-gallery.component';
 
 const routes: Routes = [
   {
@@ -19,41 +19,41 @@ const routes: Routes = [
             children: [
               {
                 path: ':identity',
-                component: TwinsGroupPictureComponent
+                component: TwinsGroupPictureComponent,
               },
               {
                 path: '',
                 pathMatch: 'full',
                 component: TwinsGroupPicturesComponent,
-              }
-            ]
+              },
+            ],
           },
           {
             path: 'gallery',
             children: [
               {
                 path: ':identity',
-                component: TwinsGroupGalleryComponent
+                component: TwinsGroupGalleryComponent,
               },
               {
                 path: '',
                 pathMatch: 'full',
-                component: TwinsGroupGalleryComponent
-              }
-            ]
+                component: TwinsGroupGalleryComponent,
+              },
+            ],
           },
-          { path: 'specifications', component: TwinsGroupSpecificationsComponent },
-          { path: '', component: TwinsGroupComponent }
-        ]
-      }
-    ]
+          {path: 'specifications', component: TwinsGroupSpecificationsComponent},
+          {path: '', component: TwinsGroupComponent},
+        ],
+      },
+    ],
   },
-  { path: ':brand', component: TwinsComponent, title: $localize `Twins` },
-  { path: '', pathMatch: 'full', component: TwinsComponent, title: $localize `Twins` }
+  {path: ':brand', component: TwinsComponent, title: $localize`Twins`},
+  {path: '', pathMatch: 'full', component: TwinsComponent, title: $localize`Twins`},
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TwinsRoutingModule { }
+export class TwinsRoutingModule {}

@@ -7,12 +7,12 @@ import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIAttrsService} from '../../api/attrs/attrs.service';
-import {getAttrsTranslation, getUnitTranslation } from '../../utils/translations';
+import {getAttrsTranslation, getUnitTranslation} from '../../utils/translations';
 
 @Component({
   selector: 'app-cars-attrs-change-log',
   templateUrl: './attrs-change-log.component.html',
-  styleUrls: ['./attrs-change-log.component.scss']
+  styleUrls: ['./attrs-change-log.component.scss'],
 })
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
@@ -20,31 +20,33 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   public userID$: Observable<number> = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('user_id'), 10)),
-    map(userID => userID ? userID : 0),
+    map((params) => parseInt(params.get('user_id'), 10)),
+    map((userID) => (userID ? userID : 0)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   public itemID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   public page$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   public items$ = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
-    switchMap(([userID, itemID, page]) => this.attrService.getUserValues({
-      user_id: userID ? userID : null,
-      item_id: itemID,
-      page: page,
-      fields: 'user,item.name_html,path,unit,value_text'
-    })),
+    switchMap(([userID, itemID, page]) =>
+      this.attrService.getUserValues({
+        user_id: userID ? userID : null,
+        item_id: itemID,
+        page: page,
+        fields: 'user,item.name_html,path,unit,value_text',
+      })
+    ),
     shareReplay(1)
   );
 
@@ -62,7 +64,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     this.usersDataSource = (text$: Observable<string>) =>
       text$.pipe(
         debounceTime(200),
-        switchMap(query => {
+        switchMap((query) => {
           if (query === '') {
             return of([]);
           }
@@ -70,7 +72,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           const params = {
             limit: 10,
             id: [],
-            search: ''
+            search: '',
           };
           if (query.substring(0, 1) === '#') {
             params.id.push(parseInt(query.substring(1), 10));
@@ -83,20 +85,16 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
               console.log(err, caught);
               return EMPTY;
             }),
-            map(response => response.items)
+            map((response) => response.items)
           );
         })
       );
   }
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 103}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 103}), 0);
 
-    this.querySub = this.userID$.subscribe(userID => {
+    this.querySub = this.userID$.subscribe((userID) => {
       if (userID && !this.userQuery) {
         this.userQuery = '#' + userID;
       }
@@ -111,8 +109,8 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
-        user_id: e.item.id
-      }
+        user_id: e.item.id,
+      },
     });
   }
 
@@ -121,8 +119,8 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
-        user_id: null
-      }
+        user_id: null,
+      },
     });
   }
 

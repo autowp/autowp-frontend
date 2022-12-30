@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import * as $ from 'jquery';
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { PictureService, APIPicture } from '../../../../services/picture';
-import { PageEnvService } from '../../../../services/page-env.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Subscription, BehaviorSubject} from 'rxjs';
+import {PictureService, APIPicture} from '../../../../services/picture';
+import {PageEnvService} from '../../../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import { APIService } from '../../../../services/api.service';
+import {APIService} from '../../../../services/api.service';
 
 interface Crop {
   w: number;
@@ -17,7 +17,7 @@ interface Crop {
 
 @Component({
   selector: 'app-moder-pictures-item-crop',
-  templateUrl: './crop.component.html'
+  templateUrl: './crop.component.html',
 })
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
@@ -28,7 +28,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     w: 0,
     h: 0,
     x: 0,
-    y: 0
+    y: 0,
   };
   private minSize = [400, 300];
   public picture: APIPicture;
@@ -47,25 +47,23 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 148
+          pageId: 148,
         }),
       0
     );
     this.routeSub = this.route.paramMap
       .pipe(
-        map(params => parseInt(params.get('id'), 10)),
+        map((params) => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(10),
-        switchMap(id =>
+        switchMap((id) =>
           this.pictureService.getPicture(id, {
-            fields: 'crop,image'
+            fields: 'crop,image',
           })
         ),
-        switchMap(picture => this.img$.pipe(
-          map(img => ({ picture, img }))
-        ))
+        switchMap((picture) => this.img$.pipe(map((img) => ({picture, img}))))
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.picture = data.picture;
 
         if (data.img) {
@@ -78,14 +76,14 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
               w: this.picture.crop.width,
               h: this.picture.crop.height,
               x: this.picture.crop.left,
-              y: this.picture.crop.top
+              y: this.picture.crop.top,
             };
           } else {
             this.currentCrop = {
               w: this.picture.width,
               h: this.picture.height,
               x: 0,
-              y: 0
+              y: 0,
             };
           }
 
@@ -104,13 +102,13 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
               this.currentCrop.x,
               this.currentCrop.y,
               this.currentCrop.x + this.currentCrop.w,
-              this.currentCrop.y + this.currentCrop.h
+              this.currentCrop.y + this.currentCrop.h,
             ],
             minSize: this.minSize,
             boxWidth: width,
             boxHeight: height,
             trueSize: [this.picture.width, this.picture.height],
-            keySupport: false
+            keySupport: false,
           });
         }
       });
@@ -126,22 +124,23 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
 
   public saveCrop() {
     this.api
-      .request<void>('PUT', 'picture/' + this.picture.id, {body: {
-        crop: {
-          left: Math.round(this.currentCrop.x),
-          top: Math.round(this.currentCrop.y),
-          width: Math.round(this.currentCrop.w),
-          height: Math.round(this.currentCrop.h)
-        }
-      }})
+      .request<void>('PUT', 'picture/' + this.picture.id, {
+        body: {
+          crop: {
+            left: Math.round(this.currentCrop.x),
+            top: Math.round(this.currentCrop.y),
+            width: Math.round(this.currentCrop.w),
+            height: Math.round(this.currentCrop.h),
+          },
+        },
+      })
       .subscribe(() => {
         this.router.navigate(['/moder/pictures', this.picture.id]);
       });
   }
 
   private updateSelectionText() {
-    const text =
-      Math.round(this.currentCrop.w) + '×' + Math.round(this.currentCrop.h);
+    const text = Math.round(this.currentCrop.w) + '×' + Math.round(this.currentCrop.h);
     const pw = 4;
     const ph = (pw * this.currentCrop.h) / this.currentCrop.w;
     const phRound = Math.round(ph * 10) / 10;

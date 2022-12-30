@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { APIPaginator, APIImage, APIService } from './api.service';
+import {Injectable} from '@angular/core';
+import {APIPaginator, APIImage, APIService} from './api.service';
 import {Observable, forkJoin, of} from 'rxjs';
-import { APIAccount } from '../account/account.service';
-import { tap, map } from 'rxjs/operators';
+import {APIAccount} from '../account/account.service';
+import {tap, map} from 'rxjs/operators';
 
 export interface APIGetUserOptions {
   fields?: string;
@@ -10,7 +10,7 @@ export interface APIGetUserOptions {
 
 export interface APIGetUsersOptions {
   limit?: number;
-  id?: (number|string)[];
+  id?: (number | string)[];
   search?: string;
   page?: number;
   fields?: string;
@@ -53,10 +53,8 @@ export interface APIUser {
   is_moder: boolean;
 }
 
-function converUserOptions(
-  options: APIGetUserOptions
-): { [param: string]: string } {
-  const params: { [param: string]: string } = {};
+function converUserOptions(options: APIGetUserOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
 
   if (options.fields) {
     params.fields = options.fields;
@@ -65,17 +63,15 @@ function converUserOptions(
   return params;
 }
 
-function converUsersOptions(
-  options: APIGetUsersOptions
-): { [param: string]: string | string[] } {
-  const params: { [param: string]: string | string[] } = {};
+function converUsersOptions(options: APIGetUsersOptions): {[param: string]: string | string[]} {
+  const params: {[param: string]: string | string[]} = {};
 
   if (options.limit) {
     params.limit = options.limit.toString();
   }
 
   if (options.id) {
-    params['id[]'] = options.id.map(id => id.toString());
+    params['id[]'] = options.id.map((id) => id.toString());
   }
 
   if (options.search) {
@@ -123,9 +119,9 @@ export class UserService {
     if (toRequest.length > 0) {
       const promise = this.get({
         id: toRequest,
-        limit: toRequest.length
+        limit: toRequest.length,
       }).pipe(
-        tap(response => {
+        tap((response) => {
           for (const item of response.items) {
             this.cache.set(item.id.toString(), item);
           }
@@ -184,12 +180,12 @@ export class UserService {
 
     if (Object.keys(params).length) {
       return this.api.request<APIUser>('GET', 'user/' + id, {
-        params
+        params,
       });
     }
 
     return this.getUsers([id.toString()]).pipe(
-      map(users => {
+      map((users) => {
         if (users.length > 0) {
           return users[0];
         }
@@ -200,14 +196,11 @@ export class UserService {
 
   public get(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
     return this.api.request<APIUserGetResponse>('GET', 'user', {
-      params: converUsersOptions(options)
+      params: converUsersOptions(options),
     });
   }
 
-  public getByIdentity(
-    identity: string,
-    options: APIGetUserOptions
-  ): Observable<APIUser> {
+  public getByIdentity(identity: string, options: APIGetUserOptions): Observable<APIUser> {
     const result = identity.match(/^user([0-9]+)$/);
 
     if (result) {
@@ -217,11 +210,9 @@ export class UserService {
     const params: APIGetUsersOptions = {
       identity,
       limit: 1,
-      fields: options.fields
+      fields: options.fields,
     };
 
-    return this.get(params).pipe(
-      map(response => (response.items.length ? response.items[0] : null))
-    );
+    return this.get(params).pipe(map((response) => (response.items.length ? response.items[0] : null)));
   }
 }

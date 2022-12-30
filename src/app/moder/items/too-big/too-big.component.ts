@@ -1,19 +1,16 @@
-import { Component} from '@angular/core';
-import { ItemService, APIItem } from '../../../services/item';
-import { PageEnvService } from '../../../services/page-env.service';
+import {Component} from '@angular/core';
+import {ItemService, APIItem} from '../../../services/item';
+import {PageEnvService} from '../../../services/page-env.service';
 
 @Component({
   selector: 'app-moder-items-too-big',
-  templateUrl: './too-big.component.html'
+  templateUrl: './too-big.component.html',
 })
 export class ModerItemsTooBigComponent {
   public loading = false;
   public items: APIItem[];
 
-  constructor(
-    private itemService: ItemService,
-    private pageEnv: PageEnvService
-  ) {
+  constructor(private itemService: ItemService, private pageEnv: PageEnvService) {
     this.loading = true;
     setTimeout(
       () =>
@@ -28,16 +25,16 @@ export class ModerItemsTooBigComponent {
       .getItems({
         order: 'childs_count',
         limit: 100,
-        fields: 'childs_count,name_html'
+        fields: 'childs_count,name_html',
       })
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.items = response.items;
           this.loading = false;
         },
         error: () => {
           this.loading = false;
-        }
+        },
       });
   }
 }

@@ -1,22 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIItemParentLanguageGetResponse, APIService } from '../../services/api.service';
-import { ContentLanguageService } from '../../services/content-language';
-import { ItemService, APIItem } from '../../services/item';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {APIItemParentLanguageGetResponse, APIService} from '../../services/api.service';
+import {ContentLanguageService} from '../../services/content-language';
+import {ItemService, APIItem} from '../../services/item';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription, combineLatest, Observable, forkJoin, EMPTY} from 'rxjs';
-import { APIItemParent } from '../../services/item-parent';
-import { PageEnvService } from '../../services/page-env.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  catchError, map
-} from 'rxjs/operators';
-import { getItemTypeTranslation } from '../../utils/translations';
+import {APIItemParent} from '../../services/item-parent';
+import {PageEnvService} from '../../services/page-env.service';
+import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
+import {getItemTypeTranslation} from '../../utils/translations';
 
 @Component({
   selector: 'app-moder-item-parent',
-  templateUrl: './item-parent.component.html'
+  templateUrl: './item-parent.component.html',
 })
 export class ModerItemParentComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
@@ -27,20 +22,20 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   public typeOptions = [
     {
       value: 0,
-      name: $localize `Stock model`
+      name: $localize`Stock model`,
     },
     {
       value: 1,
-      name: $localize `Related`
+      name: $localize`Related`,
     },
     {
       value: 2,
-      name: $localize `Sport`
+      name: $localize`Sport`,
     },
     {
       value: 3,
-      name: $localize `Design`
-    }
+      name: $localize`Design`,
+    },
   ];
 
   constructor(
@@ -54,26 +49,26 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub = this.route.paramMap
       .pipe(
-        map(params => ({
+        map((params) => ({
           item_id: parseInt(params.get('item_id'), 10),
-          parent_id: parseInt(params.get('parent_id'), 10)
+          parent_id: parseInt(params.get('parent_id'), 10),
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        switchMap(params => {
+        switchMap((params) => {
           return combineLatest([
             this.api.request<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
             this.itemService.getItem(params.item_id, {
-              fields: ['name_text', 'name_html'].join(',')
+              fields: ['name_text', 'name_html'].join(','),
             }),
             this.itemService.getItem(params.parent_id, {
-              fields: ['name_text', 'name_html'].join(',')
+              fields: ['name_text', 'name_html'].join(','),
             }),
             this.ContentLanguage.languages$,
             this.api.request<APIItemParentLanguageGetResponse>(
               'GET',
               'item-parent/' + params.item_id + '/' + params.parent_id + '/language'
-            )
+            ),
           ]);
         })
       )
@@ -82,9 +77,9 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.item = item;
         this.parent = parent;
 
-        this.languages = languages.map(language => ({
+        this.languages = languages.map((language) => ({
           language,
-          name: null
+          name: null,
         }));
 
         for (const languageData of itemParentLanguage.items) {
@@ -98,7 +93,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.pageEnv.set({
           layout: {isAdminPage: true},
           title: getItemTypeTranslation(this.item.item_type_id, 'name') + ': ' + this.item.name_text,
-          pageId: 78
+          pageId: 78,
         });
       });
   }
@@ -109,25 +104,20 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
   public reloadItemParent() {
     this.api
-      .request(
-        'GET',
-        'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id
-      )
-      .subscribe(response => {
+      .request('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
+      .subscribe((response) => {
         this.itemParent = response;
       });
   }
 
   public save() {
     const promises: Observable<void>[] = [
-      this.api.request<void>(
-        'PUT',
-        'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id,
-        {body: {
+      this.api.request<void>('PUT', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id, {
+        body: {
           catname: this.itemParent.catname,
-          type_id: this.itemParent.type_id
-        }}
-      )
+          type_id: this.itemParent.type_id,
+        },
+      }),
     ];
 
     for (const language of this.languages) {
@@ -136,13 +126,20 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.api
           .request<void>(
             'PUT',
-            'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id + '/language/' + language.language,
-            {body: {
-              name: language.name
-            }}
+            'item-parent/' +
+              this.itemParent.item_id +
+              '/' +
+              this.itemParent.parent_id +
+              '/language/' +
+              language.language,
+            {
+              body: {
+                name: language.name,
+              },
+            }
           )
           .pipe(
-            catchError(response => {
+            catchError((response) => {
               language.invalidParams = response.error.invalid_params;
               return EMPTY;
             })

@@ -7,29 +7,29 @@ export interface Point {
   lng: number;
 }
 
-const DEFAULT_LAT = 54.5260,
-      DEFAULT_LNG = 15.2551;
+const DEFAULT_LAT = 54.526,
+  DEFAULT_LNG = 15.2551;
 
-const normalizeValue = (value: number|string|null|undefined): number|null => {
-  if (value === null || typeof value === 'undefined' || typeof value === 'number' && isNaN(value)) {
+const normalizeValue = (value: number | string | null | undefined): number | null => {
+  if (value === null || typeof value === 'undefined' || (typeof value === 'number' && isNaN(value))) {
     return null;
   }
   value = typeof value !== 'number' ? parseFloat(value) : value;
   return isNaN(value) ? null : value;
-}
+};
 
-const center = (lat: number|string, lng: number|string): LatLng => {
+const center = (lat: number | string, lng: number | string): LatLng => {
   lat = normalizeValue(lat);
   lng = normalizeValue(lng);
 
   console.log('center', lat, lng);
 
-  if (typeof lat != "number" || typeof lng != "number" || isNaN(lat) || isNaN(lng)) {
+  if (typeof lat != 'number' || typeof lng != 'number' || isNaN(lat) || isNaN(lng)) {
     return latLng(DEFAULT_LAT, DEFAULT_LNG);
   }
 
   return latLng(lat, lng);
-}
+};
 
 @Component({
   selector: 'app-map-point',
@@ -39,12 +39,11 @@ const center = (lat: number|string, lng: number|string): LatLng => {
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: MapPointComponent
-    }
-  ]
+      useExisting: MapPointComponent,
+    },
+  ],
 })
 export class MapPointComponent implements ControlValueAccessor {
-
   /*public center$ = this.point$.pipe(
     map(point => point ? point : latLng(54.5260, 15.2551))
   );*/
@@ -73,12 +72,12 @@ export class MapPointComponent implements ControlValueAccessor {
   public mapOptions: MapOptions = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18
-      })
+        maxZoom: 18,
+      }),
     ],
     zoom: 8,
     center: center(this.lat, this.lng),
-    dragging: true
+    dragging: true,
   };
 
   private onChange: (Point) => {};
@@ -89,8 +88,7 @@ export class MapPointComponent implements ControlValueAccessor {
 
   private touched = false;
 
-  constructor(private zone: NgZone) {
-  }
+  constructor(private zone: NgZone) {}
 
   writeValue(point: Point): void {
     const lat = normalizeValue(point.lat);
@@ -104,7 +102,7 @@ export class MapPointComponent implements ControlValueAccessor {
     let ll: LatLng = null;
     if (lat !== null && lng !== null) {
       ll = latLng(lat, lng);
-      console.log('this.center', this.center)
+      console.log('this.center', this.center);
       this.center = ll;
       this.mapOptions.center = ll;
     }
@@ -127,7 +125,6 @@ export class MapPointComponent implements ControlValueAccessor {
   public onMapReady(lmap: Map) {
     lmap.on('click', (event: LeafletMouseEvent) => {
       this.zone.run(() => {
-
         this.center = event.latlng;
         this.mapOptions.center = event.latlng;
         this.setMarker(event.latlng);
@@ -188,13 +185,17 @@ export class MapPointComponent implements ControlValueAccessor {
   }
 
   public setMarker(ll: LatLng) {
-    this.markers = ll ? [marker(ll, {
-      icon: icon({
-        iconSize: [25, 41],
-        iconAnchor: [13, 41],
-        iconUrl: 'assets/marker-icon.png',
-        shadowUrl: 'assets/marker-shadow.png'
-      })
-    })] : [];
+    this.markers = ll
+      ? [
+          marker(ll, {
+            icon: icon({
+              iconSize: [25, 41],
+              iconAnchor: [13, 41],
+              iconUrl: 'assets/marker-icon.png',
+              shadowUrl: 'assets/marker-shadow.png',
+            }),
+          }),
+        ]
+      : [];
   }
 }

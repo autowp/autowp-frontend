@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { categoriesPathMatcher } from './matcher';
-import { CategoriesCategoryItemComponent } from './category-item.component';
-import { CategoriesCategoryPicturesComponent } from './category-pictures.component';
-import { CategoriesIndexComponent } from './index.component';
-import { CategoryPictureComponent } from './category-picture/category-picture.component';
-import { CategoryGalleryComponent } from './category-gallery/category-gallery.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {categoriesPathMatcher} from './matcher';
+import {CategoriesCategoryItemComponent} from './category-item.component';
+import {CategoriesCategoryPicturesComponent} from './category-pictures.component';
+import {CategoriesIndexComponent} from './index.component';
+import {CategoryPictureComponent} from './category-picture/category-picture.component';
+import {CategoryGalleryComponent} from './category-gallery/category-gallery.component';
 
 const routes: Routes = [
   {
@@ -25,9 +25,9 @@ const routes: Routes = [
                 path: '',
                 pathMatch: 'full',
                 component: CategoriesCategoryPicturesComponent,
-                title: $localize `Pictures`
-              }
-            ]
+                title: $localize`Pictures`,
+              },
+            ],
           },
           {
             path: 'gallery/:identity',
@@ -37,27 +37,27 @@ const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            component: CategoriesCategoryItemComponent
-          }
-        ]
+            component: CategoriesCategoryItemComponent,
+          },
+        ],
       },
       {
         path: '',
         pathMatch: 'full',
-        component: CategoriesCategoryItemComponent
-      }
-    ]
+        component: CategoriesCategoryItemComponent,
+      },
+    ],
   },
   {
     path: '',
     pathMatch: 'full',
     component: CategoriesIndexComponent,
-    title: $localize `Categories`
-  }
+    title: $localize`Categories`,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CategoriesRoutingModule { }
+export class CategoriesRoutingModule {}

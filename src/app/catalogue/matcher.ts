@@ -1,4 +1,4 @@
-import { UrlSegment } from '@angular/router';
+import {UrlSegment} from '@angular/router';
 
 export function cataloguePathMatcher(url: UrlSegment[]) {
   if (url.length <= 0) {
@@ -50,6 +50,6 @@ export function cataloguePathMatcher(url: UrlSegment[]) {
     posParams: {
       path: new UrlSegment(path.join('/'), {}),
       type: new UrlSegment(type, {}),
-    }
+    },
   };
 }

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { APIService } from './api.service';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {APIService} from './api.service';
 
 export interface APIItemLanguage {
   language: string;

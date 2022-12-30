@@ -1,23 +1,18 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  VehicleTypeService
-} from '../../services/vehicle-type';
-import { getVehicleTypeTranslation } from '../../utils/translations';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {VehicleTypeService} from '../../services/vehicle-type';
+import {getVehicleTypeTranslation} from '../../utils/translations';
 
 @Component({
   selector: 'app-vehicle-types-modal',
-  templateUrl: './vehicle-types-modal.component.html'
+  templateUrl: './vehicle-types-modal.component.html',
 })
 export class VehicleTypesModalComponent {
   @Input() ids: number[] = [];
   @Output() changed = new EventEmitter<number[]>();
   public types$ = this.vehicleTypeService.getTypes();
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private vehicleTypeService: VehicleTypeService,
-  ) { }
+  constructor(public activeModal: NgbActiveModal, private vehicleTypeService: VehicleTypeService) {}
 
   public isActive(id: number): boolean {
     return this.ids.indexOf(id) > -1;

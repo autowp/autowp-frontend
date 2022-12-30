@@ -1,7 +1,7 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import {enableProdMode} from '@angular/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {AppModule} from './app/app.module';
+import {environment} from './environments/environment';
 // import * as Sentry from "@sentry/angular";
 // import {BrowserTracing} from '@sentry/tracing';
 
@@ -24,5 +24,6 @@ if (environment.production) {
   tracesSampleRate: 1.0,
 });*/
 
-platformBrowserDynamic().bootstrapModule(AppModule, { preserveWhitespaces: true })
-  .catch(err => console.log(err));
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, {preserveWhitespaces: true})
+  .catch((err) => console.log(err));

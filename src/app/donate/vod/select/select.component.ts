@@ -1,29 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../../../services/api.service';
-import {
-  APIItem,
-  ItemService,
-  APIItemsGetResponse
-} from '../../../services/item';
-import { chunk } from '../../../chunk';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, combineLatest, of } from 'rxjs';
-import {
-  ItemParentService,
-  APIItemParent,
-  APIItemParentGetResponse
-} from '../../../services/item-parent';
-import { PageEnvService } from '../../../services/page-env.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  switchMap,
-  finalize, map
-} from 'rxjs/operators';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {APIPaginator} from '../../../services/api.service';
+import {APIItem, ItemService, APIItemsGetResponse} from '../../../services/item';
+import {chunk} from '../../../chunk';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Subscription, combineLatest, of} from 'rxjs';
+import {ItemParentService, APIItemParent, APIItemParentGetResponse} from '../../../services/item-parent';
+import {PageEnvService} from '../../../services/page-env.service';
+import {debounceTime, distinctUntilChanged, switchMap, finalize, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-donate-vod-select',
-  templateUrl: './select.component.html'
+  templateUrl: './select.component.html',
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
@@ -52,29 +39,25 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
       queryParams: {
         item_id: itemID,
         date: this.date,
-        anonymous: this.anonymous ? 1 : null
-      }
+        anonymous: this.anonymous ? 1 : null,
+      },
     });
   }
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 196}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
 
     this.querySub = this.route.queryParamMap
       .pipe(
-        map(params => ({
+        map((params) => ({
           page: parseInt(params.get('page'), 10),
           date: params.get('date'),
           brand_id: parseInt(params.get('brand_id'), 10),
-          anonymous: !!params.get('anonymous')
+          anonymous: !!params.get('anonymous'),
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        switchMap(params => {
+        switchMap((params) => {
           this.page = params.page || 1;
           this.date = params.date;
           this.anonymous = params.anonymous;
@@ -89,7 +72,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                   type_id: 5,
                   limit: 500,
                   fields: 'name_only',
-                  page: this.page
+                  page: this.page,
                 })
             ).pipe(
               finalize(() => {
@@ -98,43 +81,38 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
             ),
             (brandID
               ? this.itemService.getItem(brandID).pipe(
-                  switchMap(
-                    brand =>
-                      combineLatest(
-                        [
-                          this.itemParentService.getItems({
-                            item_type_id: 1,
-                            parent_id: brand.id,
-                            fields:
-                              'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                            limit: 500,
-                            page: 1
-                          }),
-                          this.itemParentService.getItems({
-                            item_type_id: 1,
-                            concept: true,
-                            ancestor_id: brand.id,
-                            fields:
-                              'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                            limit: 500,
-                            page: 1
-                          })
-                        ]
-                      ).pipe(
-                        map(([vehicles, concepts]) => ({brand, vehicles, concepts}))
-                      )
+                  switchMap((brand) =>
+                    combineLatest([
+                      this.itemParentService.getItems({
+                        item_type_id: 1,
+                        parent_id: brand.id,
+                        fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                        limit: 500,
+                        page: 1,
+                      }),
+                      this.itemParentService.getItems({
+                        item_type_id: 1,
+                        concept: true,
+                        ancestor_id: brand.id,
+                        fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                        limit: 500,
+                        page: 1,
+                      }),
+                    ]).pipe(map(([vehicles, concepts]) => ({brand, vehicles, concepts})))
                   )
                 )
-              : of(null as {
-                  brand: APIItem;
-                  vehicles: APIItemParentGetResponse;
-                  concepts: APIItemParentGetResponse;
-                })
+              : of(
+                  null as {
+                    brand: APIItem;
+                    vehicles: APIItemParentGetResponse;
+                    concepts: APIItemParentGetResponse;
+                  }
+                )
             ).pipe(
               finalize(() => {
                 this.loading--;
               })
-            )
+            ),
           ]);
         })
       )

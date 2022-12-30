@@ -1,7 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EMPTY} from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { PageEnvService } from '../../services/page-env.service';
+import {ActivatedRoute} from '@angular/router';
+import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIItem, ItemService} from '../../services/item';
@@ -9,17 +9,17 @@ import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item
 
 @Component({
   selector: 'app-cutaway-authors',
-  templateUrl: './authors.component.html'
+  templateUrl: './authors.component.html',
 })
 export class CutawayAuthorsComponent implements OnInit {
-
   public query$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap(page =>
+    switchMap((page) =>
       this.itemService.getItems({
-        fields: 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
+        fields:
+          'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
         type_id: 8,
         descendant_pictures: {
           type_id: 2,
@@ -34,13 +34,13 @@ export class CutawayAuthorsComponent implements OnInit {
         limit: 12,
       })
     ),
-    catchError(response => {
-      this.toastService.response(response)
+    catchError((response) => {
+      this.toastService.response(response);
       return EMPTY;
     }),
-    map(response => ({
+    map((response) => ({
       items: this.prepareItems(response.items),
-      paginator: response.paginator
+      paginator: response.paginator,
     }))
   );
 
@@ -52,29 +52,25 @@ export class CutawayAuthorsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 201}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 201}), 0);
   }
 
   private prepareItems(items: APIItem[]): CatalogueListItem[] {
-    return items.map(item => {
+    return items.map((item) => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());
 
-      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
         picture: picture ? picture.picture : null,
         thumb: picture ? picture.thumb : null,
-        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
+        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
       }));
 
       return {
         id: item.id,
         preview_pictures: {
           pictures,
-          large_format: item.preview_pictures.large_format
+          large_format: item.preview_pictures.large_format,
         },
         item_type_id: item.item_type_id,
         produced: null,
@@ -91,9 +87,9 @@ export class CutawayAuthorsComponent implements OnInit {
         specsRouterLink: null,
         details: {
           routerLink: itemRouterLink,
-          count: item.childs_count
+          count: item.childs_count,
         },
-        childs_counts: null
+        childs_counts: null,
       };
     });
   }

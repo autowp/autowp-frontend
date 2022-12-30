@@ -1,16 +1,16 @@
-import { Component} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
 import {combineLatest, BehaviorSubject, Observable} from 'rxjs';
-import { PageEnvService } from '../../../services/page-env.service';
+import {PageEnvService} from '../../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import { APIAttrAttribute, APIAttrsService, APIAttrAttributeGetResponse } from '../../../api/attrs/attrs.service';
+import {APIAttrAttribute, APIAttrsService, APIAttrAttributeGetResponse} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import { APIService } from '../../../services/api.service';
-import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation } from '../../../utils/translations';
+import {APIService} from '../../../services/api.service';
+import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} from '../../../utils/translations';
 
 @Component({
   selector: 'app-moder-attrs-attribute',
-  templateUrl: './attribute.component.html'
+  templateUrl: './attribute.component.html',
 })
 export class ModerAttrsAttributeComponent {
   public loading = 0;
@@ -18,10 +18,13 @@ export class ModerAttrsAttributeComponent {
   public addListOptionLoading = 0;
 
   public unitOptions$ = this.attrsService.getUnits().pipe(
-    map(items => [{ id: null, name: '-' }, items.map(item => ({
-      id: item.id,
-      name: getUnitTranslation(item.id, 'name')
-    }))]),
+    map((items) => [
+      {id: null, name: '-'},
+      items.map((item) => ({
+        id: item.id,
+        name: getUnitTranslation(item.id, 'name'),
+      })),
+    ]),
     shareReplay(1)
   );
 
@@ -33,7 +36,7 @@ export class ModerAttrsAttributeComponent {
     precision: null,
     unit_id: null,
     is_multiple: false,
-    parent_id: null
+    parent_id: null,
   };
 
   public newAttribute: APIAttrAttribute = {
@@ -44,7 +47,7 @@ export class ModerAttrsAttributeComponent {
     precision: null,
     unit_id: null,
     is_multiple: false,
-    parent_id: null
+    parent_id: null,
   };
 
   public listOptionsOptions: {
@@ -53,63 +56,71 @@ export class ModerAttrsAttributeComponent {
   }[] = [];
   public newListOption = {
     parent_id: null,
-    name: ''
+    name: '',
   };
   private $listOptionsChange = new BehaviorSubject<null>(null);
 
   private attributeID$ = this.route.paramMap.pipe(
-    map(params => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
   public attribute$ = this.attributeID$.pipe(
-    switchMap(id => this.attrsService.getAttribute(id)),
-    tap(attribute => {
+    switchMap((id) => this.attrsService.getAttribute(id)),
+    tap((attribute) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
         title: attribute.name,
-        pageId: 101
+        pageId: 101,
       });
     }),
     shareReplay(1)
   );
 
   public attributes$ = this.attributeID$.pipe(
-    switchMap(attributeID => this.api.request<APIAttrAttributeGetResponse>('GET', 'attr/attribute', {
-      params: {
-        parent_id: attributeID.toString(),
-        recursive: '0',
-        fields: 'unit'
-      }
-    }))
+    switchMap((attributeID) =>
+      this.api.request<APIAttrAttributeGetResponse>('GET', 'attr/attribute', {
+        params: {
+          parent_id: attributeID.toString(),
+          recursive: '0',
+          fields: 'unit',
+        },
+      })
+    )
   );
 
   public listOptions$ = combineLatest([this.attributeID$, this.$listOptionsChange]).pipe(
-    switchMap(([attributeID]) => this.attrsService.getListOptions({
-      attribute_id: attributeID
-    })),
-    map(listOptions => [{ id: null, name: '-' }, ...listOptions.items.map(item => ({
-      id: item.id,
-      name: item.name
-    }))])
+    switchMap(([attributeID]) =>
+      this.attrsService.getListOptions({
+        attribute_id: attributeID,
+      })
+    ),
+    map((listOptions) => [
+      {id: null, name: '-'},
+      ...listOptions.items.map((item) => ({
+        id: item.id,
+        name: item.name,
+      })),
+    ])
   );
 
-  private types$ = this.attrsService.getAttributeTypes().pipe(
-    shareReplay(1)
-  );
+  private types$ = this.attrsService.getAttributeTypes().pipe(shareReplay(1));
 
   public typeOptions$ = this.attrsService.getAttributeTypes().pipe(
-    map(types => [{ id: null, name: '-' }, ...types.map(item => ({
-      id: item.id,
-      name: getAttrListOptionsTranslation(item.name)
-    }))])
+    map((types) => [
+      {id: null, name: '-'},
+      ...types.map((item) => ({
+        id: item.id,
+        name: getAttrListOptionsTranslation(item.name),
+      })),
+    ])
   );
 
-  public typeMap$: Observable<{ [id: number]: string }> = this.types$.pipe(
-    map(types => {
-      const typeMap = {}
+  public typeMap$: Observable<{[id: number]: string}> = this.types$.pipe(
+    map((types) => {
+      const typeMap = {};
       for (const item of types) {
         typeMap[item.id] = item.name;
       }
@@ -134,10 +145,10 @@ export class ModerAttrsAttributeComponent {
       next: () => {
         this.loading--;
       },
-      error: response => {
+      error: (response) => {
         this.toastService.response(response);
         this.loading--;
-      }
+      },
     });
   }
 
@@ -146,30 +157,30 @@ export class ModerAttrsAttributeComponent {
 
     this.addLoading++;
     this.attrsService.createAttribute(this.newAttribute).subscribe({
-      next: response => {
+      next: (response) => {
         const location = response.headers.get('Location');
 
         Object.assign(this.newAttribute, this.defaultAttribute);
 
         this.addLoading++;
         this.attrsService.getAttributeByLocation(location).subscribe({
-          next: subresponse => {
+          next: (subresponse) => {
             this.router.navigate(['/moder/attrs/attribute', subresponse.id]);
 
             this.addLoading--;
           },
-          error: subresponse => {
+          error: (subresponse) => {
             this.toastService.response(subresponse);
             this.addLoading--;
-          }
+          },
         });
 
         this.addLoading--;
       },
-      error: response => {
+      error: (response) => {
         this.toastService.response(response);
         this.addLoading--;
-      }
+      },
     });
   }
 
@@ -180,7 +191,7 @@ export class ModerAttrsAttributeComponent {
       .createListOption({
         attribute_id: attribute.id,
         parent_id: this.newListOption.parent_id,
-        name: this.newListOption.name
+        name: this.newListOption.name,
       })
       .subscribe({
         next: () => {
@@ -190,10 +201,10 @@ export class ModerAttrsAttributeComponent {
 
           this.addListOptionLoading--;
         },
-        error: response => {
+        error: (response) => {
           this.toastService.response(response);
           this.addListOptionLoading--;
-        }
+        },
       });
 
     return false;

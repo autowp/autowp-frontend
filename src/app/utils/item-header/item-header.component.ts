@@ -14,9 +14,8 @@ export interface ItemHeader {
 
 @Component({
   selector: 'app-item-header',
-  templateUrl: './item-header.component.html'
+  templateUrl: './item-header.component.html',
 })
 export class ItemHeaderComponent {
   @Input() item: ItemHeader;
-
 }

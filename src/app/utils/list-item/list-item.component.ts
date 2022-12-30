@@ -48,14 +48,14 @@ export interface CatalogueListItem {
 
 @Component({
   selector: 'app-catalogue-list-item',
-  templateUrl: './list-item.component.html'
+  templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {
   @Input() item: CatalogueListItem;
 
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
-  constructor(private acl: ACLService) { }
+  constructor(private acl: ACLService) {}
 
   public havePhoto(item: CatalogueListItem) {
     if (item.preview_pictures) {

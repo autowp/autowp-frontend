@@ -16,40 +16,50 @@ interface APIIndexItemOfDay {
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.components.scss']
+  styleUrls: ['./index.components.scss'],
 })
 export class IndexComponent implements OnInit {
   public mosts = [
     {
       route: '/mosts/fastest/roadster',
-      name: $localize `Most fastest roadsters`,
+      name: $localize`Most fastest roadsters`,
     },
     {
       route: '/mosts/mighty/sedan/today',
-      name: $localize `Most mighty sedans today`,
-    }, {
+      name: $localize`Most mighty sedans today`,
+    },
+    {
       route: '/mosts/dynamic/universal/2000-09',
-      name: $localize `Most dynamic universals in 2000's`,
-    }, {
+      name: $localize`Most dynamic universals in 2000's`,
+    },
+    {
       route: '/mosts/heavy/truck',
-      name: $localize `Most heavy trucks`
-    }
+      name: $localize`Most heavy trucks`,
+    },
   ];
-  public itemOfDay$ = this.api.request<APIIndexItemOfDay>('GET', 'index/item-of-day').pipe(
-    switchMap(itemOfDay => combineLatest([
-      itemOfDay.user_id ? this.usersClient.getUser(new APIGetUserRequest({userId: itemOfDay.user_id})) : of(null),
-      of(itemOfDay)
-    ]))
-  );
+  public itemOfDay$ = this.api
+    .request<APIIndexItemOfDay>('GET', 'index/item-of-day')
+    .pipe(
+      switchMap((itemOfDay) =>
+        combineLatest([
+          itemOfDay.user_id ? this.usersClient.getUser(new APIGetUserRequest({userId: itemOfDay.user_id})) : of(null),
+          of(itemOfDay),
+        ])
+      )
+    );
 
-  public contentPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
-    language: this.languageService.language,
-    pictureItemType: PictureItemType.PICTURE_CONTENT
-  }));
-  public authorPersons$ = this.items.getTopPersonsList(new GetTopPersonsListRequest({
-    language: this.languageService.language,
-    pictureItemType: PictureItemType.PICTURE_AUTHOR
-  }));
+  public contentPersons$ = this.items.getTopPersonsList(
+    new GetTopPersonsListRequest({
+      language: this.languageService.language,
+      pictureItemType: PictureItemType.PICTURE_CONTENT,
+    })
+  );
+  public authorPersons$ = this.items.getTopPersonsList(
+    new GetTopPersonsListRequest({
+      language: this.languageService.language,
+      pictureItemType: PictureItemType.PICTURE_AUTHOR,
+    })
+  );
 
   constructor(
     private pageEnv: PageEnvService,

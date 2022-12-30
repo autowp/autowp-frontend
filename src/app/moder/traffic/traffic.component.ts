@@ -1,15 +1,15 @@
-import { Component, OnInit} from '@angular/core';
-import { IpService } from '../../services/ip';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component, OnInit} from '@angular/core';
+import {IpService} from '../../services/ip';
+import {PageEnvService} from '../../services/page-env.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {TrafficClient} from '../../../../generated/spec.pbsc';
-import { Empty } from '@ngx-grpc/well-known-types';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {
   AddToTrafficBlacklistRequest,
   AddToTrafficWhitelistRequest,
   APITrafficTopItem,
-  DeleteFromTrafficBlacklistRequest
+  DeleteFromTrafficBlacklistRequest,
 } from '../../../../generated/spec.pb';
 
 interface ListItem {
@@ -19,31 +19,29 @@ interface ListItem {
 
 @Component({
   selector: 'app-moder-traffic',
-  templateUrl: './traffic.component.html'
+  templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {
   private change$ = new BehaviorSubject<null>(null);
 
   public items$: Observable<ListItem[]> = this.change$.pipe(
     switchMap(() => this.trafficGrpc.getTop(new Empty())),
-    map(response => response.items.map(item => ({
-      item,
-      hostname$: this.ipService.getHostByAddr(item.ip)
-    })))
+    map((response) =>
+      response.items.map((item) => ({
+        item,
+        hostname$: this.ipService.getHostByAddr(item.ip),
+      }))
+    )
   );
 
-  constructor(
-    private trafficGrpc: TrafficClient,
-    private ipService: IpService,
-    private pageEnv: PageEnvService
-  ) {}
+  constructor(private trafficGrpc: TrafficClient, private ipService: IpService, private pageEnv: PageEnvService) {}
 
   ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 77
+          pageId: 77,
         }),
       0
     );
@@ -54,14 +52,20 @@ export class ModerTrafficComponent implements OnInit {
   }
 
   public addToBlacklist(ip: string) {
-    this.trafficGrpc.addToBlacklist(new AddToTrafficBlacklistRequest({
-      ip: ip,
-      period: 240,
-      reason: ''
-    })).subscribe(() => this.change$.next(null));
+    this.trafficGrpc
+      .addToBlacklist(
+        new AddToTrafficBlacklistRequest({
+          ip: ip,
+          period: 240,
+          reason: '',
+        })
+      )
+      .subscribe(() => this.change$.next(null));
   }
 
   public removeFromBlacklist(ip: string) {
-    this.trafficGrpc.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe(() => this.change$.next(null));
+    this.trafficGrpc
+      .deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip}))
+      .subscribe(() => this.change$.next(null));
   }
 }

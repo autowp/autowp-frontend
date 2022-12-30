@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator, APIService } from '../../../services/api.service';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {APIPaginator, APIService} from '../../../services/api.service';
 import {ItemService, APIItem, APIItemsGetResponse} from '../../../services/item';
-import { Subscription, combineLatest, of} from 'rxjs';
-import { ActivatedRoute} from '@angular/router';
-import { PageEnvService } from '../../../services/page-env.service';
-import { switchMap} from 'rxjs/operators';
+import {Subscription, combineLatest, of} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {PageEnvService} from '../../../services/page-env.service';
+import {switchMap} from 'rxjs/operators';
 
 export interface APIItemAlphaGetResponse {
   groups: string[][];
@@ -12,7 +12,7 @@ export interface APIItemAlphaGetResponse {
 
 @Component({
   selector: 'app-moder-items-alpha',
-  templateUrl: './alpha.component.html'
+  templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   public char: string;
@@ -32,7 +32,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 74
+          pageId: 74,
         }),
       0
     );
@@ -41,24 +41,26 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.querySub = combineLatest([
       this.route.queryParamMap,
-      this.api.request<APIItemAlphaGetResponse>('GET', 'item/alpha')
+      this.api.request<APIItemAlphaGetResponse>('GET', 'item/alpha'),
     ])
       .pipe(
-        switchMap(([query, groups]) => combineLatest([
-          of(query.get('char')),
-          of(groups.groups),
-          query.get('char')
-            ? this.itemService.getItems({
-              name: query.get('char') + '%',
-              page: parseInt(query.get('page'), 10),
-              limit: 10,
-              fields: 'name_html'
-            })
-            : of({
-              items: [],
-              paginator: null
-            } as APIItemsGetResponse)
-        ]))
+        switchMap(([query, groups]) =>
+          combineLatest([
+            of(query.get('char')),
+            of(groups.groups),
+            query.get('char')
+              ? this.itemService.getItems({
+                  name: query.get('char') + '%',
+                  page: parseInt(query.get('page'), 10),
+                  limit: 10,
+                  fields: 'name_html',
+                })
+              : of({
+                  items: [],
+                  paginator: null,
+                } as APIItemsGetResponse),
+          ])
+        )
       )
       .subscribe(([char, groups, items]) => {
         this.char = char;

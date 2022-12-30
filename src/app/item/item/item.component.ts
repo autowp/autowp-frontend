@@ -1,14 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { APIItem } from '../../services/item';
+import {Component, Input} from '@angular/core';
+import {APIItem} from '../../services/item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss']
+  styleUrls: ['./item.component.scss'],
 })
 export class ItemComponent {
-
   @Input() item: APIItem;
   @Input() disableTitle: boolean;
   @Input() disableDescription: boolean;

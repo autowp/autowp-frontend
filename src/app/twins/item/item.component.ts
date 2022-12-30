@@ -1,11 +1,11 @@
-import { Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import { APIItem } from '../../services/item';
+import {APIItem} from '../../services/item';
 
 @Component({
   selector: 'app-twins-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./styles.scss']
+  styleUrls: ['./styles.scss'],
 })
 export class TwinsItemComponent {
   @Input() item: APIItem;

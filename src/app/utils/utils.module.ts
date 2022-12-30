@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { InvalidParamsPipe } from './invalid-params.pipe';
-import { MarkdownComponent } from './markdown/markdown.component';
-import { PastTimeIndicatorComponent } from './past-time-indicator/past-time-indicator.component';
-import { MomentModule } from 'ngx-moment';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {InvalidParamsPipe} from './invalid-params.pipe';
+import {MarkdownComponent} from './markdown/markdown.component';
+import {PastTimeIndicatorComponent} from './past-time-indicator/past-time-indicator.component';
+import {MomentModule} from 'ngx-moment';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItemComponent} from './list-item/list-item.component';
 import {RouterModule} from '@angular/router';
 import {ItemHeaderComponent} from './item-header/item-header.component';
@@ -20,7 +20,7 @@ import {UserModule} from '../user/user.module';
     PastTimeIndicatorComponent,
     CatalogueListItemComponent,
     ItemHeaderComponent,
-    UserTextComponent
+    UserTextComponent,
   ],
   imports: [CommonModule, MomentModule, NgbTooltipModule, RouterModule, UserModule],
   exports: [
@@ -30,7 +30,7 @@ import {UserModule} from '../user/user.module';
     CatalogueListItemComponent,
     ItemHeaderComponent,
     Markdown2Component,
-    UserTextComponent
-  ]
+    UserTextComponent,
+  ],
 })
 export class UtilsModule {}

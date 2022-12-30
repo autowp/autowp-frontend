@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 import {AutowpClient} from '../../../generated/spec.pbsc';
-import { Empty } from '@ngx-grpc/well-known-types';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {ReCaptchaConfig} from '../../../generated/spec.pb';
 
 @Injectable()

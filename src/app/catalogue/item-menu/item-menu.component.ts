@@ -4,7 +4,7 @@ import {APIItemChildsCounts} from '../../services/item';
 
 @Component({
   selector: 'app-catalogue-item-menu',
-  templateUrl: './item-menu.component.html'
+  templateUrl: './item-menu.component.html',
 })
 export class CatalogueItemMenuComponent {
   @Input() itemRouterLink: string[];

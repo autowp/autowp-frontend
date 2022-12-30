@@ -10,10 +10,12 @@ import {InvalidParams} from '../../../../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-moder-items-item-meta',
-  templateUrl: './meta.component.html'
+  templateUrl: './meta.component.html',
 })
 export class ModerItemsItemMetaComponent {
-  @Input() set item(item: APIItem) { this.item$.next(item); };
+  @Input() set item(item: APIItem) {
+    this.item$.next(item);
+  }
   public item$ = new BehaviorSubject<APIItem>(null);
 
   public loadingNumber = 0;
@@ -22,26 +24,22 @@ export class ModerItemsItemMetaComponent {
   public invalidParams: InvalidParams;
 
   public vehicleTypeIDs$: Observable<number[]> = this.item$.pipe(
-    switchMap(item => {
+    switchMap((item) => {
       if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_TWINS) {
-        return this.api.request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
-          params: {
-            item_id: item.id.toString()
-          }
-        }).pipe(
-          map(response => response.items.map(row => row.vehicle_type_id)),
-        );
+        return this.api
+          .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
+            params: {
+              item_id: item.id.toString(),
+            },
+          })
+          .pipe(map((response) => response.items.map((row) => row.vehicle_type_id)));
       }
 
-      return of([])
+      return of([]);
     })
   );
 
-  constructor(
-    private acl: ACLService,
-    private api: APIService,
-    private itemService: ItemService
-  ) {}
+  constructor(private acl: ACLService, private api: APIService, private itemService: ItemService) {}
 
   public saveMeta(item: APIItem, event: ItemMetaFormResult) {
     this.loadingNumber++;
@@ -67,29 +65,26 @@ export class ModerItemsItemMetaComponent {
       is_concept_inherit: event.is_concept === 'inherited',
       is_group: event.is_group,
       lat: event.point?.lat,
-      lng: event.point?.lng
+      lng: event.point?.lng,
     };
 
     const pipes: Observable<any>[] = [
       this.api.request<void>('PUT', 'item/' + item.id, {body: data}).pipe(
-        catchError(response => {
+        catchError((response) => {
           this.invalidParams = response.error.invalid_params;
           return EMPTY;
         }),
         tap(() => (this.invalidParams = {}))
-      )
+      ),
     ];
     if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
-      pipes.push(this.itemService.setItemVehicleTypes(
-        item.id,
-        event.vehicle_type_id
-      ));
+      pipes.push(this.itemService.setItemVehicleTypes(item.id, event.vehicle_type_id));
     }
 
     forkJoin(pipes).subscribe({
       complete: () => {
-        this.loadingNumber--
-      }
+        this.loadingNumber--;
+      },
     });
   }
 }

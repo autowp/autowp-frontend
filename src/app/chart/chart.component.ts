@@ -1,7 +1,7 @@
-import { Component} from '@angular/core';
-import { PageEnvService } from '../services/page-env.service';
+import {Component} from '@angular/core';
+import {PageEnvService} from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
+import {APIService} from '../services/api.service';
 
 export interface APIChartParameter {
   id: number;
@@ -25,7 +25,7 @@ export interface APIChartData {
 
 @Component({
   selector: 'app-chart',
-  templateUrl: './chart.component.html'
+  templateUrl: './chart.component.html',
 })
 export class ChartComponent {
   public parameters: APIChartParameter[] = [];
@@ -35,12 +35,14 @@ export class ChartComponent {
     options: {
       responsive: true,
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
     },
     colors: [
       {
@@ -49,7 +51,7 @@ export class ChartComponent {
         pointBackgroundColor: 'rgba(148,159,177,1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
       },
       {
         backgroundColor: 'rgba(242,80,122,1)',
@@ -57,24 +59,20 @@ export class ChartComponent {
         pointBackgroundColor: 'rgba(148,159,177,1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-      }
-    ]
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+      },
+    ],
   };
 
   constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 1}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
 
     this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe({
-      next: response => {
+      next: (response) => {
         this.parameters = response.parameters;
         this.selectParam(this.parameters[0]);
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 
@@ -83,17 +81,17 @@ export class ChartComponent {
 
     this.api
       .request<APIChartData>('GET', 'chart/data', {
-        params: { id: id.toString() }
+        params: {id: id.toString()},
       })
       .subscribe({
-        next: response => {
-          this.chart.data = response.datasets.map(dataset => ({
+        next: (response) => {
+          this.chart.data = response.datasets.map((dataset) => ({
             label: dataset.name,
-            data: dataset.values
+            data: dataset.values,
           }));
           this.chart.labels = response.years;
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 

@@ -1,12 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  APIItemVehicleTypeGetResponse,
-  APIPaginator,
-  APIImage,
-  APIService
-} from './api.service';
+import {Injectable} from '@angular/core';
+import {APIItemVehicleTypeGetResponse, APIPaginator, APIImage, APIService} from './api.service';
 import {forkJoin, Observable, of} from 'rxjs';
-import { APIPicture } from './picture';
+import {APIPicture} from './picture';
 import {switchMap} from 'rxjs/operators';
 import {ItemType} from '../../../generated/spec.pb';
 
@@ -27,7 +22,7 @@ export interface APIItemsGetResponse {
 }
 
 export interface APIPathItem {
-  catname: string|null;
+  catname: string | null;
   item: APIItem;
   parent_id: number;
 }
@@ -213,19 +208,17 @@ export interface GetPathServiceOptions {
 }
 
 export const allowedItemTypeCombinations = {
-  [ItemType.ITEM_TYPE_VEHICLE]:  [ItemType.ITEM_TYPE_VEHICLE],
-  [ItemType.ITEM_TYPE_ENGINE]:   [ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_VEHICLE]: [ItemType.ITEM_TYPE_VEHICLE],
+  [ItemType.ITEM_TYPE_ENGINE]: [ItemType.ITEM_TYPE_ENGINE],
   [ItemType.ITEM_TYPE_CATEGORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_CATEGORY, ItemType.ITEM_TYPE_BRAND],
-  [ItemType.ITEM_TYPE_TWINS]:    [ItemType.ITEM_TYPE_VEHICLE],
-  [ItemType.ITEM_TYPE_BRAND]:    [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
-  [ItemType.ITEM_TYPE_FACTORY]:  [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
-  [ItemType.ITEM_TYPE_PERSON]:   [ItemType.ITEM_TYPE_COPYRIGHT]
+  [ItemType.ITEM_TYPE_TWINS]: [ItemType.ITEM_TYPE_VEHICLE],
+  [ItemType.ITEM_TYPE_BRAND]: [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_FACTORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_PERSON]: [ItemType.ITEM_TYPE_COPYRIGHT],
 };
 
-function convertItemOptions(
-  options: GetItemServiceOptions
-): { [param: string]: string } {
-  const params: { [param: string]: string } = {};
+function convertItemOptions(options: GetItemServiceOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
 
   if (!options) {
     options = {};
@@ -238,10 +231,8 @@ function convertItemOptions(
   return params;
 }
 
-function converItemsOptions(
-  options: GetItemsServiceOptions
-): { [param: string]: string } {
-  const params: { [param: string]: string } = {};
+function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
 
   if (options.id) {
     params.id = options.id.toString();
@@ -381,52 +372,38 @@ function converItemsOptions(
 
   if (options.descendant_pictures) {
     if (options.descendant_pictures.status) {
-      params['descendant_pictures[status]'] =
-        options.descendant_pictures.status;
+      params['descendant_pictures[status]'] = options.descendant_pictures.status;
     }
 
     if (options.descendant_pictures.type_id) {
-      params[
-        'descendant_pictures[type_id]'
-        ] = options.descendant_pictures.type_id.toString();
+      params['descendant_pictures[type_id]'] = options.descendant_pictures.type_id.toString();
     }
 
     if (options.descendant_pictures.owner_id) {
-      params[
-        'descendant_pictures[owner_id]'
-        ] = options.descendant_pictures.owner_id.toString();
+      params['descendant_pictures[owner_id]'] = options.descendant_pictures.owner_id.toString();
     }
 
     if (options.descendant_pictures.perspective_id) {
-      params[
-        'descendant_pictures[perspective_id]'
-        ] = options.descendant_pictures.perspective_id.toString();
+      params['descendant_pictures[perspective_id]'] = options.descendant_pictures.perspective_id.toString();
     }
 
     if (options.descendant_pictures.contains_perspective_id) {
-      params[
-        'descendant_pictures[contains_perspective_id]'
-        ] = options.descendant_pictures.contains_perspective_id.toString();
+      params['descendant_pictures[contains_perspective_id]'] =
+        options.descendant_pictures.contains_perspective_id.toString();
     }
   }
 
   if (options.preview_pictures) {
     if (options.preview_pictures.type_id) {
-      params[
-        'preview_pictures[type_id]'
-        ] = options.preview_pictures.type_id.toString();
+      params['preview_pictures[type_id]'] = options.preview_pictures.type_id.toString();
     }
 
     if (options.preview_pictures.perspective_id) {
-      params[
-        'preview_pictures[perspective_id]'
-        ] = options.preview_pictures.perspective_id.toString();
+      params['preview_pictures[perspective_id]'] = options.preview_pictures.perspective_id.toString();
     }
 
     if (options.preview_pictures.contains_perspective_id) {
-      params[
-        'preview_pictures[contains_perspective_id]'
-        ] = options.preview_pictures.contains_perspective_id.toString();
+      params['preview_pictures[contains_perspective_id]'] = options.preview_pictures.contains_perspective_id.toString();
     }
   }
 
@@ -445,11 +422,11 @@ export class ItemService {
     return this.api
       .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
         params: {
-          item_id: itemId.toString()
-        }
+          item_id: itemId.toString(),
+        },
       })
       .pipe(
-        switchMap(response => {
+        switchMap((response) => {
           const promises: Observable<void>[] = [];
 
           const currentIds: number[] = [];
@@ -457,10 +434,7 @@ export class ItemService {
             currentIds.push(itemVehicleType.vehicle_type_id);
             if (ids.indexOf(itemVehicleType.vehicle_type_id) === -1) {
               promises.push(
-                this.api.request<void>(
-                  'DELETE',
-                  'item-vehicle-type/' + itemId + '/' + itemVehicleType.vehicle_type_id
-                )
+                this.api.request<void>('DELETE', 'item-vehicle-type/' + itemId + '/' + itemVehicleType.vehicle_type_id)
               );
             }
           }
@@ -468,11 +442,7 @@ export class ItemService {
           for (const vehicleTypeId of ids) {
             if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
-                this.api.request<void>(
-                  'POST',
-                  'item-vehicle-type/' + itemId + '/' + vehicleTypeId,
-                  {body: {}}
-                )
+                this.api.request<void>('POST', 'item-vehicle-type/' + itemId + '/' + vehicleTypeId, {body: {}})
               );
             }
           }
@@ -486,40 +456,30 @@ export class ItemService {
       );
   }
 
-  public getItemByLocation(
-    url: string,
-    options: GetItemServiceOptions
-  ): Observable<APIItem> {
+  public getItemByLocation(url: string, options: GetItemServiceOptions): Observable<APIItem> {
     return this.api.request<APIItem>('GET', this.api.resolveLocation(url), {
-      params: convertItemOptions(options)
+      params: convertItemOptions(options),
     });
   }
 
-  public getItem(
-    id: number,
-    options?: GetItemServiceOptions
-  ): Observable<APIItem> {
+  public getItem(id: number, options?: GetItemServiceOptions): Observable<APIItem> {
     if (!id) {
       return of(null as APIItem);
     }
     return this.api.request<APIItem>('GET', 'item/' + id, {
-      params: convertItemOptions(options)
+      params: convertItemOptions(options),
     });
   }
 
-  public getItems(
-    options?: GetItemsServiceOptions
-  ): Observable<APIItemsGetResponse> {
+  public getItems(options?: GetItemsServiceOptions): Observable<APIItemsGetResponse> {
     return this.api.request<APIItemsGetResponse>('GET', 'item', {
-      params: converItemsOptions(options)
+      params: converItemsOptions(options),
     });
   }
 
-  public getPath(
-    options?: GetPathServiceOptions
-  ): Observable<APIItemsGetPathResponse> {
+  public getPath(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {
     return this.api.request<APIItemsGetPathResponse>('GET', 'item/path', {
-      params: options
+      params: options,
     });
   }
 }

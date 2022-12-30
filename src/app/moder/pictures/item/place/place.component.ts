@@ -8,9 +8,9 @@ import {icon, LatLng, latLng, LeafletMouseEvent, Map, marker, Marker, TileLayer,
 import {APIService} from '../../../../services/api.service';
 
 interface MapOptions {
-  leafletOptions: {center: LatLng, layers: TileLayer[], zoom: number},
-  center: LatLng,
-  markers: Marker[]
+  leafletOptions: {center: LatLng; layers: TileLayer[]; zoom: number};
+  center: LatLng;
+  markers: Marker[];
 }
 
 function createMarker(lat: number, lng: number): Marker {
@@ -19,27 +19,27 @@ function createMarker(lat: number, lng: number): Marker {
       iconSize: [25, 41],
       iconAnchor: [13, 41],
       iconUrl: 'assets/marker-icon.png',
-      shadowUrl: 'assets/marker-shadow.png'
-    })
+      shadowUrl: 'assets/marker-shadow.png',
+    }),
   });
 }
 
 @Component({
   selector: 'app-moder-pictures-place',
-  templateUrl: './place.component.html'
+  templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {
   public lat: number;
   public lng: number;
 
   public picture$ = this.route.paramMap.pipe(
-    map(params => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(id => this.pictureService.getPicture(id, {fields: 'point'})),
+    switchMap((id) => this.pictureService.getPicture(id, {fields: 'point'})),
     catchError(() => {
       this.router.navigate(['/error-404'], {
-        skipLocationChange: true
+        skipLocationChange: true,
       });
       return EMPTY;
     }),
@@ -47,17 +47,17 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
   );
 
   public map$ = this.picture$.pipe(
-    map(picture => {
+    map((picture) => {
       const center = latLng(55.7423627, 37.6786422);
 
       const leafletOptions = {
         layers: [
           tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18
-          })
+            maxZoom: 18,
+          }),
         ],
         zoom: 8,
-        center: center
+        center: center,
       };
 
       const markers: Marker[] = [];
@@ -71,7 +71,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
         }
       }
 
-      return {leafletOptions, markers, center}
+      return {leafletOptions, markers, center};
     })
   );
 
@@ -89,7 +89,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 72
+          pageId: 72,
         }),
       0
     );
@@ -99,7 +99,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     const lat = this.lat;
     const lng = this.lng;
 
-    const ll = (isNaN(lat) || isNaN(lng)) ? null : latLng([lat, lng]);
+    const ll = isNaN(lat) || isNaN(lng) ? null : latLng([lat, lng]);
     if (ll) {
       if (mapOptions.markers.length) {
         mapOptions.markers[0].setLatLng(ll);
@@ -125,13 +125,17 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
   }
 
   public doSubmit(picture: APIPicture) {
-    this.api.request<void>('PUT', 'picture/' + picture.id, {body: {
-      point: {
-        lat: this.lat,
-        lng: this.lng
-      }
-    }}).subscribe(() => {
-      this.router.navigate(['/moder/pictures', picture.id]);
-    });
+    this.api
+      .request<void>('PUT', 'picture/' + picture.id, {
+        body: {
+          point: {
+            lat: this.lat,
+            lng: this.lng,
+          },
+        },
+      })
+      .subscribe(() => {
+        this.router.navigate(['/moder/pictures', picture.id]);
+      });
   }
 }

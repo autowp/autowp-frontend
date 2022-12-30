@@ -4,9 +4,8 @@ import {ToastsService} from '../toasts.service';
 @Component({
   selector: 'app-toasts',
   templateUrl: './container.component.html',
-  styleUrls: ['./container.component.scss']
+  styleUrls: ['./container.component.scss'],
 })
-
 export class ContainerComponent {
   constructor(public toastService: ToastsService) {}
 

@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { IndexComponent } from './index.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {IndexComponent} from './index.component';
 
-const routes: Routes = [
-  { path: '', component: IndexComponent, pathMatch: 'full', title: $localize `Index page` }
-];
+const routes: Routes = [{path: '', component: IndexComponent, pathMatch: 'full', title: $localize`Index page`}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class IndexRoutingModule {}

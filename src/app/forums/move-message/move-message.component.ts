@@ -11,44 +11,43 @@ import {CommentsMoveCommentRequest, CommentsType} from '../../../../generated/sp
 
 @Component({
   selector: 'app-forums-move-message',
-  templateUrl: './move-message.component.html'
+  templateUrl: './move-message.component.html',
 })
 export class ForumsMoveMessageComponent implements OnInit {
-
   public messageID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('message_id'), 10)),
+    map((params) => parseInt(params.get('message_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   public themeID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('theme_id'), 10)),
+    map((params) => parseInt(params.get('theme_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   public topics$ = this.themeID$.pipe(
-    switchMap(themeID => {
+    switchMap((themeID) => {
       if (!themeID) {
-        return of(null as APIForumTopic[])
+        return of(null as APIForumTopic[]);
       }
       return this.forumService.getTopics({theme_id: themeID}).pipe(
-        catchError(response => {
+        catchError((response) => {
           this.toastService.response(response);
           return EMPTY;
         }),
-        map(response => response.items)
+        map((response) => response.items)
       );
-    }),
+    })
   );
 
   public themes$ = this.forumService.getThemes({}).pipe(
-    catchError(response => {
+    catchError((response) => {
       this.toastService.response(response);
       return EMPTY;
     }),
-    map(response => response.items)
-  )
+    map((response) => response.items)
+  );
 
   constructor(
     private forumService: ForumsService,
@@ -56,33 +55,31 @@ export class ForumsMoveMessageComponent implements OnInit {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private toastService: ToastsService,
-    private commentsGrpc: CommentsClient,
-  ) { }
+    private commentsGrpc: CommentsClient
+  ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 83}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 83}), 0);
   }
 
   public selectTopic(messageID: number, topic: APIForumTopic) {
-    this.commentsGrpc.moveComment(new CommentsMoveCommentRequest({
-      commentId: ''+messageID,
-      itemId: ''+topic.id,
-      typeId: CommentsType.FORUMS_TYPE_ID,
-    })).pipe(
-        switchMap(() => this.forumService.getMessageStateParams(messageID))
+    this.commentsGrpc
+      .moveComment(
+        new CommentsMoveCommentRequest({
+          commentId: '' + messageID,
+          itemId: '' + topic.id,
+          typeId: CommentsType.FORUMS_TYPE_ID,
+        })
       )
+      .pipe(switchMap(() => this.forumService.getMessageStateParams(messageID)))
       .subscribe({
-        next: params =>
+        next: (params) =>
           this.router.navigate(['/forums/topic', params.topic_id], {
             queryParams: {
-              page: params.page
-            }
+              page: params.page,
+            },
           }),
-        error: subresponse => this.toastService.grpcErrorResponse(subresponse)
+        error: (subresponse) => this.toastService.grpcErrorResponse(subresponse),
       });
   }
 

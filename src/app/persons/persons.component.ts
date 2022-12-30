@@ -1,35 +1,33 @@
 import {Component, OnInit} from '@angular/core';
-import { ItemService, APIItem } from '../services/item';
+import {ItemService, APIItem} from '../services/item';
 import {combineLatest} from 'rxjs';
-import { PageEnvService } from '../services/page-env.service';
+import {PageEnvService} from '../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {CatalogueListItem, CatalogueListItemPicture} from '../utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-persons',
-  templateUrl: './persons.component.html'
+  templateUrl: './persons.component.html',
 })
 export class PersonsComponent implements OnInit {
   private page$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   public authors$ = this.route.data.pipe(
-    map(params => !!params.authors),
+    map((params) => !!params.authors),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public data$ = combineLatest([
-    this.page$,
-    this.authors$
-  ]).pipe(
+  public data$ = combineLatest([this.page$, this.authors$]).pipe(
     switchMap(([page, authors]) => {
-      const fields = 'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures';
+      const fields =
+        'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures';
 
       if (authors) {
         return this.itemService.getItems({
@@ -37,14 +35,14 @@ export class PersonsComponent implements OnInit {
           fields,
           descendant_pictures: {
             status: 'accepted',
-            type_id: 2
+            type_id: 2,
           },
           preview_pictures: {
-            type_id: 2
+            type_id: 2,
           },
           order: 'name',
           limit: 10,
-          page
+          page,
         });
       }
       return this.itemService.getItems({
@@ -52,52 +50,44 @@ export class PersonsComponent implements OnInit {
         fields,
         descendant_pictures: {
           status: 'accepted',
-          type_id: 1
+          type_id: 1,
         },
         preview_pictures: {
-          type_id: 1
+          type_id: 1,
         },
         order: 'name',
         limit: 10,
-        page
+        page,
       });
     }),
-    map(response => ({
+    map((response) => ({
       items: this.prepareItems(response.items),
-      paginator: response.paginator
+      paginator: response.paginator,
     }))
   );
 
-  constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService
-  ) {}
+  constructor(private itemService: ItemService, private route: ActivatedRoute, private pageEnv: PageEnvService) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 214}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 214}), 0);
   }
 
   private prepareItems(items: APIItem[]): CatalogueListItem[] {
-    return items.map(item => {
+    return items.map((item) => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());
 
-      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map(picture => ({
+      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
         picture: picture ? picture.picture : null,
         thumb: picture ? picture.thumb : null,
-        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : []
+        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
       }));
 
       return {
         id: item.id,
         preview_pictures: {
           pictures,
-          large_format: item.preview_pictures.large_format
+          large_format: item.preview_pictures.large_format,
         },
         item_type_id: item.item_type_id,
         produced: null,
@@ -114,9 +104,9 @@ export class PersonsComponent implements OnInit {
         specsRouterLink: null,
         details: {
           routerLink: itemRouterLink,
-          count: item.childs_count
+          count: item.childs_count,
         },
-        childs_counts: null
+        childs_counts: null,
       };
     });
   }

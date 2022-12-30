@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import {Component, EventEmitter, Output, Input} from '@angular/core';
 
 @Component({
   selector: 'app-markdown-edit',
-  templateUrl: './markdown-edit.component.html'
+  templateUrl: './markdown-edit.component.html',
 })
 export class MarkdownEditComponent {
   @Input() text: string;

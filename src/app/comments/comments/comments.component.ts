@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -10,72 +10,73 @@ import {CommentsClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-comments',
-  templateUrl: './comments.component.html'
+  templateUrl: './comments.component.html',
 })
 export class CommentsComponent {
   private reload$ = new BehaviorSubject<null>(null);
 
-  @Input() set itemID(itemID: number) { this.itemID$.next(itemID); };
+  @Input() set itemID(itemID: number) {
+    this.itemID$.next(itemID);
+  }
   public itemID$ = new BehaviorSubject<number>(null);
 
-  @Input() set typeID(typeID: CommentsType) { this.typeID$.next(typeID); };
+  @Input() set typeID(typeID: CommentsType) {
+    this.typeID$.next(typeID);
+  }
   public typeID$ = new BehaviorSubject<CommentsType>(null);
 
-  @Input() set limit(limit: number) { this.limit$.next(limit); };
+  @Input() set limit(limit: number) {
+    this.limit$.next(limit);
+  }
   public limit$ = new BehaviorSubject<number>(null);
 
-  @Input() set page(page: number) { this.page$.next(page); };
+  @Input() set page(page: number) {
+    this.page$.next(page);
+  }
   public page$ = new BehaviorSubject<number>(null);
 
   public user$ = this.auth.getUser();
 
   public data$ = combineLatest([
     this.user$,
-    this.itemID$.pipe(
-      debounceTime(10),
-      distinctUntilChanged(),
-    ),
-    this.typeID$.pipe(
-      debounceTime(10),
-      distinctUntilChanged(),
-    ),
-    this.limit$.pipe(
-      debounceTime(10),
-      distinctUntilChanged(),
-    ),
-    this.page$.pipe(
-      debounceTime(10),
-      distinctUntilChanged(),
-    ),
-    this.reload$
-  ])
-    .pipe(
-      switchMap(([user, itemID, typeID, limit, page]) => this.load(itemID, typeID, limit, page).pipe(
+    this.itemID$.pipe(debounceTime(10), distinctUntilChanged()),
+    this.typeID$.pipe(debounceTime(10), distinctUntilChanged()),
+    this.limit$.pipe(debounceTime(10), distinctUntilChanged()),
+    this.page$.pipe(debounceTime(10), distinctUntilChanged()),
+    this.reload$,
+  ]).pipe(
+    switchMap(([user, itemID, typeID, limit, page]) =>
+      this.load(itemID, typeID, limit, page).pipe(
         tap(() => {
           if (user) {
-            this.commentsGrpc.view(new CommentsViewRequest({
-              itemId: ''+itemID,
-              typeId: typeID
-            })).subscribe();
+            this.commentsGrpc
+              .view(
+                new CommentsViewRequest({
+                  itemId: '' + itemID,
+                  typeId: typeID,
+                })
+              )
+              .subscribe();
           }
         }),
-        map(response => ({
+        map((response) => ({
           messages: response.items,
-          paginator: response.paginator
+          paginator: response.paginator,
         }))
-      )),
-    );
+      )
+    )
+  );
 
   constructor(
     private router: Router,
     private commentService: APICommentsService,
     public auth: AuthService,
     private toastService: ToastsService,
-    private commentsGrpc: CommentsClient,
+    private commentsGrpc: CommentsClient
   ) {}
 
   public onSent(location: string) {
-    if (! this.limit) {
+    if (!this.limit) {
       this.reload$.next(null);
       return;
     }
@@ -83,20 +84,20 @@ export class CommentsComponent {
     this.commentService
       .getCommentByLocation(location, {
         fields: 'page',
-        limit: this.limit
+        limit: this.limit,
       })
       .subscribe({
-        next: response => {
+        next: (response) => {
           if (this.page !== response.page) {
             this.router.navigate([], {
               queryParams: {page: response.page},
-              queryParamsHandling: 'merge'
+              queryParamsHandling: 'merge',
             });
           } else {
             this.reload$.next(null);
           }
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 
@@ -112,7 +113,7 @@ export class CommentsComponent {
       fields: ['user.avatar', 'user.gravatar', 'replies', 'text', 'vote', 'user_vote'],
       order: 'date_asc',
       limit: limit ? limit : null,
-      page: page
+      page: page,
     });
   }
 }

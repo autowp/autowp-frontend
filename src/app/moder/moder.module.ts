@@ -1,31 +1,36 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ModerRoutingModule } from './moder-routing.module';
-import { ModerGuard } from '../moder.guard';
-import { ModerIndexComponent } from './index/index.component';
-import { ModerPerspectivesComponent } from './perspectives/perspectives.component';
-import { ModerUsersComponent } from './users/users.component';
-import { ModerAttrsComponent } from './attrs/attrs.component';
-import { ModerAttrsAttributeComponent } from './attrs/attribute/attribute.component';
-import { ModerAttrsZoneComponent } from './attrs/zone/zone.component';
-import { ModerCommentsComponent } from './comments/comments.component';
-import { ModerPictureVoteTemplatesComponent } from './picture-vote-templates/picture-vote-templates.component';
-import { ModerAttrsAttributeListComponent } from './attrs/attribute-list/attribute-list.component';
-import { ModerAttrsZoneAttributeListComponent } from './attrs/zone/attribute-list/attribute-list.component';
-import { ModerAttrsAttributeListOptionsTreeComponent } from './attrs/attribute/list-options-tree/list-options-tree.component';
-import { ModerStatComponent } from './stat/stat.component';
-import { ModerItemParentComponent } from './item-parent/item-parent.component';
-import { FormsModule } from '@angular/forms';
-import { NgbTypeaheadModule, NgbProgressbarModule, NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { UserModule } from '../user/user.module';
-import { PaginatorModule } from '../paginator/paginator.module';
-import { UtilsModule } from '../utils/utils.module';
-import { HttpClientModule } from '@angular/common/http';
-import { MomentModule } from 'ngx-moment';
-import { APIAttrsModule } from '../api/attrs/attrs.module';
-import { APIPictureModerVoteTemplateModule } from '../api/picture-moder-vote-template/picture-moder-vote-template.module';
-import { APICommentsModule } from '../api/comments/comments.module';
+import {ModerRoutingModule} from './moder-routing.module';
+import {ModerGuard} from '../moder.guard';
+import {ModerIndexComponent} from './index/index.component';
+import {ModerPerspectivesComponent} from './perspectives/perspectives.component';
+import {ModerUsersComponent} from './users/users.component';
+import {ModerAttrsComponent} from './attrs/attrs.component';
+import {ModerAttrsAttributeComponent} from './attrs/attribute/attribute.component';
+import {ModerAttrsZoneComponent} from './attrs/zone/zone.component';
+import {ModerCommentsComponent} from './comments/comments.component';
+import {ModerPictureVoteTemplatesComponent} from './picture-vote-templates/picture-vote-templates.component';
+import {ModerAttrsAttributeListComponent} from './attrs/attribute-list/attribute-list.component';
+import {ModerAttrsZoneAttributeListComponent} from './attrs/zone/attribute-list/attribute-list.component';
+import {ModerAttrsAttributeListOptionsTreeComponent} from './attrs/attribute/list-options-tree/list-options-tree.component';
+import {ModerStatComponent} from './stat/stat.component';
+import {ModerItemParentComponent} from './item-parent/item-parent.component';
+import {FormsModule} from '@angular/forms';
+import {
+  NgbTypeaheadModule,
+  NgbProgressbarModule,
+  NgbTooltipModule,
+  NgbDropdownModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import {UserModule} from '../user/user.module';
+import {PaginatorModule} from '../paginator/paginator.module';
+import {UtilsModule} from '../utils/utils.module';
+import {HttpClientModule} from '@angular/common/http';
+import {MomentModule} from 'ngx-moment';
+import {APIAttrsModule} from '../api/attrs/attrs.module';
+import {APIPictureModerVoteTemplateModule} from '../api/picture-moder-vote-template/picture-moder-vote-template.module';
+import {APICommentsModule} from '../api/comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -41,7 +46,7 @@ import { APICommentsModule } from '../api/comments/comments.module';
     ModerAttrsZoneAttributeListComponent,
     ModerAttrsAttributeListOptionsTreeComponent,
     ModerStatComponent,
-    ModerItemParentComponent
+    ModerItemParentComponent,
   ],
   imports: [
     CommonModule,
@@ -58,8 +63,8 @@ import { APICommentsModule } from '../api/comments/comments.module';
     APIAttrsModule,
     NgbDropdownModule,
     APIPictureModerVoteTemplateModule,
-    APICommentsModule
+    APICommentsModule,
   ],
-  providers: [ModerGuard]
+  providers: [ModerGuard],
 })
 export class ModerModule {}

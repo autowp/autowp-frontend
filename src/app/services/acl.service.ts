@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { Observable, of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {AuthService} from './auth.service';
+import {Observable, of} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {AclEnforceRequest} from '../../../generated/spec.pb';
@@ -55,13 +55,12 @@ export class APIACL {
 
   public isAllowed(resource: Resource, privilege: Privilege): Observable<boolean> {
     return this.grpc.aclEnforce(new AclEnforceRequest({resource, privilege})).pipe(
-      map(response => response.result),
+      map((response) => response.result),
       catchError(() => {
         return of(false);
       })
     );
   }
-
 }
 
 @Injectable()

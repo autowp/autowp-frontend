@@ -1,29 +1,33 @@
-import { sprintf } from 'sprintf-js';
+import {sprintf} from 'sprintf-js';
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {map, shareReplay} from 'rxjs/operators';
-import { SpecService } from '../../../services/spec';
-import { APIItem } from '../../../services/item';
-import { LanguageService } from '../../../services/language';
-import { VehicleTypesModalComponent } from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
+import {SpecService} from '../../../services/spec';
+import {APIItem} from '../../../services/item';
+import {LanguageService} from '../../../services/language';
+import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {ItemType, Spec, VehicleType} from '../../../../../generated/spec.pb';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
-import {AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {getVehicleTypeTranslation} from '../../../utils/translations';
 import {VehicleTypeService} from '../../../services/vehicle-type';
 import {APIPictureItem} from '../../../services/picture-item';
 
-function specsToPlain(
-  options: Spec[],
-  deep: number
-): ItemMetaFormAPISpec[] {
+function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];
   for (const item of options) {
     result.push({
       id: item.id,
       short_name: item.shortName,
-      deep
+      deep,
     });
     for (const subitem of specsToPlain(item.childs, deep + 1)) {
       result.push(subitem);
@@ -33,7 +37,7 @@ function specsToPlain(
 }
 
 interface ItemMetaFormAPISpec {
-  id: number|'inherited';
+  id: number | 'inherited';
   short_name: string;
   deep?: number;
 }
@@ -51,20 +55,20 @@ export interface ItemMetaFormResult {
     month: number;
     today: number;
     year: number;
-  }
-  is_concept: boolean|'inherited';
+  };
+  is_concept: boolean | 'inherited';
   is_group: boolean;
   model_years: {
     begin_year: number;
     begin_year_fraction: string;
     end_year: number;
     end_year_fraction: string;
-  }
+  };
   produced: {
     count: number;
     exactly: boolean;
-  }
-  spec_id: number|'inherited';
+  };
+  spec_id: number | 'inherited';
   vehicle_type_id: number[];
   point: {
     lat: number;
@@ -75,95 +79,110 @@ export interface ItemMetaFormResult {
 }
 
 interface PicturesListItem {
-  pictureItem: APIPictureItem,
-  selected: boolean
+  pictureItem: APIPictureItem;
+  selected: boolean;
 }
 
 @Component({
   selector: 'app-item-meta-form',
   templateUrl: './item-meta-form.component.html',
-  styleUrls: ['./styles.scss']
+  styleUrls: ['./styles.scss'],
 })
 export class ItemMetaFormComponent {
-
   @Input() submitNotify: () => void;
   @Input() invalidParams: InvalidParams;
   @Output() submitted = new EventEmitter<ItemMetaFormResult>();
 
-  @Input() set disableIsGroup(disableIsGroup: boolean) { this.disableIsGroup$.next(disableIsGroup); };
+  @Input() set disableIsGroup(disableIsGroup: boolean) {
+    this.disableIsGroup$.next(disableIsGroup);
+  }
   public disableIsGroup$ = new BehaviorSubject<boolean>(null);
 
-  @Input() set parent(parent: APIItem) { this.parent$.next(parent); };
+  @Input() set parent(parent: APIItem) {
+    this.parent$.next(parent);
+  }
   public parent$ = new BehaviorSubject<APIItem>(null);
 
-  @Input() set item(item: APIItem) { this.item$.next(item); };
+  @Input() set item(item: APIItem) {
+    this.item$.next(item);
+  }
   public item$ = new BehaviorSubject<APIItem>(null);
 
-  @Input() set vehicleTypeIDs(vehicleTypeIDs: number[]) { this.vehicleTypeIDs$.next(vehicleTypeIDs); };
+  @Input() set vehicleTypeIDs(vehicleTypeIDs: number[]) {
+    this.vehicleTypeIDs$.next(vehicleTypeIDs);
+  }
   private vehicleTypeIDs$ = new BehaviorSubject<number[]>(null);
 
-  @Input() set items(items: APIItem[]) { this.items$.next(items); };
+  @Input() set items(items: APIItem[]) {
+    this.items$.next(items);
+  }
   public items$ = new BehaviorSubject<APIItem[]>(null);
 
   @Input() set pictures(pictures: APIPictureItem[]) {
-    this.pictures$.next(pictures ? pictures.map(p => ({
-      pictureItem: p,
-      selected: false
-    })) : null);
-  };
+    this.pictures$.next(
+      pictures
+        ? pictures.map((p) => ({
+            pictureItem: p,
+            selected: false,
+          }))
+        : null
+    );
+  }
   public pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
 
   public vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain().pipe(
-    map(types => types.map(type => {
-      type.name = getVehicleTypeTranslation(type.name);
-      return type;
-    })),
+    map((types) =>
+      types.map((type) => {
+        type.name = getVehicleTypeTranslation(type.name);
+        return type;
+      })
+    ),
     shareReplay(1)
   );
 
   public todayOptions = [
     {
       value: null,
-      name: '--'
+      name: '--',
     },
     {
       value: false,
-      name: $localize `ended`
+      name: $localize`ended`,
     },
     {
       value: true,
-      name: $localize `continue in pr.`
-    }
+      name: $localize`continue in pr.`,
+    },
   ];
 
   public producedOptions = [
     {
       value: false,
-      name: $localize `about`
+      name: $localize`about`,
     },
     {
       value: true,
-      name: $localize `exactly`
-    }
+      name: $localize`exactly`,
+    },
   ];
 
   public modelYearFractionOptions = [
     {
       value: null,
-      name: '-'
+      name: '-',
     },
     {
       value: '¼',
-      name: '¼'
+      name: '¼',
     },
     {
       value: '½',
-      name: '½'
+      name: '½',
     },
     {
       value: '¾',
-      name: '¾'
-    }
+      name: '¾',
+    },
   ];
 
   private nameMaxlength = 100; // DbTable\Item::MAX_NAME
@@ -178,49 +197,59 @@ export class ItemMetaFormComponent {
   }[] = [
     {
       value: null,
-      name: '--'
-    }
+      name: '--',
+    },
   ];
 
   public isConceptOptions$ = this.parent$.pipe(
-    map(parent => [
+    map((parent) => [
       {
         value: false,
-        name: $localize `no`
+        name: $localize`no`,
       },
       {
         value: true,
-        name: $localize `yes`
+        name: $localize`yes`,
       },
       {
         value: 'inherited',
         name: parent
           ? parent.is_concept
-            ? $localize `inherited (yes)`
-            : $localize `inherited (no)`
-          : $localize `inherited`
-      }
+            ? $localize`inherited (yes)`
+            : $localize`inherited (no)`
+          : $localize`inherited`,
+      },
     ])
   );
 
   public specs$ = this.specService.getSpecs().pipe(
-    map(specs => ([
-      {
-        id: null,
-        short_name: '--',
-        deep: 0
-      },
-      {
-        id: 'inherited',
-        short_name: 'inherited',
-        deep: 0
-      }
-    ] as ItemMetaFormAPISpec[]).concat(specsToPlain(specs, 0)))
+    map((specs) =>
+      (
+        [
+          {
+            id: null,
+            short_name: '--',
+            deep: 0,
+          },
+          {
+            id: 'inherited',
+            short_name: 'inherited',
+            deep: 0,
+          },
+        ] as ItemMetaFormAPISpec[]
+      ).concat(specsToPlain(specs, 0))
+    )
   );
 
-  public form$ = combineLatest([this.item$, this.vehicleTypeIDs$, this.disableIsGroup$, this.items$, this.pictures$]).pipe(
+  public form$ = combineLatest([
+    this.item$,
+    this.vehicleTypeIDs$,
+    this.disableIsGroup$,
+    this.items$,
+    this.pictures$,
+  ]).pipe(
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
-      const elements: { [key: string]: any } = {
+      const elements: {[key: string]: any} = {
         name: [item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]],
       };
       if (item.item_type_id === ItemType.ITEM_TYPE_BRAND) {
@@ -286,10 +315,10 @@ export class ItemMetaFormComponent {
       date.setMonth(i);
       const language = this.languageService.language;
       if (language) {
-        const month = date.toLocaleString(language, { month: 'long' });
+        const month = date.toLocaleString(language, {month: 'long'});
         this.monthOptions.push({
           value: i + 1,
-          name: sprintf('%02d - %s', i + 1, month)
+          name: sprintf('%02d - %s', i + 1, month),
         });
       }
     }
@@ -303,20 +332,20 @@ export class ItemMetaFormComponent {
   public showVehicleTypesModal(vehicleTypeIDs: AbstractControl) {
     const modalRef = this.modalService.open(VehicleTypesModalComponent, {
       size: 'lg',
-      centered: true
+      centered: true,
     });
 
     modalRef.componentInstance.ids = vehicleTypeIDs.value;
-    modalRef.componentInstance.changed.subscribe(value => {
+    modalRef.componentInstance.changed.subscribe((value) => {
       vehicleTypeIDs.setValue(value);
     });
   }
 
   public vehicleTypeName$(typeID: number): Observable<string> {
     return this.vehicleTypes$.pipe(
-      map(types => {
-        const type = types.find(t => t.id === typeID);
-        return type ? type.name : '#' + typeID
+      map((types) => {
+        const type = types.find((t) => t.id === typeID);
+        return type ? type.name : '#' + typeID;
       })
     );
   }
@@ -340,7 +369,7 @@ export class ItemMetaFormComponent {
 
   onPictureClick(e: PicturesListItem, control: AbstractControl) {
     const ctrl = control as UntypedFormArray;
-    e.selected = ! e.selected;
+    e.selected = !e.selected;
     if (e.selected) {
       ctrl.push(new UntypedFormControl(e.pictureItem.picture_id));
     } else {

@@ -9,19 +9,19 @@ import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-persons-person-picture',
-  templateUrl: './picture.component.html'
+  templateUrl: './picture.component.html',
 })
 export class PersonsPersonPictureComponent {
   private changed$ = new BehaviorSubject<boolean>(false);
 
   public identity$ = this.route.paramMap.pipe(
-    map(route => route.get('identity')),
+    map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(identity => {
+    switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -32,27 +32,29 @@ export class PersonsPersonPictureComponent {
   );
 
   private itemID$ = this.route.paramMap.pipe(
-    map(params => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
   public item$ = this.itemID$.pipe(
-    switchMap(id => this.itemService.getItem(id, {
-      fields: ['name_text', 'name_html', 'description'].join(',')
-    })),
-    catchError(err => {
+    switchMap((id) =>
+      this.itemService.getItem(id, {
+        fields: ['name_text', 'name_html', 'description'].join(','),
+      })
+    ),
+    catchError((err) => {
       this.toastService.response(err);
       this.router.navigate(['/error-404'], {
-        skipLocationChange: true
+        skipLocationChange: true,
       });
       return EMPTY;
     }),
-    switchMap(item => {
+    switchMap((item) => {
       if (item.item_type_id !== 8) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -71,22 +73,24 @@ export class PersonsPersonPictureComponent {
         'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
 
       return this.changed$.pipe(
-        switchMap(() => this.pictureService.getPictures({
-          exact_item_id: itemID,
-          identity,
-          fields,
-          limit: 1,
-          paginator: {
+        switchMap(() =>
+          this.pictureService.getPictures({
             exact_item_id: itemID,
-          }
-        })),
-        map(response => response.pictures.length ? response.pictures[0] : null)
+            identity,
+            fields,
+            limit: 1,
+            paginator: {
+              exact_item_id: itemID,
+            },
+          })
+        ),
+        map((response) => (response.pictures.length ? response.pictures[0] : null))
       );
     }),
-    tap(picture => {
+    tap((picture) => {
       this.pageEnv.set({
         pageId: 34,
-        title: picture ? picture.name_text : ''
+        title: picture ? picture.name_text : '',
       });
     }),
     shareReplay(1)
@@ -99,7 +103,7 @@ export class PersonsPersonPictureComponent {
     private router: Router,
     private itemService: ItemService,
     private toastService: ToastsService
-  ) { }
+  ) {}
 
   reloadPicture() {
     this.changed$.next(true);

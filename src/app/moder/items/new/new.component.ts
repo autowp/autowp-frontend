@@ -1,10 +1,10 @@
-import { Component} from '@angular/core';
-import { ItemService, APIItem } from '../../../services/item';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component} from '@angular/core';
+import {ItemService, APIItem} from '../../../services/item';
+import {Router, ActivatedRoute} from '@angular/router';
 import {of, forkJoin, EMPTY, Observable} from 'rxjs';
-import { PageEnvService } from '../../../services/page-env.service';
+import {PageEnvService} from '../../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError, shareReplay, tap, take} from 'rxjs/operators';
-import { APIItemVehicleTypeGetResponse, APIService } from '../../../services/api.service';
+import {APIItemVehicleTypeGetResponse, APIService} from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {getItemTypeTranslation} from '../../../utils/translations';
 import {ItemType} from '../../../../../generated/spec.pb';
@@ -17,78 +17,81 @@ interface NewAPIItem extends APIItem {
 
 @Component({
   selector: 'app-moder-items-new',
-  templateUrl: './new.component.html'
+  templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {
   public invalidParams: InvalidParams;
 
   private itemTypeID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('item_type_id'), 10)),
+    map((params) => parseInt(params.get('item_type_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
-    tap(itemTypeID => {
+    tap((itemTypeID) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
         title: getItemTypeTranslation(itemTypeID, 'new-item'),
-        pageId: 163
+        pageId: 163,
       });
     })
   );
 
-  public itemType$ = this.itemTypeID$.pipe(
-    map(itemTypeID => getItemTypeTranslation(itemTypeID, 'new-item'))
-  );
+  public itemType$ = this.itemTypeID$.pipe(map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item')));
 
   public item$: Observable<NewAPIItem> = this.itemTypeID$.pipe(
-    map(itemTypeID => ({
-      produced_exactly: false,
-      is_concept: false,
-      is_concept_inherit: true,
-      spec_id: 'inherited',
-      item_type_id: itemTypeID,
-      name: undefined,
-      full_name: undefined,
-      catname: undefined,
-      body: undefined,
-      begin_model_year: undefined,
-      end_model_year: undefined,
-      begin_year: undefined,
-      begin_month: undefined,
-      end_year: undefined,
-      end_month: undefined,
-      today: undefined,
-      produced: undefined,
-      is_group: false,
-      lat: null,
-      lng: null
-    } as NewAPIItem)),
+    map(
+      (itemTypeID) =>
+        ({
+          produced_exactly: false,
+          is_concept: false,
+          is_concept_inherit: true,
+          spec_id: 'inherited',
+          item_type_id: itemTypeID,
+          name: undefined,
+          full_name: undefined,
+          catname: undefined,
+          body: undefined,
+          begin_model_year: undefined,
+          end_model_year: undefined,
+          begin_year: undefined,
+          begin_month: undefined,
+          end_year: undefined,
+          end_month: undefined,
+          today: undefined,
+          produced: undefined,
+          is_group: false,
+          lat: null,
+          lng: null,
+        } as NewAPIItem)
+    ),
     shareReplay(1)
   );
 
   private parentID$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('parent_id'), 10)),
+    map((params) => parseInt(params.get('parent_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    debounceTime(10)
   );
 
   public parent$ = this.parentID$.pipe(
-    switchMap(parentID => parentID ? this.itemService.getItem(parentID, {fields: 'is_concept,name_html,spec_id'}) : of(null as APIItem)),
+    switchMap((parentID) =>
+      parentID ? this.itemService.getItem(parentID, {fields: 'is_concept,name_html,spec_id'}) : of(null as APIItem)
+    ),
     shareReplay(1)
   );
 
   public vehicleTypeIDs$ = this.parent$.pipe(
-    switchMap(item => {
-      if (item && ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id))) {
-        return this.api.request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
-          params: {
-            item_id: item.id.toString()
-          }
-        }).pipe(
-          map(response => response.items.map(row => row.vehicle_type_id))
-        );
+    switchMap((item) => {
+      if (item && [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
+        return this.api
+          .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
+            params: {
+              item_id: item.id.toString(),
+            },
+          })
+          .pipe(map((response) => response.items.map((row) => row.vehicle_type_id)));
       }
-      return of([] as number[])
+      return of([] as number[]);
     })
   );
 
@@ -124,54 +127,54 @@ export class ModerItemsNewComponent {
       is_concept_inherit: event.is_concept === 'inherited',
       is_group: event.is_group,
       lat: event.point?.lat,
-      lng: event.point?.lng
+      lng: event.point?.lng,
     };
 
-    this.api.request<void>('POST', 'item', {
-      body: data,
-      observe: 'response'
-    }).pipe(
-      catchError(response => {
-        if (response.status === 400) {
-          this.invalidParams = response.error.invalid_params;
-        } else {
-          this.toastService.response(response);
-        }
-        return EMPTY;
-      }),
-      switchMap(response => this.itemService.getItemByLocation(
-        response.headers.get('Location'),
-        {}
-      )),
-      switchMap(item => {
+    this.api
+      .request<void>('POST', 'item', {
+        body: data,
+        observe: 'response',
+      })
+      .pipe(
+        catchError((response) => {
+          if (response.status === 400) {
+            this.invalidParams = response.error.invalid_params;
+          } else {
+            this.toastService.response(response);
+          }
+          return EMPTY;
+        }),
+        switchMap((response) => this.itemService.getItemByLocation(response.headers.get('Location'), {})),
+        switchMap((item) => {
+          const pipes: Observable<any>[] = [
+            this.parent$.pipe(
+              take(1),
+              switchMap((parent) =>
+                parent
+                  ? this.api.request<void>('POST', 'item-parent', {
+                      body: {
+                        parent_id: parent.id,
+                        item_id: item.id,
+                      },
+                    })
+                  : of(null)
+              )
+            ),
+          ];
+          if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(itemTypeID)) {
+            pipes.push(this.itemService.setItemVehicleTypes(item.id, event.vehicle_type_id));
+          }
 
-        const pipes: Observable<any>[] = [
-          this.parent$.pipe(
-            take(1),
-            switchMap(parent => parent ? this.api.request<void>('POST', 'item-parent', {
-              body: {
-                parent_id: parent.id,
-                item_id: item.id
+          return forkJoin(pipes).pipe(
+            tap(() => {
+              if (localStorage) {
+                localStorage.setItem('last_item', item.id.toString());
               }
-            }) : of(null))
-          )
-        ];
-        if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(itemTypeID)) {
-          pipes.push(this.itemService.setItemVehicleTypes(
-            item.id,
-            event.vehicle_type_id
-          ));
-        }
-
-        return forkJoin(pipes).pipe(
-          tap(() => {
-            if (localStorage) {
-              localStorage.setItem('last_item', item.id.toString());
-            }
-            this.router.navigate(['/moder/items/item', item.id]);
-          }),
-        );
-      }),
-    ).subscribe();
+              this.router.navigate(['/moder/items/item', item.id]);
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 }

@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { APIPaginator } from '../../services/api.service';
-import { ItemService, APIItem, APIItemsGetResponse } from '../../services/item';
-import { chunk } from '../../chunk';
+import {Component, OnInit} from '@angular/core';
+import {APIPaginator} from '../../services/api.service';
+import {ItemService, APIItem, APIItemsGetResponse} from '../../services/item';
+import {chunk} from '../../chunk';
 import {Observable, forkJoin, of, BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
-import { ActivatedRoute, Router} from '@angular/router';
-import { ItemParentService, APIItemParent } from '../../services/item-parent';
-import { PageEnvService } from '../../services/page-env.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ItemParentService, APIItemParent} from '../../services/item-parent';
+import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, switchMap, map, catchError, tap, debounceTime} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-upload-select',
-  templateUrl: './select.component.html'
+  templateUrl: './select.component.html',
 })
 export class UploadSelectComponent implements OnInit {
   public brand: {
@@ -41,24 +41,20 @@ export class UploadSelectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 30}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 30}), 0);
 
     combineLatest([
       this.search$.pipe(
-        map(value => value.trim()),
+        map((value) => value.trim()),
         distinctUntilChanged(),
         debounceTime(50)
       ),
       this.route.queryParamMap.pipe(
-        map(params => ({
+        map((params) => ({
           brand_id: parseInt(params.get('brand_id'), 10),
           page: parseInt(params.get('page'), 10),
         }))
-      )
+      ),
     ])
       .pipe(
         map(([search, query]) => ({search, brand_id: query.brand_id, page: query.page})),
@@ -67,13 +63,13 @@ export class UploadSelectComponent implements OnInit {
           this.loading = 1;
           this.brand = null;
         }),
-        switchMap(params => {
+        switchMap((params) => {
           const brandId = params.brand_id;
           const page = params.page;
 
           return forkJoin([
             brandId ? this.brandObservable(brandId) : of(null),
-            brandId ? of(null) : this.brandsObservable(page, params.search)
+            brandId ? of(null) : this.brandsObservable(page, params.search),
           ]);
         }),
         tap(() => (this.loading = 0))
@@ -89,10 +85,7 @@ export class UploadSelectComponent implements OnInit {
       });
   }
 
-  private brandsObservable(
-    page: number,
-    search: string
-  ): Observable<APIItemsGetResponse> {
+  private brandsObservable(page: number, search: string): Observable<APIItemsGetResponse> {
     return this.itemService
       .getItems({
         type_id: 5,
@@ -100,10 +93,10 @@ export class UploadSelectComponent implements OnInit {
         limit: 500,
         fields: 'name_only',
         name: search ? '%' + search + '%' : null,
-        page
+        page,
       })
       .pipe(
-        catchError(err => {
+        catchError((err) => {
           if (err.status !== -1) {
             this.toastService.response(err);
           }
@@ -112,9 +105,7 @@ export class UploadSelectComponent implements OnInit {
       );
   }
 
-  private brandObservable(
-    brandId: number
-  ): Observable<{
+  private brandObservable(brandId: number): Observable<{
     item: APIItem;
     vehicles: APIItemParent[];
     engines: APIItemParent[];
@@ -123,11 +114,11 @@ export class UploadSelectComponent implements OnInit {
     return this.itemService.getItem(brandId).pipe(
       catchError(() => {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }),
-      switchMap(item => this.brandItemsObservable(item)),
+      switchMap((item) => this.brandItemsObservable(item)),
       map(([item, vehicles, engines, concepts]) => ({item, vehicles, engines, concepts}))
     );
   }
@@ -135,47 +126,53 @@ export class UploadSelectComponent implements OnInit {
   private brandItemsObservable(item: APIItem) {
     return forkJoin([
       of(item),
-      this.itemParentService.getItems({
-        limit: 500,
-        fields: 'item.name_html,item.childs_count',
-        parent_id: item.id,
-        exclude_concept: true,
-        order: 'name',
-        item_type_id: 1
-      }).pipe(
-        map(response => response.items),
-        catchError(err => {
-          this.toastService.response(err);
-          return EMPTY;
+      this.itemParentService
+        .getItems({
+          limit: 500,
+          fields: 'item.name_html,item.childs_count',
+          parent_id: item.id,
+          exclude_concept: true,
+          order: 'name',
+          item_type_id: 1,
         })
-      ),
-      this.itemParentService.getItems({
-        limit: 500,
-        fields: 'item.name_html,item.childs_count',
-        parent_id: item.id,
-        exclude_concept: true,
-        order: 'name',
-        item_type_id: 2
-      }).pipe(
-        map(response => response.items),
-        catchError(err => {
-          this.toastService.response(err);
-          return EMPTY;
+        .pipe(
+          map((response) => response.items),
+          catchError((err) => {
+            this.toastService.response(err);
+            return EMPTY;
+          })
+        ),
+      this.itemParentService
+        .getItems({
+          limit: 500,
+          fields: 'item.name_html,item.childs_count',
+          parent_id: item.id,
+          exclude_concept: true,
+          order: 'name',
+          item_type_id: 2,
         })
-      ),
-      this.itemParentService.getItems({
-        limit: 500,
-        fields: 'item.name_html,item.childs_count',
-        parent_id: item.id,
-        concept: true,
-        order: 'name'
-      }).pipe(
-        map(response => response.items),
-        catchError(err => {
-          this.toastService.response(err);
-          return EMPTY;
+        .pipe(
+          map((response) => response.items),
+          catchError((err) => {
+            this.toastService.response(err);
+            return EMPTY;
+          })
+        ),
+      this.itemParentService
+        .getItems({
+          limit: 500,
+          fields: 'item.name_html,item.childs_count',
+          parent_id: item.id,
+          concept: true,
+          order: 'name',
         })
-      )
+        .pipe(
+          map((response) => response.items),
+          catchError((err) => {
+            this.toastService.response(err);
+            return EMPTY;
+          })
+        ),
     ]);
   }
 }

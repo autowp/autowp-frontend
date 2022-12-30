@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {APIGetIPRequest, APIIP} from '../../../generated/spec.pb';
 
@@ -16,8 +16,7 @@ export class IpService {
       return hostname;
     }
 
-    const o = this.getIp(ip, ['hostname'])
-      .pipe(map(response => response.hostname));
+    const o = this.getIp(ip, ['hostname']).pipe(map((response) => response.hostname));
 
     this.hostnames.set(ip, o);
 

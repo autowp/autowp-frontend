@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { APIPaginator, APIService } from '../../services/api.service';
-import { APIItem } from '../../services/item';
-import { APIUser } from '../../services/user';
+import {Injectable} from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
+import {APIPaginator, APIService} from '../../services/api.service';
+import {APIItem} from '../../services/item';
+import {APIUser} from '../../services/user';
 
 export interface APIAttrListOption {
   id: number;
@@ -28,7 +28,7 @@ export interface APIAttrConflicsGetOptions {
 
 export interface APIAttrConflictValue {
   user_id: number;
-  value: string|number|null;
+  value: string | number | null;
 }
 
 export interface APIAttrConflict {
@@ -180,7 +180,7 @@ export interface APIAttrAttributePostOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class APIAttrsService {
   private readonly attributeTypes$: Observable<APIAttrAttributeType[]>;
@@ -188,22 +188,18 @@ export class APIAttrsService {
   private readonly units$: Observable<APIAttrUnit[]>;
 
   constructor(private api: APIService) {
-    this.attributeTypes$ = this.api
-      .request<APIAttrsAttributeTypesGetResponse>('GET', 'attr/attribute-type')
-      .pipe(
-        map(response => response.items),
-        shareReplay(1)
-      );
+    this.attributeTypes$ = this.api.request<APIAttrsAttributeTypesGetResponse>('GET', 'attr/attribute-type').pipe(
+      map((response) => response.items),
+      shareReplay(1)
+    );
 
-    this.zones$ = this.api
-      .request<APIAttrsZonesGetResponse>('GET', 'attr/zone')
-      .pipe(
-        map(response => response.items),
-        shareReplay(1)
-      );
+    this.zones$ = this.api.request<APIAttrsZonesGetResponse>('GET', 'attr/zone').pipe(
+      map((response) => response.items),
+      shareReplay(1)
+    );
 
     this.units$ = this.api.request<APIAttrsUnitGetResponse>('GET', 'attr/unit').pipe(
-      map(response => response.items),
+      map((response) => response.items),
       shareReplay(1)
     );
   }
@@ -213,7 +209,7 @@ export class APIAttrsService {
       id = parseInt(id, 10);
     }
     return this.getZones().pipe(
-      map(zones => {
+      map((zones) => {
         for (const zone of zones) {
           if (zone.id === id) {
             return zone;
@@ -228,16 +224,11 @@ export class APIAttrsService {
     return this.zones$;
   }
 
-  public getAttribute(
-    id: number,
-    options?: GetAttributeServiceOptions
-  ): Observable<APIAttrAttribute> {
+  public getAttribute(id: number, options?: GetAttributeServiceOptions): Observable<APIAttrAttribute> {
     return this.api.request<APIAttrAttribute>('GET', 'attr/attribute/' + id);
   }
 
-  public getAttributeByLocation(
-    location: string
-  ): Observable<APIAttrAttribute> {
+  public getAttributeByLocation(location: string): Observable<APIAttrAttribute> {
     return this.api.request<APIAttrAttribute>('GET', this.api.resolveLocation(location));
   }
 
@@ -249,10 +240,8 @@ export class APIAttrsService {
     return this.units$;
   }
 
-  public getUserValues(
-    options: APIAttrUserValuesOptions
-  ): Observable<APIAttrUserValueGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getUserValues(options: APIAttrUserValuesOptions): Observable<APIAttrUserValueGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.fields) {
       params.fields = options.fields;
@@ -279,14 +268,12 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrUserValueGetResponse>('GET', 'attr/user-value', {
-      params
+      params,
     });
   }
 
-  public getValues(
-    options: APIAttrValuesGetOptions
-  ): Observable<APIAttrValuesGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getValues(options: APIAttrValuesGetOptions): Observable<APIAttrValuesGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.fields) {
       params.fields = options.fields;
@@ -305,13 +292,11 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrValuesGetResponse>('GET', 'attr/value', {
-      params
+      params,
     });
   }
-  public getAttributes(
-    options: APIAttrAttributesGetOptions
-  ): Observable<APIAttrAttributesGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getAttributes(options: APIAttrAttributesGetOptions): Observable<APIAttrAttributesGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.fields) {
       params.fields = options.fields;
@@ -326,14 +311,12 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrAttributesGetResponse>('GET', 'attr/attribute', {
-      params
+      params,
     });
   }
 
-  public getConfilicts(
-    options: APIAttrConflicsGetOptions
-  ): Observable<APIAttrConflicsGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getConfilicts(options: APIAttrConflicsGetOptions): Observable<APIAttrConflicsGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.fields) {
       params.fields = options.fields;
@@ -348,30 +331,26 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrConflicsGetResponse>('GET', 'attr/conflict', {
-      params
+      params,
     });
   }
 
-  public getListOptions(
-    options: APIttrListOptionsGetOptions
-  ): Observable<APIttrListOptionsGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getListOptions(options: APIttrListOptionsGetOptions): Observable<APIttrListOptionsGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.attribute_id) {
       params.attribute_id = options.attribute_id.toString();
     }
 
     return this.api.request<APIttrListOptionsGetResponse>('GET', 'attr/list-option', {
-      params
+      params,
     });
   }
 
-  public createListOption(
-    options: APIAttrListOptionPostOptions
-  ): Observable<HttpResponse<void>> {
-    const data: { [param: string]: string } = {
+  public createListOption(options: APIAttrListOptionPostOptions): Observable<HttpResponse<void>> {
+    const data: {[param: string]: string} = {
       attribute_id: options.attribute_id.toString(),
-      name: options.name
+      name: options.name,
     };
 
     if (options.parent_id) {
@@ -380,15 +359,12 @@ export class APIAttrsService {
 
     return this.api.request<void>('POST', 'attr/list-option', {
       body: data,
-      observe: 'response'
+      observe: 'response',
     });
   }
 
-  public updateAttribute(
-    id: number,
-    options: APIAttrAttributePatchOptions
-  ): Observable<void> {
-    const data: { [param: string]: string } = {};
+  public updateAttribute(id: number, options: APIAttrAttributePatchOptions): Observable<void> {
+    const data: {[param: string]: string} = {};
 
     if (options.hasOwnProperty('description')) {
       data.description = options.description;
@@ -417,16 +393,14 @@ export class APIAttrsService {
     return this.api.request<void>('PATCH', 'attr/attribute/' + id, {body: data});
   }
 
-  public createAttribute(
-    options: APIAttrAttributePostOptions
-  ): Observable<HttpResponse<void>> {
-    const data: { [param: string]: any } = {
+  public createAttribute(options: APIAttrAttributePostOptions): Observable<HttpResponse<void>> {
+    const data: {[param: string]: any} = {
       name: options.name,
       type_id: options.type_id,
       unit_id: options.unit_id,
       precision: options.precision,
       is_multiple: options.is_multiple,
-      description: options.description
+      description: options.description,
     };
 
     if (options.parent_id) {

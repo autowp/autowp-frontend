@@ -1,11 +1,11 @@
-import { Component} from '@angular/core';
-import { APIPaginator, APIService } from '../services/api.service';
+import {Component} from '@angular/core';
+import {APIPaginator, APIService} from '../services/api.service';
 import {EMPTY} from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { APIUser } from '../services/user';
-import { APIItem } from '../services/item';
-import { APIPicture } from '../services/picture';
-import { PageEnvService } from '../services/page-env.service';
+import {ActivatedRoute} from '@angular/router';
+import {APIUser} from '../services/user';
+import {APIItem} from '../services/item';
+import {APIPicture} from '../services/picture';
+import {PageEnvService} from '../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -24,11 +24,11 @@ export interface APILogGetResponse {
 
 @Component({
   selector: 'app-log',
-  templateUrl: './log.component.html'
+  templateUrl: './log.component.html',
 })
 export class LogComponent {
   public response$ = this.route.queryParamMap.pipe(
-    map(params => ({
+    map((params) => ({
       article_id: params.get('article_id'),
       item_id: params.get('item_id'),
       picture_id: params.get('picture_id'),
@@ -37,9 +37,9 @@ export class LogComponent {
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
-    switchMap(params => {
-      const qParams: { [param: string]: string } = {
-        fields: 'pictures.name_html,items.name_html,user'
+    switchMap((params) => {
+      const qParams: {[param: string]: string} = {
+        fields: 'pictures.name_html,items.name_html,user',
       };
 
       if (params.article_id) {
@@ -63,14 +63,14 @@ export class LogComponent {
       }
 
       return this.api.request<APILogGetResponse>('GET', 'log', {
-        params: qParams
+        params: qParams,
       });
     }),
-    catchError(response => {
+    catchError((response) => {
       this.toastService.response(response);
       return EMPTY;
     })
-  )
+  );
 
   constructor(
     private api: APIService,
@@ -78,10 +78,6 @@ export class LogComponent {
     private pageEnv: PageEnvService,
     private toastService: ToastsService
   ) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 75}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 75}), 0);
   }
 }

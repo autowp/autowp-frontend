@@ -9,7 +9,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-logo',
-  templateUrl: './logo.component.html'
+  templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {
   @Input() item: APIItem;
@@ -36,7 +36,7 @@ export class ModerItemsItemLogoComponent {
       percentage: 0,
       success: false,
       failed: false,
-      invalidParams: {}
+      invalidParams: {},
     };
 
     const formData: FormData = new FormData();
@@ -46,10 +46,10 @@ export class ModerItemsItemLogoComponent {
       .request('POST', 'item/' + this.item.id + '/logo', {
         body: formData,
         observe: 'events',
-        reportProgress: true
+        reportProgress: true,
       })
       .pipe(
-        catchError(response => {
+        catchError((response) => {
           this.progress.percentage = 100;
           this.progress.failed = true;
 
@@ -57,18 +57,14 @@ export class ModerItemsItemLogoComponent {
 
           return EMPTY;
         }),
-        switchMap(httpEvent => {
+        switchMap((httpEvent) => {
           if (httpEvent.type === HttpEventType.DownloadProgress) {
-            this.progress.percentage = Math.round(
-              50 + 25 * (httpEvent.loaded / httpEvent.total)
-            );
+            this.progress.percentage = Math.round(50 + 25 * (httpEvent.loaded / httpEvent.total));
             return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(
-              50 * (httpEvent.loaded / httpEvent.total)
-            );
+            this.progress.percentage = Math.round(50 * (httpEvent.loaded / httpEvent.total));
             return EMPTY;
           }
 
@@ -76,19 +72,17 @@ export class ModerItemsItemLogoComponent {
             this.progress.percentage = 75;
             this.progress.success = true;
 
-            return this.api
-              .request<APIImage>('GET', 'item/' + this.item.id + '/logo')
-              .pipe(
-                tap(subresponse => {
-                  this.progress.percentage = 100;
-                  this.item.logo = subresponse;
-                }),
-                catchError(response => {
-                  this.toastService.response(response);
+            return this.api.request<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
+              tap((subresponse) => {
+                this.progress.percentage = 100;
+                this.item.logo = subresponse;
+              }),
+              catchError((response) => {
+                this.toastService.response(response);
 
-                  return EMPTY;
-                })
-              );
+                return EMPTY;
+              })
+            );
           }
 
           return EMPTY;

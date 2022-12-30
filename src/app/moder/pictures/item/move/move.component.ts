@@ -1,22 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator } from '../../../../services/api.service';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {APIPaginator} from '../../../../services/api.service';
 import {Subscription, of, combineLatest, BehaviorSubject, Observable} from 'rxjs';
-import { PictureItemService } from '../../../../services/picture-item';
-import { ItemService, APIItem } from '../../../../services/item';
-import { chunk } from '../../../../chunk';
-import { Router, ActivatedRoute } from '@angular/router';
-import {
-  ItemParentService,
-  APIItemParent
-} from '../../../../services/item-parent';
-import { PageEnvService } from '../../../../services/page-env.service';
-import {
-  switchMap,
-  distinctUntilChanged,
-  debounceTime,
-  tap, map
-} from 'rxjs/operators';
-import { PictureService, APIPicture } from '../../../../services/picture';
+import {PictureItemService} from '../../../../services/picture-item';
+import {ItemService, APIItem} from '../../../../services/item';
+import {chunk} from '../../../../chunk';
+import {Router, ActivatedRoute} from '@angular/router';
+import {ItemParentService, APIItemParent} from '../../../../services/item-parent';
+import {PageEnvService} from '../../../../services/page-env.service';
+import {switchMap, distinctUntilChanged, debounceTime, tap, map} from 'rxjs/operators';
+import {PictureService, APIPicture} from '../../../../services/picture';
 
 export interface PictureItemMoveSelection {
   itemId: number;
@@ -26,7 +18,7 @@ export interface PictureItemMoveSelection {
 
 @Component({
   selector: 'app-moder-pictures-item-move',
-  templateUrl: './move.component.html'
+  templateUrl: './move.component.html',
 })
 export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   private sub: Subscription;
@@ -78,23 +70,23 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = combineLatest([
       this.route.paramMap.pipe(
-        map(params => parseInt(params.get('id'), 10)),
+        map((params) => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
         debounceTime(10),
-        tap(id => {
+        tap((id) => {
           this.id = id;
         }),
-        switchMap(id => this.pictureService.getPicture(id)),
-        tap(data => {
+        switchMap((id) => this.pictureService.getPicture(id)),
+        tap((data) => {
           this.picture = data;
           this.pageEnv.set({
             layout: {isAdminPage: true},
-            pageId: 149
+            pageId: 149,
           });
         })
       ),
       this.route.queryParamMap.pipe(
-        map(params => ({
+        map((params) => ({
           src_item_id: parseInt(params.get('src_item_id'), 10),
           src_type: parseInt(params.get('src_type'), 10),
           show_museums: !!params.get('show_museums'),
@@ -103,11 +95,11 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           show_authors: !!params.get('show_authors'),
           show_copyrights: !!params.get('show_copyrights'),
           brand_id: parseInt(params.get('brand_id'), 10),
-          page: parseInt(params.get('page'), 10)
+          page: parseInt(params.get('page'), 10),
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
-        switchMap(params => {
+        switchMap((params) => {
           this.srcItemID = params.src_item_id;
           this.srcType = params.src_type;
 
@@ -129,10 +121,10 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 type_id: 7,
                 fields: 'name_html',
                 limit: 50,
-                page: params.page
+                page: params.page,
               })
               .pipe(
-                tap(response => {
+                tap((response) => {
                   this.museums = response.items;
                   this.museumsPaginator = response.paginator;
                 })
@@ -146,10 +138,10 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 type_id: 6,
                 fields: 'name_html',
                 limit: 50,
-                page: params.page
+                page: params.page,
               })
               .pipe(
-                tap(response => {
+                tap((response) => {
                   this.factories = response.items;
                   this.factoriesPaginator = response.paginator;
                 })
@@ -161,16 +153,16 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             persons$ = this.searchPerson$.pipe(
               distinctUntilChanged(),
               debounceTime(30),
-              switchMap(search =>
+              switchMap((search) =>
                 this.itemService.getItems({
                   type_id: 8,
                   fields: 'name_html',
                   limit: 50,
                   name: search ? '%' + search + '%' : null,
-                  page: params.page
+                  page: params.page,
                 })
               ),
-              tap(response => {
+              tap((response) => {
                 this.persons = response.items;
                 this.personsPaginator = response.paginator;
               })
@@ -182,16 +174,16 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             authors$ = this.searchAuthor$.pipe(
               distinctUntilChanged(),
               debounceTime(30),
-              switchMap(search =>
+              switchMap((search) =>
                 this.itemService.getItems({
                   type_id: 8,
                   fields: 'name_html',
                   limit: 50,
                   name: search ? '%' + search + '%' : null,
-                  page: params.page
+                  page: params.page,
                 })
               ),
-              tap(response => {
+              tap((response) => {
                 this.authors = response.items;
                 this.authorsPaginator = response.paginator;
               })
@@ -205,10 +197,10 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 type_id: 9,
                 fields: 'name_html',
                 limit: 50,
-                page: params.page
+                page: params.page,
               })
               .pipe(
-                tap(response => {
+                tap((response) => {
                   this.copyrights = response.items;
                   this.copyrightsPaginator = response.paginator;
                 })
@@ -232,18 +224,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
-                    page: 1
+                    page: 1,
                   })
-                  .pipe(tap(response => (this.vehicles = response.items))),
+                  .pipe(tap((response) => (this.vehicles = response.items))),
                 this.itemParentService
                   .getItems({
                     item_type_id: 2,
                     parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
-                    page: 1
+                    page: 1,
                   })
-                  .pipe(tap(response => (this.engines = response.items))),
+                  .pipe(tap((response) => (this.engines = response.items))),
 
                 this.itemParentService
                   .getItems({
@@ -252,24 +244,24 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     ancestor_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
-                    page: 1
+                    page: 1,
                   })
-                  .pipe(tap(response => (this.concepts = response.items)))
+                  .pipe(tap((response) => (this.concepts = response.items))),
               ]);
             } else {
               brands$ = this.searchBrand$.pipe(
                 distinctUntilChanged(),
                 debounceTime(30),
-                switchMap(search =>
+                switchMap((search) =>
                   this.itemService.getItems({
                     type_id: 5,
                     fields: 'name_html',
                     limit: 200,
                     name: search ? '%' + search + '%' : null,
-                    page: params.page
+                    page: params.page,
                   })
                 ),
-                tap(response => {
+                tap((response) => {
                   this.brands = chunk<APIItem>(response.items, 6);
                   this.brandsPaginator = response.paginator;
                 })
@@ -277,17 +269,9 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             }
           }
 
-          return combineLatest([
-            museums$,
-            factories$,
-            persons$,
-            authors$,
-            copyrights$,
-            brandItems$,
-            brands$
-          ]);
+          return combineLatest([museums$, factories$, persons$, authors$, copyrights$, brandItems$, brands$]);
         })
-      )
+      ),
     ]).subscribe();
   }
 
@@ -308,12 +292,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               return of(null);
             }
 
-            return this.pictureItemService.setPerspective(
-              this.id,
-              dstItemID,
-              this.srcType,
-              dstPerspectiveID
-            );
+            return this.pictureItemService.setPerspective(this.id, dstItemID, this.srcType, dstPerspectiveID);
           })
         )
         .subscribe(() => {
@@ -324,17 +303,15 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         });
     } else {
       const data = {
-        perspective_id: dstPerspectiveID ? dstPerspectiveID : null
+        perspective_id: dstPerspectiveID ? dstPerspectiveID : null,
       };
 
-      this.pictureItemService
-        .create(this.id, dstItemID, selection.type, data)
-        .subscribe(() => {
-          if (localStorage) {
-            localStorage.setItem('last_item', dstItemID.toString());
-          }
-          this.router.navigate(['/moder/pictures', this.id]);
-        });
+      this.pictureItemService.create(this.id, dstItemID, selection.type, data).subscribe(() => {
+        if (localStorage) {
+          localStorage.setItem('last_item', dstItemID.toString());
+        }
+        this.router.navigate(['/moder/pictures', this.id]);
+      });
     }
 
     return false;

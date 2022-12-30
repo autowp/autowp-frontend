@@ -1,21 +1,21 @@
-import { Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {APIItem, ItemService} from '../services/item';
-import { of } from 'rxjs';
-import { PageEnvService } from '../services/page-env.service';
+import {of} from 'rxjs';
+import {PageEnvService} from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-twins-group',
-  templateUrl: './twins-group.component.html'
+  templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {
   public group$ = this.route.paramMap.pipe(
-    map(params => parseInt(params.get('group'), 10)),
+    map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(group => {
-      if (! group) {
+    switchMap((group) => {
+      if (!group) {
         return of(null as APIItem);
       }
       return this.itemService.getItem(group, {
@@ -25,15 +25,15 @@ export class TwinsGroupComponent {
           'childs.design,childs.engine_vehicles,' +
           'childs.url,childs.can_edit_specs,childs.specs_route,' +
           'childs.categories.name_html,childs.brands,' +
-          'childs.preview_pictures,childs.total_pictures'
+          'childs.preview_pictures,childs.total_pictures',
       });
     }),
-    tap(group => {
+    tap((group) => {
       setTimeout(
         () =>
           this.pageEnv.set({
             title: group.name_text,
-            pageId: 25
+            pageId: 25,
           }),
         0
       );
@@ -42,7 +42,7 @@ export class TwinsGroupComponent {
   );
 
   public selectedBrands$ = this.group$.pipe(
-    map(group => {
+    map((group) => {
       const result = [];
       for (const item of group.childs) {
         for (const brand of item.brands) {
@@ -54,9 +54,5 @@ export class TwinsGroupComponent {
     })
   );
 
-  constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-  ) {}
+  constructor(private itemService: ItemService, private route: ActivatedRoute, private pageEnv: PageEnvService) {}
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpResponseBase} from '@angular/common/http';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
@@ -8,7 +8,7 @@ export interface Toast {
   type: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ToastsService {
   public toasts: Toast[] = [];
 
@@ -20,7 +20,7 @@ export class ToastsService {
     this.show({
       message,
       type: 'danger',
-      icon: 'bi bi-exclamation-triangle'
+      icon: 'bi bi-exclamation-triangle',
     });
   }
 
@@ -28,7 +28,7 @@ export class ToastsService {
     this.show({
       message,
       type: 'success',
-      icon: 'bi bi-check'
+      icon: 'bi bi-check',
     });
   }
 
@@ -57,6 +57,6 @@ export class ToastsService {
   }
 
   remove(toast) {
-    this.toasts = this.toasts.filter(t => t !== toast);
+    this.toasts = this.toasts.filter((t) => t !== toast);
   }
 }

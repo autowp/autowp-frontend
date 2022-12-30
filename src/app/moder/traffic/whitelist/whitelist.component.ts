@@ -1,33 +1,29 @@
-import { Component} from '@angular/core';
-import { Router } from '@angular/router';
-import { PageEnvService } from '../../../services/page-env.service';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+import {PageEnvService} from '../../../services/page-env.service';
 import {TrafficClient} from '../../../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '../../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-traffic-whitelist',
-  templateUrl: './whitelist.component.html'
+  templateUrl: './whitelist.component.html',
 })
 export class ModerTrafficWhitelistComponent {
   public items: APITrafficWhitelistItem[];
 
-  constructor(
-    private grpc: TrafficClient,
-    private router: Router,
-    private pageEnv: PageEnvService
-  ) {
+  constructor(private grpc: TrafficClient, private router: Router, private pageEnv: PageEnvService) {
     setTimeout(
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 77
+          pageId: 77,
         }),
       0
     );
 
     this.grpc.getWhitelist(new Empty()).subscribe(
-      response => {
+      (response) => {
         this.items = response.items;
 
         /*for(const item of $scope.items) {
@@ -38,7 +34,7 @@ export class ModerTrafficWhitelistComponent {
       },
       () => {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
       }
     );

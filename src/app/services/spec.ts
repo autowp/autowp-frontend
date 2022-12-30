@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {Spec} from '../../../generated/spec.pb';
@@ -15,7 +15,7 @@ export class SpecService {
 
   constructor(private grpc: AutowpClient) {
     this.specs$ = this.grpc.getSpecs(new Empty()).pipe(
-      map(response => response.items),
+      map((response) => response.items),
       shareReplay(1)
     );
   }
@@ -25,7 +25,7 @@ export class SpecService {
   }
 
   public getSpec(id: number): Observable<Spec> {
-    return this.getSpecs().pipe(map(specs => this.findSpec(specs, id)));
+    return this.getSpecs().pipe(map((specs) => this.findSpec(specs, id)));
   }
 
   private findSpec(specs: Spec[], id: number): Spec | null {

@@ -1,7 +1,7 @@
-import { Component} from '@angular/core';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component} from '@angular/core';
+import {PageEnvService} from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import { APIService } from '../../services/api.service';
+import {APIService} from '../../services/api.service';
 
 interface StatItem {
   name: string;
@@ -15,7 +15,7 @@ interface APIStatGlobalSummary {
 
 @Component({
   selector: 'app-moder-stat',
-  templateUrl: './stat.component.html'
+  templateUrl: './stat.component.html',
 })
 export class ModerStatComponent {
   public items: StatItem[] = [];
@@ -25,16 +25,16 @@ export class ModerStatComponent {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 119
+          pageId: 119,
         }),
       0
     );
 
     this.api.request<APIStatGlobalSummary>('GET', 'stat/global-summary').subscribe({
-      next: response => {
+      next: (response) => {
         this.items = response.items;
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 }

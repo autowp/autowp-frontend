@@ -1,12 +1,12 @@
-import { Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import { APIItem } from '../../services/item';
-import { APIPicture } from '../../services/picture';
+import {APIItem} from '../../services/item';
+import {APIPicture} from '../../services/picture';
 
 @Component({
   selector: 'app-new-list-item',
   templateUrl: './list-item.component.html',
-  styleUrls: ['./styles.scss']
+  styleUrls: ['./styles.scss'],
 })
 export class NewListItemComponent {
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);

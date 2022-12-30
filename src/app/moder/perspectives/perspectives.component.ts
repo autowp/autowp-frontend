@@ -1,13 +1,13 @@
-import { Component} from '@angular/core';
-import { PageEnvService } from '../../services/page-env.service';
-import { getPerspectiveTranslation } from '../../utils/translations';
+import {Component} from '@angular/core';
+import {PageEnvService} from '../../services/page-env.service';
+import {getPerspectiveTranslation} from '../../utils/translations';
 import {AutowpClient} from '../../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PerspectivePage} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-moder-perspectives',
-  templateUrl: './perspectives.component.html'
+  templateUrl: './perspectives.component.html',
 })
 export class ModerPerspectivesComponent {
   public pages: PerspectivePage[];
@@ -17,16 +17,16 @@ export class ModerPerspectivesComponent {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 202
+          pageId: 202,
         }),
       0
     );
 
     this.grpc.getPerspectivePages(new Empty()).subscribe({
-      next: response => {
+      next: (response) => {
         this.pages = response.items;
       },
-      error: response => console.log(response)
+      error: (response) => console.log(response),
     });
   }
 

@@ -1,13 +1,13 @@
-import { APIPaginator, APIImage, APIService } from './api.service';
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { APIUser } from './user';
-import { APIPictureItem } from './picture-item';
-import { switchMap, shareReplay, map} from 'rxjs/operators';
-import { AuthService } from './auth.service';
+import {APIPaginator, APIImage, APIService} from './api.service';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {APIUser} from './user';
+import {APIPictureItem} from './picture-item';
+import {switchMap, shareReplay, map} from 'rxjs/operators';
+import {AuthService} from './auth.service';
 import {ACLService, Privilege, Resource} from './acl.service';
 import {APIItem, APIPathTreeItem} from './item';
-import { APIItemLink } from './item-link';
+import {APIItemLink} from './item-link';
 import {PicturesClient} from '../../../generated/spec.pbsc';
 import {PicturesVoteRequest, PicturesVoteSummary} from '../../../generated/spec.pb';
 
@@ -188,8 +188,8 @@ export interface APIGetPicturesOptions {
   paginator?: {
     item_id?: number;
     exact?: boolean;
-    exact_item_id?: number,
-    exact_item_link_type?: number,
+    exact_item_id?: number;
+    exact_item_link_type?: number;
     perspective_id?: number;
     perspective_exclude_id?: string;
   };
@@ -201,10 +201,8 @@ export interface APIPictureUserSummary {
   acceptedCount: number;
 }
 
-function convertPictureOptions(
-  options: APIGetPictureOptions
-): { [param: string]: string } {
-  const params: { [param: string]: string } = {};
+function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
 
   if (!options) {
     options = {};
@@ -217,10 +215,8 @@ function convertPictureOptions(
   return params;
 }
 
-function converPicturesOptions(
-  options: APIGetPicturesOptions
-): { [param: string]: string } {
-  const params: { [param: string]: string } = {};
+function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
 
   if (options.identity) {
     params.identity = options.identity;
@@ -362,7 +358,7 @@ export class PictureService {
     private pictures: PicturesClient
   ) {
     this.summary$ = this.auth.getUser().pipe(
-      switchMap(user => {
+      switchMap((user) => {
         if (!user) {
           return of(null);
         }
@@ -372,47 +368,39 @@ export class PictureService {
     );
 
     this.inboxSize$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
-      switchMap(isModer => {
+      switchMap((isModer) => {
         if (!isModer) {
           return of(null as number);
         }
 
         return this.getPictures({
           status: 'inbox',
-          limit: 0
-        }).pipe(map(response => response.paginator.totalItemCount));
+          limit: 0,
+        }).pipe(map((response) => response.paginator.totalItemCount));
       }),
       shareReplay(1)
     );
   }
 
-  public getPictureByLocation(
-    url: string,
-    options?: APIGetPictureOptions
-  ): Observable<APIPicture> {
+  public getPictureByLocation(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {
-      params: convertPictureOptions(options)
+      params: convertPictureOptions(options),
     });
   }
 
-  public getPicture(
-    id: number,
-    options?: APIGetPictureOptions
-  ): Observable<APIPicture> {
+  public getPicture(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', 'picture/' + id, {
-      params: convertPictureOptions(options)
+      params: convertPictureOptions(options),
     });
   }
 
-  public getCanonicalRoute(identity: string): Observable<string[]|null> {
-    return this.api.request<string[]|null>('GET', 'picture/' + identity + '/canonical-route');
+  public getCanonicalRoute(identity: string): Observable<string[] | null> {
+    return this.api.request<string[] | null>('GET', 'picture/' + identity + '/canonical-route');
   }
 
-  public getPictures(
-    options?: APIGetPicturesOptions
-  ): Observable<APIPictureGetResponse> {
+  public getPictures(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
     return this.api.request<APIPictureGetResponse>('GET', 'picture', {
-      params: converPicturesOptions(options)
+      params: converPicturesOptions(options),
     });
   }
 
@@ -425,15 +413,19 @@ export class PictureService {
   }
 
   public vote(pictureID: number, value: number): Observable<PicturesVoteSummary> {
-    return this.pictures.vote(new PicturesVoteRequest({
-      pictureId: pictureID.toString(),
-      value
-    }));
+    return this.pictures.vote(
+      new PicturesVoteRequest({
+        pictureId: pictureID.toString(),
+        value,
+      })
+    );
   }
 
   public setPictureStatus(id: number, status: string): Observable<void> {
-    return this.api.request<void>('PUT', 'picture/' + id.toString(), {body: {
-      status
-    }});
+    return this.api.request<void>('PUT', 'picture/' + id.toString(), {
+      body: {
+        status,
+      },
+    });
   }
 }

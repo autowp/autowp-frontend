@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {CatalogueIndexComponent} from './index/index.component';
 import {CatalogueRecentComponent} from './recent/recent.component';
 import {CatalogueMixedComponent} from './mixed/mixed.component';
@@ -19,7 +19,7 @@ import {CatalogueMixedGalleryComponent} from './mixed/gallery/gallery.component'
 const routes: Routes = [
   {
     path: 'recent',
-    component: CatalogueRecentComponent
+    component: CatalogueRecentComponent,
   },
   {
     path: 'mixed',
@@ -29,14 +29,14 @@ const routes: Routes = [
       page_id: 40,
       picture_page: {
         id: 190,
-        breadcrumbs: $localize `Miscellaneous`
+        breadcrumbs: $localize`Miscellaneous`,
       },
-      title: $localize `Miscellaneous`
+      title: $localize`Miscellaneous`,
     },
     children: [
       {
         path: 'gallery/:identity',
-        component: CatalogueMixedGalleryComponent
+        component: CatalogueMixedGalleryComponent,
       },
       {
         path: ':identity',
@@ -46,8 +46,8 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueMixedComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'other',
@@ -57,14 +57,14 @@ const routes: Routes = [
       page_id: 41,
       picture_page: {
         id: 191,
-        breadcrumbs: $localize `Unsorted`
+        breadcrumbs: $localize`Unsorted`,
       },
-      title: $localize `Unsorted`
+      title: $localize`Unsorted`,
     },
     children: [
       {
         path: 'gallery/:identity',
-        component: CatalogueMixedGalleryComponent
+        component: CatalogueMixedGalleryComponent,
       },
       {
         path: ':identity',
@@ -74,8 +74,8 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueMixedComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'logotypes',
@@ -83,16 +83,16 @@ const routes: Routes = [
       catname: 'logotypes',
       perspective_id: 22,
       page_id: 39,
-      title: $localize `Logotypes`,
+      title: $localize`Logotypes`,
       picture_page: {
         id: 192,
-        breadcrumbs: $localize `Logotypes`,
+        breadcrumbs: $localize`Logotypes`,
       },
     },
     children: [
       {
         path: 'gallery/:identity',
-        component: CatalogueMixedGalleryComponent
+        component: CatalogueMixedGalleryComponent,
       },
       {
         path: ':identity',
@@ -102,16 +102,16 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueMixedComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'engines',
-    component: CatalogueEnginesComponent
+    component: CatalogueEnginesComponent,
   },
   {
     path: 'concepts',
-    component: CatalogueConceptsComponent
+    component: CatalogueConceptsComponent,
   },
   {
     path: 'cars',
@@ -124,29 +124,29 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueCarsComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'mosts',
     children: [
       {
         path: '',
-        component: CatalogueMostsComponent
+        component: CatalogueMostsComponent,
       },
       {
         path: ':rating_catname',
-        component: CatalogueMostsComponent
+        component: CatalogueMostsComponent,
       },
       {
         path: ':rating_catname/:type_catname',
-        component: CatalogueMostsComponent
+        component: CatalogueMostsComponent,
       },
       {
         path: ':rating_catname/:type_catname/:years_catname',
-        component: CatalogueMostsComponent
-      }
-    ]
+        component: CatalogueMostsComponent,
+      },
+    ],
   },
   {
     matcher: cataloguePathMatcher,
@@ -154,28 +154,28 @@ const routes: Routes = [
       {
         path: 'exact',
         data: {
-          exact: true
+          exact: true,
         },
         children: [
           {
             path: 'gallery/:identity',
-            component: CatalogueVehiclesGalleryComponent
+            component: CatalogueVehiclesGalleryComponent,
           },
           {
             path: 'pictures',
             children: [
               {
                 path: ':identity',
-                component: CatalogueVehiclesPicturesPictureComponent
+                component: CatalogueVehiclesPicturesPictureComponent,
               },
               {
                 path: '',
                 pathMatch: 'full',
                 component: CatalogueVehiclesPicturesComponent,
-              }
-            ]
+              },
+            ],
           },
-        ]
+        ],
       },
       {
         path: 'gallery/:identity',
@@ -193,8 +193,8 @@ const routes: Routes = [
             path: '',
             pathMatch: 'full',
             component: CatalogueVehiclesPicturesComponent,
-          }
-        ]
+          },
+        ],
       },
       {
         path: 'specifications',
@@ -205,18 +205,18 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: CatalogueVehiclesComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: '',
     pathMatch: 'full',
-    component: CatalogueIndexComponent
-  }
+    component: CatalogueIndexComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CatalogueRoutingModule { }
+export class CatalogueRoutingModule {}

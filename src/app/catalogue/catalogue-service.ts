@@ -22,10 +22,7 @@ type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
 
 @Injectable()
 export class CatalogueService {
-  constructor(
-    private itemService: ItemService,
-    private itemParentService: ItemParentService
-  ) { }
+  constructor(private itemService: ItemService, private itemParentService: ItemParentService) {}
 
   public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
     const result: Breadcrumbs[] = [];
@@ -34,7 +31,7 @@ export class CatalogueService {
       routerLink.push(item.catname);
       result.push({
         html: item.item.name_html,
-        routerLink: [...routerLink]
+        routerLink: [...routerLink],
       });
     }
     return result;
@@ -42,7 +39,7 @@ export class CatalogueService {
 
   private static getPath(route: ActivatedRoute) {
     return route.paramMap.pipe(
-      map(params => params.get('path')),
+      map((params) => params.get('path')),
       distinctUntilChanged(),
       debounceTime(10)
     );
@@ -52,89 +49,93 @@ export class CatalogueService {
     route: ActivatedRoute,
     isModer: boolean,
     fields: string
-  ): Observable<{brand: APIItem, path: APIItemParent[], type: string}> {
-
-    const pathPipeRecursive: ParentObservableFunc = () =>  switchMap((parent: Parent) => {
-
-      if (! parent || ! parent.id || parent.path.length <= 0) {
-        return of(parent);
-      }
-
-      let totalFields = 'item.name_html,' + fields;
-      const isLast = parent.path.length <= 1;
-      if (isLast) {
-        totalFields += ',item.inbox_pictures_count,item.comments_attentions_count,item.other_names,item.design,' +
-          'item.name_default,item.description,item.text,item.produced,item.specs_route,item.childs_counts,item.name_text';
-        if (isModer) {
-          totalFields += ',item.accepted_pictures_count';
+  ): Observable<{brand: APIItem; path: APIItemParent[]; type: string}> {
+    const pathPipeRecursive: ParentObservableFunc = () =>
+      switchMap((parent: Parent) => {
+        if (!parent || !parent.id || parent.path.length <= 0) {
+          return of(parent);
         }
-      }
 
-      return this.itemParentService.getItems({
-        parent_id: parent.id,
-        catname: parent.path[0],
-        limit: 1,
-        fields: totalFields
-      }).pipe(
-        map(response => {
-          if (response.items.length <= 0) {
-            return null;
+        let totalFields = 'item.name_html,' + fields;
+        const isLast = parent.path.length <= 1;
+        if (isLast) {
+          totalFields +=
+            ',item.inbox_pictures_count,item.comments_attentions_count,item.other_names,item.design,' +
+            'item.name_default,item.description,item.text,item.produced,item.specs_route,item.childs_counts,item.name_text';
+          if (isModer) {
+            totalFields += ',item.accepted_pictures_count';
           }
-          const parentItem = response.items[0];
+        }
 
-          const obj: Parent = {
-            id: parentItem.item_id,
-            path: parent.path.splice(1),
-            items: parent.items.concat([parentItem])
-          };
+        return this.itemParentService
+          .getItems({
+            parent_id: parent.id,
+            catname: parent.path[0],
+            limit: 1,
+            fields: totalFields,
+          })
+          .pipe(
+            map((response) => {
+              if (response.items.length <= 0) {
+                return null;
+              }
+              const parentItem = response.items[0];
 
-          return obj;
-        }),
-        pathPipeRecursive()
-      );
-    });
+              const obj: Parent = {
+                id: parentItem.item_id,
+                path: parent.path.splice(1),
+                items: parent.items.concat([parentItem]),
+              };
+
+              return obj;
+            }),
+            pathPipeRecursive()
+          );
+      });
 
     return this.getBrand(route).pipe(
-      switchMap(brand => {
-
-        if (! brand) {
+      switchMap((brand) => {
+        if (!brand) {
           return of(null);
         }
 
         return CatalogueService.getPath(route).pipe(
-          map(data => ({
-            id: brand.id,
-            path: data ? data.split('/') : [],
-            items: []
-          } as Parent)),
+          map(
+            (data) =>
+              ({
+                id: brand.id,
+                path: data ? data.split('/') : [],
+                items: [],
+              } as Parent)
+          ),
           pathPipeRecursive(),
-          switchMap(parent => {
-            if (! parent) {
+          switchMap((parent) => {
+            if (!parent) {
               return of(null);
             }
-            return of ({
+            return of({
               brand,
-              path: parent.items
+              path: parent.items,
             }).pipe(
-              switchMap(params => {
+              switchMap((params) => {
                 return this.getType(route).pipe(
-                  map(type => ({
+                  map((type) => ({
                     brand: params.brand,
                     path: params.path,
-                    type
+                    type,
                   }))
                 );
               })
             );
-          }),
+          })
         );
-      }),
+      })
     );
   }
 
   private getType(route: ActivatedRoute) {
     return route.paramMap.pipe(
-      map(paramMap => paramMap.get('type')),
+      map((paramMap) => paramMap.get('type')),
       distinctUntilChanged(),
       debounceTime(10)
     );
@@ -142,20 +143,20 @@ export class CatalogueService {
 
   private getBrand(route: ActivatedRoute) {
     return route.paramMap.pipe(
-      map(params => params.get('brand')),
+      map((params) => params.get('brand')),
       distinctUntilChanged(),
       debounceTime(10),
-      switchMap(catname => {
+      switchMap((catname) => {
         if (!catname) {
           return EMPTY;
         }
-        return this.itemService.getItems({
-          catname: '' + catname,
-          fields: 'name_text,name_html',
-          limit: 1
-        }).pipe(
-          map(response => response && response.items.length ? response.items[0] : null)
-        );
+        return this.itemService
+          .getItems({
+            catname: '' + catname,
+            fields: 'name_text,name_html',
+            limit: 1,
+          })
+          .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
       })
     );
   }
@@ -177,7 +178,7 @@ export class CatalogueService {
     return null;
   }
 
-  public picturePathToRoute(picture: APIPicture): string[]|null {
+  public picturePathToRoute(picture: APIPicture): string[] | null {
     for (const pictureItem of picture.path) {
       if (pictureItem.type === 1) {
         switch (pictureItem.item.item_type_id) {

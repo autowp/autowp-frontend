@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {CatalogueIndexComponent} from './index/index.component';
 import {CatalogueRoutingModule} from './catalogue-routing.module';
 import {UtilsModule} from '../utils/utils.module';
@@ -53,7 +53,7 @@ export interface BrandPerspectivePageData {
     CatalogueItemMenuComponent,
     CatalogueVehiclesSpecificationsComponent,
     CatalogueMostsComponent,
-    CatalogueMixedGalleryComponent
+    CatalogueMixedGalleryComponent,
   ],
   imports: [
     CommonModule,
@@ -64,10 +64,8 @@ export interface BrandPerspectivePageData {
     PictureModule,
     CommentsModule,
     GalleryModule,
-    MostsModule
+    MostsModule,
   ],
-  providers: [
-    CatalogueService
-  ]
+  providers: [CatalogueService],
 })
 export class CatalogueModule {}

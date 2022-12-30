@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import * as showdown from 'showdown';
 import * as escapeRegExp from 'lodash.escaperegexp';
-import { UserService, APIUser } from '../services/user';
-import { Router } from '@angular/router';
-import { DecimalPipe } from '@angular/common';
-import { BytesPipe } from 'ngx-pipes';
-import { PageEnvService } from '../services/page-env.service';
+import {UserService, APIUser} from '../services/user';
+import {Router} from '@angular/router';
+import {DecimalPipe} from '@angular/common';
+import {BytesPipe} from 'ngx-pipes';
+import {PageEnvService} from '../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
 import {StatisticsClient} from '../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -14,7 +14,7 @@ function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
-function replacePairs(str: string, pairs: { [key: string]: string }): string {
+function replacePairs(str: string, pairs: {[key: string]: string}): string {
   for (const key in pairs) {
     if (pairs.hasOwnProperty(key)) {
       str = replaceAll(str, String(key), pairs[key]);
@@ -23,7 +23,7 @@ function replacePairs(str: string, pairs: { [key: string]: string }): string {
   return str;
 }
 
-const aboutText = $localize `### People
+const aboutText = $localize`### People
 
 Своим существованием наш проект обязан людям, приходящим сюда и вкладывающим своё время и знания.
 
@@ -81,65 +81,57 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
 
 @Component({
   selector: 'app-about',
-  templateUrl: './about.component.html'
+  templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {
-
   public version = require('../../version.json');
 
-  public html$ = this.statGrpc.getAboutData(new Empty()).pipe(
-    switchMap(about => {
-      const ids: string[] = about.contributors;
-      ids.push(about.developer);
-      ids.push(about.frTranslator);
-      ids.push(about.zhTranslator);
-      ids.push(about.beTranslator);
-      ids.push(about.ptBrTranslator);
+  public html$ = this.statGrpc
+    .getAboutData(new Empty())
+    .pipe(
+      switchMap((about) => {
+        const ids: string[] = about.contributors;
+        ids.push(about.developer);
+        ids.push(about.frTranslator);
+        ids.push(about.zhTranslator);
+        ids.push(about.beTranslator);
+        ids.push(about.ptBrTranslator);
 
-      return this.userService.getUserMap(ids).pipe(
-        map(users => ({
-          users,
-          aboutText,
-          about
-        }))
-      );
-    })
-  ).pipe(map(data => {
-    const contributorsHtml: string[] = [];
-    for (const id of data.about.contributors) {
-      contributorsHtml.push(this.userHtml(data.users.get(id)));
-    }
+        return this.userService.getUserMap(ids).pipe(
+          map((users) => ({
+            users,
+            aboutText,
+            about,
+          }))
+        );
+      })
+    )
+    .pipe(
+      map((data) => {
+        const contributorsHtml: string[] = [];
+        for (const id of data.about.contributors) {
+          contributorsHtml.push(this.userHtml(data.users.get(id)));
+        }
 
-    const markdownConverter = new showdown.Converter({});
-    return replacePairs(markdownConverter.makeHtml(data.aboutText), {
-      '%users%': contributorsHtml.join(' '),
-      '%total-pictures%': this.decimalPipe.transform(
-        data.about.totalPictures
-      ),
-      '%total-vehicles%': data.about.totalItems.toString(),
-      '%total-size%': this.bytesPipe
-        .transform(data.about.picturesSize * 1024 * 1024, 1)
-        .toString(),
-      '%total-users%': data.about.totalUsers.toString(),
-      '%total-comments%': data.about.totalComments.toString(),
-      '%github%':
-        '<i class="bi bi-github" aria-hidden="true"></i> ' +
-        '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
-      '%developer%': this.userHtml(data.users.get(data.about.developer)),
-      '%fr-translator%': this.userHtml(
-        data.users.get(data.about.frTranslator)
-      ),
-      '%zh-translator%': this.userHtml(
-        data.users.get(data.about.zhTranslator)
-      ),
-      '%be-translator%': this.userHtml(
-        data.users.get(data.about.beTranslator)
-      ),
-      '%pt-br-translator%': this.userHtml(
-        data.users.get(data.about.ptBrTranslator)
-      )
-    });
-  }));
+        const markdownConverter = new showdown.Converter({});
+        return replacePairs(markdownConverter.makeHtml(data.aboutText), {
+          '%users%': contributorsHtml.join(' '),
+          '%total-pictures%': this.decimalPipe.transform(data.about.totalPictures),
+          '%total-vehicles%': data.about.totalItems.toString(),
+          '%total-size%': this.bytesPipe.transform(data.about.picturesSize * 1024 * 1024, 1).toString(),
+          '%total-users%': data.about.totalUsers.toString(),
+          '%total-comments%': data.about.totalComments.toString(),
+          '%github%':
+            '<i class="bi bi-github" aria-hidden="true"></i> ' +
+            '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
+          '%developer%': this.userHtml(data.users.get(data.about.developer)),
+          '%fr-translator%': this.userHtml(data.users.get(data.about.frTranslator)),
+          '%zh-translator%': this.userHtml(data.users.get(data.about.zhTranslator)),
+          '%be-translator%': this.userHtml(data.users.get(data.about.beTranslator)),
+          '%pt-br-translator%': this.userHtml(data.users.get(data.about.ptBrTranslator)),
+        });
+      })
+    );
 
   constructor(
     private userService: UserService,
@@ -151,11 +143,7 @@ export class AboutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 136}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 136}), 0);
   }
 
   private userHtml(user: APIUser): string {
@@ -174,12 +162,7 @@ export class AboutComponent implements OnInit {
     const a = document.createElement('a');
     a.setAttribute(
       'href',
-      this.router
-        .createUrlTree([
-          '/users',
-          user.identity ? user.identity : 'user' + user.id
-        ])
-        .toString()
+      this.router.createUrlTree(['/users', user.identity ? user.identity : 'user' + user.id]).toString()
     );
     a.innerText = user.name;
 

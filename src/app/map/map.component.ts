@@ -5,22 +5,13 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Injector,
-  ApplicationRef
+  ApplicationRef,
 } from '@angular/core';
 import {BehaviorSubject, EMPTY} from 'rxjs';
-import { PageEnvService } from '../services/page-env.service';
-import {
-  tileLayer,
-  latLng,
-  Map,
-  LatLngBounds,
-  Marker,
-  marker,
-  icon,
-  Popup, MapOptions
-} from 'leaflet';
+import {PageEnvService} from '../services/page-env.service';
+import {tileLayer, latLng, Map, LatLngBounds, Marker, marker, icon, Popup, MapOptions} from 'leaflet';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import { MapPopupComponent } from './popup/popup.component';
+import {MapPopupComponent} from './popup/popup.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {MapClient} from '../../../generated/spec.pbsc';
 import {MapGetPointsRequest, MapPoint} from '../../../generated/spec.pb';
@@ -31,15 +22,15 @@ function createMarker(lat, lng): Marker {
       iconSize: [25, 41],
       iconAnchor: [13, 41],
       iconUrl: 'assets/marker-icon.png',
-      shadowUrl: 'assets/marker-shadow.png'
-    })
+      shadowUrl: 'assets/marker-shadow.png',
+    }),
   });
 }
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./styles.scss']
+  styleUrls: ['./styles.scss'],
 })
 export class MapComponent implements OnInit {
   private compRef: ComponentRef<MapPopupComponent>;
@@ -50,15 +41,15 @@ export class MapComponent implements OnInit {
   public options: MapOptions = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18
-      })
+        maxZoom: 18,
+      }),
     ],
     zoom: 4,
     center: latLng(50, 20),
     zoomControl: true,
     dragging: true,
     zoomAnimation: true,
-    doubleClickZoom: true
+    doubleClickZoom: true,
   };
 
   constructor(
@@ -70,11 +61,7 @@ export class MapComponent implements OnInit {
     private toastService: ToastsService,
     private mapClient: MapClient
   ) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 117}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 117}), 0);
   }
 
   ngOnInit(): void {
@@ -82,23 +69,25 @@ export class MapComponent implements OnInit {
       .pipe(
         distinctUntilChanged(),
         debounceTime(100),
-        switchMap(bounds => {
+        switchMap((bounds) => {
           if (!bounds) {
             return EMPTY;
           }
 
-          return this.mapClient.getPoints(new MapGetPointsRequest({
-            bounds: bounds.toBBoxString(),
-            pointsOnly: false,
-          }));
+          return this.mapClient.getPoints(
+            new MapGetPointsRequest({
+              bounds: bounds.toBBoxString(),
+              pointsOnly: false,
+            })
+          );
         }),
-        map(response => response.points)
+        map((response) => response.points)
       )
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.renderData(response);
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 
@@ -130,9 +119,7 @@ export class MapComponent implements OnInit {
             this.compRef.destroy();
           }
 
-          const compFactory = this.resolver.resolveComponentFactory(
-            MapPopupComponent
-          );
+          const compFactory = this.resolver.resolveComponentFactory(MapPopupComponent);
           this.compRef = compFactory.create(this.injector);
           this.compRef.instance.item = item;
 

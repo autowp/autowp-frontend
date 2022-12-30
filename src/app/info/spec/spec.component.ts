@@ -1,5 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component, OnInit} from '@angular/core';
+import {PageEnvService} from '../../services/page-env.service';
 import {EMPTY} from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
 import {AutowpClient} from '../../../../generated/spec.pbsc';
@@ -8,28 +8,20 @@ import {catchError, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-info-spec',
-  templateUrl: './spec.component.html'
+  templateUrl: './spec.component.html',
 })
 export class InfoSpecComponent implements OnInit {
   public specs$ = this.grpc.getSpecs(new Empty()).pipe(
-    catchError(response => {
-      this.toastService.grpcErrorResponse(response)
+    catchError((response) => {
+      this.toastService.grpcErrorResponse(response);
       return EMPTY;
     }),
-    map(specs => specs.items)
+    map((specs) => specs.items)
   );
 
-  constructor(
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private grpc: AutowpClient
-  ) { }
+  constructor(private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: AutowpClient) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 174}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 174}), 0);
   }
 }

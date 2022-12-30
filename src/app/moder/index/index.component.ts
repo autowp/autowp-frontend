@@ -1,9 +1,9 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component, AfterViewInit} from '@angular/core';
+import {PageEnvService} from '../../services/page-env.service';
 
 @Component({
   selector: 'app-moder-index',
-  templateUrl: './index.component.html'
+  templateUrl: './index.component.html',
 })
 export class ModerIndexComponent implements AfterViewInit {
   constructor(private pageEnv: PageEnvService) {}
@@ -13,7 +13,7 @@ export class ModerIndexComponent implements AfterViewInit {
       () =>
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          pageId: 67
+          pageId: 67,
         }),
       0
     );

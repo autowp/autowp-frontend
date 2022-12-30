@@ -1,11 +1,11 @@
-import { Component} from '@angular/core';
-import { PageEnvService } from '../services/page-env.service';
-import { LanguageService } from '../services/language';
+import {Component} from '@angular/core';
+import {PageEnvService} from '../services/page-env.service';
+import {LanguageService} from '../services/language';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-donate',
-  templateUrl: './donate.component.html'
+  templateUrl: './donate.component.html',
 })
 export class DonateComponent {
   public frameUrl: SafeResourceUrl;
@@ -18,11 +18,7 @@ export class DonateComponent {
   ) {
     this.language = this.languageService.language;
 
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 196}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
 
     /*const map = {
       account: '41001161017513',
@@ -42,19 +38,19 @@ export class DonateComponent {
 
     const map = {
       writer: 'seller',
-      targets: $localize `For website work`,
-      'targets-hint': $localize `Your wish`,
+      targets: $localize`For website work`,
+      'targets-hint': $localize`Your wish`,
       'default-sum': '100',
       'payment-type-choice': 'on',
       'mobile-payment-type-choice': 'on',
       successURL: 'https://' + window.location.host + '/donate/success',
       comment: 'on',
-      hint: $localize `Your wish`,
+      hint: $localize`Your wish`,
       account: '41001161017513',
       quickpay: 'shop',
       'button-text': '14',
       'target-visibility': 'on',
-      'project-name': $localize `WheelsAge.org`,
+      'project-name': $localize`WheelsAge.org`,
       'project-site': 'https://' + window.location.host + '/',
     };
 

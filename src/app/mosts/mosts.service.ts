@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { APIItem } from '../services/item';
-import { APIVehicleType } from '../services/vehicle-type';
-import { APIAttrUnit } from '../api/attrs/attrs.service';
-import { APIService } from '../services/api.service';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {APIItem} from '../services/item';
+import {APIVehicleType} from '../services/vehicle-type';
+import {APIAttrUnit} from '../api/attrs/attrs.service';
+import {APIService} from '../services/api.service';
 
 export interface APIMostsItemsGetOptions {
   brand_id?: number;
@@ -50,15 +50,14 @@ export interface APIMostsMenuGetResponse {
 export class MostsService {
   private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
-  constructor(private api: APIService) { }
+  constructor(private api: APIService) {}
 
   public getMenu(brandID: number): Observable<APIMostsMenuGetResponse> {
-
-    if (! this.menus$.has(brandID)) {
+    if (!this.menus$.has(brandID)) {
       const o = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
         params: {
-          brand_id: brandID ? brandID.toString() : null
-        }
+          brand_id: brandID ? brandID.toString() : null,
+        },
       });
       this.menus$.set(brandID, o);
     }
@@ -66,10 +65,8 @@ export class MostsService {
     return this.menus$.get(brandID);
   }
 
-  public getItems(
-    options: APIMostsItemsGetOptions
-  ): Observable<APIMostsItemsGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getItems(options: APIMostsItemsGetOptions): Observable<APIMostsItemsGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.rating_catname) {
       params.rating_catname = options.rating_catname;
@@ -88,7 +85,7 @@ export class MostsService {
     }
 
     return this.api.request<APIMostsItemsGetResponse>('GET', 'mosts/items', {
-      params
+      params,
     });
   }
 }

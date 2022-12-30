@@ -1,16 +1,12 @@
-import { Component} from '@angular/core';
-import { PageEnvService } from '../services/page-env.service';
+import {Component} from '@angular/core';
+import {PageEnvService} from '../services/page-env.service';
 
 @Component({
   selector: 'app-rules',
-  templateUrl: './rules.component.html'
+  templateUrl: './rules.component.html',
 })
 export class RulesComponent {
   constructor(private pageEnv: PageEnvService) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 106}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 106}), 0);
   }
 }

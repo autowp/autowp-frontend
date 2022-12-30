@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {VehicleType} from '../../../generated/spec.pb';
@@ -18,17 +18,13 @@ export class VehicleTypeService {
   private readonly types$: Observable<VehicleType[]>;
 
   constructor(private grpc: AutowpClient) {
-
     this.types$ = this.grpc.getVehicleTypes(new Empty()).pipe(
-      map(data => data.items),
+      map((data) => data.items),
       shareReplay(1)
     );
   }
 
-  private walkTypes(
-    types: VehicleType[],
-    callback: (type: VehicleType) => void
-  ) {
+  private walkTypes(types: VehicleType[], callback: (type: VehicleType) => void) {
     for (const type of types) {
       callback(type);
       this.walkTypes(type.childs, callback);
@@ -41,9 +37,9 @@ export class VehicleTypeService {
 
   public getTypesPlain(): Observable<VehicleType[]> {
     return this.types$.pipe(
-      map(types => {
+      map((types) => {
         const result: VehicleType[] = [];
-        this.walkTypes(types, type => {
+        this.walkTypes(types, (type) => {
           result.push(type);
         });
         return result;
@@ -56,9 +52,9 @@ export class VehicleTypeService {
       return of([]);
     }
     return this.types$.pipe(
-      map(types => {
+      map((types) => {
         const result: VehicleType[] = [];
-        this.walkTypes(types, type => {
+        this.walkTypes(types, (type) => {
           if (ids.includes(type.id)) {
             result.push(type);
           }

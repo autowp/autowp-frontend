@@ -31,19 +31,18 @@ import {MomentModule} from 'ngx-moment';
     IndexSpecsCarsComponent,
     IndexTwinsComponent,
     IndexPicturesComponent,
-    IndexDonateComponent
+    IndexDonateComponent,
   ],
-    imports: [
-        CommonModule,
-        UtilsModule,
-        ItemOfDayModule,
-        IndexRoutingModule,
-        ThumbnailModule,
-        UserModule,
-        NgbPopoverModule,
-        NgbTooltipModule,
-        MomentModule
-    ]
+  imports: [
+    CommonModule,
+    UtilsModule,
+    ItemOfDayModule,
+    IndexRoutingModule,
+    ThumbnailModule,
+    UserModule,
+    NgbPopoverModule,
+    NgbTooltipModule,
+    MomentModule,
+  ],
 })
-export class IndexModule {
-}
+export class IndexModule {}

@@ -1,4 +1,4 @@
-import { UrlSegment } from '@angular/router';
+import {UrlSegment} from '@angular/router';
 
 export function categoriesPathMatcher(url: UrlSegment[]) {
   if (url.length <= 0) {
@@ -21,7 +21,7 @@ export function categoriesPathMatcher(url: UrlSegment[]) {
   return {
     consumed,
     posParams: {
-      path: new UrlSegment(path.join('/'), {})
-    }
+      path: new UrlSegment(path.join('/'), {}),
+    },
   };
 }

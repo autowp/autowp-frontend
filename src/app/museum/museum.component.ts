@@ -1,11 +1,11 @@
-import { Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {APIItem, ItemService} from '../services/item';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {of, EMPTY, Observable} from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PictureService} from '../services/picture';
-import { ItemLinkService} from '../services/item-link';
-import { PageEnvService } from '../services/page-env.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PictureService} from '../services/picture';
+import {ItemLinkService} from '../services/item-link';
+import {PageEnvService} from '../services/page-env.service';
 import {tileLayer, latLng, marker, icon} from 'leaflet';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, tap, map, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
@@ -13,72 +13,75 @@ import {ItemType} from '../../../generated/spec.pb';
 
 @Component({
   selector: 'app-museum',
-  templateUrl: './museum.component.html'
+  templateUrl: './museum.component.html',
 })
 export class MuseumComponent {
   public museumModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   private itemID$ = this.route.paramMap.pipe(
-    map(params => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
   public links$ = this.itemID$.pipe(
-    switchMap(itemID => this.itemLinkService.getItems({item_id: itemID})),
-    catchError(err => {
+    switchMap((itemID) => this.itemLinkService.getItems({item_id: itemID})),
+    catchError((err) => {
       this.toastService.response(err);
       return of(null);
     })
   );
 
   public pictures$ = this.itemID$.pipe(
-    switchMap(itemID => this.pictureService.getPictures({
-      status: 'accepted',
-      exact_item_id: itemID,
-      fields:
-        'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-      limit: 20,
-      order: 12
-    })),
-    catchError(err => {
+    switchMap((itemID) =>
+      this.pictureService.getPictures({
+        status: 'accepted',
+        exact_item_id: itemID,
+        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        limit: 20,
+        order: 12,
+      })
+    ),
+    catchError((err) => {
       this.toastService.response(err);
       return EMPTY;
     })
   );
 
   public item$: Observable<APIItem> = this.itemID$.pipe(
-    switchMap(id => this.itemService.getItem(id, {
-      fields: ['name_text', 'lat', 'lng', 'description'].join(',')
-    })),
-    catchError(err => {
+    switchMap((id) =>
+      this.itemService.getItem(id, {
+        fields: ['name_text', 'lat', 'lng', 'description'].join(','),
+      })
+    ),
+    catchError((err) => {
       this.toastService.response(err);
       this.router.navigate(['/error-404'], {
-        skipLocationChange: true
+        skipLocationChange: true,
       });
       return EMPTY;
     }),
-    switchMap(item => {
+    switchMap((item) => {
       if (item.item_type_id !== ItemType.ITEM_TYPE_MUSEUM) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
       return of(item);
     }),
-    tap(item => {
+    tap((item) => {
       this.pageEnv.set({
         title: item.name_text,
-        pageId: 159
+        pageId: 159,
       });
     }),
     shareReplay(1)
   );
 
   public map$ = this.item$.pipe(
-    map(item => {
+    map((item) => {
       if (!item.lat || !item.lng) {
         return null;
       }
@@ -91,19 +94,19 @@ export class MuseumComponent {
               iconSize: [25, 41],
               iconAnchor: [13, 41],
               iconUrl: 'assets/marker-icon.png',
-              shadowUrl: 'assets/marker-shadow.png'
-            })
-          })
+              shadowUrl: 'assets/marker-shadow.png',
+            }),
+          }),
         ],
         options: {
           layers: [
             tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              maxZoom: 18
-            })
+              maxZoom: 18,
+            }),
           ],
           zoom: 17,
-          center
-        }
+          center,
+        },
       };
     })
   );

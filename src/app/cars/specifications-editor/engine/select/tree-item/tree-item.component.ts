@@ -1,13 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import {
-  ItemParentService,
-  APIItemParent
-} from '../../../../../services/item-parent';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {ItemParentService, APIItemParent} from '../../../../../services/item-parent';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
-  templateUrl: './tree-item.component.html'
+  templateUrl: './tree-item.component.html',
 })
 export class CarsSelectEngineTreeItemComponent {
   @Input() item: APIItemParent;
@@ -27,17 +24,17 @@ export class CarsSelectEngineTreeItemComponent {
         fields: 'item.name_html,item.childs_count',
         parent_id: this.item.item_id,
         item_type_id: 2,
-        order: 'type_auto'
+        order: 'type_auto',
       })
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.childs = response.items;
           this.loading = false;
         },
-        error: response => {
+        error: (response) => {
           this.toastService.response(response);
           this.loading = false;
-        }
+        },
       });
   }
 

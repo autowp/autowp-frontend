@@ -1,10 +1,10 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ItemService, APIItem, APIItemsGetResponse} from '../services/item';
 import {of, combineLatest, Observable} from 'rxjs';
-import { PageEnvService } from '../services/page-env.service';
+import {PageEnvService} from '../services/page-env.service';
 import {tap, switchMap, map, distinctUntilChanged, debounceTime, shareReplay} from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import { chunkBy } from '../chunk';
+import {ActivatedRoute} from '@angular/router';
+import {chunkBy} from '../chunk';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {APIPaginator} from '../services/api.service';
 
@@ -16,26 +16,26 @@ interface ChunkedGroup {
 
 @Component({
   selector: 'app-twins',
-  templateUrl: './twins.component.html'
+  templateUrl: './twins.component.html',
 })
 export class TwinsComponent implements OnInit {
   public canEdit$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT);
 
   private page$ = this.route.queryParamMap.pipe(
-    map(query => parseInt(query.get('page'), 10)),
+    map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   public currentBrandCatname$ = this.route.paramMap.pipe(
-    map(params => params.get('brand')),
+    map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public brand$: Observable<APIItem|null> = this.currentBrandCatname$.pipe(
-    switchMap(brand => {
+  public brand$: Observable<APIItem | null> = this.currentBrandCatname$.pipe(
+    switchMap((brand) => {
       if (!brand) {
         return of(null as APIItemsGetResponse);
       }
@@ -44,18 +44,16 @@ export class TwinsComponent implements OnInit {
         catname: brand,
         fields: 'name_only,catname',
         limit: 1,
-        type_id: 5 // brand
+        type_id: 5, // brand
       });
     }),
-    map(response =>
-      response && response.items.length > 0 ? response.items[0] : null
-    ),
-    tap(brand => {
+    map((response) => (response && response.items.length > 0 ? response.items[0] : null)),
+    tap((brand) => {
       setTimeout(() => {
         if (brand) {
           this.pageEnv.set({
             title: brand.name_only,
-            pageId: 153
+            pageId: 153,
           });
         } else {
           this.pageEnv.set({pageId: 25});
@@ -66,25 +64,27 @@ export class TwinsComponent implements OnInit {
   );
 
   public data$: Observable<{
-    groups: ChunkedGroup[],
-    paginator: APIPaginator
+    groups: ChunkedGroup[];
+    paginator: APIPaginator;
   }> = combineLatest([this.page$, this.brand$]).pipe(
-    switchMap(([page, brand]) => this.itemService.getItems({
-      type_id: 4,
-      limit: 20,
-      fields:
-        'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
-        'childs.front_picture.thumb_medium,childs.front_picture.name_text',
-      page: page,
-      have_common_childs_with: brand ? brand.id : null
-    })),
-    map(response => ({
-      groups: response.items.map(group => ({
+    switchMap(([page, brand]) =>
+      this.itemService.getItems({
+        type_id: 4,
+        limit: 20,
+        fields:
+          'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
+          'childs.front_picture.thumb_medium,childs.front_picture.name_text',
+        page: page,
+        have_common_childs_with: brand ? brand.id : null,
+      })
+    ),
+    map((response) => ({
+      groups: response.items.map((group) => ({
         item: group,
         childs: chunkBy(group.childs, 3),
-        hasMoreImages: TwinsComponent.hasMoreImages(group)
+        hasMoreImages: TwinsComponent.hasMoreImages(group),
       })),
-      paginator: response.paginator
+      paginator: response.paginator,
     }))
   );
 
@@ -111,7 +111,7 @@ export class TwinsComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          pageId: 25
+          pageId: 25,
         }),
       0
     );

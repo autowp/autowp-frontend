@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MessageService } from '../../services/message';
+import {Component, Input} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {MessageService} from '../../services/message';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-modal-message',
-  templateUrl: './modal-message.component.html'
+  templateUrl: './modal-message.component.html',
 })
 export class ModalMessageComponent {
   @Input() userId: string;
@@ -34,7 +34,7 @@ export class ModalMessageComponent {
 
         this.toastService.success('Ok');
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 

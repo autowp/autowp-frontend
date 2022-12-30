@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEnvService } from '../services/page-env.service';
+import {Component, OnInit} from '@angular/core';
+import {PageEnvService} from '../services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {StatisticsClient} from '../../../generated/spec.pbsc';
 import {PulseRequest} from '../../../generated/spec.pb';
@@ -10,51 +10,50 @@ import {UserService} from '../services/user';
 
 @Component({
   selector: 'app-pulse',
-  templateUrl: './pulse.component.html'
+  templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {
-
   public periods: {
-    value: PulseRequest.Period,
-    name: string,
-    active: boolean
+    value: PulseRequest.Period;
+    name: string;
+    active: boolean;
   }[] = [
     {
       value: PulseRequest.Period.DEFAULT,
       name: 'Day',
-      active: true
+      active: true,
     },
     {
       value: PulseRequest.Period.MONTH,
       name: 'Month',
-      active: false
+      active: false,
     },
     {
       value: PulseRequest.Period.YEAR,
       name: 'Year',
-      active: false
-    }
+      active: false,
+    },
   ];
 
   private period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
 
-  public chartOptions: ChartConfiguration<'bar', any, any>["options"] = {
+  public chartOptions: ChartConfiguration<'bar', any, any>['options'] = {
     responsive: true,
     scales: {
       x: {
         stacked: true,
       },
       y: {
-        stacked: true
-      }
-    }
+        stacked: true,
+      },
+    },
   };
 
   public data$ = this.period$.pipe(
     debounceTime(10),
     distinctUntilChanged(),
-    switchMap(period => this.grpc.getPulse(new PulseRequest({period}))),
-    catchError(response => {
+    switchMap((period) => this.grpc.getPulse(new PulseRequest({period}))),
+    catchError((response) => {
       this.toastService.grpcErrorResponse(response);
       return EMPTY;
     }),
@@ -62,39 +61,41 @@ export class PulseComponent implements OnInit {
   );
 
   public legend$ = this.data$.pipe(
-    map(response => {
-      return response.legend.map(item => ({
+    map((response) => {
+      return response.legend.map((item) => ({
         color: item.color,
-        user$: this.usersService.getUser(parseInt(item.userId, 10), {})
-      }))
+        user$: this.usersService.getUser(parseInt(item.userId, 10), {}),
+      }));
     })
   );
 
-  public labels$ = this.data$.pipe(
-    map(response => response.labels)
-  );
+  public labels$ = this.data$.pipe(map((response) => response.labels));
 
   public gridData$ = this.data$.pipe(
-    switchMap(response => combineLatest(response.grid.map(dataset => combineLatest([
-      this.usersService.getUser(parseInt(dataset.userId, 10), {}),
-      of(dataset)
-    ])))),
-    map(response => ({
+    switchMap((response) =>
+      combineLatest(
+        response.grid.map((dataset) =>
+          combineLatest([this.usersService.getUser(parseInt(dataset.userId, 10), {}), of(dataset)])
+        )
+      )
+    ),
+    map((response) => ({
       data: response.map(([user, dataset]) => ({
         label: user.name,
-        data: dataset.line
-      }))
+        data: dataset.line,
+      })),
     }))
   );
 
-  constructor(private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: StatisticsClient, private usersService: UserService) {}
+  constructor(
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService,
+    private grpc: StatisticsClient,
+    private usersService: UserService
+  ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 161}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 161}), 0);
   }
 
   public selectPeriod(period) {

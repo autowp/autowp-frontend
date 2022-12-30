@@ -1,14 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIPaginator, APIService } from '../../../../services/api.service';
-import { ItemService, APIItem } from '../../../../services/item';
-import { chunk } from '../../../../chunk';
-import { Router, ActivatedRoute} from '@angular/router';
-import { Subscription, combineLatest } from 'rxjs';
-import {
-  ItemParentService,
-  APIItemParent
-} from '../../../../services/item-parent';
-import { PageEnvService } from '../../../../services/page-env.service';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {APIPaginator, APIService} from '../../../../services/api.service';
+import {ItemService, APIItem} from '../../../../services/item';
+import {chunk} from '../../../../chunk';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Subscription, combineLatest} from 'rxjs';
+import {ItemParentService, APIItemParent} from '../../../../services/item-parent';
+import {PageEnvService} from '../../../../services/page-env.service';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 export interface APIItemInSelectParent extends APIItem {
@@ -18,7 +15,7 @@ export interface APIItemInSelectParent extends APIItem {
 
 @Component({
   selector: 'app-moder-items-item-select-parent',
-  templateUrl: './select-parent.component.html'
+  templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
   private paramsSub: Subscription;
@@ -54,13 +51,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         fields: 'item.name_html,item.childs_count',
         parent_id: parent.id,
         is_group: true,
-        order
+        order,
       })
       .subscribe({
-        next: response => {
+        next: (response) => {
           parent.childLinks = response.items;
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 
@@ -80,15 +77,15 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
 
       this.itemService
         .getItem(parseInt(route.get('id'), 10), {
-          fields: 'name_text,name_html'
+          fields: 'name_text,name_html',
         })
         .subscribe(
-          item => {
+          (item) => {
             this.item = item;
 
             this.pageEnv.set({
               layout: {isAdminPage: true},
-              pageId: 144
+              pageId: 144,
             });
 
             this.showCatalogueTab = [1, 2, 5].indexOf(this.item.item_type_id) > -1;
@@ -105,14 +102,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     parent_id: this.brandID,
                     is_group: true,
                     item_type_id: this.item.item_type_id,
-                    page: this.page
+                    page: this.page,
                   })
                   .subscribe({
-                    next: response => {
+                    next: (response) => {
                       this.items = response.items;
                       this.paginator = response.paginator;
                     },
-                    error: response => this.toastService.response(response)
+                    error: (response) => this.toastService.response(response),
                   });
               } else {
                 this.loadCatalogueBrands();
@@ -130,14 +127,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                   limit: 100,
                   fields: 'name_html,childs_count',
                   page: this.page,
-                  no_parent: true
+                  no_parent: true,
                 })
                 .subscribe({
-                  next: response => {
+                  next: (response) => {
                     this.categories = response.items;
                     this.paginator = response.paginator;
                   },
-                  error: response => this.toastService.response(response)
+                  error: (response) => this.toastService.response(response),
                 });
             }
 
@@ -149,14 +146,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     limit: 100,
                     fields: 'name_html',
                     have_common_childs_with: this.brandID,
-                    page: this.page
+                    page: this.page,
                   })
                   .subscribe({
-                    next: response => {
+                    next: (response) => {
                       this.items = response.items;
                       this.paginator = response.paginator;
                     },
-                    error: response => this.toastService.response(response)
+                    error: (response) => this.toastService.response(response),
                   });
               } else {
                 this.itemService
@@ -165,14 +162,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                     limit: 500,
                     fields: 'name_html',
                     have_childs_with_parent_of_type: 4,
-                    page: this.page
+                    page: this.page,
                   })
                   .subscribe({
-                    next: response => {
+                    next: (response) => {
                       this.brands = chunk<APIItem>(response.items, 6);
                       this.paginator = response.paginator;
                     },
-                    error: response => this.toastService.response(response)
+                    error: (response) => this.toastService.response(response),
                   });
               }
             }
@@ -183,20 +180,20 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
                   type_id: 6,
                   limit: 100,
                   fields: 'name_html',
-                  page: this.page
+                  page: this.page,
                 })
                 .subscribe({
-                  next: response => {
+                  next: (response) => {
                     this.factories = response.items;
                     this.paginator = response.paginator;
                   },
-                  error: response => this.toastService.response(response)
+                  error: (response) => this.toastService.response(response),
                 });
             }
           },
           () => {
             this.router.navigate(['/error-404'], {
-              skipLocationChange: true
+              skipLocationChange: true,
             });
           }
         );
@@ -209,19 +206,21 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
 
   public select(parent: APIItem) {
     this.api
-      .request<void>('POST', 'item-parent', {body: {
-        item_id: this.item.id,
-        parent_id: parent.id
-      }})
+      .request<void>('POST', 'item-parent', {
+        body: {
+          item_id: this.item.id,
+          parent_id: parent.id,
+        },
+      })
       .subscribe({
         next: () => {
           this.router.navigate(['/moder/items/item', this.item.id], {
             queryParams: {
-              tab: 'catalogue'
-            }
+              tab: 'catalogue',
+            },
           });
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
 
     return false;
@@ -247,14 +246,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         fields: 'name_html',
         have_childs_of_type: this.item.item_type_id,
         name: this.search ? '%' + this.search + '%' : null,
-        page: this.page
+        page: this.page,
       })
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.brands = chunk<APIItem>(response.items, 6);
           this.paginator = response.paginator;
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 
@@ -265,14 +264,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit, OnDestroy {
         limit: 500,
         fields: 'name_html',
         name: this.search ? '%' + this.search + '%' : null,
-        page: this.page
+        page: this.page,
       })
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.brands = chunk<APIItem>(response.items, 6);
           this.paginator = response.paginator;
         },
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 }

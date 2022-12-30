@@ -1,6 +1,6 @@
-import { Component} from '@angular/core';
-import { ContactsService } from '../../services/contacts';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component} from '@angular/core';
+import {ContactsService} from '../../services/contacts';
+import {PageEnvService} from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {map, switchMap} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
@@ -12,7 +12,7 @@ import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-account-contacts',
-  templateUrl: './contacts.component.html'
+  templateUrl: './contacts.component.html',
 })
 export class AccountContactsComponent {
   public items: Contact[] = [];
@@ -26,32 +26,33 @@ export class AccountContactsComponent {
     private languageService: LanguageService,
     private keycloak: KeycloakService
   ) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 198}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 198}), 0);
 
-    this.auth.getUser().pipe(
-      map(user => {
-        if (! user) {
-          this.keycloak.login({
-            redirectUri: window.location.href,
-            locale: this.languageService.language
-          });
-          return EMPTY;
-        }
-        return user;
-      }),
-      switchMap(() => this.contactsService.getContacts({
-        fields: ['avatar', 'gravatar', 'last_online']
-      }))
-    ).subscribe({
-      next: response => {
-        this.items = response.items;
-      },
-      error: response => this.toastService.response(response)
-    });
+    this.auth
+      .getUser()
+      .pipe(
+        map((user) => {
+          if (!user) {
+            this.keycloak.login({
+              redirectUri: window.location.href,
+              locale: this.languageService.language,
+            });
+            return EMPTY;
+          }
+          return user;
+        }),
+        switchMap(() =>
+          this.contactsService.getContacts({
+            fields: ['avatar', 'gravatar', 'last_online'],
+          })
+        )
+      )
+      .subscribe({
+        next: (response) => {
+          this.items = response.items;
+        },
+        error: (response) => this.toastService.response(response),
+      });
   }
 
   public deleteContact(id: string) {
@@ -64,7 +65,7 @@ export class AccountContactsComponent {
           }
         }
       },
-      response => this.toastService.response(response)
+      (response) => this.toastService.response(response)
     );
     return false;
   }

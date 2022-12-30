@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
 import {map, shareReplay, tap, switchMap} from 'rxjs/operators';
 import {PicturesClient} from '../../../../generated/spec.pbsc';
 import {DeleteModerVoteTemplateRequest, ModerVoteTemplate} from '../../../../generated/spec.pb';
@@ -12,10 +12,9 @@ export interface APIPictureModerVoteTemplatePostData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class APIPictureModerVoteTemplateService {
-
   private change$ = new BehaviorSubject<null>(null);
 
   constructor(private auth: AuthService, private pictures: PicturesClient) {}
@@ -23,22 +22,25 @@ export class APIPictureModerVoteTemplateService {
   public getTemplates(): Observable<ModerVoteTemplate[]> {
     return combineLatest([this.change$, this.auth.getUser()]).pipe(
       switchMap(() => this.pictures.getModerVoteTemplates(new Empty({}))),
-      map(response => response.items),
+      map((response) => response.items),
       shareReplay(1)
     );
   }
 
   public deleteTemplate(id: string): Observable<void | Empty> {
-    return this.pictures.deleteModerVoteTemplate(new DeleteModerVoteTemplateRequest({id}))
+    return this.pictures
+      .deleteModerVoteTemplate(new DeleteModerVoteTemplateRequest({id}))
       .pipe(tap(() => this.change$.next(null)));
   }
 
-  public createTemplate(
-    template: APIPictureModerVoteTemplatePostData
-  ): Observable<ModerVoteTemplate> {
-    return this.pictures.createModerVoteTemplate(new ModerVoteTemplate({
-      vote: template.vote,
-      message: template.name
-    })).pipe(tap(() => this.change$.next(null)));
+  public createTemplate(template: APIPictureModerVoteTemplatePostData): Observable<ModerVoteTemplate> {
+    return this.pictures
+      .createModerVoteTemplate(
+        new ModerVoteTemplate({
+          vote: template.vote,
+          message: template.name,
+        })
+      )
+      .pipe(tap(() => this.change$.next(null)));
   }
 }

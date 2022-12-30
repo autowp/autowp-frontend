@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { APIPaginator, APIService } from './api.service';
-import { APIItem } from './item';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {APIPaginator, APIService} from './api.service';
+import {APIItem} from './item';
 
 export interface APIItemParentGetResponse {
   items: APIItemParent[];
@@ -41,10 +41,8 @@ export interface APIItemParentGetItemsOptions {
 export class ItemParentService {
   constructor(private api: APIService) {}
 
-  public getItems(
-    options: APIItemParentGetItemsOptions
-  ): Observable<APIItemParentGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getItems(options: APIItemParentGetItemsOptions): Observable<APIItemParentGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.item_type_id) {
       params.item_type_id = options.item_type_id.toString();
@@ -99,7 +97,7 @@ export class ItemParentService {
     }
 
     return this.api.request<APIItemParentGetResponse>('GET', 'item-parent', {
-      params
+      params,
     });
   }
 }

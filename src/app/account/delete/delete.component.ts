@@ -1,7 +1,7 @@
-import { Component} from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {PageEnvService} from '../../services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UsersClient} from '../../../../generated/spec.pbsc';
 import {APIDeleteUserRequest} from '../../../../generated/spec.pb';
@@ -11,11 +11,11 @@ import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-delete',
-  templateUrl: './delete.component.html'
+  templateUrl: './delete.component.html',
 })
 export class AccountDeleteComponent {
   public form = {
-    password_old: ''
+    password_old: '',
   };
   public invalidParams: InvalidParams;
 
@@ -26,31 +26,34 @@ export class AccountDeleteComponent {
     private toastService: ToastsService,
     private usersGrpc: UsersClient
   ) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 137}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 137}), 0);
   }
 
   public submit() {
-    this.auth.getUser().pipe(
-      switchMap(user => this.usersGrpc.deleteUser(new APIDeleteUserRequest({
-        userId: user.id,
-        password: this.form.password_old
-      })))
-    ).subscribe({
-      next: () => {
-        this.auth.signOut();
-        this.router.navigate(['/account/delete/deleted']);
-      },
-      error: response => {
-        this.toastService.grpcErrorResponse(response);
-        if (response.statusCode === 3) {
-          const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
-        }
-      }
-    });
+    this.auth
+      .getUser()
+      .pipe(
+        switchMap((user) =>
+          this.usersGrpc.deleteUser(
+            new APIDeleteUserRequest({
+              userId: user.id,
+              password: this.form.password_old,
+            })
+          )
+        )
+      )
+      .subscribe({
+        next: () => {
+          this.auth.signOut();
+          this.router.navigate(['/account/delete/deleted']);
+        },
+        error: (response) => {
+          this.toastService.grpcErrorResponse(response);
+          if (response.statusCode === 3) {
+            const fieldViolations = extractFieldViolations(response);
+            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+          }
+        },
+      });
   }
 }

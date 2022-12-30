@@ -9,27 +9,27 @@ import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-twins-group-pictures',
-  templateUrl: './twins-group-pictures.component.html'
+  templateUrl: './twins-group-pictures.component.html',
 })
 export class TwinsGroupPicturesComponent {
   public group$ = this.route.paramMap.pipe(
-    map(params => parseInt(params.get('group'), 10)),
+    map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(group => {
+    switchMap((group) => {
       if (!group) {
         return of(null as APIItem);
       }
       return this.itemService.getItem(group, {
-        fields: 'name_text,name_html,childs.brands'
+        fields: 'name_text,name_html,childs.brands',
       });
     }),
-    tap(group => {
+    tap((group) => {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: $localize `All pictures of ${group.name_text}`,
-            pageId: 28
+            title: $localize`All pictures of ${group.name_text}`,
+            pageId: 28,
           }),
         0
       );
@@ -38,13 +38,13 @@ export class TwinsGroupPicturesComponent {
   );
 
   private page$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   public selectedBrands$ = this.group$.pipe(
-    map(group => {
+    map((group) => {
       const result = [];
       for (const item of group.childs) {
         for (const brand of item.brands) {
@@ -56,18 +56,20 @@ export class TwinsGroupPicturesComponent {
   );
 
   public data$ = combineLatest([this.page$, this.group$]).pipe(
-    switchMap(([page, group]) => this.pictureService.getPictures({
-      status: 'accepted',
-      item_id: group.id,
-      fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-      limit: 24,
-      order: 16,
-      page: page
-    })),
-    catchError(err => {
+    switchMap(([page, group]) =>
+      this.pictureService.getPictures({
+        status: 'accepted',
+        item_id: group.id,
+        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        limit: 24,
+        order: 16,
+        page: page,
+      })
+    ),
+    catchError((err) => {
       this.toastService.response(err);
       return of(null as APIPictureGetResponse);
-    }),
+    })
   );
 
   constructor(

@@ -1,26 +1,25 @@
-import { OnInit, Component } from '@angular/core';
+import {OnInit, Component} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PageEnvService } from '../../services/page-env.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PageEnvService} from '../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {CatagoriesService, CategoryPipeResult} from '../service';
 import {APIGalleryItem} from '../../gallery/definitions';
-import {APIItem} from "../../services/item";
+import {APIItem} from '../../services/item';
 
 @Component({
   selector: 'app-category-gallery',
-  templateUrl: './category-gallery.component.html'
+  templateUrl: './category-gallery.component.html',
 })
 export class CategoryGalleryComponent implements OnInit {
-
   public identity$ = this.route.paramMap.pipe(
-    map(route => route.get('identity')),
+    map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(identity => {
+    switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -29,10 +28,10 @@ export class CategoryGalleryComponent implements OnInit {
   );
 
   public data$: Observable<CategoryPipeResult> = this.categoriesService.categoryPipe(this.route).pipe(
-    switchMap(data => {
+    switchMap((data) => {
       if (!data.current) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -51,7 +50,7 @@ export class CategoryGalleryComponent implements OnInit {
     this.pageEnv.set({
       layout: {isGalleryPage: true},
       title: '', // data.picture.name_text,
-      pageId: 187
+      pageId: 187,
     });
   }
 
@@ -71,7 +70,7 @@ export class CategoryGalleryComponent implements OnInit {
     this.pageEnv.set({
       layout: {isGalleryPage: true},
       title: item.name,
-      pageId: 187
+      pageId: 187,
     });
   }
 }

@@ -1,20 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { APIService } from './api.service';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {APIService} from './api.service';
 
 @Injectable()
 export class PictureModerVoteService {
   constructor(private api: APIService) {}
 
-  public vote(
-    pictureId: number,
-    vote: number,
-    reason: string
-  ): Observable<void> {
-    return this.api.request<void>('PUT', 'picture-moder-vote/' + pictureId, {body: {
-      vote,
-      reason
-    }});
+  public vote(pictureId: number, vote: number, reason: string): Observable<void> {
+    return this.api.request<void>('PUT', 'picture-moder-vote/' + pictureId, {
+      body: {
+        vote,
+        reason,
+      },
+    });
   }
 
   public cancel(pictureId: number): Observable<void> {

@@ -1,13 +1,13 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {APIBrandsGetResponse, APIBrandsLines} from '../services/brands.service';
-import { PageEnvService } from '../services/page-env.service';
+import {PageEnvService} from '../services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
 import {ToastsService} from '../toasts/toasts.service';
-import { APIService } from '../services/api.service';
+import {APIService} from '../services/api.service';
 import {AutowpClient} from '../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {BrandIcons} from '../../../generated/spec.pb';
-import {catchError, map, shareReplay, tap} from "rxjs/operators";
+import {catchError, map, shareReplay, tap} from 'rxjs/operators';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -25,15 +25,15 @@ function addCSS(url: string) {
 
 @Component({
   selector: 'app-brands',
-  templateUrl: './brands.component.html'
+  templateUrl: './brands.component.html',
 })
 export class BrandsComponent implements OnInit {
   public items$: Observable<APIBrandsLines> = this.api.request<APIBrandsGetResponse>('GET', 'brands').pipe(
-    catchError(response => {
+    catchError((response) => {
       this.toastService.response(response);
       return EMPTY;
     }),
-    map(response => {
+    map((response) => {
       const items = response.items;
       for (const line of items) {
         for (const info of line) {
@@ -47,25 +47,26 @@ export class BrandsComponent implements OnInit {
   );
 
   public icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
-    tap(icons => {
+    tap((icons) => {
       addCSS(icons.css);
     }),
     shareReplay(1)
   );
 
-  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: AutowpClient) {}
+  constructor(
+    private api: APIService,
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService,
+    private grpc: AutowpClient
+  ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 61}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 61}), 0);
   }
 
   public scrollTo(info) {
     const element = document.getElementById('char' + info.id);
-    element.scrollIntoView({ behavior: 'smooth' });
+    element.scrollIntoView({behavior: 'smooth'});
     return false;
   }
 }

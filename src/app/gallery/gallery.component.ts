@@ -1,9 +1,9 @@
 import {Component, Input, HostListener, Output, EventEmitter} from '@angular/core';
 import {BehaviorSubject, of, Observable, combineLatest} from 'rxjs';
 import {switchMap, tap, debounceTime, distinctUntilChanged, map, take, shareReplay} from 'rxjs/operators';
-import { APIGalleryItem, APIGallery } from './definitions';
-import { Router } from '@angular/router';
-import { APIService } from '../services/api.service';
+import {APIGalleryItem, APIGallery} from './definitions';
+import {Router} from '@angular/router';
+import {APIService} from '../services/api.service';
 
 interface APIGalleryFilter {
   itemID?: number;
@@ -14,7 +14,6 @@ interface APIGalleryFilter {
 }
 
 class Gallery {
-
   private MAX_INDICATORS = 30;
   private PER_PAGE = 10;
 
@@ -24,11 +23,10 @@ class Gallery {
     return this.items.length <= this.MAX_INDICATORS;
   }
 
-  constructor(public filter: APIGalleryFilter, public items: APIGalleryItem[]) {
-  }
+  constructor(public filter: APIGalleryFilter, public items: APIGalleryItem[]) {}
 
-  public filterParams(): { [key: string]: string; } {
-    const params: { [key: string]: string; } = {};
+  public filterParams(): {[key: string]: string} {
+    const params: {[key: string]: string} = {};
     if (this.filter.itemID) {
       params.item_id = this.filter.itemID.toString();
     }
@@ -48,7 +46,7 @@ class Gallery {
   }
 
   public getItemIndex(identity: string): number {
-    return this.items.findIndex(item => item && item.identity === identity)
+    return this.items.findIndex((item) => item && item.identity === identity);
   }
 
   public getItemByIndex(index: number): APIGalleryItem {
@@ -92,13 +90,17 @@ class Gallery {
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss']
+  styleUrls: ['./gallery.component.scss'],
 })
 export class GalleryComponent {
-  @Input() set filter(filter: APIGalleryFilter) { this.filter$.next(filter); };
+  @Input() set filter(filter: APIGalleryFilter) {
+    this.filter$.next(filter);
+  }
   private filter$ = new BehaviorSubject<APIGalleryFilter>(null);
 
-  @Input() set current(current: string) { this.current$.next(current); };
+  @Input() set current(current: string) {
+    this.current$.next(current);
+  }
   public current$ = new BehaviorSubject<string>(null);
 
   @Input() galleryPrefix: string[];
@@ -111,24 +113,18 @@ export class GalleryComponent {
     shareReplay(1)
   );
 
-  public identity$ = this.current$.pipe(
-    distinctUntilChanged(),
-    debounceTime(10),
-    shareReplay(1),
-  );
+  public identity$ = this.current$.pipe(distinctUntilChanged(), debounceTime(10), shareReplay(1));
 
   public gallery$: Observable<Gallery> = combineLatest([
-    this.currentFilter$.pipe(
-      map(filter => new Gallery(filter, [] as APIGalleryItem[]))
-    ),
-    this.identity$
+    this.currentFilter$.pipe(map((filter) => new Gallery(filter, [] as APIGalleryItem[]))),
+    this.identity$,
   ]).pipe(
     switchMap(([gallery, identity]) => {
       if (!gallery.getGalleryItem(identity)) {
         const params = gallery.filterParams();
         params.picture_identity = identity;
         return this.api.request<APIGallery>('GET', 'gallery', {params}).pipe(
-          tap(response => {
+          tap((response) => {
             gallery.applyResponse(response);
           }),
           map(() => ({gallery, identity}))
@@ -150,17 +146,17 @@ export class GalleryComponent {
 
   @HostListener('document:keydown.escape')
   onKeydownHandler() {
-    this.current$.pipe(
-      take(1),
-      switchMap(current => this.router.navigate(this.picturePrefix.concat([current])))
-    ).subscribe();
+    this.current$
+      .pipe(
+        take(1),
+        switchMap((current) => this.router.navigate(this.picturePrefix.concat([current])))
+      )
+      .subscribe();
   }
 
   @HostListener('document:keydown.arrowright')
   onRightKeydownHandler() {
-    this.gallery$.pipe(
-      take(1),
-    ).subscribe( gallery => {
+    this.gallery$.pipe(take(1)).subscribe((gallery) => {
       if (gallery.current + 1 < gallery.items.length) {
         this.navigateToIndex(gallery.current + 1, gallery);
       }
@@ -169,9 +165,7 @@ export class GalleryComponent {
 
   @HostListener('document:keydown.arrowleft')
   onLeftKeydownHandler() {
-    this.gallery$.pipe(
-      take(1),
-    ).subscribe( gallery => {
+    this.gallery$.pipe(take(1)).subscribe((gallery) => {
       if (gallery.current > 0) {
         this.navigateToIndex(gallery.current - 1, gallery);
       }

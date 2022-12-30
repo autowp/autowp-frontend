@@ -8,7 +8,7 @@ import {APICommentsService} from '../../../api/comments/comments.service';
 
 interface MenuItem {
   routerLink: string[];
-  queryParams?: { [key: string]: string };
+  queryParams?: {[key: string]: string};
   label: string;
   count?: number;
   icon: string;
@@ -17,14 +17,13 @@ interface MenuItem {
 @Component({
   selector: 'app-moder-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
-
   public items$: Observable<MenuItem[]> = combineLatest([
     this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE),
     this.pictureService.getInboxSize(),
-    this.commentService.getAttentionCommentsCount()
+    this.commentService.getAttentionCommentsCount(),
   ]).pipe(
     map(([isModer, inboxCount, attentionItemCount]) => {
       if (!isModer) {
@@ -36,26 +35,26 @@ export class MenuComponent {
           routerLink: ['/moder/pictures'],
           queryParams: {
             order: '1',
-            status: 'inbox'
+            status: 'inbox',
           },
-          label: $localize `Inbox`,
+          label: $localize`Inbox`,
           count: inboxCount,
-          icon: 'bi bi-grid-3x2-gap-fill'
+          icon: 'bi bi-grid-3x2-gap-fill',
         },
         {
           routerLink: ['/moder/comments'],
           queryParams: {
-            moderator_attention: '1'
+            moderator_attention: '1',
           },
-          label: $localize `Comments`,
+          label: $localize`Comments`,
           count: attentionItemCount,
-          icon: 'bi bi-chat-fill'
+          icon: 'bi bi-chat-fill',
         },
         {
           routerLink: ['/moder/items'],
-          label: $localize `Items`,
-          icon: 'bi bi-car-front'
-        }
+          label: $localize`Items`,
+          icon: 'bi bi-car-front',
+        },
       ];
     })
   );

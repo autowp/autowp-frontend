@@ -15,39 +15,39 @@ const stringToUint8Array = (str: string): Uint8Array => {
 };
 
 export const extractFieldViolations = (response: GrpcStatusEvent): FieldViolation[] => {
-  if (! (response instanceof GrpcStatusEvent)) {
+  if (!(response instanceof GrpcStatusEvent)) {
     return [];
   }
 
   const statusEncoded = response.metadata.get('grpc-status-details-bin');
-  if (! statusEncoded) {
+  if (!statusEncoded) {
     return [];
   }
 
-  const statusDecoded = stringToUint8Array(atob(statusEncoded))
+  const statusDecoded = stringToUint8Array(atob(statusEncoded));
   const status = Status.deserializeBinary(statusDecoded);
 
   const fieldViolations: FieldViolation[] = [];
-  status.details.forEach(detail => {
+  status.details.forEach((detail) => {
     const deserialized = ErrorDetails.deserializeBinary(detail.serializeBinary());
-    deserialized.debugInfo.stackEntries.forEach(value => {
+    deserialized.debugInfo.stackEntries.forEach((value) => {
       const fieldViolation = FieldViolation.deserializeBinary(stringToUint8Array(value));
-      fieldViolations.push(fieldViolation)
+      fieldViolations.push(fieldViolation);
     });
   });
 
   return fieldViolations;
-}
+};
 
-export const fieldViolations2InvalidParams = (fvs: FieldViolation[]) : InvalidParams => {
+export const fieldViolations2InvalidParams = (fvs: FieldViolation[]): InvalidParams => {
   const result: InvalidParams = {};
 
-  fvs.forEach(fv => {
-    if (! result[fv.field]) {
+  fvs.forEach((fv) => {
+    if (!result[fv.field]) {
       result[fv.field] = {};
     }
     result[fv.field][fv.description] = fv.description;
   });
 
   return result;
-}
+};

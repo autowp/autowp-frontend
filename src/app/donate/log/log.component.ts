@@ -1,6 +1,6 @@
-import { Component} from '@angular/core';
-import { UserService, APIUser } from '../../services/user';
-import { PageEnvService } from '../../services/page-env.service';
+import {Component} from '@angular/core';
+import {UserService, APIUser} from '../../services/user';
+import {PageEnvService} from '../../services/page-env.service';
 
 interface LogItem {
   sum: number;
@@ -12,26 +12,19 @@ interface LogItem {
 
 @Component({
   selector: 'app-donate-log',
-  templateUrl: './log.component.html'
+  templateUrl: './log.component.html',
 })
 export class DonateLogComponent {
   public items: LogItem[];
 
-  constructor(
-    private userService: UserService,
-    private pageEnv: PageEnvService
-  ) {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 196}),
-      0
-    );
+  constructor(private userService: UserService, private pageEnv: PageEnvService) {
+    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
 
     this.items = require('./data.json');
 
     for (const item of this.items) {
       if (item.user_id) {
-        this.userService.getUser(item.user_id, {}).subscribe(user => {
+        this.userService.getUser(item.user_id, {}).subscribe((user) => {
           item.user = user;
         });
       }

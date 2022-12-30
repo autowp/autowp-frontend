@@ -11,38 +11,40 @@ import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-cars-specifications-editor',
-  templateUrl: './specifications-editor.component.html'
+  templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {
   private change$ = new BehaviorSubject<null>(null);
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
   public isSpecsAdmin$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.ADMIN);
-  public tab$ = this.route.queryParamMap.pipe(
-    map(params => params.get('tab') || 'info')
-  );
+  public tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') || 'info'));
   public user$ = this.auth.getUser();
 
   public data$: Observable<APIItem> = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap(itemID => this.change$.pipe(
-      switchMap(() => this.itemService.getItem(itemID, {
-        fields: 'name_html,name_text,engine_id,attr_zone_id'
-      })),
-    )),
-    tap(item => {
-      if (! item) {
+    switchMap((itemID) =>
+      this.change$.pipe(
+        switchMap(() =>
+          this.itemService.getItem(itemID, {
+            fields: 'name_html,name_text,engine_id,attr_zone_id',
+          })
+        )
+      )
+    ),
+    tap((item) => {
+      if (!item) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return;
       }
       this.pageEnv.set({
-        title: $localize `Specs editor of ${item.name_text}`,
-        pageId: 102
+        title: $localize`Specs editor of ${item.name_text}`,
+        pageId: 102,
       });
-    }),
+    })
   );
 
   constructor(
@@ -66,11 +68,11 @@ export class CarsSpecificationsEditorComponent {
         this.router.navigate(['/cars/specifications-editor'], {
           queryParams: {
             item_id: item.id,
-            tab: 'admin'
-          }
+            tab: 'admin',
+          },
         });
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 }

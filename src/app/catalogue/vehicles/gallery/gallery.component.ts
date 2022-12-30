@@ -9,17 +9,17 @@ import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({
   selector: 'app-catalogue-vehicles-gallery',
-  templateUrl: './gallery.component.html'
+  templateUrl: './gallery.component.html',
 })
 export class CatalogueVehiclesGalleryComponent {
   public identity$ = this.route.paramMap.pipe(
-    map(route => route.get('identity')),
+    map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(identity => {
+    switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return;
       }
@@ -28,7 +28,7 @@ export class CatalogueVehiclesGalleryComponent {
   );
 
   private exact$ = this.route.data.pipe(
-    map(params => !!params.exact),
+    map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
@@ -37,11 +37,11 @@ export class CatalogueVehiclesGalleryComponent {
   private isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
 
   private catalogue$ = this.isModer$.pipe(
-    switchMap(isModer => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
-    switchMap(data => {
-      if (!data || ! data.brand || !data.path || data.path.length <= 0) {
+    switchMap((isModer) => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
+    switchMap((data) => {
+      if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -50,29 +50,26 @@ export class CatalogueVehiclesGalleryComponent {
     shareReplay(1)
   );
 
-  private routerLink$ = combineLatest([
-    this.catalogue$,
-    this.exact$
-  ]).pipe(
-    map(([{path, brand}, exact]) =>
-      ['/', brand.catname, ...path.map(node => node.catname), ...exact ? ['exact'] : []])
+  private routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
+    map(([{path, brand}, exact]) => [
+      '/',
+      brand.catname,
+      ...path.map((node) => node.catname),
+      ...(exact ? ['exact'] : []),
+    ])
   );
 
-  public galleryRouterLink$ = this.routerLink$.pipe(
-    map(routerLink => [...routerLink, 'gallery'])
-  );
+  public galleryRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'gallery']));
 
-  public picturesRouterLink$ = this.routerLink$.pipe(
-    map(routerLink => [...routerLink, 'pictures'])
-  );
+  public picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
 
   public filter$ = combineLatest([this.exact$, this.catalogue$]).pipe(
     map(([exact, {path}]) => {
       const itemID = path[path.length - 1].item.id;
       return {
         itemID: exact ? null : itemID,
-        exactItemID: exact ? itemID : null
-      }
+        exactItemID: exact ? itemID : null,
+      };
     })
   );
 
@@ -82,15 +79,14 @@ export class CatalogueVehiclesGalleryComponent {
     private catalogueService: CatalogueService,
     private acl: ACLService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
         title: item.name,
-        pageId: 34
+        pageId: 34,
       });
     }, 0);
   }

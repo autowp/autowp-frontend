@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { APIUser } from '../services/user';
-import { APIPaginator, APIService } from '../services/api.service';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {APIUser} from '../services/user';
+import {APIPaginator, APIService} from '../services/api.service';
+import {Observable} from 'rxjs';
 
 export interface APIArticle {
   id: number;
@@ -28,16 +28,13 @@ export interface APIArticlesGetOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArticleService {
-
   constructor(private api: APIService) {}
 
-  public getArticles(
-    options: APIArticlesGetOptions
-  ): Observable<APIArticlesGetResponse> {
-    const params: { [param: string]: string } = {};
+  public getArticles(options: APIArticlesGetOptions): Observable<APIArticlesGetResponse> {
+    const params: {[param: string]: string} = {};
 
     if (options.page) {
       params.page = options.page.toString();
@@ -56,7 +53,7 @@ export class ArticleService {
     }
 
     return this.api.request<APIArticlesGetResponse>('GET', 'article', {
-      params
+      params,
     });
   }
 }

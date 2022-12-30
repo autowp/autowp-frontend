@@ -1,28 +1,28 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { PageEnvService } from '../../services/page-env.service';
+import {AuthService} from '../../services/auth.service';
+import {PageEnvService} from '../../services/page-env.service';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {switchMap, catchError, tap} from 'rxjs/operators';
-import { TimezoneService } from '../../services/timezone';
+import {TimezoneService} from '../../services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIImage, APIService} from '../../services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {APIUser} from '../../../../generated/spec.pb';
-import { APIUser as RESTAPIUser } from '../../services/user';
+import {APIUser as RESTAPIUser} from '../../services/user';
 import {LanguageService} from '../../services/language';
 import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-account-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {
   public user: APIUser;
 
   public settings = {
     timezone: null,
-    language: null
+    language: null,
   };
   public settingsInvalidParams: any = {};
   public photoInvalidParams: any = {};
@@ -33,13 +33,14 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   @ViewChild('input') input;
 
-  public changeProfileUrl = environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
+  public changeProfileUrl =
+    environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
   public timezones$ = this.timezone.getTimezones();
 
-  public languages: { name: string; value: string }[] = environment.languages.map(language => ({
+  public languages: {name: string; value: string}[] = environment.languages.map((language) => ({
     name: language.name,
-    value: language.code
+    value: language.code,
   }));
 
   constructor(
@@ -49,59 +50,54 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private pageEnv: PageEnvService,
     private timezone: TimezoneService,
-    private toastService: ToastsService,
-  ) {
-  }
+    private toastService: ToastsService
+  ) {}
 
   ngOnInit(): void {
+    setTimeout(() => this.pageEnv.set({pageId: 129}), 0);
 
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 129}),
-      0
-    );
-
-    this.sub = this.auth.getUser().pipe(
-      switchMap(user => {
-        if (!user) {
-          this.keycloak.login({
-            redirectUri: window.location.href,
-            locale: this.languageService.language
-          });
-          return EMPTY;
-        }
-
-        this.user = user;
-
-        return of(user);
-      }),
-      switchMap(
-        () => this.api.request<RESTAPIUser>('GET', 'user/me', {
-          params: {
-            fields: 'name,timezone,language,votes_per_day,votes_left,img'
+    this.sub = this.auth
+      .getUser()
+      .pipe(
+        switchMap((user) => {
+          if (!user) {
+            this.keycloak.login({
+              redirectUri: window.location.href,
+              locale: this.languageService.language,
+            });
+            return EMPTY;
           }
+
+          this.user = user;
+
+          return of(user);
+        }),
+        switchMap(() =>
+          this.api.request<RESTAPIUser>('GET', 'user/me', {
+            params: {
+              fields: 'name,timezone,language,votes_per_day,votes_left,img',
+            },
+          })
+        ),
+        catchError((response) => {
+          this.toastService.response(response);
+          return EMPTY;
         })
-      ),
-      catchError(response => {
-        this.toastService.response(response);
-        return EMPTY;
-      })
-    ).subscribe(
-      user => {
+      )
+      .subscribe((user) => {
         this.settings.timezone = user.timezone;
         this.settings.language = user.language;
         this.votesPerDay = user.votes_per_day;
         this.votesLeft = user.votes_left;
         this.photo = user.img;
-      }
-    );
+      });
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
   private showSavedMessage() {
-    this.toastService.success($localize `Data saved`);
+    this.toastService.success($localize`Data saved`);
   }
 
   public sendSettings() {
@@ -111,13 +107,13 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       next: () => {
         this.showSavedMessage();
       },
-      error: response => {
+      error: (response) => {
         if (response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
         } else {
           this.toastService.response(response);
         }
-      }
+      },
     });
   }
 
@@ -132,7 +128,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         this.user.avatar = null;
         this.photo = null;
       },
-      error: response => this.toastService.response(response)
+      error: (response) => this.toastService.response(response),
     });
   }
 
@@ -147,32 +143,37 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    return this.api.request('POST', 'user/me/photo', {body: formData}).pipe(
-      catchError((response: HttpErrorResponse) => {
-        this.input.nativeElement.value = '';
-        if (response.status === 400) {
-          this.photoInvalidParams = response.error.invalid_params;
-          return EMPTY;
-        }
+    return this.api
+      .request('POST', 'user/me/photo', {body: formData})
+      .pipe(
+        catchError((response: HttpErrorResponse) => {
+          this.input.nativeElement.value = '';
+          if (response.status === 400) {
+            this.photoInvalidParams = response.error.invalid_params;
+            return EMPTY;
+          }
 
-        this.toastService.errorResponse(response);
-        return EMPTY;
-      }),
-      tap(() => {
-        this.input.nativeElement.value = '';
-      }),
-      switchMap(() => this.api.request<RESTAPIUser>('GET', 'user/me', {
-        params: {
-          fields: 'img'
-        }
-      })),
-      catchError((response: HttpErrorResponse) => {
-        this.toastService.errorResponse(response);
-        return EMPTY;
-      }),
-      tap(response => {
-        this.photo = response.img;
-      })
-    ).subscribe();
+          this.toastService.errorResponse(response);
+          return EMPTY;
+        }),
+        tap(() => {
+          this.input.nativeElement.value = '';
+        }),
+        switchMap(() =>
+          this.api.request<RESTAPIUser>('GET', 'user/me', {
+            params: {
+              fields: 'img',
+            },
+          })
+        ),
+        catchError((response: HttpErrorResponse) => {
+          this.toastService.errorResponse(response);
+          return EMPTY;
+        }),
+        tap((response) => {
+          this.photo = response.img;
+        })
+      )
+      .subscribe();
   }
 }

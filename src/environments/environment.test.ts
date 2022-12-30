@@ -3,7 +3,7 @@ export const environment = {
   apiUrl: '/api/',
   sentry: {
     dsn: 'https://ad1e4834fdfd4dafa9acd46c5b0ae616@sentry.pereslegin.ru/2',
-    environment: 'testing'
+    environment: 'testing',
   },
   languages: [
     {
@@ -12,7 +12,7 @@ export const environment = {
       name: 'English',
       flag: 'flag-icon flag-icon-gb',
       momentLocale: 'en-gb',
-      locale: 'en-GB'
+      locale: 'en-GB',
     },
     {
       code: 'zh',
@@ -20,7 +20,7 @@ export const environment = {
       name: '中文 (beta)',
       flag: 'flag-icon flag-icon-cn',
       momentLocale: 'zh-cn',
-      locale: 'zh-CN'
+      locale: 'zh-CN',
     },
     {
       code: 'ru',
@@ -28,7 +28,7 @@ export const environment = {
       name: 'Русский',
       flag: 'flag-icon flag-icon-ru',
       momentLocale: 'ru',
-      locale: 'ru'
+      locale: 'ru',
     },
     {
       code: 'pt-br',
@@ -36,7 +36,7 @@ export const environment = {
       name: 'Português brasileiro',
       flag: 'flag-icon flag-icon-br',
       momentLocale: 'pt-br',
-      locale: 'pt-BR'
+      locale: 'pt-BR',
     },
     {
       code: 'fr',
@@ -44,7 +44,7 @@ export const environment = {
       name: 'Français (beta)',
       flag: 'flag-icon flag-icon-fr',
       momentLocale: 'fr',
-      locale: 'fr'
+      locale: 'fr',
     },
     {
       code: 'be',
@@ -52,7 +52,7 @@ export const environment = {
       name: 'Беларуская',
       flag: 'flag-icon flag-icon-by',
       momentLocale: 'be',
-      locale: 'be-BY'
+      locale: 'be-BY',
     },
     {
       code: 'uk',
@@ -60,7 +60,7 @@ export const environment = {
       name: 'Українська (beta)',
       flag: 'flag-icon flag-icon-ua',
       momentLocale: 'uk',
-      locale: 'uk'
+      locale: 'uk',
     },
     {
       code: 'es',
@@ -68,13 +68,13 @@ export const environment = {
       name: 'Español (beta)',
       flag: 'flag-icon flag-icon-es',
       momentLocale: 'es',
-      locale: 'es'
-    }
+      locale: 'es',
+    },
   ],
   keycloak: {
     url: 'http://localhost:8081/auth/',
     realm: 'autowp',
-    clientId: 'frontend'
+    clientId: 'frontend',
   },
-  grpcHost: ''
+  grpcHost: '',
 };

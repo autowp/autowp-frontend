@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
+import {Component, Input} from '@angular/core';
+import {HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-share',
   templateUrl: './share.component.html',
-  styleUrls: ['./share.component.scss']
+  styleUrls: ['./share.component.scss'],
 })
-export class ShareComponent{
+export class ShareComponent {
   @Input() url: string;
   @Input() text: string;
 
-  buildURL(url: string, params: { [s: string]: string }): string {
+  buildURL(url: string, params: {[s: string]: string}): string {
     let p = new HttpParams();
     for (const key of Object.keys(params)) {
       p = p.set(key, params[key]);

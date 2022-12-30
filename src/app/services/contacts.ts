@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError, of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Observable, throwError, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {ContactsClient} from '../../../generated/spec.pbsc';
@@ -16,7 +16,7 @@ export class ContactsService {
 
   public isInContacts(userId: string): Observable<boolean> {
     return this.contactsClient.getContact(new GetContactRequest({userId})).pipe(
-      map(response => !!response.contactUserId),
+      map((response) => !!response.contactUserId),
       catchError((err: GrpcStatusEvent) => {
         if (err.statusCode === 5) {
           return of(false);
@@ -27,10 +27,7 @@ export class ContactsService {
     );
   }
 
-  public getContacts(
-    options: APIContactsGetOptions
-  ): Observable<ContactItems> {
-
+  public getContacts(options: APIContactsGetOptions): Observable<ContactItems> {
     // (.pipe(
     const request = new GetContactsRequest({fields: []});
 
@@ -38,8 +35,6 @@ export class ContactsService {
       request.fields = options.fields;
     }
 
-    return this.auth.getUser().pipe(
-      switchMap(() => this.contactsClient.getContacts(request))
-    );
+    return this.auth.getUser().pipe(switchMap(() => this.contactsClient.getContacts(request)));
   }
 }

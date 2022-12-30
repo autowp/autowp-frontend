@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { APIPicture } from '../../services/picture';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {APIPicture} from '../../services/picture';
 import {Observable} from 'rxjs';
-import { PictureItemService } from '../../services/picture-item';
+import {PictureItemService} from '../../services/picture-item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import { APIPerspectiveService } from '../../api/perspective/perspective.service';
-import { getPerspectiveTranslation } from '../../utils/translations';
+import {APIPerspectiveService} from '../../api/perspective/perspective.service';
+import {getPerspectiveTranslation} from '../../utils/translations';
 import {Perspective} from '../../../../generated/spec.pb';
 
 interface ThumbnailAPIPicture extends APIPicture {
@@ -14,10 +14,9 @@ interface ThumbnailAPIPicture extends APIPicture {
 @Component({
   selector: 'app-thumbnail',
   templateUrl: './thumbnail.component.html',
-  styleUrls: ['./thumbnail.component.scss']
+  styleUrls: ['./thumbnail.component.scss'],
 })
 export class ThumbnailComponent {
-
   @Input() picture: ThumbnailAPIPicture;
   @Input() route: string[];
   @Input() selectable = false;

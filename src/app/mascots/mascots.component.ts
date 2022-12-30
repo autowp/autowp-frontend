@@ -1,35 +1,35 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EMPTY} from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { PictureService} from '../services/picture';
-import { PageEnvService } from '../services/page-env.service';
+import {ActivatedRoute} from '@angular/router';
+import {PictureService} from '../services/picture';
+import {PageEnvService} from '../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-mascots',
-  templateUrl: './mascots.component.html'
+  templateUrl: './mascots.component.html',
 })
 export class MascotsComponent implements OnInit {
-
   public data$ = this.route.queryParamMap.pipe(
-    map(params => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap(page => this.pictureService.getPictures({
-      status: 'accepted',
-      fields:
-        'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-      limit: 12,
-      page,
-      perspective_id: 23,
-      order: 15
-    })),
-    catchError(response => {
+    switchMap((page) =>
+      this.pictureService.getPictures({
+        status: 'accepted',
+        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        limit: 12,
+        page,
+        perspective_id: 23,
+        order: 15,
+      })
+    ),
+    catchError((response) => {
       this.toastService.response(response);
       return EMPTY;
     })
-  )
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -39,10 +39,6 @@ export class MascotsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(
-      () =>
-        this.pageEnv.set({pageId: 201}),
-      0
-    );
+    setTimeout(() => this.pageEnv.set({pageId: 201}), 0);
   }
 }

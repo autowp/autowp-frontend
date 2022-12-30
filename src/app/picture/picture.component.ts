@@ -6,13 +6,18 @@ import {AuthService} from '../services/auth.service';
 import {APIItem} from '../services/item';
 import {Router} from '@angular/router';
 import {APIPictureItem, PictureItemService} from '../services/picture-item';
-import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest, PicturesViewRequest} from '../../../generated/spec.pb';
+import {
+  CommentsSubscribeRequest,
+  CommentsType,
+  CommentsUnSubscribeRequest,
+  PicturesViewRequest,
+} from '../../../generated/spec.pb';
 import {CommentsClient, PicturesClient} from '../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-picture',
   templateUrl: './picture.component.html',
-  styleUrls: ['./picture.component.scss']
+  styleUrls: ['./picture.component.scss'],
 })
 export class PictureComponent {
   @Input() prefix: string[] = [];
@@ -22,10 +27,14 @@ export class PictureComponent {
   @Input() set picture(picture: APIPicture) {
     this.picture$.next(picture);
 
-    this.picturesClient.view(new PicturesViewRequest({
-      pictureId: ''+picture.id
-    })).subscribe();
-  };
+    this.picturesClient
+      .view(
+        new PicturesViewRequest({
+          pictureId: '' + picture.id,
+        })
+      )
+      .subscribe();
+  }
   public picture$ = new BehaviorSubject<APIPicture>(null);
 
   public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
@@ -44,19 +53,13 @@ export class PictureComponent {
     private router: Router,
     private pictureItemService: PictureItemService,
     private commentsGrpc: CommentsClient,
-    private picturesClient: PicturesClient,
+    private picturesClient: PicturesClient
   ) {
     this.location = location;
   }
 
-  public savePerspective(perspectiveID: number|null, item: APIPictureItem) {
-    this.pictureItemService.setPerspective(
-      item.picture_id,
-      item.item_id,
-      item.type,
-      perspectiveID
-    )
-      .subscribe();
+  public savePerspective(perspectiveID: number | null, item: APIPictureItem) {
+    this.pictureItemService.setPerspective(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
   public pictureVoted() {
@@ -70,21 +73,25 @@ export class PictureComponent {
 
   public setSubscribed(picture: APIPicture, value: boolean) {
     (value
-      ? this.commentsGrpc.subscribe(new CommentsSubscribeRequest({
-        itemId: ''+picture.id,
-        typeId: CommentsType.PICTURES_TYPE_ID,
-      }))
-      : this.commentsGrpc.unSubscribe(new CommentsUnSubscribeRequest({
-        itemId: ''+picture.id,
-        typeId: CommentsType.PICTURES_TYPE_ID,
-      }))
+      ? this.commentsGrpc.subscribe(
+          new CommentsSubscribeRequest({
+            itemId: '' + picture.id,
+            typeId: CommentsType.PICTURES_TYPE_ID,
+          })
+        )
+      : this.commentsGrpc.unSubscribe(
+          new CommentsUnSubscribeRequest({
+            itemId: '' + picture.id,
+            typeId: CommentsType.PICTURES_TYPE_ID,
+          })
+        )
     ).subscribe(() => {
       picture.subscribed = value;
     });
   }
 
   public vote(picture: APIPicture, value: number) {
-    this.pictureService.vote(picture.id, value).subscribe(votes => {
+    this.pictureService.vote(picture.id, value).subscribe((votes) => {
       picture.votes = votes;
     });
     return false;
@@ -104,15 +111,14 @@ export class PictureComponent {
 
   private setPictureStatus(picture: APIPicture, status: string) {
     this.statusLoading = true;
-    this.pictureService.setPictureStatus(picture.id, status)
-      .subscribe({
-        next: () => {
-          this.changed.emit(true);
-        },
-        complete: () => {
-          this.statusLoading = false;
-        }
-      });
+    this.pictureService.setPictureStatus(picture.id, status).subscribe({
+      next: () => {
+        this.changed.emit(true);
+      },
+      complete: () => {
+        this.statusLoading = false;
+      },
+    });
   }
 
   public unacceptPicture(picture: APIPicture) {

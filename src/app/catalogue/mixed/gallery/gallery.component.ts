@@ -9,44 +9,44 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
   selector: 'app-catalogue-mixed-gallery',
-  templateUrl: './gallery.component.html'
+  templateUrl: './gallery.component.html',
 })
 export class CatalogueMixedGalleryComponent {
   public identity$ = this.route.paramMap.pipe(
-    map(route => route.get('identity')),
+    map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(identity => {
+    switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
 
       return of(identity);
-    }),
+    })
   );
 
   public brand$: Observable<APIItem> = this.route.paramMap.pipe(
-    map(params => params.get('brand')),
+    map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap(catname => {
+    switchMap((catname) => {
       if (!catname) {
         return EMPTY;
       }
       return this.itemService.getItems({
         catname,
         fields: 'name_text,name_html',
-        limit: 1
+        limit: 1,
       });
     }),
-    map(response => response && response.items.length ? response.items[0] : null),
-    switchMap(brand => {
+    map((response) => (response && response.items.length ? response.items[0] : null)),
+    switchMap((brand) => {
       if (!brand) {
         this.router.navigate(['/error-404'], {
-          skipLocationChange: true
+          skipLocationChange: true,
         });
         return EMPTY;
       }
@@ -61,15 +61,14 @@ export class CatalogueMixedGalleryComponent {
     private route: ActivatedRoute,
     private router: Router,
     private itemService: ItemService
-  ) {
-  }
+  ) {}
 
   pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
         title: item.name,
-        pageId: data.picture_page.id
+        pageId: data.picture_page.id,
       });
     }, 0);
   }

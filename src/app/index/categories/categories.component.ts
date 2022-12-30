@@ -5,12 +5,14 @@ import {LanguageService} from '../../services/language';
 
 @Component({
   selector: 'app-index-categories',
-  templateUrl: './categories.component.html'
+  templateUrl: './categories.component.html',
 })
 export class IndexCategoriesComponent {
   constructor(private items: ItemsClient, private languageService: LanguageService) {}
 
-  public result$ = this.items.getTopCategoriesList(new GetTopCategoriesListRequest({
-    language: this.languageService.language
-  }))
+  public result$ = this.items.getTopCategoriesList(
+    new GetTopCategoriesListRequest({
+      language: this.languageService.language,
+    })
+  );
 }

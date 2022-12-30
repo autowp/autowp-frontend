@@ -8,26 +8,26 @@ import {BehaviorSubject, of} from 'rxjs';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
-  templateUrl: './engine.component.html'
+  templateUrl: './engine.component.html',
 })
 export class CarsSpecificationsEditorEngineComponent {
-  @Input() set item(item: APIItem) { this.item$.next(item); };
+  @Input() set item(item: APIItem) {
+    this.item$.next(item);
+  }
   public item$ = new BehaviorSubject<APIItem>(null);
 
   @Output() changed = new EventEmitter<void>();
-  public isAllowedEditEngine$ = this.acl
-    .isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
-    .pipe(shareReplay(1));
+  public isAllowedEditEngine$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE).pipe(shareReplay(1));
   public engine$ = this.item$.pipe(
-    switchMap(item => {
-      if (! item.engine_id) {
+    switchMap((item) => {
+      if (!item.engine_id) {
         return of(null as APIItem);
       }
 
       return this.itemService.getItem(item.engine_id, {fields: 'name_html,name_text,engine_id'});
     }),
     shareReplay(1)
-  )
+  );
   public loading = 0;
 
   constructor(
@@ -37,22 +37,24 @@ export class CarsSpecificationsEditorEngineComponent {
     private toastService: ToastsService
   ) {}
 
-  private setEngineID(item:APIItem, value: string) {
+  private setEngineID(item: APIItem, value: string) {
     this.api
-      .request<void>('PUT', 'item/' + item.id, {body: {
-        engine_id: value
-      }})
+      .request<void>('PUT', 'item/' + item.id, {
+        body: {
+          engine_id: value,
+        },
+      })
       .subscribe({
         next: () => this.changed.emit(),
-        error: response => this.toastService.response(response)
+        error: (response) => this.toastService.response(response),
       });
   }
 
-  public inheritEngine(item:APIItem) {
+  public inheritEngine(item: APIItem) {
     this.setEngineID(item, 'inherited');
   }
 
-  public cancelInheritance(item:APIItem) {
+  public cancelInheritance(item: APIItem) {
     this.setEngineID(item, '');
   }
 }
