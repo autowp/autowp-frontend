@@ -39,7 +39,7 @@
     "base64-js": "^1.5.1",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.1.1",
     "core-js": "^3.26.1",
     "keycloak-angular": "^13.0.0",
     "keycloak-js": "^20.0.1",
