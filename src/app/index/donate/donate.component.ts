@@ -42,8 +42,9 @@ export class IndexDonateComponent {
         }));
       const charges = operations.filter((d) => d.sum < 0);
       const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
+      const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
-      const total = this.goal - totalChargesSum;
+      const total = Math.max(-totalChargesSum + this.monthlyCharge, totalDonationsSum);
 
       return {
         monthlyCharge: this.monthlyCharge,

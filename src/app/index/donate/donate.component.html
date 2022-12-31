@@ -24,13 +24,6 @@
           placement="top"
           ngbTooltip="{{ state.monthlyCharge | currency : 'EUR' }} required for the next month"
         ></div>
-        <div
-          class="progress-bar bg-warning"
-          style="opacity: 0.5"
-          [style.width]="state.monthlyChargePercent + '%'"
-          placement="top"
-          ngbTooltip="{{ state.monthlyCharge | currency : 'EUR' }} required for the next two months"
-        ></div>
       </div>
       <div class="progress mb-4" style="height: 30px; border-top-right-radius: 0; border-top-left-radius: 0">
         <div

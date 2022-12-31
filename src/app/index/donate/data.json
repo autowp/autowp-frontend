@@ -1,5 +1,11 @@
 [
   {
+    "sum": 2.49,
+    "currency": "EUR",
+    "date": "2022-12-26T00:00:00+00:00",
+    "contributor": "Michael Broderick"
+  },
+  {
     "sum": -180.56,
     "currency": "EUR",
     "date": "2022-12-18T00:00:00+00:00",
