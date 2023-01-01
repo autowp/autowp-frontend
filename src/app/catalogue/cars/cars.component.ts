@@ -25,7 +25,7 @@ export class CatalogueCarsComponent {
       return this.itemService
         .getItems({
           catname,
-          fields: 'name_text,name_html',
+          fields: 'name_html,name_only',
           limit: 1,
         })
         .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
@@ -58,7 +58,7 @@ export class CatalogueCarsComponent {
       const currentVehicleType = vehicleTypes.find((type) => type.catname === vehicleTypeCatname);
 
       if (brand) {
-        let itemName = brand.name_text;
+        let itemName = brand.name_only;
         let pageId = 14;
         if (currentVehicleType) {
           itemName += ' ' + getVehicleTypeTranslation(currentVehicleType.name);
@@ -78,7 +78,7 @@ export class CatalogueCarsComponent {
   public title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(
     map(([brand, currentVehicleType]) => {
       const itemName =
-        brand.name_text + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
+        brand.name_only + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
       return $localize`${itemName} in chronological order`;
     })
   );
