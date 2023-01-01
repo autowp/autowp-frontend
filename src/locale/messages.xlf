@@ -326,7 +326,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="linenumber">4</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.html</context>
@@ -784,7 +784,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.html</context>
@@ -2781,36 +2781,15 @@ All images are posted for educational purposes.
           <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="cfef31cff2b561f6ee1f9390bf334975279aa225" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="in chronological order&lt;/h1&gt;
-      &lt;h1 i18n *ngIf=&quot;veh"/> in chronological order</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6b99ba206a9f7f215036fc36ffac2a161d857f53" datatype="html">
-        <source>
-        <x id="INTERPOLATION" equiv-text="{{ brand.name_text }}"/> <x id="INTERPOLATION_1" equiv-text="{{ getVehicleTypeTranslation(vehicleTypes.currentVehicleType.name) }}"/> in chronological
-        order
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.html</context>
-          <context context-type="linenumber">20,22</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5900015257954376283" datatype="html">
-        <source><x id="PH" equiv-text="brand.name_text"/> <x id="PH_1" equiv-text="vehicleTypeName"/> in chronological order</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">70</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3968566556790194898" datatype="html">
-        <source><x id="PH" equiv-text="brand.name_text"/> in chronological order</source>
+        <source><x id="PH" equiv-text="itemName"/> in chronological order</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/cars/cars.component.ts</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="788967566322079082" datatype="html">
@@ -4587,7 +4566,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Cryptocurrencies</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4704327371953276728" datatype="html">

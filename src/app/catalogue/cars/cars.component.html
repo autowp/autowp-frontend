@@ -1,41 +1,31 @@
-<ng-container *ngIf="brand$ | async as brand; else loading">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a routerLink="/" i18n>Index page</a>
-      </li>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" i18n>Index page</a>
+    </li>
+    <ng-container *ngIf="brand$ | async as brand; else loading">
       <li class="breadcrumb-item" *ngIf="brand">
         <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
       </li>
-      <li class="breadcrumb-item" *ngIf="vehicleTypes$ | async as vehicleTypes">
+      <li class="breadcrumb-item" *ngIf="currentVehicleType$ | async">
         <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
       </li>
-    </ol>
-  </nav>
+    </ng-container>
+  </ol>
+</nav>
 
-  <ng-container *ngIf="vehicleTypes$ | async as vehicleTypes; else loading">
-    <div class="page-header" *ngIf="brand">
-      <h1 *ngIf="!vehicleTypes.currentVehicleType" i18n>{{ brand.name_text }} in chronological order</h1>
-      <h1 i18n *ngIf="vehicleTypes.currentVehicleType">
-        {{ brand.name_text }} {{ getVehicleTypeTranslation(vehicleTypes.currentVehicleType.name) }} in chronological
-        order
-      </h1>
-    </div>
+<div class="page-header" *ngIf="title$ | async as title; else loading">
+  <h1>{{ title }}</h1>
+</div>
 
-    <ul class="nav nav-pills mb-4">
-      <li class="nav-item" *ngFor="let item of vehicleTypes.vehicleTypes">
-        <a
-          [routerLink]="['/', brand.catname, 'cars', item.catname]"
-          class="nav-link"
-          [class.active]="vehicleTypes.currentVehicleType && item.id === vehicleTypes.currentVehicleType.id"
-        >
-          {{ getVehicleTypeTranslation(item.name) }}
-          <span class="badge text-bg-info text-dark">{{ item.itemsCount }}</span>
-        </a>
-      </li>
-    </ul>
-  </ng-container>
-</ng-container>
+<ul class="nav nav-pills mb-4" *ngIf="vehicleTypeOptions$ | async as vehicleTypeOptions; else loading">
+  <li class="nav-item" *ngFor="let item of vehicleTypeOptions">
+    <a [routerLink]="item.route" class="nav-link" [class.active]="item.active">
+      {{ item.name }}
+      <span class="badge text-bg-info text-dark">{{ item.itemsCount }}</span>
+    </a>
+  </li>
+</ul>
 
 <ng-template #loading>
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

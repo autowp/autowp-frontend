@@ -3,7 +3,7 @@ import {APIItem, ItemService} from '../../services/item';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '../../utils/translations';
 import {AutowpClient} from '../../../../generated/spec.pbsc';
@@ -33,82 +33,95 @@ export class CatalogueCarsComponent {
     shareReplay(1)
   );
 
-  public vehicleTypes$: Observable<{
-    vehicleTypes: BrandVehicleType[];
-    currentVehicleType: BrandVehicleType;
-    brand: APIItem;
-  }> = this.brand$.pipe(
+  public vehicleTypes$: Observable<BrandVehicleType[]> = this.brand$.pipe(
     switchMap((brand) =>
-      combineLatest([
-        this.grpc.getBrandVehicleTypes(
-          new GetBrandVehicleTypesRequest({
-            brandId: brand.id,
-          })
-        ),
-        this.route.paramMap.pipe(
-          map((params) => params.get('vehicle_type')),
-          distinctUntilChanged(),
-          debounceTime(10)
-        ),
-        of(brand),
-      ])
+      this.grpc.getBrandVehicleTypes(
+        new GetBrandVehicleTypesRequest({
+          brandId: brand.id,
+        })
+      )
     ),
-    map(([vehicleTypes, vehicleTypeCatname, brand]) => {
-      let currentVehicleType: BrandVehicleType = null;
-      for (const type of vehicleTypes.items) {
-        if (type.catname === vehicleTypeCatname) {
-          currentVehicleType = type;
-          break;
-        }
-      }
+    map((vehicleTypes) => vehicleTypes.items),
+    shareReplay(1)
+  );
+
+  public currentVehicleType$ = combineLatest([
+    this.brand$,
+    this.vehicleTypes$,
+    this.route.paramMap.pipe(
+      map((params) => params.get('vehicle_type')),
+      distinctUntilChanged(),
+      debounceTime(10)
+    ),
+  ]).pipe(
+    map(([brand, vehicleTypes, vehicleTypeCatname]) => {
+      const currentVehicleType = vehicleTypes.find((type) => type.catname === vehicleTypeCatname);
 
       if (brand) {
+        let itemName = brand.name_text;
+        let pageId = 14;
         if (currentVehicleType) {
-          const vehicleTypeName = getVehicleTypeTranslation(currentVehicleType.name);
-          this.pageEnv.set({
-            pageId: 138,
-            title: $localize`${brand.name_text} ${vehicleTypeName} in chronological order`,
-          });
-        } else {
-          this.pageEnv.set({
-            pageId: 14,
-            title: $localize`${brand.name_text} in chronological order`,
-          });
+          itemName += ' ' + getVehicleTypeTranslation(currentVehicleType.name);
+          pageId = 138;
         }
+        this.pageEnv.set({
+          pageId,
+          title: $localize`${itemName} in chronological order`,
+        });
       }
 
-      return {
-        vehicleTypes: vehicleTypes.items,
-        currentVehicleType,
-        brand,
-      };
+      return currentVehicleType;
     }),
     shareReplay(1)
   );
 
-  public result$ = this.vehicleTypes$.pipe(
-    switchMap((data) =>
-      this.route.queryParamMap.pipe(
-        map((params) => +params.get('page')),
-        distinctUntilChanged(),
-        debounceTime(10),
-        map((page) => ({
-          currentVehicleType: data.currentVehicleType,
-          brandID: data.brand.id,
-          page,
-        }))
-      )
+  public title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(
+    map(([brand, currentVehicleType]) => {
+      const itemName =
+        brand.name_text + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
+      return $localize`${itemName} in chronological order`;
+    })
+  );
+
+  public vehicleTypeOptions$: Observable<
+    {
+      id: number;
+      name: string;
+      active: boolean;
+      itemsCount: string;
+      route: string[];
+    }[]
+  > = combineLatest([this.vehicleTypes$, this.currentVehicleType$, this.brand$]).pipe(
+    map(([types, current, brand]) =>
+      types.map((t) => ({
+        id: t.id,
+        name: getVehicleTypeTranslation(t.name),
+        active: t.id === current.id,
+        itemsCount: t.itemsCount,
+        route: ['/', brand.catname, 'cars', t.catname],
+      }))
+    )
+  );
+
+  public result$ = combineLatest([
+    this.brand$,
+    this.currentVehicleType$,
+    this.route.queryParamMap.pipe(
+      map((params) => +params.get('page')),
+      distinctUntilChanged(),
+      debounceTime(10)
     ),
-    switchMap((data) =>
+  ]).pipe(
+    switchMap(([brand, currentVehicleType, page]) =>
       this.itemService
         .getItems({
           limit: 7,
           type_id: 1,
           order: 'age',
-          ancestor_id: data.brandID,
+          ancestor_id: brand.id,
           dateful: true,
-          vehicle_type_id: data.currentVehicleType ? data.currentVehicleType.id : 0,
-          route_brand_id: data.brandID,
+          vehicle_type_id: currentVehicleType ? currentVehicleType.id : 0,
+          route_brand_id: brand.id,
           fields: [
             'name_html,name_default,description,has_text,produced,accepted_pictures_count',
             'design,engine_vehicles,route,categories.name_html',
@@ -116,7 +129,7 @@ export class CatalogueCarsComponent {
             'twins_groups',
             'childs_count,total_pictures,preview_pictures.picture.name_text',
           ].join(','),
-          page: data.page,
+          page,
         })
         .pipe(
           map((response) => {
@@ -173,8 +186,4 @@ export class CatalogueCarsComponent {
     private route: ActivatedRoute,
     private grpc: AutowpClient
   ) {}
-
-  public getVehicleTypeTranslation(id: string): string {
-    return getVehicleTypeTranslation(id);
-  }
 }
