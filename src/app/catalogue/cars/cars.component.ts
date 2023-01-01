@@ -96,7 +96,7 @@ export class CatalogueCarsComponent {
       types.map((t) => ({
         id: t.id,
         name: getVehicleTypeTranslation(t.name),
-        active: t.id === current.id,
+        active: current && t.id === current.id,
         itemsCount: t.itemsCount,
         route: ['/', brand.catname, 'cars', t.catname],
       }))
