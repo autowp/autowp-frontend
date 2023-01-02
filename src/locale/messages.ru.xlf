@@ -3086,50 +3086,28 @@ All images are posted for educational purposes.
           <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c46edc99d6638e4d7174998632dd2ec0e7d12752" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="concepts &amp; prototypes&lt;/h1&gt;
-&lt;/div&gt;
-
-&lt;ng-template #load"/> concepts &amp; prototypes</source>
-        <target>Концепты и прототипы &lt;x id="INTERPOLATION" equiv-text="concepts &amp; prototypes&lt;/h1&gt;
-&lt;/div&gt;
-
-&lt;ng-template #load"/&gt;</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.html</context>
-          <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="5067286152764154298" datatype="html">
-        <source><x id="PH" equiv-text="brand.name_text"/> concepts &amp; prototypes</source>
-        <target>Концепты и прототипы <x id="PH" equiv-text="brand.name_text"/></target>
+        <source><x id="PH" equiv-text="brand.name_only"/> concepts &amp; prototypes</source>
+        <target>Концепты и прототипы <x id="PH" equiv-text="brand.name_only"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.ts</context>
           <context context-type="linenumber">48</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="8bd93284cf2170966a5efbd021577f66e102226a" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="Engines&lt;/h1&gt;
-&lt;/div&gt;
-
-&lt;ng-template #loading&gt;
-  &lt;div cl"/> Engines</source>
-        <target>Двигатели &lt;x id="INTERPOLATION" equiv-text="Engines&lt;/h1&gt;
-&lt;/div&gt;
-
-&lt;ng-template #loading&gt;
-  &lt;div cl"/&gt;</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/catalogue/engines/engines.component.html</context>
-          <context context-type="linenumber">13</context>
+          <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.ts</context>
+          <context context-type="linenumber">118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1739839265970357596" datatype="html">
-        <source><x id="PH" equiv-text="brand.name_text"/> Engines</source>
+        <source><x id="PH" equiv-text="brand.name_only"/> Engines</source>
         <target>Двигатели <x id="PH" equiv-text="brand.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/engines/engines.component.ts</context>
           <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/engines/engines.component.ts</context>
+          <context context-type="linenumber">121</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/mosts/mosts.component.ts</context>

@@ -60,7 +60,7 @@
       </trans-unit>
       <trans-unit id="ngb.progressbar.value" datatype="html">
         <source><x id="INTERPOLATION"/></source>
-        <target><x id="INTERPOLATION" equiv-text="variants, like:"/></target>
+        <target><x id="INTERPOLATION"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/ngb-config.ts</context>
           <context context-type="linenumber">13</context>
@@ -68,8 +68,7 @@
       </trans-unit>
       <trans-unit id="ngb.carousel.slide-number" datatype="html">
         <source> Slide <x id="INTERPOLATION"/> of <x id="INTERPOLATION_1"/> </source>
-        <target> Glisser &lt;x id="INTERPOLATION" equiv-text="*/
-@Input"/&gt; of <x id="INTERPOLATION_1" equiv-text="keyboard: bool"/> </target>
+        <target> Glisser <x id="INTERPOLATION"/> of <x id="INTERPOLATION_1"/> </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/ngb-config.ts</context>
           <context context-type="linenumber">13</context>
@@ -2505,7 +2504,7 @@ Toutes les images sont postées à des fins éducatives.
       </trans-unit>
       <trans-unit id="8787971127662853316" datatype="html">
         <source>Specs editor of <x id="PH" equiv-text="item.name_text"/></source>
-        <target>Caractéristiques éditeur de <x id="PH" equiv-text=": $localize `Specs editor of ${"/></target>
+        <target>Caractéristiques éditeur de <x id="PH" equiv-text="item.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.ts</context>
           <context context-type="linenumber">48</context>
@@ -2994,19 +2993,27 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
         </context-group>
       </trans-unit>
       <trans-unit id="5067286152764154298" datatype="html">
-        <source><x id="PH" equiv-text="brand.name_text"/> concepts &amp; prototypes</source>
-        <target><x id="PH" equiv-text=": $localize `${"/> concepts &amp; prototypes</target>
+        <source><x id="PH" equiv-text="brand.name_only"/> concepts &amp; prototypes</source>
+        <target><x id="PH" equiv-text="brand.name_only"/> concepts &amp; prototypes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.ts</context>
           <context context-type="linenumber">48</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/concepts/concepts.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1739839265970357596" datatype="html">
-        <source><x id="PH" equiv-text="brand.name_text"/> Engines</source>
-        <target>Moteurs <x id="PH" equiv-text=": $localize `${"/></target>
+        <source><x id="PH" equiv-text="brand.name_only"/> Engines</source>
+        <target>Moteurs <x id="PH" equiv-text="brand.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/engines/engines.component.ts</context>
           <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/catalogue/engines/engines.component.ts</context>
+          <context context-type="linenumber">121</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/mosts/mosts.component.ts</context>
@@ -3175,7 +3182,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="729499279769796692" datatype="html">
         <source>Last pictures of <x id="PH" equiv-text="brand.name_text"/></source>
-        <target>Dernières images de <x id="PH" equiv-text=": $localize `Last pictures of ${"/></target>
+        <target>Dernières images de <x id="PH" equiv-text="brand.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/recent/recent.component.ts</context>
           <context context-type="linenumber">47</context>
@@ -3203,7 +3210,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="8029570085896501802" datatype="html">
         <source>All pictures of <x id="PH" equiv-text="item.name_text"/></source>
-        <target>Toutes les images de <x id="PH" equiv-text=": $localize `All pictures of ${"/></target>
+        <target>Toutes les images de <x id="PH" equiv-text="item.name_text"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
           <context context-type="linenumber">65</context>
@@ -3398,7 +3405,10 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
             <x id="ICU" equiv-text="{category.descendants_count, plural, one {{{category.descendants_count}} vehicle} other
             {{{category.descendants_count}} vehicles}}"/>
           </source>
-        <target>plus {VAR_PLURAL, plural, one {<x id="INTERPOLATION"/> marque} other {<x id="INTERPOLATION"/> marques}}</target>
+        <target>
+&lt;x id="ICU" equiv-text="{category.descendants_count, plural, one {{{category.descendants_count}} vehicle} other
+            {{{category.descendants_count}} vehicles}}"/&gt;
+ </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/index.component.html</context>
           <context context-type="linenumber">32,34</context>
@@ -3439,7 +3449,8 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       <trans-unit id="n-produced" datatype="html">
         <source>{VAR_PLURAL, plural, one {Produced in <x id="INTERPOLATION"/> copy} other {Produced in
         <x id="INTERPOLATION"/> copies}}</source>
-        <target>{VAR_PLURAL, plural, one {Produit en <x id="INTERPOLATION"/> exemplaire} other {Produit à <x id="INTERPOLATION"/> exemplaires}}</target>
+        <target>{VAR_PLURAL, plural, one {Produit en <x id="INTERPOLATION"/> exemplaire} autre
+{Produit à <x id="INTERPOLATION"/> exemplaires}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
           <context context-type="linenumber">15,16</context>
@@ -3464,7 +3475,8 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       <trans-unit id="n-produced-about" datatype="html">
         <source>{VAR_PLURAL, plural, one {Produced in about <x id="INTERPOLATION"/> copy} other {Produced in about
         <x id="INTERPOLATION"/> copies}}</source>
-        <target>{VAR_PLURAL, plural, one {Produit à environ <x id="INTERPOLATION"/> exemplaire} other {Produit à environ <x id="INTERPOLATION"/> exemplaires}}</target>
+        <target>{VAR_PLURAL, plural, one {Produit à environ <x id="INTERPOLATION"/> exemplaire} autre
+{Produit à environ <x id="INTERPOLATION"/> exemplaires}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
           <context context-type="linenumber">19,20</context>
@@ -4234,7 +4246,7 @@ Nous serions heureux si vous vouliez [faire un don désintéressé](/donate) d&#
       </trans-unit>
       <trans-unit id="5663726564538439975" datatype="html">
         <source>Order <x id="PH" equiv-text="label"/></source>
-        <target>Commande <x id="PH" equiv-text=": $localize `Order ${"/></target>
+        <target>Commande <x id="PH" equiv-text="label"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
           <context context-type="linenumber">101</context>
@@ -7262,7 +7274,7 @@ Les hyperlinks internes doivent être relatifs: ~~http://autowp.ru/bmw/~~ */bmw/
       </trans-unit>
       <trans-unit id="4321866948825971677" datatype="html">
         <source>Picture №<x id="PH" equiv-text="id"/></source>
-        <target>Image №<x id="PH" equiv-text=": $localize `Picture №${"/></target>
+        <target>Image №<x id="PH" equiv-text="id"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
           <context context-type="linenumber">108</context>
@@ -8308,9 +8320,9 @@ Vous pouvez discuter de tout et juste parler de voitures sur [le forum](/forums/
 2. Un seul utilisateur n&#039;a pas le droit d&#039;utiliser plusieurs comptes en même temps.
 3.Sur l&#039;ensemble du site sous quelque forme que ce soit, les obscénités, les expressions obscènes, etc. sont interdites.
 4. Il est interdit d&#039;insulter les visiteurs du site, restez respectueux!
-5. Il est interdit de parler de: politique, religion, préférences sexuelles et autres, si cela n&#039;est pas directement lié au sujet de discussion ou n&#039;est pas spécifiquement convenu.
-6. Il est interdit de discuter des actions des modérateurs n&#039;importe où, sauf dans des endroits spécialement désignés pour ou par correspondance personnelle avec eux.
-7. Il est interdit de publier des messages personnels ou toute autre information qui discrédite les autres participants du site.
+5. Il est interdit de parler de: politique, religion, préférences sexuelles et autres, si cela n&#039;est pas directement lié au sujet de discussion ou n&#039;est pas spécifiquement comme le bon endroit pour cette conversation.
+6. Il est interdit de discuter des actions des modérateurs n&#039;importe où, sauf dans des endroits spécialement fait pour ou par message personnelle avec eux.
+7. Il est interdit de publier des messages personnels ou toute autre information qui discrédite un autre membre du site.
 8.Il est interdit d&#039;utiliser ou poster des images obscènes comme avatars ou photos
 2. ## Commentaires
 
@@ -8321,9 +8333,9 @@ Vous pouvez discuter de tout et juste parler de voitures sur [le forum](/forums/
 
     1. Il est interdit d&#039;utiliser des majuscules pour &quot;crier&quot; (pas de phrases entièrement en majuscules).
     2. Le hors sujet est interdit sous quelque forme que ce soit.
-    3. Il est interdit de créer des sujets identiques dans plusieurs branches.
+    3. Il est interdit de créer des sujets identiques dans plusieurs catégories (Ce site, Thèmes de la photo, …).
     4. Il est interdit de soulever la question de la &quot;meilleure voiture&quot;, sans préciser le domaine d&#039;utilisation.
-4. ## Règles d&#039;annuaire
+4. ## Règles de catalogage des vehicules
 
     ### Désignation des voitures
     1. Les noms des voitures sont attribués conformément à leur nom d&#039;origine, disponible sur la carrosserie ou dans les publications officielles de la société.
@@ -8332,9 +8344,9 @@ Vous pouvez discuter de tout et juste parler de voitures sur [le forum](/forums/
     4. L&#039;utilisation des caractères cyrilliques, latins et individuels de l&#039;alphabet grec est autorisé.
     5. L&#039;utilisation de nombre est autorisé.
     6. Si le fabriquant a utilisé des caractères spéciaux, alors leur utilisation est autorisé
-    7. Il est possible de séparer les véhicules ayant différent types de carrosserie en intégrant le nom du type de carrosserie dans le nom.
+    7. Il est possible de séparer les véhicules ayant différent types de carrosserie en intégrant le nom du type de carrosserie.
     8. Il est permis d&#039;ajouter des informations identifiant le marché auquel le véhicule est destiné pour séparer le même modele dans différentes configurations. Par exemple, UK-spec, Amérique du Nord, ZA-spec.
-    9. Les noms de voitures suivent les mêmes règles, mais n&#039;ont aucune restriction quand a l&#039;alphabet utilisé (latin, cyrillique, ...).
+    9. Les noms de voitures suivent les mêmes règles, mais n&#039;ont aucune restriction quand a l&#039;alphabet utilisé.
 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rules/rules.component.html</context>
@@ -8786,7 +8798,7 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
       </trans-unit>
       <trans-unit id="5931963497694018396" datatype="html">
         <source><x id="PH" equiv-text="brand.name_only"/> pictures</source>
-        <target>Images de <x id="PH" equiv-text=": $localize `${"/></target>
+        <target>Images de <x id="PH" equiv-text="brand.name_only"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/pictures/brand/brand.component.ts</context>
           <context context-type="linenumber">56</context>

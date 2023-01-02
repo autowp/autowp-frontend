@@ -27,7 +27,7 @@ export class CatalogueConceptsComponent {
       }
       return this.itemService.getItems({
         catname,
-        fields: 'name_text,name_html',
+        fields: 'name_only,name_html',
         limit: 1,
       });
     }),
@@ -45,7 +45,7 @@ export class CatalogueConceptsComponent {
       if (brand) {
         this.pageEnv.set({
           pageId: 37,
-          title: $localize`${brand.name_text} concepts & prototypes`,
+          title: $localize`${brand.name_only} concepts & prototypes`,
         });
       }
     }),
@@ -114,6 +114,8 @@ export class CatalogueConceptsComponent {
       };
     })
   );
+
+  public title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} concepts & prototypes`));
 
   constructor(
     private pageEnv: PageEnvService,
