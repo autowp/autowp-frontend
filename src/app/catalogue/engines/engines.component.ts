@@ -29,7 +29,7 @@ export class CatalogueEnginesComponent {
       return this.itemService
         .getItems({
           catname,
-          fields: 'name_text,name_html',
+          fields: 'name_html,name_only',
           limit: 1,
         })
         .pipe(
@@ -47,7 +47,7 @@ export class CatalogueEnginesComponent {
     tap((brand) => {
       this.pageEnv.set({
         pageId: 208,
-        title: $localize`${brand.name_text} Engines`,
+        title: $localize`${brand.name_only} Engines`,
       });
     }),
     shareReplay(1)
@@ -117,6 +117,8 @@ export class CatalogueEnginesComponent {
       };
     })
   );
+
+  public title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} Engines`));
 
   constructor(
     private pageEnv: PageEnvService,

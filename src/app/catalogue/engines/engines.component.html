@@ -9,8 +9,8 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand$ | async as brand">
-  <h1 i18n>{{ brand.name_text }} Engines</h1>
+<div class="page-header" *ngIf="title$ | async as title">
+  <h1>{{ title }}</h1>
 </div>
 
 <ng-template #loading>
