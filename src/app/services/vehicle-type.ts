@@ -15,14 +15,12 @@ export interface APIVehicleType {
 
 @Injectable()
 export class VehicleTypeService {
-  private readonly types$: Observable<VehicleType[]>;
+  private readonly types$: Observable<VehicleType[]> = this.grpc.getVehicleTypes(new Empty()).pipe(
+    map((data) => data.items),
+    shareReplay(1)
+  );
 
-  constructor(private grpc: AutowpClient) {
-    this.types$ = this.grpc.getVehicleTypes(new Empty()).pipe(
-      map((data) => data.items),
-      shareReplay(1)
-    );
-  }
+  constructor(private grpc: AutowpClient) {}
 
   private walkTypes(types: VehicleType[], callback: (type: VehicleType) => void) {
     for (const type of types) {

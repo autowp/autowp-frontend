@@ -2,6 +2,16 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {VehicleTypeService} from '../../services/vehicle-type';
 import {getVehicleTypeTranslation} from '../../utils/translations';
+import {map, shareReplay} from 'rxjs/operators';
+import {VehicleType} from '../../../../generated/spec.pb';
+
+const translateNames = (types: VehicleType[]): VehicleType[] => {
+  types.forEach((type) => {
+    type.name = getVehicleTypeTranslation(type.name);
+    type.childs = translateNames(type.childs);
+  });
+  return types;
+};
 
 @Component({
   selector: 'app-vehicle-types-modal',
@@ -10,7 +20,10 @@ import {getVehicleTypeTranslation} from '../../utils/translations';
 export class VehicleTypesModalComponent {
   @Input() ids: number[] = [];
   @Output() changed = new EventEmitter<number[]>();
-  public types$ = this.vehicleTypeService.getTypes();
+  public types$ = this.vehicleTypeService.getTypes().pipe(
+    map((types) => translateNames(types)),
+    shareReplay(1)
+  );
 
   constructor(public activeModal: NgbActiveModal, private vehicleTypeService: VehicleTypeService) {}
 
@@ -29,9 +42,5 @@ export class VehicleTypesModalComponent {
     }
 
     this.changed.emit(this.ids);
-  }
-
-  public getVehicleTypeTranslation(id: string): string {
-    return getVehicleTypeTranslation(id);
   }
 }
