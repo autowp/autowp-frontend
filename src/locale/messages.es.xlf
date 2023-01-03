@@ -7436,6 +7436,14 @@ Los hipervínculos internos deben ser relativos: ~~ http: //autowp.ru/bmw/~~ * /
           <context context-type="linenumber">385</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="cfd0f3f3baea14aa23965a45cbfd1a94ecfc5a8e" datatype="html">
+        <source>Edit picture №<x id="INTERPOLATION" equiv-text="{{ picture.id }}"/></source>
+        <target>Agregar imagen N°<x id="INTERPOLATION" equiv-text="{{ picture.id }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.html</context>
+          <context context-type="linenumber">453,454</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3024c6e70604fdf2724f5552d4e00ea61ff220be" datatype="html">
         <source>Edit item</source>
         <target>Editar elemento</target>
