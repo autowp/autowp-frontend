@@ -22,6 +22,14 @@ interface UploadProgress {
   invalidParams: any;
 }
 
+interface APIPictureUpload extends APIPicture {
+  cropTitle: string;
+}
+
+const cropTitle = (crop: {left: number | null; top: number | null; width: number | null; height: number | null}) => {
+  return $localize`cropped to ${crop.width}×${crop.height}+${crop.left}+${crop.top}`;
+};
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -30,7 +38,7 @@ export class UploadComponent implements OnInit {
   public files: any[];
   public note: string;
   public progress: UploadProgress[] = [];
-  public pictures: APIPicture[] = [];
+  public pictures: APIPictureUpload[] = [];
   public formHidden = false;
   public user$ = this.auth.getUser();
 
@@ -198,7 +206,10 @@ export class UploadComponent implements OnInit {
             .pipe(
               tap((picture) => {
                 progress.percentage = 100;
-                this.pictures.push(picture);
+                this.pictures.push({
+                  ...picture,
+                  cropTitle: cropTitle(picture.crop),
+                });
               }),
               catchError((response) => {
                 this.toastService.response(response);
@@ -213,7 +224,7 @@ export class UploadComponent implements OnInit {
     );
   }
 
-  public crop(picture: APIPicture) {
+  public crop(picture: APIPictureUpload) {
     const modalRef = this.modalService.open(UploadCropComponent, {
       size: 'lg',
       centered: true,
@@ -236,6 +247,7 @@ export class UploadComponent implements OnInit {
               .subscribe({
                 next: (response) => {
                   picture.crop = response.crop;
+                  picture.cropTitle = cropTitle(response.crop);
                   picture.thumb_medium = response.thumb_medium;
                 },
                 error: (response) => this.toastService.response(response),
