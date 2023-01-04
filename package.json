@@ -31,7 +31,7 @@
     "@ngx-grpc/grpc-web-client": "^3.1.1",
     "@ngx-grpc/well-known-types": "^3.1.1",
     "@popperjs/core": "^2.11.6",
-    "@sentry/angular": "^7.23.0",
+    "@sentry/angular": "^7.29.0",
     "@sentry/browser": "^7.0.0",
     "@sentry/tracing": "^7.23.0",
     "@types/url-parse": "^1.4.8",
