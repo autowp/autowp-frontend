@@ -64,8 +64,8 @@ export class CommentsListComponent {
           vote: value,
         })
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           message.user_vote = value;
 
           this.commentService.getComment(message.id, {fields: 'vote'}).subscribe({
@@ -75,10 +75,10 @@ export class CommentsListComponent {
 
           // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
         },
-        (response: GrpcStatusEvent) => {
+        error: (response: GrpcStatusEvent) => {
           this.toastService.grpcErrorResponse(response);
-        }
-      );
+        },
+      });
 
     return false;
   }
@@ -112,8 +112,8 @@ export class CommentsListComponent {
     return false;
   }
 
-  public onSent(location: string) {
-    this.sent.emit(location);
+  public onSent(id: string) {
+    this.sent.emit(id);
   }
 
   public onCancel(message: APICommentInList) {

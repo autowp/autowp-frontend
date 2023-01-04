@@ -1704,6 +1704,27 @@ export class CommentsClient {
         requestClass: thisProto.CommentsVoteCommentRequest,
         responseClass: thisProto.CommentsVoteCommentResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Comments/Add
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AddCommentResponse>>
+     */
+    add: (
+      requestData: thisProto.AddCommentRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AddCommentResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/Add',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AddCommentRequest,
+        responseClass: thisProto.AddCommentResponse
+      });
     }
   };
 
@@ -1824,6 +1845,22 @@ export class CommentsClient {
   ): Observable<thisProto.CommentsVoteCommentResponse> {
     return this.$raw
       .voteComment(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/Add
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AddCommentResponse>
+   */
+  add(
+    requestData: thisProto.AddCommentRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AddCommentResponse> {
+    return this.$raw
+      .add(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

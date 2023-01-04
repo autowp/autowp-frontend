@@ -1,9 +1,9 @@
 import {Input, Component, EventEmitter, Output, OnInit, OnDestroy} from '@angular/core';
-import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
-import {CommentsType} from '../../../../generated/spec.pb';
+import {AddCommentRequest, CommentsType} from '../../../../generated/spec.pb';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {switchMap, take, tap} from 'rxjs/operators';
+import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 
 @Component({
   selector: 'app-comments-form',
@@ -28,25 +28,25 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
     moderator_attention: false,
   };
 
-  constructor(private api: APIService, private toastService: ToastsService) {}
+  constructor(private comments: CommentsClient) {}
 
   public sendMessage() {
     this.invalidParams = {};
 
     this.resolve$
       .pipe(
+        take(1),
         switchMap((resolve) =>
-          this.api.request<void>('POST', 'comment', {
-            body: {
-              type_id: this.typeID,
-              item_id: this.itemID,
-              parent_id: this.parentID,
-              moderator_attention: this.form.moderator_attention ? 1 : 0,
+          this.comments.add(
+            new AddCommentRequest({
+              itemId: '' + this.itemID,
+              typeId: this.typeID,
               message: this.form.message,
-              resolve: resolve ? 1 : 0,
-            },
-            observe: 'response',
-          })
+              moderatorAttention: !!this.form.moderator_attention,
+              parentId: this.parentID ? '' + this.parentID : '',
+              resolve,
+            })
+          )
         )
       )
       .subscribe({
@@ -54,16 +54,11 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
           this.form.message = '';
           this.form.moderator_attention = false;
 
-          const location = response.headers.get('Location');
-
-          this.sent.emit(location);
+          this.sent.emit(response.id);
         },
         error: (response) => {
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
-          } else {
-            this.toastService.response(response);
-          }
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
         },
       });
   }

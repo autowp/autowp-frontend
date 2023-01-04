@@ -152,7 +152,7 @@ export module RetryInfo {
    * Protobuf JSON representation for RetryInfo
    */
   export interface AsProtobufJSON {
-    retryDelay?: googleProtobuf000.Duration.AsProtobufJSON | null;
+    retryDelay: googleProtobuf000.Duration.AsProtobufJSON | null;
   }
 }
 
@@ -224,8 +224,8 @@ export class DebugInfo implements GrpcMessage {
     }
   }
 
-  private _stackEntries?: string[];
-  private _detail?: string;
+  private _stackEntries: string[];
+  private _detail: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -237,16 +237,16 @@ export class DebugInfo implements GrpcMessage {
     this.detail = _value.detail;
     DebugInfo.refineValues(this);
   }
-  get stackEntries(): string[] | undefined {
+  get stackEntries(): string[] {
     return this._stackEntries;
   }
-  set stackEntries(value: string[] | undefined) {
+  set stackEntries(value: string[]) {
     this._stackEntries = value;
   }
-  get detail(): string | undefined {
+  get detail(): string {
     return this._detail;
   }
-  set detail(value: string | undefined) {
+  set detail(value: string) {
     this._detail = value;
   }
 
@@ -297,16 +297,16 @@ export module DebugInfo {
    * Standard JavaScript object representation for DebugInfo
    */
   export interface AsObject {
-    stackEntries?: string[];
-    detail?: string;
+    stackEntries: string[];
+    detail: string;
   }
 
   /**
    * Protobuf JSON representation for DebugInfo
    */
   export interface AsProtobufJSON {
-    stackEntries?: string[];
-    detail?: string;
+    stackEntries: string[];
+    detail: string;
   }
 }
 
@@ -455,7 +455,7 @@ export module QuotaFailure {
    * Protobuf JSON representation for QuotaFailure
    */
   export interface AsProtobufJSON {
-    violations?: QuotaFailure.Violation.AsProtobufJSON[] | null;
+    violations: QuotaFailure.Violation.AsProtobufJSON[] | null;
   }
 
   /**
@@ -527,8 +527,8 @@ export module QuotaFailure {
       }
     }
 
-    private _subject?: string;
-    private _description?: string;
+    private _subject: string;
+    private _description: string;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -540,16 +540,16 @@ export module QuotaFailure {
       this.description = _value.description;
       Violation.refineValues(this);
     }
-    get subject(): string | undefined {
+    get subject(): string {
       return this._subject;
     }
-    set subject(value: string | undefined) {
+    set subject(value: string) {
       this._subject = value;
     }
-    get description(): string | undefined {
+    get description(): string {
       return this._description;
     }
-    set description(value: string | undefined) {
+    set description(value: string) {
       this._description = value;
     }
 
@@ -600,16 +600,16 @@ export module QuotaFailure {
      * Standard JavaScript object representation for Violation
      */
     export interface AsObject {
-      subject?: string;
-      description?: string;
+      subject: string;
+      description: string;
     }
 
     /**
      * Protobuf JSON representation for Violation
      */
     export interface AsProtobufJSON {
-      subject?: string;
-      description?: string;
+      subject: string;
+      description: string;
     }
   }
 }
@@ -705,9 +705,9 @@ export class ErrorInfo implements GrpcMessage {
     }
   }
 
-  private _reason?: string;
-  private _domain?: string;
-  private _metadata?: { [prop: string]: string };
+  private _reason: string;
+  private _domain: string;
+  private _metadata: { [prop: string]: string };
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -725,22 +725,22 @@ export class ErrorInfo implements GrpcMessage {
       : {}),
       ErrorInfo.refineValues(this);
   }
-  get reason(): string | undefined {
+  get reason(): string {
     return this._reason;
   }
-  set reason(value: string | undefined) {
+  set reason(value: string) {
     this._reason = value;
   }
-  get domain(): string | undefined {
+  get domain(): string {
     return this._domain;
   }
-  set domain(value: string | undefined) {
+  set domain(value: string) {
     this._domain = value;
   }
-  get metadata(): { [prop: string]: string } | undefined {
+  get metadata(): { [prop: string]: string } {
     return this._metadata;
   }
-  set metadata(value: { [prop: string]: string } | undefined) {
+  set metadata(value: { [prop: string]: string }) {
     this._metadata = value;
   }
 
@@ -803,18 +803,18 @@ export module ErrorInfo {
    * Standard JavaScript object representation for ErrorInfo
    */
   export interface AsObject {
-    reason?: string;
-    domain?: string;
-    metadata?: { [prop: string]: string };
+    reason: string;
+    domain: string;
+    metadata: { [prop: string]: string };
   }
 
   /**
    * Protobuf JSON representation for ErrorInfo
    */
   export interface AsProtobufJSON {
-    reason?: string;
-    domain?: string;
-    metadata?: { [prop: string]: string };
+    reason: string;
+    domain: string;
+    metadata: { [prop: string]: string };
   }
 
   /**
@@ -889,8 +889,8 @@ export module ErrorInfo {
       }
     }
 
-    private _key?: string;
-    private _value?: string;
+    private _key: string;
+    private _value: string;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -902,16 +902,16 @@ export module ErrorInfo {
       this.value = _value.value;
       MetadataEntry.refineValues(this);
     }
-    get key(): string | undefined {
+    get key(): string {
       return this._key;
     }
-    set key(value: string | undefined) {
+    set key(value: string) {
       this._key = value;
     }
-    get value(): string | undefined {
+    get value(): string {
       return this._value;
     }
-    set value(value: string | undefined) {
+    set value(value: string) {
       this._value = value;
     }
 
@@ -962,16 +962,16 @@ export module ErrorInfo {
      * Standard JavaScript object representation for MetadataEntry
      */
     export interface AsObject {
-      key?: string;
-      value?: string;
+      key: string;
+      value: string;
     }
 
     /**
      * Protobuf JSON representation for MetadataEntry
      */
     export interface AsProtobufJSON {
-      key?: string;
-      value?: string;
+      key: string;
+      value: string;
     }
   }
 }
@@ -1124,7 +1124,7 @@ export module PreconditionFailure {
    * Protobuf JSON representation for PreconditionFailure
    */
   export interface AsProtobufJSON {
-    violations?: PreconditionFailure.Violation.AsProtobufJSON[] | null;
+    violations: PreconditionFailure.Violation.AsProtobufJSON[] | null;
   }
 
   /**
@@ -1203,9 +1203,9 @@ export module PreconditionFailure {
       }
     }
 
-    private _type?: string;
-    private _subject?: string;
-    private _description?: string;
+    private _type: string;
+    private _subject: string;
+    private _description: string;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -1218,22 +1218,22 @@ export module PreconditionFailure {
       this.description = _value.description;
       Violation.refineValues(this);
     }
-    get type(): string | undefined {
+    get type(): string {
       return this._type;
     }
-    set type(value: string | undefined) {
+    set type(value: string) {
       this._type = value;
     }
-    get subject(): string | undefined {
+    get subject(): string {
       return this._subject;
     }
-    set subject(value: string | undefined) {
+    set subject(value: string) {
       this._subject = value;
     }
-    get description(): string | undefined {
+    get description(): string {
       return this._description;
     }
-    set description(value: string | undefined) {
+    set description(value: string) {
       this._description = value;
     }
 
@@ -1286,18 +1286,18 @@ export module PreconditionFailure {
      * Standard JavaScript object representation for Violation
      */
     export interface AsObject {
-      type?: string;
-      subject?: string;
-      description?: string;
+      type: string;
+      subject: string;
+      description: string;
     }
 
     /**
      * Protobuf JSON representation for Violation
      */
     export interface AsProtobufJSON {
-      type?: string;
-      subject?: string;
-      description?: string;
+      type: string;
+      subject: string;
+      description: string;
     }
   }
 }
@@ -1446,7 +1446,7 @@ export module BadRequest {
    * Protobuf JSON representation for BadRequest
    */
   export interface AsProtobufJSON {
-    fieldViolations?: BadRequest.FieldViolation.AsProtobufJSON[] | null;
+    fieldViolations: BadRequest.FieldViolation.AsProtobufJSON[] | null;
   }
 
   /**
@@ -1521,8 +1521,8 @@ export module BadRequest {
       }
     }
 
-    private _field?: string;
-    private _description?: string;
+    private _field: string;
+    private _description: string;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -1534,16 +1534,16 @@ export module BadRequest {
       this.description = _value.description;
       FieldViolation.refineValues(this);
     }
-    get field(): string | undefined {
+    get field(): string {
       return this._field;
     }
-    set field(value: string | undefined) {
+    set field(value: string) {
       this._field = value;
     }
-    get description(): string | undefined {
+    get description(): string {
       return this._description;
     }
-    set description(value: string | undefined) {
+    set description(value: string) {
       this._description = value;
     }
 
@@ -1594,16 +1594,16 @@ export module BadRequest {
      * Standard JavaScript object representation for FieldViolation
      */
     export interface AsObject {
-      field?: string;
-      description?: string;
+      field: string;
+      description: string;
     }
 
     /**
      * Protobuf JSON representation for FieldViolation
      */
     export interface AsProtobufJSON {
-      field?: string;
-      description?: string;
+      field: string;
+      description: string;
     }
   }
 }
@@ -1677,8 +1677,8 @@ export class RequestInfo implements GrpcMessage {
     }
   }
 
-  private _requestId?: string;
-  private _servingData?: string;
+  private _requestId: string;
+  private _servingData: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -1690,16 +1690,16 @@ export class RequestInfo implements GrpcMessage {
     this.servingData = _value.servingData;
     RequestInfo.refineValues(this);
   }
-  get requestId(): string | undefined {
+  get requestId(): string {
     return this._requestId;
   }
-  set requestId(value: string | undefined) {
+  set requestId(value: string) {
     this._requestId = value;
   }
-  get servingData(): string | undefined {
+  get servingData(): string {
     return this._servingData;
   }
-  set servingData(value: string | undefined) {
+  set servingData(value: string) {
     this._servingData = value;
   }
 
@@ -1750,16 +1750,16 @@ export module RequestInfo {
    * Standard JavaScript object representation for RequestInfo
    */
   export interface AsObject {
-    requestId?: string;
-    servingData?: string;
+    requestId: string;
+    servingData: string;
   }
 
   /**
    * Protobuf JSON representation for RequestInfo
    */
   export interface AsProtobufJSON {
-    requestId?: string;
-    servingData?: string;
+    requestId: string;
+    servingData: string;
   }
 }
 
@@ -1846,10 +1846,10 @@ export class ResourceInfo implements GrpcMessage {
     }
   }
 
-  private _resourceType?: string;
-  private _resourceName?: string;
-  private _owner?: string;
-  private _description?: string;
+  private _resourceType: string;
+  private _resourceName: string;
+  private _owner: string;
+  private _description: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -1863,28 +1863,28 @@ export class ResourceInfo implements GrpcMessage {
     this.description = _value.description;
     ResourceInfo.refineValues(this);
   }
-  get resourceType(): string | undefined {
+  get resourceType(): string {
     return this._resourceType;
   }
-  set resourceType(value: string | undefined) {
+  set resourceType(value: string) {
     this._resourceType = value;
   }
-  get resourceName(): string | undefined {
+  get resourceName(): string {
     return this._resourceName;
   }
-  set resourceName(value: string | undefined) {
+  set resourceName(value: string) {
     this._resourceName = value;
   }
-  get owner(): string | undefined {
+  get owner(): string {
     return this._owner;
   }
-  set owner(value: string | undefined) {
+  set owner(value: string) {
     this._owner = value;
   }
-  get description(): string | undefined {
+  get description(): string {
     return this._description;
   }
-  set description(value: string | undefined) {
+  set description(value: string) {
     this._description = value;
   }
 
@@ -1939,20 +1939,20 @@ export module ResourceInfo {
    * Standard JavaScript object representation for ResourceInfo
    */
   export interface AsObject {
-    resourceType?: string;
-    resourceName?: string;
-    owner?: string;
-    description?: string;
+    resourceType: string;
+    resourceName: string;
+    owner: string;
+    description: string;
   }
 
   /**
    * Protobuf JSON representation for ResourceInfo
    */
   export interface AsProtobufJSON {
-    resourceType?: string;
-    resourceName?: string;
-    owner?: string;
-    description?: string;
+    resourceType: string;
+    resourceName: string;
+    owner: string;
+    description: string;
   }
 }
 
@@ -2091,7 +2091,7 @@ export module Help {
    * Protobuf JSON representation for Help
    */
   export interface AsProtobufJSON {
-    links?: Help.Link.AsProtobufJSON[] | null;
+    links: Help.Link.AsProtobufJSON[] | null;
   }
 
   /**
@@ -2157,8 +2157,8 @@ export module Help {
       }
     }
 
-    private _description?: string;
-    private _url?: string;
+    private _description: string;
+    private _url: string;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -2170,16 +2170,16 @@ export module Help {
       this.url = _value.url;
       Link.refineValues(this);
     }
-    get description(): string | undefined {
+    get description(): string {
       return this._description;
     }
-    set description(value: string | undefined) {
+    set description(value: string) {
       this._description = value;
     }
-    get url(): string | undefined {
+    get url(): string {
       return this._url;
     }
-    set url(value: string | undefined) {
+    set url(value: string) {
       this._url = value;
     }
 
@@ -2230,16 +2230,16 @@ export module Help {
      * Standard JavaScript object representation for Link
      */
     export interface AsObject {
-      description?: string;
-      url?: string;
+      description: string;
+      url: string;
     }
 
     /**
      * Protobuf JSON representation for Link
      */
     export interface AsProtobufJSON {
-      description?: string;
-      url?: string;
+      description: string;
+      url: string;
     }
   }
 }
@@ -2316,8 +2316,8 @@ export class LocalizedMessage implements GrpcMessage {
     }
   }
 
-  private _locale?: string;
-  private _message?: string;
+  private _locale: string;
+  private _message: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -2329,16 +2329,16 @@ export class LocalizedMessage implements GrpcMessage {
     this.message = _value.message;
     LocalizedMessage.refineValues(this);
   }
-  get locale(): string | undefined {
+  get locale(): string {
     return this._locale;
   }
-  set locale(value: string | undefined) {
+  set locale(value: string) {
     this._locale = value;
   }
-  get message(): string | undefined {
+  get message(): string {
     return this._message;
   }
-  set message(value: string | undefined) {
+  set message(value: string) {
     this._message = value;
   }
 
@@ -2389,15 +2389,15 @@ export module LocalizedMessage {
    * Standard JavaScript object representation for LocalizedMessage
    */
   export interface AsObject {
-    locale?: string;
-    message?: string;
+    locale: string;
+    message: string;
   }
 
   /**
    * Protobuf JSON representation for LocalizedMessage
    */
   export interface AsProtobufJSON {
-    locale?: string;
-    message?: string;
+    locale: string;
+    message: string;
   }
 }

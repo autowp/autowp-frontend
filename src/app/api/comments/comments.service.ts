@@ -137,20 +137,6 @@ export class APICommentsService {
     return this.api.request<APIComment>('GET', 'comment/' + id, {params});
   }
 
-  public getCommentByLocation(location: string, options: APICommentItemGetOptions): Observable<APIComment> {
-    const params: {[param: string]: string} = {};
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
-    return this.api.request<APIComment>('GET', this.api.resolveLocation(location), {params});
-  }
-
   public getAttentionCommentsCount(): Observable<number> {
     return this.attentionCommentsCount$;
   }

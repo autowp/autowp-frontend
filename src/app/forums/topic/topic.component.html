@@ -19,8 +19,8 @@
     <h1>{{ topic.name }}</h1>
   </div>
 
-  <section class="forum-topic-page comments" *ngIf="topic">
-    <app-comments [itemID]="topic.id" [typeID]="5" *ngIf="topic" [limit]="limit" [page]="page$ | async"></app-comments>
+  <section class="forum-topic-page comments">
+    <app-comments [itemID]="topic.id" [typeID]="5" [limit]="limit" [page]="page$ | async"></app-comments>
 
     <div class="text-end mb-3" *ngIf="user$ | async">
       <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe(topic)">

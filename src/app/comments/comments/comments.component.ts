@@ -4,7 +4,7 @@ import {AuthService} from '../../services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 import {CommentsType, CommentsViewRequest} from '../../../../generated/spec.pb';
 import {CommentsClient} from '../../../../generated/spec.pbsc';
 
@@ -75,30 +75,38 @@ export class CommentsComponent {
     private commentsGrpc: CommentsClient
   ) {}
 
-  public onSent(location: string) {
-    if (!this.limit) {
-      this.reload$.next(null);
-      return;
-    }
+  public onSent(id: string) {
+    this.limit$.pipe(take(1)).subscribe({
+      next: (limit) => {
+        if (!limit) {
+          this.reload$.next(null);
+          return;
+        }
 
-    this.commentService
-      .getCommentByLocation(location, {
-        fields: 'page',
-        limit: this.limit,
-      })
-      .subscribe({
-        next: (response) => {
-          if (this.page !== response.page) {
-            this.router.navigate([], {
-              queryParams: {page: response.page},
-              queryParamsHandling: 'merge',
-            });
-          } else {
-            this.reload$.next(null);
-          }
-        },
-        error: (response) => this.toastService.response(response),
-      });
+        this.commentService
+          .getComment(+id, {
+            fields: 'page',
+            limit: limit,
+          })
+          .subscribe({
+            next: (response) => {
+              this.page$.pipe(take(1)).subscribe({
+                next: (page) => {
+                  if (page !== response.page) {
+                    this.router.navigate([], {
+                      queryParams: {page: response.page},
+                      queryParamsHandling: 'merge',
+                    });
+                  } else {
+                    this.reload$.next(null);
+                  }
+                },
+              });
+            },
+            error: (response) => this.toastService.response(response),
+          });
+      },
+    });
   }
 
   public load(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
