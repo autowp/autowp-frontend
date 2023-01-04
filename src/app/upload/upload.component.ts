@@ -27,7 +27,8 @@ interface APIPictureUpload extends APIPicture {
 }
 
 const cropTitle = (crop: {left: number | null; top: number | null; width: number | null; height: number | null}) => {
-  return $localize`cropped to ${crop.width}×${crop.height}+${crop.left}+${crop.top}`;
+  const cropSize = `${crop.width}×${crop.height}+${crop.left}+${crop.top}`;
+  return $localize`cropped to ${cropSize}`;
 };
 
 @Component({
@@ -208,7 +209,7 @@ export class UploadComponent implements OnInit {
                 progress.percentage = 100;
                 this.pictures.push({
                   ...picture,
-                  cropTitle: cropTitle(picture.crop),
+                  cropTitle: picture.crop ? cropTitle(picture.crop) : '',
                 });
               }),
               catchError((response) => {

@@ -1937,7 +1937,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.html</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e9b20820eab2b7caad859fd12f5e211cdb4eae88" datatype="html">
@@ -8248,7 +8248,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/upload.component.html</context>
-          <context context-type="linenumber">130,146</context>
+          <context context-type="linenumber">125,141</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3f59eb3b2f1985def97a8ef897b363e3ba784d1c" datatype="html">
@@ -8286,14 +8286,11 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="622c85e9c459963d4144ec91c0a598885f15eb8f" datatype="html">
-        <source>cropped to
-                <x id="INTERPOLATION" equiv-text="{{
-                  picture.crop.width + &apos;×&apos; + picture.crop.height + &apos;+&apos; + picture.crop.left + &apos;+&apos; + picture.crop.top
-                }}"/></source>
+      <trans-unit id="5867807574919375898" datatype="html">
+        <source>cropped to <x id="PH" equiv-text="cropSize"/></source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/upload/upload.component.html</context>
-          <context context-type="linenumber">116,120</context>
+          <context context-type="sourcefile">src/app/upload/upload.component.ts</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="87c144ebcf59a31509bb947159e7936a5a73c8f4" datatype="html">

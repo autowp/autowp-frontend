@@ -109,16 +109,11 @@
         <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of pictures">
           <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
           <p>
-            <a href="#" (click)="crop(picture)">
+            <button type="button" class="btn btn-link btn-sm" (click)="crop(picture)">
               <i class="bi bi-crop" aria-hidden="true"></i>
               <span *ngIf="!picture.crop" i18n>crop</span>
-              <span *ngIf="picture.crop" i18n
-                >cropped to
-                {{
-                  picture.crop.width + '×' + picture.crop.height + '+' + picture.crop.left + '+' + picture.crop.top
-                }}</span
-              >
-            </a>
+              <span *ngIf="picture.crop">{{ picture.cropTitle }}</span>
+            </button>
           </p>
         </div>
       </div>
