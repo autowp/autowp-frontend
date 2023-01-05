@@ -3006,7 +3006,7 @@ Toutes les valeurs qui sont entrées ici - apparaissent sur le site, dans les sp
       </trans-unit>
       <trans-unit id="1739839265970357596" datatype="html">
         <source><x id="PH" equiv-text="brand.name_only"/> Engines</source>
-        <target>Moteurs <x id="PH" equiv-text="brand.name_text"/></target>
+        <target><x id="PH" equiv-text="brand.name_only"/> Moteurs</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/engines/engines.component.ts</context>
           <context context-type="linenumber">50</context>
@@ -8818,6 +8818,10 @@ S'il vous plaît noter que l'ajout d'images modérés. c'est-à-dire toutes les 
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/pictures/brand/brand.component.ts</context>
           <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users/user/pictures/brand/brand.component.ts</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ad718f329f743525a1963b1cb9f79d4d5c770412" datatype="html">

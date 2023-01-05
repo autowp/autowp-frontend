@@ -30,7 +30,7 @@ export class UsersUserPicturesBrandComponent {
     shareReplay(1)
   );
 
-  public brand$ = this.route.paramMap.pipe(
+  private brand$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -59,6 +59,8 @@ export class UsersUserPicturesBrandComponent {
     }),
     shareReplay(1)
   );
+
+  public title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} pictures`));
 
   public data$ = combineLatest([
     this.user$,

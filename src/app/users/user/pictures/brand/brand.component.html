@@ -4,10 +4,10 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <ng-container *ngIf="user$ | async as user">
-      <li class="breadcrumb-item" *ngIf="user">
+      <li class="breadcrumb-item">
         <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id]">{{ user.name }}</a>
       </li>
-      <li class="breadcrumb-item" *ngIf="user">
+      <li class="breadcrumb-item">
         <a [routerLink]="['/users', user.identity ? user.identity : 'user' + user.id, 'pictures']" i18n
           >User's pictures</a
         >
@@ -16,8 +16,8 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="brand$ | async as brand">
-  <h1 i18n *ngIf="brand">{{ brand.name_only }} pictures</h1>
+<div class="page-header" *ngIf="title$ | async as title">
+  <h1>{{ title }}</h1>
 </div>
 
 <ng-container *ngIf="data$ | async as data">
