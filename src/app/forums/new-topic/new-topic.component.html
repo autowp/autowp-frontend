@@ -19,7 +19,7 @@
 <ng-container *ngIf="user$ | async; else noUser">
   <form method="post" class="form-horizontal" (submit)="submit(theme)" *ngIf="theme$ | async as theme">
     <div class="mb-3 row">
-      <label class="col-md-2 col-form-label" for="name" i18n>Subject</label>
+      <label class="col-md-2 col-form-label" i18n>Subject</label>
       <div class="col-md-10">
         <input
           type="text"
@@ -38,19 +38,19 @@
       </div>
     </div>
     <div class="mb-3 row">
-      <label class="col-md-2 col-form-label" for="text" i18n>Message</label>
+      <label class="col-md-2 col-form-label" i18n>Message</label>
       <div class="col-md-10">
         <textarea
-          name="text"
+          name="message"
           cols="140"
           rows="15"
           maxlength="4096"
           class="form-control"
-          [(ngModel)]="form.text"
-          [class.is-invalid]="invalidParams && invalidParams.text"
+          [(ngModel)]="form.message"
+          [class.is-invalid]="invalidParams && invalidParams.message"
         ></textarea>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'text'"
+          *ngFor="let message of invalidParams | invalidParams : 'message'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>

@@ -8,6 +8,9 @@ import {APIForumTheme, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {ForumsClient} from '../../../../generated/spec.pbsc';
+import {APICreateTopicRequest} from '../../../../generated/spec.pb';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 
 @Component({
   selector: 'app-forums-new-topic',
@@ -16,7 +19,7 @@ import {InvalidParams} from '../../utils/invalid-params.pipe';
 export class ForumsNewTopicComponent implements OnInit {
   public form = {
     name: '',
-    text: '',
+    message: '',
     moderator_attention: false,
     subscription: false,
   };
@@ -42,7 +45,8 @@ export class ForumsNewTopicComponent implements OnInit {
     private forumService: ForumsService,
     public auth: AuthService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private forums: ForumsClient
   ) {}
 
   ngOnInit(): void {
@@ -54,30 +58,26 @@ export class ForumsNewTopicComponent implements OnInit {
   public submit(theme: APIForumTheme) {
     this.invalidParams = {};
 
-    this.forumService
-      .postTopic({
-        theme_id: theme.id,
-        name: this.form.name,
-        text: this.form.text,
-        moderator_attention: this.form.moderator_attention,
-        subscription: this.form.subscription,
-      })
+    this.forums
+      .createTopic(
+        new APICreateTopicRequest({
+          themeId: '' + theme.id,
+          name: this.form.name,
+          message: this.form.message,
+          moderatorAttention: this.form.moderator_attention,
+          subscription: this.form.subscription,
+        })
+      )
       .subscribe({
         next: (response) => {
-          const location = response.headers.get('Location');
-
-          this.forumService.getTopicByLocation(location, {}).subscribe({
-            next: (topic) => {
-              this.router.navigate(['/forums/topic', topic.id]);
-            },
-            error: (subresponse) => this.toastService.response(subresponse),
-          });
+          this.router.navigate(['/forums/topic', response.id]);
         },
         error: (response) => {
-          if (response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
+          if (response.statusCode === 3) {
+            const fieldViolations = extractFieldViolations(response);
+            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           } else {
-            this.toastService.response(response);
+            this.toastService.response(response.statusMessage);
           }
         },
       });

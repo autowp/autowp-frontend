@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {HttpResponse} from '@angular/common/http';
 import {shareReplay, switchMap, map} from 'rxjs/operators';
 import {AuthService} from '../services/auth.service';
 import {APIPaginator, APIService} from '../services/api.service';
 import {APIUser} from '../services/user';
 import {APIComment} from '../api/comments/comments.service';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {ForumsClient} from '../../../generated/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APIForumsUserSummary} from '../../../generated/spec.pb';
 
@@ -20,14 +19,6 @@ export interface APIForumGetTopicsOptions {
   fields?: string;
   subscription?: boolean;
   page?: number;
-}
-
-export interface APIForumTopicPostData {
-  theme_id: number;
-  name: string;
-  text: string;
-  moderator_attention: boolean;
-  subscription: boolean;
 }
 
 export interface APIForumGetThemeOptions {
@@ -95,19 +86,17 @@ const LIMIT = 20;
   providedIn: 'root',
 })
 export class ForumsService {
-  private readonly summary$: Observable<APIForumsUserSummary>;
+  private readonly summary$: Observable<APIForumsUserSummary> = this.auth.getUser().pipe(
+    switchMap((user) => {
+      if (!user) {
+        return of(null);
+      }
+      return this.grpc.getUserSummary(new Empty());
+    }),
+    shareReplay(1)
+  );
 
-  constructor(private api: APIService, private auth: AuthService, private grpc: AutowpClient) {
-    this.summary$ = this.auth.getUser().pipe(
-      switchMap((user) => {
-        if (!user) {
-          return of(null);
-        }
-        return this.grpc.getForumsUserSummary(new Empty());
-      }),
-      shareReplay(1)
-    );
-  }
+  constructor(private api: APIService, private auth: AuthService, private grpc: ForumsClient) {}
 
   public getUserSummary(): Observable<APIForumsUserSummary> {
     return this.summary$;
@@ -206,34 +195,6 @@ export class ForumsService {
 
     return this.api.request<APIForumTopic>('GET', 'forum/topic/' + id, {
       params,
-    });
-  }
-
-  public getTopicByLocation(location: string, options: APIForumGetTopicOptions): Observable<APIForumTopic> {
-    const params: {[param: string]: string} = {};
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.page) {
-      params.page = options.page.toString();
-    }
-    return this.api.request<APIForumTopic>('GET', this.api.resolveLocation(location), {
-      params,
-    });
-  }
-
-  public postTopic(data: APIForumTopicPostData): Observable<HttpResponse<void>> {
-    return this.api.request<void>('POST', 'forum/topic', {
-      observe: 'response',
-      body: {
-        theme_id: data.theme_id.toString(),
-        name: data.name,
-        text: data.text,
-        moderator_attention: data.moderator_attention ? '1' : '',
-        subscription: data.subscription ? '1' : '',
-      },
     });
   }
 }

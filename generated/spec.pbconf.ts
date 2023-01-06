@@ -15,6 +15,14 @@ export const GRPC_AUTOWP_CLIENT_SETTINGS = new InjectionToken<any>(
 );
 
 /**
+ * Specific GrpcClientSettings for Forums.
+ * Use it only if your default settings are not set or the service requires other settings.
+ */
+export const GRPC_FORUMS_CLIENT_SETTINGS = new InjectionToken<any>(
+  'GRPC_FORUMS_CLIENT_SETTINGS'
+);
+
+/**
  * Specific GrpcClientSettings for Articles.
  * Use it only if your default settings are not set or the service requires other settings.
  */
