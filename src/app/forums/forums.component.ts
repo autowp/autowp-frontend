@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {APIService} from '../services/api.service';
 import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {combineLatest, Observable} from 'rxjs';
+import {combineLatest} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '../services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '../utils/translations';
+import {ForumsClient} from '../../../generated/spec.pbsc';
+import {APISetTopicStatusRequest} from '../../../generated/spec.pb';
 
 @Component({
   selector: 'app-forums',
@@ -73,46 +74,43 @@ export class ForumsComponent {
   );
 
   constructor(
-    private api: APIService,
     private acl: ACLService,
     private route: ActivatedRoute,
     private forumService: ForumsService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: ForumsClient
   ) {}
 
-  private setTopicStatus(topic: APIForumTopic, status: string): Observable<void> {
-    const o = this.api.request<void>('PUT', 'forum/topic/' + topic.id, {
-      body: {
-        status,
-      },
-    });
-    o.subscribe({
-      next: () => {
-        topic.status = status;
-      },
-      error: (response) => this.toastService.response(response),
-    });
-
-    return o;
-  }
-
   public openTopic(topic: APIForumTopic) {
-    this.setTopicStatus(topic, 'normal');
+    this.grpc.openTopic(new APISetTopicStatusRequest({id: '' + topic.id})).subscribe({
+      next: () => {
+        topic.status = 'normal';
+      },
+      error: (response) => this.toastService.grpcErrorResponse(response),
+    });
   }
 
   public closeTopic(topic: APIForumTopic) {
-    this.setTopicStatus(topic, 'closed');
+    this.grpc.closeTopic(new APISetTopicStatusRequest({id: '' + topic.id})).subscribe({
+      next: () => {
+        topic.status = 'closed';
+      },
+      error: (response) => this.toastService.grpcErrorResponse(response),
+    });
   }
 
   public deleteTopic(theme: APIForumTheme, topic: APIForumTopic) {
-    this.setTopicStatus(topic, 'deleted').subscribe(() => {
-      for (let i = theme.topics.items.length - 1; i >= 0; i--) {
-        if (theme.topics.items[i].id === topic.id) {
-          theme.topics.items.splice(i, 1);
-          break;
+    this.grpc.deleteTopic(new APISetTopicStatusRequest({id: '' + topic.id})).subscribe({
+      next: () => {
+        for (let i = theme.topics.items.length - 1; i >= 0; i--) {
+          if (theme.topics.items[i].id === topic.id) {
+            theme.topics.items.splice(i, 1);
+            break;
+          }
         }
-      }
+      },
+      error: (response) => this.toastService.grpcErrorResponse(response),
     });
   }
 

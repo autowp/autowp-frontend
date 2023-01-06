@@ -486,6 +486,69 @@ export class ForumsClient {
         requestClass: thisProto.APICreateTopicRequest,
         responseClass: thisProto.APICreateTopicResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Forums/CloseTopic
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    closeTopic: (
+      requestData: thisProto.APISetTopicStatusRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/CloseTopic',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APISetTopicStatusRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/OpenTopic
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    openTopic: (
+      requestData: thisProto.APISetTopicStatusRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/OpenTopic',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APISetTopicStatusRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/DeleteTopic
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteTopic: (
+      requestData: thisProto.APISetTopicStatusRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/DeleteTopic',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APISetTopicStatusRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -526,6 +589,54 @@ export class ForumsClient {
   ): Observable<thisProto.APICreateTopicResponse> {
     return this.$raw
       .createTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/CloseTopic
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  closeTopic(
+    requestData: thisProto.APISetTopicStatusRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .closeTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/OpenTopic
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  openTopic(
+    requestData: thisProto.APISetTopicStatusRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .openTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/DeleteTopic
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteTopic(
+    requestData: thisProto.APISetTopicStatusRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteTopic(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
