@@ -5,8 +5,9 @@ import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
+import {ForumsClient} from '../../../../generated/spec.pbsc';
+import {APIMoveTopicRequest} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-forums-move-topic',
@@ -35,12 +36,12 @@ export class ForumsMoveTopicComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
     private router: Router,
     private route: ActivatedRoute,
     private forumService: ForumsService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private grpc: ForumsClient
   ) {}
 
   ngOnInit(): void {
@@ -48,17 +49,18 @@ export class ForumsMoveTopicComponent implements OnInit {
   }
 
   public selectTheme(topic: APIForumTopic, theme: APIForumTheme) {
-    this.api
-      .request<void>('PUT', 'forum/topic/' + topic.id, {
-        body: {
-          theme_id: theme.id,
-        },
-      })
+    this.grpc
+      .moveTopic(
+        new APIMoveTopicRequest({
+          id: '' + topic.id,
+          themeId: '' + theme.id,
+        })
+      )
       .subscribe({
         next: () => {
           this.router.navigate(['/forums/topic', topic.id]);
         },
-        error: (response) => this.toastService.response(response),
+        error: (response) => this.toastService.grpcErrorResponse(response),
       });
   }
 

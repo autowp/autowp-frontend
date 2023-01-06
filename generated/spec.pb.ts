@@ -8224,6 +8224,164 @@ export module APISetTopicStatusRequest {
 }
 
 /**
+ * Message implementation for goautowp.APIMoveTopicRequest
+ */
+export class APIMoveTopicRequest implements GrpcMessage {
+  static id = 'goautowp.APIMoveTopicRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIMoveTopicRequest();
+    APIMoveTopicRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIMoveTopicRequest) {
+    _instance.id = _instance.id || '0';
+    _instance.themeId = _instance.themeId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIMoveTopicRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.themeId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIMoveTopicRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIMoveTopicRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.themeId) {
+      _writer.writeInt64String(2, _instance.themeId);
+    }
+  }
+
+  private _id: string;
+  private _themeId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIMoveTopicRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIMoveTopicRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.themeId = _value.themeId;
+    APIMoveTopicRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get themeId(): string {
+    return this._themeId;
+  }
+  set themeId(value: string) {
+    this._themeId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIMoveTopicRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIMoveTopicRequest.AsObject {
+    return {
+      id: this.id,
+      themeId: this.themeId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIMoveTopicRequest.AsProtobufJSON {
+    return {
+      id: this.id,
+      themeId: this.themeId
+    };
+  }
+}
+export module APIMoveTopicRequest {
+  /**
+   * Standard JavaScript object representation for APIMoveTopicRequest
+   */
+  export interface AsObject {
+    id: string;
+    themeId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIMoveTopicRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    themeId: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.APIMessageNewCount
  */
 export class APIMessageNewCount implements GrpcMessage {

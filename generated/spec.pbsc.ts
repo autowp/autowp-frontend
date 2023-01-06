@@ -549,6 +549,27 @@ export class ForumsClient {
         requestClass: thisProto.APISetTopicStatusRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Forums/MoveTopic
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    moveTopic: (
+      requestData: thisProto.APIMoveTopicRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/MoveTopic',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIMoveTopicRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -637,6 +658,22 @@ export class ForumsClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .deleteTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/MoveTopic
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  moveTopic(
+    requestData: thisProto.APIMoveTopicRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .moveTopic(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
