@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {APIService} from '../../services/api.service';
 import {combineLatest, Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '../../services/page-env.service';
@@ -8,6 +7,8 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
+import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest} from '../../../../generated/spec.pb';
 
 @Component({
   selector: 'app-forums-topic',
@@ -46,41 +47,43 @@ export class ForumsTopicComponent {
   );
 
   constructor(
-    private api: APIService,
     private forumService: ForumsService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     public auth: AuthService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private comments: CommentsClient
   ) {}
 
   public subscribe(topic: APIForumTopic) {
-    this.api
-      .request<void>('PUT', 'forum/topic/' + topic.id, {
-        body: {
-          subscription: 1,
-        },
-      })
+    this.comments
+      .subscribe(
+        new CommentsSubscribeRequest({
+          itemId: '' + topic.id,
+          typeId: CommentsType.FORUMS_TYPE_ID,
+        })
+      )
       .subscribe({
         next: () => {
           topic.subscription = true;
         },
-        error: (response) => this.toastService.response(response),
+        error: (response) => this.toastService.grpcErrorResponse(response),
       });
   }
 
   public unsubscribe(topic: APIForumTopic) {
-    this.api
-      .request<void>('PUT', 'forum/topic/' + topic.id, {
-        body: {
-          subscription: 0,
-        },
-      })
+    this.comments
+      .unSubscribe(
+        new CommentsUnSubscribeRequest({
+          itemId: '' + topic.id,
+          typeId: CommentsType.FORUMS_TYPE_ID,
+        })
+      )
       .subscribe({
         next: () => {
           topic.subscription = false;
         },
-        error: (response) => this.toastService.response(response),
+        error: (response) => this.toastService.grpcErrorResponse(response),
       });
   }
 
