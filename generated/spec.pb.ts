@@ -19681,6 +19681,783 @@ export module APIContentLanguages {
 }
 
 /**
+ * Message implementation for goautowp.APIItemLinkRequest
+ */
+export class APIItemLinkRequest implements GrpcMessage {
+  static id = 'goautowp.APIItemLinkRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIItemLinkRequest();
+    APIItemLinkRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIItemLinkRequest) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIItemLinkRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIItemLinkRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIItemLinkRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIItemLinkRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIItemLinkRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    APIItemLinkRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIItemLinkRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIItemLinkRequest.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIItemLinkRequest.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module APIItemLinkRequest {
+  /**
+   * Standard JavaScript object representation for APIItemLinkRequest
+   */
+  export interface AsObject {
+    id: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIItemLinkRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetItemLinksRequest
+ */
+export class APIGetItemLinksRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetItemLinksRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetItemLinksRequest();
+    APIGetItemLinksRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetItemLinksRequest) {
+    _instance.itemId = _instance.itemId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetItemLinksRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetItemLinksRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetItemLinksRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+  }
+
+  private _itemId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetItemLinksRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetItemLinksRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    APIGetItemLinksRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetItemLinksRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetItemLinksRequest.AsObject {
+    return {
+      itemId: this.itemId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetItemLinksRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId
+    };
+  }
+}
+export module APIGetItemLinksRequest {
+  /**
+   * Standard JavaScript object representation for APIGetItemLinksRequest
+   */
+  export interface AsObject {
+    itemId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetItemLinksRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIItemLinksResponse
+ */
+export class APIItemLinksResponse implements GrpcMessage {
+  static id = 'goautowp.APIItemLinksResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIItemLinksResponse();
+    APIItemLinksResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIItemLinksResponse) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIItemLinksResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIItemLink();
+          _reader.readMessage(
+            messageInitializer1,
+            APIItemLink.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIItemLinksResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIItemLinksResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIItemLink.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIItemLink[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIItemLinksResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIItemLinksResponse.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIItemLink(m));
+    APIItemLinksResponse.refineValues(this);
+  }
+  get items(): APIItemLink[] | undefined {
+    return this._items;
+  }
+  set items(value: APIItemLink[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIItemLinksResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIItemLinksResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIItemLinksResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIItemLinksResponse {
+  /**
+   * Standard JavaScript object representation for APIItemLinksResponse
+   */
+  export interface AsObject {
+    items?: APIItemLink.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIItemLinksResponse
+   */
+  export interface AsProtobufJSON {
+    items: APIItemLink.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIItemLink
+ */
+export class APIItemLink implements GrpcMessage {
+  static id = 'goautowp.APIItemLink';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIItemLink();
+    APIItemLink.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIItemLink) {
+    _instance.id = _instance.id || '0';
+    _instance.name = _instance.name || '';
+    _instance.url = _instance.url || '';
+    _instance.type = _instance.type || '';
+    _instance.itemId = _instance.itemId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIItemLink,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.name = _reader.readString();
+          break;
+        case 3:
+          _instance.url = _reader.readString();
+          break;
+        case 4:
+          _instance.type = _reader.readString();
+          break;
+        case 5:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIItemLink.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIItemLink,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(2, _instance.name);
+    }
+    if (_instance.url) {
+      _writer.writeString(3, _instance.url);
+    }
+    if (_instance.type) {
+      _writer.writeString(4, _instance.type);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(5, _instance.itemId);
+    }
+  }
+
+  private _id: string;
+  private _name: string;
+  private _url: string;
+  private _type: string;
+  private _itemId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIItemLink to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIItemLink.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.name = _value.name;
+    this.url = _value.url;
+    this.type = _value.type;
+    this.itemId = _value.itemId;
+    APIItemLink.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get url(): string {
+    return this._url;
+  }
+  set url(value: string) {
+    this._url = value;
+  }
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIItemLink.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIItemLink.AsObject {
+    return {
+      id: this.id,
+      name: this.name,
+      url: this.url,
+      type: this.type,
+      itemId: this.itemId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIItemLink.AsProtobufJSON {
+    return {
+      id: this.id,
+      name: this.name,
+      url: this.url,
+      type: this.type,
+      itemId: this.itemId
+    };
+  }
+}
+export module APIItemLink {
+  /**
+   * Standard JavaScript object representation for APIItemLink
+   */
+  export interface AsObject {
+    id: string;
+    name: string;
+    url: string;
+    type: string;
+    itemId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIItemLink
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    name: string;
+    url: string;
+    type: string;
+    itemId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APICreateItemLinkResponse
+ */
+export class APICreateItemLinkResponse implements GrpcMessage {
+  static id = 'goautowp.APICreateItemLinkResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APICreateItemLinkResponse();
+    APICreateItemLinkResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APICreateItemLinkResponse) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APICreateItemLinkResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APICreateItemLinkResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APICreateItemLinkResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APICreateItemLinkResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APICreateItemLinkResponse.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    APICreateItemLinkResponse.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APICreateItemLinkResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APICreateItemLinkResponse.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APICreateItemLinkResponse.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module APICreateItemLinkResponse {
+  /**
+   * Standard JavaScript object representation for APICreateItemLinkResponse
+   */
+  export interface AsObject {
+    id: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APICreateItemLinkResponse
+   */
+  export interface AsProtobufJSON {
+    id: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.AddCommentRequest
  */
 export class AddCommentRequest implements GrpcMessage {

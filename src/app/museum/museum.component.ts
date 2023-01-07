@@ -4,12 +4,12 @@ import {ACLService, Privilege, Resource} from '../services/acl.service';
 import {of, EMPTY, Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PictureService} from '../services/picture';
-import {ItemLinkService} from '../services/item-link';
 import {PageEnvService} from '../services/page-env.service';
 import {tileLayer, latLng, marker, icon} from 'leaflet';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, tap, map, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
-import {ItemType} from '../../../generated/spec.pb';
+import {APIGetItemLinksRequest, ItemType} from '../../../generated/spec.pb';
+import {ItemsClient} from '../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-museum',
@@ -26,9 +26,9 @@ export class MuseumComponent {
   );
 
   public links$ = this.itemID$.pipe(
-    switchMap((itemID) => this.itemLinkService.getItems({item_id: itemID})),
+    switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
     catchError((err) => {
-      this.toastService.response(err);
+      this.toastService.grpcErrorResponse(err);
       return of(null);
     })
   );
@@ -117,7 +117,7 @@ export class MuseumComponent {
     private route: ActivatedRoute,
     private router: Router,
     private pictureService: PictureService,
-    private itemLinkService: ItemLinkService,
+    private itemsClient: ItemsClient,
     private pageEnv: PageEnvService,
     private toastService: ToastsService
   ) {}

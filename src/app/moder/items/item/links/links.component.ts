@@ -1,10 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {APIItemLink, ItemLinkService} from '../../../../services/item-link';
-import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
-import {map, switchMap, tap} from 'rxjs/operators';
-import {APIService} from '../../../../services/api.service';
+import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {ItemsClient} from '../../../../../../generated/spec.pbsc';
+import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '../../../../../../generated/spec.pb';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-links',
@@ -24,36 +25,42 @@ export class ModerItemsItemLinksComponent {
   public newLink = {
     name: '',
     url: '',
-    type_id: 'default',
+    type: 'default',
   };
 
   public links$: Observable<APIItemLink[]> = this.reload$.pipe(
     switchMap(() => this.item$),
-    switchMap((item) => this.itemLinkService.getItems({item_id: item.id})),
+    switchMap((item) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + item.id}))),
     map((response) => response.items)
   );
 
-  constructor(private acl: ACLService, private api: APIService, private itemLinkService: ItemLinkService) {}
+  constructor(private acl: ACLService, private itemsClient: ItemsClient, private toastService: ToastsService) {}
 
   public saveLinks(itemId: number, links: APIItemLink[]) {
-    const promises: Observable<void>[] = [];
+    const promises: Observable<any>[] = [];
 
     if (this.newLink.url) {
       promises.push(
-        this.api
-          .request<void>('POST', 'item-link', {
-            body: {
-              item_id: itemId,
+        this.itemsClient
+          .createItemLink(
+            new APIItemLink({
+              itemId: '' + itemId,
               name: this.newLink.name,
               url: this.newLink.url,
-              type_id: this.newLink.type_id,
-            },
-          })
+              type: this.newLink.type,
+            })
+          )
           .pipe(
-            tap(() => {
-              this.newLink.name = '';
-              this.newLink.url = '';
-              this.newLink.type_id = 'default';
+            catchError((response) => {
+              this.toastService.grpcErrorResponse(response);
+              return of(null);
+            }),
+            tap((response) => {
+              if (response) {
+                this.newLink.name = '';
+                this.newLink.url = '';
+                this.newLink.type = 'default';
+              }
             })
           )
       );
@@ -62,16 +69,25 @@ export class ModerItemsItemLinksComponent {
     for (const link of links) {
       if (link.url) {
         promises.push(
-          this.api.request<void>('PUT', 'item-link/' + link.id, {
-            body: {
-              name: link.name,
-              url: link.url,
-              type_id: link.type_id,
-            },
-          })
+          this.itemsClient
+            .updateItemLink(
+              new APIItemLink({
+                id: link.id,
+                itemId: '' + itemId,
+                name: link.name,
+                url: link.url,
+                type: link.type,
+              })
+            )
+            .pipe(
+              catchError((response) => {
+                this.toastService.grpcErrorResponse(response);
+                return of(null);
+              })
+            )
         );
       } else {
-        promises.push(this.api.request<void>('DELETE', 'item-link/' + link.id));
+        promises.push(this.itemsClient.deleteItemLink(new APIItemLinkRequest({id: '' + link.id})));
       }
     }
 

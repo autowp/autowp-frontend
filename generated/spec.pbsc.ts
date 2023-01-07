@@ -1615,6 +1615,111 @@ export class ItemsClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.APIContentLanguages
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetItemLink
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIItemLink>>
+     */
+    getItemLink: (
+      requestData: thisProto.APIItemLinkRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIItemLink>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetItemLink',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemLinkRequest,
+        responseClass: thisProto.APIItemLink
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetItemLinks
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIItemLinksResponse>>
+     */
+    getItemLinks: (
+      requestData: thisProto.APIGetItemLinksRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIItemLinksResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetItemLinks',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetItemLinksRequest,
+        responseClass: thisProto.APIItemLinksResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/DeleteItemLink
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteItemLink: (
+      requestData: thisProto.APIItemLinkRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/DeleteItemLink',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemLinkRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/CreateItemLink
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APICreateItemLinkResponse>>
+     */
+    createItemLink: (
+      requestData: thisProto.APIItemLink,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APICreateItemLinkResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/CreateItemLink',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemLink,
+        responseClass: thisProto.APICreateItemLinkResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/UpdateItemLink
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updateItemLink: (
+      requestData: thisProto.APIItemLink,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/UpdateItemLink',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemLink,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -1751,6 +1856,86 @@ export class ItemsClient {
   ): Observable<thisProto.APIContentLanguages> {
     return this.$raw
       .getContentLanguages(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetItemLink
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIItemLink>
+   */
+  getItemLink(
+    requestData: thisProto.APIItemLinkRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIItemLink> {
+    return this.$raw
+      .getItemLink(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetItemLinks
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIItemLinksResponse>
+   */
+  getItemLinks(
+    requestData: thisProto.APIGetItemLinksRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIItemLinksResponse> {
+    return this.$raw
+      .getItemLinks(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/DeleteItemLink
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteItemLink(
+    requestData: thisProto.APIItemLinkRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteItemLink(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/CreateItemLink
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APICreateItemLinkResponse>
+   */
+  createItemLink(
+    requestData: thisProto.APIItemLink,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APICreateItemLinkResponse> {
+    return this.$raw
+      .createItemLink(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/UpdateItemLink
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  updateItemLink(
+    requestData: thisProto.APIItemLink,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .updateItemLink(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

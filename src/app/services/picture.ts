@@ -7,7 +7,6 @@ import {switchMap, shareReplay, map} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {ACLService, Privilege, Resource} from './acl.service';
 import {APIItem, APIPathTreeItem} from './item';
-import {APIItemLink} from './item-link';
 import {PicturesClient} from '../../../generated/spec.pbsc';
 import {PicturesVoteRequest, PicturesVoteSummary} from '../../../generated/spec.pb';
 
@@ -118,7 +117,12 @@ export interface APIPicture {
   factories?: APIItem[];
   copyright_blocks?: APIItem[];
   subscribed?: boolean;
-  of_links?: APIItemLink[];
+  of_links?: {
+    id: number;
+    url: string;
+    name: string;
+    type_id: string;
+  }[];
   paginator?: APIPicturePaginator;
   path: APIPathTreePictureItem[];
   taken_year?: number;

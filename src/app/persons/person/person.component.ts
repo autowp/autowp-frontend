@@ -3,12 +3,12 @@ import {APIItem, ItemService} from '../../services/item';
 import {ActivatedRoute, Router} from '@angular/router';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {APIPictureGetResponse, PictureService} from '../../services/picture';
-import {APIItemLinkGetResponse, ItemLinkService} from '../../services/item-link';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {ItemType} from '../../../../generated/spec.pb';
+import {APIGetItemLinksRequest, APIItemLink, APIItemLinksResponse, ItemType} from '../../../../generated/spec.pb';
+import {ItemsClient} from '../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-persons-person',
@@ -61,11 +61,11 @@ export class PersonsPersonComponent {
     shareReplay(1)
   );
 
-  public links$ = this.itemID$.pipe(
-    switchMap((itemID) => this.itemLinkService.getItems({item_id: itemID})),
+  public links$: Observable<APIItemLink[]> = this.itemID$.pipe(
+    switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
     catchError((err) => {
-      this.toastService.response(err);
-      return of(null as APIItemLinkGetResponse);
+      this.toastService.grpcErrorResponse(err);
+      return of({items: []} as APIItemLinksResponse);
     }),
     map((response) => response.items)
   );
@@ -114,7 +114,7 @@ export class PersonsPersonComponent {
     private router: Router,
     private route: ActivatedRoute,
     private pictureService: PictureService,
-    private itemLinkService: ItemLinkService,
+    private itemsClient: ItemsClient,
     private acl: ACLService,
     private pageEnv: PageEnvService,
     private toastService: ToastsService

@@ -25,7 +25,7 @@
               <input type="text" name="url{{ i }}" [(ngModel)]="link.url" class="form-control" />
             </td>
             <td>
-              <select name="type{{ i }}" [(ngModel)]="link.type_id" class="form-control">
+              <select name="type{{ i }}" [(ngModel)]="link.type" class="form-control">
                 <option value="default" i18n>interest link</option>
                 <option value="official" i18n>official</option>
                 <option value="club" i18n>club</option>
@@ -40,7 +40,7 @@
               <input type="text" name="url" [(ngModel)]="newLink.url" class="form-control" />
             </td>
             <td>
-              <select name="type" [(ngModel)]="newLink.type_id" class="form-control">
+              <select name="type" [(ngModel)]="newLink.type" class="form-control">
                 <option value="default" i18n>interest link</option>
                 <option value="official" i18n>official</option>
                 <option value="club" i18n>club</option>
@@ -74,7 +74,7 @@
       <tr *ngFor="let link of links">
         <td [textContent]="link.name"></td>
         <td [textContent]="link.url"></td>
-        <td [textContent]="link.type_id"></td>
+        <td [textContent]="link.type"></td>
       </tr>
     </tbody>
   </table>

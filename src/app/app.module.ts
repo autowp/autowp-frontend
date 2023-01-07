@@ -16,7 +16,6 @@ import {PictureService} from './services/picture';
 import {ItemService} from './services/item';
 import {ReCaptchaService} from './services/recaptcha';
 import {ItemParentService} from './services/item-parent';
-import {ItemLinkService} from './services/item-link';
 import {ItemLanguageService} from './services/item-language';
 import {MessageService} from './services/message';
 import {PageService} from './services/page';
@@ -110,7 +109,6 @@ let providers: Provider[] = [
   ItemService,
   ReCaptchaService,
   ItemParentService,
-  ItemLinkService,
   ItemLanguageService,
   MessageService,
   PageService,

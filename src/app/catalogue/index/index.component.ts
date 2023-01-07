@@ -7,10 +7,11 @@ import {EMPTY, of, combineLatest, Observable} from 'rxjs';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPicture, PictureService} from '../../services/picture';
 import {chunk, chunkBy} from '../../chunk';
-import {ItemLinkService} from '../../services/item-link';
 import {CatalogueService} from '../catalogue-service';
 import {APIService} from '../../services/api.service';
 import {getCatalogueSectionsTranslation} from '../../utils/translations';
+import {ItemsClient} from '../../../../generated/spec.pbsc';
+import {APIGetItemLinksRequest, APIItemLink} from '../../../../generated/spec.pb';
 
 interface APIBrandSectionGroup {
   name: string;
@@ -105,13 +106,13 @@ export class CatalogueIndexComponent {
   );
 
   public links$ = this.brand$.pipe(
-    switchMap((brand) => this.itemLinkService.getItems({item_id: brand.id})),
+    switchMap((brand) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + brand.id}))),
     map((response) => {
-      const official = [];
-      const club = [];
-      const other = [];
+      const official: APIItemLink[] = [];
+      const club: APIItemLink[] = [];
+      const other: APIItemLink[] = [];
       response.items.forEach((item) => {
-        switch (item.type_id) {
+        switch (item.type) {
           case 'official':
             official.push(item);
             break;
@@ -157,9 +158,9 @@ export class CatalogueIndexComponent {
     private route: ActivatedRoute,
     private pictureService: PictureService,
     private acl: ACLService,
-    private itemLinkService: ItemLinkService,
     private api: APIService,
     private router: Router,
-    private catalogue: CatalogueService
+    private catalogue: CatalogueService,
+    private itemsClient: ItemsClient
   ) {}
 }
