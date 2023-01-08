@@ -4,11 +4,12 @@ import {Observable, of, forkJoin, EMPTY} from 'rxjs';
 import {APIPictureItem, PictureItemService} from '../../../../../services/picture-item';
 import {APIItem, ItemService} from '../../../../../services/item';
 import {PageEnvService} from '../../../../../services/page-env.service';
-import {APIItemVehicleTypeGetResponse, APIService} from '../../../../../services/api.service';
+import {APIService} from '../../../../../services/api.service';
 import {switchMap, catchError, distinctUntilChanged, debounceTime, map, shareReplay} from 'rxjs/operators';
 import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
-import {ItemType} from '../../../../../../../generated/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemType} from '../../../../../../../generated/spec.pb';
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
+import {ItemsClient} from '../../../../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-moder-items-item-pictures-organize',
@@ -68,14 +69,14 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   public vehicleTypeIDs$ = this.item$.pipe(
     switchMap((item) =>
       [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)
-        ? this.api
-            .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
-              params: {
-                item_id: item.id.toString(),
-              },
-            })
-            .pipe(map((response) => response.items.map((row) => row.vehicle_type_id)))
-        : of([] as number[])
+        ? this.itemsClient
+            .getItemVehicleTypes(
+              new APIGetItemVehicleTypesRequest({
+                itemId: item.id.toString(),
+              })
+            )
+            .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)))
+        : of([] as string[])
     )
   );
 
@@ -93,7 +94,8 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private pictureItemService: PictureItemService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private itemsClient: ItemsClient
   ) {}
 
   ngOnInit(): void {

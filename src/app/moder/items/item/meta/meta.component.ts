@@ -1,12 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {APIItem, ItemService} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {APIItemVehicleTypeGetResponse, APIService} from '../../../../services/api.service';
+import {APIService} from '../../../../services/api.service';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {ItemType} from '../../../../../../generated/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemType} from '../../../../../../generated/spec.pb';
 import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
 import {InvalidParams} from '../../../../utils/invalid-params.pipe';
+import {ItemsClient} from '../../../../../../generated/spec.pbsc';
 
 @Component({
   selector: 'app-moder-items-item-meta',
@@ -23,23 +24,28 @@ export class ModerItemsItemMetaComponent {
   public canEditMeta$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT_META);
   public invalidParams: InvalidParams;
 
-  public vehicleTypeIDs$: Observable<number[]> = this.item$.pipe(
+  public vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {
       if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_TWINS) {
-        return this.api
-          .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
-            params: {
-              item_id: item.id.toString(),
-            },
-          })
-          .pipe(map((response) => response.items.map((row) => row.vehicle_type_id)));
+        return this.itemsClient
+          .getItemVehicleTypes(
+            new APIGetItemVehicleTypesRequest({
+              itemId: item.id.toString(),
+            })
+          )
+          .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)));
       }
 
       return of([]);
     })
   );
 
-  constructor(private acl: ACLService, private api: APIService, private itemService: ItemService) {}
+  constructor(
+    private acl: ACLService,
+    private api: APIService,
+    private itemService: ItemService,
+    private itemsClient: ItemsClient
+  ) {}
 
   public saveMeta(item: APIItem, event: ItemMetaFormResult) {
     this.loadingNumber++;

@@ -69,7 +69,7 @@ export interface ItemMetaFormResult {
     exactly: boolean;
   };
   spec_id: number | 'inherited';
-  vehicle_type_id: number[];
+  vehicle_type_id: string[];
   point: {
     lat: number;
     lng: number;
@@ -108,10 +108,10 @@ export class ItemMetaFormComponent {
   }
   public item$ = new BehaviorSubject<APIItem>(null);
 
-  @Input() set vehicleTypeIDs(vehicleTypeIDs: number[]) {
+  @Input() set vehicleTypeIDs(vehicleTypeIDs: string[]) {
     this.vehicleTypeIDs$.next(vehicleTypeIDs);
   }
-  private vehicleTypeIDs$ = new BehaviorSubject<number[]>(null);
+  private vehicleTypeIDs$ = new BehaviorSubject<string[]>(null);
 
   @Input() set items(items: APIItem[]) {
     this.items$.next(items);
@@ -336,15 +336,15 @@ export class ItemMetaFormComponent {
     });
 
     modalRef.componentInstance.ids = vehicleTypeIDs.value;
-    modalRef.componentInstance.changed.subscribe((value) => {
+    modalRef.componentInstance.changed.subscribe((value: string[]) => {
       vehicleTypeIDs.setValue(value);
     });
   }
 
-  public vehicleTypeName$(typeID: number): Observable<string> {
+  public vehicleTypeName$(typeID: string): Observable<string> {
     return this.vehicleTypes$.pipe(
       map((types) => {
-        const type = types.find((t) => t.id === typeID);
+        const type = types.find((t) => t.id.toString() === typeID);
         return type ? type.name : '#' + typeID;
       })
     );

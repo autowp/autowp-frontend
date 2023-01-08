@@ -18,8 +18,8 @@ const translateNames = (types: VehicleType[]): VehicleType[] => {
   templateUrl: './vehicle-types-modal.component.html',
 })
 export class VehicleTypesModalComponent {
-  @Input() ids: number[] = [];
-  @Output() changed = new EventEmitter<number[]>();
+  @Input() ids: string[] = [];
+  @Output() changed = new EventEmitter<string[]>();
   public types$ = this.vehicleTypeService.getTypes().pipe(
     map((types) => translateNames(types)),
     shareReplay(1)
@@ -28,17 +28,17 @@ export class VehicleTypesModalComponent {
   constructor(public activeModal: NgbActiveModal, private vehicleTypeService: VehicleTypeService) {}
 
   public isActive(id: number): boolean {
-    return this.ids.indexOf(id) > -1;
+    return this.ids.indexOf(id.toString()) > -1;
   }
 
   public toggle(id: number) {
-    if (this.ids.indexOf(id) > -1) {
-      const index = this.ids.indexOf(id, 0);
+    if (this.ids.indexOf(id.toString()) > -1) {
+      const index = this.ids.indexOf(id.toString(), 0);
       if (index > -1) {
         this.ids.splice(index, 1);
       }
     } else {
-      this.ids.push(id);
+      this.ids.push(id.toString());
     }
 
     this.changed.emit(this.ids);

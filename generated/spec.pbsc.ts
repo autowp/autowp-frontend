@@ -1720,6 +1720,90 @@ export class ItemsClient {
         requestClass: thisProto.APIItemLink,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetItemVehicleTypes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIGetItemVehicleTypesResponse>>
+     */
+    getItemVehicleTypes: (
+      requestData: thisProto.APIGetItemVehicleTypesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIGetItemVehicleTypesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetItemVehicleTypes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetItemVehicleTypesRequest,
+        responseClass: thisProto.APIGetItemVehicleTypesResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetItemVehicleType
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIItemVehicleType>>
+     */
+    getItemVehicleType: (
+      requestData: thisProto.APIItemVehicleTypeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIItemVehicleType>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetItemVehicleType',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemVehicleTypeRequest,
+        responseClass: thisProto.APIItemVehicleType
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/CreateItemVehicleType
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    createItemVehicleType: (
+      requestData: thisProto.APIItemVehicleType,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/CreateItemVehicleType',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemVehicleType,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/DeleteItemVehicleType
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteItemVehicleType: (
+      requestData: thisProto.APIItemVehicleTypeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/DeleteItemVehicleType',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItemVehicleTypeRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -1936,6 +2020,70 @@ export class ItemsClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .updateItemLink(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetItemVehicleTypes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIGetItemVehicleTypesResponse>
+   */
+  getItemVehicleTypes(
+    requestData: thisProto.APIGetItemVehicleTypesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIGetItemVehicleTypesResponse> {
+    return this.$raw
+      .getItemVehicleTypes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetItemVehicleType
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIItemVehicleType>
+   */
+  getItemVehicleType(
+    requestData: thisProto.APIItemVehicleTypeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIItemVehicleType> {
+    return this.$raw
+      .getItemVehicleType(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/CreateItemVehicleType
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  createItemVehicleType(
+    requestData: thisProto.APIItemVehicleType,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .createItemVehicleType(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/DeleteItemVehicleType
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteItemVehicleType(
+    requestData: thisProto.APIItemVehicleTypeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteItemVehicleType(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

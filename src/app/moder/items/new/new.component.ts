@@ -4,12 +4,13 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {of, forkJoin, EMPTY, Observable} from 'rxjs';
 import {PageEnvService} from '../../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError, shareReplay, tap, take} from 'rxjs/operators';
-import {APIItemVehicleTypeGetResponse, APIService} from '../../../services/api.service';
+import {APIService} from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {getItemTypeTranslation} from '../../../utils/translations';
-import {ItemType} from '../../../../../generated/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemType} from '../../../../../generated/spec.pb';
 import {ItemMetaFormResult} from '../item-meta-form/item-meta-form.component';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
+import {ItemsClient} from '../../../../../generated/spec.pbsc';
 
 interface NewAPIItem extends APIItem {
   is_concept_inherit: boolean;
@@ -83,15 +84,15 @@ export class ModerItemsNewComponent {
   public vehicleTypeIDs$ = this.parent$.pipe(
     switchMap((item) => {
       if (item && [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
-        return this.api
-          .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
-            params: {
-              item_id: item.id.toString(),
-            },
-          })
-          .pipe(map((response) => response.items.map((row) => row.vehicle_type_id)));
+        return this.itemsClient
+          .getItemVehicleTypes(
+            new APIGetItemVehicleTypesRequest({
+              itemId: item.id.toString(),
+            })
+          )
+          .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)));
       }
-      return of([] as number[]);
+      return of([] as string[]);
     })
   );
 
@@ -101,7 +102,8 @@ export class ModerItemsNewComponent {
     private router: Router,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private itemsClient: ItemsClient
   ) {}
 
   public submit(itemTypeID: number, event: ItemMetaFormResult) {

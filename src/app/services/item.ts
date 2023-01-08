@@ -1,9 +1,15 @@
 import {Injectable} from '@angular/core';
-import {APIItemVehicleTypeGetResponse, APIPaginator, APIImage, APIService} from './api.service';
+import {APIPaginator, APIImage, APIService} from './api.service';
 import {forkJoin, Observable, of} from 'rxjs';
 import {APIPicture} from './picture';
 import {switchMap} from 'rxjs/operators';
-import {ItemType} from '../../../generated/spec.pb';
+import {
+  APIGetItemVehicleTypesRequest,
+  APIItemVehicleType,
+  APIItemVehicleTypeRequest,
+  ItemType,
+} from '../../../generated/spec.pb';
+import {ItemsClient} from '../../../generated/spec.pbsc';
 
 export interface APIPathTreeItemParent {
   catname: string;
@@ -416,25 +422,30 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 
 @Injectable()
 export class ItemService {
-  constructor(private api: APIService) {}
+  constructor(private api: APIService, private itemsClient: ItemsClient) {}
 
-  public setItemVehicleTypes(itemId: number, ids: number[]): Observable<void[]> {
-    return this.api
-      .request<APIItemVehicleTypeGetResponse>('GET', 'item-vehicle-type', {
-        params: {
-          item_id: itemId.toString(),
-        },
-      })
+  public setItemVehicleTypes(itemId: number, ids: string[]): Observable<void[]> {
+    return this.itemsClient
+      .getItemVehicleTypes(
+        new APIGetItemVehicleTypesRequest({
+          itemId: itemId.toString(),
+        })
+      )
       .pipe(
         switchMap((response) => {
-          const promises: Observable<void>[] = [];
+          const promises: Observable<any>[] = [];
 
-          const currentIds: number[] = [];
+          const currentIds: string[] = [];
           for (const itemVehicleType of response.items) {
-            currentIds.push(itemVehicleType.vehicle_type_id);
-            if (ids.indexOf(itemVehicleType.vehicle_type_id) === -1) {
+            currentIds.push(itemVehicleType.vehicleTypeId);
+            if (ids.indexOf(itemVehicleType.vehicleTypeId) === -1) {
               promises.push(
-                this.api.request<void>('DELETE', 'item-vehicle-type/' + itemId + '/' + itemVehicleType.vehicle_type_id)
+                this.itemsClient.deleteItemVehicleType(
+                  new APIItemVehicleTypeRequest({
+                    itemId: itemId.toString(),
+                    vehicleTypeId: itemVehicleType.vehicleTypeId,
+                  })
+                )
               );
             }
           }
@@ -442,7 +453,12 @@ export class ItemService {
           for (const vehicleTypeId of ids) {
             if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
-                this.api.request<void>('POST', 'item-vehicle-type/' + itemId + '/' + vehicleTypeId, {body: {}})
+                this.itemsClient.createItemVehicleType(
+                  new APIItemVehicleType({
+                    itemId: itemId.toString(),
+                    vehicleTypeId,
+                  })
+                )
               );
             }
           }

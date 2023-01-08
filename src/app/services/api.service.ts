@@ -28,14 +28,6 @@ export interface APIItemParentLanguage {
   name: string;
 }
 
-export interface APIItemVehicleType {
-  vehicle_type_id: number;
-}
-
-export interface APIItemVehicleTypeGetResponse {
-  items: APIItemVehicleType[];
-}
-
 export interface APIImage {
   src: string;
   width: number;
