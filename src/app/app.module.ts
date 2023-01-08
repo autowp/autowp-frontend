@@ -44,7 +44,7 @@ import {PictureModerVoteService} from './services/picture-moder-vote';
 import {ModerMenuModule} from './moder/menu/menu.module';
 import {IndexModule} from './index/index.module';
 import {ToastsModule} from './toasts/toasts.module';
-import {environment} from '../environments/environment';
+import {environment} from '@environment/environment';
 import {GlobalErrorHandler} from './global-error-handler';
 import {Angulartics2Module} from 'angulartics2';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';

@@ -4,8 +4,8 @@ import {EMPTY} from 'rxjs';
 import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {ArticlesClient} from '../../../../generated/spec.pbsc';
-import {ArticleByCatnameRequest} from '../../../../generated/spec.pb';
+import {ArticlesClient} from '@grpc/spec.pbsc';
+import {ArticleByCatnameRequest} from '@grpc/spec.pb';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 @Component({

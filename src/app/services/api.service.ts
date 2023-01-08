@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import {from, Observable, of, throwError} from 'rxjs';
-import {environment} from '../../environments/environment';
+import {environment} from '@environment/environment';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';

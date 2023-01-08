@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {PageEnvService} from '../../services/page-env.service';
 import {getPerspectiveTranslation} from '../../utils/translations';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {PerspectivePage} from '../../../../generated/spec.pb';
+import {PerspectivePage} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-perspectives',

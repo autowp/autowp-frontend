@@ -20,7 +20,12 @@
     "types": [
       "@angular/localize"
     ],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "baseUrl": "src",
+    "paths": {
+      "@grpc/*": ["grpc/*"],
+      "@environment/*": ["environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true

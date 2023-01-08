@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PageEnvService} from '../../services/page-env.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
-import {ModerVoteTemplate} from '../../../../generated/spec.pb';
+import {ModerVoteTemplate} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-picture-vote-templates',

@@ -8,7 +8,7 @@ import {PageEnvService} from '../../../../services/page-env.service';
 import {chunk} from '../../../../chunk';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
-import {ItemType} from '../../../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-cars-engine-select',

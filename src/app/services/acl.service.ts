@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {Observable, of} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
-import {AutowpClient} from '../../../generated/spec.pbsc';
-import {AclEnforceRequest} from '../../../generated/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
+import {AclEnforceRequest} from '@grpc/spec.pb';
 
 export enum Privilege {
   EDIT = 'edit',

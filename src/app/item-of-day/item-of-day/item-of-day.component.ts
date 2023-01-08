@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {APIItem, APIItemOfDayPicture} from '../../services/item';
-import {APIUser} from '../../../../generated/spec.pb';
+import {APIUser} from '@grpc/spec.pb';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 

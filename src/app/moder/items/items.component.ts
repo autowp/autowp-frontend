@@ -10,7 +10,7 @@ import {tap, switchMap, distinctUntilChanged, debounceTime, catchError, map} fro
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '../../utils/translations';
-import {Spec, VehicleType} from '../../../../generated/spec.pb';
+import {Spec, VehicleType} from '@grpc/spec.pb';
 
 interface APIVehicleTypeInItems {
   id: number;

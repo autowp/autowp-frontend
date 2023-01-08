@@ -6,7 +6,7 @@ import {AuthService} from '../../services/auth.service';
 import {PageEnvService} from '../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, map, shareReplay} from 'rxjs/operators';
 import {DonateService} from '../donate.service';
-import {APIUser} from '../../../../generated/spec.pb';
+import {APIUser} from '@grpc/spec.pb';
 import {formatDate} from '@angular/common';
 
 const VOD_TIMEZONE = 'UTC';

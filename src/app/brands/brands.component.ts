@@ -4,9 +4,9 @@ import {PageEnvService} from '../services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
 import {ToastsService} from '../toasts/toasts.service';
 import {APIService} from '../services/api.service';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {BrandIcons} from '../../../generated/spec.pb';
+import {BrandIcons} from '@grpc/spec.pb';
 import {catchError, map, shareReplay, tap} from 'rxjs/operators';
 
 function addCSS(url: string) {

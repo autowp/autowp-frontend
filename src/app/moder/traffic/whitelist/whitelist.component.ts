@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {PageEnvService} from '../../../services/page-env.service';
-import {TrafficClient} from '../../../../../generated/spec.pbsc';
+import {TrafficClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '../../../../../generated/spec.pb';
+import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-traffic-whitelist',

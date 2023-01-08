@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable, throwError, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {AuthService} from './auth.service';
-import {ContactsClient} from '../../../generated/spec.pbsc';
-import {ContactItems, GetContactRequest, GetContactsRequest} from '../../../generated/spec.pb';
+import {ContactsClient} from '@grpc/spec.pbsc';
+import {ContactItems, GetContactRequest, GetContactsRequest} from '@grpc/spec.pb';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface APIContactsGetOptions {

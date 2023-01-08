@@ -6,8 +6,8 @@ import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rx
 import {APIForumTheme, APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
-import {ForumsClient} from '../../../../generated/spec.pbsc';
-import {APIMoveTopicRequest} from '../../../../generated/spec.pb';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {APIMoveTopicRequest} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-forums-move-topic',

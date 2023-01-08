@@ -1,8 +1,8 @@
 import {Input, Component, EventEmitter, Output, OnInit, OnDestroy} from '@angular/core';
-import {AddCommentRequest, CommentsType} from '../../../../generated/spec.pb';
+import {AddCommentRequest, CommentsType} from '@grpc/spec.pb';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {switchMap, take, tap} from 'rxjs/operators';
-import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {CommentsClient} from '@grpc/spec.pbsc';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 
 @Component({

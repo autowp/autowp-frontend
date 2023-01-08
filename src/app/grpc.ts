@@ -1,8 +1,8 @@
 import {GrpcStatusEvent} from '@ngx-grpc/common';
-import {Status} from '../../generated/google/rpc/status.pb';
-import {ErrorDetails} from '../../generated/spec.pb';
+import {Status} from '@grpc/google/rpc/status.pb';
+import {ErrorDetails} from '@grpc/spec.pb';
 import {InvalidParams} from './utils/invalid-params.pipe';
-import {BadRequest} from '../../generated/google/rpc/error-details.pb';
+import {BadRequest} from '@grpc/google/rpc/error-details.pb';
 import FieldViolation = BadRequest.FieldViolation;
 
 const stringToUint8Array = (str: string): Uint8Array => {

@@ -13,8 +13,8 @@ import {tileLayer, latLng, Map, LatLngBounds, Marker, marker, icon, Popup, MapOp
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MapPopupComponent} from './popup/popup.component';
 import {ToastsService} from '../toasts/toasts.service';
-import {MapClient} from '../../../generated/spec.pbsc';
-import {MapGetPointsRequest, MapPoint} from '../../../generated/spec.pb';
+import {MapClient} from '@grpc/spec.pbsc';
+import {MapGetPointsRequest, MapPoint} from '@grpc/spec.pb';
 
 function createMarker(lat, lng): Marker {
   return marker([lat, lng], {

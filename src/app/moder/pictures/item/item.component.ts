@@ -10,7 +10,7 @@ import {LanguageService} from '../../../services/language';
 import {sprintf} from 'sprintf-js';
 import {APIService} from '../../../services/api.service';
 import {IpService} from '../../../services/ip';
-import {APIIP} from '../../../../../generated/spec.pb';
+import {APIIP} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-pictures-item',

@@ -6,8 +6,8 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
-import {CommentsClient} from '../../../../generated/spec.pbsc';
-import {CommentsMoveCommentRequest, CommentsType} from '../../../../generated/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {CommentsMoveCommentRequest, CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-forums-move-message',

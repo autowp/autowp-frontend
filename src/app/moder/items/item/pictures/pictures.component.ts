@@ -4,7 +4,7 @@ import {PictureService, APIPicture} from '../../../../services/picture';
 import {chunkBy} from '../../../../chunk';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {ItemType} from '../../../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-pictures',

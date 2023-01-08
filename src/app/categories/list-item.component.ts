@@ -5,7 +5,7 @@ import {APIPicture} from '../services/picture';
 import {APIImage} from '../services/api.service';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ItemType} from '../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 interface PictureThumbRoute {
   picture: APIPicture | null;

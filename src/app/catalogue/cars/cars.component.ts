@@ -6,8 +6,8 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
 import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '../../utils/translations';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
-import {BrandVehicleType, GetBrandVehicleTypesRequest} from '../../../../generated/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
+import {BrandVehicleType, GetBrandVehicleTypesRequest} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-catalogue-cars',

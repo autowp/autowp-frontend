@@ -7,7 +7,7 @@ import {PageEnvService} from '../../services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {ItemType} from '../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-factory-items',

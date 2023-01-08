@@ -6,7 +6,7 @@ import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rx
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIItem, ItemService} from '../../services/item';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {ItemPictureType, ItemType} from '../../../../generated/spec.pb';
+import {ItemPictureType, ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-cutaway-brands',

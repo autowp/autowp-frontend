@@ -3,13 +3,8 @@ import {APIPaginator, APIImage, APIService} from './api.service';
 import {forkJoin, Observable, of} from 'rxjs';
 import {APIPicture} from './picture';
 import {switchMap} from 'rxjs/operators';
-import {
-  APIGetItemVehicleTypesRequest,
-  APIItemVehicleType,
-  APIItemVehicleTypeRequest,
-  ItemType,
-} from '../../../generated/spec.pb';
-import {ItemsClient} from '../../../generated/spec.pbsc';
+import {APIGetItemVehicleTypesRequest, APIItemVehicleType, APIItemVehicleTypeRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 export interface APIPathTreeItemParent {
   catname: string;

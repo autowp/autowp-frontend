@@ -6,8 +6,8 @@ import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, tap, catchError} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIMessage, MessagingGetMessagesRequest, Pages} from '../../../../generated/spec.pb';
-import {MessagingClient} from '../../../../generated/spec.pbsc';
+import {APIMessage, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
+import {MessagingClient} from '@grpc/spec.pbsc';
 import {APIUser, UserService} from '../../services/user';
 
 @Component({

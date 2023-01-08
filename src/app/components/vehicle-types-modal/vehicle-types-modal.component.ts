@@ -3,7 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {VehicleTypeService} from '../../services/vehicle-type';
 import {getVehicleTypeTranslation} from '../../utils/translations';
 import {map, shareReplay} from 'rxjs/operators';
-import {VehicleType} from '../../../../generated/spec.pb';
+import {VehicleType} from '@grpc/spec.pb';
 
 const translateNames = (types: VehicleType[]): VehicleType[] => {
   types.forEach((type) => {

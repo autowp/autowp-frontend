@@ -6,7 +6,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 import {EMPTY, of} from 'rxjs';
 import {APIGalleryItem} from '../../../gallery/definitions';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {ItemType} from '../../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-persons-person-gallery',

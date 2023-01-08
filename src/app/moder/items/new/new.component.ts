@@ -7,10 +7,10 @@ import {distinctUntilChanged, debounceTime, switchMap, map, catchError, shareRep
 import {APIService} from '../../../services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {getItemTypeTranslation} from '../../../utils/translations';
-import {APIGetItemVehicleTypesRequest, ItemType} from '../../../../../generated/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../item-meta-form/item-meta-form.component';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
-import {ItemsClient} from '../../../../../generated/spec.pbsc';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 interface NewAPIItem extends APIItem {
   is_concept_inherit: boolean;

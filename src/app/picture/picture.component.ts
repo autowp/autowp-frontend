@@ -6,13 +6,8 @@ import {AuthService} from '../services/auth.service';
 import {APIItem} from '../services/item';
 import {Router} from '@angular/router';
 import {APIPictureItem, PictureItemService} from '../services/picture-item';
-import {
-  CommentsSubscribeRequest,
-  CommentsType,
-  CommentsUnSubscribeRequest,
-  PicturesViewRequest,
-} from '../../../generated/spec.pb';
-import {CommentsClient, PicturesClient} from '../../../generated/spec.pbsc';
+import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest, PicturesViewRequest} from '@grpc/spec.pb';
+import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-picture',

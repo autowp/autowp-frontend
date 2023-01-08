@@ -7,9 +7,9 @@ import {PageEnvService} from '../../../../../services/page-env.service';
 import {APIService} from '../../../../../services/api.service';
 import {switchMap, catchError, distinctUntilChanged, debounceTime, map, shareReplay} from 'rxjs/operators';
 import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
-import {APIGetItemVehicleTypesRequest, ItemType} from '../../../../../../../generated/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
-import {ItemsClient} from '../../../../../../../generated/spec.pbsc';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-moder-items-item-pictures-organize',

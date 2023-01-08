@@ -13,7 +13,7 @@ import {
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
 import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation} from '../../../utils/translations';
-import {APIUser} from '../../../../../generated/spec.pb';
+import {APIUser} from '@grpc/spec.pb';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;

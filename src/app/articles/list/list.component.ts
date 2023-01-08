@@ -4,8 +4,8 @@ import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {ArticlesClient} from '../../../../generated/spec.pbsc';
-import {ArticlesRequest} from '../../../../generated/spec.pb';
+import {ArticlesClient} from '@grpc/spec.pbsc';
+import {ArticlesRequest} from '@grpc/spec.pb';
 import {APIUser, UserService} from '../../services/user';
 
 interface Article {

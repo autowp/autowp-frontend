@@ -10,8 +10,8 @@ import {chunk, chunkBy} from '../../chunk';
 import {CatalogueService} from '../catalogue-service';
 import {APIService} from '../../services/api.service';
 import {getCatalogueSectionsTranslation} from '../../utils/translations';
-import {ItemsClient} from '../../../../generated/spec.pbsc';
-import {APIGetItemLinksRequest, APIItemLink} from '../../../../generated/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIGetItemLinksRequest, APIItemLink} from '@grpc/spec.pb';
 
 interface APIBrandSectionGroup {
   name: string;

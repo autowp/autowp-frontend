@@ -8,12 +8,12 @@ import {ItemService} from './services/item';
 import {UsersOnlineComponent} from './users/online/online.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import {APIUser} from '../../generated/spec.pb';
+import {APIUser} from '@grpc/spec.pb';
 import {map, shareReplay} from 'rxjs/operators';
 import {NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MessageService} from './services/message';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
-import {environment} from '../environments/environment';
+import {environment} from '@environment/environment';
 import {KeycloakService} from 'keycloak-angular';
 
 @Component({

@@ -13,7 +13,7 @@ import {debounceTime, map, switchMap, catchError, tap, distinctUntilChanged, sha
 import {PageEnvService} from '../../services/page-env.service';
 import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {getPerspectiveTranslation, getVehicleTypeTranslation} from '../../utils/translations';
-import {VehicleType} from '../../../../generated/spec.pb';
+import {VehicleType} from '@grpc/spec.pb';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 

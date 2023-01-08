@@ -8,8 +8,8 @@ import {APIService} from '../../../../../services/api.service';
 import {switchMap, catchError, distinctUntilChanged, debounceTime, map, shareReplay} from 'rxjs/operators';
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
-import {APIGetItemVehicleTypesRequest, ItemType} from '../../../../../../../generated/spec.pb';
-import {ItemsClient} from '../../../../../../../generated/spec.pbsc';
+import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-moder-items-item-organize',

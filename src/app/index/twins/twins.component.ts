@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ItemsClient} from '../../../../generated/spec.pbsc';
-import {GetTopTwinsBrandsListRequest} from '../../../../generated/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {GetTopTwinsBrandsListRequest} from '@grpc/spec.pb';
 import {LanguageService} from '../../services/language';
 
 @Component({

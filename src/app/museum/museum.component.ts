@@ -8,8 +8,8 @@ import {PageEnvService} from '../services/page-env.service';
 import {tileLayer, latLng, marker, icon} from 'leaflet';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, tap, map, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
-import {APIGetItemLinksRequest, ItemType} from '../../../generated/spec.pb';
-import {ItemsClient} from '../../../generated/spec.pbsc';
+import {APIGetItemLinksRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-museum',

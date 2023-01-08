@@ -5,9 +5,9 @@ import {AuthService} from '../services/auth.service';
 import {APIPaginator, APIService} from '../services/api.service';
 import {APIUser} from '../services/user';
 import {APIComment} from '../api/comments/comments.service';
-import {ForumsClient} from '../../../generated/spec.pbsc';
+import {ForumsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APIForumsUserSummary} from '../../../generated/spec.pb';
+import {APIForumsUserSummary} from '@grpc/spec.pb';
 
 export interface APIForumGetTopicOptions {
   fields?: string;

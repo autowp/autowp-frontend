@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ItemsClient} from '../../../../generated/spec.pbsc';
-import {GetTopBrandsListRequest} from '../../../../generated/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {GetTopBrandsListRequest} from '@grpc/spec.pb';
 import {LanguageService} from '../../services/language';
 import {map} from 'rxjs/operators';
 

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Spec} from '../../../../../generated/spec.pb';
+import {Spec} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-info-spec-row',

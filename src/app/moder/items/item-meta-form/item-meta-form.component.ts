@@ -7,7 +7,7 @@ import {SpecService} from '../../../services/spec';
 import {APIItem} from '../../../services/item';
 import {LanguageService} from '../../../services/language';
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
-import {ItemType, Spec, VehicleType} from '../../../../../generated/spec.pb';
+import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
 import {
   AbstractControl,

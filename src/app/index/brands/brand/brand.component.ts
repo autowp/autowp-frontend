@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {APIService} from '../../../services/api.service';
-import {APITopBrandsListItem} from '../../../../../generated/spec.pb';
+import {APITopBrandsListItem} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-index-brands-brand',

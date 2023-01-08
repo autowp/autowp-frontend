@@ -7,8 +7,8 @@ import {switchMap, shareReplay, map} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {ACLService, Privilege, Resource} from './acl.service';
 import {APIItem, APIPathTreeItem} from './item';
-import {PicturesClient} from '../../../generated/spec.pbsc';
-import {PicturesVoteRequest, PicturesVoteSummary} from '../../../generated/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {PicturesVoteRequest, PicturesVoteSummary} from '@grpc/spec.pb';
 
 export interface APIPictureGetResponse {
   pictures: APIPicture[];

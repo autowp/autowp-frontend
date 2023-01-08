@@ -21,8 +21,8 @@ import {
   CreateContactRequest,
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest,
-} from '../../../../generated/spec.pb';
-import {ContactsClient, TrafficClient, UsersClient} from '../../../../generated/spec.pbsc';
+} from '@grpc/spec.pb';
+import {ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',

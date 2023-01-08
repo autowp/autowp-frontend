@@ -5,7 +5,7 @@ import {PictureItemService} from '../../services/picture-item';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {getPerspectiveTranslation} from '../../utils/translations';
-import {Perspective} from '../../../../generated/spec.pb';
+import {Perspective} from '@grpc/spec.pb';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;

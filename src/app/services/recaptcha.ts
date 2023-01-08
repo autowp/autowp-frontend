@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {ReCaptchaConfig} from '../../../generated/spec.pb';
+import {ReCaptchaConfig} from '@grpc/spec.pb';
 
 @Injectable()
 export class ReCaptchaService {

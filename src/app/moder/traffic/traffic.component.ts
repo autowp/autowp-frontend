@@ -3,14 +3,14 @@ import {IpService} from '../../services/ip';
 import {PageEnvService} from '../../services/page-env.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {TrafficClient} from '../../../../generated/spec.pbsc';
+import {TrafficClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {
   AddToTrafficBlacklistRequest,
   AddToTrafficWhitelistRequest,
   APITrafficTopItem,
   DeleteFromTrafficBlacklistRequest,
-} from '../../../../generated/spec.pb';
+} from '@grpc/spec.pb';
 
 interface ListItem {
   item: APITrafficTopItem;

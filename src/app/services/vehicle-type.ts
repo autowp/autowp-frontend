@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {AutowpClient} from '../../../generated/spec.pbsc';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {VehicleType} from '../../../generated/spec.pb';
+import {VehicleType} from '@grpc/spec.pb';
 
 export interface APIVehicleType {
   id: number;

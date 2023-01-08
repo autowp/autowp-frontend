@@ -5,8 +5,8 @@ import {AuthService} from '../../services/auth.service';
 import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CommentsSetDeletedRequest, CommentsType, CommentsVoteCommentRequest} from '../../../../generated/spec.pb';
-import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {CommentsSetDeletedRequest, CommentsType, CommentsVoteCommentRequest} from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {BehaviorSubject} from 'rxjs';
 

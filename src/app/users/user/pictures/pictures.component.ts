@@ -6,7 +6,7 @@ import {EMPTY, Observable} from 'rxjs';
 import {PageEnvService} from '../../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {AutowpClient} from '../../../../../generated/spec.pbsc';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 
 function addCSS(url: string) {

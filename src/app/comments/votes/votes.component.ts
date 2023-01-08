@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CommentVote, GetCommentVotesRequest} from '../../../../generated/spec.pb';
+import {CommentVote, GetCommentVotesRequest} from '@grpc/spec.pb';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {CommentsClient} from '@grpc/spec.pbsc';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 
 @Component({

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {APIService} from '../../../services/api.service';
-import {APITopCategoriesListItem} from '../../../../../generated/spec.pb';
+import {APITopCategoriesListItem} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-index-categories-category',

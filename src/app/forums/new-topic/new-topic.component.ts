@@ -8,8 +8,8 @@ import {APIForumTheme, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '../../utils/translations';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
-import {ForumsClient} from '../../../../generated/spec.pbsc';
-import {APICreateTopicRequest} from '../../../../generated/spec.pb';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {APICreateTopicRequest} from '@grpc/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 
 @Component({

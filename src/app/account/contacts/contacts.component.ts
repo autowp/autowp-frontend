@@ -5,8 +5,8 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {map, switchMap} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
-import {Contact, DeleteContactRequest} from '../../../../generated/spec.pb';
-import {ContactsClient} from '../../../../generated/spec.pbsc';
+import {Contact, DeleteContactRequest} from '@grpc/spec.pb';
+import {ContactsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '../../services/language';
 import {KeycloakService} from 'keycloak-angular';
 

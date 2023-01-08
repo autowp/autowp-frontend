@@ -7,7 +7,7 @@ import {PageEnvService} from '../../services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap, debounceTime, shareReplay} from 'rxjs/operators';
 import {PathItem} from '../definitions';
 import {CatagoriesService} from '../service';
-import {ItemType} from '../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-category-picture',

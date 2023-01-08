@@ -7,7 +7,7 @@ import {DecimalPipe} from '@angular/common';
 import {BytesPipe} from 'ngx-pipes';
 import {PageEnvService} from '../services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
-import {StatisticsClient} from '../../../generated/spec.pbsc';
+import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 
 function replaceAll(str: string, find: string, replace: string): string {

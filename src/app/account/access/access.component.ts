@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PageEnvService} from '../../services/page-env.service';
-import {environment} from '../../../environments/environment';
+import {environment} from '@environment/environment';
 
 @Component({
   selector: 'app-account-access',

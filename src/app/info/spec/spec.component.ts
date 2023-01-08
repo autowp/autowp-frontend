@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PageEnvService} from '../../services/page-env.service';
 import {EMPTY} from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
-import {AutowpClient} from '../../../../generated/spec.pbsc';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {catchError, map} from 'rxjs/operators';
 

@@ -7,8 +7,8 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '../utils/translations';
-import {ForumsClient} from '../../../generated/spec.pbsc';
-import {APISetTopicStatusRequest} from '../../../generated/spec.pb';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {APISetTopicStatusRequest} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-forums',

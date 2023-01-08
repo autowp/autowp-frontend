@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {from, Observable, of, ReplaySubject} from 'rxjs';
 import {tap, catchError} from 'rxjs/operators';
 import {KeycloakService} from 'keycloak-angular';
-import {UsersClient} from '../../../generated/spec.pbsc';
-import {APIMeRequest, APIUser} from '../../../generated/spec.pb';
+import {UsersClient} from '@grpc/spec.pbsc';
+import {APIMeRequest, APIUser} from '@grpc/spec.pb';
 // import * as Sentry from '@sentry/angular';
 
 @Injectable()

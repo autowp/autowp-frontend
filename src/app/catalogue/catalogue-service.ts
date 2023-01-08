@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {APIItemParent, ItemParentService} from '../services/item-parent';
 import {APIItem, APIPathTreeItemParent, ItemService} from '../services/item';
 import {APIPicture} from '../services/picture';
-import {ItemType} from '../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 interface Parent {
   id: number;

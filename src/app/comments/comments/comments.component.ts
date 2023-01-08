@@ -5,8 +5,8 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
-import {CommentsType, CommentsViewRequest} from '../../../../generated/spec.pb';
-import {CommentsClient} from '../../../../generated/spec.pbsc';
+import {CommentsType, CommentsViewRequest} from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-comments',

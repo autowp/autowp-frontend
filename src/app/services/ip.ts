@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {AutowpClient} from '../../../generated/spec.pbsc';
-import {APIGetIPRequest, APIIP} from '../../../generated/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
+import {APIGetIPRequest, APIIP} from '@grpc/spec.pb';
 
 @Injectable()
 export class IpService {

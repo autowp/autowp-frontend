@@ -7,7 +7,7 @@ import {ItemService} from '../../../../services/item';
 import {PageEnvService} from '../../../../services/page-env.service';
 import {ToastsService} from '../../../../toasts/toasts.service';
 import {APIGalleryItem} from '../../../../gallery/definitions';
-import {ItemType} from '../../../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-persons-person-author-gallery',

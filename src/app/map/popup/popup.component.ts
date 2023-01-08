@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {MapPoint} from '../../../../generated/spec.pb';
+import {MapPoint} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-map-popup',

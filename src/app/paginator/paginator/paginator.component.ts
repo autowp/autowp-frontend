@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import * as leftPad from 'left-pad';
 import {APIPaginator} from '../../services/api.service';
-import {Pages} from '../../../../generated/spec.pb';
+import {Pages} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-paginator',

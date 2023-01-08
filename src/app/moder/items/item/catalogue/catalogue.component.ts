@@ -6,7 +6,7 @@ import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
 import {APIItemParent, ItemParentService} from '../../../../services/item-parent';
 import {APIService} from '../../../../services/api.service';
-import {ItemType} from '../../../../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-catalogue',

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {APIService} from '../../../services/api.service';
-import {APITopFactoriesListItem} from '../../../../../generated/spec.pb';
+import {APITopFactoriesListItem} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-index-factories-factory',

@@ -9,7 +9,7 @@ import {ItemParentService} from '../services/item-parent';
 import {APIPicture, PictureService} from '../services/picture';
 import {CatagoriesService} from './service';
 import {getItemTypeTranslation} from '../utils/translations';
-import {ItemType} from '../../../generated/spec.pb';
+import {ItemType} from '@grpc/spec.pb';
 
 interface PathItem {
   routerLink: string[];

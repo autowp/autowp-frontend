@@ -7,8 +7,8 @@ import {ACLService, Privilege, Resource} from '../../services/acl.service';
 import {PageEnvService} from '../../services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIGetItemLinksRequest, APIItemLink, APIItemLinksResponse, ItemType} from '../../../../generated/spec.pb';
-import {ItemsClient} from '../../../../generated/spec.pbsc';
+import {APIGetItemLinksRequest, APIItemLink, APIItemLinksResponse, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-persons-person',

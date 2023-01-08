@@ -4,7 +4,7 @@ import {AuthService} from './auth.service';
 import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastsService} from '../toasts/toasts.service';
-import {MessagingClient} from '../../../generated/spec.pbsc';
+import {MessagingClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {
   APIMessage,
@@ -13,7 +13,7 @@ import {
   MessagingClearFolder,
   MessagingCreateMessage,
   MessagingDeleteMessage,
-} from '../../../generated/spec.pb';
+} from '@grpc/spec.pb';
 
 @Injectable()
 export class MessageService {
