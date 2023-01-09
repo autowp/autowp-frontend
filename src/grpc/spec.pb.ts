@@ -21458,3 +21458,538 @@ export module AddCommentResponse {
     id: string;
   }
 }
+
+/**
+ * Message implementation for goautowp.APIGetTextRequest
+ */
+export class APIGetTextRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetTextRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetTextRequest();
+    APIGetTextRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetTextRequest) {
+    _instance.id = _instance.id || '0';
+    _instance.revision = _instance.revision || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetTextRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.revision = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetTextRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetTextRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.revision) {
+      _writer.writeInt64String(2, _instance.revision);
+    }
+  }
+
+  private _id: string;
+  private _revision: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetTextRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetTextRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.revision = _value.revision;
+    APIGetTextRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get revision(): string {
+    return this._revision;
+  }
+  set revision(value: string) {
+    this._revision = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetTextRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetTextRequest.AsObject {
+    return {
+      id: this.id,
+      revision: this.revision
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetTextRequest.AsProtobufJSON {
+    return {
+      id: this.id,
+      revision: this.revision
+    };
+  }
+}
+export module APIGetTextRequest {
+  /**
+   * Standard JavaScript object representation for APIGetTextRequest
+   */
+  export interface AsObject {
+    id: string;
+    revision: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetTextRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    revision: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.TextRevision
+ */
+export class TextRevision implements GrpcMessage {
+  static id = 'goautowp.TextRevision';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new TextRevision();
+    TextRevision.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: TextRevision) {
+    _instance.text = _instance.text || '';
+    _instance.revision = _instance.revision || '0';
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: TextRevision,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.text = _reader.readString();
+          break;
+        case 2:
+          _instance.revision = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    TextRevision.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: TextRevision,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.text) {
+      _writer.writeString(1, _instance.text);
+    }
+    if (_instance.revision) {
+      _writer.writeInt64String(2, _instance.revision);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(3, _instance.userId);
+    }
+  }
+
+  private _text: string;
+  private _revision: string;
+  private _userId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of TextRevision to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<TextRevision.AsObject>) {
+    _value = _value || {};
+    this.text = _value.text;
+    this.revision = _value.revision;
+    this.userId = _value.userId;
+    TextRevision.refineValues(this);
+  }
+  get text(): string {
+    return this._text;
+  }
+  set text(value: string) {
+    this._text = value;
+  }
+  get revision(): string {
+    return this._revision;
+  }
+  set revision(value: string) {
+    this._revision = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    TextRevision.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): TextRevision.AsObject {
+    return {
+      text: this.text,
+      revision: this.revision,
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): TextRevision.AsProtobufJSON {
+    return {
+      text: this.text,
+      revision: this.revision,
+      userId: this.userId
+    };
+  }
+}
+export module TextRevision {
+  /**
+   * Standard JavaScript object representation for TextRevision
+   */
+  export interface AsObject {
+    text: string;
+    revision: string;
+    userId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for TextRevision
+   */
+  export interface AsProtobufJSON {
+    text: string;
+    revision: string;
+    userId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetTextResponse
+ */
+export class APIGetTextResponse implements GrpcMessage {
+  static id = 'goautowp.APIGetTextResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetTextResponse();
+    APIGetTextResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetTextResponse) {
+    _instance.current = _instance.current || undefined;
+    _instance.prev = _instance.prev || undefined;
+    _instance.next = _instance.next || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetTextResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.current = new TextRevision();
+          _reader.readMessage(
+            _instance.current,
+            TextRevision.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.prev = new TextRevision();
+          _reader.readMessage(
+            _instance.prev,
+            TextRevision.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.next = new TextRevision();
+          _reader.readMessage(
+            _instance.next,
+            TextRevision.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetTextResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetTextResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.current) {
+      _writer.writeMessage(
+        1,
+        _instance.current as any,
+        TextRevision.serializeBinaryToWriter
+      );
+    }
+    if (_instance.prev) {
+      _writer.writeMessage(
+        2,
+        _instance.prev as any,
+        TextRevision.serializeBinaryToWriter
+      );
+    }
+    if (_instance.next) {
+      _writer.writeMessage(
+        3,
+        _instance.next as any,
+        TextRevision.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _current?: TextRevision;
+  private _prev?: TextRevision;
+  private _next?: TextRevision;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetTextResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetTextResponse.AsObject>) {
+    _value = _value || {};
+    this.current = _value.current
+      ? new TextRevision(_value.current)
+      : undefined;
+    this.prev = _value.prev ? new TextRevision(_value.prev) : undefined;
+    this.next = _value.next ? new TextRevision(_value.next) : undefined;
+    APIGetTextResponse.refineValues(this);
+  }
+  get current(): TextRevision | undefined {
+    return this._current;
+  }
+  set current(value: TextRevision | undefined) {
+    this._current = value;
+  }
+  get prev(): TextRevision | undefined {
+    return this._prev;
+  }
+  set prev(value: TextRevision | undefined) {
+    this._prev = value;
+  }
+  get next(): TextRevision | undefined {
+    return this._next;
+  }
+  set next(value: TextRevision | undefined) {
+    this._next = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetTextResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetTextResponse.AsObject {
+    return {
+      current: this.current ? this.current.toObject() : undefined,
+      prev: this.prev ? this.prev.toObject() : undefined,
+      next: this.next ? this.next.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetTextResponse.AsProtobufJSON {
+    return {
+      current: this.current ? this.current.toProtobufJSON(options) : null,
+      prev: this.prev ? this.prev.toProtobufJSON(options) : null,
+      next: this.next ? this.next.toProtobufJSON(options) : null
+    };
+  }
+}
+export module APIGetTextResponse {
+  /**
+   * Standard JavaScript object representation for APIGetTextResponse
+   */
+  export interface AsObject {
+    current?: TextRevision.AsObject;
+    prev?: TextRevision.AsObject;
+    next?: TextRevision.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetTextResponse
+   */
+  export interface AsProtobufJSON {
+    current: TextRevision.AsProtobufJSON | null;
+    prev: TextRevision.AsProtobufJSON | null;
+    next: TextRevision.AsProtobufJSON | null;
+  }
+}

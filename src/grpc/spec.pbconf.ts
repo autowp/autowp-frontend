@@ -109,3 +109,11 @@ export const GRPC_STATISTICS_CLIENT_SETTINGS = new InjectionToken<any>(
 export const GRPC_DONATIONS_CLIENT_SETTINGS = new InjectionToken<any>(
   'GRPC_DONATIONS_CLIENT_SETTINGS'
 );
+
+/**
+ * Specific GrpcClientSettings for Text.
+ * Use it only if your default settings are not set or the service requires other settings.
+ */
+export const GRPC_TEXT_CLIENT_SETTINGS = new InjectionToken<any>(
+  'GRPC_TEXT_CLIENT_SETTINGS'
+);

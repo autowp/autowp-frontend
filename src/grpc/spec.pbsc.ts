@@ -37,7 +37,8 @@ import {
   GRPC_PICTURES_CLIENT_SETTINGS,
   GRPC_MESSAGING_CLIENT_SETTINGS,
   GRPC_STATISTICS_CLIENT_SETTINGS,
-  GRPC_DONATIONS_CLIENT_SETTINGS
+  GRPC_DONATIONS_CLIENT_SETTINGS,
+  GRPC_TEXT_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -3073,6 +3074,66 @@ export class DonationsClient {
   ): Observable<thisProto.VODDataResponse> {
     return this.$raw
       .getVODData(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Text
+ */
+@Injectable({ providedIn: 'any' })
+export class TextClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Text/GetText
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIGetTextResponse>>
+     */
+    getText: (
+      requestData: thisProto.APIGetTextRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIGetTextResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Text/GetText',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetTextRequest,
+        responseClass: thisProto.APIGetTextResponse
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_TEXT_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Text', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Text/GetText
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIGetTextResponse>
+   */
+  getText(
+    requestData: thisProto.APIGetTextRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIGetTextResponse> {
+    return this.$raw
+      .getText(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
