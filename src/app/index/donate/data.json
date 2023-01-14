@@ -1,5 +1,11 @@
 [
   {
+    "sum": 46.95,
+    "currency": "EUR",
+    "date": "2023-01-14T00:00:00+00:00",
+    "contributor": "Sergio Oliveira de Melo"
+  },
+  {
     "sum": 2.49,
     "currency": "EUR",
     "date": "2022-12-26T00:00:00+00:00",
