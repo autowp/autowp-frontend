@@ -1,5 +1,31 @@
 [
   {
+    "sum": -192.40,
+    "currency": "EUR",
+    "date": "2023-01-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "January/February hosting"
+  },
+  {
+    "sum": 88,
+    "currency": "EUR",
+    "date": "2023-01-18T00:00:00+00:00",
+    "contributor": "Cadillac"
+  },
+  {
+    "sum": -1299,
+    "currency": "RUB",
+    "date": "2023-01-17T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "Domain name"
+  },
+  {
+    "sum": 1299,
+    "currency": "RUB",
+    "date": "2023-01-17T00:00:00+00:00",
+    "contributor": "Dmitry"
+  },
+  {
     "sum": 46.95,
     "currency": "EUR",
     "date": "2023-01-14T00:00:00+00:00",
