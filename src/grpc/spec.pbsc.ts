@@ -1329,6 +1329,27 @@ export class UsersClient {
         requestClass: thisProto.APIUserPreferencesRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Users/GetUsers
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUsersResponse>>
+     */
+    getUsers: (
+      requestData: thisProto.APIUsersRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUsersResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/GetUsers',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIUsersRequest,
+        responseClass: thisProto.APIUsersResponse
+      });
     }
   };
 
@@ -1433,6 +1454,22 @@ export class UsersClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .enableUserCommentsNotifications(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/GetUsers
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUsersResponse>
+   */
+  getUsers(
+    requestData: thisProto.APIUsersRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUsersResponse> {
+    return this.$raw
+      .getUsers(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

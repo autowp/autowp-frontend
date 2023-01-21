@@ -1,13 +1,9 @@
 import {Component} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {APIUser} from '../../services/user';
-import {APIService} from '../../services/api.service';
 import {map, switchMap} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs';
-
-interface Response {
-  items: APIUser[];
-}
+import {BehaviorSubject, Observable} from 'rxjs';
+import {UsersClient} from '@grpc/spec.pbsc';
+import {APIUser, APIUsersRequest} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-users-online',
@@ -15,12 +11,12 @@ interface Response {
 })
 export class UsersOnlineComponent {
   private reload$ = new BehaviorSubject<boolean>(true);
-  public users$ = this.reload$.pipe(
-    switchMap(() => this.api.request<Response>('GET', 'user/online')),
+  public users$: Observable<APIUser[]> = this.reload$.pipe(
+    switchMap(() => this.usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
     map((response) => response.items)
   );
 
-  constructor(public activeModal: NgbActiveModal, private api: APIService) {}
+  constructor(public readonly activeModal: NgbActiveModal, private readonly usersClient: UsersClient) {}
 
   public load() {
     this.reload$.next(true);

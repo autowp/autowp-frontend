@@ -18792,6 +18792,379 @@ export module APIUserPreferencesResponse {
 }
 
 /**
+ * Message implementation for goautowp.APIUsersRequest
+ */
+export class APIUsersRequest implements GrpcMessage {
+  static id = 'goautowp.APIUsersRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIUsersRequest();
+    APIUsersRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIUsersRequest) {
+    _instance.fields = _instance.fields || [];
+    _instance.isOnline = _instance.isOnline || false;
+    _instance.limit = _instance.limit || '0';
+    _instance.page = _instance.page || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIUsersRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          (_instance.fields = _instance.fields || []).push(
+            _reader.readString()
+          );
+          break;
+        case 2:
+          _instance.isOnline = _reader.readBool();
+          break;
+        case 3:
+          _instance.limit = _reader.readUint64String();
+          break;
+        case 4:
+          _instance.page = _reader.readUint64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIUsersRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIUsersRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.fields && _instance.fields.length) {
+      _writer.writeRepeatedString(1, _instance.fields);
+    }
+    if (_instance.isOnline) {
+      _writer.writeBool(2, _instance.isOnline);
+    }
+    if (_instance.limit) {
+      _writer.writeUint64String(3, _instance.limit);
+    }
+    if (_instance.page) {
+      _writer.writeUint64String(4, _instance.page);
+    }
+  }
+
+  private _fields: string[];
+  private _isOnline: boolean;
+  private _limit: string;
+  private _page: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIUsersRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIUsersRequest.AsObject>) {
+    _value = _value || {};
+    this.fields = (_value.fields || []).slice();
+    this.isOnline = _value.isOnline;
+    this.limit = _value.limit;
+    this.page = _value.page;
+    APIUsersRequest.refineValues(this);
+  }
+  get fields(): string[] {
+    return this._fields;
+  }
+  set fields(value: string[]) {
+    this._fields = value;
+  }
+  get isOnline(): boolean {
+    return this._isOnline;
+  }
+  set isOnline(value: boolean) {
+    this._isOnline = value;
+  }
+  get limit(): string {
+    return this._limit;
+  }
+  set limit(value: string) {
+    this._limit = value;
+  }
+  get page(): string {
+    return this._page;
+  }
+  set page(value: string) {
+    this._page = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIUsersRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIUsersRequest.AsObject {
+    return {
+      fields: (this.fields || []).slice(),
+      isOnline: this.isOnline,
+      limit: this.limit,
+      page: this.page
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIUsersRequest.AsProtobufJSON {
+    return {
+      fields: (this.fields || []).slice(),
+      isOnline: this.isOnline,
+      limit: this.limit,
+      page: this.page
+    };
+  }
+}
+export module APIUsersRequest {
+  /**
+   * Standard JavaScript object representation for APIUsersRequest
+   */
+  export interface AsObject {
+    fields: string[];
+    isOnline: boolean;
+    limit: string;
+    page: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIUsersRequest
+   */
+  export interface AsProtobufJSON {
+    fields: string[];
+    isOnline: boolean;
+    limit: string;
+    page: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIUsersResponse
+ */
+export class APIUsersResponse implements GrpcMessage {
+  static id = 'goautowp.APIUsersResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIUsersResponse();
+    APIUsersResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIUsersResponse) {
+    _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIUsersResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIUser();
+          _reader.readMessage(
+            messageInitializer1,
+            APIUser.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIUsersResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIUsersResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIUser.serializeBinaryToWriter
+      );
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIUser[];
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIUsersResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIUsersResponse.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIUser(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    APIUsersResponse.refineValues(this);
+  }
+  get items(): APIUser[] | undefined {
+    return this._items;
+  }
+  set items(value: APIUser[] | undefined) {
+    this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIUsersResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIUsersResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIUsersResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module APIUsersResponse {
+  /**
+   * Standard JavaScript object representation for APIUsersResponse
+   */
+  export interface AsObject {
+    items?: APIUser.AsObject[];
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for APIUsersResponse
+   */
+  export interface AsProtobufJSON {
+    items: APIUser.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.ArticlesRequest
  */
 export class ArticlesRequest implements GrpcMessage {
