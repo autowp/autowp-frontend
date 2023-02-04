@@ -61,7 +61,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(30),
         switchMap((id) =>
-          this.pictureService.getPicture(id, {
+          this.pictureService.getPicture$(id, {
             fields: 'crop,image',
           })
         ),
@@ -85,7 +85,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           this.type = data.params.type;
         }),
         switchMap((data) =>
-          this.pictureItemService.get(data.picture.id, data.params.item_id, data.params.type, {
+          this.pictureItemService.get$(data.picture.id, data.params.item_id, data.params.type, {
             fields: 'area',
           })
         ),
@@ -180,7 +180,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
       height: Math.round(this.currentCrop.h),
     };
 
-    this.pictureItemService.setArea(this.id, this.itemID, this.type, area).subscribe(() => {
+    this.pictureItemService.setArea$(this.id, this.itemID, this.type, area).subscribe(() => {
       this.router.navigate(['/moder/pictures', this.picture.id]);
     });
   }

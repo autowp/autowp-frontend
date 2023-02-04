@@ -21,9 +21,9 @@ export class VotingVotesComponent {
   private variantID$ = new BehaviorSubject<number>(null);
 
   public votes$: Observable<APIVotingVariantVote[]> = combineLatest([this.votingID$, this.variantID$]).pipe(
-    switchMap(([votingID, variantID]) => this.votingService.getVariantVotes(votingID, variantID, {fields: 'user'})),
-    catchError((response) => {
-      this.toastService.response(response);
+    switchMap(([votingID, variantID]) => this.votingService.getVariantVotes$(votingID, variantID, {fields: 'user'})),
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => response.items)

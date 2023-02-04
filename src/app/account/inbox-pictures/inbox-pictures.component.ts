@@ -18,10 +18,10 @@ export class AccountInboxPicturesComponent implements OnInit {
       distinctUntilChanged(),
       debounceTime(10)
     ),
-    this.auth.getUser(),
+    this.auth.getUser$(),
   ]).pipe(
     switchMap(([page, user]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'inbox',
         owner_id: user.id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
@@ -30,8 +30,8 @@ export class AccountInboxPicturesComponent implements OnInit {
         order: 1,
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     })
   );

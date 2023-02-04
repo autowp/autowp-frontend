@@ -29,7 +29,7 @@ export class ModerTrafficComponent implements OnInit {
     map((response) =>
       response.items.map((item) => ({
         item,
-        hostname$: this.ipService.getHostByAddr(item.ip),
+        hostname$: this.ipService.getHostByAddr$(item.ip),
       }))
     )
   );

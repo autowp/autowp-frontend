@@ -35,9 +35,9 @@ export class ListComponent {
         })
       )
     ),
-    catchError((response) => {
+    catchError((response: unknown) => {
       console.log(response);
-      this.toastService.grpcErrorResponse(response);
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
@@ -48,7 +48,7 @@ export class ListComponent {
         name: article.name,
         description: article.description,
         date: article.date.toDate(),
-        author$: article.authorId !== '0' ? this.userService.getUser(+article.authorId, {}) : of(null as APIUser),
+        author$: article.authorId !== '0' ? this.userService.getUser$(+article.authorId, {}) : of(null as APIUser),
       })) as Article[],
     }))
   );

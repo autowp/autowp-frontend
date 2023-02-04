@@ -40,12 +40,12 @@ export class PersonsPersonPictureComponent {
 
   public item$ = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'description'].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
@@ -74,7 +74,7 @@ export class PersonsPersonPictureComponent {
 
       return this.changed$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures({
+          this.pictureService.getPictures$({
             exact_item_id: itemID,
             identity,
             fields,

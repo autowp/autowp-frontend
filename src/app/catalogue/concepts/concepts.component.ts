@@ -25,7 +25,7 @@ export class CatalogueConceptsComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         catname,
         fields: 'name_only,name_html',
         limit: 1,
@@ -54,7 +54,7 @@ export class CatalogueConceptsComponent {
 
   public data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         limit: 7,
         order: 'age',
         ancestor_id: brand.id,

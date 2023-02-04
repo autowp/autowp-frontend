@@ -14,13 +14,13 @@ import {getItemTypeTranslation} from '../../../utils/translations';
   templateUrl: './pictures.component.html',
 })
 export class CatalogueVehiclesPicturesComponent {
-  public canAcceptPicture$ = this.acl.isAllowed(Resource.PICTURE, Privilege.ACCEPT);
-  public canAddItem$ = this.acl.isAllowed(Resource.CAR, Privilege.ADD);
+  public canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
+  public canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private catalogue$ = this.isModer$.pipe(
-    switchMap((isModer) => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
+    switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -69,7 +69,7 @@ export class CatalogueVehiclesPicturesComponent {
 
   public pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
     switchMap(([exact, item, page]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
         limit: 20,
         page,

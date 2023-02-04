@@ -22,7 +22,7 @@ export class ModerItemsTooBigComponent {
     );
 
     this.itemService
-      .getItems({
+      .getItems$({
         order: 'childs_count',
         limit: 100,
         fields: 'childs_count,name_html',

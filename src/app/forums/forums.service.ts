@@ -86,7 +86,7 @@ const LIMIT = 20;
   providedIn: 'root',
 })
 export class ForumsService {
-  private readonly summary$: Observable<APIForumsUserSummary> = this.auth.getUser().pipe(
+  private readonly summary$: Observable<APIForumsUserSummary> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         return of(null);
@@ -98,7 +98,7 @@ export class ForumsService {
 
   constructor(private api: APIService, private auth: AuthService, private grpc: ForumsClient) {}
 
-  public getUserSummary(): Observable<APIForumsUserSummary> {
+  public getUserSummary$(): Observable<APIForumsUserSummary> {
     return this.summary$;
   }
 
@@ -106,7 +106,7 @@ export class ForumsService {
     return LIMIT;
   }
 
-  public getMessageStateParams(messageID: number): Observable<MessageStateParams> {
+  public getMessageStateParams$(messageID: number): Observable<MessageStateParams> {
     return this.api
       .request<APIComment>('GET', 'comment/' + messageID, {
         params: {
@@ -122,7 +122,7 @@ export class ForumsService {
       );
   }
 
-  public getThemes(options: APIForumGetThemesOptions): Observable<APIForumThemesGetResponse> {
+  public getThemes$(options: APIForumGetThemesOptions): Observable<APIForumThemesGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -140,7 +140,7 @@ export class ForumsService {
     });
   }
 
-  public getTheme(id: number, options: APIForumGetThemeOptions): Observable<APIForumTheme> {
+  public getTheme$(id: number, options: APIForumGetThemeOptions): Observable<APIForumTheme> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -158,7 +158,7 @@ export class ForumsService {
     });
   }
 
-  public getTopics(options: APIForumGetTopicsOptions): Observable<APIForumTopicsGetResponse> {
+  public getTopics$(options: APIForumGetTopicsOptions): Observable<APIForumTopicsGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -182,7 +182,7 @@ export class ForumsService {
     });
   }
 
-  public getTopic(id: number, options: APIForumGetTopicOptions): Observable<APIForumTopic> {
+  public getTopic$(id: number, options: APIForumGetTopicOptions): Observable<APIForumTopic> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {

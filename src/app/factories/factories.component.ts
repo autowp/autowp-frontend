@@ -14,19 +14,19 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './factories.component.html',
 })
 export class FactoryComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   public item$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'lat', 'lng', 'description', 'related_group_pictures'].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
@@ -53,15 +53,15 @@ export class FactoryComponent {
 
   public pictures$ = this.item$.pipe(
     switchMap((factory) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         exact_item_id: factory.id,
         limit: 24,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     })
   );

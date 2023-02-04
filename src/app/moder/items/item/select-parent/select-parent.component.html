@@ -9,7 +9,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item">
+    <li class="breadcrumb-item" *ngIf="item$ | async as item">
       <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
     </li>
   </ol>
@@ -19,161 +19,86 @@
   <h1 i18n>Parent selection</h1>
 </div>
 
-<div class="nav nav-pills" style="margin-bottom: 10px" *ngIf="item">
-  <a
-    [class.active]="tab === 'catalogue'"
-    *ngIf="showCatalogueTab"
-    class="nav-link"
-    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'catalogue'}"
-  >
-    <i class="bi bi-list" aria-hidden="true"></i> Catalogue</a
-  >
-  <a
-    [class.active]="tab === 'brands'"
-    *ngIf="showBrandsTab"
-    class="nav-link"
-    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'brands'}"
-  >
-    <i class="bi bi-list" aria-hidden="true"></i> Brands</a
-  >
-  <a
-    [class.active]="tab === 'categories'"
-    class="nav-link"
-    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'categories'}"
-  >
-    <i class="bi bi-tag-fill" aria-hidden="true"></i> Categories</a
-  >
-  <a
-    [class.active]="tab === 'twins'"
-    *ngIf="showTwinsTab"
-    class="nav-link"
-    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'twins'}"
-  >
-    <i class="bi bi-circle-half" aria-hidden="true"></i> Twins</a
-  >
-  <a
-    [class.active]="tab === 'factories'"
-    *ngIf="showFactoriesTab"
-    class="nav-link"
-    [routerLink]="['/moder/items/item', item.id, 'select-parent']"
-    [queryParams]="{tab: 'factories'}"
-  >
-    <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <ng-container i18n>Factories</ng-container></a
-  >
-</div>
-
-<div class="card card-body" *ngIf="tab === 'catalogue'">
-  <input
-    type="text"
-    [(ngModel)]="search"
-    (input)="doSearch()"
-    class="form-control mb-4"
-    placeholder="Type to search …"
-    autofocus
-  />
-  <div class="row" *ngIf="!brandID">
-    <div class="col-2" *ngFor="let chunk of brands">
-      <ng-container *ngFor="let item of chunk">
-        <a
-          routerLink="."
-          [queryParams]="{brand_id: item.id}"
-          queryParamsHandling="merge"
-          [innerHTML]="item.name_html"
-        ></a>
-        <br />
-      </ng-container>
+<ng-container *ngIf="itemID$ | async as itemID">
+  <ng-container *ngIf="tab$ | async as tab">
+    <div class="nav nav-pills" style="margin-bottom: 10px">
+      <a
+        [class.active]="tab === 'catalogue'"
+        *ngIf="showCatalogueTab$ | async"
+        class="nav-link"
+        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+        [queryParams]="{tab: 'catalogue'}"
+      >
+        <i class="bi bi-list" aria-hidden="true"></i>
+        <ng-container i18n>Catalogue</ng-container>
+      </a>
+      <a
+        [class.active]="tab === 'brands'"
+        *ngIf="showBrandsTab$ | async"
+        class="nav-link"
+        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+        [queryParams]="{tab: 'brands'}"
+      >
+        <i class="bi bi-list" aria-hidden="true"></i>
+        <ng-container i18n>Brands</ng-container>
+      </a>
+      <a
+        [class.active]="tab === 'categories'"
+        class="nav-link"
+        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+        [queryParams]="{tab: 'categories'}"
+      >
+        <i class="bi bi-tag-fill" aria-hidden="true"></i>
+        <ng-container i18n>Categories</ng-container>
+      </a>
+      <a
+        [class.active]="tab === 'twins'"
+        *ngIf="showTwinsTab$ | async"
+        class="nav-link"
+        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+        [queryParams]="{tab: 'twins'}"
+      >
+        <i class="bi bi-circle-half" aria-hidden="true"></i>
+        <ng-container i18n>Twins</ng-container>
+      </a>
+      <a
+        [class.active]="tab === 'factories'"
+        *ngIf="showFactoriesTab$ | async"
+        class="nav-link"
+        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+        [queryParams]="{tab: 'factories'}"
+      >
+        <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+        <ng-container i18n>Factories</ng-container></a
+      >
     </div>
-  </div>
-  <ul *ngIf="brandID">
-    <li class="car-node" *ngFor="let citem of items">
-      <app-moder-items-item-select-parent-tree
-        [item]="citem"
-        (selected)="select($event)"
-        [disableItemID]="item.id"
-        (loadChilds)="loadChildCatalogues($event)"
-      >
-      </app-moder-items-item-select-parent-tree>
-    </li>
-  </ul>
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
-</div>
 
-<div class="card card-body" *ngIf="tab === 'brands'">
-  <input
-    type="text"
-    [(ngModel)]="search"
-    (input)="doSearch()"
-    class="form-control mb-4"
-    placeholder="Type to search …"
-    autofocus
-  />
-  <div class="row">
-    <div class="col-2" *ngFor="let chunk of brands">
-      <ng-container *ngFor="let item of chunk">
-        <a href="" (click)="select(item)" [innerHTML]="item.name_html"></a>
-        <br />
-      </ng-container>
-    </div>
-  </div>
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
-</div>
-
-<div class="card card-body" *ngIf="tab === 'categories'">
-  <ul>
-    <li class="car-node" *ngFor="let citem of categories">
-      <app-moder-items-item-select-parent-tree-item
-        [item]="citem"
-        (selected)="select($event)"
-        (loadChilds)="loadChildCategories($event)"
-        [disableItemID]="item.id"
-      >
-      </app-moder-items-item-select-parent-tree-item>
-    </li>
-  </ul>
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
-</div>
-
-<div class="card card-body" *ngIf="tab === 'twins'">
-  <div class="row" *ngIf="!brandID">
-    <div class="col-2" *ngFor="let chunk of brands">
-      <ng-container *ngFor="let item of chunk">
-        <a
-          routerLink="."
-          [queryParams]="{brand_id: item.id}"
-          queryParamsHandling="merge"
-          [innerHTML]="item.name_html"
-        ></a>
-        <br />
-      </ng-container>
-    </div>
-  </div>
-  <ul *ngIf="brandID">
-    <li class="car-node" *ngFor="let citem of items">
-      <app-moder-items-item-select-parent-tree-item
-        [item]="citem"
-        (selected)="select($event)"
-        [disableItemID]="item.id"
-      >
-      </app-moder-items-item-select-parent-tree-item>
-    </li>
-  </ul>
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
-</div>
-
-<div class="card card-body" *ngIf="tab === 'factories'">
-  <ul>
-    <li class="car-node" *ngFor="let citem of factories">
-      <app-moder-items-item-select-parent-tree-item
-        [item]="citem"
-        (selected)="select($event)"
-        [disableItemID]="item.id"
-      >
-      </app-moder-items-item-select-parent-tree-item>
-    </li>
-  </ul>
-  <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
-</div>
+    <ng-container *ngIf="item$ | async as item">
+      <app-moder-items-item-select-parent-catalogue
+        *ngIf="tab === 'catalogue'"
+        [itemID]="itemID"
+        [itemTypeID]="item.item_type_id"
+        (selected)="select(itemID, $event)"
+      ></app-moder-items-item-select-parent-catalogue>
+    </ng-container>
+    <app-moder-items-item-select-parent-brands
+      *ngIf="tab === 'brands'"
+      (selected)="select(itemID, $event)"
+    ></app-moder-items-item-select-parent-brands>
+    <app-moder-items-item-select-parent-categories
+      *ngIf="tab === 'categories'"
+      [itemID]="itemID"
+      (selected)="select(itemID, $event)"
+    ></app-moder-items-item-select-parent-categories>
+    <app-moder-items-item-select-parent-twins
+      *ngIf="tab === 'twins'"
+      [itemID]="itemID"
+      (selected)="select(itemID, $event)"
+    ></app-moder-items-item-select-parent-twins>
+    <app-moder-items-item-select-parent-factories
+      *ngIf="tab === 'factories'"
+      [itemID]="itemID"
+      (selected)="select(itemID, $event)"
+    ></app-moder-items-item-select-parent-factories>
+  </ng-container>
+</ng-container>

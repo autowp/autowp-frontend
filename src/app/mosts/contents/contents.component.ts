@@ -63,7 +63,7 @@ export class MostsContentsComponent {
   private menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((brandID) => this.mostsService.getMenu(brandID)),
+    switchMap((brandID) => this.mostsService.getMenu$(brandID)),
     shareReplay(1)
   );
 
@@ -89,7 +89,7 @@ export class MostsContentsComponent {
     switchMap(([ratingCatname, typeCatname, yearsCatname]) =>
       this.brandID$.pipe(
         switchMap((brandID) =>
-          this.mostsService.getItems({
+          this.mostsService.getItems$({
             rating_catname: ratingCatname,
             type_catname: typeCatname,
             years_catname: yearsCatname,

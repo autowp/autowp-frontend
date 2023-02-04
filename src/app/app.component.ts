@@ -26,14 +26,14 @@ export class AppComponent {
   public layoutParams$: Observable<LayoutParams>;
   public loginInvalidParams: any;
   public user: APIUser;
-  public newPersonalMessages$ = this.messageService.getNew().pipe(
+  public newPersonalMessages$ = this.messageService.getNew$().pipe(
     map((result) => ({
       count: result,
     })),
     shareReplay(1)
   );
   public searchHostname: string;
-  public categories$ = this.itemService.getItems({
+  public categories$ = this.itemService.getItems$({
     type_id: 3,
     no_parent: true,
     fields: 'name_text,catname,descendants_count',
@@ -69,7 +69,7 @@ export class AppComponent {
       }
     });
 
-    this.auth.getUser().subscribe((user) => {
+    this.auth.getUser$().subscribe((user) => {
       this.user = user;
     });
 
@@ -102,8 +102,8 @@ export class AppComponent {
   }
 
   public signOut() {
-    this.auth.signOut().subscribe({
-      error: (error) => {
+    this.auth.signOut$().subscribe({
+      error: (error: unknown) => {
         console.log(error);
       },
     });
@@ -111,8 +111,8 @@ export class AppComponent {
     return false;
   }
 
-  public isActive(id: number): Observable<boolean> {
-    return this.pageEnv.isActive(id);
+  public isActive$(id: number): Observable<boolean> {
+    return this.pageEnv.isActive$(id);
   }
 
   public showOnlineUsers() {

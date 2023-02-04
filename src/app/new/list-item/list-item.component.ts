@@ -9,7 +9,7 @@ import {APIPicture} from '../../services/picture';
   styleUrls: ['./styles.scss'],
 })
 export class NewListItemComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   @Input() item: APIItem;
   @Input() pictures: APIPicture[];
   @Input() totalPictures: number;

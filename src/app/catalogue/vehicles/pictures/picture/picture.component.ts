@@ -36,10 +36,10 @@ export class CatalogueVehiclesPicturesPictureComponent {
     shareReplay(1)
   );
 
-  private isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  private isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private catalogue$ = this.isModer$.pipe(
-    switchMap((isModer) => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
+    switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -83,7 +83,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
 
       return this.changed$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures({
+          this.pictureService.getPictures$({
             identity,
             item_id: itemID,
             fields,

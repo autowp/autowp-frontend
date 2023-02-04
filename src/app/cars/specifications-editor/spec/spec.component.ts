@@ -14,6 +14,7 @@ import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
 import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation} from '../../../utils/translations';
 import {APIUser} from '@grpc/spec.pb';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
   deep?: number;
@@ -95,20 +96,20 @@ export class CarsSpecificationsEditorSpecComponent {
   private change$ = new BehaviorSubject<null>(null);
   public invalidParams: InvalidParams;
 
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
 
   public attributes$ = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
       this.attrsService
-        .getAttributes({
+        .getAttributes$({
           fields: 'unit,options,childs.unit,childs.options',
           zone_id: item.attr_zone_id,
           recursive: true,
         })
         .pipe(
-          catchError((response) => {
-            this.toastService.response(response);
+          catchError((response: unknown) => {
+            this.toastService.handleError(response);
             return EMPTY;
           }),
           map((attributes) => ({item, attributes}))
@@ -143,7 +144,7 @@ export class CarsSpecificationsEditorSpecComponent {
 
   public values$ = combineLatest([this.item$, this.change$]).pipe(
     switchMap(([item]) =>
-      this.attrsService.getValues({
+      this.attrsService.getValues$({
         item_id: item.id,
         zone_id: item.attr_zone_id,
         limit: 500,
@@ -163,7 +164,7 @@ export class CarsSpecificationsEditorSpecComponent {
   public currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
     switchMap(([item, user, attributes]) =>
       this.attrsService
-        .getUserValues({
+        .getUserValues$({
           item_id: item.id,
           user_id: +user.id,
           zone_id: item.attr_zone_id,
@@ -214,7 +215,7 @@ export class CarsSpecificationsEditorSpecComponent {
   public userValues$: Observable<Map<number, APIAttrUserValue[]>> = combineLatest([this.item$, this.change$]).pipe(
     switchMap(([item]) =>
       this.attrsService
-        .getUserValues({
+        .getUserValues$({
           item_id: item.id,
           page: 1,
           zone_id: item.attr_zone_id,
@@ -233,7 +234,7 @@ export class CarsSpecificationsEditorSpecComponent {
       for (let i = 2; i <= paginator.pageCount; i++) {
         observables.push(
           this.attrsService
-            .getUserValues({
+            .getUserValues$({
               item_id: item.id,
               page: i,
               zone_id: item.attr_zone_id,
@@ -280,11 +281,11 @@ export class CarsSpecificationsEditorSpecComponent {
           this.change$.next(null);
           this.loading--;
         },
-        error: (response) => {
-          if (response.status === 400) {
+        error: (response: unknown) => {
+          if (response instanceof HttpErrorResponse && response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            this.toastService.response(response);
+            this.toastService.handleError(response);
           }
           this.loading--;
         },

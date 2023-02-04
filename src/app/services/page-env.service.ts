@@ -45,13 +45,13 @@ export class PageEnvService {
     this.pageEnv$.next(data);
   }
 
-  public isActive(id: number): Observable<boolean> {
+  public isActive$(id: number): Observable<boolean> {
     return this.pageEnv$.pipe(
       switchMap((data) => {
         if (!data || !data.pageId) {
           return of(false);
         }
-        return this.pageService.isDescendant(data.pageId, id);
+        return this.pageService.isDescendant$(data.pageId, id);
       })
     );
   }

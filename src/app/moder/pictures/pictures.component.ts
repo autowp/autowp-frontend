@@ -94,7 +94,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 'null',
     },
   ];
-  public perspectiveOptions$ = this.perspectiveService.getPerspectives().pipe(
+  public perspectiveOptions$ = this.perspectiveService.getPerspectives$().pipe(
     map((perspectives) =>
       this.defaultPerspectiveOptions.slice(0).concat(
         perspectives.map((perspective) => ({
@@ -229,7 +229,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   public itemQuery = '';
   public itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
 
-  public vehicleTypeOptions$ = this.vehicleTypeService.getTypes().pipe(
+  public vehicleTypeOptions$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => this.defaultVehicleTypeOptions.concat(toPlainVehicleTypes(types, 0))),
     shareReplay(1)
   );
@@ -326,9 +326,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
       return this.change$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures(qParams).pipe(
-            catchError((response) => {
-              this.toastService.response(response);
+          this.pictureService.getPictures$(qParams).pipe(
+            catchError((response: unknown) => {
+              this.toastService.handleError(response);
               return EMPTY;
             })
           )
@@ -343,7 +343,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates().pipe(shareReplay(1));
+  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
 
   constructor(
     private api: APIService,
@@ -378,9 +378,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             params.search = query;
           }
 
-          return this.userService.get(params).pipe(
-            catchError((err, caught) => {
-              console.log(err, caught);
+          return this.userService.get$(params).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items)
@@ -408,9 +408,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             params.name = '%' + query + '%';
           }
 
-          return this.itemService.getItems(params).pipe(
-            catchError((err, caught) => {
-              console.log(err, caught);
+          return this.itemService.getItems$(params).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items)
@@ -525,8 +525,8 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       const promises: Observable<void>[] = [];
       for (const picture of pictures) {
         if (picture.id === id) {
-          const q = this.moderVoteService.vote(picture.id, vote, reason);
-          promises.push(q);
+          const q$ = this.moderVoteService.vote$(picture.id, vote, reason);
+          promises.push(q$);
         }
       }
 

@@ -18,15 +18,15 @@ export class UploadSelectTreeItemComponent {
 
   public childs$: Observable<APIItemParent[]> = this.item$.pipe(
     switchMap((item) =>
-      this.itemParentService.getItems({
+      this.itemParentService.getItems$({
         limit: 500,
         fields: 'item.name_html,item.childs_count',
         parent_id: item.item_id,
         order: 'type_auto',
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => response.items)

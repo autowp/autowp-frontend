@@ -24,7 +24,7 @@ export class ModerItemsItemCatalogueComponent {
 
   public itemQuery = '';
 
-  public canMove$ = this.acl.isAllowed(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
+  public canMove$ = this.acl.isAllowed$(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
 
   public organizeTypeId$ = this.item$.pipe(
     map((item) => (item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id))
@@ -51,7 +51,7 @@ export class ModerItemsItemCatalogueComponent {
             }
 
             return this.itemService
-              .getItems({
+              .getItems$({
                 autocomplete: query,
                 exclude_self_and_childs: item.id,
                 is_group: true,
@@ -67,7 +67,7 @@ export class ModerItemsItemCatalogueComponent {
 
   public childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
     switchMap(([item]) =>
-      this.itemParentService.getItems({
+      this.itemParentService.getItems$({
         parent_id: item.id,
         limit: 500,
         fields: 'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
@@ -79,7 +79,7 @@ export class ModerItemsItemCatalogueComponent {
 
   public parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
     switchMap(([item]) =>
-      this.itemParentService.getItems({
+      this.itemParentService.getItems$({
         item_id: item.id,
         limit: 500,
         fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes',
@@ -90,7 +90,7 @@ export class ModerItemsItemCatalogueComponent {
 
   public suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
     switchMap(([item]) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         suggestions_to: item.id,
         limit: 3,
         fields: 'name_text',

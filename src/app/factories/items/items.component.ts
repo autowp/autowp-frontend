@@ -14,7 +14,7 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './items.component.html',
 })
 export class FactoryItemsComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -27,12 +27,12 @@ export class FactoryItemsComponent {
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'lat', 'lng', 'description'].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
@@ -55,7 +55,7 @@ export class FactoryItemsComponent {
 
   public items$ = combineLatest([this.page$, this.factory$]).pipe(
     switchMap(([page, factory]) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         related_groups_of: factory.id,
         page,
         limit: 10,
@@ -68,8 +68,8 @@ export class FactoryItemsComponent {
         ].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     }),
     map((data) => ({

@@ -18,7 +18,7 @@ export class CutawayBrandsComponent implements OnInit {
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         fields:
           'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,current_pictures_count',
         type_id: ItemType.ITEM_TYPE_BRAND,
@@ -35,8 +35,8 @@ export class CutawayBrandsComponent implements OnInit {
         limit: 12,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({

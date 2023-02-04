@@ -1,8 +1,9 @@
 <app-moder-items-item-select-parent-tree-item
+  *ngIf="item$ | async as item"
   [item]="item.item"
   [typeID]="item.type_id"
+  [order]="order"
   (selected)="onSelect($event)"
-  (loadChilds)="onLoadChilds($event)"
   [disableItemID]="disableItemID"
 >
 </app-moder-items-item-select-parent-tree-item>

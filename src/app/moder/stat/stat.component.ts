@@ -34,7 +34,7 @@ export class ModerStatComponent {
       next: (response) => {
         this.items = response.items;
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 }

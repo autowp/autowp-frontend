@@ -1,0 +1,41 @@
+<div class="card card-body">
+  <input
+    type="text"
+    #catalogueSearch
+    (input)="doSearch(catalogueSearch.value)"
+    class="form-control mb-4"
+    placeholder="Type to search …"
+    i18n-placeholder
+    autofocus
+  />
+  <ng-container *ngIf="catalogueBrands$ | async as response">
+    <div class="row">
+      <div class="col-2" *ngFor="let chunk of response.brands">
+        <ng-container *ngFor="let item of chunk">
+          <a
+            routerLink="."
+            [queryParams]="{brand_id: item.id}"
+            queryParamsHandling="merge"
+            [innerHTML]="item.name_html"
+          ></a>
+          <br />
+        </ng-container>
+      </div>
+    </div>
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </ng-container>
+  <ng-container *ngIf="catalogueItems$ | async as response">
+    <ul>
+      <li class="car-node" *ngFor="let item of response.items">
+        <app-moder-items-item-select-parent-tree
+          [item]="item"
+          order="type_auto"
+          (selected)="onSelect($event)"
+          [disableItemID]="itemID$ | async"
+        >
+        </app-moder-items-item-select-parent-tree>
+      </li>
+    </ul>
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </ng-container>
+</div>

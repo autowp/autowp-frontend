@@ -14,16 +14,16 @@ export class ModerAttrsComponent implements OnInit {
   private attributesChange$ = new BehaviorSubject<null>(null);
 
   public attributes$ = this.attributesChange$.pipe(
-    switchMap(() => this.attrsService.getAttributes({recursive: true})),
-    catchError((response) => {
-      this.toastService.response(response);
+    switchMap(() => this.attrsService.getAttributes$({recursive: true})),
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );
 
-  public zones$ = this.attrsService.getZones().pipe(
-    catchError((response) => {
-      this.toastService.response(response);
+  public zones$ = this.attrsService.getZones$().pipe(
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );
@@ -55,7 +55,7 @@ export class ModerAttrsComponent implements OnInit {
       })
       .subscribe({
         next: () => this.attributesChange$.next(null),
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

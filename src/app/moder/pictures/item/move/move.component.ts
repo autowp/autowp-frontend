@@ -76,7 +76,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         tap((id) => {
           this.id = id;
         }),
-        switchMap((id) => this.pictureService.getPicture(id)),
+        switchMap((id) => this.pictureService.getPicture$(id)),
         tap((data) => {
           this.picture = data;
           this.pageEnv.set({
@@ -117,7 +117,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           let museums$: Observable<any> = of(null);
           if (this.showMuseums) {
             museums$ = this.itemService
-              .getItems({
+              .getItems$({
                 type_id: 7,
                 fields: 'name_html',
                 limit: 50,
@@ -134,7 +134,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           let factories$: Observable<any> = of(null);
           if (this.showFactories) {
             factories$ = this.itemService
-              .getItems({
+              .getItems$({
                 type_id: 6,
                 fields: 'name_html',
                 limit: 50,
@@ -154,7 +154,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               distinctUntilChanged(),
               debounceTime(30),
               switchMap((search) =>
-                this.itemService.getItems({
+                this.itemService.getItems$({
                   type_id: 8,
                   fields: 'name_html',
                   limit: 50,
@@ -175,7 +175,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               distinctUntilChanged(),
               debounceTime(30),
               switchMap((search) =>
-                this.itemService.getItems({
+                this.itemService.getItems$({
                   type_id: 8,
                   fields: 'name_html',
                   limit: 50,
@@ -193,7 +193,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           let copyrights$: Observable<any> = of(null);
           if (this.showCopyrights) {
             copyrights$ = this.itemService
-              .getItems({
+              .getItems$({
                 type_id: 9,
                 fields: 'name_html',
                 limit: 50,
@@ -219,7 +219,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             if (this.brandID) {
               brandItems$ = combineLatest([
                 this.itemParentService
-                  .getItems({
+                  .getItems$({
                     item_type_id: 1,
                     parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
@@ -228,7 +228,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                   })
                   .pipe(tap((response) => (this.vehicles = response.items))),
                 this.itemParentService
-                  .getItems({
+                  .getItems$({
                     item_type_id: 2,
                     parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
@@ -238,7 +238,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                   .pipe(tap((response) => (this.engines = response.items))),
 
                 this.itemParentService
-                  .getItems({
+                  .getItems$({
                     item_type_id: 1,
                     concept: true,
                     ancestor_id: this.brandID,
@@ -253,7 +253,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 distinctUntilChanged(),
                 debounceTime(30),
                 switchMap((search) =>
-                  this.itemService.getItems({
+                  this.itemService.getItems$({
                     type_id: 5,
                     fields: 'name_html',
                     limit: 200,
@@ -285,14 +285,14 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
 
     if (this.srcItemID && this.srcType) {
       this.pictureItemService
-        .changeItem(this.id, this.srcType, this.srcItemID, dstItemID)
+        .changeItem$(this.id, this.srcType, this.srcItemID, dstItemID)
         .pipe(
           switchMap(() => {
             if (!dstPerspectiveID) {
               return of(null);
             }
 
-            return this.pictureItemService.setPerspective(this.id, dstItemID, this.srcType, dstPerspectiveID);
+            return this.pictureItemService.setPerspective$(this.id, dstItemID, this.srcType, dstPerspectiveID);
           })
         )
         .subscribe(() => {
@@ -306,7 +306,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         perspective_id: dstPerspectiveID ? dstPerspectiveID : null,
       };
 
-      this.pictureItemService.create(this.id, dstItemID, selection.type, data).subscribe(() => {
+      this.pictureItemService.create$(this.id, dstItemID, selection.type, data).subscribe(() => {
         if (localStorage) {
           localStorage.setItem('last_item', dstItemID.toString());
         }

@@ -4,7 +4,7 @@ import {AuthService} from '../../services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 import {CommentsType, CommentsViewRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 
@@ -35,7 +35,7 @@ export class CommentsComponent {
   }
   public page$ = new BehaviorSubject<number>(null);
 
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
 
   public data$ = combineLatest([
     this.user$,
@@ -46,7 +46,7 @@ export class CommentsComponent {
     this.reload$,
   ]).pipe(
     switchMap(([user, itemID, typeID, limit, page]) =>
-      this.load(itemID, typeID, limit, page).pipe(
+      this.load$(itemID, typeID, limit, page).pipe(
         tap(() => {
           if (user) {
             this.commentsGrpc
@@ -76,45 +76,52 @@ export class CommentsComponent {
   ) {}
 
   public onSent(id: string) {
-    this.limit$.pipe(take(1)).subscribe({
-      next: (limit) => {
-        if (!limit) {
-          this.reload$.next(null);
-          return;
-        }
+    this.limit$
+      .pipe(
+        take(1),
+        switchMap((limit) => {
+          if (!limit) {
+            this.reload$.next(null);
+            return EMPTY;
+          }
 
-        this.commentService
-          .getComment(+id, {
-            fields: 'page',
-            limit: limit,
-          })
-          .subscribe({
-            next: (response) => {
-              this.page$.pipe(take(1)).subscribe({
-                next: (page) => {
-                  if (page !== response.page) {
-                    this.router.navigate([], {
-                      queryParams: {page: response.page},
-                      queryParamsHandling: 'merge',
-                    });
-                  } else {
-                    this.reload$.next(null);
-                  }
-                },
-              });
-            },
-            error: (response) => this.toastService.response(response),
-          });
-      },
-    });
+          return this.commentService
+            .getComment$(+id, {
+              fields: 'page',
+              limit: limit,
+            })
+            .pipe(
+              catchError((error: unknown) => {
+                this.toastService.handleError(error);
+                return EMPTY;
+              }),
+              switchMap((response) =>
+                this.page$.pipe(
+                  take(1),
+                  tap((page) => {
+                    if (page !== response.page) {
+                      this.router.navigate([], {
+                        queryParams: {page: response.page},
+                        queryParamsHandling: 'merge',
+                      });
+                    } else {
+                      this.reload$.next(null);
+                    }
+                  })
+                )
+              )
+            );
+        })
+      )
+      .subscribe();
   }
 
-  public load(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
+  public load$(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
     if (!typeID || !itemID) {
       return EMPTY;
     }
 
-    return this.commentService.getComments({
+    return this.commentService.getComments$({
       type_id: typeID,
       item_id: itemID,
       no_parents: true,

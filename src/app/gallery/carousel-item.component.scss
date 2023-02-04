@@ -39,6 +39,7 @@
 
     &.full {
       opacity: 1;
+
       &.crop-mode {
         opacity: 0;
       }
@@ -46,10 +47,27 @@
 
     &.crop {
       opacity: 0;
+
       &.crop-mode {
         opacity: 1;
       }
     }
+  }
+
+  .carousel-control-full {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+    color: #fff;
+    left: 50%;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    width: 20px;
+    margin-left: -10px;
+    margin-top: -10px;
+    opacity: 1;
   }
 
   &:hover {
@@ -70,23 +88,7 @@
   }
 }
 
-.carousel-control-full {
-  display: none;
-  cursor: pointer;
-  position: absolute;
-  text-align: center;
-  color: #fff;
-  left: 50%;
-  top: 50%;
-  right: auto;
-  bottom: auto;
-  width: 20px;
-  margin-left: -10px;
-  margin-top: -10px;
-  opacity: 1;
-}
-
-$controlWidth: 7.5%;
+$control-width: 7.5%;
 
 .carousel-control {
   position: absolute;
@@ -103,7 +105,7 @@ $controlWidth: 7.5%;
     top: auto;
     bottom: 20px;
     height: auto;
-    width: $controlWidth;
+    width: $control-width;
     opacity: 1;
     text-shadow: 0 0 4px #000;
     color: #fff;
@@ -118,7 +120,7 @@ $controlWidth: 7.5%;
       padding: 2px 5px;
 
       span {
-        color: #cc0000;
+        color: #c00;
       }
     }
   }
@@ -128,15 +130,15 @@ $controlWidth: 7.5%;
   }
 
   &.download {
-    left: 50% - $controlWidth * 1.5;
+    left: 50% - $control-width * 1.5;
   }
 
   &.details {
-    left: 50% - $controlWidth * 0.5;
+    left: 50% - $control-width * 0.5;
   }
 
   &.comments {
-    left: 50% + $controlWidth * 0.5;
+    left: 50% + $control-width * 0.5;
   }
 }
 

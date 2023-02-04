@@ -34,12 +34,12 @@ export class PersonsPersonAuthorPictureComponent {
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'description'].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
@@ -74,7 +74,7 @@ export class PersonsPersonAuthorPictureComponent {
 
       return this.changed$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures({
+          this.pictureService.getPictures$({
             exact_item_id: item.id,
             exact_item_link_type: 2,
             identity,

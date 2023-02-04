@@ -10,7 +10,7 @@ import {VODDataResponse} from '@grpc/spec.pb';
 export class DonateService {
   constructor(private grpc: DonationsClient) {}
 
-  public getVOD(): Observable<VODDataResponse> {
+  public getVOD$(): Observable<VODDataResponse> {
     return this.grpc.getVODData(new Empty());
   }
 }

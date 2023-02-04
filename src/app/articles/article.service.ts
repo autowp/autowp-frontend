@@ -33,7 +33,7 @@ export interface APIArticlesGetOptions {
 export class ArticleService {
   constructor(private api: APIService) {}
 
-  public getArticles(options: APIArticlesGetOptions): Observable<APIArticlesGetResponse> {
+  public getArticles$(options: APIArticlesGetOptions): Observable<APIArticlesGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.page) {

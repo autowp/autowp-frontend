@@ -37,7 +37,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   public item: APIItem = null;
   public specsAllowed = false;
-  public canEditSpecifications$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT);
+  public canEditSpecifications$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
 
   public tree: APIItemTreeItem;
 
@@ -97,7 +97,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap((id) => {
           this.loading++;
-          return this.itemService.getItem(id, {
+          return this.itemService.getItem$(id, {
             fields: [
               'name_text',
               'name_html',
@@ -132,8 +132,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         finalize(() => {
           this.loading--;
         }),
-        catchError((err) => {
-          this.toastService.response(err);
+        catchError((err: unknown) => {
+          this.toastService.handleError(err);
           this.router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
@@ -165,7 +165,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         switchMap((item) => {
           this.loading++;
           return this.pictureService
-            .getPictures({
+            .getPictures$({
               fields: 'thumb_medium',
               limit: 1,
               item_id: item.id,

@@ -7,7 +7,7 @@
   </div>
   <div class="col-md-6">
     <p i18n>Our goal is to cover {{ goal | currency : 'EUR' }} that is the cost of 1 year of website existence.</p>
-    <div style="position: relative" *ngIf="$state | async as state">
+    <div style="position: relative" *ngIf="state$ | async as state">
       <div class="progress" style="height: 10px; border-bottom-right-radius: 0; border-bottom-left-radius: 0">
         <div
           class="progress-bar bg-danger"

@@ -21,9 +21,9 @@ interface MenuItem {
 })
 export class MenuComponent {
   public items$: Observable<MenuItem[]> = combineLatest([
-    this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE),
-    this.pictureService.getInboxSize(),
-    this.commentService.getAttentionCommentsCount(),
+    this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE),
+    this.pictureService.getInboxSize$(),
+    this.commentService.getAttentionCommentsCount$(),
   ]).pipe(
     map(([isModer, inboxCount, attentionItemCount]) => {
       if (!isModer) {

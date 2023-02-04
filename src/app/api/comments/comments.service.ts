@@ -58,13 +58,13 @@ export class APICommentsService {
   private readonly attentionCommentsCount$: Observable<number>;
 
   constructor(private acl: ACLService, private api: APIService) {
-    this.attentionCommentsCount$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
+    this.attentionCommentsCount$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap((isModer) => {
         if (!isModer) {
           return of(null as number);
         }
 
-        return this.getComments({
+        return this.getComments$({
           moderator_attention: '1',
           limit: 0,
         }).pipe(map((response) => response.paginator.totalItemCount));
@@ -73,7 +73,7 @@ export class APICommentsService {
     );
   }
 
-  public getComments(options: APICommentGetOptions): Observable<APICommentGetResponse> {
+  public getComments$(options: APICommentGetOptions): Observable<APICommentGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.user_id) {
@@ -123,7 +123,7 @@ export class APICommentsService {
     return this.api.request<APICommentGetResponse>('GET', 'comment', {params});
   }
 
-  public getComment(id: number, options: APICommentItemGetOptions): Observable<APIComment> {
+  public getComment$(id: number, options: APICommentItemGetOptions): Observable<APIComment> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -137,7 +137,7 @@ export class APICommentsService {
     return this.api.request<APIComment>('GET', 'comment/' + id, {params});
   }
 
-  public getAttentionCommentsCount(): Observable<number> {
+  public getAttentionCommentsCount$(): Observable<number> {
     return this.attentionCommentsCount$;
   }
 }

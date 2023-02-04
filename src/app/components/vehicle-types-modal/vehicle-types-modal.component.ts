@@ -20,7 +20,7 @@ const translateNames = (types: VehicleType[]): VehicleType[] => {
 export class VehicleTypesModalComponent {
   @Input() ids: string[] = [];
   @Output() changed = new EventEmitter<string[]>();
-  public types$ = this.vehicleTypeService.getTypes().pipe(
+  public types$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => translateNames(types)),
     shareReplay(1)
   );

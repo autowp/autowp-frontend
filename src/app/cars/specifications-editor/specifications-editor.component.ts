@@ -15,10 +15,10 @@ import {AuthService} from '../../services/auth.service';
 })
 export class CarsSpecificationsEditorComponent {
   private change$ = new BehaviorSubject<null>(null);
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  public isSpecsAdmin$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.ADMIN);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  public isSpecsAdmin$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.ADMIN);
   public tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') || 'info'));
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
 
   public data$: Observable<APIItem> = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
@@ -27,7 +27,7 @@ export class CarsSpecificationsEditorComponent {
     switchMap((itemID) =>
       this.change$.pipe(
         switchMap(() =>
-          this.itemService.getItem(itemID, {
+          this.itemService.getItem$(itemID, {
             fields: 'name_html,name_text,engine_id,attr_zone_id',
           })
         )
@@ -72,7 +72,7 @@ export class CarsSpecificationsEditorComponent {
           },
         });
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 }

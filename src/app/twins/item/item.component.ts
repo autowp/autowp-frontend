@@ -11,7 +11,7 @@ export class TwinsItemComponent {
   @Input() item: APIItem;
   @Input() group: APIItem;
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(private acl: ACLService) {}
 

@@ -53,8 +53,8 @@ export class PulseComponent implements OnInit {
     debounceTime(10),
     distinctUntilChanged(),
     switchMap((period) => this.grpc.getPulse(new PulseRequest({period}))),
-    catchError((response) => {
-      this.toastService.grpcErrorResponse(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     shareReplay(1)
@@ -64,7 +64,7 @@ export class PulseComponent implements OnInit {
     map((response) => {
       return response.legend.map((item) => ({
         color: item.color,
-        user$: this.usersService.getUser(parseInt(item.userId, 10), {}),
+        user$: this.usersService.getUser$(parseInt(item.userId, 10), {}),
       }));
     })
   );
@@ -75,7 +75,7 @@ export class PulseComponent implements OnInit {
     switchMap((response) =>
       combineLatest(
         response.grid.map((dataset) =>
-          combineLatest([this.usersService.getUser(parseInt(dataset.userId, 10), {}), of(dataset)])
+          combineLatest([this.usersService.getUser$(parseInt(dataset.userId, 10), {}), of(dataset)])
         )
       )
     ),

@@ -172,7 +172,7 @@ export class GalleryComponent {
     });
   }
 
-  private loadPage(page: number, gallery: Gallery): Observable<APIGallery> {
+  private loadPage$(page: number, gallery: Gallery): Observable<APIGallery> {
     const params = gallery.filterParams();
     params.status = gallery.status;
     params.page = page + '';
@@ -187,7 +187,7 @@ export class GalleryComponent {
     const item = gallery.getItemByIndex(index);
     if (!item) {
       const page = gallery.getGalleryPageNumberByIndex(index);
-      this.loadPage(page, gallery).subscribe(() => {
+      this.loadPage$(page, gallery).subscribe(() => {
         const sitem = gallery.getItemByIndex(index);
         if (sitem) {
           return this.router.navigate(this.galleryPrefix.concat([sitem.identity]));

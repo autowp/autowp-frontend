@@ -13,7 +13,7 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './twins-group-picture.component.html',
 })
 export class TwinsGroupPictureComponent {
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
   private changed$ = new BehaviorSubject<boolean>(false);
   public group$ = this.route.paramMap.pipe(
     map((route) => parseInt(route.get('group'), 10)),
@@ -22,7 +22,7 @@ export class TwinsGroupPictureComponent {
       if (!groupID) {
         return of(null as APIItem);
       }
-      return this.itemService.getItem(groupID, {
+      return this.itemService.getItem$(groupID, {
         fields: 'name_text,name_html,childs.brands',
       });
     }),
@@ -67,7 +67,7 @@ export class TwinsGroupPictureComponent {
 
   public picture$: Observable<APIPicture> = combineLatest([
     this.group$,
-    this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT),
+    this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT),
     this.identity$,
   ]).pipe(
     switchMap(([group, isModer, identity]) => {
@@ -83,7 +83,7 @@ export class TwinsGroupPictureComponent {
 
       return this.changed$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures({
+          this.pictureService.getPictures$({
             identity: identity,
             item_id: group.id,
             fields,

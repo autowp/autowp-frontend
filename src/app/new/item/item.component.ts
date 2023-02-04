@@ -35,11 +35,9 @@ export class NewItemComponent {
   public dateStr$ = this.date$.pipe(map((date) => moment(date).format('LL')));
 
   public item$ = this.itemID$.pipe(
-    switchMap((itemID) => this.itemService.getItem(itemID, {fields: 'name_html,name_text'})),
-    catchError((err) => {
-      if (err.status !== -1) {
-        this.toastService.response(err);
-      }
+    switchMap((itemID) => this.itemService.getItem$(itemID, {fields: 'name_html,name_text'})),
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     }),
     tap((item) => {
@@ -53,7 +51,7 @@ export class NewItemComponent {
 
   public pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
     switchMap(([itemID, date, page]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
         limit: 24,
         status: 'accepted',
@@ -62,10 +60,8 @@ export class NewItemComponent {
         page,
       })
     ),
-    catchError((err) => {
-      if (err.status !== -1) {
-        this.toastService.response(err);
-      }
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     })
   );

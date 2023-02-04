@@ -419,7 +419,7 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 export class ItemService {
   constructor(private api: APIService, private itemsClient: ItemsClient) {}
 
-  public setItemVehicleTypes(itemId: number, ids: string[]): Observable<void[]> {
+  public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void[]> {
     return this.itemsClient
       .getItemVehicleTypes(
         new APIGetItemVehicleTypesRequest({
@@ -467,13 +467,13 @@ export class ItemService {
       );
   }
 
-  public getItemByLocation(url: string, options: GetItemServiceOptions): Observable<APIItem> {
+  public getItemByLocation$(url: string, options: GetItemServiceOptions): Observable<APIItem> {
     return this.api.request<APIItem>('GET', this.api.resolveLocation(url), {
       params: convertItemOptions(options),
     });
   }
 
-  public getItem(id: number, options?: GetItemServiceOptions): Observable<APIItem> {
+  public getItem$(id: number, options?: GetItemServiceOptions): Observable<APIItem> {
     if (!id) {
       return of(null as APIItem);
     }
@@ -482,13 +482,13 @@ export class ItemService {
     });
   }
 
-  public getItems(options?: GetItemsServiceOptions): Observable<APIItemsGetResponse> {
+  public getItems$(options?: GetItemsServiceOptions): Observable<APIItemsGetResponse> {
     return this.api.request<APIItemsGetResponse>('GET', 'item', {
       params: converItemsOptions(options),
     });
   }
 
-  public getPath(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {
+  public getPath$(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {
     return this.api.request<APIItemsGetPathResponse>('GET', 'item/path', {
       params: options,
     });

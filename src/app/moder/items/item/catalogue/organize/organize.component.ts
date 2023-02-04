@@ -10,6 +10,7 @@ import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.compone
 import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-moder-items-item-organize',
@@ -36,7 +37,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   public childs$: Observable<APIItem[]> = combineLatest([
     this.itemID$.pipe(
       switchMap((id) =>
-        this.itemParentService.getItems({
+        this.itemParentService.getItems$({
           parent_id: id,
           limit: 500,
           fields: 'item.name_html',
@@ -53,7 +54,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
   public item$ = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: [
           'name_text',
           'name',
@@ -153,13 +154,15 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         observe: 'response',
       })
       .pipe(
-        catchError((response) => {
-          this.invalidParams = response.error.invalid_params;
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.invalidParams = response.error.invalid_params;
+          }
           this.loading--;
 
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation(response.headers.get('Location'), {})),
+        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location'), {})),
         switchMap((newItem) => {
           const promises: Observable<any>[] = [
             this.api.request<void>('POST', 'item-parent', {
@@ -171,7 +174,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
           ];
 
           if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(itemTypeID)) {
-            promises.push(this.itemService.setItemVehicleTypes(newItem.id, event.vehicle_type_id));
+            promises.push(this.itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
           }
 
           for (const child of event.items) {
@@ -195,8 +198,10 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
             },
           });
         },
-        error: (response) => {
-          this.invalidParams = response.error.invalid_params;
+        error: (response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.invalidParams = response.error.invalid_params;
+          }
           this.loading--;
         },
       });

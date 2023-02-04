@@ -15,7 +15,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
   templateUrl: './person.component.html',
 })
 export class PersonsPersonComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -31,12 +31,12 @@ export class PersonsPersonComponent {
 
   public item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'description'].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
@@ -63,8 +63,8 @@ export class PersonsPersonComponent {
 
   public links$: Observable<APIItemLink[]> = this.itemID$.pipe(
     switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
-    catchError((err) => {
-      this.toastService.grpcErrorResponse(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return of({items: []} as APIItemLinksResponse);
     }),
     map((response) => response.items)
@@ -72,7 +72,7 @@ export class PersonsPersonComponent {
 
   public authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         exact_item_id: itemID,
         exact_item_link_type: 2,
@@ -82,8 +82,8 @@ export class PersonsPersonComponent {
         page,
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return of(null as APIPictureGetResponse);
     })
   );
@@ -91,7 +91,7 @@ export class PersonsPersonComponent {
   public contentPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService
-        .getPictures({
+        .getPictures$({
           status: 'accepted',
           exact_item_id: itemID,
           exact_item_link_type: 1,
@@ -101,8 +101,8 @@ export class PersonsPersonComponent {
           page,
         })
         .pipe(
-          catchError((err) => {
-            this.toastService.response(err);
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
             return of(null as APIPictureGetResponse);
           })
         )

@@ -18,8 +18,10 @@
       "extends": [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:rxjs/recommended"
       ],
+      "plugins": ["rxjs","rxjs-angular"],
       "rules": {
         "@angular-eslint/component-selector": [
           "error",
@@ -36,7 +38,13 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
+        ],
+        "rxjs-angular/prefer-async-pipe": "off",
+        "rxjs-angular/prefer-composition": "off",
+        "rxjs-angular/prefer-takeuntil": "off",
+        "rxjs/finnish": "error",
+        "rxjs/no-compat": "error",
+        "rxjs/no-sharereplay": "off"
       }
     },
     {

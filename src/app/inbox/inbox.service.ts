@@ -24,7 +24,7 @@ export interface APIInbox {
 export class InboxService {
   constructor(private api: APIService) {}
 
-  public get(brandID: number, date: string): Observable<APIInbox> {
+  public get$(brandID: number, date: string): Observable<APIInbox> {
     const params: {[param: string]: string} = {
       brand_id: brandID ? brandID.toString() : '',
     };

@@ -11,6 +11,7 @@ import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '../../utils/translations';
 import {Spec, VehicleType} from '@grpc/spec.pb';
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface APIVehicleTypeInItems {
   id: number;
@@ -100,7 +101,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private router: Router,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     this.ancestorsDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -122,9 +124,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             params.name = '%' + query + '%';
           }
 
-          return this.itemService.getItems(params).pipe(
-            catchError((err, caught) => {
-              console.log(err, caught);
+          return this.itemService.getItems$(params).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items)
@@ -143,11 +145,11 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.vehicleTypeSub = this.vehicleTypeService.getTypes().subscribe((types) => {
+    this.vehicleTypeSub = this.vehicleTypeService.getTypes$().subscribe((types) => {
       this.vehicleTypeOptions = toPlainVehicleType(types, 0);
     });
 
-    this.specsSub = this.specService.getSpecs().subscribe((types) => {
+    this.specsSub = this.specService.getSpecs$().subscribe((types) => {
       this.specOptions = toPlainSpec(types, 0);
     });
 
@@ -204,7 +206,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             limit = 10;
           }
 
-          return this.itemService.getItems({
+          return this.itemService.getItems$({
             name: params.name ? params.name + '%' : null,
             name_exclude: params.nameExclude ? params.nameExclude + '%' : null,
             type_id: params.itemTypeID,

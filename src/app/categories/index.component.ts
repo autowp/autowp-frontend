@@ -10,7 +10,7 @@ import {map} from 'rxjs/operators';
 })
 export class CategoriesIndexComponent implements OnInit {
   public items$ = this.itemService
-    .getItems({
+    .getItems$({
       fields: 'name_html,front_picture.thumb_medium,descendants_count',
       limit: 30,
       type_id: 3, // category

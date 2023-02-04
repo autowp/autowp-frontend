@@ -22,8 +22,8 @@ export class ThumbnailComponent {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  public perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives();
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives$();
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(
     private perspectiveService: APIPerspectiveService,
@@ -34,7 +34,7 @@ export class ThumbnailComponent {
   public savePerspective() {
     if (this.picture.perspective_item) {
       this.pictureItemService
-        .setPerspective(
+        .setPerspective$(
           this.picture.id,
           this.picture.perspective_item.item_id,
           this.picture.perspective_item.type,

@@ -14,20 +14,20 @@ export interface APIContactsGetOptions {
 export class ContactsService {
   constructor(private auth: AuthService, private contactsClient: ContactsClient) {}
 
-  public isInContacts(userId: string): Observable<boolean> {
+  public isInContacts$(userId: string): Observable<boolean> {
     return this.contactsClient.getContact(new GetContactRequest({userId})).pipe(
       map((response) => !!response.contactUserId),
-      catchError((err: GrpcStatusEvent) => {
-        if (err.statusCode === 5) {
+      catchError((err: unknown) => {
+        if (err instanceof GrpcStatusEvent && err.statusCode === 5) {
           return of(false);
         }
 
-        return throwError(err);
+        return throwError(() => err);
       })
     );
   }
 
-  public getContacts(options: APIContactsGetOptions): Observable<ContactItems> {
+  public getContacts$(options: APIContactsGetOptions): Observable<ContactItems> {
     // (.pipe(
     const request = new GetContactsRequest({fields: []});
 
@@ -35,6 +35,6 @@ export class ContactsService {
       request.fields = options.fields;
     }
 
-    return this.auth.getUser().pipe(switchMap(() => this.contactsClient.getContacts(request)));
+    return this.auth.getUser$().pipe(switchMap(() => this.contactsClient.getContacts(request)));
   }
 }

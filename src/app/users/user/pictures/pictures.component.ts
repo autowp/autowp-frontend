@@ -39,7 +39,7 @@ export class UsersUserPicturesComponent implements OnInit {
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => this.userService.getByIdentity(identity, {fields: 'identity'})),
+    switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
     map((user) => ({
       id: user.id,
       name: user.name,
@@ -50,7 +50,7 @@ export class UsersUserPicturesComponent implements OnInit {
 
   public brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         type_id: 5,
         limit: 3000,
         order: 'name_nat',
@@ -61,8 +61,8 @@ export class UsersUserPicturesComponent implements OnInit {
         },
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((brands) => brands.items)

@@ -36,7 +36,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((id) => this.pictureService.getPicture(id, {fields: 'point'})),
+    switchMap((id) => this.pictureService.getPicture$(id, {fields: 'point'})),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,

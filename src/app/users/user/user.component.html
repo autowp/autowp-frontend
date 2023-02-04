@@ -111,7 +111,7 @@
             </small>
           </h2>
           <div class="card card-body mb-4">
-            <ul class="comments">
+            <ul>
               <li *ngFor="let comment of comments">
                 <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
               </li>

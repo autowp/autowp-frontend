@@ -97,7 +97,7 @@ export class AboutComponent implements OnInit {
         ids.push(about.beTranslator);
         ids.push(about.ptBrTranslator);
 
-        return this.userService.getUserMap(ids).pipe(
+        return this.userService.getUserMap$(ids).pipe(
           map((users) => ({
             users,
             aboutText,

@@ -16,7 +16,7 @@ export class MascotsComponent implements OnInit {
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 12,
@@ -25,8 +25,8 @@ export class MascotsComponent implements OnInit {
         order: 15,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );

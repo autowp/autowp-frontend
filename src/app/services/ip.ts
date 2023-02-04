@@ -10,20 +10,20 @@ export class IpService {
 
   constructor(private grpc: AutowpClient) {}
 
-  public getHostByAddr(ip: string): Observable<string> {
-    const hostname = this.hostnames.get(ip);
-    if (hostname !== undefined) {
-      return hostname;
+  public getHostByAddr$(ip: string): Observable<string> {
+    const hostname$ = this.hostnames.get(ip);
+    if (hostname$ !== undefined) {
+      return hostname$;
     }
 
-    const o = this.getIp(ip, ['hostname']).pipe(map((response) => response.hostname));
+    const o$ = this.getIp$(ip, ['hostname']).pipe(map((response) => response.hostname));
 
-    this.hostnames.set(ip, o);
+    this.hostnames.set(ip, o$);
 
-    return o;
+    return o$;
   }
 
-  public getIp(ip: string, fields: string[]): Observable<APIIP> {
+  public getIp$(ip: string, fields: string[]): Observable<APIIP> {
     return this.grpc.getIP(new APIGetIPRequest({ip, fields}));
   }
 }

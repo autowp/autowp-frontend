@@ -1,0 +1,31 @@
+<div class="card card-body">
+  <ng-container *ngIf="twinsBrands$ | async as response">
+    <div class="row">
+      <div class="col-2" *ngFor="let chunk of response.brands">
+        <ng-container *ngFor="let item of chunk">
+          <a
+            routerLink="."
+            [queryParams]="{brand_id: item.id}"
+            queryParamsHandling="merge"
+            [innerHTML]="item.name_html"
+          ></a>
+          <br />
+        </ng-container>
+      </div>
+    </div>
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </ng-container>
+  <ng-container *ngIf="twins$ | async as response">
+    <ul>
+      <li class="car-node" *ngFor="let item of response.items">
+        <app-moder-items-item-select-parent-tree-item
+          [item]="item"
+          (selected)="onSelect($event)"
+          [disableItemID]="itemID$ | async"
+        >
+        </app-moder-items-item-select-parent-tree-item>
+      </li>
+    </ul>
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </ng-container>
+</div>

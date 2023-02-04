@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {combineLatest, BehaviorSubject, Observable} from 'rxjs';
+import {combineLatest, BehaviorSubject, Observable, EMPTY} from 'rxjs';
 import {PageEnvService} from '../../../services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {APIAttrAttribute, APIAttrsService, APIAttrAttributeGetResponse} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '../../../services/api.service';
@@ -17,7 +17,7 @@ export class ModerAttrsAttributeComponent {
   public addLoading = 0;
   public addListOptionLoading = 0;
 
-  public unitOptions$ = this.attrsService.getUnits().pipe(
+  public unitOptions$ = this.attrsService.getUnits$().pipe(
     map((items) => [
       {id: null, name: '-'},
       items.map((item) => ({
@@ -58,7 +58,7 @@ export class ModerAttrsAttributeComponent {
     parent_id: null,
     name: '',
   };
-  private $listOptionsChange = new BehaviorSubject<null>(null);
+  private listOptionsChange$ = new BehaviorSubject<null>(null);
 
   private attributeID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
@@ -68,7 +68,7 @@ export class ModerAttrsAttributeComponent {
   );
 
   public attribute$ = this.attributeID$.pipe(
-    switchMap((id) => this.attrsService.getAttribute(id)),
+    switchMap((id) => this.attrsService.getAttribute$(id)),
     tap((attribute) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
@@ -91,9 +91,9 @@ export class ModerAttrsAttributeComponent {
     )
   );
 
-  public listOptions$ = combineLatest([this.attributeID$, this.$listOptionsChange]).pipe(
+  public listOptions$ = combineLatest([this.attributeID$, this.listOptionsChange$]).pipe(
     switchMap(([attributeID]) =>
-      this.attrsService.getListOptions({
+      this.attrsService.getListOptions$({
         attribute_id: attributeID,
       })
     ),
@@ -106,9 +106,9 @@ export class ModerAttrsAttributeComponent {
     ])
   );
 
-  private types$ = this.attrsService.getAttributeTypes().pipe(shareReplay(1));
+  private types$ = this.attrsService.getAttributeTypes$().pipe(shareReplay(1));
 
-  public typeOptions$ = this.attrsService.getAttributeTypes().pipe(
+  public typeOptions$ = this.attrsService.getAttributeTypes$().pipe(
     map((types) => [
       {id: null, name: '-'},
       ...types.map((item) => ({
@@ -141,12 +141,12 @@ export class ModerAttrsAttributeComponent {
 
   public saveAttribute(attribute: APIAttrAttribute) {
     this.loading++;
-    this.attrsService.updateAttribute(attribute.id, attribute).subscribe({
+    this.attrsService.updateAttribute$(attribute.id, attribute).subscribe({
       next: () => {
         this.loading--;
       },
-      error: (response) => {
-        this.toastService.response(response);
+      error: (response: unknown) => {
+        this.toastService.handleError(response);
         this.loading--;
       },
     });
@@ -156,39 +156,40 @@ export class ModerAttrsAttributeComponent {
     this.newAttribute.parent_id = attribute.id;
 
     this.addLoading++;
-    this.attrsService.createAttribute(this.newAttribute).subscribe({
-      next: (response) => {
-        const location = response.headers.get('Location');
+    this.attrsService
+      .createAttribute$(this.newAttribute)
+      .pipe(
+        catchError((error: unknown) => {
+          this.toastService.handleError(error);
+          this.addLoading--;
 
-        Object.assign(this.newAttribute, this.defaultAttribute);
+          return EMPTY;
+        }),
+        switchMap((response) => {
+          const location = response.headers.get('Location');
 
-        this.addLoading++;
-        this.attrsService.getAttributeByLocation(location).subscribe({
-          next: (subresponse) => {
-            this.router.navigate(['/moder/attrs/attribute', subresponse.id]);
+          Object.assign(this.newAttribute, this.defaultAttribute);
 
-            this.addLoading--;
-          },
-          error: (subresponse) => {
-            this.toastService.response(subresponse);
-            this.addLoading--;
-          },
-        });
-
-        this.addLoading--;
-      },
-      error: (response) => {
-        this.toastService.response(response);
-        this.addLoading--;
-      },
-    });
+          return this.attrsService.getAttributeByLocation$(location);
+        })
+      )
+      .subscribe({
+        next: (subresponse) => {
+          this.router.navigate(['/moder/attrs/attribute', subresponse.id]);
+          this.addLoading--;
+        },
+        error: (subresponse: unknown) => {
+          this.toastService.handleError(subresponse);
+          this.addLoading--;
+        },
+      });
   }
 
   public addListOption(attribute: APIAttrAttribute) {
     this.addListOptionLoading++;
 
     this.attrsService
-      .createListOption({
+      .createListOption$({
         attribute_id: attribute.id,
         parent_id: this.newListOption.parent_id,
         name: this.newListOption.name,
@@ -197,12 +198,12 @@ export class ModerAttrsAttributeComponent {
         next: () => {
           this.newListOption.name = '';
 
-          this.$listOptionsChange.next(null);
+          this.listOptionsChange$.next(null);
 
           this.addListOptionLoading--;
         },
-        error: (response) => {
-          this.toastService.response(response);
+        error: (response: unknown) => {
+          this.toastService.handleError(response);
           this.addListOptionLoading--;
         },
       });

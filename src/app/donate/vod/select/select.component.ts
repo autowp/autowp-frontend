@@ -68,7 +68,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
           return combineLatest([
             (brandID
               ? of(null as APIItemsGetResponse)
-              : this.itemService.getItems({
+              : this.itemService.getItems$({
                   type_id: 5,
                   limit: 500,
                   fields: 'name_only',
@@ -80,17 +80,17 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
               })
             ),
             (brandID
-              ? this.itemService.getItem(brandID).pipe(
+              ? this.itemService.getItem$(brandID).pipe(
                   switchMap((brand) =>
                     combineLatest([
-                      this.itemParentService.getItems({
+                      this.itemParentService.getItems$({
                         item_type_id: 1,
                         parent_id: brand.id,
                         fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
                         limit: 500,
                         page: 1,
                       }),
-                      this.itemParentService.getItems({
+                      this.itemParentService.getItems$({
                         item_type_id: 1,
                         concept: true,
                         ancestor_id: brand.id,

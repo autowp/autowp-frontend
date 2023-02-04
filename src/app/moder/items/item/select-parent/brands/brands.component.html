@@ -1,0 +1,22 @@
+<div class="card card-body">
+  <input
+    type="text"
+    #brandsSearch
+    (input)="doSearch(brandsSearch.value)"
+    class="form-control mb-4"
+    placeholder="Type to search …"
+    i18n-placeholder
+    autofocus
+  />
+  <ng-container *ngIf="brands$ | async as response">
+    <div class="row">
+      <div class="col-2" *ngFor="let chunk of response.items">
+        <ng-container *ngFor="let item of chunk">
+          <a href="" (click)="onSelect(item)" [innerHTML]="item.name_html"></a>
+          <br />
+        </ng-container>
+      </div>
+    </div>
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </ng-container>
+</div>

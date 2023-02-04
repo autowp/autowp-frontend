@@ -31,7 +31,7 @@ export class ModerAttrsZoneComponent {
   );
 
   public zone$ = this.zoneID$.pipe(
-    switchMap((id) => this.attrsService.getZone(id)),
+    switchMap((id) => this.attrsService.getZone$(id)),
     tap((zone) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
@@ -42,7 +42,7 @@ export class ModerAttrsZoneComponent {
     shareReplay(1)
   );
 
-  public attributes$ = this.attrsService.getAttributes({recursive: true}).pipe(map((response) => response.items));
+  public attributes$ = this.attrsService.getAttributes$({recursive: true}).pipe(map((response) => response.items));
 
   public zoneAttributes$ = this.zoneID$.pipe(
     switchMap((zoneID) =>
@@ -80,10 +80,10 @@ export class ModerAttrsZoneComponent {
             attribute_id: change.id,
           },
         })
-        .subscribe({error: (response) => this.toastService.response(response)});
+        .subscribe({error: (response: unknown) => this.toastService.handleError(response)});
     } else {
       this.api.request('DELETE', 'attr/zone-attribute/' + zone.id + '/' + change.id).subscribe({
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
     }
   }

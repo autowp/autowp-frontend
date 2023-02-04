@@ -24,14 +24,14 @@ export class PictureModerVoteModalComponent {
   public ok() {
     if (this.save) {
       this.templateService
-        .createTemplate({
+        .createTemplate$({
           vote: this.vote,
           name: this.reason,
         })
         .subscribe();
     }
 
-    this.moderVoteService.vote(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+    this.moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
 
     this.activeModal.close();
   }

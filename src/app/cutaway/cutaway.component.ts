@@ -13,7 +13,7 @@ import {ToastsService} from '../toasts/toasts.service';
 export class CutawayComponent implements OnInit {
   public query$ = this.route.queryParamMap.pipe(
     switchMap((params) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 12,
@@ -22,8 +22,8 @@ export class CutawayComponent implements OnInit {
         order: 15,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );

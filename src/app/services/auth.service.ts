@@ -14,7 +14,7 @@ export class AuthService {
     this.keycloak.getToken().then(
       (accessToken) => {
         if (accessToken) {
-          this.loadMe().subscribe();
+          this.loadMe$().subscribe();
         } else {
           this.setUser(null);
         }
@@ -37,15 +37,15 @@ export class AuthService {
     this.user$.next(value);
   }
 
-  public getUser(): Observable<APIUser> {
+  public getUser$(): Observable<APIUser> {
     return this.user$;
   }
 
-  public signOut(): Observable<void> {
+  public signOut$(): Observable<void> {
     return from(this.keycloak.logout(window.location.href)).pipe(tap(() => this.setUser(null)));
   }
 
-  public loadMe(): Observable<APIUser> {
+  public loadMe$(): Observable<APIUser> {
     return this.usersClient.me(new APIMeRequest({})).pipe(
       catchError(() => {
         this.setUser(null);

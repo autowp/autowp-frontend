@@ -36,7 +36,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   public changeProfileUrl =
     environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
-  public timezones$ = this.timezone.getTimezones();
+  public timezones$ = this.timezone.getTimezones$();
 
   public languages: {name: string; value: string}[] = environment.languages.map((language) => ({
     name: language.name,
@@ -57,7 +57,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     setTimeout(() => this.pageEnv.set({pageId: 129}), 0);
 
     this.sub = this.auth
-      .getUser()
+      .getUser$()
       .pipe(
         switchMap((user) => {
           if (!user) {
@@ -79,8 +79,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
             },
           })
         ),
-        catchError((response) => {
-          this.toastService.response(response);
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
           return EMPTY;
         })
       )
@@ -107,11 +107,11 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       next: () => {
         this.showSavedMessage();
       },
-      error: (response) => {
-        if (response.status === 400) {
+      error: (response: unknown) => {
+        if (response instanceof HttpErrorResponse && response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
         } else {
-          this.toastService.response(response);
+          this.toastService.handleError(response);
         }
       },
     });
@@ -128,7 +128,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         this.user.avatar = null;
         this.photo = null;
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -146,14 +146,14 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     return this.api
       .request('POST', 'user/me/photo', {body: formData})
       .pipe(
-        catchError((response: HttpErrorResponse) => {
+        catchError((response: unknown) => {
           this.input.nativeElement.value = '';
-          if (response.status === 400) {
+          if (response instanceof HttpErrorResponse && response.status === 400) {
             this.photoInvalidParams = response.error.invalid_params;
             return EMPTY;
           }
 
-          this.toastService.errorResponse(response);
+          this.toastService.handleError(response);
           return EMPTY;
         }),
         tap(() => {
@@ -166,8 +166,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
             },
           })
         ),
-        catchError((response: HttpErrorResponse) => {
-          this.toastService.errorResponse(response);
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
           return EMPTY;
         }),
         tap((response) => {

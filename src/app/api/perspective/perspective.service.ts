@@ -18,7 +18,7 @@ export class APIPerspectiveService {
     );
   }
 
-  public getPerspectives(): Observable<Perspective[]> {
+  public getPerspectives$(): Observable<Perspective[]> {
     return this.perspectives$;
   }
 }

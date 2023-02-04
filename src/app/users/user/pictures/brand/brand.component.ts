@@ -17,7 +17,7 @@ export class UsersUserPicturesBrandComponent {
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => this.userService.getByIdentity(identity, {fields: 'identity'})),
+    switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
     switchMap((user) => {
       if (!user || user.deleted) {
         this.router.navigate(['/error-404'], {
@@ -36,7 +36,7 @@ export class UsersUserPicturesBrandComponent {
     debounceTime(10),
     switchMap((brandCatname) =>
       this.itemService
-        .getItems({
+        .getItems$({
           type_id: 5,
           limit: 1,
           catname: brandCatname,
@@ -72,7 +72,7 @@ export class UsersUserPicturesBrandComponent {
     ),
   ]).pipe(
     switchMap(([user, brand, page]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 30,
@@ -82,8 +82,8 @@ export class UsersUserPicturesBrandComponent {
         order: 1,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );

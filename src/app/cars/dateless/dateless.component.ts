@@ -16,7 +16,7 @@ export class CarsDatelessComponent implements OnInit {
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((page) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         dateless: true,
         fields: [
           'name_html,name_default,description,has_text,produced',
@@ -30,8 +30,8 @@ export class CarsDatelessComponent implements OnInit {
         limit: 10,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );

@@ -25,10 +25,10 @@ interface SidebarItem {
 })
 export class AccountSidebarComponent {
   public items$: Observable<SidebarItem[]> = combineLatest([
-    this.auth.getUser(),
-    this.forumService.getUserSummary(),
-    this.messageService.getSummary(),
-    this.pictureService.getSummary(),
+    this.auth.getUser$(),
+    this.forumService.getUserSummary$(),
+    this.messageService.getSummary$(),
+    this.pictureService.getSummary$(),
   ]).pipe(
     map(([user, forumSummary, messageSummary, picturesSummary]) => {
       if (!user) {
@@ -127,11 +127,11 @@ export class AccountSidebarComponent {
 
       for (const item of items) {
         if (item.pageId) {
-          this.pageEnv.isActive(item.pageId).subscribe({
+          this.pageEnv.isActive$(item.pageId).subscribe({
             next: (active) => {
               item.active = active;
             },
-            error: (response) => this.toastService.response(response),
+            error: (response: unknown) => this.toastService.handleError(response),
           });
         }
       }

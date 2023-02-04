@@ -39,7 +39,7 @@ export class CarsEngineSelectComponent {
 
   public item$ = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.itemService.getItem(itemID, {
+      this.itemService.getItem$(itemID, {
         fields: 'name_html,name_text',
       })
     ),
@@ -54,7 +54,7 @@ export class CarsEngineSelectComponent {
 
   public items$ = combineLatest([this.brandID$, this.page$]).pipe(
     switchMap(([brandID, page]) =>
-      this.itemParentService.getItems({
+      this.itemParentService.getItems$({
         limit: 500,
         fields: 'item.name_html,item.childs_count',
         parent_id: brandID,
@@ -62,8 +62,8 @@ export class CarsEngineSelectComponent {
         page,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );
@@ -73,7 +73,7 @@ export class CarsEngineSelectComponent {
     distinctUntilChanged(),
     debounceTime(50),
     switchMap((search) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         type_id: ItemType.ITEM_TYPE_BRAND,
         order: 'name',
         limit: 500,
@@ -82,8 +82,8 @@ export class CarsEngineSelectComponent {
         name: search ? '%' + search + '%' : null,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
@@ -114,8 +114,8 @@ export class CarsEngineSelectComponent {
         },
       })
       .pipe(
-        catchError((response) => {
-          this.toastService.response(response);
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
           return EMPTY;
         })
       )

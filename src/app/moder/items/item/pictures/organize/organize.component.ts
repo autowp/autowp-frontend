@@ -10,6 +10,7 @@ import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-moder-items-item-pictures-organize',
@@ -28,7 +29,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   public pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.pictureItemService.getItems({
+      this.pictureItemService.getItems$({
         item_id: itemID,
         limit: 500,
         fields: 'picture.thumb_medium,picture.name_text',
@@ -41,7 +42,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   public item$ = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: [
           'name_text',
           'name',
@@ -143,12 +144,14 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
       item.is_group ? of(null) : this.api.request<void>('PUT', 'item/' + item.id, {body: {is_group: true}}),
     ])
       .pipe(
-        catchError((response) => {
-          this.invalidParams = response.error.invalid_params;
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.invalidParams = response.error.invalid_params;
+          }
           this.loading--;
           return EMPTY;
         }),
-        switchMap((responses) => this.itemService.getItemByLocation(responses[0].headers.get('Location'), {})),
+        switchMap((responses) => this.itemService.getItemByLocation$(responses[0].headers.get('Location'), {})),
         switchMap((newItem) => {
           const promises: Observable<any>[] = [
             this.api.request<void>('POST', 'item-parent', {
@@ -160,7 +163,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
           ];
 
           if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(newItem.item_type_id)) {
-            promises.push(this.itemService.setItemVehicleTypes(newItem.id, event.vehicle_type_id));
+            promises.push(this.itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
           }
 
           promises.push(

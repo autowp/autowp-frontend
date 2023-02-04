@@ -16,7 +16,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
   templateUrl: './museum.component.html',
 })
 export class MuseumComponent {
-  public museumModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
@@ -27,15 +27,15 @@ export class MuseumComponent {
 
   public links$ = this.itemID$.pipe(
     switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
-    catchError((err) => {
-      this.toastService.grpcErrorResponse(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return of(null);
     })
   );
 
   public pictures$ = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         exact_item_id: itemID,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
@@ -43,20 +43,20 @@ export class MuseumComponent {
         order: 12,
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     })
   );
 
   public item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem(id, {
+      this.itemService.getItem$(id, {
         fields: ['name_text', 'lat', 'lng', 'description'].join(','),
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });

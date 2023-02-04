@@ -18,7 +18,7 @@ export class TimezoneService {
     );
   }
 
-  public getTimezones(): Observable<string[]> {
+  public getTimezones$(): Observable<string[]> {
     return this.timezones$;
   }
 }

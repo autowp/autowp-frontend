@@ -14,7 +14,7 @@ export class PictureModerVoteComponent {
   @Input() picture: APIPicture;
   @Output() changed = new EventEmitter();
 
-  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates().pipe(shareReplay(1));
+  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
   public vote: any = null;
   public reason = '';
   public save = false;
@@ -26,17 +26,17 @@ export class PictureModerVoteComponent {
   ) {}
 
   votePicture(vote: number, reason: string): void {
-    this.moderVoteService.vote(this.picture.id, vote, reason).subscribe(() => this.changed.emit());
+    this.moderVoteService.vote$(this.picture.id, vote, reason).subscribe(() => this.changed.emit());
   }
 
   cancelVotePicture(): void {
-    this.moderVoteService.cancel(this.picture.id).subscribe(() => this.changed.emit());
+    this.moderVoteService.cancel$(this.picture.id).subscribe(() => this.changed.emit());
   }
 
   ok(): void {
     if (this.save) {
       this.moderVoteTemplateService
-        .createTemplate({
+        .createTemplate$({
           vote: this.vote,
           name: this.reason,
         })

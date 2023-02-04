@@ -33,16 +33,14 @@ export class CarsSpecsAdminComponent implements OnInit {
 
   public data$ = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
     switchMap(([itemID, page]) =>
-      this.attrService.getUserValues({
+      this.attrService.getUserValues$({
         item_id: itemID,
         page: page,
         fields: 'user,path,unit',
       })
     ),
-    catchError((err) => {
-      if (err.status !== -1) {
-        this.toastService.response(err);
-      }
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     })
   );
@@ -71,7 +69,7 @@ export class CarsSpecsAdminComponent implements OnInit {
             }
           }
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
@@ -89,7 +87,7 @@ export class CarsSpecsAdminComponent implements OnInit {
         next: () => {
           this.move$.next(true);
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

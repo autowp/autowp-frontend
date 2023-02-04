@@ -17,12 +17,12 @@ import {getItemTypeTranslation} from '../../utils/translations';
   templateUrl: './vehicles.component.html',
 })
 export class CatalogueVehiclesComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  public canAddItem$ = this.acl.isAllowed(Resource.CAR, Privilege.ADD);
-  public canAcceptPicture$ = this.acl.isAllowed(Resource.PICTURE, Privilege.ACCEPT);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  public canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  public canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
 
   private catalogue$ = this.isModer$.pipe(
-    switchMap((isModer) => this.catalogueService.resolveCatalogue(this.route, isModer, '')),
+    switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -63,7 +63,7 @@ export class CatalogueVehiclesComponent {
         return of(last.item);
       }
 
-      return this.itemService.getItem(last.item_id, {
+      return this.itemService.getItem$(last.item_id, {
         fields: [
           'name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
           'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups.name_html,design',
@@ -101,7 +101,7 @@ export class CatalogueVehiclesComponent {
       return combineLatest([this.catalogue$, this.page$])
         .pipe(
           switchMap(([{type}, page]) =>
-            this.itemParentService.getItems({
+            this.itemParentService.getItems$({
               fields: [
                 'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
                 'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups.name_html,item.has_specs,item.has_child_specs,item.design',
@@ -183,7 +183,7 @@ export class CatalogueVehiclesComponent {
           return this.item$.pipe(
             switchMap((item) =>
               combineLatest([
-                this.pictureService.getPictures({
+                this.pictureService.getPictures$({
                   exact_item_id: item.id,
                   status: 'accepted',
                   fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',

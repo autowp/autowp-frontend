@@ -12,8 +12,8 @@ import {catchError, map} from 'rxjs/operators';
 })
 export class InfoSpecComponent implements OnInit {
   public specs$ = this.grpc.getSpecs(new Empty()).pipe(
-    catchError((response) => {
-      this.toastService.grpcErrorResponse(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((specs) => specs.items)

@@ -204,11 +204,11 @@ export class APIAttrsService {
     );
   }
 
-  public getZone(id: number | string): Observable<APIAttrZone> {
+  public getZone$(id: number | string): Observable<APIAttrZone> {
     if (typeof id !== 'number') {
       id = parseInt(id, 10);
     }
-    return this.getZones().pipe(
+    return this.getZones$().pipe(
       map((zones) => {
         for (const zone of zones) {
           if (zone.id === id) {
@@ -220,27 +220,27 @@ export class APIAttrsService {
     );
   }
 
-  public getZones(): Observable<APIAttrZone[]> {
+  public getZones$(): Observable<APIAttrZone[]> {
     return this.zones$;
   }
 
-  public getAttribute(id: number, options?: GetAttributeServiceOptions): Observable<APIAttrAttribute> {
+  public getAttribute$(id: number, options?: GetAttributeServiceOptions): Observable<APIAttrAttribute> {
     return this.api.request<APIAttrAttribute>('GET', 'attr/attribute/' + id);
   }
 
-  public getAttributeByLocation(location: string): Observable<APIAttrAttribute> {
+  public getAttributeByLocation$(location: string): Observable<APIAttrAttribute> {
     return this.api.request<APIAttrAttribute>('GET', this.api.resolveLocation(location));
   }
 
-  public getAttributeTypes(): Observable<APIAttrAttributeType[]> {
+  public getAttributeTypes$(): Observable<APIAttrAttributeType[]> {
     return this.attributeTypes$;
   }
 
-  public getUnits(): Observable<APIAttrUnit[]> {
+  public getUnits$(): Observable<APIAttrUnit[]> {
     return this.units$;
   }
 
-  public getUserValues(options: APIAttrUserValuesOptions): Observable<APIAttrUserValueGetResponse> {
+  public getUserValues$(options: APIAttrUserValuesOptions): Observable<APIAttrUserValueGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -272,7 +272,7 @@ export class APIAttrsService {
     });
   }
 
-  public getValues(options: APIAttrValuesGetOptions): Observable<APIAttrValuesGetResponse> {
+  public getValues$(options: APIAttrValuesGetOptions): Observable<APIAttrValuesGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -295,7 +295,7 @@ export class APIAttrsService {
       params,
     });
   }
-  public getAttributes(options: APIAttrAttributesGetOptions): Observable<APIAttrAttributesGetResponse> {
+  public getAttributes$(options: APIAttrAttributesGetOptions): Observable<APIAttrAttributesGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -315,7 +315,7 @@ export class APIAttrsService {
     });
   }
 
-  public getConfilicts(options: APIAttrConflicsGetOptions): Observable<APIAttrConflicsGetResponse> {
+  public getConfilicts$(options: APIAttrConflicsGetOptions): Observable<APIAttrConflicsGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
@@ -335,7 +335,7 @@ export class APIAttrsService {
     });
   }
 
-  public getListOptions(options: APIttrListOptionsGetOptions): Observable<APIttrListOptionsGetResponse> {
+  public getListOptions$(options: APIttrListOptionsGetOptions): Observable<APIttrListOptionsGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.attribute_id) {
@@ -347,7 +347,7 @@ export class APIAttrsService {
     });
   }
 
-  public createListOption(options: APIAttrListOptionPostOptions): Observable<HttpResponse<void>> {
+  public createListOption$(options: APIAttrListOptionPostOptions): Observable<HttpResponse<void>> {
     const data: {[param: string]: string} = {
       attribute_id: options.attribute_id.toString(),
       name: options.name,
@@ -363,7 +363,7 @@ export class APIAttrsService {
     });
   }
 
-  public updateAttribute(id: number, options: APIAttrAttributePatchOptions): Observable<void> {
+  public updateAttribute$(id: number, options: APIAttrAttributePatchOptions): Observable<void> {
     const data: {[param: string]: string} = {};
 
     if (options.hasOwnProperty('description')) {
@@ -393,7 +393,7 @@ export class APIAttrsService {
     return this.api.request<void>('PATCH', 'attr/attribute/' + id, {body: data});
   }
 
-  public createAttribute(options: APIAttrAttributePostOptions): Observable<HttpResponse<void>> {
+  public createAttribute$(options: APIAttrAttributePostOptions): Observable<HttpResponse<void>> {
     const data: {[param: string]: any} = {
       name: options.name,
       type_id: options.type_id,

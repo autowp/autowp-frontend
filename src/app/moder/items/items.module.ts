@@ -35,6 +35,11 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import {MapPointComponent} from './item-meta-form/map-point/map-point.component';
+import {ModerItemsItemSelectParentTwinsComponent} from './item/select-parent/twins/twins.component';
+import {ModerItemsItemSelectParentFactoriesComponent} from './item/select-parent/factories/factories.component';
+import {ModerItemsItemSelectParentCategoriesComponent} from './item/select-parent/categories/categories.component';
+import {ModerItemsItemSelectParentBrandsComponent} from './item/select-parent/brands/brands.component';
+import {ModerItemsItemSelectParentCatalogueComponent} from './item/select-parent/catalogue/catalogue.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +54,11 @@ import {MapPointComponent} from './item-meta-form/map-point/map-point.component'
     ModerItemsItemPicturesComponent,
     ModerItemsItemSelectParentTreeComponent,
     ModerItemsItemSelectParentTreeItemComponent,
+    ModerItemsItemSelectParentTwinsComponent,
+    ModerItemsItemSelectParentFactoriesComponent,
+    ModerItemsItemSelectParentCategoriesComponent,
+    ModerItemsItemSelectParentBrandsComponent,
+    ModerItemsItemSelectParentCatalogueComponent,
     ModerItemsItemSelectParentComponent,
     ModerItemsItemTreeComponent,
     ModerItemsItemVehiclesComponent,

@@ -12,8 +12,7 @@
   z-index: 1031;
   overflow: hidden;
   background: #000;
-  background: rgba(0, 0, 0, 0.9);
-  -ms-touch-action: none;
+  background: rgb(0 0 0 / 90%);
   touch-action: none;
 
   .carousel {
@@ -31,9 +30,6 @@
       text-align: center;
       color: $color-white;
       transform: translate(-50%, 0);
-      -webkit-transform: translate(-50%, 0);
-      -o-transform: translate(-50%, 0);
-      -moz-transform: translate(-50%, 0);
       text-shadow: 0 0 4px #000;
     }
   }

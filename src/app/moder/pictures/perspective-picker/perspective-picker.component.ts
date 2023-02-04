@@ -7,7 +7,7 @@ import {getPerspectiveTranslation} from '../../../utils/translations';
   templateUrl: './perspective-picker.component.html',
 })
 export class ModerPicturesPerspectivePickerComponent {
-  public perspectives$ = this.perspectiveService.getPerspectives();
+  public perspectives$ = this.perspectiveService.getPerspectives$();
 
   @Input() perspectiveID: number;
   @Output() perspectiveChanged = new EventEmitter<number>();

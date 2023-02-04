@@ -361,7 +361,7 @@ export class PictureService {
     private acl: ACLService,
     private pictures: PicturesClient
   ) {
-    this.summary$ = this.auth.getUser().pipe(
+    this.summary$ = this.auth.getUser$().pipe(
       switchMap((user) => {
         if (!user) {
           return of(null);
@@ -371,13 +371,13 @@ export class PictureService {
       shareReplay(1)
     );
 
-    this.inboxSize$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(
+    this.inboxSize$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap((isModer) => {
         if (!isModer) {
           return of(null as number);
         }
 
-        return this.getPictures({
+        return this.getPictures$({
           status: 'inbox',
           limit: 0,
         }).pipe(map((response) => response.paginator.totalItemCount));
@@ -386,37 +386,37 @@ export class PictureService {
     );
   }
 
-  public getPictureByLocation(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
+  public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {
       params: convertPictureOptions(options),
     });
   }
 
-  public getPicture(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
+  public getPicture$(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', 'picture/' + id, {
       params: convertPictureOptions(options),
     });
   }
 
-  public getCanonicalRoute(identity: string): Observable<string[] | null> {
+  public getCanonicalRoute$(identity: string): Observable<string[] | null> {
     return this.api.request<string[] | null>('GET', 'picture/' + identity + '/canonical-route');
   }
 
-  public getPictures(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
+  public getPictures$(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
     return this.api.request<APIPictureGetResponse>('GET', 'picture', {
       params: converPicturesOptions(options),
     });
   }
 
-  public getSummary(): Observable<APIPictureUserSummary> {
+  public getSummary$(): Observable<APIPictureUserSummary> {
     return this.summary$;
   }
 
-  public getInboxSize(): Observable<number> {
+  public getInboxSize$(): Observable<number> {
     return this.inboxSize$;
   }
 
-  public vote(pictureID: number, value: number): Observable<PicturesVoteSummary> {
+  public vote$(pictureID: number, value: number): Observable<PicturesVoteSummary> {
     return this.pictures.vote(
       new PicturesVoteRequest({
         pictureId: pictureID.toString(),
@@ -425,7 +425,7 @@ export class PictureService {
     );
   }
 
-  public setPictureStatus(id: number, status: string): Observable<void> {
+  public setPictureStatus$(id: number, status: string): Observable<void> {
     return this.api.request<void>('PUT', 'picture/' + id.toString(), {
       body: {
         status,

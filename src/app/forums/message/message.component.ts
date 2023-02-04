@@ -25,9 +25,9 @@ export class MessageComponent implements OnInit, OnDestroy {
         map((params) => parseInt(params.get('message_id'), 10)),
         distinctUntilChanged(),
         debounceTime(10),
-        switchMap((messageID) => this.forumService.getMessageStateParams(messageID)),
-        catchError((response) => {
-          this.toastService.response(response);
+        switchMap((messageID) => this.forumService.getMessageStateParams$(messageID)),
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
           return EMPTY;
         }),
         tap((message) => {

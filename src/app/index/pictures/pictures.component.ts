@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
 })
 export class IndexPicturesComponent {
   public items$ = this.pictureService
-    .getPictures({
+    .getPictures$({
       limit: 4,
       order: 15,
       status: 'accepted',

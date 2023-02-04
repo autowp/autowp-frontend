@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.authService.getUser().pipe(
+    return this.authService.getUser$().pipe(
       map((user) => {
         if (!user) {
           this.keycloak.login({

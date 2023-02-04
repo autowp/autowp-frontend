@@ -27,7 +27,7 @@ export class CategoryGalleryComponent implements OnInit {
     })
   );
 
-  public data$: Observable<CategoryPipeResult> = this.categoriesService.categoryPipe(this.route).pipe(
+  public data$: Observable<CategoryPipeResult> = this.categoriesService.categoryPipe$(this.route).pipe(
     switchMap((data) => {
       if (!data.current) {
         this.router.navigate(['/error-404'], {

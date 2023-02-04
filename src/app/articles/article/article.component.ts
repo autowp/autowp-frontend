@@ -26,13 +26,13 @@ export class ArticlesArticleComponent {
 
       return article;
     }),
-    catchError((response: GrpcStatusEvent) => {
-      if (response.statusCode === 5) {
+    catchError((response: unknown) => {
+      if (response instanceof GrpcStatusEvent && response.statusCode === 5) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
       } else {
-        this.toastService.grpcErrorResponse(response);
+        this.toastService.handleError(response);
       }
       return EMPTY;
     })

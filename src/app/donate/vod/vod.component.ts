@@ -16,7 +16,7 @@ const VOD_TIMEZONE = 'UTC';
   templateUrl: './vod.component.html',
 })
 export class DonateVodComponent implements OnInit {
-  private user$ = this.auth.getUser();
+  private user$ = this.auth.getUser$();
 
   public anonymous$ = combineLatest([
     this.route.queryParamMap.pipe(
@@ -49,7 +49,7 @@ export class DonateVodComponent implements OnInit {
         return of(null as APIItem);
       }
 
-      return this.itemService.getItem(itemID, {
+      return this.itemService.getItem$(itemID, {
         fields: 'name_html,item_of_day_pictures',
       });
     }),
@@ -62,7 +62,7 @@ export class DonateVodComponent implements OnInit {
 
   public userID$ = this.user$.pipe(map((user) => (user ? user.id : null)));
 
-  public vod$ = this.donateService.getVOD().pipe(shareReplay(1));
+  public vod$ = this.donateService.getVOD$().pipe(shareReplay(1));
 
   public dates$ = combineLatest([this.vod$, this.date$]).pipe(
     map(([vod, currentDate]) =>

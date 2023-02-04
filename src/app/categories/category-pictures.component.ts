@@ -37,7 +37,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.categoriesService
-      .categoryPipe(this.route)
+      .categoryPipe$(this.route)
       .pipe(
         tap((data) => {
           this.current = data.current;
@@ -57,7 +57,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
         ),
         switchMap((data) =>
           this.pictureService
-            .getPictures({
+            .getPictures$({
               fields: ['owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'].join(','),
               limit: 20,
               page: data.page,
@@ -99,7 +99,7 @@ export class CategoriesCategoryPicturesComponent implements OnInit, OnDestroy {
   public dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
       this.itemService
-        .getItems({
+        .getItems$({
           fields: 'name_html',
           parent_id: item.parent_id,
           no_parent: item.parent_id ? null : true,

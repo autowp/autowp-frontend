@@ -28,7 +28,7 @@ export class CategoriesListItemComponent {
   }
   public parentRouterLink$ = new BehaviorSubject<string[]>(null);
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   public havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));
   public canHavePhoto$ = this.item$.pipe(
     map((item) =>

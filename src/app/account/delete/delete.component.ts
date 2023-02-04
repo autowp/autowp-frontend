@@ -8,6 +8,7 @@ import {APIDeleteUserRequest} from '@grpc/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {InvalidParams} from '../../utils/invalid-params.pipe';
 import {switchMap} from 'rxjs/operators';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 @Component({
   selector: 'app-account-delete',
@@ -31,7 +32,7 @@ export class AccountDeleteComponent {
 
   public submit() {
     this.auth
-      .getUser()
+      .getUser$()
       .pipe(
         switchMap((user) =>
           this.usersGrpc.deleteUser(
@@ -44,12 +45,12 @@ export class AccountDeleteComponent {
       )
       .subscribe({
         next: () => {
-          this.auth.signOut();
+          this.auth.signOut$();
           this.router.navigate(['/account/delete/deleted']);
         },
-        error: (response) => {
-          this.toastService.grpcErrorResponse(response);
-          if (response.statusCode === 3) {
+        error: (response: unknown) => {
+          this.toastService.handleError(response);
+          if (response instanceof GrpcStatusEvent && response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
             this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           }

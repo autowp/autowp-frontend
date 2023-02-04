@@ -38,9 +38,9 @@ export class UsersUserCommentsComponent {
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => this.userService.getByIdentity(identity, {fields: 'identity'})),
-    catchError((err) => {
-      this.toastService.response(err);
+    switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     }),
     tap((user) => {
@@ -59,7 +59,7 @@ export class UsersUserCommentsComponent {
       setTimeout(() => this.pageEnv.set({pageId: 205}), 0);
     }),
     switchMap(([user, page, order]) =>
-      this.commentService.getComments({
+      this.commentService.getComments$({
         user_id: user.id,
         page: page,
         limit: 30,
@@ -67,8 +67,8 @@ export class UsersUserCommentsComponent {
         fields: ['preview', 'route', 'vote'],
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     })
   );

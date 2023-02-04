@@ -4,6 +4,8 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 import {switchMap, take, tap} from 'rxjs/operators';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-comments-form',
@@ -28,7 +30,7 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
     moderator_attention: false,
   };
 
-  constructor(private comments: CommentsClient) {}
+  constructor(private comments: CommentsClient, private toastService: ToastsService) {}
 
   public sendMessage() {
     this.invalidParams = {};
@@ -56,9 +58,13 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
 
           this.sent.emit(response.id);
         },
-        error: (response) => {
-          const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+        error: (response: unknown) => {
+          if (response instanceof GrpcStatusEvent) {
+            const fieldViolations = extractFieldViolations(response);
+            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+          } else {
+            this.toastService.handleError(response);
+          }
         },
       });
   }

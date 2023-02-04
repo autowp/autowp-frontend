@@ -29,8 +29,8 @@ export class AccountAccountsComponent implements OnInit {
       next: (response) => {
         this.accounts = response.items;
       },
-      error: (response) => {
-        this.toastService.response(response);
+      error: (response: unknown) => {
+        this.toastService.handleError(response);
       },
     });
   }
@@ -51,8 +51,8 @@ export class AccountAccountsComponent implements OnInit {
         next: (response) => {
           window.location.href = response.url;
         },
-        error: (response) => {
-          this.toastService.response(response);
+        error: (response: unknown) => {
+          this.toastService.handleError(response);
         },
       });
   }
@@ -64,9 +64,9 @@ export class AccountAccountsComponent implements OnInit {
 
         this.load();
       },
-      error: (response) => {
+      error: (response: unknown) => {
         this.disconnectFailed = true;
-        this.toastService.response(response);
+        this.toastService.handleError(response);
       },
     });
   }

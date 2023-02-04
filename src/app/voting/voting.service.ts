@@ -41,11 +41,11 @@ export interface APIVotingVariantVotesGetResponse {
 export class VotingService {
   constructor(private api: APIService) {}
 
-  public getVoting(id: number): Observable<APIVoting> {
+  public getVoting$(id: number): Observable<APIVoting> {
     return this.api.request<APIVoting>('GET', 'voting/' + id);
   }
 
-  public getVariantVotes(
+  public getVariantVotes$(
     votingId: number,
     variantId: number,
     options: APIVotingVariantVotesGetOptions

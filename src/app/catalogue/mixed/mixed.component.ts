@@ -24,7 +24,7 @@ export class CatalogueMixedComponent {
         });
         return EMPTY;
       }
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         catname,
         fields: 'name_text,name_html',
         limit: 1,
@@ -61,7 +61,7 @@ export class CatalogueMixedComponent {
 
   public pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
     switchMap(([page, brand, data]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         limit: 12,
         status: 'accepted',
         order: 3,

@@ -7,8 +7,8 @@ import {APIComment, APICommentsService} from '../../api/comments/comments.servic
 import {ToastsService} from '../../toasts/toasts.service';
 import {CommentsSetDeletedRequest, CommentsType, CommentsVoteCommentRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
-import {GrpcStatusEvent} from '@ngx-grpc/common';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
 
 export interface APICommentInList extends APIComment {
   showReply?: boolean;
@@ -42,10 +42,10 @@ export class CommentsListComponent {
 
   @Output() sent = new EventEmitter<string>();
 
-  public canRemoveComments$ = this.acl.isAllowed(Resource.COMMENT, Privilege.REMOVE);
-  public canMoveMessage$ = this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE);
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  public user$ = this.auth.getUser();
+  public canRemoveComments$ = this.acl.isAllowed$(Resource.COMMENT, Privilege.REMOVE);
+  public canMoveMessage$ = this.acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  public user$ = this.auth.getUser$();
 
   constructor(
     private acl: ACLService,
@@ -64,20 +64,21 @@ export class CommentsListComponent {
           vote: value,
         })
       )
-      .subscribe({
-        next: () => {
+      .pipe(
+        catchError((error: unknown) => {
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+        switchMap(() => {
           message.user_vote = value;
 
-          this.commentService.getComment(message.id, {fields: 'vote'}).subscribe({
-            next: (response) => (message.vote = response.vote),
-            error: (response) => this.toastService.response(response),
-          });
-
           // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
-        },
-        error: (response: GrpcStatusEvent) => {
-          this.toastService.grpcErrorResponse(response);
-        },
+          return this.commentService.getComment$(message.id, {fields: 'vote'});
+        })
+      )
+      .subscribe({
+        next: (response) => (message.vote = response.vote),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
 
     return false;
@@ -93,7 +94,7 @@ export class CommentsListComponent {
       )
       .subscribe({
         next: () => (message.deleted = value),
-        error: (response) => this.toastService.grpcErrorResponse(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

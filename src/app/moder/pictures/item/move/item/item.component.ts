@@ -22,7 +22,7 @@ export class ModerPictureMoveItemComponent {
     if (item.expanded) {
       this.loading = true;
       this.itemParentService
-        .getItems({
+        .getItems$({
           parent_id: item.item_id,
           fields: 'item.name_html,item.childs_count',
           limit: 500,

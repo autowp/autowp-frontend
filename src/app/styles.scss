@@ -5,9 +5,10 @@
 
 app-index {
   display: block;
-  //-webkit-filter: grayscale(100%);
-  //-moz-filter: grayscale(100%);
-  //filter: grayscale(100%);
+
+  // -webkit-filter: grayscale(100%);
+  // -moz-filter: grayscale(100%);
+  // filter: grayscale(100%);
 }
 
 .navbar {
@@ -79,9 +80,9 @@ legend {
   font-weight: inherit;
 }
 
-/*a.label:visited {
+/* a.label:visited {
     color: $color-white;
-}*/
+} */
 
 a {
   @include transition(color 0.2s);
@@ -98,10 +99,6 @@ a {
   @include transition(color 0.2s, background-color 0.2s, border-color 0.2s);
 }
 
-.nav-pills > li > a {
-  @include transition(color 0.2s, background-color 0.2s);
-}
-
 .jcrop-holder img,
 img#picture-to-crop {
   max-width: none;
@@ -114,33 +111,41 @@ img#picture-to-crop {
 
 .card {
   &.vote-accept {
-    box-shadow: 0 0 3px rgba(0, 128, 0, 0.7);
+    box-shadow: 0 0 3px rgb(0 128 0 / 70%);
   }
 
   &.vote-remove {
-    box-shadow: 0 0 3px rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 3px rgb(255 0 0 / 70%);
   }
 
   &.vote-neutral {
-    box-shadow: 0 0 3px rgba(240, 173, 78, 0.7);
+    box-shadow: 0 0 3px rgb(240 173 78 / 70%);
+  }
+}
+
+.brand-icons {
+  > div {
+    min-height: 70px;
   }
 }
 
 .comments {
+  .cancel {
+    display: none;
+  }
+
   .replies {
     legend {
       display: none;
     }
+
     form {
       margin-left: 100px;
     }
+
     .cancel {
       display: block;
     }
-  }
-
-  .cancel {
-    display: none;
   }
 
   .message {
@@ -167,29 +172,6 @@ img#picture-to-crop {
       }
     }
 
-    &.deleted {
-      > .content {
-        > .deleted-message {
-          display: block;
-        }
-        > .text {
-          display: none;
-        }
-        > div {
-          > .vote,
-          > .comment-remove-button {
-            display: none;
-          }
-          > .comment-restore-button {
-            display: inline-block;
-          }
-        }
-      }
-      > .photo {
-        display: none;
-      }
-    }
-
     .comment-restore-button,
     .deleted-message {
       display: none;
@@ -197,9 +179,9 @@ img#picture-to-crop {
 
     .text {
       background: white;
-      border: 1px solid #dddddd;
+      border: 1px solid #ddd;
       border-radius: 4px;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+      box-shadow: 0 1px 1px rgb(0 0 0 / 7.5%);
       padding: 10px;
       min-height: 70px;
       margin-bottom: 10px;
@@ -211,17 +193,19 @@ img#picture-to-crop {
 
       .vote-up {
         color: #000;
+
         &:hover,
         &.active {
-          color: #009900;
+          color: #090;
         }
       }
 
       .vote-down {
         color: #000;
+
         &:hover,
         &.active {
-          color: #cc0000;
+          color: #c00;
         }
       }
 
@@ -233,6 +217,33 @@ img#picture-to-crop {
           text-decoration: none;
           color: #000;
         }
+      }
+    }
+
+    &.deleted {
+      > .content {
+        > .deleted-message {
+          display: block;
+        }
+
+        > .text {
+          display: none;
+        }
+
+        > div {
+          > .vote,
+          > .comment-remove-button {
+            display: none;
+          }
+
+          > .comment-restore-button {
+            display: inline-block;
+          }
+        }
+      }
+
+      > .photo {
+        display: none;
       }
     }
 
@@ -313,13 +324,13 @@ sup.design-brand {
 
 span.count {
   font-size: 11px;
-  color: #666666;
+  color: #666;
   white-space: nowrap;
 
   span,
   a {
     font-size: 11px;
-    color: #cc0000;
+    color: #c00;
     text-decoration: none;
   }
 
@@ -332,11 +343,11 @@ span.count {
 .user {
   a {
     font-weight: bold;
-    color: #3333cc;
+    color: #33c;
   }
 
   &.green-man a {
-    color: #339933;
+    color: #393;
   }
 
   &.long-away a {
@@ -344,14 +355,8 @@ span.count {
   }
 }
 
-.brand-icons {
-  > div {
-    min-height: 70px;
-  }
-}
-
-ul.carLinks {
-  margin: 0 0 20px 0;
+ul.car-links {
+  margin: 0 0 20px;
   list-style-type: none;
   clear: both;
   padding: 0;
@@ -364,41 +369,11 @@ ul.carLinks {
 }
 
 span.unit {
-  color: #999999;
+  color: #999;
 }
 
 .picture-preview-medium .languages sup {
   font-family: monospace;
-}
-
-.car-node {
-  > a {
-    > .bi-folder2-open {
-      display: none;
-    }
-    > .bi-folder2 {
-      display: inline-block;
-    }
-  }
-
-  > ul {
-    display: none;
-  }
-
-  &.open {
-    > a {
-      > .bi-folder2-open {
-        display: inline-block;
-      }
-      > .bi bi-folder2 {
-        display: none;
-      }
-    }
-
-    > ul {
-      display: block;
-    }
-  }
 }
 
 .tree.stock-only {
@@ -433,10 +408,42 @@ span.unit {
 
 .index-brands {
   font-size: 18px;
+}
 
-  a {
-    white-space: nowrap;
+.car-node {
+  > a {
+    > .bi-folder2-open {
+      display: none;
+    }
+
+    > .bi-folder2 {
+      display: inline-block;
+    }
   }
+
+  > ul {
+    display: none;
+  }
+
+  &.open {
+    > a {
+      > .bi-folder2-open {
+        display: inline-block;
+      }
+
+      > .bi bi-folder2 {
+        display: none;
+      }
+    }
+
+    > ul {
+      display: block;
+    }
+  }
+}
+
+.nav-pills > li > a {
+  @include transition(color 0.2s, background-color 0.2s);
 }
 
 iframe {

@@ -17,14 +17,14 @@ export class ForumsSubscriptionsComponent implements OnInit {
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((page) =>
-      this.forumService.getTopics({
+      this.forumService.getTopics$({
         fields: 'author,messages,last_message.user',
         subscription: true,
         page,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );
@@ -57,7 +57,7 @@ export class ForumsSubscriptionsComponent implements OnInit {
             }
           }
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 }

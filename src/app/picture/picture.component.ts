@@ -32,14 +32,14 @@ export class PictureComponent {
   }
   public picture$ = new BehaviorSubject<APIPicture>(null);
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  public canEditSpecs$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  public canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
   public showShareDialog = false;
   public location;
   public engines: APIItem[] = [];
   public statusLoading = false;
 
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
 
   constructor(
     private acl: ACLService,
@@ -54,7 +54,7 @@ export class PictureComponent {
   }
 
   public savePerspective(perspectiveID: number | null, item: APIPictureItem) {
-    this.pictureItemService.setPerspective(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
+    this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
   public pictureVoted() {
@@ -86,7 +86,7 @@ export class PictureComponent {
   }
 
   public vote(picture: APIPicture, value: number) {
-    this.pictureService.vote(picture.id, value).subscribe((votes) => {
+    this.pictureService.vote$(picture.id, value).subscribe((votes) => {
       picture.votes = votes;
     });
     return false;
@@ -106,7 +106,7 @@ export class PictureComponent {
 
   private setPictureStatus(picture: APIPicture, status: string) {
     this.statusLoading = true;
-    this.pictureService.setPictureStatus(picture.id, status).subscribe({
+    this.pictureService.setPictureStatus$(picture.id, status).subscribe({
       next: () => {
         this.changed.emit(true);
       },

@@ -41,23 +41,23 @@ export class UsersUserComponent {
   ];
   public banPeriod = 1;
   public banReason: string | null = null;
-  public canDeleteUser$ = this.acl.isAllowed(Resource.USER, Privilege.DELETE);
-  public canViewIp$ = this.acl.isAllowed(Resource.USER, Privilege.IP);
-  public canBan$ = this.acl.isAllowed(Resource.USER, Privilege.BAN);
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public canDeleteUser$ = this.acl.isAllowed$(Resource.USER, Privilege.DELETE);
+  public canViewIp$ = this.acl.isAllowed$(Resource.USER, Privilege.IP);
+  public canBan$ = this.acl.isAllowed$(Resource.USER, Privilege.BAN);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   public user$ = this.route.paramMap.pipe(
     map((params) => '' + params.get('identity')),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((identity) =>
-      this.userService.getByIdentity(identity, {
+      this.userService.getByIdentity$(identity, {
         fields:
           'identity,gravatar_hash,photo,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip',
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     }),
     switchMap((user) => {
@@ -85,7 +85,7 @@ export class UsersUserComponent {
   public pictures$: Observable<APIPicture[]> = this.user$.pipe(
     switchMap((user) =>
       this.pictureService
-        .getPictures({
+        .getPictures$({
           owner_id: user.id.toString(),
           limit: 12,
           order: 1,
@@ -101,7 +101,7 @@ export class UsersUserComponent {
         return of({items: []} as APICommentGetResponse);
       }
 
-      return this.commentService.getComments({
+      return this.commentService.getComments$({
         user_id: user.id,
         limit: 15,
         order: 'date_desc',
@@ -119,11 +119,11 @@ export class UsersUserComponent {
         return of(null as APIIP);
       }
 
-      return this.ipService.getIp(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
+      return this.ipService.getIp$(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
     })
   );
 
-  public currentUser$ = this.auth.getUser();
+  public currentUser$ = this.auth.getUser$();
 
   public isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
     map(([user, currentUser]) => {
@@ -139,10 +139,10 @@ export class UsersUserComponent {
         return of(false);
       }
 
-      return this.contacts.isInContacts(user.id.toString());
+      return this.contacts.isInContacts$(user.id.toString());
     }),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     shareReplay(1)
@@ -163,8 +163,8 @@ export class UsersUserComponent {
 
       return this.usersGrpc.getUserPreferences(new APIUserPreferencesRequest({userId: user.id.toString()}));
     }),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     shareReplay(1)
@@ -233,7 +233,7 @@ export class UsersUserComponent {
       next: () => {
         user.photo = null;
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -251,7 +251,7 @@ export class UsersUserComponent {
         next: () => {
           user.deleted = true;
         },
-        error: (response) => this.toastService.grpcErrorResponse(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
@@ -260,7 +260,7 @@ export class UsersUserComponent {
       next: () => {
         this.ipChange$.next(true);
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -277,7 +277,7 @@ export class UsersUserComponent {
         next: () => {
           this.ipChange$.next(true);
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 }

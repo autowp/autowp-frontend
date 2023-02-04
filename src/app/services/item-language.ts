@@ -19,7 +19,7 @@ export interface APIItemLanguageGetResponse {
 export class ItemLanguageService {
   constructor(private api: APIService) {}
 
-  public getItems(itemId: number): Observable<APIItemLanguageGetResponse> {
+  public getItems$(itemId: number): Observable<APIItemLanguageGetResponse> {
     return this.api.request<APIItemLanguageGetResponse>('GET', 'item/' + itemId + '/language');
   }
 }

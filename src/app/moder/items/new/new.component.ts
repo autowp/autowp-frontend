@@ -11,6 +11,7 @@ import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../item-meta-form/item-meta-form.component';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {HttpErrorResponse} from '@angular/common/http';
 
 interface NewAPIItem extends APIItem {
   is_concept_inherit: boolean;
@@ -76,7 +77,7 @@ export class ModerItemsNewComponent {
 
   public parent$ = this.parentID$.pipe(
     switchMap((parentID) =>
-      parentID ? this.itemService.getItem(parentID, {fields: 'is_concept,name_html,spec_id'}) : of(null as APIItem)
+      parentID ? this.itemService.getItem$(parentID, {fields: 'is_concept,name_html,spec_id'}) : of(null as APIItem)
     ),
     shareReplay(1)
   );
@@ -138,15 +139,15 @@ export class ModerItemsNewComponent {
         observe: 'response',
       })
       .pipe(
-        catchError((response) => {
-          if (response.status === 400) {
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse && response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            this.toastService.response(response);
+            this.toastService.handleError(response);
           }
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation(response.headers.get('Location'), {})),
+        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location'), {})),
         switchMap((item) => {
           const pipes: Observable<any>[] = [
             this.parent$.pipe(
@@ -164,7 +165,7 @@ export class ModerItemsNewComponent {
             ),
           ];
           if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(itemTypeID)) {
-            pipes.push(this.itemService.setItemVehicleTypes(item.id, event.vehicle_type_id));
+            pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));
           }
 
           return forkJoin(pipes).pipe(

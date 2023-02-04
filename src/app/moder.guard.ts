@@ -11,6 +11,6 @@ export class ModerGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+    return this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   }
 }

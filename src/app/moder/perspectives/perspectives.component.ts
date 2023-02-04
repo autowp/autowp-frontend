@@ -4,6 +4,7 @@ import {getPerspectiveTranslation} from '../../utils/translations';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PerspectivePage} from '@grpc/spec.pb';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-perspectives',
@@ -12,7 +13,7 @@ import {PerspectivePage} from '@grpc/spec.pb';
 export class ModerPerspectivesComponent {
   public pages: PerspectivePage[];
 
-  constructor(private grpc: AutowpClient, private pageEnv: PageEnvService) {
+  constructor(private grpc: AutowpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -26,7 +27,7 @@ export class ModerPerspectivesComponent {
       next: (response) => {
         this.pages = response.items;
       },
-      error: (response) => console.log(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

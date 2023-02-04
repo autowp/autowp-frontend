@@ -21,7 +21,8 @@ build:
       - node_modules/
   script:
     - npm ci
-    - ./node_modules/.bin/ng lint
+    - npx ng lint
+    - npx stylelint "src/**/*.scss"
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
     - npx semantic-release

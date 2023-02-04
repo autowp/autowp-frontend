@@ -8,7 +8,7 @@ import {ModerVoteTemplate} from '@grpc/spec.pb';
   templateUrl: './picture-vote-templates.component.html',
 })
 export class ModerPictureVoteTemplatesComponent implements OnInit {
-  public templates$ = this.voteTemplateService.getTemplates();
+  public templates$ = this.voteTemplateService.getTemplates$();
   public vote = -1;
   public name = '';
 
@@ -26,12 +26,12 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
   }
 
   public deleteTemplate(template: ModerVoteTemplate) {
-    this.voteTemplateService.deleteTemplate(template.id).subscribe();
+    this.voteTemplateService.deleteTemplate$(template.id).subscribe();
   }
 
   public createTemplate() {
     this.voteTemplateService
-      .createTemplate({
+      .createTemplate$({
         vote: this.vote,
         name: this.name,
       })

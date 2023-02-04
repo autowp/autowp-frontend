@@ -19,7 +19,7 @@ interface ChunkedGroup {
   templateUrl: './twins.component.html',
 })
 export class TwinsComponent implements OnInit {
-  public canEdit$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT);
+  public canEdit$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT);
 
   private page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
@@ -40,7 +40,7 @@ export class TwinsComponent implements OnInit {
         return of(null as APIItemsGetResponse);
       }
 
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         catname: brand,
         fields: 'name_only,catname',
         limit: 1,
@@ -68,7 +68,7 @@ export class TwinsComponent implements OnInit {
     paginator: APIPaginator;
   }> = combineLatest([this.page$, this.brand$]).pipe(
     switchMap(([page, brand]) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         type_id: 4,
         limit: 20,
         fields:

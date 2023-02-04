@@ -30,7 +30,7 @@ export class PersonsComponent implements OnInit {
         'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures';
 
       if (authors) {
-        return this.itemService.getItems({
+        return this.itemService.getItems$({
           type_id: 8,
           fields,
           descendant_pictures: {
@@ -45,7 +45,7 @@ export class PersonsComponent implements OnInit {
           page,
         });
       }
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         type_id: 8,
         fields,
         descendant_pictures: {

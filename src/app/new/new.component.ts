@@ -87,8 +87,8 @@ export class NewComponent implements OnInit {
           params: q,
         })
         .pipe(
-          catchError((response) => {
-            this.toastService.response(response);
+          catchError((response: unknown) => {
+            this.toastService.handleError(response);
             return EMPTY;
           }),
           map((response) => ({date, response}))

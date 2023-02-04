@@ -15,7 +15,7 @@
     <p style="white-space: pre-line" [textContent]="voting.text"></p>
     <hr />
 
-    <form *ngIf="voting.can_vote" (submit)="vote(voting)">
+    <form *ngIf="voting.can_vote" (ngSubmit)="vote(voting)">
       <ul class="unstyled">
         <li *ngFor="let variant of voting.variants">
           <label class="checkbox inline" *ngIf="voting.multivariant">

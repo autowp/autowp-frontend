@@ -30,15 +30,15 @@ export class PicturePageComponent {
         return EMPTY;
       }
 
-      return this.pictureService.getCanonicalRoute(identity).pipe(
-        catchError((response: HttpErrorResponse) => {
-          if (response.status === 404) {
+      return this.pictureService.getCanonicalRoute$(identity).pipe(
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse && response.status === 404) {
             this.router.navigate(['/error-404'], {
               skipLocationChange: true,
             });
             return EMPTY;
           }
-          return throwError(response);
+          return throwError(() => response);
         }),
         switchMap((route) => {
           if (route && route.length > 0) {
@@ -56,7 +56,7 @@ export class PicturePageComponent {
 
           return this.changed$.pipe(
             switchMap(() =>
-              this.pictureService.getPictures({
+              this.pictureService.getPictures$({
                 identity,
                 fields,
                 limit: 1,

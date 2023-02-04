@@ -4,6 +4,7 @@ import {APIPaginator} from '../../services/api.service';
 import {PageEnvService} from '../../services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap, distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-users',
@@ -14,7 +15,12 @@ export class ModerUsersComponent {
   public loading = 0;
   public users: APIUser[] = [];
 
-  constructor(private userService: UserService, private pageEnv: PageEnvService, private route: ActivatedRoute) {
+  constructor(
+    private userService: UserService,
+    private pageEnv: PageEnvService,
+    private route: ActivatedRoute,
+    private toastService: ToastsService
+  ) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -36,23 +42,23 @@ export class ModerUsersComponent {
         distinctUntilChanged(),
         debounceTime(10),
         switchMap((params) =>
-          this.userService.get({
+          this.userService.get$({
             page: parseInt(params.get('page'), 10),
             limit: 30,
             fields: 'image,reg_date,last_online,email,login',
           })
         )
       )
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.users = response.items;
           this.paginator = response.paginator;
           this.loading--;
         },
-        (response) => {
-          console.log(response);
+        error: (response: unknown) => {
+          this.toastService.handleError(response);
           this.loading--;
-        }
-      );
+        },
+      });
   }
 }

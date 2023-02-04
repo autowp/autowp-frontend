@@ -20,7 +20,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         catname,
         fields: 'name_text,name_html',
         limit: 1,
@@ -32,7 +32,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
 
   public query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
     switchMap(([brand, params]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         item_id: brand.id,
         status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
@@ -42,8 +42,8 @@ export class CutawayBrandsBrandComponent implements OnInit {
         order: 15,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     })
   );

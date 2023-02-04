@@ -23,7 +23,7 @@ interface Inbox {
   templateUrl: './inbox.component.html',
 })
 export class InboxComponent implements OnInit {
-  public inbox$: Observable<Inbox> = this.auth.getUser().pipe(
+  public inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         this.keycloak.login({
@@ -56,9 +56,9 @@ export class InboxComponent implements OnInit {
 
       return combineLatest([
         of(params.date),
-        this.inboxService.get(brandID, params.date).pipe(
-          catchError((err) => {
-            this.toastService.response(err);
+        this.inboxService.get$(brandID, params.date).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
             return EMPTY;
           })
         ),
@@ -76,7 +76,7 @@ export class InboxComponent implements OnInit {
           map((params) => parseInt(params.get('page'), 10)),
           distinctUntilChanged(),
           switchMap((page) =>
-            this.pictureService.getPictures({
+            this.pictureService.getPictures$({
               status: 'inbox',
               fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
               limit: 24,

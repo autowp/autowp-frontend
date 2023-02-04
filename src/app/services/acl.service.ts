@@ -53,7 +53,7 @@ export enum Resource {
 export class APIACL {
   constructor(private grpc: AutowpClient) {}
 
-  public isAllowed(resource: Resource, privilege: Privilege): Observable<boolean> {
+  public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     return this.grpc.aclEnforce(new AclEnforceRequest({resource, privilege})).pipe(
       map((response) => response.result),
       catchError(() => {
@@ -69,18 +69,18 @@ export class ACLService {
 
   constructor(private apiACL: APIACL, private auth: AuthService) {}
 
-  public isAllowed(resource: Resource, privilege: Privilege): Observable<boolean> {
+  public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     const key = resource + '/' + privilege;
 
     if (this.isAllowedCache.has(key)) {
       return this.isAllowedCache.get(key);
     }
 
-    const o = this.auth.getUser().pipe(
-      switchMap(() => this.apiACL.isAllowed(resource, privilege)),
+    const o$ = this.auth.getUser$().pipe(
+      switchMap(() => this.apiACL.isAllowed$(resource, privilege)),
       shareReplay(1)
     );
-    this.isAllowedCache.set(key, o);
-    return o;
+    this.isAllowedCache.set(key, o$);
+    return o$;
   }
 }

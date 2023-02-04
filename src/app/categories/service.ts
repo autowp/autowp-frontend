@@ -17,13 +17,13 @@ export interface CategoryPipeResult {
 export class CatagoriesService {
   constructor(private itemService: ItemService) {}
 
-  public categoryPipe(route: ActivatedRoute): Observable<CategoryPipeResult> {
-    const categoryPipe = route.paramMap.pipe(
+  public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
+    const categoryPipe$ = route.paramMap.pipe(
       map((params) => params.get('category')),
       distinctUntilChanged()
     );
 
-    const pathPipe = route.paramMap.pipe(
+    const pathPipe$ = route.paramMap.pipe(
       map((params) => {
         const path = params.get('path');
         return path ? path : '';
@@ -31,9 +31,9 @@ export class CatagoriesService {
       distinctUntilChanged()
     );
 
-    return categoryPipe.pipe(
+    return categoryPipe$.pipe(
       switchMap((category) =>
-        pathPipe.pipe(
+        pathPipe$.pipe(
           map((path) => ({
             category,
             path,
@@ -41,7 +41,7 @@ export class CatagoriesService {
         )
       ),
       switchMap((params) => {
-        return this.itemService.getPath({
+        return this.itemService.getPath$({
           catname: params.category,
           path: params.path,
         });

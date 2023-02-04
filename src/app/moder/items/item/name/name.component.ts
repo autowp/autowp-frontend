@@ -39,7 +39,7 @@ export class ModerItemsItemNameComponent {
   private item$ = new BehaviorSubject<APIItem>(null);
 
   public data$: Observable<{itemId: number; languages: APIItemLanguage[]}> = this.item$.pipe(
-    switchMap((item) => combineLatest([of(item.id), this.itemLanguageService.getItems(item.id), this.languages$])),
+    switchMap((item) => combineLatest([of(item.id), this.itemLanguageService.getItems$(item.id), this.languages$])),
     map(([itemId, {items}, languages]) => {
       for (const value of items) {
         languages.set(value.language, value);

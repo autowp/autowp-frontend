@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpEventType} from '@angular/common/http';
+import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {APIItem, ItemService} from '../services/item';
 import {of, Observable, concat, combineLatest, EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -41,7 +41,7 @@ export class UploadComponent implements OnInit {
   public progress: UploadProgress[] = [];
   public pictures: APIPictureUpload[] = [];
   public formHidden = false;
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
 
   @ViewChild('input') input;
 
@@ -59,7 +59,7 @@ export class UploadComponent implements OnInit {
 
   private replacePicture$ = this.replace$.pipe(
     switchMap((replace) => {
-      return replace ? this.pictureService.getPicture(replace, {fields: 'name_html'}) : of(null as APIPicture);
+      return replace ? this.pictureService.getPicture$(replace, {fields: 'name_html'}) : of(null as APIPicture);
     })
   );
 
@@ -71,7 +71,7 @@ export class UploadComponent implements OnInit {
 
   private item$ = this.itemID$.pipe(
     switchMap((itemID) => {
-      return itemID ? this.itemService.getItem(itemID, {fields: 'name_html'}) : of(null as APIItem);
+      return itemID ? this.itemService.getItem$(itemID, {fields: 'name_html'}) : of(null as APIItem);
     })
   );
 
@@ -118,7 +118,7 @@ export class UploadComponent implements OnInit {
     const xhrs: Observable<APIPicture>[] = [];
 
     for (const file of this.files) {
-      xhrs.push(this.uploadFile(file));
+      xhrs.push(this.uploadFile$(file));
     }
 
     concat(...xhrs).subscribe({
@@ -132,7 +132,7 @@ export class UploadComponent implements OnInit {
     return false;
   }
 
-  private uploadFile(file: any): Observable<APIPicture> {
+  private uploadFile$(file: any): Observable<APIPicture> {
     const progress = {
       filename: file.fileName || file.name,
       percentage: 0,
@@ -174,11 +174,13 @@ export class UploadComponent implements OnInit {
           reportProgress: true,
         })
       ),
-      catchError((response) => {
-        progress.percentage = 100;
-        progress.failed = true;
+      catchError((response: unknown) => {
+        if (response instanceof HttpErrorResponse) {
+          progress.percentage = 100;
+          progress.failed = true;
 
-        progress.invalidParams = response.error.invalid_params;
+          progress.invalidParams = response.error.invalid_params;
+        }
 
         return EMPTY;
       }),
@@ -200,7 +202,7 @@ export class UploadComponent implements OnInit {
           const location = event.headers.get('Location');
 
           return this.pictureService
-            .getPictureByLocation(location, {
+            .getPictureByLocation$(location, {
               fields:
                 'crop,image_gallery_full,thumb_medium,votes,views,comments_count,perspective_item,name_html,name_text',
             })
@@ -212,9 +214,10 @@ export class UploadComponent implements OnInit {
                   cropTitle: picture.crop ? cropTitle(picture.crop) : '',
                 });
               }),
-              catchError((response) => {
-                this.toastService.response(response);
-
+              catchError((response: unknown) => {
+                if (response instanceof HttpErrorResponse) {
+                  this.toastService.response(response);
+                }
                 return EMPTY;
               })
             );
@@ -232,31 +235,39 @@ export class UploadComponent implements OnInit {
     });
 
     modalRef.componentInstance.picture = picture;
-    modalRef.componentInstance.changed.subscribe(() => {
-      this.api
-        .request<void>('PUT', 'picture/' + picture.id, {
-          body: {
-            crop: picture.crop,
-          },
+    modalRef.componentInstance.changed
+      .pipe(
+        switchMap(() =>
+          this.api.request<void>('PUT', 'picture/' + picture.id, {
+            body: {
+              crop: picture.crop,
+            },
+          })
+        ),
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.toastService.response(response);
+          }
+          return EMPTY;
+        }),
+        switchMap(() =>
+          this.pictureService.getPicture$(picture.id, {
+            fields: 'crop,thumb_medium',
+          })
+        ),
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.toastService.response(response);
+          }
+          return EMPTY;
+        }),
+        tap((response: APIPicture) => {
+          picture.crop = response.crop;
+          picture.cropTitle = cropTitle(response.crop);
+          picture.thumb_medium = response.thumb_medium;
         })
-        .subscribe({
-          next: () => {
-            this.pictureService
-              .getPicture(picture.id, {
-                fields: 'crop,thumb_medium',
-              })
-              .subscribe({
-                next: (response) => {
-                  picture.crop = response.crop;
-                  picture.cropTitle = cropTitle(response.crop);
-                  picture.thumb_medium = response.thumb_medium;
-                },
-                error: (response) => this.toastService.response(response),
-              });
-          },
-          error: (response) => this.toastService.response(response),
-        });
-    });
+      )
+      .subscribe();
 
     return false;
   }

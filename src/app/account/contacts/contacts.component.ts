@@ -29,7 +29,7 @@ export class AccountContactsComponent {
     setTimeout(() => this.pageEnv.set({pageId: 198}), 0);
 
     this.auth
-      .getUser()
+      .getUser$()
       .pipe(
         map((user) => {
           if (!user) {
@@ -42,7 +42,7 @@ export class AccountContactsComponent {
           return user;
         }),
         switchMap(() =>
-          this.contactsService.getContacts({
+          this.contactsService.getContacts$({
             fields: ['avatar', 'gravatar', 'last_online'],
           })
         )
@@ -51,13 +51,13 @@ export class AccountContactsComponent {
         next: (response) => {
           this.items = response.items;
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
   public deleteContact(id: string) {
-    this.contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe(
-      () => {
+    this.contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe({
+      next: () => {
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i].contactUserId === id) {
             this.items.splice(i, 1);
@@ -65,8 +65,8 @@ export class AccountContactsComponent {
           }
         }
       },
-      (response) => this.toastService.response(response)
-    );
+      error: (response: unknown) => this.toastService.handleError(response),
+    });
     return false;
   }
 }

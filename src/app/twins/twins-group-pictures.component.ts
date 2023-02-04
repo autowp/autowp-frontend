@@ -20,7 +20,7 @@ export class TwinsGroupPicturesComponent {
       if (!group) {
         return of(null as APIItem);
       }
-      return this.itemService.getItem(group, {
+      return this.itemService.getItem$(group, {
         fields: 'name_text,name_html,childs.brands',
       });
     }),
@@ -57,7 +57,7 @@ export class TwinsGroupPicturesComponent {
 
   public data$ = combineLatest([this.page$, this.group$]).pipe(
     switchMap(([page, group]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         status: 'accepted',
         item_id: group.id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
@@ -66,8 +66,8 @@ export class TwinsGroupPicturesComponent {
         page: page,
       })
     ),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return of(null as APIPictureGetResponse);
     })
   );

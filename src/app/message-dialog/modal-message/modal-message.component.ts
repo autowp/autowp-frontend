@@ -24,7 +24,7 @@ export class ModalMessageComponent {
     this.sending = true;
     this.sent = false;
 
-    this.messageService.send(this.userId, this.text).subscribe({
+    this.messageService.send$(this.userId, this.text).subscribe({
       next: () => {
         this.sending = false;
         this.sent = true;
@@ -34,7 +34,7 @@ export class ModalMessageComponent {
 
         this.toastService.success('Ok');
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

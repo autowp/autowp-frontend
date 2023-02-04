@@ -100,7 +100,7 @@ export class UserService {
 
   constructor(private api: APIService) {}
 
-  private queryUsers(ids: string[]): Observable<any> {
+  private queryUsers$(ids: string[]): Observable<any> {
     const toRequest: string[] = [];
     const waitFor: Observable<void>[] = [];
     for (const id of ids) {
@@ -108,16 +108,16 @@ export class UserService {
       if (oldUser !== undefined) {
         continue;
       }
-      const oldPromise = this.promises.get(id);
-      if (oldPromise !== undefined) {
-        waitFor.push(oldPromise);
+      const oldPromise$ = this.promises.get(id);
+      if (oldPromise$ !== undefined) {
+        waitFor.push(oldPromise$);
         continue;
       }
       toRequest.push(id);
     }
 
     if (toRequest.length > 0) {
-      const promise = this.get({
+      const promise$ = this.get$({
         id: toRequest,
         limit: toRequest.length,
       }).pipe(
@@ -129,10 +129,10 @@ export class UserService {
         map(() => null)
       );
 
-      waitFor.push(promise);
+      waitFor.push(promise$);
 
       for (const id of toRequest) {
-        this.promises.set(id, promise);
+        this.promises.set(id, promise$);
       }
     }
 
@@ -143,8 +143,8 @@ export class UserService {
     return forkJoin(waitFor);
   }
 
-  public getUsers(ids: string[]): Observable<APIUser[]> {
-    return this.queryUsers(ids).pipe(
+  public getUsers$(ids: string[]): Observable<APIUser[]> {
+    return this.queryUsers$(ids).pipe(
       map(() => {
         const result: APIUser[] = [];
         for (const id of ids) {
@@ -159,8 +159,8 @@ export class UserService {
     );
   }
 
-  public getUserMap(ids: string[]): Observable<Map<string, APIUser>> {
-    return this.queryUsers(ids).pipe(
+  public getUserMap$(ids: string[]): Observable<Map<string, APIUser>> {
+    return this.queryUsers$(ids).pipe(
       map(() => {
         const result = new Map<string, APIUser>();
         for (const id of ids) {
@@ -175,7 +175,7 @@ export class UserService {
     );
   }
 
-  public getUser(id: number, options: APIGetUserOptions): Observable<APIUser> {
+  public getUser$(id: number, options: APIGetUserOptions): Observable<APIUser> {
     const params = converUserOptions(options);
 
     if (Object.keys(params).length) {
@@ -184,7 +184,7 @@ export class UserService {
       });
     }
 
-    return this.getUsers([id.toString()]).pipe(
+    return this.getUsers$([id.toString()]).pipe(
       map((users) => {
         if (users.length > 0) {
           return users[0];
@@ -194,17 +194,17 @@ export class UserService {
     );
   }
 
-  public get(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
+  public get$(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
     return this.api.request<APIUserGetResponse>('GET', 'user', {
       params: converUsersOptions(options),
     });
   }
 
-  public getByIdentity(identity: string, options: APIGetUserOptions): Observable<APIUser> {
+  public getByIdentity$(identity: string, options: APIGetUserOptions): Observable<APIUser> {
     const result = identity.match(/^user([0-9]+)$/);
 
     if (result) {
-      return this.getUser(parseInt(result[1], 10), options);
+      return this.getUser$(parseInt(result[1], 10), options);
     }
 
     const params: APIGetUsersOptions = {
@@ -213,6 +213,6 @@ export class UserService {
       fields: options.fields,
     };
 
-    return this.get(params).pipe(map((response) => (response.items.length ? response.items[0] : null)));
+    return this.get$(params).pipe(map((response) => (response.items.length ? response.items[0] : null)));
   }
 }

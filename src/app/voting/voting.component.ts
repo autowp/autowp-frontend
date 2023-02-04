@@ -20,7 +20,7 @@ export class VotingComponent {
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((id) => this.reload$.pipe(switchMap(() => this.votingService.getVoting(id)))),
+    switchMap((id) => this.reload$.pipe(switchMap(() => this.votingService.getVoting$(id)))),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
@@ -76,7 +76,7 @@ export class VotingComponent {
         next: () => {
           this.reload$.next(true);
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
 
     return false;

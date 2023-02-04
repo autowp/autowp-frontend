@@ -8,6 +8,7 @@ import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
 import {InvalidParams} from '../../../../utils/invalid-params.pipe';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-moder-items-item-meta',
@@ -21,7 +22,7 @@ export class ModerItemsItemMetaComponent {
 
   public loadingNumber = 0;
 
-  public canEditMeta$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT_META);
+  public canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
   public invalidParams: InvalidParams;
 
   public vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
@@ -76,15 +77,17 @@ export class ModerItemsItemMetaComponent {
 
     const pipes: Observable<any>[] = [
       this.api.request<void>('PUT', 'item/' + item.id, {body: data}).pipe(
-        catchError((response) => {
-          this.invalidParams = response.error.invalid_params;
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.invalidParams = response.error.invalid_params;
+          }
           return EMPTY;
         }),
         tap(() => (this.invalidParams = {}))
       ),
     ];
     if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
-      pipes.push(this.itemService.setItemVehicleTypes(item.id, event.vehicle_type_id));
+      pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));
     }
 
     forkJoin(pipes).subscribe({

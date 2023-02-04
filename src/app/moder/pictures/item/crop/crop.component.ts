@@ -57,7 +57,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(10),
         switchMap((id) =>
-          this.pictureService.getPicture(id, {
+          this.pictureService.getPicture$(id, {
             fields: 'crop,image',
           })
         ),

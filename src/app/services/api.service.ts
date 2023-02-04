@@ -51,10 +51,6 @@ export interface APIPaginator {
   // lastItemNumber: number;
 }
 
-export interface APILoginStartGetResponse {
-  url: string;
-}
-
 declare type HttpObserve = 'body' | 'events' | 'response';
 
 @Injectable()
@@ -70,8 +66,8 @@ export class AuthInterceptor implements HttpInterceptor {
     );
 
     return from(promise).pipe(
-      catchError((e, e2) => {
-        console.log('Handled error', e, e2);
+      catchError((e: unknown) => {
+        console.error(e);
         return of('');
       }),
       switchMap((accessToken) => {
@@ -140,8 +136,8 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
     );
 
     return from(promise).pipe(
-      catchError((e, e2) => {
-        console.log('Handled error', e, e2);
+      catchError((e: unknown) => {
+        console.error(e);
         return of('');
       }),
       switchMap((accessToken) => {
@@ -171,6 +167,7 @@ export class APIService {
    *
    * @return An `Observable` of the response, with the response body of type string.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -203,6 +200,7 @@ export class APIService {
    * @return An `Observable` of all `HttpEvents` for the reques,
    * with the response body of type string.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -234,6 +232,7 @@ export class APIService {
    * @return An `Observable` of all `HttpEvents` for the request,
    *  with the response body of type `Object`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -265,6 +264,7 @@ export class APIService {
    * @return An `Observable` of all `HttpEvents` for the request,
    * with the response body of type `R`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request<R>(
     method: string,
     url: string,
@@ -296,6 +296,7 @@ export class APIService {
    *
    * @return An `Observable` of the HTTP response, with the response body of type string.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -327,6 +328,7 @@ export class APIService {
    * @return An `Observable` of the full `HTTPResponse`,
    * with the response body of type `Object`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -358,6 +360,7 @@ export class APIService {
    *
    * @return  An `Observable` of the full `HTTPResponse`, with the response body of type `R`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request<R>(
     method: string,
     url: string,
@@ -389,6 +392,7 @@ export class APIService {
    *
    * @return An `Observable` of the `HTTPResponse`, with the response body of type `Object`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -420,6 +424,7 @@ export class APIService {
    *
    * @return An `Observable` of the `HTTPResponse`, with the response body of type `R`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request<R>(
     method: string,
     url: string,
@@ -450,6 +455,7 @@ export class APIService {
    *
    * @return An `Observable` of the reuested response, wuth body of type `any`.
    */
+  // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
@@ -472,6 +478,7 @@ export class APIService {
     }
   ): Observable<any>;
 
+  // eslint-disable-next-line rxjs/finnish
   public request<R>(
     method: string,
     url: string,
@@ -508,11 +515,11 @@ export class APIService {
     }
 
     return this.http.request(method, environment.apiUrl + url, options).pipe(
-      catchError((response: HttpErrorResponse) => {
-        if (response.status === 429) {
-          this.toasts.error(response.error);
+      catchError((response: unknown) => {
+        if (response instanceof HttpErrorResponse && response.status === 429) {
+          this.toasts.handleError(response);
         }
-        return throwError(response);
+        return throwError(() => response);
       })
     );
   }

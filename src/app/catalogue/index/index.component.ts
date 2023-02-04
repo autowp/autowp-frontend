@@ -35,7 +35,7 @@ interface PictureRoute {
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
 
   public brand$ = combineLatest([
     this.isModer$,
@@ -59,7 +59,7 @@ export class CatalogueIndexComponent {
       }
 
       return this.itemService
-        .getItems({
+        .getItems$({
           catname,
           fields,
           limit: 1,
@@ -87,7 +87,7 @@ export class CatalogueIndexComponent {
 
   public pictures$ = this.brand$.pipe(
     switchMap((brand) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         limit: 12,
         status: 'accepted',
         order: 12,
@@ -130,7 +130,7 @@ export class CatalogueIndexComponent {
 
   public factories$ = this.brand$.pipe(
     switchMap((brand) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         limit: 4,
         factories_of_brand: brand.id,
         fields: 'name_html,exact_picture.thumb_medium',

@@ -13,7 +13,7 @@ export class ItemComponent {
   @Input() disableDescription: boolean;
   @Input() disableDetailsLink: boolean;
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(private acl: ACLService) {}
 

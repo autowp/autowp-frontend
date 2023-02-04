@@ -49,7 +49,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
             of(query.get('char')),
             of(groups.groups),
             query.get('char')
-              ? this.itemService.getItems({
+              ? this.itemService.getItems$({
                   name: query.get('char') + '%',
                   page: parseInt(query.get('page'), 10),
                   limit: 10,

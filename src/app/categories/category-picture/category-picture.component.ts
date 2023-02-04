@@ -31,7 +31,7 @@ export class CategoryPictureComponent {
     })
   );
 
-  private categoryData$ = this.categoriesService.categoryPipe(this.route).pipe(
+  private categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
     switchMap((data) => {
       if (!data.current) {
         this.router.navigate(['/error-404'], {
@@ -74,7 +74,7 @@ export class CategoryPictureComponent {
 
       return this.changed$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures({
+          this.pictureService.getPictures$({
             identity: identity,
             item_id: current.id,
             fields,
@@ -133,7 +133,7 @@ export class CategoryPictureComponent {
   public dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
       this.itemService
-        .getItems({
+        .getItems$({
           fields: 'catname,name_html',
           parent_id: item.parent_id,
           no_parent: item.parent_id ? null : true,

@@ -46,7 +46,7 @@ export class PageService {
     return false;
   }
 
-  private loadTree(): Observable<boolean> {
+  private loadTree$(): Observable<boolean> {
     return new Observable<boolean>((observer: Observer<boolean>) => {
       if (!this.pagesJson) {
         this.pagesJson = require('./pages.json');
@@ -58,8 +58,8 @@ export class PageService {
     });
   }
 
-  public isDescendant(id: number, parentID: number): Observable<boolean> {
-    return this.loadTree().pipe(
+  public isDescendant$(id: number, parentID: number): Observable<boolean> {
+    return this.loadTree$().pipe(
       map(() => {
         if (id === parentID) {
           return true;

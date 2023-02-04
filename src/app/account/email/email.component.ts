@@ -21,7 +21,7 @@ export class AccountEmailComponent {
       next: (response) => {
         this.email = response.email;
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 }

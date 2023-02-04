@@ -14,9 +14,9 @@ import {APIMoveTopicRequest} from '@grpc/spec.pb';
   templateUrl: './move-topic.component.html',
 })
 export class ForumsMoveTopicComponent implements OnInit {
-  public themes$ = this.forumService.getThemes({}).pipe(
-    catchError((response) => {
-      this.toastService.response(response);
+  public themes$ = this.forumService.getThemes$({}).pipe(
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => response.items)
@@ -26,7 +26,7 @@ export class ForumsMoveTopicComponent implements OnInit {
     map((params) => parseInt(params.get('topic_id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    switchMap((topicID) => this.forumService.getTopic(topicID, {})),
+    switchMap((topicID) => this.forumService.getTopic$(topicID, {})),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
@@ -60,7 +60,7 @@ export class ForumsMoveTopicComponent implements OnInit {
         next: () => {
           this.router.navigate(['/forums/topic', topic.id]);
         },
-        error: (response) => this.toastService.grpcErrorResponse(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

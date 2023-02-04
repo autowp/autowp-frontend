@@ -49,7 +49,7 @@ export interface APIPictureItem {
 export class PictureItemService {
   constructor(private api: APIService) {}
 
-  public setPerspective(pictureId: number, itemId: number, type: number, perspectiveId: number): Observable<void> {
+  public setPerspective$(pictureId: number, itemId: number, type: number, perspectiveId: number): Observable<void> {
     const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
     return this.api.request<void>('PUT', url, {
       body: {
@@ -58,7 +58,7 @@ export class PictureItemService {
     });
   }
 
-  public setArea(pictureId: number, itemId: number, type: number, area: APIPictureItemAreaPostData): Observable<void> {
+  public setArea$(pictureId: number, itemId: number, type: number, area: APIPictureItemAreaPostData): Observable<void> {
     return this.api.request<void>('PUT', 'picture-item/' + pictureId + '/' + itemId + '/' + type, {
       body: {
         area,
@@ -66,15 +66,15 @@ export class PictureItemService {
     });
   }
 
-  public create(pictureId: number, itemId: number, type: number, data: APIPictureItemPostData): Observable<void> {
+  public create$(pictureId: number, itemId: number, type: number, data: APIPictureItemPostData): Observable<void> {
     return this.api.request<void>('POST', 'picture-item/' + pictureId + '/' + itemId + '/' + type, {body: data});
   }
 
-  public remove(pictureId: number, itemId: number, type: number): Observable<void> {
+  public remove$(pictureId: number, itemId: number, type: number): Observable<void> {
     return this.api.request<void>('DELETE', 'picture-item/' + pictureId + '/' + itemId + '/' + type);
   }
 
-  public changeItem(pictureId: number, type: number, srcItemId: number, dstItemId: number): Observable<void> {
+  public changeItem$(pictureId: number, type: number, srcItemId: number, dstItemId: number): Observable<void> {
     const url = 'picture-item/' + pictureId + '/' + srcItemId + '/' + type;
     return this.api.request<void>('PUT', url, {
       body: {
@@ -83,7 +83,7 @@ export class PictureItemService {
     });
   }
 
-  public get(
+  public get$(
     pictureId: number,
     itemId: number,
     type: number,
@@ -102,7 +102,7 @@ export class PictureItemService {
     });
   }
 
-  public getItems(options: APIPictureItemsGetOptions): Observable<APIPictureItemsGetResponse> {
+  public getItems$(options: APIPictureItemsGetOptions): Observable<APIPictureItemsGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.item_id) {

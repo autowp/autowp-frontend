@@ -19,7 +19,7 @@ export class TwinsGroupSpecificationsComponent {
       if (!group) {
         return of(null as APIItem);
       }
-      return this.itemService.getItem(group, {
+      return this.itemService.getItem$(group, {
         fields: 'name_text,name_html',
       });
     }),

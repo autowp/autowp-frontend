@@ -12,11 +12,11 @@ import {APIService} from '../../../services/api.service';
   templateUrl: './specifications.component.html',
 })
 export class CatalogueVehiclesSpecificationsComponent {
-  private isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  private isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private catalogue$ = this.isModer$.pipe(
     switchMap((isModer) =>
-      this.catalogueService.resolveCatalogue(this.route, isModer, 'item.has_specs,item.has_child_specs')
+      this.catalogueService.resolveCatalogue$(this.route, isModer, 'item.has_specs,item.has_child_specs')
     ),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {

@@ -6,7 +6,7 @@ import {APIService} from './api.service';
 export class PictureModerVoteService {
   constructor(private api: APIService) {}
 
-  public vote(pictureId: number, vote: number, reason: string): Observable<void> {
+  public vote$(pictureId: number, vote: number, reason: string): Observable<void> {
     return this.api.request<void>('PUT', 'picture-moder-vote/' + pictureId, {
       body: {
         vote,
@@ -15,7 +15,7 @@ export class PictureModerVoteService {
     });
   }
 
-  public cancel(pictureId: number): Observable<void> {
+  public cancel$(pictureId: number): Observable<void> {
     return this.api.request<void>('DELETE', 'picture-moder-vote/' + pictureId);
   }
 }

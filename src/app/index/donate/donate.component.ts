@@ -27,7 +27,7 @@ export class IndexDonateComponent {
   public goal = 2500;
   private monthlyCharge = 192.4;
 
-  public $state = of(require('./data.json') as Donation[]).pipe(
+  public state$ = of(require('./data.json') as Donation[]).pipe(
     map((operations) => {
       operations = operations.sort((a, b) => moment(a.date).toDate().getTime() - moment(b.date).toDate().getTime());
       const donations = operations

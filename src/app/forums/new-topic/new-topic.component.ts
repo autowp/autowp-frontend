@@ -11,6 +11,7 @@ import {InvalidParams} from '../../utils/invalid-params.pipe';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {APICreateTopicRequest} from '@grpc/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 @Component({
   selector: 'app-forums-new-topic',
@@ -28,7 +29,7 @@ export class ForumsNewTopicComponent implements OnInit {
     map((params) => parseInt(params.get('theme_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((themeID) => this.forumService.getTheme(themeID, {})),
+    switchMap((themeID) => this.forumService.getTheme$(themeID, {})),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
@@ -37,7 +38,7 @@ export class ForumsNewTopicComponent implements OnInit {
     }),
     shareReplay(1)
   );
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
 
   constructor(
     private router: Router,
@@ -72,12 +73,12 @@ export class ForumsNewTopicComponent implements OnInit {
         next: (response) => {
           this.router.navigate(['/forums/topic', response.id]);
         },
-        error: (response) => {
-          if (response.statusCode === 3) {
+        error: (response: unknown) => {
+          if (response instanceof GrpcStatusEvent && response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
             this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           } else {
-            this.toastService.response(response.statusMessage);
+            this.toastService.handleError(response);
           }
         },
       });

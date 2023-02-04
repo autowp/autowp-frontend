@@ -20,7 +20,7 @@ export class DonateVodSelectItemComponent {
     if (this.item.expanded) {
       this.loading = true;
       this.itemParentService
-        .getItems({
+        .getItems$({
           item_type_id: 1,
           parent_id: this.item.item_id,
           fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
@@ -31,7 +31,7 @@ export class DonateVodSelectItemComponent {
             this.loading = false;
             this.childs = response.items;
           },
-          error: (response) => this.toastService.response(response),
+          error: (response: unknown) => this.toastService.handleError(response),
         });
     }
 

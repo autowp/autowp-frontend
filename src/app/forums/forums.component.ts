@@ -16,7 +16,7 @@ import {APISetTopicStatusRequest} from '@grpc/spec.pb';
   styles: ['app-forums {display:block}'],
 })
 export class ForumsComponent {
-  public forumAdmin$ = this.acl.isAllowed(Resource.FORUMS, Privilege.MODERATE);
+  public forumAdmin$ = this.acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
 
   private page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -34,7 +34,7 @@ export class ForumsComponent {
     switchMap(([page, themeID]) => {
       if (!themeID) {
         return this.forumService
-          .getThemes({
+          .getThemes$({
             fields: 'last_message.user,last_topic,description,themes',
             topics: {page},
           })
@@ -46,7 +46,7 @@ export class ForumsComponent {
           );
       } else {
         return this.forumService
-          .getTheme(themeID, {
+          .getTheme$(themeID, {
             fields:
               'themes.last_message.user,themes.last_topic,' +
               'themes.description,topics.author,topics.messages,topics.last_message.user',
@@ -87,7 +87,7 @@ export class ForumsComponent {
       next: () => {
         topic.status = 'normal';
       },
-      error: (response) => this.toastService.grpcErrorResponse(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -96,7 +96,7 @@ export class ForumsComponent {
       next: () => {
         topic.status = 'closed';
       },
-      error: (response) => this.toastService.grpcErrorResponse(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -110,7 +110,7 @@ export class ForumsComponent {
           }
         }
       },
-      error: (response) => this.toastService.grpcErrorResponse(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

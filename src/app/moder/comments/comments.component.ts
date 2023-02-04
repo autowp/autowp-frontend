@@ -82,9 +82,9 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
             params.name = '%' + query + '%';
           }
 
-          return this.itemService.getItems(params).pipe(
-            catchError((err, caught) => {
-              console.log(err, caught);
+          return this.itemService.getItems$(params).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items)
@@ -111,9 +111,9 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
             params.search = query;
           }
 
-          return this.userService.get(params).pipe(
-            catchError((err, caught) => {
-              console.log(err, caught);
+          return this.userService.get$(params).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items)
@@ -141,7 +141,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
 
           this.loading++;
 
-          return this.commentService.getComments({
+          return this.commentService.getComments$({
             user: this.userID,
             moderator_attention: this.moderatorAttention,
             pictures_of_item_id: this.itemID ? this.itemID : 0,
@@ -158,8 +158,8 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
           this.paginator = response.paginator;
           this.loading--;
         },
-        error: (response) => {
-          this.toastService.response(response);
+        error: (response: unknown) => {
+          this.toastService.handleError(response);
           this.loading--;
         },
       });

@@ -44,18 +44,18 @@ export class UserTextComponent {
   public textPrepared$ = this.text$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((text) => this.prepareText(text))
+    switchMap((text) => this.prepareText$(text))
   );
 
   constructor(private userService: UserService, private pictureService: PictureService) {}
 
-  private prepareText(text: string): Observable<CommentTextLine[]> {
+  private prepareText$(text: string): Observable<CommentTextLine[]> {
     const lines = text.split(/\r?\n/);
     const result: Observable<CommentTextLine>[] = [];
 
     lines.forEach((line) => {
       result.push(
-        this.prepareLine(line).pipe(
+        this.prepareLine$(line).pipe(
           map((value) => ({
             elements: value,
           }))
@@ -66,7 +66,7 @@ export class UserTextComponent {
     return combineLatest(result);
   }
 
-  private prepareLine(line: string): Observable<CommentTextElement[]> {
+  private prepareLine$(line: string): Observable<CommentTextElement[]> {
     const out: Observable<CommentTextElement>[] = [];
 
     const re = new RegExp(/(https?:\/\/[\w:.,\/?&_=~+%#'!|()-]{3,})|(www.[\w.,\/?&_=~+%#'!|()-]{3,})/i, 'i');
@@ -98,7 +98,7 @@ export class UserTextComponent {
         })
       );
 
-      out.push(this.processHref(url));
+      out.push(this.processHref$(url));
 
       line = line.substring(linkPos + matchLength);
     }
@@ -115,16 +115,16 @@ export class UserTextComponent {
     return out.length ? combineLatest(out) : of([]);
   }
 
-  private processHref(url: string): Observable<CommentTextElement> {
+  private processHref$(url: string): Observable<CommentTextElement> {
     const uri = URLParse(url);
 
     const hostAllowed = this.parseUrlHosts.indexOf(uri.host.toLowerCase()) >= 0;
 
     if (hostAllowed) {
-      return this.tryUserLink(uri).pipe(
+      return this.tryUserLink$(uri).pipe(
         switchMap((element) => {
           if (!element) {
-            return this.tryPictureLink(uri);
+            return this.tryPictureLink$(uri);
           }
 
           return of(element);
@@ -146,7 +146,7 @@ export class UserTextComponent {
     });
   }
 
-  private tryUserLink(uri: URLParse<string>): Observable<CommentTextElement | null> {
+  private tryUserLink$(uri: URLParse<string>): Observable<CommentTextElement | null> {
     const re = new RegExp(/^\/users\/([^\/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
     if (!matches) {
@@ -164,7 +164,7 @@ export class UserTextComponent {
     }
 
     if (userId) {
-      return this.userService.getUser(userId, {}).pipe(
+      return this.userService.getUser$(userId, {}).pipe(
         catchError(() => of(null)),
         map((user) =>
           user
@@ -178,7 +178,7 @@ export class UserTextComponent {
     }
 
     if (userIdentity) {
-      return this.userService.getByIdentity(userIdentity, {}).pipe(
+      return this.userService.getByIdentity$(userIdentity, {}).pipe(
         catchError(() => of(null)),
         map((user) =>
           user
@@ -194,7 +194,7 @@ export class UserTextComponent {
     return of(null);
   }
 
-  private tryPictureLink(uri: URLParse<string>): Observable<CommentTextElement | null> {
+  private tryPictureLink$(uri: URLParse<string>): Observable<CommentTextElement | null> {
     const re = new RegExp(/\/pictures?\/([^\/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
 
@@ -215,7 +215,7 @@ export class UserTextComponent {
     const fields = 'owner,thumb,votes,views,comments_count,name_html,name_text';
 
     if (pictureId) {
-      return this.pictureService.getPicture(pictureId, {fields}).pipe(
+      return this.pictureService.getPicture$(pictureId, {fields}).pipe(
         catchError(() => of(null)),
         map((picture) =>
           picture
@@ -229,7 +229,7 @@ export class UserTextComponent {
     }
 
     if (pictureIdentity) {
-      return this.pictureService.getPictures({identity: pictureIdentity, fields}).pipe(
+      return this.pictureService.getPictures$({identity: pictureIdentity, fields}).pipe(
         catchError(() => of(null as APIPictureGetResponse)),
         map((pictures) =>
           pictures && pictures.pictures.length > 0

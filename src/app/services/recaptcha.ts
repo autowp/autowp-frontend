@@ -8,7 +8,7 @@ import {ReCaptchaConfig} from '@grpc/spec.pb';
 export class ReCaptchaService {
   constructor(private grpc: AutowpClient) {}
 
-  public get(): Observable<ReCaptchaConfig> {
+  public get$(): Observable<ReCaptchaConfig> {
     return this.grpc.getReCaptchaConfig(new Empty());
   }
 }

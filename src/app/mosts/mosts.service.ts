@@ -52,20 +52,20 @@ export class MostsService {
 
   constructor(private api: APIService) {}
 
-  public getMenu(brandID: number): Observable<APIMostsMenuGetResponse> {
+  public getMenu$(brandID: number): Observable<APIMostsMenuGetResponse> {
     if (!this.menus$.has(brandID)) {
-      const o = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
+      const o$ = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
         params: {
           brand_id: brandID ? brandID.toString() : null,
         },
       });
-      this.menus$.set(brandID, o);
+      this.menus$.set(brandID, o$);
     }
 
     return this.menus$.get(brandID);
   }
 
-  public getItems(options: APIMostsItemsGetOptions): Observable<APIMostsItemsGetResponse> {
+  public getItems$(options: APIMostsItemsGetOptions): Observable<APIMostsItemsGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.rating_catname) {

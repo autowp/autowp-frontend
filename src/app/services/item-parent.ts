@@ -41,7 +41,7 @@ export interface APIItemParentGetItemsOptions {
 export class ItemParentService {
   constructor(private api: APIService) {}
 
-  public getItems(options: APIItemParentGetItemsOptions): Observable<APIItemParentGetResponse> {
+  public getItems$(options: APIItemParentGetItemsOptions): Observable<APIItemParentGetResponse> {
     const params: {[param: string]: string} = {};
 
     if (options.item_type_id) {

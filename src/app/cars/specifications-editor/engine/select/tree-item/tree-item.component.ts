@@ -19,7 +19,7 @@ export class CarsSelectEngineTreeItemComponent {
   private loadChildCatalogues() {
     this.loading = true;
     this.itemParentService
-      .getItems({
+      .getItems$({
         limit: 500,
         fields: 'item.name_html,item.childs_count',
         parent_id: this.item.item_id,
@@ -31,8 +31,8 @@ export class CarsSelectEngineTreeItemComponent {
           this.childs = response.items;
           this.loading = false;
         },
-        error: (response) => {
-          this.toastService.response(response);
+        error: (response: unknown) => {
+          this.toastService.handleError(response);
           this.loading = false;
         },
       });

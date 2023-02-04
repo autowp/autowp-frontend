@@ -29,10 +29,10 @@ interface PictureRoute {
   templateUrl: './category-item.component.html',
 })
 export class CategoriesCategoryItemComponent {
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
-  public canAddCar$ = this.acl.isAllowed(Resource.CAR, Privilege.ADD);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  public canAddCar$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  private categoryData$ = this.categoriesService.categoryPipe(this.route).pipe(
+  private categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
     tap(({current}) => {
       this.pageEnv.set({
         title: current.name_text,
@@ -66,7 +66,7 @@ export class CategoriesCategoryItemComponent {
   public itemParents$ = combineLatest([this.categoryData$, this.page$]).pipe(
     switchMap(([{category, current, pathCatnames}, page]) => {
       return this.itemParentService
-        .getItems({
+        .getItems$({
           fields: [
             'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
             'item.design,item.engine_vehicles',
@@ -104,7 +104,7 @@ export class CategoriesCategoryItemComponent {
       }
 
       return this.pictureService
-        .getPictures({
+        .getPictures$({
           exact_item_id: current.id,
           limit: 4,
           fields: 'thumb_medium,name_text',
@@ -150,7 +150,7 @@ export class CategoriesCategoryItemComponent {
         return of(null);
       }
 
-      return this.itemService.getItem(current.id, {
+      return this.itemService.getItem$(current.id, {
         fields: [
           'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
           'design,engine_vehicles',
@@ -175,7 +175,7 @@ export class CategoriesCategoryItemComponent {
   public dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
       this.itemService
-        .getItems({
+        .getItems$({
           fields: 'catname,name_html',
           parent_id: item.parent_id,
           no_parent: item.parent_id ? null : true,

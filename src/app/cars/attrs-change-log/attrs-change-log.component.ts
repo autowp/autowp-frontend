@@ -8,6 +8,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {getAttrsTranslation, getUnitTranslation} from '../../utils/translations';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-attrs-change-log',
@@ -17,7 +18,7 @@ import {getAttrsTranslation, getUnitTranslation} from '../../utils/translations'
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   public userID$: Observable<number> = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('user_id'), 10)),
@@ -40,7 +41,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
 
   public items$ = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
     switchMap(([userID, itemID, page]) =>
-      this.attrService.getUserValues({
+      this.attrService.getUserValues$({
         user_id: userID ? userID : null,
         item_id: itemID,
         page: page,
@@ -59,7 +60,8 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private acl: ACLService,
-    private pageEnv: PageEnvService
+    private pageEnv: PageEnvService,
+    private toastService: ToastsService
   ) {
     this.usersDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -80,9 +82,9 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
             params.search = query;
           }
 
-          return this.userService.get(params).pipe(
-            catchError((err, caught) => {
-              console.log(err, caught);
+          return this.userService.get$(params).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items)

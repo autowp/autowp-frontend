@@ -36,7 +36,7 @@ export class CatalogueMixedGalleryComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         catname,
         fields: 'name_text,name_html',
         limit: 1,

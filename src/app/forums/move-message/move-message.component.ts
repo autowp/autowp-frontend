@@ -31,9 +31,9 @@ export class ForumsMoveMessageComponent implements OnInit {
       if (!themeID) {
         return of(null as APIForumTopic[]);
       }
-      return this.forumService.getTopics({theme_id: themeID}).pipe(
-        catchError((response) => {
-          this.toastService.response(response);
+      return this.forumService.getTopics$({theme_id: themeID}).pipe(
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
           return EMPTY;
         }),
         map((response) => response.items)
@@ -41,9 +41,9 @@ export class ForumsMoveMessageComponent implements OnInit {
     })
   );
 
-  public themes$ = this.forumService.getThemes({}).pipe(
-    catchError((response) => {
-      this.toastService.response(response);
+  public themes$ = this.forumService.getThemes$({}).pipe(
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => response.items)
@@ -71,7 +71,7 @@ export class ForumsMoveMessageComponent implements OnInit {
           typeId: CommentsType.FORUMS_TYPE_ID,
         })
       )
-      .pipe(switchMap(() => this.forumService.getMessageStateParams(messageID)))
+      .pipe(switchMap(() => this.forumService.getMessageStateParams$(messageID)))
       .subscribe({
         next: (params) =>
           this.router.navigate(['/forums/topic', params.topic_id], {
@@ -79,7 +79,7 @@ export class ForumsMoveMessageComponent implements OnInit {
               page: params.page,
             },
           }),
-        error: (subresponse) => this.toastService.grpcErrorResponse(subresponse),
+        error: (subresponse: unknown) => this.toastService.handleError(subresponse),
       });
   }
 

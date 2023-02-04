@@ -17,14 +17,16 @@ export class CarsSpecificationsEditorEngineComponent {
   public item$ = new BehaviorSubject<APIItem>(null);
 
   @Output() changed = new EventEmitter<void>();
-  public isAllowedEditEngine$ = this.acl.isAllowed(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE).pipe(shareReplay(1));
+  public isAllowedEditEngine$ = this.acl
+    .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
+    .pipe(shareReplay(1));
   public engine$ = this.item$.pipe(
     switchMap((item) => {
       if (!item.engine_id) {
         return of(null as APIItem);
       }
 
-      return this.itemService.getItem(item.engine_id, {fields: 'name_html,name_text,engine_id'});
+      return this.itemService.getItem$(item.engine_id, {fields: 'name_html,name_text,engine_id'});
     }),
     shareReplay(1)
   );
@@ -46,7 +48,7 @@ export class CarsSpecificationsEditorEngineComponent {
       })
       .subscribe({
         next: () => this.changed.emit(),
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

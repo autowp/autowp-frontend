@@ -27,7 +27,7 @@ export class CatalogueEnginesComponent {
         return EMPTY;
       }
       return this.itemService
-        .getItems({
+        .getItems$({
           catname,
           fields: 'name_html,name_only',
           limit: 1,
@@ -56,7 +56,7 @@ export class CatalogueEnginesComponent {
   public data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       combineLatest([
-        this.itemParentService.getItems({
+        this.itemParentService.getItems$({
           fields: [
             'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
             'item.engine_vehicles',

@@ -65,7 +65,7 @@ export class ChartComponent {
         this.parameters = response.parameters;
         this.selectParam(this.parameters[0]);
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -84,7 +84,7 @@ export class ChartComponent {
           }));
           this.chart.labels = response.years;
         },
-        error: (response) => this.toastService.response(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

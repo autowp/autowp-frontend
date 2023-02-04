@@ -70,8 +70,8 @@ export class UsersRatingComponent implements OnInit {
     finalize(() => {
       this.loading--;
     }),
-    catchError((err) => {
-      this.toastService.response(err);
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
       return EMPTY;
     }),
     map((response) => response.users)

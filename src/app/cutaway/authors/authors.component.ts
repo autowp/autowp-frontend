@@ -17,7 +17,7 @@ export class CutawayAuthorsComponent implements OnInit {
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         fields:
           'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
         type_id: 8,
@@ -34,8 +34,8 @@ export class CutawayAuthorsComponent implements OnInit {
         limit: 12,
       })
     ),
-    catchError((response) => {
-      this.toastService.response(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({

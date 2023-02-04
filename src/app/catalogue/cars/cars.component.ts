@@ -23,7 +23,7 @@ export class CatalogueCarsComponent {
         return EMPTY;
       }
       return this.itemService
-        .getItems({
+        .getItems$({
           catname,
           fields: 'name_html,name_only',
           limit: 1,
@@ -114,7 +114,7 @@ export class CatalogueCarsComponent {
   ]).pipe(
     switchMap(([brand, currentVehicleType, page]) =>
       this.itemService
-        .getItems({
+        .getItems$({
           limit: 7,
           type_id: 1,
           order: 'age',

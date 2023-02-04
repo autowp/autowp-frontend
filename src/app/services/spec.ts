@@ -20,12 +20,12 @@ export class SpecService {
     );
   }
 
-  public getSpecs(): Observable<Spec[]> {
+  public getSpecs$(): Observable<Spec[]> {
     return this.specs$;
   }
 
-  public getSpec(id: number): Observable<Spec> {
-    return this.getSpecs().pipe(map((specs) => this.findSpec(specs, id)));
+  public getSpec$(id: number): Observable<Spec> {
+    return this.getSpecs$().pipe(map((specs) => this.findSpec(specs, id)));
   }
 
   private findSpec(specs: Spec[], id: number): Spec | null {

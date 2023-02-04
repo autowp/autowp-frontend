@@ -91,7 +91,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   }
 
   public savePerspective(perspectiveID: number | null, item: APIPictureItem) {
-    this.pictureItemService.setPerspective(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
+    this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
   ngOnInit(): void {
@@ -112,7 +112,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         switchMap((id) =>
           this.change$.pipe(
             switchMap(() =>
-              this.pictureService.getPicture(id, {
+              this.pictureService.getPicture$(id, {
                 fields: [
                   'owner',
                   'thumb',
@@ -143,7 +143,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
               if (!picture.ip) {
                 return of({picture, ip: null as APIIP});
               }
-              return this.ipService.getIp(picture.ip, ['blacklist', 'rights']).pipe(
+              return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(
                 catchError(() => of(null as APIIP)),
                 map((ip) => ({picture, ip}))
               );
@@ -173,7 +173,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
       if (lastItemId) {
         this.lastItemSub = this.itemService
-          .getItems({
+          .getItems$({
             id: lastItemId,
             fields: 'name_html',
             limit: 1,
@@ -210,7 +210,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public addItem(item: APIItem, type: number) {
     this.pictureItemLoading = true;
-    this.pictureItemService.create(this.id, item.id, type, {}).subscribe(
+    this.pictureItemService.create$(this.id, item.id, type, {}).subscribe(
       () => {
         localStorage.setItem('last_item', item.id.toString());
         this.change$.next(null);
@@ -224,7 +224,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public moveItem(type: number, srcItemId: number, dstItemId: number) {
     this.pictureItemLoading = true;
-    this.pictureItemService.changeItem(this.id, type, srcItemId, dstItemId).subscribe(
+    this.pictureItemService.changeItem$(this.id, type, srcItemId, dstItemId).subscribe(
       () => {
         localStorage.setItem('last_item', dstItemId.toString());
         this.change$.next(null);
@@ -278,7 +278,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   private setPictureStatus(status: string) {
     this.statusLoading = true;
-    this.pictureService.setPictureStatus(this.id, status).subscribe(
+    this.pictureService.setPictureStatus$(this.id, status).subscribe(
       () => {
         this.change$.next(null);
         this.statusLoading = false;
@@ -372,7 +372,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   public deletePictureItem(item: APIPictureItem) {
     this.pictureItemLoading = true;
-    this.pictureItemService.remove(item.picture_id, item.item_id, item.type).subscribe(
+    this.pictureItemService.remove$(item.picture_id, item.item_id, item.type).subscribe(
       () => {
         this.change$.next(null);
         this.pictureItemLoading = false;

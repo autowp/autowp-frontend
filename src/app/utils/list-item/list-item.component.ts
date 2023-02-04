@@ -53,7 +53,7 @@ export interface CatalogueListItem {
 export class CatalogueListItemComponent {
   @Input() item: CatalogueListItem;
 
-  public isModer$ = this.acl.isAllowed(Resource.GLOBAL, Privilege.MODERATE);
+  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(private acl: ACLService) {}
 

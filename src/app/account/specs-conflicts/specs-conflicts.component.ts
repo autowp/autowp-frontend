@@ -35,7 +35,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     map((filter) => filter || '0')
   );
 
-  public user$ = this.auth.getUser().pipe(
+  public user$ = this.auth.getUser$().pipe(
     switchMap(() =>
       this.api.request<APIUser>('GET', 'user/me', {
         params: {fields: 'specs_weight'},
@@ -47,7 +47,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
   public data$ = combineLatest([this.page$, this.filter$]).pipe(
     switchMap(([page, filter]) =>
       combineLatest([
-        this.attrService.getConfilicts({
+        this.attrService.getConfilicts$({
           filter,
           page,
           fields: 'values',
@@ -60,7 +60,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
       for (const conflict of conflicts) {
         for (const value of conflict.values) {
           if (user.id !== value.user_id) {
-            value.user$ = this.userService.getUser(value.user_id, {});
+            value.user$ = this.userService.getUser$(value.user_id, {});
           }
         }
       }

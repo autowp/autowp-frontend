@@ -45,7 +45,7 @@ export class CatalogueService {
     );
   }
 
-  public resolveCatalogue(
+  public resolveCatalogue$(
     route: ActivatedRoute,
     isModer: boolean,
     fields: string
@@ -68,7 +68,7 @@ export class CatalogueService {
         }
 
         return this.itemParentService
-          .getItems({
+          .getItems$({
             parent_id: parent.id,
             catname: parent.path[0],
             limit: 1,
@@ -151,7 +151,7 @@ export class CatalogueService {
           return EMPTY;
         }
         return this.itemService
-          .getItems({
+          .getItems$({
             catname: '' + catname,
             fields: 'name_text,name_html',
             limit: 1,

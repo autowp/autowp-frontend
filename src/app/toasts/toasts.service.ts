@@ -12,6 +12,33 @@ export interface Toast {
 export class ToastsService {
   public toasts: Toast[] = [];
 
+  public handleError(error: unknown) {
+    if (typeof error === 'string') {
+      this.error(error);
+      return;
+    }
+
+    if (typeof error === 'object') {
+      if (error instanceof HttpErrorResponse) {
+        this.errorResponse(error);
+        return;
+      }
+
+      if (error instanceof GrpcStatusEvent) {
+        this.grpcErrorResponse(error);
+        return;
+      }
+
+      if (error instanceof Error) {
+        this.error(error.message);
+        return;
+      }
+    }
+
+    console.error(error);
+    this.error('undefined');
+  }
+
   public show(options: Toast) {
     this.toasts.push(options);
   }

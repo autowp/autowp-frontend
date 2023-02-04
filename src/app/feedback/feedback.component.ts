@@ -8,6 +8,7 @@ import {APICreateFeedbackRequest} from '@grpc/spec.pb';
 import {InvalidParams} from '../utils/invalid-params.pipe';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {FormBuilder, Validators} from '@angular/forms';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 const CAPTCHA = 'captcha';
 
@@ -38,11 +39,11 @@ export class FeedbackComponent implements OnInit {
   ngOnInit(): void {
     this.form.removeControl(CAPTCHA);
 
-    this.reCaptchaService.get().subscribe({
+    this.reCaptchaService.get$().subscribe({
       next: (response) => {
         this.recaptchaKey = response.publicKey;
       },
-      error: (response) => this.toastService.response(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
 
     setTimeout(() => this.pageEnv.set({pageId: 89}), 0);
@@ -53,19 +54,22 @@ export class FeedbackComponent implements OnInit {
       next: () => {
         this.router.navigate(['/feedback/sent']);
       },
-      error: (response) => {
-        const fieldViolations = extractFieldViolations(response);
-        this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+      error: (response: unknown) => {
+        if (response instanceof GrpcStatusEvent) {
+          const fieldViolations = extractFieldViolations(response);
+          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
 
-        if (this.invalidParams.captcha) {
-          if (!this.form.get(CAPTCHA)) {
-            const control = this.fb.control('', Validators.required);
-            this.form.addControl(CAPTCHA, control);
+          if (this.invalidParams.captcha) {
+            if (!this.form.get(CAPTCHA)) {
+              const control = this.fb.control('', Validators.required);
+              this.form.addControl(CAPTCHA, control);
+            }
+          } else {
+            this.form.removeControl(CAPTCHA);
           }
         } else {
-          this.form.removeControl(CAPTCHA);
+          this.toastService.handleError(response);
         }
-        // this.toastService.response(response);
       },
     });
   }

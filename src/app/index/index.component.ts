@@ -16,7 +16,6 @@ interface APIIndexItemOfDay {
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.components.scss'],
 })
 export class IndexComponent implements OnInit {
   public mosts = [

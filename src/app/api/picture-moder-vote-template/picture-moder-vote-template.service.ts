@@ -19,21 +19,21 @@ export class APIPictureModerVoteTemplateService {
 
   constructor(private auth: AuthService, private pictures: PicturesClient) {}
 
-  public getTemplates(): Observable<ModerVoteTemplate[]> {
-    return combineLatest([this.change$, this.auth.getUser()]).pipe(
+  public getTemplates$(): Observable<ModerVoteTemplate[]> {
+    return combineLatest([this.change$, this.auth.getUser$()]).pipe(
       switchMap(() => this.pictures.getModerVoteTemplates(new Empty({}))),
       map((response) => response.items),
       shareReplay(1)
     );
   }
 
-  public deleteTemplate(id: string): Observable<void | Empty> {
+  public deleteTemplate$(id: string): Observable<void | Empty> {
     return this.pictures
       .deleteModerVoteTemplate(new DeleteModerVoteTemplateRequest({id}))
       .pipe(tap(() => this.change$.next(null)));
   }
 
-  public createTemplate(template: APIPictureModerVoteTemplatePostData): Observable<ModerVoteTemplate> {
+  public createTemplate$(template: APIPictureModerVoteTemplatePostData): Observable<ModerVoteTemplate> {
     return this.pictures
       .createModerVoteTemplate(
         new ModerVoteTemplate({

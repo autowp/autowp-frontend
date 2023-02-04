@@ -23,7 +23,7 @@ export class ModerItemsItemPicturesComponent {
   );
   public picturesChunks$: Observable<APIPicture[][]> = this.item$.pipe(
     switchMap((item) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         exact_item_id: item.id,
         limit: 500,
         fields: 'owner,thumb_medium,moder_vote,votes,similar,comments_count,perspective_item,name_html,name_text,views',

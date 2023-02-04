@@ -8,7 +8,7 @@ import {TwinsService, APITwinsBrand} from './twins.service';
 })
 export class TwinsSidebarComponent {
   @Input() selected: string[] = [];
-  public brands$: Observable<APITwinsBrand[]> = this.twins.getBrands();
+  public brands$: Observable<APITwinsBrand[]> = this.twins.getBrands$();
 
   constructor(private twins: TwinsService) {}
 

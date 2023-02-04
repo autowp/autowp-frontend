@@ -33,7 +33,7 @@ export class CatalogueRecentComponent {
         return EMPTY;
       }
       return this.itemService
-        .getItems({
+        .getItems$({
           catname,
           fields: 'name_text,name_html',
           limit: 1,
@@ -55,7 +55,7 @@ export class CatalogueRecentComponent {
 
   public data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
-      this.pictureService.getPictures({
+      this.pictureService.getPictures$({
         limit: 12,
         status: 'accepted',
         order: 15,

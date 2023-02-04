@@ -70,8 +70,8 @@ export class AccountMessagesComponent {
                 })
               )
               .pipe(
-                catchError((err) => {
-                  this.toastService.grpcErrorResponse(err);
+                catchError((err: unknown) => {
+                  this.toastService.handleError(err);
                   return EMPTY;
                 })
               )
@@ -87,7 +87,7 @@ export class AccountMessagesComponent {
             message: msg,
             author$:
               msg.authorId !== '0'
-                ? this.userService.getUser(parseInt(msg.authorId, 10), {fields: 'avatar'})
+                ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'})
                 : of(null as APIUser),
           })),
           paginator: response.paginator,
@@ -106,22 +106,22 @@ export class AccountMessagesComponent {
   ) {}
 
   public deleteMessage(id: string) {
-    this.messageService.deleteMessage(id).subscribe({
+    this.messageService.deleteMessage$(id).subscribe({
       next: () => {
         this.change$.next(null);
       },
-      error: (response) => this.toastService.grpcErrorResponse(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
 
     return false;
   }
 
   public clearFolder(folder: string) {
-    this.messageService.clearFolder(folder).subscribe({
+    this.messageService.clearFolder$(folder).subscribe({
       next: () => {
         this.change$.next(null);
       },
-      error: (response) => this.toastService.grpcErrorResponse(response),
+      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

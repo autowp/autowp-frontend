@@ -4,27 +4,32 @@
           text-align: left;
           font-weight: normal;
       }
+
       thead tr th {
           text-align: center;
           font-weight: bold;
       }
   }
+
   h2 {
       margin-bottom: 2px;
   }
+
   .unit {
       cursor: help;
   }
+
   .subform-header.hover,
   tr.element-row.hover {
-      background-color: #eeeeee;
+      background-color: #eee;
   }
 
   .date {
       font-size: 10px;
-      color: #999999;
+      color: #999;
       white-space: nowrap
   }
+
   .actual {
       text-align: center;
       background-color: #F0F0F0;

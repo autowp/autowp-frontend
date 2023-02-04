@@ -8,6 +8,7 @@ import {APIItemParent} from '../../services/item-parent';
 import {PageEnvService} from '../../services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
 import {getItemTypeTranslation} from '../../utils/translations';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-moder-item-parent',
@@ -58,10 +59,10 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         switchMap((params) => {
           return combineLatest([
             this.api.request<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
-            this.itemService.getItem(params.item_id, {
+            this.itemService.getItem$(params.item_id, {
               fields: ['name_text', 'name_html'].join(','),
             }),
-            this.itemService.getItem(params.parent_id, {
+            this.itemService.getItem$(params.parent_id, {
               fields: ['name_text', 'name_html'].join(','),
             }),
             this.ContentLanguage.languages$,
@@ -139,8 +140,10 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
             }
           )
           .pipe(
-            catchError((response) => {
-              language.invalidParams = response.error.invalid_params;
+            catchError((response: unknown) => {
+              if (response instanceof HttpErrorResponse) {
+                language.invalidParams = response.error.invalid_params;
+              }
               return EMPTY;
             })
           )

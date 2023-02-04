@@ -15,7 +15,7 @@
 </ng-template>
 
 <div class="card card-body" *ngIf="articles$ | async as response; else loading">
-  <ul class="articleList">
+  <ul class="article-list">
     <li *ngFor="let article of response.articles">
       <a [routerLink]="article.routerLink" *ngIf="article.previewUrl">
         <img alt="" [src]="article.previewUrl" style="float: left; margin: 0 10px 4px 0" loading="lazy" />

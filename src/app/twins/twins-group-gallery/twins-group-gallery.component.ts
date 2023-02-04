@@ -18,7 +18,7 @@ export class TwinsGroupGalleryComponent {
       if (!groupID) {
         return of(null as APIItem);
       }
-      return this.itemService.getItem(groupID, {
+      return this.itemService.getItem$(groupID, {
         fields: 'name_text,name_html,childs.brands',
       });
     }),

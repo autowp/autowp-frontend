@@ -59,21 +59,21 @@ export class InfoTextComponent implements OnInit {
         })
       )
     ),
-    catchError((response) => {
-      this.toastService.grpcErrorResponse(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
       diff: JsDiff.diffChars(response.prev.text ? response.prev.text : '', response.current.text) as Diff[],
       current: {
-        user$: response.current.userId ? this.userService.getUser(+response.current.userId, {}) : of(null),
+        user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
         revision: response.current.revision,
         text: response.current.text,
       },
       prev:
         response.prev.revision !== '0'
           ? {
-              user$: response.prev.userId ? this.userService.getUser(+response.prev.userId, {}) : of(null),
+              user$: response.prev.userId ? this.userService.getUser$(+response.prev.userId, {}) : of(null),
               revision: response.prev.revision,
               text: response.prev.text,
             }

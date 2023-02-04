@@ -29,8 +29,8 @@ export class CommentsVotesComponent {
         })
       )
     ),
-    catchError((response) => {
-      this.toastService.grpcErrorResponse(response);
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
       return EMPTY;
     }),
     map((votes) => ({

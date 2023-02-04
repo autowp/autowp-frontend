@@ -68,8 +68,8 @@ export class UploadSelectComponent implements OnInit {
           const page = params.page;
 
           return forkJoin([
-            brandId ? this.brandObservable(brandId) : of(null),
-            brandId ? of(null) : this.brandsObservable(page, params.search),
+            brandId ? this.brandObservable$(brandId) : of(null),
+            brandId ? of(null) : this.brandsObservable$(page, params.search),
           ]);
         }),
         tap(() => (this.loading = 0))
@@ -85,9 +85,9 @@ export class UploadSelectComponent implements OnInit {
       });
   }
 
-  private brandsObservable(page: number, search: string): Observable<APIItemsGetResponse> {
+  private brandsObservable$(page: number, search: string): Observable<APIItemsGetResponse> {
     return this.itemService
-      .getItems({
+      .getItems$({
         type_id: 5,
         order: 'name',
         limit: 500,
@@ -96,22 +96,20 @@ export class UploadSelectComponent implements OnInit {
         page,
       })
       .pipe(
-        catchError((err) => {
-          if (err.status !== -1) {
-            this.toastService.response(err);
-          }
+        catchError((err: unknown) => {
+          this.toastService.handleError(err);
           return EMPTY;
         })
       );
   }
 
-  private brandObservable(brandId: number): Observable<{
+  private brandObservable$(brandId: number): Observable<{
     item: APIItem;
     vehicles: APIItemParent[];
     engines: APIItemParent[];
     concepts: APIItemParent[];
   }> {
-    return this.itemService.getItem(brandId).pipe(
+    return this.itemService.getItem$(brandId).pipe(
       catchError(() => {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
@@ -127,7 +125,7 @@ export class UploadSelectComponent implements OnInit {
     return forkJoin([
       of(item),
       this.itemParentService
-        .getItems({
+        .getItems$({
           limit: 500,
           fields: 'item.name_html,item.childs_count',
           parent_id: item.id,
@@ -137,13 +135,13 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map((response) => response.items),
-          catchError((err) => {
-            this.toastService.response(err);
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
             return EMPTY;
           })
         ),
       this.itemParentService
-        .getItems({
+        .getItems$({
           limit: 500,
           fields: 'item.name_html,item.childs_count',
           parent_id: item.id,
@@ -153,13 +151,13 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map((response) => response.items),
-          catchError((err) => {
-            this.toastService.response(err);
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
             return EMPTY;
           })
         ),
       this.itemParentService
-        .getItems({
+        .getItems$({
           limit: 500,
           fields: 'item.name_html,item.childs_count',
           parent_id: item.id,
@@ -168,8 +166,8 @@ export class UploadSelectComponent implements OnInit {
         })
         .pipe(
           map((response) => response.items),
-          catchError((err) => {
-            this.toastService.response(err);
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
             return EMPTY;
           })
         ),

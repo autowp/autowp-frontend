@@ -20,7 +20,7 @@ export class ModerItemsItemLinksComponent {
 
   public loadingNumber = 0;
 
-  public canEditMeta$ = this.acl.isAllowed(Resource.CAR, Privilege.EDIT_META);
+  public canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
 
   public newLink = {
     name: '',
@@ -51,8 +51,8 @@ export class ModerItemsItemLinksComponent {
             })
           )
           .pipe(
-            catchError((response) => {
-              this.toastService.grpcErrorResponse(response);
+            catchError((response: unknown) => {
+              this.toastService.handleError(response);
               return of(null);
             }),
             tap((response) => {
@@ -80,8 +80,8 @@ export class ModerItemsItemLinksComponent {
               })
             )
             .pipe(
-              catchError((response) => {
-                this.toastService.grpcErrorResponse(response);
+              catchError((response: unknown) => {
+                this.toastService.handleError(response);
                 return of(null);
               })
             )

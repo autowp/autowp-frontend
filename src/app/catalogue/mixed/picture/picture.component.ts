@@ -22,7 +22,7 @@ export class CatalogueMixedPictureComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems({
+      return this.itemService.getItems$({
         catname,
         fields: 'name_text,name_html',
         limit: 1,
@@ -68,7 +68,7 @@ export class CatalogueMixedPictureComponent {
 
       return this.changed$.pipe(
         switchMap(() =>
-          this.pictureService.getPictures({
+          this.pictureService.getPictures$({
             identity,
             exact_item_id: brand.id,
             perspective_id: data.perspective_id,

@@ -29,11 +29,11 @@ export class VehicleTypeService {
     }
   }
 
-  public getTypes(): Observable<VehicleType[]> {
+  public getTypes$(): Observable<VehicleType[]> {
     return this.types$;
   }
 
-  public getTypesPlain(): Observable<VehicleType[]> {
+  public getTypesPlain$(): Observable<VehicleType[]> {
     return this.types$.pipe(
       map((types) => {
         const result: VehicleType[] = [];
@@ -45,7 +45,7 @@ export class VehicleTypeService {
     );
   }
 
-  public getTypesById(ids: number[]): Observable<VehicleType[]> {
+  public getTypesById$(ids: number[]): Observable<VehicleType[]> {
     if (ids.length <= 0) {
       return of([]);
     }

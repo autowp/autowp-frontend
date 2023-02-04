@@ -35,7 +35,7 @@ export class CatalogueMostsComponent {
         return EMPTY;
       }
       return this.itemService
-        .getItems({
+        .getItems$({
           catname,
           fields: 'catname,name_text,name_html',
           limit: 1,

@@ -4,7 +4,6 @@
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
-
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/reboot";
 @import "bootstrap/scss/type";
@@ -20,7 +19,8 @@
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
 @import "bootstrap/scss/card";
-//@import "bootstrap/scss/accordion";
+
+// @import "bootstrap/scss/accordion";
 @import "bootstrap/scss/breadcrumb";
 @import "bootstrap/scss/pagination";
 @import "bootstrap/scss/badge";
@@ -36,7 +36,5 @@
 @import "bootstrap/scss/spinners";
 @import "bootstrap/scss/offcanvas";
 @import "bootstrap/scss/placeholders";
-
 @import "bootstrap/scss/helpers";
-
 @import "bootstrap/scss/utilities/api";

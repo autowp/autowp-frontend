@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {APIItem} from '../../../../services/item';
 import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {HttpEventType} from '@angular/common/http';
+import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {APIImage, APIService} from '../../../../services/api.service';
 import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
@@ -14,7 +14,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 export class ModerItemsItemLogoComponent {
   @Input() item: APIItem;
 
-  public canLogo$ = this.acl.isAllowed(Resource.BRAND, Privilege.LOGO);
+  public canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
   public progress: {
     filename: any;
     percentage: number;
@@ -49,11 +49,13 @@ export class ModerItemsItemLogoComponent {
         reportProgress: true,
       })
       .pipe(
-        catchError((response) => {
-          this.progress.percentage = 100;
-          this.progress.failed = true;
+        catchError((response: unknown) => {
+          if (response instanceof HttpErrorResponse) {
+            this.progress.percentage = 100;
+            this.progress.failed = true;
 
-          this.progress.invalidParams = response.error.invalid_params;
+            this.progress.invalidParams = response.error.invalid_params;
+          }
 
           return EMPTY;
         }),
@@ -77,8 +79,8 @@ export class ModerItemsItemLogoComponent {
                 this.progress.percentage = 100;
                 this.item.logo = subresponse;
               }),
-              catchError((response) => {
-                this.toastService.response(response);
+              catchError((response: unknown) => {
+                this.toastService.handleError(response);
 
                 return EMPTY;
               })

@@ -15,7 +15,7 @@ export class ModerItemsItemVehiclesComponent {
 
   public engineVehicles$: Observable<APIItem[]> = this.item$.pipe(
     switchMap((item) =>
-      this.itemService.getItems({
+      this.itemService.getItems$({
         engine_id: item.id,
         limit: 100,
         fields: 'name_html',

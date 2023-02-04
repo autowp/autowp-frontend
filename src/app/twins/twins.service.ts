@@ -26,7 +26,7 @@ export class TwinsService {
     );
   }
 
-  public getBrands(): Observable<APITwinsBrand[]> {
+  public getBrands$(): Observable<APITwinsBrand[]> {
     return this.brands$;
   }
 }

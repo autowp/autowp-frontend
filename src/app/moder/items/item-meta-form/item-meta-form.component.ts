@@ -130,7 +130,7 @@ export class ItemMetaFormComponent {
   }
   public pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
 
-  public vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain().pipe(
+  public vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>
       types.map((type) => {
         type.name = getVehicleTypeTranslation(type.name);
@@ -222,7 +222,7 @@ export class ItemMetaFormComponent {
     ])
   );
 
-  public specs$ = this.specService.getSpecs().pipe(
+  public specs$ = this.specService.getSpecs$().pipe(
     map((specs) =>
       (
         [

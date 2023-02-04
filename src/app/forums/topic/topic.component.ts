@@ -16,7 +16,7 @@ import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest} from
 })
 export class ForumsTopicComponent {
   public limit = this.forumService.getLimit();
-  public user$ = this.auth.getUser();
+  public user$ = this.auth.getUser$();
   public page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
@@ -32,7 +32,7 @@ export class ForumsTopicComponent {
     this.page$,
   ]).pipe(
     switchMap(([topicID, page]) =>
-      this.forumService.getTopic(topicID, {
+      this.forumService.getTopic$(topicID, {
         fields: 'author,theme,subscription',
         page: page,
       })
@@ -67,7 +67,7 @@ export class ForumsTopicComponent {
         next: () => {
           topic.subscription = true;
         },
-        error: (response) => this.toastService.grpcErrorResponse(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
@@ -83,7 +83,7 @@ export class ForumsTopicComponent {
         next: () => {
           topic.subscription = false;
         },
-        error: (response) => this.toastService.grpcErrorResponse(response),
+        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
