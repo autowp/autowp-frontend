@@ -17,7 +17,7 @@
         <fieldset>
           <legend i18n>Feedback</legend>
 
-          <div class="mb-3 row" *ngIf="form.get('name') as control">
+          <div class="mb-3 row" *ngIf="form.controls.name as control">
             <label class="col-md-2 col-form-label" for="name" i18n>Your name</label>
             <div class="col-md-10">
               <input
@@ -41,7 +41,7 @@
               ></p>
             </div>
           </div>
-          <div class="mb-3 row" *ngIf="form.get('email') as control">
+          <div class="mb-3 row" *ngIf="form.controls.email as control">
             <label class="col-md-2 col-form-label" for="email" i18n>E-mail</label>
             <div class="col-md-10">
               <input
@@ -65,7 +65,7 @@
               ></p>
             </div>
           </div>
-          <div class="mb-3 row" *ngIf="form.get('message') as control">
+          <div class="mb-3 row" *ngIf="form.controls.message as control">
             <label class="col-md-2 col-form-label" for="message" i18n>Message</label>
             <div class="col-md-10">
               <textarea
@@ -86,18 +86,16 @@
               ></p>
             </div>
           </div>
-          <ng-container *ngIf="form.get('captcha') as control">
-            <div class="mb-3 row">
-              <div class="col-md-10 offset-md-2">
-                <re-captcha [siteKey]="recaptchaKey" *ngIf="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
-                <p
-                  *ngFor="let message of invalidParams | invalidParams : 'captcha'"
-                  [textContent]="message"
-                  class="invalid-feedback"
-                ></p>
-              </div>
+          <div class="mb-3 row" *ngIf="form.controls.captcha as control">
+            <div class="col-md-10 offset-md-2">
+              <re-captcha [siteKey]="recaptchaKey" *ngIf="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
+              <p
+                *ngFor="let message of invalidParams | invalidParams : 'captcha'"
+                [textContent]="message"
+                class="invalid-feedback"
+              ></p>
             </div>
-          </ng-container>
+          </div>
           <div class="mb-3 row">
             <div class="col-md-2"></div>
             <div class="col-md-10">
