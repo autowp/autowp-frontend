@@ -9,14 +9,7 @@ import {LanguageService} from '../../../services/language';
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
 import {InvalidParams} from '../../../utils/invalid-params.pipe';
-import {
-  AbstractControl,
-  UntypedFormArray,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {getVehicleTypeTranslation} from '../../../utils/translations';
 import {VehicleTypeService} from '../../../services/vehicle-type';
 import {APIPictureItem} from '../../../services/picture-item';
@@ -81,6 +74,42 @@ export interface ItemMetaFormResult {
 interface PicturesListItem {
   pictureItem: APIPictureItem;
   selected: boolean;
+}
+
+interface Form {
+  name: FormControl<string>;
+  full_name?: FormControl<string>;
+  catname?: FormControl<string>;
+  body?: FormControl<string>;
+  spec_id?: FormControl<string | number>;
+  model_years?: FormGroup<{
+    begin_year: FormControl<number>;
+    begin_year_fraction: FormControl<string>;
+    end_year: FormControl<number>;
+    end_year_fraction: FormControl<string>;
+  }>;
+  produced?: FormGroup<{
+    count: FormControl<number>;
+    exactly: FormControl<boolean>;
+  }>;
+  is_concept?: FormControl<boolean>;
+  is_group?: FormControl<boolean>;
+  vehicle_type_id?: FormControl<string[]>;
+  begin?: FormGroup<{
+    year: FormControl<number>;
+    month: FormControl<number>;
+  }>;
+  end?: FormGroup<{
+    year: FormControl<number>;
+    month: FormControl<number>;
+    today: FormControl<boolean>;
+  }>;
+  point?: FormControl<{
+    lat: number;
+    lng: number;
+  }>;
+  items?: FormArray<FormControl<string>>;
+  pictures?: FormArray<FormControl<number>>;
 }
 
 @Component({
@@ -241,7 +270,7 @@ export class ItemMetaFormComponent {
     )
   );
 
-  public form$ = combineLatest([
+  public form$: Observable<FormGroup<Form>> = combineLatest([
     this.item$,
     this.vehicleTypeIDs$,
     this.disableIsGroup$,
@@ -249,57 +278,57 @@ export class ItemMetaFormComponent {
     this.pictures$,
   ]).pipe(
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
-      const elements: {[key: string]: any} = {
-        name: [item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]],
+      const elements: Form = {
+        name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]),
       };
       if (item.item_type_id === ItemType.ITEM_TYPE_BRAND) {
-        elements.full_name = [item.full_name, Validators.maxLength(this.fullnameMaxlength)];
+        elements.full_name = new FormControl(item.full_name, Validators.maxLength(this.fullnameMaxlength));
       }
       if (item.item_type_id === ItemType.ITEM_TYPE_BRAND || item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
-        elements.catname = [item.catname];
+        elements.catname = new FormControl(item.catname);
       }
       if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_ENGINE) {
-        elements.body = [item.body, Validators.maxLength(this.bodyMaxlength)];
-        elements.spec_id = [item.spec_id];
-        elements.model_years = this.fb.group({
-          begin_year: [item.begin_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]],
-          begin_year_fraction: [item.begin_model_year_fraction],
-          end_year: [item.end_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]],
-          end_year_fraction: [item.end_model_year_fraction],
+        elements.body = new FormControl(item.body, Validators.maxLength(this.bodyMaxlength));
+        elements.spec_id = new FormControl(item.spec_id);
+        elements.model_years = new FormGroup({
+          begin_year: new FormControl(item.begin_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]),
+          begin_year_fraction: new FormControl(item.begin_model_year_fraction),
+          end_year: new FormControl(item.end_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]),
+          end_year_fraction: new FormControl(item.end_model_year_fraction),
         });
-        elements.produced = this.fb.group({
-          count: [item.produced],
-          exactly: [item.produced_exactly],
+        elements.produced = new FormGroup({
+          count: new FormControl(item.produced),
+          exactly: new FormControl(item.produced_exactly),
         });
-        elements.is_concept = [item.is_concept];
-        elements.is_group = [{value: item.is_group, disabled: item.childs_count > 0 || disableIsGroup}];
+        elements.is_concept = new FormControl(item.is_concept);
+        elements.is_group = new FormControl({value: item.is_group, disabled: item.childs_count > 0 || disableIsGroup});
       }
       if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
-        elements.vehicle_type_id = [vehicleTypeIDs];
+        elements.vehicle_type_id = new FormControl(vehicleTypeIDs);
       }
       if (item.item_type_id !== ItemType.ITEM_TYPE_COPYRIGHT) {
-        elements.begin = this.fb.group({
-          year: [item.begin_year, [Validators.min(1800), Validators.max(this.yearMax)]],
-          month: [item.begin_month],
+        elements.begin = new FormGroup({
+          year: new FormControl(item.begin_year, [Validators.min(1800), Validators.max(this.yearMax)]),
+          month: new FormControl(item.begin_month),
         });
-        elements.end = this.fb.group({
-          year: [item.end_year, [Validators.min(1800), Validators.max(this.yearMax)]],
-          month: [item.end_month],
-          today: [item.today],
+        elements.end = new FormGroup({
+          year: new FormControl(item.end_year, [Validators.min(1800), Validators.max(this.yearMax)]),
+          month: new FormControl(item.end_month),
+          today: new FormControl(item.today),
         });
       }
       if ([ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_MUSEUM].includes(item.item_type_id)) {
         const lat = item.lat;
         const lng = item.lng;
-        elements.point = [{lat, lng}];
+        elements.point = new FormControl({value: {lat, lng}, disabled: false});
       }
       if (items) {
-        elements.items = this.fb.array([], {validators: Validators.required});
+        elements.items = new FormArray<FormControl<string>>([], {validators: Validators.required});
       }
       if (pictures) {
-        elements.pictures = this.fb.array([], {validators: Validators.required});
+        elements.pictures = new FormArray<FormControl<number>>([], {validators: Validators.required});
       }
-      return this.fb.group(elements);
+      return new FormGroup<Form>(elements);
     })
   );
 
@@ -307,8 +336,7 @@ export class ItemMetaFormComponent {
     private specService: SpecService,
     private vehicleTypeService: VehicleTypeService,
     private languageService: LanguageService,
-    private modalService: NgbModal,
-    private fb: UntypedFormBuilder
+    private modalService: NgbModal
   ) {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
@@ -324,7 +352,7 @@ export class ItemMetaFormComponent {
     }
   }
 
-  public doSubmit(form: UntypedFormGroup) {
+  public doSubmit(form: FormGroup) {
     this.submitted.emit(form.value);
     return false;
   }
@@ -350,11 +378,10 @@ export class ItemMetaFormComponent {
     );
   }
 
-  onCheckboxChange(e: Event, control: AbstractControl) {
-    const ctrl = control as UntypedFormArray;
+  onCheckboxChange(e: Event, ctrl: FormArray<FormControl<string>>) {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
-      ctrl.push(new UntypedFormControl(target.value));
+      ctrl.push(new FormControl<string>(target.value));
     } else {
       let i: number = 0;
       ctrl.controls.forEach((item) => {
@@ -367,11 +394,10 @@ export class ItemMetaFormComponent {
     }
   }
 
-  onPictureClick(e: PicturesListItem, control: AbstractControl) {
-    const ctrl = control as UntypedFormArray;
+  onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<number>>) {
     e.selected = !e.selected;
     if (e.selected) {
-      ctrl.push(new UntypedFormControl(e.pictureItem.picture_id));
+      ctrl.push(new FormControl<number>(e.pictureItem.picture_id));
     } else {
       let i: number = 0;
       ctrl.controls.forEach((item) => {

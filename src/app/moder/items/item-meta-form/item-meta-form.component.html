@@ -6,7 +6,7 @@
     *ngIf="item$ | async as item"
     [formGroup]="form"
   >
-    <div class="mb-3 row" *ngIf="form.get('name') as name">
+    <div class="mb-3 row" *ngIf="form.controls.name as name">
       <label class="col-md-2 col-form-label" i18n>Name</label>
       <div class="col-md-10">
         <input
@@ -24,7 +24,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('full_name') as fullName">
+    <div class="mb-3 row" *ngIf="form.controls.full_name as fullName">
       <label class="col-md-2 col-form-label" i18n>Full name</label>
       <div class="col-md-10">
         <input
@@ -43,7 +43,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('catname') as catname">
+    <div class="mb-3 row" *ngIf="form.controls.catname as catname">
       <label class="col-md-2 col-form-label" i18n>Catname</label>
       <div class="col-md-10">
         <input
@@ -62,7 +62,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('body') as body">
+    <div class="mb-3 row" *ngIf="form.controls.body as body">
       <label class="col-md-2 col-form-label" i18n>Body number</label>
       <div class="col-md-10">
         <input
@@ -80,7 +80,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('spec_id') as specID">
+    <div class="mb-3 row" *ngIf="form.controls.spec_id as specID">
       <label class="col-md-2 col-form-label" i18n>Spec</label>
       <div class="col-md-10">
         <select
@@ -103,7 +103,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('vehicle_type_id') as vehicleTypeID">
+    <div class="mb-3 row" *ngIf="form.controls.vehicle_type_id as vehicleTypeID">
       <label class="col-md-2 col-form-label" i18n>Type</label>
       <div class="col-md-10">
         <ng-container *ngFor="let typeID of vehicleTypeID.value">
@@ -129,11 +129,11 @@
         <div>{{'...'.repeat(data.deep)}}{{data.nameTranslated}}</div>
       </script>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('model_years') as modelYears" formGroupName="model_years">
+    <div class="mb-3 row" *ngIf="form.controls.model_years as modelYears" formGroupName="model_years">
       <label class="col-md-2 col-form-label" i18n>Model years</label>
       <div class="col-md-10">
         <div class="row">
-          <div class="col-md-2 col-sm-4 mb-0" *ngIf="modelYears.get('begin_year') as beginYear">
+          <div class="col-md-2 col-sm-4 mb-0" *ngIf="modelYears.controls.begin_year as beginYear">
             <input
               type="number"
               [class.is-invalid]="
@@ -148,7 +148,7 @@
               maxlength="4"
             />
           </div>
-          <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.get('begin_year_fraction') as beginYearFraction">
+          <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.controls.begin_year_fraction as beginYearFraction">
             <select
               class="form-control"
               [class.is-invalid]="
@@ -163,7 +163,7 @@
               </option>
             </select>
           </div>
-          <div class="col-md-2 col-sm-4 mb-0" *ngIf="modelYears.get('end_year') as endYear">
+          <div class="col-md-2 col-sm-4 mb-0" *ngIf="modelYears.controls.end_year as endYear">
             <input
               type="number"
               [class.is-invalid]="
@@ -178,7 +178,7 @@
               maxlength="4"
             />
           </div>
-          <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.get('end_year') as endYearFraction">
+          <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.controls.end_year as endYearFraction">
             <select
               class="form-control"
               [class.is-invalid]="
@@ -206,11 +206,11 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('begin') as begin" formGroupName="begin">
+    <div class="mb-3 row" *ngIf="form.controls.begin as begin" formGroupName="begin">
       <label class="col-md-2 col-form-label" i18n>Begin</label>
       <div class="col-md-10">
         <div class="row">
-          <div class="col-md-2 col-sm-2 mb-0" *ngIf="begin.get('year') as beginYear">
+          <div class="col-md-2 col-sm-2 mb-0" *ngIf="begin.controls.year as beginYear">
             <input
               type="number"
               [class.is-invalid]="
@@ -225,7 +225,7 @@
               formControlName="year"
             />
           </div>
-          <div class="col-md-4 col-sm-7 mb-0" *ngIf="begin.get('month') as beginMonth">
+          <div class="col-md-4 col-sm-7 mb-0" *ngIf="begin.controls.month as beginMonth">
             <select
               name="begin_month"
               [class.is-invalid]="
@@ -253,11 +253,11 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('end') as end" formGroupName="end">
+    <div class="mb-3 row" *ngIf="form.controls.end as end" formGroupName="end">
       <label class="col-md-2 col-form-label" i18n>End</label>
       <div class="col-md-10">
         <div class="row">
-          <div class="col-md-2 col-sm-2 mb-0" *ngIf="end.get('year') as endYear">
+          <div class="col-md-2 col-sm-2 mb-0" *ngIf="end.controls.year as endYear">
             <input
               type="number"
               [class.is-invalid]="
@@ -271,7 +271,7 @@
               formControlName="year"
             />
           </div>
-          <div class="col-md-4 col-sm-7 mb-0" *ngIf="end.get('month') as endMonth">
+          <div class="col-md-4 col-sm-7 mb-0" *ngIf="end.controls.month as endMonth">
             <select
               name="end_month"
               [class.is-invalid]="
@@ -285,7 +285,7 @@
               <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
             </select>
           </div>
-          <div class="col-md-4 col-sm-3 mb-0" *ngIf="end.get('today') as today">
+          <div class="col-md-4 col-sm-3 mb-0" *ngIf="end.controls.today as today">
             <select
               name="today"
               [class.is-invalid]="
@@ -317,11 +317,11 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('produced') as produced" formGroupName="produced">
+    <div class="mb-3 row" *ngIf="form.controls.produced as produced" formGroupName="produced">
       <label class="col-md-2 col-form-label" i18n>Produced</label>
       <div class="col-md-10">
         <div class="row">
-          <div class="col-md-2 col-sm-2 mb-0" *ngIf="produced.get('count') as count">
+          <div class="col-md-2 col-sm-2 mb-0" *ngIf="produced.controls.count as count">
             <input
               type="number"
               [class.is-invalid]="
@@ -336,7 +336,7 @@
               formControlName="count"
             />
           </div>
-          <div class="col-md-4 col-sm-4 mb-0" *ngIf="produced.get('exactly') as exactly">
+          <div class="col-md-4 col-sm-4 mb-0" *ngIf="produced.controls.exactly as exactly">
             <select
               name="produced_exactly"
               [class.is-invalid]="
@@ -362,7 +362,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('is_concept') as isConcept">
+    <div class="mb-3 row" *ngIf="form.controls.is_concept as isConcept">
       <label class="col-md-2 col-form-label" i18n>Concept (prototype)</label>
       <div class="col-md-10">
         <select
@@ -383,7 +383,7 @@
         ></p>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('is_group') as isGroup">
+    <div class="mb-3 row" *ngIf="form.controls.is_group as isGroup">
       <div class="col-md-2"></div>
       <div class="col-md-10">
         <div class="checkbox">
@@ -402,16 +402,16 @@
         </div>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('point') as point">
+    <div class="mb-3 row" *ngIf="form.controls.point as point">
       <label class="col-md-2 col-form-label">Point</label>
       <div class="col-md-10 coords">
         <app-map-point formControlName="point"></app-map-point>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('items') as control">
+    <div class="mb-3 row" *ngIf="form.controls.items as control">
       <label class="col-md-2 col-form-label text-end" i18n>Vehicles</label>
       <div class="col-md-10" *ngIf="items$ | async as items">
-        <div class="checkbox" *ngFor="let child of items; let idx = index">
+        <div class="checkbox" *ngFor="let child of items">
           <label>
             <input type="checkbox" [value]="child.id" (change)="onCheckboxChange($event, control)" />
             <span [innerHTML]="child.name_html"></span>
@@ -419,10 +419,10 @@
         </div>
       </div>
     </div>
-    <div class="mb-3 row" *ngIf="form.get('pictures') as control">
+    <div class="mb-3 row" *ngIf="form.controls.pictures as control">
       <label class="col-md-2 col-form-label text-end" i18n>Pictures</label>
       <div class="col-md-10 multicheckbox-pictures row" *ngIf="pictures$ | async as data">
-        <div *ngFor="let picture of data; let idx = index" class="col-md-3 mb-4">
+        <div *ngFor="let picture of data" class="col-md-3 mb-4">
           <label
             class="btn btn-secondary"
             [class.btn-success]="picture.selected"
