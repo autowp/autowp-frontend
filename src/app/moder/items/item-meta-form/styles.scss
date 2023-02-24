@@ -11,6 +11,7 @@
   .btn {
     img {
       opacity: .5;
+
       @include transition(opacity .2s);
     }
 

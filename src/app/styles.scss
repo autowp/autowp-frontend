@@ -1,6 +1,5 @@
 // Core variables and mixins
 @import './bootstrap';
-
 @import 'bootstrap-icons/font/bootstrap-icons';
 
 app-index {
@@ -27,6 +26,7 @@ app-index {
   &:hover {
     path {
       fill: $color-white;
+
       @include transition(fill 0.2s);
     }
   }
@@ -154,6 +154,7 @@ img#picture-to-crop {
     .photo {
       width: 70px;
       float: left;
+
       @include media-breakpoint-down(sm) {
         display: none;
       }
