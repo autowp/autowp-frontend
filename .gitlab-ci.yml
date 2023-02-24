@@ -20,7 +20,7 @@ build:
     paths:
       - node_modules/
   script:
-    - npm ci
+    - npm ci || npm cache clear --force && npm ci
     - npx ng lint
     - npx stylelint "src/**/*.scss"
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN
@@ -37,7 +37,7 @@ deploy:
   before_script:
     - waitforit -address=tcp://docker:2375 -timeout=30
   script:
-    - npm ci
+    - npm ci || npm cache clear --force && npm ci
     - "jq -n --arg release \"$CI_COMMIT_TAG\" '{release: $release}' > src/version.json"
     - ./node_modules/.bin/ng build --configuration production --no-progress --base-href=/ --extra-webpack-config webpack.extra.js
 
