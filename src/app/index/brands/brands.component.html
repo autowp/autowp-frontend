@@ -3,8 +3,6 @@
   <small><a routerLink="/brands" i18n>all</a></small>
 </h4>
 
-{{ placeholderItems | json }}
-
 <ng-template #placeholder>
   <p class="index-brands placeholder-glow">
     <span class="placeholder me-1" [style.width]="item + 'rem'" *ngFor="let item of placeholderItems"></span>
