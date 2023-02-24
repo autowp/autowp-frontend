@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {combineLatest, Observable, of} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {PageEnvService} from '../../services/page-env.service';
-import {debounceTime, distinctUntilChanged, switchMap, map, shareReplay} from 'rxjs/operators';
+import {distinctUntilChanged, switchMap, map, shareReplay} from 'rxjs/operators';
 import {DonateService} from '../donate.service';
 import {APIUser} from '@grpc/spec.pb';
 import {formatDate} from '@angular/common';
@@ -21,8 +21,7 @@ export class DonateVodComponent implements OnInit {
   public anonymous$ = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => params.get('anonymous')),
-      distinctUntilChanged(),
-      debounceTime(10)
+      distinctUntilChanged()
     ),
     this.user$,
   ]).pipe(
@@ -33,15 +32,15 @@ export class DonateVodComponent implements OnInit {
   public date$ = this.route.queryParamMap.pipe(
     map((params) => params.get('date')),
     map((date) => (date ? date : null)),
-    distinctUntilChanged(),
-    debounceTime(10)
+    distinctUntilChanged()
   );
 
   private itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10)
+    distinctUntilChanged()
   );
+
+  public itemSelected$ = this.itemID$.pipe(map((itemID) => !!itemID));
 
   public item$ = this.itemID$.pipe(
     switchMap((itemID) => {

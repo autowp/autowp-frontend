@@ -1,19 +1,40 @@
-<ng-container *ngIf="item$ | async as item">
-  <h2>
-    <span [innerHtml]="item.name_html"></span>
+<h2 *ngIf="item$ | async as item; else h2Placeholder">
+  <span [innerHtml]="item.name_html"></span>
+  <small>
+    <span i18n *ngIf="item.item_type_id === 1">vehicle of the day</span>
+    <span i18n *ngIf="item.item_type_id !== 1">theme of the day</span>
+    <span *ngIf="user$ | async as user">
+      <span class="text-nowrap">by <app-user2 [user]="user"></app-user2></span>
+    </span>
+  </small>
+</h2>
+
+<ng-template #h2Placeholder>
+  <h2 class="placeholder-glow">
+    <span class="placeholder w-25"></span>
     <small>
-      <span i18n *ngIf="item.item_type_id === 1">vehicle of the day</span>
-      <span i18n *ngIf="item.item_type_id !== 1">theme of the day</span>
-      <span *ngIf="user">
-        <span style="white-space: nowrap">by <app-user2 [user]="user"></app-user2></span>
-      </span>
+      <span class="placeholder" style="width: 10%"></span>
     </small>
   </h2>
+</ng-template>
 
-  <div class="row" *ngIf="itemOfDayPictures$ | async as pictures">
-    <div class="col-sm-6">
-      <ng-container *ngFor="let picture of pictures.first">
-        <a [routerLink]="picture.route" class="d-block rounded mb-4" *ngIf="picture">
+<div class="row" *ngIf="itemOfDayPictures$ | async as pictures; else placeholder">
+  <div class="col-sm-6">
+    <ng-container *ngFor="let picture of pictures.first">
+      <a [routerLink]="picture.route" class="d-block rounded mb-4" *ngIf="picture">
+        <img
+          [src]="picture.thumb.src"
+          [alt]="picture.name"
+          [title]="picture.name"
+          class="rounded w-100 border border-light"
+        />
+      </a>
+    </ng-container>
+  </div>
+  <div class="col-sm-6">
+    <div class="row">
+      <ng-container *ngFor="let picture of pictures.others">
+        <a [routerLink]="picture.route" class="d-block rounded mb-3 col-6" *ngIf="picture">
           <img
             [src]="picture.thumb.src"
             [alt]="picture.name"
@@ -23,71 +44,80 @@
         </a>
       </ng-container>
     </div>
+  </div>
+</div>
+
+<ng-template #placeholder>
+  <div class="row placeholder-glow">
+    <div class="col-sm-6">
+      <div class="rounded ratio ratio-4x3 border border-light placeholder d-block rounded mb-4"></div>
+    </div>
     <div class="col-sm-6">
       <div class="row">
-        <ng-container *ngFor="let picture of pictures.others">
-          <a [routerLink]="picture.route" class="d-block rounded mb-3 col-6" *ngIf="picture">
-            <img
-              [src]="picture.thumb.src"
-              [alt]="picture.name"
-              [title]="picture.name"
-              class="rounded w-100 border border-light"
-            />
-          </a>
-        </ng-container>
+        <div class="d-block rounded mb-3 col-6">
+          <div class="rounded ratio ratio-4x3 border border-light placeholder"></div>
+        </div>
+        <div class="d-block rounded mb-3 col-6">
+          <div class="rounded ratio ratio-4x3 border border-light placeholder"></div>
+        </div>
+        <div class="d-block rounded mb-3 col-6">
+          <div class="rounded ratio ratio-4x3 border border-light placeholder"></div>
+        </div>
+        <div class="d-block rounded mb-3 col-6">
+          <div class="rounded ratio ratio-4x3 border border-light placeholder"></div>
+        </div>
       </div>
     </div>
   </div>
-  <p>
-    <ng-container *ngIf="item.item_type_id === 3">
-      <span>
-        <span class="bi bi-text-left" aria-hidden="true"></span>
-        <a [routerLink]="['/category', item.catname]" i18n>details</a>
-      </span>
+</ng-template>
 
-      <span *ngIf="item.accepted_pictures_count > 6">
-        <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
-        <a [routerLink]="['/category', item.catname, '/pictures']"
-          ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
-        >
-      </span>
-    </ng-container>
-
-    <span *ngIf="item.item_type_id === 5 && item.accepted_pictures_count > 6 && item.public_route">
-      <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
-      <a [routerLink]="item.public_route"
-        ><ng-container i18n>details</ng-container> ({{ item.accepted_pictures_count }})</a
-      >
+<p *ngIf="item$ | async as item">
+  <ng-container *ngIf="item.item_type_id === 3">
+    <span>
+      <span class="bi bi-text-left" aria-hidden="true"></span>
+      <a [routerLink]="['/category', item.catname]" i18n>details</a>
     </span>
 
-    <span
-      *ngIf="
-        item.item_type_id !== 3 && item.item_type_id !== 5 && item.accepted_pictures_count > 6 && item.public_route
-      "
-    >
+    <span *ngIf="item.accepted_pictures_count > 6">
       <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
-      <a [routerLink]="item.public_route"
+      <a [routerLink]="['/category', item.catname, '/pictures']"
         ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
       >
     </span>
+  </ng-container>
 
-    <ng-container *ngIf="item.twins_groups">
-      <span *ngFor="let group of item.twins_groups">
-        <span class="bi bi-circle-half" aria-hidden="true"></span>
-        <a [routerLink]="['/twins/group', group.id]" i18n>twins</a>
-      </span>
-    </ng-container>
+  <span *ngIf="item.item_type_id === 5 && item.accepted_pictures_count > 6 && item.public_route">
+    <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
+    <a [routerLink]="item.public_route"
+      ><ng-container i18n>details</ng-container> ({{ item.accepted_pictures_count }})</a
+    >
+  </span>
 
-    <ng-container *ngIf="item.categories">
-      <span *ngFor="let category of item.categories">
-        <span class="bi bi-tag-fill" aria-hidden="true"></span>
-        <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
-      </span>
-    </ng-container>
+  <span
+    *ngIf="item.item_type_id !== 3 && item.item_type_id !== 5 && item.accepted_pictures_count > 6 && item.public_route"
+  >
+    <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
+    <a [routerLink]="item.public_route"
+      ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
+    >
+  </span>
 
-    <span>
-      <span class="bi bi-trophy" aria-hidden="true"></span>
-      <a routerLink="/donate/vod" i18n>Want to choose next?</a>
+  <ng-container *ngIf="item.twins_groups">
+    <span *ngFor="let group of item.twins_groups">
+      <span class="bi bi-circle-half" aria-hidden="true"></span>
+      <a [routerLink]="['/twins/group', group.id]" i18n>twins</a>
     </span>
-  </p>
-</ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="item.categories">
+    <span *ngFor="let category of item.categories">
+      <span class="bi bi-tag-fill" aria-hidden="true"></span>
+      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+    </span>
+  </ng-container>
+
+  <span>
+    <span class="bi bi-trophy" aria-hidden="true"></span>
+    <a routerLink="/donate/vod" i18n>Want to choose next?</a>
+  </span>
+</p>

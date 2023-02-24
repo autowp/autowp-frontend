@@ -1,12 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, APIItemOfDayPicture} from '../../services/item';
+import {APIItemOfDayPicture, ItemOfDayItem} from '../../services/item';
 import {APIUser} from '@grpc/spec.pb';
-import {BehaviorSubject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-
-interface ItemOfDayItem extends APIItem {
-  public_route?: string;
-}
 
 @Component({
   selector: 'app-item-of-day',
@@ -14,25 +10,29 @@ interface ItemOfDayItem extends APIItem {
   styleUrls: ['./item-of-day.component.scss'],
 })
 export class ItemOfDayComponent {
-  @Input() set item(item: ItemOfDayItem) {
-    this.item$.next(item);
-  }
-  public item$ = new BehaviorSubject<ItemOfDayItem>(null);
+  private _item$: Observable<ItemOfDayItem>;
 
-  @Input() user: APIUser;
-
-  public itemOfDayPictures$ = this.item$.pipe(
-    map((item) => {
-      if (!item) {
+  @Input() public set item$(item$: Observable<ItemOfDayItem>) {
+    this._item$ = item$;
+    this.itemOfDayPictures$ = item$.pipe(
+      map((item) => {
+        if (!item) {
+          return null;
+        }
         return {
-          first: [] as APIItemOfDayPicture[],
-          others: [] as APIItemOfDayPicture[],
+          first: item.item_of_day_pictures.slice(0, 1),
+          others: item.item_of_day_pictures.slice(1, 5),
         };
-      }
-      return {
-        first: item.item_of_day_pictures.slice(0, 1),
-        others: item.item_of_day_pictures.slice(1, 5),
-      };
-    })
-  );
+      })
+    );
+  }
+  public get item$() {
+    return this._item$;
+  }
+  @Input() public user$: Observable<APIUser>;
+
+  public itemOfDayPictures$: Observable<{
+    first: APIItemOfDayPicture[];
+    others: APIItemOfDayPicture[];
+  } | null>;
 }

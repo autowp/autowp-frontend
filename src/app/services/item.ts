@@ -143,6 +143,10 @@ export interface APIItem {
   other_names?: string[];
 }
 
+export interface ItemOfDayItem extends APIItem {
+  public_route?: string;
+}
+
 export interface APIItemRelatedGroupItem {
   name: string;
   src: string;

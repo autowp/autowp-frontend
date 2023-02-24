@@ -99,7 +99,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
   </div>
 </div>
 
-<app-item-of-day *ngIf="item$ | async as item" [item]="item" [user]="itemOfDayUser$ | async"></app-item-of-day>
+<app-item-of-day [item$]="item$" [user$]="itemOfDayUser$" *ngIf="itemSelected$ | async"></app-item-of-day>
 
 <h1 i18n>4. Make a donation</h1>
 

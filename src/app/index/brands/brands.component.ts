@@ -12,6 +12,8 @@ import {map} from 'rxjs/operators';
 export class IndexBrandsComponent {
   constructor(private items: ItemsClient, private languageService: LanguageService) {}
 
+  public placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5));
+
   public result$ = this.items
     .getTopBrandsList(new GetTopBrandsListRequest({language: this.languageService.language}))
     .pipe(

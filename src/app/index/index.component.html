@@ -1,12 +1,4 @@
-<ng-template #loading xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-<app-item-of-day
-  class="d-block mb-4"
-  [item]="itemOfDay[1].item"
-  [user]="itemOfDay[0]"
-  *ngIf="itemOfDay$ | async as itemOfDay; else loading"
-></app-item-of-day>
+<app-item-of-day class="d-block mb-4" [item$]="itemOfDayItem$" [user$]="itemOfDayUser$"></app-item-of-day>
 
 <app-index-donate></app-index-donate>
 
