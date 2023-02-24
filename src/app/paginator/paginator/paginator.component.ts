@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import * as leftPad from 'left-pad';
 import {APIPaginator} from '../../services/api.service';
 import {Pages} from '@grpc/spec.pb';
 
@@ -16,6 +15,6 @@ export class PaginatorComponent {
 
   public padd(page: number): string {
     const size = Math.max(2, this.data.pageCount.toString().length);
-    return leftPad(page, size, '0');
+    return page.toString().padStart(size, '0');
   }
 }

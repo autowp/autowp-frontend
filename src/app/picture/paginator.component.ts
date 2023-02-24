@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {APIPicturePaginator} from '../services/picture';
-import * as leftPad from 'left-pad';
 
 @Component({
   selector: 'app-picture-paginator',
@@ -13,6 +12,6 @@ export class PicturePaginatorComponent {
   public format(page, count) {
     const size = Math.max(2, count.toString().length);
 
-    return leftPad(page, size, '0');
+    return page.toString().padStart(size, '0');
   }
 }
