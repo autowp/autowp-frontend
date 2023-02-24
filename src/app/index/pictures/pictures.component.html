@@ -3,11 +3,27 @@
     <ng-container i18n>New pictures</ng-container> <small><a routerLink="/new" i18n>all</a></small>
   </h4>
 </div>
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+
+<ng-template #placeholder>
+  <div class="row placeholder-glow">
+    <div class="col-6 col-sm-6 col-md-3 col-lg-3" *ngFor="let _ of [].constructor(4)">
+      <div class="card mb-4">
+        <div class="placeholder ratio ratio-4x3 card-img-top"></div>
+        <div class="card-body">
+          <h6 class="card-title">
+            <span class="placeholder w-50"></span>
+          </h6>
+          <p class="picture-behaviour clearfix">
+            <span class="placeholder w-50"></span>
+            <span class="placeholder w-25"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
-<div class="row" *ngIf="items$ | async as items; else loading">
+<div class="row" *ngIf="items$ | async as items; else placeholder">
   <div class="col-6 col-sm-6 col-md-3 col-lg-3" *ngFor="let picture of items">
     <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
   </div>
