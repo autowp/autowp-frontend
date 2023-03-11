@@ -11,68 +11,76 @@ import {AccountInboxPicturesComponent} from './inbox-pictures/inbox-pictures.com
 import {AccountMessagesComponent} from './messages/messages.component';
 import {AccountProfileComponent} from './profile/profile.component';
 import {AccountSpecsConflictsComponent} from './specs-conflicts/specs-conflicts.component';
+import {AccountComponent} from './account.component';
 
 const routes: Routes = [
   {
-    path: 'access',
-    component: AccountAccessComponent,
-    canActivate: [AuthGuard],
-    title: $localize`Access Control`,
-  },
-  {
-    path: 'accounts',
-    component: AccountAccountsComponent,
-    canActivate: [AuthGuard],
-    title: $localize`My accounts`,
-  },
-  {
-    path: 'contacts',
-    component: AccountContactsComponent,
-    canActivate: [AuthGuard],
-    title: $localize`Contacts`,
-  },
-  {
-    path: 'delete',
-    title: $localize`Account delete`,
+    path: '',
+    component: AccountComponent,
+    title: $localize`Account`,
     children: [
-      {path: 'deleted', component: AccountDeletedComponent, title: $localize`Account deleted`},
       {
-        path: '',
-        component: AccountDeleteComponent,
+        path: 'access',
+        component: AccountAccessComponent,
         canActivate: [AuthGuard],
+        title: $localize`Access Control`,
+      },
+      {
+        path: 'accounts',
+        component: AccountAccountsComponent,
+        canActivate: [AuthGuard],
+        title: $localize`My accounts`,
+      },
+      {
+        path: 'contacts',
+        component: AccountContactsComponent,
+        canActivate: [AuthGuard],
+        title: $localize`Contacts`,
+      },
+      {
+        path: 'delete',
+        title: $localize`Account delete`,
+        children: [
+          {path: 'deleted', component: AccountDeletedComponent, title: $localize`Account deleted`},
+          {
+            path: '',
+            component: AccountDeleteComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
+      },
+      {
+        path: 'email',
+        component: AccountEmailComponent,
+        canActivate: [AuthGuard],
+        title: $localize`My e-mail`,
+      },
+      {
+        path: 'inbox-pictures',
+        component: AccountInboxPicturesComponent,
+        canActivate: [AuthGuard],
+        title: $localize`Unmoderated`,
+      },
+      {
+        path: 'messages',
+        component: AccountMessagesComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile',
+        component: AccountProfileComponent,
+        canActivate: [AuthGuard],
+        title: $localize`Profile`,
+      },
+      {
+        path: 'specs-conflicts',
+        component: AccountSpecsConflictsComponent,
+        canActivate: [AuthGuard],
+        title: $localize`Conflicts`,
       },
     ],
   },
-  {
-    path: 'email',
-    component: AccountEmailComponent,
-    canActivate: [AuthGuard],
-    title: $localize`My e-mail`,
-  },
-  {
-    path: 'inbox-pictures',
-    component: AccountInboxPicturesComponent,
-    canActivate: [AuthGuard],
-    title: $localize`Unmoderated`,
-  },
-  {
-    path: 'messages',
-    component: AccountMessagesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'profile',
-    component: AccountProfileComponent,
-    canActivate: [AuthGuard],
-    title: $localize`Profile`,
-  },
-  {
-    path: 'specs-conflicts',
-    component: AccountSpecsConflictsComponent,
-    canActivate: [AuthGuard],
-    title: $localize`Conflicts`,
-  },
-  {path: '', redirectTo: '/account/profile', pathMatch: 'full'},
+  {path: '', redirectTo: 'profile', pathMatch: 'full'},
 ];
 
 @NgModule({

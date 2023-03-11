@@ -12,6 +12,7 @@ import {APIUser} from '@grpc/spec.pb';
 import {APIUser as RESTAPIUser} from '../../services/user';
 import {LanguageService} from '../../services/language';
 import {KeycloakService} from 'keycloak-angular';
+import {InvalidParams} from '../../utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-account-profile',
@@ -24,7 +25,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     timezone: null,
     language: null,
   };
-  public settingsInvalidParams: any = {};
+  public settingsInvalidParams: InvalidParams = {};
   public photoInvalidParams: any = {};
   public votesPerDay: number | null = null;
   public votesLeft: number | null = null;

@@ -1,11 +1,3 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/" i18n>Index page</a>
-    </li>
-  </ol>
-</nav>
-
 <div class="page-header">
   <h1 i18n id="header">Conflicts</h1>
 </div>
@@ -20,7 +12,7 @@
   </p>
 </ng-container>
 
-<div class="nav nav-pills" style="margin-bottom: 10px" *ngIf="filter$ | async as filter; else loading">
+<div class="nav nav-pills mb-3" *ngIf="filter$ | async as filter; else loading">
   <a
     class="nav-link"
     [class.active]="filter === '0'"

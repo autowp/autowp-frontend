@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {MessageService} from '../../services/message';
-import {AuthService} from '../../services/auth.service';
-import {map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
-import {PictureService} from '../../services/picture';
-import {PageEnvService} from '../../services/page-env.service';
-import {ForumsService} from '../../forums/forums.service';
-import {ToastsService} from '../../toasts/toasts.service';
+import {map} from 'rxjs/operators';
+import {MessageService} from '../services/message';
+import {ForumsService} from '../forums/forums.service';
+import {AuthService} from '../services/auth.service';
+import {PictureService} from '../services/picture';
+import {PageEnvService} from '../services/page-env.service';
+import {ToastsService} from '../toasts/toasts.service';
 
 interface SidebarItem {
   pageId?: number;
@@ -20,10 +20,10 @@ interface SidebarItem {
 }
 
 @Component({
-  selector: 'app-account-sidebar',
-  templateUrl: './sidebar.component.html',
+  selector: 'app-account',
+  templateUrl: './account.component.html',
 })
-export class AccountSidebarComponent {
+export class AccountComponent {
   public items$: Observable<SidebarItem[]> = combineLatest([
     this.auth.getUser$(),
     this.forumService.getUserSummary$(),

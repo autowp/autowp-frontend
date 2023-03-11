@@ -1,11 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {AccountRoutingModule} from './account-routing.module';
 import {AccountAccessComponent} from './access/access.component';
 import {UtilsModule} from '../utils/utils.module';
 import {FormsModule} from '@angular/forms';
-import {AccountSidebarComponent} from './sidebar/sidebar.component';
 import {AccountAccountsComponent} from './accounts/accounts.component';
 import {AccountContactsComponent} from './contacts/contacts.component';
 import {UserModule} from '../user/user.module';
@@ -22,11 +20,12 @@ import {AccountSpecsConflictsComponent} from './specs-conflicts/specs-conflicts.
 import {NgbTooltipModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {APIAttrsModule} from '../api/attrs/attrs.module';
 import {MessageDialogModule} from '../message-dialog/message-dialog.module';
+import {AccountComponent} from './account.component';
 
 @NgModule({
   declarations: [
+    AccountComponent,
     AccountAccessComponent,
-    AccountSidebarComponent,
     AccountAccountsComponent,
     AccountContactsComponent,
     AccountDeletedComponent,
