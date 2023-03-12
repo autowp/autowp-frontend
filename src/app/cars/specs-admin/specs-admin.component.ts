@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 import {ActivatedRoute} from '@angular/router';
 import {combineLatest, BehaviorSubject, EMPTY} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay} from 'rxjs/operators';
 import {APIAttrsService, APIAttrUserValue} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {getAttrsTranslation, getUnitTranslation} from '../../utils/translations';
+import {getAttrsTranslation, getUnitTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-cars-specs-admin',

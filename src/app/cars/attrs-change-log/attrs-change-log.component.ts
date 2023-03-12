@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {APIUser, UserService} from '../../services/user';
+import {APIUser, UserService} from '@services/user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIAttrsService} from '../../api/attrs/attrs.service';
-import {getAttrsTranslation, getUnitTranslation} from '../../utils/translations';
+import {getAttrsTranslation, getUnitTranslation} from '@utils/translations';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({

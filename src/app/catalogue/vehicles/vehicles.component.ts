@@ -1,16 +1,16 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '../../services/item';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPaginator} from '../../services/api.service';
-import {ItemParentService} from '../../services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {APIPaginator} from '@services/api.service';
+import {ItemParentService} from '@services/item-parent';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {CatalogueService} from '../catalogue-service';
-import {APIPicture, PictureService} from '../../services/picture';
-import {getItemTypeTranslation} from '../../utils/translations';
+import {APIPicture, PictureService} from '@services/picture';
+import {getItemTypeTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-catalogue-vehicles',

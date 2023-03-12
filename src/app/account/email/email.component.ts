@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {APIUser} from '../../services/user';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIUser} from '@services/user';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 import {environment} from '@environment/environment';
 
 @Component({

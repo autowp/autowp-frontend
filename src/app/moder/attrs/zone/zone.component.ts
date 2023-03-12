@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay, tap} from 'rxjs/operators';
 import {APIAttrsService, APIAttrZone} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {APIService} from '../../../services/api.service';
+import {APIService} from '@services/api.service';
 
 interface APIAttrZoneAttributesGetResponse {
   items: {

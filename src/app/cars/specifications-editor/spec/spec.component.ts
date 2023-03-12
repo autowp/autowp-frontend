@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '../../../services/item';
+import {APIItem} from '@services/item';
 import {Observable, forkJoin, BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
-import {AuthService} from '../../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {tap, switchMap, distinctUntilChanged, map, catchError, shareReplay} from 'rxjs/operators';
 import {
   APIAttrAttribute,
@@ -11,8 +11,8 @@ import {
   APIAttrUserValueGetResponse,
 } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {APIService} from '../../../services/api.service';
-import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation} from '../../../utils/translations';
+import {APIService} from '@services/api.service';
+import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation} from '@utils/translations';
 import {APIUser} from '@grpc/spec.pb';
 import {HttpErrorResponse} from '@angular/common/http';
 

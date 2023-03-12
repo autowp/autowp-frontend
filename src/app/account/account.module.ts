@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AccountRoutingModule} from './account-routing.module';
 import {AccountAccessComponent} from './access/access.component';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {FormsModule} from '@angular/forms';
 import {AccountAccountsComponent} from './accounts/accounts.component';
 import {AccountContactsComponent} from './contacts/contacts.component';

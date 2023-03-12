@@ -6,7 +6,7 @@ import {PaginatorModule} from '../../paginator/paginator.module';
 import {ModerItemsItemOrganizeComponent} from './item/catalogue/organize/organize.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UtilsModule} from '../../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {ModerItemsItemCatalogueComponent} from './item/catalogue/catalogue.component';
 import {ModerItemsItemLinksComponent} from './item/links/links.component';
 import {ModerItemsItemLogoComponent} from './item/logo/logo.component';

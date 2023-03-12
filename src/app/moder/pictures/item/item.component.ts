@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PictureItemService, APIPictureItem} from '../../../services/picture-item';
-import {ItemService, APIItem} from '../../../services/item';
+import {PictureItemService, APIPictureItem} from '@services/picture-item';
+import {ItemService, APIItem} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription, BehaviorSubject, of} from 'rxjs';
-import {PictureService, APIPicture} from '../../../services/picture';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PictureService, APIPicture} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, tap, map, catchError} from 'rxjs/operators';
-import {LanguageService} from '../../../services/language';
+import {LanguageService} from '@services/language';
 import {sprintf} from 'sprintf-js';
-import {APIService} from '../../../services/api.service';
-import {IpService} from '../../../services/ip';
+import {APIService} from '@services/api.service';
+import {IpService} from '@services/ip';
 import {APIIP} from '@grpc/spec.pb';
 
 @Component({

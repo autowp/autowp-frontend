@@ -1,6 +1,6 @@
 import {OnInit, Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {APIGalleryItem} from './definitions';
 

@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {ContactsService} from '../../services/contacts';
-import {PageEnvService} from '../../services/page-env.service';
+import {ContactsService} from '@services/contacts';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {map, switchMap} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {Contact, DeleteContactRequest} from '@grpc/spec.pb';
 import {ContactsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '../../services/language';
+import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
 
 @Component({

@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ACLService, Privilege, Resource} from '../../../services/acl.service';
-import {APIItem, ItemService} from '../../../services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem, ItemService} from '@services/item';
 import {of, Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIPicture, PictureService} from '../../../services/picture';
-import {PageEnvService} from '../../../services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {APIService} from '../../../services/api.service';
-import {getItemTypeTranslation} from '../../../utils/translations';
+import {APIService} from '@services/api.service';
+import {getItemTypeTranslation} from '@utils/translations';
 
 export interface APIItemTreeItem {
   id: number;

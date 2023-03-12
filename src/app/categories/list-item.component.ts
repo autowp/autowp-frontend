@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '../services/item';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {APIPicture} from '../services/picture';
-import {APIImage} from '../services/api.service';
+import {APIItem} from '@services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIPicture} from '@services/picture';
+import {APIImage} from '@services/api.service';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ItemType} from '@grpc/spec.pb';

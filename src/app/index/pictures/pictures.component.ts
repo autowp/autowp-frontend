@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {PictureService} from '../../services/picture';
+import {PictureService} from '@services/picture';
 import {map, delay} from 'rxjs/operators';
 
 @Component({

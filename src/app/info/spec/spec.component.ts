@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {EMPTY} from 'rxjs';
 import {ToastsService} from '../../toasts/toasts.service';
 import {AutowpClient} from '@grpc/spec.pbsc';

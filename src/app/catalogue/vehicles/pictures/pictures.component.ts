@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, of} from 'rxjs';
-import {PictureService} from '../../../services/picture';
+import {PictureService} from '@services/picture';
 import {chunkBy} from '../../../chunk';
 import {CatalogueService} from '../../catalogue-service';
-import {ACLService, Privilege, Resource} from '../../../services/acl.service';
-import {getItemTypeTranslation} from '../../../utils/translations';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {getItemTypeTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures',

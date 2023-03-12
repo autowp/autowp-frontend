@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {APIAccountStartPostResponse, APIAccountItemsGetResponse, APIAccount} from '../account.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
-import {externalLoginServices} from '../../services/oauth.service';
+import {APIService} from '@services/api.service';
+import {externalLoginServices} from '@services/oauth.service';
 
 @Component({
   selector: 'app-account-accounts',

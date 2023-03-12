@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {GetTopBrandsListRequest} from '@grpc/spec.pb';
-import {LanguageService} from '../../services/language';
+import {LanguageService} from '@services/language';
 import {map} from 'rxjs/operators';
 
 @Component({

@@ -3,7 +3,7 @@ import {BehaviorSubject, of, Observable, combineLatest} from 'rxjs';
 import {switchMap, tap, debounceTime, distinctUntilChanged, map, take, shareReplay} from 'rxjs/operators';
 import {APIGalleryItem, APIGallery} from './definitions';
 import {Router} from '@angular/router';
-import {APIService} from '../services/api.service';
+import {APIService} from '@services/api.service';
 
 interface APIGalleryFilter {
   itemID?: number;

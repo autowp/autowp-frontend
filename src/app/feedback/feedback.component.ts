@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ReCaptchaService} from '../services/recaptcha';
-import {PageEnvService} from '../services/page-env.service';
+import {ReCaptchaService} from '@services/recaptcha';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {APICreateFeedbackRequest} from '@grpc/spec.pb';
-import {InvalidParams} from '../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {FormBuilder, Validators} from '@angular/forms';
 import {GrpcStatusEvent} from '@ngx-grpc/common';

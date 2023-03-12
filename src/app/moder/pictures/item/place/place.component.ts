@@ -1,11 +1,11 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EMPTY} from 'rxjs';
-import {APIPicture, PictureService} from '../../../../services/picture';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {icon, LatLng, latLng, LeafletMouseEvent, Map, marker, Marker, TileLayer, tileLayer} from 'leaflet';
-import {APIService} from '../../../../services/api.service';
+import {APIService} from '@services/api.service';
 
 interface MapOptions {
   leafletOptions: {center: LatLng; layers: TileLayer[]; zoom: number};

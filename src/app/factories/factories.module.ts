@@ -6,7 +6,7 @@ import {FactoryItemsComponent} from './items/items.component';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 
 @NgModule({
   declarations: [FactoryComponent, FactoryItemsComponent],

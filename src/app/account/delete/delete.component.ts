@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {APIDeleteUserRequest} from '@grpc/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
-import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {switchMap} from 'rxjs/operators';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 

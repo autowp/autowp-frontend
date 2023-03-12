@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIPicturePaginator} from '../services/picture';
+import {APIPicturePaginator} from '@services/picture';
 
 @Component({
   selector: 'app-picture-paginator',

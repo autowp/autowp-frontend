@@ -1,10 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '../../services/api.service';
-import {ItemService, GetItemsServiceOptions, APIItem} from '../../services/item';
-import {UserService, APIUser} from '../../services/user';
+import {APIPaginator} from '@services/api.service';
+import {ItemService, GetItemsServiceOptions, APIItem} from '@services/item';
+import {UserService, APIUser} from '@services/user';
 import {Subscription, Observable, of, EMPTY, combineLatest} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, debounceTime, catchError, map, distinctUntilChanged} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';

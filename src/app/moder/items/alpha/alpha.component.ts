@@ -1,9 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator, APIService} from '../../../services/api.service';
-import {ItemService, APIItem, APIItemsGetResponse} from '../../../services/item';
+import {APIPaginator, APIService} from '@services/api.service';
+import {ItemService, APIItem, APIItemsGetResponse} from '@services/item';
 import {Subscription, combineLatest, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap} from 'rxjs/operators';
 
 export interface APIItemAlphaGetResponse {

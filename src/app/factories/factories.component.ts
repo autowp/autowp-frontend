@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {EMPTY, Observable, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PictureService} from '../services/picture';
-import {PageEnvService} from '../services/page-env.service';
+import {PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map, tap, shareReplay} from 'rxjs/operators';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {tileLayer, latLng, Marker, marker, icon} from 'leaflet';
 import {ToastsService} from '../toasts/toasts.service';
 

@@ -24,7 +24,9 @@
     "baseUrl": "src",
     "paths": {
       "@grpc/*": ["grpc/*"],
-      "@environment/*": ["environments/*"]
+      "@environment/*": ["environments/*"],
+      "@services/*": ["app/services/*"],
+      "@utils/*": ["app/utils/*"]
     }
   },
   "angularCompilerOptions": {

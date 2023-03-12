@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '../../../../services/item';
-import {PictureService, APIPicture} from '../../../../services/picture';
+import {APIItem} from '@services/item';
+import {PictureService, APIPicture} from '@services/picture';
 import {chunkBy} from '../../../../chunk';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';

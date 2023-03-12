@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {APIPaginator, APIService} from '../services/api.service';
+import {APIPaginator, APIService} from '@services/api.service';
 import {chunkBy} from '../chunk';
 import {Router, ActivatedRoute} from '@angular/router';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPicture} from '../services/picture';
-import {PageEnvService} from '../services/page-env.service';
+import {APIPicture} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
-import {APIItem} from '../services/item';
+import {APIItem} from '@services/item';
 
 interface APINewGroupRepacked {
   type: string;

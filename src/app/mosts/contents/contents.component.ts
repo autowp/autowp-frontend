@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {APIMostsItem, MostsService} from '../mosts.service';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {APIVehicleType} from '../../services/vehicle-type';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIVehicleType} from '@services/vehicle-type';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, tap, switchMap, map, shareReplay} from 'rxjs/operators';
 import {
   getMostsPeriodsTranslation,
@@ -10,7 +10,7 @@ import {
   getMostsRatingsTranslation,
   getUnitTranslation,
   getVehicleTypeRpTranslation,
-} from '../../utils/translations';
+} from '@utils/translations';
 
 function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   const result: APIVehicleType[] = [];

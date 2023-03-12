@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {APIUser} from '../../services/user';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIUser} from '@services/user';
+import {PageEnvService} from '@services/page-env.service';
 import {
   distinctUntilChanged,
   debounceTime,
@@ -14,7 +14,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 
 export interface APIRatingUser {
   user: APIUser;

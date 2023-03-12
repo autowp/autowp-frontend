@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap, map, distinctUntilChanged} from 'rxjs/operators';
-import {APIItem, APIPathItem, ItemService} from '../services/item';
+import {APIItem, APIPathItem, ItemService} from '@services/item';
 import {PathItem} from './definitions';
 import {Observable} from 'rxjs';
 

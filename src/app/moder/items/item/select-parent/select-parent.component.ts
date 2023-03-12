@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '../../../../services/api.service';
-import {ItemService, APIItem} from '../../../../services/item';
+import {APIService} from '@services/api.service';
+import {ItemService, APIItem} from '@services/item';
 import {Router, ActivatedRoute} from '@angular/router';
 import {EMPTY} from 'rxjs';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../../../toasts/toasts.service';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';

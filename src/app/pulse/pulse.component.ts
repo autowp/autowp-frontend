@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {PulseRequest} from '@grpc/spec.pb';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import {ChartConfiguration} from 'chart.js';
-import {UserService} from '../services/user';
+import {UserService} from '@services/user';
 
 @Component({
   selector: 'app-pulse',

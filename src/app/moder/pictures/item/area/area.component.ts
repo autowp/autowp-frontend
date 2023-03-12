@@ -1,11 +1,11 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import * as $ from 'jquery';
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
-import {PictureItemService} from '../../../../services/picture-item';
+import {PictureItemService} from '@services/picture-item';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription, BehaviorSubject} from 'rxjs';
-import {PictureService, APIPicture} from '../../../../services/picture';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {PictureService, APIPicture} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, tap, map} from 'rxjs/operators';
 
 interface Crop {

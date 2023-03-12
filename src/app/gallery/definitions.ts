@@ -1,4 +1,4 @@
-import {APIImage} from '../services/api.service';
+import {APIImage} from '@services/api.service';
 
 export interface Rectangle {
   left: number;

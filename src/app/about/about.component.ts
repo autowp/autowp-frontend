@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import * as showdown from 'showdown';
 import * as escapeRegExp from 'lodash.escaperegexp';
-import {UserService, APIUser} from '../services/user';
+import {UserService, APIUser} from '@services/user';
 import {Router} from '@angular/router';
 import {DecimalPipe} from '@angular/common';
 import {BytesPipe} from 'ngx-pipes';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {map, switchMap} from 'rxjs/operators';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';

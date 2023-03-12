@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, EMPTY, of} from 'rxjs';
 import {CatalogueService} from '../../catalogue-service';
-import {ACLService, Privilege, Resource} from '../../../services/acl.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({

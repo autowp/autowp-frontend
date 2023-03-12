@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Observable, forkJoin, of, EMPTY, combineLatest} from 'rxjs';
-import {ItemParentService} from '../../../../../services/item-parent';
-import {allowedItemTypeCombinations, APIItem, ItemService} from '../../../../../services/item';
-import {PageEnvService} from '../../../../../services/page-env.service';
-import {APIService} from '../../../../../services/api.service';
+import {ItemParentService} from '@services/item-parent';
+import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIService} from '@services/api.service';
 import {switchMap, catchError, distinctUntilChanged, debounceTime, map, shareReplay} from 'rxjs/operators';
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
-import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {HttpErrorResponse} from '@angular/common/http';

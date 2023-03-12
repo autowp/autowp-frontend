@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {ItemService} from '../../../services/item';
-import {PageEnvService} from '../../../services/page-env.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
-import {PictureService} from '../../../services/picture';
+import {PictureService} from '@services/picture';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({

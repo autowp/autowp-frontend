@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {EMPTY, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, map, switchMap, shareReplay, tap} from 'rxjs/operators';
-import {ItemService} from '../../services/item';
+import {ItemService} from '@services/item';
 
 @Component({
   selector: 'app-catalogue-mosts',

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 import {ActivatedRoute} from '@angular/router';
 import {EMPTY} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';

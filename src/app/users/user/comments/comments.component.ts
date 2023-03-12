@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {UserService} from '../../../services/user';
+import {UserService} from '@services/user';
 import {Router, ActivatedRoute} from '@angular/router';
 import {combineLatest, EMPTY} from 'rxjs';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, debounceTime, catchError, tap, map, shareReplay} from 'rxjs/operators';
 import {APICommentsService} from '../../../api/comments/comments.service';
 import {ToastsService} from '../../../toasts/toasts.service';

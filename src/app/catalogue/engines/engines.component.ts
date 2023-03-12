@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {ItemService} from '../../services/item';
-import {PageEnvService} from '../../services/page-env.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, of} from 'rxjs';
-import {ItemParentService} from '../../services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
+import {ItemParentService} from '@services/item-parent';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-catalogue-engines',

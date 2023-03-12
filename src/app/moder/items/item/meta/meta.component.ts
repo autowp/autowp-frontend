@@ -1,12 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemService} from '../../../../services/item';
-import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {APIService} from '../../../../services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIService} from '@services/api.service';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
-import {InvalidParams} from '../../../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {HttpErrorResponse} from '@angular/common/http';
 

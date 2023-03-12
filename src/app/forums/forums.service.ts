@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {shareReplay, switchMap, map} from 'rxjs/operators';
-import {AuthService} from '../services/auth.service';
-import {APIPaginator, APIService} from '../services/api.service';
-import {APIUser} from '../services/user';
+import {AuthService} from '@services/auth.service';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIUser} from '@services/user';
 import {APIComment} from '../api/comments/comments.service';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';

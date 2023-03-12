@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PictureService} from '../services/picture';
-import {PageEnvService} from '../services/page-env.service';
+import {PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 

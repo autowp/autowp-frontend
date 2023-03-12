@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {TwinsRoutingModule} from './twins-routing.module';
 import {TwinsItemComponent} from './item/item.component';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {UserModule} from '../user/user.module';
 import {TwinsSidebarComponent} from './sidebar.component';
 import {TwinsGroupPicturesComponent} from './twins-group-pictures.component';

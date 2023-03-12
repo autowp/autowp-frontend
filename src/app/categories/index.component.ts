@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService} from '../services/item';
-import {PageEnvService} from '../services/page-env.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {chunkBy} from '../chunk';
 import {map} from 'rxjs/operators';
 

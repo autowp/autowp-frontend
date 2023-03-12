@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {environment} from '@environment/environment';
 
 @Component({

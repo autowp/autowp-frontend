@@ -1,18 +1,18 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {AuthService} from '../../services/auth.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {switchMap, catchError, tap} from 'rxjs/operators';
-import {TimezoneService} from '../../services/timezone';
+import {TimezoneService} from '@services/timezone';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIImage, APIService} from '../../services/api.service';
+import {APIImage, APIService} from '@services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {environment} from '@environment/environment';
 import {APIUser} from '@grpc/spec.pb';
-import {APIUser as RESTAPIUser} from '../../services/user';
-import {LanguageService} from '../../services/language';
+import {APIUser as RESTAPIUser} from '@services/user';
+import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
-import {InvalidParams} from '../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-account-profile',

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {UserService, APIUser} from '../../services/user';
-import {APIPaginator} from '../../services/api.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {UserService, APIUser} from '@services/user';
+import {APIPaginator} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';

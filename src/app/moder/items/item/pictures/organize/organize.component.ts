@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Observable, of, forkJoin, EMPTY} from 'rxjs';
-import {APIPictureItem, PictureItemService} from '../../../../../services/picture-item';
-import {APIItem, ItemService} from '../../../../../services/item';
-import {PageEnvService} from '../../../../../services/page-env.service';
-import {APIService} from '../../../../../services/api.service';
+import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIService} from '@services/api.service';
 import {switchMap, catchError, distinctUntilChanged, debounceTime, map, shareReplay} from 'rxjs/operators';
-import {InvalidParams} from '../../../../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 import {ItemsClient} from '@grpc/spec.pbsc';

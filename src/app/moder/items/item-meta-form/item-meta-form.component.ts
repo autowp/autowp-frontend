@@ -3,16 +3,16 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {map, shareReplay} from 'rxjs/operators';
-import {SpecService} from '../../../services/spec';
-import {APIItem} from '../../../services/item';
-import {LanguageService} from '../../../services/language';
+import {SpecService} from '@services/spec';
+import {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
-import {InvalidParams} from '../../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {getVehicleTypeTranslation} from '../../../utils/translations';
-import {VehicleTypeService} from '../../../services/vehicle-type';
-import {APIPictureItem} from '../../../services/picture-item';
+import {getVehicleTypeTranslation} from '@utils/translations';
+import {VehicleTypeService} from '@services/vehicle-type';
+import {APIPictureItem} from '@services/picture-item';
 
 function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];

@@ -1,4 +1,4 @@
-import {APIItem} from '../services/item';
+import {APIItem} from '@services/item';
 
 export interface PathItem {
   routerLink: string[];

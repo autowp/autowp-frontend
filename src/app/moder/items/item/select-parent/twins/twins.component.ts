@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
-import {APIItem, ItemService} from '../../../../../services/item';
-import {APIPaginator} from '../../../../../services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {APIPaginator} from '@services/api.service';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {chunk} from '../../../../../chunk';
 import {ActivatedRoute} from '@angular/router';

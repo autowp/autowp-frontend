@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {APIBrandsGetResponse, APIBrandsLines} from '../services/brands.service';
-import {PageEnvService} from '../services/page-env.service';
+import {APIBrandsGetResponse, APIBrandsLines} from '@services/brands.service';
+import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
 import {ToastsService} from '../toasts/toasts.service';
-import {APIService} from '../services/api.service';
+import {APIService} from '@services/api.service';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {BrandIcons} from '@grpc/spec.pb';

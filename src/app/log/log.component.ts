@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {APIPaginator, APIService} from '../services/api.service';
+import {APIPaginator, APIService} from '@services/api.service';
 import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {APIUser} from '../services/user';
-import {APIItem} from '../services/item';
-import {APIPicture} from '../services/picture';
-import {PageEnvService} from '../services/page-env.service';
+import {APIUser} from '@services/user';
+import {APIItem} from '@services/item';
+import {APIPicture} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 

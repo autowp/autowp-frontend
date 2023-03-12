@@ -1,11 +1,11 @@
 import {OnInit, Component} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {CatagoriesService, CategoryPipeResult} from '../service';
 import {APIGalleryItem} from '../../gallery/definitions';
-import {APIItem} from '../../services/item';
+import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-category-gallery',

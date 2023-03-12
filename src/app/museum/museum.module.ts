@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {MuseumRoutingModule} from './museum-routing.module';
 import {MuseumComponent} from './museum.component';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {CommentsModule} from '../comments/comments.module';

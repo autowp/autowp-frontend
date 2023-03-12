@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {APIPaginator, APIService} from '../services/api.service';
+import {APIPaginator, APIService} from '@services/api.service';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 

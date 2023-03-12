@@ -1,13 +1,13 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIItemParentLanguageGetResponse, APIService} from '../../services/api.service';
-import {ContentLanguageService} from '../../services/content-language';
-import {ItemService, APIItem} from '../../services/item';
+import {APIItemParentLanguageGetResponse, APIService} from '@services/api.service';
+import {ContentLanguageService} from '@services/content-language';
+import {ItemService, APIItem} from '@services/item';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, combineLatest, Observable, forkJoin, EMPTY} from 'rxjs';
-import {APIItemParent} from '../../services/item-parent';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIItemParent} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
-import {getItemTypeTranslation} from '../../utils/translations';
+import {getItemTypeTranslation} from '@utils/translations';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({

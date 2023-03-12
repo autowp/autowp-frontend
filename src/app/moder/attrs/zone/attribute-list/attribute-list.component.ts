@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {APIAttrZoneAttributeChange} from '../zone.component';
 import {APIAttrAttribute} from '../../../../api/attrs/attrs.service';
-import {getAttrsTranslation} from '../../../../utils/translations';
+import {getAttrsTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-moder-attrs-zone-attribute-list',

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIBrandsBrand} from '../../services/brands.service';
-import {APIService} from '../../services/api.service';
+import {APIBrandsBrand} from '@services/brands.service';
+import {APIService} from '@services/api.service';
 import {BrandIcons} from '@grpc/spec.pb';
 import {BehaviorSubject} from 'rxjs';
 import {switchMap} from 'rxjs/operators';

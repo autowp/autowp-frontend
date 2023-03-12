@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';

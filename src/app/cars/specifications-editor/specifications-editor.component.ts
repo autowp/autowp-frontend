@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {APIItem, ItemService} from '../../services/item';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
-import {AuthService} from '../../services/auth.service';
+import {APIService} from '@services/api.service';
+import {AuthService} from '@services/auth.service';
 
 @Component({
   selector: 'app-cars-specifications-editor',

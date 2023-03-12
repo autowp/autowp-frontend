@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {combineLatest, EMPTY} from 'rxjs';
-import {PictureService} from '../../services/picture';
-import {PageEnvService} from '../../services/page-env.service';
+import {PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 

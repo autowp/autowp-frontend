@@ -7,7 +7,7 @@ import {UserModule} from '../user/user.module';
 import {NgbTooltipModule, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {MomentModule} from 'ngx-moment';
 import {NgPipesModule} from 'ngx-pipes';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {ShareModule} from '../share/share.module';
 import {PictureModerVoteModule} from '../picture-moder-vote/picture-moder-vote.module';
 import {PicturePageComponent} from './picture-page.component';

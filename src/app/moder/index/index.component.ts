@@ -1,5 +1,5 @@
 import {Component, AfterViewInit} from '@angular/core';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 
 @Component({
   selector: 'app-moder-index',

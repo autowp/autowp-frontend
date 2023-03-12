@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIItem, ItemService} from '../../../services/item';
-import {ACLService, Privilege, Resource} from '../../../services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {APIService} from '../../../services/api.service';
+import {APIService} from '@services/api.service';
 import {shareReplay, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, of} from 'rxjs';
 

@@ -5,7 +5,7 @@ import {CutawayComponent} from './cutaway.component';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {CutawayAuthorsComponent} from './authors/authors.component';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {CutawayBrandsComponent} from './brands/brands.component';
 import {CutawayBrandsBrandComponent} from './brands/brand/brand.component';
 

@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import {APIPicture} from '../../services/picture';
-import {APIImage} from '../../services/api.service';
-import {APIItem, APIItemChildsCounts} from '../../services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIPicture} from '@services/picture';
+import {APIImage} from '@services/api.service';
+import {APIItem, APIItemChildsCounts} from '@services/item';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture;

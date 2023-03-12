@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
-import {MessageService} from '../../services/message';
+import {MessageService} from '@services/message';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, tap, catchError} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIMessage, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
 import {MessagingClient} from '@grpc/spec.pbsc';
-import {APIUser, UserService} from '../../services/user';
+import {APIUser, UserService} from '@services/user';
 
 @Component({
   selector: 'app-account-messages',

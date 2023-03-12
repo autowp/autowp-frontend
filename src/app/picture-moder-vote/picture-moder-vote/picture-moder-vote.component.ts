@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIPicture} from '../../services/picture';
-import {PictureModerVoteService} from '../../services/picture-moder-vote';
+import {APIPicture} from '@services/picture';
+import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteModalComponent} from './modal/modal.component';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';

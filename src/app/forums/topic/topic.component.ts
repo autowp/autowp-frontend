@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {combineLatest, Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
-import {AuthService} from '../../services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
+import {AuthService} from '@services/auth.service';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '../../utils/translations';
+import {getForumsThemeTranslation} from '@utils/translations';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest} from '@grpc/spec.pb';
 

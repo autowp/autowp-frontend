@@ -1,11 +1,11 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ItemService, APIItem} from '../services/item';
+import {ItemService, APIItem} from '@services/item';
 import {Subscription} from 'rxjs';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap, tap, map} from 'rxjs/operators';
-import {APIPaginator} from '../services/api.service';
-import {PictureService, APIPicture} from '../services/picture';
+import {APIPaginator} from '@services/api.service';
+import {PictureService, APIPicture} from '@services/picture';
 import {chunkBy} from '../chunk';
 import {PathItem} from './definitions';
 import {CatagoriesService} from './service';

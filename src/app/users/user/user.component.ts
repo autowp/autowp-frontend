@@ -1,18 +1,18 @@
 import {Component} from '@angular/core';
-import {ContactsService} from '../../services/contacts';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {ContactsService} from '@services/contacts';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIUser, UserService} from '../../services/user';
+import {APIUser, UserService} from '@services/user';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
-import {APIPicture, PictureService} from '../../services/picture';
-import {IpService} from '../../services/ip';
-import {PageEnvService} from '../../services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {IpService} from '@services/ip';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 import {
   AddToTrafficBlacklistRequest,
   APIDeleteUserRequest,

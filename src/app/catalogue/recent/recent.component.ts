@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {ItemService} from '../../services/item';
-import {PageEnvService} from '../../services/page-env.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY} from 'rxjs';
-import {APIPicture, PictureService} from '../../services/picture';
+import {APIPicture, PictureService} from '@services/picture';
 import {chunkBy} from '../../chunk';
 import {CatalogueService} from '../catalogue-service';
 

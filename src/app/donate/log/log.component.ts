@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {UserService, APIUser} from '../../services/user';
-import {PageEnvService} from '../../services/page-env.service';
+import {UserService, APIUser} from '@services/user';
+import {PageEnvService} from '@services/page-env.service';
 
 interface LogItem {
   sum: number;

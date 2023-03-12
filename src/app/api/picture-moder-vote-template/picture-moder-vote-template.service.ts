@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {map, shareReplay, tap, switchMap} from 'rxjs/operators';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {DeleteModerVoteTemplateRequest, ModerVoteTemplate} from '@grpc/spec.pb';

@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {ItemService} from '../../services/item';
+import {ItemService} from '@services/item';
 import {combineLatest, EMPTY, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
+import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {ItemType} from '@grpc/spec.pb';
 
 @Component({

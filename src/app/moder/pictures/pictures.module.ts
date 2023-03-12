@@ -13,7 +13,7 @@ import {ModerPicturesItemMoveComponent} from './item/move/move.component';
 import {ThumbnailModule} from '../../thumbnail/thumbnail.module';
 import {NgPipesModule} from 'ngx-pipes';
 import {MomentModule} from 'ngx-moment';
-import {UtilsModule} from '../../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {UserModule} from '../../user/user.module';
 import {MarkdownEditModule} from '../../markdown-edit/markdown-edit.module';
 import {PictureModerVoteModule} from '../../picture-moder-vote/picture-moder-vote.module';

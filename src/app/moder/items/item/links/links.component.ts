@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '../../../../services/item';
-import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
+import {APIItem} from '@services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ItemsClient} from '@grpc/spec.pbsc';

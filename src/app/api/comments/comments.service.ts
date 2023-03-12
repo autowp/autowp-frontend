@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {APIPaginator, APIService} from '../../services/api.service';
-import {APIUser} from '../../services/user';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIUser} from '@services/user';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 export interface APICommentItemGetOptions {

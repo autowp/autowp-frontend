@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '../../services/item';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, EMPTY, Observable} from 'rxjs';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {getVehicleTypeTranslation} from '../../utils/translations';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {getVehicleTypeTranslation} from '@utils/translations';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {BrandVehicleType, GetBrandVehicleTypesRequest} from '@grpc/spec.pb';
 

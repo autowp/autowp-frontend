@@ -1,11 +1,11 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '../../../services/api.service';
-import {APIItem, ItemService, APIItemsGetResponse} from '../../../services/item';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, ItemService, APIItemsGetResponse} from '@services/item';
 import {chunk} from '../../../chunk';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription, combineLatest, of} from 'rxjs';
-import {ItemParentService, APIItemParent, APIItemParentGetResponse} from '../../../services/item-parent';
-import {PageEnvService} from '../../../services/page-env.service';
+import {ItemParentService, APIItemParent, APIItemParentGetResponse} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, finalize, map} from 'rxjs/operators';
 
 @Component({

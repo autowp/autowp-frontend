@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '../../services/item';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {PictureService} from '../../services/picture';
+import {PictureService} from '@services/picture';
 import {chunkBy} from '../../chunk';
 import {BrandPerspectivePageData} from '../catalogue.module';
 

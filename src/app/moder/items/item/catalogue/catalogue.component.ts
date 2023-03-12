@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemService} from '../../../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {APIItemParent, ItemParentService} from '../../../../services/item-parent';
-import {APIService} from '../../../../services/api.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {APIService} from '@services/api.service';
 import {ItemType} from '@grpc/spec.pb';
 
 @Component({

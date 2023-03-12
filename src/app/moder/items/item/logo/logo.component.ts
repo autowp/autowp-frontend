@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '../../../../services/item';
-import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
+import {APIItem} from '@services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {APIImage, APIService} from '../../../../services/api.service';
+import {APIImage, APIService} from '@services/api.service';
 import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';

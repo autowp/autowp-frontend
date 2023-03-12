@@ -1,7 +1,7 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {APIItemParent} from '../../../../../services/item-parent';
+import {APIItemParent} from '@services/item-parent';
 import {BehaviorSubject} from 'rxjs';
-import {APIItem} from '../../../../../services/item';
+import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-tree',

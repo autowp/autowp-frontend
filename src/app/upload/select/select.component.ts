@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {APIPaginator} from '../../services/api.service';
-import {ItemService, APIItem, APIItemsGetResponse} from '../../services/item';
+import {APIPaginator} from '@services/api.service';
+import {ItemService, APIItem, APIItemsGetResponse} from '@services/item';
 import {chunk} from '../../chunk';
 import {Observable, forkJoin, of, BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemParentService, APIItemParent} from '../../services/item-parent';
-import {PageEnvService} from '../../services/page-env.service';
+import {ItemParentService, APIItemParent} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, switchMap, map, catchError, tap, debounceTime} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 

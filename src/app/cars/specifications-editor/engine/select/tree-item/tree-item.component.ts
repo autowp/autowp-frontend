@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {ItemParentService, APIItemParent} from '../../../../../services/item-parent';
+import {ItemParentService, APIItemParent} from '@services/item-parent';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({

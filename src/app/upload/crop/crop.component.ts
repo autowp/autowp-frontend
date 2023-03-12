@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, EventEmitter, Output, OnDestroy} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
-import {APIPicture} from '../../services/picture';
+import {APIPicture} from '@services/picture';
 import * as $ from 'jquery';
 import Jcrop from '../../jcrop/jquery.Jcrop';
 

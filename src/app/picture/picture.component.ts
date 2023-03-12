@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIPicture, PictureService} from '../services/picture';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {BehaviorSubject} from 'rxjs';
-import {AuthService} from '../services/auth.service';
-import {APIItem} from '../services/item';
+import {AuthService} from '@services/auth.service';
+import {APIItem} from '@services/item';
 import {Router} from '@angular/router';
-import {APIPictureItem, PictureItemService} from '../services/picture-item';
+import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest, PicturesViewRequest} from '@grpc/spec.pb';
 import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
 

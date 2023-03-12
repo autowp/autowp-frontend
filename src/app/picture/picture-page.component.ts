@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {of, EMPTY, BehaviorSubject, throwError} from 'rxjs';
-import {APIItem} from '../services/item';
-import {PictureService} from '../services/picture';
+import {APIItem} from '@services/item';
+import {PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, catchError, debounceTime, tap} from 'rxjs/operators';
 import {PathItem} from '../categories/definitions';
 import {HttpErrorResponse} from '@angular/common/http';

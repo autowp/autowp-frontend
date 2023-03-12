@@ -1,5 +1,5 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {ItemParentService, APIItemParent} from '../../../../../services/item-parent';
+import {ItemParentService, APIItemParent} from '@services/item-parent';
 import {PictureItemMoveSelection} from '../move.component';
 
 @Component({

@@ -1,7 +1,7 @@
 import {Router, ActivatedRoute} from '@angular/router';
 import {Component} from '@angular/core';
 import {EMPTY} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {ArticlesClient} from '@grpc/spec.pbsc';

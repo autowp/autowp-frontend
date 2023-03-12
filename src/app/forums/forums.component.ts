@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {combineLatest} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '../utils/translations';
+import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@utils/translations';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {APISetTopicStatusRequest} from '@grpc/spec.pb';
 

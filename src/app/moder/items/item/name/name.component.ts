@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '../../../../services/item';
-import {APIItemLanguage, ItemLanguageService} from '../../../../services/item-language';
-import {ContentLanguageService} from '../../../../services/content-language';
+import {APIItem} from '@services/item';
+import {APIItemLanguage, ItemLanguageService} from '@services/item-language';
+import {ContentLanguageService} from '@services/content-language';
 import {combineLatest, BehaviorSubject, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {APIService} from '../../../../services/api.service';
+import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-name',

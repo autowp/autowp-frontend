@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {MessageService} from '../services/message';
+import {MessageService} from '@services/message';
 import {ForumsService} from '../forums/forums.service';
-import {AuthService} from '../services/auth.service';
-import {PictureService} from '../services/picture';
-import {PageEnvService} from '../services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
 
 interface SidebarItem {

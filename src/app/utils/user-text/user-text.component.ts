@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIUser, UserService} from '../../services/user';
-import {APIPicture, APIPictureGetResponse, PictureService} from '../../services/picture';
+import {APIUser, UserService} from '@services/user';
+import {APIPicture, APIPictureGetResponse, PictureService} from '@services/picture';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import * as URLParse from 'url-parse';

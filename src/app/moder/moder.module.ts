@@ -25,7 +25,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {UserModule} from '../user/user.module';
 import {PaginatorModule} from '../paginator/paginator.module';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MomentModule} from 'ngx-moment';
 import {APIAttrsModule} from '../api/attrs/attrs.module';

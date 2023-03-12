@@ -13,7 +13,7 @@ import {ForumsRoutingModule} from './forums-routing.module';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {MomentModule} from 'ngx-moment';
 import {UserModule} from '../user/user.module';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {FormsModule} from '@angular/forms';
 import {CommentsModule} from '../comments/comments.module';
 

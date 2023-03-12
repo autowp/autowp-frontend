@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPictureGetResponse, PictureService} from '../../services/picture';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {APIPictureGetResponse, PictureService} from '@services/picture';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIGetItemLinksRequest, APIItemLink, APIItemLinksResponse, ItemType} from '@grpc/spec.pb';

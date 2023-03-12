@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PolicyRoutingModule} from './policy-routing.module';
 import {PolicyComponent} from './policy.component';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 
 @NgModule({
   declarations: [PolicyComponent],

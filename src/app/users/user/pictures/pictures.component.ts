@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem} from '../../../services/item';
+import {ItemService, APIItem} from '@services/item';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../../../services/user';
+import {UserService} from '@services/user';
 import {EMPTY, Observable} from 'rxjs';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {AutowpClient} from '@grpc/spec.pbsc';

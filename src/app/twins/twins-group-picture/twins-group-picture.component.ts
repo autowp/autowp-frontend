@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIItem, ItemService} from '../../services/item';
-import {APIPicture, PictureService} from '../../services/picture';
+import {APIItem, ItemService} from '@services/item';
+import {APIPicture, PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {PageEnvService} from '@services/page-env.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 
 @Component({
   selector: 'app-twins-group-picture',

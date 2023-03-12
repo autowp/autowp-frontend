@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ItemService} from '../../../services/item';
-import {PageEnvService} from '../../../services/page-env.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';

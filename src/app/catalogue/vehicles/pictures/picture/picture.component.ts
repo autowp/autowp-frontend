@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import {CatalogueService} from '../../../catalogue-service';
-import {ACLService, Privilege, Resource} from '../../../../services/acl.service';
-import {PictureService} from '../../../../services/picture';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PictureService} from '@services/picture';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures-picture',

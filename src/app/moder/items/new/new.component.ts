@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
-import {ItemService, APIItem} from '../../../services/item';
+import {ItemService, APIItem} from '@services/item';
 import {Router, ActivatedRoute} from '@angular/router';
 import {of, forkJoin, EMPTY, Observable} from 'rxjs';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError, shareReplay, tap, take} from 'rxjs/operators';
-import {APIService} from '../../../services/api.service';
+import {APIService} from '@services/api.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {getItemTypeTranslation} from '../../../utils/translations';
+import {getItemTypeTranslation} from '@utils/translations';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemMetaFormResult} from '../item-meta-form/item-meta-form.component';
-import {InvalidParams} from '../../../utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {HttpErrorResponse} from '@angular/common/http';
 

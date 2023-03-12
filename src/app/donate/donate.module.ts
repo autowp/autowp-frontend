@@ -9,7 +9,7 @@ import {DonateVodSelectItemComponent} from './vod/select/item/item.component';
 import {DonateVodSuccessComponent} from './vod/success/success.component';
 import {MomentModule} from 'ngx-moment';
 import {UserModule} from '../user/user.module';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ItemOfDayModule} from '../item-of-day/item-of-day.module';

@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {combineLatest, Observable} from 'rxjs';
-import {AuthService} from '../../../services/auth.service';
-import {ACLService, Privilege, Resource} from '../../../services/acl.service';
-import {PictureService} from '../../../services/picture';
+import {AuthService} from '@services/auth.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PictureService} from '@services/picture';
 import {map} from 'rxjs/operators';
 import {APICommentsService} from '../../../api/comments/comments.service';
 

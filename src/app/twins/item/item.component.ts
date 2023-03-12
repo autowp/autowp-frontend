@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import {APIItem} from '../../services/item';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-twins-item',

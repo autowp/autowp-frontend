@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {APIPaginator, APIService} from '../services/api.service';
-import {APIItem} from '../services/item';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIItem} from '@services/item';
 import {Observable} from 'rxjs';
 
 export interface APIInbox {

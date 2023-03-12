@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {of, BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
-import {ItemService} from '../../services/item';
-import {PictureService} from '../../services/picture';
+import {ItemService} from '@services/item';
+import {PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap, debounceTime, shareReplay} from 'rxjs/operators';
 import {PathItem} from '../definitions';
 import {CatagoriesService} from '../service';

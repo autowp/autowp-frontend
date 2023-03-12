@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {APIAttrAttribute} from '../../../api/attrs/attrs.service';
-import {getAttrsTranslation} from '../../../utils/translations';
+import {getAttrsTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-moder-attrs-attribute-list',

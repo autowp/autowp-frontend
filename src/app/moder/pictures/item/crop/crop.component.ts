@@ -3,10 +3,10 @@ import * as $ from 'jquery';
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription, BehaviorSubject} from 'rxjs';
-import {PictureService, APIPicture} from '../../../../services/picture';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {PictureService, APIPicture} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {APIService} from '../../../../services/api.service';
+import {APIService} from '@services/api.service';
 
 interface Crop {
   w: number;

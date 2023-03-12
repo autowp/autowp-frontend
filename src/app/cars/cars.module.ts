@@ -16,7 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {MomentModule} from 'ngx-moment';
 import {UserModule} from '../user/user.module';
 import {PaginatorModule} from '../paginator/paginator.module';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {ItemModule} from '../item/item.module';
 
 @NgModule({

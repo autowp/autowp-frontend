@@ -8,7 +8,7 @@ import {
   ApplicationRef,
 } from '@angular/core';
 import {BehaviorSubject, EMPTY} from 'rxjs';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {tileLayer, latLng, Map, LatLngBounds, Marker, marker, icon, Popup, MapOptions} from 'leaflet';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MapPopupComponent} from './popup/popup.component';

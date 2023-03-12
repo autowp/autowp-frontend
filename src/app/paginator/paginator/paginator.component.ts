@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIPaginator} from '../../services/api.service';
+import {APIPaginator} from '@services/api.service';
 import {Pages} from '@grpc/spec.pb';
 
 @Component({

@@ -5,7 +5,7 @@ import {MostsRoutingModule} from './mosts-routing.module';
 import {MostsComponent} from './mosts.component';
 import {MostsService} from './mosts.service';
 import {HttpClientModule} from '@angular/common/http';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {NgbTooltipModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {MostsContentsComponent} from './contents/contents.component';
 

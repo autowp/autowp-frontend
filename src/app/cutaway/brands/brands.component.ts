@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIItem, ItemService} from '../../services/item';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
+import {APIItem, ItemService} from '@services/item';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {ItemPictureType, ItemType} from '@grpc/spec.pb';
 
 @Component({

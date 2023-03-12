@@ -1,18 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {APIItem, ItemService} from '../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {of, Observable, concat, combineLatest, EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PictureService, APIPicture} from '../../services/picture';
-import {AuthService} from '../../services/auth.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {PictureService, APIPicture} from '@services/picture';
+import {AuthService} from '@services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, catchError, tap, distinctUntilChanged, debounceTime, map, take} from 'rxjs/operators';
 import {UploadCropComponent} from '../crop/crop.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 import {KeycloakService} from 'keycloak-angular';
-import {LanguageService} from '../../services/language';
+import {LanguageService} from '@services/language';
 
 interface UploadProgress {
   filename: string;

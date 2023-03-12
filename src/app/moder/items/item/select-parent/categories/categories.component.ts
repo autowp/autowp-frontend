@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BehaviorSubject, EMPTY} from 'rxjs';
-import {APIItem, ItemService} from '../../../../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';

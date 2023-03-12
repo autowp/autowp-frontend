@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
-import {ItemService} from '../../services/item';
-import {PageEnvService} from '../../services/page-env.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, of, combineLatest, Observable} from 'rxjs';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
-import {APIPicture, PictureService} from '../../services/picture';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIPicture, PictureService} from '@services/picture';
 import {chunk, chunkBy} from '../../chunk';
 import {CatalogueService} from '../catalogue-service';
-import {APIService} from '../../services/api.service';
-import {getCatalogueSectionsTranslation} from '../../utils/translations';
+import {APIService} from '@services/api.service';
+import {getCatalogueSectionsTranslation} from '@utils/translations';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIGetItemLinksRequest, APIItemLink} from '@grpc/spec.pb';
 

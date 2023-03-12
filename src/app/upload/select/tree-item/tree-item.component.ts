@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIItemParent, ItemParentService} from '../../../services/item-parent';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';

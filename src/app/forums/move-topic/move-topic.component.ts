@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {EMPTY} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {APIForumTheme, APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '../../utils/translations';
+import {getForumsThemeTranslation} from '@utils/translations';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {APIMoveTopicRequest} from '@grpc/spec.pb';
 

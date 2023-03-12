@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '../services/page-env.service';
-import {APIItem, ItemOfDayItem} from '../services/item';
-import {APIService} from '../services/api.service';
+import {PageEnvService} from '@services/page-env.service';
+import {APIItem, ItemOfDayItem} from '@services/item';
+import {APIService} from '@services/api.service';
 import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {APIGetUserRequest, APIUser, GetTopPersonsListRequest, PictureItemType} from '@grpc/spec.pb';
-import {LanguageService} from '../services/language';
+import {LanguageService} from '@services/language';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable, of} from 'rxjs';
 

@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CommentsVotesComponent} from '../votes/votes.component';
-import {AuthService} from '../../services/auth.service';
-import {ACLService, Privilege, Resource} from '../../services/acl.service';
+import {AuthService} from '@services/auth.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {CommentsSetDeletedRequest, CommentsType, CommentsVoteCommentRequest} from '@grpc/spec.pb';

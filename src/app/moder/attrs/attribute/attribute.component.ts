@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {combineLatest, BehaviorSubject, Observable, EMPTY} from 'rxjs';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {APIAttrAttribute, APIAttrsService, APIAttrAttributeGetResponse} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {APIService} from '../../../services/api.service';
-import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} from '../../../utils/translations';
+import {APIService} from '@services/api.service';
+import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-moder-attrs-attribute',

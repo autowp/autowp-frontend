@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {LanguageService} from '../../services/language';
+import {LanguageService} from '@services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import * as moment from 'moment';

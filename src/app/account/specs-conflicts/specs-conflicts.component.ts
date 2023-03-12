@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '../../services/api.service';
-import {UserService, APIUser} from '../../services/user';
+import {APIService} from '@services/api.service';
+import {UserService, APIUser} from '@services/user';
 import {ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {combineLatest, Observable} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
 import {APIAttrConflictValue, APIAttrConflict, APIAttrsService} from '../../api/attrs/attrs.service';
-import {getUnitTranslation} from '../../utils/translations';
+import {getUnitTranslation} from '@utils/translations';
 
 interface APIAttrConflictValueInList extends APIAttrConflictValue {
   user$?: Observable<APIUser>;

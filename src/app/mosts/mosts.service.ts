@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {APIItem} from '../services/item';
-import {APIVehicleType} from '../services/vehicle-type';
+import {APIItem} from '@services/item';
+import {APIVehicleType} from '@services/vehicle-type';
 import {APIAttrUnit} from '../api/attrs/attrs.service';
-import {APIService} from '../services/api.service';
+import {APIService} from '@services/api.service';
 
 export interface APIMostsItemsGetOptions {
   brand_id?: number;

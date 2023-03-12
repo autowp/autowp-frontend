@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {of, EMPTY, Observable, BehaviorSubject, combineLatest} from 'rxjs';
-import {APIItem, ItemService} from '../../../services/item';
-import {PictureService} from '../../../services/picture';
+import {APIItem, ItemService} from '@services/item';
+import {PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, debounceTime, shareReplay, tap} from 'rxjs/operators';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 

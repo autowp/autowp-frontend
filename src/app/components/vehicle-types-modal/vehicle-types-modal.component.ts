@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {VehicleTypeService} from '../../services/vehicle-type';
-import {getVehicleTypeTranslation} from '../../utils/translations';
+import {VehicleTypeService} from '@services/vehicle-type';
+import {getVehicleTypeTranslation} from '@utils/translations';
 import {map, shareReplay} from 'rxjs/operators';
 import {VehicleType} from '@grpc/spec.pb';
 

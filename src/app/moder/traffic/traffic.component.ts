@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {IpService} from '../../services/ip';
-import {PageEnvService} from '../../services/page-env.service';
+import {IpService} from '@services/ip';
+import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {TrafficClient} from '@grpc/spec.pbsc';

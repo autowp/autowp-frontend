@@ -1,9 +1,9 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
-import {ItemParentService} from '../../../../../services/item-parent';
+import {ItemParentService} from '@services/item-parent';
 import {ToastsService} from '../../../../../toasts/toasts.service';
-import {APIItem} from '../../../../../services/item';
+import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-tree-item',

@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {of, combineLatest, EMPTY, Observable} from 'rxjs';
-import {APIPictureGetResponse, PictureService} from '../services/picture';
+import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {APIInbox, InboxService} from './inbox.service';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
-import {LanguageService} from '../services/language';
+import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
 
 const ALL_BRANDS = 'all';

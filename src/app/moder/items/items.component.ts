@@ -1,15 +1,15 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '../../services/api.service';
-import {VehicleTypeService} from '../../services/vehicle-type';
-import {SpecService} from '../../services/spec';
-import {ItemService, APIItem, GetItemsServiceOptions} from '../../services/item';
+import {APIPaginator} from '@services/api.service';
+import {VehicleTypeService} from '@services/vehicle-type';
+import {SpecService} from '@services/spec';
+import {ItemService, APIItem, GetItemsServiceOptions} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription, Observable, of, EMPTY} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {tap, switchMap, distinctUntilChanged, debounceTime, catchError, map} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {CatalogueListItem, CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {getVehicleTypeTranslation} from '../../utils/translations';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {getVehicleTypeTranslation} from '@utils/translations';
 import {Spec, VehicleType} from '@grpc/spec.pb';
 import {ToastsService} from '../../toasts/toasts.service';
 

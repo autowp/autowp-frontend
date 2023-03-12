@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {MessageService} from '../../services/message';
+import {MessageService} from '@services/message';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({

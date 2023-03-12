@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIService} from '../../../services/api.service';
+import {APIService} from '@services/api.service';
 import {APITopBrandsListItem} from '@grpc/spec.pb';
 
 @Component({

@@ -9,7 +9,7 @@ import {RouterModule} from '@angular/router';
 import {UserModule} from '../user/user.module';
 import {MomentModule} from 'ngx-moment';
 import {FormsModule} from '@angular/forms';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {NgbTooltipModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {APICommentsModule} from '../api/comments/comments.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';

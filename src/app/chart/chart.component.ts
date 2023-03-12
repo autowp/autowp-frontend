@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
-import {APIService} from '../services/api.service';
+import {APIService} from '@services/api.service';
 import {ChartOptions} from 'chart.js';
 
 export interface APIChartParameter {

@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {APIUser} from '../../services/user';
+import {APIUser} from '@services/user';
 import {chunkBy} from '../../chunk';
-import {CatalogueListItemPicture} from '../../utils/list-item/list-item.component';
-import {APIItem} from '../../services/item';
-import {APIService} from '../../services/api.service';
+import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {APIItem} from '@services/item';
+import {APIService} from '@services/api.service';
 import {map} from 'rxjs/operators';
 
 interface APIIndexSpecItemsItem extends APIItem {

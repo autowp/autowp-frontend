@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem, APIItemsGetResponse} from '../services/item';
+import {ItemService, APIItem, APIItemsGetResponse} from '@services/item';
 import {of, combineLatest, Observable} from 'rxjs';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {tap, switchMap, map, distinctUntilChanged, debounceTime, shareReplay} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {chunkBy} from '../chunk';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {APIPaginator} from '../services/api.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIPaginator} from '@services/api.service';
 
 interface ChunkedGroup {
   item: APIItem;

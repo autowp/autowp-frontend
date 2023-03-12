@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {LanguageService} from '../services/language';
+import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
 
 @Component({

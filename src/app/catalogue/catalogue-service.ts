@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {APIItemParent, ItemParentService} from '../services/item-parent';
-import {APIItem, APIPathTreeItemParent, ItemService} from '../services/item';
-import {APIPicture} from '../services/picture';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {APIItem, APIPathTreeItemParent, ItemService} from '@services/item';
+import {APIPicture} from '@services/picture';
 import {ItemType} from '@grpc/spec.pb';
 
 interface Parent {

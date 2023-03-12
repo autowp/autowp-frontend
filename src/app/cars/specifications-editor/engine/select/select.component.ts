@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import {Router, ActivatedRoute} from '@angular/router';
-import {APIItem, ItemService} from '../../../../services/item';
-import {APIService} from '../../../../services/api.service';
-import {ItemParentService} from '../../../../services/item-parent';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {APIItem, ItemService} from '@services/item';
+import {APIService} from '@services/api.service';
+import {ItemParentService} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
 import {chunk} from '../../../../chunk';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';

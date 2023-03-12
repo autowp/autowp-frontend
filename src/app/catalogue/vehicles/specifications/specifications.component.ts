@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
 import {CatalogueService} from '../../catalogue-service';
-import {ACLService, Privilege, Resource} from '../../../services/acl.service';
-import {APIService} from '../../../services/api.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-catalogue-vehicles-specifications',

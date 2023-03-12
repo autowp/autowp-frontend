@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {APIPaginator, APIService} from '../../services/api.service';
-import {APIItem} from '../../services/item';
-import {APIUser} from '../../services/user';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIItem} from '@services/item';
+import {APIUser} from '@services/user';
 
 export interface APIAttrListOption {
   id: number;

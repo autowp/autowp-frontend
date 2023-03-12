@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {combineLatest, EMPTY, Observable} from 'rxjs';
-import {APIItem, ItemService} from '../../../../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {chunk} from '../../../../../chunk';
-import {APIPaginator} from '../../../../../services/api.service';
+import {APIPaginator} from '@services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-brands',

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
 import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '../../services/api.service';
+import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-moder-attrs',

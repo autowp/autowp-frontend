@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EMPTY, of} from 'rxjs';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {APIForumTopic, ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '../../utils/translations';
+import {getForumsThemeTranslation} from '@utils/translations';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {CommentsMoveCommentRequest, CommentsType} from '@grpc/spec.pb';
 

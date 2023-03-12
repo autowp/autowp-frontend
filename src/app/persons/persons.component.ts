@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem} from '../services/item';
+import {ItemService, APIItem} from '@services/item';
 import {combineLatest} from 'rxjs';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {CatalogueListItem, CatalogueListItemPicture} from '../utils/list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 
 @Component({
   selector: 'app-persons',

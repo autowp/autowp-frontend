@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {combineLatest, EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {PictureService} from '../../../services/picture';
-import {PageEnvService} from '../../../services/page-env.service';
+import {PictureService} from '@services/picture';
+import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {ItemService} from '../../../services/item';
+import {ItemService} from '@services/item';
 
 @Component({
   selector: 'app-cutaway',

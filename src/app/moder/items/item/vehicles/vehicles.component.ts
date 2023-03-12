@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemService} from '../../../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 

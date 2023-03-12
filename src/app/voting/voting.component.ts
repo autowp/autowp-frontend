@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {VotingService, APIVotingVariant, APIVoting} from './voting.service';
-import {AuthService} from '../services/auth.service';
-import {PageEnvService} from '../services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {VotingVotesComponent} from './votes/votes.component';
 import {ToastsService} from '../toasts/toasts.service';
-import {APIService} from '../services/api.service';
+import {APIService} from '@services/api.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 @Component({

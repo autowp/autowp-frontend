@@ -7,7 +7,7 @@ import {PaginatorModule} from '../paginator/paginator.module';
 import {FormsModule} from '@angular/forms';
 import {UploadSelectTreeItemComponent} from './select/tree-item/tree-item.component';
 import {UploadIndexComponent} from './index/index.component';
-import {UtilsModule} from '../utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {NgbProgressbarModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {UploadComponent} from './upload.component';

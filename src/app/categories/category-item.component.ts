@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {combineLatest, Observable, of} from 'rxjs';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ACLService, Privilege, Resource} from '../services/acl.service';
-import {ItemParentService} from '../services/item-parent';
-import {APIPicture, PictureService} from '../services/picture';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {ItemParentService} from '@services/item-parent';
+import {APIPicture, PictureService} from '@services/picture';
 import {CatagoriesService} from './service';
-import {getItemTypeTranslation} from '../utils/translations';
+import {getItemTypeTranslation} from '@utils/translations';
 import {ItemType} from '@grpc/spec.pb';
 
 interface PathItem {

@@ -1,9 +1,9 @@
 import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
-import {APIItem, ItemService} from '../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute} from '@angular/router';
 import {combineLatest, Observable, of} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
-import {PageEnvService} from '../../services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, switchMap, map, shareReplay} from 'rxjs/operators';
 import {DonateService} from '../donate.service';
 import {APIUser} from '@grpc/spec.pb';

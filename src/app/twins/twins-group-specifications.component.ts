@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {ItemService, APIItem} from '../services/item';
+import {ItemService, APIItem} from '@services/item';
 import {Observable, of} from 'rxjs';
-import {PageEnvService} from '../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {APIService} from '../services/api.service';
+import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-twins-group-specifications',

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ItemService, APIItem} from '../../../services/item';
-import {PageEnvService} from '../../../services/page-env.service';
+import {ItemService, APIItem} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 
 @Component({
   selector: 'app-moder-items-too-big',

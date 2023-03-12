@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {ModerVoteTemplate} from '@grpc/spec.pb';
 

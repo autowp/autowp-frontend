@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService, APIUser} from '../../services/user';
+import {UserService, APIUser} from '@services/user';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {TextClient} from '@grpc/spec.pbsc';

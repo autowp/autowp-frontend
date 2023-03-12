@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {of, EMPTY} from 'rxjs';
-import {APIItem, ItemService} from '../../services/item';
+import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '../../services/page-env.service';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap} from 'rxjs/operators';
 import {APIGalleryItem} from '../../gallery/definitions';
 

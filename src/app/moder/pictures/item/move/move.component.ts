@@ -1,14 +1,14 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '../../../../services/api.service';
+import {APIPaginator} from '@services/api.service';
 import {Subscription, of, combineLatest, BehaviorSubject, Observable} from 'rxjs';
-import {PictureItemService} from '../../../../services/picture-item';
-import {ItemService, APIItem} from '../../../../services/item';
+import {PictureItemService} from '@services/picture-item';
+import {ItemService, APIItem} from '@services/item';
 import {chunk} from '../../../../chunk';
 import {Router, ActivatedRoute} from '@angular/router';
-import {ItemParentService, APIItemParent} from '../../../../services/item-parent';
-import {PageEnvService} from '../../../../services/page-env.service';
+import {ItemParentService, APIItemParent} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, debounceTime, tap, map} from 'rxjs/operators';
-import {PictureService, APIPicture} from '../../../../services/picture';
+import {PictureService, APIPicture} from '@services/picture';
 
 export interface PictureItemMoveSelection {
   itemId: number;
