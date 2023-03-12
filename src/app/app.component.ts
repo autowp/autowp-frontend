@@ -1,17 +1,17 @@
 import {Component, Renderer2} from '@angular/core';
-import {AuthService} from './services/auth.service';
-import {ACLService} from './services/acl.service';
-import {PageEnvService, LayoutParams} from './services/page-env.service';
+import {AuthService} from '@services/auth.service';
+import {ACLService} from '@services/acl.service';
+import {PageEnvService, LayoutParams} from '@services/page-env.service';
 import {Observable} from 'rxjs';
-import {Language, LanguageService} from './services/language';
-import {ItemService} from './services/item';
+import {Language, LanguageService} from '@services/language';
+import {ItemService} from '@services/item';
 import {UsersOnlineComponent} from './users/online/online.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {APIUser} from '@grpc/spec.pb';
 import {map, shareReplay} from 'rxjs/operators';
 import {NavigationStart, Router, RouterEvent} from '@angular/router';
-import {MessageService} from './services/message';
+import {MessageService} from '@services/message';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {environment} from '@environment/environment';
 import {KeycloakService} from 'keycloak-angular';
@@ -24,7 +24,6 @@ import {KeycloakService} from 'keycloak-angular';
 export class AppComponent {
   public languages: Language[] = [];
   public layoutParams$: Observable<LayoutParams>;
-  public loginInvalidParams: any;
   public user: APIUser;
   public newPersonalMessages$ = this.messageService.getNew$().pipe(
     map((result) => ({

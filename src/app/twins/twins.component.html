@@ -11,7 +11,7 @@
 
 <div class="row">
   <div class="col-sm-8 order-2">
-    <div class="page-header">
+    <div class="page-header mb-4">
       <h1 *ngIf="brand$ | async as brand; else noBrand">{{ brand.name_only }}</h1>
       <ng-template #noBrand>
         <h1 i18n>Twins</h1>

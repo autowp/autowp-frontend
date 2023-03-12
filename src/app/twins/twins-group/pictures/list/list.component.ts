@@ -1,28 +1,32 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {combineLatest, of} from 'rxjs';
+import {ItemService} from '@services/item';
+import {combineLatest, EMPTY, of} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ActivatedRoute} from '@angular/router';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIPictureGetResponse, PictureService} from '@services/picture';
-import {ToastsService} from '../toasts/toasts.service';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
-  selector: 'app-twins-group-pictures',
-  templateUrl: './twins-group-pictures.component.html',
+  selector: 'app-twins-group-pictures-list',
+  templateUrl: './list.component.html',
 })
-export class TwinsGroupPicturesComponent {
-  public group$ = this.route.paramMap.pipe(
+export class TwinsGroupPicturesListComponent {
+  public id$ = this.route.parent.parent.paramMap.pipe(
     map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    shareReplay(1)
+  );
+
+  public group$ = this.id$.pipe(
     switchMap((group) => {
       if (!group) {
-        return of(null as APIItem);
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
       }
-      return this.itemService.getItem$(group, {
-        fields: 'name_text,name_html,childs.brands',
-      });
+      return this.itemService.getItem$(group, {fields: 'name_text,name_html'});
     }),
     tap((group) => {
       setTimeout(
@@ -39,27 +43,14 @@ export class TwinsGroupPicturesComponent {
 
   private page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10)
+    distinctUntilChanged()
   );
 
-  public selectedBrands$ = this.group$.pipe(
-    map((group) => {
-      const result = [];
-      for (const item of group.childs) {
-        for (const brand of item.brands) {
-          result.push(brand.catname);
-        }
-      }
-      return result;
-    })
-  );
-
-  public data$ = combineLatest([this.page$, this.group$]).pipe(
-    switchMap(([page, group]) =>
+  public data$ = combineLatest([this.page$, this.id$]).pipe(
+    switchMap(([page, groupId]) =>
       this.pictureService.getPictures$({
         status: 'accepted',
-        item_id: group.id,
+        item_id: groupId,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 24,
         order: 16,
@@ -77,6 +68,7 @@ export class TwinsGroupPicturesComponent {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private pictureService: PictureService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private router: Router
   ) {}
 }

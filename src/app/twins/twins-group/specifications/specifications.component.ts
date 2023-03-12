@@ -1,45 +1,47 @@
 import {Component} from '@angular/core';
 import {ItemService, APIItem} from '@services/item';
-import {Observable, of} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {ActivatedRoute} from '@angular/router';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-twins-group-specifications',
-  templateUrl: './twins-group-specifications.component.html',
+  templateUrl: './specifications.component.html',
 })
 export class TwinsGroupSpecificationsComponent {
-  public result$: Observable<{group: APIItem; specsHtml: string}> = this.route.paramMap.pipe(
+  public id$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
+    shareReplay(1)
+  );
+
+  public html$ = this.id$.pipe(
+    switchMap((id) =>
+      this.api.request('GET', 'item/' + id + '/child-specifications', {
+        responseType: 'text',
+      })
+    )
+  );
+
+  public group$: Observable<APIItem> = this.id$.pipe(
     switchMap((group) => {
       if (!group) {
-        return of(null as APIItem);
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
       }
       return this.itemService.getItem$(group, {
         fields: 'name_text,name_html',
       });
     }),
-    switchMap((group) =>
-      this.api
-        .request('GET', 'item/' + group.id + '/child-specifications', {
-          responseType: 'text',
-        })
-        .pipe(
-          map((specsHtml) => ({
-            group,
-            specsHtml,
-          }))
-        )
-    ),
-    tap((data) => {
+    tap((group) => {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: $localize`Specifications of ${data.group.name_text}`,
+            title: $localize`Specifications of ${group.name_text}`,
             pageId: 27,
           }),
         0
@@ -51,6 +53,7 @@ export class TwinsGroupSpecificationsComponent {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
-    private api: APIService
+    private api: APIService,
+    private router: Router
   ) {}
 }

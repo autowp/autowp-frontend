@@ -10,12 +10,13 @@ import {AuthService} from '@services/auth.service';
 
 @Component({
   selector: 'app-twins-group-picture',
-  templateUrl: './twins-group-picture.component.html',
+  templateUrl: './picture.component.html',
 })
 export class TwinsGroupPictureComponent {
   public user$ = this.auth.getUser$();
   private changed$ = new BehaviorSubject<boolean>(false);
-  public group$ = this.route.paramMap.pipe(
+
+  public group$ = this.route.parent.parent.paramMap.pipe(
     map((route) => parseInt(route.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((groupID) => {
@@ -36,19 +37,6 @@ export class TwinsGroupPictureComponent {
       return of(group);
     }),
     shareReplay(1)
-  );
-
-  public selectedBrands$: Observable<string[]> = this.group$.pipe(
-    map((group) => {
-      const result = [];
-      for (const item of group.childs) {
-        for (const brand of item.brands) {
-          result.push(brand.catname);
-        }
-      }
-
-      return result;
-    })
   );
 
   private identity$ = this.route.paramMap.pipe(

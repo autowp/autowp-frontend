@@ -1,43 +1,16 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/" i18n>Index page</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a routerLink="/twins" i18n>Twins</a>
-    </li>
-    <ng-container *ngIf="group$ | async as group">
-      <li class="breadcrumb-item" *ngIf="group">
-        <a [routerLink]="['/twins/group', group.id]" [innerHTML]="group.name_html"></a>
-      </li>
-      <li class="breadcrumb-item" *ngIf="group">
-        <a [routerLink]="['/twins/group', group.id, 'pictures']" i18n>All pictures of {{ group.name_text }}</a>
-      </li>
-    </ng-container>
-  </ol>
-</nav>
+<ng-container *ngIf="picture$ | async as picture">
+  <app-picture
+    [picture]="picture"
+    [prefix]="['/twins/group', group.id + '', 'pictures']"
+    [galleryRoute]="['/twins/group', group.id + '', 'gallery', picture.identity]"
+    *ngIf="group$ | async as group"
+    (changed)="reloadPicture()"
+  ></app-picture>
 
-<div class="row" *ngIf="picture$ | async as picture">
-  <div class="col-sm-8 order-2">
-    <app-picture
-      [picture]="picture"
-      [prefix]="['/twins/group', group.id + '', 'pictures']"
-      [galleryRoute]="['/twins/group', group.id + '', 'gallery', picture.identity]"
-      *ngIf="group$ | async as group"
-      (changed)="reloadPicture()"
-    ></app-picture>
-
-    <div id="comments" *ngIf="picture">
-      <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
-    </div>
+  <div id="comments" *ngIf="picture">
+    <app-comments [typeID]="1" [itemID]="picture.id" [limit]="null"></app-comments>
   </div>
-  <div class="col-sm-4 order-1">
-    <app-twins-sidebar
-      [selected]="selectedBrands"
-      *ngIf="selectedBrands$ | async as selectedBrands"
-    ></app-twins-sidebar>
-  </div>
-</div>
+</ng-container>
 
 <!--
 <?php

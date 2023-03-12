@@ -1,0 +1,17 @@
+<ng-container *ngIf="group$ | async as group">
+  <div class="page-header">
+    <h2 i18n>All pictures of {{ group.name_text }}</h2>
+  </div>
+
+  <ng-container *ngIf="data$ | async as data">
+    <div class="row">
+      <div class="col-lg-3 col-md-3" *ngFor="let picture of data.pictures">
+        <app-thumbnail
+          [picture]="picture"
+          [route]="['/twins/group', group.id + '', 'pictures', picture.identity]"
+        ></app-thumbnail>
+      </div>
+    </div>
+    <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+  </ng-container>
+</ng-container>

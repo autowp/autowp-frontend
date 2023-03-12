@@ -4,14 +4,14 @@ import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap} from 'rxjs/operators';
-import {APIGalleryItem} from '../../gallery/definitions';
+import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({
   selector: 'app-twins-group-gallery',
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {
-  public group$ = this.route.paramMap.pipe(
+  public group$ = this.route.parent.parent.paramMap.pipe(
     map((route) => parseInt(route.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((groupID) => {
@@ -19,7 +19,7 @@ export class TwinsGroupGalleryComponent {
         return of(null as APIItem);
       }
       return this.itemService.getItem$(groupID, {
-        fields: 'name_text,name_html,childs.brands',
+        fields: 'name_text,name_html',
       });
     }),
     switchMap((group) => {
