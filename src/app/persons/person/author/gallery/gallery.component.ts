@@ -1,13 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
 import {APIPaginator} from '@services/api.service';
-import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../../../toasts/toasts.service';
 import {APIGalleryItem} from '../../../../gallery/definitions';
-import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-persons-person-author-gallery',
@@ -16,12 +13,10 @@ import {ItemType} from '@grpc/spec.pb';
 export class PersonsPersonAuthorGalleryComponent {
   public paginator: APIPaginator;
   public picturesRouterLink: string[];
-  public galleryRouterLink: string[];
 
   public identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
-    debounceTime(10),
     switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
@@ -35,41 +30,12 @@ export class PersonsPersonAuthorGalleryComponent {
     shareReplay(1)
   );
 
-  public item$ = this.route.paramMap.pipe(
+  public itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10),
-    switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: ['name_text', 'name_html', 'description'].join(','),
-      })
-    ),
-    catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
-        skipLocationChange: true,
-      });
-      return EMPTY;
-    }),
-    switchMap((item) => {
-      if (item.item_type_id !== ItemType.ITEM_TYPE_PERSON) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
-      }
-
-      return of(item);
-    })
+    distinctUntilChanged()
   );
 
-  constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private itemService: ItemService,
-    private router: Router,
-    private toastService: ToastsService
-  ) {}
+  constructor(private pageEnv: PageEnvService, private route: ActivatedRoute, private router: Router) {}
 
   pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {

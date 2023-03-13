@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {PersonsPersonComponent} from './person/person.component';
+import {PersonsPersonInfoComponent} from './person/info/info.component';
 import {PersonsComponent} from './persons.component';
 import {PersonsPersonPictureComponent} from './person/picture/picture.component';
 import {PersonsPersonGalleryComponent} from './person/gallery/gallery.component';
 import {PersonsPersonAuthorGalleryComponent} from './person/author/gallery/gallery.component';
 import {PersonsPersonAuthorPictureComponent} from './person/author/picture/picture.component';
+import {PersonsPersonComponent} from './person/person.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
   {
     path: ':id',
     title: $localize`Persons`,
+    component: PersonsPersonComponent,
     children: [
       {
         path: 'author',
@@ -48,7 +50,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        component: PersonsPersonComponent,
+        component: PersonsPersonInfoComponent,
       },
     ],
   },

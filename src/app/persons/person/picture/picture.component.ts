@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import {PictureService} from '@services/picture';
-import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-persons-person-picture',
@@ -17,7 +15,6 @@ export class PersonsPersonPictureComponent {
   public identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
-    debounceTime(10),
     switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
@@ -31,36 +28,9 @@ export class PersonsPersonPictureComponent {
     shareReplay(1)
   );
 
-  private itemID$ = this.route.paramMap.pipe(
+  public itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
-    shareReplay(1)
-  );
-
-  public item$ = this.itemID$.pipe(
-    switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: ['name_text', 'name_html', 'description'].join(','),
-      })
-    ),
-    catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
-        skipLocationChange: true,
-      });
-      return EMPTY;
-    }),
-    switchMap((item) => {
-      if (item.item_type_id !== 8) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
-      }
-
-      return of(item);
-    }),
     shareReplay(1)
   );
 
@@ -100,9 +70,7 @@ export class PersonsPersonPictureComponent {
     private pageEnv: PageEnvService,
     private route: ActivatedRoute,
     private pictureService: PictureService,
-    private router: Router,
-    private itemService: ItemService,
-    private toastService: ToastsService
+    private router: Router
   ) {}
 
   reloadPicture() {

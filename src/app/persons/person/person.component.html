@@ -1,4 +1,4 @@
-<nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb" *ngIf="!(layoutParams$ | async).isGalleryPage">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
@@ -9,53 +9,17 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="item$ | async as item">
-  <div class="page-header">
-    <h1 [innerHTML]="item.name_html"></h1>
-  </div>
-
-  <p *ngIf="isModer$ | async">
-    <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
-    <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-  </p>
-
-  <ng-container *ngIf="links$ | async as links">
-    <div class="card card-body mb-4" *ngIf="links.length > 0 || item.description">
-      <app-markdown [markdown]="item.description"></app-markdown>
-
-      <p *ngIf="links.length > 0">
-        <ng-container i18n>Web-site:</ng-container>
-        <ng-container *ngFor="let link of links">
-          <a [href]="link.url" [textContent]="link.name ? link.name : link.url"></a>
-          <br />
-        </ng-container>
-      </p>
+<ng-container *ngIf="!(layoutParams$ | async).isGalleryPage">
+  <ng-container *ngIf="item$ | async as item">
+    <div class="page-header">
+      <h1 [innerHTML]="item.name_html"></h1>
     </div>
+
+    <p *ngIf="isModer$ | async">
+      <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
+      <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+    </p>
   </ng-container>
 </ng-container>
 
-<ng-container *ngIf="authorPictures$ | async as data">
-  <div *ngIf="data.pictures.length > 0">
-    <h3 i18n>Pictures</h3>
-    <div class="row">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of data.pictures">
-        <app-thumbnail [picture]="picture" [route]="['author', picture.identity]"></app-thumbnail>
-      </div>
-    </div>
-
-    <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="contentPictures$ | async as data">
-  <div *ngIf="data.pictures.length > 0">
-    <h3 i18n>Pictures</h3>
-    <div class="row">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of data.pictures">
-        <app-thumbnail [picture]="picture" [route]="[picture.identity]"></app-thumbnail>
-      </div>
-    </div>
-
-    <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-  </div>
-</ng-container>
+<router-outlet></router-outlet>

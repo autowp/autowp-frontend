@@ -1,17 +1,3 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/" i18n>Index page</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a routerLink="/persons" i18n>Persons</a>
-    </li>
-    <li class="breadcrumb-item" *ngIf="person$ | async as item">
-      <a [routerLink]="['/persons', item.id]" [innerHTML]="item.name_html"></a>
-    </li>
-  </ol>
-</nav>
-
 <ng-container *ngIf="picture$ | async as picture">
   <app-picture
     [picture]="picture"

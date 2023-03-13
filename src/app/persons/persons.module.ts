@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PersonsRoutingModule} from './persons-routing.module';
 import {PersonsComponent} from './persons.component';
-import {PersonsPersonComponent} from './person/person.component';
+import {PersonsPersonInfoComponent} from './person/info/info.component';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {UtilsModule} from '@utils/utils.module';
@@ -13,11 +13,13 @@ import {PersonsPersonGalleryComponent} from './person/gallery/gallery.component'
 import {GalleryModule} from '../gallery/gallery.module';
 import {PersonsPersonAuthorGalleryComponent} from './person/author/gallery/gallery.component';
 import {PersonsPersonAuthorPictureComponent} from './person/author/picture/picture.component';
+import {PersonsPersonComponent} from './person/person.component';
 
 @NgModule({
   declarations: [
     PersonsComponent,
     PersonsPersonComponent,
+    PersonsPersonInfoComponent,
     PersonsPersonPictureComponent,
     PersonsPersonGalleryComponent,
     PersonsPersonAuthorGalleryComponent,
