@@ -60,10 +60,7 @@
     position: absolute;
     text-align: center;
     color: #fff;
-    left: 50%;
-    top: 50%;
-    right: auto;
-    bottom: auto;
+    inset: 50% auto auto 50%;
     width: 20px;
     margin-left: -10px;
     margin-top: -10px;
