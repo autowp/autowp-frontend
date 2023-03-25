@@ -1,5 +1,11 @@
 [
   {
+    "sum": 16000,
+    "currency": "RUB",
+    "date": "2023-03-18T00:00:00+00:00",
+    "contributor": "Dmitry"
+  },
+  {
     "sum": 15.00,
     "currency": "EUR",
     "date": "2023-03-04T00:00:00+00:00",
