@@ -7,17 +7,8 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ItemParentService} from '@services/item-parent';
 import {APIPicture, PictureService} from '@services/picture';
-import {CatagoriesService} from './service';
-import {getItemTypeTranslation} from '@utils/translations';
+import {CatagoriesService} from '../../service';
 import {ItemType} from '@grpc/spec.pb';
-
-interface PathItem {
-  routerLink: string[];
-  item: APIItem;
-  loaded: boolean;
-  childs: APIItem[];
-  parent_id: number;
-}
 
 interface PictureRoute {
   picture: APIPicture;
@@ -26,34 +17,18 @@ interface PictureRoute {
 
 @Component({
   selector: 'app-categories-category-item',
-  templateUrl: './category-item.component.html',
+  templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {
   public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  public canAddCar$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  private categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
+  private categoryData$ = this.categoriesService.categoryPipe$(this.route.parent).pipe(
     tap(({current}) => {
       this.pageEnv.set({
         title: current.name_text,
         pageId: 22,
       });
     }),
-    shareReplay(1)
-  );
-
-  public current$: Observable<APIItem> = this.categoryData$.pipe(
-    map(({current}) => current),
-    shareReplay(1)
-  );
-
-  public category$: Observable<APIItem> = this.categoryData$.pipe(
-    map(({category}) => category),
-    shareReplay(1)
-  );
-
-  public path$: Observable<PathItem[]> = this.categoryData$.pipe(
-    map(({pathItems}) => pathItems),
     shareReplay(1)
   );
 
@@ -64,8 +39,8 @@ export class CategoriesCategoryItemComponent {
   );
 
   public itemParents$ = combineLatest([this.categoryData$, this.page$]).pipe(
-    switchMap(([{category, current, pathCatnames}, page]) => {
-      return this.itemParentService
+    switchMap(([{category, current, pathCatnames}, page]) =>
+      this.itemParentService
         .getItems$({
           fields: [
             'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
@@ -92,8 +67,8 @@ export class CategoriesCategoryItemComponent {
             })),
             paginator: response.paginator,
           }))
-        );
-    }),
+        )
+    ),
     shareReplay(1)
   );
 
@@ -111,14 +86,14 @@ export class CategoriesCategoryItemComponent {
         })
         .pipe(
           map((response) =>
-            response.pictures.map((pic) => ({
-              picture: pic,
+            response.pictures.map((picture) => ({
+              picture,
               route: [
                 '/category',
                 category.catname,
                 ...(current.item_type_id === ItemType.ITEM_TYPE_CATEGORY ? [] : pathCatnames),
                 'pictures',
-                pic.identity,
+                picture.identity,
               ],
             }))
           )
@@ -162,6 +137,11 @@ export class CategoriesCategoryItemComponent {
     })
   );
 
+  public current$: Observable<APIItem> = this.categoryData$.pipe(
+    map(({current}) => current),
+    shareReplay(1)
+  );
+
   constructor(
     private itemService: ItemService,
     private itemParentService: ItemParentService,
@@ -171,25 +151,4 @@ export class CategoriesCategoryItemComponent {
     private acl: ACLService,
     private categoriesService: CatagoriesService
   ) {}
-
-  public dropdownOpenChange(item: PathItem) {
-    if (!item.loaded) {
-      this.itemService
-        .getItems$({
-          fields: 'catname,name_html',
-          parent_id: item.parent_id,
-          no_parent: item.parent_id ? null : true,
-          limit: 50,
-          type_id: 3,
-        })
-        .subscribe((response) => {
-          item.loaded = true;
-          item.childs = response.items;
-        });
-    }
-  }
-
-  public getItemTypeTranslation(id: number, type: string) {
-    return getItemTypeTranslation(id, type);
-  }
 }

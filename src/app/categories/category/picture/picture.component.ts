@@ -1,17 +1,15 @@
 import {Component} from '@angular/core';
 import {of, BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
-import {ItemService} from '@services/item';
 import {PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, map, tap, debounceTime, shareReplay} from 'rxjs/operators';
-import {PathItem} from '../definitions';
-import {CatagoriesService} from '../service';
+import {switchMap, distinctUntilChanged, map, tap, shareReplay} from 'rxjs/operators';
+import {CatagoriesService} from '../../service';
 import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-category-picture',
-  templateUrl: './category-picture.component.html',
+  templateUrl: './picture.component.html',
 })
 export class CategoryPictureComponent {
   private changed$ = new BehaviorSubject<boolean>(false);
@@ -19,7 +17,6 @@ export class CategoryPictureComponent {
   private identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
-    debounceTime(10),
     switchMap((identity) => {
       if (!identity) {
         this.router.navigate(['/error-404'], {
@@ -31,7 +28,7 @@ export class CategoryPictureComponent {
     })
   );
 
-  private categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
+  private categoryData$ = this.categoriesService.categoryPipe$(this.route.parent.parent).pipe(
     switchMap((data) => {
       if (!data.current) {
         this.router.navigate(['/error-404'], {
@@ -43,10 +40,6 @@ export class CategoryPictureComponent {
     }),
     shareReplay(1)
   );
-
-  public category$ = this.categoryData$.pipe(map(({category}) => category));
-
-  public current$ = this.categoryData$.pipe(map(({current}) => current));
 
   public currentRouterLinkPrefix$ = this.categoryData$.pipe(
     map(({category, current, pathCatnames}) => {
@@ -61,8 +54,6 @@ export class CategoryPictureComponent {
       return ['/category', category.catname, ...pathCatnames, 'pictures'];
     })
   );
-
-  public path$ = this.categoryData$.pipe(map(({pathItems}) => pathItems));
 
   public picture$ = combineLatest([this.categoryData$, this.identity$]).pipe(
     switchMap(([{current}, identity]) => {
@@ -107,45 +98,27 @@ export class CategoryPictureComponent {
     })
   );
 
-  public currentRouterLinkGallery$ = combineLatest([this.categoryData$, this.picture$]).pipe(
-    map(([{category, current, pathCatnames}, picture]) => {
-      if (!category || !picture) {
+  public currentRouterLinkGallery$ = combineLatest([this.categoryData$, this.identity$]).pipe(
+    map(([{category, current, pathCatnames}, identity]) => {
+      if (!category || !identity) {
         return null;
       }
 
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
-        return ['/category', current.catname, 'gallery'];
+        return ['/category', current.catname, 'gallery', identity];
       }
 
-      return ['/category', category.catname, ...pathCatnames, 'gallery', picture.identity];
+      return ['/category', category.catname, ...pathCatnames, 'gallery', identity];
     })
   );
 
   constructor(
-    private itemService: ItemService,
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private pictureService: PictureService,
     private router: Router,
     private categoriesService: CatagoriesService
   ) {}
-
-  public dropdownOpenChange(item: PathItem) {
-    if (!item.loaded) {
-      this.itemService
-        .getItems$({
-          fields: 'catname,name_html',
-          parent_id: item.parent_id,
-          no_parent: item.parent_id ? null : true,
-          limit: 50,
-          type_id: 3,
-        })
-        .subscribe((response) => {
-          item.loaded = true;
-          item.childs = response.items;
-        });
-    }
-  }
 
   reloadPicture() {
     this.changed$.next(true);

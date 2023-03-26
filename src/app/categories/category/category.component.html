@@ -1,0 +1,84 @@
+<nav aria-label="breadcrumb" *ngIf="!(layoutParams$ | async).isGalleryPage">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/" i18n>Index page</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/category" i18n>Categories</a>
+    </li>
+    <ng-container *ngFor="let item of path$ | async; let last = last">
+      <li class="breadcrumb-item" *ngIf="!last">
+        <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id !== 3"></a>
+        <div
+          ngbDropdown
+          class="d-inline-block"
+          placement="bottom-right"
+          (openChange)="dropdownOpenChange(item)"
+          *ngIf="item.item.item_type_id === 3"
+        >
+          <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
+          <a ngbDropdownToggle style="cursor: pointer"></a>
+          <div ngbDropdownMenu>
+            <div class="dropdown-item" *ngIf="!item.loaded">
+              <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+            </div>
+            <a
+              [routerLink]="['/category', child.catname]"
+              class="dropdown-item"
+              [class.active]="child.id === item.item.id"
+              [innerHTML]="child.name_html"
+              *ngFor="let child of item.childs"
+            ></a>
+          </div>
+        </div>
+      </li>
+    </ng-container>
+  </ol>
+</nav>
+
+<ng-container *ngIf="!(layoutParams$ | async).isGalleryPage">
+  <div class="page-header" *ngIf="current$ | async as current">
+    <h1 [innerHtml]="current.name_html"></h1>
+  </div>
+</ng-container>
+
+<div *ngIf="current$ | async as current; else loading">
+  <ng-container *ngIf="!(layoutParams$ | async).isGalleryPage">
+    <ng-container *ngIf="category$ | async as category">
+      <p *ngIf="isModer$ | async" class="mb-4">
+        <i class="bi bi-gear-fill" aria-hidden="true"></i>
+        <a [routerLink]="['/moder/items/item', current.id]" i18n>edit</a>
+
+        <span *ngIf="canAddCar$ | async">
+          <i class="bi bi-plus" aria-hidden="true"></i>
+          <a
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}"
+            >{{ getItemTypeTranslation(category.item_type_id, 'add-sub-item') }}</a
+          >
+        </span>
+      </p>
+    </ng-container>
+  </ng-container>
+
+  <ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="." routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="bi bi-sort-down-alt" aria-hidden="true"></i>
+        <ng-container i18n>details</ng-container>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="pictures" routerLinkActive="active">
+        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
+        <ng-container i18n>all pictures</ng-container>
+      </a>
+    </li>
+  </ul>
+
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>

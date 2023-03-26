@@ -40,12 +40,12 @@ export class CatagoriesService {
           }))
         )
       ),
-      switchMap((params) => {
-        return this.itemService.getPath$({
+      switchMap((params) =>
+        this.itemService.getPath$({
           catname: params.category,
           path: params.path,
-        });
-      }),
+        })
+      ),
       map((response) => {
         let category: APIItem;
         for (const item of response.path) {

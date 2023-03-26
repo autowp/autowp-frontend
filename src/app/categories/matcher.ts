@@ -5,9 +5,10 @@ export function categoriesPathMatcher(url: UrlSegment[]) {
     return null;
   }
 
-  const consumed: UrlSegment[] = [];
+  const category = url[0];
+  const consumed: UrlSegment[] = [category];
   const path: string[] = [];
-  for (const segment of url) {
+  for (const segment of url.slice(1)) {
     if (segment.path === 'pictures') {
       break;
     }
@@ -21,6 +22,7 @@ export function categoriesPathMatcher(url: UrlSegment[]) {
   return {
     consumed,
     posParams: {
+      category,
       path: new UrlSegment(path.join('/'), {}),
     },
   };

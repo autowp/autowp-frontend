@@ -1,45 +1,37 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {categoriesPathMatcher} from './matcher';
-import {CategoriesCategoryItemComponent} from './category-item.component';
-import {CategoriesCategoryPicturesComponent} from './category-pictures.component';
+import {CategoriesCategoryItemComponent} from './category/item/item.component';
+import {CategoriesCategoryPicturesComponent} from './category/pictures/pictures.component';
 import {CategoriesIndexComponent} from './index.component';
-import {CategoryPictureComponent} from './category-picture/category-picture.component';
-import {CategoryGalleryComponent} from './category-gallery/category-gallery.component';
+import {CategoryPictureComponent} from './category/picture/picture.component';
+import {CategoryGalleryComponent} from './category/gallery/gallery.component';
+import {CategoriesCategoryComponent} from './category/category.component';
 
 const routes: Routes = [
   {
-    path: ':category',
+    component: CategoriesCategoryComponent,
+    matcher: categoriesPathMatcher,
     children: [
       {
-        matcher: categoriesPathMatcher,
+        path: 'pictures',
         children: [
           {
-            path: 'pictures',
-            children: [
-              {
-                path: ':identity',
-                component: CategoryPictureComponent,
-              },
-              {
-                path: '',
-                pathMatch: 'full',
-                component: CategoriesCategoryPicturesComponent,
-                title: $localize`Pictures`,
-              },
-            ],
-          },
-          {
-            path: 'gallery/:identity',
-            pathMatch: 'full',
-            component: CategoryGalleryComponent,
+            path: ':identity',
+            component: CategoryPictureComponent,
           },
           {
             path: '',
             pathMatch: 'full',
-            component: CategoriesCategoryItemComponent,
+            component: CategoriesCategoryPicturesComponent,
+            title: $localize`Pictures`,
           },
         ],
+      },
+      {
+        path: 'gallery/:identity',
+        pathMatch: 'full',
+        component: CategoryGalleryComponent,
       },
       {
         path: '',
