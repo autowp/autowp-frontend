@@ -4,7 +4,7 @@ import {tap, catchError} from 'rxjs/operators';
 import {KeycloakService} from 'keycloak-angular';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {APIMeRequest, APIUser} from '@grpc/spec.pb';
-// import * as Sentry from '@sentry/angular';
+import * as Sentry from '@sentry/angular-ivy';
 
 @Injectable()
 export class AuthService {
@@ -27,12 +27,16 @@ export class AuthService {
   }
 
   private setUser(value: APIUser) {
-    /*Sentry.configureScope((scope) => {
-      scope.setUser(value ? {
-        'id': value.id,
-        'username': value.name
-      } : null);
-    });*/
+    Sentry.configureScope((scope) => {
+      scope.setUser(
+        value
+          ? {
+              id: value.id,
+              username: value.name,
+            }
+          : null
+      );
+    });
 
     this.user$.next(value);
   }

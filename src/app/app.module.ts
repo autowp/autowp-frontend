@@ -9,38 +9,38 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {PageNotFoundComponent} from './not-found.component';
 import {AuthGuard} from './auth.guard';
-import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from './services/api.service';
-import {AuthService} from './services/auth.service';
-import {ACLService, APIACL} from './services/acl.service';
-import {PictureService} from './services/picture';
-import {ItemService} from './services/item';
-import {ReCaptchaService} from './services/recaptcha';
-import {ItemParentService} from './services/item-parent';
-import {ItemLanguageService} from './services/item-language';
-import {MessageService} from './services/message';
-import {PageService} from './services/page';
-import {UserService} from './services/user';
+import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
+import {AuthService} from '@services/auth.service';
+import {ACLService, APIACL} from '@services/acl.service';
+import {PictureService} from '@services/picture';
+import {ItemService} from '@services/item';
+import {ReCaptchaService} from '@services/recaptcha';
+import {ItemParentService} from '@services/item-parent';
+import {ItemLanguageService} from '@services/item-language';
+import {MessageService} from '@services/message';
+import {PageService} from '@services/page';
+import {UserService} from '@services/user';
 import {DecimalPipe} from '@angular/common';
-import {VehicleTypeService} from './services/vehicle-type';
-import {SpecService} from './services/spec';
-import {PictureItemService} from './services/picture-item';
-import {ContactsService} from './services/contacts';
-import {PageEnvService} from './services/page-env.service';
-import {ContentLanguageService} from './services/content-language';
-import {LanguageService} from './services/language';
+import {VehicleTypeService} from '@services/vehicle-type';
+import {SpecService} from '@services/spec';
+import {PictureItemService} from '@services/picture-item';
+import {ContactsService} from '@services/contacts';
+import {PageEnvService} from '@services/page-env.service';
+import {ContentLanguageService} from '@services/content-language';
+import {LanguageService} from '@services/language';
 import {VehicleTypesModalComponent} from './components/vehicle-types-modal/vehicle-types-modal.component';
-import {TimezoneService} from './services/timezone';
+import {TimezoneService} from '@services/timezone';
 import {UsersOnlineComponent} from './users/online/online.component';
 import {AppRoutingModule} from './app-routing.module';
-import {IpService} from './services/ip';
+import {IpService} from '@services/ip';
 import {PaginatorModule} from './paginator/paginator.module';
 import {UserModule} from './user/user.module';
-import {UtilsModule} from './utils/utils.module';
+import {UtilsModule} from '@utils/utils.module';
 import {ThumbnailModule} from './thumbnail/thumbnail.module';
 import {MarkdownEditModule} from './markdown-edit/markdown-edit.module';
 import {ItemModule} from './item/item.module';
 import {PictureModerVoteModule} from './picture-moder-vote/picture-moder-vote.module';
-import {PictureModerVoteService} from './services/picture-moder-vote';
+import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {ModerMenuModule} from './moder/menu/menu.module';
 import {IndexModule} from './index/index.module';
 import {ToastsModule} from './toasts/toasts.module';
@@ -51,8 +51,8 @@ import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 import {KeycloakAngularModule, KeycloakEventType, KeycloakService} from 'keycloak-angular';
 import {LoginComponent} from './login/login.component';
-// import * as Sentry from "@sentry/angular";
-// import {Router} from '@angular/router';
+import * as Sentry from '@sentry/angular-ivy';
+import {Router} from '@angular/router';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () => {
@@ -125,7 +125,7 @@ let providers: Provider[] = [
   LanguageService,
   TimezoneService,
   IpService,
-  /*{
+  {
     provide: ErrorHandler,
     useValue: Sentry.createErrorHandler({
       showDialog: true,
@@ -140,7 +140,7 @@ let providers: Provider[] = [
     useFactory: () => () => {},
     deps: [Sentry.TraceService],
     multi: true,
-  },*/
+  },
 ];
 if (environment.production) {
   providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
