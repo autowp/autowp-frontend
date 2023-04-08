@@ -75,7 +75,7 @@ export class CategoriesCategoryItemComponent {
   public pictures$: Observable<PictureRoute[]> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
     switchMap(([{current, category, pathCatnames}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length <= 0) {
-        return of(null);
+        return of([]);
       }
 
       return this.pictureService

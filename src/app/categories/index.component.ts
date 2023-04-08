@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
   templateUrl: './index.component.html',
 })
 export class CategoriesIndexComponent implements OnInit {
-  public items$ = this.itemService
+  public readonly items$ = this.itemService
     .getItems$({
       fields: 'name_html,front_picture.thumb_medium,descendants_count',
       limit: 30,
@@ -18,7 +18,7 @@ export class CategoriesIndexComponent implements OnInit {
     })
     .pipe(map((response) => chunkBy(response.items, 4)));
 
-  constructor(private itemService: ItemService, private pageEnv: PageEnvService) {}
+  constructor(private readonly itemService: ItemService, private readonly pageEnv: PageEnvService) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 22}), 0);

@@ -19,21 +19,23 @@
   *ngIf="item$ | async as item"
 ></app-categories-list-item>
 
-<div class="twins row" *ngIf="pictures$ | async as pictures; else loading">
-  <div class="col-lg-3 col-md-3" *ngFor="let i of pictures">
-    <div class="card mb-4">
-      <a [routerLink]="i.route">
-        <img
-          alt=""
-          [src]="i.picture.thumb_medium.src"
-          [title]="i.picture.name_text"
-          class="card-img-top"
-          loading="lazy"
-        />
-      </a>
+<ng-container *ngIf="pictures$ | async as pictures; else loading">
+  <div class="twins row" *ngIf="pictures.length > 0">
+    <div class="col-lg-3 col-md-3" *ngFor="let i of pictures">
+      <div class="card mb-4">
+        <a [routerLink]="i.route">
+          <img
+            alt=""
+            [src]="i.picture.thumb_medium.src"
+            [title]="i.picture.name_text"
+            class="card-img-top"
+            loading="lazy"
+          />
+        </a>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <!--div *ngIf="otherItemsCount > 0">
   <h3 i18n>Other</h3>
