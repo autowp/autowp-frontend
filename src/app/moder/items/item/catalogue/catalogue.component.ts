@@ -18,6 +18,8 @@ export class ModerItemsItemCatalogueComponent {
   }
   public item$ = new BehaviorSubject<APIItem>(null);
 
+  public readonly ItemType: typeof ItemType = ItemType;
+
   public reloadChilds$ = new BehaviorSubject<boolean>(false);
   public reloadParents$ = new BehaviorSubject<boolean>(false);
   public reloadSuggestions$ = new BehaviorSubject<boolean>(false);

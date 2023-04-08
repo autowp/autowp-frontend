@@ -164,52 +164,85 @@
         </td>
       </tr>
 
-      <tr *ngIf="item.is_group && canMove && item.item_type_id === 5">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === ItemType.ITEM_TYPE_BRAND">
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
+          <a
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_ENGINE, parent_id: item.id}"
+            i18n
+            >add engine</a
+          >
         </td>
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id === 5">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === ItemType.ITEM_TYPE_BRAND">
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
+          <a
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_VEHICLE, parent_id: item.id}"
+            i18n
+            >add vehicle</a
+          >
         </td>
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY">
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 3, parent_id: item.id}" i18n>add category</a>
+          <a
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_CATEGORY, parent_id: item.id}"
+            i18n
+            >add category</a
+          >
         </td>
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY">
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 2, parent_id: item.id}" i18n>add engine</a>
+          <a
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_ENGINE, parent_id: item.id}"
+            i18n
+            >add engine</a
+          >
         </td>
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && item.item_type_id === 3">
+      <tr *ngIf="item.is_group && canMove && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY">
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
-          <a routerLink="/moder/items/new" [queryParams]="{item_type_id: 1, parent_id: item.id}" i18n>add vehicle</a>
+          <a
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_VEHICLE, parent_id: item.id}"
+            i18n
+            >add vehicle</a
+          >
         </td>
         <td class="urls"></td>
         <td></td>
       </tr>
-      <tr *ngIf="item.is_group && canMove && [4, 6, 3].indexOf(item.item_type_id) === -1">
+      <tr
+        *ngIf="
+          item.is_group &&
+          canMove &&
+          item.item_type_id !== ItemType.ITEM_TYPE_TWINS &&
+          item.item_type_id !== ItemType.ITEM_TYPE_FACTORY &&
+          item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY
+        "
+      >
         <td colspan="2">
           <i class="bi bi-plus" aria-hidden="true"></i>
           <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}">
-            <ng-container i18n *ngIf="item.item_type_id === 2">add engine</ng-container>
-            <ng-container i18n *ngIf="item.item_type_id !== 2">add vehicle</ng-container>
+            <ng-container i18n *ngIf="item.item_type_id === ItemType.ITEM_TYPE_ENGINE">add engine</ng-container>
+            <ng-container i18n *ngIf="item.item_type_id !== ItemType.ITEM_TYPE_ENGINE">add vehicle</ng-container>
           </a>
         </td>
         <td class="urls"></td>

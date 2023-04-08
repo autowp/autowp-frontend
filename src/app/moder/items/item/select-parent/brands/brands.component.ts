@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {chunk} from '../../../../../chunk';
 import {APIPaginator} from '@services/api.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-brands',
@@ -33,7 +34,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
   ]).pipe(
     switchMap(([search, page]) =>
       this.itemService.getItems$({
-        type_id: 5,
+        type_id: ItemType.ITEM_TYPE_BRAND,
         limit: 500,
         fields: 'name_html',
         name: search ? '%' + search + '%' : null,

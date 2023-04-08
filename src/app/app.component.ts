@@ -8,7 +8,7 @@ import {ItemService} from '@services/item';
 import {UsersOnlineComponent} from './users/online/online.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import {APIUser} from '@grpc/spec.pb';
+import {APIUser, ItemType} from '@grpc/spec.pb';
 import {map, shareReplay} from 'rxjs/operators';
 import {NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MessageService} from '@services/message';
@@ -33,7 +33,7 @@ export class AppComponent {
   );
   public searchHostname: string;
   public categories$ = this.itemService.getItems$({
-    type_id: 3,
+    type_id: ItemType.ITEM_TYPE_CATEGORY,
     no_parent: true,
     fields: 'name_text,catname,descendants_count',
     limit: 20,

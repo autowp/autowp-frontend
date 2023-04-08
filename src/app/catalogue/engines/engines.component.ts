@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {combineLatest, EMPTY, of} from 'rxjs';
 import {ItemParentService} from '@services/item-parent';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-catalogue-engines',
@@ -64,7 +65,7 @@ export class CatalogueEnginesComponent {
             'item.twins_groups',
             'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
           ].join(','),
-          item_type_id: 2,
+          item_type_id: ItemType.ITEM_TYPE_ENGINE,
           limit: 7,
           page,
           parent_id: brand.id,

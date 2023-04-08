@@ -13,7 +13,7 @@ export interface APIPathTreeItemParent {
 
 export interface APIPathTreeItem {
   catname: string;
-  item_type_id: number;
+  item_type_id: ItemType;
   parents: APIPathTreeItemParent[];
 }
 
@@ -47,7 +47,7 @@ export interface APIItemOfDayPicture {
 export interface APIItem {
   name: string;
   id: number;
-  item_type_id: number;
+  item_type_id: ItemType;
   is_group: boolean;
   name_text: string;
   name_html: string;
@@ -160,7 +160,7 @@ export interface GetItemServiceOptions {
 export interface GetItemsServiceOptions {
   id?: number;
   fields: string;
-  type_id?: number;
+  type_id?: ItemType;
   parent_id?: number;
   order?: string;
   is_group?: boolean;

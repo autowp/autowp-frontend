@@ -7,6 +7,7 @@ import {Subscription, combineLatest, of} from 'rxjs';
 import {ItemParentService, APIItemParent, APIItemParentGetResponse} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, finalize, map} from 'rxjs/operators';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-donate-vod-select',
@@ -69,7 +70,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
             (brandID
               ? of(null as APIItemsGetResponse)
               : this.itemService.getItems$({
-                  type_id: 5,
+                  type_id: ItemType.ITEM_TYPE_BRAND,
                   limit: 500,
                   fields: 'name_only',
                   page: this.page,
@@ -84,14 +85,14 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                   switchMap((brand) =>
                     combineLatest([
                       this.itemParentService.getItems$({
-                        item_type_id: 1,
+                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                         parent_id: brand.id,
                         fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
                         limit: 500,
                         page: 1,
                       }),
                       this.itemParentService.getItems$({
-                        item_type_id: 1,
+                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                         concept: true,
                         ancestor_id: brand.id,
                         fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',

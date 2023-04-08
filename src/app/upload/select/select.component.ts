@@ -8,6 +8,7 @@ import {ItemParentService, APIItemParent} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, switchMap, map, catchError, tap, debounceTime} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-upload-select',
@@ -88,7 +89,7 @@ export class UploadSelectComponent implements OnInit {
   private brandsObservable$(page: number, search: string): Observable<APIItemsGetResponse> {
     return this.itemService
       .getItems$({
-        type_id: 5,
+        type_id: ItemType.ITEM_TYPE_BRAND,
         order: 'name',
         limit: 500,
         fields: 'name_only',
@@ -131,7 +132,7 @@ export class UploadSelectComponent implements OnInit {
           parent_id: item.id,
           exclude_concept: true,
           order: 'name',
-          item_type_id: 1,
+          item_type_id: ItemType.ITEM_TYPE_VEHICLE,
         })
         .pipe(
           map((response) => response.items),
@@ -147,7 +148,7 @@ export class UploadSelectComponent implements OnInit {
           parent_id: item.id,
           exclude_concept: true,
           order: 'name',
-          item_type_id: 2,
+          item_type_id: ItemType.ITEM_TYPE_ENGINE,
         })
         .pipe(
           map((response) => response.items),

@@ -7,6 +7,7 @@ import {map, shareReplay, tap} from 'rxjs/operators';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {CatagoriesService} from '../service';
 import {getItemTypeTranslation} from '@utils/translations';
+import {ItemType} from '@grpc/spec.pb';
 
 interface PathItem {
   routerLink: string[];
@@ -69,7 +70,7 @@ export class CategoriesCategoryComponent {
           parent_id: item.parent_id,
           no_parent: item.parent_id ? null : true,
           limit: 50,
-          type_id: 3,
+          type_id: ItemType.ITEM_TYPE_CATEGORY,
         })
         .subscribe((response) => {
           item.loaded = true;

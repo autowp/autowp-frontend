@@ -11,7 +11,7 @@ import {CatalogueService} from '../catalogue-service';
 import {APIService} from '@services/api.service';
 import {getCatalogueSectionsTranslation} from '@utils/translations';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIGetItemLinksRequest, APIItemLink} from '@grpc/spec.pb';
+import {APIGetItemLinksRequest, APIItemLink, ItemType} from '@grpc/spec.pb';
 
 interface APIBrandSectionGroup {
   name: string;
@@ -35,6 +35,8 @@ interface PictureRoute {
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {
+  public readonly ItemType = ItemType;
+
   public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
 
   public brand$ = combineLatest([
@@ -134,7 +136,7 @@ export class CatalogueIndexComponent {
         limit: 4,
         factories_of_brand: brand.id,
         fields: 'name_html,exact_picture.thumb_medium',
-        type_id: 6,
+        type_id: ItemType.ITEM_TYPE_FACTORY,
       })
     ),
     map((response) => response.items)

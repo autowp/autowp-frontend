@@ -4,6 +4,7 @@ import {APIItem, ItemService} from '@services/item';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-categories',
@@ -27,7 +28,7 @@ export class ModerItemsItemSelectParentCategoriesComponent {
   public categories$ = this.page$.pipe(
     switchMap((page) =>
       this.itemService.getItems$({
-        type_id: 3,
+        type_id: ItemType.ITEM_TYPE_CATEGORY,
         limit: 100,
         fields: 'name_html,childs_count',
         page,

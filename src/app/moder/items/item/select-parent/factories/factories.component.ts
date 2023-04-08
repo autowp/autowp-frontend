@@ -5,6 +5,7 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxj
 import {ActivatedRoute} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {APIPaginator} from '@services/api.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-factories',
@@ -28,7 +29,7 @@ export class ModerItemsItemSelectParentFactoriesComponent {
   public factories$: Observable<{paginator: APIPaginator; items: APIItem[]}> = this.page$.pipe(
     switchMap((page) =>
       this.itemService.getItems$({
-        type_id: 6,
+        type_id: ItemType.ITEM_TYPE_FACTORY,
         limit: 100,
         fields: 'name_html',
         page,

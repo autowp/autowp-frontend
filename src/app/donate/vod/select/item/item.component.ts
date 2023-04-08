@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ItemParentService, APIItemParent} from '@services/item-parent';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-donate-vod-select-item',
@@ -21,7 +22,7 @@ export class DonateVodSelectItemComponent {
       this.loading = true;
       this.itemParentService
         .getItems$({
-          item_type_id: 1,
+          item_type_id: ItemType.ITEM_TYPE_VEHICLE,
           parent_id: this.item.item_id,
           fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
           limit: 500,

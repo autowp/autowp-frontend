@@ -6,6 +6,7 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxj
 import {chunk} from '../../../../../chunk';
 import {ActivatedRoute} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-twins',
@@ -40,7 +41,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
         : this.page$.pipe(
             switchMap((page) =>
               this.itemService.getItems$({
-                type_id: 5,
+                type_id: ItemType.ITEM_TYPE_BRAND,
                 limit: 500,
                 fields: 'name_html',
                 have_childs_with_parent_of_type: 4,
@@ -65,7 +66,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
         ? this.page$.pipe(
             switchMap((page) =>
               this.itemService.getItems$({
-                type_id: 4,
+                type_id: ItemType.ITEM_TYPE_TWINS,
                 limit: 100,
                 fields: 'name_html',
                 have_common_childs_with: brandID,

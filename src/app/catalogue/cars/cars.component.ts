@@ -7,7 +7,7 @@ import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {AutowpClient} from '@grpc/spec.pbsc';
-import {BrandVehicleType, GetBrandVehicleTypesRequest} from '@grpc/spec.pb';
+import {BrandVehicleType, GetBrandVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-catalogue-cars',
@@ -116,7 +116,7 @@ export class CatalogueCarsComponent {
       this.itemService
         .getItems$({
           limit: 7,
-          type_id: 1,
+          type_id: ItemType.ITEM_TYPE_VEHICLE,
           order: 'age',
           ancestor_id: brand.id,
           dateful: true,

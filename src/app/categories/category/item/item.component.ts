@@ -111,11 +111,7 @@ export class CategoriesCategoryItemComponent {
         return ['/category', current.catname];
       }
 
-      return [
-        '/category',
-        category.catname,
-        ...(current.item_type_id === ItemType.ITEM_TYPE_CATEGORY ? [] : pathCatnames),
-      ];
+      return ['/category', category.catname, ...pathCatnames];
     })
   );
 

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem} from '@services/item';
+import {APIItem, ItemService} from '@services/item';
 import {combineLatest} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-persons',
@@ -31,7 +32,7 @@ export class PersonsComponent implements OnInit {
 
       if (authors) {
         return this.itemService.getItems$({
-          type_id: 8,
+          type_id: ItemType.ITEM_TYPE_PERSON,
           fields,
           descendant_pictures: {
             status: 'accepted',
@@ -46,7 +47,7 @@ export class PersonsComponent implements OnInit {
         });
       }
       return this.itemService.getItems$({
-        type_id: 8,
+        type_id: ItemType.ITEM_TYPE_PERSON,
         fields,
         descendant_pictures: {
           status: 'accepted',

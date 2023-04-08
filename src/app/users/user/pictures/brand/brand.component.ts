@@ -7,6 +7,7 @@ import {PictureService} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
 import {debounceTime, distinctUntilChanged, switchMap, tap, map, catchError, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-users-user-pictures-brand',
@@ -37,7 +38,7 @@ export class UsersUserPicturesBrandComponent {
     switchMap((brandCatname) =>
       this.itemService
         .getItems$({
-          type_id: 5,
+          type_id: ItemType.ITEM_TYPE_BRAND,
           limit: 1,
           catname: brandCatname,
           fields: 'name_only,catname',

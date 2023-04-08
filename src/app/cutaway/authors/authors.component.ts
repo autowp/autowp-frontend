@@ -6,6 +6,7 @@ import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rx
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIItem, ItemService} from '@services/item';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-cutaway-authors',
@@ -20,7 +21,7 @@ export class CutawayAuthorsComponent implements OnInit {
       this.itemService.getItems$({
         fields:
           'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures',
-        type_id: 8,
+        type_id: ItemType.ITEM_TYPE_PERSON,
         descendant_pictures: {
           type_id: 2,
           status: 'accepted',

@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {chunkBy} from '../chunk';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
+import {ItemType} from '@grpc/spec.pb';
 
 interface ChunkedGroup {
   item: APIItem;
@@ -44,7 +45,7 @@ export class TwinsComponent implements OnInit {
         catname: brand,
         fields: 'name_only,catname',
         limit: 1,
-        type_id: 5, // brand
+        type_id: ItemType.ITEM_TYPE_BRAND,
       });
     }),
     map((response) => (response && response.items.length > 0 ? response.items[0] : null)),
@@ -69,7 +70,7 @@ export class TwinsComponent implements OnInit {
   }> = combineLatest([this.page$, this.brand$]).pipe(
     switchMap(([page, brand]) =>
       this.itemService.getItems$({
-        type_id: 4,
+        type_id: ItemType.ITEM_TYPE_TWINS,
         limit: 20,
         fields:
           'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +

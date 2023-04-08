@@ -8,6 +8,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {ToastsService} from '../../../toasts/toasts.service';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {ItemType} from '@grpc/spec.pb';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -51,7 +52,7 @@ export class UsersUserPicturesComponent implements OnInit {
   public brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
       this.itemService.getItems$({
-        type_id: 5,
+        type_id: ItemType.ITEM_TYPE_BRAND,
         limit: 3000,
         order: 'name_nat',
         fields: 'name_only,catname,current_pictures_count',

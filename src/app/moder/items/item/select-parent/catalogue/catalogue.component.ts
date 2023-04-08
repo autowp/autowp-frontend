@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {chunk} from '../../../../../chunk';
 import {ItemParentService} from '@services/item-parent';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-catalogue',
@@ -51,7 +52,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
             switchMap(([itemTypeID, search, page]) =>
               this.itemService.getItems$({
-                type_id: 5,
+                type_id: ItemType.ITEM_TYPE_BRAND,
                 limit: 500,
                 fields: 'name_html',
                 have_childs_of_type: itemTypeID,

@@ -1,14 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIPaginator} from '@services/api.service';
-import {Subscription, of, combineLatest, BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, Subscription} from 'rxjs';
 import {PictureItemService} from '@services/picture-item';
-import {ItemService, APIItem} from '@services/item';
+import {APIItem, ItemService} from '@services/item';
 import {chunk} from '../../../../chunk';
-import {Router, ActivatedRoute} from '@angular/router';
-import {ItemParentService, APIItemParent} from '@services/item-parent';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, debounceTime, tap, map} from 'rxjs/operators';
-import {PictureService, APIPicture} from '@services/picture';
+import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {APIPicture, PictureService} from '@services/picture';
+import {ItemType} from '@grpc/spec.pb';
 
 export interface PictureItemMoveSelection {
   itemId: number;
@@ -118,7 +119,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           if (this.showMuseums) {
             museums$ = this.itemService
               .getItems$({
-                type_id: 7,
+                type_id: ItemType.ITEM_TYPE_MUSEUM,
                 fields: 'name_html',
                 limit: 50,
                 page: params.page,
@@ -135,7 +136,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           if (this.showFactories) {
             factories$ = this.itemService
               .getItems$({
-                type_id: 6,
+                type_id: ItemType.ITEM_TYPE_FACTORY,
                 fields: 'name_html',
                 limit: 50,
                 page: params.page,
@@ -155,7 +156,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               debounceTime(30),
               switchMap((search) =>
                 this.itemService.getItems$({
-                  type_id: 8,
+                  type_id: ItemType.ITEM_TYPE_PERSON,
                   fields: 'name_html',
                   limit: 50,
                   name: search ? '%' + search + '%' : null,
@@ -176,7 +177,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               debounceTime(30),
               switchMap((search) =>
                 this.itemService.getItems$({
-                  type_id: 8,
+                  type_id: ItemType.ITEM_TYPE_PERSON,
                   fields: 'name_html',
                   limit: 50,
                   name: search ? '%' + search + '%' : null,
@@ -194,7 +195,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
           if (this.showCopyrights) {
             copyrights$ = this.itemService
               .getItems$({
-                type_id: 9,
+                type_id: ItemType.ITEM_TYPE_COPYRIGHT,
                 fields: 'name_html',
                 limit: 50,
                 page: params.page,
@@ -220,7 +221,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               brandItems$ = combineLatest([
                 this.itemParentService
                   .getItems$({
-                    item_type_id: 1,
+                    item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                     parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
@@ -229,7 +230,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                   .pipe(tap((response) => (this.vehicles = response.items))),
                 this.itemParentService
                   .getItems$({
-                    item_type_id: 2,
+                    item_type_id: ItemType.ITEM_TYPE_ENGINE,
                     parent_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
                     limit: 500,
@@ -239,7 +240,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
 
                 this.itemParentService
                   .getItems$({
-                    item_type_id: 1,
+                    item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                     concept: true,
                     ancestor_id: this.brandID,
                     fields: 'item.name_html,item.childs_count',
@@ -254,7 +255,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 debounceTime(30),
                 switchMap((search) =>
                   this.itemService.getItems$({
-                    type_id: 5,
+                    type_id: ItemType.ITEM_TYPE_BRAND,
                     fields: 'name_html',
                     limit: 200,
                     name: search ? '%' + search + '%' : null,

@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {ItemParentService, APIItemParent} from '@services/item-parent';
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
@@ -23,7 +24,7 @@ export class CarsSelectEngineTreeItemComponent {
         limit: 500,
         fields: 'item.name_html,item.childs_count',
         parent_id: this.item.item_id,
-        item_type_id: 2,
+        item_type_id: ItemType.ITEM_TYPE_ENGINE,
         order: 'type_auto',
       })
       .subscribe({
