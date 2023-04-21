@@ -1,5 +1,38 @@
 [
   {
+    "sum": -3200,
+    "currency": "RUB",
+    "date": "2023-04-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "Domain names"
+  },
+  {
+    "sum": -17500,
+    "currency": "RUB",
+    "date": "2023-04-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "April/May hosting"
+  },
+  {
+    "sum": 20700,
+    "currency": "RUB",
+    "date": "2023-04-18T00:00:00+00:00",
+    "contributor": "Dmitry"
+  },
+  {
+    "sum": 9.10,
+    "currency": "EUR",
+    "date": "2023-04-17T00:00:00+00:00",
+    "contributor": "Iorga Iulian"
+  },
+  {
+    "sum": -194.26,
+    "currency": "EUR",
+    "date": "2023-02-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "March/April hosting"
+  },
+  {
     "sum": 16000,
     "currency": "RUB",
     "date": "2023-03-18T00:00:00+00:00",
