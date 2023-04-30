@@ -17,7 +17,7 @@ export const environment = {
     {
       code: 'zh',
       hostname: 'zh.localhost',
-      name: '中文 (beta)',
+      name: '中文',
       flag: 'flag-icon flag-icon-cn',
       momentLocale: 'zh-cn',
       locale: 'zh-CN',
@@ -41,7 +41,7 @@ export const environment = {
     {
       code: 'fr',
       hostname: 'fr.localhost',
-      name: 'Français (beta)',
+      name: 'Français',
       flag: 'flag-icon flag-icon-fr',
       momentLocale: 'fr',
       locale: 'fr',
@@ -57,7 +57,7 @@ export const environment = {
     {
       code: 'uk',
       hostname: 'uk.localhost',
-      name: 'Українська (beta)',
+      name: 'Українська',
       flag: 'flag-icon flag-icon-ua',
       momentLocale: 'uk',
       locale: 'uk',
@@ -65,10 +65,18 @@ export const environment = {
     {
       code: 'es',
       hostname: 'es.localhost',
-      name: 'Español (beta)',
+      name: 'Español',
       flag: 'flag-icon flag-icon-es',
       momentLocale: 'es',
       locale: 'es',
+    },
+    {
+      code: 'it',
+      hostname: 'it.localhost',
+      name: 'Italiano',
+      flag: 'flag-icon flag-icon-it',
+      momentLocale: 'it',
+      locale: 'it',
     },
   ],
   keycloak: {

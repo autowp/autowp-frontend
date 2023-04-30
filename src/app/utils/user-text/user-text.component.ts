@@ -38,6 +38,7 @@ export class UserTextComponent {
     'be.wheelsage.org',
     'br.wheelsage.org',
     'uk.wheelsage.org',
+    'it.wheelsage.org',
     'wheelsage.org',
   ];
 

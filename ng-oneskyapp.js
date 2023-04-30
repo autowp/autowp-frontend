@@ -8,13 +8,13 @@ if (args.length <= 0) {
 }
 const apiSecret = args[0];
 
-const locales = ['be-BY', 'fr', 'pt-BR', 'ru', 'uk', 'zh-CN', 'es'];
+const locales = ['be-BY', 'fr', 'pt-BR', 'ru', 'uk', 'zh-CN', 'es', 'it'];
 
 const path = __dirname + '/src/locale/';
 
-locales.map(locale => {
+locales.map(async locale => {
   console.log('Download ' + locale);
-  onesky
+  await onesky
     .getFile({
       language: locale,
       secret: apiSecret,

@@ -6,6 +6,7 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 @Component({
   selector: 'app-donate',
   templateUrl: './donate.component.html',
+  styleUrls: ['./donate.component.scss'],
 })
 export class DonateComponent {
   public frameUrl: SafeResourceUrl;
