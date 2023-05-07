@@ -9876,6 +9876,145 @@ export module GetTopPersonsListRequest {
 }
 
 /**
+ * Message implementation for goautowp.GetTwinsBrandsListRequest
+ */
+export class GetTwinsBrandsListRequest implements GrpcMessage {
+  static id = 'goautowp.GetTwinsBrandsListRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetTwinsBrandsListRequest();
+    GetTwinsBrandsListRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetTwinsBrandsListRequest) {
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetTwinsBrandsListRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetTwinsBrandsListRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetTwinsBrandsListRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.language) {
+      _writer.writeString(1, _instance.language);
+    }
+  }
+
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetTwinsBrandsListRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetTwinsBrandsListRequest.AsObject>) {
+    _value = _value || {};
+    this.language = _value.language;
+    GetTwinsBrandsListRequest.refineValues(this);
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetTwinsBrandsListRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetTwinsBrandsListRequest.AsObject {
+    return {
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetTwinsBrandsListRequest.AsProtobufJSON {
+    return {
+      language: this.language
+    };
+  }
+}
+export module GetTwinsBrandsListRequest {
+  /**
+   * Standard JavaScript object representation for GetTwinsBrandsListRequest
+   */
+  export interface AsObject {
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for GetTwinsBrandsListRequest
+   */
+  export interface AsProtobufJSON {
+    language: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.GetTopTwinsBrandsListRequest
  */
 export class GetTopTwinsBrandsListRequest implements GrpcMessage {
@@ -10601,18 +10740,18 @@ export module APITopPersonsListItem {
 }
 
 /**
- * Message implementation for goautowp.APITopTwinsBrandsListItem
+ * Message implementation for goautowp.APITwinsBrandsListItem
  */
-export class APITopTwinsBrandsListItem implements GrpcMessage {
-  static id = 'goautowp.APITopTwinsBrandsListItem';
+export class APITwinsBrandsListItem implements GrpcMessage {
+  static id = 'goautowp.APITwinsBrandsListItem';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new APITopTwinsBrandsListItem();
-    APITopTwinsBrandsListItem.deserializeBinaryFromReader(
+    const instance = new APITwinsBrandsListItem();
+    APITwinsBrandsListItem.deserializeBinaryFromReader(
       instance,
       new BinaryReader(bytes)
     );
@@ -10623,7 +10762,7 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: APITopTwinsBrandsListItem) {
+  static refineValues(_instance: APITwinsBrandsListItem) {
     _instance.id = _instance.id || '0';
     _instance.name = _instance.name || '';
     _instance.catname = _instance.catname || '';
@@ -10637,7 +10776,7 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
    * @param _reader binary reader instance
    */
   static deserializeBinaryFromReader(
-    _instance: APITopTwinsBrandsListItem,
+    _instance: APITwinsBrandsListItem,
     _reader: BinaryReader
   ) {
     while (_reader.nextField()) {
@@ -10664,7 +10803,7 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
       }
     }
 
-    APITopTwinsBrandsListItem.refineValues(_instance);
+    APITwinsBrandsListItem.refineValues(_instance);
   }
 
   /**
@@ -10673,7 +10812,7 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(
-    _instance: APITopTwinsBrandsListItem,
+    _instance: APITwinsBrandsListItem,
     _writer: BinaryWriter
   ) {
     if (_instance.id) {
@@ -10701,16 +10840,16 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of APITopTwinsBrandsListItem to deeply clone from
+   * @param _value initial values object or instance of APITwinsBrandsListItem to deeply clone from
    */
-  constructor(_value?: RecursivePartial<APITopTwinsBrandsListItem.AsObject>) {
+  constructor(_value?: RecursivePartial<APITwinsBrandsListItem.AsObject>) {
     _value = _value || {};
     this.id = _value.id;
     this.name = _value.name;
     this.catname = _value.catname;
     this.count = _value.count;
     this.newCount = _value.newCount;
-    APITopTwinsBrandsListItem.refineValues(this);
+    APITwinsBrandsListItem.refineValues(this);
   }
   get id(): string {
     return this._id;
@@ -10749,14 +10888,14 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    APITopTwinsBrandsListItem.serializeBinaryToWriter(this, writer);
+    APITwinsBrandsListItem.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): APITopTwinsBrandsListItem.AsObject {
+  toObject(): APITwinsBrandsListItem.AsObject {
     return {
       id: this.id,
       name: this.name,
@@ -10781,7 +10920,7 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): APITopTwinsBrandsListItem.AsProtobufJSON {
+  ): APITwinsBrandsListItem.AsProtobufJSON {
     return {
       id: this.id,
       name: this.name,
@@ -10791,9 +10930,9 @@ export class APITopTwinsBrandsListItem implements GrpcMessage {
     };
   }
 }
-export module APITopTwinsBrandsListItem {
+export module APITwinsBrandsListItem {
   /**
-   * Standard JavaScript object representation for APITopTwinsBrandsListItem
+   * Standard JavaScript object representation for APITwinsBrandsListItem
    */
   export interface AsObject {
     id: string;
@@ -10804,7 +10943,7 @@ export module APITopTwinsBrandsListItem {
   }
 
   /**
-   * Protobuf JSON representation for APITopTwinsBrandsListItem
+   * Protobuf JSON representation for APITwinsBrandsListItem
    */
   export interface AsProtobufJSON {
     id: string;
@@ -10812,6 +10951,154 @@ export module APITopTwinsBrandsListItem {
     catname: string;
     count: number;
     newCount: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APITwinsBrandsList
+ */
+export class APITwinsBrandsList implements GrpcMessage {
+  static id = 'goautowp.APITwinsBrandsList';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APITwinsBrandsList();
+    APITwinsBrandsList.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APITwinsBrandsList) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APITwinsBrandsList,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APITwinsBrandsListItem();
+          _reader.readMessage(
+            messageInitializer1,
+            APITwinsBrandsListItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APITwinsBrandsList.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APITwinsBrandsList,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APITwinsBrandsListItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APITwinsBrandsListItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APITwinsBrandsList to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APITwinsBrandsList.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APITwinsBrandsListItem(m));
+    APITwinsBrandsList.refineValues(this);
+  }
+  get items(): APITwinsBrandsListItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APITwinsBrandsListItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APITwinsBrandsList.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APITwinsBrandsList.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APITwinsBrandsList.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APITwinsBrandsList {
+  /**
+   * Standard JavaScript object representation for APITwinsBrandsList
+   */
+  export interface AsObject {
+    items?: APITwinsBrandsListItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APITwinsBrandsList
+   */
+  export interface AsProtobufJSON {
+    items: APITwinsBrandsListItem.AsProtobufJSON[] | null;
   }
 }
 
@@ -10857,10 +11144,10 @@ export class APITopTwinsBrandsList implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          const messageInitializer1 = new APITopTwinsBrandsListItem();
+          const messageInitializer1 = new APITwinsBrandsListItem();
           _reader.readMessage(
             messageInitializer1,
-            APITopTwinsBrandsListItem.deserializeBinaryFromReader
+            APITwinsBrandsListItem.deserializeBinaryFromReader
           );
           (_instance.items = _instance.items || []).push(messageInitializer1);
           break;
@@ -10888,7 +11175,7 @@ export class APITopTwinsBrandsList implements GrpcMessage {
       _writer.writeRepeatedMessage(
         1,
         _instance.items as any,
-        APITopTwinsBrandsListItem.serializeBinaryToWriter
+        APITwinsBrandsListItem.serializeBinaryToWriter
       );
     }
     if (_instance.count) {
@@ -10896,7 +11183,7 @@ export class APITopTwinsBrandsList implements GrpcMessage {
     }
   }
 
-  private _items?: APITopTwinsBrandsListItem[];
+  private _items?: APITwinsBrandsListItem[];
   private _count: number;
 
   /**
@@ -10905,16 +11192,14 @@ export class APITopTwinsBrandsList implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<APITopTwinsBrandsList.AsObject>) {
     _value = _value || {};
-    this.items = (_value.items || []).map(
-      m => new APITopTwinsBrandsListItem(m)
-    );
+    this.items = (_value.items || []).map(m => new APITwinsBrandsListItem(m));
     this.count = _value.count;
     APITopTwinsBrandsList.refineValues(this);
   }
-  get items(): APITopTwinsBrandsListItem[] | undefined {
+  get items(): APITwinsBrandsListItem[] | undefined {
     return this._items;
   }
-  set items(value: APITopTwinsBrandsListItem[] | undefined) {
+  set items(value: APITwinsBrandsListItem[] | undefined) {
     this._items = value;
   }
   get count(): number {
@@ -10971,7 +11256,7 @@ export module APITopTwinsBrandsList {
    * Standard JavaScript object representation for APITopTwinsBrandsList
    */
   export interface AsObject {
-    items?: APITopTwinsBrandsListItem.AsObject[];
+    items?: APITwinsBrandsListItem.AsObject[];
     count: number;
   }
 
@@ -10979,7 +11264,7 @@ export module APITopTwinsBrandsList {
    * Protobuf JSON representation for APITopTwinsBrandsList
    */
   export interface AsProtobufJSON {
-    items: APITopTwinsBrandsListItem.AsProtobufJSON[] | null;
+    items: APITwinsBrandsListItem.AsProtobufJSON[] | null;
     count: number;
   }
 }

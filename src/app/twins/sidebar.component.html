@@ -1,14 +1,18 @@
 <div class="card card-body">
-  <ul class="nav flex-column nav-pills">
-    <li class="nav-item" *ngFor="let item of brands$ | async">
+  <ul class="nav flex-column nav-pills" *ngIf="brands$ | async as brands; else loading">
+    <li class="nav-item" *ngFor="let item of brands.items">
       <a [routerLink]="['/twins', item.catname]" class="nav-link" [class.active]="active(item)">
         {{ item.name }}
-        <span *ngIf="item.new_count <= 0" class="count">({{ item.count }})</span>
-        <span *ngIf="item.new_count > 0" class="count"
-          >({{ item.count - item.new_count }}+<span>{{ item.new_count }}</span
+        <span *ngIf="item.newCount <= 0" class="count">({{ item.count }})</span>
+        <span *ngIf="item.newCount > 0" class="count"
+          >({{ item.count - item.newCount }}+<span>{{ item.newCount }}</span
           >)</span
         >
       </a>
     </li>
   </ul>
 </div>
+
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>

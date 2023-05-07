@@ -11,7 +11,6 @@ import {TwinsGroupComponent} from './twins-group/twins-group.component';
 import {CommentsModule} from '../comments/comments.module';
 import {TwinsComponent} from './twins.component';
 import {PaginatorModule} from '../paginator/paginator.module';
-import {TwinsService} from './twins.service';
 import {TwinsGroupPictureComponent} from './twins-group/pictures/picture/picture.component';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {ModerModule} from '../moder/moder.module';
@@ -46,6 +45,5 @@ import {TwinsGroupItemsComponent} from './twins-group/items/items.component';
     PictureModule,
     ThumbnailModule,
   ],
-  providers: [TwinsService],
 })
 export class TwinsModule {}

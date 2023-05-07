@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APITwinsBrandsList, APITwinsBrandsListItem, GetTwinsBrandsListRequest} from '@grpc/spec.pb';
+import {LanguageService} from '@services/language';
 import {Observable} from 'rxjs';
-import {TwinsService, APITwinsBrand} from './twins.service';
 
 @Component({
   selector: 'app-twins-sidebar',
@@ -8,11 +10,14 @@ import {TwinsService, APITwinsBrand} from './twins.service';
 })
 export class TwinsSidebarComponent {
   @Input() selected: string[] = [];
-  public brands$: Observable<APITwinsBrand[]> = this.twins.getBrands$();
 
-  constructor(private twins: TwinsService) {}
+  public brands$: Observable<APITwinsBrandsList> = this.itemsClient.getTwinsBrandsList(
+    new GetTwinsBrandsListRequest({language: this.languageService.language})
+  );
 
-  active(item: APITwinsBrand): boolean {
+  constructor(private itemsClient: ItemsClient, private languageService: LanguageService) {}
+
+  public active(item: APITwinsBrandsListItem): boolean {
     return this.selected.indexOf(item.catname) !== -1;
   }
 }

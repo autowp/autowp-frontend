@@ -1571,6 +1571,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/GetTwinsBrandsList
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APITwinsBrandsList>>
+     */
+    getTwinsBrandsList: (
+      requestData: thisProto.GetTwinsBrandsListRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APITwinsBrandsList>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTwinsBrandsList',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetTwinsBrandsListRequest,
+        responseClass: thisProto.APITwinsBrandsList
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/GetTopTwinsBrandsList
      *
      * @param requestMessage Request message
@@ -1914,6 +1935,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopCategoriesList> {
     return this.$raw
       .getTopCategoriesList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetTwinsBrandsList
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APITwinsBrandsList>
+   */
+  getTwinsBrandsList(
+    requestData: thisProto.GetTwinsBrandsListRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APITwinsBrandsList> {
+    return this.$raw
+      .getTwinsBrandsList(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
