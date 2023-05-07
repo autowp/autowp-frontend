@@ -68,21 +68,3 @@ deploy:
   environment:
     name: production
     url: https://www.wheelsage.org/
-
-publish-master-to-github:
-  stage: publish
-  before_script:
-    - mkdir -p /root/.ssh
-    - touch /root/.ssh/known_hosts
-    - chmod 0600 ~/.ssh/known_hosts
-    - cat "$SSHKEY" > ~/.ssh/id_rsa
-    - chmod 0400 ~/.ssh/id_rsa
-    - ssh-keygen -R github.com
-    - git config --global user.email "$GITLAB_USER_EMAIL"
-    - git config --global user.name "$GITLAB_USER_NAME"
-  script:
-    - git checkout -b "$CI_COMMIT_BRANCH"
-    - git remote add github git@github.com:autowp/autowp-frontend.git
-    - git push github "$CI_COMMIT_BRANCH"
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
