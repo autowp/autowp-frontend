@@ -7,7 +7,6 @@ import {ForumsNewTopicComponent} from './new-topic/new-topic.component';
 import {ForumsSubscriptionsComponent} from './subscriptions/subscriptions.component';
 import {ForumsTopicComponent} from './topic/topic.component';
 import {MessageComponent} from './message/message.component';
-import {ForumsService} from './forums.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ForumsRoutingModule} from './forums-routing.module';
 import {PaginatorModule} from '../paginator/paginator.module';
@@ -17,6 +16,8 @@ import {UtilsModule} from '@utils/utils.module';
 import {FormsModule} from '@angular/forms';
 import {CommentsModule} from '../comments/comments.module';
 import {ForumsTopicListComponent} from './topic-list/topic-list.component';
+
+export const MESSAGES_PER_PAGE = 2;
 
 @NgModule({
   declarations: [
@@ -40,6 +41,5 @@ import {ForumsTopicListComponent} from './topic-list/topic-list.component';
     FormsModule,
     CommentsModule,
   ],
-  providers: [ForumsService],
 })
 export class ForumsModule {}

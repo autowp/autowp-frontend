@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {AuthService} from '@services/auth.service';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '@utils/translations';
 import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
@@ -16,13 +15,14 @@ import {
   CommentsType,
   CommentsUnSubscribeRequest,
 } from '@grpc/spec.pb';
+import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
   selector: 'app-forums-topic',
   templateUrl: './topic.component.html',
 })
 export class ForumsTopicComponent {
-  protected readonly limit = this.forumService.getLimit();
+  protected readonly limit = MESSAGES_PER_PAGE;
   protected readonly user$ = this.auth.getUser$();
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -49,7 +49,6 @@ export class ForumsTopicComponent {
   );
 
   constructor(
-    private readonly forumService: ForumsService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     protected readonly auth: AuthService,

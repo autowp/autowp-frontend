@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {combineLatest, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {combineLatest, Observable, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {MessageService} from '@services/message';
-import {ForumsService} from '../forums/forums.service';
 import {AuthService} from '@services/auth.service';
 import {PictureService} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../toasts/toasts.service';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {ForumsClient} from '@grpc/spec.pbsc';
 
 interface SidebarItem {
   pageId?: number;
@@ -26,7 +27,15 @@ interface SidebarItem {
 export class AccountComponent {
   public items$: Observable<SidebarItem[]> = combineLatest([
     this.auth.getUser$(),
-    this.forumService.getUserSummary$(),
+    this.auth.getUser$().pipe(
+      switchMap((user) => {
+        if (!user) {
+          return of(null);
+        }
+        return this.forumsClient.getUserSummary(new Empty());
+      }),
+      shareReplay(1)
+    ),
     this.messageService.getSummary$(),
     this.pictureService.getSummary$(),
   ]).pipe(
@@ -141,10 +150,10 @@ export class AccountComponent {
 
   constructor(
     private messageService: MessageService,
-    private forumService: ForumsService,
     private auth: AuthService,
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private toastService: ToastsService,
+    private forumsClient: ForumsClient
   ) {}
 }

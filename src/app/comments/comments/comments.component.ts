@@ -5,7 +5,7 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
-import {CommentsType, CommentsViewRequest} from '@grpc/spec.pb';
+import {CommentsType, CommentsViewRequest, GetMessagePageRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 
 @Component({
@@ -85,32 +85,27 @@ export class CommentsComponent {
             return EMPTY;
           }
 
-          return this.commentService
-            .getComment$(+id, {
-              fields: 'page',
-              limit: limit,
-            })
-            .pipe(
-              catchError((error: unknown) => {
-                this.toastService.handleError(error);
-                return EMPTY;
-              }),
-              switchMap((response) =>
-                this.page$.pipe(
-                  take(1),
-                  tap((page) => {
-                    if (page !== response.page) {
-                      this.router.navigate([], {
-                        queryParams: {page: response.page},
-                        queryParamsHandling: 'merge',
-                      });
-                    } else {
-                      this.reload$.next(null);
-                    }
-                  })
-                )
+          return this.commentsGrpc.getMessagePage(new GetMessagePageRequest({messageId: id, perPage: limit})).pipe(
+            catchError((error: unknown) => {
+              this.toastService.handleError(error);
+              return EMPTY;
+            }),
+            switchMap((response) =>
+              this.page$.pipe(
+                take(1),
+                tap((page) => {
+                  if (page !== response.page) {
+                    this.router.navigate([], {
+                      queryParams: {page: response.page},
+                      queryParamsHandling: 'merge',
+                    });
+                  } else {
+                    this.reload$.next(null);
+                  }
+                })
               )
-            );
+            )
+          );
         })
       )
       .subscribe();

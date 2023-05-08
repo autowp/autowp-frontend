@@ -130,10 +130,6 @@ export class APICommentsService {
       params.fields = options.fields;
     }
 
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
     return this.api.request<APIComment>('GET', 'comment/' + id, {params});
   }
 

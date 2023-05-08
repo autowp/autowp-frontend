@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {EMPTY, Subscription} from 'rxjs';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError, tap} from 'rxjs/operators';
-import {ForumsService} from '../forums.service';
+import {distinctUntilChanged, switchMap, map, catchError, tap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import {GetMessagePageRequest} from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
   selector: 'app-forums-message',
@@ -14,7 +16,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
-    private readonly forumService: ForumsService,
+    private readonly commentsClient: CommentsClient,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService
   ) {}
@@ -22,16 +24,17 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('message_id'), 10)),
+        map((params) => params.get('message_id')),
         distinctUntilChanged(),
-        debounceTime(10),
-        switchMap((messageID) => this.forumService.getMessageStateParams$(messageID)),
+        switchMap((messageId) =>
+          this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE}))
+        ),
         catchError((response: unknown) => {
           this.toastService.handleError(response);
           return EMPTY;
         }),
         tap((message) => {
-          this.router.navigate(['/forums/topic', message.topic_id], {
+          this.router.navigate(['/forums/topic', message.itemId], {
             replaceUrl: true,
             queryParams: {
               page: message.page,

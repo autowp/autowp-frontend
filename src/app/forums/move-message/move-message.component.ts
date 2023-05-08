@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {ForumsService} from '../forums.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '@utils/translations';
 import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
@@ -14,7 +13,9 @@ import {
   APIGetForumsTopicsRequest,
   CommentsMoveCommentRequest,
   CommentsType,
+  GetMessagePageRequest,
 } from '@grpc/spec.pb';
+import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
   selector: 'app-forums-move-message',
@@ -57,12 +58,11 @@ export class ForumsMoveMessageComponent implements OnInit {
     );
 
   constructor(
-    private readonly forumService: ForumsService,
+    private readonly commentsClient: CommentsClient,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient,
     private readonly grpc: ForumsClient
   ) {}
 
@@ -70,19 +70,23 @@ export class ForumsMoveMessageComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 83}), 0);
   }
 
-  protected selectTopic(messageID: number, topic: APIForumsTopic) {
-    this.commentsGrpc
+  protected selectTopic(messageId: string, topic: APIForumsTopic) {
+    this.commentsClient
       .moveComment(
         new CommentsMoveCommentRequest({
-          commentId: '' + messageID,
-          itemId: '' + topic.id,
+          commentId: messageId,
+          itemId: topic.id,
           typeId: CommentsType.FORUMS_TYPE_ID,
         })
       )
-      .pipe(switchMap(() => this.forumService.getMessageStateParams$(messageID)))
+      .pipe(
+        switchMap(() =>
+          this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE}))
+        )
+      )
       .subscribe({
         next: (params) =>
-          this.router.navigate(['/forums/topic', params.topic_id], {
+          this.router.navigate(['/forums/topic', params.itemId], {
             queryParams: {
               page: params.page,
             },
