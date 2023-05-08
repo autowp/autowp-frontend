@@ -16,6 +16,7 @@ import {UserModule} from '../user/user.module';
 import {UtilsModule} from '@utils/utils.module';
 import {FormsModule} from '@angular/forms';
 import {CommentsModule} from '../comments/comments.module';
+import {ForumsTopicListComponent} from './topic-list/topic-list.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {CommentsModule} from '../comments/comments.module';
     ForumsSubscriptionsComponent,
     ForumsTopicComponent,
     MessageComponent,
+    ForumsTopicListComponent,
   ],
   imports: [
     CommonModule,

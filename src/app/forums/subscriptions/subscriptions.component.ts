@@ -1,28 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '@services/api.service';
 import {ActivatedRoute} from '@angular/router';
-import {EMPTY} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
-import {APIForumTopic, ForumsService} from '../forums.service';
+import {distinctUntilChanged, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {APIForumsTopic, APIGetForumsTopicsRequest, Pages} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-forums-subscriptions',
   templateUrl: './subscriptions.component.html',
 })
 export class ForumsSubscriptionsComponent implements OnInit {
-  public data$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10),
-    switchMap((page) =>
-      this.forumService.getTopics$({
-        fields: 'author,messages,last_message.user',
-        subscription: true,
-        page,
-      })
+  private readonly reload$ = new BehaviorSubject<boolean>(false);
+
+  protected readonly data$: Observable<{items: APIForumsTopic[]; paginator: Pages}> = combineLatest([
+    this.route.queryParamMap.pipe(
+      map((params) => parseInt(params.get('page'), 10)),
+      distinctUntilChanged()
     ),
+    this.reload$,
+  ]).pipe(
+    switchMap(([page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({subscription: true, page}))),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
@@ -30,34 +29,17 @@ export class ForumsSubscriptionsComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private route: ActivatedRoute,
-    private forumService: ForumsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly grpc: ForumsClient
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 42}), 0);
   }
 
-  public unsubscribe(topic: APIForumTopic, topics: APIForumTopic[]) {
-    this.api
-      .request<void>('PUT', 'forum/topic/' + topic.id, {
-        body: {
-          subscription: 0,
-        },
-      })
-      .subscribe({
-        next: () => {
-          for (let i = topics.length - 1; i >= 0; i--) {
-            if (topics[i].id === topic.id) {
-              topics.splice(i, 1);
-              break;
-            }
-          }
-        },
-        error: (response: unknown) => this.toastService.handleError(response),
-      });
+  protected reload() {
+    this.reload$.next(true);
   }
 }

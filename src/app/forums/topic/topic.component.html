@@ -6,11 +6,9 @@
     <li class="breadcrumb-item">
       <a routerLink="/forums" i18n>Forums</a>
     </li>
-    <ng-container *ngIf="topic$ | async as topic">
-      <li class="breadcrumb-item" *ngIf="topic.theme">
-        <a [routerLink]="['/forums', topic.theme.id]">{{ getForumsThemeTranslation(topic.theme.name) }}</a>
-      </li>
-    </ng-container>
+    <li class="breadcrumb-item" *ngIf="theme$ | async as theme">
+      <a [routerLink]="['/forums', theme.id]">{{ getForumsThemeTranslation(theme.name) }}</a>
+    </li>
   </ol>
 </nav>
 
@@ -20,7 +18,12 @@
   </div>
 
   <section class="forum-topic-page comments">
-    <app-comments [itemID]="topic.id" [typeID]="5" [limit]="limit" [page]="page$ | async"></app-comments>
+    <app-comments
+      [itemID]="+topic.id"
+      [typeID]="CommentsType.FORUMS_TYPE_ID"
+      [limit]="limit"
+      [page]="page$ | async"
+    ></app-comments>
 
     <div class="text-end mb-3" *ngIf="user$ | async">
       <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe(topic)">

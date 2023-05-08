@@ -6,6 +6,7 @@ import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import {CatalogueService} from '../../../catalogue-service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {PictureService} from '@services/picture';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures-picture',
@@ -60,6 +61,8 @@ export class CatalogueVehiclesPicturesPictureComponent {
       ...(exact ? ['exact'] : []),
     ])
   );
+
+  public readonly CommentsType = CommentsType;
 
   public brand$ = this.catalogue$.pipe(map(({brand}) => brand));
 

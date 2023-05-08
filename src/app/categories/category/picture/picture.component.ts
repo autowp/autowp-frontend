@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap, shareReplay} from 'rxjs/operators';
 import {CatagoriesService} from '../../service';
-import {ItemType} from '@grpc/spec.pb';
+import {CommentsType, ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-category-picture',
@@ -112,6 +112,8 @@ export class CategoryPictureComponent {
     })
   );
 
+  protected readonly CommentsType = CommentsType;
+
   constructor(
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
@@ -120,7 +122,7 @@ export class CategoryPictureComponent {
     private categoriesService: CatagoriesService
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

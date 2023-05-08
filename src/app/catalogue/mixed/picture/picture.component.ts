@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, debounceTime, shareReplay, tap} from 'rxjs/operators';
 import {BrandPerspectivePageData} from '../../catalogue.module';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-catalogue-mixed-picture',
@@ -13,6 +14,8 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
 })
 export class CatalogueMixedPictureComponent {
   private changed$ = new BehaviorSubject<boolean>(false);
+
+  public CommentsType = CommentsType;
 
   public brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),

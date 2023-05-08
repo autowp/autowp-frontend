@@ -571,6 +571,132 @@ export class ForumsClient {
         requestClass: thisProto.APIMoveTopicRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Forums/GetTheme
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIForumsTheme>>
+     */
+    getTheme: (
+      requestData: thisProto.APIGetForumsThemeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIForumsTheme>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/GetTheme',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetForumsThemeRequest,
+        responseClass: thisProto.APIForumsTheme
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/GetThemes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIForumsThemes>>
+     */
+    getThemes: (
+      requestData: thisProto.APIGetForumsThemesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIForumsThemes>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/GetThemes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetForumsThemesRequest,
+        responseClass: thisProto.APIForumsThemes
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/GetTopic
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIForumsTopic>>
+     */
+    getTopic: (
+      requestData: thisProto.APIGetForumsTopicRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIForumsTopic>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/GetTopic',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetForumsTopicRequest,
+        responseClass: thisProto.APIForumsTopic
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/GetLastTopic
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIForumsTopic>>
+     */
+    getLastTopic: (
+      requestData: thisProto.APIGetForumsThemeRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIForumsTopic>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/GetLastTopic',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetForumsThemeRequest,
+        responseClass: thisProto.APIForumsTopic
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/GetLastMessage
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APICommentMessage>>
+     */
+    getLastMessage: (
+      requestData: thisProto.APIGetForumsTopicRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APICommentMessage>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/GetLastMessage',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetForumsTopicRequest,
+        responseClass: thisProto.APICommentMessage
+      });
+    },
+    /**
+     * Unary call: /goautowp.Forums/GetTopics
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIForumsTopics>>
+     */
+    getTopics: (
+      requestData: thisProto.APIGetForumsTopicsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIForumsTopics>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Forums/GetTopics',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIGetForumsTopicsRequest,
+        responseClass: thisProto.APIForumsTopics
+      });
     }
   };
 
@@ -675,6 +801,102 @@ export class ForumsClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .moveTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/GetTheme
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIForumsTheme>
+   */
+  getTheme(
+    requestData: thisProto.APIGetForumsThemeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIForumsTheme> {
+    return this.$raw
+      .getTheme(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/GetThemes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIForumsThemes>
+   */
+  getThemes(
+    requestData: thisProto.APIGetForumsThemesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIForumsThemes> {
+    return this.$raw
+      .getThemes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/GetTopic
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIForumsTopic>
+   */
+  getTopic(
+    requestData: thisProto.APIGetForumsTopicRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIForumsTopic> {
+    return this.$raw
+      .getTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/GetLastTopic
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIForumsTopic>
+   */
+  getLastTopic(
+    requestData: thisProto.APIGetForumsThemeRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIForumsTopic> {
+    return this.$raw
+      .getLastTopic(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/GetLastMessage
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APICommentMessage>
+   */
+  getLastMessage(
+    requestData: thisProto.APIGetForumsTopicRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APICommentMessage> {
+    return this.$raw
+      .getLastMessage(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Forums/GetTopics
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIForumsTopics>
+   */
+  getTopics(
+    requestData: thisProto.APIGetForumsTopicsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIForumsTopics> {
+    return this.$raw
+      .getTopics(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

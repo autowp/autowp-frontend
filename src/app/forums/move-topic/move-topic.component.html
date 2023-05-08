@@ -7,11 +7,13 @@
       <a routerLink="/forums" i18n>Forums</a>
     </li>
     <ng-container *ngIf="topic$ | async as topic">
-      <li class="breadcrumb-item" *ngIf="topic && topic.theme">
-        <a [routerLink]="['/forums', topic.theme.id]">{{ getForumsThemeTranslation(topic.theme.name) }}</a>
+      <li class="breadcrumb-item" *ngIf="topic">
+        <a [routerLink]="['/forums', theme.id]" *ngIf="theme$ | async as theme">{{
+          getForumsThemeTranslation(theme.name)
+        }}</a>
       </li>
       <li class="breadcrumb-item" *ngIf="topic">
-        <a [routerLink]="['/forums/topic/topic/topic_id', topic.id]">{{ topic.name }}</a>
+        <a [routerLink]="['/forums/topic', topic.id]">{{ topic.name }}</a>
       </li>
     </ng-container>
   </ol>
@@ -25,16 +27,10 @@
   <div *ngFor="let theme of themes$ | async">
     <button
       class="btn btn-secondary"
-      disabled
-      [textContent]="getForumsThemeTranslation(theme.name)"
-      *ngIf="topic.theme_id === theme.id"
-    ></button>
-    <button
-      class="btn btn-secondary"
       type="submit"
       name="theme_id"
+      [disabled]="topic.themeId === theme.id"
       [textContent]="getForumsThemeTranslation(theme.name)"
-      *ngIf="topic.theme_id !== theme.id"
       (click)="selectTheme(topic, theme)"
     ></button>
   </div>

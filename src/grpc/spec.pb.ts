@@ -7731,6 +7731,1645 @@ export module APIForumsUserSummary {
 }
 
 /**
+ * Message implementation for goautowp.APIGetForumsThemeRequest
+ */
+export class APIGetForumsThemeRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetForumsThemeRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetForumsThemeRequest();
+    APIGetForumsThemeRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetForumsThemeRequest) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetForumsThemeRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetForumsThemeRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetForumsThemeRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetForumsThemeRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetForumsThemeRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    APIGetForumsThemeRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetForumsThemeRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetForumsThemeRequest.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetForumsThemeRequest.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module APIGetForumsThemeRequest {
+  /**
+   * Standard JavaScript object representation for APIGetForumsThemeRequest
+   */
+  export interface AsObject {
+    id: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetForumsThemeRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetForumsTopicsRequest
+ */
+export class APIGetForumsTopicsRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetForumsTopicsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetForumsTopicsRequest();
+    APIGetForumsTopicsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetForumsTopicsRequest) {
+    _instance.themeId = _instance.themeId || '0';
+    _instance.page = _instance.page || 0;
+    _instance.subscription = _instance.subscription || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetForumsTopicsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.themeId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.page = _reader.readInt32();
+          break;
+        case 3:
+          _instance.subscription = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetForumsTopicsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetForumsTopicsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.themeId) {
+      _writer.writeInt64String(1, _instance.themeId);
+    }
+    if (_instance.page) {
+      _writer.writeInt32(2, _instance.page);
+    }
+    if (_instance.subscription) {
+      _writer.writeBool(3, _instance.subscription);
+    }
+  }
+
+  private _themeId: string;
+  private _page: number;
+  private _subscription: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetForumsTopicsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetForumsTopicsRequest.AsObject>) {
+    _value = _value || {};
+    this.themeId = _value.themeId;
+    this.page = _value.page;
+    this.subscription = _value.subscription;
+    APIGetForumsTopicsRequest.refineValues(this);
+  }
+  get themeId(): string {
+    return this._themeId;
+  }
+  set themeId(value: string) {
+    this._themeId = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
+  get subscription(): boolean {
+    return this._subscription;
+  }
+  set subscription(value: boolean) {
+    this._subscription = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetForumsTopicsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetForumsTopicsRequest.AsObject {
+    return {
+      themeId: this.themeId,
+      page: this.page,
+      subscription: this.subscription
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetForumsTopicsRequest.AsProtobufJSON {
+    return {
+      themeId: this.themeId,
+      page: this.page,
+      subscription: this.subscription
+    };
+  }
+}
+export module APIGetForumsTopicsRequest {
+  /**
+   * Standard JavaScript object representation for APIGetForumsTopicsRequest
+   */
+  export interface AsObject {
+    themeId: string;
+    page: number;
+    subscription: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetForumsTopicsRequest
+   */
+  export interface AsProtobufJSON {
+    themeId: string;
+    page: number;
+    subscription: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetForumsTopicRequest
+ */
+export class APIGetForumsTopicRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetForumsTopicRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetForumsTopicRequest();
+    APIGetForumsTopicRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetForumsTopicRequest) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetForumsTopicRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetForumsTopicRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetForumsTopicRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetForumsTopicRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetForumsTopicRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    APIGetForumsTopicRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetForumsTopicRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetForumsTopicRequest.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetForumsTopicRequest.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module APIGetForumsTopicRequest {
+  /**
+   * Standard JavaScript object representation for APIGetForumsTopicRequest
+   */
+  export interface AsObject {
+    id: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetForumsTopicRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIGetForumsThemesRequest
+ */
+export class APIGetForumsThemesRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetForumsThemesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetForumsThemesRequest();
+    APIGetForumsThemesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetForumsThemesRequest) {
+    _instance.themeId = _instance.themeId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetForumsThemesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.themeId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetForumsThemesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetForumsThemesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.themeId) {
+      _writer.writeInt64String(1, _instance.themeId);
+    }
+  }
+
+  private _themeId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetForumsThemesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIGetForumsThemesRequest.AsObject>) {
+    _value = _value || {};
+    this.themeId = _value.themeId;
+    APIGetForumsThemesRequest.refineValues(this);
+  }
+  get themeId(): string {
+    return this._themeId;
+  }
+  set themeId(value: string) {
+    this._themeId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetForumsThemesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetForumsThemesRequest.AsObject {
+    return {
+      themeId: this.themeId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetForumsThemesRequest.AsProtobufJSON {
+    return {
+      themeId: this.themeId
+    };
+  }
+}
+export module APIGetForumsThemesRequest {
+  /**
+   * Standard JavaScript object representation for APIGetForumsThemesRequest
+   */
+  export interface AsObject {
+    themeId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetForumsThemesRequest
+   */
+  export interface AsProtobufJSON {
+    themeId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIForumsTheme
+ */
+export class APIForumsTheme implements GrpcMessage {
+  static id = 'goautowp.APIForumsTheme';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIForumsTheme();
+    APIForumsTheme.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIForumsTheme) {
+    _instance.id = _instance.id || '0';
+    _instance.name = _instance.name || '';
+    _instance.topicsCount = _instance.topicsCount || 0;
+    _instance.messagesCount = _instance.messagesCount || 0;
+    _instance.disableTopics = _instance.disableTopics || false;
+    _instance.description = _instance.description || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIForumsTheme,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.name = _reader.readString();
+          break;
+        case 3:
+          _instance.topicsCount = _reader.readInt32();
+          break;
+        case 4:
+          _instance.messagesCount = _reader.readInt32();
+          break;
+        case 5:
+          _instance.disableTopics = _reader.readBool();
+          break;
+        case 6:
+          _instance.description = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIForumsTheme.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIForumsTheme,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(2, _instance.name);
+    }
+    if (_instance.topicsCount) {
+      _writer.writeInt32(3, _instance.topicsCount);
+    }
+    if (_instance.messagesCount) {
+      _writer.writeInt32(4, _instance.messagesCount);
+    }
+    if (_instance.disableTopics) {
+      _writer.writeBool(5, _instance.disableTopics);
+    }
+    if (_instance.description) {
+      _writer.writeString(6, _instance.description);
+    }
+  }
+
+  private _id: string;
+  private _name: string;
+  private _topicsCount: number;
+  private _messagesCount: number;
+  private _disableTopics: boolean;
+  private _description: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIForumsTheme to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIForumsTheme.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.name = _value.name;
+    this.topicsCount = _value.topicsCount;
+    this.messagesCount = _value.messagesCount;
+    this.disableTopics = _value.disableTopics;
+    this.description = _value.description;
+    APIForumsTheme.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get topicsCount(): number {
+    return this._topicsCount;
+  }
+  set topicsCount(value: number) {
+    this._topicsCount = value;
+  }
+  get messagesCount(): number {
+    return this._messagesCount;
+  }
+  set messagesCount(value: number) {
+    this._messagesCount = value;
+  }
+  get disableTopics(): boolean {
+    return this._disableTopics;
+  }
+  set disableTopics(value: boolean) {
+    this._disableTopics = value;
+  }
+  get description(): string {
+    return this._description;
+  }
+  set description(value: string) {
+    this._description = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIForumsTheme.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIForumsTheme.AsObject {
+    return {
+      id: this.id,
+      name: this.name,
+      topicsCount: this.topicsCount,
+      messagesCount: this.messagesCount,
+      disableTopics: this.disableTopics,
+      description: this.description
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIForumsTheme.AsProtobufJSON {
+    return {
+      id: this.id,
+      name: this.name,
+      topicsCount: this.topicsCount,
+      messagesCount: this.messagesCount,
+      disableTopics: this.disableTopics,
+      description: this.description
+    };
+  }
+}
+export module APIForumsTheme {
+  /**
+   * Standard JavaScript object representation for APIForumsTheme
+   */
+  export interface AsObject {
+    id: string;
+    name: string;
+    topicsCount: number;
+    messagesCount: number;
+    disableTopics: boolean;
+    description: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIForumsTheme
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    name: string;
+    topicsCount: number;
+    messagesCount: number;
+    disableTopics: boolean;
+    description: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIForumsThemes
+ */
+export class APIForumsThemes implements GrpcMessage {
+  static id = 'goautowp.APIForumsThemes';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIForumsThemes();
+    APIForumsThemes.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIForumsThemes) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIForumsThemes,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIForumsTheme();
+          _reader.readMessage(
+            messageInitializer1,
+            APIForumsTheme.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIForumsThemes.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIForumsThemes,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIForumsTheme.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIForumsTheme[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIForumsThemes to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIForumsThemes.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIForumsTheme(m));
+    APIForumsThemes.refineValues(this);
+  }
+  get items(): APIForumsTheme[] | undefined {
+    return this._items;
+  }
+  set items(value: APIForumsTheme[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIForumsThemes.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIForumsThemes.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIForumsThemes.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIForumsThemes {
+  /**
+   * Standard JavaScript object representation for APIForumsThemes
+   */
+  export interface AsObject {
+    items?: APIForumsTheme.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIForumsThemes
+   */
+  export interface AsProtobufJSON {
+    items: APIForumsTheme.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIForumsTopic
+ */
+export class APIForumsTopic implements GrpcMessage {
+  static id = 'goautowp.APIForumsTopic';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIForumsTopic();
+    APIForumsTopic.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIForumsTopic) {
+    _instance.id = _instance.id || '0';
+    _instance.name = _instance.name || '';
+    _instance.status = _instance.status || '';
+    _instance.oldMessages = _instance.oldMessages || 0;
+    _instance.newMessages = _instance.newMessages || 0;
+    _instance.createdAt = _instance.createdAt || undefined;
+    _instance.userId = _instance.userId || '0';
+    _instance.themeId = _instance.themeId || '0';
+    _instance.subscription = _instance.subscription || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIForumsTopic,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.name = _reader.readString();
+          break;
+        case 3:
+          _instance.status = _reader.readString();
+          break;
+        case 4:
+          _instance.oldMessages = _reader.readInt32();
+          break;
+        case 5:
+          _instance.newMessages = _reader.readInt32();
+          break;
+        case 6:
+          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.createdAt,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 8:
+          _instance.themeId = _reader.readInt64String();
+          break;
+        case 9:
+          _instance.subscription = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIForumsTopic.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIForumsTopic,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(2, _instance.name);
+    }
+    if (_instance.status) {
+      _writer.writeString(3, _instance.status);
+    }
+    if (_instance.oldMessages) {
+      _writer.writeInt32(4, _instance.oldMessages);
+    }
+    if (_instance.newMessages) {
+      _writer.writeInt32(5, _instance.newMessages);
+    }
+    if (_instance.createdAt) {
+      _writer.writeMessage(
+        6,
+        _instance.createdAt as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(7, _instance.userId);
+    }
+    if (_instance.themeId) {
+      _writer.writeInt64String(8, _instance.themeId);
+    }
+    if (_instance.subscription) {
+      _writer.writeBool(9, _instance.subscription);
+    }
+  }
+
+  private _id: string;
+  private _name: string;
+  private _status: string;
+  private _oldMessages: number;
+  private _newMessages: number;
+  private _createdAt?: googleProtobuf002.Timestamp;
+  private _userId: string;
+  private _themeId: string;
+  private _subscription: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIForumsTopic to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIForumsTopic.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.name = _value.name;
+    this.status = _value.status;
+    this.oldMessages = _value.oldMessages;
+    this.newMessages = _value.newMessages;
+    this.createdAt = _value.createdAt
+      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      : undefined;
+    this.userId = _value.userId;
+    this.themeId = _value.themeId;
+    this.subscription = _value.subscription;
+    APIForumsTopic.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get status(): string {
+    return this._status;
+  }
+  set status(value: string) {
+    this._status = value;
+  }
+  get oldMessages(): number {
+    return this._oldMessages;
+  }
+  set oldMessages(value: number) {
+    this._oldMessages = value;
+  }
+  get newMessages(): number {
+    return this._newMessages;
+  }
+  set newMessages(value: number) {
+    this._newMessages = value;
+  }
+  get createdAt(): googleProtobuf002.Timestamp | undefined {
+    return this._createdAt;
+  }
+  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+    this._createdAt = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+  get themeId(): string {
+    return this._themeId;
+  }
+  set themeId(value: string) {
+    this._themeId = value;
+  }
+  get subscription(): boolean {
+    return this._subscription;
+  }
+  set subscription(value: boolean) {
+    this._subscription = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIForumsTopic.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIForumsTopic.AsObject {
+    return {
+      id: this.id,
+      name: this.name,
+      status: this.status,
+      oldMessages: this.oldMessages,
+      newMessages: this.newMessages,
+      createdAt: this.createdAt ? this.createdAt.toObject() : undefined,
+      userId: this.userId,
+      themeId: this.themeId,
+      subscription: this.subscription
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIForumsTopic.AsProtobufJSON {
+    return {
+      id: this.id,
+      name: this.name,
+      status: this.status,
+      oldMessages: this.oldMessages,
+      newMessages: this.newMessages,
+      createdAt: this.createdAt ? this.createdAt.toProtobufJSON(options) : null,
+      userId: this.userId,
+      themeId: this.themeId,
+      subscription: this.subscription
+    };
+  }
+}
+export module APIForumsTopic {
+  /**
+   * Standard JavaScript object representation for APIForumsTopic
+   */
+  export interface AsObject {
+    id: string;
+    name: string;
+    status: string;
+    oldMessages: number;
+    newMessages: number;
+    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    userId: string;
+    themeId: string;
+    subscription: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for APIForumsTopic
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    name: string;
+    status: string;
+    oldMessages: number;
+    newMessages: number;
+    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    userId: string;
+    themeId: string;
+    subscription: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIForumsTopics
+ */
+export class APIForumsTopics implements GrpcMessage {
+  static id = 'goautowp.APIForumsTopics';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIForumsTopics();
+    APIForumsTopics.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIForumsTopics) {
+    _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIForumsTopics,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIForumsTopic();
+          _reader.readMessage(
+            messageInitializer1,
+            APIForumsTopic.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIForumsTopics.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIForumsTopics,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIForumsTopic.serializeBinaryToWriter
+      );
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIForumsTopic[];
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIForumsTopics to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIForumsTopics.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIForumsTopic(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    APIForumsTopics.refineValues(this);
+  }
+  get items(): APIForumsTopic[] | undefined {
+    return this._items;
+  }
+  set items(value: APIForumsTopic[] | undefined) {
+    this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIForumsTopics.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIForumsTopics.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIForumsTopics.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module APIForumsTopics {
+  /**
+   * Standard JavaScript object representation for APIForumsTopics
+   */
+  export interface AsObject {
+    items?: APIForumsTopic.AsObject[];
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for APIForumsTopics
+   */
+  export interface AsProtobufJSON {
+    items: APIForumsTopic.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APICommentMessage
+ */
+export class APICommentMessage implements GrpcMessage {
+  static id = 'goautowp.APICommentMessage';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APICommentMessage();
+    APICommentMessage.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APICommentMessage) {
+    _instance.id = _instance.id || '0';
+    _instance.createdAt = _instance.createdAt || undefined;
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APICommentMessage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.createdAt,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APICommentMessage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APICommentMessage,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.createdAt) {
+      _writer.writeMessage(
+        2,
+        _instance.createdAt as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(3, _instance.userId);
+    }
+  }
+
+  private _id: string;
+  private _createdAt?: googleProtobuf002.Timestamp;
+  private _userId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APICommentMessage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APICommentMessage.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.createdAt = _value.createdAt
+      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      : undefined;
+    this.userId = _value.userId;
+    APICommentMessage.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get createdAt(): googleProtobuf002.Timestamp | undefined {
+    return this._createdAt;
+  }
+  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+    this._createdAt = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APICommentMessage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APICommentMessage.AsObject {
+    return {
+      id: this.id,
+      createdAt: this.createdAt ? this.createdAt.toObject() : undefined,
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APICommentMessage.AsProtobufJSON {
+    return {
+      id: this.id,
+      createdAt: this.createdAt ? this.createdAt.toProtobufJSON(options) : null,
+      userId: this.userId
+    };
+  }
+}
+export module APICommentMessage {
+  /**
+   * Standard JavaScript object representation for APICommentMessage
+   */
+  export interface AsObject {
+    id: string;
+    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    userId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APICommentMessage
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    userId: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.APICreateTopicRequest
  */
 export class APICreateTopicRequest implements GrpcMessage {
@@ -16267,7 +17906,7 @@ export class ModerVoteTemplate implements GrpcMessage {
    */
   static refineValues(_instance: ModerVoteTemplate) {
     _instance.id = _instance.id || '0';
-    _instance.userID = _instance.userID || '0';
+    _instance.userId = _instance.userId || '0';
     _instance.message = _instance.message || '';
     _instance.vote = _instance.vote || 0;
   }
@@ -16289,7 +17928,7 @@ export class ModerVoteTemplate implements GrpcMessage {
           _instance.id = _reader.readInt64String();
           break;
         case 2:
-          _instance.userID = _reader.readInt64String();
+          _instance.userId = _reader.readInt64String();
           break;
         case 3:
           _instance.message = _reader.readString();
@@ -16317,8 +17956,8 @@ export class ModerVoteTemplate implements GrpcMessage {
     if (_instance.id) {
       _writer.writeInt64String(1, _instance.id);
     }
-    if (_instance.userID) {
-      _writer.writeInt64String(2, _instance.userID);
+    if (_instance.userId) {
+      _writer.writeInt64String(2, _instance.userId);
     }
     if (_instance.message) {
       _writer.writeString(3, _instance.message);
@@ -16329,7 +17968,7 @@ export class ModerVoteTemplate implements GrpcMessage {
   }
 
   private _id: string;
-  private _userID: string;
+  private _userId: string;
   private _message: string;
   private _vote: number;
 
@@ -16340,7 +17979,7 @@ export class ModerVoteTemplate implements GrpcMessage {
   constructor(_value?: RecursivePartial<ModerVoteTemplate.AsObject>) {
     _value = _value || {};
     this.id = _value.id;
-    this.userID = _value.userID;
+    this.userId = _value.userId;
     this.message = _value.message;
     this.vote = _value.vote;
     ModerVoteTemplate.refineValues(this);
@@ -16351,11 +17990,11 @@ export class ModerVoteTemplate implements GrpcMessage {
   set id(value: string) {
     this._id = value;
   }
-  get userID(): string {
-    return this._userID;
+  get userId(): string {
+    return this._userId;
   }
-  set userID(value: string) {
-    this._userID = value;
+  set userId(value: string) {
+    this._userId = value;
   }
   get message(): string {
     return this._message;
@@ -16386,7 +18025,7 @@ export class ModerVoteTemplate implements GrpcMessage {
   toObject(): ModerVoteTemplate.AsObject {
     return {
       id: this.id,
-      userID: this.userID,
+      userId: this.userId,
       message: this.message,
       vote: this.vote
     };
@@ -16410,7 +18049,7 @@ export class ModerVoteTemplate implements GrpcMessage {
   ): ModerVoteTemplate.AsProtobufJSON {
     return {
       id: this.id,
-      userID: this.userID,
+      userId: this.userId,
       message: this.message,
       vote: this.vote
     };
@@ -16422,7 +18061,7 @@ export module ModerVoteTemplate {
    */
   export interface AsObject {
     id: string;
-    userID: string;
+    userId: string;
     message: string;
     vote: number;
   }
@@ -16432,7 +18071,7 @@ export module ModerVoteTemplate {
    */
   export interface AsProtobufJSON {
     id: string;
-    userID: string;
+    userId: string;
     message: string;
     vote: number;
   }

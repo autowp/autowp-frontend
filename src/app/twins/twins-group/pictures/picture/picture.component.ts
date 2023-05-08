@@ -7,6 +7,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {AuthService} from '@services/auth.service';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-twins-group-picture',
@@ -107,6 +108,8 @@ export class TwinsGroupPictureComponent {
       );
     })
   );
+
+  protected readonly CommentsType = CommentsType;
 
   constructor(
     private itemService: ItemService,

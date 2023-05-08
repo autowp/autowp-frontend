@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {APIPaginator, APIImage, APIService} from './api.service';
 import {Observable, forkJoin, of} from 'rxjs';
 import {APIAccount} from '../account/account.service';
-import {tap, map} from 'rxjs/operators';
+import {tap, map, shareReplay} from 'rxjs/operators';
+import {UsersClient} from '@grpc/spec.pbsc';
+import {APIGetUserRequest, APIUser as APIUser2} from '@grpc/spec.pb';
 
 export interface APIGetUserOptions {
   fields?: string;
@@ -98,7 +100,9 @@ export class UserService {
   private cache: Map<string, APIUser> = new Map<string, APIUser>();
   private promises = new Map<string, Observable<void>>();
 
-  constructor(private api: APIService) {}
+  private cache2 = new Map<string, Observable<APIUser2>>();
+
+  constructor(private api: APIService, private usersClient: UsersClient) {}
 
   private queryUsers$(ids: string[]): Observable<any> {
     const toRequest: string[] = [];
@@ -192,6 +196,15 @@ export class UserService {
         return null as APIUser;
       })
     );
+  }
+
+  public getUser2$(id: string) {
+    if (!this.cache2.has(id)) {
+      const o$ = this.usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(shareReplay(1));
+      this.cache2.set(id, o$);
+    }
+
+    return this.cache2.get(id);
   }
 
   public get$(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {

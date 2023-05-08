@@ -4,6 +4,7 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {PictureService} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-persons-person-author-picture',
@@ -70,6 +71,8 @@ export class PersonsPersonAuthorPictureComponent {
       });
     })
   );
+
+  protected readonly CommentsType = CommentsType;
 
   constructor(
     private pageEnv: PageEnvService,

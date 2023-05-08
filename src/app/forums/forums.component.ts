@@ -1,14 +1,31 @@
 import {Component} from '@angular/core';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, throwError} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {APIForumTheme, APIForumTopic, ForumsService} from './forums.service';
-import {ToastsService} from '../toasts/toasts.service';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@utils/translations';
 import {ForumsClient} from '@grpc/spec.pbsc';
-import {APISetTopicStatusRequest} from '@grpc/spec.pb';
+import {
+  APICommentMessage,
+  APIForumsTheme,
+  APIForumsThemes,
+  APIForumsTopic,
+  APIGetForumsThemeRequest,
+  APIGetForumsThemesRequest,
+  APIGetForumsTopicRequest,
+  APIGetForumsTopicsRequest,
+  APIUser,
+  Pages,
+} from '@grpc/spec.pb';
+import {UserService} from '@services/user';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+
+interface Theme extends APIForumsTheme.AsObject {
+  themes$: Observable<APIForumsThemes>;
+  lastTopic$: Observable<APIForumsTopic>;
+  lastMessage$: Observable<APICommentMessage>;
+  lastMessageAuthor$: Observable<APIUser>;
+}
 
 @Component({
   selector: 'app-forums',
@@ -16,49 +33,87 @@ import {APISetTopicStatusRequest} from '@grpc/spec.pb';
   styles: ['app-forums {display:block}'],
 })
 export class ForumsComponent {
-  public forumAdmin$ = this.acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
-
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10)
+    distinctUntilChanged()
   );
 
-  private themeID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('theme_id'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10)
+  private readonly themeID$ = this.route.paramMap.pipe(
+    map((params) => params.get('theme_id')),
+    distinctUntilChanged()
   );
 
-  public data$ = combineLatest([this.page$, this.themeID$]).pipe(
-    switchMap(([page, themeID]) => {
+  protected readonly data$: Observable<{themes: Theme[]; theme: APIForumsTheme | null}> = this.themeID$.pipe(
+    switchMap((themeID) => {
       if (!themeID) {
-        return this.forumService
-          .getThemes$({
-            fields: 'last_message.user,last_topic,description,themes',
-            topics: {page},
-          })
-          .pipe(
-            map((response) => ({
-              theme: null as APIForumTheme,
-              themes: response.items,
-            }))
-          );
+        return this.grpc.getThemes(new APIGetForumsThemesRequest({})).pipe(
+          map((response) => ({
+            theme: null as APIForumsTheme,
+            themes: response.items,
+          }))
+        );
       } else {
-        return this.forumService
-          .getTheme$(themeID, {
-            fields:
-              'themes.last_message.user,themes.last_topic,' +
-              'themes.description,topics.author,topics.messages,topics.last_message.user',
-            topics: {page},
-          })
-          .pipe(
-            map((response) => ({
-              theme: response,
-              themes: response.themes,
-            }))
-          );
+        return combineLatest([
+          this.grpc.getTheme(new APIGetForumsThemeRequest({id: themeID})),
+          this.grpc.getThemes(new APIGetForumsThemesRequest({themeId: themeID})),
+        ]).pipe(
+          map(([theme, themes]) => ({
+            theme,
+            themes: themes.items,
+          }))
+        );
       }
+    }),
+    map((data) => {
+      return {
+        theme: data.theme,
+        themes: data.themes.map((theme) => {
+          const lastTopic$ = this.grpc.getLastTopic(new APIGetForumsThemeRequest({id: theme.id})).pipe(
+            catchError((error: unknown) => {
+              if (error instanceof GrpcStatusEvent && error.statusCode === 5) {
+                return of(null);
+              }
+              return throwError(() => error);
+            }),
+            shareReplay(1)
+          );
+          const lastMessage$ = lastTopic$.pipe(
+            switchMap((topic) => {
+              if (!topic) {
+                return of(null);
+              }
+
+              return this.grpc.getLastMessage(new APIGetForumsTopicRequest({id: topic.id}));
+            }),
+            catchError((error: unknown) => {
+              if (error instanceof GrpcStatusEvent && error.statusCode === 5) {
+                return of(null);
+              }
+              return throwError(() => error);
+            }),
+            shareReplay(1)
+          );
+          const lastMessageAuthor$ = lastMessage$.pipe(
+            switchMap((msg) => {
+              if (!msg) {
+                return of(null);
+              }
+              return this.userService.getUser2$(msg.userId);
+            })
+          );
+          return {
+            ...theme.toObject(),
+            themes$: this.grpc.getThemes(
+              new APIGetForumsThemesRequest({
+                themeId: theme.id,
+              })
+            ),
+            lastTopic$,
+            lastMessage$,
+            lastMessageAuthor$,
+          };
+        }),
+      };
     }),
     tap((data) => {
       if (data.theme) {
@@ -73,52 +128,30 @@ export class ForumsComponent {
     shareReplay(1)
   );
 
+  private readonly reloadTopics$ = new BehaviorSubject<boolean>(false);
+
+  protected readonly topics$: Observable<{items: APIForumsTopic[]; paginator: Pages}> = combineLatest([
+    this.themeID$,
+    this.page$,
+    this.reloadTopics$,
+  ]).pipe(switchMap(([themeId, page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({themeId, page}))));
+
   constructor(
-    private acl: ACLService,
     private route: ActivatedRoute,
-    private forumService: ForumsService,
     private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private grpc: ForumsClient
+    private grpc: ForumsClient,
+    private userService: UserService
   ) {}
 
-  public openTopic(topic: APIForumTopic) {
-    this.grpc.openTopic(new APISetTopicStatusRequest({id: '' + topic.id})).subscribe({
-      next: () => {
-        topic.status = 'normal';
-      },
-      error: (response: unknown) => this.toastService.handleError(response),
-    });
-  }
-
-  public closeTopic(topic: APIForumTopic) {
-    this.grpc.closeTopic(new APISetTopicStatusRequest({id: '' + topic.id})).subscribe({
-      next: () => {
-        topic.status = 'closed';
-      },
-      error: (response: unknown) => this.toastService.handleError(response),
-    });
-  }
-
-  public deleteTopic(theme: APIForumTheme, topic: APIForumTopic) {
-    this.grpc.deleteTopic(new APISetTopicStatusRequest({id: '' + topic.id})).subscribe({
-      next: () => {
-        for (let i = theme.topics.items.length - 1; i >= 0; i--) {
-          if (theme.topics.items[i].id === topic.id) {
-            theme.topics.items.splice(i, 1);
-            break;
-          }
-        }
-      },
-      error: (response: unknown) => this.toastService.handleError(response),
-    });
-  }
-
-  public getForumsThemeTranslation(id: string): string {
+  protected getForumsThemeTranslation(id: string): string {
     return getForumsThemeTranslation(id);
   }
 
-  public getForumsThemeDescriptionTranslation(id: string): string {
+  protected getForumsThemeDescriptionTranslation(id: string): string {
     return getForumsThemeDescriptionTranslation(id);
+  }
+
+  protected reload() {
+    this.reloadTopics$.next(true);
   }
 }

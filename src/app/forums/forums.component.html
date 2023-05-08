@@ -22,7 +22,7 @@
   <div class="row" *ngFor="let theme of data.themes">
     <div class="col-md-6">
       <div class="card card-body mb-4">
-        <p ngPreserveWhitespaces>
+        <p>
           <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
           <strong>
             <a [routerLink]="['/forums', theme.id]" [textContent]="getForumsThemeTranslation(theme.name)"></a>
@@ -31,146 +31,67 @@
         <p [textContent]="getForumsThemeDescriptionTranslation(theme.description)" *ngIf="theme.description"></p>
         <p>
           <ng-container i18n="@@n-topics"
-            >{theme.topics_count, plural, one {{{theme.topics_count}} topic} other
-            {{{theme.topics_count}} topics}}</ng-container
+            >{theme.topicsCount, plural, one {{{theme.topicsCount}} topic} other
+            {{{theme.topicsCount}} topics}}</ng-container
           >,
           <ng-container i18n="@@n-messages"
-            >{theme.messages_count, plural, one {{{theme.messages_count}} message} other
-            {{{theme.messages_count}} messages}}</ng-container
+            >{theme.messagesCount, plural, one {{{theme.messagesCount}} message} other
+            {{{theme.messagesCount}} messages}}</ng-container
           >
         </p>
-        <div *ngIf="theme.themes && theme.themes.length > 0" ngPreserveWhitespaces>
-          <ng-container i18n>Subforums</ng-container>
-          <ng-container *ngFor="let subtheme of theme.themes; let last = last">
-            <a [routerLink]="['/forums', subtheme.id]">{{ getForumsThemeTranslation(subtheme.name) }}</a
-            ><span *ngIf="!last">, </span>
-          </ng-container>
-        </div>
-        <p *ngIf="!theme.themes">
-          <a [routerLink]="['/forums', theme.id]" i18n>Go to forum …</a>
-        </p>
+        <ng-container *ngIf="theme.themes$ | async as themes">
+          <div *ngIf="themes.items.length > 0">
+            <ng-container i18n>Subforums</ng-container>
+            <ng-container *ngFor="let subtheme of themes.items; let last = last">
+              <a [routerLink]="['/forums', subtheme.id]">{{ getForumsThemeTranslation(subtheme.name) }}</a
+              ><span *ngIf="!last">, </span>
+            </ng-container>
+          </div>
+          <p *ngIf="themes.items.length <= 0">
+            <a [routerLink]="['/forums', theme.id]" i18n>Go to forum …</a>
+          </p>
+        </ng-container>
       </div>
     </div>
-    <div class="col-md-6" *ngIf="theme.last_topic">
+    <div class="col-md-6" *ngIf="theme.lastTopic$ | async as lastTopic">
       <div class="m-4 transparent">
-        <div *ngIf="theme.last_message" ngPreserveWhitespaces>
-          <p>
-            <i class="bi bi-chat-fill" aria-hidden="true"></i>
-            <a [routerLink]="['/forums/topic', theme.last_topic.id]" i18n
-              >Last message in topic «{{ theme.last_topic.name }}»</a
-            >
-          </p>
-          <p>
-            <app-past-time-indicator [date]="theme.last_message.datetime"></app-past-time-indicator>
-            <app-user [user]="theme.last_message.user" *ngIf="theme.last_message.user"></app-user>
-            <a [routerLink]="['/forums/message', theme.last_message.id]" i18n-title title="Go to last message">
-              <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
-            </a>
-          </p>
-        </div>
+        <p>
+          <i class="bi bi-chat-fill" aria-hidden="true"></i>
+          <a [routerLink]="['/forums/topic', lastTopic.id]" i18n>Last message in topic «{{ lastTopic.name }}»</a>
+        </p>
+        <p *ngIf="theme.lastMessage$ | async as lastMessage">
+          <app-past-time-indicator [date]="lastMessage.createdAt.toDate()"></app-past-time-indicator>
+          <app-user2
+            [user]="lastMessageAuthor"
+            *ngIf="theme.lastMessageAuthor$ | async as lastMessageAuthor"
+          ></app-user2>
+          <a [routerLink]="['/forums/message', lastMessage.id]" i18n-title title="Go to last message">
+            <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+          </a>
+        </p>
       </div>
     </div>
   </div>
 
-  <div *ngIf="data.theme && !data.theme.disable_topics">
-    <a [routerLink]="['/forums/new-topic', data.theme.id]" class="btn btn-info">
+  <div *ngIf="data.theme && !data.theme.disableTopics">
+    <a [routerLink]="['/forums/new-topic', data.theme.id]" class="btn btn-primary mb-3">
       <i class="bi bi-chat-fill" aria-hidden="true"></i>
       <ng-container i18n>Create new topic</ng-container>
     </a>
 
-    <table class="table table-striped" aria-describedby="header">
-      <thead>
-        <tr>
-          <th i18n scope="col">Topics</th>
-          <th i18n scope="col">Author</th>
-          <th i18n scope="col">Last message</th>
-          <th *ngIf="forumAdmin$ | async" scope="col"></th>
-        </tr>
-      </thead>
-      <tbody *ngIf="data.theme">
-        <tr *ngFor="let topic of data.theme.topics.items">
-          <td ngPreserveWhitespaces>
-            <span class="bi bi-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
-            <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name"></a>
-            <span class="badge rounded-pill text-bg-secondary">
-              {{ topic.old_messages + (topic.new_messages > 0 ? '+' + topic.new_messages : '') }}
-            </span>
-          </td>
-          <td>
-            <small>
-              <app-past-time-indicator [date]="topic.add_datetime"></app-past-time-indicator>
-            </small>
-            <br />
-            <app-user [user]="topic.author" *ngIf="topic.author"></app-user>
-          </td>
-          <td ngPreserveWhitespaces>
-            <div *ngIf="topic.last_message">
-              <ng-container *ngIf="topic.last_message.datetime">
-                <small>
-                  <app-past-time-indicator [date]="topic.last_message.datetime"></app-past-time-indicator>
-                </small>
-                <br />
-              </ng-container>
-              <app-user [user]="topic.last_message.user" *ngIf="topic.last_message.user"></app-user>
-              <a [routerLink]="['/forums/message', topic.last_message.id]" i18n-title title="Go to last message">
-                <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
-              </a>
-            </div>
-            <span *ngIf="!topic.last_message">&#x2014;</span>
-          </td>
-          <td *ngIf="forumAdmin$ | async" ngPreserveWhitespaces>
-            <div class="btn-group">
-              <button
-                i18n-title
-                title="open"
-                class="btn btn-sm btn-warning open"
-                (click)="openTopic(topic)"
-                *ngIf="topic.status === 'closed'"
-              >
-                <i class="bi bi-check-circle" aria-hidden="true"></i>
-              </button>
-              <button
-                i18n-title
-                title="close"
-                class="btn btn-sm btn-warning close-topic"
-                (click)="closeTopic(topic)"
-                *ngIf="topic.status !== 'closed'"
-              >
-                <i class="bi bi-x-circle-fill" aria-hidden="true"></i>
-              </button>
-              <a
-                routerLink="/forums/move-topic"
-                [queryParams]="{topic_id: topic.id}"
-                class="btn btn-secondary btn-sm"
-                title="move"
-                i18n-title
-              >
-                <i class="bi bi-arrows-move" aria-hidden="true"></i>
-              </a>
-              <button
-                i18n-title
-                title="delete"
-                class="btn btn-sm btn-danger delete"
-                (click)="deleteTopic(data.theme, topic)"
-              >
-                <i class="bi bi-slash-circle" aria-hidden="true"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <app-paginator [data]="data.theme.topics.paginator" *ngIf="data.theme.topics.paginator"></app-paginator>
+    <ng-container *ngIf="topics$ | async as topics">
+      <app-forums-topic-list [topics]="topics.items" (reload)="reload()"></app-forums-topic-list>
+      <app-paginator [data]="topics.paginator" *ngIf="topics.paginator"></app-paginator>
+    </ng-container>
   </div>
 
   <p class="text-end small" *ngIf="data.theme as theme">
     <ng-container i18n="@@n-topics"
-      >{theme.topics_count, plural, one {{{theme.topics_count}} topic} other
-      {{{theme.topics_count}} topics}}</ng-container
+      >{theme.topicsCount, plural, one {{{theme.topicsCount}} topic} other {{{theme.topicsCount}} topics}}</ng-container
     >,
     <ng-container i18n="@@n-messages"
-      >{theme.messages_count, plural, one {{{theme.messages_count}} message} other
-      {{{theme.messages_count}} messages}}</ng-container
+      >{theme.messagesCount, plural, one {{{theme.messagesCount}} message} other
+      {{{theme.messagesCount}} messages}}</ng-container
     >
   </p>
 </ng-container>

@@ -4,6 +4,7 @@ import {of} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-twins-group-items',
@@ -39,6 +40,8 @@ export class TwinsGroupItemsComponent {
     }),
     shareReplay(1)
   );
+
+  protected readonly CommentsType = CommentsType;
 
   constructor(private itemService: ItemService, private route: ActivatedRoute, private pageEnv: PageEnvService) {}
 }

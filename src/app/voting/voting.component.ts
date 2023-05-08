@@ -9,6 +9,7 @@ import {VotingVotesComponent} from './votes/votes.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {APIService} from '@services/api.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-voting',
@@ -36,6 +37,8 @@ export class VotingComponent {
   );
   public filter = false;
   public selected: {};
+
+  protected readonly CommentsType = CommentsType;
 
   constructor(
     private api: APIService,

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import {PictureService} from '@services/picture';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-persons-person-picture',
@@ -65,6 +66,8 @@ export class PersonsPersonPictureComponent {
     }),
     shareReplay(1)
   );
+
+  protected readonly CommentsType = CommentsType;
 
   constructor(
     private pageEnv: PageEnvService,

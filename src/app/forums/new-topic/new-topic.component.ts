@@ -3,13 +3,12 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {EMPTY} from 'rxjs';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError, shareReplay} from 'rxjs/operators';
-import {APIForumTheme, ForumsService} from '../forums.service';
+import {distinctUntilChanged, switchMap, map, catchError, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '@utils/translations';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {ForumsClient} from '@grpc/spec.pbsc';
-import {APICreateTopicRequest} from '@grpc/spec.pb';
+import {APICreateTopicRequest, APIForumsTheme, APIGetForumsThemeRequest} from '@grpc/spec.pb';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
@@ -18,18 +17,17 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
   templateUrl: './new-topic.component.html',
 })
 export class ForumsNewTopicComponent implements OnInit {
-  public form = {
+  protected readonly form = {
     name: '',
     message: '',
     moderator_attention: false,
     subscription: false,
   };
-  public invalidParams: InvalidParams;
-  public theme$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('theme_id'), 10)),
+  protected invalidParams: InvalidParams;
+  protected readonly theme$ = this.route.paramMap.pipe(
+    map((params) => params.get('theme_id')),
     distinctUntilChanged(),
-    debounceTime(10),
-    switchMap((themeID) => this.forumService.getTheme$(themeID, {})),
+    switchMap((themeID) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: themeID}))),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
@@ -38,16 +36,16 @@ export class ForumsNewTopicComponent implements OnInit {
     }),
     shareReplay(1)
   );
-  public user$ = this.auth.getUser$();
+  protected readonly user$ = this.auth.getUser$();
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private forumService: ForumsService,
-    public auth: AuthService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private forums: ForumsClient
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    protected readonly auth: AuthService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly forums: ForumsClient,
+    private readonly grpc: ForumsClient
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +54,7 @@ export class ForumsNewTopicComponent implements OnInit {
     }, 0);
   }
 
-  public submit(theme: APIForumTheme) {
+  protected submit(theme: APIForumsTheme) {
     this.invalidParams = {};
 
     this.forums
@@ -84,7 +82,7 @@ export class ForumsNewTopicComponent implements OnInit {
       });
   }
 
-  public getForumsThemeTranslation(id: string): string {
+  protected getForumsThemeTranslation(id: string): string {
     return getForumsThemeTranslation(id);
   }
 }

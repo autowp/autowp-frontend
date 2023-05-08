@@ -13,10 +13,10 @@ export class MessageComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
 
   constructor(
-    private router: Router,
-    private forumService: ForumsService,
-    private route: ActivatedRoute,
-    private toastService: ToastsService
+    private readonly router: Router,
+    private readonly forumService: ForumsService,
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

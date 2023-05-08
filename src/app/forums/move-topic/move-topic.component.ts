@@ -1,59 +1,70 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {EMPTY} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
-import {APIForumTheme, APIForumTopic, ForumsService} from '../forums.service';
+import {distinctUntilChanged, switchMap, map, catchError, shareReplay} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 import {getForumsThemeTranslation} from '@utils/translations';
 import {ForumsClient} from '@grpc/spec.pbsc';
-import {APIMoveTopicRequest} from '@grpc/spec.pb';
+import {
+  APIForumsTheme,
+  APIForumsTopic,
+  APIGetForumsThemeRequest,
+  APIGetForumsThemesRequest,
+  APIGetForumsTopicRequest,
+  APIMoveTopicRequest,
+} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-forums-move-topic',
   templateUrl: './move-topic.component.html',
 })
 export class ForumsMoveTopicComponent implements OnInit {
-  public themes$ = this.forumService.getThemes$({}).pipe(
-    catchError((response: unknown) => {
-      this.toastService.handleError(response);
-      return EMPTY;
-    }),
-    map((response) => response.items)
-  );
+  protected readonly themes$: Observable<APIForumsTheme[]> = this.grpc
+    .getThemes(new APIGetForumsThemesRequest({}))
+    .pipe(
+      catchError((response: unknown) => {
+        this.toastService.handleError(response);
+        return EMPTY;
+      }),
+      map((response) => response.items)
+    );
 
-  public topic$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('topic_id'), 10)),
+  protected readonly topic$ = this.route.queryParamMap.pipe(
+    map((params) => params.get('topic_id')),
     distinctUntilChanged(),
-    debounceTime(30),
-    switchMap((topicID) => this.forumService.getTopic$(topicID, {})),
+    switchMap((topicID) => this.grpc.getTopic(new APIGetForumsTopicRequest({id: topicID}))),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
-    })
+    }),
+    shareReplay(1)
+  );
+
+  protected readonly theme$ = this.topic$.pipe(
+    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId})))
   );
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private forumService: ForumsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private grpc: ForumsClient
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly grpc: ForumsClient
   ) {}
 
   ngOnInit(): void {
     this.pageEnv.set({pageId: 83});
   }
 
-  public selectTheme(topic: APIForumTopic, theme: APIForumTheme) {
+  protected selectTheme(topic: APIForumsTopic, theme: APIForumsTheme) {
     this.grpc
       .moveTopic(
         new APIMoveTopicRequest({
-          id: '' + topic.id,
-          themeId: '' + theme.id,
+          id: topic.id,
+          themeId: theme.id,
         })
       )
       .subscribe({
@@ -64,7 +75,7 @@ export class ForumsMoveTopicComponent implements OnInit {
       });
   }
 
-  public getForumsThemeTranslation(id: string): string {
+  protected getForumsThemeTranslation(id: string): string {
     return getForumsThemeTranslation(id);
   }
 }

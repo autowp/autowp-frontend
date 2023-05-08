@@ -56,5 +56,5 @@
     Voting during {{ voting.begin_date | amDateFormat : 'LL' }} to {{ voting.end_date | amDateFormat : 'LL' }}
   </p>
 
-  <app-comments [itemID]="voting.id" [typeID]="3"></app-comments>
+  <app-comments [itemID]="voting.id" [typeID]="CommentsType.VOTINGS_TYPE_ID"></app-comments>
 </ng-container>

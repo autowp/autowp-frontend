@@ -7,6 +7,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, catchError, debounceTime, tap} from 'rxjs/operators';
 import {PathItem} from '../categories/definitions';
 import {HttpErrorResponse} from '@angular/common/http';
+import {CommentsType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-picture-page',
@@ -82,6 +83,8 @@ export class PicturePageComponent {
       });
     })
   );
+
+  protected readonly CommentsType = CommentsType;
 
   constructor(
     private route: ActivatedRoute,
