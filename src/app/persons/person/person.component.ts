@@ -13,14 +13,14 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './person.component.html',
 })
 export class PersonsPersonComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private itemID$ = this.route.paramMap.pipe(
+  private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged()
   );
 
-  public item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'description'].join(','),
@@ -52,14 +52,14 @@ export class PersonsPersonComponent {
     shareReplay(1)
   );
 
-  public layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
   constructor(
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private acl: ACLService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly acl: ACLService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

@@ -9,11 +9,11 @@ import {APIPicture} from '@services/picture';
   styleUrls: ['./styles.scss'],
 })
 export class NewListItemComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   @Input() item: APIItem;
   @Input() pictures: APIPicture[];
   @Input() totalPictures: number;
   @Input() date: string;
 
-  constructor(private acl: ACLService) {}
+  constructor(private readonly acl: ACLService) {}
 }

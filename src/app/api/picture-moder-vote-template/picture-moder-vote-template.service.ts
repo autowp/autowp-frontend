@@ -15,9 +15,9 @@ export interface APIPictureModerVoteTemplatePostData {
   providedIn: 'root',
 })
 export class APIPictureModerVoteTemplateService {
-  private change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<null>(null);
 
-  constructor(private auth: AuthService, private pictures: PicturesClient) {}
+  constructor(private readonly auth: AuthService, private readonly pictures: PicturesClient) {}
 
   public getTemplates$(): Observable<ModerVoteTemplate[]> {
     return combineLatest([this.change$, this.auth.getUser$()]).pipe(

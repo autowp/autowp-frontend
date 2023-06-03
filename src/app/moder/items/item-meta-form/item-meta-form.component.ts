@@ -125,27 +125,27 @@ export class ItemMetaFormComponent {
   @Input() set disableIsGroup(disableIsGroup: boolean) {
     this.disableIsGroup$.next(disableIsGroup);
   }
-  public disableIsGroup$ = new BehaviorSubject<boolean>(null);
+  protected readonly disableIsGroup$ = new BehaviorSubject<boolean>(null);
 
   @Input() set parent(parent: APIItem) {
     this.parent$.next(parent);
   }
-  public parent$ = new BehaviorSubject<APIItem>(null);
+  protected readonly parent$ = new BehaviorSubject<APIItem>(null);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
   @Input() set vehicleTypeIDs(vehicleTypeIDs: string[]) {
     this.vehicleTypeIDs$.next(vehicleTypeIDs);
   }
-  private vehicleTypeIDs$ = new BehaviorSubject<string[]>(null);
+  private readonly vehicleTypeIDs$ = new BehaviorSubject<string[]>(null);
 
   @Input() set items(items: APIItem[]) {
     this.items$.next(items);
   }
-  public items$ = new BehaviorSubject<APIItem[]>(null);
+  protected readonly items$ = new BehaviorSubject<APIItem[]>(null);
 
   @Input() set pictures(pictures: APIPictureItem[]) {
     this.pictures$.next(
@@ -157,9 +157,9 @@ export class ItemMetaFormComponent {
         : null
     );
   }
-  public pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
+  protected readonly pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
 
-  public vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
+  protected readonly vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>
       types.map((type) => {
         type.name = getVehicleTypeTranslation(type.name);
@@ -169,7 +169,7 @@ export class ItemMetaFormComponent {
     shareReplay(1)
   );
 
-  public todayOptions = [
+  protected readonly todayOptions = [
     {
       value: null,
       name: '--',
@@ -184,7 +184,7 @@ export class ItemMetaFormComponent {
     },
   ];
 
-  public producedOptions = [
+  protected readonly producedOptions = [
     {
       value: false,
       name: $localize`about`,
@@ -195,7 +195,7 @@ export class ItemMetaFormComponent {
     },
   ];
 
-  public modelYearFractionOptions = [
+  protected readonly modelYearFractionOptions = [
     {
       value: null,
       name: '-',
@@ -214,13 +214,13 @@ export class ItemMetaFormComponent {
     },
   ];
 
-  private nameMaxlength = 100; // DbTable\Item::MAX_NAME
-  private fullnameMaxlength = 255; // BrandModel::MAX_FULLNAME
-  private bodyMaxlength = 20;
-  private modelYearMax: number = new Date().getFullYear() + 10;
-  private yearMax: number = new Date().getFullYear() + 10;
+  private readonly nameMaxlength = 100; // DbTable\Item::MAX_NAME
+  private readonly fullnameMaxlength = 255; // BrandModel::MAX_FULLNAME
+  private readonly bodyMaxlength = 20;
+  private readonly modelYearMax: number = new Date().getFullYear() + 10;
+  private readonly yearMax: number = new Date().getFullYear() + 10;
 
-  public monthOptions: {
+  protected readonly monthOptions: {
     value: number;
     name: string;
   }[] = [
@@ -230,7 +230,7 @@ export class ItemMetaFormComponent {
     },
   ];
 
-  public isConceptOptions$ = this.parent$.pipe(
+  protected readonly isConceptOptions$ = this.parent$.pipe(
     map((parent) => [
       {
         value: false,
@@ -251,7 +251,7 @@ export class ItemMetaFormComponent {
     ])
   );
 
-  public specs$ = this.specService.getSpecs$().pipe(
+  protected readonly specs$ = this.specService.getSpecs$().pipe(
     map((specs) =>
       (
         [
@@ -270,7 +270,7 @@ export class ItemMetaFormComponent {
     )
   );
 
-  public form$: Observable<FormGroup<Form>> = combineLatest([
+  protected readonly form$: Observable<FormGroup<Form>> = combineLatest([
     this.item$,
     this.vehicleTypeIDs$,
     this.disableIsGroup$,
@@ -333,10 +333,10 @@ export class ItemMetaFormComponent {
   );
 
   constructor(
-    private specService: SpecService,
-    private vehicleTypeService: VehicleTypeService,
-    private languageService: LanguageService,
-    private modalService: NgbModal
+    private readonly specService: SpecService,
+    private readonly vehicleTypeService: VehicleTypeService,
+    private readonly languageService: LanguageService,
+    private readonly modalService: NgbModal
   ) {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
@@ -352,12 +352,12 @@ export class ItemMetaFormComponent {
     }
   }
 
-  public doSubmit(form: FormGroup) {
+  protected doSubmit(form: FormGroup) {
     this.submitted.emit(form.value);
     return false;
   }
 
-  public showVehicleTypesModal(vehicleTypeIDs: AbstractControl) {
+  protected showVehicleTypesModal(vehicleTypeIDs: AbstractControl) {
     const modalRef = this.modalService.open(VehicleTypesModalComponent, {
       size: 'lg',
       centered: true,
@@ -369,7 +369,7 @@ export class ItemMetaFormComponent {
     });
   }
 
-  public vehicleTypeName$(typeID: string): Observable<string> {
+  protected vehicleTypeName$(typeID: string): Observable<string> {
     return this.vehicleTypes$.pipe(
       map((types) => {
         const type = types.find((t) => t.id.toString() === typeID);
@@ -378,7 +378,7 @@ export class ItemMetaFormComponent {
     );
   }
 
-  onCheckboxChange(e: Event, ctrl: FormArray<FormControl<string>>) {
+  protected onCheckboxChange(e: Event, ctrl: FormArray<FormControl<string>>) {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
       ctrl.push(new FormControl<string>(target.value));
@@ -394,7 +394,7 @@ export class ItemMetaFormComponent {
     }
   }
 
-  onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<number>>) {
+  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<number>>) {
     e.selected = !e.selected;
     if (e.selected) {
       ctrl.push(new FormControl<number>(e.pictureItem.picture_id));

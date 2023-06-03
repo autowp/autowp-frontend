@@ -29,14 +29,14 @@ function addCSS(url: string) {
   templateUrl: './pictures.component.html',
 })
 export class UsersUserPicturesComponent implements OnInit {
-  public icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
+  protected readonly icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
       addCSS(icons.css);
     }),
     shareReplay(1)
   );
 
-  public user$ = this.route.paramMap.pipe(
+  protected readonly user$ = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -49,7 +49,7 @@ export class UsersUserPicturesComponent implements OnInit {
     shareReplay(1)
   );
 
-  public brands$: Observable<APIItem[]> = this.user$.pipe(
+  protected readonly brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
       this.itemService.getItems$({
         type_id: ItemType.ITEM_TYPE_BRAND,
@@ -70,12 +70,12 @@ export class UsersUserPicturesComponent implements OnInit {
   );
 
   constructor(
-    private itemService: ItemService,
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private grpc: AutowpClient,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly userService: UserService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly grpc: AutowpClient,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +84,7 @@ export class UsersUserPicturesComponent implements OnInit {
     }, 0);
   }
 
-  public cssClass(item: APIItem) {
+  protected cssClass(item: APIItem) {
     return item.catname.replace(/\./g, '_');
   }
 }

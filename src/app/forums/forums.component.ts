@@ -137,10 +137,10 @@ export class ForumsComponent {
   ]).pipe(switchMap(([themeId, page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({themeId, page}))));
 
   constructor(
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private grpc: ForumsClient,
-    private userService: UserService
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly grpc: ForumsClient,
+    private readonly userService: UserService
   ) {}
 
   protected getForumsThemeTranslation(id: string): string {

@@ -36,46 +36,46 @@ const cropTitle = (crop: {left: number | null; top: number | null; width: number
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
-  public files: any[];
-  public note: string;
-  public progress: UploadProgress[] = [];
-  public pictures: APIPictureUpload[] = [];
-  public formHidden = false;
-  public user$ = this.auth.getUser$();
+  protected files: any[];
+  protected note: string;
+  protected progress: UploadProgress[] = [];
+  protected pictures: APIPictureUpload[] = [];
+  protected formHidden = false;
+  protected readonly user$ = this.auth.getUser$();
 
   @ViewChild('input') input;
 
-  public perspectiveID$ = this.route.queryParamMap.pipe(
+  protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('perspective_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public replace$ = this.route.queryParamMap.pipe(
+  protected readonly replace$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('replace'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private replacePicture$ = this.replace$.pipe(
+  private readonly replacePicture$ = this.replace$.pipe(
     switchMap((replace) => {
       return replace ? this.pictureService.getPicture$(replace, {fields: 'name_html'}) : of(null as APIPicture);
     })
   );
 
-  public itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private item$ = this.itemID$.pipe(
+  private readonly item$ = this.itemID$.pipe(
     switchMap((itemID) => {
       return itemID ? this.itemService.getItem$(itemID, {fields: 'name_html'}) : of(null as APIItem);
     })
   );
 
-  public selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
+  protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
       selected: !!(replace || item),
       name: replace ? replace.name_html : item ? item.name_html : '',
@@ -83,34 +83,34 @@ export class UploadIndexComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    public auth: AuthService,
-    private pageEnv: PageEnvService,
-    private modalService: NgbModal,
-    private toastService: ToastsService,
-    private keycloak: KeycloakService,
-    private languageService: LanguageService
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    protected auth: AuthService,
+    private readonly pageEnv: PageEnvService,
+    private readonly modalService: NgbModal,
+    private readonly toastService: ToastsService,
+    private readonly keycloak: KeycloakService,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 29}), 0);
   }
 
-  doLogin() {
+  protected doLogin() {
     this.keycloak.login({
       redirectUri: window.location.href,
       locale: this.languageService.language,
     });
   }
 
-  public onChange(event: any) {
+  protected onChange(event: any) {
     this.files = [].slice.call(event.target.files);
   }
 
-  public submit() {
+  protected submit() {
     this.progress = [];
 
     this.formHidden = true;
@@ -228,7 +228,7 @@ export class UploadIndexComponent implements OnInit {
     );
   }
 
-  public crop(picture: APIPictureUpload) {
+  protected crop(picture: APIPictureUpload) {
     const modalRef = this.modalService.open(UploadCropComponent, {
       size: 'lg',
       centered: true,

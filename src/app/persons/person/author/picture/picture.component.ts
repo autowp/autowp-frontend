@@ -11,9 +11,9 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './picture.component.html',
 })
 export class PersonsPersonAuthorPictureComponent {
-  private changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  private identity$ = this.route.paramMap.pipe(
+  private readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
@@ -28,18 +28,20 @@ export class PersonsPersonAuthorPictureComponent {
     shareReplay(1)
   );
 
-  public personID$ = this.route.parent.paramMap.pipe(
+  protected readonly personID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged()
   );
 
-  public picturesRouterLink$ = this.personID$.pipe(map((personID) => ['/persons', personID.toString(), 'author']));
+  protected readonly picturesRouterLink$ = this.personID$.pipe(
+    map((personID) => ['/persons', personID.toString(), 'author'])
+  );
 
-  public galleryRouterLink$: Observable<string[]> = combineLatest([this.personID$, this.identity$]).pipe(
+  protected readonly galleryRouterLink$: Observable<string[]> = combineLatest([this.personID$, this.identity$]).pipe(
     map(([personID, identity]) => ['/persons', personID.toString(), 'author', 'gallery', identity])
   );
 
-  public picture$ = combineLatest([this.identity$, this.personID$]).pipe(
+  protected readonly picture$ = combineLatest([this.identity$, this.personID$]).pipe(
     switchMap(([identity, itemID]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,' +
@@ -75,13 +77,13 @@ export class PersonsPersonAuthorPictureComponent {
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

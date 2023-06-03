@@ -20,22 +20,22 @@ interface ChunkedGroup {
   templateUrl: './twins.component.html',
 })
 export class TwinsComponent implements OnInit {
-  public canEdit$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT);
+  protected readonly canEdit$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT);
 
-  private page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public currentBrandCatname$ = this.route.paramMap.pipe(
+  protected readonly currentBrandCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public brand$: Observable<APIItem | null> = this.currentBrandCatname$.pipe(
+  protected readonly brand$: Observable<APIItem | null> = this.currentBrandCatname$.pipe(
     switchMap((brand) => {
       if (!brand) {
         return of(null as APIItemsGetResponse);
@@ -64,7 +64,7 @@ export class TwinsComponent implements OnInit {
     shareReplay(1)
   );
 
-  public data$: Observable<{
+  protected readonly data$: Observable<{
     groups: ChunkedGroup[];
     paginator: APIPaginator;
   }> = combineLatest([this.page$, this.brand$]).pipe(
@@ -90,10 +90,10 @@ export class TwinsComponent implements OnInit {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private acl: ACLService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly acl: ACLService
   ) {}
 
   private static hasMoreImages(group: APIItem): boolean {

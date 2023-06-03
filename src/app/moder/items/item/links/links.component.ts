@@ -15,28 +15,32 @@ export class ModerItemsItemLinksComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
-  private reload$ = new BehaviorSubject<null>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  private readonly reload$ = new BehaviorSubject<null>(null);
 
-  public loadingNumber = 0;
+  protected loadingNumber = 0;
 
-  public canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
+  protected readonly canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
 
-  public newLink = {
+  protected readonly newLink = {
     name: '',
     url: '',
     type: 'default',
   };
 
-  public links$: Observable<APIItemLink[]> = this.reload$.pipe(
+  protected readonly links$: Observable<APIItemLink[]> = this.reload$.pipe(
     switchMap(() => this.item$),
     switchMap((item) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + item.id}))),
     map((response) => response.items)
   );
 
-  constructor(private acl: ACLService, private itemsClient: ItemsClient, private toastService: ToastsService) {}
+  constructor(
+    private readonly acl: ACLService,
+    private readonly itemsClient: ItemsClient,
+    private readonly toastService: ToastsService
+  ) {}
 
-  public saveLinks(itemId: number, links: APIItemLink[]) {
+  protected saveLinks(itemId: number, links: APIItemLink[]) {
     const promises: Observable<any>[] = [];
 
     if (this.newLink.url) {

@@ -13,11 +13,11 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './picture.component.html',
 })
 export class CatalogueMixedPictureComponent {
-  private changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  public CommentsType = CommentsType;
+  protected readonly CommentsType = CommentsType;
 
-  public brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -44,9 +44,9 @@ export class CatalogueMixedPictureComponent {
     shareReplay(1)
   );
 
-  public data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(shareReplay(1));
+  protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(shareReplay(1));
 
-  private identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -61,7 +61,7 @@ export class CatalogueMixedPictureComponent {
     })
   );
 
-  public picture$ = combineLatest([this.brand$, this.data$, this.identity$]).pipe(
+  protected readonly picture$ = combineLatest([this.brand$, this.data$, this.identity$]).pipe(
     switchMap(([brand, data, identity]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
@@ -109,14 +109,14 @@ export class CatalogueMixedPictureComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

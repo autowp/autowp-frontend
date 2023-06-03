@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ItemService, APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 
@@ -6,12 +6,13 @@ import {PageEnvService} from '@services/page-env.service';
   selector: 'app-moder-items-too-big',
   templateUrl: './too-big.component.html',
 })
-export class ModerItemsTooBigComponent {
-  public loading = false;
-  public items: APIItem[];
+export class ModerItemsTooBigComponent implements OnInit {
+  protected loading = false;
+  protected items: APIItem[];
 
-  constructor(private itemService: ItemService, private pageEnv: PageEnvService) {
-    this.loading = true;
+  constructor(private readonly itemService: ItemService, private readonly pageEnv: PageEnvService) {}
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -20,6 +21,8 @@ export class ModerItemsTooBigComponent {
         }),
       0
     );
+
+    this.loading = true;
 
     this.itemService
       .getItems$({

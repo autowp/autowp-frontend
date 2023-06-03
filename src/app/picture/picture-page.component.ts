@@ -14,12 +14,12 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './picture-page.component.html',
 })
 export class PicturePageComponent {
-  public category: APIItem;
-  public current: APIItem;
-  public path: PathItem[];
-  private changed$ = new BehaviorSubject<boolean>(false);
+  protected category: APIItem;
+  protected current: APIItem;
+  protected path: PathItem[];
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  public picture$ = this.route.paramMap.pipe(
+  protected readonly picture$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -87,13 +87,13 @@ export class PicturePageComponent {
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

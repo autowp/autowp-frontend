@@ -15,20 +15,20 @@ import {ItemType} from '@grpc/spec.pb';
 export class ModerItemsItemSelectParentBrandsComponent {
   @Output() selected = new EventEmitter<APIItem>();
 
-  public page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public search$ = this.route.queryParamMap.pipe(
+  protected readonly search$ = this.route.queryParamMap.pipe(
     map((params) => params.get('search')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brands$: Observable<{items: APIItem[][]; paginator: APIPaginator}> = combineLatest([
+  protected readonly brands$: Observable<{items: APIItem[][]; paginator: APIPaginator}> = combineLatest([
     this.search$.pipe(tap((v) => console.log('search chnaged', v))),
     this.page$.pipe(tap((v) => console.log('page chnaged', v))),
   ]).pipe(
@@ -52,20 +52,20 @@ export class ModerItemsItemSelectParentBrandsComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private toastService: ToastsService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastsService,
+    private readonly router: Router
   ) {}
 
-  public doSearch(search: string) {
+  protected doSearch(search: string) {
     this.router.navigate([], {
       queryParams: {search},
       queryParamsHandling: 'merge',
     });
   }
 
-  public onSelect(item: APIItem) {
+  protected onSelect(item: APIItem) {
     this.selected.emit(item);
     return false;
   }

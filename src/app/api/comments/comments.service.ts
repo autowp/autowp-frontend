@@ -57,7 +57,7 @@ export interface APIComment {
 export class APICommentsService {
   private readonly attentionCommentsCount$: Observable<number>;
 
-  constructor(private acl: ACLService, private api: APIService) {
+  constructor(private readonly acl: ACLService, private readonly api: APIService) {
     this.attentionCommentsCount$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(
       switchMap((isModer) => {
         if (!isModer) {

@@ -25,9 +25,9 @@ export class UserTextComponent {
   @Input() set text(text: string) {
     this.text$.next(text);
   }
-  private text$ = new BehaviorSubject<string>(null);
+  private readonly text$ = new BehaviorSubject<string>(null);
 
-  private parseUrlHosts = [
+  private readonly parseUrlHosts = [
     'www.autowp.ru',
     'en.autowp.ru',
     'ru.autowp.ru',
@@ -42,13 +42,13 @@ export class UserTextComponent {
     'wheelsage.org',
   ];
 
-  public textPrepared$ = this.text$.pipe(
+  protected readonly textPrepared$ = this.text$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((text) => this.prepareText$(text))
   );
 
-  constructor(private userService: UserService, private pictureService: PictureService) {}
+  constructor(private readonly userService: UserService, private readonly pictureService: PictureService) {}
 
   private prepareText$(text: string): Observable<CommentTextLine[]> {
     const lines = text.split(/\r?\n/);

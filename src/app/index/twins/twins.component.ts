@@ -8,9 +8,9 @@ import {LanguageService} from '@services/language';
   templateUrl: './twins.component.html',
 })
 export class IndexTwinsComponent {
-  public items$ = this.items.getTopTwinsBrandsList(
+  protected readonly items$ = this.items.getTopTwinsBrandsList(
     new GetTopTwinsBrandsListRequest({language: this.languageService.language})
   );
 
-  constructor(private items: ItemsClient, private languageService: LanguageService) {}
+  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
 }

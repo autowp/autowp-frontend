@@ -39,7 +39,7 @@ export interface APIItemParentGetItemsOptions {
 
 @Injectable()
 export class ItemParentService {
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
   public getItems$(options: APIItemParentGetItemsOptions): Observable<APIItemParentGetResponse> {
     const params: {[param: string]: string} = {};

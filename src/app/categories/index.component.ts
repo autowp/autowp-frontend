@@ -10,7 +10,7 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './index.component.html',
 })
 export class CategoriesIndexComponent implements OnInit {
-  public readonly items$ = this.itemService
+  protected readonly items$ = this.itemService
     .getItems$({
       fields: 'name_html,front_picture.thumb_medium,descendants_count',
       limit: 30,

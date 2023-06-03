@@ -6,7 +6,7 @@ import {ReCaptchaConfig} from '@grpc/spec.pb';
 
 @Injectable()
 export class ReCaptchaService {
-  constructor(private grpc: AutowpClient) {}
+  constructor(private readonly grpc: AutowpClient) {}
 
   public get$(): Observable<ReCaptchaConfig> {
     return this.grpc.getReCaptchaConfig(new Empty());

@@ -13,7 +13,7 @@ import {BrandPerspectivePageData} from '../catalogue.module';
   templateUrl: './mixed.component.html',
 })
 export class CatalogueMixedComponent {
-  public brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -43,13 +43,13 @@ export class CatalogueMixedComponent {
     shareReplay(1)
   );
 
-  public page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(
+  protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(
     tap((data) => {
       this.pageEnv.set({
         pageId: data.page_id,
@@ -59,7 +59,7 @@ export class CatalogueMixedComponent {
     shareReplay(1)
   );
 
-  public pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
+  protected readonly pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
     switchMap(([page, brand, data]) =>
       this.pictureService.getPictures$({
         limit: 12,
@@ -80,10 +80,10 @@ export class CatalogueMixedComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 }

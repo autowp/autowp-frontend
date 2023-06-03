@@ -12,7 +12,7 @@ import {ItemService} from '@services/item';
   templateUrl: './brand.component.html',
 })
 export class CutawayBrandsBrandComponent implements OnInit {
-  public brand$ = this.route.paramMap.pipe(
+  protected readonly brand$ = this.route.paramMap.pipe(
     map((params) => '' + params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -30,7 +30,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
     shareReplay(1)
   );
 
-  public query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
+  protected readonly query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
     switchMap(([brand, params]) =>
       this.pictureService.getPictures$({
         item_id: brand.id,
@@ -49,11 +49,11 @@ export class CutawayBrandsBrandComponent implements OnInit {
   );
 
   constructor(
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private itemService: ItemService
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly itemService: ItemService
   ) {}
 
   ngOnInit(): void {

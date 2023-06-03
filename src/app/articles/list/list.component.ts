@@ -23,7 +23,7 @@ interface Article {
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent {
-  public articles$ = this.route.queryParamMap.pipe(
+  protected readonly articles$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10) || 1),
     distinctUntilChanged(),
     debounceTime(30),
@@ -54,11 +54,11 @@ export class ListComponent {
   );
 
   constructor(
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private articlesClient: ArticlesClient,
-    private userService: UserService
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly articlesClient: ArticlesClient,
+    private readonly userService: UserService
   ) {
     setTimeout(() => this.pageEnv.set({pageId: 31}), 0);
   }

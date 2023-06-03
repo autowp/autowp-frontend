@@ -13,11 +13,11 @@ import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} 
   templateUrl: './attribute.component.html',
 })
 export class ModerAttrsAttributeComponent {
-  public loading = 0;
-  public addLoading = 0;
-  public addListOptionLoading = 0;
+  protected loading = 0;
+  protected addLoading = 0;
+  protected addListOptionLoading = 0;
 
-  public unitOptions$ = this.attrsService.getUnits$().pipe(
+  protected readonly unitOptions$ = this.attrsService.getUnits$().pipe(
     map((items) => [
       {id: null, name: '-'},
       items.map((item) => ({
@@ -28,7 +28,7 @@ export class ModerAttrsAttributeComponent {
     shareReplay(1)
   );
 
-  public defaultAttribute: APIAttrAttribute = {
+  protected readonly defaultAttribute: APIAttrAttribute = {
     id: null,
     type_id: null,
     name: null,
@@ -39,7 +39,7 @@ export class ModerAttrsAttributeComponent {
     parent_id: null,
   };
 
-  public newAttribute: APIAttrAttribute = {
+  protected readonly newAttribute: APIAttrAttribute = {
     id: null,
     type_id: null,
     name: null,
@@ -50,24 +50,24 @@ export class ModerAttrsAttributeComponent {
     parent_id: null,
   };
 
-  public listOptionsOptions: {
+  protected readonly listOptionsOptions: {
     id: number | null;
     name: string;
   }[] = [];
-  public newListOption = {
+  protected readonly newListOption = {
     parent_id: null,
     name: '',
   };
-  private listOptionsChange$ = new BehaviorSubject<null>(null);
+  protected readonly listOptionsChange$ = new BehaviorSubject<null>(null);
 
-  private attributeID$ = this.route.paramMap.pipe(
+  private readonly attributeID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public attribute$ = this.attributeID$.pipe(
+  protected readonly attribute$ = this.attributeID$.pipe(
     switchMap((id) => this.attrsService.getAttribute$(id)),
     tap((attribute) => {
       this.pageEnv.set({
@@ -79,7 +79,7 @@ export class ModerAttrsAttributeComponent {
     shareReplay(1)
   );
 
-  public attributes$ = this.attributeID$.pipe(
+  protected readonly attributes$ = this.attributeID$.pipe(
     switchMap((attributeID) =>
       this.api.request<APIAttrAttributeGetResponse>('GET', 'attr/attribute', {
         params: {
@@ -91,7 +91,7 @@ export class ModerAttrsAttributeComponent {
     )
   );
 
-  public listOptions$ = combineLatest([this.attributeID$, this.listOptionsChange$]).pipe(
+  protected readonly listOptions$ = combineLatest([this.attributeID$, this.listOptionsChange$]).pipe(
     switchMap(([attributeID]) =>
       this.attrsService.getListOptions$({
         attribute_id: attributeID,
@@ -106,9 +106,9 @@ export class ModerAttrsAttributeComponent {
     ])
   );
 
-  private types$ = this.attrsService.getAttributeTypes$().pipe(shareReplay(1));
+  private readonly types$ = this.attrsService.getAttributeTypes$().pipe(shareReplay(1));
 
-  public typeOptions$ = this.attrsService.getAttributeTypes$().pipe(
+  protected readonly typeOptions$ = this.attrsService.getAttributeTypes$().pipe(
     map((types) => [
       {id: null, name: '-'},
       ...types.map((item) => ({
@@ -118,7 +118,7 @@ export class ModerAttrsAttributeComponent {
     ])
   );
 
-  public typeMap$: Observable<{[id: number]: string}> = this.types$.pipe(
+  protected readonly typeMap$: Observable<{[id: number]: string}> = this.types$.pipe(
     map((types) => {
       const typeMap = {};
       for (const item of types) {
@@ -129,17 +129,17 @@ export class ModerAttrsAttributeComponent {
   );
 
   constructor(
-    private api: APIService,
-    private attrsService: APIAttrsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly attrsService: APIAttrsService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {
     Object.assign(this.newAttribute, this.defaultAttribute);
   }
 
-  public saveAttribute(attribute: APIAttrAttribute) {
+  protected saveAttribute(attribute: APIAttrAttribute) {
     this.loading++;
     this.attrsService.updateAttribute$(attribute.id, attribute).subscribe({
       next: () => {
@@ -152,7 +152,7 @@ export class ModerAttrsAttributeComponent {
     });
   }
 
-  public addAttribute(attribute: APIAttrAttribute) {
+  protected addAttribute(attribute: APIAttrAttribute) {
     this.newAttribute.parent_id = attribute.id;
 
     this.addLoading++;
@@ -185,7 +185,7 @@ export class ModerAttrsAttributeComponent {
       });
   }
 
-  public addListOption(attribute: APIAttrAttribute) {
+  protected addListOption(attribute: APIAttrAttribute) {
     this.addListOptionLoading++;
 
     this.attrsService
@@ -211,11 +211,11 @@ export class ModerAttrsAttributeComponent {
     return false;
   }
 
-  public getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
   }
 
-  public getAttrsTranslation(id: string): string {
+  protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);
   }
 }

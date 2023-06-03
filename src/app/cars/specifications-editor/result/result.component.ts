@@ -12,9 +12,9 @@ export class CarsSpecificationsEditorResultComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  private item$ = new BehaviorSubject<APIItem>(null);
+  private readonly item$ = new BehaviorSubject<APIItem>(null);
 
-  public html$ = this.item$.pipe(
+  protected readonly html$ = this.item$.pipe(
     switchMap((item) =>
       this.api.request('GET', 'item/' + item.id + '/specifications', {
         responseType: 'text',
@@ -22,5 +22,5 @@ export class CarsSpecificationsEditorResultComponent {
     )
   );
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 }

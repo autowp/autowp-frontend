@@ -7,7 +7,7 @@ import {map, delay} from 'rxjs/operators';
   templateUrl: './pictures.component.html',
 })
 export class IndexPicturesComponent {
-  public items$ = this.pictureService
+  protected readonly items$ = this.pictureService
     .getPictures$({
       limit: 4,
       order: 15,
@@ -20,5 +20,5 @@ export class IndexPicturesComponent {
       map((response) => response.pictures)
     );
 
-  constructor(private pictureService: PictureService) {}
+  constructor(private readonly pictureService: PictureService) {}
 }

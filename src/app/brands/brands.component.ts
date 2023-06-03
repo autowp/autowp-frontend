@@ -28,7 +28,7 @@ function addCSS(url: string) {
   templateUrl: './brands.component.html',
 })
 export class BrandsComponent implements OnInit {
-  public items$: Observable<APIBrandsLines> = this.api.request<APIBrandsGetResponse>('GET', 'brands').pipe(
+  protected readonly items$: Observable<APIBrandsLines> = this.api.request<APIBrandsGetResponse>('GET', 'brands').pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
@@ -46,7 +46,7 @@ export class BrandsComponent implements OnInit {
     })
   );
 
-  public icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
+  protected readonly icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
       addCSS(icons.css);
     }),
@@ -54,17 +54,17 @@ export class BrandsComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private grpc: AutowpClient
+    private readonly api: APIService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly grpc: AutowpClient
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 61}), 0);
   }
 
-  public scrollTo(info) {
+  protected scrollTo(info) {
     const element = document.getElementById('char' + info.id);
     element.scrollIntoView({behavior: 'smooth'});
     return false;

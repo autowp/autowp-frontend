@@ -13,13 +13,13 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './engines.component.html',
 })
 export class CatalogueEnginesComponent {
-  public page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brand$ = this.route.paramMap.pipe(
+  protected readonly brand$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -54,7 +54,7 @@ export class CatalogueEnginesComponent {
     shareReplay(1)
   );
 
-  public data$ = combineLatest([this.brand$, this.page$]).pipe(
+  protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       combineLatest([
         this.itemParentService.getItems$({
@@ -119,13 +119,13 @@ export class CatalogueEnginesComponent {
     })
   );
 
-  public title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} Engines`));
+  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} Engines`));
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private itemParentService: ItemParentService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly itemParentService: ItemParentService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 }

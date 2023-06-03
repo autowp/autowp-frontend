@@ -17,11 +17,11 @@ import {getItemTypeTranslation} from '@utils/translations';
   templateUrl: './vehicles.component.html',
 })
 export class CatalogueVehiclesComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  public canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
-  public canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
 
-  private catalogue$ = this.isModer$.pipe(
+  private readonly catalogue$ = this.isModer$.pipe(
     switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
@@ -35,9 +35,9 @@ export class CatalogueVehiclesComponent {
     shareReplay(1)
   );
 
-  public brand$ = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$ = this.catalogue$.pipe(map(({brand}) => brand));
 
-  private routerLink$ = this.catalogue$.pipe(
+  private readonly routerLink$ = this.catalogue$.pipe(
     map(({brand, path}) => {
       const routerLink = ['/', brand.catname];
 
@@ -49,13 +49,15 @@ export class CatalogueVehiclesComponent {
     shareReplay(1)
   );
 
-  public menu$ = combineLatest([this.catalogue$, this.routerLink$]).pipe(
+  protected readonly menu$ = combineLatest([this.catalogue$, this.routerLink$]).pipe(
     map(([{type}, routerLink]) => ({type, routerLink}))
   );
 
-  public breadcrumbs$ = this.catalogue$.pipe(map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)));
+  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+  );
 
-  public item$ = this.catalogue$.pipe(
+  protected readonly item$ = this.catalogue$.pipe(
     switchMap(({path}) => {
       const last = path[path.length - 1];
 
@@ -80,13 +82,13 @@ export class CatalogueVehiclesComponent {
     shareReplay(1)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public items$: Observable<{
+  protected readonly items$: Observable<{
     items: CatalogueListItem[];
     paginator: APIPaginator;
   }> = combineLatest([this.item$, this.routerLink$]).pipe(
@@ -164,7 +166,7 @@ export class CatalogueVehiclesComponent {
     shareReplay(1)
   );
 
-  public otherPictures$: Observable<{
+  protected readonly otherPictures$: Observable<{
     pictures: APIPicture[];
     count: number;
     routerLink: string[];
@@ -210,14 +212,14 @@ export class CatalogueVehiclesComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private itemParentService: ItemParentService,
-    private route: ActivatedRoute,
-    private acl: ACLService,
-    private catalogueService: CatalogueService,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly itemParentService: ItemParentService,
+    private readonly route: ActivatedRoute,
+    private readonly acl: ACLService,
+    private readonly catalogueService: CatalogueService,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
@@ -266,7 +268,7 @@ export class CatalogueVehiclesComponent {
     return 0;
   }
 
-  public getItemTypeTranslation(id: number, type: string) {
+  protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
 }

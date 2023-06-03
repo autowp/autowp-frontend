@@ -18,28 +18,28 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
 
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  public userID$: Observable<number> = this.route.queryParamMap.pipe(
+  protected readonly userID$: Observable<number> = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('user_id'), 10)),
     map((userID) => (userID ? userID : 0)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public items$ = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
+  protected readonly items$ = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
     switchMap(([userID, itemID, page]) =>
       this.attrService.getUserValues$({
         user_id: userID ? userID : null,
@@ -51,17 +51,17 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  public userQuery = '';
-  public usersDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected userQuery = '';
+  protected usersDataSource: (text$: Observable<string>) => Observable<any[]>;
 
   constructor(
-    private userService: UserService,
-    private attrService: APIAttrsService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private acl: ACLService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly userService: UserService,
+    private readonly attrService: APIAttrsService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly acl: ACLService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {
     this.usersDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -103,11 +103,11 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     });
   }
 
-  public userFormatter(x: APIUser) {
+  protected userFormatter(x: APIUser) {
     return x.name;
   }
 
-  public userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -116,7 +116,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearUser(): void {
+  protected clearUser(): void {
     this.userQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
@@ -130,11 +130,11 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     this.querySub.unsubscribe();
   }
 
-  public getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
   }
 
-  public getAttrsTranslation(id: string): string {
+  protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);
   }
 }

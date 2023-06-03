@@ -84,9 +84,9 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
   templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {
-  public version = require('../../version.json');
+  protected readonly version = require('../../version.json');
 
-  public html$ = this.statGrpc
+  protected readonly html$ = this.statGrpc
     .getAboutData(new Empty())
     .pipe(
       switchMap((about) => {
@@ -134,12 +134,12 @@ export class AboutComponent implements OnInit {
     );
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private decimalPipe: DecimalPipe,
-    private bytesPipe: BytesPipe,
-    private pageEnv: PageEnvService,
-    private statGrpc: StatisticsClient
+    private readonly userService: UserService,
+    private readonly router: Router,
+    private readonly decimalPipe: DecimalPipe,
+    private readonly bytesPipe: BytesPipe,
+    private readonly pageEnv: PageEnvService,
+    private readonly statGrpc: StatisticsClient
   ) {}
 
   ngOnInit(): void {

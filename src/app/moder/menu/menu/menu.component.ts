@@ -20,7 +20,7 @@ interface MenuItem {
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
-  public items$: Observable<MenuItem[]> = combineLatest([
+  protected readonly items$: Observable<MenuItem[]> = combineLatest([
     this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE),
     this.pictureService.getInboxSize$(),
     this.commentService.getAttentionCommentsCount$(),
@@ -60,9 +60,9 @@ export class MenuComponent {
   );
 
   constructor(
-    public auth: AuthService,
-    public acl: ACLService,
-    private pictureService: PictureService,
-    private commentService: APICommentsService
+    protected readonly auth: AuthService,
+    protected readonly acl: ACLService,
+    private readonly pictureService: PictureService,
+    private readonly commentService: APICommentsService
   ) {}
 }

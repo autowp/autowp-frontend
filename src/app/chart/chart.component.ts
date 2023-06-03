@@ -29,12 +29,12 @@ export interface APIChartData {
   templateUrl: './chart.component.html',
 })
 export class ChartComponent {
-  public parameters: APIChartParameter[] = [];
-  public chartOptions: ChartOptions<'line'> = {
+  protected parameters: APIChartParameter[] = [];
+  protected readonly chartOptions: ChartOptions<'line'> = {
     responsive: true,
   };
 
-  public chart = {
+  protected readonly chart = {
     data: [],
     labels: [],
     colors: [
@@ -57,7 +57,11 @@ export class ChartComponent {
     ],
   };
 
-  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {
+  constructor(
+    private readonly api: APIService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
+  ) {
     setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
 
     this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe({
@@ -88,7 +92,7 @@ export class ChartComponent {
       });
   }
 
-  public selectParam(param: APIChartParameter) {
+  protected selectParam(param: APIChartParameter) {
     for (const p of this.parameters) {
       p.active = false;
     }

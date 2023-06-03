@@ -102,7 +102,7 @@ export class UserService {
 
   private cache2 = new Map<string, Observable<APIUser2>>();
 
-  constructor(private api: APIService, private usersClient: UsersClient) {}
+  constructor(private readonly api: APIService, private readonly usersClient: UsersClient) {}
 
   private queryUsers$(ids: string[]): Observable<any> {
     const toRequest: string[] = [];

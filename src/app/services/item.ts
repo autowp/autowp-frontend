@@ -421,7 +421,7 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 
 @Injectable()
 export class ItemService {
-  constructor(private api: APIService, private itemsClient: ItemsClient) {}
+  constructor(private readonly api: APIService, private readonly itemsClient: ItemsClient) {}
 
   public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void[]> {
     return this.itemsClient

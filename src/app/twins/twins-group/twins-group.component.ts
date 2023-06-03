@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {
-  public group$ = this.route.paramMap.pipe(
+  protected readonly group$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((group) => {
@@ -37,7 +37,7 @@ export class TwinsGroupComponent {
     shareReplay(1)
   );
 
-  public selectedBrands$ = this.group$.pipe(
+  protected readonly selectedBrands$ = this.group$.pipe(
     map((group) => {
       const result = [];
       for (const item of group.childs) {
@@ -50,12 +50,12 @@ export class TwinsGroupComponent {
     })
   );
 
-  public layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly router: Router
   ) {}
 }

@@ -14,12 +14,12 @@ import {getItemTypeTranslation} from '@utils/translations';
   templateUrl: './pictures.component.html',
 })
 export class CatalogueVehiclesPicturesComponent {
-  public canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
-  public canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
+  protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private catalogue$ = this.isModer$.pipe(
+  private readonly catalogue$ = this.isModer$.pipe(
     switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
@@ -33,31 +33,33 @@ export class CatalogueVehiclesPicturesComponent {
     shareReplay(1)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private exact$ = this.route.data.pipe(
+  private readonly exact$ = this.route.data.pipe(
     map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brand$ = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$ = this.catalogue$.pipe(map(({brand}) => brand));
 
-  public breadcrumbs$ = this.catalogue$.pipe(map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)));
+  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+  );
 
-  public routerLink$ = this.catalogue$.pipe(
+  protected readonly routerLink$ = this.catalogue$.pipe(
     map(({brand, path}) => ['/', brand.catname, ...path.map((node) => node.catname)])
   );
 
-  public picturesRouterLink$ = combineLatest([this.routerLink$, this.exact$]).pipe(
+  protected readonly picturesRouterLink$ = combineLatest([this.routerLink$, this.exact$]).pipe(
     map(([routerLink, exact]) => [...routerLink, ...(exact ? ['exact'] : []), 'pictures'])
   );
 
-  public item$ = this.catalogue$.pipe(
+  protected readonly item$ = this.catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
     tap((item) => {
       this.pageEnv.set({
@@ -67,7 +69,7 @@ export class CatalogueVehiclesPicturesComponent {
     })
   );
 
-  public pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
+  protected readonly pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
     switchMap(([exact, item, page]) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
@@ -86,15 +88,15 @@ export class CatalogueVehiclesPicturesComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private pictureService: PictureService,
-    private route: ActivatedRoute,
-    private catalogueService: CatalogueService,
-    private acl: ACLService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly pictureService: PictureService,
+    private readonly route: ActivatedRoute,
+    private readonly catalogueService: CatalogueService,
+    private readonly acl: ACLService,
+    private readonly router: Router
   ) {}
 
-  public getItemTypeTranslation(id: number, type: string) {
+  protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
 }

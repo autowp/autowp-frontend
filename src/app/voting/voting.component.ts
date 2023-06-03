@@ -16,8 +16,8 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {
-  private reload$ = new BehaviorSubject<boolean>(true);
-  public voting$ = this.route.paramMap.pipe(
+  private readonly reload$ = new BehaviorSubject<boolean>(true);
+  protected readonly voting$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -35,23 +35,23 @@ export class VotingComponent {
       });
     })
   );
-  public filter = false;
-  public selected: {};
+  protected filter = false;
+  protected selected: {};
 
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private api: APIService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private votingService: VotingService,
-    public auth: AuthService,
-    private pageEnv: PageEnvService,
-    private modalService: NgbModal,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly votingService: VotingService,
+    protected readonly auth: AuthService,
+    private readonly pageEnv: PageEnvService,
+    private readonly modalService: NgbModal,
+    private readonly toastService: ToastsService
   ) {}
 
-  public vote(voting: APIVoting) {
+  protected vote(voting: APIVoting) {
     const ids: number[] = [];
 
     if (!voting.multivariant) {
@@ -85,7 +85,7 @@ export class VotingComponent {
     return false;
   }
 
-  public isVariantSelected(voting: APIVoting): boolean {
+  protected isVariantSelected(voting: APIVoting): boolean {
     if (!voting.multivariant) {
       return this.selected > 0;
     }
@@ -102,7 +102,7 @@ export class VotingComponent {
     return count > 0;
   }
 
-  public showWhoVoted(voting: APIVoting, variant: APIVotingVariant) {
+  protected showWhoVoted(voting: APIVoting, variant: APIVotingVariant) {
     const modalRef = this.modalService.open(VotingVotesComponent, {
       size: 'lg',
       centered: true,

@@ -14,9 +14,9 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './factories.component.html',
 })
 export class FactoryComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  public item$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly item$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -51,7 +51,7 @@ export class FactoryComponent {
     shareReplay(1)
   );
 
-  public pictures$ = this.item$.pipe(
+  protected readonly pictures$ = this.item$.pipe(
     switchMap((factory) =>
       this.pictureService.getPictures$({
         status: 'accepted',
@@ -66,7 +66,7 @@ export class FactoryComponent {
     })
   );
 
-  public map$ = this.item$.pipe(
+  protected readonly map$ = this.item$.pipe(
     map((factory) => {
       if (!factory.lat || !factory.lng) {
         return null;
@@ -98,12 +98,12 @@ export class FactoryComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private acl: ACLService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly acl: ACLService,
+    private readonly toastService: ToastsService
   ) {}
 }

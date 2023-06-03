@@ -18,13 +18,13 @@ interface PictureRoute {
   templateUrl: './recent.component.html',
 })
 export class CatalogueRecentComponent {
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brand$ = this.route.paramMap.pipe(
+  protected readonly brand$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -53,7 +53,7 @@ export class CatalogueRecentComponent {
     shareReplay(1)
   );
 
-  public data$ = combineLatest([this.brand$, this.page$]).pipe(
+  protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       this.pictureService.getPictures$({
         limit: 12,
@@ -77,10 +77,10 @@ export class CatalogueRecentComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private catalogue: CatalogueService
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly catalogue: CatalogueService
   ) {}
 }

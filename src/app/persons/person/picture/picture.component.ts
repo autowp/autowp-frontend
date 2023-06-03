@@ -11,9 +11,9 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './picture.component.html',
 })
 export class PersonsPersonPictureComponent {
-  private changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  public identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
@@ -29,13 +29,13 @@ export class PersonsPersonPictureComponent {
     shareReplay(1)
   );
 
-  public itemID$ = this.route.parent.paramMap.pipe(
+  protected readonly itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public picture$ = combineLatest([this.itemID$, this.identity$]).pipe(
+  protected readonly picture$ = combineLatest([this.itemID$, this.identity$]).pipe(
     switchMap(([itemID, identity]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
@@ -70,13 +70,13 @@ export class PersonsPersonPictureComponent {
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

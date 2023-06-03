@@ -9,14 +9,12 @@ import {Perspective} from '@grpc/spec.pb';
   providedIn: 'root',
 })
 export class APIPerspectiveService {
-  private readonly perspectives$: Observable<Perspective[]>;
+  private readonly perspectives$: Observable<Perspective[]> = this.grpc.getPerspectives(new Empty()).pipe(
+    map((response) => response.items),
+    shareReplay(1)
+  );
 
-  constructor(private grpc: AutowpClient) {
-    this.perspectives$ = this.grpc.getPerspectives(new Empty()).pipe(
-      map((response) => response.items),
-      shareReplay(1)
-    );
-  }
+  constructor(private readonly grpc: AutowpClient) {}
 
   public getPerspectives$(): Observable<Perspective[]> {
     return this.perspectives$;

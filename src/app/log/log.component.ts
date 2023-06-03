@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {APIPaginator, APIService} from '@services/api.service';
 import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -26,8 +26,8 @@ export interface APILogGetResponse {
   selector: 'app-log',
   templateUrl: './log.component.html',
 })
-export class LogComponent {
-  public response$ = this.route.queryParamMap.pipe(
+export class LogComponent implements OnInit {
+  protected readonly response$ = this.route.queryParamMap.pipe(
     map((params) => ({
       article_id: params.get('article_id'),
       item_id: params.get('item_id'),
@@ -73,11 +73,13 @@ export class LogComponent {
   );
 
   constructor(
-    private api: APIService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
-  ) {
+    private readonly api: APIService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
+  ) {}
+
+  ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 75}), 0);
   }
 }

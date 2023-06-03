@@ -10,15 +10,15 @@ import {APIUser, APIUsersRequest} from '@grpc/spec.pb';
   templateUrl: './online.component.html',
 })
 export class UsersOnlineComponent {
-  private reload$ = new BehaviorSubject<boolean>(true);
-  public users$: Observable<APIUser[]> = this.reload$.pipe(
+  private readonly reload$ = new BehaviorSubject<boolean>(true);
+  protected readonly users$: Observable<APIUser[]> = this.reload$.pipe(
     switchMap(() => this.usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
     map((response) => response.items)
   );
 
-  constructor(public readonly activeModal: NgbActiveModal, private readonly usersClient: UsersClient) {}
+  constructor(protected readonly activeModal: NgbActiveModal, private readonly usersClient: UsersClient) {}
 
-  public load() {
+  protected load() {
     this.reload$.next(true);
   }
 }

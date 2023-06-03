@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService, APIUser} from '@services/user';
 import {PageEnvService} from '@services/page-env.service';
 
@@ -14,12 +14,10 @@ interface LogItem {
   selector: 'app-donate-log',
   templateUrl: './log.component.html',
 })
-export class DonateLogComponent {
-  public items: LogItem[];
+export class DonateLogComponent implements OnInit {
+  protected readonly items: LogItem[];
 
-  constructor(private userService: UserService, private pageEnv: PageEnvService) {
-    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
-
+  constructor(private readonly userService: UserService, private readonly pageEnv: PageEnvService) {
     this.items = require('./data.json');
 
     for (const item of this.items) {
@@ -29,5 +27,9 @@ export class DonateLogComponent {
         });
       }
     }
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
   }
 }

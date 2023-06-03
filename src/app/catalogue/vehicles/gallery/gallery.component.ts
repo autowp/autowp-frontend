@@ -12,7 +12,7 @@ import {APIGalleryItem} from '../../../gallery/definitions';
   templateUrl: './gallery.component.html',
 })
 export class CatalogueVehiclesGalleryComponent {
-  public identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -27,16 +27,16 @@ export class CatalogueVehiclesGalleryComponent {
     })
   );
 
-  private exact$ = this.route.data.pipe(
+  private readonly exact$ = this.route.data.pipe(
     map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  private isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  private readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private catalogue$ = this.isModer$.pipe(
+  private readonly catalogue$ = this.isModer$.pipe(
     switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
@@ -50,7 +50,7 @@ export class CatalogueVehiclesGalleryComponent {
     shareReplay(1)
   );
 
-  private routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
+  private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
     map(([{path, brand}, exact]) => [
       '/',
       brand.catname,
@@ -59,11 +59,11 @@ export class CatalogueVehiclesGalleryComponent {
     ])
   );
 
-  public galleryRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'gallery']));
+  protected readonly galleryRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'gallery']));
 
-  public picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
+  protected readonly picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
 
-  public filter$ = combineLatest([this.exact$, this.catalogue$]).pipe(
+  protected readonly filter$ = combineLatest([this.exact$, this.catalogue$]).pipe(
     map(([exact, {path}]) => {
       const itemID = path[path.length - 1].item.id;
       return {
@@ -74,14 +74,14 @@ export class CatalogueVehiclesGalleryComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private catalogueService: CatalogueService,
-    private acl: ACLService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly catalogueService: CatalogueService,
+    private readonly acl: ACLService,
+    private readonly router: Router
   ) {}
 
-  pictureSelected(item: APIGalleryItem) {
+  protected pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},

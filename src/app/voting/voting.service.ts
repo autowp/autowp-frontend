@@ -39,7 +39,7 @@ export interface APIVotingVariantVotesGetResponse {
 
 @Injectable()
 export class VotingService {
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
   public getVoting$(id: number): Observable<APIVoting> {
     return this.api.request<APIVoting>('GET', 'voting/' + id);

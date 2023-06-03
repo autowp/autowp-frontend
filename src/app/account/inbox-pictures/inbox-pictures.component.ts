@@ -12,7 +12,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './inbox-pictures.component.html',
 })
 export class AccountInboxPicturesComponent implements OnInit {
-  public data$ = combineLatest([
+  protected readonly data$ = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page'), 10)),
       distinctUntilChanged(),
@@ -37,11 +37,11 @@ export class AccountInboxPicturesComponent implements OnInit {
   );
 
   constructor(
-    private auth: AuthService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly auth: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

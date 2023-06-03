@@ -13,7 +13,7 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './authors.component.html',
 })
 export class CutawayAuthorsComponent implements OnInit {
-  public query$ = this.route.queryParamMap.pipe(
+  protected readonly query$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
@@ -46,10 +46,10 @@ export class CutawayAuthorsComponent implements OnInit {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

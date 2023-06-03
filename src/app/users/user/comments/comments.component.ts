@@ -17,13 +17,13 @@ interface Order {
   templateUrl: './comments.component.html',
 })
 export class UsersUserCommentsComponent {
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public order$ = this.route.queryParamMap
+  protected readonly order$ = this.route.queryParamMap
     .pipe(
       map((params) => params.get('order')),
       distinctUntilChanged(),
@@ -34,7 +34,7 @@ export class UsersUserCommentsComponent {
       shareReplay(1)
     );
 
-  public user$ = this.route.paramMap.pipe(
+  protected readonly user$ = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -54,7 +54,7 @@ export class UsersUserCommentsComponent {
     shareReplay(1)
   );
 
-  public comments$ = combineLatest([this.user$, this.page$, this.order$]).pipe(
+  protected readonly comments$ = combineLatest([this.user$, this.page$, this.order$]).pipe(
     tap(() => {
       setTimeout(() => this.pageEnv.set({pageId: 205}), 0);
     }),
@@ -73,7 +73,7 @@ export class UsersUserCommentsComponent {
     })
   );
 
-  public orders: Order[] = [
+  protected readonly orders: Order[] = [
     {value: 'date_desc', name: $localize`New`},
     {value: 'date_asc', name: $localize`Old`},
     {value: 'vote_desc', name: $localize`Positive`},
@@ -81,11 +81,11 @@ export class UsersUserCommentsComponent {
   ];
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private commentService: APICommentsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly userService: UserService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly commentService: APICommentsService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

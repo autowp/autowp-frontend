@@ -12,7 +12,7 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
   templateUrl: './gallery.component.html',
 })
 export class CatalogueMixedGalleryComponent {
-  public identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -28,7 +28,7 @@ export class CatalogueMixedGalleryComponent {
     })
   );
 
-  public brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -54,16 +54,16 @@ export class CatalogueMixedGalleryComponent {
     })
   );
 
-  public data$ = this.route.data as Observable<BrandPerspectivePageData>;
+  protected readonly data$ = this.route.data as Observable<BrandPerspectivePageData>;
 
   constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private itemService: ItemService
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly itemService: ItemService
   ) {}
 
-  pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem) {
+  protected pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},

@@ -11,7 +11,7 @@ import {catchError, map} from 'rxjs/operators';
   templateUrl: './spec.component.html',
 })
 export class InfoSpecComponent implements OnInit {
-  public specs$ = this.grpc.getSpecs(new Empty()).pipe(
+  protected readonly specs$ = this.grpc.getSpecs(new Empty()).pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
@@ -19,7 +19,11 @@ export class InfoSpecComponent implements OnInit {
     map((specs) => specs.items)
   );
 
-  constructor(private pageEnv: PageEnvService, private toastService: ToastsService, private grpc: AutowpClient) {}
+  constructor(
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly grpc: AutowpClient
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 174}), 0);

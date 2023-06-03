@@ -13,9 +13,9 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './picture.component.html',
 })
 export class CatalogueVehiclesPicturesPictureComponent {
-  private changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  private identity$ = this.route.paramMap.pipe(
+  private readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -30,16 +30,16 @@ export class CatalogueVehiclesPicturesPictureComponent {
     })
   );
 
-  private exact$ = this.route.data.pipe(
+  private readonly exact$ = this.route.data.pipe(
     map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  private isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  private readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private catalogue$ = this.isModer$.pipe(
+  private readonly catalogue$ = this.isModer$.pipe(
     switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
@@ -53,7 +53,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
     shareReplay(1)
   );
 
-  private routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
+  private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
     map(([{brand, path}, exact]) => [
       '/',
       brand.catname,
@@ -62,19 +62,21 @@ export class CatalogueVehiclesPicturesPictureComponent {
     ])
   );
 
-  public readonly CommentsType = CommentsType;
+  protected readonly CommentsType = CommentsType;
 
-  public brand$ = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$ = this.catalogue$.pipe(map(({brand}) => brand));
 
-  public breadcrumbs$ = this.catalogue$.pipe(map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)));
+  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+  );
 
-  public picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
+  protected readonly picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
 
-  public galleryPictureRouterLink$ = combineLatest([this.identity$, this.routerLink$]).pipe(
+  protected readonly galleryPictureRouterLink$ = combineLatest([this.identity$, this.routerLink$]).pipe(
     map(([identity, routerLink]) => [...routerLink, 'gallery', identity])
   );
 
-  public picture$ = combineLatest([this.catalogue$, this.identity$]).pipe(
+  protected readonly picture$ = combineLatest([this.catalogue$, this.identity$]).pipe(
     switchMap(([{path}, identity]) => {
       const itemID = path[path.length - 1].item_id;
 
@@ -120,15 +122,15 @@ export class CatalogueVehiclesPicturesPictureComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private catalogueService: CatalogueService,
-    private acl: ACLService,
-    private pictureService: PictureService,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly catalogueService: CatalogueService,
+    private readonly acl: ACLService,
+    private readonly pictureService: PictureService,
+    private readonly router: Router
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

@@ -25,7 +25,7 @@ interface SidebarItem {
   templateUrl: './account.component.html',
 })
 export class AccountComponent {
-  public items$: Observable<SidebarItem[]> = combineLatest([
+  protected readonly items$: Observable<SidebarItem[]> = combineLatest([
     this.auth.getUser$(),
     this.auth.getUser$().pipe(
       switchMap((user) => {
@@ -149,11 +149,11 @@ export class AccountComponent {
   );
 
   constructor(
-    private messageService: MessageService,
-    private auth: AuthService,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private forumsClient: ForumsClient
+    private readonly messageService: MessageService,
+    private readonly auth: AuthService,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly forumsClient: ForumsClient
   ) {}
 }

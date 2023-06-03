@@ -16,51 +16,51 @@ import {ToastsService} from '../../toasts/toasts.service';
 })
 export class ModerCommentsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
-  public loading = 0;
-  public comments: APIComment[] = [];
-  public paginator: APIPaginator;
-  public moderatorAttention: any;
+  protected loading = 0;
+  protected comments: APIComment[] = [];
+  protected paginator: APIPaginator;
+  protected moderatorAttention: any;
 
-  public itemID: number;
-  public itemQuery = '';
-  public itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected itemID: number;
+  protected itemQuery = '';
+  protected itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
 
-  public userID: number;
-  public userQuery = '';
-  public usersDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected userID: number;
+  protected userQuery = '';
+  protected usersDataSource: (text$: Observable<string>) => Observable<any[]>;
 
-  public userID$ = this.route.queryParamMap.pipe(
+  protected readonly userID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('user_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private moderatorAttention$ = this.route.queryParamMap.pipe(
+  private readonly moderatorAttention$ = this.route.queryParamMap.pipe(
     map((params) => params.get('moderator_attention')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private picturesOfItemID$ = this.route.queryParamMap.pipe(
+  private readonly picturesOfItemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('pictures_of_item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   constructor(
-    private itemService: ItemService,
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private commentService: APICommentsService,
-    private pageEnv: PageEnvService,
-    private router: Router,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly userService: UserService,
+    private readonly route: ActivatedRoute,
+    private readonly commentService: APICommentsService,
+    private readonly pageEnv: PageEnvService,
+    private readonly router: Router,
+    private readonly toastService: ToastsService
   ) {
     this.itemsDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -169,7 +169,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     this.querySub.unsubscribe();
   }
 
-  public setModeratorAttention() {
+  protected setModeratorAttention() {
     this.router.navigate([], {
       queryParams: {
         page: null,
@@ -179,11 +179,11 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public itemFormatter(x: APIItem) {
+  protected itemFormatter(x: APIItem) {
     return x.name_text;
   }
 
-  public itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -192,7 +192,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearItem(): void {
+  protected clearItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
@@ -202,11 +202,11 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public userFormatter(x: APIUser) {
+  protected userFormatter(x: APIUser) {
     return x.name;
   }
 
-  public userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -215,7 +215,7 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearUser(): void {
+  protected clearUser(): void {
     this.userQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',

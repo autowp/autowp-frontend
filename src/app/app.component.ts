@@ -21,37 +21,37 @@ import {KeycloakService} from 'keycloak-angular';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public languages: Language[] = [];
-  public layoutParams$: Observable<LayoutParams>;
-  public user: APIUser;
-  public newPersonalMessages$ = this.messageService.getNew$().pipe(
+  protected languages: Language[] = [];
+  protected readonly layoutParams$: Observable<LayoutParams>;
+  protected user: APIUser;
+  protected readonly newPersonalMessages$ = this.messageService.getNew$().pipe(
     map((result) => ({
       count: result,
     })),
     shareReplay(1)
   );
-  public searchHostname: string;
-  public categories$ = this.itemService.getItems$({
+  protected searchHostname: string;
+  protected readonly categories$ = this.itemService.getItems$({
     type_id: ItemType.ITEM_TYPE_CATEGORY,
     no_parent: true,
     fields: 'name_text,catname,descendants_count',
     limit: 20,
   });
-  public language: string;
-  public urlPath = '/';
-  public isNavbarCollapsed = true;
+  protected language: string;
+  protected urlPath = '/';
+  protected isNavbarCollapsed = true;
 
   constructor(
-    public auth: AuthService,
-    public acl: ACLService,
-    private router: Router,
-    private messageService: MessageService,
-    private pageEnv: PageEnvService,
-    private languageService: LanguageService,
-    private itemService: ItemService,
-    private modalService: NgbModal,
-    private renderer: Renderer2,
-    private keycloak: KeycloakService,
+    protected readonly auth: AuthService,
+    protected readonly acl: ACLService,
+    private readonly router: Router,
+    private readonly messageService: MessageService,
+    private readonly pageEnv: PageEnvService,
+    private readonly languageService: LanguageService,
+    private readonly itemService: ItemService,
+    private readonly modalService: NgbModal,
+    private readonly renderer: Renderer2,
+    private readonly keycloak: KeycloakService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.language = this.languageService.language;
@@ -90,14 +90,14 @@ export class AppComponent {
     }
   }
 
-  public doLogin() {
+  protected doLogin() {
     this.keycloak.login({
       redirectUri: window.location.href,
       locale: this.languageService.language,
     });
   }
 
-  public signOut() {
+  protected signOut() {
     this.auth.signOut$().subscribe({
       error: (error: unknown) => {
         console.log(error);
@@ -107,11 +107,11 @@ export class AppComponent {
     return false;
   }
 
-  public isActive$(id: number): Observable<boolean> {
+  protected isActive$(id: number): Observable<boolean> {
     return this.pageEnv.isActive$(id);
   }
 
-  public showOnlineUsers() {
+  protected showOnlineUsers() {
     this.modalService.open(UsersOnlineComponent, {
       size: 'lg',
       centered: true,

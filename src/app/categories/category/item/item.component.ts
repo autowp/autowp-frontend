@@ -20,9 +20,9 @@ interface PictureRoute {
   templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private categoryData$ = this.categoriesService.categoryPipe$(this.route.parent).pipe(
+  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent).pipe(
     tap(({current}) => {
       this.pageEnv.set({
         title: current.name_text,
@@ -32,13 +32,13 @@ export class CategoriesCategoryItemComponent {
     shareReplay(1)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public itemParents$ = combineLatest([this.categoryData$, this.page$]).pipe(
+  protected readonly itemParents$ = combineLatest([this.categoryData$, this.page$]).pipe(
     switchMap(([{category, current, pathCatnames}, page]) =>
       this.itemParentService
         .getItems$({
@@ -72,7 +72,10 @@ export class CategoriesCategoryItemComponent {
     shareReplay(1)
   );
 
-  public pictures$: Observable<PictureRoute[]> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
+  protected readonly pictures$: Observable<PictureRoute[]> = combineLatest([
+    this.categoryData$,
+    this.itemParents$,
+  ]).pipe(
     switchMap(([{current, category, pathCatnames}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length <= 0) {
         return of([]);
@@ -101,7 +104,7 @@ export class CategoriesCategoryItemComponent {
     })
   );
 
-  public currentRouterLinkPrefix$ = this.categoryData$.pipe(
+  protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(
     map(({current, category, pathCatnames}) => {
       if (!category) {
         return null;
@@ -115,7 +118,7 @@ export class CategoriesCategoryItemComponent {
     })
   );
 
-  public item$: Observable<APIItem> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
+  protected readonly item$: Observable<APIItem> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
     switchMap(([{current}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length > 0) {
         return of(null);
@@ -133,18 +136,18 @@ export class CategoriesCategoryItemComponent {
     })
   );
 
-  public current$: Observable<APIItem> = this.categoryData$.pipe(
+  protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
     map(({current}) => current),
     shareReplay(1)
   );
 
   constructor(
-    private itemService: ItemService,
-    private itemParentService: ItemParentService,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private acl: ACLService,
-    private categoriesService: CategoriesService
+    private readonly itemService: ItemService,
+    private readonly itemParentService: ItemParentService,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly acl: ACLService,
+    private readonly categoriesService: CategoriesService
   ) {}
 }

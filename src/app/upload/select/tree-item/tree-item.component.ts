@@ -12,11 +12,11 @@ export class UploadSelectTreeItemComponent {
   @Input() set item(item: APIItemParent) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItemParent>(null);
+  protected readonly item$ = new BehaviorSubject<APIItemParent>(null);
 
-  public open = false;
+  protected open = false;
 
-  public childs$: Observable<APIItemParent[]> = this.item$.pipe(
+  protected readonly childs$: Observable<APIItemParent[]> = this.item$.pipe(
     switchMap((item) =>
       this.itemParentService.getItems$({
         limit: 500,
@@ -32,5 +32,5 @@ export class UploadSelectTreeItemComponent {
     map((response) => response.items)
   );
 
-  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
+  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
 }

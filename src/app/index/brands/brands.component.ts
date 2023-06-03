@@ -10,11 +10,11 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./brands.component.scss'],
 })
 export class IndexBrandsComponent {
-  constructor(private items: ItemsClient, private languageService: LanguageService) {}
+  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
 
-  public placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5));
+  protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5));
 
-  public result$ = this.items
+  protected readonly result$ = this.items
     .getTopBrandsList(new GetTopBrandsListRequest({language: this.languageService.language}))
     .pipe(
       map((response) => ({

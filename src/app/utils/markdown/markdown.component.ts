@@ -12,9 +12,11 @@ export class MarkdownComponent {
   @Input() set markdown(value: string) {
     this.markdown$.next(value);
   }
-  private markdown$ = new BehaviorSubject<string>(null);
+  private readonly markdown$ = new BehaviorSubject<string>(null);
 
-  private markdownConverter = new showdown.Converter({});
+  private readonly markdownConverter = new showdown.Converter({});
 
-  public html$ = this.markdown$.pipe(map((markdown) => (markdown ? this.markdownConverter.makeHtml(markdown) : '')));
+  protected readonly html$ = this.markdown$.pipe(
+    map((markdown) => (markdown ? this.markdownConverter.makeHtml(markdown) : ''))
+  );
 }

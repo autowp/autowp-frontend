@@ -6,7 +6,6 @@ import {PaginatorModule} from '../paginator/paginator.module';
 import {ArticlesArticleComponent} from './article/article.component';
 import {UserModule} from '../user/user.module';
 import {HttpClientModule} from '@angular/common/http';
-import {ArticleService} from './article.service';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {UtilsModule} from '@utils/utils.module';
 
@@ -21,6 +20,5 @@ import {UtilsModule} from '@utils/utils.module';
     HttpClientModule,
     UtilsModule,
   ],
-  providers: [ArticleService],
 })
 export class ArticlesModule {}

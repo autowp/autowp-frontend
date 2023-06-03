@@ -9,12 +9,12 @@ import {APITopBrandsListItem} from '@grpc/spec.pb';
 })
 export class IndexBrandsBrandComponent {
   @Input() brand: APITopBrandsListItem;
-  public loading = true;
-  public html = '';
+  protected loading = true;
+  protected html = '';
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
-  public shown() {
+  protected shown() {
     this.loading = true;
 
     this.api

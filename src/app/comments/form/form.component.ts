@@ -6,6 +6,7 @@ import {CommentsClient} from '@grpc/spec.pbsc';
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-comments-form',
@@ -21,18 +22,18 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
   @Input() set resolve(resolve: boolean) {
     this.resolve$.next(resolve);
   }
-  private resolve$ = new BehaviorSubject<boolean>(null);
+  private readonly resolve$ = new BehaviorSubject<boolean>(null);
   private resolveSub: Subscription;
 
-  public invalidParams: any = {};
-  public form = {
+  protected invalidParams: InvalidParams = {};
+  protected readonly form = {
     message: '',
     moderator_attention: false,
   };
 
-  constructor(private comments: CommentsClient, private toastService: ToastsService) {}
+  constructor(private readonly comments: CommentsClient, private readonly toastService: ToastsService) {}
 
-  public sendMessage() {
+  protected sendMessage() {
     this.invalidParams = {};
 
     this.resolve$
@@ -69,7 +70,7 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  public cancel() {
+  protected cancel() {
     this.canceled.emit(null);
   }
 

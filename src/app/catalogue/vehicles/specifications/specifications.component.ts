@@ -30,7 +30,7 @@ export class CatalogueVehiclesSpecificationsComponent {
     shareReplay(1)
   );
 
-  public brand$ = this.catalogue$.pipe(
+  protected readonly brand$ = this.catalogue$.pipe(
     map(({brand}) => brand),
     tap((brand) => {
       this.pageEnv.set({
@@ -41,14 +41,16 @@ export class CatalogueVehiclesSpecificationsComponent {
     shareReplay(1)
   );
 
-  public breadcrumbs$ = this.catalogue$.pipe(map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)));
+  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+  );
 
-  public item$ = this.catalogue$.pipe(
+  protected readonly item$ = this.catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
     shareReplay(1)
   );
 
-  public html$ = this.item$.pipe(
+  protected readonly html$ = this.item$.pipe(
     switchMap((item) => {
       if (item.has_child_specs) {
         return this.api.request('GET', 'item/' + item.id + '/child-specifications', {
@@ -70,11 +72,11 @@ export class CatalogueVehiclesSpecificationsComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private catalogueService: CatalogueService,
-    private acl: ACLService,
-    private router: Router,
-    private api: APIService
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly catalogueService: CatalogueService,
+    private readonly acl: ACLService,
+    private readonly router: Router,
+    private readonly api: APIService
   ) {}
 }

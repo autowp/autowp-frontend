@@ -187,7 +187,7 @@ export class APIAttrsService {
   private readonly zones$: Observable<APIAttrZone[]>;
   private readonly units$: Observable<APIAttrUnit[]>;
 
-  constructor(private api: APIService) {
+  constructor(private readonly api: APIService) {
     this.attributeTypes$ = this.api.request<APIAttrsAttributeTypesGetResponse>('GET', 'attr/attribute-type').pipe(
       map((response) => response.items),
       shareReplay(1)
@@ -295,6 +295,7 @@ export class APIAttrsService {
       params,
     });
   }
+
   public getAttributes$(options: APIAttrAttributesGetOptions): Observable<APIAttrAttributesGetResponse> {
     const params: {[param: string]: string} = {};
 

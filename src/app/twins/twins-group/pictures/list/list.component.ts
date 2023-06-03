@@ -12,13 +12,13 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {
-  public id$ = this.route.parent.parent.paramMap.pipe(
+  protected readonly id$ = this.route.parent.parent.paramMap.pipe(
     map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public group$ = this.id$.pipe(
+  protected readonly group$ = this.id$.pipe(
     switchMap((group) => {
       if (!group) {
         this.router.navigate(['/error-404'], {
@@ -41,12 +41,12 @@ export class TwinsGroupPicturesListComponent {
     shareReplay(1)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged()
   );
 
-  public data$ = combineLatest([this.page$, this.id$]).pipe(
+  protected readonly data$ = combineLatest([this.page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
       this.pictureService.getPictures$({
         status: 'accepted',
@@ -64,11 +64,11 @@ export class TwinsGroupPicturesListComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private pictureService: PictureService,
-    private toastService: ToastsService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly pictureService: PictureService,
+    private readonly toastService: ToastsService,
+    private readonly router: Router
   ) {}
 }

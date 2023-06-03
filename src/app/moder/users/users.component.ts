@@ -1,26 +1,40 @@
-import {Component} from '@angular/core';
-import {UserService, APIUser} from '@services/user';
-import {APIPaginator} from '@services/api.service';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '@services/user';
 import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap, distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import {switchMap, distinctUntilChanged, debounceTime, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
+import {EMPTY} from 'rxjs';
 
 @Component({
   selector: 'app-moder-users',
   templateUrl: './users.component.html',
 })
-export class ModerUsersComponent {
-  public paginator: APIPaginator;
-  public loading = 0;
-  public users: APIUser[] = [];
+export class ModerUsersComponent implements OnInit {
+  protected readonly users$ = this.route.queryParamMap.pipe(
+    distinctUntilChanged(),
+    debounceTime(10),
+    switchMap((params) =>
+      this.userService.get$({
+        page: parseInt(params.get('page'), 10),
+        limit: 30,
+        fields: 'image,reg_date,last_online,email,login',
+      })
+    ),
+    catchError((error: unknown) => {
+      this.toastService.handleError(error);
+      return EMPTY;
+    })
+  );
 
   constructor(
-    private userService: UserService,
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private toastService: ToastsService
-  ) {
+    private readonly userService: UserService,
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastsService
+  ) {}
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -29,36 +43,5 @@ export class ModerUsersComponent {
         }),
       0
     );
-
-    this.load();
-  }
-
-  private load() {
-    this.loading++;
-    this.users = [];
-
-    this.route.queryParamMap
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(10),
-        switchMap((params) =>
-          this.userService.get$({
-            page: parseInt(params.get('page'), 10),
-            limit: 30,
-            fields: 'image,reg_date,last_online,email,login',
-          })
-        )
-      )
-      .subscribe({
-        next: (response) => {
-          this.users = response.items;
-          this.paginator = response.paginator;
-          this.loading--;
-        },
-        error: (response: unknown) => {
-          this.toastService.handleError(response);
-          this.loading--;
-        },
-      });
   }
 }

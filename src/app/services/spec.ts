@@ -13,7 +13,7 @@ export interface APISpecGetResponse {
 export class SpecService {
   private readonly specs$: Observable<Spec[]>;
 
-  constructor(private grpc: AutowpClient) {
+  constructor(private readonly grpc: AutowpClient) {
     this.specs$ = this.grpc.getSpecs(new Empty()).pipe(
       map((response) => response.items),
       shareReplay(1)

@@ -55,7 +55,7 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private keycloak: KeycloakService) {}
+  constructor(private readonly keycloak: KeycloakService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const promise = this.keycloak.getToken();
@@ -122,7 +122,7 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 
 @Injectable()
 export class GrpcAuthInterceptor implements GrpcInterceptor {
-  constructor(private keycloak: KeycloakService) {}
+  constructor(private readonly keycloak: KeycloakService) {}
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
@@ -155,7 +155,11 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
 
 @Injectable()
 export class APIService {
-  constructor(private http: HttpClient, private toasts: ToastsService, private language: LanguageService) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly toasts: ToastsService,
+    private readonly language: LanguageService
+  ) {}
 
   /**
    * Constructs a request that interprets the body as a text string and

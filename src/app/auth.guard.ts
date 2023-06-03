@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {AuthService} from './services/auth.service';
+import {AuthService} from '@services/auth.service';
 import {map} from 'rxjs/operators';
-import {LanguageService} from './services/language';
+import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private authService: AuthService,
-    private languageService: LanguageService,
-    private keycloak: KeycloakService
+    private readonly authService: AuthService,
+    private readonly languageService: LanguageService,
+    private readonly keycloak: KeycloakService
   ) {}
 
   canActivate(

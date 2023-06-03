@@ -23,8 +23,6 @@ export class PageService {
 
   private pagesJson: Page[];
 
-  constructor() {}
-
   private walkPages(pages: Page[], parentID: number) {
     for (const page of pages) {
       this.parents.set(page.id, parentID);

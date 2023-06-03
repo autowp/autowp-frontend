@@ -15,18 +15,18 @@ export interface APIItemAlphaGetResponse {
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
-  public char: string;
+  protected char: string;
   private querySub: Subscription;
-  public loading = 0;
-  public paginator: APIPaginator | null = null;
-  public groups: string[][];
-  public items: APIItem[];
+  protected loading = 0;
+  protected paginator: APIPaginator | null = null;
+  protected groups: string[][];
+  protected items: APIItem[];
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService
   ) {
     setTimeout(
       () =>

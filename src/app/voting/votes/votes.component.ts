@@ -13,14 +13,14 @@ export class VotingVotesComponent {
   @Input() set votingID(value: number) {
     this.votingID$.next(value);
   }
-  private votingID$ = new BehaviorSubject<number>(null);
+  private readonly votingID$ = new BehaviorSubject<number>(null);
 
   @Input() set variantID(value: number) {
     this.variantID$.next(value);
   }
-  private variantID$ = new BehaviorSubject<number>(null);
+  private readonly variantID$ = new BehaviorSubject<number>(null);
 
-  public votes$: Observable<APIVotingVariantVote[]> = combineLatest([this.votingID$, this.variantID$]).pipe(
+  protected readonly votes$: Observable<APIVotingVariantVote[]> = combineLatest([this.votingID$, this.variantID$]).pipe(
     switchMap(([votingID, variantID]) => this.votingService.getVariantVotes$(votingID, variantID, {fields: 'user'})),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -30,8 +30,8 @@ export class VotingVotesComponent {
   );
 
   constructor(
-    public activeModal: NgbActiveModal,
-    private votingService: VotingService,
-    private toastService: ToastsService
+    protected readonly activeModal: NgbActiveModal,
+    private readonly votingService: VotingService,
+    private readonly toastService: ToastsService
   ) {}
 }

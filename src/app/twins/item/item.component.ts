@@ -11,11 +11,11 @@ export class TwinsItemComponent {
   @Input() item: APIItem;
   @Input() group: APIItem;
 
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  constructor(private acl: ACLService) {}
+  constructor(private readonly acl: ACLService) {}
 
-  public havePhoto(item: APIItem) {
+  protected havePhoto(item: APIItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
         if (picture && picture.picture) {
@@ -26,7 +26,7 @@ export class TwinsItemComponent {
     return false;
   }
 
-  public canHavePhoto(item: APIItem) {
+  protected canHavePhoto(item: APIItem) {
     return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
   }
 }

@@ -11,13 +11,13 @@ import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list
   templateUrl: './concepts.component.html',
 })
 export class CatalogueConceptsComponent {
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -52,7 +52,7 @@ export class CatalogueConceptsComponent {
     shareReplay(1)
   );
 
-  public data$ = combineLatest([this.brand$, this.page$]).pipe(
+  protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       this.itemService.getItems$({
         limit: 7,
@@ -115,12 +115,12 @@ export class CatalogueConceptsComponent {
     })
   );
 
-  public title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} concepts & prototypes`));
+  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} concepts & prototypes`));
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 }

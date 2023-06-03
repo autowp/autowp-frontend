@@ -11,7 +11,7 @@ export interface APITimezoneGetResponse {
 export class TimezoneService {
   private readonly timezones$: Observable<string[]>;
 
-  constructor(private api: APIService) {
+  constructor(private readonly api: APIService) {
     this.timezones$ = this.api.request<APITimezoneGetResponse>('GET', 'timezone').pipe(
       map((response) => response.items),
       shareReplay(1)

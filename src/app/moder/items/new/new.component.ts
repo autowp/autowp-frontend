@@ -22,9 +22,9 @@ interface NewAPIItem extends APIItem {
   templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {
-  public invalidParams: InvalidParams;
+  protected invalidParams: InvalidParams;
 
-  private itemTypeID$ = this.route.queryParamMap.pipe(
+  private readonly itemTypeID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -38,9 +38,11 @@ export class ModerItemsNewComponent {
     })
   );
 
-  public itemType$ = this.itemTypeID$.pipe(map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item')));
+  protected readonly itemType$ = this.itemTypeID$.pipe(
+    map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item'))
+  );
 
-  public item$: Observable<NewAPIItem> = this.itemTypeID$.pipe(
+  protected readonly item$: Observable<NewAPIItem> = this.itemTypeID$.pipe(
     map(
       (itemTypeID) =>
         ({
@@ -69,20 +71,20 @@ export class ModerItemsNewComponent {
     shareReplay(1)
   );
 
-  private parentID$ = this.route.queryParamMap.pipe(
+  private readonly parentID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('parent_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public parent$ = this.parentID$.pipe(
+  protected readonly parent$ = this.parentID$.pipe(
     switchMap((parentID) =>
       parentID ? this.itemService.getItem$(parentID, {fields: 'is_concept,name_html,spec_id'}) : of(null as APIItem)
     ),
     shareReplay(1)
   );
 
-  public vehicleTypeIDs$ = this.parent$.pipe(
+  protected readonly vehicleTypeIDs$ = this.parent$.pipe(
     switchMap((item) => {
       if (item && [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
         return this.itemsClient
@@ -98,16 +100,16 @@ export class ModerItemsNewComponent {
   );
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private itemsClient: ItemsClient
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient
   ) {}
 
-  public submit(itemTypeID: number, event: ItemMetaFormResult) {
+  protected submit(itemTypeID: number, event: ItemMetaFormResult) {
     const data = {
       item_type_id: itemTypeID,
       name: event.name,

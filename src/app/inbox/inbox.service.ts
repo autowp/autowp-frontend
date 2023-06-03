@@ -22,7 +22,7 @@ export interface APIInbox {
 
 @Injectable()
 export class InboxService {
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
   public get$(brandID: number, date: string): Observable<APIInbox> {
     const params: {[param: string]: string} = {

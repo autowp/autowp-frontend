@@ -23,7 +23,7 @@ interface Inbox {
   templateUrl: './inbox.component.html',
 })
 export class InboxComponent implements OnInit {
-  public inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
+  protected readonly inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         this.keycloak.login({
@@ -93,25 +93,25 @@ export class InboxComponent implements OnInit {
     })
   );
 
-  public brandID = 0;
+  protected brandID = 0;
 
   constructor(
-    private router: Router,
-    private auth: AuthService,
-    private route: ActivatedRoute,
-    private languageService: LanguageService,
-    private keycloak: KeycloakService,
-    private pictureService: PictureService,
-    private inboxService: InboxService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly router: Router,
+    private readonly auth: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly languageService: LanguageService,
+    private readonly keycloak: KeycloakService,
+    private readonly pictureService: PictureService,
+    private readonly inboxService: InboxService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 76}), 0);
   }
 
-  public changeBrand() {
+  protected changeBrand() {
     this.router.navigate(['/inbox', this.brandID ? this.brandID : 'all']);
   }
 }

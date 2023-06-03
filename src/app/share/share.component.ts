@@ -19,7 +19,7 @@ export class ShareComponent {
     return url + p.toString();
   }
 
-  public share(href: string) {
+  protected share(href: string) {
     // ga('send', 'event', 'share', $this.attr('title'));
 
     window.open(

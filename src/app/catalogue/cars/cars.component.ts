@@ -14,7 +14,7 @@ import {BrandVehicleType, GetBrandVehicleTypesRequest, ItemType} from '@grpc/spe
   templateUrl: './cars.component.html',
 })
 export class CatalogueCarsComponent {
-  public brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -33,7 +33,7 @@ export class CatalogueCarsComponent {
     shareReplay(1)
   );
 
-  public vehicleTypes$: Observable<BrandVehicleType[]> = this.brand$.pipe(
+  protected readonly vehicleTypes$: Observable<BrandVehicleType[]> = this.brand$.pipe(
     switchMap((brand) =>
       this.grpc.getBrandVehicleTypes(
         new GetBrandVehicleTypesRequest({
@@ -45,7 +45,7 @@ export class CatalogueCarsComponent {
     shareReplay(1)
   );
 
-  public currentVehicleType$ = combineLatest([
+  protected readonly currentVehicleType$ = combineLatest([
     this.brand$,
     this.vehicleTypes$,
     this.route.paramMap.pipe(
@@ -75,7 +75,7 @@ export class CatalogueCarsComponent {
     shareReplay(1)
   );
 
-  public title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(
+  protected readonly title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(
     map(([brand, currentVehicleType]) => {
       const itemName =
         brand.name_only + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
@@ -83,7 +83,7 @@ export class CatalogueCarsComponent {
     })
   );
 
-  public vehicleTypeOptions$: Observable<
+  protected readonly vehicleTypeOptions$: Observable<
     {
       id: number;
       name: string;
@@ -103,7 +103,7 @@ export class CatalogueCarsComponent {
     )
   );
 
-  public result$ = combineLatest([
+  protected readonly result$ = combineLatest([
     this.brand$,
     this.currentVehicleType$,
     this.route.queryParamMap.pipe(
@@ -181,9 +181,9 @@ export class CatalogueCarsComponent {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private grpc: AutowpClient
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly grpc: AutowpClient
   ) {}
 }

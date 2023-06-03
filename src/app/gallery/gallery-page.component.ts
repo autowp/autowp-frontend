@@ -9,12 +9,12 @@ import {APIGalleryItem} from './definitions';
   templateUrl: './gallery-page.component.html',
 })
 export class GalleryPageComponent implements OnInit {
-  public identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged()
   );
 
-  constructor(private route: ActivatedRoute, private pageEnv: PageEnvService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly pageEnv: PageEnvService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -26,7 +26,7 @@ export class GalleryPageComponent implements OnInit {
     }, 0);
   }
 
-  pictureSelected(item: APIGalleryItem) {
+  protected pictureSelected(item: APIGalleryItem) {
     this.pageEnv.set({
       layout: {isGalleryPage: true},
       title: item.name,

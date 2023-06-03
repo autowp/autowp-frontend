@@ -10,7 +10,7 @@ import {APIGalleryItem} from '../../../gallery/definitions';
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonGalleryComponent {
-  public identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
@@ -24,15 +24,19 @@ export class PersonsPersonGalleryComponent {
     })
   );
 
-  public itemID$ = this.route.parent.paramMap.pipe(
+  protected readonly itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  constructor(private pageEnv: PageEnvService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
+  ) {}
 
-  pictureSelected(item: APIGalleryItem) {
+  protected pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},

@@ -29,7 +29,7 @@
       <th i18n>Action</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="items$ | async as items">
     <tr *ngFor="let item of items">
       <td [textContent]="item.ip"></td>
       <td [textContent]="item.description"></td>

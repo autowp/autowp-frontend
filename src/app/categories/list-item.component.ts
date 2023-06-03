@@ -21,16 +21,16 @@ export class CategoriesListItemComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
   @Input() set parentRouterLink(parentRouterLink: string[]) {
     this.parentRouterLink$.next(parentRouterLink);
   }
-  public parentRouterLink$ = new BehaviorSubject<string[]>(null);
+  protected readonly parentRouterLink$ = new BehaviorSubject<string[]>(null);
 
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  public havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));
-  public canHavePhoto$ = this.item$.pipe(
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));
+  protected readonly canHavePhoto$ = this.item$.pipe(
     map((item) =>
       item
         ? [
@@ -44,7 +44,10 @@ export class CategoriesListItemComponent {
     )
   );
 
-  public pictures$: Observable<PictureThumbRoute[]> = combineLatest([this.item$, this.parentRouterLink$]).pipe(
+  protected readonly pictures$: Observable<PictureThumbRoute[]> = combineLatest([
+    this.item$,
+    this.parentRouterLink$,
+  ]).pipe(
     map(([item, parentRouterLink]) =>
       item.preview_pictures.pictures.map((pic) => ({
         picture: pic ? pic.picture : null,
@@ -55,9 +58,9 @@ export class CategoriesListItemComponent {
     )
   );
 
-  constructor(private acl: ACLService) {}
+  constructor(private readonly acl: ACLService) {}
 
-  public isHavePhoto(item: APIItem) {
+  protected isHavePhoto(item: APIItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
         if (picture && picture.picture) {

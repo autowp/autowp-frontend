@@ -15,16 +15,16 @@ import {KeycloakService} from 'keycloak-angular';
   templateUrl: './contacts.component.html',
 })
 export class AccountContactsComponent {
-  public items: Contact[] = [];
+  protected items: Contact[] = [];
 
   constructor(
-    private contactsService: ContactsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private auth: AuthService,
-    private contacts: ContactsClient,
-    private languageService: LanguageService,
-    private keycloak: KeycloakService
+    private readonly contactsService: ContactsService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly auth: AuthService,
+    private readonly contacts: ContactsClient,
+    private readonly languageService: LanguageService,
+    private readonly keycloak: KeycloakService
   ) {
     setTimeout(() => this.pageEnv.set({pageId: 198}), 0);
 
@@ -55,7 +55,7 @@ export class AccountContactsComponent {
       });
   }
 
-  public deleteContact(id: string) {
+  protected deleteContact(id: string) {
     this.contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe({
       next: () => {
         for (let i = 0; i < this.items.length; i++) {

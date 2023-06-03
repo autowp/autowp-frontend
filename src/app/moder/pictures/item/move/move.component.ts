@@ -24,48 +24,48 @@ export interface PictureItemMoveSelection {
 export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private id: number;
-  public picture: APIPicture;
-  public conceptsExpanded = false;
-  public srcItemID: number;
-  public srcType: number;
-  public showMuseums: boolean;
-  public showFactories: boolean;
-  public showPersons: boolean;
-  public showAuthors: boolean;
-  public museumsPaginator: APIPaginator;
-  public factoriesPaginator: APIPaginator;
-  public brandsPaginator: APIPaginator;
-  public authorsPaginator: APIPaginator;
-  public brandID: number;
-  public museums: APIItem[] = [];
-  public factories: APIItem[] = [];
-  public vehicles: APIItemParent[] = [];
-  public engines: APIItemParent[] = [];
-  public authors: APIItem[] = [];
-  public personsPaginator: APIPaginator;
-  public persons: APIItem[] = [];
-  public concepts: APIItemParent[] = [];
-  public brands: APIItem[][] = [];
+  protected picture: APIPicture;
+  protected conceptsExpanded = false;
+  protected srcItemID: number;
+  protected srcType: number;
+  protected showMuseums: boolean;
+  protected showFactories: boolean;
+  protected showPersons: boolean;
+  protected showAuthors: boolean;
+  protected museumsPaginator: APIPaginator;
+  protected factoriesPaginator: APIPaginator;
+  protected brandsPaginator: APIPaginator;
+  protected authorsPaginator: APIPaginator;
+  protected brandID: number;
+  protected museums: APIItem[] = [];
+  protected factories: APIItem[] = [];
+  protected vehicles: APIItemParent[] = [];
+  protected engines: APIItemParent[] = [];
+  protected authors: APIItem[] = [];
+  protected personsPaginator: APIPaginator;
+  protected persons: APIItem[] = [];
+  protected concepts: APIItemParent[] = [];
+  protected brands: APIItem[][] = [];
 
-  public showCopyrights: boolean;
-  public copyrights: APIItem[] = [];
-  public copyrightsPaginator: APIPaginator;
+  protected showCopyrights: boolean;
+  protected copyrights: APIItem[] = [];
+  protected copyrightsPaginator: APIPaginator;
 
-  public searchBrand: string;
-  public searchBrand$ = new BehaviorSubject<string>('');
-  public searchPerson: string;
-  public searchPerson$ = new BehaviorSubject<string>('');
-  public searchAuthor: string;
-  public searchAuthor$ = new BehaviorSubject<string>('');
+  protected searchBrand: string;
+  protected readonly searchBrand$ = new BehaviorSubject<string>('');
+  protected searchPerson: string;
+  protected readonly searchPerson$ = new BehaviorSubject<string>('');
+  protected searchAuthor: string;
+  protected readonly searchAuthor$ = new BehaviorSubject<string>('');
 
   constructor(
-    private pictureItemService: PictureItemService,
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService,
-    private pictureService: PictureService
+    private readonly pictureItemService: PictureItemService,
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly itemParentService: ItemParentService,
+    private readonly pageEnv: PageEnvService,
+    private readonly pictureService: PictureService
   ) {}
 
   ngOnInit(): void {
@@ -280,7 +280,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public selectItem(selection: PictureItemMoveSelection) {
+  protected selectItem(selection: PictureItemMoveSelection) {
     const dstItemID = selection.itemId;
     const dstPerspectiveID = selection.perspectiveId;
 
@@ -318,20 +318,20 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public toggleConcepts() {
+  protected toggleConcepts() {
     this.conceptsExpanded = !this.conceptsExpanded;
     return false;
   }
 
-  public doSearchBrand() {
+  protected doSearchBrand() {
     this.searchBrand$.next(this.searchBrand);
   }
 
-  public doSearchPerson() {
+  protected doSearchPerson() {
     this.searchPerson$.next(this.searchPerson);
   }
 
-  public doSearchAuthor() {
+  protected doSearchAuthor() {
     this.searchAuthor$.next(this.searchAuthor);
   }
 }

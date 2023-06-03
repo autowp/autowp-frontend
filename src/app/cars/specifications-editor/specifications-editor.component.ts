@@ -14,13 +14,13 @@ import {AuthService} from '@services/auth.service';
   templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {
-  private change$ = new BehaviorSubject<null>(null);
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  public isSpecsAdmin$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.ADMIN);
-  public tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') || 'info'));
-  public user$ = this.auth.getUser$();
+  private readonly change$ = new BehaviorSubject<null>(null);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isSpecsAdmin$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.ADMIN);
+  protected readonly tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') || 'info'));
+  protected readonly user$ = this.auth.getUser$();
 
-  public data$: Observable<APIItem> = this.route.queryParamMap.pipe(
+  protected readonly data$: Observable<APIItem> = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
@@ -48,21 +48,21 @@ export class CarsSpecificationsEditorComponent {
   );
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private acl: ACLService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private auth: AuthService
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly acl: ACLService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly auth: AuthService
   ) {}
 
-  public onEngineChanged() {
+  protected onEngineChanged() {
     this.change$.next(null);
   }
 
-  public refreshInheritance(item: APIItem) {
+  protected refreshInheritance(item: APIItem) {
     this.api.request<void>('POST', 'item/' + item.id + '/refresh-inheritance', {body: {}}).subscribe({
       next: () => {
         this.router.navigate(['/cars/specifications-editor'], {

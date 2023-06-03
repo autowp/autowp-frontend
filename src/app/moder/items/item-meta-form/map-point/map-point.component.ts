@@ -44,11 +44,11 @@ const center = (lat: number | string, lng: number | string): LatLng => {
   ],
 })
 export class MapPointComponent implements ControlValueAccessor {
-  /*public center$ = this.point$.pipe(
+  /*protected readonly center$ = this.point$.pipe(
     map(point => point ? point : latLng(54.5260, 15.2551))
   );*/
 
-  /*public markers$: Observable<Layer[]> = this.point$.pipe(
+  /*protected readonly markers$: Observable<Layer[]> = this.point$.pipe(
     map(ll => ll ? [
       marker(ll, {
         icon: icon({
@@ -61,15 +61,15 @@ export class MapPointComponent implements ControlValueAccessor {
     ] : []),
   );*/
 
-  public markers: Layer[] = [];
+  protected markers: Layer[] = [];
 
-  public lat: number = null;
-  public lng: number = null;
-  //public latLng: LatLng = latLng(54.5260, 15.2551);
+  protected lat: number = null;
+  protected lng: number = null;
+  //protected  latLng: LatLng = latLng(54.5260, 15.2551);
 
-  public center = center(this.lat, this.lng);
+  protected center = center(this.lat, this.lng);
 
-  public mapOptions: MapOptions = {
+  protected readonly mapOptions: MapOptions = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -84,11 +84,11 @@ export class MapPointComponent implements ControlValueAccessor {
 
   private onTouched = () => {};
 
-  public disabled = false;
+  protected disabled = false;
 
   private touched = false;
 
-  constructor(private zone: NgZone) {}
+  constructor(private readonly zone: NgZone) {}
 
   writeValue(point: Point): void {
     const lat = normalizeValue(point.lat);
@@ -122,7 +122,7 @@ export class MapPointComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  public onMapReady(lmap: Map) {
+  protected onMapReady(lmap: Map) {
     lmap.on('click', (event: LeafletMouseEvent) => {
       this.zone.run(() => {
         this.center = event.latlng;
@@ -151,9 +151,7 @@ export class MapPointComponent implements ControlValueAccessor {
     });
   }
 
-  public coordsChanged(event: Event) {
-    console.log('coordsChanged', event);
-
+  protected coordsChanged(event: Event) {
     const lat = normalizeValue(this.lat);
     const lng = normalizeValue(this.lng);
 
@@ -184,7 +182,7 @@ export class MapPointComponent implements ControlValueAccessor {
     }
   }
 
-  public setMarker(ll: LatLng) {
+  protected setMarker(ll: LatLng) {
     this.markers = ll
       ? [
           marker(ll, {

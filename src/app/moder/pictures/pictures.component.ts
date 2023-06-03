@@ -48,11 +48,11 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
   templateUrl: './pictures.component.html',
 })
 export class ModerPicturesComponent implements OnInit, OnDestroy {
-  public hasSelectedItem = false;
+  protected hasSelectedItem = false;
   private selected: number[] = [];
 
-  public status: string | null;
-  public statusOptions = [
+  protected status: string | null;
+  protected readonly statusOptions = [
     {
       name: $localize`any`,
       value: null,
@@ -75,16 +75,16 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     },
   ];
 
-  private defaultVehicleTypeOptions: VehicleTypeInPictures[] = [
+  private readonly defaultVehicleTypeOptions: VehicleTypeInPictures[] = [
     {
       name: $localize`any`,
       value: null,
       deep: 0,
     },
   ];
-  public vehicleTypeID: number | null;
+  protected vehicleTypeID: number | null;
 
-  private defaultPerspectiveOptions: PerspectiveInList[] = [
+  private readonly defaultPerspectiveOptions: PerspectiveInList[] = [
     {
       name: $localize`any`,
       value: null,
@@ -94,7 +94,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 'null',
     },
   ];
-  public perspectiveOptions$ = this.perspectiveService.getPerspectives$().pipe(
+  protected readonly perspectiveOptions$ = this.perspectiveService.getPerspectives$().pipe(
     map((perspectives) =>
       this.defaultPerspectiveOptions.slice(0).concat(
         perspectives.map((perspective) => ({
@@ -106,9 +106,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  public perspectiveID: number | null | 'null';
+  protected perspectiveID: number | null | 'null';
 
-  public commentsOptions = [
+  protected readonly commentsOptions = [
     {
       name: $localize`not matters`,
       value: null,
@@ -122,9 +122,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  public comments: boolean | null;
+  protected comments: boolean | null;
 
-  public replaceOptions = [
+  protected readonly replaceOptions = [
     {
       name: $localize`not matters`,
       value: null,
@@ -138,9 +138,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  public replace: boolean | null;
+  protected replace: boolean | null;
 
-  public requestsOptions = [
+  protected readonly requestsOptions = [
     {
       name: $localize`not matters`,
       value: null,
@@ -162,9 +162,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 3,
     },
   ];
-  public requests: number | null;
+  protected requests: number | null;
 
-  public orderOptions = [
+  protected readonly orderOptions = [
     {
       name: $localize`Add date (new)`,
       value: 1,
@@ -214,36 +214,36 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 13,
     },
   ];
-  public order: number;
+  protected order: number;
 
-  public similar = false;
-  public gps = false;
-  public lost = false;
-  public specialName = false;
+  protected similar = false;
+  protected gps = false;
+  protected lost = false;
+  protected specialName = false;
 
-  public ownerID: number;
-  public ownerQuery = '';
-  public ownersDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected ownerID: number;
+  protected ownerQuery = '';
+  protected ownersDataSource: (text$: Observable<string>) => Observable<any[]>;
 
-  public itemID: number;
-  public itemQuery = '';
-  public itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected itemID: number;
+  protected itemQuery = '';
+  protected itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
 
-  public vehicleTypeOptions$ = this.vehicleTypeService.getTypes$().pipe(
+  protected readonly vehicleTypeOptions$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => this.defaultVehicleTypeOptions.concat(toPlainVehicleTypes(types, 0))),
     shareReplay(1)
   );
 
-  private change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<null>(null);
 
-  public addedFrom: string;
-  private addedFrom$ = new BehaviorSubject<string>('');
+  protected addedFrom: string;
+  private readonly addedFrom$ = new BehaviorSubject<string>('');
   private addedFromSub: Subscription;
 
-  public excludeItemID: number;
-  public excludeItemQuery = '';
+  protected excludeItemID: number;
+  protected excludeItemQuery = '';
 
-  public data$: Observable<{
+  protected readonly data$: Observable<{
     pictures: APIPicture[];
     chunks: APIPicture[][];
     paginator: APIPaginator;
@@ -343,21 +343,21 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
+  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
 
   constructor(
-    private api: APIService,
-    private perspectiveService: APIPerspectiveService,
-    private moderVoteService: PictureModerVoteService,
-    private vehicleTypeService: VehicleTypeService,
-    private itemService: ItemService,
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private router: Router,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private moderVoteTemplateService: APIPictureModerVoteTemplateService
+    private readonly api: APIService,
+    private readonly perspectiveService: APIPerspectiveService,
+    private readonly moderVoteService: PictureModerVoteService,
+    private readonly vehicleTypeService: VehicleTypeService,
+    private readonly itemService: ItemService,
+    private readonly userService: UserService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly router: Router,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService
   ) {
     this.ownersDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -443,7 +443,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     this.addedFromSub.unsubscribe();
   }
 
-  public onPictureSelect(active: boolean, picture: APIPicture) {
+  protected onPictureSelect(active: boolean, picture: APIPicture) {
     if (active) {
       this.selected.push(picture.id);
     } else {
@@ -455,15 +455,15 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     this.hasSelectedItem = this.selected.length > 0;
   }
 
-  public itemFormatter(x: APIItem) {
+  protected itemFormatter(x: APIItem) {
     return x.name_text;
   }
 
-  public ownerFormatter(x: APIUser) {
+  protected ownerFormatter(x: APIUser) {
     return x.name;
   }
 
-  public itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -472,7 +472,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public excludeItemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected excludeItemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -481,7 +481,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearItem(): void {
+  protected clearItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
@@ -491,7 +491,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearExcludeItem(): void {
+  protected clearExcludeItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
@@ -501,7 +501,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public ownerOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected ownerOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -510,7 +510,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearOwner(): void {
+  protected clearOwner(): void {
     this.ownerQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
@@ -520,7 +520,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public votePictures(pictures: APIPicture[], vote: number, reason: string) {
+  protected votePictures(pictures: APIPicture[], vote: number, reason: string) {
     for (const id of this.selected) {
       const promises: Observable<void>[] = [];
       for (const picture of pictures) {
@@ -538,7 +538,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     this.hasSelectedItem = false;
   }
 
-  public acceptPictures(pictures: APIPicture[]) {
+  protected acceptPictures(pictures: APIPicture[]) {
     for (const id of this.selected) {
       const promises: Observable<void>[] = [];
       for (const picture of pictures) {
@@ -563,7 +563,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     this.hasSelectedItem = false;
   }
 
-  public onAddedFromInput() {
+  protected onAddedFromInput() {
     this.addedFrom$.next(this.addedFrom);
   }
 }

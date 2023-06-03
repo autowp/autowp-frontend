@@ -22,10 +22,10 @@ interface PathItem {
   templateUrl: './category.component.html',
 })
 export class CategoriesCategoryComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  public canAddCar$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canAddCar$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  private categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
+  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
     tap(({current}) => {
       setTimeout(() => {
         this.pageEnv.set({
@@ -37,32 +37,32 @@ export class CategoriesCategoryComponent {
     shareReplay(1)
   );
 
-  public current$: Observable<APIItem> = this.categoryData$.pipe(
+  protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
     map(({current}) => current),
     shareReplay(1)
   );
 
-  public category$: Observable<APIItem> = this.categoryData$.pipe(
+  protected readonly category$: Observable<APIItem> = this.categoryData$.pipe(
     map(({category}) => category),
     shareReplay(1)
   );
 
-  public path$: Observable<PathItem[]> = this.categoryData$.pipe(
+  protected readonly path$: Observable<PathItem[]> = this.categoryData$.pipe(
     map(({pathItems}) => pathItems),
     shareReplay(1)
   );
 
-  public layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
   constructor(
-    private itemService: ItemService,
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private acl: ACLService,
-    private categoriesService: CategoriesService
+    private readonly itemService: ItemService,
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly acl: ACLService,
+    private readonly categoriesService: CategoriesService
   ) {}
 
-  public dropdownOpenChange(item: PathItem) {
+  protected dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
       this.itemService
         .getItems$({
@@ -79,7 +79,7 @@ export class CategoriesCategoryComponent {
     }
   }
 
-  public getItemTypeTranslation(id: number, type: string) {
+  protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
 }

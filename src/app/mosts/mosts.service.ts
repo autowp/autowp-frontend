@@ -50,7 +50,7 @@ export interface APIMostsMenuGetResponse {
 export class MostsService {
   private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
   public getMenu$(brandID: number): Observable<APIMostsMenuGetResponse> {
     if (!this.menus$.has(brandID)) {

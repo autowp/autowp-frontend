@@ -37,9 +37,9 @@ export class MostsContentsComponent {
   @Input() set ratingCatname(ratingCatname: string) {
     this.ratingCatname$.next(ratingCatname);
   }
-  public ratingCatname$ = new BehaviorSubject<string>(null);
+  protected readonly ratingCatname$ = new BehaviorSubject<string>(null);
 
-  public ratingCatnameNormalized$ = this.ratingCatname$.pipe(
+  protected readonly ratingCatnameNormalized$ = this.ratingCatname$.pipe(
     switchMap((ratingCatname) =>
       this.menu$.pipe(map((menu) => (ratingCatname ? ratingCatname : menu.ratings[0].catname)))
     )
@@ -48,37 +48,37 @@ export class MostsContentsComponent {
   @Input() set typeCatname(typeCatname: string) {
     this.typeCatname$.next(typeCatname);
   }
-  public typeCatname$ = new BehaviorSubject<string>(null);
+  protected readonly typeCatname$ = new BehaviorSubject<string>(null);
 
   @Input() set yearsCatname(yearsCatname: string) {
     this.yearsCatname$.next(yearsCatname);
   }
-  public yearsCatname$ = new BehaviorSubject<string>(null);
+  protected readonly yearsCatname$ = new BehaviorSubject<string>(null);
 
   @Input() set brandID(brandID: number) {
     this.brandID$.next(brandID);
   }
-  public brandID$ = new BehaviorSubject<number>(null);
+  protected readonly brandID$ = new BehaviorSubject<number>(null);
 
-  private menu$ = this.brandID$.pipe(
+  private readonly menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((brandID) => this.mostsService.getMenu$(brandID)),
     shareReplay(1)
   );
 
-  public years$ = this.menu$.pipe(map((menu) => menu.years));
+  protected readonly years$ = this.menu$.pipe(map((menu) => menu.years));
 
-  public ratings$ = this.menu$.pipe(map((menu) => menu.ratings));
+  protected readonly ratings$ = this.menu$.pipe(map((menu) => menu.ratings));
 
-  public vehicleTypes$ = this.menu$.pipe(
+  protected readonly vehicleTypes$ = this.menu$.pipe(
     map((menu) => vehicleTypesToList(menu.vehilce_types)),
     shareReplay(1)
   );
 
-  public defaultTypeCatname$ = this.vehicleTypes$.pipe(map((vehicleTypes) => vehicleTypes[0].catname));
+  protected readonly defaultTypeCatname$ = this.vehicleTypes$.pipe(map((vehicleTypes) => vehicleTypes[0].catname));
 
-  public items$: Observable<APIMostsItem[]> = combineLatest([
+  protected readonly items$: Observable<APIMostsItem[]> = combineLatest([
     this.ratingCatnameNormalized$.pipe(distinctUntilChanged(), debounceTime(10)),
     this.typeCatname$.pipe(distinctUntilChanged(), debounceTime(10)),
     this.yearsCatname$.pipe(distinctUntilChanged(), debounceTime(10)),
@@ -101,25 +101,25 @@ export class MostsContentsComponent {
     map((response) => response.items)
   );
 
-  constructor(private mostsService: MostsService, private pageEnv: PageEnvService) {}
+  constructor(private readonly mostsService: MostsService, private readonly pageEnv: PageEnvService) {}
 
   private initPageEnv() {
     this.pageEnv.set({pageId: 21});
   }
 
-  public getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
   }
 
-  public getMostsRatingsTranslation(id: string): string {
+  protected getMostsRatingsTranslation(id: string): string {
     return getMostsRatingsTranslation(id);
   }
 
-  public getMostsRatingParamsTranslation(id: string): string {
+  protected getMostsRatingParamsTranslation(id: string): string {
     return getMostsRatingParamsTranslation(id);
   }
 
-  public getMostsPeriodsTranslation(id: string): string {
+  protected getMostsPeriodsTranslation(id: string): string {
     return getMostsPeriodsTranslation(id);
   }
 }

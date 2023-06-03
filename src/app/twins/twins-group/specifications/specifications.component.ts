@@ -11,13 +11,13 @@ import {APIService} from '@services/api.service';
   templateUrl: './specifications.component.html',
 })
 export class TwinsGroupSpecificationsComponent {
-  public id$ = this.route.parent.paramMap.pipe(
+  protected readonly id$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public html$ = this.id$.pipe(
+  protected readonly html$ = this.id$.pipe(
     switchMap((id) =>
       this.api.request('GET', 'item/' + id + '/child-specifications', {
         responseType: 'text',
@@ -25,7 +25,7 @@ export class TwinsGroupSpecificationsComponent {
     )
   );
 
-  public group$: Observable<APIItem> = this.id$.pipe(
+  protected readonly group$: Observable<APIItem> = this.id$.pipe(
     switchMap((group) => {
       if (!group) {
         this.router.navigate(['/error-404'], {
@@ -50,10 +50,10 @@ export class TwinsGroupSpecificationsComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private api: APIService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly api: APIService,
+    private readonly router: Router
   ) {}
 }

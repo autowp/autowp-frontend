@@ -12,20 +12,20 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './persons.component.html',
 })
 export class PersonsComponent implements OnInit {
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public authors$ = this.route.data.pipe(
+  protected readonly authors$ = this.route.data.pipe(
     map((params) => !!params.authors),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public data$ = combineLatest([this.page$, this.authors$]).pipe(
+  protected readonly data$ = combineLatest([this.page$, this.authors$]).pipe(
     switchMap(([page, authors]) => {
       const fields =
         'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,total_pictures';
@@ -67,7 +67,11 @@ export class PersonsComponent implements OnInit {
     }))
   );
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private pageEnv: PageEnvService) {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 214}), 0);

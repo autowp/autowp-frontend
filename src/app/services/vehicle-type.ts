@@ -20,7 +20,7 @@ export class VehicleTypeService {
     shareReplay(1)
   );
 
-  constructor(private grpc: AutowpClient) {}
+  constructor(private readonly grpc: AutowpClient) {}
 
   private walkTypes(types: VehicleType[], callback: (type: VehicleType) => void) {
     for (const type of types) {

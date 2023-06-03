@@ -8,7 +8,7 @@ export class MarkdownEditComponent {
   @Input() text: string;
   @Output() textChange = new EventEmitter();
 
-  public onChange() {
+  protected onChange() {
     this.textChange.emit(this.text);
   }
 }

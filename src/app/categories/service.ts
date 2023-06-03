@@ -15,7 +15,7 @@ export interface CategoryPipeResult {
 
 @Injectable()
 export class CategoriesService {
-  constructor(private itemService: ItemService) {}
+  constructor(private readonly itemService: ItemService) {}
 
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
     const categoryPipe$ = route.paramMap.pipe(

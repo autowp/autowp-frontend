@@ -16,9 +16,9 @@ const VOD_TIMEZONE = 'UTC';
   templateUrl: './vod.component.html',
 })
 export class DonateVodComponent implements OnInit {
-  private user$ = this.auth.getUser$();
+  private readonly user$ = this.auth.getUser$();
 
-  public anonymous$ = combineLatest([
+  protected readonly anonymous$ = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => params.get('anonymous')),
       distinctUntilChanged()
@@ -29,20 +29,20 @@ export class DonateVodComponent implements OnInit {
     shareReplay(1)
   );
 
-  public date$ = this.route.queryParamMap.pipe(
+  protected readonly date$ = this.route.queryParamMap.pipe(
     map((params) => params.get('date')),
     map((date) => (date ? date : null)),
     distinctUntilChanged()
   );
 
-  private itemID$ = this.route.queryParamMap.pipe(
+  private readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged()
   );
 
-  public itemSelected$ = this.itemID$.pipe(map((itemID) => !!itemID));
+  protected readonly itemSelected$ = this.itemID$.pipe(map((itemID) => !!itemID));
 
-  public item$ = this.itemID$.pipe(
+  protected readonly item$ = this.itemID$.pipe(
     switchMap((itemID) => {
       if (!itemID) {
         return of(null as APIItem);
@@ -55,15 +55,15 @@ export class DonateVodComponent implements OnInit {
     shareReplay(1)
   );
 
-  public itemOfDayUser$: Observable<APIUser | null> = this.anonymous$.pipe(
+  protected readonly itemOfDayUser$: Observable<APIUser | null> = this.anonymous$.pipe(
     switchMap((anonymous) => (anonymous ? of(null) : this.user$))
   );
 
-  public userID$ = this.user$.pipe(map((user) => (user ? user.id : null)));
+  protected readonly userID$ = this.user$.pipe(map((user) => (user ? user.id : null)));
 
-  public vod$ = this.donateService.getVOD$().pipe(shareReplay(1));
+  protected readonly vod$ = this.donateService.getVOD$().pipe(shareReplay(1));
 
-  public dates$ = combineLatest([this.vod$, this.date$]).pipe(
+  protected readonly dates$ = combineLatest([this.vod$, this.date$]).pipe(
     map(([vod, currentDate]) =>
       vod.dates.map((d) => {
         const date = d.date.toDate();
@@ -78,7 +78,13 @@ export class DonateVodComponent implements OnInit {
     )
   );
 
-  public formParams$ = combineLatest([this.anonymous$, this.date$, this.vod$, this.item$, this.userID$]).pipe(
+  protected readonly formParams$ = combineLatest([
+    this.anonymous$,
+    this.date$,
+    this.vod$,
+    this.item$,
+    this.userID$,
+  ]).pipe(
     map(([anonymous, date, vod, item, userID]) => {
       if (!item || !date) {
         return [];
@@ -104,19 +110,19 @@ export class DonateVodComponent implements OnInit {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    public auth: AuthService,
-    private donateService: DonateService,
-    private pageEnv: PageEnvService,
-    @Inject(LOCALE_ID) public locale: string
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    protected readonly auth: AuthService,
+    private readonly donateService: DonateService,
+    private readonly pageEnv: PageEnvService,
+    @Inject(LOCALE_ID) protected readonly locale: string
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
   }
 
-  submit(e) {
+  protected submit(e) {
     if (e.defaultPrevented) {
       e.target.submit();
     }

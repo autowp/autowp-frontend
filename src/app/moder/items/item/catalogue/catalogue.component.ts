@@ -16,31 +16,33 @@ export class ModerItemsItemCatalogueComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
-  public readonly ItemType: typeof ItemType = ItemType;
+  protected readonly ItemType: typeof ItemType = ItemType;
 
-  public reloadChilds$ = new BehaviorSubject<boolean>(false);
-  public reloadParents$ = new BehaviorSubject<boolean>(false);
-  public reloadSuggestions$ = new BehaviorSubject<boolean>(false);
+  protected readonly reloadChilds$ = new BehaviorSubject<boolean>(false);
+  protected readonly reloadParents$ = new BehaviorSubject<boolean>(false);
+  protected readonly reloadSuggestions$ = new BehaviorSubject<boolean>(false);
 
-  public itemQuery = '';
+  protected itemQuery = '';
 
-  public canMove$ = this.acl.isAllowed$(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
+  protected readonly canMove$ = this.acl.isAllowed$(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
 
-  public organizeTypeId$ = this.item$.pipe(
+  protected readonly organizeTypeId$ = this.item$.pipe(
     map((item) => (item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id))
   );
 
-  public canHaveParentBrand$ = this.item$.pipe(
+  protected readonly canHaveParentBrand$ = this.item$.pipe(
     map((item) => [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].includes(item.item_type_id))
   );
 
-  public canHaveParents$ = this.item$.pipe(
+  protected readonly canHaveParents$ = this.item$.pipe(
     map((item) => ![ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_FACTORY].includes(item.item_type_id))
   );
 
-  public itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (text$: Observable<string>) =>
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
+    text$: Observable<string>
+  ) =>
     this.item$.pipe(
       switchMap((item) =>
         text$.pipe(
@@ -67,7 +69,7 @@ export class ModerItemsItemCatalogueComponent {
       )
     );
 
-  public childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
+  protected readonly childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
     switchMap(([item]) =>
       this.itemParentService.getItems$({
         parent_id: item.id,
@@ -79,7 +81,7 @@ export class ModerItemsItemCatalogueComponent {
     map((response) => response.items)
   );
 
-  public parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
+  protected readonly parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
     switchMap(([item]) =>
       this.itemParentService.getItems$({
         item_id: item.id,
@@ -90,7 +92,7 @@ export class ModerItemsItemCatalogueComponent {
     map((response) => response.items)
   );
 
-  public suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
+  protected readonly suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
     switchMap(([item]) =>
       this.itemService.getItems$({
         suggestions_to: item.id,
@@ -102,23 +104,23 @@ export class ModerItemsItemCatalogueComponent {
   );
 
   constructor(
-    private acl: ACLService,
-    private api: APIService,
-    private itemService: ItemService,
-    private itemParentService: ItemParentService
+    private readonly acl: ACLService,
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly itemParentService: ItemParentService
   ) {}
 
-  public itemFormatter(x: APIItem) {
+  protected itemFormatter(x: APIItem) {
     return x.name_text;
   }
 
-  public itemOnSelect(item: APIItem, e: NgbTypeaheadSelectItemEvent): void {
+  protected itemOnSelect(item: APIItem, e: NgbTypeaheadSelectItemEvent): void {
     e.preventDefault();
     this.addParent(item, e.item.id);
     this.itemQuery = '';
   }
 
-  public addParent(item: APIItem, parentId: number) {
+  protected addParent(item: APIItem, parentId: number) {
     this.api
       .request<void>('POST', 'item-parent', {
         body: {
@@ -133,6 +135,7 @@ export class ModerItemsItemCatalogueComponent {
 
     return false;
   }
+
   private deleteItemParent(itemID: number, parentID: number) {
     this.api.request<void>('DELETE', 'item-parent/' + itemID + '/' + parentID).subscribe(() => {
       this.reloadChilds$.next(true);
@@ -141,11 +144,11 @@ export class ModerItemsItemCatalogueComponent {
     });
   }
 
-  public deleteChild(item: APIItem, itemId: number) {
+  protected deleteChild(item: APIItem, itemId: number) {
     this.deleteItemParent(itemId, item.id);
   }
 
-  public deleteParent(item: APIItem, parentId: number) {
+  protected deleteParent(item: APIItem, parentId: number) {
     this.deleteItemParent(item.id, parentId);
   }
 }

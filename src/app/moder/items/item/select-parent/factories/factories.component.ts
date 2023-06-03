@@ -17,16 +17,16 @@ export class ModerItemsItemSelectParentFactoriesComponent {
   @Input() set itemID(value: number) {
     this.itemID$.next(value);
   }
-  public itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<number>(null);
 
-  public page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public factories$: Observable<{paginator: APIPaginator; items: APIItem[]}> = this.page$.pipe(
+  protected readonly factories$: Observable<{paginator: APIPaginator; items: APIItem[]}> = this.page$.pipe(
     switchMap((page) =>
       this.itemService.getItems$({
         type_id: ItemType.ITEM_TYPE_FACTORY,
@@ -41,9 +41,13 @@ export class ModerItemsItemSelectParentFactoriesComponent {
     })
   );
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private toastService: ToastsService) {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastsService
+  ) {}
 
-  public onSelect(item: APIItem) {
+  protected onSelect(item: APIItem) {
     this.selected.emit(item);
     return false;
   }

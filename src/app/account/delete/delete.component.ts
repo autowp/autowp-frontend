@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
@@ -14,23 +14,25 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
   selector: 'app-account-delete',
   templateUrl: './delete.component.html',
 })
-export class AccountDeleteComponent {
-  public form = {
+export class AccountDeleteComponent implements OnInit {
+  protected readonly form = {
     password_old: '',
   };
-  public invalidParams: InvalidParams;
+  protected invalidParams: InvalidParams;
 
   constructor(
-    private router: Router,
-    private auth: AuthService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private usersGrpc: UsersClient
-  ) {
+    private readonly router: Router,
+    private readonly auth: AuthService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly usersGrpc: UsersClient
+  ) {}
+
+  ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 137}), 0);
   }
 
-  public submit() {
+  protected submit() {
     this.auth
       .getUser$()
       .pipe(

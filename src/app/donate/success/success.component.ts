@@ -6,7 +6,7 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './success.component.html',
 })
 export class DonateSuccessComponent {
-  constructor(private pageEnv: PageEnvService) {
+  constructor(private readonly pageEnv: PageEnvService) {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
   }
 }

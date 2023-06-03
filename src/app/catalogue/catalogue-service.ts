@@ -22,7 +22,7 @@ type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
 
 @Injectable()
 export class CatalogueService {
-  constructor(private itemService: ItemService, private itemParentService: ItemParentService) {}
+  constructor(private readonly itemService: ItemService, private readonly itemParentService: ItemParentService) {}
 
   public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
     const result: Breadcrumbs[] = [];

@@ -23,10 +23,10 @@ interface Donation {
   styleUrls: ['./donate.component.scss'],
 })
 export class IndexDonateComponent {
-  public goal = 2500;
-  private monthlyCharge = 192.4;
+  protected readonly goal = 2500;
+  private readonly monthlyCharge = 192.4;
 
-  public state$ = of(require('./data.json') as Donation[]).pipe(
+  protected readonly state$ = of(require('./data.json') as Donation[]).pipe(
     map((operations) => {
       operations = operations.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       const donations = operations
@@ -66,5 +66,5 @@ export class IndexDonateComponent {
     })
   );
 
-  constructor(public languageService: LanguageService) {}
+  constructor(protected readonly languageService: LanguageService) {}
 }

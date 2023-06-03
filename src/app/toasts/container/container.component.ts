@@ -7,9 +7,9 @@ import {ToastsService} from '../toasts.service';
   styleUrls: ['./container.component.scss'],
 })
 export class ContainerComponent {
-  constructor(public toastService: ToastsService) {}
+  constructor(public readonly toastService: ToastsService) {}
 
-  public typeToClass(type: string): string {
+  protected typeToClass(type: string): string {
     switch (type) {
       case 'success':
         return 'bg-success text-light';

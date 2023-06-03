@@ -23,7 +23,7 @@ class Gallery {
     return this.items.length <= this.MAX_INDICATORS;
   }
 
-  constructor(public filter: APIGalleryFilter, public items: APIGalleryItem[]) {}
+  constructor(public readonly filter: APIGalleryFilter, public readonly items: APIGalleryItem[]) {}
 
   public filterParams(): {[key: string]: string} {
     const params: {[key: string]: string} = {};
@@ -96,26 +96,26 @@ export class GalleryComponent {
   @Input() set filter(filter: APIGalleryFilter) {
     this.filter$.next(filter);
   }
-  private filter$ = new BehaviorSubject<APIGalleryFilter>(null);
+  private readonly filter$ = new BehaviorSubject<APIGalleryFilter>(null);
 
   @Input() set current(current: string) {
     this.current$.next(current);
   }
-  public current$ = new BehaviorSubject<string>(null);
+  public readonly current$ = new BehaviorSubject<string>(null);
 
   @Input() galleryPrefix: string[];
   @Input() picturePrefix: string[];
   @Output() pictureSelected = new EventEmitter<APIGalleryItem>();
 
-  public currentFilter$ = this.filter$.pipe(
+  protected readonly currentFilter$ = this.filter$.pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(50),
     shareReplay(1)
   );
 
-  public identity$ = this.current$.pipe(distinctUntilChanged(), debounceTime(10), shareReplay(1));
+  protected readonly identity$ = this.current$.pipe(distinctUntilChanged(), debounceTime(10), shareReplay(1));
 
-  public gallery$: Observable<Gallery> = combineLatest([
+  protected readonly gallery$: Observable<Gallery> = combineLatest([
     this.currentFilter$.pipe(map((filter) => new Gallery(filter, [] as APIGalleryItem[]))),
     this.identity$,
   ]).pipe(
@@ -142,7 +142,7 @@ export class GalleryComponent {
     shareReplay(1)
   );
 
-  constructor(private api: APIService, private router: Router) {}
+  constructor(private readonly api: APIService, private readonly router: Router) {}
 
   @HostListener('document:keydown.escape')
   onKeydownHandler() {
@@ -183,7 +183,7 @@ export class GalleryComponent {
     );
   }
 
-  public navigateToIndex(index, gallery: Gallery): Promise<boolean> {
+  protected navigateToIndex(index, gallery: Gallery): Promise<boolean> {
     const item = gallery.getItemByIndex(index);
     if (!item) {
       const page = gallery.getGalleryPageNumberByIndex(index);

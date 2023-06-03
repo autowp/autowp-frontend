@@ -18,7 +18,7 @@ interface APIIndexItemOfDay {
   templateUrl: './index.component.html',
 })
 export class IndexComponent implements OnInit {
-  public mosts = [
+  protected readonly mosts = [
     {
       route: '/mosts/fastest/roadster',
       name: $localize`Most fastest roadsters`,
@@ -36,7 +36,8 @@ export class IndexComponent implements OnInit {
       name: $localize`Most heavy trucks`,
     },
   ];
-  public itemOfDay$: Observable<{user: APIUser; item: APIItem}> = this.api
+
+  protected readonly itemOfDay$: Observable<{user: APIUser; item: APIItem}> = this.api
     .request<APIIndexItemOfDay>('GET', 'index/item-of-day')
     .pipe(
       switchMap((itemOfDay) =>
@@ -49,16 +50,16 @@ export class IndexComponent implements OnInit {
       shareReplay(1)
     );
 
-  public itemOfDayItem$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.item));
-  public itemOfDayUser$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.user));
+  protected readonly itemOfDayItem$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.item));
+  protected readonly itemOfDayUser$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.user));
 
-  public contentPersons$ = this.items.getTopPersonsList(
+  protected readonly contentPersons$ = this.items.getTopPersonsList(
     new GetTopPersonsListRequest({
       language: this.languageService.language,
       pictureItemType: PictureItemType.PICTURE_CONTENT,
     })
   );
-  public authorPersons$ = this.items.getTopPersonsList(
+  protected readonly authorPersons$ = this.items.getTopPersonsList(
     new GetTopPersonsListRequest({
       language: this.languageService.language,
       pictureItemType: PictureItemType.PICTURE_AUTHOR,
@@ -66,11 +67,11 @@ export class IndexComponent implements OnInit {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private api: APIService,
-    private items: ItemsClient,
-    public languageService: LanguageService,
-    private usersClient: UsersClient
+    private readonly pageEnv: PageEnvService,
+    private readonly api: APIService,
+    private readonly items: ItemsClient,
+    protected readonly languageService: LanguageService,
+    private readonly usersClient: UsersClient
   ) {}
 
   ngOnInit(): void {

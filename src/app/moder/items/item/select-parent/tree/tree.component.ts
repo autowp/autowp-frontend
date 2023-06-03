@@ -11,12 +11,12 @@ export class ModerItemsItemSelectParentTreeComponent {
   @Input() set item(value: APIItemParent) {
     this.item$.next(value);
   }
-  public item$ = new BehaviorSubject<APIItemParent>(null);
+  protected readonly item$ = new BehaviorSubject<APIItemParent>(null);
   @Input() order: string;
   @Input() disableItemID: number;
   @Output() selected = new EventEmitter<APIItem>();
 
-  public onSelect(item: APIItem) {
+  protected onSelect(item: APIItem) {
     this.selected.emit(item);
     return false;
   }

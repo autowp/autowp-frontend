@@ -11,17 +11,17 @@ export class ModerAttrsAttributeListComponent {
   @Output() movedUp = new EventEmitter<number>();
   @Output() movedDown = new EventEmitter<number>();
 
-  public moveUp(id: number) {
+  protected moveUp(id: number) {
     this.movedUp.emit(id);
     return false;
   }
 
-  public moveDown(id: number) {
+  protected moveDown(id: number) {
     this.movedDown.emit(id);
     return false;
   }
 
-  public getAttrsTranslation(id: string): string {
+  protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);
   }
 }

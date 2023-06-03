@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
+import {catchError, map} from 'rxjs/operators';
+import {EMPTY, Observable} from 'rxjs';
 
 interface StatItem {
   name: string;
@@ -17,10 +19,24 @@ interface APIStatGlobalSummary {
   selector: 'app-moder-stat',
   templateUrl: './stat.component.html',
 })
-export class ModerStatComponent {
-  public items: StatItem[] = [];
+export class ModerStatComponent implements OnInit {
+  protected readonly items$: Observable<StatItem[]> = this.api
+    .request<APIStatGlobalSummary>('GET', 'stat/global-summary')
+    .pipe(
+      catchError((response: unknown) => {
+        this.toastService.handleError(response);
+        return EMPTY;
+      }),
+      map((response) => response.items)
+    );
 
-  constructor(private api: APIService, private pageEnv: PageEnvService, private toastService: ToastsService) {
+  constructor(
+    private readonly api: APIService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
+  ) {}
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -29,12 +45,5 @@ export class ModerStatComponent {
         }),
       0
     );
-
-    this.api.request<APIStatGlobalSummary>('GET', 'stat/global-summary').subscribe({
-      next: (response) => {
-        this.items = response.items;
-      },
-      error: (response: unknown) => this.toastService.handleError(response),
-    });
   }
 }

@@ -22,16 +22,16 @@ export class ThumbnailComponent {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  public perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives$();
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives$();
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   constructor(
-    private perspectiveService: APIPerspectiveService,
-    private pictureItemService: PictureItemService,
-    private acl: ACLService
+    private readonly perspectiveService: APIPerspectiveService,
+    private readonly pictureItemService: PictureItemService,
+    private readonly acl: ACLService
   ) {}
 
-  public savePerspective() {
+  protected savePerspective() {
     if (this.picture.perspective_item) {
       this.pictureItemService
         .setPerspective$(
@@ -44,12 +44,12 @@ export class ThumbnailComponent {
     }
   }
 
-  public onPictureSelect() {
+  protected onPictureSelect() {
     this.picture.selected = !this.picture.selected;
     this.selected.emit(this.picture.selected);
   }
 
-  public getPerspectiveTranslation(id: string): string {
+  protected getPerspectiveTranslation(id: string): string {
     return getPerspectiveTranslation(id);
   }
 }

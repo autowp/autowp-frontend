@@ -13,20 +13,20 @@ import {HttpErrorResponse} from '@angular/common/http';
   templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit {
-  public tab$ = this.route.queryParamMap.pipe(
+  protected readonly tab$ = this.route.queryParamMap.pipe(
     map((params) => params.get('tab') || 'catalogue'),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public itemID$ = this.route.paramMap.pipe(
+  protected readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     map((itemID) => (itemID ? itemID : 0)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public item$ = this.itemID$.pipe(
+  protected readonly item$ = this.itemID$.pipe(
     switchMap((itemID) =>
       this.itemService.getItem$(itemID, {
         fields: 'name_text,name_html',
@@ -45,18 +45,18 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     shareReplay(1)
   );
 
-  public showCatalogueTab$ = this.item$.pipe(map((item) => [1, 2, 5].includes(item.item_type_id)));
-  public showBrandsTab$ = this.item$.pipe(map((item) => [1, 2, 5].includes(item.item_type_id)));
-  public showTwinsTab$ = this.item$.pipe(map((item) => item.item_type_id === 1));
-  public showFactoriesTab$ = this.item$.pipe(map((item) => [1, 2].includes(item.item_type_id)));
+  protected readonly showCatalogueTab$ = this.item$.pipe(map((item) => [1, 2, 5].includes(item.item_type_id)));
+  protected readonly showBrandsTab$ = this.item$.pipe(map((item) => [1, 2, 5].includes(item.item_type_id)));
+  protected readonly showTwinsTab$ = this.item$.pipe(map((item) => item.item_type_id === 1));
+  protected readonly showFactoriesTab$ = this.item$.pipe(map((item) => [1, 2].includes(item.item_type_id)));
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +68,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     }, 0);
   }
 
-  public select(itemID: number, parent: APIItem) {
+  protected select(itemID: number, parent: APIItem) {
     this.api
       .request<void>('POST', 'item-parent', {
         body: {

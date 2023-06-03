@@ -51,7 +51,7 @@ export enum Resource {
 
 @Injectable()
 export class APIACL {
-  constructor(private grpc: AutowpClient) {}
+  constructor(private readonly grpc: AutowpClient) {}
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     return this.grpc.aclEnforce(new AclEnforceRequest({resource, privilege})).pipe(
@@ -67,7 +67,7 @@ export class APIACL {
 export class ACLService {
   private isAllowedCache = new Map<string, Observable<boolean>>();
 
-  constructor(private apiACL: APIACL, private auth: AuthService) {}
+  constructor(private readonly apiACL: APIACL, private readonly auth: AuthService) {}
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     const key = resource + '/' + privilege;

@@ -13,20 +13,20 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   @Input() set item(value: APIItem) {
     this.item$.next(value);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
   @Input() set order(value: string) {
     this.order$.next(value);
   }
-  public order$ = new BehaviorSubject<string>('type_auto');
+  protected readonly order$ = new BehaviorSubject<string>('type_auto');
 
   @Input() disableItemID: number;
   @Input() typeID: number;
   @Output() selected = new EventEmitter<APIItem>();
 
-  public open = false;
+  protected open = false;
 
-  public childs$ = combineLatest([this.item$, this.order$.pipe(distinctUntilChanged())]).pipe(
+  protected readonly childs$ = combineLatest([this.item$, this.order$.pipe(distinctUntilChanged())]).pipe(
     switchMap(([item, order]) =>
       this.itemParentService.getItems$({
         limit: 100,
@@ -43,18 +43,18 @@ export class ModerItemsItemSelectParentTreeItemComponent {
     map((response) => response.items)
   );
 
-  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
+  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
 
-  public isDisabled(item: APIItem): boolean {
+  protected isDisabled(item: APIItem): boolean {
     return item.id === this.disableItemID;
   }
 
-  public onSelect(item: APIItem) {
+  protected onSelect(item: APIItem) {
     this.selected.emit(item);
     return false;
   }
 
-  public toggle(): boolean {
+  protected toggle(): boolean {
     this.open = !this.open;
     return false;
   }

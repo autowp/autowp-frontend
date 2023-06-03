@@ -19,7 +19,7 @@ interface APIIndexSpecItemsResponse {
   templateUrl: './specs-cars.component.html',
 })
 export class IndexSpecsCarsComponent {
-  public items$ = this.api.request<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
+  protected readonly items$ = this.api.request<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
     map((response) => {
       return chunkBy(
         response.items.map((item) => {
@@ -63,5 +63,5 @@ export class IndexSpecsCarsComponent {
     })
   );
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 }

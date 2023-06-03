@@ -14,11 +14,11 @@ export class ModerAttrsZoneAttributeListComponent {
   };
   @Output() changed = new EventEmitter<APIAttrZoneAttributeChange>();
 
-  public change(change: APIAttrZoneAttributeChange) {
+  protected change(change: APIAttrZoneAttributeChange) {
     this.changed.emit(change);
   }
 
-  public getAttrsTranslation(id: string): string {
+  protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);
   }
 }

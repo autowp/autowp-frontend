@@ -15,21 +15,21 @@ import {ItemsClient} from '@grpc/spec.pbsc';
   templateUrl: './info.component.html',
 })
 export class PersonsPersonInfoComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private itemID$ = this.route.parent.paramMap.pipe(
+  private readonly itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: ['name_text', 'description'].join(','),
@@ -61,7 +61,7 @@ export class PersonsPersonInfoComponent {
     shareReplay(1)
   );
 
-  public links$: Observable<APIItemLink[]> = this.itemID$.pipe(
+  protected readonly links$: Observable<APIItemLink[]> = this.itemID$.pipe(
     switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -70,7 +70,7 @@ export class PersonsPersonInfoComponent {
     map((response) => response.items)
   );
 
-  public authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
+  protected readonly authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService.getPictures$({
         status: 'accepted',
@@ -88,7 +88,7 @@ export class PersonsPersonInfoComponent {
     })
   );
 
-  public contentPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
+  protected readonly contentPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService
         .getPictures$({
@@ -110,13 +110,13 @@ export class PersonsPersonInfoComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private itemsClient: ItemsClient,
-    private acl: ACLService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly itemsClient: ItemsClient,
+    private readonly acl: ACLService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

@@ -33,60 +33,60 @@ interface Tab {
 })
 export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
-  public loading = 0;
+  protected loading = 0;
 
-  public item: APIItem = null;
-  public specsAllowed = false;
-  public canEditSpecifications$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
+  protected item: APIItem = null;
+  protected specsAllowed = false;
+  protected readonly canEditSpecifications$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
 
-  public tree: APIItemTreeItem;
+  protected tree: APIItemTreeItem;
 
-  public randomPicture: APIPicture;
+  protected randomPicture: APIPicture;
 
-  public metaTab: Tab = {
+  protected readonly metaTab: Tab = {
     count: 0,
     visible: true,
   };
-  public nameTab: Tab = {
+  protected readonly nameTab: Tab = {
     count: 0,
     visible: true,
   };
-  public logoTab: Tab = {
+  protected readonly logoTab: Tab = {
     count: 0,
     visible: true,
   };
-  public catalogueTab: Tab = {
+  protected readonly catalogueTab: Tab = {
     count: 0,
     visible: true,
   };
-  public vehiclesTab: Tab = {
+  protected readonly vehiclesTab: Tab = {
     count: 0,
     visible: true,
   };
-  public treeTab: Tab = {
+  protected readonly treeTab: Tab = {
     count: 0,
     visible: true,
   };
-  public picturesTab: Tab = {
+  protected readonly picturesTab: Tab = {
     count: 0,
     visible: true,
   };
-  public linksTab: Tab = {
+  protected readonly linksTab: Tab = {
     count: 0,
     visible: true,
   };
 
-  public activeTab = 'meta';
+  protected activeTab = 'meta';
 
   constructor(
-    private api: APIService,
-    private acl: ACLService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly acl: ACLService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -218,7 +218,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  public toggleSubscription() {
+  protected toggleSubscription() {
     const newValue = !this.item.subscription;
     this.api
       .request<void>('PUT', 'item/' + this.item.id, {
@@ -231,7 +231,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getItemTypeTranslation(id: number, type: string) {
+  protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
 }

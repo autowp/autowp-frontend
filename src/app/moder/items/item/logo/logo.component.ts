@@ -14,8 +14,8 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 export class ModerItemsItemLogoComponent {
   @Input() item: APIItem;
 
-  public canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
-  public progress: {
+  protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
+  protected progress: {
     filename: any;
     percentage: number;
     success: boolean;
@@ -23,9 +23,13 @@ export class ModerItemsItemLogoComponent {
     invalidParams: any;
   } = null;
 
-  constructor(private acl: ACLService, private api: APIService, private toastService: ToastsService) {}
+  constructor(
+    private readonly acl: ACLService,
+    private readonly api: APIService,
+    private readonly toastService: ToastsService
+  ) {}
 
-  public onChange(event: any) {
+  protected onChange(event: any) {
     if (event.target.files.length <= 0) {
       return;
     }

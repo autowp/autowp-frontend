@@ -18,14 +18,14 @@ export class ModerItemsItemMetaComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
-  public loadingNumber = 0;
+  protected loadingNumber = 0;
 
-  public canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
-  public invalidParams: InvalidParams;
+  protected readonly canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
+  protected invalidParams: InvalidParams;
 
-  public vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
+  protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {
       if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_TWINS) {
         return this.itemsClient
@@ -42,13 +42,13 @@ export class ModerItemsItemMetaComponent {
   );
 
   constructor(
-    private acl: ACLService,
-    private api: APIService,
-    private itemService: ItemService,
-    private itemsClient: ItemsClient
+    private readonly acl: ACLService,
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly itemsClient: ItemsClient
   ) {}
 
-  public saveMeta(item: APIItem, event: ItemMetaFormResult) {
+  protected saveMeta(item: APIItem, event: ItemMetaFormResult) {
     this.loadingNumber++;
 
     const data = {

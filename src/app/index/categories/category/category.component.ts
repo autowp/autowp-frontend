@@ -9,12 +9,12 @@ import {APITopCategoriesListItem} from '@grpc/spec.pb';
 })
 export class IndexCategoriesCategoryComponent {
   @Input() category: APITopCategoriesListItem;
-  public loading = true;
-  public html = '';
+  protected loading = true;
+  protected html = '';
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
-  public shown() {
+  protected shown() {
     this.loading = true;
 
     this.api

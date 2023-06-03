@@ -11,9 +11,9 @@ export class ModerItemsItemVehiclesComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  private item$ = new BehaviorSubject<APIItem>(null);
+  private readonly item$ = new BehaviorSubject<APIItem>(null);
 
-  public engineVehicles$: Observable<APIItem[]> = this.item$.pipe(
+  protected readonly engineVehicles$: Observable<APIItem[]> = this.item$.pipe(
     switchMap((item) =>
       this.itemService.getItems$({
         engine_id: item.id,
@@ -24,5 +24,5 @@ export class ModerItemsItemVehiclesComponent {
     map((response) => response.items)
   );
 
-  constructor(private itemService: ItemService) {}
+  constructor(private readonly itemService: ItemService) {}
 }

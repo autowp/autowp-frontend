@@ -8,9 +8,9 @@ import {LanguageService} from '@services/language';
   templateUrl: './categories.component.html',
 })
 export class IndexCategoriesComponent {
-  constructor(private items: ItemsClient, private languageService: LanguageService) {}
+  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
 
-  public result$ = this.items.getTopCategoriesList(
+  protected readonly result$ = this.items.getTopCategoriesList(
     new GetTopCategoriesListRequest({
       language: this.languageService.language,
     })

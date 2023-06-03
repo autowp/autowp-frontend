@@ -31,7 +31,7 @@ export class ItemOfDayComponent {
   }
   @Input() public user$: Observable<APIUser>;
 
-  public itemOfDayPictures$: Observable<{
+  protected itemOfDayPictures$: Observable<{
     first: APIItemOfDayPicture[];
     others: APIItemOfDayPicture[];
   } | null>;

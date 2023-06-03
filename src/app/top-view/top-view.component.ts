@@ -11,7 +11,7 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './top-view.component.html',
 })
 export class TopViewComponent implements OnInit {
-  public data$ = this.route.queryParamMap.pipe(
+  protected readonly data$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -32,10 +32,10 @@ export class TopViewComponent implements OnInit {
   );
 
   constructor(
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

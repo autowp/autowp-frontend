@@ -10,7 +10,7 @@ export class AreaComponent {
   @Input() styles = {};
   @Input() area: APIGalleryItemArea;
 
-  public placement(): string {
+  protected placement(): string {
     const winHeight = window.innerHeight;
     const nodeOffset = this.styles['top.px'] ? this.styles['top.px'] : 0;
     const nodeHeight = this.styles['height.px'] ? this.styles['height.px'] : 0;

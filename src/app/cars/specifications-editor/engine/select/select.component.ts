@@ -15,29 +15,29 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {
-  public search: string;
-  private search$ = new BehaviorSubject<string>('');
+  protected search: string;
+  protected readonly search$ = new BehaviorSubject<string>('');
 
-  public itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public brandID$ = this.route.queryParamMap.pipe(
+  protected readonly brandID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('brand_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public item$ = this.itemID$.pipe(
+  protected readonly item$ = this.itemID$.pipe(
     switchMap((itemID) =>
       this.itemService.getItem$(itemID, {
         fields: 'name_html,name_text',
@@ -52,7 +52,7 @@ export class CarsEngineSelectComponent {
     shareReplay(1)
   );
 
-  public items$ = combineLatest([this.brandID$, this.page$]).pipe(
+  protected readonly items$ = combineLatest([this.brandID$, this.page$]).pipe(
     switchMap(([brandID, page]) =>
       this.itemParentService.getItems$({
         limit: 500,
@@ -68,7 +68,7 @@ export class CarsEngineSelectComponent {
     })
   );
 
-  public brands$ = this.search$.pipe(
+  protected readonly brands$ = this.search$.pipe(
     map((str) => str.trim()),
     distinctUntilChanged(),
     debounceTime(50),
@@ -93,20 +93,20 @@ export class CarsEngineSelectComponent {
   );
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly itemParentService: ItemParentService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
-  public onInput() {
+  protected onInput() {
     this.search$.next(this.search);
   }
 
-  public selectEngine(itemID: number, engineId: number) {
+  protected selectEngine(itemID: number, engineId: number) {
     this.api
       .request<void>('PUT', 'item/' + itemID, {
         body: {

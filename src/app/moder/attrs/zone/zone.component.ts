@@ -23,14 +23,14 @@ export interface APIAttrZoneAttributeChange {
   templateUrl: './zone.component.html',
 })
 export class ModerAttrsZoneComponent {
-  public zoneID$ = this.route.paramMap.pipe(
+  protected readonly zoneID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public zone$ = this.zoneID$.pipe(
+  protected readonly zone$ = this.zoneID$.pipe(
     switchMap((id) => this.attrsService.getZone$(id)),
     tap((zone) => {
       this.pageEnv.set({
@@ -42,9 +42,11 @@ export class ModerAttrsZoneComponent {
     shareReplay(1)
   );
 
-  public attributes$ = this.attrsService.getAttributes$({recursive: true}).pipe(map((response) => response.items));
+  protected readonly attributes$ = this.attrsService
+    .getAttributes$({recursive: true})
+    .pipe(map((response) => response.items));
 
-  public zoneAttributes$ = this.zoneID$.pipe(
+  protected readonly zoneAttributes$ = this.zoneID$.pipe(
     switchMap((zoneID) =>
       this.api.request<APIAttrZoneAttributesGetResponse>('GET', 'attr/zone-attribute', {
         params: {
@@ -64,14 +66,14 @@ export class ModerAttrsZoneComponent {
   );
 
   constructor(
-    private api: APIService,
-    private attrsService: APIAttrsService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly attrsService: APIAttrsService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
-  public change(zone: APIAttrZone, change: APIAttrZoneAttributeChange) {
+  protected change(zone: APIAttrZone, change: APIAttrZoneAttributeChange) {
     if (change.value) {
       this.api
         .request<void>('POST', 'attr/zone-attribute', {

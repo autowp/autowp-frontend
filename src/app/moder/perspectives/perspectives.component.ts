@@ -11,9 +11,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './perspectives.component.html',
 })
 export class ModerPerspectivesComponent {
-  public pages: PerspectivePage[];
+  protected pages: PerspectivePage[];
 
-  constructor(private grpc: AutowpClient, private pageEnv: PageEnvService, private toastService: ToastsService) {
+  constructor(
+    private readonly grpc: AutowpClient,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
+  ) {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -31,7 +35,7 @@ export class ModerPerspectivesComponent {
     });
   }
 
-  public getPerspectiveTranslation(id: string): string {
+  protected getPerspectiveTranslation(id: string): string {
     return getPerspectiveTranslation(id);
   }
 }

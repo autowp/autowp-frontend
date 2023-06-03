@@ -16,11 +16,11 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class ModerItemParentComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
-  public item: APIItem;
-  public parent: APIItem;
-  public itemParent: any;
-  public languages: any[] = [];
-  public typeOptions = [
+  protected item: APIItem;
+  protected parent: APIItem;
+  protected itemParent: any;
+  protected languages: any[] = [];
+  protected readonly typeOptions = [
     {
       value: 0,
       name: $localize`Stock model`,
@@ -40,11 +40,11 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private api: APIService,
-    private ContentLanguage: ContentLanguageService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService
+    private readonly api: APIService,
+    private readonly ContentLanguage: ContentLanguageService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService
   ) {}
 
   ngOnInit(): void {
@@ -103,7 +103,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     this.routeSub.unsubscribe();
   }
 
-  public reloadItemParent() {
+  protected reloadItemParent() {
     this.api
       .request('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
       .subscribe((response) => {
@@ -111,7 +111,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
       });
   }
 
-  public save() {
+  protected save() {
     const promises: Observable<void>[] = [
       this.api.request<void>('PUT', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id, {
         body: {

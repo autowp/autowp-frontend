@@ -59,50 +59,50 @@ const DEFAULT_ORDER = 'id_desc';
 export class ModerItemsComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
 
-  public loading = 0;
-  public items: CatalogueListItem[] = [];
-  public paginator: APIPaginator;
-  public vehicleTypeOptions: APIVehicleTypeInItems[] = [];
-  public specOptions: APISpecInItems[] = [];
+  protected loading = 0;
+  protected items: CatalogueListItem[] = [];
+  protected paginator: APIPaginator;
+  protected vehicleTypeOptions: APIVehicleTypeInItems[] = [];
+  protected specOptions: APISpecInItems[] = [];
   private vehicleTypeSub: Subscription;
   private specsSub: Subscription;
 
-  public name = '';
+  protected name = '';
 
-  public nameExclude = '';
+  protected nameExclude = '';
 
-  public itemTypeID = 0;
+  protected itemTypeID = 0;
 
-  public vehicleTypeID: number | null | string = null;
+  protected vehicleTypeID: number | null | string = null;
 
-  public vehicleChildsTypeID: number | null = null;
+  protected vehicleChildsTypeID: number | null = null;
 
-  public specID: number | null = null;
+  protected specID: number | null = null;
 
-  public noParent: boolean = null;
+  protected noParent: boolean = null;
 
-  public text = '';
+  protected text = '';
 
-  public fromYear: number | null = null;
+  protected fromYear: number | null = null;
 
-  public toYear: number | null = null;
+  protected toYear: number | null = null;
 
-  public order: string = DEFAULT_ORDER;
+  protected order: string = DEFAULT_ORDER;
 
-  public ancestorID: number;
-  public ancestorQuery = '';
-  public ancestorsDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected ancestorID: number;
+  protected ancestorQuery = '';
+  protected ancestorsDataSource: (text$: Observable<string>) => Observable<any[]>;
 
-  public listMode: boolean;
+  protected listMode: boolean;
 
   constructor(
-    private vehicleTypeService: VehicleTypeService,
-    private specService: SpecService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly vehicleTypeService: VehicleTypeService,
+    private readonly specService: SpecService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {
     this.ancestorsDataSource = (text$: Observable<string>) =>
       text$.pipe(
@@ -273,11 +273,11 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     this.specsSub.unsubscribe();
   }
 
-  public ancestorFormatter(x: APIItem) {
+  protected ancestorFormatter(x: APIItem) {
     return x.name_text;
   }
 
-  public ancestorOnSelect(e: NgbTypeaheadSelectItemEvent): void {
+  protected ancestorOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
       queryParamsHandling: 'merge',
       queryParams: {
@@ -286,7 +286,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public clearAncestor(): void {
+  protected clearAncestor(): void {
     this.ancestorQuery = '';
     this.router.navigate([], {
       queryParamsHandling: 'merge',
@@ -296,7 +296,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onNameChanged() {
+  protected onNameChanged() {
     this.router.navigate([], {
       queryParams: {
         name: this.name.length ? this.name : null,
@@ -306,7 +306,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onNameExcludeChanged() {
+  protected onNameExcludeChanged() {
     this.router.navigate([], {
       queryParams: {
         name_exclude: this.nameExclude.length ? this.nameExclude : null,
@@ -316,7 +316,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onItemTypeChanged() {
+  protected onItemTypeChanged() {
     this.router.navigate([], {
       queryParams: {
         item_type_id: this.itemTypeID ? this.itemTypeID : null,
@@ -326,7 +326,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onVehicleTypeChanged() {
+  protected onVehicleTypeChanged() {
     this.router.navigate([], {
       queryParams: {
         vehicle_type_id: this.vehicleTypeID ? this.vehicleTypeID : null,
@@ -336,7 +336,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onVehicleChildsTypeChanged() {
+  protected onVehicleChildsTypeChanged() {
     this.router.navigate([], {
       queryParams: {
         vehicle_childs_type_id: this.vehicleChildsTypeID ? this.vehicleChildsTypeID : null,
@@ -346,7 +346,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSpecChanged() {
+  protected onSpecChanged() {
     this.router.navigate([], {
       queryParams: {
         spec_id: this.specID ? this.specID : null,
@@ -356,7 +356,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onNoParentChanged() {
+  protected onNoParentChanged() {
     this.router.navigate([], {
       queryParams: {
         no_parent: this.noParent ? '1' : null,
@@ -366,7 +366,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onTextChanged() {
+  protected onTextChanged() {
     this.router.navigate([], {
       queryParams: {
         text: this.text ? this.text : null,
@@ -376,7 +376,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onFromYearChanged() {
+  protected onFromYearChanged() {
     this.router.navigate([], {
       queryParams: {
         from_year: this.fromYear ? this.fromYear : null,
@@ -386,7 +386,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onToYearChanged() {
+  protected onToYearChanged() {
     this.router.navigate([], {
       queryParams: {
         to_year: this.toYear ? this.toYear : null,
@@ -396,7 +396,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onOrderChanged() {
+  protected onOrderChanged() {
     this.router.navigate([], {
       queryParams: {
         order: this.order ? this.order : null,

@@ -8,7 +8,7 @@ import {KeycloakService} from 'keycloak-angular';
   styleUrls: [],
 })
 export class LoginComponent implements OnInit {
-  constructor(private languageService: LanguageService, private keycloak: KeycloakService) {}
+  constructor(private readonly languageService: LanguageService, private readonly keycloak: KeycloakService) {}
 
   ngOnInit(): void {
     this.keycloak.login({

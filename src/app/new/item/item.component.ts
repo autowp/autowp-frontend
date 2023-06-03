@@ -12,26 +12,26 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './item.component.html',
 })
 export class NewItemComponent {
-  private itemID$ = this.route.paramMap.pipe(
+  private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public date$ = this.route.paramMap.pipe(
+  protected readonly date$ = this.route.paramMap.pipe(
     map((params) => params.get('date')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(30)
   );
 
-  public item$ = this.itemID$.pipe(
+  protected readonly item$ = this.itemID$.pipe(
     switchMap((itemID) => this.itemService.getItem$(itemID, {fields: 'name_html,name_text'})),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -46,7 +46,7 @@ export class NewItemComponent {
     shareReplay(1)
   );
 
-  public pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
+  protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
     switchMap(([itemID, date, page]) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
@@ -64,10 +64,10 @@ export class NewItemComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

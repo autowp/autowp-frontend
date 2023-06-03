@@ -11,9 +11,9 @@ import {APIService} from '@services/api.service';
   templateUrl: './attrs.component.html',
 })
 export class ModerAttrsComponent implements OnInit {
-  private attributesChange$ = new BehaviorSubject<null>(null);
+  private readonly attributesChange$ = new BehaviorSubject<null>(null);
 
-  public attributes$ = this.attributesChange$.pipe(
+  protected readonly attributes$ = this.attributesChange$.pipe(
     switchMap(() => this.attrsService.getAttributes$({recursive: true})),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -21,7 +21,7 @@ export class ModerAttrsComponent implements OnInit {
     })
   );
 
-  public zones$ = this.attrsService.getZones$().pipe(
+  protected readonly zones$ = this.attrsService.getZones$().pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
@@ -29,10 +29,10 @@ export class ModerAttrsComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private attrsService: APIAttrsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly attrsService: APIAttrsService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -59,11 +59,11 @@ export class ModerAttrsComponent implements OnInit {
       });
   }
 
-  public moveUp(id: number) {
+  protected moveUp(id: number) {
     this.move(id, 'up');
   }
 
-  public moveDown(id: number) {
+  protected moveDown(id: number) {
     this.move(id, 'down');
   }
 }

@@ -24,8 +24,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private itemID: number;
   private type: number;
   private sub: Subscription;
-  public aspect = '';
-  public resolution = '';
+  protected aspect = '';
+  protected resolution = '';
   private jcrop: any;
   private currentCrop: Crop = {
     w: 0,
@@ -34,15 +34,15 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [50, 50];
-  public picture: APIPicture;
-  public img$ = new BehaviorSubject<HTMLElement>(null);
+  protected picture: APIPicture;
+  protected readonly img$ = new BehaviorSubject<HTMLElement>(null);
 
   constructor(
-    private pictureItemService: PictureItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService
+    private readonly pictureItemService: PictureItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService
   ) {}
 
   ngOnInit(): void {
@@ -91,8 +91,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         ),
         switchMap((data) => this.img$.pipe(map((img) => ({pictureItem: data, img}))))
       )
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           const area = data.pictureItem.area;
 
           if (data.img) {
@@ -146,19 +146,19 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             });
           }
         },
-        () => {
+        error: () => {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
-        }
-      );
+        },
+      });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  public selectAll() {
+  protected selectAll() {
     this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
   }
 
@@ -172,7 +172,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     this.resolution = text;
   }
 
-  public saveCrop() {
+  protected saveCrop() {
     const area = {
       left: Math.round(this.currentCrop.x),
       top: Math.round(this.currentCrop.y),
@@ -185,7 +185,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onLoad(e) {
+  protected onLoad(e) {
     this.img$.next(e.target);
   }
 }

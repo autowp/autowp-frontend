@@ -22,14 +22,14 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   @Input() set picture(picture: APIPicture) {
     this.picture$.next(picture);
   }
-  public picture$ = new BehaviorSubject<APIPicture>(null);
+  protected readonly picture$ = new BehaviorSubject<APIPicture>(null);
 
-  private minSize = [400, 300];
+  private readonly minSize = [400, 300];
 
   private jcrop = null;
-  public aspect: string;
-  public resolution: string;
-  public img$ = new BehaviorSubject<HTMLElement>(null);
+  protected aspect: string;
+  protected resolution: string;
+  protected readonly img$ = new BehaviorSubject<HTMLElement>(null);
   private currentCrop: JcropCrop = {
     w: 0,
     h: 0,
@@ -38,7 +38,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   };
   private sub: Subscription;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(protected readonly activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
@@ -99,7 +99,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public selectAll(picture: APIPicture) {
+  protected selectAll(picture: APIPicture) {
     this.jcrop.setSelect([0, 0, picture.width, picture.height]);
   }
 
@@ -113,11 +113,11 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     this.resolution = text;
   }
 
-  public onLoad(e) {
+  protected onLoad(e) {
     this.img$.next(e.target);
   }
 
-  public onSave(picture: APIPicture) {
+  protected onSave(picture: APIPicture) {
     if (!picture.crop) {
       picture.crop = {
         left: 0,

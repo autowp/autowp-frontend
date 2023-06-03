@@ -16,16 +16,16 @@ import {ItemsClient} from '@grpc/spec.pbsc';
   templateUrl: './museum.component.html',
 })
 export class MuseumComponent {
-  public museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private itemID$ = this.route.paramMap.pipe(
+  private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public links$ = this.itemID$.pipe(
+  protected readonly links$ = this.itemID$.pipe(
     switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -33,7 +33,7 @@ export class MuseumComponent {
     })
   );
 
-  public pictures$ = this.itemID$.pipe(
+  protected readonly pictures$ = this.itemID$.pipe(
     switchMap((itemID) =>
       this.pictureService.getPictures$({
         status: 'accepted',
@@ -49,7 +49,7 @@ export class MuseumComponent {
     })
   );
 
-  public item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: ['name_text', 'lat', 'lng', 'description'].join(','),
@@ -80,7 +80,7 @@ export class MuseumComponent {
     shareReplay(1)
   );
 
-  public map$ = this.item$.pipe(
+  protected readonly map$ = this.item$.pipe(
     map((item) => {
       if (!item.lat || !item.lng) {
         return null;
@@ -114,13 +114,13 @@ export class MuseumComponent {
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private acl: ACLService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private pictureService: PictureService,
-    private itemsClient: ItemsClient,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly acl: ACLService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly pictureService: PictureService,
+    private readonly itemsClient: ItemsClient,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

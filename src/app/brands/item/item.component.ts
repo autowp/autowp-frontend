@@ -13,11 +13,11 @@ export class BrandsItemComponent {
   @Input() set brand(item: APIBrandsBrand) {
     this.brand$.next(item);
   }
-  public brand$ = new BehaviorSubject<APIBrandsBrand>(null);
+  protected readonly brand$ = new BehaviorSubject<APIBrandsBrand>(null);
 
   @Input() icons: BrandIcons;
 
-  public html$ = this.brand$.pipe(
+  protected readonly html$ = this.brand$.pipe(
     switchMap((brand) =>
       this.api.request('GET', 'brands/' + brand.id + '/new-items', {
         responseType: 'text',
@@ -26,9 +26,9 @@ export class BrandsItemComponent {
     )
   );
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
-  public cssClass(item: APIBrandsBrand): string {
+  protected cssClass(item: APIBrandsBrand): string {
     return item.catname.replace(/\./g, '_');
   }
 }

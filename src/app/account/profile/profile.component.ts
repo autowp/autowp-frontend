@@ -19,39 +19,39 @@ import {InvalidParams} from '@utils/invalid-params.pipe';
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {
-  public user: APIUser;
+  protected user: APIUser;
 
-  public settings = {
+  protected readonly settings = {
     timezone: null,
     language: null,
   };
-  public settingsInvalidParams: InvalidParams = {};
-  public photoInvalidParams: any = {};
-  public votesPerDay: number | null = null;
-  public votesLeft: number | null = null;
-  public photo: APIImage;
+  protected settingsInvalidParams: InvalidParams = {};
+  protected photoInvalidParams: any = {};
+  protected votesPerDay: number | null = null;
+  protected votesLeft: number | null = null;
+  protected photo: APIImage;
   private sub: Subscription;
 
   @ViewChild('input') input;
 
-  public changeProfileUrl =
+  protected readonly changeProfileUrl =
     environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
-  public timezones$ = this.timezone.getTimezones$();
+  protected readonly timezones$ = this.timezone.getTimezones$();
 
-  public languages: {name: string; value: string}[] = environment.languages.map((language) => ({
+  protected readonly languages: {name: string; value: string}[] = environment.languages.map((language) => ({
     name: language.name,
     value: language.code,
   }));
 
   constructor(
-    private api: APIService,
-    private languageService: LanguageService,
-    private keycloak: KeycloakService,
-    private auth: AuthService,
-    private pageEnv: PageEnvService,
-    private timezone: TimezoneService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly languageService: LanguageService,
+    private readonly keycloak: KeycloakService,
+    private readonly auth: AuthService,
+    private readonly pageEnv: PageEnvService,
+    private readonly timezone: TimezoneService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +101,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     this.toastService.success($localize`Data saved`);
   }
 
-  public sendSettings() {
+  protected sendSettings() {
     this.settingsInvalidParams = {};
 
     this.api.request<void>('PUT', 'user/me', {body: this.settings}).subscribe({
@@ -118,12 +118,12 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*public showFileSelectDialog() {
+  /*protected  showFileSelectDialog() {
     this.photoInvalidParams = {};
     this.fileInput.nativeElement.click();
   }*/
 
-  public resetPhoto() {
+  protected resetPhoto() {
     this.api.request('DELETE', 'user/me/photo').subscribe({
       next: () => {
         this.user.avatar = null;
@@ -133,7 +133,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onChange(event: any) {
+  protected onChange(event: any) {
     const files = [].slice.call(event.target.files);
     if (files.length <= 0) {
       return;

@@ -18,11 +18,15 @@ import {
 export class MessageService {
   private readonly summary$: Observable<APIMessageSummary>;
   private readonly new$: Observable<number>;
-  private deleted$ = new BehaviorSubject<void>(null);
-  private sent$ = new BehaviorSubject<void>(null);
-  private seen$ = new BehaviorSubject<void>(null);
+  private readonly deleted$ = new BehaviorSubject<void>(null);
+  private readonly sent$ = new BehaviorSubject<void>(null);
+  private readonly seen$ = new BehaviorSubject<void>(null);
 
-  constructor(private auth: AuthService, private toasts: ToastsService, private messagingClient: MessagingClient) {
+  constructor(
+    private readonly auth: AuthService,
+    private readonly toasts: ToastsService,
+    private readonly messagingClient: MessagingClient
+  ) {
     this.summary$ = combineLatest([this.deleted$, this.sent$, this.seen$, this.auth.getUser$()]).pipe(
       map(([, , , user]) => user),
       debounceTime(10),

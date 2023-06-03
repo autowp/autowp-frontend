@@ -17,10 +17,10 @@ const CAPTCHA = 'captcha';
   templateUrl: './feedback.component.html',
 })
 export class FeedbackComponent implements OnInit {
-  public recaptchaKey: string;
-  public invalidParams: InvalidParams;
+  protected recaptchaKey: string;
+  protected invalidParams: InvalidParams;
 
-  public form = this.fb.group({
+  protected readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(255)]],
     email: ['', [Validators.required, Validators.maxLength(255), Validators.email]],
     message: ['', [Validators.required, Validators.maxLength(65536)]],
@@ -28,12 +28,12 @@ export class FeedbackComponent implements OnInit {
   });
 
   constructor(
-    private grpc: AutowpClient,
-    private router: Router,
-    private reCaptchaService: ReCaptchaService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private fb: FormBuilder
+    private readonly grpc: AutowpClient,
+    private readonly router: Router,
+    private readonly reCaptchaService: ReCaptchaService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class FeedbackComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 89}), 0);
   }
 
-  public submit() {
+  protected submit() {
     this.grpc.createFeedback(new APICreateFeedbackRequest(this.form.value)).subscribe({
       next: () => {
         this.router.navigate(['/feedback/sent']);
@@ -74,7 +74,7 @@ export class FeedbackComponent implements OnInit {
     });
   }
 
-  resolved(captchaResponse: string) {
+  protected resolved(captchaResponse: string) {
     this.form.get(CAPTCHA).setValue(captchaResponse);
   }
 }

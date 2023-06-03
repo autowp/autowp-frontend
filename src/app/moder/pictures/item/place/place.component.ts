@@ -29,10 +29,10 @@ function createMarker(lat: number, lng: number): Marker {
   templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {
-  public lat: number;
-  public lng: number;
+  protected lat: number;
+  protected lng: number;
 
-  public picture$ = this.route.paramMap.pipe(
+  protected readonly picture$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -46,7 +46,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     shareReplay(1)
   );
 
-  public map$ = this.picture$.pipe(
+  protected readonly map$ = this.picture$.pipe(
     map((picture) => {
       const center = latLng(55.7423627, 37.6786422);
 
@@ -76,12 +76,12 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
   );
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private zone: NgZone,
-    private api: APIService
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly zone: NgZone,
+    private readonly api: APIService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +95,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     );
   }
 
-  public coordsChanged(mapOptions: MapOptions) {
+  protected coordsChanged(mapOptions: MapOptions) {
     const lat = this.lat;
     const lng = this.lng;
 
@@ -113,7 +113,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     }
   }
 
-  public onMapReady(mapOptions: MapOptions, lmap: Map) {
+  protected onMapReady(mapOptions: MapOptions, lmap: Map) {
     lmap.on('click', (event: LeafletMouseEvent) => {
       this.zone.run(() => {
         const ll: LatLng = event.latlng;
@@ -124,7 +124,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     });
   }
 
-  public doSubmit(picture: APIPicture) {
+  protected doSubmit(picture: APIPicture) {
     this.api
       .request<void>('PUT', 'picture/' + picture.id, {
         body: {

@@ -15,29 +15,29 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './select.component.html',
 })
 export class UploadSelectComponent implements OnInit {
-  public brand: {
+  protected brand: {
     item: APIItem;
     vehicles: APIItemParent[];
     engines: APIItemParent[];
     concepts: APIItemParent[];
   };
-  public brands: APIItem[][];
-  public paginator: APIPaginator;
-  public search = '';
-  public search$ = new BehaviorSubject<string>('');
-  public loading = 0;
-  public conceptsOpen = false;
+  protected brands: APIItem[][];
+  protected paginator: APIPaginator;
+  protected search = '';
+  protected readonly search$ = new BehaviorSubject<string>('');
+  protected loading = 0;
+  protected conceptsOpen = false;
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly itemParentService: ItemParentService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
-  public onSearchInput() {
+  protected onSearchInput() {
     this.search$.next(this.search);
   }
 

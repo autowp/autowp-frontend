@@ -13,7 +13,7 @@ export interface Language {
 export class LanguageService {
   public readonly language: string = 'en';
 
-  constructor(@Inject(LOCALE_ID) public localeId: string) {
+  constructor(@Inject(LOCALE_ID) public readonly localeId: string) {
     for (const lang of environment.languages as Language[]) {
       if (lang.locale === localeId) {
         this.language = lang.code;

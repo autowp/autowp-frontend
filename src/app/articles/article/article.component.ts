@@ -13,7 +13,7 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
   templateUrl: './article.component.html',
 })
 export class ArticlesArticleComponent {
-  public article$ = this.route.paramMap.pipe(
+  protected readonly article$ = this.route.paramMap.pipe(
     map((params) => params.get('catname')),
     distinctUntilChanged(),
     debounceTime(30),
@@ -39,10 +39,10 @@ export class ArticlesArticleComponent {
   );
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private articlesClient: ArticlesClient,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly articlesClient: ArticlesClient,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

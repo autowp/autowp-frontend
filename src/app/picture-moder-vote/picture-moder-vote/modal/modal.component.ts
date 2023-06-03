@@ -12,16 +12,16 @@ export class PictureModerVoteModalComponent {
   @Input() vote: number;
   @Output() voted = new EventEmitter();
 
-  public reason = '';
-  public save = false;
+  protected reason = '';
+  protected save = false;
 
   constructor(
-    public activeModal: NgbActiveModal,
-    private templateService: APIPictureModerVoteTemplateService,
-    private moderVoteService: PictureModerVoteService
+    protected readonly activeModal: NgbActiveModal,
+    private readonly templateService: APIPictureModerVoteTemplateService,
+    private readonly moderVoteService: PictureModerVoteService
   ) {}
 
-  public ok() {
+  protected ok() {
     if (this.save) {
       this.templateService
         .createTemplate$({

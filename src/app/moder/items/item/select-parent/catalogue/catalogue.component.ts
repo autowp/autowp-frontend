@@ -18,34 +18,34 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   @Input() set itemID(value: number) {
     this.itemID$.next(value);
   }
-  public itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<number>(null);
 
   @Input() set itemTypeID(value: number) {
     this.itemTypeID$.next(value);
   }
-  public itemTypeID$ = new BehaviorSubject<number>(null);
+  protected readonly itemTypeID$ = new BehaviorSubject<number>(null);
 
-  public page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public search$ = this.route.queryParamMap.pipe(
+  protected readonly search$ = this.route.queryParamMap.pipe(
     map((params) => params.get('search')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brandID$ = this.route.queryParamMap.pipe(
+  protected readonly brandID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('brand_id'), 10)),
     map((brandID) => (brandID ? brandID : 0)),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public catalogueBrands$ = this.brandID$.pipe(
+  protected readonly catalogueBrands$ = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
@@ -72,7 +72,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     )
   );
 
-  public catalogueItems$ = combineLatest([this.itemTypeID$, this.brandID$, this.page$]).pipe(
+  protected readonly catalogueItems$ = combineLatest([this.itemTypeID$, this.brandID$, this.page$]).pipe(
     switchMap(([itemTypeID, brandID, page]) =>
       brandID
         ? this.itemParentService.getItems$({
@@ -88,21 +88,21 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private toastService: ToastsService,
-    private router: Router,
-    private itemParentService: ItemParentService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastsService,
+    private readonly router: Router,
+    private readonly itemParentService: ItemParentService
   ) {}
 
-  public doSearch(search: string) {
+  protected doSearch(search: string) {
     this.router.navigate([], {
       queryParams: {search},
       queryParamsHandling: 'merge',
     });
   }
 
-  public onSelect(item: APIItem) {
+  protected onSelect(item: APIItem) {
     this.selected.emit(item);
     return false;
   }

@@ -11,7 +11,7 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './items.component.html',
 })
 export class TwinsGroupItemsComponent {
-  public group$ = this.route.parent.paramMap.pipe(
+  protected readonly group$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((group) => {
@@ -43,5 +43,9 @@ export class TwinsGroupItemsComponent {
 
   protected readonly CommentsType = CommentsType;
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private pageEnv: PageEnvService) {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService
+  ) {}
 }

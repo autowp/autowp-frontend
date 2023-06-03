@@ -59,16 +59,16 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   @Input() item: APIGalleryItem;
   @Input() prefix: string[] = [];
 
-  public fullStyle;
+  protected fullStyle;
 
-  public cropStyle;
+  protected cropStyle;
 
-  public cropMode = true;
+  protected cropMode = true;
 
-  public fullLoading = true;
-  public cropLoading = true;
+  protected fullLoading = true;
+  protected cropLoading = true;
 
-  constructor(private el: ElementRef) {}
+  constructor(private readonly el: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
@@ -88,7 +88,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  protected onResize() {
     this.fixSize();
   }
 
@@ -96,15 +96,15 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
     setTimeout(() => this.fixSize(), 0);
   }
 
-  public fullLoaded() {
+  protected fullLoaded() {
     this.fullLoading = false;
   }
 
-  public cropLoaded() {
+  protected cropLoaded() {
     this.cropLoading = false;
   }
 
-  public toggleCrop() {
+  protected toggleCrop() {
     this.cropMode = !this.cropMode;
     this.fixSize();
   }

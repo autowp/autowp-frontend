@@ -13,25 +13,25 @@ import {getAttrsTranslation, getUnitTranslation} from '@utils/translations';
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {
-  public move = {
+  protected readonly move = {
     item_id: null,
   };
-  private move$ = new BehaviorSubject<boolean>(false);
+  private readonly move$ = new BehaviorSubject<boolean>(false);
 
-  public itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public data$ = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
+  protected readonly data$ = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
     switchMap(([itemID, page]) =>
       this.attrService.getUserValues$({
         item_id: itemID,
@@ -46,18 +46,18 @@ export class CarsSpecsAdminComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private route: ActivatedRoute,
-    private attrService: APIAttrsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly route: ActivatedRoute,
+    private readonly attrService: APIAttrsService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 103}), 0);
   }
 
-  public deleteValue(values: APIAttrUserValue[], value: APIAttrUserValue) {
+  protected deleteValue(values: APIAttrUserValue[], value: APIAttrUserValue) {
     this.api
       .request('DELETE', 'attr/user-value/' + value.attribute_id + '/' + value.item_id + '/' + value.user_id)
       .subscribe({
@@ -73,7 +73,7 @@ export class CarsSpecsAdminComponent implements OnInit {
       });
   }
 
-  public moveValues(itemID: number) {
+  protected moveValues(itemID: number) {
     this.api
       .request<void>('PATCH', 'attr/user-value', {
         body: {
@@ -91,11 +91,11 @@ export class CarsSpecsAdminComponent implements OnInit {
       });
   }
 
-  public getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
   }
 
-  public getAttrsTranslation(id: string): string {
+  protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);
   }
 }

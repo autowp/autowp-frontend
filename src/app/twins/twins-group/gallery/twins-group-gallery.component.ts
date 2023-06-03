@@ -11,7 +11,7 @@ import {APIGalleryItem} from '../../../gallery/definitions';
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {
-  public group$ = this.route.parent.parent.paramMap.pipe(
+  protected readonly group$ = this.route.parent.parent.paramMap.pipe(
     map((route) => parseInt(route.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((groupID) => {
@@ -44,19 +44,19 @@ export class TwinsGroupGalleryComponent {
     })
   );
 
-  public identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged()
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly router: Router
   ) {}
 
-  pictureSelected(item: APIGalleryItem) {
+  protected pictureSelected(item: APIGalleryItem) {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},

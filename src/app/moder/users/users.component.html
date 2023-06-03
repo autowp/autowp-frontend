@@ -13,48 +13,51 @@
   <h1 i18n id="header">Users</h1>
 </div>
 
-<span *ngIf="loading > 0">
-  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-</span>
-<table class="table table-bordered table-striped" aria-describedby="header">
-  <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col"></th>
-      <th scope="col" i18n>Login</th>
-      <th scope="col">E-mail</th>
-      <th scope="col" i18n>Name</th>
-      <th scope="col" i18n>Role</th>
-      <th scope="col" i18n>Profile</th>
-      <th scope="col" i18n>Last visit</th>
-      <th scope="col" i18n>Registration</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td [textContent]="user.id"></td>
-      <td>
-        <img alt="" [src]="user.image.src" *ngIf="user.image" style="max-width: 300px; max-height: 300px" />
-      </td>
-      <td [textContent]="user.login"></td>
-      <td [textContent]="user.email"></td>
-      <td [textContent]="user.name"></td>
-      <td [textContent]="user.role"></td>
-      <td>
-        <app-user [user]="user" *ngIf="user"></app-user>
-      </td>
-      <td>
-        <span *ngIf="user.last_online" [ngbTooltip]="user.last_online | date : 'medium'">{{
-          user.last_online | timeAgo
-        }}</span>
-      </td>
-      <td>
-        <span *ngIf="user.reg_date" [ngbTooltip]="user.reg_date | date : 'fullDate'">{{
-          user.reg_date | timeAgo
-        }}</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
 
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+<ng-container *ngIf="users$ | async as users; else loading">
+  <table class="table table-bordered table-striped" aria-describedby="header">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col"></th>
+        <th scope="col" i18n>Login</th>
+        <th scope="col">E-mail</th>
+        <th scope="col" i18n>Name</th>
+        <th scope="col" i18n>Role</th>
+        <th scope="col" i18n>Profile</th>
+        <th scope="col" i18n>Last visit</th>
+        <th scope="col" i18n>Registration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users.items">
+        <td [textContent]="user.id"></td>
+        <td>
+          <img alt="" [src]="user.image.src" *ngIf="user.image" style="max-width: 300px; max-height: 300px" />
+        </td>
+        <td [textContent]="user.login"></td>
+        <td [textContent]="user.email"></td>
+        <td [textContent]="user.name"></td>
+        <td [textContent]="user.role"></td>
+        <td>
+          <app-user [user]="user" *ngIf="user"></app-user>
+        </td>
+        <td>
+          <span *ngIf="user.last_online" [ngbTooltip]="user.last_online | date : 'medium'">{{
+            user.last_online | timeAgo
+          }}</span>
+        </td>
+        <td>
+          <span *ngIf="user.reg_date" [ngbTooltip]="user.reg_date | date : 'fullDate'">{{
+            user.reg_date | timeAgo
+          }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-paginator [data]="users.paginator" *ngIf="users.paginator"></app-paginator>
+</ng-container>

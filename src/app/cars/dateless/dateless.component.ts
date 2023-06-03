@@ -3,7 +3,7 @@ import {ItemService} from '@services/item';
 import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
+import {distinctUntilChanged, switchMap, map, catchError} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -11,10 +11,9 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './dateless.component.html',
 })
 export class CarsDatelessComponent implements OnInit {
-  public data$ = this.route.queryParamMap.pipe(
+  protected readonly data$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10),
     switchMap((page) =>
       this.itemService.getItems$({
         dateless: true,
@@ -37,10 +36,10 @@ export class CarsDatelessComponent implements OnInit {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

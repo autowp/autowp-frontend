@@ -14,13 +14,13 @@ export class CarsSpecificationsEditorEngineComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
   @Output() changed = new EventEmitter<void>();
-  public isAllowedEditEngine$ = this.acl
+  protected readonly isAllowedEditEngine$ = this.acl
     .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
     .pipe(shareReplay(1));
-  public engine$ = this.item$.pipe(
+  protected readonly engine$ = this.item$.pipe(
     switchMap((item) => {
       if (!item.engine_id) {
         return of(null as APIItem);
@@ -30,13 +30,13 @@ export class CarsSpecificationsEditorEngineComponent {
     }),
     shareReplay(1)
   );
-  public loading = 0;
+  protected loading = 0;
 
   constructor(
-    private acl: ACLService,
-    private itemService: ItemService,
-    private api: APIService,
-    private toastService: ToastsService
+    private readonly acl: ACLService,
+    private readonly itemService: ItemService,
+    private readonly api: APIService,
+    private readonly toastService: ToastsService
   ) {}
 
   private setEngineID(item: APIItem, value: string) {
@@ -52,11 +52,11 @@ export class CarsSpecificationsEditorEngineComponent {
       });
   }
 
-  public inheritEngine(item: APIItem) {
+  protected inheritEngine(item: APIItem) {
     this.setEngineID(item, 'inherited');
   }
 
-  public cancelInheritance(item: APIItem) {
+  protected cancelInheritance(item: APIItem) {
     this.setEngineID(item, '');
   }
 }

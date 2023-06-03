@@ -14,10 +14,10 @@ import {CommentsType} from '@grpc/spec.pb';
   templateUrl: './picture.component.html',
 })
 export class TwinsGroupPictureComponent {
-  public user$ = this.auth.getUser$();
-  private changed$ = new BehaviorSubject<boolean>(false);
+  protected readonly user$ = this.auth.getUser$();
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  public group$ = this.route.parent.parent.paramMap.pipe(
+  protected readonly group$ = this.route.parent.parent.paramMap.pipe(
     map((route) => parseInt(route.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((groupID) => {
@@ -40,7 +40,7 @@ export class TwinsGroupPictureComponent {
     shareReplay(1)
   );
 
-  private identity$ = this.route.paramMap.pipe(
+  private readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
@@ -54,7 +54,7 @@ export class TwinsGroupPictureComponent {
     })
   );
 
-  public picture$: Observable<APIPicture> = combineLatest([
+  protected readonly picture$: Observable<APIPicture> = combineLatest([
     this.group$,
     this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT),
     this.identity$,
@@ -112,16 +112,16 @@ export class TwinsGroupPictureComponent {
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private acl: ACLService,
-    private pictureService: PictureService,
-    private auth: AuthService,
-    private router: Router
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly acl: ACLService,
+    private readonly pictureService: PictureService,
+    private readonly auth: AuthService,
+    private readonly router: Router
   ) {}
 
-  reloadPicture() {
+  protected reloadPicture() {
     this.changed$.next(true);
   }
 }

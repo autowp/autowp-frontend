@@ -13,7 +13,7 @@
   <h1 i18n>Statistics</h1>
 </div>
 
-<ul>
+<ul *ngIf="items$ | async as items">
   <li class="mb-3" *ngFor="let item of items">
     <h3 [ngSwitch]="item.name">
       <ng-container *ngSwitchCase="'moder/statistics/photos-with-copyrights'" i18n>Photos with copyrights</ng-container>

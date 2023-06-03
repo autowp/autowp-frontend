@@ -12,9 +12,9 @@ import {CommentsType, ItemType} from '@grpc/spec.pb';
   templateUrl: './picture.component.html',
 })
 export class CategoryPictureComponent {
-  private changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  private identity$ = this.route.paramMap.pipe(
+  private readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
@@ -28,7 +28,7 @@ export class CategoryPictureComponent {
     })
   );
 
-  private categoryData$ = this.categoriesService.categoryPipe$(this.route.parent.parent).pipe(
+  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent.parent).pipe(
     switchMap((data) => {
       if (!data.current) {
         this.router.navigate(['/error-404'], {
@@ -41,7 +41,7 @@ export class CategoryPictureComponent {
     shareReplay(1)
   );
 
-  public currentRouterLinkPrefix$ = this.categoryData$.pipe(
+  protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(
     map(({category, current, pathCatnames}) => {
       if (!category) {
         return null;
@@ -55,7 +55,7 @@ export class CategoryPictureComponent {
     })
   );
 
-  public picture$ = combineLatest([this.categoryData$, this.identity$]).pipe(
+  protected readonly picture$ = combineLatest([this.categoryData$, this.identity$]).pipe(
     switchMap(([{current}, identity]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
@@ -98,7 +98,7 @@ export class CategoryPictureComponent {
     })
   );
 
-  public currentRouterLinkGallery$ = combineLatest([this.categoryData$, this.identity$]).pipe(
+  protected readonly currentRouterLinkGallery$ = combineLatest([this.categoryData$, this.identity$]).pipe(
     map(([{category, current, pathCatnames}, identity]) => {
       if (!category || !identity) {
         return null;
@@ -115,11 +115,11 @@ export class CategoryPictureComponent {
   protected readonly CommentsType = CommentsType;
 
   constructor(
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private pictureService: PictureService,
-    private router: Router,
-    private categoriesService: CategoriesService
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly pictureService: PictureService,
+    private readonly router: Router,
+    private readonly categoriesService: CategoriesService
   ) {}
 
   protected reloadPicture() {

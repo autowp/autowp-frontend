@@ -1,18 +1,45 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {TrafficClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '@grpc/spec.pb';
+import {catchError, map} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-moder-traffic-whitelist',
   templateUrl: './whitelist.component.html',
 })
-export class ModerTrafficWhitelistComponent {
-  public items: APITrafficWhitelistItem[];
+export class ModerTrafficWhitelistComponent implements OnInit {
+  private readonly reload$ = new BehaviorSubject<void>(null);
 
-  constructor(private grpc: TrafficClient, private router: Router, private pageEnv: PageEnvService) {
+  protected readonly items$: Observable<APITrafficWhitelistItem[]> = combineLatest([
+    this.grpc.getWhitelist(new Empty()),
+    this.reload$,
+  ]).pipe(
+    map(([response]) => response.items),
+    catchError(() => {
+      this.router.navigate(['/error-404'], {
+        skipLocationChange: true,
+      });
+      return EMPTY;
+    })
+  );
+
+  constructor(
+    private readonly grpc: TrafficClient,
+    private readonly router: Router,
+    private readonly pageEnv: PageEnvService
+  ) {}
+
+  protected deleteItem(item: APITrafficWhitelistItem) {
+    this.grpc.deleteFromWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
+      this.reload$.next();
+    });
+  }
+
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -21,31 +48,5 @@ export class ModerTrafficWhitelistComponent {
         }),
       0
     );
-
-    this.grpc.getWhitelist(new Empty()).subscribe(
-      (response) => {
-        this.items = response.items;
-
-        /*for(const item of $scope.items) {
-              ipService.getHostByAddr(item.ip).subscribe((hostname) => {
-                  item.hostname = hostname;
-              });
-          }*/
-      },
-      () => {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-      }
-    );
-  }
-
-  public deleteItem(item: APITrafficWhitelistItem) {
-    this.grpc.deleteFromWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
-      const index = this.items.indexOf(item);
-      if (index !== -1) {
-        this.items.splice(index, 1);
-      }
-    });
   }
 }

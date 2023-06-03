@@ -14,15 +14,15 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './items.component.html',
 })
 export class FactoryItemsComponent {
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public factory$ = this.route.paramMap.pipe(
+  protected readonly factory$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -53,7 +53,7 @@ export class FactoryItemsComponent {
     shareReplay(1)
   );
 
-  public items$ = combineLatest([this.page$, this.factory$]).pipe(
+  protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(
     switchMap(([page, factory]) =>
       this.itemService.getItems$({
         related_groups_of: factory.id,
@@ -113,11 +113,11 @@ export class FactoryItemsComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private acl: ACLService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly acl: ACLService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

@@ -14,9 +14,9 @@ export class CommentsVotesComponent {
   @Input() set messageID(item: number) {
     this.messageID$.next(item);
   }
-  private messageID$ = new BehaviorSubject<number>(null);
+  private readonly messageID$ = new BehaviorSubject<number>(null);
 
-  public votes$: Observable<{
+  protected readonly votes$: Observable<{
     positive: CommentVote[];
     negative: CommentVote[];
   }> = this.messageID$.pipe(
@@ -40,8 +40,8 @@ export class CommentsVotesComponent {
   );
 
   constructor(
-    public activeModal: NgbActiveModal,
-    private toastService: ToastsService,
-    private commentsGrpc: CommentsClient
+    protected readonly activeModal: NgbActiveModal,
+    private readonly toastService: ToastsService,
+    private readonly commentsGrpc: CommentsClient
   ) {}
 }

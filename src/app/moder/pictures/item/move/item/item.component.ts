@@ -11,12 +11,12 @@ export class ModerPictureMoveItemComponent {
   @Input() item: APIItemParent;
   @Output() selected = new EventEmitter<PictureItemMoveSelection>();
 
-  public loading = false;
-  public childs: APIItemParent[] = [];
+  protected loading = false;
+  protected childs: APIItemParent[] = [];
 
-  constructor(private itemParentService: ItemParentService) {}
+  constructor(private readonly itemParentService: ItemParentService) {}
 
-  toggleItem(item: APIItemParent) {
+  protected toggleItem(item: APIItemParent) {
     item.expanded = !item.expanded;
 
     if (item.expanded) {
@@ -36,7 +36,7 @@ export class ModerPictureMoveItemComponent {
     return false;
   }
 
-  public selectItem(selection: PictureItemMoveSelection) {
+  protected selectItem(selection: PictureItemMoveSelection) {
     this.selected.emit(selection);
     return false;
   }

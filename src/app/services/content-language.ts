@@ -11,5 +11,5 @@ export class ContentLanguageService {
     shareReplay(1)
   );
 
-  constructor(private itemClient: ItemsClient) {}
+  constructor(private readonly itemClient: ItemsClient) {}
 }

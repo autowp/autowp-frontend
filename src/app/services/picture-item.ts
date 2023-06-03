@@ -47,7 +47,7 @@ export interface APIPictureItem {
 
 @Injectable()
 export class PictureItemService {
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
   public setPerspective$(pictureId: number, itemId: number, type: number, perspectiveId: number): Observable<void> {
     const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;

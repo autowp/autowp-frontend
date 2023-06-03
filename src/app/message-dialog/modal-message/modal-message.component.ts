@@ -10,17 +10,17 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class ModalMessageComponent {
   @Input() userId: string;
 
-  public text = '';
-  public sending = false;
-  public sent = false;
+  protected text = '';
+  protected sending = false;
+  protected sent = false;
 
   constructor(
-    public activeModal: NgbActiveModal,
-    private messageService: MessageService,
-    private toastService: ToastsService
+    protected readonly activeModal: NgbActiveModal,
+    private readonly messageService: MessageService,
+    private readonly toastService: ToastsService
   ) {}
 
-  public send() {
+  protected send() {
     this.sending = true;
     this.sent = false;
 
@@ -38,7 +38,7 @@ export class ModalMessageComponent {
     });
   }
 
-  public keypress() {
+  protected keypress() {
     this.sent = false;
   }
 }

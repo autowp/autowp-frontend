@@ -34,11 +34,11 @@ function createMarker(lat, lng): Marker {
 })
 export class MapComponent implements OnInit {
   private compRef: ComponentRef<MapPopupComponent>;
-  public markers: Marker[] = [];
+  protected markers: Marker[] = [];
 
-  private bounds$ = new BehaviorSubject<LatLngBounds>(null);
+  private readonly bounds$ = new BehaviorSubject<LatLngBounds>(null);
 
-  public options: MapOptions = {
+  public readonly options: MapOptions = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -53,18 +53,18 @@ export class MapComponent implements OnInit {
   };
 
   constructor(
-    private pageEnv: PageEnvService,
-    private zone: NgZone,
-    private resolver: ComponentFactoryResolver,
-    private injector: Injector,
-    private appRef: ApplicationRef,
-    private toastService: ToastsService,
-    private mapClient: MapClient
-  ) {
-    setTimeout(() => this.pageEnv.set({pageId: 117}), 0);
-  }
+    private readonly pageEnv: PageEnvService,
+    private readonly zone: NgZone,
+    private readonly resolver: ComponentFactoryResolver,
+    private readonly injector: Injector,
+    private readonly appRef: ApplicationRef,
+    private readonly toastService: ToastsService,
+    private readonly mapClient: MapClient
+  ) {}
 
   ngOnInit(): void {
+    setTimeout(() => this.pageEnv.set({pageId: 117}), 0);
+
     this.bounds$
       .pipe(
         distinctUntilChanged(),
@@ -91,7 +91,7 @@ export class MapComponent implements OnInit {
       });
   }
 
-  onMapReady(lmap: Map) {
+  protected onMapReady(lmap: Map) {
     lmap.on('moveend', () => {
       this.zone.run(() => {
         this.bounds$.next(lmap.getBounds());
@@ -103,7 +103,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  renderData(data: MapPoint[]) {
+  private renderData(data: MapPoint[]) {
     for (const m of this.markers) {
       m.remove();
     }

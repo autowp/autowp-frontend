@@ -38,19 +38,19 @@ interface InfoText {
   templateUrl: './text.component.html',
 })
 export class InfoTextComponent implements OnInit {
-  private id$ = this.route.paramMap.pipe(
+  private readonly id$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private revision$ = this.route.queryParamMap.pipe(
+  private readonly revision$ = this.route.queryParamMap.pipe(
     map((params) => params.get('revision')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public data$: Observable<InfoText> = combineLatest([this.id$, this.revision$]).pipe(
+  protected readonly data$: Observable<InfoText> = combineLatest([this.id$, this.revision$]).pipe(
     switchMap(([id, revision]) =>
       this.textClient.getText(
         new APIGetTextRequest({
@@ -88,11 +88,11 @@ export class InfoTextComponent implements OnInit {
   );
 
   constructor(
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private textClient: TextClient
+    private readonly userService: UserService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly textClient: TextClient
   ) {}
 
   ngOnInit(): void {

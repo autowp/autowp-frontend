@@ -13,7 +13,7 @@ import {UserService} from '@services/user';
   templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {
-  public periods: {
+  protected readonly periods: {
     value: PulseRequest.Period;
     name: string;
     active: boolean;
@@ -35,9 +35,9 @@ export class PulseComponent implements OnInit {
     },
   ];
 
-  private period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
+  private readonly period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
 
-  public chartOptions: ChartConfiguration<'bar', any, any>['options'] = {
+  protected readonly chartOptions: ChartConfiguration<'bar', any, any>['options'] = {
     responsive: true,
     scales: {
       x: {
@@ -49,7 +49,7 @@ export class PulseComponent implements OnInit {
     },
   };
 
-  public data$ = this.period$.pipe(
+  protected readonly data$ = this.period$.pipe(
     debounceTime(10),
     distinctUntilChanged(),
     switchMap((period) => this.grpc.getPulse(new PulseRequest({period}))),
@@ -60,7 +60,7 @@ export class PulseComponent implements OnInit {
     shareReplay(1)
   );
 
-  public legend$ = this.data$.pipe(
+  protected readonly legend$ = this.data$.pipe(
     map((response) => {
       return response.legend.map((item) => ({
         color: item.color,
@@ -69,9 +69,9 @@ export class PulseComponent implements OnInit {
     })
   );
 
-  public labels$ = this.data$.pipe(map((response) => response.labels));
+  protected readonly labels$ = this.data$.pipe(map((response) => response.labels));
 
-  public gridData$ = this.data$.pipe(
+  protected readonly gridData$ = this.data$.pipe(
     switchMap((response) =>
       combineLatest(
         response.grid.map((dataset) =>
@@ -88,17 +88,17 @@ export class PulseComponent implements OnInit {
   );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private grpc: StatisticsClient,
-    private usersService: UserService
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly grpc: StatisticsClient,
+    private readonly usersService: UserService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 161}), 0);
   }
 
-  public selectPeriod(period) {
+  protected selectPeriod(period) {
     for (const p of this.periods) {
       p.active = false;
     }

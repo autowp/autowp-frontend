@@ -8,11 +8,11 @@ import {LanguageService} from '@services/language';
   templateUrl: './factories.component.html',
 })
 export class IndexFactoriesComponent {
-  public factories$ = this.items.getTopFactoriesList(
+  protected readonly factories$ = this.items.getTopFactoriesList(
     new GetTopFactoriesListRequest({
       language: this.languageService.language,
     })
   );
 
-  constructor(private items: ItemsClient, private languageService: LanguageService) {}
+  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
 }

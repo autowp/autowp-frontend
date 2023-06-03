@@ -8,7 +8,7 @@ import * as showdown from 'showdown';
   styleUrls: ['markdown2.component.scss'],
 })
 export class Markdown2Component implements AfterViewInit {
-  constructor(private element: ElementRef, @Inject(PLATFORM_ID) private platform: object) {}
+  constructor(private readonly element: ElementRef, @Inject(PLATFORM_ID) private readonly platform: object) {}
 
   private decodeHtml(html: string): string {
     if (isPlatformBrowser(this.platform)) {

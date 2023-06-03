@@ -9,11 +9,11 @@ import {Pages} from '@grpc/spec.pb';
 export class PaginatorComponent {
   @Input() data: APIPaginator | Pages;
 
-  public pagesInRange(): number[] {
+  protected pagesInRange(): number[] {
     return Object.values(this.data.pagesInRange);
   }
 
-  public padd(page: number): string {
+  protected padd(page: number): string {
     const size = Math.max(2, this.data.pageCount.toString().length);
     return page.toString().padStart(size, '0');
   }

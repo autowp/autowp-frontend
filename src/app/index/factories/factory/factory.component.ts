@@ -9,12 +9,12 @@ import {APITopFactoriesListItem} from '@grpc/spec.pb';
 })
 export class IndexFactoriesFactoryComponent {
   @Input() factory: APITopFactoriesListItem;
-  public loading = true;
-  public html = '';
+  protected loading = true;
+  protected html = '';
 
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
-  public shown() {
+  protected shown() {
     this.loading = true;
 
     this.api

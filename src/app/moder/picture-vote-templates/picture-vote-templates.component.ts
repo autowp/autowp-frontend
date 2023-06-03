@@ -8,11 +8,14 @@ import {ModerVoteTemplate} from '@grpc/spec.pb';
   templateUrl: './picture-vote-templates.component.html',
 })
 export class ModerPictureVoteTemplatesComponent implements OnInit {
-  public templates$ = this.voteTemplateService.getTemplates$();
-  public vote = -1;
-  public name = '';
+  protected readonly templates$ = this.voteTemplateService.getTemplates$();
+  protected vote = -1;
+  protected name = '';
 
-  constructor(private voteTemplateService: APIPictureModerVoteTemplateService, private pageEnv: PageEnvService) {}
+  constructor(
+    private readonly voteTemplateService: APIPictureModerVoteTemplateService,
+    private readonly pageEnv: PageEnvService
+  ) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -25,11 +28,11 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
     );
   }
 
-  public deleteTemplate(template: ModerVoteTemplate) {
+  protected deleteTemplate(template: ModerVoteTemplate) {
     this.voteTemplateService.deleteTemplate$(template.id).subscribe();
   }
 
-  public createTemplate() {
+  protected createTemplate() {
     this.voteTemplateService
       .createTemplate$({
         vote: this.vote,

@@ -35,11 +35,11 @@ interface PictureRoute {
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {
-  public readonly ItemType = ItemType;
+  protected readonly ItemType = ItemType;
 
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
 
-  public brand$ = combineLatest([
+  protected readonly brand$ = combineLatest([
     this.isModer$,
     this.route.paramMap.pipe(
       map((params) => params.get('brand')),
@@ -87,7 +87,7 @@ export class CatalogueIndexComponent {
     shareReplay(1)
   );
 
-  public pictures$ = this.brand$.pipe(
+  protected readonly pictures$ = this.brand$.pipe(
     switchMap((brand) =>
       this.pictureService.getPictures$({
         limit: 12,
@@ -107,7 +107,7 @@ export class CatalogueIndexComponent {
     })
   );
 
-  public links$ = this.brand$.pipe(
+  protected readonly links$ = this.brand$.pipe(
     switchMap((brand) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + brand.id}))),
     map((response) => {
       const official: APIItemLink[] = [];
@@ -130,7 +130,7 @@ export class CatalogueIndexComponent {
     })
   );
 
-  public factories$ = this.brand$.pipe(
+  protected readonly factories$ = this.brand$.pipe(
     switchMap((brand) =>
       this.itemService.getItems$({
         limit: 4,
@@ -142,27 +142,28 @@ export class CatalogueIndexComponent {
     map((response) => response.items)
   );
 
-  public sections$: Observable<{name: string; halfChunks: APIBrandSectionGroup[][][]; routerLink: string[]}[]> =
-    this.brand$.pipe(
-      switchMap((brand) => this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
-      map((response) =>
-        response.map((section) => ({
-          name: getCatalogueSectionsTranslation(section.name),
-          halfChunks: chunk(section.groups, 2).map((halfChunk) => chunk(halfChunk, 2)),
-          routerLink: section.routerLink,
-        }))
-      )
-    );
+  protected readonly sections$: Observable<
+    {name: string; halfChunks: APIBrandSectionGroup[][][]; routerLink: string[]}[]
+  > = this.brand$.pipe(
+    switchMap((brand) => this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
+    map((response) =>
+      response.map((section) => ({
+        name: getCatalogueSectionsTranslation(section.name),
+        halfChunks: chunk(section.groups, 2).map((halfChunk) => chunk(halfChunk, 2)),
+        routerLink: section.routerLink,
+      }))
+    )
+  );
 
   constructor(
-    private pageEnv: PageEnvService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private acl: ACLService,
-    private api: APIService,
-    private router: Router,
-    private catalogue: CatalogueService,
-    private itemsClient: ItemsClient
+    private readonly pageEnv: PageEnvService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly acl: ACLService,
+    private readonly api: APIService,
+    private readonly router: Router,
+    private readonly catalogue: CatalogueService,
+    private readonly itemsClient: ItemsClient
   ) {}
 }

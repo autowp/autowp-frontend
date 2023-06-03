@@ -21,8 +21,8 @@ interface Crop {
 })
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
-  public aspect = '';
-  public resolution = '';
+  protected aspect = '';
+  protected resolution = '';
   private jcrop: any;
   private currentCrop: Crop = {
     w: 0,
@@ -31,15 +31,15 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [400, 300];
-  public picture: APIPicture;
-  public img$ = new BehaviorSubject<HTMLElement>(null);
+  protected picture: APIPicture;
+  protected readonly img$ = new BehaviorSubject<HTMLElement>(null);
 
   constructor(
-    private api: APIService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService
+    private readonly api: APIService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService
   ) {}
 
   ngOnInit(): void {
@@ -118,11 +118,11 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     this.routeSub.unsubscribe();
   }
 
-  public selectAll() {
+  protected selectAll() {
     this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
   }
 
-  public saveCrop() {
+  protected saveCrop() {
     this.api
       .request<void>('PUT', 'picture/' + this.picture.id, {
         body: {
@@ -149,7 +149,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     this.resolution = text;
   }
 
-  public onLoad(e) {
+  protected onLoad(e) {
     this.img$.next(e.target);
   }
 }

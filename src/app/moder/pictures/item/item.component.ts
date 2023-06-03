@@ -19,16 +19,16 @@ import {APIIP} from '@grpc/spec.pb';
 export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   private id: number;
   private routeSub: Subscription;
-  public picture: APIPicture = null;
-  public replaceLoading = false;
-  public pictureItemLoading = false;
-  public similarLoading = false;
-  public repairLoading = false;
-  public statusLoading = false;
-  public copyrightsLoading = false;
-  public specialNameLoading = false;
-  public lastItem: APIItem = null;
-  public banPeriods = [
+  protected picture: APIPicture = null;
+  protected replaceLoading = false;
+  protected pictureItemLoading = false;
+  protected similarLoading = false;
+  protected repairLoading = false;
+  protected statusLoading = false;
+  protected copyrightsLoading = false;
+  protected specialNameLoading = false;
+  protected lastItem: APIItem = null;
+  protected readonly banPeriods = [
     {value: 1, name: $localize`hour`},
     {value: 2, name: $localize`2 hours`},
     {value: 4, name: $localize`4 hours`},
@@ -37,24 +37,24 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     {value: 24, name: $localize`day`},
     {value: 48, name: $localize`2 days`},
   ];
-  public banPeriod = 1;
-  public banReason: string | null = null;
-  private change$ = new BehaviorSubject<null>(null);
+  protected banPeriod = 1;
+  protected banReason: string | null = null;
+  private readonly change$ = new BehaviorSubject<null>(null);
   private lastItemSub: Subscription;
-  public monthOptions: any[];
-  public dayOptions: any[];
-  public ip: APIIP;
+  protected monthOptions: any[];
+  protected dayOptions: any[];
+  protected ip: APIIP;
 
   constructor(
-    private api: APIService,
-    private pictureItemService: PictureItemService,
-    private itemService: ItemService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private languageService: LanguageService,
-    private ipService: IpService
+    private readonly api: APIService,
+    private readonly pictureItemService: PictureItemService,
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly languageService: LanguageService,
+    private readonly ipService: IpService
   ) {
     this.monthOptions = [
       {
@@ -90,7 +90,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public savePerspective(perspectiveID: number | null, item: APIPictureItem) {
+  protected savePerspective(perspectiveID: number | null, item: APIPictureItem) {
     this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
@@ -193,11 +193,11 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public pictureVoted() {
+  protected pictureVoted() {
     this.change$.next(null);
   }
 
-  public hasItem(itemId: number): boolean {
+  protected hasItem(itemId: number): boolean {
     let found = false;
     for (const item of this.picture.items) {
       if (item.item_id === itemId) {
@@ -208,7 +208,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     return found;
   }
 
-  public addItem(item: APIItem, type: number) {
+  protected addItem(item: APIItem, type: number) {
     this.pictureItemLoading = true;
     this.pictureItemService.create$(this.id, item.id, type, {}).subscribe(
       () => {
@@ -222,7 +222,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public moveItem(type: number, srcItemId: number, dstItemId: number) {
+  protected moveItem(type: number, srcItemId: number, dstItemId: number) {
     this.pictureItemLoading = true;
     this.pictureItemService.changeItem$(this.id, type, srcItemId, dstItemId).subscribe(
       () => {
@@ -236,7 +236,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public saveSpecialName() {
+  protected saveSpecialName() {
     this.specialNameLoading = true;
     this.api
       .request<void>('PUT', 'picture/' + this.id, {
@@ -257,7 +257,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       );
   }
 
-  public saveCopyrights() {
+  protected saveCopyrights() {
     this.copyrightsLoading = true;
 
     this.api
@@ -289,23 +289,23 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public unacceptPicture() {
+  protected unacceptPicture() {
     this.setPictureStatus('inbox');
   }
 
-  public acceptPicture() {
+  protected acceptPicture() {
     this.setPictureStatus('accepted');
   }
 
-  public deletePicture() {
+  protected deletePicture() {
     this.setPictureStatus('removing');
   }
 
-  public restorePicture() {
+  protected restorePicture() {
     this.setPictureStatus('inbox');
   }
 
-  public normalizePicture() {
+  protected normalizePicture() {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + this.id + '/normalize', {}).subscribe(
       () => {
@@ -318,7 +318,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public flopPicture() {
+  protected flopPicture() {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + this.id + '/flop', {}).subscribe(
       () => {
@@ -331,7 +331,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public repairPicture() {
+  protected repairPicture() {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + this.id + '/repair', {}).subscribe(
       () => {
@@ -344,7 +344,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public correctFileNames() {
+  protected correctFileNames() {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + this.id + '/correct-file-names', {}).subscribe(
       () => {
@@ -357,7 +357,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public cancelSimilar() {
+  protected cancelSimilar() {
     this.similarLoading = true;
     this.api.request<void>('DELETE', 'picture/' + this.id + '/similar/' + this.picture.similar.picture_id).subscribe(
       () => {
@@ -370,7 +370,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public deletePictureItem(item: APIPictureItem) {
+  protected deletePictureItem(item: APIPictureItem) {
     this.pictureItemLoading = true;
     this.pictureItemService.remove$(item.picture_id, item.item_id, item.type).subscribe(
       () => {
@@ -383,7 +383,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public cancelReplace() {
+  protected cancelReplace() {
     this.replaceLoading = true;
 
     this.api
@@ -403,7 +403,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       );
   }
 
-  public acceptReplace() {
+  protected acceptReplace() {
     this.replaceLoading = true;
     this.api.request<void>('PUT', 'picture/' + this.id + '/accept-replace', {body: {}}).subscribe(
       () => {
@@ -416,13 +416,13 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  public removeFromBlacklist(ip: string) {
+  protected removeFromBlacklist(ip: string) {
     this.api.request<void>('DELETE', 'traffic/blacklist/' + ip).subscribe(() => {
       this.change$.next(null);
     });
   }
 
-  public addToBlacklist(ip: string) {
+  protected addToBlacklist(ip: string) {
     this.api
       .request<void>('POST', 'traffic/blacklist', {
         body: {

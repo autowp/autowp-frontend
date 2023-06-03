@@ -14,26 +14,26 @@ export class PictureModerVoteComponent {
   @Input() picture: APIPicture;
   @Output() changed = new EventEmitter();
 
-  public moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
-  public vote: any = null;
-  public reason = '';
-  public save = false;
+  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
+  protected vote: any = null;
+  protected reason = '';
+  protected save = false;
 
   constructor(
-    private moderVoteService: PictureModerVoteService,
-    private moderVoteTemplateService: APIPictureModerVoteTemplateService,
-    private modalService: NgbModal
+    private readonly moderVoteService: PictureModerVoteService,
+    private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
+    private readonly modalService: NgbModal
   ) {}
 
-  votePicture(vote: number, reason: string): void {
+  protected votePicture(vote: number, reason: string): void {
     this.moderVoteService.vote$(this.picture.id, vote, reason).subscribe(() => this.changed.emit());
   }
 
-  cancelVotePicture(): void {
+  protected cancelVotePicture(): void {
     this.moderVoteService.cancel$(this.picture.id).subscribe(() => this.changed.emit());
   }
 
-  ok(): void {
+  protected ok(): void {
     if (this.save) {
       this.moderVoteTemplateService
         .createTemplate$({
@@ -46,7 +46,7 @@ export class PictureModerVoteComponent {
     this.votePicture(this.vote, this.reason);
   }
 
-  showCustomDialog(vote: number): void {
+  protected showCustomDialog(vote: number): void {
     this.vote = vote;
 
     const modalRef = this.modalService.open(PictureModerVoteModalComponent, {

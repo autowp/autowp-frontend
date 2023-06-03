@@ -13,31 +13,31 @@ import {CommentsClient} from '@grpc/spec.pbsc';
   templateUrl: './comments.component.html',
 })
 export class CommentsComponent {
-  private reload$ = new BehaviorSubject<null>(null);
+  private readonly reload$ = new BehaviorSubject<null>(null);
 
   @Input() set itemID(itemID: number) {
     this.itemID$.next(itemID);
   }
-  public itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<number>(null);
 
   @Input() set typeID(typeID: CommentsType) {
     this.typeID$.next(typeID);
   }
-  public typeID$ = new BehaviorSubject<CommentsType>(null);
+  protected readonly typeID$ = new BehaviorSubject<CommentsType>(null);
 
   @Input() set limit(limit: number) {
     this.limit$.next(limit);
   }
-  public limit$ = new BehaviorSubject<number>(null);
+  protected readonly limit$ = new BehaviorSubject<number>(null);
 
   @Input() set page(page: number) {
     this.page$.next(page);
   }
-  public page$ = new BehaviorSubject<number>(null);
+  protected readonly page$ = new BehaviorSubject<number>(null);
 
-  public user$ = this.auth.getUser$();
+  protected readonly user$ = this.auth.getUser$();
 
-  public data$ = combineLatest([
+  protected readonly data$ = combineLatest([
     this.user$,
     this.itemID$.pipe(debounceTime(10), distinctUntilChanged()),
     this.typeID$.pipe(debounceTime(10), distinctUntilChanged()),
@@ -68,14 +68,14 @@ export class CommentsComponent {
   );
 
   constructor(
-    private router: Router,
-    private commentService: APICommentsService,
-    public auth: AuthService,
-    private toastService: ToastsService,
-    private commentsGrpc: CommentsClient
+    private readonly router: Router,
+    private readonly commentService: APICommentsService,
+    protected readonly auth: AuthService,
+    private readonly toastService: ToastsService,
+    private readonly commentsGrpc: CommentsClient
   ) {}
 
-  public onSent(id: string) {
+  protected onSent(id: string) {
     this.limit$
       .pipe(
         take(1),
@@ -111,7 +111,7 @@ export class CommentsComponent {
       .subscribe();
   }
 
-  public load$(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
+  protected load$(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
     if (!typeID || !itemID) {
       return EMPTY;
     }

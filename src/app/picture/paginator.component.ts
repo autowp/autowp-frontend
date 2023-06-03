@@ -9,7 +9,7 @@ export class PicturePaginatorComponent {
   @Input() paginator: APIPicturePaginator;
   @Input() prefix: string[] = [];
 
-  public format(page, count) {
+  protected format(page, count) {
     const size = Math.max(2, count.toString().length);
 
     return page.toString().padStart(size, '0');

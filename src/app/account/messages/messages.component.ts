@@ -15,97 +15,99 @@ import {APIUser, UserService} from '@services/user';
   templateUrl: './messages.component.html',
 })
 export class AccountMessagesComponent {
-  public folder: string;
-  private change$ = new BehaviorSubject<null>(null);
+  protected folder: string;
+  private readonly change$ = new BehaviorSubject<null>(null);
 
-  public pageName = '';
+  protected pageName = '';
 
-  public messages$: Observable<{items: {message: APIMessage; author$: Observable<APIUser>}[]; paginator: Pages}> =
-    this.route.queryParamMap.pipe(
-      map((params) => ({
-        folder: params.get('folder'),
-        user_id: params.get('user_id'),
-        page: parseInt(params.get('page'), 10),
-      })),
-      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-      debounceTime(30),
-      switchMap((params) => {
-        this.folder = params.folder || 'inbox';
-        let pageId = null;
-        let userID: string = null;
+  protected readonly messages$: Observable<{
+    items: {message: APIMessage; author$: Observable<APIUser>}[];
+    paginator: Pages;
+  }> = this.route.queryParamMap.pipe(
+    map((params) => ({
+      folder: params.get('folder'),
+      user_id: params.get('user_id'),
+      page: parseInt(params.get('page'), 10),
+    })),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    debounceTime(30),
+    switchMap((params) => {
+      this.folder = params.folder || 'inbox';
+      let pageId = null;
+      let userID: string = null;
 
-        switch (this.folder) {
-          case 'inbox':
-            pageId = 128;
-            this.pageName = $localize`Inbox`;
-            break;
-          case 'sent':
-            pageId = 80;
-            this.pageName = $localize`Sent`;
-            break;
-          case 'system':
-            pageId = 81;
-            this.pageName = $localize`System messages`;
-            break;
-          case 'dialog':
-            pageId = 49;
-            this.pageName = $localize`Personal messages`;
-            userID = params.user_id;
-            break;
-        }
+      switch (this.folder) {
+        case 'inbox':
+          pageId = 128;
+          this.pageName = $localize`Inbox`;
+          break;
+        case 'sent':
+          pageId = 80;
+          this.pageName = $localize`Sent`;
+          break;
+        case 'system':
+          pageId = 81;
+          this.pageName = $localize`System messages`;
+          break;
+        case 'dialog':
+          pageId = 49;
+          this.pageName = $localize`Personal messages`;
+          userID = params.user_id;
+          break;
+      }
 
-        this.pageEnv.set({
-          title: this.pageName,
-          pageId,
-        });
+      this.pageEnv.set({
+        title: this.pageName,
+        pageId,
+      });
 
-        return this.change$.pipe(
-          switchMap(() =>
-            this.messagingClient
-              .getMessages(
-                new MessagingGetMessagesRequest({
-                  folder: this.folder,
-                  page: params.page || 1,
-                  userId: userID ? userID : null,
-                })
-              )
-              .pipe(
-                catchError((err: unknown) => {
-                  this.toastService.handleError(err);
-                  return EMPTY;
-                })
-              )
-          )
-        );
-      }),
-      tap((response) => {
-        this.messageService.seen(response.items);
-      }),
-      map((response) => {
-        return {
-          items: response.items.map((msg) => ({
-            message: msg,
-            author$:
-              msg.authorId !== '0'
-                ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'})
-                : of(null as APIUser),
-          })),
-          paginator: response.paginator,
-        };
-      })
-    );
+      return this.change$.pipe(
+        switchMap(() =>
+          this.messagingClient
+            .getMessages(
+              new MessagingGetMessagesRequest({
+                folder: this.folder,
+                page: params.page || 1,
+                userId: userID ? userID : null,
+              })
+            )
+            .pipe(
+              catchError((err: unknown) => {
+                this.toastService.handleError(err);
+                return EMPTY;
+              })
+            )
+        )
+      );
+    }),
+    tap((response) => {
+      this.messageService.seen(response.items);
+    }),
+    map((response) => {
+      return {
+        items: response.items.map((msg) => ({
+          message: msg,
+          author$:
+            msg.authorId !== '0'
+              ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'})
+              : of(null as APIUser),
+        })),
+        paginator: response.paginator,
+      };
+    })
+  );
 
   constructor(
-    private messageService: MessageService,
-    private messageDialogService: MessageDialogService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private messagingClient: MessagingClient,
-    private userService: UserService
+    private readonly messageService: MessageService,
+    private readonly messageDialogService: MessageDialogService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly messagingClient: MessagingClient,
+    private readonly userService: UserService
   ) {}
 
-  public deleteMessage(id: string) {
+  protected deleteMessage(id: string) {
     this.messageService.deleteMessage$(id).subscribe({
       next: () => {
         this.change$.next(null);
@@ -116,7 +118,7 @@ export class AccountMessagesComponent {
     return false;
   }
 
-  public clearFolder(folder: string) {
+  protected clearFolder(folder: string) {
     this.messageService.clearFolder$(folder).subscribe({
       next: () => {
         this.change$.next(null);
@@ -125,7 +127,7 @@ export class AccountMessagesComponent {
     });
   }
 
-  public openMessageForm(userId: string) {
+  protected openMessageForm(userId: string) {
     this.messageDialogService.showDialog(userId, () => {
       switch (this.folder) {
         case 'sent':

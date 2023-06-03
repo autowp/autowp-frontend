@@ -8,7 +8,7 @@ import {APIGetIPRequest, APIIP} from '@grpc/spec.pb';
 export class IpService {
   private hostnames = new Map<string, Observable<string>>();
 
-  constructor(private grpc: AutowpClient) {}
+  constructor(private readonly grpc: AutowpClient) {}
 
   public getHostByAddr$(ip: string): Observable<string> {
     const hostname$ = this.hostnames.get(ip);

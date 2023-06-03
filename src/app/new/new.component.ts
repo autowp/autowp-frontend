@@ -42,20 +42,20 @@ interface APINewGetResponse {
   templateUrl: './new.component.html',
 })
 export class NewComponent implements OnInit {
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public date$ = this.route.paramMap.pipe(
+  protected readonly date$ = this.route.paramMap.pipe(
     map((params) => params.get('date')),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1)
   );
 
-  public data$: Observable<{
+  protected readonly data$: Observable<{
     groups: APINewGroupRepacked[];
     paginator: APIPaginator;
     prev: DayCount;
@@ -127,11 +127,11 @@ export class NewComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

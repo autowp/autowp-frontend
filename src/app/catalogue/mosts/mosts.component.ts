@@ -10,23 +10,23 @@ import {ItemService} from '@services/item';
   templateUrl: './mosts.component.html',
 })
 export class CatalogueMostsComponent {
-  public ratingCatname$ = this.route.paramMap.pipe(
+  protected readonly ratingCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('rating_catname')),
     distinctUntilChanged(),
     debounceTime(10)
   );
-  public typeCatname$ = this.route.paramMap.pipe(
+  protected readonly typeCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('type_catname')),
     distinctUntilChanged(),
     debounceTime(10)
   );
-  public yearsCatname$ = this.route.paramMap.pipe(
+  protected readonly yearsCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('years_catname')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public brand$ = this.route.paramMap.pipe(
+  protected readonly brand$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -62,9 +62,9 @@ export class CatalogueMostsComponent {
   );
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private itemService: ItemService,
-    private pageEnv: PageEnvService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly itemService: ItemService,
+    private readonly pageEnv: PageEnvService
   ) {}
 }

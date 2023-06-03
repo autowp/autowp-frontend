@@ -15,9 +15,9 @@ export class ModerItemsItemNameComponent {
     this.item$.next(item);
   }
 
-  public loadingNumber = 0;
+  protected loadingNumber = 0;
 
-  public languages$ = this.contentLanguage.languages$.pipe(
+  protected readonly languages$ = this.contentLanguage.languages$.pipe(
     map((contentLanguages) => {
       const languages = new Map<string, APIItemLanguage>();
 
@@ -36,9 +36,9 @@ export class ModerItemsItemNameComponent {
     })
   );
 
-  private item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
-  public data$: Observable<{itemId: number; languages: APIItemLanguage[]}> = this.item$.pipe(
+  protected readonly data$: Observable<{itemId: number; languages: APIItemLanguage[]}> = this.item$.pipe(
     switchMap((item) => combineLatest([of(item.id), this.itemLanguageService.getItems$(item.id), this.languages$])),
     map(([itemId, {items}, languages]) => {
       for (const value of items) {
@@ -53,12 +53,12 @@ export class ModerItemsItemNameComponent {
   );
 
   constructor(
-    private api: APIService,
-    private itemLanguageService: ItemLanguageService,
-    private contentLanguage: ContentLanguageService
+    private readonly api: APIService,
+    private readonly itemLanguageService: ItemLanguageService,
+    private readonly contentLanguage: ContentLanguageService
   ) {}
 
-  public saveLanguages(itemId: number, itemLanguages: APIItemLanguage[]) {
+  protected saveLanguages(itemId: number, itemLanguages: APIItemLanguage[]) {
     for (const language of itemLanguages) {
       this.loadingNumber++;
       this.api

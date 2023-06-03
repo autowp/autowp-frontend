@@ -39,7 +39,7 @@ export interface APIUsersRatingGetResponse {
   templateUrl: './rating.component.html',
 })
 export class UsersRatingComponent implements OnInit {
-  public rating$ = this.route.paramMap.pipe(
+  protected readonly rating$ = this.route.paramMap.pipe(
     map((params) => params.get('rating')),
     debounceTime(30),
     distinctUntilChanged(),
@@ -47,8 +47,8 @@ export class UsersRatingComponent implements OnInit {
     shareReplay(1)
   );
 
-  public loading = 0;
-  public valueTitle$: Observable<string> = this.rating$.pipe(
+  protected loading = 0;
+  protected readonly valueTitle$: Observable<string> = this.rating$.pipe(
     map((rating) => {
       switch (rating) {
         case 'specs':
@@ -64,7 +64,7 @@ export class UsersRatingComponent implements OnInit {
     })
   );
 
-  public users$: Observable<APIRatingUser[]> = this.rating$.pipe(
+  protected readonly users$: Observable<APIRatingUser[]> = this.rating$.pipe(
     tap(() => this.loading++),
     switchMap((rating) => this.api.request<APIUsersRatingGetResponse>('GET', 'rating/' + rating)),
     finalize(() => {
@@ -78,10 +78,10 @@ export class UsersRatingComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private route: ActivatedRoute,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly route: ActivatedRoute,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

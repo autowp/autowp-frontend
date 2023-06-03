@@ -15,27 +15,27 @@ import {ItemType} from '@grpc/spec.pb';
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
-  public page: number;
-  public brands: APIItem[][];
-  public paginator: APIPaginator;
-  public brand: APIItem;
-  public vehicles: APIItemParent[];
-  public vehiclesPaginator: APIPaginator;
-  public concepts: APIItemParent[];
+  protected page: number;
+  protected brands: APIItem[][];
+  protected paginator: APIPaginator;
+  protected brand: APIItem;
+  protected vehicles: APIItemParent[];
+  protected vehiclesPaginator: APIPaginator;
+  protected concepts: APIItemParent[];
   private date: string;
   private anonymous: boolean;
-  public loading = 0;
-  public conceptsExpanded = false;
+  protected loading = 0;
+  protected conceptsExpanded = false;
 
   constructor(
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private itemParentService: ItemParentService,
-    private pageEnv: PageEnvService
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly itemParentService: ItemParentService,
+    private readonly pageEnv: PageEnvService
   ) {}
 
-  public selectItem(itemID: number) {
+  protected selectItem(itemID: number) {
     this.router.navigate(['/donate/vod'], {
       queryParams: {
         item_id: itemID,
@@ -136,7 +136,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
       });
   }
 
-  public toggleConcepts() {
+  protected toggleConcepts() {
     this.conceptsExpanded = !this.conceptsExpanded;
     return false;
   }

@@ -20,18 +20,21 @@ const translateNames = (types: VehicleType[]): VehicleType[] => {
 export class VehicleTypesModalComponent {
   @Input() ids: string[] = [];
   @Output() changed = new EventEmitter<string[]>();
-  public types$ = this.vehicleTypeService.getTypes$().pipe(
+  protected readonly types$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => translateNames(types)),
     shareReplay(1)
   );
 
-  constructor(public activeModal: NgbActiveModal, private vehicleTypeService: VehicleTypeService) {}
+  constructor(
+    protected readonly activeModal: NgbActiveModal,
+    private readonly vehicleTypeService: VehicleTypeService
+  ) {}
 
-  public isActive(id: number): boolean {
+  protected isActive(id: number): boolean {
     return this.ids.indexOf(id.toString()) > -1;
   }
 
-  public toggle(id: number) {
+  protected toggle(id: number) {
     if (this.ids.indexOf(id.toString()) > -1) {
       const index = this.ids.indexOf(id.toString(), 0);
       if (index > -1) {

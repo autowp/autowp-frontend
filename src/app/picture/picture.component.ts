@@ -30,43 +30,43 @@ export class PictureComponent {
       )
       .subscribe();
   }
-  public picture$ = new BehaviorSubject<APIPicture>(null);
+  protected readonly picture$ = new BehaviorSubject<APIPicture>(null);
 
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  public canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
-  public showShareDialog = false;
-  public location;
-  public engines: APIItem[] = [];
-  public statusLoading = false;
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
+  protected showShareDialog = false;
+  protected location;
+  protected engines: APIItem[] = [];
+  protected statusLoading = false;
 
-  public user$ = this.auth.getUser$();
+  protected readonly user$ = this.auth.getUser$();
 
   constructor(
-    private acl: ACLService,
-    private auth: AuthService,
-    private pictureService: PictureService,
-    private router: Router,
-    private pictureItemService: PictureItemService,
-    private commentsGrpc: CommentsClient,
-    private picturesClient: PicturesClient
+    private readonly acl: ACLService,
+    private readonly auth: AuthService,
+    private readonly pictureService: PictureService,
+    private readonly router: Router,
+    private readonly pictureItemService: PictureItemService,
+    private readonly commentsGrpc: CommentsClient,
+    private readonly picturesClient: PicturesClient
   ) {
     this.location = location;
   }
 
-  public savePerspective(perspectiveID: number | null, item: APIPictureItem) {
+  protected savePerspective(perspectiveID: number | null, item: APIPictureItem) {
     this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
-  public pictureVoted() {
+  protected pictureVoted() {
     this.changed.emit(true);
   }
 
-  public toggleShareDialog(): false {
+  protected toggleShareDialog(): false {
     this.showShareDialog = !this.showShareDialog;
     return false;
   }
 
-  public setSubscribed(picture: APIPicture, value: boolean) {
+  protected setSubscribed(picture: APIPicture, value: boolean) {
     (value
       ? this.commentsGrpc.subscribe(
           new CommentsSubscribeRequest({
@@ -85,18 +85,18 @@ export class PictureComponent {
     });
   }
 
-  public vote(picture: APIPicture, value: number) {
+  protected vote(picture: APIPicture, value: number) {
     this.pictureService.vote$(picture.id, value).subscribe((votes) => {
       picture.votes = votes;
     });
     return false;
   }
 
-  public openSource(picture: APIPicture) {
+  protected openSource(picture: APIPicture) {
     window.open(picture.image.src);
   }
 
-  public openGallery(picture: APIPicture, $event) {
+  protected openGallery(picture: APIPicture, $event) {
     if ($event.ctrlKey) {
       this.openSource(picture);
       return;
@@ -116,19 +116,19 @@ export class PictureComponent {
     });
   }
 
-  public unacceptPicture(picture: APIPicture) {
+  protected unacceptPicture(picture: APIPicture) {
     this.setPictureStatus(picture, 'inbox');
   }
 
-  public acceptPicture(picture: APIPicture) {
+  protected acceptPicture(picture: APIPicture) {
     this.setPictureStatus(picture, 'accepted');
   }
 
-  public deletePicture(picture: APIPicture) {
+  protected deletePicture(picture: APIPicture) {
     this.setPictureStatus(picture, 'removing');
   }
 
-  public restorePicture(picture: APIPicture) {
+  protected restorePicture(picture: APIPicture) {
     this.setPictureStatus(picture, 'inbox');
   }
 }

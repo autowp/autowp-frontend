@@ -22,9 +22,9 @@ interface ListItem {
   templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {
-  private change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<null>(null);
 
-  public items$: Observable<ListItem[]> = this.change$.pipe(
+  protected readonly items$: Observable<ListItem[]> = this.change$.pipe(
     switchMap(() => this.trafficGrpc.getTop(new Empty())),
     map((response) =>
       response.items.map((item) => ({
@@ -34,7 +34,11 @@ export class ModerTrafficComponent implements OnInit {
     )
   );
 
-  constructor(private trafficGrpc: TrafficClient, private ipService: IpService, private pageEnv: PageEnvService) {}
+  constructor(
+    private readonly trafficGrpc: TrafficClient,
+    private readonly ipService: IpService,
+    private readonly pageEnv: PageEnvService
+  ) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -47,11 +51,11 @@ export class ModerTrafficComponent implements OnInit {
     );
   }
 
-  public addToWhitelist(ip: string) {
+  protected addToWhitelist(ip: string) {
     this.trafficGrpc.addToWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.change$.next(null));
   }
 
-  public addToBlacklist(ip: string) {
+  protected addToBlacklist(ip: string) {
     this.trafficGrpc
       .addToBlacklist(
         new AddToTrafficBlacklistRequest({
@@ -63,7 +67,7 @@ export class ModerTrafficComponent implements OnInit {
       .subscribe(() => this.change$.next(null));
   }
 
-  public removeFromBlacklist(ip: string) {
+  protected removeFromBlacklist(ip: string) {
     this.trafficGrpc
       .deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip}))
       .subscribe(() => this.change$.next(null));

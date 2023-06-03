@@ -18,12 +18,12 @@ interface PictureRoute {
   templateUrl: './pictures.component.html',
 })
 export class CategoriesCategoryPicturesComponent {
-  private page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged()
   );
 
-  public data$: Observable<{
+  protected readonly data$: Observable<{
     pictures: PictureRoute[][];
     paginator: APIPaginator;
   }> = combineLatest([this.categoriesService.categoryPipe$(this.route.parent.parent), this.page$]).pipe(
@@ -57,9 +57,9 @@ export class CategoriesCategoryPicturesComponent {
   );
 
   constructor(
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private route: ActivatedRoute,
-    private categoriesService: CategoriesService
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly route: ActivatedRoute,
+    private readonly categoriesService: CategoriesService
   ) {}
 }

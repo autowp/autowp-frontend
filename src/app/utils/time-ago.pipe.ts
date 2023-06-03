@@ -10,7 +10,11 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private lastValue: Date;
   private lastText: string;
 
-  constructor(private cdRef: ChangeDetectorRef, private ngZone: NgZone, private languageService: LanguageService) {}
+  constructor(
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly ngZone: NgZone,
+    private readonly languageService: LanguageService
+  ) {}
 
   private format(time: Date) {
     const now = Date.now();

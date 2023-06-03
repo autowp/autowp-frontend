@@ -17,17 +17,17 @@ import {HttpErrorResponse} from '@angular/common/http';
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
-  public loading = 0;
-  public invalidParams: InvalidParams;
+  protected loading = 0;
+  protected invalidParams: InvalidParams;
 
-  private itemID$ = this.route.paramMap.pipe(
+  private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay(1)
   );
 
-  public pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
+  protected readonly pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
     switchMap((itemID) =>
       this.pictureItemService.getItems$({
         item_id: itemID,
@@ -40,7 +40,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     shareReplay(1)
   );
 
-  public item$ = this.itemID$.pipe(
+  protected readonly item$ = this.itemID$.pipe(
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: [
@@ -67,7 +67,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     )
   );
 
-  public vehicleTypeIDs$ = this.item$.pipe(
+  protected readonly vehicleTypeIDs$ = this.item$.pipe(
     switchMap((item) =>
       [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)
         ? this.itemsClient
@@ -81,7 +81,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     )
   );
 
-  public newItem$ = this.item$.pipe(
+  protected readonly newItem$ = this.item$.pipe(
     map((item) => {
       const newItem = Object.assign({}, item);
       newItem.is_group = false;
@@ -90,13 +90,13 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private itemService: ItemService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pictureItemService: PictureItemService,
-    private pageEnv: PageEnvService,
-    private itemsClient: ItemsClient
+    private readonly api: APIService,
+    private readonly itemService: ItemService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pictureItemService: PictureItemService,
+    private readonly pageEnv: PageEnvService,
+    private readonly itemsClient: ItemsClient
   ) {}
 
   ngOnInit(): void {
@@ -108,7 +108,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     }, 0);
   }
 
-  public submit(item: APIItem, event: ItemMetaFormResult, pictures: APIPictureItem[]) {
+  protected submit(item: APIItem, event: ItemMetaFormResult, pictures: APIPictureItem[]) {
     this.loading++;
 
     const data = {

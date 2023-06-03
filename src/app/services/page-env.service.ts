@@ -20,13 +20,13 @@ export interface PageEnv {
 
 @Injectable()
 export class PageEnvService {
-  public pageEnv$ = new BehaviorSubject<PageEnv>(null);
-  public layoutParams$ = new BehaviorSubject<LayoutParams>({
+  public readonly pageEnv$ = new BehaviorSubject<PageEnv>(null);
+  public readonly layoutParams$ = new BehaviorSubject<LayoutParams>({
     isAdminPage: false,
     isGalleryPage: false,
   });
 
-  public constructor(private pageService: PageService, private titleService: Title) {
+  public constructor(private readonly pageService: PageService, private readonly titleService: Title) {
     this.pageEnv$.subscribe((data) => {
       if (data) {
         this.layoutParams$.next({

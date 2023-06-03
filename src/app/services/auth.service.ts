@@ -10,7 +10,7 @@ import * as Sentry from '@sentry/angular-ivy';
 export class AuthService {
   private user$ = new ReplaySubject<APIUser>(1);
 
-  constructor(private keycloak: KeycloakService, private usersClient: UsersClient) {
+  constructor(private readonly keycloak: KeycloakService, private readonly usersClient: UsersClient) {
     this.keycloak.getToken().then(
       (accessToken) => {
         if (accessToken) {

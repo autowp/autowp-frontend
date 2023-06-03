@@ -30,7 +30,7 @@ import {ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
   styleUrls: ['./user.component.scss'],
 })
 export class UsersUserComponent {
-  public banPeriods = [
+  protected readonly banPeriods = [
     {value: 1, name: $localize`hour`},
     {value: 2, name: $localize`2 hours`},
     {value: 4, name: $localize`4 hours`},
@@ -39,14 +39,14 @@ export class UsersUserComponent {
     {value: 24, name: $localize`day`},
     {value: 48, name: $localize`2 days`},
   ];
-  public banPeriod = 1;
-  public banReason: string | null = null;
-  public canDeleteUser$ = this.acl.isAllowed$(Resource.USER, Privilege.DELETE);
-  public canViewIp$ = this.acl.isAllowed$(Resource.USER, Privilege.IP);
-  public canBan$ = this.acl.isAllowed$(Resource.USER, Privilege.BAN);
-  public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected banPeriod = 1;
+  protected banReason: string | null = null;
+  protected readonly canDeleteUser$ = this.acl.isAllowed$(Resource.USER, Privilege.DELETE);
+  protected readonly canViewIp$ = this.acl.isAllowed$(Resource.USER, Privilege.IP);
+  protected readonly canBan$ = this.acl.isAllowed$(Resource.USER, Privilege.BAN);
+  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  public user$: Observable<APIUser> = this.route.paramMap.pipe(
+  protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
     map((params) => '' + params.get('identity')),
     distinctUntilChanged(),
     debounceTime(30),
@@ -82,7 +82,7 @@ export class UsersUserComponent {
     shareReplay(1)
   );
 
-  public pictures$: Observable<APIPicture[]> = this.user$.pipe(
+  protected readonly pictures$: Observable<APIPicture[]> = this.user$.pipe(
     switchMap((user) =>
       this.pictureService
         .getPictures$({
@@ -95,7 +95,7 @@ export class UsersUserComponent {
     )
   );
 
-  public comments$ = this.user$.pipe(
+  protected readonly comments$ = this.user$.pipe(
     switchMap((user) => {
       if (user.deleted) {
         return of({items: []} as APICommentGetResponse);
@@ -111,9 +111,9 @@ export class UsersUserComponent {
     map((response) => response.items)
   );
 
-  private ipChange$ = new BehaviorSubject<boolean>(true);
+  private readonly ipChange$ = new BehaviorSubject<boolean>(true);
 
-  public ip$ = combineLatest([this.user$, this.ipChange$]).pipe(
+  protected readonly ip$ = combineLatest([this.user$, this.ipChange$]).pipe(
     switchMap(([user]) => {
       if (!user.last_ip) {
         return of(null as APIIP);
@@ -123,17 +123,22 @@ export class UsersUserComponent {
     })
   );
 
-  public currentUser$ = this.auth.getUser$();
+  protected readonly currentUser$ = this.auth.getUser$();
 
-  public isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
+  protected readonly isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
     map(([user, currentUser]) => {
       return !currentUser || currentUser.id !== user.id.toString();
     })
   );
 
-  private inContactsChange$ = new BehaviorSubject<boolean>(true);
+  private readonly inContactsChange$ = new BehaviorSubject<boolean>(true);
 
-  public inContacts$ = combineLatest([this.user$, this.currentUser$, this.isNotMe$, this.inContactsChange$]).pipe(
+  protected readonly inContacts$ = combineLatest([
+    this.user$,
+    this.currentUser$,
+    this.isNotMe$,
+    this.inContactsChange$,
+  ]).pipe(
     switchMap(([user, currentUser, isNotMe]) => {
       if (!currentUser || !isNotMe) {
         return of(false);
@@ -148,9 +153,9 @@ export class UsersUserComponent {
     shareReplay(1)
   );
 
-  private userUserPreferencesChanged$ = new BehaviorSubject<boolean>(true);
+  private readonly userUserPreferencesChanged$ = new BehaviorSubject<boolean>(true);
 
-  public userUserPreferences$ = combineLatest([
+  protected readonly userUserPreferences$ = combineLatest([
     this.user$,
     this.currentUser$,
     this.isNotMe$,
@@ -171,30 +176,30 @@ export class UsersUserComponent {
   );
 
   constructor(
-    private api: APIService,
-    private contacts: ContactsService,
-    private messageDialogService: MessageDialogService,
-    private acl: ACLService,
-    private router: Router,
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private auth: AuthService,
-    private pictureService: PictureService,
-    private commentService: APICommentsService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService,
-    private ipService: IpService,
-    private contactsClient: ContactsClient,
-    private usersGrpc: UsersClient,
-    private trafficClient: TrafficClient
+    private readonly api: APIService,
+    private readonly contacts: ContactsService,
+    private readonly messageDialogService: MessageDialogService,
+    private readonly acl: ACLService,
+    private readonly router: Router,
+    private readonly userService: UserService,
+    private readonly route: ActivatedRoute,
+    private readonly auth: AuthService,
+    private readonly pictureService: PictureService,
+    private readonly commentService: APICommentsService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService,
+    private readonly ipService: IpService,
+    private readonly contactsClient: ContactsClient,
+    private readonly usersGrpc: UsersClient,
+    private readonly trafficClient: TrafficClient
   ) {}
 
-  public openMessageForm(user: APIUser) {
+  protected openMessageForm(user: APIUser) {
     this.messageDialogService.showDialog('' + user.id);
     return false;
   }
 
-  public setInContacts(user: APIUser, value: boolean) {
+  protected setInContacts(user: APIUser, value: boolean) {
     if (value) {
       this.contactsClient.createContact(new CreateContactRequest({userId: user.id.toString()})).subscribe(() => {
         this.inContactsChange$.next(true);
@@ -207,7 +212,7 @@ export class UsersUserComponent {
     });
   }
 
-  public setCommentNotificationsDisabled(user: APIUser, value: boolean) {
+  protected setCommentNotificationsDisabled(user: APIUser, value: boolean) {
     if (value) {
       this.usersGrpc
         .disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
@@ -224,7 +229,7 @@ export class UsersUserComponent {
       });
   }
 
-  public deletePhoto(user: APIUser) {
+  protected deletePhoto(user: APIUser) {
     if (!window.confirm('Are you sure?')) {
       return;
     }
@@ -237,7 +242,7 @@ export class UsersUserComponent {
     });
   }
 
-  public deleteUser(user: APIUser) {
+  protected deleteUser(user: APIUser) {
     if (!window.confirm('Are you sure?')) {
       return;
     }
@@ -255,7 +260,7 @@ export class UsersUserComponent {
       });
   }
 
-  public removeFromBlacklist(ip: string) {
+  protected removeFromBlacklist(ip: string) {
     this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe({
       next: () => {
         this.ipChange$.next(true);
@@ -264,7 +269,7 @@ export class UsersUserComponent {
     });
   }
 
-  public addToBlacklist(ip: string) {
+  protected addToBlacklist(ip: string) {
     this.trafficClient
       .addToBlacklist(
         new AddToTrafficBlacklistRequest({

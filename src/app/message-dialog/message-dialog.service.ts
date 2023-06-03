@@ -6,7 +6,7 @@ import {ModalMessageComponent} from './modal-message/modal-message.component';
   providedIn: 'root',
 })
 export class MessageDialogService {
-  constructor(private modalService: NgbModal) {}
+  constructor(private readonly modalService: NgbModal) {}
 
   public showDialog(userId: string, sentCallback?: () => void, cancelCallback?: () => void) {
     const modalRef = this.modalService.open(ModalMessageComponent, {

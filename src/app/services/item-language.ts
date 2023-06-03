@@ -17,7 +17,7 @@ export interface APIItemLanguageGetResponse {
 
 @Injectable()
 export class ItemLanguageService {
-  constructor(private api: APIService) {}
+  constructor(private readonly api: APIService) {}
 
   public getItems$(itemId: number): Observable<APIItemLanguageGetResponse> {
     return this.api.request<APIItemLanguageGetResponse>('GET', 'item/' + itemId + '/language');

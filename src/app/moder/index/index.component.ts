@@ -7,9 +7,9 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './index.component.html',
 })
 export class ModerIndexComponent implements AfterViewInit {
-  public readonly ItemType = ItemType;
+  protected readonly ItemType = ItemType;
 
-  constructor(private pageEnv: PageEnvService) {}
+  constructor(private readonly pageEnv: PageEnvService) {}
 
   ngAfterViewInit() {
     setTimeout(

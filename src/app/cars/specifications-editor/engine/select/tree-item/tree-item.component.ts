@@ -11,11 +11,11 @@ export class CarsSelectEngineTreeItemComponent {
   @Input() item: APIItemParent;
   @Output() selected = new EventEmitter<number>();
 
-  public open = false;
-  public loading = false;
-  public childs: APIItemParent[] = [];
+  protected open = false;
+  protected loading = false;
+  protected childs: APIItemParent[] = [];
 
-  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
+  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
 
   private loadChildCatalogues() {
     this.loading = true;
@@ -39,12 +39,12 @@ export class CarsSelectEngineTreeItemComponent {
       });
   }
 
-  public selectEngine(engineId: number) {
+  protected selectEngine(engineId: number) {
     this.selected.emit(engineId);
     return false;
   }
 
-  public toggle(): boolean {
+  protected toggle(): boolean {
     this.open = !this.open;
     if (this.open) {
       this.loadChildCatalogues();

@@ -22,20 +22,20 @@ interface APIAttrConflictInList extends APIAttrConflict {
   templateUrl: './specs-conflicts.component.html',
 })
 export class AccountSpecsConflictsComponent implements OnInit {
-  public page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  public filter$ = this.route.queryParamMap.pipe(
+  protected readonly filter$ = this.route.queryParamMap.pipe(
     map((params) => params.get('filter')),
     distinctUntilChanged(),
     debounceTime(10),
     map((filter) => filter || '0')
   );
 
-  public user$ = this.auth.getUser$().pipe(
+  protected readonly user$ = this.auth.getUser$().pipe(
     switchMap(() =>
       this.api.request<APIUser>('GET', 'user/me', {
         params: {fields: 'specs_weight'},
@@ -44,7 +44,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     shareReplay(1)
   );
 
-  public data$ = combineLatest([this.page$, this.filter$]).pipe(
+  protected readonly data$ = combineLatest([this.page$, this.filter$]).pipe(
     switchMap(([page, filter]) =>
       combineLatest([
         this.attrService.getConfilicts$({
@@ -73,19 +73,19 @@ export class AccountSpecsConflictsComponent implements OnInit {
   );
 
   constructor(
-    private api: APIService,
-    private userService: UserService,
-    public auth: AuthService,
-    private route: ActivatedRoute,
-    private attrService: APIAttrsService,
-    private pageEnv: PageEnvService
+    private readonly api: APIService,
+    private readonly userService: UserService,
+    protected readonly auth: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly attrService: APIAttrsService,
+    private readonly pageEnv: PageEnvService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 188}), 0);
   }
 
-  public getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
   }
 }

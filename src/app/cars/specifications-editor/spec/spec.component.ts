@@ -90,15 +90,15 @@ export class CarsSpecificationsEditorSpecComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  public item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem>(null);
 
-  public loading = 0;
-  private change$ = new BehaviorSubject<null>(null);
-  public invalidParams: InvalidParams;
+  protected loading = 0;
+  private readonly change$ = new BehaviorSubject<null>(null);
+  protected invalidParams: InvalidParams;
 
-  public user$ = this.auth.getUser$();
+  protected readonly user$ = this.auth.getUser$();
 
-  public attributes$ = this.item$.pipe(
+  protected readonly attributes$ = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
       this.attrsService
@@ -136,13 +136,13 @@ export class CarsSpecificationsEditorSpecComponent {
   );
 
   constructor(
-    private api: APIService,
-    private attrsService: APIAttrsService,
-    private auth: AuthService,
-    private toastService: ToastsService
+    private readonly api: APIService,
+    private readonly attrsService: APIAttrsService,
+    private readonly auth: AuthService,
+    private readonly toastService: ToastsService
   ) {}
 
-  public values$ = combineLatest([this.item$, this.change$]).pipe(
+  protected readonly values$ = combineLatest([this.item$, this.change$]).pipe(
     switchMap(([item]) =>
       this.attrsService.getValues$({
         item_id: item.id,
@@ -161,7 +161,7 @@ export class CarsSpecificationsEditorSpecComponent {
     shareReplay(1)
   );
 
-  public currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
+  protected readonly currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
     switchMap(([item, user, attributes]) =>
       this.attrsService
         .getUserValues$({
@@ -212,7 +212,10 @@ export class CarsSpecificationsEditorSpecComponent {
     })
   );
 
-  public userValues$: Observable<Map<number, APIAttrUserValue[]>> = combineLatest([this.item$, this.change$]).pipe(
+  protected readonly userValues$: Observable<Map<number, APIAttrUserValue[]>> = combineLatest([
+    this.item$,
+    this.change$,
+  ]).pipe(
     switchMap(([item]) =>
       this.attrsService
         .getUserValues$({
@@ -254,7 +257,7 @@ export class CarsSpecificationsEditorSpecComponent {
     shareReplay(1)
   );
 
-  public saveSpecs(user: APIUser, item: APIItem, currentUserValues: {[p: number]: APIAttrUserValue}) {
+  protected saveSpecs(user: APIUser, item: APIItem, currentUserValues: {[p: number]: APIAttrUserValue}) {
     const items = [];
     for (const attributeID in currentUserValues) {
       if (currentUserValues.hasOwnProperty(attributeID)) {
@@ -292,11 +295,11 @@ export class CarsSpecificationsEditorSpecComponent {
       });
   }
 
-  public getStep(attribute: APIAttrAttribute): number {
+  protected getStep(attribute: APIAttrAttribute): number {
     return Math.pow(10, -attribute.precision);
   }
 
-  public getInvalidParams(id: number): string[] {
+  protected getInvalidParams(id: number): string[] {
     if (!this.invalidParams || !this.invalidParams.items) {
       return [];
     }
@@ -321,15 +324,15 @@ export class CarsSpecificationsEditorSpecComponent {
     return result;
   }
 
-  public getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: number, type: string): string {
     return getUnitTranslation(id, type);
   }
 
-  public getAttrsTranslation(id: string): string {
+  protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);
   }
 
-  public getAttrDescriptionTranslation(id: string): string {
+  protected getAttrDescriptionTranslation(id: string): string {
     return getAttrDescriptionTranslation(id);
   }
 }

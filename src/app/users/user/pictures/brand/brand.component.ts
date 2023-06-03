@@ -14,7 +14,7 @@ import {ItemType} from '@grpc/spec.pb';
   templateUrl: './brand.component.html',
 })
 export class UsersUserPicturesBrandComponent {
-  public user$ = this.route.paramMap.pipe(
+  protected readonly user$ = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -31,7 +31,7 @@ export class UsersUserPicturesBrandComponent {
     shareReplay(1)
   );
 
-  private brand$ = this.route.paramMap.pipe(
+  private readonly brand$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -61,9 +61,9 @@ export class UsersUserPicturesBrandComponent {
     shareReplay(1)
   );
 
-  public title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} pictures`));
+  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} pictures`));
 
-  public data$ = combineLatest([
+  protected readonly data$ = combineLatest([
     this.user$,
     this.brand$,
     this.route.queryParamMap.pipe(
@@ -90,12 +90,12 @@ export class UsersUserPicturesBrandComponent {
   );
 
   constructor(
-    private itemService: ItemService,
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly itemService: ItemService,
+    private readonly userService: UserService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 }

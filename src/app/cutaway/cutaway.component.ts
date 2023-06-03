@@ -11,7 +11,7 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './cutaway.component.html',
 })
 export class CutawayComponent implements OnInit {
-  public query$ = this.route.queryParamMap.pipe(
+  protected readonly query$ = this.route.queryParamMap.pipe(
     switchMap((params) =>
       this.pictureService.getPictures$({
         status: 'accepted',
@@ -29,10 +29,10 @@ export class CutawayComponent implements OnInit {
   );
 
   constructor(
-    private route: ActivatedRoute,
-    private pictureService: PictureService,
-    private pageEnv: PageEnvService,
-    private toastService: ToastsService
+    private readonly route: ActivatedRoute,
+    private readonly pictureService: PictureService,
+    private readonly pageEnv: PageEnvService,
+    private readonly toastService: ToastsService
   ) {}
 
   ngOnInit(): void {

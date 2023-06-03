@@ -356,10 +356,10 @@ export class PictureService {
   private readonly inboxSize$: Observable<number>;
 
   constructor(
-    private api: APIService,
-    private auth: AuthService,
-    private acl: ACLService,
-    private pictures: PicturesClient
+    private readonly api: APIService,
+    private readonly auth: AuthService,
+    private readonly acl: ACLService,
+    private readonly pictures: PicturesClient
   ) {
     this.summary$ = this.auth.getUser$().pipe(
       switchMap((user) => {

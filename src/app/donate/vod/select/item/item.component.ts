@@ -9,13 +9,13 @@ import {ItemType} from '@grpc/spec.pb';
   styleUrls: ['./styles.scss'],
 })
 export class DonateVodSelectItemComponent {
-  public childs: APIItemParent[] = [];
-  public loading = false;
+  protected childs: APIItemParent[] = [];
+  protected loading = false;
   @Input() item: APIItemParent;
 
-  constructor(private itemParentService: ItemParentService, private toastService: ToastsService) {}
+  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
 
-  public toggleItem() {
+  protected toggleItem() {
     this.item.expanded = !this.item.expanded;
 
     if (this.item.expanded) {

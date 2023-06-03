@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 import {LanguageService} from '@services/language';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
@@ -8,19 +8,15 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
 })
-export class DonateComponent {
-  public frameUrl: SafeResourceUrl;
-  public language: string;
+export class DonateComponent implements OnInit {
+  protected frameUrl: SafeResourceUrl;
+  protected readonly language: string = this.languageService.language;
 
   constructor(
-    private pageEnv: PageEnvService,
-    private languageService: LanguageService,
-    private domSanitizer: DomSanitizer
+    private readonly pageEnv: PageEnvService,
+    private readonly languageService: LanguageService,
+    private readonly domSanitizer: DomSanitizer
   ) {
-    this.language = this.languageService.language;
-
-    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
-
     /*const map = {
       account: '41001161017513',
       quickpay: 'donate',
@@ -63,5 +59,9 @@ export class DonateComponent {
     }
 
     this.frameUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
   }
 }
