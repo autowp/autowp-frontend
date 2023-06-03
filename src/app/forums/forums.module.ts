@@ -10,14 +10,13 @@ import {MessageComponent} from './message/message.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ForumsRoutingModule} from './forums-routing.module';
 import {PaginatorModule} from '../paginator/paginator.module';
-import {MomentModule} from 'ngx-moment';
 import {UserModule} from '../user/user.module';
 import {UtilsModule} from '@utils/utils.module';
 import {FormsModule} from '@angular/forms';
 import {CommentsModule} from '../comments/comments.module';
 import {ForumsTopicListComponent} from './topic-list/topic-list.component';
 
-export const MESSAGES_PER_PAGE = 2;
+export const MESSAGES_PER_PAGE = 20;
 
 @NgModule({
   declarations: [
@@ -35,7 +34,6 @@ export const MESSAGES_PER_PAGE = 2;
     HttpClientModule,
     PaginatorModule,
     ForumsRoutingModule,
-    MomentModule,
     UserModule,
     UtilsModule,
     FormsModule,
