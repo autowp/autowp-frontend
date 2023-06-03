@@ -1,5 +1,36 @@
 [
   {
+    "sum": 5011,
+    "currency": "RUB",
+    "date": "2023-05-29T00:00:00+00:00",
+    "contributor": "Сергей Новиков"
+  },
+  {
+    "sum": 2000,
+    "currency": "RUB",
+    "date": "2023-05-29T00:00:00+00:00",
+    "contributor": "Андрей Анненков"
+  },
+  {
+    "sum": 100,
+    "currency": "RUB",
+    "date": "2023-05-23T00:00:00+00:00",
+    "contributor": "Dimon M Lenin"
+  },
+  {
+    "sum": -17500,
+    "currency": "RUB",
+    "date": "2023-05-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "May/June hosting"
+  },
+  {
+    "sum": 1200,
+    "currency": "RUB",
+    "date": "2023-05-12T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
     "sum": 1000,
     "currency": "RUB",
     "date": "2023-04-30T00:00:00+00:00",
