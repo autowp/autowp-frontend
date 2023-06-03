@@ -3,7 +3,7 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {CatagoriesService, CategoryPipeResult} from '../../service';
+import {CategoriesService, CategoryPipeResult} from '../../service';
 import {APIGalleryItem} from '../../../gallery/definitions';
 import {APIItem} from '@services/item';
 
@@ -42,7 +42,7 @@ export class CategoryGalleryComponent implements OnInit {
     private route: ActivatedRoute,
     private pageEnv: PageEnvService,
     private router: Router,
-    private categoriesService: CatagoriesService
+    private categoriesService: CategoriesService
   ) {}
 
   ngOnInit(): void {

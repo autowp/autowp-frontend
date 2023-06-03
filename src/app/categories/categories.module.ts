@@ -14,7 +14,7 @@ import {CategoryPictureComponent} from './category/picture/picture.component';
 import {PictureModule} from '../picture/picture.module';
 import {CommentsModule} from '../comments/comments.module';
 import {CategoryGalleryComponent} from './category/gallery/gallery.component';
-import {CatagoriesService} from './service';
+import {CategoriesService} from './service';
 import {GalleryModule} from '../gallery/gallery.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {CategoriesCategoryComponent} from './category/category.component';

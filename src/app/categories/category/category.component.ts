@@ -59,7 +59,7 @@ export class CategoriesCategoryComponent {
     private pageEnv: PageEnvService,
     private route: ActivatedRoute,
     private acl: ACLService,
-    private categoriesService: CatagoriesService
+    private categoriesService: CategoriesService
   ) {}
 
   public dropdownOpenChange(item: PathItem) {

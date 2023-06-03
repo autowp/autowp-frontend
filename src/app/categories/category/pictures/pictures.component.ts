@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {switchMap, tap, map, distinctUntilChanged} from 'rxjs/operators';
 import {PictureService, APIPicture} from '@services/picture';
 import {chunkBy} from '../../../chunk';
-import {CatagoriesService} from '../../service';
+import {CategoriesService} from '../../service';
 import {combineLatest, Observable} from 'rxjs';
 import {APIPaginator} from '@services/api.service';
 
@@ -60,6 +60,6 @@ export class CategoriesCategoryPicturesComponent {
     private pictureService: PictureService,
     private pageEnv: PageEnvService,
     private route: ActivatedRoute,
-    private categoriesService: CatagoriesService
+    private categoriesService: CategoriesService
   ) {}
 }

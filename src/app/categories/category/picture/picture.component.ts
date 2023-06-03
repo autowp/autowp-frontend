@@ -4,7 +4,7 @@ import {PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap, shareReplay} from 'rxjs/operators';
-import {CatagoriesService} from '../../service';
+import {CategoriesService} from '../../service';
 import {CommentsType, ItemType} from '@grpc/spec.pb';
 
 @Component({
@@ -119,7 +119,7 @@ export class CategoryPictureComponent {
     private pageEnv: PageEnvService,
     private pictureService: PictureService,
     private router: Router,
-    private categoriesService: CatagoriesService
+    private categoriesService: CategoriesService
   ) {}
 
   protected reloadPicture() {

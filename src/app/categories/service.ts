@@ -14,7 +14,7 @@ export interface CategoryPipeResult {
 }
 
 @Injectable()
-export class CatagoriesService {
+export class CategoriesService {
   constructor(private itemService: ItemService) {}
 
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {

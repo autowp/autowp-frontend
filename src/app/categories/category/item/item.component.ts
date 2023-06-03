@@ -7,7 +7,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ItemParentService} from '@services/item-parent';
 import {APIPicture, PictureService} from '@services/picture';
-import {CatagoriesService} from '../../service';
+import {CategoriesService} from '../../service';
 import {ItemType} from '@grpc/spec.pb';
 
 interface PictureRoute {
@@ -145,6 +145,6 @@ export class CategoriesCategoryItemComponent {
     private pageEnv: PageEnvService,
     private route: ActivatedRoute,
     private acl: ACLService,
-    private categoriesService: CatagoriesService
+    private categoriesService: CategoriesService
   ) {}
 }
