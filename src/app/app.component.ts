@@ -7,10 +7,9 @@ import {Language, LanguageService} from '@services/language';
 import {ItemService} from '@services/item';
 import {UsersOnlineComponent} from './users/online/online.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
 import {APIUser, ItemType} from '@grpc/spec.pb';
 import {map, shareReplay} from 'rxjs/operators';
-import {NavigationStart, Router, RouterEvent} from '@angular/router';
+import {NavigationStart, Router} from '@angular/router';
 import {MessageService} from '@services/message';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {environment} from '@environment/environment';
@@ -57,8 +56,6 @@ export class AppComponent {
   ) {
     this.language = this.languageService.language;
 
-    moment.locale(this.languageService.momentLocale);
-
     this.layoutParams$ = this.pageEnv.layoutParams$.asObservable();
     this.layoutParams$.subscribe((params) => {
       if (params.isGalleryPage) {
@@ -82,7 +79,7 @@ export class AppComponent {
 
     this.searchHostname = searchHostname;
 
-    this.router.events.subscribe((val: RouterEvent) => {
+    this.router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
         this.urlPath = val.url;
       }

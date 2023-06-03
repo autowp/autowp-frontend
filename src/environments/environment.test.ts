@@ -11,7 +11,6 @@ export const environment = {
       hostname: 'en.localhost',
       name: 'English',
       flag: 'flag-icon flag-icon-gb',
-      momentLocale: 'en-gb',
       locale: 'en-GB',
     },
     {
@@ -19,7 +18,6 @@ export const environment = {
       hostname: 'zh.localhost',
       name: '中文',
       flag: 'flag-icon flag-icon-cn',
-      momentLocale: 'zh-cn',
       locale: 'zh-CN',
     },
     {
@@ -27,7 +25,6 @@ export const environment = {
       hostname: 'ru.localhost',
       name: 'Русский',
       flag: 'flag-icon flag-icon-ru',
-      momentLocale: 'ru',
       locale: 'ru',
     },
     {
@@ -35,7 +32,6 @@ export const environment = {
       hostname: 'br.localhost',
       name: 'Português brasileiro',
       flag: 'flag-icon flag-icon-br',
-      momentLocale: 'pt-br',
       locale: 'pt-BR',
     },
     {
@@ -43,7 +39,6 @@ export const environment = {
       hostname: 'fr.localhost',
       name: 'Français',
       flag: 'flag-icon flag-icon-fr',
-      momentLocale: 'fr',
       locale: 'fr',
     },
     {
@@ -51,7 +46,6 @@ export const environment = {
       hostname: 'be.localhost',
       name: 'Беларуская',
       flag: 'flag-icon flag-icon-by',
-      momentLocale: 'be',
       locale: 'be-BY',
     },
     {
@@ -59,7 +53,6 @@ export const environment = {
       hostname: 'uk.localhost',
       name: 'Українська',
       flag: 'flag-icon flag-icon-ua',
-      momentLocale: 'uk',
       locale: 'uk',
     },
     {
@@ -67,7 +60,6 @@ export const environment = {
       hostname: 'es.localhost',
       name: 'Español',
       flag: 'flag-icon flag-icon-es',
-      momentLocale: 'es',
       locale: 'es',
     },
     {
@@ -75,7 +67,6 @@ export const environment = {
       hostname: 'it.localhost',
       name: 'Italiano',
       flag: 'flag-icon flag-icon-it',
-      momentLocale: 'it',
       locale: 'it',
     },
   ],

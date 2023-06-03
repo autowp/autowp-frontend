@@ -7,10 +7,9 @@ import {NewListItemComponent} from './list-item/list-item.component';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {UtilsModule} from '@utils/utils.module';
-import {MomentModule} from 'ngx-moment';
 
 @NgModule({
   declarations: [NewComponent, NewItemComponent, NewListItemComponent],
-  imports: [CommonModule, NewRoutingModule, PaginatorModule, ThumbnailModule, UtilsModule, MomentModule],
+  imports: [CommonModule, NewRoutingModule, PaginatorModule, ThumbnailModule, UtilsModule],
 })
 export class NewModule {}

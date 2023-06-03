@@ -29,7 +29,7 @@
           <app-user [user]="event.user" *ngIf="event.user"></app-user>
           <div
             *ngIf="event.date"
-            [textContent]="event.date | amTimeAgo"
+            [textContent]="event.date | timeAgo"
             [ngbTooltip]="event.date | date : 'medium'"
           ></div>
         </td>

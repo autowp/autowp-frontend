@@ -33,7 +33,7 @@
         <span
           class="date"
           *ngIf="article.date"
-          [textContent]="article.date | amTimeAgo"
+          [textContent]="article.date | timeAgo"
           [ngbTooltip]="article.date | date : 'medium'"
         ></span>
       </p>

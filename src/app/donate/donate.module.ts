@@ -7,7 +7,6 @@ import {DonateVodComponent} from './vod/vod.component';
 import {DonateVodSelectComponent} from './vod/select/select.component';
 import {DonateVodSelectItemComponent} from './vod/select/item/item.component';
 import {DonateVodSuccessComponent} from './vod/success/success.component';
-import {MomentModule} from 'ngx-moment';
 import {UserModule} from '../user/user.module';
 import {UtilsModule} from '@utils/utils.module';
 import {PaginatorModule} from '../paginator/paginator.module';
@@ -30,7 +29,6 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     DonateRoutingModule,
-    MomentModule,
     UserModule,
     UtilsModule,
     NgbTooltipModule,

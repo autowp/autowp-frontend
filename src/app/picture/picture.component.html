@@ -190,7 +190,7 @@
         <li *ngIf="picture.owner">
           <ng-container i18n>Added by:</ng-container>
           <app-user [user]="picture.owner"></app-user>,
-          <span [ngbTooltip]="picture.add_date | date : 'medium'">{{ picture.add_date | amTimeAgo }}</span>
+          <span [ngbTooltip]="picture.add_date | date : 'medium'">{{ picture.add_date | timeAgo }}</span>
         </li>
         <li *ngIf="picture.taken_date"><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
         <li *ngIf="picture.point">

@@ -5,7 +5,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {CatagoriesService} from '../service';
+import {CategoriesService} from '../service';
 import {getItemTypeTranslation} from '@utils/translations';
 import {ItemType} from '@grpc/spec.pb';
 

@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {LanguageService} from '@services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import * as moment from 'moment';
 
 const rates = {
   'EUR': 1,
@@ -29,14 +28,14 @@ export class IndexDonateComponent {
 
   public state$ = of(require('./data.json') as Donation[]).pipe(
     map((operations) => {
-      operations = operations.sort((a, b) => moment(a.date).toDate().getTime() - moment(b.date).toDate().getTime());
+      operations = operations.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       const donations = operations
         .filter((d) => d.sum > 0)
         .map((d) => ({
           sum: d.sum,
           normalizedSum: rates[d.currency] * d.sum,
           currency: d.currency,
-          date: moment(d.date).toDate(),
+          date: new Date(d.date),
           contributor: d.contributor,
           purpose: d.purpose,
         }));

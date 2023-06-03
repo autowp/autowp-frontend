@@ -15,7 +15,7 @@
     <tbody>
       <tr *ngFor="let value of data.items">
         <td>
-          <span [textContent]="value.update_date | amTimeAgo" [ngbTooltip]="value.update_date | date : 'medium'"></span>
+          <span [textContent]="value.update_date | timeAgo" [ngbTooltip]="value.update_date | date : 'medium'"></span>
         </td>
         <td>
           <app-user [user]="value.user" *ngIf="value.user"></app-user>

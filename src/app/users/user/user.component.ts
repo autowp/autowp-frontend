@@ -46,7 +46,7 @@ export class UsersUserComponent {
   public canBan$ = this.acl.isAllowed$(Resource.USER, Privilege.BAN);
   public isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  public user$ = this.route.paramMap.pipe(
+  public user$: Observable<APIUser> = this.route.paramMap.pipe(
     map((params) => '' + params.get('identity')),
     distinctUntilChanged(),
     debounceTime(30),

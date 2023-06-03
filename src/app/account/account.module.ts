@@ -7,7 +7,6 @@ import {FormsModule} from '@angular/forms';
 import {AccountAccountsComponent} from './accounts/accounts.component';
 import {AccountContactsComponent} from './contacts/contacts.component';
 import {UserModule} from '../user/user.module';
-import {MomentModule} from 'ngx-moment';
 import {AccountDeletedComponent} from './delete/deleted/deleted.component';
 import {AccountDeleteComponent} from './delete/delete.component';
 import {AccountEmailComponent} from './email/email.component';
@@ -42,7 +41,6 @@ import {AccountComponent} from './account.component';
     UtilsModule,
     FormsModule,
     UserModule,
-    MomentModule,
     NgbTooltipModule,
     NgbProgressbarModule,
     PaginatorModule,

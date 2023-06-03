@@ -7,7 +7,6 @@ import {CommentsListComponent} from './list/list.component';
 import {CommentsFormComponent} from './form/form.component';
 import {RouterModule} from '@angular/router';
 import {UserModule} from '../user/user.module';
-import {MomentModule} from 'ngx-moment';
 import {FormsModule} from '@angular/forms';
 import {UtilsModule} from '@utils/utils.module';
 import {NgbTooltipModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +22,6 @@ import {ThumbnailModule} from '../thumbnail/thumbnail.module';
     UserModule,
     NgbTooltipModule,
     NgbModalModule,
-    MomentModule,
     FormsModule,
     UtilsModule,
     APICommentsModule,

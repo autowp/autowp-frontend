@@ -5,7 +5,6 @@ import {PicturePaginatorComponent} from './paginator.component';
 import {RouterModule} from '@angular/router';
 import {UserModule} from '../user/user.module';
 import {NgbTooltipModule, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {MomentModule} from 'ngx-moment';
 import {NgPipesModule} from 'ngx-pipes';
 import {UtilsModule} from '@utils/utils.module';
 import {ShareModule} from '../share/share.module';
@@ -23,7 +22,6 @@ import {PicturesModule} from '../moder/pictures/pictures.module';
     RouterModule,
     UserModule,
     NgbTooltipModule,
-    MomentModule,
     NgPipesModule,
     UtilsModule,
     ShareModule,

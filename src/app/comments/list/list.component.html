@@ -8,7 +8,7 @@
     <div
       class="float-end"
       *ngIf="message.datetime"
-      [textContent]="message.datetime | amTimeAgo"
+      [textContent]="message.datetime | timeAgo"
       [ngbTooltip]="message.datetime | date : 'medium'"
     ></div>
     <app-user [user]="message.user" *ngIf="message.user"></app-user>

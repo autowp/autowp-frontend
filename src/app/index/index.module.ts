@@ -17,7 +17,6 @@ import {IndexBrandsBrandComponent} from './brands/brand/brand.component';
 import {IndexCategoriesCategoryComponent} from './categories/category/category.component';
 import {IndexFactoriesFactoryComponent} from './factories/factory/factory.component';
 import {IndexDonateComponent} from './donate/donate.component';
-import {MomentModule} from 'ngx-moment';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,6 @@ import {MomentModule} from 'ngx-moment';
     UserModule,
     NgbPopoverModule,
     NgbTooltipModule,
-    MomentModule,
   ],
 })
 export class IndexModule {}

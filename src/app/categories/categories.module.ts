@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {CategoriesRoutingModule} from './categories-routing.module';
 import {CategoriesCategoryItemComponent} from './category/item/item.component';
 import {CategoriesCategoryPicturesComponent} from './category/pictures/pictures.component';
@@ -41,6 +40,6 @@ import {CategoriesCategoryComponent} from './category/category.component';
     GalleryModule,
     ThumbnailModule,
   ],
-  providers: [CatagoriesService],
+  providers: [CategoriesService],
 })
 export class CategoriesModule {}

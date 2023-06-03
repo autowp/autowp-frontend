@@ -57,7 +57,7 @@
       <td>
         <p
           *ngIf="item.update_date"
-          [textContent]="item.update_date | amTimeAgo"
+          [textContent]="item.update_date | timeAgo"
           [ngbTooltip]="item.update_date | date : 'medium'"
         ></p>
       </td>

@@ -4,7 +4,6 @@ import {VotingRoutingModule} from './voting-routing.module';
 import {VotingComponent} from './voting.component';
 import {NgbProgressbarModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
-import {MomentModule} from 'ngx-moment';
 import {CommentsModule} from '../comments/comments.module';
 import {VotingVotesComponent} from './votes/votes.component';
 import {UserModule} from '../user/user.module';
@@ -18,7 +17,6 @@ import {VotingService} from './voting.service';
     NgbProgressbarModule,
     NgbModalModule,
     FormsModule,
-    MomentModule,
     CommentsModule,
     UserModule,
   ],

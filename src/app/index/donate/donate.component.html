@@ -15,7 +15,7 @@
           *ngFor="let operation of state.charges"
           placement="top"
           ngbTooltip="{{ operation.sum | currency : operation.currency }}, {{ operation.purpose }}, {{
-            operation.date | amTimeAgo
+            operation.date | timeAgo
           }}"
         ></div>
         <div
@@ -33,7 +33,7 @@
           [style.width]="operation.percent + '%'"
           placement="top"
           ngbTooltip="{{ operation.sum | currency : operation.currency }} by {{ operation.contributor }}, {{
-            operation.date | amTimeAgo
+            operation.date | timeAgo
           }}"
         ></div>
       </div>

@@ -40,11 +40,11 @@
 
       <p *ngIf="user.reg_date">
         <ng-container i18n>Registration date</ng-container>
-        <strong [textContent]="user.reg_date | amTimeAgo" [ngbTooltip]="user.reg_date | date : 'fullDate'"></strong>
+        <strong [textContent]="user.reg_date | timeAgo" [ngbTooltip]="user.reg_date | date : 'fullDate'"></strong>
       </p>
       <p>
         <ng-container i18n>Last visited</ng-container>:
-        <strong [textContent]="user.last_online | amTimeAgo" [ngbTooltip]="user.last_online | date : 'medium'"></strong>
+        <strong [textContent]="user.last_online | timeAgo" [ngbTooltip]="user.last_online | date : 'medium'"></strong>
       </p>
 
       <p i18n>Database id: {{ user.id }}</p>

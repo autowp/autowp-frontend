@@ -2,9 +2,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, ErrorHandler, NgModule, Provider} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import {MomentModule} from 'ngx-moment';
 import {NgbTooltipModule, NgbCollapseModule, NgbDropdownModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgPipesModule, BytesPipe} from 'ngx-pipes';
+import {NgPipesModule} from 'ngx-pipes';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {PageNotFoundComponent} from './not-found.component';
@@ -114,7 +113,6 @@ let providers: Provider[] = [
   PageService,
   UserService,
   DecimalPipe,
-  BytesPipe,
   PictureModerVoteService,
   VehicleTypeService,
   SpecService,
@@ -155,7 +153,6 @@ if (environment.production) {
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    MomentModule,
     NgPipesModule,
     BrowserAnimationsModule,
     UtilsModule,

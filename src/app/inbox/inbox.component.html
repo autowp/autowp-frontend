@@ -29,7 +29,7 @@
         &#x2190;
         <a
           [routerLink]="['/inbox', data.brandCatname, data.inbox.prev.date]"
-          [textContent]="data.inbox.prev.date | amDateFormat : 'LL'"
+          [textContent]="data.inbox.prev.date | date : 'mediumDate'"
         ></a>
         <br />
         <small
@@ -42,7 +42,7 @@
     </div>
     <div class="col-lg-4 col-md-4">
       <h3 class="text-center" *ngIf="data.inbox.current">
-        <span [textContent]="data.inbox.current.date | amDateFormat : 'LL'"></span>
+        <span [textContent]="data.inbox.current.date | date : 'mediumDate'"></span>
         <br />
         <small
           >(<span i18n="@@n-pictures"
@@ -56,7 +56,7 @@
       <h3 class="text-end" *ngIf="data.inbox.next && data.inbox.next.date">
         <a
           [routerLink]="['/inbox', data.brandCatname, data.inbox.next.date]"
-          [textContent]="data.inbox.next.date | amDateFormat : 'LL'"
+          [textContent]="data.inbox.next.date | date : 'mediumDate'"
         ></a>
         <br />
         <small

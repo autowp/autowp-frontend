@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import * as moment from 'moment';
 import {ItemService} from '@services/item';
 import {combineLatest, EMPTY} from 'rxjs';
 import {PictureService} from '@services/picture';
@@ -31,8 +30,6 @@ export class NewItemComponent {
     distinctUntilChanged(),
     debounceTime(30)
   );
-
-  public dateStr$ = this.date$.pipe(map((date) => moment(date).format('LL')));
 
   public item$ = this.itemID$.pipe(
     switchMap((itemID) => this.itemService.getItem$(itemID, {fields: 'name_html,name_text'})),
