@@ -3,6 +3,7 @@
     [picture]="picture"
     [prefix]="currentRouterLinkPrefix$ | async"
     [galleryRoute]="currentRouterLinkGallery$ | async"
+    [h2]="true"
     (changed)="reloadPicture()"
   ></app-picture>
 

@@ -1,6 +1,15 @@
 <ng-container *ngIf="picture$ | async as picture">
   <div class="page-header">
-    <h1>
+    <h2 *ngIf="h2">
+      <span [innerHTML]="picture.name_html"></span>
+      <ng-container *ngIf="picture.items.length === 1 && picture.items[0].item.design">
+        <sup class="design-brand">
+          <ng-container i18n>designed by</ng-container>
+          <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
+        </sup>
+      </ng-container>
+    </h2>
+    <h1 *ngIf="!h2">
       <span [innerHTML]="picture.name_html"></span>
       <ng-container *ngIf="picture.items.length === 1 && picture.items[0].item.design">
         <sup class="design-brand">

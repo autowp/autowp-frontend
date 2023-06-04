@@ -2,11 +2,12 @@ import {Component} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {CatalogueService} from '../../../catalogue-service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {PictureService} from '@services/picture';
 import {CommentsType} from '@grpc/spec.pb';
+import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures-picture',
@@ -64,7 +65,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
 
   protected readonly CommentsType = CommentsType;
 
-  protected readonly brand$ = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(map(({brand}) => brand));
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {of, BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
-import {PictureService} from '@services/picture';
+import {of, BehaviorSubject, EMPTY, combineLatest, Observable} from 'rxjs';
+import {APIPicture, PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, tap, shareReplay} from 'rxjs/operators';
@@ -55,7 +55,7 @@ export class CategoryPictureComponent {
     })
   );
 
-  protected readonly picture$ = combineLatest([this.categoryData$, this.identity$]).pipe(
+  protected readonly picture$: Observable<APIPicture> = combineLatest([this.categoryData$, this.identity$]).pipe(
     switchMap(([{current}, identity]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +

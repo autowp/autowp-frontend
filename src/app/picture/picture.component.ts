@@ -17,6 +17,7 @@ import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
 export class PictureComponent {
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[];
+  @Input() h2: boolean = false;
   @Output() changed = new EventEmitter<boolean>();
 
   @Input() set picture(picture: APIPicture) {
