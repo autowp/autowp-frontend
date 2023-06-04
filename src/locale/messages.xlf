@@ -943,6 +943,10 @@
           <context context-type="linenumber">14</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/twins/sidebar.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/specifications/specifications.component.html</context>
           <context context-type="linenumber">8</context>
         </context-group>
@@ -1072,7 +1076,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5147366449375171722" datatype="html">
@@ -1083,7 +1087,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5945986349492910662" datatype="html">
@@ -1094,7 +1098,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7016532520368827457" datatype="html">
@@ -1119,7 +1123,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2081808988100026076" datatype="html">
@@ -1130,7 +1134,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4915431133669985304" datatype="html">
@@ -1141,7 +1145,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4196936676806764076" datatype="html">
@@ -1152,7 +1156,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="count-zero" datatype="html">
@@ -1166,43 +1170,43 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         <source>My pictures</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4889738496065545078" datatype="html">
         <source>Forums subscriptions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6154338858131704843" datatype="html">
         <source>Specifications</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">90</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1382264297241680260" datatype="html">
         <source>Personal messages</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="799485662157076328" datatype="html">
         <source>Inbox</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">105</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">42</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/inbox/inbox-routing.module.ts</context>
@@ -1225,22 +1229,22 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         <source>Sent</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="linenumber">123</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5477112455095139315" datatype="html">
         <source>System messages</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/account.component.ts</context>
-          <context context-type="linenumber">122</context>
+          <context context-type="linenumber">131</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/messages/messages.component.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2fcb6b8fd02e2d5b02c67bc90fc849a7d69156fd" datatype="html">
@@ -1277,7 +1281,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp/tree
         <source>Account removed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/accounts/accounts.component.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9b475bb63675494482effde989c7f1f18c232620" datatype="html">
@@ -1456,8 +1460,8 @@ Good luck.</source>
           <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">153,152</context>
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="58c426f3016b094c32b0c70f21d9655d4c4a7f50" datatype="html">
@@ -1493,7 +1497,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5b0ec2aa18ab700b51a0673afe8cf558b5e602ef" datatype="html">
@@ -1588,7 +1592,7 @@ Good luck.</source>
         <source>All</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/specs-conflicts/specs-conflicts.component.html</context>
-          <context context-type="linenumber">24,23</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a7d0141e4400c34ac63359a3549a4d7399730ff3" datatype="html">
@@ -1740,19 +1744,19 @@ Good luck.</source>
         <source>Map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">51,50</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">95,94</context>
+          <context context-type="linenumber">94</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.html</context>
-          <context context-type="linenumber">8,7</context>
+          <context context-type="linenumber">7</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/items/items.component.html</context>
-          <context context-type="linenumber">8,7</context>
+          <context context-type="linenumber">7</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/map/map.component.html</context>
@@ -1760,7 +1764,7 @@ Good luck.</source>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/museum/museum.component.html</context>
-          <context context-type="linenumber">8,7</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="195de513133a6ebae49bf0ddb0ebca7cd6092c5a" datatype="html">
@@ -2004,15 +2008,15 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">100</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">118</context>
+          <context context-type="linenumber">108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">115</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.html</context>
@@ -2028,11 +2032,11 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">94</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">111</context>
+          <context context-type="linenumber">101</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
@@ -2212,11 +2216,11 @@ All images are posted for educational purposes.
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/engine.component.html</context>
-          <context context-type="linenumber">26,27</context>
+          <context context-type="linenumber">25,27</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/engine.component.html</context>
-          <context context-type="linenumber">35,36</context>
+          <context context-type="linenumber">34,36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="839fef71970423232ee3e3b3ce003ad0d42225d4" datatype="html">
@@ -2239,7 +2243,7 @@ All images are posted for educational purposes.
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/engine.component.html</context>
-          <context context-type="linenumber">38,39</context>
+          <context context-type="linenumber">37,39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="20687baef6719afd2f23a431c6c81822a8f0e8ec" datatype="html">
@@ -2451,7 +2455,7 @@ All images are posted for educational purposes.
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">10,11</context>
+          <context context-type="linenumber">9,11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e58d5574b210b1b71b8736f24fcd9e35ba4c64d1" datatype="html">
@@ -2520,19 +2524,19 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.html</context>
-          <context context-type="linenumber">38,37</context>
+          <context context-type="linenumber">37</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/vehicles.component.html</context>
-          <context context-type="linenumber">41,40</context>
+          <context context-type="linenumber">40</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/category.component.html</context>
-          <context context-type="linenumber">51,50</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">146,145</context>
+          <context context-type="linenumber">135</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.html</context>
@@ -2544,31 +2548,31 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">145,144</context>
+          <context context-type="linenumber">134</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/museum/museum.component.html</context>
-          <context context-type="linenumber">20,19</context>
+          <context context-type="linenumber">19</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">72,71</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/persons/person/person.component.html</context>
-          <context context-type="linenumber">21,20</context>
+          <context context-type="linenumber">20</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">84,83</context>
+          <context context-type="linenumber">73</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins.component.html</context>
-          <context context-type="linenumber">77,76</context>
+          <context context-type="linenumber">76</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">153,152</context>
+          <context context-type="linenumber">152</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d6292de063b93ad4721e03398c8c74ca17c3422a" datatype="html">
@@ -2670,7 +2674,7 @@ All images are posted for educational purposes.
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specs-admin/specs-admin.component.html</context>
-          <context context-type="linenumber">4,5</context>
+          <context context-type="linenumber">3,5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="57cf305f9bfd681c70dc26e914108d06384ade9f" datatype="html">
@@ -2689,7 +2693,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/move-topic/move-topic.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -2957,7 +2961,7 @@ All images are posted for educational purposes.
         <source>All pictures of <x id="PH" equiv-text="item.name_text"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/pictures/list/list.component.ts</context>
@@ -3001,11 +3005,11 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">131</context>
+          <context context-type="linenumber">121</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">128</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.html</context>
@@ -3017,7 +3021,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/twins-group.component.html</context>
@@ -3148,7 +3152,7 @@ All images are posted for educational purposes.
           </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/index.component.html</context>
-          <context context-type="linenumber">32,34</context>
+          <context context-type="linenumber">31,34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f069c7876f881d67727a58f601ac257f0b256d68" datatype="html">
@@ -3158,121 +3162,19 @@ All images are posted for educational purposes.
           <context context-type="linenumber">32,33</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9b11da22eb53d5495803a59502795aa421b1f4fa" datatype="html">
-        <source>designed by</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">5</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">5</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">268</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">5</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="n-produced" datatype="html">
-        <source>{VAR_PLURAL, plural, one {Produced in <x id="INTERPOLATION"/> copy} other {Produced in
-        <x id="INTERPOLATION"/> copies}}</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">15,16</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">11,12</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">11,12</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">11,12</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
-          <context context-type="linenumber">10,11</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="n-produced-about" datatype="html">
-        <source>{VAR_PLURAL, plural, one {Produced in about <x id="INTERPOLATION"/> copy} other {Produced in about
-        <x id="INTERPOLATION"/> copies}}</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">19,20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">15,16</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">15,16</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">15,16</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
-          <context context-type="linenumber">14,15</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a782f175438fca89bafd622f474552328bd51254" datatype="html">
-        <source>Produced in a single copy</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="a148b9107c203245de45c1bd468b4a18288d4fe7" datatype="html">
         <source>No photos available</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
@@ -3283,15 +3185,15 @@ All images are posted for educational purposes.
         <source>Add photo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">40</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
@@ -3302,15 +3204,15 @@ All images are posted for educational purposes.
         <source>Mounted on:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">88</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">92</context>
+          <context context-type="linenumber">82</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
@@ -3321,11 +3223,11 @@ All images are posted for educational purposes.
         <source>edit specs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">141</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">150</context>
+          <context context-type="linenumber">140</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/item.component.html</context>
@@ -3333,7 +3235,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
@@ -3341,7 +3243,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/item/item.component.html</context>
-          <context context-type="linenumber">89</context>
+          <context context-type="linenumber">79</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
@@ -3450,7 +3352,7 @@ All images are posted for educational purposes.
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/comments/list/list.component.html</context>
-          <context context-type="linenumber">39,40</context>
+          <context context-type="linenumber">38,40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e1734c5a0c7cfdc0388f17cb221e296612276f00" datatype="html">
@@ -3490,7 +3392,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">28,27</context>
+          <context context-type="linenumber">27</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
@@ -3689,29 +3591,40 @@ In addition, we can offer in return to [choose the next vehicle of the day](/don
           <context context-type="linenumber">15,25</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1f20940d69923cbd35c6124372bc6f8f650261ac" datatype="html">
+        <source>Donate with</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/donate/donate.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3373711458637414496" datatype="html">
         <source>For website work</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6634159182190488147" datatype="html">
         <source>Your wish</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5716362617256202612" datatype="html">
         <source>WheelsAge.org</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/donate.component.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1783096eea865eab33ea5a06462733feb8bd725a" datatype="html">
@@ -3945,18 +3858,18 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <source>WheelsAge.org: vehicle of the day</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">102</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">97</context>
+          <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5663726564538439975" datatype="html">
         <source>Order <x id="PH" equiv-text="label"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/donate/vod/vod.component.ts</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">106</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6707361102856436710" datatype="html">
@@ -4147,7 +4060,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">168,169</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="n-messages" datatype="html">
@@ -4158,25 +4071,25 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">172,173</context>
+          <context context-type="linenumber">93,94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="78385c6a23a19675bb9e01e1f26752c7b0403e66" datatype="html">
         <source>Subforums</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c3a004b6c9142defbfbf1dedfcf6f35ff35a93ac" datatype="html">
         <source>Go to forum …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="673a0b0769206c6ea86dd23fdca9fee8cc5f9a2e" datatype="html">
-        <source>Last message in topic «<x id="INTERPOLATION" equiv-text="{{ theme.last_topic.name }}"/>»</source>
+      <trans-unit id="c7e83487642a644050ac5704df1ff9d873da4480" datatype="html">
+        <source>Last message in topic «<x id="INTERPOLATION" equiv-text="{{ lastTopic.name }}"/>»</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
           <context context-type="linenumber">60</context>
@@ -4186,76 +4099,18 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <source>Go to last message</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">68</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">115</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ffeb8b7132ed19cac69e7bfbc5bd273bc46224f2" datatype="html">
         <source>Create new topic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">78</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e4d9a764b49b6bebf77ac91f40c9fda401052ce8" datatype="html">
-        <source>Topics</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">84</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d7293b61e9088c66421df2e367e0ccc00346cf9f" datatype="html">
-        <source>Author</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">85</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="69c316e453d64b9aeb02ccd8e6095834302c58d6" datatype="html">
-        <source>Last message</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">86</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4d12a7a8f3c4e268fb18f47ef751b1d56784e039" datatype="html">
-        <source>open</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">126,125</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e329f67417e3574eda9988c92b15c0e29df1dd1b" datatype="html">
-        <source>close</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">135,134</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2d810712308ae63cb795d809687a3254ef7a2f05" datatype="html">
-        <source>move</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/forums.component.html</context>
-          <context context-type="linenumber">146,145</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c130153a4e9a2c8fce7567dd56d7cfdb2bbeae2e" datatype="html">
@@ -4290,34 +4145,67 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="linenumber">115,119</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="184528a12ae6501bdf684933c8bab86ac83ef446" datatype="html">
-        <source>
-      Subscriptions
-    </source>
+      <trans-unit id="e4d9a764b49b6bebf77ac91f40c9fda401052ce8" datatype="html">
+        <source>Topics</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">4,5</context>
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7293b61e9088c66421df2e367e0ccc00346cf9f" datatype="html">
+        <source>Author</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="69c316e453d64b9aeb02ccd8e6095834302c58d6" datatype="html">
+        <source>Last message</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="47bbc861efa59ba4135e6aa8f63213420e3f3b91" datatype="html">
         <source>Subscription</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3042bd3ad8dffcfeca5fd1ae6159fd1047434e95" datatype="html">
         <source>Unsubscribe</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/forums/subscriptions/subscriptions.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d12a7a8f3c4e268fb18f47ef751b1d56784e039" datatype="html">
+        <source>open</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e329f67417e3574eda9988c92b15c0e29df1dd1b" datatype="html">
+        <source>close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2d810712308ae63cb795d809687a3254ef7a2f05" datatype="html">
+        <source>move</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/forums/topic-list/topic-list.component.html</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="72152a1b66df870eceb67ddba99f6290d08d7c42" datatype="html">
         <source>Subscribe to new replies notifications</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/topic/topic.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
@@ -4328,7 +4216,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Unsubscribe from notifications</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/topic/topic.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
@@ -4341,7 +4229,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/forums/topic/topic.component.html</context>
-          <context context-type="linenumber">37,38</context>
+          <context context-type="linenumber">39,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eb4e61ad5282c37e3708ca12ab1d283d75b7682c" datatype="html">
@@ -4426,7 +4314,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">111,110</context>
+          <context context-type="linenumber">110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3e0d82664559e3794c912ae50e76868d99007902" datatype="html">
@@ -4458,7 +4346,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/categories/categories.component.html</context>
-          <context context-type="linenumber">14,16</context>
+          <context context-type="linenumber">13,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3425f5b3497cd225710125f73fe94ae5d791da3b" datatype="html">
@@ -4476,7 +4364,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
   </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
-          <context context-type="linenumber">4,7</context>
+          <context context-type="linenumber">3,7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="950cf8d84daafecff81c0ee54eb78941d4838bf6" datatype="html">
@@ -4491,13 +4379,6 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
           <context context-type="linenumber">64</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1f20940d69923cbd35c6124372bc6f8f650261ac" datatype="html">
-        <source>Donate with</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/index/donate/donate.component.html</context>
-          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4704327371953276728" datatype="html">
@@ -4700,11 +4581,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">133</context>
+          <context context-type="linenumber">123</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
@@ -4722,11 +4603,11 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>specifications</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">118</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/twins-group.component.html</context>
@@ -5019,7 +4900,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.html</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html">
@@ -5159,7 +5040,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>User №</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">34,33</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="df9966b64d20bb2f80efc2c96079bda387ed79cb" datatype="html">
@@ -5201,7 +5082,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Item</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/comments/comments.component.html</context>
-          <context context-type="linenumber">76,75</context>
+          <context context-type="linenumber">75</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -5209,7 +5090,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">129,128</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="n-comments" datatype="html">
@@ -5514,14 +5395,14 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>from</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">145,144</context>
+          <context context-type="linenumber">144</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e04356b41e0d85f3e2f7ebc72a3f75c6e1147663" datatype="html">
         <source>to</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">175,174</context>
+          <context context-type="linenumber">174</context>
         </context-group>
       </trans-unit>
       <trans-unit id="89c59e04db61295cf5074488ab5ad36e408f4ff2" datatype="html">
@@ -5539,22 +5420,22 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>year</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">222,221</context>
+          <context context-type="linenumber">221</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">268,267</context>
+          <context context-type="linenumber">267</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2790ad2c08306240a508576e942fcfdf271f5a79" datatype="html">
         <source>month</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">236,235</context>
+          <context context-type="linenumber">235</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">281,280</context>
+          <context context-type="linenumber">280</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b68ce78c3f2c548391d812c248217f8a212491e1" datatype="html">
@@ -5572,7 +5453,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>today</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">296,295</context>
+          <context context-type="linenumber">295</context>
         </context-group>
       </trans-unit>
       <trans-unit id="81e3355fa5c6945fd882dc0f538dc36cab3901a4" datatype="html">
@@ -5590,7 +5471,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.html</context>
-          <context context-type="linenumber">335,334</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="72fdf685513ba113d32cfaee18951c224ae47431" datatype="html">
@@ -5706,7 +5587,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">14,15</context>
+          <context context-type="linenumber">13,15</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
@@ -5731,7 +5612,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Del</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/catalogue/catalogue.component.html</context>
-          <context context-type="linenumber">22,21</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="25ccbbde37f08b8a9c8b46c9934d56602b752a96" datatype="html">
@@ -5891,7 +5772,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">10,11</context>
+          <context context-type="linenumber">9,11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8ba143716c2da6e4120c0c1a804f0bdd9a7e5f5b" datatype="html">
@@ -5959,7 +5840,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/links/links.component.html</context>
-          <context context-type="linenumber">66,67</context>
+          <context context-type="linenumber">65,67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0beef660d67617ee35d5000c54be88ea106d840d" datatype="html">
@@ -6036,7 +5917,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>here</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/select-parent/tree-item/tree-item.component.html</context>
-          <context context-type="linenumber">14,13</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="aa74b6bca3bcf70381c466f278e89f379fa33201" datatype="html">
@@ -7138,7 +7019,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/pictures.component.html</context>
-          <context context-type="linenumber">362,363</context>
+          <context context-type="linenumber">361,363</context>
         </context-group>
       </trans-unit>
       <trans-unit id="915c991d01f23c4cbd666c95a1bce97739e04bed" datatype="html">
@@ -7465,7 +7346,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/traffic/traffic.component.html</context>
-          <context context-type="linenumber">43,44</context>
+          <context context-type="linenumber">42,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="12fc161deed824fb8bca888bfcc63efa589115c8" datatype="html">
@@ -7474,7 +7355,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/traffic/traffic.component.html</context>
-          <context context-type="linenumber">47,48</context>
+          <context context-type="linenumber">46,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="01e532e76e56019e390491387287cd8fcfcb05da" datatype="html">
@@ -7520,28 +7401,28 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <source>Login</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.html</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c36a66f2107e8da5371ebc9d15c2008dff567f46" datatype="html">
         <source>Role</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7807c887ec81596a237ad5c1918cf58288f1f537" datatype="html">
         <source>Last visit</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.html</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7d6573fb998f3a1cf1356623b85850d9d10edaa9" datatype="html">
         <source>Registration</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/users/users.component.html</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2165d2dd73ddb37ebb8e399fbdce90b41de010c1" datatype="html">
@@ -7715,7 +7596,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
   </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture-moder-vote/picture-moder-vote/picture-moder-vote.component.html</context>
-          <context context-type="linenumber">35,36</context>
+          <context context-type="linenumber">34,36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3e7ee350949ee32ff116387cfdb68db6f5308771" datatype="html">
@@ -7732,6 +7613,21 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="9b11da22eb53d5495803a59502795aa421b1f4fa" datatype="html">
+        <source>designed by</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/picture/picture.component.html</context>
+          <context context-type="linenumber">268</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="98dc81e946e9805964a480be5ea94837fdd0029a" datatype="html">
         <source>In other languages</source>
         <context-group purpose="location">
@@ -7743,7 +7639,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <source>Share …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">128,127</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ff27eccd46cf7112d2ba900b7a764a70e840a26d" datatype="html">
@@ -7851,7 +7747,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">410,411</context>
+          <context context-type="linenumber">409,411</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2daf3fced66055619866365611f2923e946ce935" datatype="html">
@@ -7860,7 +7756,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">413,414</context>
+          <context context-type="linenumber">412,414</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a25c4dd3bc7696c4920bc6b357a89f6e359c31c8" datatype="html">
@@ -7869,7 +7765,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">419,420</context>
+          <context context-type="linenumber">418,420</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e9420cd62ec8895aa6ef7ad7b35fc7ccaebf4e08" datatype="html">
@@ -7878,7 +7774,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/picture/picture.component.html</context>
-          <context context-type="linenumber">425,426</context>
+          <context context-type="linenumber">424,426</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cfd0f3f3baea14aa23965a45cbfd1a94ecfc5a8e" datatype="html">
@@ -8136,7 +8032,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/crop/crop.component.html</context>
-          <context context-type="linenumber">21,22</context>
+          <context context-type="linenumber">20,22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="32ea16269840d89e5b8787b37c0e709a10c6b2af" datatype="html">
@@ -8493,7 +8389,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">173,174</context>
+          <context context-type="linenumber">172,174</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eeb9a403c4b90b83b9ae3e4fe6d2a43dad8e5486" datatype="html">
@@ -8502,7 +8398,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/users/user/user.component.html</context>
-          <context context-type="linenumber">180,181</context>
+          <context context-type="linenumber">179,181</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4efd74677111b934655868bf3162bcd4b0ea0b37" datatype="html">
@@ -8526,6 +8422,28 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="n-produced" datatype="html">
+        <source>{VAR_PLURAL, plural, one {Produced in <x id="INTERPOLATION"/> copy} other {Produced in <x id="INTERPOLATION"/> copies}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="n-produced-about" datatype="html">
+        <source>{VAR_PLURAL, plural, one {Produced in about <x id="INTERPOLATION"/> copy} other {Produced in about
+      <x id="INTERPOLATION"/> copies}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a782f175438fca89bafd622f474552328bd51254" datatype="html">
+        <source>Produced in a single copy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/item-header/item-header.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="939181514f77d46263e45c14dfb362c171d71499" datatype="html">
         <source>related</source>
         <context-group purpose="location">
@@ -8538,6 +8456,13 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
           <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6052766076365105714" datatype="html">
+        <source>now</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/time-ago.pipe.ts</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7132893068309658147" datatype="html">
@@ -13180,13 +13105,13 @@ Transmission is not considered</source>
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="dc790935cfa5e471d1c09e049fd3359e022ccd7c" datatype="html">
+      <trans-unit id="0a6c2688ca0175aa6fc0e114947848ad71583573" datatype="html">
         <source>
-    Voting during <x id="INTERPOLATION" equiv-text="{{ voting.begin_date | amDateFormat : &apos;LL&apos; }}"/> to <x id="INTERPOLATION_1" equiv-text="{{ voting.end_date | amDateFormat : &apos;LL&apos; }}"/>
+    Voting during <x id="INTERPOLATION" equiv-text="{{ voting.begin_date | date : &apos;mediumDate&apos; }}"/> to <x id="INTERPOLATION_1" equiv-text="{{ voting.end_date | date : &apos;mediumDate&apos; }}"/>
   </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/voting/voting.component.html</context>
-          <context context-type="linenumber">56,57</context>
+          <context context-type="linenumber">55,57</context>
         </context-group>
       </trans-unit>
     </body>
