@@ -3,14 +3,26 @@ import {APIAccountItemsGetResponse, APIAccount} from '../account.service';
 import {PageEnvService} from '@services/page-env.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
+import {catchError, map} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-account-accounts',
   templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {
-  protected accounts: APIAccount[] = [];
-  protected connectFailed = false;
+  private readonly reload$ = new BehaviorSubject<void>(null);
+  protected readonly accounts$: Observable<APIAccount[]> = combineLatest([
+    this.api.request<APIAccountItemsGetResponse>('GET', 'account'),
+    this.reload$,
+  ]).pipe(
+    catchError((error: unknown) => {
+      this.toastService.handleError(error);
+      return EMPTY;
+    }),
+    map(([response]) => response.items)
+  );
+
   protected disconnectFailed = false;
 
   constructor(
@@ -21,19 +33,6 @@ export class AccountAccountsComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 123}), 0);
-
-    this.load();
-  }
-
-  private load() {
-    this.api.request<APIAccountItemsGetResponse>('GET', 'account').subscribe({
-      next: (response) => {
-        this.accounts = response.items;
-      },
-      error: (response: unknown) => {
-        this.toastService.handleError(response);
-      },
-    });
   }
 
   protected remove(account: APIAccount) {
@@ -41,7 +40,7 @@ export class AccountAccountsComponent implements OnInit {
       next: () => {
         this.toastService.success($localize`Account removed`);
 
-        this.load();
+        this.reload$.next();
       },
       error: (response: unknown) => {
         this.disconnectFailed = true;

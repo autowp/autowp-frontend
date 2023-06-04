@@ -1,26 +1,28 @@
 <div class="page-header">
   <h1 i18n>My accounts</h1>
 </div>
-<div class="card card-body mb-4" *ngIf="accounts.length > 0 && !disconnectFailed && !connectFailed">
-  <div *ngFor="let account of accounts">
-    <p>
-      <button
-        type="submit"
-        class="btn btn-sm btn-danger"
-        i18n-title
-        title="Remove"
-        *ngIf="account.can_remove"
-        style="margin-right: 16px"
-        (click)="remove(account)"
-      >
-        <i class="bi bi-x" aria-hidden="true"></i>
-      </button>
-      <i [class]="account.icon" aria-hidden="true"></i>
-      <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
-      <span [textContent]="account.name" *ngIf="!account.link"></span>
-    </p>
+<ng-container *ngIf="accounts$ | async as accounts">
+  <div class="card card-body mb-4" *ngIf="accounts.length > 0 && !disconnectFailed">
+    <div *ngFor="let account of accounts">
+      <p>
+        <button
+          type="submit"
+          class="btn btn-sm btn-danger"
+          i18n-title
+          title="Remove"
+          *ngIf="account.can_remove"
+          style="margin-right: 16px"
+          (click)="remove(account)"
+        >
+          <i class="bi bi-x" aria-hidden="true"></i>
+        </button>
+        <i [class]="account.icon" aria-hidden="true"></i>
+        <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
+        <span [textContent]="account.name" *ngIf="!account.link"></span>
+      </p>
+    </div>
   </div>
-</div>
+</ng-container>
 
 <div class="card card-body" *ngIf="disconnectFailed">
   <app-markdown
@@ -28,12 +30,5 @@
     markdown="Не удалось удалить учетную запись.
 
 Такое бывает, если привязанная учётная запись является единственным способом авторизации, т.е. не задан e-mail или другие учётный записи."
-  ></app-markdown>
-</div>
-
-<div class="card card-body" *ngIf="connectFailed">
-  <app-markdown
-    i18n-markdown
-    markdown="Failed to connect with account. Error occured or access to account denied"
   ></app-markdown>
 </div>

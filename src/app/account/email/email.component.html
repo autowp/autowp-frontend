@@ -4,8 +4,8 @@
 <div class="card card-body">
   <p>
     <ng-container i18n>Your current e-mail address:</ng-container>
-    <a [href]="email" [textContent]="email" *ngIf="email"></a>
-    <span *ngIf="!email" i18n>none</span>
+    <a [href]="email" [textContent]="email" *ngIf="email$ | async as email; else noemail"></a>
+    <ng-template #noemail><span i18n>none</span></ng-template>
     (<a [href]="changeEmailUrl" i18n>Change</a>)
   </p>
 </div>
