@@ -21,14 +21,26 @@
 
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-        <li class="nav-item d-md-none d-lg-block" [class.active]="isActive$(25) | async">
-          <a class="nav-link" routerLink="/twins" i18n>Twins</a>
+        <li class="nav-item d-md-none d-lg-block">
+          <a class="nav-link" routerLink="/twins" routerLinkActive="active" i18n>Twins</a>
         </li>
-        <li class="nav-item" [class.active]="isActive$(21) | async">
-          <a class="nav-link" routerLink="/mosts" i18n>Mostly</a>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/mosts" routerLinkActive="active" i18n>Mostly</a>
         </li>
-        <li class="nav-item" ngbDropdown [class.active]="isActive$(22) | async">
-          <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
+        <li class="nav-item" ngbDropdown>
+          <button
+            type="button"
+            class="btn btn-link nav-link"
+            ngbDropdownToggle
+            [class.active]="
+              router.isActive('/category', {
+                paths: 'subset',
+                queryParams: 'ignored',
+                matrixParams: 'ignored',
+                fragment: 'ignored'
+              })
+            "
+          >
             <ng-container i18n>Categories</ng-container>
             <b class="caret" aria-hidden="true"></b>
           </button>
@@ -37,6 +49,7 @@
               [routerLink]="['/category', category.catname]"
               class="dropdown-item"
               *ngFor="let category of categories.items"
+              routerLinkActive="active"
             >
               {{ category.name_text }}&#xa0;
               <span class="count">
@@ -46,11 +59,11 @@
             </a>
           </div>
         </li>
-        <li class="nav-item d-md-none d-lg-block" [class.active]="isActive$(117) | async">
-          <a class="nav-link" routerLink="/map" i18n>Map</a>
+        <li class="nav-item d-md-none d-lg-block">
+          <a class="nav-link" routerLink="/map" routerLinkActive="active" i18n>Map</a>
         </li>
-        <li class="nav-item d-sm-none d-lg-none d-xl-block" [class.active]="isActive$(42) | async">
-          <a class="nav-link" routerLink="/forums" i18n>Forums</a>
+        <li class="nav-item d-sm-none d-lg-none d-xl-block">
+          <a class="nav-link" routerLink="/forums" routerLinkActive="active" i18n>Forums</a>
         </li>
       </ul>
       <form
@@ -66,8 +79,8 @@
         <input type="text" class="form-control" placeholder="Search" i18n-placeholder="@@layout/search" name="q" />
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item" *ngIf="user" [class.active]="isActive$(49) | async">
-          <a class="nav-link" routerLink="/account/messages" ngPreserveWhitespaces>
+        <li class="nav-item" *ngIf="user$ | async; else nouser">
+          <a class="nav-link" routerLink="/account/messages" routerLinkActive="active">
             <i class="bi bi-chat-fill" aria-hidden="true"></i>
             <ng-container *ngIf="newPersonalMessages$ | async as newPersonalMessages">
               <span
@@ -78,31 +91,31 @@
             </ng-container>
           </a>
         </li>
-        <li class="nav-item" *ngIf="!user" [class.active]="isActive$(79) | async">
-          <button class="btn nav-link" (click)="doLogin()">
-            <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
-            <ng-container i18n="@@login/sign-in">Sign in</ng-container>
-          </button>
-        </li>
-        <li class="nav-item btn-group" ngbDropdown [class.active]="isActive$(87) | async">
+        <ng-template #nouser>
+          <li class="nav-item">
+            <button class="btn nav-link" (click)="doLogin()">
+              <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+              <ng-container i18n="@@login/sign-in">Sign in</ng-container>
+            </button>
+          </li>
+        </ng-template>
+        <li class="nav-item btn-group" ngbDropdown>
           <button type="button" class="btn btn-link nav-link" ngbDropdownToggle>
             <ng-container i18n>More</ng-container>
             <b class="caret" aria-hidden="true"></b>
           </button>
           <div ngbDropdownMenu>
-            <a class="dropdown-item d-lg-none" [class.active]="isActive$(25) | async" routerLink="/twins" i18n>Twins</a>
-            <a class="dropdown-item d-lg-none" [class.active]="isActive$(117) | async" routerLink="/map" i18n>Map</a>
-            <a class="dropdown-item d-xl-none" [class.active]="isActive$(42) | async" routerLink="/forums" i18n
-              >Forums</a
-            >
+            <a class="dropdown-item d-lg-none" routerLinkActive="active" routerLink="/twins" i18n>Twins</a>
+            <a class="dropdown-item d-lg-none" routerLinkActive="active" routerLink="/map" i18n>Map</a>
+            <a class="dropdown-item d-xl-none" routerLinkActive="active" routerLink="/forums" i18n>Forums</a>
 
             <div class="dropdown-divider d-block d-sm-block d-md-block d-lg-block d-xl-none"></div>
 
-            <a routerLink="/upload" class="dropdown-item" [class.active]="isActive$(29) | async">
+            <a routerLink="/upload" class="dropdown-item" routerLinkActive="active">
               <i class="bi bi-upload" aria-hidden="true"></i>
               <ng-container i18n>Add picture</ng-container>
             </a>
-            <a routerLink="/feedback" class="dropdown-item" [class.active]="isActive$(89) | async">
+            <a routerLink="/feedback" class="dropdown-item" routerLinkActive="active">
               <i class="bi bi-chat-fill" aria-hidden="true"></i>
               <ng-container i18n>Feedback</ng-container>
             </a>
@@ -110,35 +123,32 @@
               <i class="bi bi-people-fill" aria-hidden="true"></i>
               <ng-container i18n>Who is online?</ng-container>
             </a>
-            <a
-              routerLink="/account/contacts"
-              class="dropdown-item"
-              *ngIf="user"
-              [class.active]="isActive$(211) | async"
-            >
-              <i class="bi bi-people-fill" aria-hidden="true"></i>
-              <ng-container i18n>Contacts</ng-container>
-            </a>
-            <a routerLink="/account" class="dropdown-item" *ngIf="user" [class.active]="isActive$(48) | async">
-              <i class="bi bi-person-fill" aria-hidden="true"></i>
-              <ng-container i18n>Cabinet</ng-container>
-            </a>
-            <a routerLink="/about" class="dropdown-item" [class.active]="isActive$(136) | async">
+            <ng-container *ngIf="user$ | async">
+              <a routerLink="/account/contacts" class="dropdown-item" routerLinkActive="active">
+                <i class="bi bi-people-fill" aria-hidden="true"></i>
+                <ng-container i18n>Contacts</ng-container>
+              </a>
+              <a routerLink="/account/profile" class="dropdown-item" routerLinkActive="active">
+                <i class="bi bi-person-fill" aria-hidden="true"></i>
+                <ng-container i18n>Cabinet</ng-container>
+              </a>
+            </ng-container>
+            <a routerLink="/about" class="dropdown-item" routerLinkActive="active">
               <i class="bi bi-info" aria-hidden="true"></i>
               <ng-container i18n>About us</ng-container>
             </a>
-            <a href="#" (click)="signOut()" class="dropdown-item" *ngIf="user">
+            <a href="#" (click)="signOut()" class="dropdown-item" *ngIf="user$ | async">
               <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
               <ng-container i18n>Sign out</ng-container>
             </a>
           </div>
         </li>
         <li class="nav-item" ngbDropdown placement="bottom-right">
-          <a href="#" class="nav-link" ngbDropdownToggle (click)="(false)">
+          <button href="#" class="nav-link" ngbDropdownToggle>
             <ng-container *ngFor="let lang of languages">
               <i [ngClass]="lang.flag" aria-hidden="true" *ngIf="lang.code === language"></i>
             </ng-container>
-          </a>
+          </button>
           <div ngbDropdownMenu>
             <a
               class="dropdown-item"

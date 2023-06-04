@@ -23,7 +23,7 @@ import {KeycloakService} from 'keycloak-angular';
 export class AppComponent {
   protected languages: Language[] = [];
   protected readonly layoutParams$: Observable<LayoutParams>;
-  protected user: APIUser;
+  protected readonly user$: Observable<APIUser> = this.auth.getUser$();
   protected readonly newPersonalMessages$ = this.messageService.getNew$().pipe(
     map((result) => ({
       count: result,
@@ -44,7 +44,7 @@ export class AppComponent {
   constructor(
     protected readonly auth: AuthService,
     protected readonly acl: ACLService,
-    private readonly router: Router,
+    protected readonly router: Router,
     private readonly messageService: MessageService,
     private readonly pageEnv: PageEnvService,
     private readonly languageService: LanguageService,
@@ -63,10 +63,6 @@ export class AppComponent {
       } else {
         this.renderer.removeClass(document.body, 'gallery');
       }
-    });
-
-    this.auth.getUser$().subscribe((user) => {
-      this.user = user;
     });
 
     this.languages = environment.languages;
@@ -105,10 +101,6 @@ export class AppComponent {
     });
 
     return false;
-  }
-
-  protected isActive$(id: number): Observable<boolean> {
-    return this.pageEnv.isActive$(id);
   }
 
   protected showOnlineUsers() {
