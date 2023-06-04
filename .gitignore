@@ -46,6 +46,5 @@ Thumbs.db
 crt/*.key
 crt/*.crt
 
-/oneskyapp.sh
 sonar-scanner-*
 /.scannerwork/

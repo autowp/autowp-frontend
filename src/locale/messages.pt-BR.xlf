@@ -168,7 +168,7 @@ Brazilian portuguese site translation: %pt-br-translator%
 [![Coverage Status](https://coveralls.io/repos/github/autowp/autowp/badge.svg?branch=master)](https://coveralls.io/github/autowp/autowp?branch=master)
 ### Поддержать проект
 You can support our project by [finances](/donate) or [moral](/feedback).
-Take part in [the translation of the site](https://github.com/autowp/autowp/tree/master/module/Application/language) into other languages.</source>
+Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.</source>
         <target>### Pessoas
 Este site deve sua existência a todas as pessoas que vêm até aqui e investem todo seu tempo e conhecimento.
 Alguns usuários adicionam fotos e materiais. Alguns ajudam a encontrar e solucionar erros nos já disponíveis. Uns especializam-se em determinada marca. Outros têm tempo e material para tudo. Alguns adicionam fotos em série. Já outros adicionam poucas fotos, porém raras.
@@ -198,7 +198,7 @@ O código-fonte do site está aberto. Assim, todos que desejam têm a oportunida
 [![Coverage Status](https://coveralls.io/repos/github/autowp/autowp/badge.svg?branch=master)](https://coveralls.io/github/autowp/autowp?branch=master)
 ### Você também pode ajudar
 Você pode contribuir para este site de forma [financeira](/donate) ou [moral](/feedback).
-Ajude-nos a [traduzir este site](https://github.com/autowp/autowp/tree/master/module/Application/language) para outros idiomas.</target>
+Ajude-nos a [traduzir este site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) para outros idiomas.</target>
       </trans-unit>
       <trans-unit id="5c6045daf544bdad844619af3fdcc0565555a1dd" datatype="html">
         <source>Access Control</source>

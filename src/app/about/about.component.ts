@@ -77,7 +77,7 @@ Brazilian portuguese site translation: %pt-br-translator%
 ### Поддержать проект
 
 You can support our project by [finances](/donate) or [moral](/feedback).
-Take part in [the translation of the site](https://github.com/autowp/autowp/tree/master/module/Application/language) into other languages.`;
+Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.`;
 
 @Component({
   selector: 'app-about',

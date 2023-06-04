@@ -168,7 +168,7 @@ Brazilian portuguese site translation: %pt-br-translator%
 [![Coverage Status](https://coveralls.io/repos/github/autowp/autowp/badge.svg?branch=master)](https://coveralls.io/github/autowp/autowp?branch=master)
 ### Поддержать проект
 You can support our project by [finances](/donate) or [moral](/feedback).
-Take part in [the translation of the site](https://github.com/autowp/autowp/tree/master/module/Application/language) into other languages.</source>
+Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.</source>
         <target>### Personas
 Nuestro proyecto debe su existencia a las personas que vienen aquí e invierten su tiempo y conocimientos.
 Alguien agrega materiales y alguien ayuda a encontrar errores en los existentes. Alguien se especializa en una marca específica y alguien tiene tiempo para todo. Alguien, sin una atención indebida desde el exterior, llena el sitio paso a paso, mientras alguien recoge aplausos con fotos raras pero ardientes.
@@ -198,7 +198,7 @@ El código fuente del sitio es abierto, por lo que todos tienen la oportunidad d
 [! [Estado de cobertura] (https://coveralls.io/repos/github/autowp/autowp/badge.svg?branch=master)] (https://coveralls.io/github/autowp/autowp?branch=master )
 ### Apoya el proyecto
 Puede apoyar nuestro proyecto con [finanzas] (/ donate) o [moral] (/ feedback).
-Participe en [la traducción del sitio] (https://github.com/autowp/autowp/tree/master/module/Application/language) a otros idiomas.</target>
+Participe en [la traducción del sitio] (https://github.com/autowp/autowp-frontend/tree/master/src/locale) a otros idiomas.</target>
       </trans-unit>
       <trans-unit id="5c6045daf544bdad844619af3fdcc0565555a1dd" datatype="html">
         <source>Access Control</source>

@@ -17,7 +17,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## i18n
 
 Run `./node_modules/.bin/ng extract-i18n --output-path src/locale` to extract translations
-Run `node ./ng-oneskyapp.js secret_key` to download translations from oneskyapp
 
 ## Running unit tests
 
