@@ -19,8 +19,11 @@ Sentry.init({
       tracePropagationTargets: [environment.apiUrl],
       routingInstrumentation: Sentry.routingInstrumentation,
     }),
+    new Sentry.Replay(),
   ],
   tracesSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
 });
 
 platformBrowserDynamic()
