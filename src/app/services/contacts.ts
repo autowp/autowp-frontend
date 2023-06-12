@@ -27,14 +27,7 @@ export class ContactsService {
     );
   }
 
-  public getContacts$(options: APIContactsGetOptions): Observable<ContactItems> {
-    // (.pipe(
-    const request = new GetContactsRequest({fields: []});
-
-    if (options.fields) {
-      request.fields = options.fields;
-    }
-
-    return this.auth.getUser$().pipe(switchMap(() => this.contactsClient.getContacts(request)));
+  public getContacts$(): Observable<ContactItems> {
+    return this.auth.getUser$().pipe(switchMap(() => this.contactsClient.getContacts(new GetContactsRequest({}))));
   }
 }

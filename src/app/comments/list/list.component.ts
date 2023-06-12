@@ -76,7 +76,7 @@ export class CommentsListComponent {
     this.commentsGrpc
       .voteComment(
         new CommentsVoteCommentRequest({
-          commentId: '' + message.id,
+          commentId: message.id,
           vote: value,
         })
       )
@@ -106,7 +106,7 @@ export class CommentsListComponent {
     this.commentsGrpc
       .setDeleted(
         new CommentsSetDeletedRequest({
-          commentId: '' + message.id,
+          commentId: message.id,
           deleted: value,
         })
       )

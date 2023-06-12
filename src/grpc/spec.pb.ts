@@ -4956,9 +4956,7 @@ export class GetContactsRequest implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: GetContactsRequest) {
-    _instance.fields = _instance.fields || [];
-  }
+  static refineValues(_instance: GetContactsRequest) {}
 
   /**
    * Deserializes / reads binary message into message instance using provided binary reader
@@ -4973,11 +4971,6 @@ export class GetContactsRequest implements GrpcMessage {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
-        case 1:
-          (_instance.fields = _instance.fields || []).push(
-            _reader.readString()
-          );
-          break;
         default:
           _reader.skipField();
       }
@@ -4994,13 +4987,7 @@ export class GetContactsRequest implements GrpcMessage {
   static serializeBinaryToWriter(
     _instance: GetContactsRequest,
     _writer: BinaryWriter
-  ) {
-    if (_instance.fields && _instance.fields.length) {
-      _writer.writeRepeatedString(1, _instance.fields);
-    }
-  }
-
-  private _fields: string[];
+  ) {}
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -5008,14 +4995,7 @@ export class GetContactsRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<GetContactsRequest.AsObject>) {
     _value = _value || {};
-    this.fields = (_value.fields || []).slice();
     GetContactsRequest.refineValues(this);
-  }
-  get fields(): string[] {
-    return this._fields;
-  }
-  set fields(value: string[]) {
-    this._fields = value;
   }
 
   /**
@@ -5032,9 +5012,7 @@ export class GetContactsRequest implements GrpcMessage {
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
   toObject(): GetContactsRequest.AsObject {
-    return {
-      fields: (this.fields || []).slice()
-    };
+    return {};
   }
 
   /**
@@ -5053,25 +5031,19 @@ export class GetContactsRequest implements GrpcMessage {
     // @ts-ignore
     options?: ToProtobufJSONOptions
   ): GetContactsRequest.AsProtobufJSON {
-    return {
-      fields: (this.fields || []).slice()
-    };
+    return {};
   }
 }
 export module GetContactsRequest {
   /**
    * Standard JavaScript object representation for GetContactsRequest
    */
-  export interface AsObject {
-    fields: string[];
-  }
+  export interface AsObject {}
 
   /**
    * Protobuf JSON representation for GetContactsRequest
    */
-  export interface AsProtobufJSON {
-    fields: string[];
-  }
+  export interface AsProtobufJSON {}
 }
 
 /**
@@ -10557,9 +10529,7 @@ export class APIMeRequest implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: APIMeRequest) {
-    _instance.fields = _instance.fields || [];
-  }
+  static refineValues(_instance: APIMeRequest) {}
 
   /**
    * Deserializes / reads binary message into message instance using provided binary reader
@@ -10574,11 +10544,6 @@ export class APIMeRequest implements GrpcMessage {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
-        case 1:
-          (_instance.fields = _instance.fields || []).push(
-            _reader.readString()
-          );
-          break;
         default:
           _reader.skipField();
       }
@@ -10595,13 +10560,7 @@ export class APIMeRequest implements GrpcMessage {
   static serializeBinaryToWriter(
     _instance: APIMeRequest,
     _writer: BinaryWriter
-  ) {
-    if (_instance.fields && _instance.fields.length) {
-      _writer.writeRepeatedString(1, _instance.fields);
-    }
-  }
-
-  private _fields: string[];
+  ) {}
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -10609,14 +10568,7 @@ export class APIMeRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<APIMeRequest.AsObject>) {
     _value = _value || {};
-    this.fields = (_value.fields || []).slice();
     APIMeRequest.refineValues(this);
-  }
-  get fields(): string[] {
-    return this._fields;
-  }
-  set fields(value: string[]) {
-    this._fields = value;
   }
 
   /**
@@ -10633,9 +10585,7 @@ export class APIMeRequest implements GrpcMessage {
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
   toObject(): APIMeRequest.AsObject {
-    return {
-      fields: (this.fields || []).slice()
-    };
+    return {};
   }
 
   /**
@@ -10654,25 +10604,19 @@ export class APIMeRequest implements GrpcMessage {
     // @ts-ignore
     options?: ToProtobufJSONOptions
   ): APIMeRequest.AsProtobufJSON {
-    return {
-      fields: (this.fields || []).slice()
-    };
+    return {};
   }
 }
 export module APIMeRequest {
   /**
    * Standard JavaScript object representation for APIMeRequest
    */
-  export interface AsObject {
-    fields: string[];
-  }
+  export interface AsObject {}
 
   /**
    * Protobuf JSON representation for APIMeRequest
    */
-  export interface AsProtobufJSON {
-    fields: string[];
-  }
+  export interface AsProtobufJSON {}
 }
 
 /**
@@ -10700,7 +10644,6 @@ export class APIGetUserRequest implements GrpcMessage {
    */
   static refineValues(_instance: APIGetUserRequest) {
     _instance.userId = _instance.userId || '0';
-    _instance.fields = _instance.fields || [];
   }
 
   /**
@@ -10718,11 +10661,6 @@ export class APIGetUserRequest implements GrpcMessage {
       switch (_reader.getFieldNumber()) {
         case 1:
           _instance.userId = _reader.readInt64String();
-          break;
-        case 2:
-          (_instance.fields = _instance.fields || []).push(
-            _reader.readString()
-          );
           break;
         default:
           _reader.skipField();
@@ -10744,13 +10682,9 @@ export class APIGetUserRequest implements GrpcMessage {
     if (_instance.userId) {
       _writer.writeInt64String(1, _instance.userId);
     }
-    if (_instance.fields && _instance.fields.length) {
-      _writer.writeRepeatedString(2, _instance.fields);
-    }
   }
 
   private _userId: string;
-  private _fields: string[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -10759,7 +10693,6 @@ export class APIGetUserRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<APIGetUserRequest.AsObject>) {
     _value = _value || {};
     this.userId = _value.userId;
-    this.fields = (_value.fields || []).slice();
     APIGetUserRequest.refineValues(this);
   }
   get userId(): string {
@@ -10767,12 +10700,6 @@ export class APIGetUserRequest implements GrpcMessage {
   }
   set userId(value: string) {
     this._userId = value;
-  }
-  get fields(): string[] {
-    return this._fields;
-  }
-  set fields(value: string[]) {
-    this._fields = value;
   }
 
   /**
@@ -10790,8 +10717,7 @@ export class APIGetUserRequest implements GrpcMessage {
    */
   toObject(): APIGetUserRequest.AsObject {
     return {
-      userId: this.userId,
-      fields: (this.fields || []).slice()
+      userId: this.userId
     };
   }
 
@@ -10812,8 +10738,7 @@ export class APIGetUserRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): APIGetUserRequest.AsProtobufJSON {
     return {
-      userId: this.userId,
-      fields: (this.fields || []).slice()
+      userId: this.userId
     };
   }
 }
@@ -10823,7 +10748,6 @@ export module APIGetUserRequest {
    */
   export interface AsObject {
     userId: string;
-    fields: string[];
   }
 
   /**
@@ -10831,7 +10755,6 @@ export module APIGetUserRequest {
    */
   export interface AsProtobufJSON {
     userId: string;
-    fields: string[];
   }
 }
 
@@ -20744,7 +20667,6 @@ export class APIUsersRequest implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: APIUsersRequest) {
-    _instance.fields = _instance.fields || [];
     _instance.isOnline = _instance.isOnline || false;
     _instance.limit = _instance.limit || '0';
     _instance.page = _instance.page || '0';
@@ -20763,11 +20685,6 @@ export class APIUsersRequest implements GrpcMessage {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
-        case 1:
-          (_instance.fields = _instance.fields || []).push(
-            _reader.readString()
-          );
-          break;
         case 2:
           _instance.isOnline = _reader.readBool();
           break;
@@ -20794,9 +20711,6 @@ export class APIUsersRequest implements GrpcMessage {
     _instance: APIUsersRequest,
     _writer: BinaryWriter
   ) {
-    if (_instance.fields && _instance.fields.length) {
-      _writer.writeRepeatedString(1, _instance.fields);
-    }
     if (_instance.isOnline) {
       _writer.writeBool(2, _instance.isOnline);
     }
@@ -20808,7 +20722,6 @@ export class APIUsersRequest implements GrpcMessage {
     }
   }
 
-  private _fields: string[];
   private _isOnline: boolean;
   private _limit: string;
   private _page: string;
@@ -20819,17 +20732,10 @@ export class APIUsersRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<APIUsersRequest.AsObject>) {
     _value = _value || {};
-    this.fields = (_value.fields || []).slice();
     this.isOnline = _value.isOnline;
     this.limit = _value.limit;
     this.page = _value.page;
     APIUsersRequest.refineValues(this);
-  }
-  get fields(): string[] {
-    return this._fields;
-  }
-  set fields(value: string[]) {
-    this._fields = value;
   }
   get isOnline(): boolean {
     return this._isOnline;
@@ -20865,7 +20771,6 @@ export class APIUsersRequest implements GrpcMessage {
    */
   toObject(): APIUsersRequest.AsObject {
     return {
-      fields: (this.fields || []).slice(),
       isOnline: this.isOnline,
       limit: this.limit,
       page: this.page
@@ -20889,7 +20794,6 @@ export class APIUsersRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): APIUsersRequest.AsProtobufJSON {
     return {
-      fields: (this.fields || []).slice(),
       isOnline: this.isOnline,
       limit: this.limit,
       page: this.page
@@ -20901,7 +20805,6 @@ export module APIUsersRequest {
    * Standard JavaScript object representation for APIUsersRequest
    */
   export interface AsObject {
-    fields: string[];
     isOnline: boolean;
     limit: string;
     page: string;
@@ -20911,7 +20814,6 @@ export module APIUsersRequest {
    * Protobuf JSON representation for APIUsersRequest
    */
   export interface AsProtobufJSON {
-    fields: string[];
     isOnline: boolean;
     limit: string;
     page: string;

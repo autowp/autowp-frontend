@@ -55,7 +55,7 @@ export interface APIUser {
   is_moder: boolean;
 }
 
-function converUserOptions(options: APIGetUserOptions): {[param: string]: string} {
+function convertUserOptions(options: APIGetUserOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 
   if (options.fields) {
@@ -65,7 +65,7 @@ function converUserOptions(options: APIGetUserOptions): {[param: string]: string
   return params;
 }
 
-function converUsersOptions(options: APIGetUsersOptions): {[param: string]: string | string[]} {
+function convertUsersOptions(options: APIGetUsersOptions): {[param: string]: string | string[]} {
   const params: {[param: string]: string | string[]} = {};
 
   if (options.limit) {
@@ -180,7 +180,7 @@ export class UserService {
   }
 
   public getUser$(id: number, options: APIGetUserOptions): Observable<APIUser> {
-    const params = converUserOptions(options);
+    const params = convertUserOptions(options);
 
     if (Object.keys(params).length) {
       return this.api.request<APIUser>('GET', 'user/' + id, {
@@ -213,7 +213,7 @@ export class UserService {
 
   public get$(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
     return this.api.request<APIUserGetResponse>('GET', 'user', {
-      params: converUsersOptions(options),
+      params: convertUsersOptions(options),
     });
   }
 

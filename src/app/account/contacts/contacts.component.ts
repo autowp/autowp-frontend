@@ -41,11 +41,7 @@ export class AccountContactsComponent {
           }
           return user;
         }),
-        switchMap(() =>
-          this.contactsService.getContacts$({
-            fields: ['avatar', 'gravatar', 'last_online'],
-          })
-        )
+        switchMap(() => this.contactsService.getContacts$())
       )
       .subscribe({
         next: (response) => {
