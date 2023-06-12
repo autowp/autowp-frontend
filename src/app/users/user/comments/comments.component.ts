@@ -4,12 +4,14 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {combineLatest, EMPTY} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, debounceTime, catchError, tap, map, shareReplay} from 'rxjs/operators';
-import {APICommentsService} from '../../../api/comments/comments.service';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
 
 interface Order {
   name: string;
   value: string;
+  apiValue: GetMessagesRequest.Order;
 }
 
 @Component({
@@ -59,13 +61,19 @@ export class UsersUserCommentsComponent {
       setTimeout(() => this.pageEnv.set({pageId: 205}), 0);
     }),
     switchMap(([user, page, order]) =>
-      this.commentService.getComments$({
-        user_id: user.id,
-        page: page,
-        limit: 30,
-        order: order,
-        fields: ['preview', 'route', 'vote'],
-      })
+      this.commentsClient.getMessages(
+        new GetMessagesRequest({
+          userId: user.id + '',
+          page: page,
+          limit: 30,
+          order: this.getOrderApiValue(order),
+          fields: new CommentMessageFields({
+            preview: true,
+            route: true,
+            vote: true,
+          }),
+        })
+      )
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -74,18 +82,23 @@ export class UsersUserCommentsComponent {
   );
 
   protected readonly orders: Order[] = [
-    {value: 'date_desc', name: $localize`New`},
-    {value: 'date_asc', name: $localize`Old`},
-    {value: 'vote_desc', name: $localize`Positive`},
-    {value: 'vote_asc', name: $localize`Negative`},
+    {value: 'date_desc', name: $localize`New`, apiValue: GetMessagesRequest.Order.DATE_DESC},
+    {value: 'date_asc', name: $localize`Old`, apiValue: GetMessagesRequest.Order.DATE_ASC},
+    {value: 'vote_desc', name: $localize`Positive`, apiValue: GetMessagesRequest.Order.VOTE_DESC},
+    {value: 'vote_asc', name: $localize`Negative`, apiValue: GetMessagesRequest.Order.VOTE_ASC},
   ];
 
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly commentService: APICommentsService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly commentsClient: CommentsClient
   ) {}
+
+  protected getOrderApiValue(order: string): GetMessagesRequest.Order {
+    const o = this.orders.find((o) => o.value === order);
+    return o ? o.apiValue : null;
+  }
 }

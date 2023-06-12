@@ -1,126 +1,175 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '@services/api.service';
+import {Component, OnInit} from '@angular/core';
 import {ItemService, GetItemsServiceOptions, APIItem} from '@services/item';
 import {UserService, APIUser} from '@services/user';
-import {Subscription, Observable, of, EMPTY, combineLatest} from 'rxjs';
+import {Observable, of, EMPTY, combineLatest} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, debounceTime, catchError, map, distinctUntilChanged} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {
+  APICommentsMessage,
+  CommentMessageFields,
+  GetMessagesRequest,
+  Pages,
+  PictureStatus,
+  APIUser as APIUser2,
+  ModeratorAttention,
+} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-moder-comments',
   templateUrl: './comments.component.html',
 })
-export class ModerCommentsComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  protected loading = 0;
-  protected comments: APIComment[] = [];
-  protected paginator: APIPaginator;
-  protected moderatorAttention: any;
+export class ModerCommentsComponent implements OnInit {
+  protected moderatorAttention: ModeratorAttention;
 
-  protected itemID: number;
+  protected itemID: string;
   protected itemQuery = '';
-  protected itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      switchMap((query) => {
+        if (query === '') {
+          return of([]);
+        }
 
-  protected userID: number;
+        const params: GetItemsServiceOptions = {
+          limit: 10,
+          fields: 'name_text,name_html',
+          id: 0,
+          name: '',
+        };
+        if (query.substring(0, 1) === '#') {
+          params.id = parseInt(query.substring(1), 10);
+        } else {
+          params.name = '%' + query + '%';
+        }
+
+        return this.itemService.getItems$(params).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
+            return EMPTY;
+          }),
+          map((response) => response.items)
+        );
+      })
+    );
+
+  private userID: string;
   protected userQuery = '';
-  protected usersDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      switchMap((query) => {
+        if (query === '') {
+          return of([]);
+        }
+
+        const params = {
+          limit: 10,
+          id: [],
+          search: '',
+        };
+        if (query.substring(0, 1) === '#') {
+          params.id.push(parseInt(query.substring(1), 10));
+        } else {
+          params.search = query;
+        }
+
+        return this.userService.get$(params).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
+            return EMPTY;
+          }),
+          map((response) => response.items)
+        );
+      })
+    );
+
+  protected readonly PictureStatus = PictureStatus;
 
   protected readonly userID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('user_id'), 10)),
+    map((params) => params.get('user_id')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   private readonly moderatorAttention$ = this.route.queryParamMap.pipe(
-    map((params) => params.get('moderator_attention')),
+    map((params) => +params.get('moderator_attention') as ModeratorAttention),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   private readonly picturesOfItemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('pictures_of_item_id'), 10)),
+    map((params) => params.get('pictures_of_item_id')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
+    map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     debounceTime(10)
   );
+
+  protected readonly data$: Observable<{
+    comments: {comment: APICommentsMessage; user$: Observable<APIUser2>}[];
+    paginator: Pages;
+  }> = combineLatest([this.userID$, this.moderatorAttention$, this.picturesOfItemID$, this.page$]).pipe(
+    switchMap(([userID, moderatorAttention, picturesOfItemID, page]) => {
+      this.userID = userID;
+      this.moderatorAttention = moderatorAttention ? moderatorAttention : ModeratorAttention.NONE;
+      this.itemID = picturesOfItemID;
+
+      return this.commentsClient.getMessages(
+        new GetMessagesRequest({
+          userId: this.userID,
+          moderatorAttention: this.moderatorAttention,
+          picturesOfItemId: this.itemID,
+          page,
+          order: GetMessagesRequest.Order.DATE_DESC,
+          limit: 30,
+          fields: new CommentMessageFields({
+            preview: true,
+            isNew: true,
+            status: true,
+            route: true,
+          }),
+        })
+      );
+    }),
+    catchError((error: unknown) => {
+      this.toastService.handleError(error);
+
+      return EMPTY;
+    }),
+    map((response) => ({
+      comments: response.items.map((comment) => ({
+        comment,
+        user$: this.userService.getUser2$(comment.authorId),
+      })),
+      paginator: response.paginator,
+    }))
+  );
+
+  protected readonly ModeratorAttention = ModeratorAttention;
 
   constructor(
     private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly route: ActivatedRoute,
-    private readonly commentService: APICommentsService,
     private readonly pageEnv: PageEnvService,
     private readonly router: Router,
-    private readonly toastService: ToastsService
-  ) {
-    this.itemsDataSource = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        switchMap((query) => {
-          if (query === '') {
-            return of([]);
-          }
-
-          const params: GetItemsServiceOptions = {
-            limit: 10,
-            fields: 'name_text,name_html',
-            id: 0,
-            name: '',
-          };
-          if (query.substring(0, 1) === '#') {
-            params.id = parseInt(query.substring(1), 10);
-          } else {
-            params.name = '%' + query + '%';
-          }
-
-          return this.itemService.getItems$(params).pipe(
-            catchError((err: unknown) => {
-              this.toastService.handleError(err);
-              return EMPTY;
-            }),
-            map((response) => response.items)
-          );
-        })
-      );
-
-    this.usersDataSource = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        switchMap((query) => {
-          if (query === '') {
-            return of([]);
-          }
-
-          const params = {
-            limit: 10,
-            id: [],
-            search: '',
-          };
-          if (query.substring(0, 1) === '#') {
-            params.id.push(parseInt(query.substring(1), 10));
-          } else {
-            params.search = query;
-          }
-
-          return this.userService.get$(params).pipe(
-            catchError((err: unknown) => {
-              this.toastService.handleError(err);
-              return EMPTY;
-            }),
-            map((response) => response.items)
-          );
-        })
-      );
-  }
+    private readonly toastService: ToastsService,
+    private readonly commentsClient: CommentsClient
+  ) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -131,42 +180,6 @@ export class ModerCommentsComponent implements OnInit, OnDestroy {
         }),
       0
     );
-
-    this.querySub = combineLatest([this.userID$, this.moderatorAttention$, this.picturesOfItemID$, this.page$])
-      .pipe(
-        switchMap(([userID, moderatorAttention, picturesOfItemID, page]) => {
-          this.userID = userID;
-          this.moderatorAttention = moderatorAttention === undefined ? null : +moderatorAttention;
-          this.itemID = picturesOfItemID;
-
-          this.loading++;
-
-          return this.commentService.getComments$({
-            user: this.userID,
-            moderator_attention: this.moderatorAttention,
-            pictures_of_item_id: this.itemID ? this.itemID : 0,
-            page,
-            order: 'date_desc',
-            limit: 30,
-            fields: ['preview', 'user', 'is_new', 'status', 'route'],
-          });
-        })
-      )
-      .subscribe({
-        next: (response) => {
-          this.comments = response.items;
-          this.paginator = response.paginator;
-          this.loading--;
-        },
-        error: (response: unknown) => {
-          this.toastService.handleError(response);
-          this.loading--;
-        },
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.querySub.unsubscribe();
   }
 
   protected setModeratorAttention() {

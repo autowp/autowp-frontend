@@ -2,10 +2,18 @@ import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
-import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
-import {CommentsType, CommentsViewRequest, GetMessagePageRequest} from '@grpc/spec.pb';
+import {
+  APICommentsMessage,
+  APICommentsMessages,
+  CommentMessageFields,
+  CommentsType,
+  CommentsViewRequest,
+  GetMessagePageRequest,
+  GetMessagesRequest,
+  Pages,
+} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 
 @Component({
@@ -15,10 +23,10 @@ import {CommentsClient} from '@grpc/spec.pbsc';
 export class CommentsComponent {
   private readonly reload$ = new BehaviorSubject<null>(null);
 
-  @Input() set itemID(itemID: number) {
+  @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
   }
-  protected readonly itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<string>(null);
 
   @Input() set typeID(typeID: CommentsType) {
     this.typeID$.next(typeID);
@@ -37,7 +45,7 @@ export class CommentsComponent {
 
   protected readonly user$ = this.auth.getUser$();
 
-  protected readonly data$ = combineLatest([
+  protected readonly data$: Observable<{messages: APICommentsMessage[]; paginator: Pages}> = combineLatest([
     this.user$,
     this.itemID$.pipe(debounceTime(10), distinctUntilChanged()),
     this.typeID$.pipe(debounceTime(10), distinctUntilChanged()),
@@ -67,9 +75,10 @@ export class CommentsComponent {
     )
   );
 
+  protected readonly CommentsType = CommentsType;
+
   constructor(
     private readonly router: Router,
-    private readonly commentService: APICommentsService,
     protected readonly auth: AuthService,
     private readonly toastService: ToastsService,
     private readonly commentsGrpc: CommentsClient
@@ -111,19 +120,26 @@ export class CommentsComponent {
       .subscribe();
   }
 
-  protected load$(itemID: number, typeID: number, limit: number, page: number): Observable<APICommentGetResponse> {
+  protected load$(itemID: string, typeID: CommentsType, limit: number, page: number): Observable<APICommentsMessages> {
     if (!typeID || !itemID) {
       return EMPTY;
     }
 
-    return this.commentService.getComments$({
-      type_id: typeID,
-      item_id: itemID,
-      no_parents: true,
-      fields: ['user.avatar', 'user.gravatar', 'replies', 'text', 'vote', 'user_vote'],
-      order: 'date_asc',
-      limit: limit ? limit : null,
-      page: page,
-    });
+    return this.commentsGrpc.getMessages(
+      new GetMessagesRequest({
+        typeId: typeID,
+        itemId: itemID,
+        noParents: true,
+        fields: new CommentMessageFields({
+          replies: true,
+          text: true,
+          vote: true,
+          userVote: true,
+        }),
+        order: GetMessagesRequest.Order.DATE_DESC,
+        limit: limit ? limit : null,
+        page: page,
+      })
+    );
   }
 }

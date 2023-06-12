@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {PictureService} from '@services/picture';
+import {APIPicture, PictureService} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
 import {CommentsType} from '@grpc/spec.pb';
 
@@ -41,7 +41,7 @@ export class PersonsPersonAuthorPictureComponent {
     map(([personID, identity]) => ['/persons', personID.toString(), 'author', 'gallery', identity])
   );
 
-  protected readonly picture$ = combineLatest([this.identity$, this.personID$]).pipe(
+  protected readonly picture$: Observable<APIPicture> = combineLatest([this.identity$, this.personID$]).pipe(
     switchMap(([identity, itemID]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,' +

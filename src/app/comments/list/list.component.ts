@@ -3,14 +3,23 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CommentsVotesComponent} from '../votes/votes.component';
 import {AuthService} from '@services/auth.service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIComment, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CommentsSetDeletedRequest, CommentsType, CommentsVoteCommentRequest} from '@grpc/spec.pb';
+import {
+  APICommentsMessage,
+  APIUser,
+  CommentMessageFields,
+  CommentsSetDeletedRequest,
+  CommentsType,
+  CommentsVoteCommentRequest,
+  GetMessageRequest,
+  ModeratorAttention,
+} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
-import {BehaviorSubject, EMPTY} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
+import {UserService} from '@services/user';
 
-export interface APICommentInList extends APIComment {
+export interface APICommentInList extends APICommentsMessage {
   showReply?: boolean;
   resolve?: boolean;
 }
@@ -20,10 +29,10 @@ export interface APICommentInList extends APIComment {
   templateUrl: './list.component.html',
 })
 export class CommentsListComponent {
-  @Input() set itemID(itemID: number) {
+  @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
   }
-  protected readonly itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<string>(null);
 
   @Input() set typeID(typeID: CommentsType) {
     this.typeID$.next(typeID);
@@ -31,9 +40,14 @@ export class CommentsListComponent {
   protected readonly typeID$ = new BehaviorSubject<CommentsType>(null);
 
   @Input() set messages(messages: APICommentInList[]) {
-    this.messages$.next(messages);
+    this.messages$.next(
+      messages.map((message) => ({
+        message,
+        user$: this.userService.getUser2$(message.authorId),
+      }))
+    );
   }
-  protected readonly messages$ = new BehaviorSubject<APICommentInList[]>([]);
+  protected readonly messages$ = new BehaviorSubject<{message: APICommentInList; user$: Observable<APIUser>}[]>([]);
 
   @Input() set deep(deep: number) {
     this.deep$.next(deep);
@@ -47,16 +61,18 @@ export class CommentsListComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly user$ = this.auth.getUser$();
 
+  protected readonly ModeratorAttention = ModeratorAttention;
+
   constructor(
     private readonly acl: ACLService,
-    private readonly commentService: APICommentsService,
     protected readonly auth: AuthService,
     private readonly modalService: NgbModal,
     private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient
+    private readonly commentsGrpc: CommentsClient,
+    private readonly userService: UserService
   ) {}
 
-  protected vote(message: APIComment, value: number) {
+  protected vote(message: APICommentsMessage, value: number) {
     this.commentsGrpc
       .voteComment(
         new CommentsVoteCommentRequest({
@@ -70,10 +86,12 @@ export class CommentsListComponent {
           return EMPTY;
         }),
         switchMap(() => {
-          message.user_vote = value;
+          message.userVote = value;
 
           // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
-          return this.commentService.getComment$(message.id, {fields: 'vote'});
+          return this.commentsGrpc.getMessage(
+            new GetMessageRequest({id: message.id, fields: new CommentMessageFields({vote: true})})
+          );
         })
       )
       .subscribe({
@@ -84,7 +102,7 @@ export class CommentsListComponent {
     return false;
   }
 
-  protected setIsDeleted(message: APIComment, value: boolean) {
+  protected setIsDeleted(message: APICommentsMessage, value: boolean) {
     this.commentsGrpc
       .setDeleted(
         new CommentsSetDeletedRequest({
@@ -103,7 +121,7 @@ export class CommentsListComponent {
     message.resolve = resolve;
   }
 
-  protected showVotes(message: APIComment) {
+  protected showVotes(message: APICommentsMessage) {
     const modalRef = this.modalService.open(CommentsVotesComponent, {
       size: 'lg',
       centered: true,

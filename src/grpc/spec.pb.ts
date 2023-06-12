@@ -53,6 +53,11 @@ export enum CommentsType {
   ARTICLES_TYPE_ID = 4,
   FORUMS_TYPE_ID = 5
 }
+export enum ModeratorAttention {
+  NONE = 0,
+  REQUIRED = 1,
+  COMPLETE = 2
+}
 /**
  * Message implementation for goautowp.ErrorDetails
  */
@@ -23776,6 +23781,823 @@ export module GetMessagePageRequest {
 }
 
 /**
+ * Message implementation for goautowp.CommentMessageFields
+ */
+export class CommentMessageFields implements GrpcMessage {
+  static id = 'goautowp.CommentMessageFields';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CommentMessageFields();
+    CommentMessageFields.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CommentMessageFields) {
+    _instance.preview = _instance.preview || false;
+    _instance.route = _instance.route || false;
+    _instance.text = _instance.text || false;
+    _instance.vote = _instance.vote || false;
+    _instance.userVote = _instance.userVote || false;
+    _instance.replies = _instance.replies || false;
+    _instance.status = _instance.status || false;
+    _instance.isNew = _instance.isNew || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CommentMessageFields,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.preview = _reader.readBool();
+          break;
+        case 2:
+          _instance.route = _reader.readBool();
+          break;
+        case 3:
+          _instance.text = _reader.readBool();
+          break;
+        case 4:
+          _instance.vote = _reader.readBool();
+          break;
+        case 5:
+          _instance.userVote = _reader.readBool();
+          break;
+        case 6:
+          _instance.replies = _reader.readBool();
+          break;
+        case 7:
+          _instance.status = _reader.readBool();
+          break;
+        case 8:
+          _instance.isNew = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CommentMessageFields.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CommentMessageFields,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.preview) {
+      _writer.writeBool(1, _instance.preview);
+    }
+    if (_instance.route) {
+      _writer.writeBool(2, _instance.route);
+    }
+    if (_instance.text) {
+      _writer.writeBool(3, _instance.text);
+    }
+    if (_instance.vote) {
+      _writer.writeBool(4, _instance.vote);
+    }
+    if (_instance.userVote) {
+      _writer.writeBool(5, _instance.userVote);
+    }
+    if (_instance.replies) {
+      _writer.writeBool(6, _instance.replies);
+    }
+    if (_instance.status) {
+      _writer.writeBool(7, _instance.status);
+    }
+    if (_instance.isNew) {
+      _writer.writeBool(8, _instance.isNew);
+    }
+  }
+
+  private _preview: boolean;
+  private _route: boolean;
+  private _text: boolean;
+  private _vote: boolean;
+  private _userVote: boolean;
+  private _replies: boolean;
+  private _status: boolean;
+  private _isNew: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CommentMessageFields to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CommentMessageFields.AsObject>) {
+    _value = _value || {};
+    this.preview = _value.preview;
+    this.route = _value.route;
+    this.text = _value.text;
+    this.vote = _value.vote;
+    this.userVote = _value.userVote;
+    this.replies = _value.replies;
+    this.status = _value.status;
+    this.isNew = _value.isNew;
+    CommentMessageFields.refineValues(this);
+  }
+  get preview(): boolean {
+    return this._preview;
+  }
+  set preview(value: boolean) {
+    this._preview = value;
+  }
+  get route(): boolean {
+    return this._route;
+  }
+  set route(value: boolean) {
+    this._route = value;
+  }
+  get text(): boolean {
+    return this._text;
+  }
+  set text(value: boolean) {
+    this._text = value;
+  }
+  get vote(): boolean {
+    return this._vote;
+  }
+  set vote(value: boolean) {
+    this._vote = value;
+  }
+  get userVote(): boolean {
+    return this._userVote;
+  }
+  set userVote(value: boolean) {
+    this._userVote = value;
+  }
+  get replies(): boolean {
+    return this._replies;
+  }
+  set replies(value: boolean) {
+    this._replies = value;
+  }
+  get status(): boolean {
+    return this._status;
+  }
+  set status(value: boolean) {
+    this._status = value;
+  }
+  get isNew(): boolean {
+    return this._isNew;
+  }
+  set isNew(value: boolean) {
+    this._isNew = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CommentMessageFields.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CommentMessageFields.AsObject {
+    return {
+      preview: this.preview,
+      route: this.route,
+      text: this.text,
+      vote: this.vote,
+      userVote: this.userVote,
+      replies: this.replies,
+      status: this.status,
+      isNew: this.isNew
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CommentMessageFields.AsProtobufJSON {
+    return {
+      preview: this.preview,
+      route: this.route,
+      text: this.text,
+      vote: this.vote,
+      userVote: this.userVote,
+      replies: this.replies,
+      status: this.status,
+      isNew: this.isNew
+    };
+  }
+}
+export module CommentMessageFields {
+  /**
+   * Standard JavaScript object representation for CommentMessageFields
+   */
+  export interface AsObject {
+    preview: boolean;
+    route: boolean;
+    text: boolean;
+    vote: boolean;
+    userVote: boolean;
+    replies: boolean;
+    status: boolean;
+    isNew: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for CommentMessageFields
+   */
+  export interface AsProtobufJSON {
+    preview: boolean;
+    route: boolean;
+    text: boolean;
+    vote: boolean;
+    userVote: boolean;
+    replies: boolean;
+    status: boolean;
+    isNew: boolean;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetMessageRequest
+ */
+export class GetMessageRequest implements GrpcMessage {
+  static id = 'goautowp.GetMessageRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetMessageRequest();
+    GetMessageRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetMessageRequest) {
+    _instance.id = _instance.id || '0';
+    _instance.fields = _instance.fields || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetMessageRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.fields = new CommentMessageFields();
+          _reader.readMessage(
+            _instance.fields,
+            CommentMessageFields.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetMessageRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetMessageRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.fields) {
+      _writer.writeMessage(
+        2,
+        _instance.fields as any,
+        CommentMessageFields.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _id: string;
+  private _fields?: CommentMessageFields;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetMessageRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetMessageRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.fields = _value.fields
+      ? new CommentMessageFields(_value.fields)
+      : undefined;
+    GetMessageRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get fields(): CommentMessageFields | undefined {
+    return this._fields;
+  }
+  set fields(value: CommentMessageFields | undefined) {
+    this._fields = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetMessageRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetMessageRequest.AsObject {
+    return {
+      id: this.id,
+      fields: this.fields ? this.fields.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetMessageRequest.AsProtobufJSON {
+    return {
+      id: this.id,
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null
+    };
+  }
+}
+export module GetMessageRequest {
+  /**
+   * Standard JavaScript object representation for GetMessageRequest
+   */
+  export interface AsObject {
+    id: string;
+    fields?: CommentMessageFields.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for GetMessageRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    fields: CommentMessageFields.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetMessagesRequest
+ */
+export class GetMessagesRequest implements GrpcMessage {
+  static id = 'goautowp.GetMessagesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetMessagesRequest();
+    GetMessagesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetMessagesRequest) {
+    _instance.fields = _instance.fields || undefined;
+    _instance.itemId = _instance.itemId || '0';
+    _instance.typeId = _instance.typeId || 0;
+    _instance.parentId = _instance.parentId || '0';
+    _instance.noParents = _instance.noParents || false;
+    _instance.userId = _instance.userId || '0';
+    _instance.order = _instance.order || 0;
+    _instance.userIdentity = _instance.userIdentity || '';
+    _instance.moderatorAttention = _instance.moderatorAttention || 0;
+    _instance.picturesOfItemId = _instance.picturesOfItemId || '0';
+    _instance.limit = _instance.limit || 0;
+    _instance.page = _instance.page || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetMessagesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.fields = new CommentMessageFields();
+          _reader.readMessage(
+            _instance.fields,
+            CommentMessageFields.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 4:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 5:
+          _instance.noParents = _reader.readBool();
+          break;
+        case 6:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 7:
+          _instance.order = _reader.readEnum();
+          break;
+        case 8:
+          _instance.userIdentity = _reader.readString();
+          break;
+        case 9:
+          _instance.moderatorAttention = _reader.readEnum();
+          break;
+        case 10:
+          _instance.picturesOfItemId = _reader.readInt64String();
+          break;
+        case 11:
+          _instance.limit = _reader.readInt32();
+          break;
+        case 12:
+          _instance.page = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetMessagesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetMessagesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.fields) {
+      _writer.writeMessage(
+        1,
+        _instance.fields as any,
+        CommentMessageFields.serializeBinaryToWriter
+      );
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(3, _instance.typeId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(4, _instance.parentId);
+    }
+    if (_instance.noParents) {
+      _writer.writeBool(5, _instance.noParents);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(6, _instance.userId);
+    }
+    if (_instance.order) {
+      _writer.writeEnum(7, _instance.order);
+    }
+    if (_instance.userIdentity) {
+      _writer.writeString(8, _instance.userIdentity);
+    }
+    if (_instance.moderatorAttention) {
+      _writer.writeEnum(9, _instance.moderatorAttention);
+    }
+    if (_instance.picturesOfItemId) {
+      _writer.writeInt64String(10, _instance.picturesOfItemId);
+    }
+    if (_instance.limit) {
+      _writer.writeInt32(11, _instance.limit);
+    }
+    if (_instance.page) {
+      _writer.writeInt32(12, _instance.page);
+    }
+  }
+
+  private _fields?: CommentMessageFields;
+  private _itemId: string;
+  private _typeId: CommentsType;
+  private _parentId: string;
+  private _noParents: boolean;
+  private _userId: string;
+  private _order: GetMessagesRequest.Order;
+  private _userIdentity: string;
+  private _moderatorAttention: ModeratorAttention;
+  private _picturesOfItemId: string;
+  private _limit: number;
+  private _page: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetMessagesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetMessagesRequest.AsObject>) {
+    _value = _value || {};
+    this.fields = _value.fields
+      ? new CommentMessageFields(_value.fields)
+      : undefined;
+    this.itemId = _value.itemId;
+    this.typeId = _value.typeId;
+    this.parentId = _value.parentId;
+    this.noParents = _value.noParents;
+    this.userId = _value.userId;
+    this.order = _value.order;
+    this.userIdentity = _value.userIdentity;
+    this.moderatorAttention = _value.moderatorAttention;
+    this.picturesOfItemId = _value.picturesOfItemId;
+    this.limit = _value.limit;
+    this.page = _value.page;
+    GetMessagesRequest.refineValues(this);
+  }
+  get fields(): CommentMessageFields | undefined {
+    return this._fields;
+  }
+  set fields(value: CommentMessageFields | undefined) {
+    this._fields = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get typeId(): CommentsType {
+    return this._typeId;
+  }
+  set typeId(value: CommentsType) {
+    this._typeId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get noParents(): boolean {
+    return this._noParents;
+  }
+  set noParents(value: boolean) {
+    this._noParents = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+  get order(): GetMessagesRequest.Order {
+    return this._order;
+  }
+  set order(value: GetMessagesRequest.Order) {
+    this._order = value;
+  }
+  get userIdentity(): string {
+    return this._userIdentity;
+  }
+  set userIdentity(value: string) {
+    this._userIdentity = value;
+  }
+  get moderatorAttention(): ModeratorAttention {
+    return this._moderatorAttention;
+  }
+  set moderatorAttention(value: ModeratorAttention) {
+    this._moderatorAttention = value;
+  }
+  get picturesOfItemId(): string {
+    return this._picturesOfItemId;
+  }
+  set picturesOfItemId(value: string) {
+    this._picturesOfItemId = value;
+  }
+  get limit(): number {
+    return this._limit;
+  }
+  set limit(value: number) {
+    this._limit = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetMessagesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetMessagesRequest.AsObject {
+    return {
+      fields: this.fields ? this.fields.toObject() : undefined,
+      itemId: this.itemId,
+      typeId: this.typeId,
+      parentId: this.parentId,
+      noParents: this.noParents,
+      userId: this.userId,
+      order: this.order,
+      userIdentity: this.userIdentity,
+      moderatorAttention: this.moderatorAttention,
+      picturesOfItemId: this.picturesOfItemId,
+      limit: this.limit,
+      page: this.page
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetMessagesRequest.AsProtobufJSON {
+    return {
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null,
+      itemId: this.itemId,
+      typeId:
+        CommentsType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      parentId: this.parentId,
+      noParents: this.noParents,
+      userId: this.userId,
+      order:
+        GetMessagesRequest.Order[
+          this.order === null || this.order === undefined ? 0 : this.order
+        ],
+      userIdentity: this.userIdentity,
+      moderatorAttention:
+        ModeratorAttention[
+          this.moderatorAttention === null ||
+          this.moderatorAttention === undefined
+            ? 0
+            : this.moderatorAttention
+        ],
+      picturesOfItemId: this.picturesOfItemId,
+      limit: this.limit,
+      page: this.page
+    };
+  }
+}
+export module GetMessagesRequest {
+  /**
+   * Standard JavaScript object representation for GetMessagesRequest
+   */
+  export interface AsObject {
+    fields?: CommentMessageFields.AsObject;
+    itemId: string;
+    typeId: CommentsType;
+    parentId: string;
+    noParents: boolean;
+    userId: string;
+    order: GetMessagesRequest.Order;
+    userIdentity: string;
+    moderatorAttention: ModeratorAttention;
+    picturesOfItemId: string;
+    limit: number;
+    page: number;
+  }
+
+  /**
+   * Protobuf JSON representation for GetMessagesRequest
+   */
+  export interface AsProtobufJSON {
+    fields: CommentMessageFields.AsProtobufJSON | null;
+    itemId: string;
+    typeId: string;
+    parentId: string;
+    noParents: boolean;
+    userId: string;
+    order: string;
+    userIdentity: string;
+    moderatorAttention: string;
+    picturesOfItemId: string;
+    limit: number;
+    page: number;
+  }
+  export enum Order {
+    DEFAULT = 0,
+    VOTE_DESC = 1,
+    VOTE_ASC = 2,
+    DATE_DESC = 3,
+    DATE_ASC = 4
+  }
+}
+
+/**
  * Message implementation for goautowp.APICommentsMessagePage
  */
 export class APICommentsMessagePage implements GrpcMessage {
@@ -23952,6 +24774,659 @@ export module APICommentsMessagePage {
     typeId: string;
     itemId: string;
     page: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APICommentsMessages
+ */
+export class APICommentsMessages implements GrpcMessage {
+  static id = 'goautowp.APICommentsMessages';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APICommentsMessages();
+    APICommentsMessages.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APICommentsMessages) {
+    _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APICommentsMessages,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APICommentsMessage();
+          _reader.readMessage(
+            messageInitializer1,
+            APICommentsMessage.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APICommentsMessages.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APICommentsMessages,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APICommentsMessage.serializeBinaryToWriter
+      );
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APICommentsMessage[];
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APICommentsMessages to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APICommentsMessages.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APICommentsMessage(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    APICommentsMessages.refineValues(this);
+  }
+  get items(): APICommentsMessage[] | undefined {
+    return this._items;
+  }
+  set items(value: APICommentsMessage[] | undefined) {
+    this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APICommentsMessages.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APICommentsMessages.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APICommentsMessages.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module APICommentsMessages {
+  /**
+   * Standard JavaScript object representation for APICommentsMessages
+   */
+  export interface AsObject {
+    items?: APICommentsMessage.AsObject[];
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for APICommentsMessages
+   */
+  export interface AsProtobufJSON {
+    items: APICommentsMessage.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APICommentsMessage
+ */
+export class APICommentsMessage implements GrpcMessage {
+  static id = 'goautowp.APICommentsMessage';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APICommentsMessage();
+    APICommentsMessage.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APICommentsMessage) {
+    _instance.id = _instance.id || '0';
+    _instance.typeId = _instance.typeId || 0;
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+    _instance.createdAt = _instance.createdAt || undefined;
+    _instance.deleted = _instance.deleted || false;
+    _instance.moderatorAttention = _instance.moderatorAttention || 0;
+    _instance.isNew = _instance.isNew || false;
+    _instance.authorId = _instance.authorId || '0';
+    _instance.ip = _instance.ip || '';
+    _instance.text = _instance.text || '';
+    _instance.vote = _instance.vote || 0;
+    _instance.preview = _instance.preview || '';
+    _instance.route = _instance.route || [];
+    _instance.userVote = _instance.userVote || 0;
+    _instance.replies = _instance.replies || [];
+    _instance.pictureStatus = _instance.pictureStatus || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APICommentsMessage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 3:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 4:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 5:
+          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.createdAt,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 6:
+          _instance.deleted = _reader.readBool();
+          break;
+        case 7:
+          _instance.moderatorAttention = _reader.readEnum();
+          break;
+        case 8:
+          _instance.isNew = _reader.readBool();
+          break;
+        case 9:
+          _instance.authorId = _reader.readInt64String();
+          break;
+        case 10:
+          _instance.ip = _reader.readString();
+          break;
+        case 11:
+          _instance.text = _reader.readString();
+          break;
+        case 12:
+          _instance.vote = _reader.readInt32();
+          break;
+        case 13:
+          _instance.preview = _reader.readString();
+          break;
+        case 14:
+          (_instance.route = _instance.route || []).push(_reader.readString());
+          break;
+        case 15:
+          _instance.userVote = _reader.readInt32();
+          break;
+        case 16:
+          const messageInitializer16 = new APICommentsMessage();
+          _reader.readMessage(
+            messageInitializer16,
+            APICommentsMessage.deserializeBinaryFromReader
+          );
+          (_instance.replies = _instance.replies || []).push(
+            messageInitializer16
+          );
+          break;
+        case 17:
+          _instance.pictureStatus = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APICommentsMessage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APICommentsMessage,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.typeId) {
+      _writer.writeEnum(2, _instance.typeId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(3, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(4, _instance.parentId);
+    }
+    if (_instance.createdAt) {
+      _writer.writeMessage(
+        5,
+        _instance.createdAt as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.deleted) {
+      _writer.writeBool(6, _instance.deleted);
+    }
+    if (_instance.moderatorAttention) {
+      _writer.writeEnum(7, _instance.moderatorAttention);
+    }
+    if (_instance.isNew) {
+      _writer.writeBool(8, _instance.isNew);
+    }
+    if (_instance.authorId) {
+      _writer.writeInt64String(9, _instance.authorId);
+    }
+    if (_instance.ip) {
+      _writer.writeString(10, _instance.ip);
+    }
+    if (_instance.text) {
+      _writer.writeString(11, _instance.text);
+    }
+    if (_instance.vote) {
+      _writer.writeInt32(12, _instance.vote);
+    }
+    if (_instance.preview) {
+      _writer.writeString(13, _instance.preview);
+    }
+    if (_instance.route && _instance.route.length) {
+      _writer.writeRepeatedString(14, _instance.route);
+    }
+    if (_instance.userVote) {
+      _writer.writeInt32(15, _instance.userVote);
+    }
+    if (_instance.replies && _instance.replies.length) {
+      _writer.writeRepeatedMessage(
+        16,
+        _instance.replies as any,
+        APICommentsMessage.serializeBinaryToWriter
+      );
+    }
+    if (_instance.pictureStatus) {
+      _writer.writeEnum(17, _instance.pictureStatus);
+    }
+  }
+
+  private _id: string;
+  private _typeId: CommentsType;
+  private _itemId: string;
+  private _parentId: string;
+  private _createdAt?: googleProtobuf002.Timestamp;
+  private _deleted: boolean;
+  private _moderatorAttention: ModeratorAttention;
+  private _isNew: boolean;
+  private _authorId: string;
+  private _ip: string;
+  private _text: string;
+  private _vote: number;
+  private _preview: string;
+  private _route: string[];
+  private _userVote: number;
+  private _replies?: APICommentsMessage[];
+  private _pictureStatus: PictureStatus;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APICommentsMessage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APICommentsMessage.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.typeId = _value.typeId;
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    this.createdAt = _value.createdAt
+      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      : undefined;
+    this.deleted = _value.deleted;
+    this.moderatorAttention = _value.moderatorAttention;
+    this.isNew = _value.isNew;
+    this.authorId = _value.authorId;
+    this.ip = _value.ip;
+    this.text = _value.text;
+    this.vote = _value.vote;
+    this.preview = _value.preview;
+    this.route = (_value.route || []).slice();
+    this.userVote = _value.userVote;
+    this.replies = (_value.replies || []).map(m => new APICommentsMessage(m));
+    this.pictureStatus = _value.pictureStatus;
+    APICommentsMessage.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get typeId(): CommentsType {
+    return this._typeId;
+  }
+  set typeId(value: CommentsType) {
+    this._typeId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get createdAt(): googleProtobuf002.Timestamp | undefined {
+    return this._createdAt;
+  }
+  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+    this._createdAt = value;
+  }
+  get deleted(): boolean {
+    return this._deleted;
+  }
+  set deleted(value: boolean) {
+    this._deleted = value;
+  }
+  get moderatorAttention(): ModeratorAttention {
+    return this._moderatorAttention;
+  }
+  set moderatorAttention(value: ModeratorAttention) {
+    this._moderatorAttention = value;
+  }
+  get isNew(): boolean {
+    return this._isNew;
+  }
+  set isNew(value: boolean) {
+    this._isNew = value;
+  }
+  get authorId(): string {
+    return this._authorId;
+  }
+  set authorId(value: string) {
+    this._authorId = value;
+  }
+  get ip(): string {
+    return this._ip;
+  }
+  set ip(value: string) {
+    this._ip = value;
+  }
+  get text(): string {
+    return this._text;
+  }
+  set text(value: string) {
+    this._text = value;
+  }
+  get vote(): number {
+    return this._vote;
+  }
+  set vote(value: number) {
+    this._vote = value;
+  }
+  get preview(): string {
+    return this._preview;
+  }
+  set preview(value: string) {
+    this._preview = value;
+  }
+  get route(): string[] {
+    return this._route;
+  }
+  set route(value: string[]) {
+    this._route = value;
+  }
+  get userVote(): number {
+    return this._userVote;
+  }
+  set userVote(value: number) {
+    this._userVote = value;
+  }
+  get replies(): APICommentsMessage[] | undefined {
+    return this._replies;
+  }
+  set replies(value: APICommentsMessage[] | undefined) {
+    this._replies = value;
+  }
+  get pictureStatus(): PictureStatus {
+    return this._pictureStatus;
+  }
+  set pictureStatus(value: PictureStatus) {
+    this._pictureStatus = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APICommentsMessage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APICommentsMessage.AsObject {
+    return {
+      id: this.id,
+      typeId: this.typeId,
+      itemId: this.itemId,
+      parentId: this.parentId,
+      createdAt: this.createdAt ? this.createdAt.toObject() : undefined,
+      deleted: this.deleted,
+      moderatorAttention: this.moderatorAttention,
+      isNew: this.isNew,
+      authorId: this.authorId,
+      ip: this.ip,
+      text: this.text,
+      vote: this.vote,
+      preview: this.preview,
+      route: (this.route || []).slice(),
+      userVote: this.userVote,
+      replies: (this.replies || []).map(m => m.toObject()),
+      pictureStatus: this.pictureStatus
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APICommentsMessage.AsProtobufJSON {
+    return {
+      id: this.id,
+      typeId:
+        CommentsType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      itemId: this.itemId,
+      parentId: this.parentId,
+      createdAt: this.createdAt ? this.createdAt.toProtobufJSON(options) : null,
+      deleted: this.deleted,
+      moderatorAttention:
+        ModeratorAttention[
+          this.moderatorAttention === null ||
+          this.moderatorAttention === undefined
+            ? 0
+            : this.moderatorAttention
+        ],
+      isNew: this.isNew,
+      authorId: this.authorId,
+      ip: this.ip,
+      text: this.text,
+      vote: this.vote,
+      preview: this.preview,
+      route: (this.route || []).slice(),
+      userVote: this.userVote,
+      replies: (this.replies || []).map(m => m.toProtobufJSON(options)),
+      pictureStatus:
+        PictureStatus[
+          this.pictureStatus === null || this.pictureStatus === undefined
+            ? 0
+            : this.pictureStatus
+        ]
+    };
+  }
+}
+export module APICommentsMessage {
+  /**
+   * Standard JavaScript object representation for APICommentsMessage
+   */
+  export interface AsObject {
+    id: string;
+    typeId: CommentsType;
+    itemId: string;
+    parentId: string;
+    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    deleted: boolean;
+    moderatorAttention: ModeratorAttention;
+    isNew: boolean;
+    authorId: string;
+    ip: string;
+    text: string;
+    vote: number;
+    preview: string;
+    route: string[];
+    userVote: number;
+    replies?: APICommentsMessage.AsObject[];
+    pictureStatus: PictureStatus;
+  }
+
+  /**
+   * Protobuf JSON representation for APICommentsMessage
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    typeId: string;
+    itemId: string;
+    parentId: string;
+    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    deleted: boolean;
+    moderatorAttention: string;
+    isNew: boolean;
+    authorId: string;
+    ip: string;
+    text: string;
+    vote: number;
+    preview: string;
+    route: string[];
+    userVote: number;
+    replies: APICommentsMessage.AsProtobufJSON[] | null;
+    pictureStatus: string;
   }
 }
 

@@ -13,8 +13,8 @@ import {InvalidParams} from '@utils/invalid-params.pipe';
   templateUrl: './form.component.html',
 })
 export class CommentsFormComponent implements OnInit, OnDestroy {
-  @Input() parentID: number;
-  @Input() itemID: number;
+  @Input() parentID: string;
+  @Input() itemID: string;
   @Input() typeID: CommentsType;
   @Output() sent = new EventEmitter<string>();
   @Output() canceled = new EventEmitter<string>();

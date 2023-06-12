@@ -51,12 +51,11 @@
           class="form-control"
           [(ngModel)]="moderatorAttention"
           (change)="setModeratorAttention()"
-          [class.border-primary]="moderatorAttention !== null"
+          [class.border-primary]="moderatorAttention !== ModeratorAttention.NONE"
         >
-          <option [ngValue]="null" i18n>Not matters</option>
-          <option [ngValue]="0" i18n>Not required</option>
-          <option [ngValue]="1" i18n>Required</option>
-          <option [ngValue]="2" i18n>Resolved</option>
+          <option [ngValue]="ModeratorAttention.NONE" i18n>Not matters</option>
+          <option [ngValue]="ModeratorAttention.REQUIRED" i18n>Required</option>
+          <option [ngValue]="ModeratorAttention.COMPLETE" i18n>Resolved</option>
         </select>
       </div>
       <div class="mb-3">
@@ -84,30 +83,31 @@
     </form>
   </div>
   <div class="col-md-8">
-    <h2>
-      <ng-container i18n>Comments</ng-container>
-      <span [hidden]="loading <= 0">
-        <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-      </span>
-      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments"
-        >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} comment} other
-        {{{paginator.totalItemCount}} comments}}</small
-      >
-    </h2>
+    <ng-container *ngIf="data$ | async as data">
+      <h2>
+        <ng-container i18n>Comments</ng-container>
+        <ng-container *ngIf="data.paginator as paginator">
+          <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments"
+            >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} comment} other
+            {{{paginator.totalItemCount}} comments}}</small
+          >
+        </ng-container>
+      </h2>
 
-    <ul class="comments">
-      <li *ngFor="let comment of comments" ngPreserveWhitespaces>
-        <span class="badge text-bg-warning text-dark" *ngIf="comment.is_new" i18n>not readed</span>
-        <span class="badge text-bg-{{ comment.status.class }}" *ngIf="comment.status" [ngSwitch]="comment.status.name">
-          <ng-container *ngSwitchCase="'moder/picture/acceptance/accepted'" i18n>Accepted</ng-container>
-          <ng-container *ngSwitchCase="'moder/picture/acceptance/inbox'" i18n>Inbox</ng-container>
-          <ng-container *ngSwitchCase="'moder/picture/acceptance/removed'" i18n>Deleted</ng-container>
-          <ng-container *ngSwitchCase="'moder/picture/acceptance/removing'" i18n>Deleting</ng-container>
-        </span>
-        <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
-        <app-user [user]="comment.user"></app-user>
-      </li>
-    </ul>
-    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+      <ul class="comments">
+        <li *ngFor="let comment of data.comments" ngPreserveWhitespaces>
+          <span class="badge text-bg-warning text-dark" *ngIf="comment.comment.isNew" i18n>not readed</span>
+          <ng-container *ngIf="comment.comment.pictureStatus as s">
+            <span class="badge text-bg-success" *ngIf="s === PictureStatus.PICTURE_STATUS_ACCEPTED" i18n>Accepted</span>
+            <span class="badge text-bg-warning" *ngIf="s === PictureStatus.PICTURE_STATUS_INBOX" i18n>Inbox</span>
+            <span class="badge text-bg-danger" *ngIf="s === PictureStatus.PICTURE_STATUS_REMOVED" i18n>Deleted</span>
+            <span class="badge text-bg-danger" *ngIf="s === PictureStatus.PICTURE_STATUS_REMOVING" i18n>Deleting</span>
+          </ng-container>
+          <a [routerLink]="comment.comment.route" [textContent]="comment.comment.preview"></a>
+          <app-user2 [user]="user" *ngIf="comment.user$ | async as user"></app-user2>
+        </li>
+      </ul>
+      <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
+    </ng-container>
   </div>
 </div>

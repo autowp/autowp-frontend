@@ -19,7 +19,7 @@
 
   <section class="forum-topic-page comments">
     <app-comments
-      [itemID]="+topic.id"
+      [itemID]="topic.id"
       [typeID]="CommentsType.FORUMS_TYPE_ID"
       [limit]="limit"
       [page]="page$ | async"

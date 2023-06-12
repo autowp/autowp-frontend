@@ -17,7 +17,7 @@ export class TwinsGroupPictureComponent {
   protected readonly user$ = this.auth.getUser$();
   private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  protected readonly group$ = this.route.parent.parent.paramMap.pipe(
+  protected readonly group$: Observable<APIItem> = this.route.parent.parent.paramMap.pipe(
     map((route) => parseInt(route.get('group'), 10)),
     distinctUntilChanged(),
     switchMap((groupID) => {

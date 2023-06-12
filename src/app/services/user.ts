@@ -199,6 +199,10 @@ export class UserService {
   }
 
   public getUser2$(id: string) {
+    if (!id) {
+      return of(null);
+    }
+
     if (!this.cache2.has(id)) {
       const o$ = this.usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(shareReplay(1));
       this.cache2.set(id, o$);

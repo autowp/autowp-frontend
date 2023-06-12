@@ -2585,6 +2585,48 @@ export class CommentsClient {
         requestClass: thisProto.GetMessagePageRequest,
         responseClass: thisProto.APICommentsMessagePage
       });
+    },
+    /**
+     * Unary call: /goautowp.Comments/GetMessage
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APICommentsMessage>>
+     */
+    getMessage: (
+      requestData: thisProto.GetMessageRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APICommentsMessage>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/GetMessage',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetMessageRequest,
+        responseClass: thisProto.APICommentsMessage
+      });
+    },
+    /**
+     * Unary call: /goautowp.Comments/GetMessages
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APICommentsMessages>>
+     */
+    getMessages: (
+      requestData: thisProto.GetMessagesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APICommentsMessages>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Comments/GetMessages',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetMessagesRequest,
+        responseClass: thisProto.APICommentsMessages
+      });
     }
   };
 
@@ -2737,6 +2779,38 @@ export class CommentsClient {
   ): Observable<thisProto.APICommentsMessagePage> {
     return this.$raw
       .getMessagePage(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/GetMessage
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APICommentsMessage>
+   */
+  getMessage(
+    requestData: thisProto.GetMessageRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APICommentsMessage> {
+    return this.$raw
+      .getMessage(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Comments/GetMessages
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APICommentsMessages>
+   */
+  getMessages(
+    requestData: thisProto.GetMessagesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APICommentsMessages> {
+    return this.$raw
+      .getMessages(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

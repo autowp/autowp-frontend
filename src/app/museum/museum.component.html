@@ -54,4 +54,4 @@
   </div>
 </ng-container>
 
-<app-comments [itemID]="item.id" [typeID]="CommentsType.ITEM_TYPE_ID" *ngIf="item$ | async as item"></app-comments>
+<app-comments [itemID]="item.id + ''" [typeID]="CommentsType.ITEM_TYPE_ID" *ngIf="item$ | async as item"></app-comments>

@@ -10,19 +10,21 @@ import {IpService} from '@services/ip';
 import {PageEnvService} from '@services/page-env.service';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
-import {APICommentGetResponse, APICommentsService} from '../../api/comments/comments.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
 import {
   AddToTrafficBlacklistRequest,
+  APICommentsMessage,
   APIDeleteUserRequest,
   APIIP,
   APIUserPreferencesRequest,
+  CommentMessageFields,
   CreateContactRequest,
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest,
+  GetMessagesRequest,
 } from '@grpc/spec.pb';
-import {ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
+import {CommentsClient, ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
 
 @Component({
   selector: 'app-users-user',
@@ -95,20 +97,26 @@ export class UsersUserComponent {
     )
   );
 
-  protected readonly comments$ = this.user$.pipe(
+  protected readonly comments$: Observable<APICommentsMessage[]> = this.user$.pipe(
     switchMap((user) => {
       if (user.deleted) {
-        return of({items: []} as APICommentGetResponse);
+        return of([] as APICommentsMessage[]);
       }
 
-      return this.commentService.getComments$({
-        user_id: user.id,
-        limit: 15,
-        order: 'date_desc',
-        fields: ['preview', 'route'],
-      });
-    }),
-    map((response) => response.items)
+      return this.commentsClient
+        .getMessages(
+          new GetMessagesRequest({
+            userId: user.id + '',
+            limit: 15,
+            order: GetMessagesRequest.Order.DATE_DESC,
+            fields: new CommentMessageFields({
+              preview: true,
+              route: true,
+            }),
+          })
+        )
+        .pipe(map((response) => response.items));
+    })
   );
 
   private readonly ipChange$ = new BehaviorSubject<boolean>(true);
@@ -185,13 +193,13 @@ export class UsersUserComponent {
     private readonly route: ActivatedRoute,
     private readonly auth: AuthService,
     private readonly pictureService: PictureService,
-    private readonly commentService: APICommentsService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly ipService: IpService,
     private readonly contactsClient: ContactsClient,
     private readonly usersGrpc: UsersClient,
-    private readonly trafficClient: TrafficClient
+    private readonly trafficClient: TrafficClient,
+    private readonly commentsClient: CommentsClient
   ) {}
 
   protected openMessageForm(user: APIUser) {

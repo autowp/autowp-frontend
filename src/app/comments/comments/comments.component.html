@@ -4,7 +4,7 @@
 
 <div class="comments">
   <ng-container *ngIf="data$ | async as data; else loading">
-    <h2 i18n *ngIf="data.messages && (typeID$ | async) !== 5">Comments</h2>
+    <h2 i18n *ngIf="data.messages && (typeID$ | async) !== CommentsType.FORUMS_TYPE_ID">Comments</h2>
     <app-comments-list
       [itemID]="itemID$ | async"
       [typeID]="typeID$ | async"

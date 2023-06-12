@@ -5,7 +5,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {CatalogueService} from '../../../catalogue-service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {PictureService} from '@services/picture';
+import {APIPicture, PictureService} from '@services/picture';
 import {CommentsType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
 
@@ -77,7 +77,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
     map(([identity, routerLink]) => [...routerLink, 'gallery', identity])
   );
 
-  protected readonly picture$ = combineLatest([this.catalogue$, this.identity$]).pipe(
+  protected readonly picture$: Observable<APIPicture> = combineLatest([this.catalogue$, this.identity$]).pipe(
     switchMap(([{path}, identity]) => {
       const itemID = path[path.length - 1].item_id;
 

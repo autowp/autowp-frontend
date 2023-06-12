@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {of, EMPTY, BehaviorSubject, throwError} from 'rxjs';
+import {of, EMPTY, BehaviorSubject, throwError, Observable} from 'rxjs';
 import {APIItem} from '@services/item';
-import {PictureService} from '@services/picture';
+import {APIPicture, PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {switchMap, distinctUntilChanged, map, catchError, debounceTime, tap} from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class PicturePageComponent {
   protected path: PathItem[];
   private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  protected readonly picture$ = this.route.paramMap.pipe(
+  protected readonly picture$: Observable<APIPicture | null> = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
