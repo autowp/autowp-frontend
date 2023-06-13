@@ -16,7 +16,7 @@ import {
 } from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {UserService} from '@services/user';
 
 export interface APICommentInList extends APICommentsMessage {
@@ -44,10 +44,17 @@ export class CommentsListComponent {
       messages.map((message) => ({
         message,
         user$: this.userService.getUser2$(message.authorId),
+        canVote$: this.user$.pipe(map((user) => user && user.id !== message.authorId)),
       }))
     );
   }
-  protected readonly messages$ = new BehaviorSubject<{message: APICommentInList; user$: Observable<APIUser>}[]>([]);
+  protected readonly messages$ = new BehaviorSubject<
+    {
+      message: APICommentInList;
+      user$: Observable<APIUser>;
+      canVote$: Observable<boolean>;
+    }[]
+  >([]);
 
   @Input() set deep(deep: number) {
     this.deep$.next(deep);
