@@ -136,7 +136,7 @@ export class CommentsComponent {
           vote: true,
           userVote: true,
         }),
-        order: GetMessagesRequest.Order.DATE_DESC,
+        order: GetMessagesRequest.Order.DATE_ASC,
         limit: limit ? limit : null,
         page: page,
       })
