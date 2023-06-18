@@ -71,7 +71,7 @@
               <em *ngIf="value.value === null" i18n>none</em>
               <span *ngIf="value.value !== null">
                 {{ value.value }}
-                <span *ngIf="conflict.unit">{{ getUnitTranslation(conflict.unit.id, 'abbr') }}</span>
+                <span *ngIf="conflict.unit">{{ getUnitTranslation(conflict.unit.id + '', 'abbr') }}</span>
               </span>
               <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: conflict.item_id}">
                 <i class="bi bi-pencil-fill" aria-hidden="true"></i>
@@ -85,7 +85,7 @@
               <em *ngIf="value.value === null" i18n>none</em>
               <span *ngIf="value.value !== null">
                 {{ value.value }}
-                <span *ngIf="conflict.unit">{{ getUnitTranslation(conflict.unit.id, 'abbr') }}</span>
+                <span *ngIf="conflict.unit">{{ getUnitTranslation(conflict.unit.id + '', 'abbr') }}</span>
               </span>
               <app-user [user]="user" *ngIf="value.user$ | async as user; else loading"></app-user>
             </div>

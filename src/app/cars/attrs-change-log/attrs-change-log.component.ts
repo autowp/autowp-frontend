@@ -130,7 +130,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     this.querySub.unsubscribe();
   }
 
-  protected getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: string, type: string): string {
     return getUnitTranslation(id, type);
   }
 

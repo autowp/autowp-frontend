@@ -56,83 +56,83 @@ const translations = {
 };
 
 const units = {
-  1: {
+  '1': {
     abbr: $localize`mm`,
     name: $localize`millimeter`,
   },
-  2: {
+  '2': {
     abbr: $localize`kg`,
     name: $localize`kilogram`,
   },
-  3: {
+  '3': {
     abbr: $localize`m`,
     name: $localize`meter`,
   },
-  4: {
+  '4': {
     abbr: $localize`cc`,
     name: $localize`cubic centimeter`,
   },
-  5: {
+  '5': {
     abbr: $localize`hp`,
     name: $localize`horsepower`,
   },
-  6: {
+  '6': {
     abbr: $localize`rpm`,
     name: $localize`rotates per minute`,
   },
-  7: {
+  '7': {
     abbr: $localize`Nm`,
     name: $localize`Newton-meter`,
   },
-  8: {
+  '8': {
     abbr: $localize`km/h`,
     name: $localize`kilometers per hour`,
   },
-  9: {
+  '9': {
     abbr: $localize`s`,
     name: $localize`seconds`,
   },
-  10: {
+  '10': {
     abbr: $localize`%`,
     name: $localize`percent`,
   },
-  11: {
+  '11': {
     abbr: $localize`°`,
     name: $localize`degree`,
   },
-  12: {
+  '12': {
     abbr: $localize`l`,
     name: $localize`liter`,
   },
-  13: {
+  '13': {
     abbr: $localize`l/100km`,
     name: $localize`liters per 100 kilometers`,
   },
-  14: {
+  '14': {
     abbr: $localize`CO2 g/km`,
     name: $localize`grams of CO2 per kilometer`,
   },
-  15: {
+  '15': {
     abbr: $localize`″`,
     name: $localize`inch`,
   },
-  16: {
+  '16': {
     abbr: $localize`y.`,
     name: $localize`year`,
   },
-  17: {
+  '17': {
     abbr: $localize`PS`,
     name: $localize`Pferdestärke`,
   },
-  18: {
+  '18': {
     abbr: $localize`kW`,
     name: $localize`kilowatt`,
   },
-  19: {
+  '19': {
     abbr: $localize`V`,
     name: $localize`volt`,
   },
-  20: {
+  '20': {
     abbr: $localize`m³`,
     name: $localize`cubic meter`,
   },
@@ -561,6 +561,7 @@ const attrListOptions = {
   'specs/attrs/22/24/26/options/9': $localize`W`,
   'specs/attrs/22/24/26/options/10': $localize`O`,
   'specs/attrs/22/24/26/options/101': $localize`U`,
+  'specs/attrs/22/24/26/options/x': $localize`X`,
   'specs/attrs/22/99/options/46': $localize`none`,
   'specs/attrs/22/99/options/47': $localize`yes`,
   'specs/attrs/22/99/options/48': $localize`×2`,
@@ -830,7 +831,7 @@ export function getItemTypeTranslation(id: number, type: string): string {
   return translations[id] && translations[id][type] ? translations[id][type] : '-';
 }
 
-export function getUnitTranslation(id: number, type: string): string {
+export function getUnitTranslation(id: string, type: string): string {
   return units[id] && units[id][type] ? units[id][type] : id;
 }
 

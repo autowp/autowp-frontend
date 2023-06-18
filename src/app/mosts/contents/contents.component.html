@@ -126,9 +126,9 @@
             <small
               class="unit"
               *ngIf="item.unit"
-              [textContent]="getUnitTranslation(item.unit.id, 'abbr')"
+              [textContent]="getUnitTranslation(item.unit.id + '', 'abbr')"
               placement="top"
-              [ngbTooltip]="getUnitTranslation(item.unit.id, 'name')"
+              [ngbTooltip]="getUnitTranslation(item.unit.id + '', 'name')"
             ></small>
           </h3>
         </div>

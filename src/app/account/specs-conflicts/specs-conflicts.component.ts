@@ -47,7 +47,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
   protected readonly data$ = combineLatest([this.page$, this.filter$]).pipe(
     switchMap(([page, filter]) =>
       combineLatest([
-        this.attrService.getConfilicts$({
+        this.attrService.getConflicts$({
           filter,
           page,
           fields: 'values',
@@ -85,7 +85,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 188}), 0);
   }
 
-  protected getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: string, type: string): string {
     return getUnitTranslation(id, type);
   }
 }

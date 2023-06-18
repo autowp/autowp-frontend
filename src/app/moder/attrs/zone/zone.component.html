@@ -18,11 +18,11 @@
   </div>
 
   <h2 i18n>Attributes order</h2>
-  <div class="card card-body">
+  <div class="card card-body" *ngIf="attributes$ | async as attributes">
     <app-moder-attrs-zone-attribute-list
-      [attributes]="attributes$ | async"
-      [map]="zoneAttributes$ | async"
-      (changed)="change(zone, $event)"
+      *ngIf="zoneAttributes$ | async as zoneAttributes"
+      [attributes]="attributes"
+      [map]="zoneAttributes"
     ></app-moder-attrs-zone-attribute-list>
   </div>
 </ng-container>

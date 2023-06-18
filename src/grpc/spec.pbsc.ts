@@ -38,7 +38,8 @@ import {
   GRPC_MESSAGING_CLIENT_SETTINGS,
   GRPC_STATISTICS_CLIENT_SETTINGS,
   GRPC_DONATIONS_CLIENT_SETTINGS,
-  GRPC_TEXT_CLIENT_SETTINGS
+  GRPC_TEXT_CLIENT_SETTINGS,
+  GRPC_ATTRS_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -3541,6 +3542,288 @@ export class TextClient {
   ): Observable<thisProto.APIGetTextResponse> {
     return this.$raw
       .getText(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Attrs
+ */
+@Injectable({ providedIn: 'any' })
+export class AttrsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Attrs/GetAttribute
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrAttribute>>
+     */
+    getAttribute: (
+      requestData: thisProto.AttrAttributeID,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrAttribute>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetAttribute',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrAttributeID,
+        responseClass: thisProto.AttrAttribute
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetAttributes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrAttributesResponse>>
+     */
+    getAttributes: (
+      requestData: thisProto.AttrAttributesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrAttributesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetAttributes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrAttributesRequest,
+        responseClass: thisProto.AttrAttributesResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetAttributeTypes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrAttributeTypesResponse>>
+     */
+    getAttributeTypes: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrAttributeTypesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetAttributeTypes',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.AttrAttributeTypesResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetListOptions
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrListOptionsResponse>>
+     */
+    getListOptions: (
+      requestData: thisProto.AttrListOptionsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrListOptionsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetListOptions',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrListOptionsRequest,
+        responseClass: thisProto.AttrListOptionsResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetUnits
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrUnitsResponse>>
+     */
+    getUnits: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrUnitsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetUnits',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.AttrUnitsResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetZoneAttributes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrZoneAttributesResponse>>
+     */
+    getZoneAttributes: (
+      requestData: thisProto.AttrZoneAttributesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrZoneAttributesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetZoneAttributes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrZoneAttributesRequest,
+        responseClass: thisProto.AttrZoneAttributesResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetZones
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrZonesResponse>>
+     */
+    getZones: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrZonesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetZones',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.AttrZonesResponse
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_ATTRS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Attrs', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetAttribute
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrAttribute>
+   */
+  getAttribute(
+    requestData: thisProto.AttrAttributeID,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrAttribute> {
+    return this.$raw
+      .getAttribute(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetAttributes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrAttributesResponse>
+   */
+  getAttributes(
+    requestData: thisProto.AttrAttributesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrAttributesResponse> {
+    return this.$raw
+      .getAttributes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetAttributeTypes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrAttributeTypesResponse>
+   */
+  getAttributeTypes(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrAttributeTypesResponse> {
+    return this.$raw
+      .getAttributeTypes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetListOptions
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrListOptionsResponse>
+   */
+  getListOptions(
+    requestData: thisProto.AttrListOptionsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrListOptionsResponse> {
+    return this.$raw
+      .getListOptions(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetUnits
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrUnitsResponse>
+   */
+  getUnits(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrUnitsResponse> {
+    return this.$raw
+      .getUnits(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetZoneAttributes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrZoneAttributesResponse>
+   */
+  getZoneAttributes(
+    requestData: thisProto.AttrZoneAttributesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrZoneAttributesResponse> {
+    return this.$raw
+      .getZoneAttributes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetZones
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrZonesResponse>
+   */
+  getZones(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrZonesResponse> {
+    return this.$raw
+      .getZones(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

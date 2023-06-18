@@ -13,7 +13,6 @@ import {ModerCommentsComponent} from './comments/comments.component';
 import {ModerPictureVoteTemplatesComponent} from './picture-vote-templates/picture-vote-templates.component';
 import {ModerAttrsAttributeListComponent} from './attrs/attribute-list/attribute-list.component';
 import {ModerAttrsZoneAttributeListComponent} from './attrs/zone/attribute-list/attribute-list.component';
-import {ModerAttrsAttributeListOptionsTreeComponent} from './attrs/attribute/list-options-tree/list-options-tree.component';
 import {ModerStatComponent} from './stat/stat.component';
 import {ModerItemParentComponent} from './item-parent/item-parent.component';
 import {FormsModule} from '@angular/forms';
@@ -43,7 +42,6 @@ import {APICommentsModule} from '../api/comments/comments.module';
     ModerPictureVoteTemplatesComponent,
     ModerAttrsAttributeListComponent,
     ModerAttrsZoneAttributeListComponent,
-    ModerAttrsAttributeListOptionsTreeComponent,
     ModerStatComponent,
     ModerItemParentComponent,
   ],

@@ -29,109 +29,121 @@
               }}</label>
             </td>
             <td *ngIf="!attribute.childs.length">
-              <div class="input-group input-group-sm" *ngIf="currentUserValues[attribute.id]">
+              <div class="input-group input-group-sm" *ngIf="currentUserValues[+attribute.id]">
                 <!--  [class.has-error]="element.getMessages()" -->
                 <div class="input-group-prepend">
                   <button
                     type="button"
                     class="btn btn-secondary btn-sm"
-                    (click)="currentUserValues[attribute.id].empty = !currentUserValues[attribute.id].empty"
-                    [class.active]="attribute.disabled"
+                    (click)="currentUserValues[+attribute.id].empty = !currentUserValues[+attribute.id].empty"
                   >
+                    <!-- [class.active]="attribute.disabled"-->
                     <span class="bi bi-trash" aria-hidden="true"></span>
                   </button>
                 </div>
                 <select
-                  class="form-control form-control-sm"
-                  *ngIf="attribute.type_id === 5"
+                  class="form-select form-select-sm"
+                  *ngIf="attribute.typeId === AttrAttributeTypeId.BOOLEAN"
                   [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[attribute.id].value"
-                  [disabled]="currentUserValues[attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+                  [(ngModel)]="currentUserValues[+attribute.id].value"
+                  [disabled]="currentUserValues[+attribute.id].empty"
+                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                 >
-                  <option *ngFor="let option of attribute.options" [value]="option.id">{{ option.name }}</option>
+                  <option *ngFor="let option of attribute.options$ | async" [value]="option.id">
+                    {{ option.name }}
+                  </option>
                 </select>
                 <select
-                  class="form-control form-control-sm"
-                  *ngIf="(attribute.type_id === 6 || attribute.type_id === 7) && !attribute.is_multiple"
+                  class="form-select form-select-sm"
+                  *ngIf="
+                    (attribute.typeId === AttrAttributeTypeId.LIST || attribute.typeId === AttrAttributeTypeId.TREE) &&
+                    !attribute.isMultiple
+                  "
                   [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[attribute.id].value"
-                  [disabled]="currentUserValues[attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+                  [(ngModel)]="currentUserValues[+attribute.id].value"
+                  [disabled]="currentUserValues[+attribute.id].empty"
+                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                 >
-                  <option *ngFor="let option of attribute.options" [value]="option.id">{{ option.name }}</option>
+                  <option *ngFor="let option of attribute.options$ | async" [value]="option.id">
+                    {{ option.name }}
+                  </option>
                 </select>
                 <select
-                  class="form-control form-control-sm"
-                  *ngIf="(attribute.type_id === 6 || attribute.type_id === 7) && attribute.is_multiple"
+                  class="form-select form-select-sm"
+                  *ngIf="
+                    (attribute.typeId === AttrAttributeTypeId.LIST || attribute.typeId === AttrAttributeTypeId.TREE) &&
+                    attribute.isMultiple
+                  "
                   [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[attribute.id].value"
-                  [disabled]="currentUserValues[attribute.id].empty"
+                  [(ngModel)]="currentUserValues[+attribute.id].value"
+                  [disabled]="currentUserValues[+attribute.id].empty"
                   multiple
-                  [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                   size="5"
                   style="height: 100%"
                 >
-                  <option *ngFor="let option of attribute.options" [value]="option.id">{{ option.name }}</option>
+                  <option *ngFor="let option of attribute.options$ | async" [value]="option.id">
+                    {{ option.name }}
+                  </option>
                 </select>
                 <input
                   type="number"
-                  *ngIf="attribute.type_id === 2"
+                  *ngIf="attribute.typeId === AttrAttributeTypeId.INTEGER"
                   class="form-control form-control-sm"
                   [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[attribute.id].value"
-                  [disabled]="currentUserValues[attribute.id].empty"
+                  [(ngModel)]="currentUserValues[+attribute.id].value"
+                  [disabled]="currentUserValues[+attribute.id].empty"
                   min="-2147483649"
                   max="2147483648"
-                  [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                 />
                 <input
                   type="number"
-                  *ngIf="attribute.type_id === 3"
+                  *ngIf="attribute.typeId === AttrAttributeTypeId.FLOAT"
                   class="form-control form-control-sm"
                   [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[attribute.id].value"
+                  [(ngModel)]="currentUserValues[+attribute.id].value"
                   [step]="getStep(attribute)"
                   min="-2147483649"
                   max="2147483648"
-                  [disabled]="currentUserValues[attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+                  [disabled]="currentUserValues[+attribute.id].empty"
+                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                 />
                 <input
                   type="text"
-                  *ngIf="attribute.type_id === 1"
+                  *ngIf="attribute.typeId === AttrAttributeTypeId.STRING"
                   class="form-control form-control-sm"
                   [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[attribute.id].value"
-                  [disabled]="currentUserValues[attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[attribute.id]"
+                  [(ngModel)]="currentUserValues[+attribute.id].value"
+                  [disabled]="currentUserValues[+attribute.id].empty"
+                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                 />
                 <span
-                  *ngIf="attribute.unit"
-                  [title]="getUnitTranslation(attribute.unit.id, 'name')"
+                  *ngIf="attribute.unitId !== '0'"
+                  [title]="getUnitTranslation(attribute.unitId, 'name')"
                   class="unit input-group-text"
-                  [textContent]="getUnitTranslation(attribute.unit.id, 'abbr')"
+                  [textContent]="getUnitTranslation(attribute.unitId, 'abbr')"
                 ></span>
               </div>
               <p
-                *ngFor="let message of getInvalidParams(attribute.id)"
+                *ngFor="let message of getInvalidParams(+attribute.id)"
                 [textContent]="message"
                 class="invalid-feedback"
-                [class.d-block]="invalidParams && invalidParams.items[attribute.id]"
+                [class.d-block]="invalidParams && invalidParams.items[+attribute.id]"
               ></p>
               <small *ngIf="attribute.description">{{ getAttrDescriptionTranslation(attribute.description) }}</small>
             </td>
             <td class="actual" *ngIf="!attribute.childs.length">
               <ng-container *ngIf="values$ | async as values">
-                <div *ngIf="values.has(attribute.id)">
-                  <em *ngIf="values.get(attribute.id)['value'] === null" i18n>none</em>
-                  <span *ngIf="values.get(attribute.id)['value'] !== null">
-                    {{ values.get(attribute.id)['value_text'] }}
+                <div *ngIf="values.has(+attribute.id)">
+                  <em *ngIf="values.get(+attribute.id)['value'] === null" i18n>none</em>
+                  <span *ngIf="values.get(+attribute.id)['value'] !== null">
+                    {{ values.get(+attribute.id)['value_text'] }}
                     <span
-                      *ngIf="attribute.unit"
+                      *ngIf="attribute.unitId !== '0'"
                       class="unit"
-                      [title]="getUnitTranslation(attribute.unit.id, 'name')"
-                      [textContent]="getUnitTranslation(attribute.unit.id, 'abbr')"
+                      [title]="getUnitTranslation(attribute.unitId, 'name')"
+                      [textContent]="getUnitTranslation(attribute.unitId, 'abbr')"
                     ></span>
                   </span>
                 </div>
@@ -139,7 +151,7 @@
             </td>
             <td *ngIf="!attribute.childs.length">
               <ng-container *ngIf="userValues$ | async as userValues">
-                <div *ngFor="let value of userValues.get(attribute.id)">
+                <div *ngFor="let value of userValues.get(+attribute.id)">
                   <em *ngIf="value.value_text === null" i18n>none</em>
                   <span *ngIf="value.value_text !== null" [textContent]="value.value_text"></span>
                   <app-user [user]="value.user" *ngIf="value.user"></app-user>

@@ -1,6 +1,5 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {APIAttrZoneAttributeChange} from '../zone.component';
-import {APIAttrAttribute} from '../../../../api/attrs/attrs.service';
+import {Component, Input} from '@angular/core';
+import {AttrAttributeTreeItem} from '../../../../api/attrs/attrs.service';
 import {getAttrsTranslation} from '@utils/translations';
 
 @Component({
@@ -8,15 +7,10 @@ import {getAttrsTranslation} from '@utils/translations';
   templateUrl: './attribute-list.component.html',
 })
 export class ModerAttrsZoneAttributeListComponent {
-  @Input() attributes: APIAttrAttribute[];
+  @Input() attributes: AttrAttributeTreeItem[];
   @Input() map: {
-    [key: number]: boolean;
+    [key: string]: boolean;
   };
-  @Output() changed = new EventEmitter<APIAttrZoneAttributeChange>();
-
-  protected change(change: APIAttrZoneAttributeChange) {
-    this.changed.emit(change);
-  }
 
   protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);

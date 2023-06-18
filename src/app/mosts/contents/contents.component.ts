@@ -107,7 +107,7 @@ export class MostsContentsComponent {
     this.pageEnv.set({pageId: 21});
   }
 
-  protected getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: string, type: string): string {
     return getUnitTranslation(id, type);
   }
 

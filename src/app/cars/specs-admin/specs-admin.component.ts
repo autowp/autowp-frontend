@@ -91,7 +91,7 @@ export class CarsSpecsAdminComponent implements OnInit {
       });
   }
 
-  protected getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: string, type: string): string {
     return getUnitTranslation(id, type);
   }
 

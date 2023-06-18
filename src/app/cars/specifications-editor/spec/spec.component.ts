@@ -4,20 +4,26 @@ import {Observable, forkJoin, BehaviorSubject, combineLatest, EMPTY, of} from 'r
 import {AuthService} from '@services/auth.service';
 import {tap, switchMap, distinctUntilChanged, map, catchError, shareReplay} from 'rxjs/operators';
 import {
-  APIAttrAttribute,
   APIAttrValue,
   APIAttrUserValue,
   APIAttrsService,
   APIAttrUserValueGetResponse,
+  AttrAttributeTreeItem,
 } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
-import {getAttrDescriptionTranslation, getAttrsTranslation, getUnitTranslation} from '@utils/translations';
-import {APIUser} from '@grpc/spec.pb';
+import {
+  getAttrDescriptionTranslation,
+  getAttrListOptionsTranslation,
+  getAttrsTranslation,
+  getUnitTranslation,
+} from '@utils/translations';
+import {APIUser, AttrAttributeType, AttrListOption} from '@grpc/spec.pb';
 import {HttpErrorResponse} from '@angular/common/http';
 
-export interface APIAttrAttributeInSpecEditor extends APIAttrAttribute {
-  deep?: number;
+export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
+  deep: number;
+  options$: Observable<ListOption[]>;
 }
 
 interface InvalidParams {
@@ -32,32 +38,25 @@ interface APIAttrUserValuePatchResponse {
   type: string;
 }
 
-const booleanOptions = [
+interface ListOption {
+  name: string;
+  id: string | null;
+}
+
+const booleanOptions: ListOption[] = [
   {
     name: '—',
     id: null,
   },
   {
     name: $localize`no`,
-    id: 0,
+    id: '0',
   },
   {
     name: $localize`yes`,
-    id: 1,
+    id: '1',
   },
 ];
-
-function toPlain(options: APIAttrAttributeInSpecEditor[], deep: number): APIAttrAttributeInSpecEditor[] {
-  const result: APIAttrAttributeInSpecEditor[] = [];
-  for (const item of options) {
-    item.deep = deep;
-    result.push(item);
-    for (const subitem of toPlain(item.childs, deep + 1)) {
-      result.push(subitem);
-    }
-  }
-  return result;
-}
 
 function applyUserValues(userValues: Map<number, APIAttrUserValue[]>, items: APIAttrUserValue[]) {
   for (const value of items) {
@@ -71,7 +70,7 @@ function applyUserValues(userValues: Map<number, APIAttrUserValue[]>, items: API
   }
 }
 
-function getAttribute(attributes: APIAttrAttributeInSpecEditor[], id: number): APIAttrAttribute {
+function getAttribute(attributes: APIAttrAttributeInSpecEditor[], id: string): APIAttrAttributeInSpecEditor {
   for (const attribute of attributes) {
     if (attribute.id === id) {
       return attribute;
@@ -98,42 +97,22 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly user$ = this.auth.getUser$();
 
+  // fields: 'options,childs.options',
   protected readonly attributes$ = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
-      this.attrsService
-        .getAttributes$({
-          fields: 'unit,options,childs.unit,childs.options',
-          zone_id: item.attr_zone_id,
-          recursive: true,
+      this.attrsService.getAttributes$(item.attr_zone_id + '', null).pipe(
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
+          return EMPTY;
         })
-        .pipe(
-          catchError((response: unknown) => {
-            this.toastService.handleError(response);
-            return EMPTY;
-          }),
-          map((attributes) => ({item, attributes}))
-        )
+      )
     ),
-    map(({item, attributes}) => {
-      const attrs = toPlain(attributes.items, 0);
-      for (const attribute of attrs) {
-        if (attribute.options) {
-          attribute.options.splice(0, 0, {
-            name: '—',
-            id: null,
-          });
-        }
-
-        if (attribute.type_id === 5) {
-          attribute.options = booleanOptions;
-        }
-      }
-
-      return attrs;
-    }),
+    map((attributes) => this.toPlain(attributes, 0)),
     shareReplay(1)
   );
+
+  protected readonly AttrAttributeTypeId = AttrAttributeType.Id;
 
   constructor(
     private readonly api: APIService,
@@ -176,13 +155,13 @@ export class CarsSpecificationsEditorSpecComponent {
     map(({response, user, item, attributes}) => {
       const currentUserValues: {[key: number]: APIAttrUserValue} = {};
       for (const value of response.items) {
-        const attribute = getAttribute(attributes, value.attribute_id);
-        if (attribute.type_id === 2 || attribute.type_id === 3) {
+        const attribute = getAttribute(attributes, value.attribute_id + '');
+        if (attribute.typeId === AttrAttributeType.Id.INTEGER || attribute.typeId === AttrAttributeType.Id.FLOAT) {
           if (value.value !== null) {
             value.value = +value.value;
           }
         }
-        if (attribute.is_multiple) {
+        if (attribute.isMultiple) {
           if (!(value.value instanceof Array)) {
             value.value = [value.value.toString()];
           }
@@ -295,7 +274,7 @@ export class CarsSpecificationsEditorSpecComponent {
       });
   }
 
-  protected getStep(attribute: APIAttrAttribute): number {
+  protected getStep(attribute: APIAttrAttributeInSpecEditor): number {
     return Math.pow(10, -attribute.precision);
   }
 
@@ -324,7 +303,7 @@ export class CarsSpecificationsEditorSpecComponent {
     return result;
   }
 
-  protected getUnitTranslation(id: number, type: string): string {
+  protected getUnitTranslation(id: string, type: string): string {
     return getUnitTranslation(id, type);
   }
 
@@ -334,5 +313,66 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected getAttrDescriptionTranslation(id: string): string {
     return getAttrDescriptionTranslation(id);
+  }
+
+  private listOptions$ = this.attrsService.getListOptions$(null).pipe(
+    map((response) =>
+      response.toObject().items.map((i) => ({
+        ...i,
+        name: getAttrListOptionsTranslation(i.name),
+      }))
+    ),
+    shareReplay(1)
+  );
+
+  private listOptionsTree(items: AttrListOption.AsObject[], parentID: string): ListOption[] {
+    let result: ListOption[] = [];
+    items
+      .filter((i) => i.parentId === parentID)
+      .forEach((i) => {
+        result.push(
+          i,
+          ...this.listOptionsTree(items, i.id).map((i) => ({
+            id: i.id,
+            name: '…' + i.name,
+          }))
+        );
+      });
+
+    return result;
+  }
+
+  private toPlain(options: AttrAttributeTreeItem[], deep: number): APIAttrAttributeInSpecEditor[] {
+    const result: APIAttrAttributeInSpecEditor[] = [];
+    for (const item of options) {
+      let options$: Observable<{name: string; id: string | null}[]> = of([]);
+
+      if (item.typeId === AttrAttributeType.Id.LIST || item.typeId === AttrAttributeType.Id.TREE) {
+        options$ = this.listOptions$.pipe(
+          map((response) =>
+            [
+              {
+                name: '—',
+                id: null,
+              },
+            ].concat(
+              this.listOptionsTree(
+                response.filter((o) => o.attributeId === item.id),
+                '0'
+              )
+            )
+          )
+        );
+      }
+
+      if (item.typeId === AttrAttributeType.Id.BOOLEAN) {
+        options$ = of(booleanOptions);
+      }
+      result.push({...item, deep, options$});
+      for (const subitem of this.toPlain(item.childs, deep + 1)) {
+        result.push(subitem);
+      }
+    }
+    return result;
   }
 }
