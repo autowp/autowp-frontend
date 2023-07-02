@@ -2706,7 +2706,7 @@ Attributi
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">566</context>
+          <context context-type="linenumber">569</context>
         </context-group>
         <target state="translated">sì</target>
       </trans-unit>
@@ -7788,15 +7788,15 @@ Accetta
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">565</context>
+          <context context-type="linenumber">568</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">619</context>
+          <context context-type="linenumber">622</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">672</context>
+          <context context-type="linenumber">675</context>
         </context-group>
         <target state="translated">nessuno</target>
       </trans-unit>
@@ -9412,7 +9412,7 @@ Cancella utente
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">829</context>
+          <context context-type="linenumber">832</context>
         </context-group>
         <target state="translated">Motori</target>
       </trans-unit>
@@ -10104,13 +10104,13 @@ Cancella utente
         </context-group>
         <target state="translated">Nissan, Toyota, Honda, Mazda, ...</target>
       </trans-unit>
-      <trans-unit id="4330719633731766639" datatype="html">
-        <source>Kia, Hyundai, ….</source>
+      <trans-unit id="3847046558951370642" datatype="html">
+        <source>Kia, Hyundai, …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">165</context>
         </context-group>
-        <target state="translated">Kia, Hyundai, ...</target>
+        <target state="needs-translation">Kia, Hyundai, …</target>
       </trans-unit>
       <trans-unit id="2527332074381213872" datatype="html">
         <source>Chery, Geely, Great Wall, …</source>
@@ -10676,7 +10676,7 @@ Cancella utente
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">825</context>
+          <context context-type="linenumber">828</context>
         </context-group>
         <target state="needs-translation">Moto</target>
       </trans-unit>
@@ -11327,11 +11327,11 @@ Cancella utente
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">792</context>
+          <context context-type="linenumber">795</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">793</context>
+          <context context-type="linenumber">796</context>
         </context-group>
         <target state="translated">lunghezza</target>
       </trans-unit>
@@ -11343,11 +11343,11 @@ Cancella utente
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">794</context>
+          <context context-type="linenumber">797</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">795</context>
+          <context context-type="linenumber">798</context>
         </context-group>
         <target state="translated">larghezza</target>
       </trans-unit>
@@ -11359,11 +11359,11 @@ Cancella utente
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">796</context>
+          <context context-type="linenumber">799</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">797</context>
+          <context context-type="linenumber">800</context>
         </context-group>
         <target state="translated">altezza</target>
       </trans-unit>
@@ -12115,11 +12115,11 @@ Cancella utente
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">777</context>
+          <context context-type="linenumber">780</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">778</context>
+          <context context-type="linenumber">781</context>
         </context-group>
         <target state="translated">velocità massima</target>
       </trans-unit>
@@ -12547,11 +12547,35 @@ Cancella utente
         </context-group>
         <target state="translated">luogo di produzione</target>
       </trans-unit>
+      <trans-unit id="1324044407513106354" datatype="html" approved="yes">
+        <source>Number of reverse gears</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">504</context>
+        </context-group>
+        <target state="final">Numero di retromarce</target>
+      </trans-unit>
+      <trans-unit id="7522577301997863931" datatype="html" approved="yes">
+        <source>Max speed (reverse)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">505</context>
+        </context-group>
+        <target state="final">Velocità massima (retromarcia)</target>
+      </trans-unit>
+      <trans-unit id="6621128952252123627" datatype="html">
+        <source>Auto pumping tires</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">506</context>
+        </context-group>
+        <target state="needs-translation">Auto pumping tires</target>
+      </trans-unit>
       <trans-unit id="8183377764082162663" datatype="html">
         <source>seating</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">507</context>
+          <context context-type="linenumber">510</context>
         </context-group>
         <target state="translated">posti a sedere</target>
       </trans-unit>
@@ -12559,7 +12583,7 @@ Cancella utente
         <source>including standing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">508</context>
+          <context context-type="linenumber">511</context>
         </context-group>
         <target state="translated">anche in piedi</target>
       </trans-unit>
@@ -12567,7 +12591,7 @@ Cancella utente
         <source>external dimensions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">509</context>
+          <context context-type="linenumber">512</context>
         </context-group>
         <target state="translated">dimensioni esterne</target>
       </trans-unit>
@@ -12576,7 +12600,7 @@ Cancella utente
 1 HP = 1.014 metric PS or CV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">511</context>
+          <context context-type="linenumber">514</context>
         </context-group>
         <target state="translated">Metrico (PS)
 1 HP = 1.014 PS metrici o CV</target>
@@ -12585,7 +12609,7 @@ Cancella utente
         <source>Power by DIN 70020. European standard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">512</context>
+          <context context-type="linenumber">515</context>
         </context-group>
         <target state="translated">Potenza secondo DIN 70020. Standard europeo</target>
       </trans-unit>
@@ -12593,7 +12617,7 @@ Cancella utente
         <source>SAE Certified Power. US standard 2005-06</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">513</context>
+          <context context-type="linenumber">516</context>
         </context-group>
         <target state="translated">Potenza certificata SAE. Standard USA 2005-06</target>
       </trans-unit>
@@ -12602,7 +12626,7 @@ Cancella utente
 Transmission is not considered. Attachments - considered</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">514</context>
+          <context context-type="linenumber">517</context>
         </context-group>
         <target state="translated">Standard USA 1971-72.
 La trasmissione non è considerata. Allegati - considerati</target>
@@ -12612,7 +12636,7 @@ La trasmissione non è considerata. Allegati - considerati</target>
 Transmission is not considered</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">515</context>
+          <context context-type="linenumber">518</context>
         </context-group>
         <target state="translated">Anno 1972 standard statunitense, corrispondente all'incirca alla tecnologia di misurazione della potenza fino al 1972.
 La trasmissione non è considerata</target>
@@ -12621,7 +12645,7 @@ La trasmissione non è considerata</target>
         <source>Standard USSR and Russia</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">516</context>
+          <context context-type="linenumber">519</context>
         </context-group>
         <target state="translated">Standard USSR e Russia</target>
       </trans-unit>
@@ -12629,7 +12653,7 @@ La trasmissione non è considerata</target>
         <source>36.8% urban + 63.2% extra urban</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">517</context>
+          <context context-type="linenumber">520</context>
         </context-group>
         <target state="translated">36.8% urbano + 63.2% extra urbano</target>
       </trans-unit>
@@ -12637,7 +12661,7 @@ La trasmissione non è considerata</target>
         <source>axis. 2×radius</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">518</context>
+          <context context-type="linenumber">521</context>
         </context-group>
         <target state="translated">asse. 2×raggio</target>
       </trans-unit>
@@ -12645,7 +12669,7 @@ La trasmissione non è considerata</target>
         <source>at left</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">524</context>
+          <context context-type="linenumber">527</context>
         </context-group>
         <target state="translated">a sinistra</target>
       </trans-unit>
@@ -12653,7 +12677,7 @@ La trasmissione non è considerata</target>
         <source>at right</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">525</context>
+          <context context-type="linenumber">528</context>
         </context-group>
         <target state="translated">a destra</target>
       </trans-unit>
@@ -12661,11 +12685,11 @@ La trasmissione non è considerata</target>
         <source>at center</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">526</context>
+          <context context-type="linenumber">529</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">550</context>
+          <context context-type="linenumber">553</context>
         </context-group>
         <target state="translated">al centro</target>
       </trans-unit>
@@ -12673,7 +12697,7 @@ La trasmissione non è considerata</target>
         <source>bearing body</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">527</context>
+          <context context-type="linenumber">530</context>
         </context-group>
         <target state="translated">corpo portante</target>
       </trans-unit>
@@ -12681,7 +12705,7 @@ La trasmissione non è considerata</target>
         <source>frame</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">528</context>
+          <context context-type="linenumber">531</context>
         </context-group>
         <target state="translated">telaio</target>
       </trans-unit>
@@ -12689,7 +12713,7 @@ La trasmissione non è considerata</target>
         <source>petrol</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">529</context>
+          <context context-type="linenumber">532</context>
         </context-group>
         <target state="translated">petrolio</target>
       </trans-unit>
@@ -12697,7 +12721,7 @@ La trasmissione non è considerata</target>
         <source>hydrogen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">530</context>
+          <context context-type="linenumber">533</context>
         </context-group>
         <target state="translated">idrogeno</target>
       </trans-unit>
@@ -12705,7 +12729,7 @@ La trasmissione non è considerata</target>
         <source>bioethanol</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">531</context>
+          <context context-type="linenumber">534</context>
         </context-group>
         <target state="translated">bioetanolo</target>
       </trans-unit>
@@ -12713,7 +12737,7 @@ La trasmissione non è considerata</target>
         <source>electricity</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">532</context>
+          <context context-type="linenumber">535</context>
         </context-group>
         <target state="translated">elettricità</target>
       </trans-unit>
@@ -12721,7 +12745,7 @@ La trasmissione non è considerata</target>
         <source>gas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">533</context>
+          <context context-type="linenumber">536</context>
         </context-group>
         <target state="needs-translation">gas</target>
       </trans-unit>
@@ -12729,7 +12753,7 @@ La trasmissione non è considerata</target>
         <source>diesel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">534</context>
+          <context context-type="linenumber">537</context>
         </context-group>
         <target state="needs-translation">diesel</target>
       </trans-unit>
@@ -12737,7 +12761,7 @@ La trasmissione non è considerata</target>
         <source>Flex-fuel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">535</context>
+          <context context-type="linenumber">538</context>
         </context-group>
         <target state="translated">carburante flessibile</target>
       </trans-unit>
@@ -12745,7 +12769,7 @@ La trasmissione non è considerata</target>
         <source>A-66</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">536</context>
+          <context context-type="linenumber">539</context>
         </context-group>
         <target state="needs-translation">A-66</target>
       </trans-unit>
@@ -12753,7 +12777,7 @@ La trasmissione non è considerata</target>
         <source>A-70</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">537</context>
+          <context context-type="linenumber">540</context>
         </context-group>
         <target state="needs-translation">A-70</target>
       </trans-unit>
@@ -12761,7 +12785,7 @@ La trasmissione non è considerata</target>
         <source>A-72</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">538</context>
+          <context context-type="linenumber">541</context>
         </context-group>
         <target state="needs-translation">A-72</target>
       </trans-unit>
@@ -12769,7 +12793,7 @@ La trasmissione non è considerata</target>
         <source>A-76</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">539</context>
+          <context context-type="linenumber">542</context>
         </context-group>
         <target state="needs-translation">A-76</target>
       </trans-unit>
@@ -12777,7 +12801,7 @@ La trasmissione non è considerata</target>
         <source>A-78</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">540</context>
+          <context context-type="linenumber">543</context>
         </context-group>
         <target state="needs-translation">A-78</target>
       </trans-unit>
@@ -12785,7 +12809,7 @@ La trasmissione non è considerata</target>
         <source>A-80</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">541</context>
+          <context context-type="linenumber">544</context>
         </context-group>
         <target state="needs-translation">A-80</target>
       </trans-unit>
@@ -12793,7 +12817,7 @@ La trasmissione non è considerata</target>
         <source>AI-92</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">542</context>
+          <context context-type="linenumber">545</context>
         </context-group>
         <target state="needs-translation">AI-92</target>
       </trans-unit>
@@ -12801,7 +12825,7 @@ La trasmissione non è considerata</target>
         <source>AI-93</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">543</context>
+          <context context-type="linenumber">546</context>
         </context-group>
         <target state="needs-translation">AI-93</target>
       </trans-unit>
@@ -12809,7 +12833,7 @@ La trasmissione non è considerata</target>
         <source>AI-95</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">544</context>
+          <context context-type="linenumber">547</context>
         </context-group>
         <target state="needs-translation">AI-95</target>
       </trans-unit>
@@ -12817,7 +12841,7 @@ La trasmissione non è considerata</target>
         <source>AI-98</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">545</context>
+          <context context-type="linenumber">548</context>
         </context-group>
         <target state="needs-translation">AI-98</target>
       </trans-unit>
@@ -12825,7 +12849,7 @@ La trasmissione non è considerata</target>
         <source>CNG</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">546</context>
+          <context context-type="linenumber">549</context>
         </context-group>
         <target state="needs-translation">CNG</target>
       </trans-unit>
@@ -12833,7 +12857,7 @@ La trasmissione non è considerata</target>
         <source>LPG</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">547</context>
+          <context context-type="linenumber">550</context>
         </context-group>
         <target state="needs-translation">LPG</target>
       </trans-unit>
@@ -12841,7 +12865,7 @@ La trasmissione non è considerata</target>
         <source>at front</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">548</context>
+          <context context-type="linenumber">551</context>
         </context-group>
         <target state="translated">davanti</target>
       </trans-unit>
@@ -12849,7 +12873,7 @@ La trasmissione non è considerata</target>
         <source>at rear</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">549</context>
+          <context context-type="linenumber">552</context>
         </context-group>
         <target state="translated">dietro</target>
       </trans-unit>
@@ -12857,7 +12881,7 @@ La trasmissione non è considerata</target>
         <source>longitudinally</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">551</context>
+          <context context-type="linenumber">554</context>
         </context-group>
         <target state="translated">longitudinalmente</target>
       </trans-unit>
@@ -12865,7 +12889,7 @@ La trasmissione non è considerata</target>
         <source>transversely</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">552</context>
+          <context context-type="linenumber">555</context>
         </context-group>
         <target state="translated">trasversalmente</target>
       </trans-unit>
@@ -12873,7 +12897,7 @@ La trasmissione non è considerata</target>
         <source>injector</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">553</context>
+          <context context-type="linenumber">556</context>
         </context-group>
         <target state="translated">iniettore</target>
       </trans-unit>
@@ -12881,7 +12905,7 @@ La trasmissione non è considerata</target>
         <source>carburetor</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">554</context>
+          <context context-type="linenumber">557</context>
         </context-group>
         <target state="translated">carburatore</target>
       </trans-unit>
@@ -12889,7 +12913,7 @@ La trasmissione non è considerata</target>
         <source>2 carburetors</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">555</context>
+          <context context-type="linenumber">558</context>
         </context-group>
         <target state="translated">2 carburatori</target>
       </trans-unit>
@@ -12897,7 +12921,7 @@ La trasmissione non è considerata</target>
         <source>3 carburetors</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">556</context>
+          <context context-type="linenumber">559</context>
         </context-group>
         <target state="translated">3 carburatori</target>
       </trans-unit>
@@ -12905,7 +12929,7 @@ La trasmissione non è considerata</target>
         <source>4 carburetors</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">557</context>
+          <context context-type="linenumber">560</context>
         </context-group>
         <target state="translated">4 carburatori</target>
       </trans-unit>
@@ -12913,7 +12937,7 @@ La trasmissione non è considerata</target>
         <source>6 carburetors</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">558</context>
+          <context context-type="linenumber">561</context>
         </context-group>
         <target state="translated">6 carburatori</target>
       </trans-unit>
@@ -12921,7 +12945,7 @@ La trasmissione non è considerata</target>
         <source>L</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">559</context>
+          <context context-type="linenumber">562</context>
         </context-group>
         <target state="needs-translation">L</target>
       </trans-unit>
@@ -12929,7 +12953,7 @@ La trasmissione non è considerata</target>
         <source>V</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">560</context>
+          <context context-type="linenumber">563</context>
         </context-group>
         <target state="needs-translation">V</target>
       </trans-unit>
@@ -12937,7 +12961,7 @@ La trasmissione non è considerata</target>
         <source>W</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">561</context>
+          <context context-type="linenumber">564</context>
         </context-group>
         <target state="needs-translation">W</target>
       </trans-unit>
@@ -12945,7 +12969,7 @@ La trasmissione non è considerata</target>
         <source>O</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">562</context>
+          <context context-type="linenumber">565</context>
         </context-group>
         <target state="needs-translation">O</target>
       </trans-unit>
@@ -12953,7 +12977,7 @@ La trasmissione non è considerata</target>
         <source>U</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">563</context>
+          <context context-type="linenumber">566</context>
         </context-group>
         <target state="needs-translation">U</target>
       </trans-unit>
@@ -12961,7 +12985,7 @@ La trasmissione non è considerata</target>
         <source>X</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">564</context>
+          <context context-type="linenumber">567</context>
         </context-group>
         <target state="needs-translation">X</target>
       </trans-unit>
@@ -12969,7 +12993,7 @@ La trasmissione non è considerata</target>
         <source>×2</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">567</context>
+          <context context-type="linenumber">570</context>
         </context-group>
         <target state="translated">x2</target>
       </trans-unit>
@@ -12977,7 +13001,7 @@ La trasmissione non è considerata</target>
         <source>×3</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">568</context>
+          <context context-type="linenumber">571</context>
         </context-group>
         <target state="translated">x3</target>
       </trans-unit>
@@ -12985,7 +13009,7 @@ La trasmissione non è considerata</target>
         <source>×4</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">569</context>
+          <context context-type="linenumber">572</context>
         </context-group>
         <target state="translated">x4</target>
       </trans-unit>
@@ -12993,7 +13017,7 @@ La trasmissione non è considerata</target>
         <source>×6</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">570</context>
+          <context context-type="linenumber">573</context>
         </context-group>
         <target state="translated">x6</target>
       </trans-unit>
@@ -13001,7 +13025,7 @@ La trasmissione non è considerata</target>
         <source>cast iron</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">571</context>
+          <context context-type="linenumber">574</context>
         </context-group>
         <target state="translated">ghisa</target>
       </trans-unit>
@@ -13009,7 +13033,7 @@ La trasmissione non è considerata</target>
         <source>aluminium alloy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">572</context>
+          <context context-type="linenumber">575</context>
         </context-group>
         <target state="translated">lega di alluminio</target>
       </trans-unit>
@@ -13017,11 +13041,11 @@ La trasmissione non è considerata</target>
         <source>steel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">573</context>
+          <context context-type="linenumber">576</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">729</context>
+          <context context-type="linenumber">732</context>
         </context-group>
         <target state="translated">acciaio</target>
       </trans-unit>
@@ -13029,7 +13053,7 @@ La trasmissione non è considerata</target>
         <source>magnesium alloy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">574</context>
+          <context context-type="linenumber">577</context>
         </context-group>
         <target state="translated">lega di magnesio</target>
       </trans-unit>
@@ -13037,11 +13061,11 @@ La trasmissione non è considerata</target>
         <source>air</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">575</context>
+          <context context-type="linenumber">578</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">766</context>
+          <context context-type="linenumber">769</context>
         </context-group>
         <target state="translated">aria</target>
       </trans-unit>
@@ -13049,7 +13073,7 @@ La trasmissione non è considerata</target>
         <source>liquid</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">576</context>
+          <context context-type="linenumber">579</context>
         </context-group>
         <target state="translated">liquido</target>
       </trans-unit>
@@ -13057,7 +13081,7 @@ La trasmissione non è considerata</target>
         <source>liquid-air</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">577</context>
+          <context context-type="linenumber">580</context>
         </context-group>
         <target state="translated">liquido-aria</target>
       </trans-unit>
@@ -13065,7 +13089,7 @@ La trasmissione non è considerata</target>
         <source>The camshaft in the engine block</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">578</context>
+          <context context-type="linenumber">581</context>
         </context-group>
         <target state="translated">L'albero a camme nel blocco motore</target>
       </trans-unit>
@@ -13073,7 +13097,7 @@ La trasmissione non è considerata</target>
         <source>The camshaft in the cylinder head</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">579</context>
+          <context context-type="linenumber">582</context>
         </context-group>
         <target state="translated">L'albero a camme nella testa del cilindro</target>
       </trans-unit>
@@ -13081,7 +13105,7 @@ La trasmissione non è considerata</target>
         <source>Десмодромный ГРМ</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">580</context>
+          <context context-type="linenumber">583</context>
         </context-group>
         <target state="translated">Temporizzazione desmodromica</target>
       </trans-unit>
@@ -13089,7 +13113,7 @@ La trasmissione non è considerata</target>
         <source>Timing without camshaft</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">581</context>
+          <context context-type="linenumber">584</context>
         </context-group>
         <target state="translated">Distribuzione senza albero a camme</target>
       </trans-unit>
@@ -13097,7 +13121,7 @@ La trasmissione non è considerata</target>
         <source>avalvular</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">582</context>
+          <context context-type="linenumber">585</context>
         </context-group>
         <target state="translated">avalvolare</target>
       </trans-unit>
@@ -13105,7 +13129,7 @@ La trasmissione non è considerata</target>
         <source>bottom valve</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">583</context>
+          <context context-type="linenumber">586</context>
         </context-group>
         <target state="translated">valvola inferiore</target>
       </trans-unit>
@@ -13113,7 +13137,7 @@ La trasmissione non è considerata</target>
         <source>With a mixed arrangement of valves</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">584</context>
+          <context context-type="linenumber">587</context>
         </context-group>
         <target state="translated">Con disposizione mista delle valvole</target>
       </trans-unit>
@@ -13121,7 +13145,7 @@ La trasmissione non è considerata</target>
         <source>OHV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">585</context>
+          <context context-type="linenumber">588</context>
         </context-group>
         <target state="needs-translation">OHV</target>
       </trans-unit>
@@ -13129,7 +13153,7 @@ La trasmissione non è considerata</target>
         <source>OHV with variable valve timing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">586</context>
+          <context context-type="linenumber">589</context>
         </context-group>
         <target state="translated">OHV con valvola a fasatura variabile</target>
       </trans-unit>
@@ -13137,7 +13161,7 @@ La trasmissione non è considerata</target>
         <source>SOHC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">587</context>
+          <context context-type="linenumber">590</context>
         </context-group>
         <target state="needs-translation">SOHC</target>
       </trans-unit>
@@ -13145,7 +13169,7 @@ La trasmissione non è considerata</target>
         <source>SOHC with variable valve timing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">588</context>
+          <context context-type="linenumber">591</context>
         </context-group>
         <target state="translated">SOHC con valvola a fasatura variabile</target>
       </trans-unit>
@@ -13153,7 +13177,7 @@ La trasmissione non è considerata</target>
         <source>DOHC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">589</context>
+          <context context-type="linenumber">592</context>
         </context-group>
         <target state="needs-translation">DOHC</target>
       </trans-unit>
@@ -13161,7 +13185,7 @@ La trasmissione non è considerata</target>
         <source>DOHC with variable valve timing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">590</context>
+          <context context-type="linenumber">593</context>
         </context-group>
         <target state="translated">DOHC con valvola a fasatura variabile</target>
       </trans-unit>
@@ -13169,7 +13193,7 @@ La trasmissione non è considerata</target>
         <source>Steam</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">591</context>
+          <context context-type="linenumber">594</context>
         </context-group>
         <target state="translated">Vapore</target>
       </trans-unit>
@@ -13177,7 +13201,7 @@ La trasmissione non è considerata</target>
         <source>Internal combustion</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">592</context>
+          <context context-type="linenumber">595</context>
         </context-group>
         <target state="translated">Combustione interna</target>
       </trans-unit>
@@ -13185,7 +13209,7 @@ La trasmissione non è considerata</target>
         <source>Electric</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">593</context>
+          <context context-type="linenumber">596</context>
         </context-group>
         <target state="translated">Elettrico</target>
       </trans-unit>
@@ -13193,7 +13217,7 @@ La trasmissione non è considerata</target>
         <source>Piston</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">594</context>
+          <context context-type="linenumber">597</context>
         </context-group>
         <target state="translated">Pistone</target>
       </trans-unit>
@@ -13201,7 +13225,7 @@ La trasmissione non è considerata</target>
         <source>Rotary-piston</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">595</context>
+          <context context-type="linenumber">598</context>
         </context-group>
         <target state="translated">Pistone rotativo</target>
       </trans-unit>
@@ -13209,7 +13233,7 @@ La trasmissione non è considerata</target>
         <source>Turbine</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">596</context>
+          <context context-type="linenumber">599</context>
         </context-group>
         <target state="translated">Turbina</target>
       </trans-unit>
@@ -13217,7 +13241,7 @@ La trasmissione non è considerata</target>
         <source>front-wheel drive</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">597</context>
+          <context context-type="linenumber">600</context>
         </context-group>
         <target state="translated">trazione anteriore</target>
       </trans-unit>
@@ -13225,7 +13249,7 @@ La trasmissione non è considerata</target>
         <source>rear-wheel drive</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">598</context>
+          <context context-type="linenumber">601</context>
         </context-group>
         <target state="translated">trazione posteriore</target>
       </trans-unit>
@@ -13233,7 +13257,7 @@ La trasmissione non è considerata</target>
         <source>all-wheel drive</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">599</context>
+          <context context-type="linenumber">602</context>
         </context-group>
         <target state="translated">trazione integrale</target>
       </trans-unit>
@@ -13241,7 +13265,7 @@ La trasmissione non è considerata</target>
         <source>front-wheel drive on one wheel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">600</context>
+          <context context-type="linenumber">603</context>
         </context-group>
         <target state="translated">trazione anteriore su una ruota</target>
       </trans-unit>
@@ -13249,7 +13273,7 @@ La trasmissione non è considerata</target>
         <source>rear-wheel drive on one wheel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">601</context>
+          <context context-type="linenumber">604</context>
         </context-group>
         <target state="translated">trazione posteriore su una ruota</target>
       </trans-unit>
@@ -13257,7 +13281,7 @@ La trasmissione non è considerata</target>
         <source>four-wheel drive with switchable rear</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">602</context>
+          <context context-type="linenumber">605</context>
         </context-group>
         <target state="translated">trazione integrale con posteriore modulabile</target>
       </trans-unit>
@@ -13265,7 +13289,7 @@ La trasmissione non è considerata</target>
         <source>four-wheel drive with switchable front</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">603</context>
+          <context context-type="linenumber">606</context>
         </context-group>
         <target state="translated">trazione integrale con anteriore modulabile</target>
       </trans-unit>
@@ -13273,7 +13297,7 @@ La trasmissione non è considerata</target>
         <source>ermanent all-wheel drive</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">604</context>
+          <context context-type="linenumber">607</context>
         </context-group>
         <target state="translated">trazione integrale permanente</target>
       </trans-unit>
@@ -13281,7 +13305,7 @@ La trasmissione non è considerata</target>
         <source>Manual</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">605</context>
+          <context context-type="linenumber">608</context>
         </context-group>
         <target state="translated">Manuale</target>
       </trans-unit>
@@ -13289,7 +13313,7 @@ La trasmissione non è considerata</target>
         <source>Automatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">606</context>
+          <context context-type="linenumber">609</context>
         </context-group>
         <target state="translated">Automatico</target>
       </trans-unit>
@@ -13297,7 +13321,7 @@ La trasmissione non è considerata</target>
         <source>CVT</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">607</context>
+          <context context-type="linenumber">610</context>
         </context-group>
         <target state="needs-translation">CVT</target>
       </trans-unit>
@@ -13305,7 +13329,7 @@ La trasmissione non è considerata</target>
         <source>Semi-automatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">608</context>
+          <context context-type="linenumber">611</context>
         </context-group>
         <target state="translated">Semi-automatico</target>
       </trans-unit>
@@ -13313,7 +13337,7 @@ La trasmissione non è considerata</target>
         <source>robotised</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">609</context>
+          <context context-type="linenumber">612</context>
         </context-group>
         <target state="translated">robotizzato</target>
       </trans-unit>
@@ -13321,7 +13345,7 @@ La trasmissione non è considerata</target>
         <source>sequential</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">610</context>
+          <context context-type="linenumber">613</context>
         </context-group>
         <target state="translated">sequenziale</target>
       </trans-unit>
@@ -13329,7 +13353,7 @@ La trasmissione non è considerata</target>
         <source>DSG</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">611</context>
+          <context context-type="linenumber">614</context>
         </context-group>
         <target state="needs-translation">DSG</target>
       </trans-unit>
@@ -13337,48 +13361,12 @@ La trasmissione non è considerata</target>
         <source>DCT</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">612</context>
+          <context context-type="linenumber">615</context>
         </context-group>
         <target state="needs-translation">DCT</target>
       </trans-unit>
       <trans-unit id="5552030120913460229" datatype="html">
         <source>coil spring</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">613</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">666</context>
-        </context-group>
-        <target state="translated">molla elicoidale</target>
-      </trans-unit>
-      <trans-unit id="3894063790590056828" datatype="html">
-        <source>leaf spring</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">614</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">667</context>
-        </context-group>
-        <target state="translated">molla a balestra</target>
-      </trans-unit>
-      <trans-unit id="1654717740326486543" datatype="html">
-        <source>pneumatic</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">615</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">668</context>
-        </context-group>
-        <target state="translated">pneumatico</target>
-      </trans-unit>
-      <trans-unit id="1363828778826971510" datatype="html">
-        <source>hydropneumatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">616</context>
@@ -13387,10 +13375,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">669</context>
         </context-group>
-        <target state="translated">idropneumatico</target>
+        <target state="translated">molla elicoidale</target>
       </trans-unit>
-      <trans-unit id="2598714362156750574" datatype="html">
-        <source>torsion</source>
+      <trans-unit id="3894063790590056828" datatype="html">
+        <source>leaf spring</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">617</context>
@@ -13399,10 +13387,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">670</context>
         </context-group>
-        <target state="translated">torsione</target>
+        <target state="translated">molla a balestra</target>
       </trans-unit>
-      <trans-unit id="706404892271547569" datatype="html">
-        <source>rubber-elastic elements</source>
+      <trans-unit id="1654717740326486543" datatype="html">
+        <source>pneumatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">618</context>
@@ -13411,10 +13399,22 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">671</context>
         </context-group>
-        <target state="translated">elementi in gomma elastica</target>
+        <target state="translated">pneumatico</target>
       </trans-unit>
-      <trans-unit id="6756867621905155355" datatype="html">
-        <source>coil spring with push rod</source>
+      <trans-unit id="1363828778826971510" datatype="html">
+        <source>hydropneumatic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">619</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">672</context>
+        </context-group>
+        <target state="translated">idropneumatico</target>
+      </trans-unit>
+      <trans-unit id="2598714362156750574" datatype="html">
+        <source>torsion</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">620</context>
@@ -13423,10 +13423,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">673</context>
         </context-group>
-        <target state="translated">molla elicoidale con push rod</target>
+        <target state="translated">torsione</target>
       </trans-unit>
-      <trans-unit id="2170888385171996069" datatype="html">
-        <source>coil spring with pull rod</source>
+      <trans-unit id="706404892271547569" datatype="html">
+        <source>rubber-elastic elements</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">621</context>
@@ -13435,22 +13435,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">674</context>
         </context-group>
-        <target state="translated">molla elicoidale con pull rod</target>
+        <target state="translated">elementi in gomma elastica</target>
       </trans-unit>
-      <trans-unit id="5129031800047592831" datatype="html">
-        <source>leaf spring on the transverse springs</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">622</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">675</context>
-        </context-group>
-        <target state="translated">balestra sulle molle trasversali</target>
-      </trans-unit>
-      <trans-unit id="7589736491050976985" datatype="html">
-        <source>leaf spring on longitudinal leaf springs</source>
+      <trans-unit id="6756867621905155355" datatype="html">
+        <source>coil spring with push rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">623</context>
@@ -13459,17 +13447,53 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">676</context>
         </context-group>
-        <target state="translated">molla a balestra su molle a balestra longitudinali</target>
+        <target state="translated">molla elicoidale con push rod</target>
       </trans-unit>
-      <trans-unit id="4671050175816763733" datatype="html">
-        <source>torsion bar with the push rod</source>
+      <trans-unit id="2170888385171996069" datatype="html">
+        <source>coil spring with pull rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">624</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">682</context>
+          <context context-type="linenumber">677</context>
+        </context-group>
+        <target state="translated">molla elicoidale con pull rod</target>
+      </trans-unit>
+      <trans-unit id="5129031800047592831" datatype="html">
+        <source>leaf spring on the transverse springs</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">625</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">678</context>
+        </context-group>
+        <target state="translated">balestra sulle molle trasversali</target>
+      </trans-unit>
+      <trans-unit id="7589736491050976985" datatype="html">
+        <source>leaf spring on longitudinal leaf springs</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">626</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">679</context>
+        </context-group>
+        <target state="translated">molla a balestra su molle a balestra longitudinali</target>
+      </trans-unit>
+      <trans-unit id="4671050175816763733" datatype="html">
+        <source>torsion bar with the push rod</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">627</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">685</context>
         </context-group>
         <target state="translated">barra di torsione con push rod</target>
       </trans-unit>
@@ -13477,52 +13501,16 @@ La trasmissione non è considerata</target>
         <source>torsion bar with the pull rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">625</context>
+          <context context-type="linenumber">628</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">684</context>
+          <context context-type="linenumber">687</context>
         </context-group>
         <target state="translated">barra di torsione con pull rod</target>
       </trans-unit>
       <trans-unit id="7004152681387448082" datatype="html">
         <source>on the longitudinal elliptic leaf springs</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">626</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">677</context>
-        </context-group>
-        <target state="translated">sulle balestre longitudinali di forma ellittica</target>
-      </trans-unit>
-      <trans-unit id="8573530197484833779" datatype="html">
-        <source>on longitudinal ¾-elliptic leaf springs</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">627</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">678</context>
-        </context-group>
-        <target state="translated">su balestre longitudinali ¾ ellittiche</target>
-      </trans-unit>
-      <trans-unit id="3326865537721726965" datatype="html">
-        <source>on the longitudinal ¼-elliptic leaf springs</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">628</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">679</context>
-        </context-group>
-        <target state="translated">sulle balestre longitudinali ¼ ellittiche</target>
-      </trans-unit>
-      <trans-unit id="5262255715491178159" datatype="html">
-        <source>on longitudinal semi-elliptic leaf springs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">629</context>
@@ -13531,10 +13519,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">680</context>
         </context-group>
-        <target state="translated">su balestre longitudinali semi-ellittiche</target>
+        <target state="translated">sulle balestre longitudinali di forma ellittica</target>
       </trans-unit>
-      <trans-unit id="145439683201403459" datatype="html">
-        <source>on longitudinal cantilever leaf springs</source>
+      <trans-unit id="8573530197484833779" datatype="html">
+        <source>on longitudinal ¾-elliptic leaf springs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">630</context>
@@ -13543,58 +13531,58 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">681</context>
         </context-group>
-        <target state="translated">su molle a balestra a sbalzo longitudinali</target>
+        <target state="translated">su balestre longitudinali ¾ ellittiche</target>
       </trans-unit>
-      <trans-unit id="94191606305168115" datatype="html">
-        <source>on the longitudinal balancing leaf springs</source>
+      <trans-unit id="3326865537721726965" datatype="html">
+        <source>on the longitudinal ¼-elliptic leaf springs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">631</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">683</context>
+          <context context-type="linenumber">682</context>
         </context-group>
-        <target state="translated">sulle balestre longitudinali di bilanciamento</target>
+        <target state="translated">sulle balestre longitudinali ¼ ellittiche</target>
       </trans-unit>
-      <trans-unit id="6460100282769505516" datatype="html">
-        <source>dependent</source>
+      <trans-unit id="5262255715491178159" datatype="html">
+        <source>on longitudinal semi-elliptic leaf springs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">632</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">685</context>
+          <context context-type="linenumber">683</context>
         </context-group>
-        <target state="translated">dipendente</target>
+        <target state="translated">su balestre longitudinali semi-ellittiche</target>
       </trans-unit>
-      <trans-unit id="3259099069996269882" datatype="html">
-        <source>independent</source>
+      <trans-unit id="145439683201403459" datatype="html">
+        <source>on longitudinal cantilever leaf springs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">633</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">686</context>
+          <context context-type="linenumber">684</context>
         </context-group>
-        <target state="translated">indipendente</target>
+        <target state="translated">su molle a balestra a sbalzo longitudinali</target>
       </trans-unit>
-      <trans-unit id="4765986763775881147" datatype="html">
-        <source>semidependent</source>
+      <trans-unit id="94191606305168115" datatype="html">
+        <source>on the longitudinal balancing leaf springs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">634</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">687</context>
+          <context context-type="linenumber">686</context>
         </context-group>
-        <target state="translated">semi-indipendente</target>
+        <target state="translated">sulle balestre longitudinali di bilanciamento</target>
       </trans-unit>
-      <trans-unit id="4460813320477819631" datatype="html">
-        <source>dependent linkage-less</source>
+      <trans-unit id="6460100282769505516" datatype="html">
+        <source>dependent</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">635</context>
@@ -13603,10 +13591,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">688</context>
         </context-group>
-        <target state="translated">dipendente senza collegamento</target>
+        <target state="translated">dipendente</target>
       </trans-unit>
-      <trans-unit id="3775432943985912564" datatype="html">
-        <source>dependent to the trailing arms</source>
+      <trans-unit id="3259099069996269882" datatype="html">
+        <source>independent</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">636</context>
@@ -13615,10 +13603,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">689</context>
         </context-group>
-        <target state="translated">dipendente dai bracci longitudinali</target>
+        <target state="translated">indipendente</target>
       </trans-unit>
-      <trans-unit id="7118641500092254261" datatype="html">
-        <source>dependent to the hard pipe or drawbar (Torque-tube or Torque-Rod)</source>
+      <trans-unit id="4765986763775881147" datatype="html">
+        <source>semidependent</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">637</context>
@@ -13627,46 +13615,46 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">690</context>
         </context-group>
-        <target state="translated">dipendente con tubo rigido o timone (tubo o asta di torsione) con asta Panhard</target>
+        <target state="translated">semi-indipendente</target>
       </trans-unit>
-      <trans-unit id="6856415175375548144" datatype="html">
-        <source>independent with swinging half-axles</source>
+      <trans-unit id="4460813320477819631" datatype="html">
+        <source>dependent linkage-less</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">638</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">697</context>
+          <context context-type="linenumber">691</context>
         </context-group>
-        <target state="translated">indipendente a semiassi oscillanti</target>
+        <target state="translated">dipendente senza collegamento</target>
       </trans-unit>
-      <trans-unit id="341410869284021255" datatype="html">
-        <source>independent trailing arm</source>
+      <trans-unit id="3775432943985912564" datatype="html">
+        <source>dependent to the trailing arms</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">639</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">698</context>
+          <context context-type="linenumber">692</context>
         </context-group>
-        <target state="translated">braccio di traino indipendente</target>
+        <target state="translated">dipendente dai bracci longitudinali</target>
       </trans-unit>
-      <trans-unit id="6764631783045958142" datatype="html">
-        <source>independent suspension Dubonnet</source>
+      <trans-unit id="7118641500092254261" datatype="html">
+        <source>dependent to the hard pipe or drawbar (Torque-tube or Torque-Rod)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">640</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">699</context>
+          <context context-type="linenumber">693</context>
         </context-group>
-        <target state="translated">sospensione indipendente Dubonnet</target>
+        <target state="translated">dipendente con tubo rigido o timone (tubo o asta di torsione) con asta Panhard</target>
       </trans-unit>
-      <trans-unit id="2592252262793322463" datatype="html">
-        <source>independent on oblique levers</source>
+      <trans-unit id="6856415175375548144" datatype="html">
+        <source>independent with swinging half-axles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">641</context>
@@ -13675,10 +13663,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">700</context>
         </context-group>
-        <target state="translated">indipendente su leve oblique</target>
+        <target state="translated">indipendente a semiassi oscillanti</target>
       </trans-unit>
-      <trans-unit id="5782152012873739729" datatype="html">
-        <source>independent double wishbone</source>
+      <trans-unit id="341410869284021255" datatype="html">
+        <source>independent trailing arm</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">642</context>
@@ -13687,10 +13675,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">701</context>
         </context-group>
-        <target state="translated">quadrilatero indipendente</target>
+        <target state="translated">braccio di traino indipendente</target>
       </trans-unit>
-      <trans-unit id="8363296038292486636" datatype="html">
-        <source>independent multi-link</source>
+      <trans-unit id="6764631783045958142" datatype="html">
+        <source>independent suspension Dubonnet</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">643</context>
@@ -13699,10 +13687,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">702</context>
         </context-group>
-        <target state="translated">multi-link indipendente</target>
+        <target state="translated">sospensione indipendente Dubonnet</target>
       </trans-unit>
-      <trans-unit id="864032727922864914" datatype="html">
-        <source>independent candle</source>
+      <trans-unit id="2592252262793322463" datatype="html">
+        <source>independent on oblique levers</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">644</context>
@@ -13711,17 +13699,53 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">703</context>
         </context-group>
-        <target state="translated">sospensione indipendente</target>
+        <target state="translated">indipendente su leve oblique</target>
       </trans-unit>
-      <trans-unit id="5142917554104202606" datatype="html">
-        <source>semidependent De Dion</source>
+      <trans-unit id="5782152012873739729" datatype="html">
+        <source>independent double wishbone</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">645</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">704</context>
+        </context-group>
+        <target state="translated">quadrilatero indipendente</target>
+      </trans-unit>
+      <trans-unit id="8363296038292486636" datatype="html">
+        <source>independent multi-link</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">646</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">705</context>
+        </context-group>
+        <target state="translated">multi-link indipendente</target>
+      </trans-unit>
+      <trans-unit id="864032727922864914" datatype="html">
+        <source>independent candle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">647</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">706</context>
+        </context-group>
+        <target state="translated">sospensione indipendente</target>
+      </trans-unit>
+      <trans-unit id="5142917554104202606" datatype="html">
+        <source>semidependent De Dion</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">648</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">709</context>
         </context-group>
         <target state="translated">semi-dipendente De Dion</target>
       </trans-unit>
@@ -13729,52 +13753,16 @@ La trasmissione non è considerata</target>
         <source>semidependent torsion-lever</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">646</context>
+          <context context-type="linenumber">649</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">707</context>
+          <context context-type="linenumber">710</context>
         </context-group>
         <target state="translated">leva di torsione semidipendente</target>
       </trans-unit>
       <trans-unit id="7861550646070871937" datatype="html">
         <source>dependent with trailing arms with Watt&apos;s mechanism</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">647</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">691</context>
-        </context-group>
-        <target state="translated">dipendente a bracci longitudinali Watt's</target>
-      </trans-unit>
-      <trans-unit id="3922846706441876021" datatype="html">
-        <source>dependent with trailing arms with Scott-Russell mechanism</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">648</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">692</context>
-        </context-group>
-        <target state="translated">dipendente a bracci longitudinali Scott-Russell</target>
-      </trans-unit>
-      <trans-unit id="4069861284902942486" datatype="html">
-        <source>dependent with trailing arms with a Panhard rod</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">649</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">693</context>
-        </context-group>
-        <target state="translated">dipendente a bracci longitudinali con asta Panhard</target>
-      </trans-unit>
-      <trans-unit id="2332988034299153001" datatype="html">
-        <source>dependent with hard pipe or drawbar (Torque-tube or Torque-Rod) with Watt&apos;s mechanism</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">650</context>
@@ -13783,10 +13771,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">694</context>
         </context-group>
-        <target state="translated">dipendente con tubo rigido o timone (tubo o asta di torsione) Watt's</target>
+        <target state="translated">dipendente a bracci longitudinali Watt's</target>
       </trans-unit>
-      <trans-unit id="4500168654009026463" datatype="html">
-        <source>dependent with hard pipe or drawbar (Torque-tube or Torque-Rod) with Scott-Russell mechanism</source>
+      <trans-unit id="3922846706441876021" datatype="html">
+        <source>dependent with trailing arms with Scott-Russell mechanism</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">651</context>
@@ -13795,10 +13783,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">695</context>
         </context-group>
-        <target state="translated">dipendente con tubo rigido o timone (Torque-tube o Torque-Rod) con meccanismo Scott-Russell</target>
+        <target state="translated">dipendente a bracci longitudinali Scott-Russell</target>
       </trans-unit>
-      <trans-unit id="8036852086475263765" datatype="html">
-        <source>dependent with hard pipe or drawbar (Torque-tube or Torque-Rod) with a Panhard rod</source>
+      <trans-unit id="4069861284902942486" datatype="html">
+        <source>dependent with trailing arms with a Panhard rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">652</context>
@@ -13807,17 +13795,53 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">696</context>
         </context-group>
-        <target state="translated">dipendente con tubo rigido o timone (Torque-tube o Torque-Rod) con asta Panhard</target>
+        <target state="translated">dipendente a bracci longitudinali con asta Panhard</target>
       </trans-unit>
-      <trans-unit id="7088087863272550547" datatype="html">
-        <source>independent candle sweep (McPherson)</source>
+      <trans-unit id="2332988034299153001" datatype="html">
+        <source>dependent with hard pipe or drawbar (Torque-tube or Torque-Rod) with Watt&apos;s mechanism</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">653</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">704</context>
+          <context context-type="linenumber">697</context>
+        </context-group>
+        <target state="translated">dipendente con tubo rigido o timone (tubo o asta di torsione) Watt's</target>
+      </trans-unit>
+      <trans-unit id="4500168654009026463" datatype="html">
+        <source>dependent with hard pipe or drawbar (Torque-tube or Torque-Rod) with Scott-Russell mechanism</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">654</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">698</context>
+        </context-group>
+        <target state="translated">dipendente con tubo rigido o timone (Torque-tube o Torque-Rod) con meccanismo Scott-Russell</target>
+      </trans-unit>
+      <trans-unit id="8036852086475263765" datatype="html">
+        <source>dependent with hard pipe or drawbar (Torque-tube or Torque-Rod) with a Panhard rod</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">655</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">699</context>
+        </context-group>
+        <target state="translated">dipendente con tubo rigido o timone (Torque-tube o Torque-Rod) con asta Panhard</target>
+      </trans-unit>
+      <trans-unit id="7088087863272550547" datatype="html">
+        <source>independent candle sweep (McPherson)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">656</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">707</context>
         </context-group>
         <target state="translated">sistema sospensioni indipendenti (McPherson)</target>
       </trans-unit>
@@ -13825,11 +13849,11 @@ La trasmissione non è considerata</target>
         <source>semidependent torsion-lever with Watt&apos;s mechanism</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">654</context>
+          <context context-type="linenumber">657</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">708</context>
+          <context context-type="linenumber">711</context>
         </context-group>
         <target state="translated">meccanismo semi-indipendente barra di torsione Watt's</target>
       </trans-unit>
@@ -13837,11 +13861,11 @@ La trasmissione non è considerata</target>
         <source>semidependent torsion-lever with Scott-Russell mechanism</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">655</context>
+          <context context-type="linenumber">658</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">709</context>
+          <context context-type="linenumber">712</context>
         </context-group>
         <target state="translated">meccanismo semi-indipendente barra di torsione Scott-Russell</target>
       </trans-unit>
@@ -13849,11 +13873,11 @@ La trasmissione non è considerata</target>
         <source>semidependent torsion-lever a Panhard rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">656</context>
+          <context context-type="linenumber">659</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">710</context>
+          <context context-type="linenumber">713</context>
         </context-group>
         <target state="translated">barra Panhard</target>
       </trans-unit>
@@ -13861,52 +13885,16 @@ La trasmissione non è considerata</target>
         <source>independent candle sweep (McPherson) on longitudinal and transverse arms</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">657</context>
+          <context context-type="linenumber">660</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">705</context>
+          <context context-type="linenumber">708</context>
         </context-group>
         <target state="translated">sistema sospensioni indipendenti (McPherson) o bracci longitudinali e trasversali</target>
       </trans-unit>
       <trans-unit id="7852676463296447100" datatype="html">
         <source>unilateral</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">658</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">711</context>
-        </context-group>
-        <target state="translated">unilaterale</target>
-      </trans-unit>
-      <trans-unit id="2287185775509145829" datatype="html">
-        <source>double-sided</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">659</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">712</context>
-        </context-group>
-        <target state="translated">doppia faccia</target>
-      </trans-unit>
-      <trans-unit id="8637332687965038526" datatype="html">
-        <source>friction (mechanical)</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">660</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">713</context>
-        </context-group>
-        <target state="translated">attrito (meccanico)</target>
-      </trans-unit>
-      <trans-unit id="5994177403890076150" datatype="html">
-        <source>hydraulic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">661</context>
@@ -13915,10 +13903,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">714</context>
         </context-group>
-        <target state="translated">idraulica</target>
+        <target state="translated">unilaterale</target>
       </trans-unit>
-      <trans-unit id="745513329624994168" datatype="html">
-        <source>oleo pneumatic</source>
+      <trans-unit id="2287185775509145829" datatype="html">
+        <source>double-sided</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">662</context>
@@ -13927,10 +13915,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">715</context>
         </context-group>
-        <target state="translated">oleopneumatico</target>
+        <target state="translated">doppia faccia</target>
       </trans-unit>
-      <trans-unit id="6552269378349324841" datatype="html">
-        <source>hydraulic arm</source>
+      <trans-unit id="8637332687965038526" datatype="html">
+        <source>friction (mechanical)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">663</context>
@@ -13939,10 +13927,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">716</context>
         </context-group>
-        <target state="translated">braccio pneumatico</target>
+        <target state="translated">attrito (meccanico)</target>
       </trans-unit>
-      <trans-unit id="7385110647357284478" datatype="html">
-        <source>hydraulic twin-tube</source>
+      <trans-unit id="5994177403890076150" datatype="html">
+        <source>hydraulic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">664</context>
@@ -13951,10 +13939,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">717</context>
         </context-group>
-        <target state="translated">bitubo idraulico</target>
+        <target state="translated">idraulica</target>
       </trans-unit>
-      <trans-unit id="3960563314711668414" datatype="html">
-        <source>hydraulic single tube</source>
+      <trans-unit id="745513329624994168" datatype="html">
+        <source>oleo pneumatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">665</context>
@@ -13963,46 +13951,46 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">718</context>
         </context-group>
-        <target state="translated">singolo tubo idraulico</target>
+        <target state="translated">oleopneumatico</target>
       </trans-unit>
-      <trans-unit id="7227563614856566791" datatype="html">
-        <source>drum</source>
+      <trans-unit id="6552269378349324841" datatype="html">
+        <source>hydraulic arm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">666</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">719</context>
         </context-group>
+        <target state="translated">braccio pneumatico</target>
+      </trans-unit>
+      <trans-unit id="7385110647357284478" datatype="html">
+        <source>hydraulic twin-tube</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">724</context>
+          <context context-type="linenumber">667</context>
         </context-group>
-        <target state="translated">tamburo</target>
-      </trans-unit>
-      <trans-unit id="4498344786497434363" datatype="html">
-        <source>disc</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">720</context>
         </context-group>
+        <target state="translated">bitubo idraulico</target>
+      </trans-unit>
+      <trans-unit id="3960563314711668414" datatype="html">
+        <source>hydraulic single tube</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">725</context>
+          <context context-type="linenumber">668</context>
         </context-group>
-        <target state="translated">disco</target>
-      </trans-unit>
-      <trans-unit id="1735128583431115492" datatype="html">
-        <source>metal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">721</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">726</context>
-        </context-group>
-        <target state="translated">metallo</target>
+        <target state="translated">singolo tubo idraulico</target>
       </trans-unit>
-      <trans-unit id="3302359877346348363" datatype="html">
-        <source>carbon</source>
+      <trans-unit id="7227563614856566791" datatype="html">
+        <source>drum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">722</context>
@@ -14011,10 +13999,10 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">727</context>
         </context-group>
-        <target state="translated">carbonio</target>
+        <target state="translated">tamburo</target>
       </trans-unit>
-      <trans-unit id="394398103246418093" datatype="html">
-        <source>ceramics</source>
+      <trans-unit id="4498344786497434363" datatype="html">
+        <source>disc</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">723</context>
@@ -14023,13 +14011,49 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">728</context>
         </context-group>
+        <target state="translated">disco</target>
+      </trans-unit>
+      <trans-unit id="1735128583431115492" datatype="html">
+        <source>metal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">724</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">729</context>
+        </context-group>
+        <target state="translated">metallo</target>
+      </trans-unit>
+      <trans-unit id="3302359877346348363" datatype="html">
+        <source>carbon</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">725</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">730</context>
+        </context-group>
+        <target state="translated">carbonio</target>
+      </trans-unit>
+      <trans-unit id="394398103246418093" datatype="html">
+        <source>ceramics</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">726</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">731</context>
+        </context-group>
         <target state="translated">ceramica</target>
       </trans-unit>
       <trans-unit id="8150932414176918268" datatype="html">
         <source>aluminium alloy (molding)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">730</context>
+          <context context-type="linenumber">733</context>
         </context-group>
         <target state="translated">lega alluminio (modanatura)</target>
       </trans-unit>
@@ -14037,7 +14061,7 @@ La trasmissione non è considerata</target>
         <source>aluminium alloy (forging)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">731</context>
+          <context context-type="linenumber">734</context>
         </context-group>
         <target state="translated">lega alluminio (forgiato)</target>
       </trans-unit>
@@ -14045,7 +14069,7 @@ La trasmissione non è considerata</target>
         <source>Euro 1</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">732</context>
+          <context context-type="linenumber">735</context>
         </context-group>
         <target state="needs-translation">Euro 1</target>
       </trans-unit>
@@ -14053,7 +14077,7 @@ La trasmissione non è considerata</target>
         <source>Euro 2</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">733</context>
+          <context context-type="linenumber">736</context>
         </context-group>
         <target state="needs-translation">Euro 2</target>
       </trans-unit>
@@ -14061,7 +14085,7 @@ La trasmissione non è considerata</target>
         <source>Euro 3</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">734</context>
+          <context context-type="linenumber">737</context>
         </context-group>
         <target state="needs-translation">Euro 3</target>
       </trans-unit>
@@ -14069,7 +14093,7 @@ La trasmissione non è considerata</target>
         <source>Euro 4</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">735</context>
+          <context context-type="linenumber">738</context>
         </context-group>
         <target state="needs-translation">Euro 4</target>
       </trans-unit>
@@ -14077,7 +14101,7 @@ La trasmissione non è considerata</target>
         <source>Euro 5</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">736</context>
+          <context context-type="linenumber">739</context>
         </context-group>
         <target state="needs-translation">Euro 5</target>
       </trans-unit>
@@ -14085,7 +14109,7 @@ La trasmissione non è considerata</target>
         <source>Euro 5+</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">737</context>
+          <context context-type="linenumber">740</context>
         </context-group>
         <target state="needs-translation">Euro 5+</target>
       </trans-unit>
@@ -14093,7 +14117,7 @@ La trasmissione non è considerata</target>
         <source>Euro 6</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">738</context>
+          <context context-type="linenumber">741</context>
         </context-group>
         <target state="needs-translation">Euro 6</target>
       </trans-unit>
@@ -14101,7 +14125,7 @@ La trasmissione non è considerata</target>
         <source>Euro 6d</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">739</context>
+          <context context-type="linenumber">742</context>
         </context-group>
         <target state="needs-translation">Euro 6d</target>
       </trans-unit>
@@ -14109,7 +14133,7 @@ La trasmissione non è considerata</target>
         <source>Euro 5a</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">740</context>
+          <context context-type="linenumber">743</context>
         </context-group>
         <target state="needs-translation">Euro 5a</target>
       </trans-unit>
@@ -14117,7 +14141,7 @@ La trasmissione non è considerata</target>
         <source>Euro 5b</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">741</context>
+          <context context-type="linenumber">744</context>
         </context-group>
         <target state="needs-translation">Euro 5b</target>
       </trans-unit>
@@ -14125,7 +14149,7 @@ La trasmissione non è considerata</target>
         <source>fastest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">745</context>
+          <context context-type="linenumber">748</context>
         </context-group>
         <target state="translated">più veloce</target>
       </trans-unit>
@@ -14133,7 +14157,7 @@ La trasmissione non è considerata</target>
         <source>slowest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">746</context>
+          <context context-type="linenumber">749</context>
         </context-group>
         <target state="translated">più lento</target>
       </trans-unit>
@@ -14141,7 +14165,7 @@ La trasmissione non è considerata</target>
         <source>dynamic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">747</context>
+          <context context-type="linenumber">750</context>
         </context-group>
         <target state="translated">dinamica</target>
       </trans-unit>
@@ -14149,7 +14173,7 @@ La trasmissione non è considerata</target>
         <source>static</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">748</context>
+          <context context-type="linenumber">751</context>
         </context-group>
         <target state="translated">statica</target>
       </trans-unit>
@@ -14157,7 +14181,7 @@ La trasmissione non è considerata</target>
         <source>mighty</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">749</context>
+          <context context-type="linenumber">752</context>
         </context-group>
         <target state="translated">potenza</target>
       </trans-unit>
@@ -14165,7 +14189,7 @@ La trasmissione non è considerata</target>
         <source>weak</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">750</context>
+          <context context-type="linenumber">753</context>
         </context-group>
         <target state="translated">debole</target>
       </trans-unit>
@@ -14173,7 +14197,7 @@ La trasmissione non è considerata</target>
         <source>big engine</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">751</context>
+          <context context-type="linenumber">754</context>
         </context-group>
         <target state="translated">grande motore</target>
       </trans-unit>
@@ -14181,7 +14205,7 @@ La trasmissione non è considerata</target>
         <source>small engine</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">752</context>
+          <context context-type="linenumber">755</context>
         </context-group>
         <target state="translated">piccolo motore</target>
       </trans-unit>
@@ -14189,7 +14213,7 @@ La trasmissione non è considerata</target>
         <source>nimblest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">753</context>
+          <context context-type="linenumber">756</context>
         </context-group>
         <target state="translated">più agile</target>
       </trans-unit>
@@ -14197,7 +14221,7 @@ La trasmissione non è considerata</target>
         <source>economical</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">754</context>
+          <context context-type="linenumber">757</context>
         </context-group>
         <target state="translated">economica</target>
       </trans-unit>
@@ -14205,7 +14229,7 @@ La trasmissione non è considerata</target>
         <source>gluttonous</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">755</context>
+          <context context-type="linenumber">758</context>
         </context-group>
         <target state="translated">ghiotto</target>
       </trans-unit>
@@ -14213,7 +14237,7 @@ La trasmissione non è considerata</target>
         <source>ecological cleanly</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">756</context>
+          <context context-type="linenumber">759</context>
         </context-group>
         <target state="translated">ecologicamente pulita</target>
       </trans-unit>
@@ -14221,7 +14245,7 @@ La trasmissione non è considerata</target>
         <source>ecological dirty</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">757</context>
+          <context context-type="linenumber">760</context>
         </context-group>
         <target state="translated">ecologicamente sporca</target>
       </trans-unit>
@@ -14229,7 +14253,7 @@ La trasmissione non è considerata</target>
         <source>heavy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">758</context>
+          <context context-type="linenumber">761</context>
         </context-group>
         <target state="translated">pesante</target>
       </trans-unit>
@@ -14237,7 +14261,7 @@ La trasmissione non è considerata</target>
         <source>lightest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">759</context>
+          <context context-type="linenumber">762</context>
         </context-group>
         <target state="translated">più leggera</target>
       </trans-unit>
@@ -14245,7 +14269,7 @@ La trasmissione non è considerata</target>
         <source>longest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">760</context>
+          <context context-type="linenumber">763</context>
         </context-group>
         <target state="translated">più lungo</target>
       </trans-unit>
@@ -14253,7 +14277,7 @@ La trasmissione non è considerata</target>
         <source>shortest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">761</context>
+          <context context-type="linenumber">764</context>
         </context-group>
         <target state="translated">più corto</target>
       </trans-unit>
@@ -14261,7 +14285,7 @@ La trasmissione non è considerata</target>
         <source>widest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">762</context>
+          <context context-type="linenumber">765</context>
         </context-group>
         <target state="translated">più larga</target>
       </trans-unit>
@@ -14269,7 +14293,7 @@ La trasmissione non è considerata</target>
         <source>narrow</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">763</context>
+          <context context-type="linenumber">766</context>
         </context-group>
         <target state="translated">stretta</target>
       </trans-unit>
@@ -14277,7 +14301,7 @@ La trasmissione non è considerata</target>
         <source>highest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">764</context>
+          <context context-type="linenumber">767</context>
         </context-group>
         <target state="translated">più alto</target>
       </trans-unit>
@@ -14285,7 +14309,7 @@ La trasmissione non è considerata</target>
         <source>lowest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">765</context>
+          <context context-type="linenumber">768</context>
         </context-group>
         <target state="translated">più basso</target>
       </trans-unit>
@@ -14293,7 +14317,7 @@ La trasmissione non è considerata</target>
         <source>anti air</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">767</context>
+          <context context-type="linenumber">770</context>
         </context-group>
         <target state="translated">anti aereo</target>
       </trans-unit>
@@ -14301,7 +14325,7 @@ La trasmissione non è considerata</target>
         <source>big wheel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">768</context>
+          <context context-type="linenumber">771</context>
         </context-group>
         <target state="translated">ruote grandi</target>
       </trans-unit>
@@ -14309,7 +14333,7 @@ La trasmissione non è considerata</target>
         <source>small wheel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">769</context>
+          <context context-type="linenumber">772</context>
         </context-group>
         <target state="translated">ruote piccole</target>
       </trans-unit>
@@ -14317,7 +14341,7 @@ La trasmissione non è considerata</target>
         <source>big brakes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">770</context>
+          <context context-type="linenumber">773</context>
         </context-group>
         <target state="translated">freni grandi</target>
       </trans-unit>
@@ -14325,7 +14349,7 @@ La trasmissione non è considerata</target>
         <source>small brakes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">771</context>
+          <context context-type="linenumber">774</context>
         </context-group>
         <target state="translated">freni piccoli</target>
       </trans-unit>
@@ -14333,7 +14357,7 @@ La trasmissione non è considerata</target>
         <source>big clearance</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">772</context>
+          <context context-type="linenumber">775</context>
         </context-group>
         <target state="translated">assetto rialzato</target>
       </trans-unit>
@@ -14341,7 +14365,7 @@ La trasmissione non è considerata</target>
         <source>small clearance</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">773</context>
+          <context context-type="linenumber">776</context>
         </context-group>
         <target state="translated">assetto ribassato</target>
       </trans-unit>
@@ -14349,11 +14373,11 @@ La trasmissione non è considerata</target>
         <source>acceleration</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">779</context>
+          <context context-type="linenumber">782</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">780</context>
+          <context context-type="linenumber">783</context>
         </context-group>
         <target state="translated">accelerazione</target>
       </trans-unit>
@@ -14361,36 +14385,16 @@ La trasmissione non è considerata</target>
         <source>engine power</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">781</context>
+          <context context-type="linenumber">784</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">782</context>
+          <context context-type="linenumber">785</context>
         </context-group>
         <target state="translated">potenza motore</target>
       </trans-unit>
       <trans-unit id="6434815500866979760" datatype="html">
         <source>engine volume</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">783</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">784</context>
-        </context-group>
-        <target state="translated">cilindrata</target>
-      </trans-unit>
-      <trans-unit id="7869350269455184457" datatype="html">
-        <source>turning circle</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">785</context>
-        </context-group>
-        <target state="translated">raggio sterzo</target>
-      </trans-unit>
-      <trans-unit id="3110441434175892161" datatype="html">
-        <source>fuel consumption in combined cycle</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">786</context>
@@ -14399,17 +14403,37 @@ La trasmissione non è considerata</target>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">787</context>
         </context-group>
+        <target state="translated">cilindrata</target>
+      </trans-unit>
+      <trans-unit id="7869350269455184457" datatype="html">
+        <source>turning circle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">788</context>
+        </context-group>
+        <target state="translated">raggio sterzo</target>
+      </trans-unit>
+      <trans-unit id="3110441434175892161" datatype="html">
+        <source>fuel consumption in combined cycle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">789</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/utils/translations.ts</context>
+          <context context-type="linenumber">790</context>
+        </context-group>
         <target state="translated">consumo in ciclo combinato</target>
       </trans-unit>
       <trans-unit id="7287486680632810318" datatype="html">
         <source>emission</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">788</context>
+          <context context-type="linenumber">791</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">789</context>
+          <context context-type="linenumber">792</context>
         </context-group>
         <target state="translated">emissioni</target>
       </trans-unit>
@@ -14417,11 +14441,11 @@ La trasmissione non è considerata</target>
         <source>equipped weight</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">790</context>
+          <context context-type="linenumber">793</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">791</context>
+          <context context-type="linenumber">794</context>
         </context-group>
         <target state="translated">peso con equip.</target>
       </trans-unit>
@@ -14429,11 +14453,11 @@ La trasmissione non è considerata</target>
         <source>drag coefficients</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">798</context>
+          <context context-type="linenumber">801</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">799</context>
+          <context context-type="linenumber">802</context>
         </context-group>
         <target state="translated">coefficiente aerodinamico</target>
       </trans-unit>
@@ -14441,11 +14465,11 @@ La trasmissione non è considerata</target>
         <source>wheel size</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">800</context>
+          <context context-type="linenumber">803</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">801</context>
+          <context context-type="linenumber">804</context>
         </context-group>
         <target state="translated">grandezza cerchi</target>
       </trans-unit>
@@ -14453,11 +14477,11 @@ La trasmissione non è considerata</target>
         <source>brakes size</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">802</context>
+          <context context-type="linenumber">805</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">803</context>
+          <context context-type="linenumber">806</context>
         </context-group>
         <target state="translated">grandezza freni</target>
       </trans-unit>
@@ -14465,11 +14489,11 @@ La trasmissione non è considerata</target>
         <source>clearance</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">804</context>
+          <context context-type="linenumber">807</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">805</context>
+          <context context-type="linenumber">808</context>
         </context-group>
         <target state="translated">licenza</target>
       </trans-unit>
@@ -14477,7 +14501,7 @@ La trasmissione non è considerata</target>
         <source>before 1920</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">809</context>
+          <context context-type="linenumber">812</context>
         </context-group>
         <target state="translated">pre-1920</target>
       </trans-unit>
@@ -14485,7 +14509,7 @@ La trasmissione non è considerata</target>
         <source>1920-29th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">810</context>
+          <context context-type="linenumber">813</context>
         </context-group>
         <target state="translated">1920-29°</target>
       </trans-unit>
@@ -14493,7 +14517,7 @@ La trasmissione non è considerata</target>
         <source>1930-39th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">811</context>
+          <context context-type="linenumber">814</context>
         </context-group>
         <target state="translated">1930-39°</target>
       </trans-unit>
@@ -14501,7 +14525,7 @@ La trasmissione non è considerata</target>
         <source>1940-49th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">812</context>
+          <context context-type="linenumber">815</context>
         </context-group>
         <target state="translated">1940-49°</target>
       </trans-unit>
@@ -14509,7 +14533,7 @@ La trasmissione non è considerata</target>
         <source>1950-59th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">813</context>
+          <context context-type="linenumber">816</context>
         </context-group>
         <target state="translated">1950-59°</target>
       </trans-unit>
@@ -14517,7 +14541,7 @@ La trasmissione non è considerata</target>
         <source>1960-69th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">814</context>
+          <context context-type="linenumber">817</context>
         </context-group>
         <target state="translated">1960-69°</target>
       </trans-unit>
@@ -14525,7 +14549,7 @@ La trasmissione non è considerata</target>
         <source>1970-79th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">815</context>
+          <context context-type="linenumber">818</context>
         </context-group>
         <target state="translated">1970-79°</target>
       </trans-unit>
@@ -14533,7 +14557,7 @@ La trasmissione non è considerata</target>
         <source>1980-89th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">816</context>
+          <context context-type="linenumber">819</context>
         </context-group>
         <target state="translated">1980-89°</target>
       </trans-unit>
@@ -14541,7 +14565,7 @@ La trasmissione non è considerata</target>
         <source>1990-99th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">817</context>
+          <context context-type="linenumber">820</context>
         </context-group>
         <target state="translated">1990-99°</target>
       </trans-unit>
@@ -14549,7 +14573,7 @@ La trasmissione non è considerata</target>
         <source>2000-09th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">818</context>
+          <context context-type="linenumber">821</context>
         </context-group>
         <target state="translated">2000-09°</target>
       </trans-unit>
@@ -14557,7 +14581,7 @@ La trasmissione non è considerata</target>
         <source>2010-17th</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">819</context>
+          <context context-type="linenumber">822</context>
         </context-group>
         <target state="translated">2010-17°</target>
       </trans-unit>
@@ -14565,7 +14589,7 @@ La trasmissione non è considerata</target>
         <source>present time</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">820</context>
+          <context context-type="linenumber">823</context>
         </context-group>
         <target state="translated">presente</target>
       </trans-unit>
@@ -14573,7 +14597,7 @@ La trasmissione non è considerata</target>
         <source>all time</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">821</context>
+          <context context-type="linenumber">824</context>
         </context-group>
         <target state="translated">sempre</target>
       </trans-unit>
@@ -14581,7 +14605,7 @@ La trasmissione non è considerata</target>
         <source>Tractors</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">826</context>
+          <context context-type="linenumber">829</context>
         </context-group>
         <target state="translated">Trattori</target>
       </trans-unit>
@@ -14589,7 +14613,7 @@ La trasmissione non è considerata</target>
         <source>Buses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">827</context>
+          <context context-type="linenumber">830</context>
         </context-group>
         <target state="translated">Autobus</target>
       </trans-unit>
@@ -14597,7 +14621,7 @@ La trasmissione non è considerata</target>
         <source>Trucks</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">828</context>
+          <context context-type="linenumber">831</context>
         </context-group>
         <target state="translated">Camion</target>
       </trans-unit>
@@ -14605,7 +14629,7 @@ La trasmissione non è considerata</target>
         <source>Other</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
-          <context context-type="linenumber">830</context>
+          <context context-type="linenumber">833</context>
         </context-group>
         <target state="translated">Altro</target>
       </trans-unit>

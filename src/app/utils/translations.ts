@@ -162,7 +162,7 @@ const themesDescription = {
   'forums/theme/italian-cars/description': $localize`Alfa Romeo, Ferrari, Fiat, Lamborghini, Lancia, …`,
   'forums/theme/french-cars/description': $localize`Peugeot, Renault, Citroën, Delahaye …`,
   'forums/theme/japan-cars/description': $localize`Nissan, Toyota, Honda, Mazda, …`,
-  'forums/theme/korean-cars/description': $localize`Kia, Hyundai, ….`,
+  'forums/theme/korean-cars/description': $localize`Kia, Hyundai, …`,
   'forums/theme/chinese-cars/description': $localize`Chery, Geely, Great Wall, …`,
   'forums/theme/russian-cars/description': $localize`VAZ, GAZ, UAZ, …`,
   'forums/theme/american-cars/description': $localize`Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …`,
@@ -501,6 +501,9 @@ const attrs = {
   'specs/attrs/82': $localize`emissions`,
   'specs/attrs/157': $localize`emission standard`,
   'specs/attrs/170': $localize`production place`,
+  'specs/attrs/transmission/gearbox/reverse-gears': $localize`Number of reverse gears`,
+  'specs/attrs/dynamic/max-reverse-speed': $localize`Max speed (reverse)`,
+  'specs/attrs/wheels/auto-pumping-tires': $localize`Auto pumping tires`,
 };
 
 const attrDescriptions = {
