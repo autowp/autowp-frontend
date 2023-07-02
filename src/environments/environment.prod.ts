@@ -46,7 +46,7 @@ export const environment = {
       hostname: 'be.wheelsage.org',
       name: 'Беларуская',
       flag: 'flag-icon flag-icon-by',
-      locale: 'be-BY',
+      locale: 'be',
     },
     {
       code: 'uk',
@@ -60,7 +60,7 @@ export const environment = {
       hostname: 'es.wheelsage.org',
       name: 'Español',
       flag: 'flag-icon flag-icon-es',
-      locale: 'es',
+      locale: 'es-ES',
     },
     {
       code: 'it',

@@ -51,7 +51,7 @@ export const environment = {
       hostname: 'be.localhost',
       name: 'Беларуская',
       flag: 'flag-icon flag-icon-by',
-      locale: 'be-BY',
+      locale: 'be',
     },
     {
       code: 'uk',
@@ -65,7 +65,7 @@ export const environment = {
       hostname: 'es.localhost',
       name: 'Español',
       flag: 'flag-icon flag-icon-es',
-      locale: 'es',
+      locale: 'es-ES',
     },
     {
       code: 'it',
