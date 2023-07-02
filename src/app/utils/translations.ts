@@ -556,12 +556,12 @@ const attrListOptions = {
   'specs/attrs/22/23/options/55': $localize`3 carburetors`,
   'specs/attrs/22/23/options/26': $localize`4 carburetors`,
   'specs/attrs/22/23/options/27': $localize`6 carburetors`,
-  'specs/attrs/22/24/26/options/7': $localize`l`,
-  'specs/attrs/22/24/26/options/8': $localize`V`,
-  'specs/attrs/22/24/26/options/9': $localize`W`,
-  'specs/attrs/22/24/26/options/10': $localize`O`,
-  'specs/attrs/22/24/26/options/101': $localize`U`,
-  'specs/attrs/22/24/26/options/x': $localize`X`,
+  'specs/attrs/22/24/26/options/7': $localize`:@@cylinders-layout-l:L`,
+  'specs/attrs/22/24/26/options/8': $localize`:@@cylinders-layout-v:V`,
+  'specs/attrs/22/24/26/options/9': $localize`:@@cylinders-layout-w:W`,
+  'specs/attrs/22/24/26/options/10': $localize`:@@cylinders-layout-o:O`,
+  'specs/attrs/22/24/26/options/101': $localize`:@@cylinders-layout-u:U`,
+  'specs/attrs/22/24/26/options/x': $localize`:@@cylinders-layout-x:X`,
   'specs/attrs/22/99/options/46': $localize`none`,
   'specs/attrs/22/99/options/47': $localize`yes`,
   'specs/attrs/22/99/options/48': $localize`×2`,
@@ -736,6 +736,9 @@ const attrListOptions = {
   'specs/attrs/157/options/75': $localize`Euro 5`,
   'specs/attrs/157/options/76': $localize`Euro 5+`,
   'specs/attrs/157/options/77': $localize`Euro 6`,
+  'specs/attrs/157/options/euro-6d': $localize`Euro 6d`,
+  'specs/attrs/157/options/euro-5a': $localize`Euro 5a`,
+  'specs/attrs/157/options/euro-5b': $localize`Euro 5b`,
 };
 
 const mostsRatings = {

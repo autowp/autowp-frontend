@@ -14,19 +14,19 @@
         },
         "locales": {
           "ru": {
-            "translation": "src/locale/messages.ru.xlf",
+            "translation": "src/locale/messages.ru-RU.xlf",
             "baseHref": "/"
           },
           "uk": {
-            "translation": "src/locale/messages.uk.xlf",
+            "translation": "src/locale/messages.uk-UA.xlf",
             "baseHref": "/"
           },
-          "be-BY": {
+          "be": {
             "translation": "src/locale/messages.be-BY.xlf",
             "baseHref": "/"
           },
           "fr": {
-            "translation": "src/locale/messages.fr.xlf",
+            "translation": "src/locale/messages.fr-FR.xlf",
             "baseHref": "/"
           },
           "pt-BR": {
@@ -37,12 +37,12 @@
             "translation": "src/locale/messages.zh-CN.xlf",
             "baseHref": "/"
           },
-          "es": {
-            "translation": "src/locale/messages.es.xlf",
+          "es-ES": {
+            "translation": "src/locale/messages.es-ES.xlf",
             "baseHref": "/"
           },
           "it": {
-            "translation": "src/locale/messages.it.xlf",
+            "translation": "src/locale/messages.it-IT.xlf",
             "baseHref": "/"
           }
         }
@@ -98,14 +98,14 @@
               "node_modules/jquery/dist/jquery.js"
             ],
             "localize": [
-              "be-BY",
+              "be",
               "en-GB",
               "fr",
               "pt-BR",
               "ru",
               "uk",
               "zh-CN",
-              "es",
+              "es-ES",
               "it"
             ]
           },
