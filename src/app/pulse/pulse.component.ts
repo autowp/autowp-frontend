@@ -37,7 +37,7 @@ export class PulseComponent implements OnInit {
 
   private readonly period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
 
-  protected readonly chartOptions: ChartConfiguration<'bar', any, any>['options'] = {
+  protected readonly chartOptions: ChartConfiguration<'bar', never, never>['options'] = {
     responsive: true,
     scales: {
       x: {

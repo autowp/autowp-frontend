@@ -16,7 +16,7 @@ interface SidebarItem {
   name: string;
   count?: number;
   newCount?: number;
-  routerLinkParams?: any;
+  routerLinkParams?: {[key: string]: string};
   active?: boolean;
 }
 

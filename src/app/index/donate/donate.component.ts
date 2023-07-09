@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {LanguageService} from '@services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
+import data from './data.json';
 
 const rates = {
   'EUR': 1,
@@ -26,7 +27,7 @@ export class IndexDonateComponent {
   protected readonly goal = 2500;
   private readonly monthlyCharge = 192.4;
 
-  protected readonly state$ = of(require('./data.json') as Donation[]).pipe(
+  protected readonly state$ = of(data as Donation[]).pipe(
     map((operations) => {
       operations = operations.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       const donations = operations

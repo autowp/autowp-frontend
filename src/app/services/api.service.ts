@@ -57,13 +57,10 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private readonly keycloak: KeycloakService) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     const promise = this.keycloak.getToken();
 
-    promise.then(
-      () => {},
-      (d) => console.log(d)
-    );
+    promise.catch((d) => console.log(d));
 
     return from(promise).pipe(
       catchError((e: unknown) => {
@@ -130,10 +127,7 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   ): Observable<GrpcEvent<S>> {
     const promise = this.keycloak.getToken();
 
-    promise.then(
-      () => {},
-      (d) => console.log(d)
-    );
+    promise.catch((d) => console.log(d));
 
     return from(promise).pipe(
       catchError((e: unknown) => {
@@ -176,7 +170,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -209,7 +203,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -241,7 +235,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -257,7 +251,7 @@ export class APIService {
       responseType?: 'json';
       withCredentials?: boolean;
     }
-  ): Observable<HttpEvent<any>>;
+  ): Observable<HttpEvent<unknown>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns the full event stream.
    *
@@ -273,7 +267,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -305,7 +299,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -337,7 +331,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -369,7 +363,7 @@ export class APIService {
     method: string,
     url: string,
     options: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -401,7 +395,7 @@ export class APIService {
     method: string,
     url: string,
     options?: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -433,7 +427,7 @@ export class APIService {
     method: string,
     url: string,
     options?: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -457,14 +451,14 @@ export class APIService {
    * @param url     The endpoint URL.
    * @param options The HTTP options to send with the request.
    *
-   * @return An `Observable` of the reuested response, wuth body of type `any`.
+   * @return An `Observable` of the requested response, with body of type `any`.
    */
   // eslint-disable-next-line rxjs/finnish
   request(
     method: string,
     url: string,
     options?: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -480,14 +474,14 @@ export class APIService {
       responseType?: 'json' | 'text';
       withCredentials?: boolean;
     }
-  ): Observable<any>;
+  ): Observable<unknown>;
 
   // eslint-disable-next-line rxjs/finnish
-  public request<R>(
+  public request(
     method: string,
     url: string,
     options?: {
-      body?: any;
+      body?: unknown;
       headers?:
         | HttpHeaders
         | {
@@ -503,7 +497,7 @@ export class APIService {
       reportProgress?: boolean;
       withCredentials?: boolean;
     }
-  ): Observable<any> {
+  ): Observable<unknown> {
     if (!options) {
       options = {};
     }

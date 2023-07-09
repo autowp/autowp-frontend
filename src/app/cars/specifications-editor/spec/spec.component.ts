@@ -27,12 +27,11 @@ export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
 }
 
 interface InvalidParams {
-  items: any;
+  items: {[key: number]: {[key: string]: {[key: string]: string}}};
 }
 
 interface APIAttrUserValuePatchResponse {
   detail: string;
-  invalid_params: InvalidParams;
   status: number;
   title: string;
   type: string;
@@ -170,21 +169,19 @@ export class CarsSpecificationsEditorSpecComponent {
       }
 
       for (const attr of attributes) {
-        if (!currentUserValues.hasOwnProperty(attr.id)) {
-          currentUserValues[attr.id] = {
-            item_id: item.id,
-            user_id: +user.id,
-            attribute_id: attr.id,
-            value: null,
-            empty: false,
-            value_text: '',
-            user: null,
-            update_date: null,
-            item: null,
-            unit: null,
-            path: null,
-          };
-        }
+        currentUserValues[attr.id] = {
+          item_id: item.id,
+          user_id: +user.id,
+          attribute_id: attr.id,
+          value: null,
+          empty: false,
+          value_text: '',
+          user: null,
+          update_date: null,
+          item: null,
+          unit: null,
+          path: null,
+        };
       }
 
       return currentUserValues;
@@ -239,15 +236,13 @@ export class CarsSpecificationsEditorSpecComponent {
   protected saveSpecs(user: APIUser, item: APIItem, currentUserValues: {[p: number]: APIAttrUserValue}) {
     const items = [];
     for (const attributeID in currentUserValues) {
-      if (currentUserValues.hasOwnProperty(attributeID)) {
-        items.push({
-          item_id: item.id,
-          attribute_id: attributeID,
-          user_id: user.id,
-          value: currentUserValues[attributeID].value,
-          empty: currentUserValues[attributeID].empty,
-        });
-      }
+      items.push({
+        item_id: item.id,
+        attribute_id: attributeID,
+        user_id: user.id,
+        value: currentUserValues[attributeID].value,
+        empty: currentUserValues[attributeID].empty,
+      });
     }
 
     this.loading++;
@@ -291,12 +286,8 @@ export class CarsSpecificationsEditorSpecComponent {
 
     const result = [];
     for (const field in items[id]) {
-      if (items[id].hasOwnProperty(field)) {
-        for (const code in items[id][field]) {
-          if (items[id][field].hasOwnProperty(code)) {
-            result.push(items[id][field][code]);
-          }
-        }
+      for (const code in items[id][field]) {
+        result.push(items[id][field][code]);
       }
     }
 
@@ -326,7 +317,7 @@ export class CarsSpecificationsEditorSpecComponent {
   );
 
   private listOptionsTree(items: AttrListOption.AsObject[], parentID: string): ListOption[] {
-    let result: ListOption[] = [];
+    const result: ListOption[] = [];
     items
       .filter((i) => i.parentId === parentID)
       .forEach((i) => {

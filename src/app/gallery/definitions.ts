@@ -17,7 +17,12 @@ export interface APIGalleryResponse {
 export interface APIGalleryItemArea {
   area: Rectangle;
   name: string;
-  styles?: {};
+  styles?: {
+    'left.px': number;
+    'top.px': number;
+    'width.px': number;
+    'height.px': number;
+  };
 }
 
 export interface APIGalleryItem {

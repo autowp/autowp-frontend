@@ -151,17 +151,19 @@ export class ModerItemsNewComponent {
         }),
         switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location'), {})),
         switchMap((item) => {
-          const pipes: Observable<any>[] = [
+          const pipes: Observable<null>[] = [
             this.parent$.pipe(
               take(1),
               switchMap((parent) =>
                 parent
-                  ? this.api.request<void>('POST', 'item-parent', {
-                      body: {
-                        parent_id: parent.id,
-                        item_id: item.id,
-                      },
-                    })
+                  ? this.api
+                      .request<void>('POST', 'item-parent', {
+                        body: {
+                          parent_id: parent.id,
+                          item_id: item.id,
+                        },
+                      })
+                      .pipe(map(() => null))
                   : of(null)
               )
             ),

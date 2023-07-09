@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {APIPaginator, APIImage, APIService} from './api.service';
 import {forkJoin, Observable, of} from 'rxjs';
 import {APIPicture} from './picture';
-import {switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {APIGetItemVehicleTypesRequest, APIItemVehicleType, APIItemVehicleTypeRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 
@@ -136,7 +136,10 @@ export interface APIItem {
   exact_picture?: APIPicture;
   descendants_count: number;
   has_specs?: boolean;
-  alt_names: any[];
+  alt_names: {
+    name: string;
+    languages: string[];
+  }[];
   descendant_twins_groups_count?: number;
   comments_attentions_count?: number;
   mosts_active?: boolean;
@@ -423,7 +426,7 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 export class ItemService {
   constructor(private readonly api: APIService, private readonly itemsClient: ItemsClient) {}
 
-  public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void[]> {
+  public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<null> {
     return this.itemsClient
       .getItemVehicleTypes(
         new APIGetItemVehicleTypesRequest({
@@ -432,19 +435,21 @@ export class ItemService {
       )
       .pipe(
         switchMap((response) => {
-          const promises: Observable<any>[] = [];
+          const promises: Observable<null>[] = [];
 
           const currentIds: string[] = [];
           for (const itemVehicleType of response.items) {
             currentIds.push(itemVehicleType.vehicleTypeId);
             if (ids.indexOf(itemVehicleType.vehicleTypeId) === -1) {
               promises.push(
-                this.itemsClient.deleteItemVehicleType(
-                  new APIItemVehicleTypeRequest({
-                    itemId: itemId.toString(),
-                    vehicleTypeId: itemVehicleType.vehicleTypeId,
-                  })
-                )
+                this.itemsClient
+                  .deleteItemVehicleType(
+                    new APIItemVehicleTypeRequest({
+                      itemId: itemId.toString(),
+                      vehicleTypeId: itemVehicleType.vehicleTypeId,
+                    })
+                  )
+                  .pipe(map(() => null))
               );
             }
           }
@@ -452,12 +457,14 @@ export class ItemService {
           for (const vehicleTypeId of ids) {
             if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
-                this.itemsClient.createItemVehicleType(
-                  new APIItemVehicleType({
-                    itemId: itemId.toString(),
-                    vehicleTypeId,
-                  })
-                )
+                this.itemsClient
+                  .createItemVehicleType(
+                    new APIItemVehicleType({
+                      itemId: itemId.toString(),
+                      vehicleTypeId,
+                    })
+                  )
+                  .pipe(map(() => null))
               );
             }
           }
@@ -466,7 +473,7 @@ export class ItemService {
             promises.push(of(null));
           }
 
-          return forkJoin(promises);
+          return forkJoin(promises).pipe(map(() => null));
         })
       );
   }

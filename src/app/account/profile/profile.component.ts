@@ -26,7 +26,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     language: null,
   };
   protected settingsInvalidParams: InvalidParams = {};
-  protected photoInvalidParams: any = {};
+  protected photoInvalidParams: InvalidParams = {};
   protected votesPerDay: number | null = null;
   protected votesLeft: number | null = null;
   protected photo: APIImage;
@@ -133,8 +133,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected onChange(event: any) {
-    const files = [].slice.call(event.target.files);
+  protected onChange(event: Event) {
+    const files = [].slice.call((event.target as HTMLInputElement).files);
     if (files.length <= 0) {
       return;
     }

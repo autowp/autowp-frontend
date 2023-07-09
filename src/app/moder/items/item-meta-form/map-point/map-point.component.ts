@@ -80,9 +80,9 @@ export class MapPointComponent implements ControlValueAccessor {
     dragging: true,
   };
 
-  private onChange: (Point) => {};
+  private onChange: (_: Point) => void;
 
-  private onTouched = () => {};
+  private onTouched: () => void;
 
   protected disabled = false;
 
@@ -110,11 +110,11 @@ export class MapPointComponent implements ControlValueAccessor {
     this.setMarker(ll);
   }
 
-  registerOnChange(onChange: any): void {
+  registerOnChange(onChange: (_: Point) => void): void {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any): void {
+  registerOnTouched(onTouched: () => void): void {
     this.onTouched = onTouched;
   }
 
@@ -151,7 +151,7 @@ export class MapPointComponent implements ControlValueAccessor {
     });
   }
 
-  protected coordsChanged(event: Event) {
+  protected coordsChanged() {
     const lat = normalizeValue(this.lat);
     const lng = normalizeValue(this.lng);
 

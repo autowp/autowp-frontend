@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ModerRoutingModule} from './moder-routing.module';
-import {ModerGuard} from '../moder.guard';
 import {ModerIndexComponent} from './index/index.component';
 import {ModerPerspectivesComponent} from './perspectives/perspectives.component';
 import {ModerUsersComponent} from './users/users.component';
@@ -61,6 +60,5 @@ import {APICommentsModule} from '../api/comments/comments.module';
     APIPictureModerVoteTemplateModule,
     APICommentsModule,
   ],
-  providers: [ModerGuard],
 })
 export class ModerModule {}

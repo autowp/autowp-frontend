@@ -7,7 +7,6 @@ import {NgPipesModule} from 'ngx-pipes';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {PageNotFoundComponent} from './not-found.component';
-import {AuthGuard} from './auth.guard';
 import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {ACLService, APIACL} from '@services/acl.service';
@@ -55,33 +54,35 @@ import {Router} from '@angular/router';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
-        const res = await keycloak.init({
-          config: environment.keycloak,
-          enableBearerInterceptor: false,
-          loadUserProfileAtStartUp: false,
-          initOptions: {
-            enableLogging: !environment.production,
-            onLoad: 'check-sso',
-            silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-          },
-        });
-
-        keycloak.keycloakEvents$.subscribe({
-          next: (e) => {
-            if (e.type == KeycloakEventType.OnTokenExpired) {
-              keycloak.updateToken().then(
-                () => {},
-                (error) => {
-                  console.error('Failed to refresh token', error);
+        keycloak
+          .init({
+            config: environment.keycloak,
+            enableBearerInterceptor: false,
+            loadUserProfileAtStartUp: false,
+            initOptions: {
+              enableLogging: !environment.production,
+              onLoad: 'check-sso',
+              silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+            },
+          })
+          .then((res) => {
+            keycloak.keycloakEvents$.subscribe({
+              next: (e) => {
+                if (e.type == KeycloakEventType.OnTokenExpired) {
+                  keycloak.updateToken().catch((error) => {
+                    console.error('Failed to refresh token', error);
+                  });
                 }
-              );
-            }
-          },
-        });
+              },
+            });
 
-        resolve(res);
+            resolve(res);
+          })
+          .catch((error) => {
+            reject(error);
+          });
       } catch (error) {
         reject(error);
       }
@@ -89,7 +90,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   };
 }
 
-let providers: Provider[] = [
+const providers: Provider[] = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   {provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor, multi: true},
   {provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor, multi: true},
@@ -102,7 +103,6 @@ let providers: Provider[] = [
   APIService,
   APIACL,
   AuthService,
-  AuthGuard,
   ACLService,
   PictureService,
   ItemService,
@@ -135,6 +135,7 @@ let providers: Provider[] = [
   },
   {
     provide: APP_INITIALIZER,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     useFactory: () => () => {},
     deps: [Sentry.TraceService],
     multi: true,

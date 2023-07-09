@@ -70,7 +70,7 @@ export class UserTextComponent {
   private prepareLine$(line: string): Observable<CommentTextElement[]> {
     const out: Observable<CommentTextElement>[] = [];
 
-    const re = new RegExp(/(https?:\/\/[\w:.,\/?&_=~+%#'!|()-]{3,})|(www.[\w.,\/?&_=~+%#'!|()-]{3,})/i, 'i');
+    const re = new RegExp(/(https?:\/\/[\w:.,/?&_=~+%#'!|()-]{3,})|(www.[\w.,/?&_=~+%#'!|()-]{3,})/i, 'i');
 
     let res = null;
     let umatch: string;
@@ -148,7 +148,7 @@ export class UserTextComponent {
   }
 
   private tryUserLink$(uri: URLParse<string>): Observable<CommentTextElement | null> {
-    const re = new RegExp(/^\/users\/([^\/]+)$/i, 'i');
+    const re = new RegExp(/^\/users\/([^/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
     if (!matches) {
       return of(null);
@@ -196,7 +196,7 @@ export class UserTextComponent {
   }
 
   private tryPictureLink$(uri: URLParse<string>): Observable<CommentTextElement | null> {
-    const re = new RegExp(/\/pictures?\/([^\/]+)$/i, 'i');
+    const re = new RegExp(/\/pictures?\/([^/]+)$/i, 'i');
     const matches = re.exec(uri.pathname);
 
     if (!matches) {

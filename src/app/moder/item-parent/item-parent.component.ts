@@ -9,6 +9,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
 import {getItemTypeTranslation} from '@utils/translations';
 import {HttpErrorResponse} from '@angular/common/http';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-moder-item-parent',
@@ -18,8 +19,12 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   protected item: APIItem;
   protected parent: APIItem;
-  protected itemParent: any;
-  protected languages: any[] = [];
+  protected itemParent: APIItemParent;
+  protected languages: {
+    name: string;
+    language: string;
+    invalidParams: InvalidParams;
+  }[] = [];
   protected readonly typeOptions = [
     {
       value: 0,
@@ -80,7 +85,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
         this.languages = languages.map((language) => ({
           language,
-          name: null,
+          name: null as string,
+          invalidParams: null,
         }));
 
         for (const languageData of itemParentLanguage.items) {
@@ -105,7 +111,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
   protected reloadItemParent() {
     this.api
-      .request('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
+      .request<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
       .subscribe((response) => {
         this.itemParent = response;
       });

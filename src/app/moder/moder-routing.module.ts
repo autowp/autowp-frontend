@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {ModerCommentsComponent} from './comments/comments.component';
-import {ModerGuard} from '../moder.guard';
 import {ModerItemParentComponent} from './item-parent/item-parent.component';
 import {ModerPerspectivesComponent} from './perspectives/perspectives.component';
 import {ModerPictureVoteTemplatesComponent} from './picture-vote-templates/picture-vote-templates.component';
@@ -11,18 +10,19 @@ import {ModerAttrsAttributeComponent} from './attrs/attribute/attribute.componen
 import {ModerAttrsZoneComponent} from './attrs/zone/zone.component';
 import {ModerIndexComponent} from './index/index.component';
 import {ModerAttrsComponent} from './attrs/attrs.component';
+import {moderGuard} from '../moder.guard';
 
 const routes: Routes = [
   {
     path: 'comments',
     component: ModerCommentsComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
     title: $localize`Comments`,
   },
   {
     path: 'item-parent/:item_id/:parent_id',
     component: ModerItemParentComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
   },
   {
     path: 'items',
@@ -31,13 +31,13 @@ const routes: Routes = [
   {
     path: 'perspectives',
     component: ModerPerspectivesComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
     title: $localize`Perspectives`,
   },
   {
     path: 'picture-vote-templates',
     component: ModerPictureVoteTemplatesComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
     title: $localize`Picture vote templates`,
   },
   {
@@ -47,7 +47,7 @@ const routes: Routes = [
   {
     path: 'stat',
     component: ModerStatComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
     title: $localize`Statistics`,
   },
   {
@@ -57,7 +57,7 @@ const routes: Routes = [
   {
     path: 'users',
     component: ModerUsersComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
     title: $localize`Users`,
   },
   {
@@ -67,24 +67,24 @@ const routes: Routes = [
       {
         path: 'attribute/:id',
         component: ModerAttrsAttributeComponent,
-        canActivate: [ModerGuard],
+        canActivate: [moderGuard],
       },
       {
         path: 'zone/:id',
         component: ModerAttrsZoneComponent,
-        canActivate: [ModerGuard],
+        canActivate: [moderGuard],
       },
       {
         path: '',
         component: ModerAttrsComponent,
-        canActivate: [ModerGuard],
+        canActivate: [moderGuard],
       },
     ],
   },
   {
     path: '',
     component: ModerIndexComponent,
-    canActivate: [ModerGuard],
+    canActivate: [moderGuard],
     title: $localize`Moderator page`,
   },
 ];

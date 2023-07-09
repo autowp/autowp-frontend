@@ -164,7 +164,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         }),
         switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location'), {})),
         switchMap((newItem) => {
-          const promises: Observable<any>[] = [
+          const promises: Observable<void>[] = [
             this.api.request<void>('POST', 'item-parent', {
               body: {
                 parent_id: item.id,

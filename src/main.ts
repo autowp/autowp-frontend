@@ -3,12 +3,11 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {AppModule} from './app/app.module';
 import {environment} from '@environment/environment';
 import * as Sentry from '@sentry/angular-ivy';
+import version from './version.json';
 
 if (environment.production) {
   enableProdMode();
 }
-
-const version = require('./version.json');
 
 Sentry.init({
   dsn: environment.sentry.dsn,

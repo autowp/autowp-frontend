@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {AccountAccessComponent} from './access/access.component';
-import {AuthGuard} from '../auth.guard';
+import {authGuard} from '../auth.guard';
 import {AccountAccountsComponent} from './accounts/accounts.component';
 import {AccountContactsComponent} from './contacts/contacts.component';
 import {AccountDeletedComponent} from './delete/deleted/deleted.component';
@@ -22,19 +22,19 @@ const routes: Routes = [
       {
         path: 'access',
         component: AccountAccessComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`Access Control`,
       },
       {
         path: 'accounts',
         component: AccountAccountsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`My accounts`,
       },
       {
         path: 'contacts',
         component: AccountContactsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`Contacts`,
       },
       {
@@ -45,37 +45,37 @@ const routes: Routes = [
           {
             path: '',
             component: AccountDeleteComponent,
-            canActivate: [AuthGuard],
+            canActivate: [authGuard],
           },
         ],
       },
       {
         path: 'email',
         component: AccountEmailComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`My e-mail`,
       },
       {
         path: 'inbox-pictures',
         component: AccountInboxPicturesComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`Unmoderated`,
       },
       {
         path: 'messages',
         component: AccountMessagesComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
       },
       {
         path: 'profile',
         component: AccountProfileComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`Profile`,
       },
       {
         path: 'specs-conflicts',
         component: AccountSpecsConflictsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         title: $localize`Conflicts`,
       },
     ],

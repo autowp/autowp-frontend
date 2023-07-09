@@ -36,7 +36,8 @@ export class VotingComponent {
     })
   );
   protected filter = false;
-  protected selected: {};
+  protected selected: number;
+  protected selectedMulti: {[key: number]: number} = {};
 
   protected readonly CommentsType = CommentsType;
 
@@ -59,12 +60,10 @@ export class VotingComponent {
         ids.push(this.selected as number);
       }
     } else {
-      for (const key in this.selected) {
-        if (this.selected.hasOwnProperty(key)) {
-          const value = this.selected[key];
-          if (value) {
-            ids.push(parseInt(key, 10));
-          }
+      for (const key in this.selectedMulti) {
+        const value = this.selectedMulti[key];
+        if (value) {
+          ids.push(parseInt(key, 10));
         }
       }
     }
@@ -91,12 +90,10 @@ export class VotingComponent {
     }
 
     let count = 0;
-    for (const key in this.selected) {
-      if (this.selected.hasOwnProperty(key)) {
-        const value = this.selected[key];
-        if (value) {
-          count++;
-        }
+    for (const key in this.selectedMulti) {
+      const value = this.selectedMulti[key];
+      if (value) {
+        count++;
       }
     }
     return count > 0;

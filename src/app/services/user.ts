@@ -98,15 +98,15 @@ function convertUsersOptions(options: APIGetUsersOptions): {[param: string]: str
 @Injectable()
 export class UserService {
   private cache: Map<string, APIUser> = new Map<string, APIUser>();
-  private promises = new Map<string, Observable<void>>();
+  private promises = new Map<string, Observable<null>>();
 
   private cache2 = new Map<string, Observable<APIUser2>>();
 
   constructor(private readonly api: APIService, private readonly usersClient: UsersClient) {}
 
-  private queryUsers$(ids: string[]): Observable<any> {
+  private queryUsers$(ids: string[]): Observable<null> {
     const toRequest: string[] = [];
-    const waitFor: Observable<void>[] = [];
+    const waitFor: Observable<null>[] = [];
     for (const id of ids) {
       const oldUser = this.cache.get(id);
       if (oldUser !== undefined) {
@@ -121,7 +121,7 @@ export class UserService {
     }
 
     if (toRequest.length > 0) {
-      const promise$ = this.get$({
+      const promise$: Observable<null> = this.get$({
         id: toRequest,
         limit: toRequest.length,
       }).pipe(
@@ -144,7 +144,7 @@ export class UserService {
       return of(null);
     }
 
-    return forkJoin(waitFor);
+    return forkJoin(waitFor).pipe(map(() => null));
   }
 
   public getUsers$(ids: string[]): Observable<APIUser[]> {

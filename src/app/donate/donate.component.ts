@@ -53,9 +53,7 @@ export class DonateComponent implements OnInit {
 
     const url = new URL('https://yoomoney.ru/quickpay/shop-widget');
     for (const key in map) {
-      if (map.hasOwnProperty(key)) {
-        url.searchParams.append(key, map[key]);
-      }
+      url.searchParams.append(key, map[key]);
     }
 
     this.frameUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());

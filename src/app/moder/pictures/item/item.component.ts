@@ -41,8 +41,14 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   protected banReason: string | null = null;
   private readonly change$ = new BehaviorSubject<null>(null);
   private lastItemSub: Subscription;
-  protected monthOptions: any[];
-  protected dayOptions: any[];
+  protected monthOptions: {
+    value: number;
+    name: string;
+  }[];
+  protected dayOptions: {
+    value: number;
+    name: string;
+  }[];
   protected ip: APIIP;
 
   constructor(

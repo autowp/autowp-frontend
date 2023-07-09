@@ -6,6 +6,7 @@ import {APIImage, APIService} from '@services/api.service';
 import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-moder-items-item-logo',
@@ -16,11 +17,11 @@ export class ModerItemsItemLogoComponent {
 
   protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
   protected progress: {
-    filename: any;
+    filename: string;
     percentage: number;
     success: boolean;
     failed: boolean;
-    invalidParams: any;
+    invalidParams: InvalidParams;
   } = null;
 
   constructor(
@@ -29,14 +30,15 @@ export class ModerItemsItemLogoComponent {
     private readonly toastService: ToastsService
   ) {}
 
-  protected onChange(event: any) {
-    if (event.target.files.length <= 0) {
+  protected onChange(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    if (files.length <= 0) {
       return;
     }
-    const file = event.target.files[0];
+    const file = files[0];
 
     this.progress = {
-      filename: file.fileName || file.name,
+      filename: file.name,
       percentage: 0,
       success: false,
       failed: false,

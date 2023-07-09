@@ -223,11 +223,70 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   protected ownerID: number;
   protected ownerQuery = '';
-  protected ownersDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected readonly ownersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      switchMap((query) => {
+        if (query === '') {
+          return of([]);
+        }
+
+        const params = {
+          limit: 10,
+          id: [],
+          search: '',
+        };
+        if (query.substring(0, 1) === '#') {
+          params.id.push(parseInt(query.substring(1), 10));
+        } else {
+          params.search = query;
+        }
+
+        return this.userService.get$(params).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
+            return EMPTY;
+          }),
+          map((response) => response.items)
+        );
+      })
+    );
 
   protected itemID: number;
   protected itemQuery = '';
-  protected itemsDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      switchMap((query) => {
+        if (query === '') {
+          return of([]);
+        }
+
+        const params: GetItemsServiceOptions = {
+          limit: 10,
+          fields: 'name_text,name_html',
+          id: 0,
+          name: '',
+        };
+        if (query.substring(0, 1) === '#') {
+          params.id = parseInt(query.substring(1), 10);
+        } else {
+          params.name = '%' + query + '%';
+        }
+
+        return this.itemService.getItems$(params).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
+            return EMPTY;
+          }),
+          map((response) => response.items)
+        );
+      })
+    );
 
   protected readonly vehicleTypeOptions$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => this.defaultVehicleTypeOptions.concat(toPlainVehicleTypes(types, 0))),
@@ -358,66 +417,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService
-  ) {
-    this.ownersDataSource = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        switchMap((query) => {
-          if (query === '') {
-            return of([]);
-          }
-
-          const params = {
-            limit: 10,
-            id: [],
-            search: '',
-          };
-          if (query.substring(0, 1) === '#') {
-            params.id.push(parseInt(query.substring(1), 10));
-          } else {
-            params.search = query;
-          }
-
-          return this.userService.get$(params).pipe(
-            catchError((err: unknown) => {
-              this.toastService.handleError(err);
-              return EMPTY;
-            }),
-            map((response) => response.items)
-          );
-        })
-      );
-
-    this.itemsDataSource = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        switchMap((query) => {
-          if (query === '') {
-            return of([]);
-          }
-
-          const params: GetItemsServiceOptions = {
-            limit: 10,
-            fields: 'name_text,name_html',
-            id: 0,
-            name: '',
-          };
-          if (query.substring(0, 1) === '#') {
-            params.id = parseInt(query.substring(1), 10);
-          } else {
-            params.name = '%' + query + '%';
-          }
-
-          return this.itemService.getItems$(params).pipe(
-            catchError((err: unknown) => {
-              this.toastService.handleError(err);
-              return EMPTY;
-            }),
-            map((response) => response.items)
-          );
-        })
-      );
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(

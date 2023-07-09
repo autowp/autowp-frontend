@@ -13,13 +13,14 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
 import {KeycloakService} from 'keycloak-angular';
 import {LanguageService} from '@services/language';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 
 interface UploadProgress {
   filename: string;
   percentage: number;
   success: boolean;
   failed: boolean;
-  invalidParams: any;
+  invalidParams: InvalidParams;
 }
 
 interface APIPictureUpload extends APIPicture {
@@ -36,7 +37,7 @@ const cropTitle = (crop: {left: number | null; top: number | null; width: number
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
-  protected files: any[];
+  protected files: File[];
   protected note: string;
   protected progress: UploadProgress[] = [];
   protected pictures: APIPictureUpload[] = [];
@@ -87,7 +88,7 @@ export class UploadIndexComponent implements OnInit {
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    protected auth: AuthService,
+    protected readonly auth: AuthService,
     private readonly pageEnv: PageEnvService,
     private readonly modalService: NgbModal,
     private readonly toastService: ToastsService,
@@ -106,8 +107,8 @@ export class UploadIndexComponent implements OnInit {
     });
   }
 
-  protected onChange(event: any) {
-    this.files = [].slice.call(event.target.files);
+  protected onChange(event: Event) {
+    this.files = [].slice.call((event.target as HTMLInputElement).files);
   }
 
   protected submit() {
@@ -132,9 +133,9 @@ export class UploadIndexComponent implements OnInit {
     return false;
   }
 
-  private uploadFile$(file: any): Observable<APIPicture> {
+  private uploadFile$(file: File): Observable<APIPicture> {
     const progress = {
-      filename: file.fileName || file.name,
+      filename: file.name,
       percentage: 0,
       success: false,
       failed: false,

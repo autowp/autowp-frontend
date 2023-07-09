@@ -16,9 +16,7 @@ function replaceAll(str: string, find: string, replace: string): string {
 
 function replacePairs(str: string, pairs: {[key: string]: string}): string {
   for (const key in pairs) {
-    if (pairs.hasOwnProperty(key)) {
-      str = replaceAll(str, String(key), pairs[key]);
-    }
+    str = replaceAll(str, String(key), pairs[key]);
   }
   return str;
 }

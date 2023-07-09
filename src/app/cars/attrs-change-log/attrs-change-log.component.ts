@@ -52,7 +52,36 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   );
 
   protected userQuery = '';
-  protected usersDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      switchMap((query) => {
+        if (query === '') {
+          return of([]);
+        }
+
+        const params = {
+          limit: 10,
+          id: [],
+          search: '',
+        };
+        if (query.substring(0, 1) === '#') {
+          params.id.push(parseInt(query.substring(1), 10));
+        } else {
+          params.search = query;
+        }
+
+        return this.userService.get$(params).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
+            return EMPTY;
+          }),
+          map((response) => response.items)
+        );
+      })
+    );
 
   constructor(
     private readonly userService: UserService,
@@ -62,36 +91,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     private readonly acl: ACLService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService
-  ) {
-    this.usersDataSource = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        switchMap((query) => {
-          if (query === '') {
-            return of([]);
-          }
-
-          const params = {
-            limit: 10,
-            id: [],
-            search: '',
-          };
-          if (query.substring(0, 1) === '#') {
-            params.id.push(parseInt(query.substring(1), 10));
-          } else {
-            params.search = query;
-          }
-
-          return this.userService.get$(params).pipe(
-            catchError((err: unknown) => {
-              this.toastService.handleError(err);
-              return EMPTY;
-            }),
-            map((response) => response.items)
-          );
-        })
-      );
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 103}), 0);

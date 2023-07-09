@@ -7,8 +7,7 @@ import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rx
 import {ToastsService} from '../../toasts/toasts.service';
 import {TextClient} from '@grpc/spec.pbsc';
 import {APIGetTextRequest} from '@grpc/spec.pb';
-
-const JsDiff = require('diff');
+import * as JsDiff from 'diff';
 
 interface Diff {
   removed: boolean;

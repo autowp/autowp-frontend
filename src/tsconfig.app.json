@@ -6,7 +6,8 @@
     "module": "esnext",
     "types": [ "node" ],
     "typeRoots": [ "../node_modules/@types" ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "test.ts",

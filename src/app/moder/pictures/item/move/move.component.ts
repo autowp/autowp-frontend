@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {APIPaginator} from '@services/api.service';
 import {BehaviorSubject, combineLatest, Observable, of, Subscription} from 'rxjs';
 import {PictureItemService} from '@services/picture-item';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
 import {chunk} from '../../../../chunk';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
@@ -115,7 +115,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             this.showAuthors = true;
           }
 
-          let museums$: Observable<any> = of(null);
+          let museums$: Observable<APIItemsGetResponse> = of(null);
           if (this.showMuseums) {
             museums$ = this.itemService
               .getItems$({
@@ -132,7 +132,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let factories$: Observable<any> = of(null);
+          let factories$: Observable<APIItemsGetResponse> = of(null);
           if (this.showFactories) {
             factories$ = this.itemService
               .getItems$({
@@ -149,7 +149,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let persons$: Observable<any> = of(null);
+          let persons$: Observable<APIItemsGetResponse> = of(null);
           if (this.showPersons) {
             persons$ = this.searchPerson$.pipe(
               distinctUntilChanged(),
@@ -170,7 +170,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             );
           }
 
-          let authors$: Observable<any> = of(null);
+          let authors$: Observable<APIItemsGetResponse> = of(null);
           if (this.showAuthors) {
             authors$ = this.searchAuthor$.pipe(
               distinctUntilChanged(),
@@ -191,7 +191,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             );
           }
 
-          let copyrights$: Observable<any> = of(null);
+          let copyrights$: Observable<APIItemsGetResponse> = of(null);
           if (this.showCopyrights) {
             copyrights$ = this.itemService
               .getItems$({
@@ -208,8 +208,8 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let brandItems$: Observable<any> = of(null);
-          let brands$: Observable<any> = of(null);
+          let brandItems$: Observable<null> = of(null);
+          let brands$: Observable<null> = of(null);
           if (
             !this.showMuseums &&
             !this.showFactories &&
@@ -248,7 +248,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     page: 1,
                   })
                   .pipe(tap((response) => (this.concepts = response.items))),
-              ]);
+              ]).pipe(map(() => null));
             } else {
               brands$ = this.searchBrand$.pipe(
                 distinctUntilChanged(),
@@ -265,7 +265,8 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 tap((response) => {
                   this.brands = chunk<APIItem>(response.items, 6);
                   this.brandsPaginator = response.paginator;
-                })
+                }),
+                map(() => null)
               );
             }
           }

@@ -15,7 +15,7 @@ export class PictureModerVoteComponent {
   @Output() changed = new EventEmitter();
 
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
-  protected vote: any = null;
+  protected vote: number = null;
   protected reason = '';
   protected save = false;
 
@@ -31,19 +31,6 @@ export class PictureModerVoteComponent {
 
   protected cancelVotePicture(): void {
     this.moderVoteService.cancel$(this.picture.id).subscribe(() => this.changed.emit());
-  }
-
-  protected ok(): void {
-    if (this.save) {
-      this.moderVoteTemplateService
-        .createTemplate$({
-          vote: this.vote,
-          name: this.reason,
-        })
-        .subscribe();
-    }
-
-    this.votePicture(this.vote, this.reason);
   }
 
   protected showCustomDialog(vote: number): void {

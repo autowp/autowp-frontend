@@ -1,16 +1,8 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import {inject} from '@angular/core';
+import {CanActivateFn} from '@angular/router';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 
-@Injectable()
-export class ModerGuard implements CanActivate {
-  constructor(private readonly acl: ACLService) {}
-
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  }
-}
+export const moderGuard: CanActivateFn = () => {
+  const acl = inject(ACLService);
+  return acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+};

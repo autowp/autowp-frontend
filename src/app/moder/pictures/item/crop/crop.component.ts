@@ -23,7 +23,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   protected aspect = '';
   protected resolution = '';
-  private jcrop: any;
+  private jcrop: Jcrop;
   private currentCrop: Crop = {
     w: 0,
     h: 0,

@@ -138,7 +138,7 @@ export class GalleryComponent {
       const currentItem = gallery.getItemByIndex(index);
       this.pictureSelected.emit(currentItem);
     }),
-    map(({gallery, identity}) => gallery),
+    map(({gallery}) => gallery),
     shareReplay(1)
   );
 

@@ -41,7 +41,7 @@ export class ModerItemsItemLinksComponent {
   ) {}
 
   protected saveLinks(itemId: number, links: APIItemLink[]) {
-    const promises: Observable<any>[] = [];
+    const promises: Observable<null>[] = [];
 
     if (this.newLink.url) {
       promises.push(
@@ -65,7 +65,8 @@ export class ModerItemsItemLinksComponent {
                 this.newLink.url = '';
                 this.newLink.type = 'default';
               }
-            })
+            }),
+            map(() => null)
           )
       );
     }
@@ -87,11 +88,14 @@ export class ModerItemsItemLinksComponent {
               catchError((response: unknown) => {
                 this.toastService.handleError(response);
                 return of(null);
-              })
+              }),
+              map(() => null)
             )
         );
       } else {
-        promises.push(this.itemsClient.deleteItemLink(new APIItemLinkRequest({id: '' + link.id})));
+        promises.push(
+          this.itemsClient.deleteItemLink(new APIItemLinkRequest({id: '' + link.id})).pipe(map(() => null))
+        );
       }
     }
 

@@ -1,34 +1,25 @@
-import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import {inject} from '@angular/core';
+import {CanActivateFn} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {map} from 'rxjs/operators';
 import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
 
-@Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly languageService: LanguageService,
-    private readonly keycloak: KeycloakService
-  ) {}
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const keycloak = inject(KeycloakService);
+  const language = inject(LanguageService);
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.authService.getUser$().pipe(
-      map((user) => {
-        if (!user) {
-          this.keycloak.login({
-            redirectUri: window.location.href,
-            locale: this.languageService.language,
-          });
-          return false;
-        }
-        return true;
-      })
-    );
-  }
-}
+  return auth.getUser$().pipe(
+    map((user) => {
+      if (!user) {
+        keycloak.login({
+          redirectUri: window.location.href,
+          locale: language.language,
+        });
+        return false;
+      }
+      return true;
+    })
+  );
+};

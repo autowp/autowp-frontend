@@ -21,7 +21,7 @@ export interface APIChartDataset {
 
 export interface APIChartData {
   datasets: APIChartDataset[];
-  years: any[];
+  years: number[];
 }
 
 @Component({

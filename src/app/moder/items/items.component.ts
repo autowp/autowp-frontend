@@ -38,7 +38,7 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
   return result;
 }
 
-function toPlainSpec(options: APISpecInItems[], deep: number): any[] {
+function toPlainSpec(options: APISpecInItems[], deep: number): APISpecInItems[] {
   const result: APISpecInItems[] = [];
   for (const item of options) {
     item.deep = deep;
@@ -91,7 +91,35 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected ancestorID: number;
   protected ancestorQuery = '';
-  protected ancestorsDataSource: (text$: Observable<string>) => Observable<any[]>;
+  protected ancestorsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      switchMap((query) => {
+        if (query === '') {
+          return of([]);
+        }
+
+        const params: GetItemsServiceOptions = {
+          limit: 10,
+          fields: 'name_text,name_html',
+          id: 0,
+          name: '',
+        };
+        if (query.substring(0, 1) === '#') {
+          params.id = parseInt(query.substring(1), 10);
+        } else {
+          params.name = '%' + query + '%';
+        }
+
+        return this.itemService.getItems$(params).pipe(
+          catchError((err: unknown) => {
+            this.toastService.handleError(err);
+            return EMPTY;
+          }),
+          map((response) => response.items)
+        );
+      })
+    );
 
   protected listMode: boolean;
 
@@ -103,37 +131,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService
-  ) {
-    this.ancestorsDataSource = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        switchMap((query) => {
-          if (query === '') {
-            return of([]);
-          }
-
-          const params: GetItemsServiceOptions = {
-            limit: 10,
-            fields: 'name_text,name_html',
-            id: 0,
-            name: '',
-          };
-          if (query.substring(0, 1) === '#') {
-            params.id = parseInt(query.substring(1), 10);
-          } else {
-            params.name = '%' + query + '%';
-          }
-
-          return this.itemService.getItems$(params).pipe(
-            catchError((err: unknown) => {
-              this.toastService.handleError(err);
-              return EMPTY;
-            }),
-            map((response) => response.items)
-          );
-        })
-      );
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(

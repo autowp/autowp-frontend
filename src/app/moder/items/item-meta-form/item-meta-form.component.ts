@@ -383,7 +383,7 @@ export class ItemMetaFormComponent {
     if (target.checked) {
       ctrl.push(new FormControl<string>(target.value));
     } else {
-      let i: number = 0;
+      let i = 0;
       ctrl.controls.forEach((item) => {
         if (item.value == target.value) {
           ctrl.removeAt(i);
@@ -399,7 +399,7 @@ export class ItemMetaFormComponent {
     if (e.selected) {
       ctrl.push(new FormControl<number>(e.pictureItem.picture_id));
     } else {
-      let i: number = 0;
+      let i = 0;
       ctrl.controls.forEach((item) => {
         if (item.value == e.pictureItem.picture_id) {
           ctrl.removeAt(i);

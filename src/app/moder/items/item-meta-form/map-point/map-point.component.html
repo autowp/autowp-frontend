@@ -3,7 +3,7 @@
   placeholder="Latitude"
   i18n-placeholder
   class="form-control"
-  (input)="coordsChanged($event)"
+  (input)="coordsChanged()"
   [(ngModel)]="lat"
   [disabled]="disabled"
 />
@@ -13,7 +13,7 @@
   placeholder="Longitude"
   i18n-placeholder
   class="form-control"
-  (input)="coordsChanged($event)"
+  (input)="coordsChanged()"
   [(ngModel)]="lng"
   [disabled]="disabled"
 />

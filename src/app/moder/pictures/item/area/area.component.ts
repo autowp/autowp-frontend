@@ -26,7 +26,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   protected aspect = '';
   protected resolution = '';
-  private jcrop: any;
+  private jcrop: Jcrop;
   private currentCrop: Crop = {
     w: 0,
     h: 0,
