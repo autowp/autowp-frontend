@@ -156,8 +156,7 @@
                   <span *ngIf="value.value_text !== null" [textContent]="value.value_text"></span>
                   <app-user [user]="value.user" *ngIf="value.user"></app-user>
                   <span class="date" *ngIf="value.update_date"
-                    >[
-                    <span
+                    >[<span
                       [textContent]="value.update_date | timeAgo"
                       [ngbTooltip]="value.update_date | date : 'medium'"
                     ></span

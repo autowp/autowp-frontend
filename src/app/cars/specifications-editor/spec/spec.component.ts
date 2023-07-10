@@ -169,19 +169,22 @@ export class CarsSpecificationsEditorSpecComponent {
       }
 
       for (const attr of attributes) {
-        currentUserValues[attr.id] = {
-          item_id: item.id,
-          user_id: +user.id,
-          attribute_id: attr.id,
-          value: null,
-          empty: false,
-          value_text: '',
-          user: null,
-          update_date: null,
-          item: null,
-          unit: null,
-          path: null,
-        };
+        const attrId = +attr.id;
+        if (!currentUserValues[attrId]) {
+          currentUserValues[attrId] = {
+            item_id: item.id,
+            user_id: +user.id,
+            attribute_id: attrId,
+            value: null,
+            empty: false,
+            value_text: '',
+            user: null,
+            update_date: null,
+            item: null,
+            unit: null,
+            path: null,
+          };
+        }
       }
 
       return currentUserValues;
@@ -240,8 +243,8 @@ export class CarsSpecificationsEditorSpecComponent {
         item_id: item.id,
         attribute_id: attributeID,
         user_id: user.id,
-        value: currentUserValues[attributeID].value,
-        empty: currentUserValues[attributeID].empty,
+        value: currentUserValues[+attributeID].value,
+        empty: currentUserValues[+attributeID].empty,
       });
     }
 
