@@ -17,7 +17,7 @@
 <ng-container *ngIf="inbox$ | async as data; else loading">
   <div class="row">
     <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4 mb-4">
-      <select name="brand_id" [(ngModel)]="brandID" class="form-control" (change)="changeBrand()">
+      <select name="brand_id" [(ngModel)]="brandID" class="form-select" (change)="changeBrand()">
         <option [ngValue]="0" i18n>All brands</option>
         <option *ngFor="let brand of data.inbox.brands" [textContent]="brand.name" [ngValue]="brand.id"></option>
       </select>

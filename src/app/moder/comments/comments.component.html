@@ -48,7 +48,7 @@
         <label i18n>Moderator attention</label>
         <select
           name="moderator_attention"
-          class="form-control"
+          class="form-select"
           [(ngModel)]="moderatorAttention"
           (change)="setModeratorAttention()"
           [class.border-primary]="moderatorAttention !== ModeratorAttention.NONE"

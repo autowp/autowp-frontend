@@ -89,7 +89,7 @@
           "
           name="spec_id"
           style="width: 30%"
-          class="form-control"
+          class="form-select"
           formControlName="spec_id"
         >
           <option *ngFor="let spec of specs$ | async" [ngValue]="spec.id">
@@ -150,7 +150,7 @@
           </div>
           <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.controls.begin_year_fraction as beginYearFraction">
             <select
-              class="form-control"
+              class="form-select"
               [class.is-invalid]="
                 (beginYearFraction.invalid && (beginYearFraction.dirty || beginYearFraction.touched)) ||
                 (invalidParams && invalidParams.begin_model_year_fraction)
@@ -180,7 +180,7 @@
           </div>
           <div class="col-md-1 col-sm-2 mb-0" *ngIf="modelYears.controls.end_year as endYearFraction">
             <select
-              class="form-control"
+              class="form-select"
               [class.is-invalid]="
                 (endYearFraction.invalid && (endYearFraction.dirty || endYearFraction.touched)) ||
                 (invalidParams && invalidParams.end_model_year_fraction)
@@ -234,7 +234,7 @@
               "
               title="month"
               i18n-title
-              class="form-control"
+              class="form-select"
               formControlName="month"
             >
               <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
@@ -279,7 +279,7 @@
               "
               title="month"
               i18n-title
-              class="form-control"
+              class="form-select"
               formControlName="month"
             >
               <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
@@ -294,7 +294,7 @@
               formControlName="today"
               title="today"
               i18n-title
-              class="form-control"
+              class="form-select"
             >
               <option *ngFor="let option of todayOptions" [ngValue]="option.value">{{ option.name }}</option>
             </select>
@@ -343,7 +343,7 @@
                 (exactly.invalid && (exactly.dirty || exactly.touched)) ||
                 (invalidParams && invalidParams.produced_exactly)
               "
-              class="form-control"
+              class="form-select"
               formControlName="exactly"
             >
               <option *ngFor="let option of producedOptions" [ngValue]="option.value">{{ option.name }}</option>
@@ -371,7 +371,7 @@
             (isConcept.invalid && (isConcept.dirty || isConcept.touched)) || (invalidParams && invalidParams.is_concept)
           "
           style="width: 20%"
-          class="form-control"
+          class="form-select"
           formControlName="is_concept"
         >
           <option *ngFor="let option of isConceptOptions$ | async" [ngValue]="option.value">{{ option.name }}</option>

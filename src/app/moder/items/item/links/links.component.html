@@ -25,7 +25,7 @@
               <input type="text" name="url{{ i }}" [(ngModel)]="link.url" class="form-control" />
             </td>
             <td>
-              <select name="type{{ i }}" [(ngModel)]="link.type" class="form-control">
+              <select name="type{{ i }}" [(ngModel)]="link.type" class="form-select">
                 <option value="default" i18n>interest link</option>
                 <option value="official" i18n>official</option>
                 <option value="club" i18n>club</option>
@@ -40,7 +40,7 @@
               <input type="text" name="url" [(ngModel)]="newLink.url" class="form-control" />
             </td>
             <td>
-              <select name="type" [(ngModel)]="newLink.type" class="form-control">
+              <select name="type" [(ngModel)]="newLink.type" class="form-select">
                 <option value="default" i18n>interest link</option>
                 <option value="official" i18n>official</option>
                 <option value="club" i18n>club</option>

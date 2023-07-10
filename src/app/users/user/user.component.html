@@ -203,7 +203,7 @@
             <form class="form-vertical" *ngIf="ip && !ip.blacklist && ip.rights.addToBlacklist">
               <div class="mb-3">
                 <label i18n>For period</label>
-                <select [(ngModel)]="banPeriod" name="period" class="form-control" required>
+                <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
                   <option *ngFor="let period of banPeriods" [value]="period.value">{{ period.name }}</option>
                 </select>
               </div>

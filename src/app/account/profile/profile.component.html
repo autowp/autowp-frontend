@@ -43,7 +43,7 @@
         <select
           name="language"
           id="language"
-          class="form-control"
+          class="form-select"
           [class.is-invalid]="settingsInvalidParams.language"
           [(ngModel)]="settings.language"
         >
@@ -62,7 +62,7 @@
         <select
           name="timezone"
           id="timezone"
-          class="form-control"
+          class="form-select"
           [(ngModel)]="settings.timezone"
           [class.is-invalid]="settingsInvalidParams.timezone"
         >

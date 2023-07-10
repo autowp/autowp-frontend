@@ -39,7 +39,7 @@
   <div class="mb-3 row">
     <label class="col-md-2 col-form-label" for="type">Type</label>
     <div class="col-md-10">
-      <select name="type_id" class="form-control" [(ngModel)]="itemParent.type_id">
+      <select name="type_id" class="form-select" [(ngModel)]="itemParent.type_id">
         <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.name }}</option>
       </select>
     </div>
