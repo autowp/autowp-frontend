@@ -1,22 +1,24 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {PictureComponent} from './picture.component';
-import {PicturePaginatorComponent} from './paginator.component';
+import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {UserModule} from '../user/user.module';
-import {NgbTooltipModule, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgPipesModule} from 'ngx-pipes';
+import {NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {UtilsModule} from '@utils/utils.module';
-import {ShareModule} from '../share/share.module';
-import {PictureModerVoteModule} from '../picture-moder-vote/picture-moder-vote.module';
-import {PicturePageComponent} from './picture-page.component';
+import {NgPipesModule} from 'ngx-pipes';
+
 import {CommentsModule} from '../comments/comments.module';
-import {PictureRoutingModule} from './picture-routing.module';
 import {GalleryModule} from '../gallery/gallery.module';
 import {PicturesModule} from '../moder/pictures/pictures.module';
+import {PictureModerVoteModule} from '../picture-moder-vote/picture-moder-vote.module';
+import {ShareModule} from '../share/share.module';
+import {UserModule} from '../user/user.module';
+import {PicturePaginatorComponent} from './paginator.component';
+import {PictureComponent} from './picture.component';
+import {PicturePageComponent} from './picture-page.component';
+import {PictureRoutingModule} from './picture-routing.module';
 
 @NgModule({
   declarations: [PictureComponent, PicturePaginatorComponent, PicturePageComponent],
+  exports: [PictureComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -33,6 +35,5 @@ import {PicturesModule} from '../moder/pictures/pictures.module';
     PicturesModule,
     NgbProgressbarModule,
   ],
-  exports: [PictureComponent],
 })
 export class PictureModule {}

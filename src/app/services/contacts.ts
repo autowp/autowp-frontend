@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Observable, throwError, of} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
-import {AuthService} from './auth.service';
-import {ContactsClient} from '@grpc/spec.pbsc';
 import {ContactItems, GetContactRequest, GetContactsRequest} from '@grpc/spec.pb';
+import {ContactsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {Observable, of, throwError} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+
+import {AuthService} from './auth.service';
 
 export interface APIContactsGetOptions {
   fields: string[];

@@ -1,14 +1,15 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
+import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
-import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
-import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
+import {APIItem, ItemService} from '@services/item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, EMPTY, Observable, forkJoin, of} from 'rxjs';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+
+import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
 
 @Component({
   selector: 'app-moder-items-item-meta',
@@ -52,27 +53,27 @@ export class ModerItemsItemMetaComponent {
     this.loadingNumber++;
 
     const data = {
-      name: event.name,
-      full_name: event.full_name,
-      catname: event.catname,
-      body: event.body,
-      spec_id: event.spec_id,
       begin_model_year: event.model_years?.begin_year,
       begin_model_year_fraction: event.model_years?.begin_year_fraction,
+      begin_month: event.begin?.month,
+      begin_year: event.begin?.year,
+      body: event.body,
+      catname: event.catname,
       end_model_year: event.model_years?.end_year,
       end_model_year_fraction: event.model_years?.end_year_fraction,
-      begin_year: event.begin?.year,
-      begin_month: event.begin?.month,
-      end_year: event.end?.year,
       end_month: event.end?.month,
-      today: event.end?.today,
-      produced: event.produced?.count,
-      produced_exactly: event.produced?.exactly,
+      end_year: event.end?.year,
+      full_name: event.full_name,
       is_concept: event.is_concept === 'inherited' ? false : event.is_concept,
       is_concept_inherit: event.is_concept === 'inherited',
       is_group: event.is_group,
       lat: event.point?.lat,
       lng: event.point?.lng,
+      name: event.name,
+      produced: event.produced?.count,
+      produced_exactly: event.produced?.exactly,
+      spec_id: event.spec_id,
+      today: event.end?.today,
     };
 
     const pipes: Observable<void>[] = [
@@ -86,7 +87,7 @@ export class ModerItemsItemMetaComponent {
         tap(() => (this.invalidParams = {}))
       ),
     ];
-    if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
+    if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {
       pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));
     }
 

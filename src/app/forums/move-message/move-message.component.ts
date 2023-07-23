@@ -1,11 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EMPTY, Observable, of} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '@utils/translations';
-import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
 import {
   APIForumsTheme,
   APIForumsTopic,
@@ -15,6 +9,13 @@ import {
   CommentsType,
   GetMessagePageRequest,
 } from '@grpc/spec.pb';
+import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
+import {getForumsThemeTranslation} from '@utils/translations';
+import {EMPTY, Observable, of} from 'rxjs';
+import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
@@ -85,13 +86,13 @@ export class ForumsMoveMessageComponent implements OnInit {
         )
       )
       .subscribe({
+        error: (subresponse: unknown) => this.toastService.handleError(subresponse),
         next: (params) =>
           this.router.navigate(['/forums/topic', params.itemId], {
             queryParams: {
               page: params.page,
             },
           }),
-        error: (subresponse: unknown) => this.toastService.handleError(subresponse),
       });
   }
 

@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {EMPTY, Subscription} from 'rxjs';
-import {distinctUntilChanged, switchMap, map, catchError, tap} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {GetMessagePageRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
+import {EMPTY, Subscription} from 'rxjs';
+import {catchError, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
@@ -35,10 +36,10 @@ export class MessageComponent implements OnInit, OnDestroy {
         }),
         tap((message) => {
           this.router.navigate(['/forums/topic', message.itemId], {
-            replaceUrl: true,
             queryParams: {
               page: message.page,
             },
+            replaceUrl: true,
           });
         })
       )

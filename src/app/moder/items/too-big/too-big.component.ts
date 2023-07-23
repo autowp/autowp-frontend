@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem} from '@services/item';
+import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 
 @Component({
@@ -16,8 +16,8 @@ export class ModerItemsTooBigComponent implements OnInit {
     setTimeout(
       () =>
         this.pageEnv.set({
-          pageId: 131,
           layout: {isAdminPage: true},
+          pageId: 131,
         }),
       0
     );
@@ -26,16 +26,16 @@ export class ModerItemsTooBigComponent implements OnInit {
 
     this.itemService
       .getItems$({
-        order: 'childs_count',
-        limit: 100,
         fields: 'childs_count,name_html',
+        limit: 100,
+        order: 'childs_count',
       })
       .subscribe({
-        next: (response) => {
-          this.items = response.items;
+        error: () => {
           this.loading = false;
         },
-        error: () => {
+        next: (response) => {
+          this.items = response.items;
           this.loading = false;
         },
       });

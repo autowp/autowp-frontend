@@ -4,8 +4,8 @@ import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-twins-item',
-  templateUrl: './item.component.html',
   styleUrls: ['./styles.scss'],
+  templateUrl: './item.component.html',
 })
 export class TwinsItemComponent {
   @Input() item: APIItem;

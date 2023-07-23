@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {VehicleType} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {map, shareReplay} from 'rxjs/operators';
-import {VehicleType} from '@grpc/spec.pb';
 
 const translateNames = (types: VehicleType[]): VehicleType[] => {
   types.forEach((type) => {

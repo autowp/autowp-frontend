@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
-import {CommentsClient} from '@grpc/spec.pbsc';
 import {GetMessagesRequest, ModeratorAttention} from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {Observable, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,8 @@ export class APICommentsService {
         return this.commentsClient
           .getMessages(
             new GetMessagesRequest({
-              moderatorAttention: ModeratorAttention.REQUIRED,
               limit: 0,
+              moderatorAttention: ModeratorAttention.REQUIRED,
             })
           )
           .pipe(map((response) => response.paginator.totalItemCount));

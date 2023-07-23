@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {PulseComponent} from './pulse.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: PulseComponent, title: $localize`Pulse`}];
+const routes: Routes = [{component: PulseComponent, path: '', pathMatch: 'full', title: $localize`Pulse`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class PulseRoutingModule {}

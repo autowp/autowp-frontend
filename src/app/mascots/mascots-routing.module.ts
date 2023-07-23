@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {MascotsComponent} from './mascots.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: MascotsComponent, title: $localize`Mascots`}];
+const routes: Routes = [{component: MascotsComponent, path: '', pathMatch: 'full', title: $localize`Mascots`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class MascotsRoutingModule {}

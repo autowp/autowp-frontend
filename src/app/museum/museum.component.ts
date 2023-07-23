@@ -1,15 +1,16 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {of, EMPTY, Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {tileLayer, latLng, marker, icon} from 'leaflet';
-import {distinctUntilChanged, debounceTime, switchMap, catchError, tap, map, shareReplay} from 'rxjs/operators';
-import {ToastsService} from '../toasts/toasts.service';
 import {APIGetItemLinksRequest, CommentsType, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {PictureService} from '@services/picture';
+import {icon, latLng, marker, tileLayer} from 'leaflet';
+import {EMPTY, Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-museum',
@@ -36,11 +37,11 @@ export class MuseumComponent {
   protected readonly pictures$ = this.itemID$.pipe(
     switchMap((itemID) =>
       this.pictureService.getPictures$({
-        status: 'accepted',
         exact_item_id: itemID,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 20,
         order: 12,
+        status: 'accepted',
       })
     ),
     catchError((err: unknown) => {
@@ -73,8 +74,8 @@ export class MuseumComponent {
     }),
     tap((item) => {
       this.pageEnv.set({
-        title: item.name_text,
         pageId: 159,
+        title: item.name_text,
       });
     }),
     shareReplay(1)
@@ -91,21 +92,21 @@ export class MuseumComponent {
         markers: [
           marker(center, {
             icon: icon({
-              iconSize: [25, 41],
               iconAnchor: [13, 41],
+              iconSize: [25, 41],
               iconUrl: 'assets/marker-icon.png',
               shadowUrl: 'assets/marker-shadow.png',
             }),
           }),
         ],
         options: {
+          center,
           layers: [
             tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
               maxZoom: 18,
             }),
           ],
           zoom: 17,
-          center,
         },
       };
     })

@@ -1,17 +1,18 @@
 import {Component} from '@angular/core';
-import {UserService} from '@services/user';
-import {Router, ActivatedRoute} from '@angular/router';
-import {combineLatest, EMPTY} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, debounceTime, catchError, tap, map, shareReplay} from 'rxjs/operators';
-import {ToastsService} from '../../../toasts/toasts.service';
-import {CommentsClient} from '@grpc/spec.pbsc';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
+import {UserService} from '@services/user';
+import {EMPTY, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 interface Order {
+  apiValue: GetMessagesRequest.Order;
   name: string;
   value: string;
-  apiValue: GetMessagesRequest.Order;
 }
 
 @Component({
@@ -63,15 +64,15 @@ export class UsersUserCommentsComponent {
     switchMap(([user, page, order]) =>
       this.commentsClient.getMessages(
         new GetMessagesRequest({
-          userId: user.id + '',
-          page: page,
-          limit: 30,
-          order: this.getOrderApiValue(order),
           fields: new CommentMessageFields({
             preview: true,
             route: true,
             vote: true,
           }),
+          limit: 30,
+          order: this.getOrderApiValue(order),
+          page: page,
+          userId: user.id + '',
         })
       )
     ),
@@ -82,10 +83,10 @@ export class UsersUserCommentsComponent {
   );
 
   protected readonly orders: Order[] = [
-    {value: 'date_desc', name: $localize`New`, apiValue: GetMessagesRequest.Order.DATE_DESC},
-    {value: 'date_asc', name: $localize`Old`, apiValue: GetMessagesRequest.Order.DATE_ASC},
-    {value: 'vote_desc', name: $localize`Positive`, apiValue: GetMessagesRequest.Order.VOTE_DESC},
-    {value: 'vote_asc', name: $localize`Negative`, apiValue: GetMessagesRequest.Order.VOTE_ASC},
+    {apiValue: GetMessagesRequest.Order.DATE_DESC, name: $localize`New`, value: 'date_desc'},
+    {apiValue: GetMessagesRequest.Order.DATE_ASC, name: $localize`Old`, value: 'date_asc'},
+    {apiValue: GetMessagesRequest.Order.VOTE_DESC, name: $localize`Positive`, value: 'vote_desc'},
+    {apiValue: GetMessagesRequest.Order.VOTE_ASC, name: $localize`Negative`, value: 'vote_asc'},
   ];
 
   constructor(

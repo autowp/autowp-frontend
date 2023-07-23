@@ -1,13 +1,14 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '@services/api.service';
-import {APIItem, ItemService, APIItemsGetResponse} from '@services/item';
-import {chunk} from '../../../chunk';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Subscription, combineLatest, of} from 'rxjs';
-import {ItemParentService, APIItemParent, APIItemParentGetResponse} from '@services/item-parent';
-import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, switchMap, finalize, map} from 'rxjs/operators';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
+import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
+import {Subscription, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, finalize, map, switchMap} from 'rxjs/operators';
+
+import {chunk} from '../../../chunk';
 
 @Component({
   selector: 'app-donate-vod-select',
@@ -38,9 +39,9 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   protected selectItem(itemID: number) {
     this.router.navigate(['/donate/vod'], {
       queryParams: {
-        item_id: itemID,
-        date: this.date,
         anonymous: this.anonymous ? 1 : null,
+        date: this.date,
+        item_id: itemID,
       },
     });
   }
@@ -51,10 +52,10 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
     this.querySub = this.route.queryParamMap
       .pipe(
         map((params) => ({
-          page: parseInt(params.get('page'), 10),
-          date: params.get('date'),
-          brand_id: parseInt(params.get('brand_id'), 10),
           anonymous: !!params.get('anonymous'),
+          brand_id: parseInt(params.get('brand_id'), 10),
+          date: params.get('date'),
+          page: parseInt(params.get('page'), 10),
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
@@ -70,10 +71,10 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
             (brandID
               ? of(null as APIItemsGetResponse)
               : this.itemService.getItems$({
-                  type_id: ItemType.ITEM_TYPE_BRAND,
-                  limit: 500,
                   fields: 'name_only',
+                  limit: 500,
                   page: this.page,
+                  type_id: ItemType.ITEM_TYPE_BRAND,
                 })
             ).pipe(
               finalize(() => {
@@ -85,28 +86,28 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                   switchMap((brand) =>
                     combineLatest([
                       this.itemParentService.getItems$({
-                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-                        parent_id: brand.id,
                         fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                         limit: 500,
                         page: 1,
+                        parent_id: brand.id,
                       }),
                       this.itemParentService.getItems$({
-                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-                        concept: true,
                         ancestor_id: brand.id,
+                        concept: true,
                         fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                         limit: 500,
                         page: 1,
                       }),
-                    ]).pipe(map(([vehicles, concepts]) => ({brand, vehicles, concepts})))
+                    ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles})))
                   )
                 )
               : of(
                   null as {
                     brand: APIItem;
-                    vehicles: APIItemParentGetResponse;
                     concepts: APIItemParentGetResponse;
+                    vehicles: APIItemParentGetResponse;
                   }
                 )
             ).pipe(

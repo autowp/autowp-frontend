@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MessageService} from '@services/message';
+
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class ModalMessageComponent {
     this.sent = false;
 
     this.messageService.send$(this.userId, this.text).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.sending = false;
         this.sent = true;
@@ -34,7 +36,6 @@ export class ModalMessageComponent {
 
         this.toastService.success('Ok');
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

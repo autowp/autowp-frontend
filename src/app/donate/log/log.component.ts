@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService, APIUser} from '@services/user';
 import {PageEnvService} from '@services/page-env.service';
+import {APIUser, UserService} from '@services/user';
 
 interface LogItem {
-  sum: number;
   currency: string;
   date: string;
-  user_id: number;
+  sum: number;
   user?: APIUser;
+  user_id: number;
 }
 
 @Component({

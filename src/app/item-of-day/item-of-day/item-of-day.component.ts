@@ -1,13 +1,13 @@
 import {Component, Input} from '@angular/core';
-import {APIItemOfDayPicture, ItemOfDayItem} from '@services/item';
 import {APIUser} from '@grpc/spec.pb';
+import {APIItemOfDayPicture, ItemOfDayItem} from '@services/item';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-item-of-day',
-  templateUrl: './item-of-day.component.html',
   styleUrls: ['./item-of-day.component.scss'],
+  templateUrl: './item-of-day.component.html',
 })
 export class ItemOfDayComponent {
   private _item$: Observable<ItemOfDayItem>;

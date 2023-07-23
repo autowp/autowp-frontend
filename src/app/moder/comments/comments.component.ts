@@ -1,22 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, GetItemsServiceOptions, APIItem} from '@services/item';
-import {UserService, APIUser} from '@services/user';
-import {Observable, of, EMPTY, combineLatest} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {switchMap, debounceTime, catchError, map, distinctUntilChanged} from 'rxjs/operators';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {ToastsService} from '../../toasts/toasts.service';
-import {CommentsClient} from '@grpc/spec.pbsc';
 import {
   APICommentsMessage,
+  APIUser as APIUser2,
   CommentMessageFields,
   GetMessagesRequest,
+  ModeratorAttention,
   Pages,
   PictureStatus,
-  APIUser as APIUser2,
-  ModeratorAttention,
 } from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {APIItem, GetItemsServiceOptions, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIUser, UserService} from '@services/user';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-comments',
@@ -38,9 +39,9 @@ export class ModerCommentsComponent implements OnInit {
         }
 
         const params: GetItemsServiceOptions = {
-          limit: 10,
           fields: 'name_text,name_html',
           id: 0,
+          limit: 10,
           name: '',
         };
         if (query.substring(0, 1) === '#') {
@@ -72,8 +73,8 @@ export class ModerCommentsComponent implements OnInit {
         }
 
         const params = {
-          limit: 10,
           id: [],
+          limit: 10,
           search: '',
         };
         if (query.substring(0, 1) === '#') {
@@ -130,18 +131,18 @@ export class ModerCommentsComponent implements OnInit {
 
       return this.commentsClient.getMessages(
         new GetMessagesRequest({
-          userId: this.userID,
-          moderatorAttention: this.moderatorAttention,
-          picturesOfItemId: this.itemID,
-          page,
-          order: GetMessagesRequest.Order.DATE_DESC,
-          limit: 30,
           fields: new CommentMessageFields({
-            preview: true,
             isNew: true,
-            status: true,
+            preview: true,
             route: true,
+            status: true,
           }),
+          limit: 30,
+          moderatorAttention: this.moderatorAttention,
+          order: GetMessagesRequest.Order.DATE_DESC,
+          page,
+          picturesOfItemId: this.itemID,
+          userId: this.userID,
         })
       );
     }),
@@ -185,8 +186,8 @@ export class ModerCommentsComponent implements OnInit {
   protected setModeratorAttention() {
     this.router.navigate([], {
       queryParams: {
-        page: null,
         moderator_attention: this.moderatorAttention,
+        page: null,
       },
       queryParamsHandling: 'merge',
     });
@@ -198,20 +199,20 @@ export class ModerCommentsComponent implements OnInit {
 
   protected itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         pictures_of_item_id: e.item.id,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected clearItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         pictures_of_item_id: null,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -221,20 +222,20 @@ export class ModerCommentsComponent implements OnInit {
 
   protected userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         user_id: e.item.id,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected clearUser(): void {
     this.userQuery = '';
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         user_id: null,
       },
+      queryParamsHandling: 'merge',
     });
   }
 }

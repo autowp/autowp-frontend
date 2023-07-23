@@ -1,20 +1,20 @@
 import {Component, OnInit} from '@angular/core';
+import {
+  APITrafficTopItem,
+  AddToTrafficBlacklistRequest,
+  AddToTrafficWhitelistRequest,
+  DeleteFromTrafficBlacklistRequest,
+} from '@grpc/spec.pb';
+import {TrafficClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {IpService} from '@services/ip';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {TrafficClient} from '@grpc/spec.pbsc';
-import {Empty} from '@ngx-grpc/well-known-types';
-import {
-  AddToTrafficBlacklistRequest,
-  AddToTrafficWhitelistRequest,
-  APITrafficTopItem,
-  DeleteFromTrafficBlacklistRequest,
-} from '@grpc/spec.pb';
 
 interface ListItem {
-  item: APITrafficTopItem;
   hostname$: Observable<string>;
+  item: APITrafficTopItem;
 }
 
 @Component({
@@ -28,8 +28,8 @@ export class ModerTrafficComponent implements OnInit {
     switchMap(() => this.trafficGrpc.getTop(new Empty())),
     map((response) =>
       response.items.map((item) => ({
-        item,
         hostname$: this.ipService.getHostByAddr$(item.ip),
+        item,
       }))
     )
   );

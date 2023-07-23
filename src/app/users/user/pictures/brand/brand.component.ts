@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
-import {UserService} from '@services/user';
-import {Router, ActivatedRoute} from '@angular/router';
-import {combineLatest, EMPTY, of} from 'rxjs';
-import {PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, switchMap, tap, map, catchError, shareReplay} from 'rxjs/operators';
-import {ToastsService} from '../../../../toasts/toasts.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {PictureService} from '@services/picture';
+import {UserService} from '@services/user';
+import {EMPTY, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-users-user-pictures-brand',
@@ -38,10 +39,10 @@ export class UsersUserPicturesBrandComponent {
     switchMap((brandCatname) =>
       this.itemService
         .getItems$({
-          type_id: ItemType.ITEM_TYPE_BRAND,
-          limit: 1,
           catname: brandCatname,
           fields: 'name_only,catname',
+          limit: 1,
+          type_id: ItemType.ITEM_TYPE_BRAND,
         })
         .pipe(map((response) => (response.items.length ? response.items[0] : null)))
     ),
@@ -54,8 +55,8 @@ export class UsersUserPicturesBrandComponent {
       }
 
       this.pageEnv.set({
-        title: $localize`${brand.name_only} pictures`,
         pageId: 141,
+        title: $localize`${brand.name_only} pictures`,
       });
     }),
     shareReplay(1)
@@ -74,13 +75,13 @@ export class UsersUserPicturesBrandComponent {
   ]).pipe(
     switchMap(([user, brand, page]) =>
       this.pictureService.getPictures$({
-        status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        limit: 30,
-        page,
         item_id: brand.id,
-        owner_id: user.id.toString(),
+        limit: 30,
         order: 1,
+        owner_id: user.id.toString(),
+        page,
+        status: 'accepted',
       })
     ),
     catchError((response: unknown) => {

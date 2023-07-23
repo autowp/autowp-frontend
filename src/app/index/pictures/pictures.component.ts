@@ -9,11 +9,11 @@ import {map} from 'rxjs/operators';
 export class IndexPicturesComponent {
   protected readonly items$ = this.pictureService
     .getPictures$({
+      accepted_in_days: 3,
+      fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
       limit: 4,
       order: 15,
       status: 'accepted',
-      accepted_in_days: 3,
-      fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
     })
     .pipe(map((response) => response.pictures));
 

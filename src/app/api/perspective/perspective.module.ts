@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {APIPerspectiveService} from './perspective.service';
 import {HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+
+import {APIPerspectiveService} from './perspective.service';
 
 @NgModule({
   declarations: [],

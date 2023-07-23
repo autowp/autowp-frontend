@@ -1,23 +1,24 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {UploadSelectComponent} from './select/select.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {UploadIndexComponent} from './index/index.component';
+import {UploadSelectComponent} from './select/select.component';
 import {UploadComponent} from './upload.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: UploadComponent,
-    title: $localize`Add picture`,
     children: [
-      {path: 'select', component: UploadSelectComponent, title: $localize`Select brand`},
-      {path: '', pathMatch: 'full', component: UploadIndexComponent, title: $localize`Add picture`},
+      {component: UploadSelectComponent, path: 'select', title: $localize`Select brand`},
+      {component: UploadIndexComponent, path: '', pathMatch: 'full', title: $localize`Add picture`},
     ],
+    component: UploadComponent,
+    path: '',
+    title: $localize`Add picture`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class UploadRoutingModule {}

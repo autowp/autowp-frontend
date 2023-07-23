@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, of} from 'rxjs';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
+import {getItemTypeTranslation} from '@utils/translations';
+import {EMPTY, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {chunkBy} from '../../../chunk';
 import {CatalogueService} from '../../catalogue-service';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {getItemTypeTranslation} from '@utils/translations';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures',
@@ -72,18 +73,18 @@ export class CatalogueVehiclesPicturesComponent {
   protected readonly pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
     switchMap(([exact, item, page]) =>
       this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-        limit: 20,
-        page,
-        item_id: exact ? null : item.id,
         exact_item_id: exact ? item.id : null,
-        status: 'accepted',
+        fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
+        item_id: exact ? null : item.id,
+        limit: 20,
         order: 16,
+        page,
+        status: 'accepted',
       })
     ),
     map((response) => ({
-      pictures: chunkBy(response.pictures, 4),
       paginator: response.paginator,
+      pictures: chunkBy(response.pictures, 4),
     }))
   );
 

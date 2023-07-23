@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpResponseBase} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface Toast {
-  message: string;
   icon: string;
+  message: string;
   type: string;
 }
 
@@ -45,17 +45,17 @@ export class ToastsService {
 
   public error(message: string) {
     this.show({
+      icon: 'bi bi-exclamation-triangle',
       message,
       type: 'danger',
-      icon: 'bi bi-exclamation-triangle',
     });
   }
 
   public success(message: string) {
     this.show({
+      icon: 'bi bi-check',
       message,
       type: 'success',
-      icon: 'bi bi-check',
     });
   }
 

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {APIBrandsBrand} from '@services/brands.service';
-import {APIService} from '@services/api.service';
 import {BrandIcons} from '@grpc/spec.pb';
+import {APIService} from '@services/api.service';
+import {APIBrandsBrand} from '@services/brands.service';
 import {BehaviorSubject} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
@@ -20,8 +20,8 @@ export class BrandsItemComponent {
   protected readonly html$ = this.brand$.pipe(
     switchMap((brand) =>
       this.api.request('GET', 'brands/' + brand.id + '/new-items', {
-        responseType: 'text',
         observe: 'body',
+        responseType: 'text',
       })
     )
   );

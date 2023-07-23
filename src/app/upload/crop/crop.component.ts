@@ -1,15 +1,16 @@
-import {Component, Input, OnInit, EventEmitter, Output, OnDestroy} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {APIPicture} from '@services/picture';
 import * as $ from 'jquery';
+import {BehaviorSubject, Subscription, combineLatest} from 'rxjs';
+
 import Jcrop from '../../jcrop/jquery.Jcrop';
 
 interface JcropCrop {
+  h: number;
+  w: number;
   x: number;
   y: number;
-  w: number;
-  h: number;
 }
 
 @Component({
@@ -31,8 +32,8 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   protected resolution: string;
   protected readonly img$ = new BehaviorSubject<HTMLElement>(null);
   private currentCrop: JcropCrop = {
-    w: 0,
     h: 0,
+    w: 0,
     x: 0,
     y: 0,
   };
@@ -49,15 +50,15 @@ export class UploadCropComponent implements OnInit, OnDestroy {
         this.jcrop = null;
         if (picture.crop) {
           this.currentCrop = {
-            w: picture.crop.width,
             h: picture.crop.height,
+            w: picture.crop.width,
             x: picture.crop.left,
             y: picture.crop.top,
           };
         } else {
           this.currentCrop = {
-            w: picture.width,
             h: picture.height,
+            w: picture.width,
             x: 0,
             y: 0,
           };
@@ -70,11 +71,15 @@ export class UploadCropComponent implements OnInit, OnDestroy {
         const height = picture.height / scale;
 
         $img.css({
-          width,
           height,
+          width,
         });
 
         this.jcrop = Jcrop($img[0], {
+          boxHeight: height,
+          boxWidth: width,
+          keySupport: false,
+          minSize: this.minSize,
           onSelect: (c: JcropCrop) => {
             this.currentCrop = c;
             this.updateSelectionText();
@@ -85,11 +90,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
             this.currentCrop.x + this.currentCrop.w,
             this.currentCrop.y + this.currentCrop.h,
           ],
-          minSize: this.minSize,
-          boxWidth: width,
-          boxHeight: height,
           trueSize: [picture.width, picture.height],
-          keySupport: false,
         });
       }
     });
@@ -120,10 +121,10 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   protected onSave(picture: APIPicture) {
     if (!picture.crop) {
       picture.crop = {
+        height: 0,
         left: 0,
         top: 0,
         width: 0,
-        height: 0,
       };
     }
     picture.crop.left = this.currentCrop.x;

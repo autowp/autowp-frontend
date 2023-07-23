@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {EMPTY} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APICreateTopicRequest, APIForumsTheme, APIGetForumsThemeRequest} from '@grpc/spec.pb';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, switchMap, map, catchError, shareReplay} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '@utils/translations';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {ForumsClient} from '@grpc/spec.pbsc';
-import {APICreateTopicRequest, APIForumsTheme, APIGetForumsThemeRequest} from '@grpc/spec.pb';
+import {getForumsThemeTranslation} from '@utils/translations';
+import {EMPTY} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
-import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-new-topic',
@@ -18,9 +19,9 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
 })
 export class ForumsNewTopicComponent implements OnInit {
   protected readonly form = {
-    name: '',
     message: '',
     moderator_attention: false,
+    name: '',
     subscription: false,
   };
   protected invalidParams: InvalidParams;
@@ -60,17 +61,14 @@ export class ForumsNewTopicComponent implements OnInit {
     this.forums
       .createTopic(
         new APICreateTopicRequest({
-          themeId: '' + theme.id,
-          name: this.form.name,
           message: this.form.message,
           moderatorAttention: this.form.moderator_attention,
+          name: this.form.name,
           subscription: this.form.subscription,
+          themeId: '' + theme.id,
         })
       )
       .subscribe({
-        next: (response) => {
-          this.router.navigate(['/forums/topic', response.id]);
-        },
         error: (response: unknown) => {
           if (response instanceof GrpcStatusEvent && response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
@@ -78,6 +76,9 @@ export class ForumsNewTopicComponent implements OnInit {
           } else {
             this.toastService.handleError(response);
           }
+        },
+        next: (response) => {
+          this.router.navigate(['/forums/topic', response.id]);
         },
       });
   }

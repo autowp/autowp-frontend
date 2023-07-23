@@ -1,9 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '@services/auth.service';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
-import {ToastsService} from '../../toasts/toasts.service';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 import {
   APICommentsMessage,
   APICommentsMessages,
@@ -15,6 +11,11 @@ import {
   Pages,
 } from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
+import {AuthService} from '@services/auth.service';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-comments',
@@ -127,18 +128,18 @@ export class CommentsComponent {
 
     return this.commentsGrpc.getMessages(
       new GetMessagesRequest({
-        typeId: typeID,
-        itemId: itemID,
-        noParents: true,
         fields: new CommentMessageFields({
           replies: true,
           text: true,
-          vote: true,
           userVote: true,
+          vote: true,
         }),
-        order: GetMessagesRequest.Order.DATE_ASC,
+        itemId: itemID,
         limit: limit ? limit : null,
+        noParents: true,
+        order: GetMessagesRequest.Order.DATE_ASC,
         page: page,
+        typeId: typeID,
       })
     );
   }

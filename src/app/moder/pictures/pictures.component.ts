@@ -1,40 +1,41 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator, APIService} from '@services/api.service';
-import {PictureModerVoteService} from '@services/picture-moder-vote';
-import {VehicleTypeService} from '@services/vehicle-type';
-import {ItemService, GetItemsServiceOptions, APIItem} from '@services/item';
-import {chunkBy} from '../../chunk';
-import {UserService, APIUser} from '@services/user';
-import {Subscription, Observable, of, forkJoin, BehaviorSubject, EMPTY} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIPicture, PictureService, APIGetPicturesOptions} from '@services/picture';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {debounceTime, map, switchMap, catchError, tap, distinctUntilChanged, shareReplay} from 'rxjs/operators';
-import {PageEnvService} from '@services/page-env.service';
-import {APIPerspectiveService} from '../../api/perspective/perspective.service';
-import {getPerspectiveTranslation, getVehicleTypeTranslation} from '@utils/translations';
 import {VehicleType} from '@grpc/spec.pb';
-import {ToastsService} from '../../toasts/toasts.service';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIItem, GetItemsServiceOptions, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIGetPicturesOptions, APIPicture, PictureService} from '@services/picture';
+import {PictureModerVoteService} from '@services/picture-moder-vote';
+import {APIUser, UserService} from '@services/user';
+import {VehicleTypeService} from '@services/vehicle-type';
+import {getPerspectiveTranslation, getVehicleTypeTranslation} from '@utils/translations';
+import {BehaviorSubject, EMPTY, Observable, Subscription, forkJoin, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
+import {chunkBy} from '../../chunk';
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface VehicleTypeInPictures {
+  deep: number;
   name: string;
   value: number;
-  deep: number;
 }
 
 interface PerspectiveInList {
   name: string;
-  value: number | null | 'null';
+  value: 'null' | null | number;
 }
 
 function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeInPictures[] {
   const result: VehicleTypeInPictures[] = [];
   for (const item of options) {
     result.push({
+      deep,
       name: getVehicleTypeTranslation(item.name),
       value: item.id,
-      deep,
     });
     for (const subitem of toPlainVehicleTypes(item.childs, deep + 1)) {
       result.push(subitem);
@@ -51,7 +52,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   protected hasSelectedItem = false;
   private selected: number[] = [];
 
-  protected status: string | null;
+  protected status: null | string;
   protected readonly statusOptions = [
     {
       name: $localize`any`,
@@ -77,12 +78,12 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   private readonly defaultVehicleTypeOptions: VehicleTypeInPictures[] = [
     {
+      deep: 0,
       name: $localize`any`,
       value: null,
-      deep: 0,
     },
   ];
-  protected vehicleTypeID: number | null;
+  protected vehicleTypeID: null | number;
 
   private readonly defaultPerspectiveOptions: PerspectiveInList[] = [
     {
@@ -98,15 +99,15 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     map((perspectives) =>
       this.defaultPerspectiveOptions.slice(0).concat(
         perspectives.map((perspective) => ({
-          value: perspective.id,
           name: getPerspectiveTranslation(perspective.name),
+          value: perspective.id,
         }))
       )
     ),
     shareReplay(1)
   );
 
-  protected perspectiveID: number | null | 'null';
+  protected perspectiveID: 'null' | null | number;
 
   protected readonly commentsOptions = [
     {
@@ -162,7 +163,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 3,
     },
   ];
-  protected requests: number | null;
+  protected requests: null | number;
 
   protected readonly orderOptions = [
     {
@@ -234,8 +235,8 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         }
 
         const params = {
-          limit: 10,
           id: [],
+          limit: 10,
           search: '',
         };
         if (query.substring(0, 1) === '#') {
@@ -267,9 +268,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         }
 
         const params: GetItemsServiceOptions = {
-          limit: 10,
           fields: 'name_text,name_html',
           id: 0,
+          limit: 10,
           name: '',
         };
         if (query.substring(0, 1) === '#') {
@@ -303,9 +304,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   protected excludeItemQuery = '';
 
   protected readonly data$: Observable<{
-    pictures: APIPicture[];
     chunks: APIPicture[][];
     paginator: APIPaginator;
+    pictures: APIPicture[];
   }> = this.route.queryParamMap.pipe(
     distinctUntilChanged(),
     debounceTime(10),
@@ -363,24 +364,24 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       this.selected = [];
       this.hasSelectedItem = false;
       const qParams: APIGetPicturesOptions = {
-        status: this.status,
-        car_type_id: this.vehicleTypeID,
-        perspective_id: this.perspectiveID,
-        item_id: this.itemID,
-        exclude_item_id: this.excludeItemID,
-        owner_id: this.ownerID ? this.ownerID.toString() : null,
-        requests: this.requests,
-        special_name: this.specialName,
-        lost: this.lost,
-        gps: this.gps,
-        similar: this.similar,
         added_from: this.addedFrom ? this.addedFrom : null,
-        order: this.order,
-        page: parseInt(params.get('page'), 10),
+        car_type_id: this.vehicleTypeID,
         comments: this.comments,
-        replace: this.replace,
+        exclude_item_id: this.excludeItemID,
         fields: 'owner,thumb_medium,moder_vote,votes,similar,views,comments_count,perspective_item,name_html,name_text',
+        gps: this.gps,
+        item_id: this.itemID,
         limit: 18,
+        lost: this.lost,
+        order: this.order,
+        owner_id: this.ownerID ? this.ownerID.toString() : null,
+        page: parseInt(params.get('page'), 10),
+        perspective_id: this.perspectiveID,
+        replace: this.replace,
+        requests: this.requests,
+        similar: this.similar,
+        special_name: this.specialName,
+        status: this.status,
       };
 
       return this.change$.pipe(
@@ -395,9 +396,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       );
     }),
     map((response) => ({
-      pictures: response.pictures,
       chunks: chunkBy<APIPicture>(response.pictures, 3),
       paginator: response.paginator,
+      pictures: response.pictures,
     })),
     shareReplay(1)
   );
@@ -465,58 +466,58 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   protected itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         item_id: e.item.id,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected excludeItemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         exclude_item_id: e.item.id,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected clearItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         item_id: null,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected clearExcludeItem(): void {
     this.itemQuery = '';
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         exclude_item_id: null,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected ownerOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         owner_id: e.item.id,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected clearOwner(): void {
     this.ownerQuery = '';
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         owner_id: null,
       },
+      queryParamsHandling: 'merge',
     });
   }
 

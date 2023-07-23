@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {EMPTY} from 'rxjs';
-import {ToastsService} from '../../toasts/toasts.service';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-info-spec',

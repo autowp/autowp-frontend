@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
 
 export interface ItemHeader {
-  nameHTML: string;
   design?: {
     name: string;
     route: string[];
   };
+  nameHTML: string;
   produced?: {
     count: number;
     exactly: boolean;

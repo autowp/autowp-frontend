@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PictureService} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
+import {PictureService} from '@services/picture';
+import {EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
@@ -17,12 +18,12 @@ export class TopViewComponent implements OnInit {
     debounceTime(10),
     switchMap((page) =>
       this.pictureService.getPictures$({
-        status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 18,
+        order: 15,
         page,
         perspective_id: 18,
-        order: 15,
+        status: 'accepted',
       })
     ),
     catchError((response: unknown) => {

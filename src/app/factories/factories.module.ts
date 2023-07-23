@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FactoriesRoutingModule} from './factories-routing.module';
-import {FactoryComponent} from './factories.component';
-import {FactoryItemsComponent} from './items/items.component';
-import {PaginatorModule} from '../paginator/paginator.module';
+import {NgModule} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {ThumbnailModule} from '../thumbnail/thumbnail.module';
 import {UtilsModule} from '@utils/utils.module';
+
+import {PaginatorModule} from '../paginator/paginator.module';
+import {ThumbnailModule} from '../thumbnail/thumbnail.module';
+import {FactoryComponent} from './factories.component';
+import {FactoriesRoutingModule} from './factories-routing.module';
+import {FactoryItemsComponent} from './items/items.component';
 
 @NgModule({
   declarations: [FactoryComponent, FactoryItemsComponent],

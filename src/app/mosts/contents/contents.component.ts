@@ -1,9 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIMostsItem, MostsService} from '../mosts.service';
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {APIVehicleType} from '@services/vehicle-type';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, tap, switchMap, map, shareReplay} from 'rxjs/operators';
+import {APIVehicleType} from '@services/vehicle-type';
 import {
   getMostsPeriodsTranslation,
   getMostsRatingParamsTranslation,
@@ -11,6 +8,10 @@ import {
   getUnitTranslation,
   getVehicleTypeRpTranslation,
 } from '@utils/translations';
+import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {APIMostsItem, MostsService} from '../mosts.service';
 
 function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   const result: APIVehicleType[] = [];
@@ -28,8 +29,8 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
 
 @Component({
   selector: 'app-mosts-contents',
-  templateUrl: './contents.component.html',
   styleUrls: ['./styles.scss'],
+  templateUrl: './contents.component.html',
 })
 export class MostsContentsComponent {
   @Input() prefix: string[] = ['/mosts'];
@@ -90,10 +91,10 @@ export class MostsContentsComponent {
       this.brandID$.pipe(
         switchMap((brandID) =>
           this.mostsService.getItems$({
+            brand_id: brandID,
             rating_catname: ratingCatname,
             type_catname: typeCatname,
             years_catname: yearsCatname,
-            brand_id: brandID,
           })
         )
       )

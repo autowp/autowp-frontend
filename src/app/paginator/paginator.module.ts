@@ -1,11 +1,12 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {PaginatorComponent} from './paginator/paginator.component';
+import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
+
+import {PaginatorComponent} from './paginator/paginator.component';
 
 @NgModule({
   declarations: [PaginatorComponent],
-  imports: [CommonModule, RouterModule.forChild([])],
   exports: [PaginatorComponent],
+  imports: [CommonModule, RouterModule.forChild([])],
 })
 export class PaginatorModule {}

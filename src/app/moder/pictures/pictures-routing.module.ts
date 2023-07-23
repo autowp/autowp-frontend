@@ -1,58 +1,59 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {ModerPicturesComponent} from './pictures.component';
+import {RouterModule, Routes} from '@angular/router';
+
+import {moderGuard} from '../../moder.guard';
+import {ModerPicturesItemAreaComponent} from './item/area/area.component';
+import {ModerPicturesItemCropComponent} from './item/crop/crop.component';
 import {ModerPicturesItemComponent} from './item/item.component';
 import {ModerPicturesItemMoveComponent} from './item/move/move.component';
-import {ModerPicturesItemCropComponent} from './item/crop/crop.component';
-import {ModerPicturesItemAreaComponent} from './item/area/area.component';
 import {ModerPicturesItemPlaceComponent} from './item/place/place.component';
-import {moderGuard} from '../../moder.guard';
+import {ModerPicturesComponent} from './pictures.component';
 
 const routes: Routes = [
   {
-    path: ':id',
     children: [
       {
-        path: 'area',
+        canActivate: [moderGuard],
         component: ModerPicturesItemAreaComponent,
-        canActivate: [moderGuard],
+        path: 'area',
         title: $localize`Cropper`,
       },
       {
-        path: 'crop',
+        canActivate: [moderGuard],
         component: ModerPicturesItemCropComponent,
-        canActivate: [moderGuard],
+        path: 'crop',
         title: $localize`Cropper`,
       },
       {
-        path: 'move',
-        component: ModerPicturesItemMoveComponent,
         canActivate: [moderGuard],
+        component: ModerPicturesItemMoveComponent,
+        path: 'move',
         title: $localize`Move picture`,
       },
       {
-        path: 'place',
-        component: ModerPicturesItemPlaceComponent,
         canActivate: [moderGuard],
+        component: ModerPicturesItemPlaceComponent,
+        path: 'place',
         title: $localize`Location`,
       },
       {
-        path: '',
-        component: ModerPicturesItemComponent,
         canActivate: [moderGuard],
+        component: ModerPicturesItemComponent,
+        path: '',
       },
     ],
+    path: ':id',
   },
   {
-    path: '',
-    component: ModerPicturesComponent,
     canActivate: [moderGuard],
+    component: ModerPicturesComponent,
+    path: '',
     title: $localize`Pictures`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class PicturesRoutingModule {}

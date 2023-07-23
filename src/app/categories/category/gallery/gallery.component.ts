@@ -1,11 +1,12 @@
-import {OnInit, Component} from '@angular/core';
-import {EMPTY, Observable, of} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {CategoriesService, CategoryPipeResult} from '../../service';
-import {APIGalleryItem} from '../../../gallery/definitions';
 import {APIItem} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY, Observable, of} from 'rxjs';
+import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {APIGalleryItem} from '../../../gallery/definitions';
+import {CategoriesService, CategoryPipeResult} from '../../service';
 
 @Component({
   selector: 'app-category-gallery',
@@ -51,8 +52,8 @@ export class CategoryGalleryComponent implements OnInit {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        title: '', // data.picture.name_text,
         pageId: 187,
+        title: '', // data.picture.name_text,
       });
     }, 0);
   }
@@ -73,8 +74,8 @@ export class CategoryGalleryComponent implements OnInit {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        title: item.name,
         pageId: 187,
+        title: item.name,
       });
     }, 0);
   }

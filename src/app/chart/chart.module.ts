@@ -1,8 +1,9 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ChartRoutingModule} from './chart-routing.module';
-import {ChartComponent} from './chart.component';
+import {NgModule} from '@angular/core';
 import {NgChartsModule} from 'ng2-charts';
+
+import {ChartComponent} from './chart.component';
+import {ChartRoutingModule} from './chart-routing.module';
 
 @NgModule({
   declarations: [ChartComponent],

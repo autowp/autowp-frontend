@@ -9,24 +9,25 @@ import {
   CommentsUnSubscribeRequest,
 } from '@grpc/spec.pb';
 import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
-import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
-import {ToastsService} from '../../toasts/toasts.service';
-import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
-import {UserService} from '@services/user';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {UserService} from '@services/user';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface Topic {
-  id: string;
-  name: string;
-  status: string;
-  oldMessages: number;
-  newMessages: number;
-  createdAt: Date;
-  userId: string;
   author$: Observable<APIUser>;
+  createdAt: Date;
+  id: string;
   lastMessage$: Observable<APICommentMessage>;
   lastMessageAuthor$: Observable<APIUser>;
+  name: string;
+  newMessages: number;
+  oldMessages: number;
+  status: string;
+  userId: string;
 }
 
 @Component({
@@ -66,16 +67,16 @@ export class ForumsTopicListComponent {
           })
         );
         return {
-          id: topic.id,
-          name: topic.name,
-          status: topic.status,
-          oldMessages: topic.oldMessages,
-          newMessages: topic.newMessages,
-          createdAt: topic.createdAt.toDate(),
-          userId: topic.userId,
           author$: this.userService.getUser2$(topic.userId),
+          createdAt: topic.createdAt.toDate(),
+          id: topic.id,
           lastMessage$,
           lastMessageAuthor$,
+          name: topic.name,
+          newMessages: topic.newMessages,
+          oldMessages: topic.oldMessages,
+          status: topic.status,
+          userId: topic.userId,
         };
       })
     )
@@ -98,37 +99,37 @@ export class ForumsTopicListComponent {
         })
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           this.reload.emit();
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
   protected openTopic(topic: Topic) {
     this.grpc.openTopic(new APISetTopicStatusRequest({id: topic.id})).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         topic.status = 'normal';
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
   protected closeTopic(topic: Topic) {
     this.grpc.closeTopic(new APISetTopicStatusRequest({id: topic.id})).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         topic.status = 'closed';
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
   protected deleteTopic(topic: Topic) {
     this.grpc.deleteTopic(new APISetTopicStatusRequest({id: topic.id})).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.reload.emit();
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 }

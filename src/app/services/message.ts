@@ -1,10 +1,4 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of, combineLatest} from 'rxjs';
-import {AuthService} from './auth.service';
-import {switchMap, map, debounceTime, shareReplay, tap, catchError} from 'rxjs/operators';
-import {ToastsService} from '../toasts/toasts.service';
-import {MessagingClient} from '@grpc/spec.pbsc';
-import {Empty} from '@ngx-grpc/well-known-types';
 import {
   APIMessage,
   APIMessageNewCount,
@@ -13,6 +7,13 @@ import {
   MessagingCreateMessage,
   MessagingDeleteMessage,
 } from '@grpc/spec.pb';
+import {MessagingClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
+import {AuthService} from './auth.service';
 
 @Injectable()
 export class MessageService {
@@ -99,8 +100,8 @@ export class MessageService {
     return this.messagingClient
       .createMessage(
         new MessagingCreateMessage({
-          userId: userId,
           text: text,
+          userId: userId,
         })
       )
       .pipe(tap(() => this.sent$.next(null)));

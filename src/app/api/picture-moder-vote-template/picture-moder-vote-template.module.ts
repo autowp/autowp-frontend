@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {APIPictureModerVoteTemplateService} from './picture-moder-vote-template.service';
 import {HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+
+import {APIPictureModerVoteTemplateService} from './picture-moder-vote-template.service';
 
 @NgModule({
   declarations: [],

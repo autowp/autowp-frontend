@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {UsersRatingComponent} from './rating/rating.component';
 import {UsersUserCommentsComponent} from './user/comments/comments.component';
 import {UsersUserPicturesBrandComponent} from './user/pictures/brand/brand.component';
@@ -8,38 +9,38 @@ import {UsersUserComponent} from './user/user.component';
 
 const routes: Routes = [
   {
+    children: [
+      {
+        component: UsersRatingComponent,
+        path: ':rating',
+      },
+      {
+        component: UsersRatingComponent,
+        path: '',
+      },
+    ],
     path: 'rating',
     title: $localize`Statistics`,
-    children: [
-      {
-        path: ':rating',
-        component: UsersRatingComponent,
-      },
-      {
-        path: '',
-        component: UsersRatingComponent,
-      },
-    ],
   },
   {
-    path: ':identity',
     children: [
-      {path: 'comments', component: UsersUserCommentsComponent, title: $localize`Comments`},
+      {component: UsersUserCommentsComponent, path: 'comments', title: $localize`Comments`},
       {
+        children: [
+          {component: UsersUserPicturesBrandComponent, path: ':brand'},
+          {component: UsersUserPicturesComponent, path: ''},
+        ],
         path: 'pictures',
         title: $localize`User's pictures`,
-        children: [
-          {path: ':brand', component: UsersUserPicturesBrandComponent},
-          {path: '', component: UsersUserPicturesComponent},
-        ],
       },
-      {path: '', component: UsersUserComponent},
+      {component: UsersUserComponent, path: ''},
     ],
+    path: ':identity',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class UsersRoutingModule {}

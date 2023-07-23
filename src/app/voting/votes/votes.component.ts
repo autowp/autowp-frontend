@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {APIVotingVariantVote, VotingService} from '../voting.service';
-import {ToastsService} from '../../toasts/toasts.service';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
+import {APIVotingVariantVote, VotingService} from '../voting.service';
 
 @Component({
   selector: 'app-voting-votes',

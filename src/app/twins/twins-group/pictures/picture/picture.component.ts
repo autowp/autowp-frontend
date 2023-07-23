@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
-import {APIPicture, PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {AuthService} from '@services/auth.service';
 import {CommentsType} from '@grpc/spec.pb';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService} from '@services/auth.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-twins-group-picture',
@@ -73,13 +73,13 @@ export class TwinsGroupPictureComponent {
       return this.changed$.pipe(
         switchMap(() =>
           this.pictureService.getPictures$({
+            fields,
             identity: identity,
             item_id: group.id,
-            fields,
-            limit: 1,
             items: {
               type_id: 1,
             },
+            limit: 1,
             paginator: {
               item_id: group.id,
             },
@@ -101,8 +101,8 @@ export class TwinsGroupPictureComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: picture.name_text,
             pageId: 28,
+            title: picture.name_text,
           }),
         0
       );

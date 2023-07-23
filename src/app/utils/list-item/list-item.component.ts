@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIPicture} from '@services/picture';
 import {APIImage} from '@services/api.service';
 import {APIItem, APIItemChildsCounts} from '@services/item';
+import {APIPicture} from '@services/picture';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture;
@@ -11,38 +11,38 @@ export interface CatalogueListItemPicture {
 }
 
 export interface CatalogueListItem {
-  id: number;
-  preview_pictures: {
-    large_format: boolean;
-    pictures: CatalogueListItemPicture[];
-  };
-  item_type_id: number;
-  produced: number;
-  produced_exactly: boolean;
-  name_html: string;
-  name_default: string;
+  accepted_pictures_count: number;
+  can_edit_specs: boolean;
+  categories?: APIItem[];
+  childs_counts: APIItemChildsCounts;
+  description: string;
   design: {
     name: string;
     route: string[];
   };
-  description: string;
+  details: {
+    count: number;
+    routerLink: string[];
+  };
   engine_vehicles?: [
     {
-      route: string[];
       name_html: string;
+      route: string[];
     }
   ];
   has_text: boolean;
-  accepted_pictures_count: number;
-  can_edit_specs: boolean;
+  id: number;
+  item_type_id: number;
+  name_default: string;
+  name_html: string;
   picturesRouterLink: string[];
-  specsRouterLink: string[];
-  details: {
-    routerLink: string[];
-    count: number;
+  preview_pictures: {
+    large_format: boolean;
+    pictures: CatalogueListItemPicture[];
   };
-  childs_counts: APIItemChildsCounts;
-  categories?: APIItem[];
+  produced: number;
+  produced_exactly: boolean;
+  specsRouterLink: string[];
   twins_groups?: APIItem[];
 }
 

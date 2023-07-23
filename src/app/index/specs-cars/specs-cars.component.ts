@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import {APIUser} from '@services/user';
-import {chunkBy} from '../../chunk';
-import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
-import {APIItem} from '@services/item';
 import {APIService} from '@services/api.service';
+import {APIItem} from '@services/item';
+import {APIUser} from '@services/user';
+import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {map} from 'rxjs/operators';
+
+import {chunkBy} from '../../chunk';
 
 interface APIIndexSpecItemsItem extends APIItem {
   contributors: APIUser[];
@@ -25,37 +26,37 @@ export class IndexSpecsCarsComponent {
         response.items.map((item) => {
           const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
             picture: picture ? picture.picture : null,
-            thumb: picture ? picture.thumb : null,
             routerLink: picture && picture.picture ? [...item.route, 'pictures', picture.picture.identity] : [],
+            thumb: picture ? picture.thumb : null,
           }));
 
           return {
-            id: item.id,
-            preview_pictures: {
-              pictures,
-              large_format: false,
-            },
-            item_type_id: item.item_type_id,
-            produced: item.produced,
-            produced_exactly: item.produced_exactly,
-            name_html: item.name_html,
-            name_default: item.name_default,
-            design: item.design,
-            description: item.description,
-            engine_vehicles: item.engine_vehicles,
-            has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: item.route.concat(['pictures']),
-            specsRouterLink: item.specs_route,
-            details: {
-              routerLink: item.route,
-              count: item.childs_count,
-            },
-            childs_counts: item.childs_counts,
             categories: item.categories,
-            twins_groups: item.twins_groups,
+            childs_counts: item.childs_counts,
             contributors: item.contributors,
+            description: item.description,
+            design: item.design,
+            details: {
+              count: item.childs_count,
+              routerLink: item.route,
+            },
+            engine_vehicles: item.engine_vehicles,
+            has_text: item.has_text,
+            id: item.id,
+            item_type_id: item.item_type_id,
+            name_default: item.name_default,
+            name_html: item.name_html,
+            picturesRouterLink: item.route.concat(['pictures']),
+            preview_pictures: {
+              large_format: false,
+              pictures,
+            },
+            produced: item.produced,
+            produced_exactly: item.produced_exactly,
+            specsRouterLink: item.specs_route,
+            twins_groups: item.twins_groups,
           };
         }),
         2

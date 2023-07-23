@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
-import {catchError, map} from 'rxjs/operators';
+import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface StatItem {
   name: string;
-  value: number;
   total: number;
+  value: number;
 }
 
 interface APIStatGlobalSummary {

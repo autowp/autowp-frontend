@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPicture, PictureService} from '@services/picture';
 import {CommentsType} from '@grpc/spec.pb';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-persons-person-picture',
@@ -47,8 +47,8 @@ export class PersonsPersonPictureComponent {
         switchMap(() =>
           this.pictureService.getPictures$({
             exact_item_id: itemID,
-            identity,
             fields,
+            identity,
             limit: 1,
             paginator: {
               exact_item_id: itemID,

@@ -2,26 +2,27 @@ import {Component} from '@angular/core';
 import {LanguageService} from '@services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
+
 import data from './data.json';
 
 const rates = {
-  'EUR': 1,
   'ETH': 1067.07,
+  'EUR': 1,
   'RUB': 0.011169674,
 };
 
 interface Donation {
-  sum: number;
+  contributor: null | string;
   currency: string;
   date: string;
-  contributor: string | null;
-  purpose: string | null;
+  purpose: null | string;
+  sum: number;
 }
 
 @Component({
   selector: 'app-index-donate',
-  templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
+  templateUrl: './donate.component.html',
 })
 export class IndexDonateComponent {
   protected readonly goal = 2500;
@@ -33,12 +34,12 @@ export class IndexDonateComponent {
       const donations = operations
         .filter((d) => d.sum > 0)
         .map((d) => ({
-          sum: d.sum,
-          normalizedSum: rates[d.currency] * d.sum,
+          contributor: d.contributor,
           currency: d.currency,
           date: new Date(d.date),
-          contributor: d.contributor,
+          normalizedSum: rates[d.currency] * d.sum,
           purpose: d.purpose,
+          sum: d.sum,
         }));
       const charges = operations.filter((d) => d.sum < 0);
       const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
@@ -47,22 +48,22 @@ export class IndexDonateComponent {
       const total = Math.max(-totalChargesSum + this.monthlyCharge, totalDonationsSum);
 
       return {
-        monthlyCharge: this.monthlyCharge,
-        monthlyChargePercent: (100 * this.monthlyCharge) / total,
-        donations: donations.map((o) => ({
-          date: o.date,
-          sum: o.sum,
-          currency: o.currency,
-          percent: (100 * o.sum * rates[o.currency]) / total,
-          contributor: o.contributor,
-        })),
         charges: charges.map((o) => ({
-          date: o.date,
-          sum: o.sum,
           currency: o.currency,
+          date: o.date,
           percent: (-100 * o.sum * rates[o.currency]) / total,
           purpose: o.purpose,
+          sum: o.sum,
         })),
+        donations: donations.map((o) => ({
+          contributor: o.contributor,
+          currency: o.currency,
+          date: o.date,
+          percent: (100 * o.sum * rates[o.currency]) / total,
+          sum: o.sum,
+        })),
+        monthlyCharge: this.monthlyCharge,
+        monthlyChargePercent: (100 * this.monthlyCharge) / total,
       };
     })
   );

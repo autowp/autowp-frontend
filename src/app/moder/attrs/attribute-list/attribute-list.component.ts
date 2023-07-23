@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 import {getAttrsTranslation} from '@utils/translations';
+
+import {AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute-list',

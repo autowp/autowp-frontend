@@ -1,12 +1,12 @@
 import {Component, Input} from '@angular/core';
-import * as showdown from 'showdown';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import * as showdown from 'showdown';
 
 @Component({
   selector: 'app-markdown',
-  templateUrl: './markdown.component.html',
   styleUrls: ['markdown.component.scss'],
+  templateUrl: './markdown.component.html',
 })
 export class MarkdownComponent {
   @Input() set markdown(value: string) {

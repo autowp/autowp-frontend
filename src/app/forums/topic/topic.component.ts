@@ -1,12 +1,5 @@
 import {Component} from '@angular/core';
-import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {AuthService} from '@services/auth.service';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '@utils/translations';
-import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
 import {
   APIForumsTopic,
   APIGetForumsThemeRequest,
@@ -15,6 +8,14 @@ import {
   CommentsType,
   CommentsUnSubscribeRequest,
 } from '@grpc/spec.pb';
+import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
+import {AuthService} from '@services/auth.service';
+import {PageEnvService} from '@services/page-env.service';
+import {getForumsThemeTranslation} from '@utils/translations';
+import {Observable} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
@@ -37,8 +38,8 @@ export class ForumsTopicComponent {
     switchMap((topicID) => this.grpc.getTopic(new APIGetForumsTopicRequest({id: topicID}))),
     tap((topic) => {
       this.pageEnv.set({
-        title: topic.name,
         pageId: 44,
+        title: topic.name,
       });
     }),
     shareReplay(1)
@@ -66,10 +67,10 @@ export class ForumsTopicComponent {
         })
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           topic.subscription = true;
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
@@ -82,10 +83,10 @@ export class ForumsTopicComponent {
         })
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           topic.subscription = false;
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
-import {APIItem, APIPathTreeItemParent, ItemService} from '@services/item';
-import {APIPicture} from '@services/picture';
 import {ItemType} from '@grpc/spec.pb';
+import {APIItem, APIPathTreeItemParent, ItemService} from '@services/item';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {APIPicture} from '@services/picture';
+import {EMPTY, Observable, OperatorFunction, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 interface Parent {
   id: number;
-  path: string[];
   items: APIItemParent[];
+  path: string[];
 }
 
 export interface Breadcrumbs {
-  routerLink: string[];
   html: string;
+  routerLink: string[];
 }
 
 type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
@@ -69,10 +69,10 @@ export class CatalogueService {
 
         return this.itemParentService
           .getItems$({
-            parent_id: parent.id,
             catname: parent.path[0],
-            limit: 1,
             fields: totalFields,
+            limit: 1,
+            parent_id: parent.id,
           })
           .pipe(
             map((response) => {
@@ -83,8 +83,8 @@ export class CatalogueService {
 
               const obj: Parent = {
                 id: parentItem.item_id,
-                path: parent.path.splice(1),
                 items: parent.items.concat([parentItem]),
+                path: parent.path.splice(1),
               };
 
               return obj;
@@ -104,8 +104,8 @@ export class CatalogueService {
             (data) =>
               ({
                 id: brand.id,
-                path: data ? data.split('/') : [],
                 items: [],
+                path: data ? data.split('/') : [],
               } as Parent)
           ),
           pathPipeRecursive(),
@@ -178,7 +178,7 @@ export class CatalogueService {
     return null;
   }
 
-  public picturePathToRoute(picture: APIPicture): string[] | null {
+  public picturePathToRoute(picture: APIPicture): null | string[] {
     for (const pictureItem of picture.path) {
       if (pictureItem.type === 1) {
         switch (pictureItem.item.item_type_id) {

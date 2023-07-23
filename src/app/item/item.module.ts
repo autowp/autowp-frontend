@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ItemComponent} from './item/item.component';
+import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {UtilsModule} from '@utils/utils.module';
 
+import {ItemComponent} from './item/item.component';
+
 @NgModule({
   declarations: [ItemComponent],
-  imports: [CommonModule, RouterModule.forChild([]), UtilsModule],
   exports: [ItemComponent],
+  imports: [CommonModule, RouterModule.forChild([]), UtilsModule],
 })
 export class ItemModule {}

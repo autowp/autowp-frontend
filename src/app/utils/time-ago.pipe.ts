@@ -5,7 +5,7 @@ const is = (interval, cycle) => (Math.abs(cycle) >= interval ? Math.round(cycle 
 
 @Pipe({name: 'timeAgo', pure: false})
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
-  private currentTimer: number | null;
+  private currentTimer: null | number;
   private lastTime: number;
   private lastValue: Date;
   private lastText: string;

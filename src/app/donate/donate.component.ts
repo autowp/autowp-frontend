@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {LanguageService} from '@services/language';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
 
 @Component({
   selector: 'app-donate',
-  templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
+  templateUrl: './donate.component.html',
 })
 export class DonateComponent implements OnInit {
   protected frameUrl: SafeResourceUrl;
@@ -34,21 +34,21 @@ export class DonateComponent implements OnInit {
     };*/
 
     const map = {
-      writer: 'seller',
-      targets: $localize`For website work`,
-      'targets-hint': $localize`Your wish`,
-      'default-sum': '100',
-      'payment-type-choice': 'on',
-      'mobile-payment-type-choice': 'on',
-      successURL: 'https://' + window.location.host + '/donate/success',
-      comment: 'on',
-      hint: $localize`Your wish`,
       account: '41001161017513',
-      quickpay: 'shop',
       'button-text': '14',
-      'target-visibility': 'on',
+      comment: 'on',
+      'default-sum': '100',
+      hint: $localize`Your wish`,
+      'mobile-payment-type-choice': 'on',
+      'payment-type-choice': 'on',
       'project-name': $localize`WheelsAge.org`,
       'project-site': 'https://' + window.location.host + '/',
+      quickpay: 'shop',
+      successURL: 'https://' + window.location.host + '/donate/success',
+      'target-visibility': 'on',
+      targets: $localize`For website work`,
+      'targets-hint': $localize`Your wish`,
+      writer: 'seller',
     };
 
     const url = new URL('https://yoomoney.ru/quickpay/shop-widget');

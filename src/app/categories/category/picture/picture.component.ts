@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {of, BehaviorSubject, EMPTY, combineLatest, Observable} from 'rxjs';
-import {APIPicture, PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, map, tap, shareReplay} from 'rxjs/operators';
-import {CategoriesService} from '../../service';
 import {CommentsType, ItemType} from '@grpc/spec.pb';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {CategoriesService} from '../../service';
 
 @Component({
   selector: 'app-category-picture',
@@ -66,13 +67,13 @@ export class CategoryPictureComponent {
       return this.changed$.pipe(
         switchMap(() =>
           this.pictureService.getPictures$({
+            fields,
             identity: identity,
             item_id: current.id,
-            fields,
-            limit: 1,
             items: {
               type_id: 1,
             },
+            limit: 1,
             paginator: {
               item_id: current.id,
             },
@@ -92,8 +93,8 @@ export class CategoryPictureComponent {
     }),
     tap((picture) => {
       this.pageEnv.set({
-        title: picture.name_text,
         pageId: 187,
+        title: picture.name_text,
       });
     })
   );

@@ -1,9 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator, APIService} from '@services/api.service';
-import {ItemService, APIItem, APIItemsGetResponse} from '@services/item';
-import {Subscription, combineLatest, of} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
+import {Subscription, combineLatest, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 export interface APIItemAlphaGetResponse {
@@ -50,10 +50,10 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
             of(groups.groups),
             query.get('char')
               ? this.itemService.getItems$({
+                  fields: 'name_html',
+                  limit: 10,
                   name: query.get('char') + '%',
                   page: parseInt(query.get('page'), 10),
-                  limit: 10,
-                  fields: 'name_html',
                 })
               : of({
                   items: [],

@@ -1,96 +1,97 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
+import {moderGuard} from '../moder.guard';
+import {ModerAttrsAttributeComponent} from './attrs/attribute/attribute.component';
+import {ModerAttrsComponent} from './attrs/attrs.component';
+import {ModerAttrsZoneComponent} from './attrs/zone/zone.component';
 import {ModerCommentsComponent} from './comments/comments.component';
+import {ModerIndexComponent} from './index/index.component';
 import {ModerItemParentComponent} from './item-parent/item-parent.component';
 import {ModerPerspectivesComponent} from './perspectives/perspectives.component';
 import {ModerPictureVoteTemplatesComponent} from './picture-vote-templates/picture-vote-templates.component';
 import {ModerStatComponent} from './stat/stat.component';
 import {ModerUsersComponent} from './users/users.component';
-import {ModerAttrsAttributeComponent} from './attrs/attribute/attribute.component';
-import {ModerAttrsZoneComponent} from './attrs/zone/zone.component';
-import {ModerIndexComponent} from './index/index.component';
-import {ModerAttrsComponent} from './attrs/attrs.component';
-import {moderGuard} from '../moder.guard';
 
 const routes: Routes = [
   {
-    path: 'comments',
-    component: ModerCommentsComponent,
     canActivate: [moderGuard],
+    component: ModerCommentsComponent,
+    path: 'comments',
     title: $localize`Comments`,
   },
   {
-    path: 'item-parent/:item_id/:parent_id',
+    canActivate: [moderGuard],
     component: ModerItemParentComponent,
-    canActivate: [moderGuard],
+    path: 'item-parent/:item_id/:parent_id',
   },
   {
-    path: 'items',
     loadChildren: () => import('./items/items.module').then((m) => m.ItemsModule),
+    path: 'items',
   },
   {
-    path: 'perspectives',
-    component: ModerPerspectivesComponent,
     canActivate: [moderGuard],
+    component: ModerPerspectivesComponent,
+    path: 'perspectives',
     title: $localize`Perspectives`,
   },
   {
-    path: 'picture-vote-templates',
-    component: ModerPictureVoteTemplatesComponent,
     canActivate: [moderGuard],
+    component: ModerPictureVoteTemplatesComponent,
+    path: 'picture-vote-templates',
     title: $localize`Picture vote templates`,
   },
   {
-    path: 'pictures',
     loadChildren: () => import('./pictures/pictures.module').then((m) => m.PicturesModule),
+    path: 'pictures',
   },
   {
-    path: 'stat',
-    component: ModerStatComponent,
     canActivate: [moderGuard],
+    component: ModerStatComponent,
+    path: 'stat',
     title: $localize`Statistics`,
   },
   {
-    path: 'traffic',
     loadChildren: () => import('./traffic/traffic.module').then((m) => m.TrafficModule),
+    path: 'traffic',
   },
   {
-    path: 'users',
-    component: ModerUsersComponent,
     canActivate: [moderGuard],
+    component: ModerUsersComponent,
+    path: 'users',
     title: $localize`Users`,
   },
   {
-    path: 'attrs',
-    title: $localize`Attributes`,
     children: [
       {
-        path: 'attribute/:id',
+        canActivate: [moderGuard],
         component: ModerAttrsAttributeComponent,
-        canActivate: [moderGuard],
+        path: 'attribute/:id',
       },
       {
-        path: 'zone/:id',
+        canActivate: [moderGuard],
         component: ModerAttrsZoneComponent,
-        canActivate: [moderGuard],
+        path: 'zone/:id',
       },
       {
-        path: '',
-        component: ModerAttrsComponent,
         canActivate: [moderGuard],
+        component: ModerAttrsComponent,
+        path: '',
       },
     ],
+    path: 'attrs',
+    title: $localize`Attributes`,
   },
   {
-    path: '',
-    component: ModerIndexComponent,
     canActivate: [moderGuard],
+    component: ModerIndexComponent,
+    path: '',
     title: $localize`Moderator page`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class ModerRoutingModule {}

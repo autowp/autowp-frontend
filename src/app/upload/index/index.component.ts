@@ -1,33 +1,34 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {APIItem, ItemService} from '@services/item';
-import {of, Observable, concat, combineLatest, EMPTY} from 'rxjs';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PictureService, APIPicture} from '@services/picture';
-import {AuthService} from '@services/auth.service';
-import {PageEnvService} from '@services/page-env.service';
-import {switchMap, catchError, tap, distinctUntilChanged, debounceTime, map, take} from 'rxjs/operators';
-import {UploadCropComponent} from '../crop/crop.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
-import {KeycloakService} from 'keycloak-angular';
+import {AuthService} from '@services/auth.service';
+import {APIItem, ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {KeycloakService} from 'keycloak-angular';
+import {EMPTY, Observable, combineLatest, concat, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
+import {UploadCropComponent} from '../crop/crop.component';
 
 interface UploadProgress {
+  failed: boolean;
   filename: string;
+  invalidParams: InvalidParams;
   percentage: number;
   success: boolean;
-  failed: boolean;
-  invalidParams: InvalidParams;
 }
 
 interface APIPictureUpload extends APIPicture {
   cropTitle: string;
 }
 
-const cropTitle = (crop: {left: number | null; top: number | null; width: number | null; height: number | null}) => {
+const cropTitle = (crop: {height: null | number; left: null | number; top: null | number; width: null | number}) => {
   const cropSize = `${crop.width}×${crop.height}+${crop.left}+${crop.top}`;
   return $localize`cropped to ${cropSize}`;
 };
@@ -78,8 +79,8 @@ export class UploadIndexComponent implements OnInit {
 
   protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
-      selected: !!(replace || item),
       name: replace ? replace.name_html : item ? item.name_html : '',
+      selected: !!(replace || item),
     }))
   );
 
@@ -102,8 +103,8 @@ export class UploadIndexComponent implements OnInit {
 
   protected doLogin() {
     this.keycloak.login({
-      redirectUri: window.location.href,
       locale: this.languageService.language,
+      redirectUri: window.location.href,
     });
   }
 
@@ -135,11 +136,11 @@ export class UploadIndexComponent implements OnInit {
 
   private uploadFile$(file: File): Observable<APIPicture> {
     const progress = {
+      failed: false,
       filename: file.name,
+      invalidParams: {},
       percentage: 0,
       success: false,
-      failed: false,
-      invalidParams: {},
     };
 
     this.progress.push(progress);
@@ -231,8 +232,8 @@ export class UploadIndexComponent implements OnInit {
 
   protected crop(picture: APIPictureUpload) {
     const modalRef = this.modalService.open(UploadCropComponent, {
-      size: 'lg',
       centered: true,
+      size: 'lg',
     });
 
     modalRef.componentInstance.picture = picture;

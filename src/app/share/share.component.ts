@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-share',
-  templateUrl: './share.component.html',
   styleUrls: ['./share.component.scss'],
+  templateUrl: './share.component.html',
 })
 export class ShareComponent {
   @Input() url: string;

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService} from '@services/item';
-import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, switchMap, map, catchError} from 'rxjs/operators';
+import {EMPTY} from 'rxjs';
+import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -24,9 +25,9 @@ export class CarsDatelessComponent implements OnInit {
           'categories.name_html,twins_groups',
           'preview_pictures.picture,preview_pictures.route,childs_count,total_pictures',
         ].join(','),
+        limit: 10,
         order: 'age',
         page,
-        limit: 10,
       })
     ),
     catchError((response: unknown) => {

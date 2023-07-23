@@ -1,26 +1,27 @@
-import {sprintf} from 'sprintf-js';
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {map, shareReplay} from 'rxjs/operators';
-import {SpecService} from '@services/spec';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
-import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
-import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
-import {InvalidParams} from '@utils/invalid-params.pipe';
-import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {getVehicleTypeTranslation} from '@utils/translations';
-import {VehicleTypeService} from '@services/vehicle-type';
 import {APIPictureItem} from '@services/picture-item';
+import {SpecService} from '@services/spec';
+import {VehicleTypeService} from '@services/vehicle-type';
+import {InvalidParams} from '@utils/invalid-params.pipe';
+import {getVehicleTypeTranslation} from '@utils/translations';
+import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
+import {sprintf} from 'sprintf-js';
+
+import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 
 function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];
   for (const item of options) {
     result.push({
+      deep,
       id: item.id,
       short_name: item.shortName,
-      deep,
     });
     for (const subitem of specsToPlain(item.childs, deep + 1)) {
       result.push(subitem);
@@ -30,45 +31,45 @@ function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
 }
 
 interface ItemMetaFormAPISpec {
-  id: number | 'inherited';
-  short_name: string;
   deep?: number;
+  id: 'inherited' | number;
+  short_name: string;
 }
 
 export interface ItemMetaFormResult {
-  name: string;
-  full_name: string;
-  catname: string;
   begin: {
     month: number;
     year: number;
   };
   body: string;
+  catname: string;
   end: {
     month: number;
     today: number;
     year: number;
   };
-  is_concept: boolean | 'inherited';
+  full_name: string;
+  is_concept: 'inherited' | boolean;
   is_group: boolean;
+  items: number[];
   model_years: {
     begin_year: number;
     begin_year_fraction: string;
     end_year: number;
     end_year_fraction: string;
   };
-  produced: {
-    count: number;
-    exactly: boolean;
-  };
-  spec_id: number | 'inherited';
-  vehicle_type_id: string[];
+  name: string;
+  pictures: number[];
   point: {
     lat: number;
     lng: number;
   };
-  items: number[];
-  pictures: number[];
+  produced: {
+    count: number;
+    exactly: boolean;
+  };
+  spec_id: 'inherited' | number;
+  vehicle_type_id: string[];
 }
 
 interface PicturesListItem {
@@ -77,45 +78,45 @@ interface PicturesListItem {
 }
 
 interface Form {
-  name: FormControl<string>;
-  full_name?: FormControl<string>;
-  catname?: FormControl<string>;
+  begin?: FormGroup<{
+    month: FormControl<number>;
+    year: FormControl<number>;
+  }>;
   body?: FormControl<string>;
-  spec_id?: FormControl<string | number>;
+  catname?: FormControl<string>;
+  end?: FormGroup<{
+    month: FormControl<number>;
+    today: FormControl<boolean>;
+    year: FormControl<number>;
+  }>;
+  full_name?: FormControl<string>;
+  is_concept?: FormControl<boolean>;
+  is_group?: FormControl<boolean>;
+  items?: FormArray<FormControl<string>>;
   model_years?: FormGroup<{
     begin_year: FormControl<number>;
     begin_year_fraction: FormControl<string>;
     end_year: FormControl<number>;
     end_year_fraction: FormControl<string>;
   }>;
-  produced?: FormGroup<{
-    count: FormControl<number>;
-    exactly: FormControl<boolean>;
-  }>;
-  is_concept?: FormControl<boolean>;
-  is_group?: FormControl<boolean>;
-  vehicle_type_id?: FormControl<string[]>;
-  begin?: FormGroup<{
-    year: FormControl<number>;
-    month: FormControl<number>;
-  }>;
-  end?: FormGroup<{
-    year: FormControl<number>;
-    month: FormControl<number>;
-    today: FormControl<boolean>;
-  }>;
+  name: FormControl<string>;
+  pictures?: FormArray<FormControl<number>>;
   point?: FormControl<{
     lat: number;
     lng: number;
   }>;
-  items?: FormArray<FormControl<string>>;
-  pictures?: FormArray<FormControl<number>>;
+  produced?: FormGroup<{
+    count: FormControl<number>;
+    exactly: FormControl<boolean>;
+  }>;
+  spec_id?: FormControl<number | string>;
+  vehicle_type_id?: FormControl<string[]>;
 }
 
 @Component({
   selector: 'app-item-meta-form',
-  templateUrl: './item-meta-form.component.html',
   styleUrls: ['./styles.scss'],
+  templateUrl: './item-meta-form.component.html',
 })
 export class ItemMetaFormComponent {
   @Input() submitNotify: () => void;
@@ -171,46 +172,46 @@ export class ItemMetaFormComponent {
 
   protected readonly todayOptions = [
     {
-      value: null,
       name: '--',
+      value: null,
     },
     {
-      value: false,
       name: $localize`ended`,
+      value: false,
     },
     {
-      value: true,
       name: $localize`continue in pr.`,
+      value: true,
     },
   ];
 
   protected readonly producedOptions = [
     {
-      value: false,
       name: $localize`about`,
+      value: false,
     },
     {
-      value: true,
       name: $localize`exactly`,
+      value: true,
     },
   ];
 
   protected readonly modelYearFractionOptions = [
     {
-      value: null,
       name: '-',
+      value: null,
     },
     {
-      value: '¼',
       name: '¼',
+      value: '¼',
     },
     {
-      value: '½',
       name: '½',
+      value: '½',
     },
     {
-      value: '¾',
       name: '¾',
+      value: '¾',
     },
   ];
 
@@ -221,32 +222,32 @@ export class ItemMetaFormComponent {
   private readonly yearMax: number = new Date().getFullYear() + 10;
 
   protected readonly monthOptions: {
-    value: number;
     name: string;
+    value: number;
   }[] = [
     {
-      value: null,
       name: '--',
+      value: null,
     },
   ];
 
   protected readonly isConceptOptions$ = this.parent$.pipe(
     map((parent) => [
       {
-        value: false,
         name: $localize`no`,
+        value: false,
       },
       {
-        value: true,
         name: $localize`yes`,
+        value: true,
       },
       {
-        value: 'inherited',
         name: parent
           ? parent.is_concept
             ? $localize`inherited (yes)`
             : $localize`inherited (no)`
           : $localize`inherited`,
+        value: 'inherited',
       },
     ])
   );
@@ -256,14 +257,14 @@ export class ItemMetaFormComponent {
       (
         [
           {
+            deep: 0,
             id: null,
             short_name: '--',
-            deep: 0,
           },
           {
+            deep: 0,
             id: 'inherited',
             short_name: 'inherited',
-            deep: 0,
           },
         ] as ItemMetaFormAPISpec[]
       ).concat(specsToPlain(specs, 0))
@@ -301,26 +302,26 @@ export class ItemMetaFormComponent {
           exactly: new FormControl(item.produced_exactly),
         });
         elements.is_concept = new FormControl(item.is_concept);
-        elements.is_group = new FormControl({value: item.is_group, disabled: item.childs_count > 0 || disableIsGroup});
+        elements.is_group = new FormControl({disabled: item.childs_count > 0 || disableIsGroup, value: item.is_group});
       }
-      if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)) {
+      if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {
         elements.vehicle_type_id = new FormControl(vehicleTypeIDs);
       }
       if (item.item_type_id !== ItemType.ITEM_TYPE_COPYRIGHT) {
         elements.begin = new FormGroup({
-          year: new FormControl(item.begin_year, [Validators.min(1800), Validators.max(this.yearMax)]),
           month: new FormControl(item.begin_month),
+          year: new FormControl(item.begin_year, [Validators.min(1800), Validators.max(this.yearMax)]),
         });
         elements.end = new FormGroup({
-          year: new FormControl(item.end_year, [Validators.min(1800), Validators.max(this.yearMax)]),
           month: new FormControl(item.end_month),
           today: new FormControl(item.today),
+          year: new FormControl(item.end_year, [Validators.min(1800), Validators.max(this.yearMax)]),
         });
       }
       if ([ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_MUSEUM].includes(item.item_type_id)) {
         const lat = item.lat;
         const lng = item.lng;
-        elements.point = new FormControl({value: {lat, lng}, disabled: false});
+        elements.point = new FormControl({disabled: false, value: {lat, lng}});
       }
       if (items) {
         elements.items = new FormArray<FormControl<string>>([], {validators: Validators.required});
@@ -345,8 +346,8 @@ export class ItemMetaFormComponent {
       if (language) {
         const month = date.toLocaleString(language, {month: 'long'});
         this.monthOptions.push({
-          value: i + 1,
           name: sprintf('%02d - %s', i + 1, month),
+          value: i + 1,
         });
       }
     }
@@ -359,8 +360,8 @@ export class ItemMetaFormComponent {
 
   protected showVehicleTypesModal(vehicleTypeIDs: AbstractControl) {
     const modalRef = this.modalService.open(VehicleTypesModalComponent, {
-      size: 'lg',
       centered: true,
+      size: 'lg',
     });
 
     modalRef.componentInstance.ids = vehicleTypeIDs.value;

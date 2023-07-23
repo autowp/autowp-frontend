@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap, map, distinctUntilChanged} from 'rxjs/operators';
 import {APIItem, APIPathItem, ItemService} from '@services/item';
-import {PathItem} from './definitions';
 import {Observable} from 'rxjs';
+import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {PathItem} from './definitions';
 
 export interface CategoryPipeResult {
-  current: APIItem;
   category: APIItem;
+  current: APIItem;
   path: APIPathItem[];
-  pathItems: PathItem[];
   pathCatnames: string[];
+  pathItems: PathItem[];
 }
 
 @Injectable()
@@ -66,20 +67,20 @@ export class CategoriesService {
             pathCatnames.push(item.catname);
           }
           pathItems.push({
-            routerLink: ['/category', catname].concat(pathCatnames),
+            childs: [],
             item: item.item,
             loaded: false,
-            childs: [],
             parent_id: item.parent_id,
+            routerLink: ['/category', catname].concat(pathCatnames),
           });
         }
 
         return {
-          current: response.path[response.path.length - 1].item,
           category,
+          current: response.path[response.path.length - 1].item,
           path: response.path,
-          pathItems,
           pathCatnames,
+          pathItems,
         };
       })
     );

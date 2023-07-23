@@ -1,10 +1,5 @@
 import {Component} from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, of, throwError} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@utils/translations';
-import {ForumsClient} from '@grpc/spec.pbsc';
 import {
   APICommentMessage,
   APIForumsTheme,
@@ -17,20 +12,25 @@ import {
   APIUser,
   Pages,
 } from '@grpc/spec.pb';
-import {UserService} from '@services/user';
+import {ForumsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {PageEnvService} from '@services/page-env.service';
+import {UserService} from '@services/user';
+import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@utils/translations';
+import {BehaviorSubject, Observable, combineLatest, of, throwError} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 interface Theme extends APIForumsTheme.AsObject {
-  themes$: Observable<APIForumsThemes>;
-  lastTopic$: Observable<APIForumsTopic>;
   lastMessage$: Observable<APICommentMessage>;
   lastMessageAuthor$: Observable<APIUser>;
+  lastTopic$: Observable<APIForumsTopic>;
+  themes$: Observable<APIForumsThemes>;
 }
 
 @Component({
   selector: 'app-forums',
-  templateUrl: './forums.component.html',
   styles: ['app-forums {display:block}'],
+  templateUrl: './forums.component.html',
 })
 export class ForumsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
@@ -43,7 +43,7 @@ export class ForumsComponent {
     distinctUntilChanged()
   );
 
-  protected readonly data$: Observable<{themes: Theme[]; theme: APIForumsTheme | null}> = this.themeID$.pipe(
+  protected readonly data$: Observable<{theme: APIForumsTheme | null; themes: Theme[]}> = this.themeID$.pipe(
     switchMap((themeID) => {
       if (!themeID) {
         return this.grpc.getThemes(new APIGetForumsThemesRequest({})).pipe(
@@ -103,14 +103,14 @@ export class ForumsComponent {
           );
           return {
             ...theme.toObject(),
+            lastMessage$,
+            lastMessageAuthor$,
+            lastTopic$,
             themes$: this.grpc.getThemes(
               new APIGetForumsThemesRequest({
                 themeId: theme.id,
               })
             ),
-            lastTopic$,
-            lastMessage$,
-            lastMessageAuthor$,
           };
         }),
       };
@@ -118,8 +118,8 @@ export class ForumsComponent {
     tap((data) => {
       if (data.theme) {
         this.pageEnv.set({
-          title: getForumsThemeTranslation(data.theme.name),
           pageId: 43,
+          title: getForumsThemeTranslation(data.theme.name),
         });
       } else {
         this.pageEnv.set({pageId: 42});
@@ -134,7 +134,7 @@ export class ForumsComponent {
     this.themeID$,
     this.page$,
     this.reloadTopics$,
-  ]).pipe(switchMap(([themeId, page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({themeId, page}))));
+  ]).pipe(switchMap(([themeId, page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({page, themeId}))));
 
   constructor(
     private readonly route: ActivatedRoute,

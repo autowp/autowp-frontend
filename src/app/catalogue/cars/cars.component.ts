@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {BrandVehicleType, GetBrandVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ActivatedRoute} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {AutowpClient} from '@grpc/spec.pbsc';
-import {BrandVehicleType, GetBrandVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {EMPTY, Observable, combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue-cars',
@@ -85,19 +85,19 @@ export class CatalogueCarsComponent {
 
   protected readonly vehicleTypeOptions$: Observable<
     {
-      id: number;
-      name: string;
       active: boolean;
+      id: number;
       itemsCount: string;
+      name: string;
       route: string[];
     }[]
   > = combineLatest([this.vehicleTypes$, this.currentVehicleType$, this.brand$]).pipe(
     map(([types, current, brand]) =>
       types.map((t) => ({
-        id: t.id,
-        name: getVehicleTypeTranslation(t.name),
         active: current && t.id === current.id,
+        id: t.id,
         itemsCount: t.itemsCount,
+        name: getVehicleTypeTranslation(t.name),
         route: ['/', brand.catname, 'cars', t.catname],
       }))
     )
@@ -115,13 +115,8 @@ export class CatalogueCarsComponent {
     switchMap(([brand, currentVehicleType, page]) =>
       this.itemService
         .getItems$({
-          limit: 7,
-          type_id: ItemType.ITEM_TYPE_VEHICLE,
-          order: 'age',
           ancestor_id: brand.id,
           dateful: true,
-          vehicle_type_id: currentVehicleType ? currentVehicleType.id : 0,
-          route_brand_id: brand.id,
           fields: [
             'name_html,name_default,description,has_text,produced,accepted_pictures_count',
             'design,engine_vehicles,route,categories.name_html',
@@ -129,45 +124,50 @@ export class CatalogueCarsComponent {
             'twins_groups',
             'childs_count,total_pictures,preview_pictures.picture.name_text',
           ].join(','),
+          limit: 7,
+          order: 'age',
           page,
+          route_brand_id: brand.id,
+          type_id: ItemType.ITEM_TYPE_VEHICLE,
+          vehicle_type_id: currentVehicleType ? currentVehicleType.id : 0,
         })
         .pipe(
           map((response) => {
             const items: CatalogueListItem[] = response.items.map((item) => {
               const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
                 picture: picture ? picture.picture : null,
-                thumb: picture ? picture.thumb : null,
                 routerLink:
                   item.route && picture && picture.picture
                     ? item.route.concat(['pictures', picture.picture.identity])
                     : [],
+                thumb: picture ? picture.thumb : null,
               }));
 
               return {
-                id: item.id,
-                preview_pictures: {
-                  pictures,
-                  large_format: item.preview_pictures.large_format,
-                },
-                item_type_id: item.item_type_id,
-                produced: item.produced,
-                produced_exactly: item.produced_exactly,
-                name_html: item.name_html,
-                name_default: item.name_default,
-                design: item.design,
-                description: item.description,
-                engine_vehicles: item.engine_vehicles,
-                has_text: item.has_text,
                 accepted_pictures_count: item.accepted_pictures_count,
                 can_edit_specs: item.can_edit_specs,
-                picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
-                specsRouterLink: null, // TODO
-                details: {
-                  routerLink: item.route,
-                  count: item.childs_count,
-                },
-                childs_counts: item.childs_counts,
                 categories: item.categories,
+                childs_counts: item.childs_counts,
+                description: item.description,
+                design: item.design,
+                details: {
+                  count: item.childs_count,
+                  routerLink: item.route,
+                },
+                engine_vehicles: item.engine_vehicles,
+                has_text: item.has_text,
+                id: item.id,
+                item_type_id: item.item_type_id,
+                name_default: item.name_default,
+                name_html: item.name_html,
+                picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
+                preview_pictures: {
+                  large_format: item.preview_pictures.large_format,
+                  pictures,
+                },
+                produced: item.produced,
+                produced_exactly: item.produced_exactly,
+                specsRouterLink: null, // TODO
               };
             });
 

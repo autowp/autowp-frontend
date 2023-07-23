@@ -1,6 +1,6 @@
-import {Component, AfterViewInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
+import {AfterViewInit, Component} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
+import {PageEnvService} from '@services/page-env.service';
 
 @Component({
   selector: 'app-moder-index',

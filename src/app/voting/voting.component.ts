@@ -1,15 +1,16 @@
 import {Component} from '@angular/core';
-import {BehaviorSubject, EMPTY} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {VotingService, APIVotingVariant, APIVoting} from './voting.service';
+import {CommentsType} from '@grpc/spec.pb';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {VotingVotesComponent} from './votes/votes.component';
-import {ToastsService} from '../toasts/toasts.service';
-import {APIService} from '@services/api.service';
+import {BehaviorSubject, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {CommentsType} from '@grpc/spec.pb';
+
+import {ToastsService} from '../toasts/toasts.service';
+import {VotingVotesComponent} from './votes/votes.component';
+import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
 
 @Component({
   selector: 'app-voting',
@@ -30,8 +31,8 @@ export class VotingComponent {
     }),
     tap((voting) => {
       this.pageEnv.set({
-        title: voting.name,
         pageId: 157,
+        title: voting.name,
       });
     })
   );
@@ -75,10 +76,10 @@ export class VotingComponent {
         },
       })
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           this.reload$.next(true);
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
 
     return false;
@@ -101,8 +102,8 @@ export class VotingComponent {
 
   protected showWhoVoted(voting: APIVoting, variant: APIVotingVariant) {
     const modalRef = this.modalService.open(VotingVotesComponent, {
-      size: 'lg',
       centered: true,
+      size: 'lg',
     });
 
     modalRef.componentInstance.votingID = voting.id;

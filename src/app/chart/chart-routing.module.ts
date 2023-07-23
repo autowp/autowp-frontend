@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {ChartComponent} from './chart.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: ChartComponent, title: $localize`Charts`}];
+const routes: Routes = [{component: ChartComponent, path: '', pathMatch: 'full', title: $localize`Charts`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class ChartRoutingModule {}

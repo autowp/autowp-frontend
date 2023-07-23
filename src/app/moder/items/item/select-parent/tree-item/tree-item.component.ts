@@ -1,9 +1,10 @@
-import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
-import {ItemParentService} from '@services/item-parent';
-import {ToastsService} from '../../../../../toasts/toasts.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {APIItem} from '@services/item';
+import {ItemParentService} from '@services/item-parent';
+import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
+import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-tree-item',
@@ -29,11 +30,11 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   protected readonly childs$ = combineLatest([this.item$, this.order$.pipe(distinctUntilChanged())]).pipe(
     switchMap(([item, order]) =>
       this.itemParentService.getItems$({
-        limit: 100,
         fields: 'item.name_html,item.childs_count',
-        parent_id: item.id,
         is_group: true,
+        limit: 100,
         order,
+        parent_id: item.id,
       })
     ),
     catchError((error: unknown) => {

@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ItemOfDayComponent} from './item-of-day/item-of-day.component';
-import {UserModule} from '../user/user.module';
+import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
+
+import {UserModule} from '../user/user.module';
+import {ItemOfDayComponent} from './item-of-day/item-of-day.component';
 
 @NgModule({
   declarations: [ItemOfDayComponent],
-  imports: [CommonModule, UserModule, RouterModule],
   exports: [ItemOfDayComponent],
+  imports: [CommonModule, UserModule, RouterModule],
 })
 export class ItemOfDayModule {}

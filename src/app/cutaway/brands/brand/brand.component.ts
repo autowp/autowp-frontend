@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {combineLatest, EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../../toasts/toasts.service';
 import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {PictureService} from '@services/picture';
+import {EMPTY, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cutaway',
@@ -33,13 +34,13 @@ export class CutawayBrandsBrandComponent implements OnInit {
   protected readonly query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
     switchMap(([brand, params]) =>
       this.pictureService.getPictures$({
-        item_id: brand.id,
-        status: 'accepted',
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        item_id: brand.id,
         limit: 12,
+        order: 15,
         page: parseInt(params.get('page'), 10),
         perspective_id: 9,
-        order: 15,
+        status: 'accepted',
       })
     ),
     catchError((response: unknown) => {

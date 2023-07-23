@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {APIService} from '@services/api.service';
-import {ItemService, APIItem} from '@services/item';
-import {Router, ActivatedRoute} from '@angular/router';
-import {EMPTY} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../../../toasts/toasts.service';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APIService} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent',
@@ -77,6 +78,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
         },
       })
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           this.router.navigate(['/moder/items/item', itemID], {
             queryParams: {
@@ -84,7 +86,6 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
             },
           });
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
 
     return false;

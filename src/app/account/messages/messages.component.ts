@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
-import {MessageService} from '@services/message';
 import {ActivatedRoute} from '@angular/router';
-import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, tap, catchError} from 'rxjs/operators';
-import {MessageDialogService} from '../../message-dialog/message-dialog.service';
-import {ToastsService} from '../../toasts/toasts.service';
 import {APIMessage, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
 import {MessagingClient} from '@grpc/spec.pbsc';
+import {MessageService} from '@services/message';
+import {PageEnvService} from '@services/page-env.service';
 import {APIUser, UserService} from '@services/user';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
+import {MessageDialogService} from '../../message-dialog/message-dialog.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-messages',
@@ -21,13 +22,13 @@ export class AccountMessagesComponent {
   protected pageName = '';
 
   protected readonly messages$: Observable<{
-    items: {message: APIMessage; author$: Observable<APIUser>}[];
+    items: {author$: Observable<APIUser>; message: APIMessage}[];
     paginator: Pages;
   }> = this.route.queryParamMap.pipe(
     map((params) => ({
       folder: params.get('folder'),
-      user_id: params.get('user_id'),
       page: parseInt(params.get('page'), 10),
+      user_id: params.get('user_id'),
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
@@ -57,8 +58,8 @@ export class AccountMessagesComponent {
       }
 
       this.pageEnv.set({
-        title: this.pageName,
         pageId,
+        title: this.pageName,
       });
 
       return this.change$.pipe(
@@ -86,11 +87,11 @@ export class AccountMessagesComponent {
     map((response) => {
       return {
         items: response.items.map((msg) => ({
-          message: msg,
           author$:
             msg.authorId !== '0'
               ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'})
               : of(null as APIUser),
+          message: msg,
         })),
         paginator: response.paginator,
       };
@@ -109,10 +110,10 @@ export class AccountMessagesComponent {
 
   protected deleteMessage(id: string) {
     this.messageService.deleteMessage$(id).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.change$.next(null);
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
 
     return false;
@@ -120,10 +121,10 @@ export class AccountMessagesComponent {
 
   protected clearFolder(folder: string) {
     this.messageService.clearFolder$(folder).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.change$.next(null);
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

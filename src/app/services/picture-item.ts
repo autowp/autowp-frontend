@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+
+import {APIService} from './api.service';
 import {APIItem} from './item';
 import {APIPicture} from './picture';
-import {APIService} from './api.service';
 
 export interface APIPictureItemAreaPostData {
+  height: number;
   left: number;
   top: number;
   width: number;
-  height: number;
 }
 
 export interface APIPictureItemPostData {
@@ -20,9 +21,9 @@ export interface APIPictureItemGetOptions {
 }
 
 export interface APIPictureItemsGetOptions {
+  fields: string;
   item_id: number;
   limit: number;
-  fields: string;
   order: string;
 }
 
@@ -31,18 +32,18 @@ export interface APIPictureItemsGetResponse {
 }
 
 export interface APIPictureItem {
-  picture_id: number;
-  item_id: number;
-  type: number;
-  perspective_id: number;
-  item: APIItem;
   area: {
+    height: number;
     left: number;
     top: number;
     width: number;
-    height: number;
   };
+  item: APIItem;
+  item_id: number;
+  perspective_id: number;
   picture?: APIPicture;
+  picture_id: number;
+  type: number;
 }
 
 @Injectable()

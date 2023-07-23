@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {combineLatest, Observable} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {APIAttrsService} from '../../../api/attrs/attrs.service';
 import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} from '@utils/translations';
+import {Observable, combineLatest} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {APIAttrsService} from '../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-attribute',
@@ -22,8 +23,8 @@ export class ModerAttrsAttributeComponent {
     tap((attribute) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
-        title: getAttrsTranslation(attribute.name),
         pageId: 101,
+        title: getAttrsTranslation(attribute.name),
       });
     }),
     shareReplay(1)

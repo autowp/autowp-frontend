@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {MapComponent} from './map.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: MapComponent, title: $localize`Map`}];
+const routes: Routes = [{component: MapComponent, path: '', pathMatch: 'full', title: $localize`Map`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class MapRoutingModule {}

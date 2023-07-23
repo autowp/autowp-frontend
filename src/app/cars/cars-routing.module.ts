@@ -1,39 +1,40 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
-import {CarsSpecificationsEditorComponent} from './specifications-editor/specifications-editor.component';
-import {CarsEngineSelectComponent} from './specifications-editor/engine/select/select.component';
-import {CarsDatelessComponent} from './dateless/dateless.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {CarsAttrsChangeLogComponent} from './attrs-change-log/attrs-change-log.component';
+import {CarsDatelessComponent} from './dateless/dateless.component';
+import {CarsEngineSelectComponent} from './specifications-editor/engine/select/select.component';
+import {CarsSpecificationsEditorComponent} from './specifications-editor/specifications-editor.component';
+import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
 
 const routes: Routes = [
   {
-    path: 'attrs-change-log',
     component: CarsAttrsChangeLogComponent,
+    path: 'attrs-change-log',
     title: $localize`History`,
   },
   {
-    path: 'dateless',
     component: CarsDatelessComponent,
+    path: 'dateless',
     title: $localize`Dateless`,
   },
   {
-    path: 'select-engine',
     component: CarsEngineSelectComponent,
+    path: 'select-engine',
   },
   {
-    path: 'specifications-editor',
     component: CarsSpecificationsEditorComponent,
+    path: 'specifications-editor',
   },
   {
-    path: 'specs-admin',
     component: CarsSpecsAdminComponent,
+    path: 'specs-admin',
     title: $localize`Specifications Admin`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class CarsRoutingModule {}

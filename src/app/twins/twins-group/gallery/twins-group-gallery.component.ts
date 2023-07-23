@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {of, EMPTY} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
+import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, map, tap} from 'rxjs/operators';
+import {EMPTY, of} from 'rxjs';
+import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
 import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({
@@ -36,8 +37,8 @@ export class TwinsGroupGalleryComponent {
         () =>
           this.pageEnv.set({
             layout: {isGalleryPage: true},
-            title: group.name_text,
             pageId: 28,
+            title: group.name_text,
           }),
         0
       );
@@ -60,8 +61,8 @@ export class TwinsGroupGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        title: item.name,
         pageId: 28,
+        title: item.name,
       });
     });
   }

@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {EMPTY, Observable, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
 import {APIGalleryItem} from '../../../gallery/definitions';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 
@@ -67,8 +68,8 @@ export class CatalogueMixedGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        title: item.name,
         pageId: data.picture_page.id,
+        title: item.name,
       });
     }, 0);
   }

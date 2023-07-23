@@ -1,6 +1,6 @@
 import {Component, NgZone} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {icon, LatLng, latLng, Layer, LeafletMouseEvent, Map, MapOptions, marker, tileLayer} from 'leaflet';
+import {LatLng, Layer, LeafletMouseEvent, Map, MapOptions, icon, latLng, marker, tileLayer} from 'leaflet';
 
 export interface Point {
   lat: number;
@@ -10,7 +10,7 @@ export interface Point {
 const DEFAULT_LAT = 54.526,
   DEFAULT_LNG = 15.2551;
 
-const normalizeValue = (value: number | string | null | undefined): number | null => {
+const normalizeValue = (value: null | number | string | undefined): null | number => {
   if (value === null || typeof value === 'undefined' || (typeof value === 'number' && isNaN(value))) {
     return null;
   }
@@ -32,16 +32,16 @@ const center = (lat: number | string, lng: number | string): LatLng => {
 };
 
 @Component({
-  selector: 'app-map-point',
-  templateUrl: 'map-point.component.html',
-  styleUrls: ['./styles.scss'],
   providers: [
     {
-      provide: NG_VALUE_ACCESSOR,
       multi: true,
+      provide: NG_VALUE_ACCESSOR,
       useExisting: MapPointComponent,
     },
   ],
+  selector: 'app-map-point',
+  styleUrls: ['./styles.scss'],
+  templateUrl: 'map-point.component.html',
 })
 export class MapPointComponent implements ControlValueAccessor {
   /*protected readonly center$ = this.point$.pipe(
@@ -70,14 +70,14 @@ export class MapPointComponent implements ControlValueAccessor {
   protected center = center(this.lat, this.lng);
 
   protected readonly mapOptions: MapOptions = {
+    center: center(this.lat, this.lng),
+    dragging: true,
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
       }),
     ],
     zoom: 8,
-    center: center(this.lat, this.lng),
-    dragging: true,
   };
 
   private onChange: (_: Point) => void;
@@ -187,8 +187,8 @@ export class MapPointComponent implements ControlValueAccessor {
       ? [
           marker(ll, {
             icon: icon({
-              iconSize: [25, 41],
               iconAnchor: [13, 41],
+              iconSize: [25, 41],
               iconUrl: 'assets/marker-icon.png',
               shadowUrl: 'assets/marker-shadow.png',
             }),

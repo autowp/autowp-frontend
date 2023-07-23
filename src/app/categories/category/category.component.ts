@@ -1,20 +1,21 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {Observable} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
-import {map, shareReplay, tap} from 'rxjs/operators';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {CategoriesService} from '../service';
-import {getItemTypeTranslation} from '@utils/translations';
 import {ItemType} from '@grpc/spec.pb';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {getItemTypeTranslation} from '@utils/translations';
+import {Observable} from 'rxjs';
+import {map, shareReplay, tap} from 'rxjs/operators';
+
+import {CategoriesService} from '../service';
 
 interface PathItem {
-  routerLink: string[];
+  childs: APIItem[];
   item: APIItem;
   loaded: boolean;
-  childs: APIItem[];
   parent_id: number;
+  routerLink: string[];
 }
 
 @Component({
@@ -29,8 +30,8 @@ export class CategoriesCategoryComponent {
     tap(({current}) => {
       setTimeout(() => {
         this.pageEnv.set({
-          title: current.name_text,
           pageId: 22,
+          title: current.name_text,
         });
       }, 0);
     }),
@@ -67,9 +68,9 @@ export class CategoriesCategoryComponent {
       this.itemService
         .getItems$({
           fields: 'catname,name_html',
-          parent_id: item.parent_id,
-          no_parent: item.parent_id ? null : true,
           limit: 50,
+          no_parent: item.parent_id ? null : true,
+          parent_id: item.parent_id,
           type_id: ItemType.ITEM_TYPE_CATEGORY,
         })
         .subscribe((response) => {

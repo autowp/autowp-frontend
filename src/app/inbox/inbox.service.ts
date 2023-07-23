@@ -4,20 +4,20 @@ import {APIItem} from '@services/item';
 import {Observable} from 'rxjs';
 
 export interface APIInbox {
-  paginator: APIPaginator;
-  prev: {
-    date: string;
-    count: number;
-  } | null;
+  brands: APIItem[];
   current: {
-    date: string;
     count: number;
+    date: string;
   };
   next: {
-    date: string;
     count: number;
+    date: string;
   } | null;
-  brands: APIItem[];
+  paginator: APIPaginator;
+  prev: {
+    count: number;
+    date: string;
+  } | null;
 }
 
 @Injectable()

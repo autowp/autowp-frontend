@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
-import {combineLatest, EMPTY} from 'rxjs';
-import {PictureService} from '@services/picture';
 import {ActivatedRoute} from '@angular/router';
+import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay, tap} from 'rxjs/operators';
+import {PictureService} from '@services/picture';
+import {EMPTY, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -39,8 +40,8 @@ export class NewItemComponent {
     }),
     tap((item) => {
       this.pageEnv.set({
-        title: item.name_text,
         pageId: 210,
+        title: item.name_text,
       });
     }),
     shareReplay(1)
@@ -49,12 +50,12 @@ export class NewItemComponent {
   protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
     switchMap(([itemID, date, page]) =>
       this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-        limit: 24,
-        status: 'accepted',
         accept_date: date,
+        fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
         item_id: itemID,
+        limit: 24,
         page,
+        status: 'accepted',
       })
     ),
     catchError((err: unknown) => {

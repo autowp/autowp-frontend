@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {APIVehicleType} from '@services/vehicle-type';
+import {Observable} from 'rxjs';
+
 import {APIAttrUnit} from '../api/attrs/attrs.service';
-import {APIService} from '@services/api.service';
 
 export interface APIMostsItemsGetOptions {
   brand_id?: number;
@@ -14,16 +15,16 @@ export interface APIMostsItemsGetOptions {
 
 export interface APIMostsItemPicture {
   name: string;
-  src: string;
   route: string[];
+  src: string;
 }
 
 export interface APIMostsItem {
   item: APIItem;
+  pictures: APIMostsItemPicture[];
+  unit: APIAttrUnit;
   value_html: string;
   value_text: string;
-  unit: APIAttrUnit;
-  pictures: APIMostsItemPicture[];
 }
 
 export interface APIMostsItemsGetResponse {
@@ -31,19 +32,19 @@ export interface APIMostsItemsGetResponse {
 }
 
 export interface APIMostsMenuRating {
-  name: string;
   catname: string;
+  name: string;
 }
 
 export interface APIMostsMenuYear {
-  name: string;
   catname: string;
+  name: string;
 }
 
 export interface APIMostsMenuGetResponse {
-  years: APIMostsMenuYear[];
   ratings: APIMostsMenuRating[];
   vehilce_types: APIVehicleType[];
+  years: APIMostsMenuYear[];
 }
 
 @Injectable()

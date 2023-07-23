@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
+import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '@grpc/spec.pb';
 import {TrafficClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '@grpc/spec.pb';
+import {PageEnvService} from '@services/page-env.service';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-moder-traffic-whitelist',

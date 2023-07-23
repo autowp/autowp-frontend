@@ -1,10 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {ToastsService} from '../../toasts/toasts.service';
 import {CommentVote, GetCommentVotesRequest} from '@grpc/spec.pb';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {CommentsClient} from '@grpc/spec.pbsc';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-comments-votes',
@@ -17,8 +18,8 @@ export class CommentsVotesComponent {
   private readonly messageID$ = new BehaviorSubject<number>(null);
 
   protected readonly votes$: Observable<{
-    positive: CommentVote[];
     negative: CommentVote[];
+    positive: CommentVote[];
   }> = this.messageID$.pipe(
     distinctUntilChanged(),
     debounceTime(1),
@@ -34,8 +35,8 @@ export class CommentsVotesComponent {
       return EMPTY;
     }),
     map((votes) => ({
-      positive: votes.items.filter((v) => v.value === CommentVote.VoteValue.POSITIVE),
       negative: votes.items.filter((v) => v.value === CommentVote.VoteValue.NEGATIVE),
+      positive: votes.items.filter((v) => v.value === CommentVote.VoteValue.POSITIVE),
     }))
   );
 

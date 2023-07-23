@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BehaviorSubject, EMPTY} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {ToastsService} from '../../../../../toasts/toasts.service';
 import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-categories',
@@ -28,11 +29,11 @@ export class ModerItemsItemSelectParentCategoriesComponent {
   protected readonly categories$ = this.page$.pipe(
     switchMap((page) =>
       this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_CATEGORY,
-        limit: 100,
         fields: 'name_html,childs_count',
-        page,
+        limit: 100,
         no_parent: true,
+        page,
+        type_id: ItemType.ITEM_TYPE_CATEGORY,
       })
     ),
     catchError((error: unknown) => {

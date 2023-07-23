@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, of} from 'rxjs';
-import {ItemParentService} from '@services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {ItemType} from '@grpc/spec.pb';
+import {ItemService} from '@services/item';
+import {ItemParentService} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {EMPTY, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue-engines',
@@ -67,9 +67,9 @@ export class CatalogueEnginesComponent {
           ].join(','),
           item_type_id: ItemType.ITEM_TYPE_ENGINE,
           limit: 7,
+          order: 'type_auto',
           page,
           parent_id: brand.id,
-          order: 'type_auto',
         }),
         of(brand),
       ])
@@ -80,35 +80,35 @@ export class CatalogueEnginesComponent {
 
         const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
           picture: picture ? picture.picture : null,
-          thumb: picture ? picture.thumb : null,
           routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
+          thumb: picture ? picture.thumb : null,
         }));
 
         return {
-          id: item.item.id,
-          preview_pictures: {
-            pictures,
-            large_format: item.item.preview_pictures.large_format,
-          },
-          item_type_id: item.item.item_type_id,
-          produced: item.item.produced,
-          produced_exactly: item.item.produced_exactly,
-          name_html: item.item.name_html,
-          name_default: item.item.name_default,
-          design: null,
-          description: item.item.description,
-          engine_vehicles: item.item.engine_vehicles,
-          has_text: item.item.has_text,
           accepted_pictures_count: item.item.accepted_pictures_count,
           can_edit_specs: item.item.can_edit_specs,
+          childs_counts: item.item.childs_counts,
+          description: item.item.description,
+          design: null,
+          details: {
+            count: item.item.childs_count,
+            routerLink,
+          },
+          engine_vehicles: item.item.engine_vehicles,
+          has_text: item.item.has_text,
+          id: item.item.id,
+          item_type_id: item.item.item_type_id,
+          name_default: item.item.name_default,
+          name_html: item.item.name_html,
           picturesRouterLink: routerLink.concat(['pictures']),
+          preview_pictures: {
+            large_format: item.item.preview_pictures.large_format,
+            pictures,
+          },
+          produced: item.item.produced,
+          produced_exactly: item.item.produced_exactly,
           specsRouterLink:
             item.item.has_specs || item.item.has_child_specs ? routerLink.concat(['specifications']) : null,
-          details: {
-            routerLink,
-            count: item.item.childs_count,
-          },
-          childs_counts: item.item.childs_counts,
         };
       });
 

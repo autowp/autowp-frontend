@@ -1,6 +1,7 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {getPerspectiveTranslation} from '@utils/translations';
+
+import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
 
 @Component({
   selector: 'app-moder-pictures-perspective-picker',

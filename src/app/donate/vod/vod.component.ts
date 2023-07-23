@@ -1,13 +1,14 @@
-import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {ActivatedRoute} from '@angular/router';
-import {combineLatest, Observable, of} from 'rxjs';
-import {AuthService} from '@services/auth.service';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, switchMap, map, shareReplay} from 'rxjs/operators';
-import {DonateService} from '../donate.service';
-import {APIUser} from '@grpc/spec.pb';
 import {formatDate} from '@angular/common';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {APIUser} from '@grpc/spec.pb';
+import {AuthService} from '@services/auth.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {Observable, combineLatest, of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {DonateService} from '../donate.service';
 
 const VOD_TIMEZONE = 'UTC';
 
@@ -69,10 +70,10 @@ export class DonateVodComponent implements OnInit {
         const date = d.date.toDate();
         const value = formatDate(date, 'yyyy-MM-dd', this.locale, VOD_TIMEZONE);
         return {
-          name: formatDate(date, 'longDate', this.locale, VOD_TIMEZONE),
-          free: d.free,
-          value,
           active: value === currentDate,
+          free: d.free,
+          name: formatDate(date, 'longDate', this.locale, VOD_TIMEZONE),
+          value,
         };
       })
     )

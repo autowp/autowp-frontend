@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {PictureService} from '@services/picture';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {chunkBy} from '../../chunk';
 import {BrandPerspectivePageData} from '../catalogue.module';
 
@@ -62,19 +63,19 @@ export class CatalogueMixedComponent {
   protected readonly pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
     switchMap(([page, brand, data]) =>
       this.pictureService.getPictures$({
-        limit: 12,
-        status: 'accepted',
-        order: 3,
         exact_item_id: brand.id,
-        perspective_id: data.perspective_id,
-        perspective_exclude_id: data.perspective_exclude_id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        limit: 12,
+        order: 3,
         page: page,
+        perspective_exclude_id: data.perspective_exclude_id,
+        perspective_id: data.perspective_id,
+        status: 'accepted',
       })
     ),
     map((response) => ({
-      pictures: chunkBy(response.pictures, 4),
       paginator: response.paginator,
+      pictures: chunkBy(response.pictures, 4),
     })),
     shareReplay(1)
   );

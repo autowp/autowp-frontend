@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, switchMap, map, catchError} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {ForumsClient} from '@grpc/spec.pbsc';
 import {APIForumsTopic, APIGetForumsTopicsRequest, Pages} from '@grpc/spec.pb';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
+import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-subscriptions',
@@ -21,7 +22,7 @@ export class ForumsSubscriptionsComponent implements OnInit {
     ),
     this.reload$,
   ]).pipe(
-    switchMap(([page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({subscription: true, page}))),
+    switchMap(([page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({page, subscription: true}))),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;

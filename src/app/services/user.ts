@@ -1,58 +1,59 @@
 import {Injectable} from '@angular/core';
-import {APIPaginator, APIImage, APIService} from './api.service';
-import {Observable, forkJoin, of} from 'rxjs';
-import {APIAccount} from '../account/account.service';
-import {tap, map, shareReplay} from 'rxjs/operators';
-import {UsersClient} from '@grpc/spec.pbsc';
 import {APIGetUserRequest, APIUser as APIUser2} from '@grpc/spec.pb';
+import {UsersClient} from '@grpc/spec.pbsc';
+import {Observable, forkJoin, of} from 'rxjs';
+import {map, shareReplay, tap} from 'rxjs/operators';
+
+import {APIAccount} from '../account/account.service';
+import {APIImage, APIPaginator, APIService} from './api.service';
 
 export interface APIGetUserOptions {
   fields?: string;
 }
 
 export interface APIGetUsersOptions {
-  limit?: number;
-  id?: (number | string)[];
-  search?: string;
-  page?: number;
   fields?: string;
+  id?: (number | string)[];
   identity?: string;
+  limit?: number;
+  page?: number;
+  search?: string;
 }
 
 export interface APIUserGetResponse {
-  paginator: APIPaginator;
   items: APIUser[];
+  paginator: APIPaginator;
 }
 
 export interface APIUser {
-  id: number;
-  name: string;
-  email: string;
-  identity: string;
-  deleted: boolean;
-  login: string;
-  role: string;
-  image: APIImage;
-  last_online: string;
-  reg_date: string;
-  specs_weight: number;
-  long_away: boolean;
-  green: boolean;
-  timezone: string;
-  language: string;
-  votes_per_day: number;
-  votes_left: number;
-  img: APIImage;
+  accounts: APIAccount[];
   avatar: APIImage;
+  deleted: boolean;
+  email: string;
   gravatar: string;
   gravatar_hash: string;
-  route: string;
-  last_ip: string;
-  photo: APIImage;
-  pictures_added: number;
-  pictures_accepted_count: number;
-  accounts: APIAccount[];
+  green: boolean;
+  id: number;
+  identity: string;
+  image: APIImage;
+  img: APIImage;
   is_moder: boolean;
+  language: string;
+  last_ip: string;
+  last_online: string;
+  login: string;
+  long_away: boolean;
+  name: string;
+  photo: APIImage;
+  pictures_accepted_count: number;
+  pictures_added: number;
+  reg_date: string;
+  role: string;
+  route: string;
+  specs_weight: number;
+  timezone: string;
+  votes_left: number;
+  votes_per_day: number;
 }
 
 function convertUserOptions(options: APIGetUserOptions): {[param: string]: string} {
@@ -225,9 +226,9 @@ export class UserService {
     }
 
     const params: APIGetUsersOptions = {
+      fields: options.fields,
       identity,
       limit: 1,
-      fields: options.fields,
     };
 
     return this.get$(params).pipe(map((response) => (response.items.length ? response.items[0] : null)));

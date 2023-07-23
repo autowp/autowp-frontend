@@ -1,16 +1,17 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import * as $ from 'jquery';
-import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Subscription, BehaviorSubject} from 'rxjs';
-import {PictureService, APIPicture} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIService} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import * as $ from 'jquery';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 
 interface Crop {
-  w: number;
   h: number;
+  w: number;
   x: number;
   y: number;
 }
@@ -25,8 +26,8 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   protected resolution = '';
   private jcrop: Jcrop;
   private currentCrop: Crop = {
-    w: 0,
     h: 0,
+    w: 0,
     x: 0,
     y: 0,
   };
@@ -61,7 +62,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
             fields: 'crop,image',
           })
         ),
-        switchMap((picture) => this.img$.pipe(map((img) => ({picture, img}))))
+        switchMap((picture) => this.img$.pipe(map((img) => ({img, picture}))))
       )
       .subscribe((data) => {
         this.picture = data.picture;
@@ -73,15 +74,15 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           this.jcrop = null;
           if (this.picture.crop) {
             this.currentCrop = {
-              w: this.picture.crop.width,
               h: this.picture.crop.height,
+              w: this.picture.crop.width,
               x: this.picture.crop.left,
               y: this.picture.crop.top,
             };
           } else {
             this.currentCrop = {
-              w: this.picture.width,
               h: this.picture.height,
+              w: this.picture.width,
               x: 0,
               y: 0,
             };
@@ -94,6 +95,10 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           const height = this.picture.height / scale;
 
           this.jcrop = Jcrop($img[0], {
+            boxHeight: height,
+            boxWidth: width,
+            keySupport: false,
+            minSize: this.minSize,
             onSelect: (c: Crop) => {
               this.currentCrop = c;
               this.updateSelectionText();
@@ -104,11 +109,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
               this.currentCrop.x + this.currentCrop.w,
               this.currentCrop.y + this.currentCrop.h,
             ],
-            minSize: this.minSize,
-            boxWidth: width,
-            boxHeight: height,
             trueSize: [this.picture.width, this.picture.height],
-            keySupport: false,
           });
         }
       });
@@ -127,10 +128,10 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
       .request<void>('PUT', 'picture/' + this.picture.id, {
         body: {
           crop: {
+            height: Math.round(this.currentCrop.h),
             left: Math.round(this.currentCrop.x),
             top: Math.round(this.currentCrop.y),
             width: Math.round(this.currentCrop.w),
-            height: Math.round(this.currentCrop.h),
           },
         },
       })

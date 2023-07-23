@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {ToastsService} from '../../../../../toasts/toasts.service';
-import {APIPaginator} from '@services/api.service';
 import {ItemType} from '@grpc/spec.pb';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-factories',
@@ -26,13 +27,13 @@ export class ModerItemsItemSelectParentFactoriesComponent {
     shareReplay(1)
   );
 
-  protected readonly factories$: Observable<{paginator: APIPaginator; items: APIItem[]}> = this.page$.pipe(
+  protected readonly factories$: Observable<{items: APIItem[]; paginator: APIPaginator}> = this.page$.pipe(
     switchMap((page) =>
       this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_FACTORY,
-        limit: 100,
         fields: 'name_html',
+        limit: 100,
         page,
+        type_id: ItemType.ITEM_TYPE_FACTORY,
       })
     ),
     catchError((error: unknown) => {

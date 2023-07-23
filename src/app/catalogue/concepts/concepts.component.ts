@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue-concepts',
@@ -55,12 +55,9 @@ export class CatalogueConceptsComponent {
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       this.itemService.getItems$({
-        limit: 7,
-        order: 'age',
         ancestor_id: brand.id,
         concept: true,
         concept_inherit: false,
-        route_brand_id: brand.id,
         fields: [
           'name_html,name_default,description,has_text,produced,accepted_pictures_count',
           'design,engine_vehicles,route,categories.name_html',
@@ -68,43 +65,46 @@ export class CatalogueConceptsComponent {
           'twins_groups',
           'childs_count,total_pictures,preview_pictures.picture.name_text',
         ].join(','),
+        limit: 7,
+        order: 'age',
         page,
+        route_brand_id: brand.id,
       })
     ),
     map((response) => {
       const items: CatalogueListItem[] = response.items.map((item) => {
         const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
           picture: picture ? picture.picture : null,
-          thumb: picture ? picture.thumb : null,
           routerLink:
             item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
+          thumb: picture ? picture.thumb : null,
         }));
 
         return {
-          id: item.id,
-          preview_pictures: {
-            pictures,
-            large_format: item.preview_pictures.large_format,
-          },
-          item_type_id: item.item_type_id,
-          produced: item.produced,
-          produced_exactly: item.produced_exactly,
-          name_html: item.name_html,
-          name_default: item.name_default,
-          design: item.design,
-          description: item.description,
-          engine_vehicles: item.engine_vehicles,
-          has_text: item.has_text,
           accepted_pictures_count: item.accepted_pictures_count,
           can_edit_specs: item.can_edit_specs,
-          picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
-          specsRouterLink: null, // TODO
-          details: {
-            routerLink: item.route,
-            count: item.childs_count,
-          },
-          childs_counts: null,
           categories: item.categories,
+          childs_counts: null,
+          description: item.description,
+          design: item.design,
+          details: {
+            count: item.childs_count,
+            routerLink: item.route,
+          },
+          engine_vehicles: item.engine_vehicles,
+          has_text: item.has_text,
+          id: item.id,
+          item_type_id: item.item_type_id,
+          name_default: item.name_default,
+          name_html: item.name_html,
+          picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
+          preview_pictures: {
+            large_format: item.preview_pictures.large_format,
+            pictures,
+          },
+          produced: item.produced,
+          produced_exactly: item.produced_exactly,
+          specsRouterLink: null, // TODO
         };
       });
 

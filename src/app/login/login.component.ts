@@ -4,16 +4,16 @@ import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-login',
-  template: 'Redirecting …',
   styleUrls: [],
+  template: 'Redirecting …',
 })
 export class LoginComponent implements OnInit {
   constructor(private readonly languageService: LanguageService, private readonly keycloak: KeycloakService) {}
 
   ngOnInit(): void {
     this.keycloak.login({
-      redirectUri: window.location.href,
       locale: this.languageService.language,
+      redirectUri: window.location.href,
     });
   }
 }

@@ -1,38 +1,39 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {NewComponent} from './new.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {NewItemComponent} from './item/item.component';
+import {NewComponent} from './new.component';
 
 const routes: Routes = [
   {
+    component: NewComponent,
     path: ':date',
-    component: NewComponent,
     title: $localize`New pictures`,
   },
   {
+    component: NewComponent,
     path: ':date/:page',
-    component: NewComponent,
     title: $localize`New pictures`,
   },
   {
+    component: NewItemComponent,
     path: ':date/item/:item_id',
-    component: NewItemComponent,
     title: $localize`New pictures`,
   },
   {
+    component: NewItemComponent,
     path: ':date/item/:item_id/:page',
-    component: NewItemComponent,
     title: $localize`New pictures`,
   },
   {
-    path: '',
     component: NewComponent,
+    path: '',
     title: $localize`New pictures`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class NewRoutingModule {}

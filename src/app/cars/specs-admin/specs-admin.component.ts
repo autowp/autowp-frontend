@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '@services/api.service';
 import {ActivatedRoute} from '@angular/router';
-import {combineLatest, BehaviorSubject, EMPTY} from 'rxjs';
+import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay} from 'rxjs/operators';
-import {APIAttrsService, APIAttrUserValue} from '../../api/attrs/attrs.service';
-import {ToastsService} from '../../toasts/toasts.service';
 import {getAttrsTranslation, getUnitTranslation} from '@utils/translations';
+import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {APIAttrUserValue, APIAttrsService} from '../../api/attrs/attrs.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-specs-admin',
@@ -34,9 +35,9 @@ export class CarsSpecsAdminComponent implements OnInit {
   protected readonly data$ = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
     switchMap(([itemID, page]) =>
       this.attrService.getUserValues$({
+        fields: 'user,path,unit',
         item_id: itemID,
         page: page,
-        fields: 'user,path,unit',
       })
     ),
     catchError((err: unknown) => {
@@ -61,6 +62,7 @@ export class CarsSpecsAdminComponent implements OnInit {
     this.api
       .request('DELETE', 'attr/user-value/' + value.attribute_id + '/' + value.item_id + '/' + value.user_id)
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           for (let i = 0; i < values.length; i++) {
             if (values[i] === value) {
@@ -69,7 +71,6 @@ export class CarsSpecsAdminComponent implements OnInit {
             }
           }
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
@@ -84,10 +85,10 @@ export class CarsSpecsAdminComponent implements OnInit {
         },
       })
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           this.move$.next(true);
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

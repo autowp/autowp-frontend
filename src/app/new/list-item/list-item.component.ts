@@ -5,8 +5,8 @@ import {APIPicture} from '@services/picture';
 
 @Component({
   selector: 'app-new-list-item',
-  templateUrl: './list-item.component.html',
   styleUrls: ['./styles.scss'],
+  templateUrl: './list-item.component.html',
 })
 export class NewListItemComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);

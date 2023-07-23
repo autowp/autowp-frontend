@@ -1,9 +1,10 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MapRoutingModule} from './map-routing.module';
-import {MapComponent} from './map.component';
-import {MapPopupComponent} from './popup/popup.component';
+import {NgModule} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+
+import {MapComponent} from './map.component';
+import {MapRoutingModule} from './map-routing.module';
+import {MapPopupComponent} from './popup/popup.component';
 
 @NgModule({
   declarations: [MapComponent, MapPopupComponent],

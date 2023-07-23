@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {ReCaptchaService} from '@services/recaptcha';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../toasts/toasts.service';
-import {AutowpClient} from '@grpc/spec.pbsc';
-import {APICreateFeedbackRequest} from '@grpc/spec.pb';
-import {InvalidParams} from '@utils/invalid-params.pipe';
-import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {APICreateFeedbackRequest} from '@grpc/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {PageEnvService} from '@services/page-env.service';
+import {ReCaptchaService} from '@services/recaptcha';
+import {InvalidParams} from '@utils/invalid-params.pipe';
+
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
+import {ToastsService} from '../toasts/toasts.service';
 
 const CAPTCHA = 'captcha';
 
@@ -21,10 +22,10 @@ export class FeedbackComponent implements OnInit {
   protected invalidParams: InvalidParams;
 
   protected readonly form = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(255)]],
+    captcha: '',
     email: ['', [Validators.required, Validators.maxLength(255), Validators.email]],
     message: ['', [Validators.required, Validators.maxLength(65536)]],
-    captcha: '',
+    name: ['', [Validators.required, Validators.maxLength(255)]],
   });
 
   constructor(
@@ -40,10 +41,10 @@ export class FeedbackComponent implements OnInit {
     this.form.removeControl(CAPTCHA);
 
     this.reCaptchaService.get$().subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: (response) => {
         this.recaptchaKey = response.publicKey;
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
 
     setTimeout(() => this.pageEnv.set({pageId: 89}), 0);
@@ -51,9 +52,6 @@ export class FeedbackComponent implements OnInit {
 
   protected submit() {
     this.grpc.createFeedback(new APICreateFeedbackRequest(this.form.value)).subscribe({
-      next: () => {
-        this.router.navigate(['/feedback/sent']);
-      },
       error: (response: unknown) => {
         if (response instanceof GrpcStatusEvent) {
           const fieldViolations = extractFieldViolations(response);
@@ -70,6 +68,9 @@ export class FeedbackComponent implements OnInit {
         } else {
           this.toastService.handleError(response);
         }
+      },
+      next: () => {
+        this.router.navigate(['/feedback/sent']);
       },
     });
   }

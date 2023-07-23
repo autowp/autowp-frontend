@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '@services/user';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap, distinctUntilChanged, debounceTime, catchError} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
+import {PageEnvService} from '@services/page-env.service';
+import {UserService} from '@services/user';
 import {EMPTY} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-users',
@@ -16,9 +17,9 @@ export class ModerUsersComponent implements OnInit {
     debounceTime(10),
     switchMap((params) =>
       this.userService.get$({
-        page: parseInt(params.get('page'), 10),
-        limit: 30,
         fields: 'image,reg_date,last_online,email,login',
+        limit: 30,
+        page: parseInt(params.get('page'), 10),
       })
     ),
     catchError((error: unknown) => {

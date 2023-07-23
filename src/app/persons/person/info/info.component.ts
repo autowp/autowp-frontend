@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPictureGetResponse, PictureService} from '@services/picture';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ToastsService} from '../../../toasts/toasts.service';
 import {APIGetItemLinksRequest, APIItemLink, APIItemLinksResponse, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPictureGetResponse, PictureService} from '@services/picture';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-persons-person-info',
@@ -54,8 +55,8 @@ export class PersonsPersonInfoComponent {
     }),
     tap((item) => {
       this.pageEnv.set({
-        title: item.name_text,
         pageId: 213,
+        title: item.name_text,
       });
     }),
     shareReplay(1)
@@ -73,13 +74,13 @@ export class PersonsPersonInfoComponent {
   protected readonly authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService.getPictures$({
-        status: 'accepted',
         exact_item_id: itemID,
         exact_item_link_type: 2,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 12,
         order: 12,
         page,
+        status: 'accepted',
       })
     ),
     catchError((err: unknown) => {
@@ -92,13 +93,13 @@ export class PersonsPersonInfoComponent {
     switchMap(([itemID, page]) =>
       this.pictureService
         .getPictures$({
-          status: 'accepted',
           exact_item_id: itemID,
           exact_item_link_type: 1,
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 12,
           order: 12,
           page,
+          status: 'accepted',
         })
         .pipe(
           catchError((err: unknown) => {

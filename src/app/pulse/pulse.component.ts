@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../toasts/toasts.service';
-import {StatisticsClient} from '@grpc/spec.pbsc';
 import {PulseRequest} from '@grpc/spec.pb';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
-import {ChartConfiguration} from 'chart.js';
+import {StatisticsClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {ChartConfiguration} from 'chart.js';
+import {BehaviorSubject, EMPTY, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-pulse',
@@ -14,24 +15,24 @@ import {UserService} from '@services/user';
 })
 export class PulseComponent implements OnInit {
   protected readonly periods: {
-    value: PulseRequest.Period;
-    name: string;
     active: boolean;
+    name: string;
+    value: PulseRequest.Period;
   }[] = [
     {
-      value: PulseRequest.Period.DEFAULT,
-      name: 'Day',
       active: true,
+      name: 'Day',
+      value: PulseRequest.Period.DEFAULT,
     },
     {
-      value: PulseRequest.Period.MONTH,
+      active: false,
       name: 'Month',
-      active: false,
+      value: PulseRequest.Period.MONTH,
     },
     {
-      value: PulseRequest.Period.YEAR,
-      name: 'Year',
       active: false,
+      name: 'Year',
+      value: PulseRequest.Period.YEAR,
     },
   ];
 
@@ -81,8 +82,8 @@ export class PulseComponent implements OnInit {
     ),
     map((response) => ({
       data: response.map(([user, dataset]) => ({
-        label: user.name,
         data: dataset.line,
+        label: user.name,
       })),
     }))
   );

@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {LogComponent} from './log.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: LogComponent, title: $localize`Log of events`}];
+const routes: Routes = [{component: LogComponent, path: '', pathMatch: 'full', title: $localize`Log of events`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class LogRoutingModule {}

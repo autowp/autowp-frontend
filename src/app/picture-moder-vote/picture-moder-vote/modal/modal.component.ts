@@ -1,6 +1,7 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
+
 import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 @Component({
@@ -25,8 +26,8 @@ export class PictureModerVoteModalComponent {
     if (this.save) {
       this.templateService
         .createTemplate$({
-          vote: this.vote,
           name: this.reason,
+          vote: this.vote,
         })
         .subscribe();
     }

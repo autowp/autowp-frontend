@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {ItemService, APIItem} from '@services/item';
-import {EMPTY, Observable} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIService} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY, Observable} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-twins-group-specifications',
@@ -41,8 +41,8 @@ export class TwinsGroupSpecificationsComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: $localize`Specifications of ${group.name_text}`,
             pageId: 27,
+            title: $localize`Specifications of ${group.name_text}`,
           }),
         0
       );

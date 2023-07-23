@@ -1,11 +1,12 @@
-import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {ItemParentService, APIItemParent} from '@services/item-parent';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+
 import {PictureItemMoveSelection} from '../move.component';
 
 @Component({
   selector: 'app-moder-picture-move-item',
-  templateUrl: './item.component.html',
   styleUrls: ['./styles.scss'],
+  templateUrl: './item.component.html',
 })
 export class ModerPictureMoveItemComponent {
   @Input() item: APIItemParent;
@@ -23,9 +24,9 @@ export class ModerPictureMoveItemComponent {
       this.loading = true;
       this.itemParentService
         .getItems$({
-          parent_id: item.item_id,
           fields: 'item.name_html,item.childs_count',
           limit: 500,
+          parent_id: item.item_id,
         })
         .subscribe((response) => {
           this.loading = false;

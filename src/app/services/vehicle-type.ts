@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {VehicleType} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {VehicleType} from '@grpc/spec.pb';
+import {Observable, of} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 
 export interface APIVehicleType {
+  catname: string;
+  childs: APIVehicleType[];
   id: number;
   name: string;
-  catname: string;
   nameTranslated?: string;
-  childs: APIVehicleType[];
 }
 
 @Injectable()

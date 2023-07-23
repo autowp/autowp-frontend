@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {BrandsComponent} from './brands.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: BrandsComponent, title: $localize`All brands`}];
+const routes: Routes = [{component: BrandsComponent, path: '', pathMatch: 'full', title: $localize`All brands`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class BrandsRoutingModule {}

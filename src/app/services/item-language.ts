@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+
 import {APIService} from './api.service';
 
 export interface APIItemLanguage {
+  full_text: string;
+  full_text_id: number;
   language: string;
   name: string;
   text: string;
-  full_text: string;
   text_id: number;
-  full_text_id: number;
 }
 
 export interface APIItemLanguageGetResponse {

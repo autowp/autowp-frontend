@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
 import {APIGalleryItem} from '../../../gallery/definitions';
 
 @Component({
@@ -40,8 +41,8 @@ export class PersonsPersonGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        title: item.name,
         pageId: 34,
+        title: item.name,
       });
     }, 0);
   }

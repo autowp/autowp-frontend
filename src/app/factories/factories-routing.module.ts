@@ -1,21 +1,22 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {FactoryItemsComponent} from './items/items.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {FactoryComponent} from './factories.component';
+import {FactoryItemsComponent} from './items/items.component';
 
 const routes: Routes = [
   {
+    children: [
+      {component: FactoryItemsComponent, path: 'items'},
+      {component: FactoryComponent, path: '', pathMatch: 'full'},
+    ],
     path: ':id',
     title: $localize`Products`,
-    children: [
-      {path: 'items', component: FactoryItemsComponent},
-      {path: '', component: FactoryComponent, pathMatch: 'full'},
-    ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class FactoriesRoutingModule {}

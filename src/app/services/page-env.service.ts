@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {Observable, BehaviorSubject, of} from 'rxjs';
-import {PageService} from './page';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+
+import {PageService} from './page';
 
 export interface LayoutParams {
   isAdminPage: boolean;
@@ -10,12 +11,12 @@ export interface LayoutParams {
 }
 
 export interface PageEnv {
-  pageId?: number;
-  title?: string;
   layout?: {
     isAdminPage?: boolean;
     isGalleryPage?: boolean;
   };
+  pageId?: number;
+  title?: string;
 }
 
 @Injectable()

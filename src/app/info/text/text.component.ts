@@ -1,34 +1,35 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService, APIUser} from '@services/user';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {TextClient} from '@grpc/spec.pbsc';
 import {APIGetTextRequest} from '@grpc/spec.pb';
+import {TextClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
+import {APIUser, UserService} from '@services/user';
 import * as JsDiff from 'diff';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface Diff {
-  removed: boolean;
   added: boolean;
+  removed: boolean;
   value: string;
 }
 
 interface InfoText {
-  diff: Diff[];
   current: {
-    user$: Observable<APIUser>;
     revision: string;
     text: string;
-  };
-  prev: {
     user$: Observable<APIUser>;
-    revision: string;
-    text: string;
   };
+  diff: Diff[];
   next: {
     revision: string;
+  };
+  prev: {
+    revision: string;
+    text: string;
+    user$: Observable<APIUser>;
   };
 }
 
@@ -63,24 +64,24 @@ export class InfoTextComponent implements OnInit {
       return EMPTY;
     }),
     map((response) => ({
-      diff: JsDiff.diffChars(response.prev.text ? response.prev.text : '', response.current.text) as Diff[],
       current: {
-        user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
         revision: response.current.revision,
         text: response.current.text,
+        user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
       },
-      prev:
-        response.prev.revision !== '0'
-          ? {
-              user$: response.prev.userId ? this.userService.getUser$(+response.prev.userId, {}) : of(null),
-              revision: response.prev.revision,
-              text: response.prev.text,
-            }
-          : null,
+      diff: JsDiff.diffChars(response.prev.text ? response.prev.text : '', response.current.text) as Diff[],
       next:
         response.next.revision !== '0'
           ? {
               revision: response.next.revision,
+            }
+          : null,
+      prev:
+        response.prev.revision !== '0'
+          ? {
+              revision: response.prev.revision,
+              text: response.prev.text,
+              user$: response.prev.userId ? this.userService.getUser$(+response.prev.userId, {}) : of(null),
             }
           : null,
     }))

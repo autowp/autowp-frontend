@@ -1,24 +1,25 @@
 import {Component, Renderer2} from '@angular/core';
-import {AuthService} from '@services/auth.service';
-import {ACLService} from '@services/acl.service';
-import {PageEnvService, LayoutParams} from '@services/page-env.service';
-import {Observable} from 'rxjs';
-import {Language, LanguageService} from '@services/language';
-import {ItemService} from '@services/item';
-import {UsersOnlineComponent} from './users/online/online.component';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {APIUser, ItemType} from '@grpc/spec.pb';
-import {map, shareReplay} from 'rxjs/operators';
 import {NavigationStart, Router} from '@angular/router';
-import {MessageService} from '@services/message';
-import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {environment} from '@environment/environment';
+import {APIUser, ItemType} from '@grpc/spec.pb';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ACLService} from '@services/acl.service';
+import {AuthService} from '@services/auth.service';
+import {ItemService} from '@services/item';
+import {Language, LanguageService} from '@services/language';
+import {MessageService} from '@services/message';
+import {LayoutParams, PageEnvService} from '@services/page-env.service';
+import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {KeycloakService} from 'keycloak-angular';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
+
+import {UsersOnlineComponent} from './users/online/online.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
   protected languages: Language[] = [];
@@ -32,10 +33,10 @@ export class AppComponent {
   );
   protected searchHostname: string;
   protected readonly categories$ = this.itemService.getItems$({
-    type_id: ItemType.ITEM_TYPE_CATEGORY,
-    no_parent: true,
     fields: 'name_text,catname,descendants_count',
     limit: 20,
+    no_parent: true,
+    type_id: ItemType.ITEM_TYPE_CATEGORY,
   });
   protected language: string;
   protected urlPath = '/';
@@ -88,8 +89,8 @@ export class AppComponent {
 
   protected doLogin() {
     this.keycloak.login({
-      redirectUri: window.location.href,
       locale: this.languageService.language,
+      redirectUri: window.location.href,
     });
   }
 
@@ -105,8 +106,8 @@ export class AppComponent {
 
   protected showOnlineUsers() {
     this.modalService.open(UsersOnlineComponent, {
-      size: 'lg',
       centered: true,
+      size: 'lg',
     });
 
     return false;

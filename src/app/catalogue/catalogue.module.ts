@@ -1,40 +1,41 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CatalogueIndexComponent} from './index/index.component';
-import {CatalogueRoutingModule} from './catalogue-routing.module';
+import {NgModule} from '@angular/core';
 import {UtilsModule} from '@utils/utils.module';
-import {ThumbnailModule} from '../thumbnail/thumbnail.module';
-import {CatalogueRecentComponent} from './recent/recent.component';
-import {PaginatorModule} from '../paginator/paginator.module';
-import {CatalogueMixedComponent} from './mixed/mixed.component';
-import {CatalogueConceptsComponent} from './concepts/concepts.component';
-import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
-import {PictureModule} from '../picture/picture.module';
+
 import {CommentsModule} from '../comments/comments.module';
-import {CatalogueEnginesComponent} from './engines/engines.component';
-import {CatalogueCarsComponent} from './cars/cars.component';
-import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
-import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
-import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
-import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
-import {CatalogueService} from './catalogue-service';
-import {CatalogueItemMenuComponent} from './item-menu/item-menu.component';
 import {GalleryModule} from '../gallery/gallery.module';
-import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
-import {CatalogueMostsComponent} from './mosts/mosts.component';
 import {MostsModule} from '../mosts/mosts.module';
+import {PaginatorModule} from '../paginator/paginator.module';
+import {PictureModule} from '../picture/picture.module';
+import {ThumbnailModule} from '../thumbnail/thumbnail.module';
+import {CatalogueCarsComponent} from './cars/cars.component';
+import {CatalogueRoutingModule} from './catalogue-routing.module';
+import {CatalogueService} from './catalogue-service';
+import {CatalogueConceptsComponent} from './concepts/concepts.component';
+import {CatalogueEnginesComponent} from './engines/engines.component';
+import {CatalogueIndexComponent} from './index/index.component';
+import {CatalogueItemMenuComponent} from './item-menu/item-menu.component';
 import {CatalogueMixedGalleryComponent} from './mixed/gallery/gallery.component';
+import {CatalogueMixedComponent} from './mixed/mixed.component';
+import {CatalogueMixedPictureComponent} from './mixed/picture/picture.component';
+import {CatalogueMostsComponent} from './mosts/mosts.component';
+import {CatalogueRecentComponent} from './recent/recent.component';
+import {CatalogueVehiclesGalleryComponent} from './vehicles/gallery/gallery.component';
+import {CatalogueVehiclesPicturesPictureComponent} from './vehicles/pictures/picture/picture.component';
+import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.component';
+import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
+import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 
 export interface BrandPerspectivePageData {
   catname: string;
-  perspective_id?: number;
-  perspective_exclude_id?: string;
   page_id: number;
-  title: string;
+  perspective_exclude_id?: string;
+  perspective_id?: number;
   picture_page: {
-    id: number;
     breadcrumbs: string;
+    id: number;
   };
+  title: string;
 }
 
 @NgModule({

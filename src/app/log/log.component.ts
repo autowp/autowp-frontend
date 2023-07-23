@@ -1,20 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {APIPaginator, APIService} from '@services/api.service';
-import {EMPTY} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {APIUser} from '@services/user';
+import {APIPaginator, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
-import {APIPicture} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
+import {APIPicture} from '@services/picture';
+import {APIUser} from '@services/user';
+import {EMPTY} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
 import {ToastsService} from '../toasts/toasts.service';
 
 export interface APILog {
-  user: APIUser;
   date: string;
   desc: string;
   items: APIItem[];
   pictures: APIPicture[];
+  user: APIUser;
 }
 
 export interface APILogGetResponse {
@@ -31,8 +32,8 @@ export class LogComponent implements OnInit {
     map((params) => ({
       article_id: params.get('article_id'),
       item_id: params.get('item_id'),
-      picture_id: params.get('picture_id'),
       page: params.get('page'),
+      picture_id: params.get('picture_id'),
       user_id: params.get('user_id'),
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),

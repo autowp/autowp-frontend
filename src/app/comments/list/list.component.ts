@@ -1,9 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CommentsVotesComponent} from '../votes/votes.component';
-import {AuthService} from '@services/auth.service';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ToastsService} from '../../toasts/toasts.service';
 import {
   APICommentsMessage,
   APIUser,
@@ -15,13 +10,19 @@ import {
   ModeratorAttention,
 } from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService} from '@services/auth.service';
+import {UserService} from '@services/user';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import {UserService} from '@services/user';
+
+import {ToastsService} from '../../toasts/toasts.service';
+import {CommentsVotesComponent} from '../votes/votes.component';
 
 export interface APICommentInList extends APICommentsMessage {
-  showReply?: boolean;
   resolve?: boolean;
+  showReply?: boolean;
 }
 
 @Component({
@@ -42,17 +43,17 @@ export class CommentsListComponent {
   @Input() set messages(messages: APICommentInList[]) {
     this.messages$.next(
       messages.map((message) => ({
+        canVote$: this.user$.pipe(map((user) => user && user.id !== message.authorId)),
         message,
         user$: this.userService.getUser2$(message.authorId),
-        canVote$: this.user$.pipe(map((user) => user && user.id !== message.authorId)),
       }))
     );
   }
   protected readonly messages$ = new BehaviorSubject<
     {
+      canVote$: Observable<boolean>;
       message: APICommentInList;
       user$: Observable<APIUser>;
-      canVote$: Observable<boolean>;
     }[]
   >([]);
 
@@ -97,13 +98,13 @@ export class CommentsListComponent {
 
           // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
           return this.commentsGrpc.getMessage(
-            new GetMessageRequest({id: message.id, fields: new CommentMessageFields({vote: true})})
+            new GetMessageRequest({fields: new CommentMessageFields({vote: true}), id: message.id})
           );
         })
       )
       .subscribe({
-        next: (response) => (message.vote = response.vote),
         error: (response: unknown) => this.toastService.handleError(response),
+        next: (response) => (message.vote = response.vote),
       });
 
     return false;
@@ -118,8 +119,8 @@ export class CommentsListComponent {
         })
       )
       .subscribe({
-        next: () => (message.deleted = value),
         error: (response: unknown) => this.toastService.handleError(response),
+        next: () => (message.deleted = value),
       });
   }
 
@@ -130,8 +131,8 @@ export class CommentsListComponent {
 
   protected showVotes(message: APICommentsMessage) {
     const modalRef = this.modalService.open(CommentsVotesComponent, {
-      size: 'lg',
       centered: true,
+      size: 'lg',
     });
 
     modalRef.componentInstance.messageID = message.id;

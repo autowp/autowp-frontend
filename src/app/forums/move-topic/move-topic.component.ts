@@ -1,11 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {EMPTY, Observable} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, switchMap, map, catchError, shareReplay} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {getForumsThemeTranslation} from '@utils/translations';
-import {ForumsClient} from '@grpc/spec.pbsc';
+import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIForumsTheme,
   APIForumsTopic,
@@ -14,6 +8,13 @@ import {
   APIGetForumsTopicRequest,
   APIMoveTopicRequest,
 } from '@grpc/spec.pb';
+import {ForumsClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
+import {getForumsThemeTranslation} from '@utils/translations';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-forums-move-topic',
@@ -68,10 +69,10 @@ export class ForumsMoveTopicComponent implements OnInit {
         })
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           this.router.navigate(['/forums/topic', topic.id]);
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

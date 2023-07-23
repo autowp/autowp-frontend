@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EMPTY, Observable, of} from 'rxjs';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
 import {ItemType} from '@grpc/spec.pb';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY, Observable, of} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-persons-person',
@@ -45,8 +46,8 @@ export class PersonsPersonComponent {
     }),
     tap((item) => {
       this.pageEnv.set({
-        title: item.name_text,
         pageId: 213,
+        title: item.name_text,
       });
     }),
     shareReplay(1)

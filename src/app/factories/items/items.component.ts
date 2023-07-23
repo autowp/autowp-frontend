@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
-import {combineLatest, EMPTY, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, switchMap, catchError, map, shareReplay} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {ItemType} from '@grpc/spec.pb';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {EMPTY, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-factory-items',
@@ -56,9 +57,6 @@ export class FactoryItemsComponent {
   protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(
     switchMap(([page, factory]) =>
       this.itemService.getItems$({
-        related_groups_of: factory.id,
-        page,
-        limit: 10,
         fields: [
           'name_html,name_default,description,has_text,produced',
           'design,engine_vehicles,route',
@@ -66,6 +64,9 @@ export class FactoryItemsComponent {
           'categories.name_html,twins_groups',
           'preview_pictures.picture.name_text,preview_pictures.route,childs_count,accepted_pictures_count',
         ].join(','),
+        limit: 10,
+        page,
+        related_groups_of: factory.id,
       })
     ),
     catchError((err: unknown) => {
@@ -73,42 +74,42 @@ export class FactoryItemsComponent {
       return EMPTY;
     }),
     map((data) => ({
-      paginator: data.paginator,
       items: data.items.map((item) => {
         const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
           picture: picture ? picture.picture : null,
-          thumb: picture ? picture.thumb : null,
           routerLink:
             item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
+          thumb: picture ? picture.thumb : null,
         }));
 
         return {
-          id: item.id,
-          preview_pictures: {
-            pictures,
-            large_format: item.preview_pictures.large_format,
-          },
-          item_type_id: item.item_type_id,
-          produced: item.produced,
-          produced_exactly: item.produced_exactly,
-          name_html: item.name_html,
-          name_default: item.name_default,
-          design: item.design,
-          description: item.description,
-          engine_vehicles: item.engine_vehicles,
-          has_text: item.has_text,
           accepted_pictures_count: item.accepted_pictures_count,
           can_edit_specs: item.can_edit_specs,
+          childs_counts: null,
+          description: item.description,
+          design: item.design,
+          details: {
+            count: item.childs_count,
+            routerLink: item.route,
+          },
+          engine_vehicles: item.engine_vehicles,
+          has_text: item.has_text,
+          id: item.id,
+          item_type_id: item.item_type_id,
+          name_default: item.name_default,
+          name_html: item.name_html,
           picturesRouterLink: ['/factories', '' + item.id, 'pictures'],
+          preview_pictures: {
+            large_format: item.preview_pictures.large_format,
+            pictures,
+          },
+          produced: item.produced,
+          produced_exactly: item.produced_exactly,
           specsRouterLink:
             item.has_specs || (item.has_child_specs && item.route) ? item.route.concat(['specifications']) : null,
-          details: {
-            routerLink: item.route,
-            count: item.childs_count,
-          },
-          childs_counts: null,
         };
       }),
+      paginator: data.paginator,
     }))
   );
 

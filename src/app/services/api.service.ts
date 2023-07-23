@@ -1,23 +1,24 @@
-import {Injectable} from '@angular/core';
 import {
   HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-  HttpEvent,
   HttpErrorResponse,
-  HttpRequest,
+  HttpEvent,
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
+  HttpParams,
+  HttpRequest,
+  HttpResponse,
 } from '@angular/common/http';
-import {from, Observable, of, throwError} from 'rxjs';
+import {Injectable} from '@angular/core';
 import {environment} from '@environment/environment';
+import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
+import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
+import {KeycloakService} from 'keycloak-angular';
+import {Observable, from, of, throwError} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
-import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
-import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
-import {KeycloakService} from 'keycloak-angular';
 
 export interface APIItemParentLanguageGetResponse {
   items: APIItemParentLanguage[];
@@ -29,21 +30,21 @@ export interface APIItemParentLanguage {
 }
 
 export interface APIImage {
+  height: number;
   src: string;
   width: number;
-  height: number;
 }
 
 export interface APIPaginator {
-  pageCount: number;
-  first: number;
   current: number;
-  last: number;
-  next: number;
-  previous: number;
-  pagesInRange: {[key: number]: number};
+  first: number;
   firstPageInRange: number;
+  last: number;
   lastPageInRange: number;
+  next: number;
+  pageCount: number;
+  pagesInRange: {[key: number]: number};
+  previous: number;
   totalItemCount: number;
   // itemCountPerPage: number;
   // currentItemCount: number;
@@ -172,16 +173,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
+          }
+        | HttpHeaders;
       observe?: 'body';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
@@ -205,16 +206,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
+          }
+        | HttpHeaders;
       observe: 'events';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
@@ -237,17 +238,17 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
-      reportProgress?: boolean;
+          }
+        | HttpHeaders;
       observe: 'events';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
+      reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
     }
@@ -269,17 +270,17 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
-      reportProgress?: boolean;
+          }
+        | HttpHeaders;
       observe: 'events';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
+      reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
     }
@@ -301,16 +302,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
+          }
+        | HttpHeaders;
       observe: 'response';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
@@ -333,17 +334,17 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
-      reportProgress?: boolean;
+          }
+        | HttpHeaders;
       observe: 'response';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
+      reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
     }
@@ -365,17 +366,17 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
-      reportProgress?: boolean;
+          }
+        | HttpHeaders;
       observe: 'response';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
+          }
+        | HttpParams;
+      reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
     }
@@ -397,18 +398,18 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
+          }
+        | HttpHeaders;
       observe?: 'body';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
-      responseType?: 'json';
+          }
+        | HttpParams;
       reportProgress?: boolean;
+      responseType?: 'json';
       withCredentials?: boolean;
     }
   ): Observable<object>;
@@ -429,18 +430,18 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
+          }
+        | HttpHeaders;
       observe?: 'body';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
-      responseType?: 'json';
+          }
+        | HttpParams;
       reportProgress?: boolean;
+      responseType?: 'json';
       withCredentials?: boolean;
     }
   ): Observable<R>;
@@ -460,16 +461,16 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
+          }
+        | HttpHeaders;
+      observe?: HttpObserve;
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
-      observe?: HttpObserve;
+          }
+        | HttpParams;
       reportProgress?: boolean;
       responseType?: 'json' | 'text';
       withCredentials?: boolean;
@@ -483,18 +484,18 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
-        | HttpHeaders
         | {
             [header: string]: string | string[];
-          };
-      observe?: 'response' | 'body' | 'events';
+          }
+        | HttpHeaders;
+      observe?: 'body' | 'events' | 'response';
       params?:
-        | HttpParams
         | {
             [param: string]: string | string[];
-          };
-      responseType?: 'json' | 'text';
+          }
+        | HttpParams;
       reportProgress?: boolean;
+      responseType?: 'json' | 'text';
       withCredentials?: boolean;
     }
   ): Observable<unknown> {

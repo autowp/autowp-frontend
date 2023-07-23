@@ -1,23 +1,24 @@
 import {Component} from '@angular/core';
-import {combineLatest, Observable} from 'rxjs';
-import {AuthService} from '@services/auth.service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService} from '@services/auth.service';
 import {PictureService} from '@services/picture';
+import {Observable, combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
+
 import {APICommentsService} from '../../../api/comments/comments.service';
 
 interface MenuItem {
-  routerLink: string[];
-  queryParams?: {[key: string]: string};
-  label: string;
   count?: number;
   icon: string;
+  label: string;
+  queryParams?: {[key: string]: string};
+  routerLink: string[];
 }
 
 @Component({
   selector: 'app-moder-menu',
-  templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
+  templateUrl: './menu.component.html',
 })
 export class MenuComponent {
   protected readonly items$: Observable<MenuItem[]> = combineLatest([
@@ -32,28 +33,28 @@ export class MenuComponent {
 
       return [
         {
-          routerLink: ['/moder/pictures'],
+          count: inboxCount,
+          icon: 'bi bi-grid-3x2-gap-fill',
+          label: $localize`Inbox`,
           queryParams: {
             order: '1',
             status: 'inbox',
           },
-          label: $localize`Inbox`,
-          count: inboxCount,
-          icon: 'bi bi-grid-3x2-gap-fill',
+          routerLink: ['/moder/pictures'],
         },
         {
-          routerLink: ['/moder/comments'],
+          count: attentionItemCount,
+          icon: 'bi bi-chat-fill',
+          label: $localize`Comments`,
           queryParams: {
             moderator_attention: '1',
           },
-          label: $localize`Comments`,
-          count: attentionItemCount,
-          icon: 'bi bi-chat-fill',
+          routerLink: ['/moder/comments'],
         },
         {
-          routerLink: ['/moder/items'],
-          label: $localize`Items`,
           icon: 'bi bi-car-front',
+          label: $localize`Items`,
+          routerLink: ['/moder/items'],
         },
       ];
     })

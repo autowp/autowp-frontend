@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {APIItem, ItemOfDayItem} from '@services/item';
-import {APIService} from '@services/api.service';
-import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {APIGetUserRequest, APIUser, GetTopPersonsListRequest, PictureItemType} from '@grpc/spec.pb';
+import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
+import {APIService} from '@services/api.service';
+import {APIItem, ItemOfDayItem} from '@services/item';
 import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import {Observable, combineLatest, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
-import {combineLatest, Observable, of} from 'rxjs';
 
 interface APIIndexItemOfDay {
-  user_id: string;
   item: ItemOfDayItem;
+  user_id: string;
 }
 
 @Component({
@@ -20,24 +20,24 @@ interface APIIndexItemOfDay {
 export class IndexComponent implements OnInit {
   protected readonly mosts = [
     {
-      route: '/mosts/fastest/roadster',
       name: $localize`Most fastest roadsters`,
+      route: '/mosts/fastest/roadster',
     },
     {
-      route: '/mosts/mighty/sedan/today',
       name: $localize`Most mighty sedans today`,
+      route: '/mosts/mighty/sedan/today',
     },
     {
-      route: '/mosts/dynamic/universal/2000-09',
       name: $localize`Most dynamic universals in 2000's`,
+      route: '/mosts/dynamic/universal/2000-09',
     },
     {
-      route: '/mosts/heavy/truck',
       name: $localize`Most heavy trucks`,
+      route: '/mosts/heavy/truck',
     },
   ];
 
-  protected readonly itemOfDay$: Observable<{user: APIUser; item: APIItem}> = this.api
+  protected readonly itemOfDay$: Observable<{item: APIItem; user: APIUser}> = this.api
     .request<APIIndexItemOfDay>('GET', 'index/item-of-day')
     .pipe(
       switchMap((itemOfDay) =>
@@ -46,7 +46,7 @@ export class IndexComponent implements OnInit {
           of(itemOfDay.item),
         ])
       ),
-      map(([user, item]) => ({user, item})),
+      map(([user, item]) => ({item, user})),
       shareReplay(1)
     );
 

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {APIPaginator} from '@services/api.service';
 import {Pages} from '@grpc/spec.pb';
+import {APIPaginator} from '@services/api.service';
 
 @Component({
   selector: 'app-paginator',

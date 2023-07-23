@@ -1,26 +1,27 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {ModerTrafficWhitelistComponent} from './whitelist/whitelist.component';
-import {ModerTrafficComponent} from './traffic.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {moderGuard} from '../../moder.guard';
+import {ModerTrafficComponent} from './traffic.component';
+import {ModerTrafficWhitelistComponent} from './whitelist/whitelist.component';
 
 const routes: Routes = [
   {
-    path: 'whitelist',
-    component: ModerTrafficWhitelistComponent,
     canActivate: [moderGuard],
+    component: ModerTrafficWhitelistComponent,
+    path: 'whitelist',
     title: $localize`Traffic`,
   },
   {
-    path: '',
-    component: ModerTrafficComponent,
     canActivate: [moderGuard],
+    component: ModerTrafficComponent,
+    path: '',
     title: $localize`Traffic`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class TrafficRoutingModule {}

@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {ItemsClient} from '@grpc/spec.pbsc';
 import {GetTopBrandsListRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-index-brands',
-  templateUrl: './brands.component.html',
   styleUrls: ['./brands.component.scss'],
+  templateUrl: './brands.component.html',
 })
 export class IndexBrandsComponent {
   constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}

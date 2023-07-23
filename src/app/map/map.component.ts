@@ -1,26 +1,27 @@
 import {
+  ApplicationRef,
   Component,
-  NgZone,
-  OnInit,
   ComponentFactoryResolver,
   ComponentRef,
   Injector,
-  ApplicationRef,
+  NgZone,
+  OnInit,
 } from '@angular/core';
-import {BehaviorSubject, EMPTY} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {tileLayer, latLng, Map, LatLngBounds, Marker, marker, icon, Popup, MapOptions} from 'leaflet';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {MapPopupComponent} from './popup/popup.component';
-import {ToastsService} from '../toasts/toasts.service';
-import {MapClient} from '@grpc/spec.pbsc';
 import {MapGetPointsRequest, MapPoint} from '@grpc/spec.pb';
+import {MapClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
+import {LatLngBounds, Map, MapOptions, Marker, Popup, icon, latLng, marker, tileLayer} from 'leaflet';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
+import {MapPopupComponent} from './popup/popup.component';
 
 function createMarker(lat, lng): Marker {
   return marker([lat, lng], {
     icon: icon({
-      iconSize: [25, 41],
       iconAnchor: [13, 41],
+      iconSize: [25, 41],
       iconUrl: 'assets/marker-icon.png',
       shadowUrl: 'assets/marker-shadow.png',
     }),
@@ -29,8 +30,8 @@ function createMarker(lat, lng): Marker {
 
 @Component({
   selector: 'app-map',
-  templateUrl: './map.component.html',
   styleUrls: ['./styles.scss'],
+  templateUrl: './map.component.html',
 })
 export class MapComponent implements OnInit {
   private compRef: ComponentRef<MapPopupComponent>;
@@ -39,17 +40,17 @@ export class MapComponent implements OnInit {
   private readonly bounds$ = new BehaviorSubject<LatLngBounds>(null);
 
   public readonly options: MapOptions = {
+    center: latLng(50, 20),
+    doubleClickZoom: true,
+    dragging: true,
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
       }),
     ],
     zoom: 4,
-    center: latLng(50, 20),
-    zoomControl: true,
-    dragging: true,
     zoomAnimation: true,
-    doubleClickZoom: true,
+    zoomControl: true,
   };
 
   constructor(
@@ -84,10 +85,10 @@ export class MapComponent implements OnInit {
         map((response) => response.points)
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: (response) => {
           this.renderData(response);
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

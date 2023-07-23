@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {AuthService} from '@services/auth.service';
-import {map, shareReplay, tap, switchMap} from 'rxjs/operators';
-import {PicturesClient} from '@grpc/spec.pbsc';
 import {DeleteModerVoteTemplateRequest, ModerVoteTemplate} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {AuthService} from '@services/auth.service';
+import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 export interface APIPictureModerVoteTemplatePostData {
-  vote: number;
   name: string;
+  vote: number;
 }
 
 @Injectable({
@@ -27,7 +27,7 @@ export class APIPictureModerVoteTemplateService {
     );
   }
 
-  public deleteTemplate$(id: string): Observable<void | Empty> {
+  public deleteTemplate$(id: string): Observable<Empty | void> {
     return this.pictures
       .deleteModerVoteTemplate(new DeleteModerVoteTemplateRequest({id}))
       .pipe(tap(() => this.change$.next(null)));
@@ -37,8 +37,8 @@ export class APIPictureModerVoteTemplateService {
     return this.pictures
       .createModerVoteTemplate(
         new ModerVoteTemplate({
-          vote: template.vote,
           message: template.name,
+          vote: template.vote,
         })
       )
       .pipe(tap(() => this.change$.next(null)));

@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {combineLatest, Observable, of} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ItemParentService} from '@services/item-parent';
-import {APIPicture, PictureService} from '@services/picture';
-import {CategoriesService} from '../../service';
 import {ItemType} from '@grpc/spec.pb';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem, ItemService} from '@services/item';
+import {ItemParentService} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {CategoriesService} from '../../service';
 
 interface PictureRoute {
   picture: APIPicture;
@@ -25,8 +26,8 @@ export class CategoriesCategoryItemComponent {
   private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent).pipe(
     tap(({current}) => {
       this.pageEnv.set({
-        title: current.name_text,
         pageId: 22,
+        title: current.name_text,
       });
     }),
     shareReplay(1)
@@ -50,9 +51,9 @@ export class CategoriesCategoryItemComponent {
             'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
           ].join(','),
           limit: 7,
+          order: 'categories_first',
           page,
           parent_id: current.id,
-          order: 'categories_first',
         })
         .pipe(
           map((response) => ({
@@ -76,7 +77,7 @@ export class CategoriesCategoryItemComponent {
     this.categoryData$,
     this.itemParents$,
   ]).pipe(
-    switchMap(([{current, category, pathCatnames}, itemParents]) => {
+    switchMap(([{category, current, pathCatnames}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length <= 0) {
         return of([]);
       }
@@ -84,8 +85,8 @@ export class CategoriesCategoryItemComponent {
       return this.pictureService
         .getPictures$({
           exact_item_id: current.id,
-          limit: 4,
           fields: 'thumb_medium,name_text',
+          limit: 4,
         })
         .pipe(
           map((response) =>
@@ -105,7 +106,7 @@ export class CategoriesCategoryItemComponent {
   );
 
   protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(
-    map(({current, category, pathCatnames}) => {
+    map(({category, current, pathCatnames}) => {
       if (!category) {
         return null;
       }

@@ -1,90 +1,91 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {AccountAccessComponent} from './access/access.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {authGuard} from '../auth.guard';
+import {AccountAccessComponent} from './access/access.component';
+import {AccountComponent} from './account.component';
 import {AccountAccountsComponent} from './accounts/accounts.component';
 import {AccountContactsComponent} from './contacts/contacts.component';
-import {AccountDeletedComponent} from './delete/deleted/deleted.component';
 import {AccountDeleteComponent} from './delete/delete.component';
+import {AccountDeletedComponent} from './delete/deleted/deleted.component';
 import {AccountEmailComponent} from './email/email.component';
 import {AccountInboxPicturesComponent} from './inbox-pictures/inbox-pictures.component';
 import {AccountMessagesComponent} from './messages/messages.component';
 import {AccountProfileComponent} from './profile/profile.component';
 import {AccountSpecsConflictsComponent} from './specs-conflicts/specs-conflicts.component';
-import {AccountComponent} from './account.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: AccountComponent,
-    title: $localize`Account`,
     children: [
       {
-        path: 'access',
-        component: AccountAccessComponent,
         canActivate: [authGuard],
+        component: AccountAccessComponent,
+        path: 'access',
         title: $localize`Access Control`,
       },
       {
-        path: 'accounts',
-        component: AccountAccountsComponent,
         canActivate: [authGuard],
+        component: AccountAccountsComponent,
+        path: 'accounts',
         title: $localize`My accounts`,
       },
       {
-        path: 'contacts',
-        component: AccountContactsComponent,
         canActivate: [authGuard],
+        component: AccountContactsComponent,
+        path: 'contacts',
         title: $localize`Contacts`,
       },
       {
-        path: 'delete',
-        title: $localize`Account delete`,
         children: [
-          {path: 'deleted', component: AccountDeletedComponent, title: $localize`Account deleted`},
+          {component: AccountDeletedComponent, path: 'deleted', title: $localize`Account deleted`},
           {
-            path: '',
-            component: AccountDeleteComponent,
             canActivate: [authGuard],
+            component: AccountDeleteComponent,
+            path: '',
           },
         ],
+        path: 'delete',
+        title: $localize`Account delete`,
       },
       {
-        path: 'email',
-        component: AccountEmailComponent,
         canActivate: [authGuard],
+        component: AccountEmailComponent,
+        path: 'email',
         title: $localize`My e-mail`,
       },
       {
-        path: 'inbox-pictures',
-        component: AccountInboxPicturesComponent,
         canActivate: [authGuard],
+        component: AccountInboxPicturesComponent,
+        path: 'inbox-pictures',
         title: $localize`Unmoderated`,
       },
       {
-        path: 'messages',
-        component: AccountMessagesComponent,
         canActivate: [authGuard],
+        component: AccountMessagesComponent,
+        path: 'messages',
       },
       {
-        path: 'profile',
-        component: AccountProfileComponent,
         canActivate: [authGuard],
+        component: AccountProfileComponent,
+        path: 'profile',
         title: $localize`Profile`,
       },
       {
-        path: 'specs-conflicts',
-        component: AccountSpecsConflictsComponent,
         canActivate: [authGuard],
+        component: AccountSpecsConflictsComponent,
+        path: 'specs-conflicts',
         title: $localize`Conflicts`,
       },
     ],
+    component: AccountComponent,
+    path: '',
+    title: $localize`Account`,
   },
-  {path: '', redirectTo: 'profile', pathMatch: 'full'},
+  {path: '', pathMatch: 'full', redirectTo: 'profile'},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class AccountRoutingModule {}

@@ -1,16 +1,17 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Observable, of, forkJoin, EMPTY} from 'rxjs';
-import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {APIService} from '@services/api.service';
-import {switchMap, catchError, distinctUntilChanged, debounceTime, map, shareReplay} from 'rxjs/operators';
+import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {EMPTY, Observable, forkJoin, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-moder-items-item-pictures-organize',
@@ -30,9 +31,9 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   protected readonly pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
     switchMap((itemID) =>
       this.pictureItemService.getItems$({
+        fields: 'picture.thumb_medium,picture.name_text',
         item_id: itemID,
         limit: 500,
-        fields: 'picture.thumb_medium,picture.name_text',
         order: 'status',
       })
     ),
@@ -69,7 +70,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   protected readonly vehicleTypeIDs$ = this.item$.pipe(
     switchMap((item) =>
-      [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)
+      [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)
         ? this.itemsClient
             .getItemVehicleTypes(
               new APIGetItemVehicleTypesRequest({
@@ -112,28 +113,28 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     this.loading++;
 
     const data = {
-      item_type_id: item.item_type_id,
-      name: event.name,
-      full_name: event.full_name,
-      catname: event.catname,
-      body: event.body,
-      spec_id: event.spec_id,
       begin_model_year: event.model_years?.begin_year,
       begin_model_year_fraction: event.model_years?.begin_year_fraction,
+      begin_month: event.begin?.month,
+      begin_year: event.begin?.year,
+      body: event.body,
+      catname: event.catname,
       end_model_year: event.model_years?.end_year,
       end_model_year_fraction: event.model_years?.end_year_fraction,
-      begin_year: event.begin?.year,
-      begin_month: event.begin?.month,
-      end_year: event.end?.year,
       end_month: event.end?.month,
-      today: event.end?.today,
-      produced: event.produced?.count,
-      produced_exactly: event.produced?.exactly,
+      end_year: event.end?.year,
+      full_name: event.full_name,
       is_concept: event.is_concept === 'inherited' ? false : event.is_concept,
       is_concept_inherit: event.is_concept === 'inherited',
       is_group: true,
+      item_type_id: item.item_type_id,
       lat: event.point?.lat,
       lng: event.point?.lng,
+      name: event.name,
+      produced: event.produced?.count,
+      produced_exactly: event.produced?.exactly,
+      spec_id: event.spec_id,
+      today: event.end?.today,
     };
 
     forkJoin([
@@ -156,13 +157,13 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
           const promises: Observable<void>[] = [
             this.api.request<void>('POST', 'item-parent', {
               body: {
-                parent_id: item.id,
                 item_id: newItem.id,
+                parent_id: item.id,
               },
             }),
           ];
 
-          if ([ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_TWINS].includes(newItem.item_type_id)) {
+          if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(newItem.item_type_id)) {
             promises.push(this.itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
           }
 

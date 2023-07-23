@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
+
 import {ToastsService} from '../toasts.service';
 
 @Component({
   selector: 'app-toasts',
-  templateUrl: './container.component.html',
   styleUrls: ['./container.component.scss'],
+  templateUrl: './container.component.html',
 })
 export class ContainerComponent {
   constructor(public readonly toastService: ToastsService) {}

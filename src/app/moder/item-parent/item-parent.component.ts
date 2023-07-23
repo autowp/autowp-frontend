@@ -1,15 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {APIItemParentLanguageGetResponse, APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
-import {ItemService, APIItem} from '@services/item';
-import {ActivatedRoute} from '@angular/router';
-import {Subscription, combineLatest, Observable, forkJoin, EMPTY} from 'rxjs';
+import {APIItem, ItemService} from '@services/item';
 import {APIItemParent} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
-import {getItemTypeTranslation} from '@utils/translations';
-import {HttpErrorResponse} from '@angular/common/http';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {getItemTypeTranslation} from '@utils/translations';
+import {EMPTY, Observable, Subscription, combineLatest, forkJoin} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-moder-item-parent',
@@ -21,26 +21,26 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   protected parent: APIItem;
   protected itemParent: APIItemParent;
   protected languages: {
-    name: string;
-    language: string;
     invalidParams: InvalidParams;
+    language: string;
+    name: string;
   }[] = [];
   protected readonly typeOptions = [
     {
-      value: 0,
       name: $localize`Stock model`,
+      value: 0,
     },
     {
-      value: 1,
       name: $localize`Related`,
+      value: 1,
     },
     {
-      value: 2,
       name: $localize`Sport`,
+      value: 2,
     },
     {
-      value: 3,
       name: $localize`Design`,
+      value: 3,
     },
   ];
 
@@ -84,9 +84,9 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.parent = parent;
 
         this.languages = languages.map((language) => ({
+          invalidParams: null,
           language,
           name: null as string,
-          invalidParams: null,
         }));
 
         for (const languageData of itemParentLanguage.items) {
@@ -99,8 +99,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
 
         this.pageEnv.set({
           layout: {isAdminPage: true},
-          title: getItemTypeTranslation(this.item.item_type_id, 'name') + ': ' + this.item.name_text,
           pageId: 78,
+          title: getItemTypeTranslation(this.item.item_type_id, 'name') + ': ' + this.item.name_text,
         });
       });
   }

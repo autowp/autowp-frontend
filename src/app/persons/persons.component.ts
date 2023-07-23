@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {combineLatest} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-persons',
@@ -32,33 +32,33 @@ export class PersonsComponent implements OnInit {
 
       if (authors) {
         return this.itemService.getItems$({
-          type_id: ItemType.ITEM_TYPE_PERSON,
-          fields,
           descendant_pictures: {
             status: 'accepted',
             type_id: 2,
           },
+          fields,
+          limit: 10,
+          order: 'name',
+          page,
           preview_pictures: {
             type_id: 2,
           },
-          order: 'name',
-          limit: 10,
-          page,
+          type_id: ItemType.ITEM_TYPE_PERSON,
         });
       }
       return this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_PERSON,
-        fields,
         descendant_pictures: {
           status: 'accepted',
           type_id: 1,
         },
+        fields,
+        limit: 10,
+        order: 'name',
+        page,
         preview_pictures: {
           type_id: 1,
         },
-        order: 'name',
-        limit: 10,
-        page,
+        type_id: ItemType.ITEM_TYPE_PERSON,
       });
     }),
     map((response) => ({
@@ -84,34 +84,34 @@ export class PersonsComponent implements OnInit {
 
       const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
         picture: picture ? picture.picture : null,
-        thumb: picture ? picture.thumb : null,
         routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
+        thumb: picture ? picture.thumb : null,
       }));
 
       return {
-        id: item.id,
-        preview_pictures: {
-          pictures,
-          large_format: item.preview_pictures.large_format,
-        },
-        item_type_id: item.item_type_id,
-        produced: null,
-        produced_exactly: null,
-        name_html: item.name_html,
-        name_default: item.name_default,
-        design: null,
-        description: item.description,
-        engine_vehicles: null,
-        has_text: item.has_text,
         accepted_pictures_count: item.accepted_pictures_count,
         can_edit_specs: false,
-        picturesRouterLink: itemRouterLink,
-        specsRouterLink: null,
-        details: {
-          routerLink: itemRouterLink,
-          count: item.childs_count,
-        },
         childs_counts: null,
+        description: item.description,
+        design: null,
+        details: {
+          count: item.childs_count,
+          routerLink: itemRouterLink,
+        },
+        engine_vehicles: null,
+        has_text: item.has_text,
+        id: item.id,
+        item_type_id: item.item_type_id,
+        name_default: item.name_default,
+        name_html: item.name_html,
+        picturesRouterLink: itemRouterLink,
+        preview_pictures: {
+          large_format: item.preview_pictures.large_format,
+          pictures,
+        },
+        produced: null,
+        produced_exactly: null,
+        specsRouterLink: null,
       };
     });
   }

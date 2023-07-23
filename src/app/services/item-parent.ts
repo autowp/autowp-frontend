@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+
 import {APIPaginator, APIService} from './api.service';
 import {APIItem} from './item';
 
@@ -9,32 +10,32 @@ export interface APIItemParentGetResponse {
 }
 
 export interface APIItemParent {
+  catname: string;
+  duplicate_child?: APIItem;
+  duplicate_parent?: APIItem;
+  expanded?: boolean; // TODO: remove
+  item: APIItem;
   item_id: number;
+  name?: string;
+  parent?: APIItem;
   parent_id: number;
   type_id: number;
-  item: APIItem;
-  expanded?: boolean; // TODO: remove
-  duplicate_parent?: APIItem;
-  duplicate_child?: APIItem;
-  parent?: APIItem;
-  name?: string;
-  catname: string;
 }
 
 export interface APIItemParentGetItemsOptions {
+  ancestor_id?: number;
+  catname?: string;
+  concept?: boolean;
+  exclude_concept?: boolean;
+  fields: string;
+  is_group?: boolean;
   item_id?: number;
   item_type_id?: number;
-  parent_id?: number;
-  fields: string;
   limit: number;
-  page?: number;
-  concept?: boolean;
-  ancestor_id?: number;
-  type_id?: number;
   order?: string;
-  is_group?: boolean;
-  exclude_concept?: boolean;
-  catname?: string;
+  page?: number;
+  parent_id?: number;
+  type_id?: number;
 }
 
 @Injectable()

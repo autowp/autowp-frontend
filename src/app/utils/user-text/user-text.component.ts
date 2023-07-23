@@ -1,16 +1,16 @@
 import {Component, Input} from '@angular/core';
-import {APIUser, UserService} from '@services/user';
 import {APIPicture, APIPictureGetResponse, PictureService} from '@services/picture';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
+import {APIUser, UserService} from '@services/user';
+import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import * as URLParse from 'url-parse';
 
 interface CommentTextElement {
-  type: 'text' | 'user' | 'a' | 'picture';
+  picture?: APIPicture;
   text?: string;
+  type: 'a' | 'picture' | 'text' | 'user';
   url?: string;
   user?: APIUser;
-  picture?: APIPicture;
 }
 
 interface CommentTextLine {
@@ -94,8 +94,8 @@ export class UserTextComponent {
 
       out.push(
         of({
-          type: 'text',
           text: line.substring(0, linkPos),
+          type: 'text',
         })
       );
 
@@ -107,8 +107,8 @@ export class UserTextComponent {
     if (line.length > 0) {
       out.push(
         of({
-          type: 'text',
           text: line,
+          type: 'text',
         })
       );
     }
@@ -221,8 +221,8 @@ export class UserTextComponent {
         map((picture) =>
           picture
             ? {
-                type: 'picture',
                 picture,
+                type: 'picture',
               }
             : null
         )
@@ -230,13 +230,13 @@ export class UserTextComponent {
     }
 
     if (pictureIdentity) {
-      return this.pictureService.getPictures$({identity: pictureIdentity, fields}).pipe(
+      return this.pictureService.getPictures$({fields, identity: pictureIdentity}).pipe(
         catchError(() => of(null as APIPictureGetResponse)),
         map((pictures) =>
           pictures && pictures.pictures.length > 0
             ? {
-                type: 'picture',
                 picture: pictures.pictures[0],
+                type: 'picture',
               }
             : null
         )

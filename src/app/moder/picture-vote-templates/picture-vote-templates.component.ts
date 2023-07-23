@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {ModerVoteTemplate} from '@grpc/spec.pb';
+import {PageEnvService} from '@services/page-env.service';
+
+import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 @Component({
   selector: 'app-moder-picture-vote-templates',
@@ -35,8 +36,8 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
   protected createTemplate() {
     this.voteTemplateService
       .createTemplate$({
-        vote: this.vote,
         name: this.name,
+        vote: this.vote,
       })
       .subscribe();
   }

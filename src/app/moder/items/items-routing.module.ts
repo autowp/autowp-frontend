@@ -1,71 +1,72 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
+import {moderGuard} from '../../moder.guard';
 import {ModerItemsAlphaComponent} from './alpha/alpha.component';
-import {ModerItemsTooBigComponent} from './too-big/too-big.component';
-import {ModerItemsNewComponent} from './new/new.component';
 import {ModerItemsItemOrganizeComponent} from './item/catalogue/organize/organize.component';
+import {ModerItemsItemComponent} from './item/item.component';
 import {ModerItemsItemPicturesOrganizeComponent} from './item/pictures/organize/organize.component';
 import {ModerItemsItemSelectParentComponent} from './item/select-parent/select-parent.component';
-import {ModerItemsItemComponent} from './item/item.component';
 import {ModerItemsComponent} from './items.component';
-import {moderGuard} from '../../moder.guard';
+import {ModerItemsNewComponent} from './new/new.component';
+import {ModerItemsTooBigComponent} from './too-big/too-big.component';
 
 const routes: Routes = [
   {
-    path: 'alpha',
-    component: ModerItemsAlphaComponent,
     canActivate: [moderGuard],
+    component: ModerItemsAlphaComponent,
+    path: 'alpha',
     title: $localize`Alphabetical vehicles list`,
   },
   {
-    path: 'too-big',
-    component: ModerItemsTooBigComponent,
     canActivate: [moderGuard],
+    component: ModerItemsTooBigComponent,
+    path: 'too-big',
     title: $localize`Too big`,
   },
   {
-    path: 'new',
-    component: ModerItemsNewComponent,
     canActivate: [moderGuard],
+    component: ModerItemsNewComponent,
+    path: 'new',
   },
   {
-    path: 'item/:id',
     children: [
       {
-        path: 'organize',
-        component: ModerItemsItemOrganizeComponent,
         canActivate: [moderGuard],
+        component: ModerItemsItemOrganizeComponent,
+        path: 'organize',
         title: $localize`Organize`,
       },
       {
-        path: 'organize-pictures',
-        component: ModerItemsItemPicturesOrganizeComponent,
         canActivate: [moderGuard],
+        component: ModerItemsItemPicturesOrganizeComponent,
+        path: 'organize-pictures',
         title: $localize`Organize pictures`,
       },
       {
-        path: 'select-parent',
-        component: ModerItemsItemSelectParentComponent,
         canActivate: [moderGuard],
+        component: ModerItemsItemSelectParentComponent,
+        path: 'select-parent',
         title: $localize`Parent selection`,
       },
       {
-        path: '',
-        component: ModerItemsItemComponent,
         canActivate: [moderGuard],
+        component: ModerItemsItemComponent,
+        path: '',
       },
     ],
+    path: 'item/:id',
   },
   {
-    path: '',
-    component: ModerItemsComponent,
     canActivate: [moderGuard],
+    component: ModerItemsComponent,
+    path: '',
     title: $localize`Items`,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class ItemsRoutingModule {}

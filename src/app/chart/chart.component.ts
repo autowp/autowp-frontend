@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../toasts/toasts.service';
 import {APIService} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
 import {ChartOptions} from 'chart.js';
 
+import {ToastsService} from '../toasts/toasts.service';
+
 export interface APIChartParameter {
+  active: boolean;
   id: number;
   name: string;
-  active: boolean;
 }
 
 export interface APIChartParameters {
@@ -35,8 +36,6 @@ export class ChartComponent {
   };
 
   protected readonly chart = {
-    data: [],
-    labels: [],
     colors: [
       {
         backgroundColor: 'rgba(41,84,109,1)',
@@ -55,6 +54,8 @@ export class ChartComponent {
         pointHoverBorderColor: 'rgba(148,159,177,0.8)',
       },
     ],
+    data: [],
+    labels: [],
   };
 
   constructor(
@@ -65,11 +66,11 @@ export class ChartComponent {
     setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
 
     this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: (response) => {
         this.parameters = response.parameters;
         this.selectParam(this.parameters[0]);
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -81,14 +82,14 @@ export class ChartComponent {
         params: {id: id.toString()},
       })
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: (response) => {
           this.chart.data = response.datasets.map((dataset) => ({
-            label: dataset.name,
             data: dataset.values,
+            label: dataset.name,
           }));
           this.chart.labels = response.years;
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 

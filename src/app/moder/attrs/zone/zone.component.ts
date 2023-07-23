@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay, tap} from 'rxjs/operators';
-import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 import {AttrZoneAttributesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
+import {PageEnvService} from '@services/page-env.service';
 import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 
 @Component({
   selector: 'app-moder-attrs-zone',
@@ -24,8 +25,8 @@ export class ModerAttrsZoneComponent {
     tap((zone) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
-        title: zone.name,
         pageId: 142,
+        title: zone.name,
       });
     }),
     shareReplay(1)

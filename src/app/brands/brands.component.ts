@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
+import {BrandIcons} from '@grpc/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {APIService} from '@services/api.service';
 import {APIBrandsGetResponse, APIBrandsLines} from '@services/brands.service';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
-import {ToastsService} from '../toasts/toasts.service';
-import {APIService} from '@services/api.service';
-import {AutowpClient} from '@grpc/spec.pbsc';
-import {Empty} from '@ngx-grpc/well-known-types';
-import {BrandIcons} from '@grpc/spec.pb';
 import {catchError, map, shareReplay, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';

@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem, APIItemsGetResponse} from '@services/item';
-import {of, combineLatest, Observable} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {tap, switchMap, map, distinctUntilChanged, debounceTime, shareReplay} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {chunkBy} from '../chunk';
+import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {chunkBy} from '../chunk';
 
 interface ChunkedGroup {
-  item: APIItem;
   childs: APIItem[][];
   hasMoreImages: boolean;
+  item: APIItem;
 }
 
 @Component({
@@ -53,8 +54,8 @@ export class TwinsComponent implements OnInit {
       setTimeout(() => {
         if (brand) {
           this.pageEnv.set({
-            title: brand.name_only,
             pageId: 153,
+            title: brand.name_only,
           });
         } else {
           this.pageEnv.set({pageId: 25});
@@ -70,20 +71,20 @@ export class TwinsComponent implements OnInit {
   }> = combineLatest([this.page$, this.brand$]).pipe(
     switchMap(([page, brand]) =>
       this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_TWINS,
-        limit: 20,
         fields:
           'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
           'childs.front_picture.thumb_medium,childs.front_picture.name_text',
-        page: page,
         have_common_childs_with: brand ? brand.id : null,
+        limit: 20,
+        page: page,
+        type_id: ItemType.ITEM_TYPE_TWINS,
       })
     ),
     map((response) => ({
       groups: response.items.map((group) => ({
-        item: group,
         childs: chunkBy(group.childs, 3),
         hasMoreImages: TwinsComponent.hasMoreImages(group),
+        item: group,
       })),
       paginator: response.paginator,
     }))

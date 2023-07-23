@@ -1,27 +1,27 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {APIUser} from '@services/user';
 import {APIService} from '@services/api.service';
+import {APIUser} from '@services/user';
+import {Observable} from 'rxjs';
 
 export interface APIVotingVariant {
   id: number;
-  votes: number;
-  name: string;
-  text: string;
   is_max: boolean;
   is_min: boolean;
+  name: string;
   percent: number;
+  text: string;
+  votes: number;
 }
 
 export interface APIVoting {
-  id: number;
-  name: string;
-  multivariant: boolean;
-  variants: APIVotingVariant[];
-  can_vote: boolean;
-  text: string;
   begin_date: string;
+  can_vote: boolean;
   end_date: string;
+  id: number;
+  multivariant: boolean;
+  name: string;
+  text: string;
+  variants: APIVotingVariant[];
 }
 
 export interface APIVotingVariantVotesGetOptions {

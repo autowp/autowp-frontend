@@ -1,160 +1,161 @@
-import {APIPaginator, APIImage, APIService} from './api.service';
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {APIUser} from './user';
-import {APIPictureItem} from './picture-item';
-import {switchMap, shareReplay, map} from 'rxjs/operators';
-import {AuthService} from './auth.service';
-import {ACLService, Privilege, Resource} from './acl.service';
-import {APIItem, APIPathTreeItem} from './item';
-import {PicturesClient} from '@grpc/spec.pbsc';
 import {PicturesVoteRequest, PicturesVoteSummary} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {Observable, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ACLService, Privilege, Resource} from './acl.service';
+import {APIImage, APIPaginator, APIService} from './api.service';
+import {AuthService} from './auth.service';
+import {APIItem, APIPathTreeItem} from './item';
+import {APIPictureItem} from './picture-item';
+import {APIUser} from './user';
 
 export interface APIPictureGetResponse {
-  pictures: APIPicture[];
   paginator: APIPaginator;
+  pictures: APIPicture[];
 }
 
 export interface APIPictureVotes {
-  positive: number;
   negative: number;
+  positive: number;
   value: number;
 }
 
 export interface APIPathTreePictureItem {
-  type: number;
-  perspective_id?: number;
   item: APIPathTreeItem;
+  perspective_id?: number;
+  type: number;
 }
 
 export interface APIPicture {
-  id: number;
-  identity: string;
-  crop: {
-    left: number | null;
-    top: number | null;
-    width: number | null;
-    height: number | null;
-  };
-  thumb_medium: APIImage;
-  perspective_item: {
-    item_id: number;
-    type: number;
-    perspective_id: number;
-  };
-  url: string;
-  status: string;
-  cropped: boolean;
-  name_html: string;
-  name_text: string;
-  resolution: string;
-  views: number;
-  comments_count: {
-    total: number;
-    new: number;
-  };
-  votes: APIPictureVotes;
-  owner: APIUser;
-  crop_resolution: string;
-  similar: {
-    distance: number;
-    picture_id: number;
-    picture: APIPicture;
-  };
-  image_gallery_full: APIImage;
-  width: number;
-  height: number;
-  thumb: APIImage;
-  items: APIPictureItem[];
-  special_name: string;
-  copyrights: string;
-  name: string;
-  image: APIImage;
-  moder_voted: boolean;
-  moder_votes: APIPictureModerVote[];
-  is_last: boolean;
   accepted_count: number;
-  siblings: {
-    prev: APIPicture;
-    prev_new: APIPicture;
-    next_new: APIPicture;
-    next: APIPicture;
-  };
-  dpi_x: number;
-  dpi_y: number;
-  filesize: number;
-  rights: {
-    crop: boolean;
-    move: boolean;
-    accept: boolean;
-    delete: boolean;
-    unaccept: boolean;
-    restore: boolean;
-    normalize: boolean;
-    flop: boolean;
-  };
-  copyrights_text_id: number;
-  exif: string;
-  replaceable: APIPicture;
-  change_status_user: APIUser;
-  ip: string;
   add_date: string;
-  moder_vote: {
-    vote: number;
-    count: number;
-  };
-  preview_large: APIImage;
-  point?: {
-    lat: number;
-    lng: number;
-  };
   authors?: {
     id: number;
     name: string;
   }[];
   categories?: APIItem[];
-  twins?: APIItem[];
-  factories?: APIItem[];
+  change_status_user: APIUser;
+  comments_count: {
+    new: number;
+    total: number;
+  };
   copyright_blocks?: APIItem[];
-  subscribed?: boolean;
+  copyrights: string;
+  copyrights_text_id: number;
+  crop: {
+    height: null | number;
+    left: null | number;
+    top: null | number;
+    width: null | number;
+  };
+  crop_resolution: string;
+  cropped: boolean;
+  dpi_x: number;
+  dpi_y: number;
+  exif: string;
+  factories?: APIItem[];
+  filesize: number;
+  height: number;
+  id: number;
+  identity: string;
+  image: APIImage;
+  image_gallery_full: APIImage;
+  ip: string;
+  is_last: boolean;
+  items: APIPictureItem[];
+  moder_vote: {
+    count: number;
+    vote: number;
+  };
+  moder_voted: boolean;
+  moder_votes: APIPictureModerVote[];
+  name: string;
+  name_html: string;
+  name_text: string;
   of_links?: {
     id: number;
-    url: string;
     name: string;
     type_id: string;
+    url: string;
   }[];
+  owner: APIUser;
   paginator?: APIPicturePaginator;
   path: APIPathTreePictureItem[];
-  taken_year?: number;
-  taken_month?: number;
-  taken_day?: number;
+  perspective_item: {
+    item_id: number;
+    perspective_id: number;
+    type: number;
+  };
+  point?: {
+    lat: number;
+    lng: number;
+  };
+  preview_large: APIImage;
+  replaceable: APIPicture;
+  resolution: string;
+  rights: {
+    accept: boolean;
+    crop: boolean;
+    delete: boolean;
+    flop: boolean;
+    move: boolean;
+    normalize: boolean;
+    restore: boolean;
+    unaccept: boolean;
+  };
+  siblings: {
+    next: APIPicture;
+    next_new: APIPicture;
+    prev: APIPicture;
+    prev_new: APIPicture;
+  };
+  similar: {
+    distance: number;
+    picture: APIPicture;
+    picture_id: number;
+  };
+  special_name: string;
+  status: string;
+  subscribed?: boolean;
   taken_date?: string;
+  taken_day?: number;
+  taken_month?: number;
+  taken_year?: number;
+  thumb: APIImage;
+  thumb_medium: APIImage;
+  twins?: APIItem[];
+  url: string;
+  views: number;
+  votes: APIPictureVotes;
+  width: number;
 }
 
 export interface APIPicturePaginator {
-  pageCount: number;
-  itemCountPerPage: number;
-  first: string;
   current: string;
-  last: string;
-  previous: string;
-  next: string;
-  pagesInRange: {
-    page: number;
-    identity: string;
-  }[];
-  firstPageInRange: number;
-  lastPageInRange: number;
   currentItemCount: number;
-  totalItemCount: number;
+  first: string;
   firstItemNumber: number;
+  firstPageInRange: number;
+  itemCountPerPage: number;
+  last: string;
   lastItemNumber: number;
+  lastPageInRange: number;
+  next: string;
+  pageCount: number;
+  pagesInRange: {
+    identity: string;
+    page: number;
+  }[];
+  previous: string;
+  totalItemCount: number;
 }
 
 export interface APIPictureModerVote {
+  reason: string;
   user: APIUser;
   vote: number;
-  reason: string;
 }
 
 export interface APIGetPictureOptions {
@@ -162,47 +163,47 @@ export interface APIGetPictureOptions {
 }
 
 export interface APIGetPicturesOptions {
-  identity?: string;
-  fields?: string;
-  status?: string;
-  limit?: number;
-  page?: number;
-  perspective_id?: number | null | 'null';
-  perspective_exclude_id?: string;
-  order?: number;
-  exact_item_id?: number;
-  item_id?: number;
-  exclude_item_id?: number;
-  add_date?: string;
-  car_type_id?: number;
-  comments?: null | boolean;
-  owner_id?: string;
-  replace?: null | boolean;
-  requests?: null | number;
-  special_name?: boolean;
-  lost?: boolean;
-  gps?: boolean;
-  similar?: boolean;
   accept_date?: string;
-  exact_item_link_type?: number;
+  accepted_in_days?: number;
+  add_date?: string;
   added_from?: string;
+  car_type_id?: number;
+  comments?: boolean | null;
+  exact_item_id?: number;
+  exact_item_link_type?: number;
+  exclude_item_id?: number;
+  fields?: string;
+  gps?: boolean;
+  identity?: string;
+  item_id?: number;
   items?: {
     type_id?: number;
   };
+  limit?: number;
+  lost?: boolean;
+  order?: number;
+  owner_id?: string;
+  page?: number;
   paginator?: {
-    item_id?: number;
     exact?: boolean;
     exact_item_id?: number;
     exact_item_link_type?: number;
-    perspective_id?: number;
+    item_id?: number;
     perspective_exclude_id?: string;
+    perspective_id?: number;
   };
-  accepted_in_days?: number;
+  perspective_exclude_id?: string;
+  perspective_id?: 'null' | null | number;
+  replace?: boolean | null;
+  requests?: null | number;
+  similar?: boolean;
+  special_name?: boolean;
+  status?: string;
 }
 
 export interface APIPictureUserSummary {
-  inboxCount: number;
   acceptedCount: number;
+  inboxCount: number;
 }
 
 function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
@@ -378,8 +379,8 @@ export class PictureService {
         }
 
         return this.getPictures$({
-          status: 'inbox',
           limit: 0,
+          status: 'inbox',
         }).pipe(map((response) => response.paginator.totalItemCount));
       }),
       shareReplay(1)
@@ -398,8 +399,8 @@ export class PictureService {
     });
   }
 
-  public getCanonicalRoute$(identity: string): Observable<string[] | null> {
-    return this.api.request<string[] | null>('GET', 'picture/' + identity + '/canonical-route');
+  public getCanonicalRoute$(identity: string): Observable<null | string[]> {
+    return this.api.request<null | string[]>('GET', 'picture/' + identity + '/canonical-route');
   }
 
   public getPictures$(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {

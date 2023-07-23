@@ -3,17 +3,17 @@ import {Observable, Observer} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 export interface Page {
+  childs: Page[];
+  class: string;
+  guest_only: boolean;
+  icon: string;
   id: number;
   is_group_node: boolean;
-  childs: Page[];
-  url: string;
   name: string;
-  title: string;
   registered_only: boolean;
-  guest_only: boolean;
-  class: string;
-  icon: string;
   routerLink: string[];
+  title: string;
+  url: string;
 }
 
 @Injectable()

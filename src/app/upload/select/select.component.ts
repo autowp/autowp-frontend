@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {APIPaginator} from '@services/api.service';
-import {ItemService, APIItem, APIItemsGetResponse} from '@services/item';
-import {chunk} from '../../chunk';
-import {Observable, forkJoin, of, BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemParentService, APIItemParent} from '@services/item-parent';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, switchMap, map, catchError, tap, debounceTime} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
 import {ItemType} from '@grpc/spec.pb';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, forkJoin, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
+import {chunk} from '../../chunk';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-upload-select',
@@ -16,10 +17,10 @@ import {ItemType} from '@grpc/spec.pb';
 })
 export class UploadSelectComponent implements OnInit {
   protected brand: {
+    concepts: APIItemParent[];
+    engines: APIItemParent[];
     item: APIItem;
     vehicles: APIItemParent[];
-    engines: APIItemParent[];
-    concepts: APIItemParent[];
   };
   protected brands: APIItem[][];
   protected paginator: APIPaginator;
@@ -58,7 +59,7 @@ export class UploadSelectComponent implements OnInit {
       ),
     ])
       .pipe(
-        map(([search, query]) => ({search, brand_id: query.brand_id, page: query.page})),
+        map(([search, query]) => ({brand_id: query.brand_id, page: query.page, search})),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         tap(() => {
           this.loading = 1;
@@ -89,12 +90,12 @@ export class UploadSelectComponent implements OnInit {
   private brandsObservable$(page: number, search: string): Observable<APIItemsGetResponse> {
     return this.itemService
       .getItems$({
-        type_id: ItemType.ITEM_TYPE_BRAND,
-        order: 'name',
-        limit: 500,
         fields: 'name_only',
+        limit: 500,
         name: search ? '%' + search + '%' : null,
+        order: 'name',
         page,
+        type_id: ItemType.ITEM_TYPE_BRAND,
       })
       .pipe(
         catchError((err: unknown) => {
@@ -105,10 +106,10 @@ export class UploadSelectComponent implements OnInit {
   }
 
   private brandObservable$(brandId: number): Observable<{
+    concepts: APIItemParent[];
+    engines: APIItemParent[];
     item: APIItem;
     vehicles: APIItemParent[];
-    engines: APIItemParent[];
-    concepts: APIItemParent[];
   }> {
     return this.itemService.getItem$(brandId).pipe(
       catchError(() => {
@@ -118,7 +119,7 @@ export class UploadSelectComponent implements OnInit {
         return EMPTY;
       }),
       switchMap((item) => this.brandItemsObservable(item)),
-      map(([item, vehicles, engines, concepts]) => ({item, vehicles, engines, concepts}))
+      map(([item, vehicles, engines, concepts]) => ({concepts, engines, item, vehicles}))
     );
   }
 
@@ -127,12 +128,12 @@ export class UploadSelectComponent implements OnInit {
       of(item),
       this.itemParentService
         .getItems$({
-          limit: 500,
-          fields: 'item.name_html,item.childs_count',
-          parent_id: item.id,
           exclude_concept: true,
-          order: 'name',
+          fields: 'item.name_html,item.childs_count',
           item_type_id: ItemType.ITEM_TYPE_VEHICLE,
+          limit: 500,
+          order: 'name',
+          parent_id: item.id,
         })
         .pipe(
           map((response) => response.items),
@@ -143,12 +144,12 @@ export class UploadSelectComponent implements OnInit {
         ),
       this.itemParentService
         .getItems$({
-          limit: 500,
-          fields: 'item.name_html,item.childs_count',
-          parent_id: item.id,
           exclude_concept: true,
-          order: 'name',
+          fields: 'item.name_html,item.childs_count',
           item_type_id: ItemType.ITEM_TYPE_ENGINE,
+          limit: 500,
+          order: 'name',
+          parent_id: item.id,
         })
         .pipe(
           map((response) => response.items),
@@ -159,11 +160,11 @@ export class UploadSelectComponent implements OnInit {
         ),
       this.itemParentService
         .getItems$({
-          limit: 500,
-          fields: 'item.name_html,item.childs_count',
-          parent_id: item.id,
           concept: true,
+          fields: 'item.name_html,item.childs_count',
+          limit: 500,
           order: 'name',
+          parent_id: item.id,
         })
         .pipe(
           map((response) => response.items),

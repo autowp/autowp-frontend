@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {APIAccountItemsGetResponse, APIAccount} from '../account.service';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
+
+import {ToastsService} from '../../toasts/toasts.service';
+import {APIAccount, APIAccountItemsGetResponse} from '../account.service';
 
 @Component({
   selector: 'app-account-accounts',
@@ -37,14 +38,14 @@ export class AccountAccountsComponent implements OnInit {
 
   protected remove(account: APIAccount) {
     this.api.request('DELETE', 'account/' + account.id).subscribe({
+      error: (response: unknown) => {
+        this.disconnectFailed = true;
+        this.toastService.handleError(response);
+      },
       next: () => {
         this.toastService.success($localize`Account removed`);
 
         this.reload$.next();
-      },
-      error: (response: unknown) => {
-        this.disconnectFailed = true;
-        this.toastService.handleError(response);
       },
     });
   }

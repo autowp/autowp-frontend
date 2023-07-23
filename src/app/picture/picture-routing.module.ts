@@ -1,16 +1,17 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {PicturePageComponent} from './picture-page.component';
 
 const routes: Routes = [
   {
-    path: ':identity',
     component: PicturePageComponent,
+    path: ':identity',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class PictureRoutingModule {}

@@ -21,7 +21,8 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended",
-        "plugin:rxjs/recommended"
+        "plugin:rxjs/recommended",
+        "plugin:perfectionist/recommended-natural"
       ],
       "plugins": ["rxjs","rxjs-angular"],
       "rules": {
@@ -46,7 +47,8 @@
         "rxjs-angular/prefer-takeuntil": "off",
         "rxjs/finnish": "error",
         "rxjs/no-compat": "error",
-        "rxjs/no-sharereplay": "off"
+        "rxjs/no-sharereplay": "off",
+        "perfectionist/sort-classes": "off"
       }
     },
     {
@@ -65,6 +67,10 @@
       "rules": {
         "prettier/prettier": ["error", { "parser": "angular" }]
       }
+    },
+    {
+      "files": ["*.json"],
+      "extends": ["plugin:json/recommended"]
     }
   ]
 }

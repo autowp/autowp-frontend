@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {of, EMPTY, Observable, BehaviorSubject, combineLatest} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
-import {APIPicture, PictureService} from '@services/picture';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, map, debounceTime, shareReplay, tap} from 'rxjs/operators';
-import {BrandPerspectivePageData} from '../../catalogue.module';
 import {CommentsType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
   selector: 'app-catalogue-mixed-picture',
@@ -72,20 +73,20 @@ export class CatalogueMixedPictureComponent {
       return this.changed$.pipe(
         switchMap(() =>
           this.pictureService.getPictures$({
-            identity,
             exact_item_id: brand.id,
-            perspective_id: data.perspective_id,
-            perspective_exclude_id: data.perspective_exclude_id,
             fields,
-            limit: 1,
+            identity,
             items: {
               type_id: 1,
             },
+            limit: 1,
             paginator: {
               exact_item_id: brand.id,
-              perspective_id: data.perspective_id,
               perspective_exclude_id: data.perspective_exclude_id,
+              perspective_id: data.perspective_id,
             },
+            perspective_exclude_id: data.perspective_exclude_id,
+            perspective_id: data.perspective_id,
           })
         ),
         map((response) => (response && response.pictures.length ? response.pictures[0] : null)),
@@ -100,8 +101,8 @@ export class CatalogueMixedPictureComponent {
         }),
         tap((picture) => {
           this.pageEnv.set({
-            title: picture.name_text,
             pageId: data.picture_page.id,
+            title: picture.name_text,
           });
         })
       );

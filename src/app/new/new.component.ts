@@ -1,40 +1,41 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {APIPaginator, APIService} from '@services/api.service';
-import {chunkBy} from '../chunk';
-import {Router, ActivatedRoute} from '@angular/router';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPicture} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {ToastsService} from '../toasts/toasts.service';
 import {APIItem} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture} from '@services/picture';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {chunkBy} from '../chunk';
+import {ToastsService} from '../toasts/toasts.service';
 
 interface APINewGroupRepacked {
-  type: string;
-  pictures?: APIPicture[];
   chunks?: APIPicture[][];
   item?: APIItem;
+  pictures?: APIPicture[];
   total_pictures?: number;
+  type: string;
 }
 
 interface APINewGroup {
-  type: string;
-  pictures: APIPicture[];
   item: APIItem;
+  pictures: APIPicture[];
   total_pictures: number;
+  type: string;
 }
 
 interface DayCount {
-  date: string;
   count: number;
+  date: string;
 }
 
 interface APINewGetResponse {
-  paginator: APIPaginator;
-  prev: DayCount;
-  next: DayCount;
   current: DayCount;
   groups: APINewGroup[];
+  next: DayCount;
+  paginator: APIPaginator;
+  prev: DayCount;
 }
 
 @Component({
@@ -56,11 +57,11 @@ export class NewComponent implements OnInit {
   );
 
   protected readonly data$: Observable<{
+    current: DayCount;
     groups: APINewGroupRepacked[];
+    next: DayCount;
     paginator: APIPaginator;
     prev: DayCount;
-    next: DayCount;
-    current: DayCount;
   }> = combineLatest([this.page$, this.date$]).pipe(
     switchMap(([page, date]) => {
       const q: {
@@ -102,10 +103,7 @@ export class NewComponent implements OnInit {
       return of(response);
     }),
     map((response) => ({
-      paginator: response.paginator,
-      prev: response.prev,
       current: response.current,
-      next: response.next,
       groups: response.groups.map((group) => {
         let repackedGroup: APINewGroupRepacked;
 
@@ -115,14 +113,17 @@ export class NewComponent implements OnInit {
             break;
           case 'pictures':
             repackedGroup = {
-              type: group.type,
               chunks: chunkBy(group.pictures, 6),
+              type: group.type,
             };
             break;
         }
 
         return repackedGroup;
       }),
+      next: response.next,
+      paginator: response.paginator,
+      prev: response.prev,
     }))
   );
 

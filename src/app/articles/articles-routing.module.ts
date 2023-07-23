@@ -1,15 +1,16 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {ArticlesArticleComponent} from './article/article.component';
 import {ListComponent} from './list/list.component';
 
 const routes: Routes = [
-  {path: ':catname', component: ArticlesArticleComponent},
-  {path: '', component: ListComponent, pathMatch: 'full', title: $localize`Articles`},
+  {component: ArticlesArticleComponent, path: ':catname'},
+  {component: ListComponent, path: '', pathMatch: 'full', title: $localize`Articles`},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class ArticlesRoutingModule {}

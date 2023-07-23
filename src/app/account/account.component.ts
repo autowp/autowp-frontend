@@ -1,23 +1,24 @@
 import {Component} from '@angular/core';
-import {combineLatest, Observable, of} from 'rxjs';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
-import {MessageService} from '@services/message';
-import {AuthService} from '@services/auth.service';
-import {PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../toasts/toasts.service';
-import {Empty} from '@ngx-grpc/well-known-types';
 import {ForumsClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {AuthService} from '@services/auth.service';
+import {MessageService} from '@services/message';
+import {PageEnvService} from '@services/page-env.service';
+import {PictureService} from '@services/picture';
+import {Observable, combineLatest, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
 
 interface SidebarItem {
-  pageId?: number;
-  routerLink?: string[];
+  active?: boolean;
+  count?: number;
   icon?: string;
   name: string;
-  count?: number;
   newCount?: number;
+  pageId?: number;
+  routerLink?: string[];
   routerLinkParams?: {[key: string]: string};
-  active?: boolean;
 }
 
 @Component({
@@ -45,102 +46,102 @@ export class AccountComponent {
       }
       const items: SidebarItem[] = [
         {
-          pageId: 129,
-          routerLink: ['/account/profile'],
           icon: 'bi-person',
           name: $localize`Profile`,
+          pageId: 129,
+          routerLink: ['/account/profile'],
         },
         {
-          pageId: 198,
-          routerLink: ['/account/contacts'],
           icon: 'bi-person-lines-fill',
           name: $localize`Contacts`,
+          pageId: 198,
+          routerLink: ['/account/contacts'],
         },
         {
-          pageId: 55,
-          routerLink: ['/account/email'],
           icon: 'bi-envelope-open',
           name: $localize`My e-mail`,
+          pageId: 55,
+          routerLink: ['/account/email'],
         },
         {
-          pageId: 133,
-          routerLink: ['/account/access'],
           icon: 'bi-lock',
           name: $localize`Access Control`,
+          pageId: 133,
+          routerLink: ['/account/access'],
         },
         {
-          pageId: 123,
-          routerLink: ['/account/accounts'],
           icon: 'bi-asterisk',
           name: $localize`My accounts`,
+          pageId: 123,
+          routerLink: ['/account/accounts'],
         },
         {
-          pageId: 130,
-          routerLink: ['/users', user.identity ? user.identity : 'user' + user.id, 'pictures'],
+          count: picturesSummary ? picturesSummary.acceptedCount : null,
           icon: 'bi-grid-3x2-gap-fill',
           name: $localize`My pictures`,
-          count: picturesSummary ? picturesSummary.acceptedCount : null,
+          pageId: 130,
+          routerLink: ['/users', user.identity ? user.identity : 'user' + user.id, 'pictures'],
         },
         {
-          pageId: 94,
-          routerLink: ['/account/inbox-pictures'],
+          count: picturesSummary ? picturesSummary.inboxCount : null,
           icon: 'bi-grid-3x2-gap-fill',
           name: $localize`Unmoderated`,
-          count: picturesSummary ? picturesSummary.inboxCount : null,
+          pageId: 94,
+          routerLink: ['/account/inbox-pictures'],
         },
         {
-          pageId: 57,
-          routerLink: ['/forums/subscriptions'],
+          count: forumSummary ? forumSummary.subscriptionsCount : null,
           icon: 'bi-bookmark',
           name: $localize`Forums subscriptions`,
-          count: forumSummary ? forumSummary.subscriptionsCount : null,
+          pageId: 57,
+          routerLink: ['/forums/subscriptions'],
         },
         {
           name: $localize`Specifications`,
         },
         {
-          pageId: 188,
-          routerLink: ['/account/specs-conflicts'],
           icon: 'bi-exclamation-triangle',
           name: $localize`Conflicts`,
+          pageId: 188,
+          routerLink: ['/account/specs-conflicts'],
         },
         {
           name: $localize`Personal messages`,
         },
         {
-          pageId: 128,
-          routerLink: ['/account/messages'],
+          count: messageSummary ? messageSummary.inboxCount : null,
           icon: 'bi-chat-text',
           name: $localize`Inbox`,
-          count: messageSummary ? messageSummary.inboxCount : null,
           newCount: messageSummary ? messageSummary.inboxNewCount : null,
+          pageId: 128,
+          routerLink: ['/account/messages'],
         },
         {
+          count: messageSummary ? messageSummary.sentCount : null,
+          icon: 'bi-chat-text',
+          name: $localize`Sent`,
           pageId: 80,
           routerLink: ['/account/messages'],
           routerLinkParams: {folder: 'sent'},
-          icon: 'bi-chat-text',
-          name: $localize`Sent`,
-          count: messageSummary ? messageSummary.sentCount : null,
         },
         {
+          count: messageSummary ? messageSummary.systemCount : null,
+          icon: 'bi-chat-text',
+          name: $localize`System messages`,
+          newCount: messageSummary ? messageSummary.systemNewCount : null,
           pageId: 81,
           routerLink: ['/account/messages'],
           routerLinkParams: {folder: 'system'},
-          icon: 'bi-chat-text',
-          name: $localize`System messages`,
-          count: messageSummary ? messageSummary.systemCount : null,
-          newCount: messageSummary ? messageSummary.systemNewCount : null,
         },
       ];
 
       for (const item of items) {
         if (item.pageId) {
           this.pageEnv.isActive$(item.pageId).subscribe({
+            error: (response: unknown) => this.toastService.handleError(response),
             next: (active) => {
               item.active = active;
             },
-            error: (response: unknown) => this.toastService.handleError(response),
           });
         }
       }

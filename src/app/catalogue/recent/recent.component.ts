@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ActivatedRoute} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY} from 'rxjs';
 import {APIPicture, PictureService} from '@services/picture';
+import {EMPTY, combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {chunkBy} from '../../chunk';
 import {CatalogueService} from '../catalogue-service';
 
@@ -56,12 +57,12 @@ export class CatalogueRecentComponent {
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       this.pictureService.getPictures$({
-        limit: 12,
-        status: 'accepted',
-        order: 15,
-        item_id: brand.id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
+        item_id: brand.id,
+        limit: 12,
+        order: 15,
         page,
+        status: 'accepted',
       })
     ),
     map((response) => {
@@ -70,8 +71,8 @@ export class CatalogueRecentComponent {
         route: this.catalogue.picturePathToRoute(picture),
       }));
       return {
-        pictures: chunkBy(pictures, 4),
         paginator: response.paginator,
+        pictures: chunkBy(pictures, 4),
       };
     })
   );

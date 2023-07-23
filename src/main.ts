@@ -1,8 +1,9 @@
 import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {AppModule} from './app/app.module';
 import {environment} from '@environment/environment';
 import * as Sentry from '@sentry/angular-ivy';
+
+import {AppModule} from './app/app.module';
 import version from './version.json';
 
 if (environment.production) {
@@ -12,17 +13,17 @@ if (environment.production) {
 Sentry.init({
   dsn: environment.sentry.dsn,
   environment: environment.sentry.environment,
-  release: version.release,
   integrations: [
     new Sentry.BrowserTracing({
-      tracePropagationTargets: [environment.apiUrl],
       routingInstrumentation: Sentry.routingInstrumentation,
+      tracePropagationTargets: [environment.apiUrl],
     }),
     new Sentry.Replay(),
   ],
-  tracesSampleRate: 1.0,
-  replaysSessionSampleRate: 0.1,
+  release: version.release,
   replaysOnErrorSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  tracesSampleRate: 1.0,
 });
 
 platformBrowserDynamic()

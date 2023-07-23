@@ -1,52 +1,53 @@
 import {Injectable} from '@angular/core';
-import {AuthService} from './auth.service';
+import {AclEnforceRequest} from '@grpc/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
 import {Observable, of} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
-import {AutowpClient} from '@grpc/spec.pbsc';
-import {AclEnforceRequest} from '@grpc/spec.pb';
+
+import {AuthService} from './auth.service';
 
 export enum Privilege {
+  ACCEPT = 'accept',
+  ADD = 'add',
+  ADMIN = 'admin',
+  BAN = 'ban',
+  BE_GREEN = 'be-green',
+  CROP = 'crop',
+  DELETE = 'delete',
   EDIT = 'edit',
+  EDIT_ENGINE = 'edit-engine',
   EDIT_META = 'edit_meta',
-  REMOVE = 'remove',
+  FLOP = 'flop',
+  IP = 'ip',
+  LOGO = 'logo',
   MANAGE = 'manage',
-  VIEW = 'view',
+  MODER_VOTE = 'moder_vote',
+  MODERATE = 'moderate',
+  MODERATOR_ATTENTION = 'moderator-attention',
+  MOVE = 'move',
+  NORMALIZE = 'normalize',
+  REMOVE = 'remove',
+  REMOVE_BY_VOTE = 'remove_by_vote',
   RESOTRE = 'restore',
   UNACCEPT = 'unaccept',
-  FLOP = 'flop',
-  NORMALIZE = 'normalize',
-  ADMIN = 'admin',
-  EDIT_ENGINE = 'edit-engine',
-  BAN = 'ban',
-  DELETE = 'delete',
-  LOGO = 'logo',
-  ADD = 'add',
-  MOVE = 'move',
-  MODERATE = 'moderate',
-  BE_GREEN = 'be-green',
   UNLIMITED_TRAFFIC = 'unlimited-traffic',
-  IP = 'ip',
-  REMOVE_BY_VOTE = 'remove_by_vote',
-  ACCEPT = 'accept',
-  CROP = 'crop',
-  MODER_VOTE = 'moder_vote',
-  MODERATOR_ATTENTION = 'moderator-attention',
+  VIEW = 'view',
 }
 
 export enum Resource {
   ATTRS = 'attrs',
+  BRAND = 'brand',
   CAR = 'car',
   COMMENT = 'comment',
+  FORUMS = 'forums',
+  GLOBAL = 'global',
   HOTLINKS = 'hotlinks',
+  PAGES = 'pages',
   PICTURE = 'picture',
   RIGHTS = 'rights',
   SPECIFICATIONS = 'specifications',
-  USER = 'user',
-  BRAND = 'brand',
-  FORUMS = 'forums',
   STATUS = 'status',
-  GLOBAL = 'global',
-  PAGES = 'pages',
+  USER = 'user',
 }
 
 @Injectable()
@@ -54,7 +55,7 @@ export class APIACL {
   constructor(private readonly grpc: AutowpClient) {}
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
-    return this.grpc.aclEnforce(new AclEnforceRequest({resource, privilege})).pipe(
+    return this.grpc.aclEnforce(new AclEnforceRequest({privilege, resource})).pipe(
       map((response) => response.result),
       catchError(() => {
         return of(false);

@@ -1,21 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '@services/auth.service';
-import {of, combineLatest, EMPTY, Observable} from 'rxjs';
-import {APIPictureGetResponse, PictureService} from '@services/picture';
-import {APIInbox, InboxService} from './inbox.service';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
-import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {KeycloakService} from 'keycloak-angular';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
+import {APIInbox, InboxService} from './inbox.service';
 
 const ALL_BRANDS = 'all';
 
 interface Inbox {
-  pictures$: Observable<APIPictureGetResponse>;
   brandCatname: string;
   inbox: APIInbox;
+  pictures$: Observable<APIPictureGetResponse>;
 }
 
 @Component({
@@ -27,8 +28,8 @@ export class InboxComponent implements OnInit {
     switchMap((user) => {
       if (!user) {
         this.keycloak.login({
-          redirectUri: window.location.href,
           locale: this.languageService.language,
+          redirectUri: window.location.href,
         });
         return EMPTY;
       }
@@ -72,23 +73,23 @@ export class InboxComponent implements OnInit {
       }
 
       return of({
+        brandCatname: brandID ? brandID.toString() : 'all',
+        inbox: inbox,
         pictures$: this.route.queryParamMap.pipe(
           map((params) => parseInt(params.get('page'), 10)),
           distinctUntilChanged(),
           switchMap((page) =>
             this.pictureService.getPictures$({
-              status: 'inbox',
-              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              limit: 24,
-              page: page,
-              item_id: brandID,
               add_date: inbox.current.date,
+              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+              item_id: brandID,
+              limit: 24,
               order: 1,
+              page: page,
+              status: 'inbox',
             })
           )
         ),
-        inbox: inbox,
-        brandCatname: brandID ? brandID.toString() : 'all',
       });
     })
   );

@@ -1,12 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
+import {ItemType} from '@grpc/spec.pb';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {APIService} from '@services/api.service';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-moder-items-item-catalogue',
@@ -33,11 +33,11 @@ export class ModerItemsItemCatalogueComponent {
   );
 
   protected readonly canHaveParentBrand$ = this.item$.pipe(
-    map((item) => [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].includes(item.item_type_id))
+    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id))
   );
 
   protected readonly canHaveParents$ = this.item$.pipe(
-    map((item) => ![ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_FACTORY].includes(item.item_type_id))
+    map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id))
   );
 
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
@@ -58,10 +58,10 @@ export class ModerItemsItemCatalogueComponent {
               .getItems$({
                 autocomplete: query,
                 exclude_self_and_childs: item.id,
-                is_group: true,
-                parent_types_of: item.item_type_id,
                 fields: 'name_html,name_text,brandicon',
+                is_group: true,
                 limit: 15,
+                parent_types_of: item.item_type_id,
               })
               .pipe(map((response) => response.items));
           })
@@ -72,10 +72,10 @@ export class ModerItemsItemCatalogueComponent {
   protected readonly childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
     switchMap(([item]) =>
       this.itemParentService.getItems$({
-        parent_id: item.id,
-        limit: 500,
         fields: 'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
+        limit: 500,
         order: 'type_auto',
+        parent_id: item.id,
       })
     ),
     map((response) => response.items)
@@ -84,9 +84,9 @@ export class ModerItemsItemCatalogueComponent {
   protected readonly parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
     switchMap(([item]) =>
       this.itemParentService.getItems$({
+        fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes',
         item_id: item.id,
         limit: 500,
-        fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes',
       })
     ),
     map((response) => response.items)
@@ -95,9 +95,9 @@ export class ModerItemsItemCatalogueComponent {
   protected readonly suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
     switchMap(([item]) =>
       this.itemService.getItems$({
-        suggestions_to: item.id,
-        limit: 3,
         fields: 'name_text',
+        limit: 3,
+        suggestions_to: item.id,
       })
     ),
     map((response) => response.items)

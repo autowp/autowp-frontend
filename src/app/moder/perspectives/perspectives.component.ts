@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
-import {getPerspectiveTranslation} from '@utils/translations';
+import {PerspectivePage} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {PerspectivePage} from '@grpc/spec.pb';
+import {PageEnvService} from '@services/page-env.service';
+import {getPerspectiveTranslation} from '@utils/translations';
+
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -28,10 +29,10 @@ export class ModerPerspectivesComponent {
     );
 
     this.grpc.getPerspectivePages(new Empty()).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: (response) => {
         this.pages = response.items;
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

@@ -1,46 +1,46 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
-import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
-import {APIUser} from '@services/user';
-import {AttrsClient} from '@grpc/spec.pbsc';
-import {Empty} from '@ngx-grpc/well-known-types';
 import {
   AttrAttribute,
   AttrAttributeID,
-  AttrAttributesRequest,
   AttrAttributeType,
+  AttrAttributesRequest,
   AttrListOptionsRequest,
   AttrListOptionsResponse,
   AttrZone,
 } from '@grpc/spec.pb';
+import {AttrsClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIItem} from '@services/item';
+import {APIUser} from '@services/user';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 
 export interface APIAttrListOption {
+  childs?: APIAttrListOption[];
   id: number;
   name: string;
-  childs?: APIAttrListOption[];
 }
 
 export interface APIAttrConflictsGetOptions {
+  fields: string;
   filter: string;
   page: number;
-  fields: string;
 }
 
 export interface APIAttrConflictValue {
   user_id: number;
-  value: string | number | null;
+  value: null | number | string;
 }
 
 export interface APIAttrConflict {
-  object: string;
-  item_id: number;
   attribute: APIAttrAttribute;
+  item_id: number;
+  object: string;
   unit: APIAttrUnit;
-  values: APIAttrConflictValue[];
-
   user?: APIUser; // TODO: remove
+
+  values: APIAttrConflictValue[];
 }
 
 export interface APIAttrConflictsGetResponse {
@@ -49,10 +49,10 @@ export interface APIAttrConflictsGetResponse {
 }
 
 export interface APIAttrValuesGetOptions {
-  item_id: number;
-  zone_id?: number;
   fields?: string;
+  item_id: number;
   limit?: number;
+  zone_id?: number;
 }
 
 export interface APIAttrValue {
@@ -66,28 +66,28 @@ export interface APIAttrValuesGetResponse {
 }
 
 export interface APIAttrUserValuesOptions {
-  user_id?: number;
-  item_id: number;
-  zone_id?: number;
-  page?: number;
   fields?: string;
+  item_id: number;
   limit?: number;
+  page?: number;
+  user_id?: number;
+  zone_id?: number;
 }
 
 export type APIAttrAttributeValue = number | string | string[];
 
 export interface APIAttrUserValue {
-  item_id: number;
-  user_id: number;
   attribute_id: number;
-  value: APIAttrAttributeValue;
   empty: boolean;
-  value_text: string;
-  user: APIUser;
-  update_date: string;
   item: APIItem;
-  unit: APIAttrUnit;
+  item_id: number;
   path: string[];
+  unit: APIAttrUnit;
+  update_date: string;
+  user: APIUser;
+  user_id: number;
+  value: APIAttrAttributeValue;
+  value_text: string;
 }
 
 export interface APIAttrUserValueGetResponse {
@@ -96,23 +96,23 @@ export interface APIAttrUserValueGetResponse {
 }
 
 export interface APIAttrAttribute {
-  parent_id: number | null;
-  id: number;
-  type_id: number;
-  name: string;
-  description: string;
-  precision: number;
-  unit_id: number;
   childs?: APIAttrAttribute[];
-  options?: APIAttrListOption[];
-  is_multiple: boolean;
+  description: string;
   disabled?: boolean;
+  id: number;
+  is_multiple: boolean;
+  name: string;
+  options?: APIAttrListOption[];
+  parent_id: null | number;
+  precision: number;
+  type_id: number;
+  unit_id: number;
 }
 
 export interface APIAttrUnit {
+  abbr: string;
   id: number;
   name: string;
-  abbr: string;
 }
 
 export interface AttrAttributeTreeItem extends AttrAttribute.AsObject {
@@ -221,7 +221,7 @@ export class APIAttrsService {
 
   public getAttributes$(zoneID: string, parentID: string): Observable<AttrAttributeTreeItem[]> {
     return this.attrsClient
-      .getAttributes(new AttrAttributesRequest({zoneId: zoneID, parentId: parentID}))
+      .getAttributes(new AttrAttributesRequest({parentId: parentID, zoneId: zoneID}))
       .pipe(map((response) => toTree(response.items, parentID ? parentID : '0')));
   }
 

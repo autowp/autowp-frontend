@@ -17,8 +17,8 @@ export class ModerItemsItemVehiclesComponent {
     switchMap((item) =>
       this.itemService.getItems$({
         engine_id: item.id,
-        limit: 100,
         fields: 'name_html',
+        limit: 100,
       })
     ),
     map((response) => response.items)

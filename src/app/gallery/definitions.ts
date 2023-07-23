@@ -1,52 +1,52 @@
 import {APIImage} from '@services/api.service';
 
 export interface Rectangle {
+  height: number;
   left: number;
   top: number;
   width: number;
-  height: number;
 }
 
 export interface APIGalleryResponse {
-  pages: number;
   count: number;
-  page: number;
   items: APIGalleryItem[];
+  page: number;
+  pages: number;
 }
 
 export interface APIGalleryItemArea {
   area: Rectangle;
   name: string;
   styles?: {
+    'height.px': number;
     'left.px': number;
     'top.px': number;
     'width.px': number;
-    'height.px': number;
   };
 }
 
 export interface APIGalleryItem {
-  id: number;
-  identity: string;
-  sourceUrl: string;
+  areas: APIGalleryItemArea[];
   crop: {
     crop: Rectangle;
+    height: number;
     src: string;
     width: number;
-    height: number;
   };
-  full: APIImage;
-  messages: number;
-  newMessages: number;
-  name: string;
   filesize: number;
-  areas: APIGalleryItemArea[];
+  full: APIImage;
+  id: number;
+  identity: string;
+  messages: number;
+  name: string;
+  newMessages: number;
+  sourceUrl: string;
 }
 
 export interface APIGallery {
-  page: number;
-  pages: number;
   count: number;
   items: APIGalleryItem[];
+  page: number;
+  pages: number;
   status: string;
 }

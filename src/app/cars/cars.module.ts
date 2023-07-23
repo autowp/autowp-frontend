@@ -1,22 +1,22 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
-import {CarsRoutingModule} from './cars-routing.module';
-import {CarsSpecificationsEditorSpecComponent} from './specifications-editor/spec/spec.component';
-import {CarsSpecificationsEditorResultComponent} from './specifications-editor/result/result.component';
-import {CarsSpecificationsEditorEngineComponent} from './specifications-editor/engine/engine.component';
-import {CarsSelectEngineTreeItemComponent} from './specifications-editor/engine/select/tree-item/tree-item.component';
-import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
-import {CarsSpecificationsEditorComponent} from './specifications-editor/specifications-editor.component';
-import {CarsEngineSelectComponent} from './specifications-editor/engine/select/select.component';
-import {CarsDatelessComponent} from './dateless/dateless.component';
-import {CarsAttrsChangeLogComponent} from './attrs-change-log/attrs-change-log.component';
-import {NgbTypeaheadModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {UserModule} from '../user/user.module';
-import {PaginatorModule} from '../paginator/paginator.module';
+import {NgbTooltipModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
 import {UtilsModule} from '@utils/utils.module';
+
 import {ItemModule} from '../item/item.module';
+import {PaginatorModule} from '../paginator/paginator.module';
+import {UserModule} from '../user/user.module';
+import {CarsAttrsChangeLogComponent} from './attrs-change-log/attrs-change-log.component';
+import {CarsRoutingModule} from './cars-routing.module';
+import {CarsDatelessComponent} from './dateless/dateless.component';
+import {CarsSpecificationsEditorEngineComponent} from './specifications-editor/engine/engine.component';
+import {CarsEngineSelectComponent} from './specifications-editor/engine/select/select.component';
+import {CarsSelectEngineTreeItemComponent} from './specifications-editor/engine/select/tree-item/tree-item.component';
+import {CarsSpecificationsEditorResultComponent} from './specifications-editor/result/result.component';
+import {CarsSpecificationsEditorSpecComponent} from './specifications-editor/spec/spec.component';
+import {CarsSpecificationsEditorComponent} from './specifications-editor/specifications-editor.component';
+import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
 
 @NgModule({
   declarations: [

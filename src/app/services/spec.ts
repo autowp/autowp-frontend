@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {Spec} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {Spec} from '@grpc/spec.pb';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 
 export interface APISpecGetResponse {
   items: Spec[];

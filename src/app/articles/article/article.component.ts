@@ -1,12 +1,13 @@
-import {Router, ActivatedRoute} from '@angular/router';
 import {Component} from '@angular/core';
-import {EMPTY} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, catchError} from 'rxjs/operators';
-import {ToastsService} from '../../toasts/toasts.service';
-import {ArticlesClient} from '@grpc/spec.pbsc';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ArticleByCatnameRequest} from '@grpc/spec.pb';
+import {ArticlesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-articles-article',
@@ -20,8 +21,8 @@ export class ArticlesArticleComponent {
     switchMap((catname) => this.articlesClient.getItemByCatname(new ArticleByCatnameRequest({catname}))),
     map((article) => {
       this.pageEnv.set({
-        title: article.name,
         pageId: 32,
+        title: article.name,
       });
 
       return article;

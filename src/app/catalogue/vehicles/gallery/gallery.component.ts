@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {combineLatest, EMPTY, of} from 'rxjs';
-import {CatalogueService} from '../../catalogue-service';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
 import {APIGalleryItem} from '../../../gallery/definitions';
+import {CatalogueService} from '../../catalogue-service';
 
 @Component({
   selector: 'app-catalogue-vehicles-gallery',
@@ -51,7 +52,7 @@ export class CatalogueVehiclesGalleryComponent {
   );
 
   private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
-    map(([{path, brand}, exact]) => [
+    map(([{brand, path}, exact]) => [
       '/',
       brand.catname,
       ...path.map((node) => node.catname),
@@ -67,8 +68,8 @@ export class CatalogueVehiclesGalleryComponent {
     map(([exact, {path}]) => {
       const itemID = path[path.length - 1].item.id;
       return {
-        itemID: exact ? null : itemID,
         exactItemID: exact ? itemID : null,
+        itemID: exact ? null : itemID,
       };
     })
   );
@@ -85,8 +86,8 @@ export class CatalogueVehiclesGalleryComponent {
     setTimeout(() => {
       this.pageEnv.set({
         layout: {isGalleryPage: true},
-        title: item.name,
         pageId: 34,
+        title: item.name,
       });
     }, 0);
   }

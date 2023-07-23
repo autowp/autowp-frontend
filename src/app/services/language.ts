@@ -3,10 +3,10 @@ import {environment} from '@environment/environment';
 
 export interface Language {
   code: string;
-  hostname: string;
-  name: string;
   flag: string;
+  hostname: string;
   locale: string;
+  name: string;
 }
 
 @Injectable()

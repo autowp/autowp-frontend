@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 
 @Injectable()
 export class ContentLanguageService {

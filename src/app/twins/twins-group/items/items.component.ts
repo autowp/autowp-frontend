@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {of} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-twins-group-items',
@@ -32,8 +32,8 @@ export class TwinsGroupItemsComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: group.name_text,
             pageId: 25,
+            title: group.name_text,
           }),
         0
       );

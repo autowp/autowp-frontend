@@ -1,23 +1,23 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EMPTY} from 'rxjs';
-import {APIPicture, PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {icon, LatLng, latLng, LeafletMouseEvent, Map, marker, Marker, TileLayer, tileLayer} from 'leaflet';
 import {APIService} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {LatLng, LeafletMouseEvent, Map, Marker, TileLayer, icon, latLng, marker, tileLayer} from 'leaflet';
+import {EMPTY} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 interface MapOptions {
-  leafletOptions: {center: LatLng; layers: TileLayer[]; zoom: number};
   center: LatLng;
+  leafletOptions: {center: LatLng; layers: TileLayer[]; zoom: number};
   markers: Marker[];
 }
 
 function createMarker(lat: number, lng: number): Marker {
   return marker([lat, lng], {
     icon: icon({
-      iconSize: [25, 41],
       iconAnchor: [13, 41],
+      iconSize: [25, 41],
       iconUrl: 'assets/marker-icon.png',
       shadowUrl: 'assets/marker-shadow.png',
     }),
@@ -51,13 +51,13 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       const center = latLng(55.7423627, 37.6786422);
 
       const leafletOptions = {
+        center: center,
         layers: [
           tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
           }),
         ],
         zoom: 8,
-        center: center,
       };
 
       const markers: Marker[] = [];
@@ -71,7 +71,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
         }
       }
 
-      return {leafletOptions, markers, center};
+      return {center, leafletOptions, markers};
     })
   );
 

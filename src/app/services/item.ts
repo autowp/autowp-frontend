@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {APIPaginator, APIImage, APIService} from './api.service';
-import {forkJoin, Observable, of} from 'rxjs';
-import {APIPicture} from './picture';
-import {map, switchMap} from 'rxjs/operators';
 import {APIGetItemVehicleTypesRequest, APIItemVehicleType, APIItemVehicleTypeRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {Observable, forkJoin, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
+
+import {APIImage, APIPaginator, APIService} from './api.service';
+import {APIPicture} from './picture';
 
 export interface APIPathTreeItemParent {
   catname: string;
@@ -23,7 +24,7 @@ export interface APIItemsGetResponse {
 }
 
 export interface APIPathItem {
-  catname: string | null;
+  catname: null | string;
   item: APIItem;
   parent_id: number;
 }
@@ -33,84 +34,92 @@ export interface APIItemsGetPathResponse {
 }
 
 export interface APIItemChildsCounts {
+  sport: number;
   stock: number;
   tuning: number;
-  sport: number;
 }
 
 export interface APIItemOfDayPicture {
+  name: string;
   route: string[];
   thumb: APIImage;
-  name: string;
 }
 
 export interface APIItem {
-  name: string;
-  id: number;
-  item_type_id: ItemType;
-  is_group: boolean;
-  name_text: string;
-  name_html: string;
-  full_name: string;
-  catname: string;
-  body: string;
-  lat: number;
-  lng: number;
-  is_concept: boolean;
-  today: boolean | null;
+  accepted_pictures_count?: number;
+  alt_names: {
+    languages: string[];
+    name: string;
+  }[];
+  attr_zone_id: number;
+  begin_model_year: number;
+  begin_model_year_fraction: string;
   begin_month: number;
   begin_year: number;
-  end_month: number;
-  end_year: number;
-  begin_model_year: number;
-  end_model_year: number;
-  begin_model_year_fraction: string;
-  end_model_year_fraction: string;
-  produced: number;
-  produced_exactly: boolean;
-  spec_id: number | string | null;
-  logo: APIImage;
-  logo120?: APIImage;
-  engine_id: number | null;
-  engine_inherit: boolean | null;
-  attr_zone_id: number;
-
-  engine_vehicles_count: number;
-  pictures_count: number;
+  body: string;
+  brands: APIItem[];
+  can_edit_specs?: boolean;
+  categories?: APIItem[];
+  catname: string;
+  childs?: APIItem[];
   childs_count: number;
   childs_counts: APIItemChildsCounts;
-  parents_count: number;
-  links_count: number;
-  item_language_count: number;
-  subscription: boolean;
-
-  related_group_pictures: APIItemRelatedGroupItem[];
-
+  comments_attentions_count?: number;
+  comments_topic_stat?: {
+    messages: number;
+  };
+  current_pictures_count?: number;
+  descendant_twins_groups_count?: number;
+  descendants_count: number;
   description: string;
-  text: string;
-  is_compiles_item_of_day: boolean;
-  item_of_day_pictures: APIItemOfDayPicture[];
   design: {
     name: string;
     route: string[];
   };
-  name_default: string;
-  specs_route?: string[];
-  twins_groups: APIItem[];
-  categories?: APIItem[];
-  childs?: APIItem[];
-  route: string[];
-  can_edit_specs?: boolean;
-  name_only: string;
-  current_pictures_count?: number;
-  accepted_pictures_count?: number;
-  inbox_pictures_count?: number;
-  specifications_count?: number;
-  has_child_specs?: boolean;
-  brands: APIItem[];
-  public_routes?: string[][];
+  end_model_year: number;
+  end_model_year_fraction: string;
+  end_month: number;
+  end_year: number;
+  engine_id: null | number;
+  engine_inherit: boolean | null;
+  engine_vehicles?: [
+    {
+      name_html: string;
+      route: string[];
+    }
+  ];
 
+  engine_vehicles_count: number;
+  exact_picture?: APIPicture;
+  front_picture?: APIPicture;
+  full_name: string;
+  has_child_specs?: boolean;
+  has_specs?: boolean;
   has_text?: boolean;
+  id: number;
+
+  inbox_pictures_count?: number;
+
+  is_compiles_item_of_day: boolean;
+  is_concept: boolean;
+  is_group: boolean;
+  item_language_count: number;
+  item_of_day_pictures: APIItemOfDayPicture[];
+  item_type_id: ItemType;
+  lat: number;
+  links_count: number;
+  lng: number;
+  logo: APIImage;
+  logo120?: APIImage;
+  mosts_active?: boolean;
+  name: string;
+  name_default: string;
+  name_html: string;
+  name_only: string;
+  name_text: string;
+  other_names?: string[];
+  parents_count: number;
+  pictures_count: number;
 
   preview_pictures: {
     large_format: boolean;
@@ -121,29 +130,21 @@ export interface APIItem {
     }[];
   };
 
-  engine_vehicles?: [
-    {
-      route: string[];
-      name_html: string;
-    }
-  ];
+  produced: number;
 
+  produced_exactly: boolean;
+
+  public_routes?: string[][];
+  related_group_pictures: APIItemRelatedGroupItem[];
+  route: string[];
+  spec_id: null | number | string;
+  specifications_count?: number;
+  specs_route?: string[];
+  subscription: boolean;
+  text: string;
+  today: boolean | null;
   total_pictures?: number;
-  comments_topic_stat?: {
-    messages: number;
-  };
-  front_picture?: APIPicture;
-  exact_picture?: APIPicture;
-  descendants_count: number;
-  has_specs?: boolean;
-  alt_names: {
-    name: string;
-    languages: string[];
-  }[];
-  descendant_twins_groups_count?: number;
-  comments_attentions_count?: number;
-  mosts_active?: boolean;
-  other_names?: string[];
+  twins_groups: APIItem[];
 }
 
 export interface ItemOfDayItem extends APIItem {
@@ -152,8 +153,8 @@ export interface ItemOfDayItem extends APIItem {
 
 export interface APIItemRelatedGroupItem {
   name: string;
-  src: string;
   route: string[];
+  src: string;
 }
 
 export interface GetItemServiceOptions {
@@ -161,52 +162,52 @@ export interface GetItemServiceOptions {
 }
 
 export interface GetItemsServiceOptions {
-  id?: number;
-  fields: string;
-  type_id?: ItemType;
-  parent_id?: number;
-  order?: string;
-  is_group?: boolean;
-  limit: number;
-  name?: string | null;
-  name_exclude?: string | null;
-  dateless?: boolean;
-  dateful?: boolean;
-  page?: number;
-  have_childs_of_type?: number;
-  autocomplete?: string;
-  vehicle_type_id?: number | string;
-  vehicle_childs_type_id?: number;
-  spec?: number;
-  no_parent?: boolean;
-  text?: string;
-  from_year?: number;
-  to_year?: number;
   ancestor_id?: number;
-  suggestions_to?: number;
-  engine_id?: number;
-  have_common_childs_with?: number;
-  have_childs_with_parent_of_type?: number;
-  related_groups_of?: number;
+  autocomplete?: string;
   catname?: string;
-  exclude_self_and_childs?: number;
-  parent_types_of?: number;
-  descendant_pictures?: {
-    status?: string;
-    type_id?: number;
-    owner_id?: number;
-    perspective_id?: number;
-    contains_perspective_id?: number;
-  };
-  preview_pictures?: {
-    type_id?: number;
-    perspective_id?: number;
-    contains_perspective_id?: number;
-  };
-  factories_of_brand?: number;
   concept?: boolean;
   concept_inherit?: boolean;
+  dateful?: boolean;
+  dateless?: boolean;
+  descendant_pictures?: {
+    contains_perspective_id?: number;
+    owner_id?: number;
+    perspective_id?: number;
+    status?: string;
+    type_id?: number;
+  };
+  engine_id?: number;
+  exclude_self_and_childs?: number;
+  factories_of_brand?: number;
+  fields: string;
+  from_year?: number;
+  have_childs_of_type?: number;
+  have_childs_with_parent_of_type?: number;
+  have_common_childs_with?: number;
+  id?: number;
+  is_group?: boolean;
+  limit: number;
+  name?: null | string;
+  name_exclude?: null | string;
+  no_parent?: boolean;
+  order?: string;
+  page?: number;
+  parent_id?: number;
+  parent_types_of?: number;
+  preview_pictures?: {
+    contains_perspective_id?: number;
+    perspective_id?: number;
+    type_id?: number;
+  };
+  related_groups_of?: number;
   route_brand_id?: number;
+  spec?: number;
+  suggestions_to?: number;
+  text?: string;
+  to_year?: number;
+  type_id?: ItemType;
+  vehicle_childs_type_id?: number;
+  vehicle_type_id?: number | string;
 }
 
 export interface GetPathServiceOptions {
@@ -216,13 +217,13 @@ export interface GetPathServiceOptions {
 }
 
 export const allowedItemTypeCombinations = {
-  [ItemType.ITEM_TYPE_VEHICLE]: [ItemType.ITEM_TYPE_VEHICLE],
-  [ItemType.ITEM_TYPE_ENGINE]: [ItemType.ITEM_TYPE_ENGINE],
-  [ItemType.ITEM_TYPE_CATEGORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_CATEGORY, ItemType.ITEM_TYPE_BRAND],
-  [ItemType.ITEM_TYPE_TWINS]: [ItemType.ITEM_TYPE_VEHICLE],
   [ItemType.ITEM_TYPE_BRAND]: [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_CATEGORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_CATEGORY, ItemType.ITEM_TYPE_BRAND],
+  [ItemType.ITEM_TYPE_ENGINE]: [ItemType.ITEM_TYPE_ENGINE],
   [ItemType.ITEM_TYPE_FACTORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
   [ItemType.ITEM_TYPE_PERSON]: [ItemType.ITEM_TYPE_COPYRIGHT],
+  [ItemType.ITEM_TYPE_TWINS]: [ItemType.ITEM_TYPE_VEHICLE],
+  [ItemType.ITEM_TYPE_VEHICLE]: [ItemType.ITEM_TYPE_VEHICLE],
 };
 
 function convertItemOptions(options: GetItemServiceOptions): {[param: string]: string} {

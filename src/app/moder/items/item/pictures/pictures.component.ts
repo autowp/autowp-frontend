@@ -1,10 +1,11 @@
 import {Component, Input} from '@angular/core';
+import {ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
-import {PictureService, APIPicture} from '@services/picture';
-import {chunkBy} from '../../../../chunk';
+import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {ItemType} from '@grpc/spec.pb';
+
+import {chunkBy} from '../../../../chunk';
 
 @Component({
   selector: 'app-moder-items-item-pictures',
@@ -26,8 +27,8 @@ export class ModerItemsItemPicturesComponent {
     switchMap((item) =>
       this.pictureService.getPictures$({
         exact_item_id: item.id,
-        limit: 500,
         fields: 'owner,thumb_medium,moder_vote,votes,similar,comments_count,perspective_item,name_html,name_text,views',
+        limit: 500,
         order: 14,
       })
     ),

@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '@services/item';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem} from '@services/item';
 
 @Component({
   selector: 'app-item',
-  templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
+  templateUrl: './item.component.html',
 })
 export class ItemComponent {
   @Input() item: APIItem;

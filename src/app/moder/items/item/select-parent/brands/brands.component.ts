@@ -1,12 +1,13 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {combineLatest, EMPTY, Observable} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastsService} from '../../../../../toasts/toasts.service';
-import {chunk} from '../../../../../chunk';
-import {APIPaginator} from '@services/api.service';
 import {ItemType} from '@grpc/spec.pb';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {EMPTY, Observable, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {chunk} from '../../../../../chunk';
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-brands',
@@ -34,11 +35,11 @@ export class ModerItemsItemSelectParentBrandsComponent {
   ]).pipe(
     switchMap(([search, page]) =>
       this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_BRAND,
-        limit: 500,
         fields: 'name_html',
+        limit: 500,
         name: search ? '%' + search + '%' : null,
         page,
+        type_id: ItemType.ITEM_TYPE_BRAND,
       })
     ),
     catchError((error: unknown) => {

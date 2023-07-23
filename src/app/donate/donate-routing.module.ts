@@ -1,29 +1,30 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
+import {DonateComponent} from './donate.component';
 import {DonateLogComponent} from './log/log.component';
 import {DonateSuccessComponent} from './success/success.component';
 import {DonateVodSelectComponent} from './vod/select/select.component';
 import {DonateVodSuccessComponent} from './vod/success/success.component';
 import {DonateVodComponent} from './vod/vod.component';
-import {DonateComponent} from './donate.component';
 
 const routes: Routes = [
-  {path: 'log', component: DonateLogComponent, title: $localize`Donate log`},
-  {path: 'success', component: DonateSuccessComponent, title: $localize`Donate success`},
+  {component: DonateLogComponent, path: 'log', title: $localize`Donate log`},
+  {component: DonateSuccessComponent, path: 'success', title: $localize`Donate success`},
   {
+    children: [
+      {component: DonateVodSelectComponent, path: 'select'},
+      {component: DonateVodSuccessComponent, path: 'success', title: $localize`Donate success`},
+      {component: DonateVodComponent, path: ''},
+    ],
     path: 'vod',
     title: $localize`Donate`,
-    children: [
-      {path: 'select', component: DonateVodSelectComponent},
-      {path: 'success', component: DonateVodSuccessComponent, title: $localize`Donate success`},
-      {path: '', component: DonateVodComponent},
-    ],
   },
-  {path: '', component: DonateComponent, title: $localize`Donate`},
+  {component: DonateComponent, path: '', title: $localize`Donate`},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class DonateRoutingModule {}

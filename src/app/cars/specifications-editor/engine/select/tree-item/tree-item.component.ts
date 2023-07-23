@@ -1,7 +1,8 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {ItemParentService, APIItemParent} from '@services/item-parent';
-import {ToastsService} from '../../../../../toasts/toasts.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
+
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
@@ -21,19 +22,19 @@ export class CarsSelectEngineTreeItemComponent {
     this.loading = true;
     this.itemParentService
       .getItems$({
-        limit: 500,
         fields: 'item.name_html,item.childs_count',
-        parent_id: this.item.item_id,
         item_type_id: ItemType.ITEM_TYPE_ENGINE,
+        limit: 500,
         order: 'type_auto',
+        parent_id: this.item.item_id,
       })
       .subscribe({
-        next: (response) => {
-          this.childs = response.items;
-          this.loading = false;
-        },
         error: (response: unknown) => {
           this.toastService.handleError(response);
+          this.loading = false;
+        },
+        next: (response) => {
+          this.childs = response.items;
           this.loading = false;
         },
       });

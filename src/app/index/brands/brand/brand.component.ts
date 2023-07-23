@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {APIService} from '@services/api.service';
 import {APITopBrandsListItem} from '@grpc/spec.pb';
+import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-index-brands-brand',
-  templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss'],
+  templateUrl: './brand.component.html',
 })
 export class IndexBrandsBrandComponent {
   @Input() brand: APITopBrandsListItem;
@@ -19,8 +19,8 @@ export class IndexBrandsBrandComponent {
 
     this.api
       .request('GET', 'brands/' + this.brand.id + '/new-items', {
-        responseType: 'text',
         observe: 'body',
+        responseType: 'text',
       })
       .subscribe((html) => {
         this.html = html;

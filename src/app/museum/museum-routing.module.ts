@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {MuseumComponent} from './museum.component';
 
-const routes: Routes = [{path: ':id', component: MuseumComponent}];
+const routes: Routes = [{component: MuseumComponent, path: ':id'}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class MuseumRoutingModule {}

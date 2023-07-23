@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {APICommentsService} from './comments.service';
 import {HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+
+import {APICommentsService} from './comments.service';
 
 @NgModule({
   declarations: [],

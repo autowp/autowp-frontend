@@ -1,25 +1,26 @@
-import {Component, Input, HostListener, ElementRef, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
-import {APIGalleryItem} from './definitions';
+import {AfterViewInit, Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges} from '@angular/core';
 import * as $ from 'jquery';
 
+import {APIGalleryItem} from './definitions';
+
 interface Dimension {
-  width: number;
   height: number;
+  width: number;
 }
 
 interface Bounds {
+  height: number;
   left: number;
   top: number;
   width: number;
-  height: number;
 }
 
 function boundCenter(container: Dimension, content: Dimension): Bounds {
   return {
+    height: content.height,
     left: (container.width - content.width) / 2,
     top: (container.height - content.height) / 2,
     width: content.width,
-    height: content.height,
   };
 }
 
@@ -38,8 +39,8 @@ function bound(container: Dimension, content: Dimension): Dimension {
   }
 
   return {
-    width,
     height,
+    width,
   };
 }
 
@@ -52,8 +53,8 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 
 @Component({
   selector: 'app-gallery-carousel-item',
-  templateUrl: './carousel-item.component.html',
   styleUrls: ['./carousel-item.component.scss'],
+  templateUrl: './carousel-item.component.html',
 })
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
   @Input() item: APIGalleryItem;
@@ -118,8 +119,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
     const h = $inner.height() || 0;
 
     const cSize: Dimension = {
-      width: w,
       height: h,
+      width: w,
     };
 
     const full = this.item.full;
@@ -129,61 +130,61 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       if (this.cropMode) {
         const bounds = maxBounds(
           bound(cSize, {
-            width: crop.width,
             height: crop.height,
+            width: crop.width,
           }),
           {
-            width: crop.width,
             height: crop.height,
+            width: crop.width,
           }
         );
 
         const offsetBounds = boundCenter(cSize, bounds);
         this.cropStyle = {
-          'width.px': offsetBounds.width,
           'height.px': offsetBounds.height,
           'left.px': offsetBounds.left,
           'top.px': offsetBounds.top,
+          'width.px': offsetBounds.width,
         };
         const fullWidth = bounds.width / crop.crop.width;
         const fullHeight = bounds.height / crop.crop.height;
         const imgFullBounds = {
+          height: fullHeight,
           left: offsetBounds.left - crop.crop.left * fullWidth,
           top: offsetBounds.top - crop.crop.top * fullHeight,
           width: fullWidth,
-          height: fullHeight,
         };
         this.fullStyle = {
-          'width.px': imgFullBounds.width,
           'height.px': imgFullBounds.height,
           'left.px': imgFullBounds.left,
           'top.px': imgFullBounds.top,
+          'width.px': imgFullBounds.width,
         };
 
         this.areasToBounds(imgFullBounds);
       } else {
         const bounds = maxBounds(
           bound(cSize, {
-            width: full.width,
             height: full.height,
+            width: full.width,
           }),
           {
-            width: full.width,
             height: full.height,
+            width: full.width,
           }
         );
         const offsetBounds = boundCenter(cSize, bounds);
         this.fullStyle = {
-          'width.px': offsetBounds.width,
           'height.px': offsetBounds.height,
           'left.px': offsetBounds.left,
           'top.px': offsetBounds.top,
+          'width.px': offsetBounds.width,
         };
         this.cropStyle = {
+          'height.px': bounds.height * crop.crop.height,
           'left.px': offsetBounds.left + crop.crop.left * bounds.width,
           'top.px': offsetBounds.top + crop.crop.top * bounds.height,
           'width.px': bounds.width * crop.crop.width,
-          'height.px': bounds.height * crop.crop.height,
         };
 
         this.areasToBounds(offsetBounds);
@@ -192,20 +193,20 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       if (full) {
         const bounds = maxBounds(
           bound(cSize, {
-            width: full.width,
             height: full.height,
+            width: full.width,
           }),
           {
-            width: full.width,
             height: full.height,
+            width: full.width,
           }
         );
         const offsetBounds = boundCenter(cSize, bounds);
         this.fullStyle = {
-          'width.px': offsetBounds.width,
           'height.px': offsetBounds.height,
           'left.px': offsetBounds.left,
           'top.px': offsetBounds.top,
+          'width.px': offsetBounds.width,
         };
 
         this.areasToBounds(offsetBounds);
@@ -216,10 +217,10 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   private areasToBounds(offsetBounds: Bounds) {
     this.item.areas.forEach((area) => {
       area.styles = {
+        'height.px': area.area.height * offsetBounds.height,
         'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
         'top.px': offsetBounds.top + area.area.top * offsetBounds.height,
         'width.px': area.area.width * offsetBounds.width,
-        'height.px': area.area.height * offsetBounds.height,
       };
     });
   }

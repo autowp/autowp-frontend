@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {PolicyComponent} from './policy.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: PolicyComponent, title: $localize`Privacy Policy`}];
+const routes: Routes = [{component: PolicyComponent, path: '', pathMatch: 'full', title: $localize`Privacy Policy`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class PolicyRoutingModule {}

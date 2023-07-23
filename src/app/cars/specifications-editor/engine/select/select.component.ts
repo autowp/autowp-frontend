@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
-import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
-import {Router, ActivatedRoute} from '@angular/router';
-import {APIItem, ItemService} from '@services/item';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ItemType} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
-import {chunk} from '../../../../chunk';
+import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {chunk} from '../../../../chunk';
 import {ToastsService} from '../../../../toasts/toasts.service';
-import {ItemType} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-cars-engine-select',
@@ -45,8 +46,8 @@ export class CarsEngineSelectComponent {
     ),
     tap((item) => {
       this.pageEnv.set({
-        title: $localize`Specs editor of ${item.name_text}`,
         pageId: 102,
+        title: $localize`Specs editor of ${item.name_text}`,
       });
     }),
     shareReplay(1)
@@ -55,11 +56,11 @@ export class CarsEngineSelectComponent {
   protected readonly items$ = combineLatest([this.brandID$, this.page$]).pipe(
     switchMap(([brandID, page]) =>
       this.itemParentService.getItems$({
-        limit: 500,
         fields: 'item.name_html,item.childs_count',
-        parent_id: brandID,
         item_type_id: ItemType.ITEM_TYPE_ENGINE,
+        limit: 500,
         page,
+        parent_id: brandID,
       })
     ),
     catchError((response: unknown) => {
@@ -74,12 +75,12 @@ export class CarsEngineSelectComponent {
     debounceTime(50),
     switchMap((search) =>
       this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_BRAND,
-        order: 'name',
-        limit: 500,
         fields: 'name_only',
         have_childs_of_type: ItemType.ITEM_TYPE_ENGINE,
+        limit: 500,
         name: search ? '%' + search + '%' : null,
+        order: 'name',
+        type_id: ItemType.ITEM_TYPE_BRAND,
       })
     ),
     catchError((response: unknown) => {

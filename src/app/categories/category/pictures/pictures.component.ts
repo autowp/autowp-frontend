@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap, tap, map, distinctUntilChanged} from 'rxjs/operators';
-import {PictureService, APIPicture} from '@services/picture';
+import {APIPaginator} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {Observable, combineLatest} from 'rxjs';
+import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
 import {chunkBy} from '../../../chunk';
 import {CategoriesService} from '../../service';
-import {combineLatest, Observable} from 'rxjs';
-import {APIPaginator} from '@services/api.service';
 
 interface PictureRoute {
   picture: APIPicture;
@@ -24,29 +25,29 @@ export class CategoriesCategoryPicturesComponent {
   );
 
   protected readonly data$: Observable<{
-    pictures: PictureRoute[][];
     paginator: APIPaginator;
+    pictures: PictureRoute[][];
   }> = combineLatest([this.categoriesService.categoryPipe$(this.route.parent.parent), this.page$]).pipe(
-    switchMap(([{current, category, pathCatnames}, page]) =>
+    switchMap(([{category, current, pathCatnames}, page]) =>
       this.pictureService
         .getPictures$({
           fields: ['owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text'].join(','),
-          limit: 20,
-          page,
           item_id: current.id,
-          status: 'accepted',
+          limit: 20,
           order: 16,
+          page,
+          status: 'accepted',
         })
         .pipe(
-          map(({pictures, paginator}) => {
+          map(({paginator, pictures}) => {
             const pics: PictureRoute[] = pictures.map((pic) => ({
               picture: pic,
               route: ['/category', category.catname, ...pathCatnames, 'pictures', pic.identity],
             }));
 
             return {
-              pictures: chunkBy(pics, 4),
               paginator,
+              pictures: chunkBy(pics, 4),
             };
           })
         )

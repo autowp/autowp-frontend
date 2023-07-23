@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '@services/auth.service';
-import {combineLatest, EMPTY} from 'rxjs';
-import {PictureService} from '@services/picture';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, catchError, map} from 'rxjs/operators';
+import {PictureService} from '@services/picture';
+import {EMPTY, combineLatest} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -22,12 +23,12 @@ export class AccountInboxPicturesComponent implements OnInit {
   ]).pipe(
     switchMap(([page, user]) =>
       this.pictureService.getPictures$({
-        status: 'inbox',
-        owner_id: user.id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 15,
-        page,
         order: 1,
+        owner_id: user.id,
+        page,
+        status: 'inbox',
       })
     ),
     catchError((err: unknown) => {

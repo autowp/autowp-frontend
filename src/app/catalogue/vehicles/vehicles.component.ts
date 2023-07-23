@@ -1,16 +1,17 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {APIPaginator} from '@services/api.service';
-import {ItemParentService} from '@services/item-parent';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {CatalogueService} from '../catalogue-service';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {ItemParentService} from '@services/item-parent';
+import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getItemTypeTranslation} from '@utils/translations';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {CatalogueService} from '../catalogue-service';
 
 @Component({
   selector: 'app-catalogue-vehicles',
@@ -50,7 +51,7 @@ export class CatalogueVehiclesComponent {
   );
 
   protected readonly menu$ = combineLatest([this.catalogue$, this.routerLink$]).pipe(
-    map(([{type}, routerLink]) => ({type, routerLink}))
+    map(([{type}, routerLink]) => ({routerLink, type}))
   );
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
@@ -111,55 +112,55 @@ export class CatalogueVehiclesComponent {
                 'item.inbox_pictures_count,item.childs_counts,item.categories.name_html',
               ].join(','),
               limit: 7,
+              order: 'type_auto',
               page,
               parent_id: item.id,
               type_id: CatalogueVehiclesComponent.resolveTypeId(type),
-              order: 'type_auto',
             })
           )
         )
         .pipe(
           map((response) => ({
-            paginator: response.paginator,
             items: response.items.map((item) => {
               const itemRouterLink = [...routerLink, item.catname];
 
               const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
                 picture: picture ? picture.picture : null,
-                thumb: picture ? picture.thumb : null,
                 routerLink:
                   picture && picture.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : [],
+                thumb: picture ? picture.thumb : null,
               }));
 
               return {
-                id: item.item.id,
-                preview_pictures: {
-                  pictures,
-                  large_format: item.item.preview_pictures.large_format,
-                },
-                item_type_id: item.item.item_type_id,
-                produced: item.item.produced,
-                produced_exactly: item.item.produced_exactly,
-                name_html: item.item.name_html,
-                name_default: item.item.name_default,
-                design: item.item.design,
-                description: item.item.description,
-                engine_vehicles: item.item.engine_vehicles,
-                has_text: item.item.has_text,
                 accepted_pictures_count: item.item.accepted_pictures_count,
                 can_edit_specs: item.item.can_edit_specs,
+                categories: item.item.categories,
+                childs_counts: item.item.childs_counts,
+                description: item.item.description,
+                design: item.item.design,
+                details: {
+                  count: item.item.childs_count,
+                  routerLink: itemRouterLink,
+                },
+                engine_vehicles: item.item.engine_vehicles,
+                has_text: item.item.has_text,
+                id: item.item.id,
+                item_type_id: item.item.item_type_id,
+                name_default: item.item.name_default,
+                name_html: item.item.name_html,
                 picturesRouterLink: itemRouterLink.concat(['pictures']),
+                preview_pictures: {
+                  large_format: item.item.preview_pictures.large_format,
+                  pictures,
+                },
+                produced: item.item.produced,
+                produced_exactly: item.item.produced_exactly,
                 specsRouterLink:
                   item.item.has_specs || item.item.has_child_specs ? itemRouterLink.concat(['specifications']) : null,
-                details: {
-                  routerLink: itemRouterLink,
-                  count: item.item.childs_count,
-                },
-                childs_counts: item.item.childs_counts,
-                categories: item.item.categories,
                 twins_groups: item.item.twins_groups,
               };
             }),
+            paginator: response.paginator,
           }))
         );
     }),
@@ -167,8 +168,8 @@ export class CatalogueVehiclesComponent {
   );
 
   protected readonly otherPictures$: Observable<{
-    pictures: APIPicture[];
     count: number;
+    pictures: APIPicture[];
     routerLink: string[];
   }> = this.catalogue$.pipe(
     switchMap(({type}) => {
@@ -187,10 +188,10 @@ export class CatalogueVehiclesComponent {
               combineLatest([
                 this.pictureService.getPictures$({
                   exact_item_id: item.id,
-                  status: 'accepted',
                   fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
                   limit: 4,
                   order: 3,
+                  status: 'accepted',
                 }),
                 this.routerLink$,
               ])
@@ -200,8 +201,8 @@ export class CatalogueVehiclesComponent {
                 return null;
               }
               return {
-                pictures: response.pictures,
                 count: response.paginator.totalItemCount,
+                pictures: response.pictures,
                 routerLink: routerLink.concat(['exact', 'pictures']),
               };
             })
@@ -225,35 +226,35 @@ export class CatalogueVehiclesComponent {
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
     const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
       picture: picture ? picture.picture : null,
-      thumb: picture ? picture.thumb : null,
       routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
+      thumb: picture ? picture.thumb : null,
     }));
 
     return {
-      id: item.id,
-      preview_pictures: {
-        pictures,
-        large_format: item.preview_pictures.large_format,
-      },
-      item_type_id: item.item_type_id,
-      produced: item.produced,
-      produced_exactly: item.produced_exactly,
-      name_html: item.name_html,
-      name_default: item.name_default,
-      design: item.design,
-      description: null,
-      engine_vehicles: item.engine_vehicles,
-      has_text: false,
       accepted_pictures_count: item.accepted_pictures_count,
       can_edit_specs: item.can_edit_specs,
-      picturesRouterLink: routerLink.concat(['pictures']),
-      specsRouterLink: item.has_specs || item.has_child_specs ? routerLink.concat(['specifications']) : null,
-      details: {
-        routerLink,
-        count: item.childs_count,
-      },
-      childs_counts: item.childs_counts,
       categories: item.categories,
+      childs_counts: item.childs_counts,
+      description: null,
+      design: item.design,
+      details: {
+        count: item.childs_count,
+        routerLink,
+      },
+      engine_vehicles: item.engine_vehicles,
+      has_text: false,
+      id: item.id,
+      item_type_id: item.item_type_id,
+      name_default: item.name_default,
+      name_html: item.name_html,
+      picturesRouterLink: routerLink.concat(['pictures']),
+      preview_pictures: {
+        large_format: item.preview_pictures.large_format,
+        pictures,
+      },
+      produced: item.produced,
+      produced_exactly: item.produced_exactly,
+      specsRouterLink: item.has_specs || item.has_child_specs ? routerLink.concat(['specifications']) : null,
       twins_groups: item.twins_groups,
     };
   }

@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
-import {combineLatest, EMPTY, of} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
 import {APIPictureGetResponse, PictureService} from '@services/picture';
+import {EMPTY, combineLatest, of} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
@@ -32,8 +33,8 @@ export class TwinsGroupPicturesListComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: $localize`All pictures of ${group.name_text}`,
             pageId: 28,
+            title: $localize`All pictures of ${group.name_text}`,
           }),
         0
       );
@@ -49,12 +50,12 @@ export class TwinsGroupPicturesListComponent {
   protected readonly data$ = combineLatest([this.page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
       this.pictureService.getPictures$({
-        status: 'accepted',
-        item_id: groupId,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        item_id: groupId,
         limit: 24,
         order: 16,
         page: page,
+        status: 'accepted',
       })
     ),
     catchError((err: unknown) => {

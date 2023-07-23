@@ -1,23 +1,11 @@
 import {Component} from '@angular/core';
-import {ContactsService} from '@services/contacts';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIUser, UserService} from '@services/user';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {AuthService} from '@services/auth.service';
-import {APIPicture, PictureService} from '@services/picture';
-import {IpService} from '@services/ip';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {MessageDialogService} from '../../message-dialog/message-dialog.service';
-import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '@services/api.service';
 import {
-  AddToTrafficBlacklistRequest,
   APICommentsMessage,
   APIDeleteUserRequest,
   APIIP,
   APIUserPreferencesRequest,
+  AddToTrafficBlacklistRequest,
   CommentMessageFields,
   CreateContactRequest,
   DeleteContactRequest,
@@ -25,24 +13,37 @@ import {
   GetMessagesRequest,
 } from '@grpc/spec.pb';
 import {CommentsClient, ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIService} from '@services/api.service';
+import {AuthService} from '@services/auth.service';
+import {ContactsService} from '@services/contacts';
+import {IpService} from '@services/ip';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {APIUser, UserService} from '@services/user';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {MessageDialogService} from '../../message-dialog/message-dialog.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-users-user',
-  templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
+  templateUrl: './user.component.html',
 })
 export class UsersUserComponent {
   protected readonly banPeriods = [
-    {value: 1, name: $localize`hour`},
-    {value: 2, name: $localize`2 hours`},
-    {value: 4, name: $localize`4 hours`},
-    {value: 8, name: $localize`8 hours`},
-    {value: 16, name: $localize`16 hours`},
-    {value: 24, name: $localize`day`},
-    {value: 48, name: $localize`2 days`},
+    {name: $localize`hour`, value: 1},
+    {name: $localize`2 hours`, value: 2},
+    {name: $localize`4 hours`, value: 4},
+    {name: $localize`8 hours`, value: 8},
+    {name: $localize`16 hours`, value: 16},
+    {name: $localize`day`, value: 24},
+    {name: $localize`2 days`, value: 48},
   ];
   protected banPeriod = 1;
-  protected banReason: string | null = null;
+  protected banReason: null | string = null;
   protected readonly canDeleteUser$ = this.acl.isAllowed$(Resource.USER, Privilege.DELETE);
   protected readonly canViewIp$ = this.acl.isAllowed$(Resource.USER, Privilege.IP);
   protected readonly canBan$ = this.acl.isAllowed$(Resource.USER, Privilege.BAN);
@@ -73,8 +74,8 @@ export class UsersUserComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: user.name,
             pageId: 62,
+            title: user.name,
           }),
         0
       );
@@ -88,10 +89,10 @@ export class UsersUserComponent {
     switchMap((user) =>
       this.pictureService
         .getPictures$({
-          owner_id: user.id.toString(),
+          fields: 'url,name_html',
           limit: 12,
           order: 1,
-          fields: 'url,name_html',
+          owner_id: user.id.toString(),
         })
         .pipe(map((response) => response.pictures))
     )
@@ -106,13 +107,13 @@ export class UsersUserComponent {
       return this.commentsClient
         .getMessages(
           new GetMessagesRequest({
-            userId: user.id + '',
-            limit: 15,
-            order: GetMessagesRequest.Order.DATE_DESC,
             fields: new CommentMessageFields({
               preview: true,
               route: true,
             }),
+            limit: 15,
+            order: GetMessagesRequest.Order.DATE_DESC,
+            userId: user.id + '',
           })
         )
         .pipe(map((response) => response.items));
@@ -243,10 +244,10 @@ export class UsersUserComponent {
     }
 
     this.api.request<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         user.photo = null;
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -261,19 +262,19 @@ export class UsersUserComponent {
         })
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           user.deleted = true;
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
   protected removeFromBlacklist(ip: string) {
     this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.ipChange$.next(true);
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 
@@ -287,10 +288,10 @@ export class UsersUserComponent {
         })
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
           this.ipChange$.next(true);
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 }

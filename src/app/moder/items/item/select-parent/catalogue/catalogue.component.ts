@@ -1,12 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
-import {APIItem, ItemService} from '@services/item';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastsService} from '../../../../../toasts/toasts.service';
-import {chunk} from '../../../../../chunk';
-import {ItemParentService} from '@services/item-parent';
 import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {ItemParentService} from '@services/item-parent';
+import {BehaviorSubject, EMPTY, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {chunk} from '../../../../../chunk';
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-items-item-select-parent-catalogue',
@@ -52,12 +53,12 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
             switchMap(([itemTypeID, search, page]) =>
               this.itemService.getItems$({
-                type_id: ItemType.ITEM_TYPE_BRAND,
-                limit: 500,
                 fields: 'name_html',
                 have_childs_of_type: itemTypeID,
+                limit: 500,
                 name: search ? '%' + search + '%' : null,
                 page,
+                type_id: ItemType.ITEM_TYPE_BRAND,
               })
             ),
             catchError((error: unknown) => {
@@ -76,12 +77,12 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     switchMap(([itemTypeID, brandID, page]) =>
       brandID
         ? this.itemParentService.getItems$({
-            limit: 100,
             fields: 'item.name_html,item.childs_count',
-            parent_id: brandID,
             is_group: true,
             item_type_id: itemTypeID,
+            limit: 100,
             page,
+            parent_id: brandID,
           })
         : of(null)
     )

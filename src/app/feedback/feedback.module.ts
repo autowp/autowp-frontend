@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FeedbackRoutingModule} from './feedback-routing.module';
-import {FeedbackComponent} from './feedback.component';
-import {FeedbackSentComponent} from './sent/sent.component';
-import {UtilsModule} from '@utils/utils.module';
+import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {UtilsModule} from '@utils/utils.module';
 import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
+
 import {ToastsModule} from '../toasts/toasts.module';
+import {FeedbackComponent} from './feedback.component';
+import {FeedbackRoutingModule} from './feedback-routing.module';
+import {FeedbackSentComponent} from './sent/sent.component';
 
 @NgModule({
   declarations: [FeedbackComponent, FeedbackSentComponent],

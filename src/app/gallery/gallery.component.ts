@@ -1,16 +1,17 @@
-import {Component, Input, HostListener, Output, EventEmitter} from '@angular/core';
-import {BehaviorSubject, of, Observable, combineLatest} from 'rxjs';
-import {switchMap, tap, debounceTime, distinctUntilChanged, map, take, shareReplay} from 'rxjs/operators';
-import {APIGalleryItem, APIGallery} from './definitions';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {APIService} from '@services/api.service';
+import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
+
+import {APIGallery, APIGalleryItem} from './definitions';
 
 interface APIGalleryFilter {
-  itemID?: number;
   exactItemID?: number;
   exactItemLinkType?: number;
-  perspectiveID?: number;
+  itemID?: number;
   perspectiveExclude?: string;
+  perspectiveID?: number;
 }
 
 class Gallery {
@@ -89,8 +90,8 @@ class Gallery {
 
 @Component({
   selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
+  templateUrl: './gallery.component.html',
 })
 export class GalleryComponent {
   @Input() set filter(filter: APIGalleryFilter) {

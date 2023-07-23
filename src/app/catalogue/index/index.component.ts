@@ -1,28 +1,29 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {APIGetItemLinksRequest, APIItemLink, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIService} from '@services/api.service';
 import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {EMPTY, of, combineLatest, Observable} from 'rxjs';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPicture, PictureService} from '@services/picture';
+import {getCatalogueSectionsTranslation} from '@utils/translations';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {chunk, chunkBy} from '../../chunk';
 import {CatalogueService} from '../catalogue-service';
-import {APIService} from '@services/api.service';
-import {getCatalogueSectionsTranslation} from '@utils/translations';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIGetItemLinksRequest, APIItemLink, ItemType} from '@grpc/spec.pb';
 
 interface APIBrandSectionGroup {
+  count: number;
   name: string;
   routerLink: string[];
-  count: number;
 }
 
 interface APIBrandSection {
+  groups: APIBrandSectionGroup[];
   name: string;
   routerLink: string[];
-  groups: APIBrandSectionGroup[];
 }
 
 interface PictureRoute {
@@ -80,8 +81,8 @@ export class CatalogueIndexComponent {
     }),
     tap((brand) => {
       this.pageEnv.set({
-        title: brand.name_text,
         pageId: 10,
+        title: brand.name_text,
       });
     }),
     shareReplay(1)
@@ -90,11 +91,11 @@ export class CatalogueIndexComponent {
   protected readonly pictures$ = this.brand$.pipe(
     switchMap((brand) =>
       this.pictureService.getPictures$({
-        limit: 12,
-        status: 'accepted',
-        order: 12,
-        item_id: brand.id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
+        item_id: brand.id,
+        limit: 12,
+        order: 12,
+        status: 'accepted',
       })
     ),
     map((response) => {
@@ -126,16 +127,16 @@ export class CatalogueIndexComponent {
             break;
         }
       });
-      return {official, club, other};
+      return {club, official, other};
     })
   );
 
   protected readonly factories$ = this.brand$.pipe(
     switchMap((brand) =>
       this.itemService.getItems$({
-        limit: 4,
         factories_of_brand: brand.id,
         fields: 'name_html,exact_picture.thumb_medium',
+        limit: 4,
         type_id: ItemType.ITEM_TYPE_FACTORY,
       })
     ),
@@ -143,13 +144,13 @@ export class CatalogueIndexComponent {
   );
 
   protected readonly sections$: Observable<
-    {name: string; halfChunks: APIBrandSectionGroup[][][]; routerLink: string[]}[]
+    {halfChunks: APIBrandSectionGroup[][][]; name: string; routerLink: string[]}[]
   > = this.brand$.pipe(
     switchMap((brand) => this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
     map((response) =>
       response.map((section) => ({
-        name: getCatalogueSectionsTranslation(section.name),
         halfChunks: chunk(section.groups, 2).map((halfChunk) => chunk(halfChunk, 2)),
+        name: getCatalogueSectionsTranslation(section.name),
         routerLink: section.routerLink,
       }))
     )

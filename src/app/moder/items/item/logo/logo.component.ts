@@ -1,12 +1,13 @@
-import {Component, Input} from '@angular/core';
-import {APIItem} from '@services/item';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
+import {Component, Input} from '@angular/core';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
+import {APIItem} from '@services/item';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../../../../toasts/toasts.service';
-import {InvalidParams} from '@utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-moder-items-item-logo',
@@ -17,11 +18,11 @@ export class ModerItemsItemLogoComponent {
 
   protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
   protected progress: {
+    failed: boolean;
     filename: string;
+    invalidParams: InvalidParams;
     percentage: number;
     success: boolean;
-    failed: boolean;
-    invalidParams: InvalidParams;
   } = null;
 
   constructor(
@@ -38,11 +39,11 @@ export class ModerItemsItemLogoComponent {
     const file = files[0];
 
     this.progress = {
+      failed: false,
       filename: file.name,
+      invalidParams: {},
       percentage: 0,
       success: false,
-      failed: false,
-      invalidParams: {},
     };
 
     const formData: FormData = new FormData();

@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ToastsService} from '../../../toasts/toasts.service';
 import {APIService} from '@services/api.service';
-import {shareReplay, switchMap} from 'rxjs/operators';
+import {APIItem, ItemService} from '@services/item';
 import {BehaviorSubject, of} from 'rxjs';
+import {shareReplay, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-specifications-editor-engine',
@@ -47,8 +48,8 @@ export class CarsSpecificationsEditorEngineComponent {
         },
       })
       .subscribe({
-        next: () => this.changed.emit(),
         error: (response: unknown) => this.toastService.handleError(response),
+        next: () => this.changed.emit(),
       });
   }
 

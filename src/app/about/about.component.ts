@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import * as showdown from 'showdown';
-import * as escapeRegExp from 'lodash.escaperegexp';
-import {UserService, APIUser} from '@services/user';
-import {Router} from '@angular/router';
 import {DecimalPipe} from '@angular/common';
-import {BytesPipe} from 'ngx-pipes';
-import {PageEnvService} from '@services/page-env.service';
-import {map, switchMap} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {PageEnvService} from '@services/page-env.service';
+import {APIUser, UserService} from '@services/user';
+import * as escapeRegExp from 'lodash.escaperegexp';
+import {BytesPipe} from 'ngx-pipes';
+import {map, switchMap} from 'rxjs/operators';
+import * as showdown from 'showdown';
 
 function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
@@ -97,9 +97,9 @@ export class AboutComponent implements OnInit {
 
         return this.userService.getUserMap$(ids).pipe(
           map((users) => ({
-            users,
-            aboutText,
             about,
+            aboutText,
+            users,
           }))
         );
       })
@@ -113,20 +113,20 @@ export class AboutComponent implements OnInit {
 
         const markdownConverter = new showdown.Converter({});
         return replacePairs(markdownConverter.makeHtml(data.aboutText), {
-          '%users%': contributorsHtml.join(' '),
-          '%total-pictures%': this.decimalPipe.transform(data.about.totalPictures),
-          '%total-vehicles%': data.about.totalItems.toString(),
-          '%total-size%': this.bytesPipe.transform(data.about.picturesSize * 1024 * 1024, 1).toString(),
-          '%total-users%': data.about.totalUsers.toString(),
-          '%total-comments%': data.about.totalComments.toString(),
+          '%be-translator%': this.userHtml(data.users.get(data.about.beTranslator)),
+          '%developer%': this.userHtml(data.users.get(data.about.developer)),
+          '%fr-translator%': this.userHtml(data.users.get(data.about.frTranslator)),
           '%github%':
             '<i class="bi bi-github" aria-hidden="true"></i> ' +
             '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
-          '%developer%': this.userHtml(data.users.get(data.about.developer)),
-          '%fr-translator%': this.userHtml(data.users.get(data.about.frTranslator)),
-          '%zh-translator%': this.userHtml(data.users.get(data.about.zhTranslator)),
-          '%be-translator%': this.userHtml(data.users.get(data.about.beTranslator)),
           '%pt-br-translator%': this.userHtml(data.users.get(data.about.ptBrTranslator)),
+          '%total-comments%': data.about.totalComments.toString(),
+          '%total-pictures%': this.decimalPipe.transform(data.about.totalPictures),
+          '%total-size%': this.bytesPipe.transform(data.about.picturesSize * 1024 * 1024, 1).toString(),
+          '%total-users%': data.about.totalUsers.toString(),
+          '%total-vehicles%': data.about.totalItems.toString(),
+          '%users%': contributorsHtml.join(' '),
+          '%zh-translator%': this.userHtml(data.users.get(data.about.zhTranslator)),
         });
       })
     );

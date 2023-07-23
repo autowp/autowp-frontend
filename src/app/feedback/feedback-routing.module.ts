@@ -1,15 +1,16 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {FeedbackSentComponent} from './sent/sent.component';
+import {RouterModule, Routes} from '@angular/router';
+
 import {FeedbackComponent} from './feedback.component';
+import {FeedbackSentComponent} from './sent/sent.component';
 
 const routes: Routes = [
-  {path: 'sent', component: FeedbackSentComponent, pathMatch: 'full', title: $localize`Message sent`},
-  {path: '', component: FeedbackComponent, pathMatch: 'full', title: $localize`Feedback`},
+  {component: FeedbackSentComponent, path: 'sent', pathMatch: 'full', title: $localize`Message sent`},
+  {component: FeedbackComponent, path: '', pathMatch: 'full', title: $localize`Feedback`},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class FeedbackRoutingModule {}

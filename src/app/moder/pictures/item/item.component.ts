@@ -1,16 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PictureItemService, APIPictureItem} from '@services/picture-item';
-import {ItemService, APIItem} from '@services/item';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription, BehaviorSubject, of} from 'rxjs';
-import {PictureService, APIPicture} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, tap, map, catchError} from 'rxjs/operators';
-import {LanguageService} from '@services/language';
-import {sprintf} from 'sprintf-js';
+import {APIIP} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
-import {APIIP} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {BehaviorSubject, Subscription, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {sprintf} from 'sprintf-js';
 
 @Component({
   selector: 'app-moder-pictures-item',
@@ -29,25 +29,25 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   protected specialNameLoading = false;
   protected lastItem: APIItem = null;
   protected readonly banPeriods = [
-    {value: 1, name: $localize`hour`},
-    {value: 2, name: $localize`2 hours`},
-    {value: 4, name: $localize`4 hours`},
-    {value: 8, name: $localize`8 hours`},
-    {value: 16, name: $localize`16 hours`},
-    {value: 24, name: $localize`day`},
-    {value: 48, name: $localize`2 days`},
+    {name: $localize`hour`, value: 1},
+    {name: $localize`2 hours`, value: 2},
+    {name: $localize`4 hours`, value: 4},
+    {name: $localize`8 hours`, value: 8},
+    {name: $localize`16 hours`, value: 16},
+    {name: $localize`day`, value: 24},
+    {name: $localize`2 days`, value: 48},
   ];
   protected banPeriod = 1;
-  protected banReason: string | null = null;
+  protected banReason: null | string = null;
   private readonly change$ = new BehaviorSubject<null>(null);
   private lastItemSub: Subscription;
   protected monthOptions: {
-    value: number;
     name: string;
+    value: number;
   }[];
   protected dayOptions: {
-    value: number;
     name: string;
+    value: number;
   }[];
   protected ip: APIIP;
 
@@ -64,8 +64,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   ) {
     this.monthOptions = [
       {
-        value: null,
         name: '--',
+        value: null,
       },
     ];
 
@@ -76,27 +76,27 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       if (language) {
         const month = date.toLocaleString(language, {month: 'long'});
         this.monthOptions.push({
-          value: i + 1,
           name: sprintf('%02d - %s', i + 1, month),
+          value: i + 1,
         });
       }
     }
 
     this.dayOptions = [
       {
-        value: null,
         name: '--',
+        value: null,
       },
     ];
     for (let i = 1; i <= 31; i++) {
       this.dayOptions.push({
-        value: i,
         name: sprintf('%02d', i),
+        value: i,
       });
     }
   }
 
-  protected savePerspective(perspectiveID: number | null, item: APIPictureItem) {
+  protected savePerspective(perspectiveID: null | number, item: APIPictureItem) {
     this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
@@ -111,8 +111,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         tap((id) =>
           this.pageEnv.set({
             layout: {isAdminPage: true},
-            title: $localize`Picture №${id}`,
             pageId: 72,
+            title: $localize`Picture №${id}`,
           })
         ),
         switchMap((id) =>
@@ -147,18 +147,18 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
             ),
             switchMap((picture) => {
               if (!picture.ip) {
-                return of({picture, ip: null as APIIP});
+                return of({ip: null as APIIP, picture});
               }
               return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(
                 catchError(() => of(null as APIIP)),
-                map((ip) => ({picture, ip}))
+                map((ip) => ({ip, picture}))
               );
             })
           )
         )
       )
       .subscribe(
-        ({picture, ip}) => {
+        ({ip, picture}) => {
           this.picture = picture;
           this.ip = ip;
           this.id = this.picture.id;
@@ -180,8 +180,8 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       if (lastItemId) {
         this.lastItemSub = this.itemService
           .getItems$({
-            id: lastItemId,
             fields: 'name_html',
+            id: lastItemId,
             limit: 1,
           })
           .subscribe((response) => {
@@ -248,9 +248,9 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       .request<void>('PUT', 'picture/' + this.id, {
         body: {
           special_name: this.picture.special_name,
-          taken_year: this.picture.taken_year,
-          taken_month: this.picture.taken_month,
           taken_day: this.picture.taken_day,
+          taken_month: this.picture.taken_month,
+          taken_year: this.picture.taken_year,
         },
       })
       .subscribe(

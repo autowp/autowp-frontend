@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemService, APIItem} from '@services/item';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '@services/user';
-import {EMPTY, Observable} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {ToastsService} from '../../../toasts/toasts.service';
+import {ItemType} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {UserService} from '@services/user';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 function addCSS(url: string) {
   const cssId = 'brands-css';
@@ -43,8 +44,8 @@ export class UsersUserPicturesComponent implements OnInit {
     switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
     map((user) => ({
       id: user.id,
-      name: user.name,
       identity: user.identity ? user.identity : 'user' + user.id,
+      name: user.name,
     })),
     shareReplay(1)
   );
@@ -52,14 +53,14 @@ export class UsersUserPicturesComponent implements OnInit {
   protected readonly brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
       this.itemService.getItems$({
-        type_id: ItemType.ITEM_TYPE_BRAND,
+        descendant_pictures: {
+          owner_id: user.id,
+          status: 'accepted',
+        },
+        fields: 'name_only,catname,current_pictures_count',
         limit: 3000,
         order: 'name_nat',
-        fields: 'name_only,catname,current_pictures_count',
-        descendant_pictures: {
-          status: 'accepted',
-          owner_id: user.id,
-        },
+        type_id: ItemType.ITEM_TYPE_BRAND,
       })
     ),
     catchError((response: unknown) => {

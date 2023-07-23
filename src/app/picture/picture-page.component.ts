@@ -1,13 +1,14 @@
-import {Component} from '@angular/core';
-import {of, EMPTY, BehaviorSubject, throwError, Observable} from 'rxjs';
-import {APIItem} from '@services/item';
-import {APIPicture, PictureService} from '@services/picture';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {switchMap, distinctUntilChanged, map, catchError, debounceTime, tap} from 'rxjs/operators';
-import {PathItem} from '../categories/definitions';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
+import {APIItem} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
+import {PathItem} from '../categories/definitions';
 
 @Component({
   selector: 'app-picture-page',
@@ -58,8 +59,8 @@ export class PicturePageComponent {
           return this.changed$.pipe(
             switchMap(() =>
               this.pictureService.getPictures$({
-                identity,
                 fields,
+                identity,
                 limit: 1,
               })
             ),
@@ -78,8 +79,8 @@ export class PicturePageComponent {
     }),
     tap((picture) => {
       this.pageEnv.set({
-        title: picture.name_text,
         pageId: 187,
+        title: picture.name_text,
       });
     })
   );

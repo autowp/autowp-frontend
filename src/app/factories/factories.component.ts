@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
-import {EMPTY, Observable, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, catchError, map, tap, shareReplay} from 'rxjs/operators';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {tileLayer, latLng, Marker, marker, icon} from 'leaflet';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {PictureService} from '@services/picture';
+import {Marker, icon, latLng, marker, tileLayer} from 'leaflet';
+import {EMPTY, Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
@@ -44,8 +45,8 @@ export class FactoryComponent {
     }),
     tap((factory) => {
       this.pageEnv.set({
-        title: factory.name_text,
         pageId: 181,
+        title: factory.name_text,
       });
     }),
     shareReplay(1)
@@ -54,10 +55,10 @@ export class FactoryComponent {
   protected readonly pictures$ = this.item$.pipe(
     switchMap((factory) =>
       this.pictureService.getPictures$({
-        status: 'accepted',
         exact_item_id: factory.id,
-        limit: 24,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+        limit: 24,
+        status: 'accepted',
       })
     ),
     catchError((err: unknown) => {
@@ -76,21 +77,21 @@ export class FactoryComponent {
       const markers: Marker[] = [
         marker(center, {
           icon: icon({
-            iconSize: [25, 41],
             iconAnchor: [13, 41],
+            iconSize: [25, 41],
             iconUrl: 'assets/marker-icon.png',
             shadowUrl: 'assets/marker-shadow.png',
           }),
         }),
       ];
       const options = {
+        center,
         layers: [
           tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
           }),
         ],
         zoom: 17,
-        center,
       };
 
       return {markers, options};

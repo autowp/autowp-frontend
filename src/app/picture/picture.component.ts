@@ -1,18 +1,18 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIPicture, PictureService} from '@services/picture';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {BehaviorSubject} from 'rxjs';
-import {AuthService} from '@services/auth.service';
-import {APIItem} from '@services/item';
 import {Router} from '@angular/router';
-import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest, PicturesViewRequest} from '@grpc/spec.pb';
 import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService} from '@services/auth.service';
+import {APIItem} from '@services/item';
+import {APIPicture, PictureService} from '@services/picture';
+import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-picture',
-  templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss'],
+  templateUrl: './picture.component.html',
 })
 export class PictureComponent {
   @Input() prefix: string[] = [];
@@ -54,7 +54,7 @@ export class PictureComponent {
     this.location = location;
   }
 
-  protected savePerspective(perspectiveID: number | null, item: APIPictureItem) {
+  protected savePerspective(perspectiveID: null | number, item: APIPictureItem) {
     this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
@@ -108,11 +108,11 @@ export class PictureComponent {
   private setPictureStatus(picture: APIPicture, status: string) {
     this.statusLoading = true;
     this.pictureService.setPictureStatus$(picture.id, status).subscribe({
-      next: () => {
-        this.changed.emit(true);
-      },
       complete: () => {
         this.statusLoading = false;
+      },
+      next: () => {
+        this.changed.emit(true);
       },
     });
   }

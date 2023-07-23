@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {from, Observable, of, ReplaySubject} from 'rxjs';
-import {tap, catchError} from 'rxjs/operators';
-import {KeycloakService} from 'keycloak-angular';
-import {UsersClient} from '@grpc/spec.pbsc';
 import {APIMeRequest, APIUser} from '@grpc/spec.pb';
+import {UsersClient} from '@grpc/spec.pbsc';
 import * as Sentry from '@sentry/angular-ivy';
+import {KeycloakService} from 'keycloak-angular';
+import {Observable, ReplaySubject, from, of} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {

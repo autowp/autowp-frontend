@@ -1,20 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
-import {of, Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIPicture, PictureService} from '@services/picture';
-import {PageEnvService} from '@services/page-env.service';
-import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
-import {ToastsService} from '../../../toasts/toasts.service';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
+import {APIItem, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
 import {getItemTypeTranslation} from '@utils/translations';
+import {Subscription, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 export interface APIItemTreeItem {
-  id: number;
-  type: number;
-  name: string;
   childs: APIItemTreeItem[];
+  id: number;
+  name: string;
+  type: number;
 }
 
 export interface APIItemTreeGetResponse {
@@ -167,8 +168,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           return this.pictureService
             .getPictures$({
               fields: 'thumb_medium',
-              limit: 1,
               item_id: item.id,
+              limit: 1,
             })
             .pipe(
               map((pictures) => ({
@@ -183,8 +184,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         tap((data) => {
           this.pageEnv.set({
             layout: {isAdminPage: true},
-            title: data.item.name_text,
             pageId: 78,
+            title: data.item.name_text,
           });
           this.randomPicture = data.pictures.length > 0 ? data.pictures[0] : null;
         }),

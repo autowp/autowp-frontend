@@ -1,10 +1,11 @@
-import {Input, Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+
 import {APIGalleryItemArea} from './definitions';
 
 @Component({
   selector: 'app-gallery-carousel-item-area',
-  templateUrl: './area.component.html',
   styleUrls: ['./area.component.scss'],
+  templateUrl: './area.component.html',
 })
 export class AreaComponent {
   @Input() styles = {};

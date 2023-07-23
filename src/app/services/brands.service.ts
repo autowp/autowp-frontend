@@ -1,18 +1,19 @@
 export interface APIBrandsGetResponse {
-  items: APIBrandsLines;
   icons: string;
+  items: APIBrandsLines;
 }
 
 export type APIBrandsLines = APIBrandsChar[][];
 
 export interface APIBrandsChar {
+  brands: APIBrandsBrand[];
   char: string;
   id: number;
-  brands: APIBrandsBrand[];
 }
 
 export interface APIBrandsBrand {
   catname: string;
+  cssClass?: string;
   id: number;
   logo_id: number;
   name: string;
@@ -20,5 +21,4 @@ export interface APIBrandsBrand {
   totalCars: number;
   totalPictures: number;
   url: string;
-  cssClass?: string;
 }

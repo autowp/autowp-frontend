@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
+import {Perspective} from '@grpc/spec.pb';
+import {AutowpClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {Empty} from '@ngx-grpc/well-known-types';
-import {AutowpClient} from '@grpc/spec.pbsc';
-import {Perspective} from '@grpc/spec.pb';
 
 @Injectable({
   providedIn: 'root',

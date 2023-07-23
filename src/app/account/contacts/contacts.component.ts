@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
-import {ContactsService} from '@services/contacts';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../toasts/toasts.service';
-import {map, switchMap} from 'rxjs/operators';
-import {EMPTY} from 'rxjs';
-import {AuthService} from '@services/auth.service';
 import {Contact, DeleteContactRequest} from '@grpc/spec.pb';
 import {ContactsClient} from '@grpc/spec.pbsc';
+import {AuthService} from '@services/auth.service';
+import {ContactsService} from '@services/contacts';
 import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
 import {KeycloakService} from 'keycloak-angular';
+import {EMPTY} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-contacts',
@@ -34,8 +35,8 @@ export class AccountContactsComponent {
         map((user) => {
           if (!user) {
             this.keycloak.login({
-              redirectUri: window.location.href,
               locale: this.languageService.language,
+              redirectUri: window.location.href,
             });
             return EMPTY;
           }
@@ -44,15 +45,16 @@ export class AccountContactsComponent {
         switchMap(() => this.contactsService.getContacts$())
       )
       .subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
         next: (response) => {
           this.items = response.items;
         },
-        error: (response: unknown) => this.toastService.handleError(response),
       });
   }
 
   protected deleteContact(id: string) {
     this.contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i].contactUserId === id) {
@@ -61,7 +63,6 @@ export class AccountContactsComponent {
           }
         }
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
     return false;
   }

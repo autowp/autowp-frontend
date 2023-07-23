@@ -1,12 +1,13 @@
-import {Input, Component, EventEmitter, Output, OnInit, OnDestroy} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AddCommentRequest, CommentsType} from '@grpc/spec.pb';
+import {CommentsClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {switchMap, take, tap} from 'rxjs/operators';
-import {CommentsClient} from '@grpc/spec.pbsc';
+
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
-import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {ToastsService} from '../../toasts/toasts.service';
-import {InvalidParams} from '@utils/invalid-params.pipe';
 
 @Component({
   selector: 'app-comments-form',
@@ -43,22 +44,16 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
           this.comments.add(
             new AddCommentRequest({
               itemId: '' + this.itemID,
-              typeId: this.typeID,
               message: this.form.message,
               moderatorAttention: !!this.form.moderator_attention,
               parentId: this.parentID ? '' + this.parentID : '',
               resolve,
+              typeId: this.typeID,
             })
           )
         )
       )
       .subscribe({
-        next: (response) => {
-          this.form.message = '';
-          this.form.moderator_attention = false;
-
-          this.sent.emit(response.id);
-        },
         error: (response: unknown) => {
           if (response instanceof GrpcStatusEvent) {
             const fieldViolations = extractFieldViolations(response);
@@ -66,6 +61,12 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
           } else {
             this.toastService.handleError(response);
           }
+        },
+        next: (response) => {
+          this.form.message = '';
+          this.form.moderator_attention = false;
+
+          this.sent.emit(response.id);
         },
       });
   }

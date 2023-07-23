@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
+import {APIService} from '@services/api.service';
+import {ContentLanguageService} from '@services/content-language';
 import {APIItem} from '@services/item';
 import {APIItemLanguage, ItemLanguageService} from '@services/item-language';
-import {ContentLanguageService} from '@services/content-language';
-import {combineLatest, BehaviorSubject, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-moder-items-item-name',
@@ -23,12 +23,12 @@ export class ModerItemsItemNameComponent {
 
       for (const language of contentLanguages) {
         languages.set(language, {
+          full_text: null,
+          full_text_id: null,
           language,
           name: null,
           text: null,
-          full_text: null,
           text_id: null,
-          full_text_id: null,
         });
       }
 
@@ -64,9 +64,9 @@ export class ModerItemsItemNameComponent {
       this.api
         .request<void>('PUT', 'item/' + itemId + '/language/' + language.language, {
           body: {
+            full_text: language.full_text,
             name: language.name,
             text: language.text,
-            full_text: language.full_text,
           },
         })
         .subscribe(

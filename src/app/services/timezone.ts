@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {shareReplay, map} from 'rxjs/operators';
+import {map, shareReplay} from 'rxjs/operators';
+
 import {APIService} from './api.service';
 
 export interface APITimezoneGetResponse {

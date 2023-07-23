@@ -7,9 +7,9 @@ export interface APIAccountItemsGetResponse {
 }
 
 export interface APIAccount {
-  id: number;
   can_remove: boolean;
   icon: string;
+  id: number;
   link: string;
   name: string;
 }

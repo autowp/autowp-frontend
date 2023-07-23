@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {ItemHeader} from '@utils/item-header/item-header.component';
 import {APIItemChildsCounts} from '@services/item';
+import {ItemHeader} from '@utils/item-header/item-header.component';
 
 @Component({
   selector: 'app-catalogue-item-menu',

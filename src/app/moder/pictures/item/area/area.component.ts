@@ -1,16 +1,17 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import * as $ from 'jquery';
-import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
-import {PictureItemService} from '@services/picture-item';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Subscription, BehaviorSubject} from 'rxjs';
-import {PictureService, APIPicture} from '@services/picture';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, tap, map} from 'rxjs/operators';
+import {APIPicture, PictureService} from '@services/picture';
+import {PictureItemService} from '@services/picture-item';
+import * as $ from 'jquery';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
+import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 
 interface Crop {
-  w: number;
   h: number;
+  w: number;
   x: number;
   y: number;
 }
@@ -28,8 +29,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   protected resolution = '';
   private jcrop: Jcrop;
   private currentCrop: Crop = {
-    w: 0,
     h: 0,
+    w: 0,
     x: 0,
     y: 0,
   };
@@ -77,7 +78,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             })),
             distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
             debounceTime(30),
-            map((params) => ({picture, params}))
+            map((params) => ({params, picture}))
           )
         ),
         tap((data) => {
@@ -89,9 +90,14 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             fields: 'area',
           })
         ),
-        switchMap((data) => this.img$.pipe(map((img) => ({pictureItem: data, img}))))
+        switchMap((data) => this.img$.pipe(map((img) => ({img, pictureItem: data}))))
       )
       .subscribe({
+        error: () => {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true,
+          });
+        },
         next: (data) => {
           const area = data.pictureItem.area;
 
@@ -102,15 +108,15 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             this.jcrop = null;
             if (area) {
               this.currentCrop = {
-                w: area.width,
                 h: area.height,
+                w: area.width,
                 x: area.left,
                 y: area.top,
               };
             } else {
               this.currentCrop = {
-                w: this.picture.width,
                 h: this.picture.height,
+                w: this.picture.width,
                 x: 0,
                 y: 0,
               };
@@ -123,11 +129,15 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             const height = this.picture.height / scale;
 
             $img.css({
-              width,
               height,
+              width,
             });
 
             this.jcrop = Jcrop($img[0], {
+              boxHeight: height,
+              boxWidth: width,
+              keySupport: false,
+              minSize: this.minSize,
               onSelect: (c: Crop) => {
                 this.currentCrop = c;
                 this.updateSelectionText();
@@ -138,18 +148,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
                 this.currentCrop.x + this.currentCrop.w,
                 this.currentCrop.y + this.currentCrop.h,
               ],
-              minSize: this.minSize,
-              boxWidth: width,
-              boxHeight: height,
               trueSize: [this.picture.width, this.picture.height],
-              keySupport: false,
             });
           }
-        },
-        error: () => {
-          this.router.navigate(['/error-404'], {
-            skipLocationChange: true,
-          });
         },
       });
   }
@@ -174,10 +175,10 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
 
   protected saveCrop() {
     const area = {
+      height: Math.round(this.currentCrop.h),
       left: Math.round(this.currentCrop.x),
       top: Math.round(this.currentCrop.y),
       width: Math.round(this.currentCrop.w),
-      height: Math.round(this.currentCrop.h),
     };
 
     this.pictureItemService.setArea$(this.id, this.itemID, this.type, area).subscribe(() => {

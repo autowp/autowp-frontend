@@ -1,22 +1,23 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {APIPaginator} from '@services/api.service';
-import {VehicleTypeService} from '@services/vehicle-type';
-import {SpecService} from '@services/spec';
-import {ItemService, APIItem, GetItemsServiceOptions} from '@services/item';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription, Observable, of, EMPTY} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {tap, switchMap, distinctUntilChanged, debounceTime, catchError, map} from 'rxjs/operators';
+import {Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {APIPaginator} from '@services/api.service';
+import {APIItem, GetItemsServiceOptions, ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {SpecService} from '@services/spec';
+import {VehicleTypeService} from '@services/vehicle-type';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {Spec, VehicleType} from '@grpc/spec.pb';
+import {EMPTY, Observable, Subscription, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../../toasts/toasts.service';
 
 interface APIVehicleTypeInItems {
+  deep?: number;
   id: number;
   name: string;
-  deep?: number;
 }
 
 interface APISpecInItems extends Spec {
@@ -27,9 +28,9 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
   const result: APIVehicleTypeInItems[] = [];
   for (const item of options) {
     result.push({
+      deep,
       id: item.id,
       name: getVehicleTypeTranslation(item.name),
-      deep,
     });
     for (const subitem of toPlainVehicleType(item.childs, deep + 1)) {
       result.push(subitem);
@@ -73,19 +74,19 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected itemTypeID = 0;
 
-  protected vehicleTypeID: number | null | string = null;
+  protected vehicleTypeID: null | number | string = null;
 
-  protected vehicleChildsTypeID: number | null = null;
+  protected vehicleChildsTypeID: null | number = null;
 
-  protected specID: number | null = null;
+  protected specID: null | number = null;
 
   protected noParent: boolean = null;
 
   protected text = '';
 
-  protected fromYear: number | null = null;
+  protected fromYear: null | number = null;
 
-  protected toYear: number | null = null;
+  protected toYear: null | number = null;
 
   protected order: string = DEFAULT_ORDER;
 
@@ -100,9 +101,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
         }
 
         const params: GetItemsServiceOptions = {
-          limit: 10,
           fields: 'name_text,name_html',
           id: 0,
+          limit: 10,
           name: '',
         };
         if (query.substring(0, 1) === '#') {
@@ -154,21 +155,21 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     this.querySub = this.route.queryParamMap
       .pipe(
         map((params) => ({
+          ancestorID: parseInt(params.get('ancestor_id'), 10) || null,
+          fromYear: parseInt(params.get('from_year'), 10) || null,
+          itemTypeID: parseInt(params.get('item_type_id'), 10),
+          listMode: !!params.get('list_mode'),
           name: params.get('name') || '',
           nameExclude: params.get('name_exclude') || '',
-          itemTypeID: parseInt(params.get('item_type_id'), 10),
+          noParent: !!params.get('no_parent'),
+          order: params.get('order') || DEFAULT_ORDER,
+          page: parseInt(params.get('page'), 10) || 1,
+          specID: parseInt(params.get('spec_id'), 10) || null,
+          text: params.get('text') || '',
+          toYear: parseInt(params.get('to_year'), 10) || null,
+          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id'), 10) || null,
           vehicleTypeID:
             params.get('vehicle_type_id') === 'empty' ? 'empty' : parseInt(params.get('vehicle_type_id'), 10) || null,
-          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id'), 10) || null,
-          specID: parseInt(params.get('spec_id'), 10) || null,
-          noParent: !!params.get('no_parent'),
-          text: params.get('text') || '',
-          fromYear: parseInt(params.get('from_year'), 10) || null,
-          toYear: parseInt(params.get('to_year'), 10) || null,
-          order: params.get('order') || DEFAULT_ORDER,
-          ancestorID: parseInt(params.get('ancestor_id'), 10) || null,
-          listMode: !!params.get('list_mode'),
-          page: parseInt(params.get('page'), 10) || 1,
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
@@ -205,21 +206,21 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           }
 
           return this.itemService.getItems$({
+            ancestor_id: params.ancestorID ? params.ancestorID : null,
+            fields,
+            from_year: params.fromYear ? params.fromYear : null,
+            limit,
             name: params.name ? params.name + '%' : null,
             name_exclude: params.nameExclude ? params.nameExclude + '%' : null,
-            type_id: params.itemTypeID,
-            vehicle_type_id: params.vehicleTypeID,
-            vehicle_childs_type_id: params.vehicleChildsTypeID,
-            spec: params.specID,
-            order: params.order,
             no_parent: params.noParent ? true : null,
-            text: params.text ? params.text : null,
-            from_year: params.fromYear ? params.fromYear : null,
-            to_year: params.toYear ? params.toYear : null,
-            ancestor_id: params.ancestorID ? params.ancestorID : null,
+            order: params.order,
             page: params.page,
-            fields,
-            limit,
+            spec: params.specID,
+            text: params.text ? params.text : null,
+            to_year: params.toYear ? params.toYear : null,
+            type_id: params.itemTypeID,
+            vehicle_childs_type_id: params.vehicleChildsTypeID,
+            vehicle_type_id: params.vehicleTypeID,
           });
         }),
         tap(() => (this.loading = 0))
@@ -228,35 +229,35 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
         this.items = response.items.map((item) => {
           const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
             picture: picture ? picture.picture : null,
-            thumb: picture ? picture.thumb : null,
             routerLink: picture && picture.picture ? ['/picture', picture.picture.identity] : null,
+            thumb: picture ? picture.thumb : null,
           }));
 
           return {
-            id: item.id,
-            preview_pictures: {
-              pictures,
-              large_format: item.preview_pictures.large_format,
-            },
-            item_type_id: item.item_type_id,
-            produced: item.produced,
-            produced_exactly: item.produced_exactly,
-            name_html: item.name_html,
-            name_default: item.name_default,
-            design: item.design,
-            description: item.description,
-            engine_vehicles: item.engine_vehicles,
-            has_text: item.has_text,
             accepted_pictures_count: item.accepted_pictures_count,
             can_edit_specs: item.can_edit_specs,
-            picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
-            specsRouterLink: item.has_specs || item.has_child_specs ? item.specs_route : null,
-            details: {
-              routerLink: item.route,
-              count: item.childs_count,
-            },
-            childs_counts: item.childs_counts,
             categories: item.categories,
+            childs_counts: item.childs_counts,
+            description: item.description,
+            design: item.design,
+            details: {
+              count: item.childs_count,
+              routerLink: item.route,
+            },
+            engine_vehicles: item.engine_vehicles,
+            has_text: item.has_text,
+            id: item.id,
+            item_type_id: item.item_type_id,
+            name_default: item.name_default,
+            name_html: item.name_html,
+            picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
+            preview_pictures: {
+              large_format: item.preview_pictures.large_format,
+              pictures,
+            },
+            produced: item.produced,
+            produced_exactly: item.produced_exactly,
+            specsRouterLink: item.has_specs || item.has_child_specs ? item.specs_route : null,
             twins_groups: item.twins_groups,
           };
         });
@@ -277,20 +278,20 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected ancestorOnSelect(e: NgbTypeaheadSelectItemEvent): void {
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         ancestor_id: e.item.id,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
   protected clearAncestor(): void {
     this.ancestorQuery = '';
     this.router.navigate([], {
-      queryParamsHandling: 'merge',
       queryParams: {
         ancestor_id: null,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -327,8 +328,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   protected onVehicleTypeChanged() {
     this.router.navigate([], {
       queryParams: {
-        vehicle_type_id: this.vehicleTypeID ? this.vehicleTypeID : null,
         page: null,
+        vehicle_type_id: this.vehicleTypeID ? this.vehicleTypeID : null,
       },
       queryParamsHandling: 'merge',
     });
@@ -337,8 +338,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   protected onVehicleChildsTypeChanged() {
     this.router.navigate([], {
       queryParams: {
-        vehicle_childs_type_id: this.vehicleChildsTypeID ? this.vehicleChildsTypeID : null,
         page: null,
+        vehicle_childs_type_id: this.vehicleChildsTypeID ? this.vehicleChildsTypeID : null,
       },
       queryParamsHandling: 'merge',
     });
@@ -347,8 +348,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   protected onSpecChanged() {
     this.router.navigate([], {
       queryParams: {
-        spec_id: this.specID ? this.specID : null,
         page: null,
+        spec_id: this.specID ? this.specID : null,
       },
       queryParamsHandling: 'merge',
     });
@@ -367,8 +368,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   protected onTextChanged() {
     this.router.navigate([], {
       queryParams: {
-        text: this.text ? this.text : null,
         page: null,
+        text: this.text ? this.text : null,
       },
       queryParamsHandling: 'merge',
     });
@@ -387,8 +388,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   protected onToYearChanged() {
     this.router.navigate([], {
       queryParams: {
-        to_year: this.toYear ? this.toYear : null,
         page: null,
+        to_year: this.toYear ? this.toYear : null,
       },
       queryParamsHandling: 'merge',
     });

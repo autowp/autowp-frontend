@@ -1,18 +1,19 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {AuthService} from '@services/auth.service';
-import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, of, Subscription} from 'rxjs';
-import {switchMap, catchError, tap} from 'rxjs/operators';
-import {TimezoneService} from '@services/timezone';
-import {ToastsService} from '../../toasts/toasts.service';
-import {APIImage, APIService} from '@services/api.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {environment} from '@environment/environment';
 import {APIUser} from '@grpc/spec.pb';
-import {APIUser as RESTAPIUser} from '@services/user';
+import {APIImage, APIService} from '@services/api.service';
+import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
-import {KeycloakService} from 'keycloak-angular';
+import {PageEnvService} from '@services/page-env.service';
+import {TimezoneService} from '@services/timezone';
+import {APIUser as RESTAPIUser} from '@services/user';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {KeycloakService} from 'keycloak-angular';
+import {EMPTY, Subscription, of} from 'rxjs';
+import {catchError, switchMap, tap} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-profile',
@@ -22,13 +23,13 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   protected user: APIUser;
 
   protected readonly settings = {
-    timezone: null,
     language: null,
+    timezone: null,
   };
   protected settingsInvalidParams: InvalidParams = {};
   protected photoInvalidParams: InvalidParams = {};
-  protected votesPerDay: number | null = null;
-  protected votesLeft: number | null = null;
+  protected votesPerDay: null | number = null;
+  protected votesLeft: null | number = null;
   protected photo: APIImage;
   private sub: Subscription;
 
@@ -63,8 +64,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         switchMap((user) => {
           if (!user) {
             this.keycloak.login({
-              redirectUri: window.location.href,
               locale: this.languageService.language,
+              redirectUri: window.location.href,
             });
             return EMPTY;
           }
@@ -105,15 +106,15 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     this.settingsInvalidParams = {};
 
     this.api.request<void>('PUT', 'user/me', {body: this.settings}).subscribe({
-      next: () => {
-        this.showSavedMessage();
-      },
       error: (response: unknown) => {
         if (response instanceof HttpErrorResponse && response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
         } else {
           this.toastService.handleError(response);
         }
+      },
+      next: () => {
+        this.showSavedMessage();
       },
     });
   }
@@ -125,11 +126,11 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
 
   protected resetPhoto() {
     this.api.request('DELETE', 'user/me/photo').subscribe({
+      error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.user.avatar = null;
         this.photo = null;
       },
-      error: (response: unknown) => this.toastService.handleError(response),
     });
   }
 

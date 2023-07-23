@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {TelegramComponent} from './telegram.component';
 
-const routes: Routes = [{path: '', pathMatch: 'full', component: TelegramComponent, title: $localize`Telegram`}];
+const routes: Routes = [{component: TelegramComponent, path: '', pathMatch: 'full', title: $localize`Telegram`}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
 })
 export class TelegramRoutingModule {}

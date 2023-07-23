@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {APIService} from '@services/api.service';
 import {APITopCategoriesListItem} from '@grpc/spec.pb';
+import {APIService} from '@services/api.service';
 
 @Component({
   selector: 'app-index-categories-category',
-  templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
+  templateUrl: './category.component.html',
 })
 export class IndexCategoriesCategoryComponent {
   @Input() category: APITopCategoriesListItem;
@@ -19,8 +19,8 @@ export class IndexCategoriesCategoryComponent {
 
     this.api
       .request('GET', 'item/' + this.category.id + '/new-items', {
-        responseType: 'text',
         observe: 'body',
+        responseType: 'text',
       })
       .subscribe((html) => {
         this.html = html;

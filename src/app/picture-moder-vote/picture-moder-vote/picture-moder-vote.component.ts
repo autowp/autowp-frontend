@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {PictureModerVoteModalComponent} from './modal/modal.component';
-import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {shareReplay} from 'rxjs/operators';
+
+import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
+import {PictureModerVoteModalComponent} from './modal/modal.component';
 
 @Component({
   selector: 'app-picture-moder-vote',
@@ -37,8 +38,8 @@ export class PictureModerVoteComponent {
     this.vote = vote;
 
     const modalRef = this.modalService.open(PictureModerVoteModalComponent, {
-      size: 'lg',
       centered: true,
+      size: 'lg',
     });
 
     modalRef.componentInstance.pictureId = this.picture.id;

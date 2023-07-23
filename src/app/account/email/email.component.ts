@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {APIUser} from '@services/user';
-import {PageEnvService} from '@services/page-env.service';
-import {ToastsService} from '../../toasts/toasts.service';
-import {APIService} from '@services/api.service';
 import {environment} from '@environment/environment';
+import {APIService} from '@services/api.service';
+import {PageEnvService} from '@services/page-env.service';
+import {APIUser} from '@services/user';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
+
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-account-email',
   templateUrl: './email.component.html',
 })
 export class AccountEmailComponent implements OnInit {
-  protected readonly email$: Observable<string | null> = this.api
+  protected readonly email$: Observable<null | string> = this.api
     .request<APIUser>('GET', 'user/me', {params: {fields: 'email'}})
     .pipe(
       catchError((error: unknown) => {

@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {PageEnvService} from '@services/page-env.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {CatalogueService} from '../../../catalogue-service';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {CommentsType} from '@grpc/spec.pb';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {APIPicture, PictureService} from '@services/picture';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {CatalogueService} from '../../../catalogue-service';
 
 @Component({
   selector: 'app-catalogue-vehicles-pictures-picture',
@@ -90,13 +91,13 @@ export class CatalogueVehiclesPicturesPictureComponent {
       return this.changed$.pipe(
         switchMap(() =>
           this.pictureService.getPictures$({
+            fields,
             identity,
             item_id: itemID,
-            fields,
-            limit: 1,
             items: {
               type_id: 1,
             },
+            limit: 1,
             paginator: {
               item_id: itemID,
             },

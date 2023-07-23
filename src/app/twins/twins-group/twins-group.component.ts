@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {ItemService} from '@services/item';
-import {EMPTY} from 'rxjs';
-import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ItemService} from '@services/item';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-twins-group',
@@ -28,8 +28,8 @@ export class TwinsGroupComponent {
       setTimeout(
         () =>
           this.pageEnv.set({
-            title: group.name_text,
             pageId: 25,
+            title: group.name_text,
           }),
         0
       );

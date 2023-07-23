@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 
-import {TopViewRoutingModule} from './top-view-routing.module';
-import {TopViewComponent} from './top-view.component';
 import {PaginatorModule} from '../paginator/paginator.module';
 import {ThumbnailModule} from '../thumbnail/thumbnail.module';
+import {TopViewComponent} from './top-view.component';
+import {TopViewRoutingModule} from './top-view-routing.module';
 
 @NgModule({
   declarations: [TopViewComponent],

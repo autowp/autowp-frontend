@@ -1,10 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {APIItem} from '@services/item';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {APIItem} from '@services/item';
+import {BehaviorSubject, Observable, forkJoin, of} from 'rxjs';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
@@ -24,8 +25,8 @@ export class ModerItemsItemLinksComponent {
 
   protected readonly newLink = {
     name: '',
-    url: '',
     type: 'default',
+    url: '',
   };
 
   protected readonly links$: Observable<APIItemLink[]> = this.reload$.pipe(
@@ -50,8 +51,8 @@ export class ModerItemsItemLinksComponent {
             new APIItemLink({
               itemId: '' + itemId,
               name: this.newLink.name,
-              url: this.newLink.url,
               type: this.newLink.type,
+              url: this.newLink.url,
             })
           )
           .pipe(
@@ -80,8 +81,8 @@ export class ModerItemsItemLinksComponent {
                 id: link.id,
                 itemId: '' + itemId,
                 name: link.name,
-                url: link.url,
                 type: link.type,
+                url: link.url,
               })
             )
             .pipe(
@@ -101,8 +102,8 @@ export class ModerItemsItemLinksComponent {
 
     this.loadingNumber++;
     forkJoin(promises).subscribe({
-      next: () => this.reload$.next(null),
       complete: () => this.loadingNumber--,
+      next: () => this.reload$.next(null),
     });
   }
 }

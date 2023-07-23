@@ -1,17 +1,17 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {UtilsModule} from '@utils/utils.module';
 
-import {MostsRoutingModule} from './mosts-routing.module';
+import {MostsContentsComponent} from './contents/contents.component';
 import {MostsComponent} from './mosts.component';
 import {MostsService} from './mosts.service';
-import {HttpClientModule} from '@angular/common/http';
-import {UtilsModule} from '@utils/utils.module';
-import {NgbTooltipModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {MostsContentsComponent} from './contents/contents.component';
+import {MostsRoutingModule} from './mosts-routing.module';
 
 @NgModule({
-  exports: [MostsContentsComponent],
   declarations: [MostsComponent, MostsContentsComponent],
+  exports: [MostsContentsComponent],
   imports: [CommonModule, MostsRoutingModule, HttpClientModule, UtilsModule, NgbTooltipModule, NgbDropdownModule],
   providers: [MostsService],
 })

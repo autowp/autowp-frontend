@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '@services/api.service';
-import {UserService, APIUser} from '@services/user';
 import {ActivatedRoute} from '@angular/router';
+import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
-import {combineLatest, Observable} from 'rxjs';
 import {PageEnvService} from '@services/page-env.service';
-import {distinctUntilChanged, debounceTime, switchMap, map, shareReplay} from 'rxjs/operators';
-import {APIAttrConflictValue, APIAttrConflict, APIAttrsService} from '../../api/attrs/attrs.service';
+import {APIUser, UserService} from '@services/user';
 import {getUnitTranslation} from '@utils/translations';
+import {Observable, combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+
+import {APIAttrConflict, APIAttrConflictValue, APIAttrsService} from '../../api/attrs/attrs.service';
 
 interface APIAttrConflictValueInList extends APIAttrConflictValue {
   user$?: Observable<APIUser>;
@@ -48,9 +49,9 @@ export class AccountSpecsConflictsComponent implements OnInit {
     switchMap(([page, filter]) =>
       combineLatest([
         this.attrService.getConflicts$({
+          fields: 'values',
           filter,
           page,
-          fields: 'values',
         }),
         this.user$,
       ])
