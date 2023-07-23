@@ -44,6 +44,10 @@
           "it": {
             "translation": "src/locale/messages.it-IT.xlf",
             "baseHref": "/"
+          },
+          "he": {
+            "translation": "src/locale/messages.he-IL.xlf",
+            "baseHref": "/"
           }
         }
       },
@@ -106,7 +110,8 @@
               "uk",
               "zh-CN",
               "es-ES",
-              "it"
+              "it",
+              "he"
             ]
           },
           "configurations": {

@@ -32,7 +32,7 @@
           <context context-type="sourcefile">node_modules/src/ngb-config.ts</context>
           <context context-type="linenumber">13</context>
         </context-group>
-        <target state="needs-translation">««</target>
+        <target state="translated">««</target>
       </trans-unit>
       <trans-unit id="ngb.datepicker.select-month" datatype="html" approved="yes">
         <source>Select month</source>
@@ -90,7 +90,7 @@
           <context context-type="sourcefile">node_modules/src/ngb-config.ts</context>
           <context context-type="linenumber">13</context>
         </context-group>
-        <target state="needs-translation">«</target>
+        <target state="translated">«</target>
       </trans-unit>
       <trans-unit id="ngb.carousel.previous" datatype="html" approved="yes">
         <source>Previous</source>
@@ -114,7 +114,7 @@
           <context context-type="sourcefile">node_modules/src/ngb-config.ts</context>
           <context context-type="linenumber">13</context>
         </context-group>
-        <target state="needs-translation">»</target>
+        <target state="translated">»</target>
       </trans-unit>
       <trans-unit id="ngb.datepicker.select-year" datatype="html" approved="yes">
         <source>Select year</source>
@@ -162,7 +162,7 @@
           <context context-type="sourcefile">node_modules/src/ngb-config.ts</context>
           <context context-type="linenumber">13</context>
         </context-group>
-        <target state="needs-translation">»»</target>
+        <target state="translated">»»</target>
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-hours" datatype="html" approved="yes">
         <source>Increment hours</source>
@@ -1056,7 +1056,7 @@ You can support our project by [finances](/donate) or [moral](/feedback).
 Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">26,80</context>
+          <context context-type="linenumber">24,78</context>
         </context-group>
         <target state="needs-translation">### People
 
@@ -2678,7 +2678,7 @@ All images are posted for educational purposes.
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">171</context>
         </context-group>
         <target state="final">Зберегти</target>
       </trans-unit>
@@ -2686,7 +2686,7 @@ All images are posted for educational purposes.
         <source>no</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2698,7 +2698,7 @@ All images are posted for educational purposes.
         <source>yes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2782,16 +2782,17 @@ All images are posted for educational purposes.
         </context-group>
         <target state="final">Журнал ТТХ</target>
       </trans-unit>
-      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07" datatype="html" approved="yes">
-        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+      <trans-unit id="f03653de213019af01288fcd373db32a1da352c5" datatype="html">
+        <source>**Attention!** You probably have accumulated a significant number of errors.
 
-Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+Some of them discovered by other visitors can be found [here](/account/specs-conflicts)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
           <context context-type="linenumber">35,37</context>
         </context-group>
-        <target state="final">**Увага!** Імовірно, у вас накопичилася велика кількість помилок.
-Деякі з них, помічені іншими користувачами, ви можете знайти [тут](/account/specs-conflicts)</target>
+        <target state="needs-translation">**Attention!** You probably have accumulated a significant number of errors.
+
+Some of them discovered by other visitors can be found [here](/account/specs-conflicts)</target>
       </trans-unit>
       <trans-unit id="321e4419a943044e674beb55b8039f42a9761ca5" datatype="html" approved="yes">
         <source>Info</source>
@@ -4263,7 +4264,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
           <context context-type="sourcefile">src/app/feedback/feedback.component.html</context>
           <context context-type="linenumber">45</context>
         </context-group>
-        <target state="needs-translation">E-mail</target>
+        <target state="translated">E-mail</target>
       </trans-unit>
       <trans-unit id="4ea1c79e37b2874778156f48b0e979e85ebba685" datatype="html">
         <source>john@example.com</source>
@@ -5725,7 +5726,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Stock model</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <target state="final">Стокова модель</target>
       </trans-unit>
@@ -5733,7 +5734,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Related</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <target state="final">Пов'язані</target>
       </trans-unit>
@@ -5741,7 +5742,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Sport</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <target state="final">Спорт</target>
       </trans-unit>
@@ -5749,7 +5750,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Design</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">43</context>
         </context-group>
         <target state="final">Дизайн</target>
       </trans-unit>
@@ -6661,7 +6662,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
           <context context-type="sourcefile">src/app/moder/items/too-big/too-big.component.html</context>
           <context context-type="linenumber">16</context>
         </context-group>
-        <target state="needs-translation">Too big</target>
+        <target state="translated">Занадто великий</target>
       </trans-unit>
       <trans-unit id="06412bce0f4fe4311193e9763666089bf9d980da" datatype="html">
         <source>Count</source>
@@ -7413,7 +7414,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <source>Picture №<x id="PH" equiv-text="id"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <target state="final">Зображення №<x id="PH" equiv-text="id"/></target>
       </trans-unit>
@@ -8051,7 +8052,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="sourcefile">src/app/moder/traffic/whitelist/whitelist.component.html</context>
           <context context-type="linenumber">26</context>
         </context-group>
-        <target state="needs-translation">IP</target>
+        <target state="translated">IP</target>
       </trans-unit>
       <trans-unit id="4ec4f14c98fa5c798c58717854323f915cede5ef" datatype="html">
         <source>Whois</source>
@@ -8981,7 +8982,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <source>cropped to <x id="PH" equiv-text="cropSize"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/index/index.component.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <target state="final">кадровано <x id="PH" equiv-text="cropSize"/></target>
       </trans-unit>
@@ -9800,7 +9801,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">96</context>
         </context-group>
-        <target state="needs-translation">%</target>
+        <target state="translated">%</target>
       </trans-unit>
       <trans-unit id="7470108782858632529" datatype="html" approved="yes">
         <source>percent</source>
@@ -9816,7 +9817,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">100</context>
         </context-group>
-        <target state="needs-translation">°</target>
+        <target state="translated">°</target>
       </trans-unit>
       <trans-unit id="9117297518187814718" datatype="html" approved="yes">
         <source>degree</source>
@@ -9880,7 +9881,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">116</context>
         </context-group>
-        <target state="needs-translation">″</target>
+        <target state="translated">′′</target>
       </trans-unit>
       <trans-unit id="6519389225618159586" datatype="html" approved="yes">
         <source>inch</source>
@@ -10144,7 +10145,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">166</context>
         </context-group>
-        <target state="needs-translation">Chery, Geely, Great Wall, …</target>
+        <target state="translated">Chery, Geely, Great Wall, …</target>
       </trans-unit>
       <trans-unit id="2933559242660632719" datatype="html">
         <source>VAZ, GAZ, UAZ, …</source>
@@ -10160,7 +10161,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">168</context>
         </context-group>
-        <target state="needs-translation">Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …</target>
+        <target state="translated">Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …</target>
       </trans-unit>
       <trans-unit id="9072446668502099425" datatype="html">
         <source>Aston Martin, Bentley, MG, Rover, …</source>
@@ -10168,7 +10169,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">169</context>
         </context-group>
-        <target state="needs-translation">Aston Martin, Bentley, MG, Rover, …</target>
+        <target state="translated">Aston Martin, Bentley, MG, Rover, …</target>
       </trans-unit>
       <trans-unit id="1367858305811203827" datatype="html" approved="yes">
         <source>chassis</source>
@@ -12007,7 +12008,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">417</context>
         </context-group>
-        <target state="needs-translation">ABS</target>
+        <target state="translated">ABS</target>
       </trans-unit>
       <trans-unit id="4524701289639551316" datatype="html" approved="yes">
         <source>front brakes</source>
@@ -12343,7 +12344,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">462</context>
         </context-group>
-        <target state="needs-translation">ECE</target>
+        <target state="translated">ECE</target>
       </trans-unit>
       <trans-unit id="5543137315375358049" datatype="html" approved="yes">
         <source>90 km/h</source>
@@ -12371,7 +12372,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">476</context>
         </context-group>
-        <target state="needs-translation">combined</target>
+        <target state="translated">combined</target>
       </trans-unit>
       <trans-unit id="6163129208574599183" datatype="html" approved="yes">
         <source>EPA (to 2008)</source>
@@ -12395,7 +12396,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">473</context>
         </context-group>
-        <target state="needs-translation">EU 93/116/EC</target>
+        <target state="translated">EU 93/116/EC</target>
       </trans-unit>
       <trans-unit id="1245284126667763723" datatype="html">
         <source>urban</source>
@@ -12403,7 +12404,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">474</context>
         </context-group>
-        <target state="needs-translation">urban</target>
+        <target state="translated">urban</target>
       </trans-unit>
       <trans-unit id="6052166397363986919" datatype="html">
         <source>extra urban</source>
@@ -12411,7 +12412,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">475</context>
         </context-group>
-        <target state="needs-translation">extra urban</target>
+        <target state="translated">extra urban</target>
       </trans-unit>
       <trans-unit id="1586743387138128680" datatype="html" approved="yes">
         <source>&quot;start-stop&quot; system</source>
@@ -12681,7 +12682,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">520</context>
         </context-group>
-        <target state="needs-translation">36.8% urban + 63.2% extra urban</target>
+        <target state="translated">36.8% urban + 63.2% extra urban</target>
       </trans-unit>
       <trans-unit id="8259234826290053325" datatype="html" approved="yes">
         <source>axis. 2×radius</source>
@@ -12877,7 +12878,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">549</context>
         </context-group>
-        <target state="needs-translation">CNG</target>
+        <target state="translated">CNG</target>
       </trans-unit>
       <trans-unit id="3936730786370372185" datatype="html">
         <source>LPG</source>
@@ -12885,7 +12886,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">550</context>
         </context-group>
-        <target state="needs-translation">LPG</target>
+        <target state="translated">LPG</target>
       </trans-unit>
       <trans-unit id="2894758632738215638" datatype="html" approved="yes">
         <source>at front</source>
@@ -12973,7 +12974,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">562</context>
         </context-group>
-        <target state="needs-translation">L</target>
+        <target state="translated">L</target>
       </trans-unit>
       <trans-unit id="cylinders-layout-v" datatype="html">
         <source>V</source>
@@ -12981,7 +12982,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">563</context>
         </context-group>
-        <target state="needs-translation">V</target>
+        <target state="translated">V</target>
       </trans-unit>
       <trans-unit id="cylinders-layout-w" datatype="html">
         <source>W</source>
@@ -12989,7 +12990,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">564</context>
         </context-group>
-        <target state="needs-translation">W</target>
+        <target state="translated">W</target>
       </trans-unit>
       <trans-unit id="cylinders-layout-o" datatype="html">
         <source>O</source>
@@ -12997,7 +12998,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">565</context>
         </context-group>
-        <target state="needs-translation">O</target>
+        <target state="translated">O</target>
       </trans-unit>
       <trans-unit id="cylinders-layout-u" datatype="html">
         <source>U</source>
@@ -13005,7 +13006,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">566</context>
         </context-group>
-        <target state="needs-translation">U</target>
+        <target state="translated">U</target>
       </trans-unit>
       <trans-unit id="cylinders-layout-x" datatype="html">
         <source>X</source>
@@ -13013,7 +13014,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">567</context>
         </context-group>
-        <target state="needs-translation">X</target>
+        <target state="translated">X</target>
       </trans-unit>
       <trans-unit id="6864179469118293727" datatype="html">
         <source>×2</source>
@@ -13021,7 +13022,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">570</context>
         </context-group>
-        <target state="needs-translation">×2</target>
+        <target state="translated">×2</target>
       </trans-unit>
       <trans-unit id="6408497858507525365" datatype="html">
         <source>×3</source>
@@ -13029,7 +13030,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">571</context>
         </context-group>
-        <target state="needs-translation">×3</target>
+        <target state="translated">×3</target>
       </trans-unit>
       <trans-unit id="3320580281247606069" datatype="html">
         <source>×4</source>
@@ -13037,7 +13038,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">572</context>
         </context-group>
-        <target state="needs-translation">×4</target>
+        <target state="translated">×4</target>
       </trans-unit>
       <trans-unit id="2875060968320996014" datatype="html">
         <source>×6</source>
@@ -13045,7 +13046,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">573</context>
         </context-group>
-        <target state="needs-translation">×6</target>
+        <target state="translated">×6</target>
       </trans-unit>
       <trans-unit id="2628151150080819749" datatype="html" approved="yes">
         <source>cast iron</source>
@@ -13173,7 +13174,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">588</context>
         </context-group>
-        <target state="needs-translation">OHV</target>
+        <target state="translated">OHV</target>
       </trans-unit>
       <trans-unit id="7309685981918725177" datatype="html" approved="yes">
         <source>OHV with variable valve timing</source>
@@ -13189,7 +13190,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">590</context>
         </context-group>
-        <target state="needs-translation">SOHC</target>
+        <target state="translated">SOHC</target>
       </trans-unit>
       <trans-unit id="7131968206235300499" datatype="html" approved="yes">
         <source>SOHC with variable valve timing</source>
@@ -13205,7 +13206,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">592</context>
         </context-group>
-        <target state="needs-translation">DOHC</target>
+        <target state="translated">DOHC</target>
       </trans-unit>
       <trans-unit id="4397037795238838757" datatype="html" approved="yes">
         <source>DOHC with variable valve timing</source>
@@ -13349,7 +13350,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">610</context>
         </context-group>
-        <target state="needs-translation">CVT</target>
+        <target state="translated">CVT</target>
       </trans-unit>
       <trans-unit id="5438948989457871764" datatype="html" approved="yes">
         <source>Semi-automatic</source>
@@ -13381,7 +13382,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">614</context>
         </context-group>
-        <target state="needs-translation">DSG</target>
+        <target state="translated">DSG</target>
       </trans-unit>
       <trans-unit id="7318003480748548193" datatype="html">
         <source>DCT</source>
@@ -13389,7 +13390,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">615</context>
         </context-group>
-        <target state="needs-translation">DCT</target>
+        <target state="translated">DCT</target>
       </trans-unit>
       <trans-unit id="5552030120913460229" datatype="html" approved="yes">
         <source>coil spring</source>

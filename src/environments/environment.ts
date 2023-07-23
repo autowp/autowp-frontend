@@ -74,6 +74,13 @@ export const environment = {
       flag: 'flag-icon flag-icon-it',
       locale: 'it',
     },
+    {
+      code: 'he',
+      hostname: 'he.localhost',
+      name: 'עִברִית',
+      flag: 'flag-icon flag-icon-he',
+      locale: 'he',
+    },
   ],
   keycloak: {
     url: 'http://localhost:8081/auth/',

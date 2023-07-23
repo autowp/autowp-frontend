@@ -1017,7 +1017,7 @@ You can support our project by [finances](/donate) or [moral](/feedback).
 Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">26,80</context>
+          <context context-type="linenumber">24,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c6045daf544bdad844619af3fdcc0565555a1dd" datatype="html">
@@ -2448,14 +2448,14 @@ All images are posted for educational purposes.
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2420525563530770652" datatype="html">
         <source>no</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2466,7 +2466,7 @@ All images are posted for educational purposes.
         <source>yes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2547,10 +2547,10 @@ All images are posted for educational purposes.
           <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07" datatype="html">
-        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+      <trans-unit id="f03653de213019af01288fcd373db32a1da352c5" datatype="html">
+        <source>**Attention!** You probably have accumulated a significant number of errors.
 
-Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+Some of them discovered by other visitors can be found [here](/account/specs-conflicts)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
           <context context-type="linenumber">35,37</context>
@@ -5229,28 +5229,28 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Stock model</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3724475073526050715" datatype="html">
         <source>Related</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3681011128402308176" datatype="html">
         <source>Sport</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8198980433602946702" datatype="html">
         <source>Design</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b760f123248930122fc7e7b6b6bf94e376e959c8" datatype="html">
@@ -6722,7 +6722,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <source>Picture №<x id="PH" equiv-text="id"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8b2492390e53ab9063ba2a6d35280cf517504370" datatype="html">
@@ -8024,7 +8024,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <source>cropped to <x id="PH" equiv-text="cropSize"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/index/index.component.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="74ce76af192c6556f9c5ed17bb97a125c791b14d" datatype="html">

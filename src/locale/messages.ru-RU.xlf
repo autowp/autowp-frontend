@@ -1056,7 +1056,7 @@ You can support our project by [finances](/donate) or [moral](/feedback).
 Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">26,80</context>
+          <context context-type="linenumber">24,78</context>
         </context-group>
         <target state="needs-translation">### People
 
@@ -2672,7 +2672,7 @@ All images are posted for educational purposes.
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">171</context>
         </context-group>
         <target state="translated">Сохранить</target>
       </trans-unit>
@@ -2680,7 +2680,7 @@ All images are posted for educational purposes.
         <source>no</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2692,7 +2692,7 @@ All images are posted for educational purposes.
         <source>yes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2776,15 +2776,16 @@ All images are posted for educational purposes.
         </context-group>
         <target state="final">Журнал ТТХ</target>
       </trans-unit>
-      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07" datatype="html" approved="yes">
-        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+      <trans-unit id="f03653de213019af01288fcd373db32a1da352c5" datatype="html">
+        <source>**Attention!** You probably have accumulated a significant number of errors.
 
-Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+Some of them discovered by other visitors can be found [here](/account/specs-conflicts)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
           <context context-type="linenumber">35,37</context>
         </context-group>
-        <target state="final">**Внимание!** Вроятно, у вас накопилось существенное количество ошибок.
+        <target state="translated">**Внимание!** Вероятно, у вас накопилось существенное количество ошибок.
+
 Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</target>
       </trans-unit>
       <trans-unit id="321e4419a943044e674beb55b8039f42a9761ca5" datatype="html">
@@ -5704,7 +5705,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Stock model</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <target state="translated">Стоковая модель</target>
       </trans-unit>
@@ -5712,7 +5713,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Related</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <target state="translated">Связанные</target>
       </trans-unit>
@@ -5720,7 +5721,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Sport</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <target state="translated">Спорт</target>
       </trans-unit>
@@ -5728,7 +5729,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Design</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">43</context>
         </context-group>
         <target state="translated">Дизайн</target>
       </trans-unit>
@@ -7040,7 +7041,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <target state="translated">Копирайты</target>
       </trans-unit>
-      <trans-unit id="0784137887417f8f5a194b68dc520c8dfa2b83a6" datatype="html">
+      <trans-unit id="0784137887417f8f5a194b68dc520c8dfa2b83a6" datatype="html" approved="yes">
         <source>Markdown syntax.
 
 Few manuals:
@@ -7053,7 +7054,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.html</context>
           <context context-type="linenumber">298,305</context>
         </context-group>
-        <target state="translated">Синтаксис Markdown.
+        <target state="final">Синтаксис Markdown.
 Несколько описаний языка:
 [1](https://ru.wikipedia.org/wiki/Markdown),
 [2](https://en.wikipedia.org/wiki/Markdown),
@@ -7384,7 +7385,7 @@ Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*</source>
         <source>Picture №<x id="PH" equiv-text="id"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <target state="translated">Изображение №<x id="PH" equiv-text="id"/></target>
       </trans-unit>
@@ -8853,7 +8854,8 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/upload/crop/crop.component.html</context>
           <context context-type="linenumber">20,22</context>
         </context-group>
-        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ resolution }}"/> (пропорции <x id="INTERPOLATION_1" equiv-text="{{ aspect }}"/>)</target>
+        <target state="translated">
+  id="INTERPOLATION" equiv-text="{{ resolution }}"/&gt; (пропорции <x id="INTERPOLATION_1" equiv-text="{{ aspect }}"/>)    </target>
       </trans-unit>
       <trans-unit id="32ea16269840d89e5b8787b37c0e709a10c6b2af" datatype="html">
         <source>Only registered users can upload pictures</source>
@@ -8946,7 +8948,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <source>cropped to <x id="PH" equiv-text="cropSize"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/index/index.component.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <target state="translated">кадрировано <x id="PH" equiv-text="cropSize"/></target>
       </trans-unit>
@@ -13098,21 +13100,21 @@ Transmission is not considered</source>
         </context-group>
         <target state="final">Десмодромный ГРМ</target>
       </trans-unit>
-      <trans-unit id="6472759528598170139" datatype="html">
+      <trans-unit id="6472759528598170139" datatype="html" approved="yes">
         <source>Timing without camshaft</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">584</context>
         </context-group>
-        <target state="translated">ГРМ без распределительного вала</target>
+        <target state="final">ГРМ без распределительного вала</target>
       </trans-unit>
-      <trans-unit id="4653660527056345128" datatype="html">
+      <trans-unit id="4653660527056345128" datatype="html" approved="yes">
         <source>avalvular</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">585</context>
         </context-group>
-        <target state="translated">безклапанный</target>
+        <target state="final">безклапанный</target>
       </trans-unit>
       <trans-unit id="1878826759411869662" datatype="html" approved="yes">
         <source>bottom valve</source>
@@ -13426,7 +13428,7 @@ Transmission is not considered</source>
         </context-group>
         <target state="translated">на резиновых упругих элементах</target>
       </trans-unit>
-      <trans-unit id="6756867621905155355" datatype="html">
+      <trans-unit id="6756867621905155355" datatype="html" approved="yes">
         <source>coil spring with push rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
@@ -13436,9 +13438,9 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">676</context>
         </context-group>
-        <target state="translated">пружинная с толкающей штангой (Push-Rod)</target>
+        <target state="final">пружинная с толкающей штангой (Push-Rod)</target>
       </trans-unit>
-      <trans-unit id="2170888385171996069" datatype="html">
+      <trans-unit id="2170888385171996069" datatype="html" approved="yes">
         <source>coil spring with pull rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
@@ -13448,7 +13450,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">677</context>
         </context-group>
-        <target state="translated">пружинная с тянущей штангой (Pull-Rod)</target>
+        <target state="final">пружинная с тянущей штангой (Pull-Rod)</target>
       </trans-unit>
       <trans-unit id="5129031800047592831" datatype="html">
         <source>leaf spring on the transverse springs</source>
@@ -13474,7 +13476,7 @@ Transmission is not considered</source>
         </context-group>
         <target state="translated">рессорная на продольных рессорах</target>
       </trans-unit>
-      <trans-unit id="4671050175816763733" datatype="html">
+      <trans-unit id="4671050175816763733" datatype="html" approved="yes">
         <source>torsion bar with the push rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
@@ -13484,9 +13486,9 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">685</context>
         </context-group>
-        <target state="translated">торсионная с толкающей штангой (Push-Rod)</target>
+        <target state="final">торсионная с толкающей штангой (Push-Rod)</target>
       </trans-unit>
-      <trans-unit id="3509222618002501193" datatype="html">
+      <trans-unit id="3509222618002501193" datatype="html" approved="yes">
         <source>torsion bar with the pull rod</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
@@ -13496,7 +13498,7 @@ Transmission is not considered</source>
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">687</context>
         </context-group>
-        <target state="translated">торсионная с тянущей штангой (Pull-Rod)</target>
+        <target state="final">торсионная с тянущей штангой (Pull-Rod)</target>
       </trans-unit>
       <trans-unit id="7004152681387448082" datatype="html">
         <source>on the longitudinal elliptic leaf springs</source>

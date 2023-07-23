@@ -1056,7 +1056,7 @@ You can support our project by [finances](/donate) or [moral](/feedback).
 Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/about/about.component.ts</context>
-          <context context-type="linenumber">26,80</context>
+          <context context-type="linenumber">24,78</context>
         </context-group>
         <target state="needs-translation">### People
 
@@ -2678,7 +2678,7 @@ Attributi
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">171</context>
         </context-group>
         <target state="translated">Salva</target>
       </trans-unit>
@@ -2686,7 +2686,7 @@ Attributi
         <source>no</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2698,7 +2698,7 @@ Attributi
         <source>yes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/spec/spec.component.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
@@ -2782,16 +2782,17 @@ Attributi
         </context-group>
         <target state="translated">Registro dei valori</target>
       </trans-unit>
-      <trans-unit id="29d044da54742cd36f4af8fd2fd51600cc7e3c07" datatype="html">
-        <source>**Attention!** Вроятно, у вас накопилось существенное количество ошибок.
+      <trans-unit id="f03653de213019af01288fcd373db32a1da352c5" datatype="html">
+        <source>**Attention!** You probably have accumulated a significant number of errors.
 
-Некоторые из них, обнаруженные другими посетителями, вы можете найти [здесь](/account/specs-conflicts)</source>
+Some of them discovered by other visitors can be found [here](/account/specs-conflicts)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
           <context context-type="linenumber">35,37</context>
         </context-group>
-        <target state="translated">**Attenzione!** Probabilmente hai accumulato un numero significativo di errori.
-Puoi visualizzarne alcuni trovati da altri visitatori [qui](/account/specs-conflicts)</target>
+        <target state="needs-translation">**Attention!** You probably have accumulated a significant number of errors.
+
+Some of them discovered by other visitors can be found [here](/account/specs-conflicts)</target>
       </trans-unit>
       <trans-unit id="321e4419a943044e674beb55b8039f42a9761ca5" datatype="html">
         <source>Info</source>
@@ -5726,7 +5727,7 @@ completamente senza pubblicità in futuro.
         <source>Stock model</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <target state="translated">Modello di serie</target>
       </trans-unit>
@@ -5734,7 +5735,7 @@ completamente senza pubblicità in futuro.
         <source>Related</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <target state="translated">In relazione</target>
       </trans-unit>
@@ -5742,7 +5743,7 @@ completamente senza pubblicità in futuro.
         <source>Sport</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <target state="needs-translation">Sport</target>
       </trans-unit>
@@ -5750,7 +5751,7 @@ completamente senza pubblicità in futuro.
         <source>Design</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/item-parent/item-parent.component.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">43</context>
         </context-group>
         <target state="needs-translation">Design</target>
       </trans-unit>
@@ -7412,7 +7413,7 @@ sblocca
         <source>Picture №<x id="PH" equiv-text="id"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/pictures/item/item.component.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <target state="translated">Immagine №<x id="PH" equiv-text="id"/></target>
       </trans-unit>
@@ -8954,7 +8955,7 @@ Tieni presente che l'aggiunta di immagini è moderata. Quelli. Tutte le immagini
         <source>cropped to <x id="PH" equiv-text="cropSize"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/index/index.component.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <target state="translated">ritagliato a <x id="PH" equiv-text="cropSize"/></target>
       </trans-unit>

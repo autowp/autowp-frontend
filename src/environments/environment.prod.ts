@@ -69,6 +69,13 @@ export const environment = {
       flag: 'flag-icon flag-icon-it',
       locale: 'it',
     },
+    {
+      code: 'he',
+      hostname: 'he.wheelsage.org',
+      name: 'עִברִית',
+      flag: 'flag-icon flag-icon-he',
+      locale: 'he',
+    },
   ],
   keycloak: {
     url: 'https://auth.wheelsage.org/auth/',
