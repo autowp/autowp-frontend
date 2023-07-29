@@ -18,7 +18,7 @@ interface JcropCrop {
   templateUrl: './crop.component.html',
 })
 export class UploadCropComponent implements OnInit, OnDestroy {
-  @Output() changed = new EventEmitter();
+  @Output() changed = new EventEmitter<void>();
 
   @Input() set picture(picture: APIPicture) {
     this.picture$.next(picture);
