@@ -1,45 +1,43 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h3 class="modal-title" i18n>Vehicle type</h3>
-    <a class="close" (click)="activeModal.dismiss()">×</a>
-  </div>
-  <div class="modal-body">
-    <div class="mb-3" *ngFor="let type of types$ | async">
-      <button
-        class="btn d-block"
-        (click)="toggle(type.id)"
-        [class.btn-success]="isActive(type.id)"
-        [class.btn-outline-secondary]="!isActive(type.id)"
-      >
-        {{ type.name }}
-      </button>
-      <div *ngIf="type.childs.length > 0" class="mb-3 ms-4">
-        <ng-container *ngFor="let subtype of type.childs">
+<div class="modal-header">
+  <h3 class="modal-title" i18n>Vehicle type</h3>
+  <a class="close" (click)="activeModal.dismiss()">×</a>
+</div>
+<div class="modal-body">
+  <div class="mb-3" *ngFor="let type of types$ | async">
+    <button
+      class="btn d-block"
+      (click)="toggle(type.id)"
+      [class.btn-success]="isActive(type.id)"
+      [class.btn-outline-secondary]="!isActive(type.id)"
+    >
+      {{ type.name }}
+    </button>
+    <div *ngIf="type.childs.length > 0" class="mb-3 ms-4">
+      <ng-container *ngFor="let subtype of type.childs">
+        <button
+          class="btn btn-sm"
+          [class.d-block]="subtype.childs.length > 0"
+          (click)="toggle(subtype.id)"
+          [class.btn-success]="isActive(subtype.id)"
+          [class.btn-outline-secondary]="!isActive(subtype.id)"
+        >
+          {{ subtype.name }}
+        </button>
+        <div *ngIf="subtype.childs.length > 0" class="mb-3 ms-4">
           <button
             class="btn btn-sm"
-            [class.d-block]="subtype.childs.length > 0"
-            (click)="toggle(subtype.id)"
-            [class.btn-success]="isActive(subtype.id)"
-            [class.btn-outline-secondary]="!isActive(subtype.id)"
+            (click)="toggle(subsubtype.id)"
+            [class.btn-success]="isActive(subsubtype.id)"
+            [class.btn-outline-secondary]="!isActive(subsubtype.id)"
+            *ngFor="let subsubtype of subtype.childs"
           >
-            {{ subtype.name }}
+            {{ subsubtype.name }}
           </button>
-          <div *ngIf="subtype.childs.length > 0" class="mb-3 ms-4">
-            <button
-              class="btn btn-sm"
-              (click)="toggle(subsubtype.id)"
-              [class.btn-success]="isActive(subsubtype.id)"
-              [class.btn-outline-secondary]="!isActive(subsubtype.id)"
-              *ngFor="let subsubtype of subtype.childs"
-            >
-              {{ subsubtype.name }}
-            </button>
-          </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="activeModal.close()" i18n>Close</button>
-  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" (click)="activeModal.close()" i18n>Close</button>
 </div>

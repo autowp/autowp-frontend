@@ -1,33 +1,31 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h3 class="modal-title" i18n>Send personal message</h3>
-    <a class="close" (click)="activeModal.dismiss()">×</a>
-  </div>
-  <div class="modal-body">
-    <textarea
-      cols="65"
-      rows="5"
-      name="contents"
-      (keypress)="keypress()"
-      [(ngModel)]="text"
-      class="form-control"
-      [disabled]="sending"
-      placeholder="Message"
-      i18n-placeholder
-    ></textarea>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn"
-      (click)="send()"
-      [disabled]="sending || text.length <= 0"
-      [class.btn-success]="sent"
-      [class.btn-primary]="!sent"
-    >
-      <span i18n *ngIf="sending">sending …</span>
-      <span i18n *ngIf="sent">sent</span>
-      <span i18n *ngIf="!sending && !sent">send</span>
-    </button>
-    <button class="btn btn-secondary cancel" i18n (click)="activeModal.dismiss()" [disabled]="sending">cancel</button>
-  </div>
+<div class="modal-header">
+  <h3 class="modal-title" i18n>Send personal message</h3>
+  <a class="close" (click)="activeModal.dismiss()">×</a>
+</div>
+<div class="modal-body">
+  <textarea
+    cols="65"
+    rows="5"
+    name="contents"
+    (keypress)="keypress()"
+    [(ngModel)]="text"
+    class="form-control"
+    [disabled]="sending"
+    placeholder="Message"
+    i18n-placeholder
+  ></textarea>
+</div>
+<div class="modal-footer">
+  <button
+    class="btn"
+    (click)="send()"
+    [disabled]="sending || text.length <= 0"
+    [class.btn-success]="sent"
+    [class.btn-primary]="!sent"
+  >
+    <span i18n *ngIf="sending">sending …</span>
+    <span i18n *ngIf="sent">sent</span>
+    <span i18n *ngIf="!sending && !sent">send</span>
+  </button>
+  <button class="btn btn-secondary cancel" i18n (click)="activeModal.dismiss()" [disabled]="sending">cancel</button>
 </div>

@@ -1,4 +1,4 @@
-<div class="modal-content" *ngIf="picture$ | async as picture">
+<ng-container *ngIf="picture$ | async as picture">
   <div class="modal-header">
     <h3 class="modal-title" i18n>Cropper</h3>
     <a class="close" (click)="activeModal.dismiss()">×</a>
@@ -23,4 +23,4 @@
     <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()" i18n>Close</button>
     <button type="button" class="btn btn-primary" (click)="onSave(picture)" i18n>Save changes</button>
   </div>
-</div>
+</ng-container>

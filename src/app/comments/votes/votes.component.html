@@ -1,19 +1,17 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h3 class="modal-title" i18n>Votes</h3>
-    <a class="close" (click)="activeModal.dismiss()">×</a>
-  </div>
-  <div class="modal-body" *ngIf="votes$ | async as votes">
-    <p *ngIf="votes && votes.positive.length">
-      <strong>+1</strong>:
-      <app-user2 *ngFor="let vote of votes.positive" [user]="vote.user"></app-user2>
-    </p>
-    <p *ngIf="votes && votes.negative.length">
-      <strong>-1</strong>:
-      <app-user2 *ngFor="let vote of votes.negative" [user]="vote.user"></app-user2>
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="activeModal.dismiss()" i18n>Close</button>
-  </div>
+<div class="modal-header">
+  <h3 class="modal-title" i18n>Votes</h3>
+  <a class="close" (click)="activeModal.dismiss()">×</a>
+</div>
+<div class="modal-body" *ngIf="votes$ | async as votes">
+  <p *ngIf="votes && votes.positive.length">
+    <strong>+1</strong>:
+    <app-user2 *ngFor="let vote of votes.positive" [user]="vote.user"></app-user2>
+  </p>
+  <p *ngIf="votes && votes.negative.length">
+    <strong>-1</strong>:
+    <app-user2 *ngFor="let vote of votes.negative" [user]="vote.user"></app-user2>
+  </p>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-secondary" (click)="activeModal.dismiss()" i18n>Close</button>
 </div>

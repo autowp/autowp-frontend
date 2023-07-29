@@ -1,24 +1,22 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h3 class="modal-title" i18n>Custom reason</h3>
-    <a class="close" (click)="activeModal.dismiss()">×</a>
+<div class="modal-header">
+  <h3 class="modal-title" i18n>Custom reason</h3>
+  <a class="close" (click)="activeModal.dismiss()">×</a>
+</div>
+<div class="modal-body">
+  <div class="mb-3">
+    <label>Reason</label>
+    <input maxlength="50" required name="reason" [(ngModel)]="reason" class="form-control" />
   </div>
-  <div class="modal-body">
-    <div class="mb-3">
-      <label>Reason</label>
-      <input maxlength="50" required name="reason" [(ngModel)]="reason" class="form-control" />
-    </div>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" name="save" [(ngModel)]="save" />
-        <ng-container i18n>Save as template</ng-container>
-      </label>
-    </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="save" [(ngModel)]="save" />
+      <ng-container i18n>Save as template</ng-container>
+    </label>
   </div>
-  <div class="modal-footer">
-    <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Cancel</button>
-    <button type="button" (click)="ok()" class="btn" [class.btn-danger]="vote < 0" [class.btn-success]="vote > 0" i18n>
-      Send
-    </button>
-  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Cancel</button>
+  <button type="button" (click)="ok()" class="btn" [class.btn-danger]="vote < 0" [class.btn-success]="vote > 0" i18n>
+    Send
+  </button>
 </div>

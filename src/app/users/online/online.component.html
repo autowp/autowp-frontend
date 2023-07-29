@@ -1,13 +1,11 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h3 class="modal-title" i18n>Online</h3>
-    <a class="close" (click)="activeModal.dismiss()">×</a>
-  </div>
-  <div class="modal-body">
-    <app-user2 [user]="user" *ngFor="let user of users$ | async"></app-user2>
-  </div>
-  <div class="modal-footer">
-    <button type="button" (click)="load()" class="btn btn-secondary" i18n>Refresh</button>
-    <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Close</button>
-  </div>
+<div class="modal-header">
+  <h3 class="modal-title" i18n>Online</h3>
+  <a class="close" (click)="activeModal.dismiss()">×</a>
+</div>
+<div class="modal-body">
+  <app-user2 [user]="user" *ngFor="let user of users$ | async"></app-user2>
+</div>
+<div class="modal-footer">
+  <button type="button" (click)="load()" class="btn btn-secondary" i18n>Refresh</button>
+  <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Close</button>
 </div>
