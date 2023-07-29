@@ -21,6 +21,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   @Output() changed = new EventEmitter<void>();
 
   @Input() set picture(picture: APIPicture) {
+    console.debug('picture', picture);
     this.picture$.next(picture);
   }
   protected readonly picture$ = new BehaviorSubject<APIPicture>(null);
@@ -43,6 +44,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
+      console.debug('img', img, 'picture', picture);
       if (img && picture) {
         const $img = $(img);
         const $body = $img.parent();
