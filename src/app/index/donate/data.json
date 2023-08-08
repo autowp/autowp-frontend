@@ -1,5 +1,29 @@
 [
   {
+    "sum": 10,
+    "currency": "EUR",
+    "date": "2023-07-31T00:00:00+00:00",
+    "contributor": "Andy Haslam"
+  },
+  {
+    "sum": 5.54,
+    "currency": "EUR",
+    "date": "2023-07-31T00:00:00+00:00",
+    "contributor": "Francisco javier Diaz Gonzalez"
+  },
+  {
+    "sum": 1200,
+    "currency": "RUB",
+    "date": "2023-07-14T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
+    "sum": 52.12,
+    "currency": "EUR",
+    "date": "2023-07-07T00:00:00+00:00",
+    "contributor": "Mieke Stuart"
+  },
+  {
     "sum": 5011,
     "currency": "RUB",
     "date": "2023-05-29T00:00:00+00:00",
