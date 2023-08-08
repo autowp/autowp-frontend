@@ -37,6 +37,12 @@
   },
   {
     "sum": 100,
+    "currency": "EUR",
+    "date": "2023-05-23T00:00:00+00:00",
+    "contributor": "Laurent PENNEQUIN"
+  },
+  {
+    "sum": 100,
     "currency": "RUB",
     "date": "2023-05-23T00:00:00+00:00",
     "contributor": "Dimon M Lenin"
