@@ -2,14 +2,21 @@
   {
     "sum": 10,
     "currency": "EUR",
-    "date": "2023-07-31T00:00:00+00:00",
+    "date": "2023-08-04T00:00:00+00:00",
     "contributor": "Andy Haslam"
   },
   {
     "sum": 5.54,
     "currency": "EUR",
-    "date": "2023-07-31T00:00:00+00:00",
+    "date": "2023-08-04T00:00:00+00:00",
     "contributor": "Francisco javier Diaz Gonzalez"
+  },
+  {
+    "sum": -19600,
+    "currency": "RUB",
+    "date": "2023-07-22T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "July/August hosting"
   },
   {
     "sum": 1200,
@@ -22,6 +29,13 @@
     "currency": "EUR",
     "date": "2023-07-07T00:00:00+00:00",
     "contributor": "Mieke Stuart"
+  },
+  {
+    "sum": -18000,
+    "currency": "RUB",
+    "date": "2023-06-18T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "June/July hosting"
   },
   {
     "sum": 5011,
@@ -39,7 +53,7 @@
     "sum": 100,
     "currency": "EUR",
     "date": "2023-05-23T00:00:00+00:00",
-    "contributor": "Laurent PENNEQUIN"
+    "contributor": "LP2M"
   },
   {
     "sum": 100,
