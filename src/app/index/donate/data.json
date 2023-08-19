@@ -1,5 +1,17 @@
 [
   {
+    "sum": 1250,
+    "currency": "RUB",
+    "date": "2023-08-20T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
+    "sum": 30.00,
+    "currency": "EUR",
+    "date": "2023-08-15T00:00:00+00:00",
+    "contributor": "Vasily Markin"
+  },
+  {
     "sum": 10,
     "currency": "EUR",
     "date": "2023-08-04T00:00:00+00:00",
