@@ -60,7 +60,7 @@ export class ModerItemsItemCatalogueComponent {
                 exclude_self_and_childs: item.id,
                 fields: 'name_html,name_text,brandicon',
                 is_group: true,
-                limit: 15,
+                limit: 10,
                 parent_types_of: item.item_type_id,
               })
               .pipe(map((response) => response.items));
