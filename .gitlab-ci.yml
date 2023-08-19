@@ -53,7 +53,7 @@ deploy:
     - git clone -b master https://gitpush:${GITPUSH_TOKEN}@gitlab.pereslegin.ru/autowp/helm.git
     - cd helm
     - yq -i '.goautowp.image.tag = strenv(CI_COMMIT_TAG)' values.yaml
-    - git values.yaml
+    - git add values.yaml
     - "git commit -m \"feat: Update frontend to $CI_COMMIT_TAG\""
     - git push origin master
     - sentry-cli releases finalize "$CI_COMMIT_TAG" || true
