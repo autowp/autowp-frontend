@@ -26,17 +26,17 @@
           <label class="col-md-2 col-form-label" i18n>Short description</label>
           <div class="col-md-10">
             <app-markdown-edit [(text)]="language.text"></app-markdown-edit>
-            <p *ngIf="language.text_id" class="text-end">
-              <a [routerLink]="['/info/text', language.text_id]" i18n>History</a>
+            <p *ngIf="language.textId" class="text-end">
+              <a [routerLink]="['/info/text', language.textId]" i18n>History</a>
             </p>
           </div>
         </div>
         <div class="mb-3 row">
           <label class="col-md-2 col-form-label" i18n>Full description</label>
           <div class="col-md-10">
-            <app-markdown-edit [(text)]="language.full_text"></app-markdown-edit>
-            <p *ngIf="language.full_text_id" class="text-end">
-              <a [routerLink]="['/info/text', language.full_text_id]" i18n>History</a>
+            <app-markdown-edit [(text)]="language.fullText"></app-markdown-edit>
+            <p *ngIf="language.fullTextId" class="text-end">
+              <a [routerLink]="['/info/text', language.fullTextId]" i18n>History</a>
             </p>
           </div>
         </div>

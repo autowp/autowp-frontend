@@ -17,7 +17,6 @@ import {ContactsService} from '@services/contacts';
 import {ContentLanguageService} from '@services/content-language';
 import {IpService} from '@services/ip';
 import {ItemService} from '@services/item';
-import {ItemLanguageService} from '@services/item-language';
 import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {MessageService} from '@services/message';
@@ -109,7 +108,6 @@ const providers: Provider[] = [
   ItemService,
   ReCaptchaService,
   ItemParentService,
-  ItemLanguageService,
   MessageService,
   PageService,
   UserService,
