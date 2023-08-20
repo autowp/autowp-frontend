@@ -1,7 +1,9 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItemParentLanguageGetResponse, APIService} from '@services/api.service';
+import {APIGetItemParentLanguagesRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
 import {APIItem, ItemService} from '@services/item';
 import {APIItemParent} from '@services/item-parent';
@@ -49,7 +51,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     private readonly ContentLanguage: ContentLanguageService,
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
+    private readonly itemsClient: ItemsClient
   ) {}
 
   ngOnInit(): void {
@@ -71,9 +74,11 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
               fields: ['name_text', 'name_html'].join(','),
             }),
             this.ContentLanguage.languages$,
-            this.api.request<APIItemParentLanguageGetResponse>(
-              'GET',
-              'item-parent/' + params.item_id + '/' + params.parent_id + '/language'
+            this.itemsClient.getItemParentLanguages(
+              new APIGetItemParentLanguagesRequest({
+                itemId: '' + params.item_id,
+                parentId: '' + params.parent_id,
+              })
             ),
           ]);
         })

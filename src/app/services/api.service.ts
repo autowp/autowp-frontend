@@ -20,15 +20,6 @@ import {catchError, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
 
-export interface APIItemParentLanguageGetResponse {
-  items: APIItemParentLanguage[];
-}
-
-export interface APIItemParentLanguage {
-  language: string;
-  name: string;
-}
-
 export interface APIImage {
   height: number;
   src: string;

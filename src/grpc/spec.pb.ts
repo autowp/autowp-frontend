@@ -25874,6 +25874,510 @@ export module APIItemVehicleTypeRequest {
 }
 
 /**
+ * Message implementation for goautowp.APIGetItemParentLanguagesRequest
+ */
+export class APIGetItemParentLanguagesRequest implements GrpcMessage {
+  static id = 'goautowp.APIGetItemParentLanguagesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIGetItemParentLanguagesRequest();
+    APIGetItemParentLanguagesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIGetItemParentLanguagesRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIGetItemParentLanguagesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIGetItemParentLanguagesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIGetItemParentLanguagesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(2, _instance.parentId);
+    }
+  }
+
+  private _itemId: string;
+  private _parentId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIGetItemParentLanguagesRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<APIGetItemParentLanguagesRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    APIGetItemParentLanguagesRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIGetItemParentLanguagesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIGetItemParentLanguagesRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIGetItemParentLanguagesRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId
+    };
+  }
+}
+export module APIGetItemParentLanguagesRequest {
+  /**
+   * Standard JavaScript object representation for APIGetItemParentLanguagesRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    parentId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIGetItemParentLanguagesRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    parentId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemParentLanguages
+ */
+export class ItemParentLanguages implements GrpcMessage {
+  static id = 'goautowp.ItemParentLanguages';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemParentLanguages();
+    ItemParentLanguages.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemParentLanguages) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemParentLanguages,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new ItemParentLanguage();
+          _reader.readMessage(
+            messageInitializer1,
+            ItemParentLanguage.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemParentLanguages.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemParentLanguages,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        ItemParentLanguage.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: ItemParentLanguage[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemParentLanguages to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemParentLanguages.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new ItemParentLanguage(m));
+    ItemParentLanguages.refineValues(this);
+  }
+  get items(): ItemParentLanguage[] | undefined {
+    return this._items;
+  }
+  set items(value: ItemParentLanguage[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemParentLanguages.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemParentLanguages.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemParentLanguages.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module ItemParentLanguages {
+  /**
+   * Standard JavaScript object representation for ItemParentLanguages
+   */
+  export interface AsObject {
+    items?: ItemParentLanguage.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for ItemParentLanguages
+   */
+  export interface AsProtobufJSON {
+    items: ItemParentLanguage.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemParentLanguage
+ */
+export class ItemParentLanguage implements GrpcMessage {
+  static id = 'goautowp.ItemParentLanguage';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemParentLanguage();
+    ItemParentLanguage.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemParentLanguage) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+    _instance.name = _instance.name || '';
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemParentLanguage,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.name = _reader.readString();
+          break;
+        case 4:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemParentLanguage.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemParentLanguage,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(2, _instance.parentId);
+    }
+    if (_instance.name) {
+      _writer.writeString(3, _instance.name);
+    }
+    if (_instance.language) {
+      _writer.writeString(4, _instance.language);
+    }
+  }
+
+  private _itemId: string;
+  private _parentId: string;
+  private _name: string;
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemParentLanguage to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemParentLanguage.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    this.name = _value.name;
+    this.language = _value.language;
+    ItemParentLanguage.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemParentLanguage.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemParentLanguage.AsObject {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      name: this.name,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemParentLanguage.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      name: this.name,
+      language: this.language
+    };
+  }
+}
+export module ItemParentLanguage {
+  /**
+   * Standard JavaScript object representation for ItemParentLanguage
+   */
+  export interface AsObject {
+    itemId: string;
+    parentId: string;
+    name: string;
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemParentLanguage
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    parentId: string;
+    name: string;
+    language: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.AddCommentRequest
  */
 export class AddCommentRequest implements GrpcMessage {
