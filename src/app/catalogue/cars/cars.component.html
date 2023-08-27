@@ -5,7 +5,7 @@
     </li>
     <ng-container *ngIf="brand$ | async as brand; else loading">
       <li class="breadcrumb-item" *ngIf="brand">
-        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameText"></a>
+        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
       </li>
       <li class="breadcrumb-item" *ngIf="currentVehicleType$ | async">
         <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
