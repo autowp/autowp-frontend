@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIItem, APIPathTreeItemParent, ItemService} from '@services/item';
+import {APIItem, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIPathTreeItemParent} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {APIPicture} from '@services/picture';
 import {EMPTY, Observable, OperatorFunction, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -22,7 +24,11 @@ type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
 
 @Injectable()
 export class CatalogueService {
-  constructor(private readonly itemService: ItemService, private readonly itemParentService: ItemParentService) {}
+  constructor(
+    private readonly itemParentService: ItemParentService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
+  ) {}
 
   public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
     const result: Breadcrumbs[] = [];
@@ -93,7 +99,7 @@ export class CatalogueService {
           );
       });
 
-    return this.getBrand(route).pipe(
+    return this.getBrand$(route).pipe(
       switchMap((brand) => {
         if (!brand) {
           return of(null);
@@ -103,7 +109,7 @@ export class CatalogueService {
           map(
             (data) =>
               ({
-                id: brand.id,
+                id: +brand.id,
                 items: [],
                 path: data ? data.split('/') : [],
               } as Parent)
@@ -118,7 +124,7 @@ export class CatalogueService {
               path: parent.items,
             }).pipe(
               switchMap((params) => {
-                return this.getType(route).pipe(
+                return this.getType$(route).pipe(
                   map((type) => ({
                     brand: params.brand,
                     path: params.path,
@@ -133,7 +139,7 @@ export class CatalogueService {
     );
   }
 
-  private getType(route: ActivatedRoute) {
+  private getType$(route: ActivatedRoute): Observable<string> {
     return route.paramMap.pipe(
       map((paramMap) => paramMap.get('type')),
       distinctUntilChanged(),
@@ -141,7 +147,7 @@ export class CatalogueService {
     );
   }
 
-  private getBrand(route: ActivatedRoute) {
+  private getBrand$(route: ActivatedRoute): Observable<APIItem> {
     return route.paramMap.pipe(
       map((params) => params.get('brand')),
       distinctUntilChanged(),
@@ -150,12 +156,18 @@ export class CatalogueService {
         if (!catname) {
           return EMPTY;
         }
-        return this.itemService
-          .getItems$({
-            catname: '' + catname,
-            fields: 'name_text,name_html',
-            limit: 1,
-          })
+        return this.itemsClient
+          .list(
+            new ListItemsRequest({
+              catname,
+              fields: new ItemFields({
+                nameHtml: true,
+                nameText: true,
+              }),
+              language: this.languageService.language,
+              limit: 1,
+            })
+          )
           .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
       })
     );

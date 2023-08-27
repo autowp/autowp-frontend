@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {APIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CatalogueService} from '../../catalogue-service';
@@ -31,12 +32,12 @@ export class CatalogueVehiclesSpecificationsComponent {
     shareReplay(1)
   );
 
-  protected readonly brand$ = this.catalogue$.pipe(
+  protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(
     map(({brand}) => brand),
     tap((brand) => {
       this.pageEnv.set({
         pageId: 36,
-        title: $localize`Specifications of` + ' ' + brand.name_text,
+        title: $localize`Specifications of` + ' ' + brand.nameHtml,
       });
     }),
     shareReplay(1)

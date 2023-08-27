@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {ItemService} from '@services/item';
+import {ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {EMPTY, combineLatest, of} from 'rxjs';
@@ -27,12 +28,18 @@ export class CatalogueEnginesComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService
-        .getItems$({
-          catname,
-          fields: 'name_html,name_only',
-          limit: 1,
-        })
+      return this.itemsClient
+        .list(
+          new ListItemsRequest({
+            catname,
+            fields: new ItemFields({
+              nameHtml: true,
+              nameOnly: true,
+            }),
+            language: this.languageService.language,
+            limit: 1,
+          })
+        )
         .pipe(
           switchMap((response) => {
             if (response.items.length <= 0) {
@@ -48,7 +55,7 @@ export class CatalogueEnginesComponent {
     tap((brand) => {
       this.pageEnv.set({
         pageId: 208,
-        title: $localize`${brand.name_only} Engines`,
+        title: $localize`${brand.nameOnly} Engines`,
       });
     }),
     shareReplay(1)
@@ -69,7 +76,7 @@ export class CatalogueEnginesComponent {
           limit: 7,
           order: 'type_auto',
           page,
-          parent_id: brand.id,
+          parent_id: +brand.id,
         }),
         of(brand),
       ])
@@ -119,13 +126,14 @@ export class CatalogueEnginesComponent {
     })
   );
 
-  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} Engines`));
+  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} Engines`));
 
   constructor(
     private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
     private readonly itemParentService: ItemParentService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

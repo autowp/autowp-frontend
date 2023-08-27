@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -25,11 +27,17 @@ export class CatalogueMixedComponent {
         });
         return EMPTY;
       }
-      return this.itemService.getItems$({
-        catname,
-        fields: 'name_text,name_html',
-        limit: 1,
-      });
+      return this.itemsClient.list(
+        new ListItemsRequest({
+          catname,
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          language: this.languageService.language,
+          limit: 1,
+        })
+      );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
     switchMap((brand) => {
@@ -63,7 +71,7 @@ export class CatalogueMixedComponent {
   protected readonly pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
     switchMap(([page, brand, data]) =>
       this.pictureService.getPictures$({
-        exact_item_id: brand.id,
+        exact_item_id: +brand.id,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 12,
         order: 3,
@@ -82,9 +90,10 @@ export class CatalogueMixedComponent {
 
   constructor(
     private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

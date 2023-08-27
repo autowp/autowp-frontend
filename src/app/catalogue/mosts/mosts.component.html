@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
     </li>
   </ol>
 </nav>
@@ -19,5 +19,5 @@
   [ratingCatname]="ratingCatname$ | async"
   [typeCatname]="typeCatname$ | async"
   [yearsCatname]="yearsCatname$ | async"
-  [brandID]="brand.id"
+  [brandID]="+brand.id"
 ></app-mosts-contents>

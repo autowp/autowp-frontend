@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemService} from '@services/item';
+import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {EMPTY, combineLatest} from 'rxjs';
+import {EMPTY, Observable, combineLatest} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
@@ -25,7 +27,7 @@ export class CatalogueRecentComponent {
     debounceTime(10)
   );
 
-  protected readonly brand$ = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -33,19 +35,25 @@ export class CatalogueRecentComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService
-        .getItems$({
-          catname,
-          fields: 'name_text,name_html',
-          limit: 1,
-        })
+      return this.itemsClient
+        .list(
+          new ListItemsRequest({
+            catname,
+            fields: new ItemFields({
+              nameHtml: true,
+              nameText: true,
+            }),
+            language: this.languageService.language,
+            limit: 1,
+          })
+        )
         .pipe(
           map((response) => (response && response.items.length ? response.items[0] : null)),
           tap((brand) => {
             if (brand) {
               this.pageEnv.set({
                 pageId: 15,
-                title: $localize`Last pictures of ${brand.name_text}`,
+                title: $localize`Last pictures of ${brand.nameText}`,
               });
             }
           })
@@ -58,7 +66,7 @@ export class CatalogueRecentComponent {
     switchMap(([brand, page]) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-        item_id: brand.id,
+        item_id: +brand.id,
         limit: 12,
         order: 15,
         page,
@@ -79,9 +87,10 @@ export class CatalogueRecentComponent {
 
   constructor(
     private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    private readonly catalogue: CatalogueService
+    private readonly catalogue: CatalogueService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

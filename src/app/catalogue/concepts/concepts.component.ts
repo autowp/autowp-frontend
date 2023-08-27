@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -25,11 +28,17 @@ export class CatalogueConceptsComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems$({
-        catname,
-        fields: 'name_only,name_html',
-        limit: 1,
-      });
+      return this.itemsClient.list(
+        new ListItemsRequest({
+          catname,
+          fields: new ItemFields({
+            nameHtml: true,
+            nameOnly: true,
+          }),
+          language: this.languageService.language,
+          limit: 1,
+        })
+      );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
     switchMap((brand) => {
@@ -45,7 +54,7 @@ export class CatalogueConceptsComponent {
       if (brand) {
         this.pageEnv.set({
           pageId: 37,
-          title: $localize`${brand.name_only} concepts & prototypes`,
+          title: $localize`${brand.nameOnly} concepts & prototypes`,
         });
       }
     }),
@@ -55,7 +64,7 @@ export class CatalogueConceptsComponent {
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       this.itemService.getItems$({
-        ancestor_id: brand.id,
+        ancestor_id: +brand.id,
         concept: true,
         concept_inherit: false,
         fields: [
@@ -68,7 +77,7 @@ export class CatalogueConceptsComponent {
         limit: 7,
         order: 'age',
         page,
-        route_brand_id: brand.id,
+        route_brand_id: +brand.id,
       })
     ),
     map((response) => {
@@ -115,12 +124,14 @@ export class CatalogueConceptsComponent {
     })
   );
 
-  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.name_only} concepts & prototypes`));
+  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} concepts & prototypes`));
 
   constructor(
     private readonly pageEnv: PageEnvService,
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

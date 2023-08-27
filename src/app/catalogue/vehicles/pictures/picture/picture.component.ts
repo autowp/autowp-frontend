@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CommentsType} from '@grpc/spec.pb';
+import {APIItem, CommentsType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';

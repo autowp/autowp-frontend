@@ -6,7 +6,7 @@
   <app-gallery
     *ngIf="brand$ | async as brand"
     [filter]="{
-      exactItemID: brand.id,
+      exactItemID: +brand.id,
       perspectiveID: data.perspective_id,
       perspectiveExclude: data.perspective_exclude_id
     }"

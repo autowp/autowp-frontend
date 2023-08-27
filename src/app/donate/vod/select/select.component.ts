@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
@@ -23,28 +23,15 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   protected vehicles: APIItemParent[];
   protected vehiclesPaginator: APIPaginator;
   protected concepts: APIItemParent[];
-  private date: string;
-  private anonymous: boolean;
   protected loading = 0;
   protected conceptsExpanded = false;
 
   constructor(
     private readonly itemService: ItemService,
-    private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService
   ) {}
-
-  protected selectItem(itemID: number) {
-    this.router.navigate(['/donate/vod'], {
-      queryParams: {
-        anonymous: this.anonymous ? 1 : null,
-        date: this.date,
-        item_id: itemID,
-      },
-    });
-  }
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
@@ -61,8 +48,6 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap((params) => {
           this.page = params.page || 1;
-          this.date = params.date;
-          this.anonymous = params.anonymous;
           const brandID = params.brand_id;
 
           this.loading++;

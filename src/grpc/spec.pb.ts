@@ -16820,7 +16820,7 @@ export class ItemFields implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: ItemFields) {
-    _instance.name = _instance.name || false;
+    _instance.nameOnly = _instance.nameOnly || false;
     _instance.nameDefault = _instance.nameDefault || false;
     _instance.nameHtml = _instance.nameHtml || false;
     _instance.nameText = _instance.nameText || false;
@@ -16845,7 +16845,7 @@ export class ItemFields implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.name = _reader.readBool();
+          _instance.nameOnly = _reader.readBool();
           break;
         case 2:
           _instance.nameDefault = _reader.readBool();
@@ -16889,8 +16889,8 @@ export class ItemFields implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(_instance: ItemFields, _writer: BinaryWriter) {
-    if (_instance.name) {
-      _writer.writeBool(1, _instance.name);
+    if (_instance.nameOnly) {
+      _writer.writeBool(1, _instance.nameOnly);
     }
     if (_instance.nameDefault) {
       _writer.writeBool(2, _instance.nameDefault);
@@ -16922,7 +16922,7 @@ export class ItemFields implements GrpcMessage {
     }
   }
 
-  private _name: boolean;
+  private _nameOnly: boolean;
   private _nameDefault: boolean;
   private _nameHtml: boolean;
   private _nameText: boolean;
@@ -16938,7 +16938,7 @@ export class ItemFields implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<ItemFields.AsObject>) {
     _value = _value || {};
-    this.name = _value.name;
+    this.nameOnly = _value.nameOnly;
     this.nameDefault = _value.nameDefault;
     this.nameHtml = _value.nameHtml;
     this.nameText = _value.nameText;
@@ -16951,11 +16951,11 @@ export class ItemFields implements GrpcMessage {
     this.descendantsCount = _value.descendantsCount;
     ItemFields.refineValues(this);
   }
-  get name(): boolean {
-    return this._name;
+  get nameOnly(): boolean {
+    return this._nameOnly;
   }
-  set name(value: boolean) {
-    this._name = value;
+  set nameOnly(value: boolean) {
+    this._nameOnly = value;
   }
   get nameDefault(): boolean {
     return this._nameDefault;
@@ -17021,7 +17021,7 @@ export class ItemFields implements GrpcMessage {
    */
   toObject(): ItemFields.AsObject {
     return {
-      name: this.name,
+      nameOnly: this.nameOnly,
       nameDefault: this.nameDefault,
       nameHtml: this.nameHtml,
       nameText: this.nameText,
@@ -17052,7 +17052,7 @@ export class ItemFields implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): ItemFields.AsProtobufJSON {
     return {
-      name: this.name,
+      nameOnly: this.nameOnly,
       nameDefault: this.nameDefault,
       nameHtml: this.nameHtml,
       nameText: this.nameText,
@@ -17071,7 +17071,7 @@ export module ItemFields {
    * Standard JavaScript object representation for ItemFields
    */
   export interface AsObject {
-    name: boolean;
+    nameOnly: boolean;
     nameDefault: boolean;
     nameHtml: boolean;
     nameText: boolean;
@@ -17086,7 +17086,7 @@ export module ItemFields {
    * Protobuf JSON representation for ItemFields
    */
   export interface AsProtobufJSON {
-    name: boolean;
+    nameOnly: boolean;
     nameDefault: boolean;
     nameHtml: boolean;
     nameText: boolean;
@@ -17127,8 +17127,9 @@ export class ListItemsRequest implements GrpcMessage {
     _instance.typeId = _instance.typeId || 0;
     _instance.descendantPictures = _instance.descendantPictures || undefined;
     _instance.previewPictures = _instance.previewPictures || undefined;
-    _instance.limit = _instance.limit || '0';
+    _instance.limit = _instance.limit || 0;
     _instance.noParent = _instance.noParent || false;
+    _instance.catname = _instance.catname || '';
   }
 
   /**
@@ -17172,10 +17173,13 @@ export class ListItemsRequest implements GrpcMessage {
           );
           break;
         case 6:
-          _instance.limit = _reader.readUint64String();
+          _instance.limit = _reader.readUint32();
           break;
         case 7:
           _instance.noParent = _reader.readBool();
+          break;
+        case 8:
+          _instance.catname = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -17222,10 +17226,13 @@ export class ListItemsRequest implements GrpcMessage {
       );
     }
     if (_instance.limit) {
-      _writer.writeUint64String(6, _instance.limit);
+      _writer.writeUint32(6, _instance.limit);
     }
     if (_instance.noParent) {
       _writer.writeBool(7, _instance.noParent);
+    }
+    if (_instance.catname) {
+      _writer.writeString(8, _instance.catname);
     }
   }
 
@@ -17234,8 +17241,9 @@ export class ListItemsRequest implements GrpcMessage {
   private _typeId: ItemType;
   private _descendantPictures?: ItemPicturesRequest;
   private _previewPictures?: ItemPicturesRequest;
-  private _limit: string;
+  private _limit: number;
   private _noParent: boolean;
+  private _catname: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17254,6 +17262,7 @@ export class ListItemsRequest implements GrpcMessage {
       : undefined;
     this.limit = _value.limit;
     this.noParent = _value.noParent;
+    this.catname = _value.catname;
     ListItemsRequest.refineValues(this);
   }
   get language(): string {
@@ -17286,10 +17295,10 @@ export class ListItemsRequest implements GrpcMessage {
   set previewPictures(value: ItemPicturesRequest | undefined) {
     this._previewPictures = value;
   }
-  get limit(): string {
+  get limit(): number {
     return this._limit;
   }
-  set limit(value: string) {
+  set limit(value: number) {
     this._limit = value;
   }
   get noParent(): boolean {
@@ -17297,6 +17306,12 @@ export class ListItemsRequest implements GrpcMessage {
   }
   set noParent(value: boolean) {
     this._noParent = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
   }
 
   /**
@@ -17324,7 +17339,8 @@ export class ListItemsRequest implements GrpcMessage {
         ? this.previewPictures.toObject()
         : undefined,
       limit: this.limit,
-      noParent: this.noParent
+      noParent: this.noParent,
+      catname: this.catname
     };
   }
 
@@ -17358,7 +17374,8 @@ export class ListItemsRequest implements GrpcMessage {
         ? this.previewPictures.toProtobufJSON(options)
         : null,
       limit: this.limit,
-      noParent: this.noParent
+      noParent: this.noParent,
+      catname: this.catname
     };
   }
 }
@@ -17372,8 +17389,9 @@ export module ListItemsRequest {
     typeId: ItemType;
     descendantPictures?: ItemPicturesRequest.AsObject;
     previewPictures?: ItemPicturesRequest.AsObject;
-    limit: string;
+    limit: number;
     noParent: boolean;
+    catname: string;
   }
 
   /**
@@ -17385,8 +17403,9 @@ export module ListItemsRequest {
     typeId: string;
     descendantPictures: ItemPicturesRequest.AsProtobufJSON | null;
     previewPictures: ItemPicturesRequest.AsProtobufJSON | null;
-    limit: string;
+    limit: number;
     noParent: boolean;
+    catname: string;
   }
 }
 
@@ -17754,7 +17773,7 @@ export class APIItem implements GrpcMessage {
   static refineValues(_instance: APIItem) {
     _instance.id = _instance.id || '0';
     _instance.catname = _instance.catname || '';
-    _instance.name = _instance.name || '';
+    _instance.nameOnly = _instance.nameOnly || '';
     _instance.nameText = _instance.nameText || '';
     _instance.nameHtml = _instance.nameHtml || '';
     _instance.descendantsCount = _instance.descendantsCount || 0;
@@ -17780,7 +17799,7 @@ export class APIItem implements GrpcMessage {
           _instance.catname = _reader.readString();
           break;
         case 3:
-          _instance.name = _reader.readString();
+          _instance.nameOnly = _reader.readString();
           break;
         case 4:
           _instance.nameText = _reader.readString();
@@ -17811,8 +17830,8 @@ export class APIItem implements GrpcMessage {
     if (_instance.catname) {
       _writer.writeString(2, _instance.catname);
     }
-    if (_instance.name) {
-      _writer.writeString(3, _instance.name);
+    if (_instance.nameOnly) {
+      _writer.writeString(3, _instance.nameOnly);
     }
     if (_instance.nameText) {
       _writer.writeString(4, _instance.nameText);
@@ -17827,7 +17846,7 @@ export class APIItem implements GrpcMessage {
 
   private _id: string;
   private _catname: string;
-  private _name: string;
+  private _nameOnly: string;
   private _nameText: string;
   private _nameHtml: string;
   private _descendantsCount: number;
@@ -17840,7 +17859,7 @@ export class APIItem implements GrpcMessage {
     _value = _value || {};
     this.id = _value.id;
     this.catname = _value.catname;
-    this.name = _value.name;
+    this.nameOnly = _value.nameOnly;
     this.nameText = _value.nameText;
     this.nameHtml = _value.nameHtml;
     this.descendantsCount = _value.descendantsCount;
@@ -17858,11 +17877,11 @@ export class APIItem implements GrpcMessage {
   set catname(value: string) {
     this._catname = value;
   }
-  get name(): string {
-    return this._name;
+  get nameOnly(): string {
+    return this._nameOnly;
   }
-  set name(value: string) {
-    this._name = value;
+  set nameOnly(value: string) {
+    this._nameOnly = value;
   }
   get nameText(): string {
     return this._nameText;
@@ -17900,7 +17919,7 @@ export class APIItem implements GrpcMessage {
     return {
       id: this.id,
       catname: this.catname,
-      name: this.name,
+      nameOnly: this.nameOnly,
       nameText: this.nameText,
       nameHtml: this.nameHtml,
       descendantsCount: this.descendantsCount
@@ -17926,7 +17945,7 @@ export class APIItem implements GrpcMessage {
     return {
       id: this.id,
       catname: this.catname,
-      name: this.name,
+      nameOnly: this.nameOnly,
       nameText: this.nameText,
       nameHtml: this.nameHtml,
       descendantsCount: this.descendantsCount
@@ -17940,7 +17959,7 @@ export module APIItem {
   export interface AsObject {
     id: string;
     catname: string;
-    name: string;
+    nameOnly: string;
     nameText: string;
     nameHtml: string;
     descendantsCount: number;
@@ -17952,7 +17971,7 @@ export module APIItem {
   export interface AsProtobufJSON {
     id: string;
     catname: string;
-    name: string;
+    nameOnly: string;
     nameText: string;
     nameHtml: string;
     descendantsCount: number;

@@ -5,7 +5,7 @@
     </li>
     <ng-container *ngIf="brand$ | async as brand">
       <li class="breadcrumb-item">
-        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
       </li>
       <li class="breadcrumb-item" *ngIf="data$ | async as data">
         <a [routerLink]="['/', brand.catname, data.catname]">{{ data.picture_page.breadcrumbs }}</a>

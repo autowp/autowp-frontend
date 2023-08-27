@@ -1,8 +1,16 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {BrandVehicleType, GetBrandVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
-import {AutowpClient} from '@grpc/spec.pbsc';
-import {APIItem, ItemService} from '@services/item';
+import {
+  APIItem,
+  BrandVehicleType,
+  GetBrandVehicleTypesRequest,
+  ItemFields,
+  ItemType,
+  ListItemsRequest,
+} from '@grpc/spec.pb';
+import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
+import {ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
@@ -17,17 +25,22 @@ export class CatalogueCarsComponent {
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
-    debounceTime(10),
     switchMap((catname) => {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService
-        .getItems$({
-          catname,
-          fields: 'name_html,name_only',
-          limit: 1,
-        })
+      return this.itemsClient
+        .list(
+          new ListItemsRequest({
+            catname,
+            fields: new ItemFields({
+              nameHtml: true,
+              nameOnly: true,
+            }),
+            language: this.languageService.language,
+            limit: 1,
+          })
+        )
         .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
     }),
     shareReplay(1)
@@ -37,7 +50,7 @@ export class CatalogueCarsComponent {
     switchMap((brand) =>
       this.grpc.getBrandVehicleTypes(
         new GetBrandVehicleTypesRequest({
-          brandId: brand.id,
+          brandId: +brand.id,
         })
       )
     ),
@@ -58,7 +71,7 @@ export class CatalogueCarsComponent {
       const currentVehicleType = vehicleTypes.find((type) => type.catname === vehicleTypeCatname);
 
       if (brand) {
-        let itemName = brand.name_only;
+        let itemName = brand.nameOnly;
         let pageId = 14;
         if (currentVehicleType) {
           itemName += ' ' + getVehicleTypeTranslation(currentVehicleType.name);
@@ -78,7 +91,7 @@ export class CatalogueCarsComponent {
   protected readonly title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(
     map(([brand, currentVehicleType]) => {
       const itemName =
-        brand.name_only + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
+        brand.nameOnly + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
       return $localize`${itemName} in chronological order`;
     })
   );
@@ -115,7 +128,7 @@ export class CatalogueCarsComponent {
     switchMap(([brand, currentVehicleType, page]) =>
       this.itemService
         .getItems$({
-          ancestor_id: brand.id,
+          ancestor_id: +brand.id,
           dateful: true,
           fields: [
             'name_html,name_default,description,has_text,produced,accepted_pictures_count',
@@ -127,7 +140,7 @@ export class CatalogueCarsComponent {
           limit: 7,
           order: 'age',
           page,
-          route_brand_id: brand.id,
+          route_brand_id: +brand.id,
           type_id: ItemType.ITEM_TYPE_VEHICLE,
           vehicle_type_id: currentVehicleType ? currentVehicleType.id : 0,
         })
@@ -184,6 +197,8 @@ export class CatalogueCarsComponent {
     private readonly pageEnv: PageEnvService,
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly grpc: AutowpClient
+    private readonly grpc: AutowpClient,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

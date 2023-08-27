@@ -12,7 +12,7 @@ import {LayoutParams, PageEnvService} from '@services/page-env.service';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {KeycloakService} from 'keycloak-angular';
 import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {shareReplay} from 'rxjs/operators';
 
 import {UsersOnlineComponent} from './users/online/online.component';
 
@@ -25,12 +25,7 @@ export class AppComponent {
   protected languages: Language[] = [];
   protected readonly layoutParams$: Observable<LayoutParams>;
   protected readonly user$: Observable<APIUser> = this.auth.getUser$();
-  protected readonly newPersonalMessages$ = this.messageService.getNew$().pipe(
-    map((result) => ({
-      count: result,
-    })),
-    shareReplay(1)
-  );
+  protected readonly newPersonalMessages$ = this.messageService.getNew$().pipe(shareReplay(1));
   protected searchHostname: string;
   protected readonly categories$ = this.itemsClient.list(
     new ListItemsRequest({
@@ -39,7 +34,7 @@ export class AppComponent {
         nameText: true,
       }),
       language: this.languageService.language,
-      limit: '20',
+      limit: 20,
       noParent: true,
       typeId: ItemType.ITEM_TYPE_CATEGORY,
     })

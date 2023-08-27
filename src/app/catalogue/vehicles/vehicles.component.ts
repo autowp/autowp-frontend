@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -36,7 +37,7 @@ export class CatalogueVehiclesComponent {
     shareReplay(1)
   );
 
-  protected readonly brand$ = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
 
   private readonly routerLink$ = this.catalogue$.pipe(
     map(({brand, path}) => {

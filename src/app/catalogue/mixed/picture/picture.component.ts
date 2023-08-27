@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CommentsType} from '@grpc/spec.pb';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, CommentsType, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -26,11 +27,17 @@ export class CatalogueMixedPictureComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems$({
-        catname,
-        fields: 'name_text,name_html',
-        limit: 1,
-      });
+      return this.itemsClient.list(
+        new ListItemsRequest({
+          catname,
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          language: this.languageService.language,
+          limit: 1,
+        })
+      );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
     switchMap((brand) => {
@@ -73,7 +80,7 @@ export class CatalogueMixedPictureComponent {
       return this.changed$.pipe(
         switchMap(() =>
           this.pictureService.getPictures$({
-            exact_item_id: brand.id,
+            exact_item_id: +brand.id,
             fields,
             identity,
             items: {
@@ -81,7 +88,7 @@ export class CatalogueMixedPictureComponent {
             },
             limit: 1,
             paginator: {
-              exact_item_id: brand.id,
+              exact_item_id: +brand.id,
               perspective_exclude_id: data.perspective_exclude_id,
               perspective_id: data.perspective_id,
             },
@@ -110,11 +117,12 @@ export class CatalogueMixedPictureComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   protected reloadPicture() {

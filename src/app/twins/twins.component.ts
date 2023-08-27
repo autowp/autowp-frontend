@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
-import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
+import {APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {Observable, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -36,26 +38,32 @@ export class TwinsComponent implements OnInit {
     shareReplay(1)
   );
 
-  protected readonly brand$: Observable<APIItem | null> = this.currentBrandCatname$.pipe(
+  protected readonly brand$: Observable<GRPCAPIItem | null> = this.currentBrandCatname$.pipe(
     switchMap((brand) => {
       if (!brand) {
-        return of(null as APIItemsGetResponse);
+        return of(null as GRPCAPIItem);
       }
 
-      return this.itemService.getItems$({
-        catname: brand,
-        fields: 'name_only,catname',
-        limit: 1,
-        type_id: ItemType.ITEM_TYPE_BRAND,
-      });
+      return this.itemsClient
+        .list(
+          new ListItemsRequest({
+            catname: brand,
+            fields: new ItemFields({
+              nameOnly: true,
+            }),
+            language: this.languageService.language,
+            limit: 1,
+            typeId: ItemType.ITEM_TYPE_BRAND,
+          })
+        )
+        .pipe(map((response) => (response && response.items.length > 0 ? response.items[0] : null)));
     }),
-    map((response) => (response && response.items.length > 0 ? response.items[0] : null)),
     tap((brand) => {
       setTimeout(() => {
         if (brand) {
           this.pageEnv.set({
             pageId: 153,
-            title: brand.name_only,
+            title: brand.nameOnly,
           });
         } else {
           this.pageEnv.set({pageId: 25});
@@ -74,7 +82,7 @@ export class TwinsComponent implements OnInit {
         fields:
           'name_text,name_html,has_child_specs,accepted_pictures_count,comments_topic_stat,childs.name_html,' +
           'childs.front_picture.thumb_medium,childs.front_picture.name_text',
-        have_common_childs_with: brand ? brand.id : null,
+        have_common_childs_with: brand ? +brand.id : null,
         limit: 20,
         page: page,
         type_id: ItemType.ITEM_TYPE_TWINS,
@@ -94,7 +102,9 @@ export class TwinsComponent implements OnInit {
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly acl: ACLService
+    private readonly acl: ACLService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   private static hasMoreImages(group: APIItem): boolean {

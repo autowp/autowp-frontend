@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemService} from '@services/item';
+import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
-import {EMPTY, combineLatest} from 'rxjs';
+import {EMPTY, Observable, combineLatest} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -13,7 +15,7 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './brand.component.html',
 })
 export class CutawayBrandsBrandComponent implements OnInit {
-  protected readonly brand$ = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => '' + params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -21,11 +23,17 @@ export class CutawayBrandsBrandComponent implements OnInit {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemService.getItems$({
-        catname,
-        fields: 'name_text,name_html',
-        limit: 1,
-      });
+      return this.itemsClient.list(
+        new ListItemsRequest({
+          catname,
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          language: this.languageService.language,
+          limit: 1,
+        })
+      );
     }),
     map((response) => (response.items.length > 0 ? response.items[0] : null)),
     shareReplay(1)
@@ -35,7 +43,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
     switchMap(([brand, params]) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        item_id: brand.id,
+        item_id: +brand.id,
         limit: 12,
         order: 15,
         page: parseInt(params.get('page'), 10),
@@ -54,7 +62,8 @@ export class CutawayBrandsBrandComponent implements OnInit {
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly itemService: ItemService
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {

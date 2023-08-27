@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
     </li>
     <ng-container *ngIf="breadcrumbs$ | async as breadcrumbs">
       <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">

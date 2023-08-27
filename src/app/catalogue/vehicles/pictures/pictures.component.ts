@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {APIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, combineLatest, of} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../chunk';
@@ -46,7 +47,7 @@ export class CatalogueVehiclesPicturesComponent {
     debounceTime(10)
   );
 
-  protected readonly brand$ = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(map(({brand}) => brand));
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))

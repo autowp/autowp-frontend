@@ -4,13 +4,13 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.name_html"></a>
+      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
     </li>
   </ol>
 </nav>
 
 <div class="page-header" *ngIf="brand$ | async as brand; else loading">
-  <h1 i18n>Last pictures of {{ brand.name_text }}</h1>
+  <h1 i18n>Last pictures of {{ brand.nameText }}</h1>
 </div>
 
 <ng-template #loading>
