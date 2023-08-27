@@ -1,11 +1,11 @@
 import {Component, Renderer2} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {environment} from '@environment/environment';
-import {APIUser, ItemType} from '@grpc/spec.pb';
+import {APIUser, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
-import {ItemService} from '@services/item';
 import {Language, LanguageService} from '@services/language';
 import {MessageService} from '@services/message';
 import {LayoutParams, PageEnvService} from '@services/page-env.service';
@@ -32,12 +32,18 @@ export class AppComponent {
     shareReplay(1)
   );
   protected searchHostname: string;
-  protected readonly categories$ = this.itemService.getItems$({
-    fields: 'name_text,catname,descendants_count',
-    limit: 20,
-    no_parent: true,
-    type_id: ItemType.ITEM_TYPE_CATEGORY,
-  });
+  protected readonly categories$ = this.itemsClient.list(
+    new ListItemsRequest({
+      fields: new ItemFields({
+        descendantsCount: true,
+        nameText: true,
+      }),
+      language: this.languageService.language,
+      limit: '20',
+      noParent: true,
+      typeId: ItemType.ITEM_TYPE_CATEGORY,
+    })
+  );
   protected language: string;
   protected urlPath = '/';
   protected isNavbarCollapsed = true;
@@ -49,10 +55,10 @@ export class AppComponent {
     private readonly messageService: MessageService,
     private readonly pageEnv: PageEnvService,
     private readonly languageService: LanguageService,
-    private readonly itemService: ItemService,
     private readonly modalService: NgbModal,
     private readonly renderer: Renderer2,
     private readonly keycloak: KeycloakService,
+    private readonly itemsClient: ItemsClient,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.language = this.languageService.language;

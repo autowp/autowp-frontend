@@ -2,8 +2,7 @@ import {BadRequest} from '@grpc/google/rpc/error-details.pb';
 import {Status} from '@grpc/google/rpc/status.pb';
 import {ErrorDetails} from '@grpc/spec.pb';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
-
-import {InvalidParams} from './utils/invalid-params.pipe';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 
 import FieldViolation = BadRequest.FieldViolation;
 

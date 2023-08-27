@@ -51,9 +51,9 @@
               *ngFor="let category of categories.items"
               routerLinkActive="active"
             >
-              {{ category.name_text }}&#xa0;
+              {{ category.nameText }}&#xa0;
               <span class="count">
-                ({{ category.descendants_count }})
+                ({{ category.descendantsCount }})
                 <!--<span *ngIf="category.new_cars_count > 0">+{{category.new_cars_count}}</span> -->
               </span>
             </a>
