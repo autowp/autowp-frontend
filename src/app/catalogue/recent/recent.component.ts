@@ -41,7 +41,7 @@ export class CatalogueRecentComponent {
             catname,
             fields: new ItemFields({
               nameHtml: true,
-              nameText: true,
+              nameOnly: true,
             }),
             language: this.languageService.language,
             limit: 1,

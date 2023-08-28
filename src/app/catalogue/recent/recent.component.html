@@ -10,7 +10,7 @@
 </nav>
 
 <div class="page-header" *ngIf="brand$ | async as brand; else loading">
-  <h1 i18n>Last pictures of {{ brand.nameText }}</h1>
+  <h1 i18n>Latest pictures of {{ brand.nameOnly }}</h1>
 </div>
 
 <ng-template #loading>
