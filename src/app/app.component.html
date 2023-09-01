@@ -85,8 +85,8 @@
             <ng-container *ngIf="newPersonalMessages$ | async as newPersonalMessages">
               <span
                 class="badge rounded-pill text-bg-secondary"
-                [textContent]="newPersonalMessages.count"
-                *ngIf="newPersonalMessages.count > 0"
+                [textContent]="newPersonalMessages"
+                *ngIf="newPersonalMessages > 0"
               ></span>
             </ng-container>
           </a>
