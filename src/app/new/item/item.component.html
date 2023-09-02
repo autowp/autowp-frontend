@@ -13,7 +13,7 @@
 </nav>
 
 <div class="page-header" *ngIf="item$ | async as item">
-  <h1 [innerHTML]="item.name_html"></h1>
+  <h1 [innerHTML]="item.nameHtml"></h1>
 </div>
 
 <ng-container *ngIf="pictures$ | async as data">

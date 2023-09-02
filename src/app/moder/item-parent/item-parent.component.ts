@@ -1,12 +1,12 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIGetItemParentLanguagesRequest} from '@grpc/spec.pb';
+import {APIGetItemParentLanguagesRequest, APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
-import {APIItem, ItemService} from '@services/item';
 import {APIItemParent} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
@@ -49,10 +49,10 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   constructor(
     private readonly api: APIService,
     private readonly ContentLanguage: ContentLanguageService,
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -67,12 +67,26 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         switchMap((params) => {
           return combineLatest([
             this.api.request<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
-            this.itemService.getItem$(params.item_id, {
-              fields: ['name_text', 'name_html'].join(','),
-            }),
-            this.itemService.getItem$(params.parent_id, {
-              fields: ['name_text', 'name_html'].join(','),
-            }),
+            this.itemsClient.item(
+              new ItemRequest({
+                fields: new ItemFields({
+                  nameHtml: true,
+                  nameText: true,
+                }),
+                id: '' + params.item_id,
+                language: this.languageService.language,
+              })
+            ),
+            this.itemsClient.item(
+              new ItemRequest({
+                fields: new ItemFields({
+                  nameHtml: true,
+                  nameText: true,
+                }),
+                id: '' + params.parent_id,
+                language: this.languageService.language,
+              })
+            ),
             this.ContentLanguage.languages$,
             this.itemsClient.getItemParentLanguages(
               new APIGetItemParentLanguagesRequest({
@@ -105,7 +119,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 78,
-          title: getItemTypeTranslation(this.item.item_type_id, 'name') + ': ' + this.item.name_text,
+          title: getItemTypeTranslation(this.item.itemTypeId, 'name') + ': ' + this.item.nameText,
         });
       });
   }

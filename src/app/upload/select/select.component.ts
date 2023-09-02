@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {ItemRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, forkJoin, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
@@ -19,7 +22,7 @@ export class UploadSelectComponent implements OnInit {
   protected brand: {
     concepts: APIItemParent[];
     engines: APIItemParent[];
-    item: APIItem;
+    item: GRPCAPIItem;
     vehicles: APIItemParent[];
   };
   protected brands: APIItem[][];
@@ -35,7 +38,9 @@ export class UploadSelectComponent implements OnInit {
     private readonly router: Router,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   protected onSearchInput() {
@@ -108,10 +113,10 @@ export class UploadSelectComponent implements OnInit {
   private brandObservable$(brandId: number): Observable<{
     concepts: APIItemParent[];
     engines: APIItemParent[];
-    item: APIItem;
+    item: GRPCAPIItem;
     vehicles: APIItemParent[];
   }> {
-    return this.itemService.getItem$(brandId).pipe(
+    return this.itemsClient.item(new ItemRequest({id: '' + brandId, language: this.languageService.language})).pipe(
       catchError(() => {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
@@ -123,7 +128,7 @@ export class UploadSelectComponent implements OnInit {
     );
   }
 
-  private brandItemsObservable(item: APIItem) {
+  private brandItemsObservable(item: GRPCAPIItem) {
     return forkJoin([
       of(item),
       this.itemParentService
@@ -133,7 +138,7 @@ export class UploadSelectComponent implements OnInit {
           item_type_id: ItemType.ITEM_TYPE_VEHICLE,
           limit: 500,
           order: 'name',
-          parent_id: item.id,
+          parent_id: +item.id,
         })
         .pipe(
           map((response) => response.items),
@@ -149,7 +154,7 @@ export class UploadSelectComponent implements OnInit {
           item_type_id: ItemType.ITEM_TYPE_ENGINE,
           limit: 500,
           order: 'name',
-          parent_id: item.id,
+          parent_id: +item.id,
         })
         .pipe(
           map((response) => response.items),
@@ -164,7 +169,7 @@ export class UploadSelectComponent implements OnInit {
           fields: 'item.name_html,item.childs_count',
           limit: 500,
           order: 'name',
-          parent_id: item.id,
+          parent_id: +item.id,
         })
         .pipe(
           map((response) => response.items),

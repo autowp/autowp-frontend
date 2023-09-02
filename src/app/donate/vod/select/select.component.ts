@@ -1,9 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {ItemRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
 import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {Subscription, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, finalize, map, switchMap} from 'rxjs/operators';
@@ -19,7 +22,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   protected page: number;
   protected brands: APIItem[][];
   protected paginator: APIPaginator;
-  protected brand: APIItem;
+  protected brand: GRPCAPIItem;
   protected vehicles: APIItemParent[];
   protected vehiclesPaginator: APIPaginator;
   protected concepts: APIItemParent[];
@@ -30,7 +33,9 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -67,30 +72,32 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
               })
             ),
             (brandID
-              ? this.itemService.getItem$(brandID).pipe(
-                  switchMap((brand) =>
-                    combineLatest([
-                      this.itemParentService.getItems$({
-                        fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-                        limit: 500,
-                        page: 1,
-                        parent_id: brand.id,
-                      }),
-                      this.itemParentService.getItems$({
-                        ancestor_id: brand.id,
-                        concept: true,
-                        fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
-                        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-                        limit: 500,
-                        page: 1,
-                      }),
-                    ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles})))
+              ? this.itemsClient
+                  .item(new ItemRequest({id: '' + brandID, language: this.languageService.language}))
+                  .pipe(
+                    switchMap((brand) =>
+                      combineLatest([
+                        this.itemParentService.getItems$({
+                          fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                          item_type_id: ItemType.ITEM_TYPE_VEHICLE,
+                          limit: 500,
+                          page: 1,
+                          parent_id: +brand.id,
+                        }),
+                        this.itemParentService.getItems$({
+                          ancestor_id: +brand.id,
+                          concept: true,
+                          fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
+                          item_type_id: ItemType.ITEM_TYPE_VEHICLE,
+                          limit: 500,
+                          page: 1,
+                        }),
+                      ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles})))
+                    )
                   )
-                )
               : of(
                   null as {
-                    brand: APIItem;
+                    brand: GRPCAPIItem;
                     concepts: APIItemParentGetResponse;
                     vehicles: APIItemParentGetResponse;
                   }

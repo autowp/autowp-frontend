@@ -4,7 +4,7 @@
       <a routerLink="/" i18n>Index page</a>
     </li>
     <li class="breadcrumb-item" *ngIf="item$ | async as item">
-      <a routerLink="/" i18n>Specs editor of {{ item.name_text }}</a>
+      <a routerLink="/" i18n>Specs editor of {{ item.nameText }}</a>
     </li>
   </ol>
 </nav>
@@ -14,14 +14,16 @@
 </div>
 
 <div *ngIf="brandID$ | async; else noBrand">
-  <div *ngFor="let item of (items$ | async).items">
-    <app-cars-select-engine-tree-item
-      [item]="item"
-      (selected)="selectEngine(itemID, $event)"
-      *ngIf="itemID$ | async as itemID"
-    >
-    </app-cars-select-engine-tree-item>
-  </div>
+  <ng-container *ngIf="items$ | async as items; else loading">
+    <div *ngFor="let item of items.items">
+      <app-cars-select-engine-tree-item
+        [item]="item"
+        (selected)="selectEngine(itemID, $event)"
+        *ngIf="itemID$ | async as itemID"
+      >
+      </app-cars-select-engine-tree-item>
+    </div>
+  </ng-container>
 </div>
 
 <ng-template #loading>

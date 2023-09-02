@@ -10,7 +10,7 @@
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
     <li class="breadcrumb-item" *ngIf="item">
-      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
     </li>
   </ol>
 </nav>
@@ -23,10 +23,10 @@
   <a
     [routerLink]="['/moder/items/item', parent.id]"
     [queryParams]="{tab: 'catalogue'}"
-    [innerHTML]="parent.name_html"
+    [innerHTML]="parent.nameHtml"
   ></a>
   &rarr;
-  <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.name_html"></a>
+  <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.nameHtml"></a>
 </p>
 
 <form method="post" class="form-horizontal" (submit)="save()" *ngIf="itemParent">
@@ -39,7 +39,7 @@
   <div class="mb-3 row">
     <label class="col-md-2 col-form-label" for="type">Type</label>
     <div class="col-md-10">
-      <select name="type_id" class="form-select" [(ngModel)]="itemParent.type_id">
+      <select name="type_id" class="form-select" [(ngModel)]="itemParent.type_id" id="type">
         <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.name }}</option>
       </select>
     </div>

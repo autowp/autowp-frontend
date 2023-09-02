@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -40,14 +42,18 @@ export class CarsEngineSelectComponent {
 
   protected readonly item$ = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.itemService.getItem$(itemID, {
-        fields: 'name_html,name_text',
-      })
+      this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({nameText: true}),
+          id: '' + itemID,
+          language: this.languageService.language,
+        })
+      )
     ),
     tap((item) => {
       this.pageEnv.set({
         pageId: 102,
-        title: $localize`Specs editor of ${item.name_text}`,
+        title: $localize`Specs editor of ${item.nameText}`,
       });
     }),
     shareReplay(1)
@@ -96,11 +102,13 @@ export class CarsEngineSelectComponent {
   constructor(
     private readonly api: APIService,
     private readonly itemService: ItemService,
+    private readonly itemsClient: ItemsClient,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly languageService: LanguageService
   ) {}
 
   protected onInput() {

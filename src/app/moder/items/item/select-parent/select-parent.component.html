@@ -10,7 +10,7 @@
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
     <li class="breadcrumb-item" *ngIf="item$ | async as item">
-      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
     </li>
   </ol>
 </nav>
@@ -76,8 +76,8 @@
     <ng-container *ngIf="item$ | async as item">
       <app-moder-items-item-select-parent-catalogue
         *ngIf="tab === 'catalogue'"
-        [itemID]="itemID"
-        [itemTypeID]="item.item_type_id"
+        [itemID]="+itemID"
+        [itemTypeID]="item.itemTypeId"
         (selected)="select(itemID, $event)"
       ></app-moder-items-item-select-parent-catalogue>
     </ng-container>
@@ -87,17 +87,17 @@
     ></app-moder-items-item-select-parent-brands>
     <app-moder-items-item-select-parent-categories
       *ngIf="tab === 'categories'"
-      [itemID]="itemID"
+      [itemID]="+itemID"
       (selected)="select(itemID, $event)"
     ></app-moder-items-item-select-parent-categories>
     <app-moder-items-item-select-parent-twins
       *ngIf="tab === 'twins'"
-      [itemID]="itemID"
+      [itemID]="+itemID"
       (selected)="select(itemID, $event)"
     ></app-moder-items-item-select-parent-twins>
     <app-moder-items-item-select-parent-factories
       *ngIf="tab === 'factories'"
-      [itemID]="itemID"
+      [itemID]="+itemID"
       (selected)="select(itemID, $event)"
     ></app-moder-items-item-select-parent-factories>
   </ng-container>

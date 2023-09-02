@@ -1,10 +1,13 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
@@ -20,18 +23,25 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     shareReplay(1)
   );
 
-  protected readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
-    map((itemID) => (itemID ? itemID : 0)),
+  protected readonly itemID$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => params.get('id')),
+    map((itemID) => (itemID ? itemID : '')),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  protected readonly item$ = this.itemID$.pipe(
+  protected readonly item$: Observable<GRPCAPIItem> = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.itemService.getItem$(itemID, {
-        fields: 'name_text,name_html',
-      })
+      this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          id: '' + itemID,
+          language: this.languageService.language,
+        })
+      )
     ),
     catchError((error: unknown) => {
       if (error instanceof HttpErrorResponse && error.status === 404) {
@@ -46,18 +56,29 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     shareReplay(1)
   );
 
-  protected readonly showCatalogueTab$ = this.item$.pipe(map((item) => [1, 2, 5].includes(item.item_type_id)));
-  protected readonly showBrandsTab$ = this.item$.pipe(map((item) => [1, 2, 5].includes(item.item_type_id)));
-  protected readonly showTwinsTab$ = this.item$.pipe(map((item) => item.item_type_id === 1));
-  protected readonly showFactoriesTab$ = this.item$.pipe(map((item) => [1, 2].includes(item.item_type_id)));
+  protected readonly showCatalogueTab$ = this.item$.pipe(
+    map((item) =>
+      [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)
+    )
+  );
+  protected readonly showBrandsTab$ = this.item$.pipe(
+    map((item) =>
+      [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)
+    )
+  );
+  protected readonly showTwinsTab$ = this.item$.pipe(map((item) => item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE));
+  protected readonly showFactoriesTab$ = this.item$.pipe(
+    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId))
+  );
 
   constructor(
     private readonly api: APIService,
-    private readonly itemService: ItemService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +90,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     }, 0);
   }
 
-  protected select(itemID: number, parent: APIItem) {
+  protected select(itemID: string, parent: APIItem) {
     this.api
       .request<void>('POST', 'item-parent', {
         body: {

@@ -1,10 +1,11 @@
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
-import {APIItem, ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
@@ -45,7 +46,7 @@ export class UploadIndexComponent implements OnInit {
   protected formHidden = false;
   protected readonly user$ = this.auth.getUser$();
 
-  @ViewChild('input') input;
+  @ViewChild('input') public input;
 
   protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('perspective_id'), 10)),
@@ -65,28 +66,36 @@ export class UploadIndexComponent implements OnInit {
     })
   );
 
-  protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+  protected readonly itemID$: Observable<string> = this.route.queryParamMap.pipe(
+    map((params) => params.get('item_id')),
     distinctUntilChanged(),
     debounceTime(10)
   );
 
-  private readonly item$ = this.itemID$.pipe(
-    switchMap((itemID) => {
-      return itemID ? this.itemService.getItem$(itemID, {fields: 'name_html'}) : of(null as APIItem);
+  private readonly item$: Observable<APIItem> = this.itemID$.pipe(
+    switchMap((id) => {
+      if (!id) {
+        return of(null as APIItem);
+      }
+      return this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({nameHtml: true}),
+          id,
+          language: this.languageService.language,
+        })
+      );
     })
   );
 
   protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
-      name: replace ? replace.name_html : item ? item.name_html : '',
+      name: replace ? replace.name_html : item ? item.nameHtml : '',
       selected: !!(replace || item),
     }))
   );
 
   constructor(
     private readonly api: APIService,
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     protected readonly auth: AuthService,
@@ -94,7 +103,8 @@ export class UploadIndexComponent implements OnInit {
     private readonly modalService: NgbModal,
     private readonly toastService: ToastsService,
     private readonly keycloak: KeycloakService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly itemsClient: ItemsClient
   ) {}
 
   ngOnInit(): void {

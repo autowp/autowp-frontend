@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemService} from '@services/item';
+import {ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
 import {EMPTY, combineLatest} from 'rxjs';
@@ -33,7 +35,18 @@ export class NewItemComponent {
   );
 
   protected readonly item$ = this.itemID$.pipe(
-    switchMap((itemID) => this.itemService.getItem$(itemID, {fields: 'name_html,name_text'})),
+    switchMap((itemID) =>
+      this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          id: '' + itemID,
+          language: this.languageService.language,
+        })
+      )
+    ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
@@ -41,7 +54,7 @@ export class NewItemComponent {
     tap((item) => {
       this.pageEnv.set({
         pageId: 210,
-        title: item.name_text,
+        title: item.nameText,
       });
     }),
     shareReplay(1)
@@ -65,10 +78,11 @@ export class NewItemComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

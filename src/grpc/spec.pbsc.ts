@@ -1836,6 +1836,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/Item
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIItem>>
+     */
+    item: (
+      requestData: thisProto.ItemRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIItem>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/Item',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ItemRequest,
+        responseClass: thisProto.APIItem
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/List
      *
      * @param requestMessage Request message
@@ -2232,6 +2253,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopTwinsBrandsList> {
     return this.$raw
       .getTopTwinsBrandsList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/Item
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIItem>
+   */
+  item(
+    requestData: thisProto.ItemRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIItem> {
+    return this.$raw
+      .item(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

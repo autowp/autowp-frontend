@@ -17099,6 +17099,188 @@ export module ItemFields {
 }
 
 /**
+ * Message implementation for goautowp.ItemRequest
+ */
+export class ItemRequest implements GrpcMessage {
+  static id = 'goautowp.ItemRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemRequest();
+    ItemRequest.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemRequest) {
+    _instance.language = _instance.language || '';
+    _instance.id = _instance.id || '0';
+    _instance.fields = _instance.fields || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.language = _reader.readString();
+          break;
+        case 2:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.fields = new ItemFields();
+          _reader.readMessage(
+            _instance.fields,
+            ItemFields.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.language) {
+      _writer.writeString(1, _instance.language);
+    }
+    if (_instance.id) {
+      _writer.writeInt64String(2, _instance.id);
+    }
+    if (_instance.fields) {
+      _writer.writeMessage(
+        3,
+        _instance.fields as any,
+        ItemFields.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _language: string;
+  private _id: string;
+  private _fields?: ItemFields;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemRequest.AsObject>) {
+    _value = _value || {};
+    this.language = _value.language;
+    this.id = _value.id;
+    this.fields = _value.fields ? new ItemFields(_value.fields) : undefined;
+    ItemRequest.refineValues(this);
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get fields(): ItemFields | undefined {
+    return this._fields;
+  }
+  set fields(value: ItemFields | undefined) {
+    this._fields = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemRequest.AsObject {
+    return {
+      language: this.language,
+      id: this.id,
+      fields: this.fields ? this.fields.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemRequest.AsProtobufJSON {
+    return {
+      language: this.language,
+      id: this.id,
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null
+    };
+  }
+}
+export module ItemRequest {
+  /**
+   * Standard JavaScript object representation for ItemRequest
+   */
+  export interface AsObject {
+    language: string;
+    id: string;
+    fields?: ItemFields.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemRequest
+   */
+  export interface AsProtobufJSON {
+    language: string;
+    id: string;
+    fields: ItemFields.AsProtobufJSON | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.ListItemsRequest
  */
 export class ListItemsRequest implements GrpcMessage {
@@ -17777,6 +17959,8 @@ export class APIItem implements GrpcMessage {
     _instance.nameText = _instance.nameText || '';
     _instance.nameHtml = _instance.nameHtml || '';
     _instance.descendantsCount = _instance.descendantsCount || 0;
+    _instance.engineItemId = _instance.engineItemId || '0';
+    _instance.itemTypeId = _instance.itemTypeId || 0;
   }
 
   /**
@@ -17810,6 +17994,12 @@ export class APIItem implements GrpcMessage {
         case 6:
           _instance.descendantsCount = _reader.readInt32();
           break;
+        case 7:
+          _instance.engineItemId = _reader.readInt64String();
+          break;
+        case 8:
+          _instance.itemTypeId = _reader.readEnum();
+          break;
         default:
           _reader.skipField();
       }
@@ -17842,6 +18032,12 @@ export class APIItem implements GrpcMessage {
     if (_instance.descendantsCount) {
       _writer.writeInt32(6, _instance.descendantsCount);
     }
+    if (_instance.engineItemId) {
+      _writer.writeInt64String(7, _instance.engineItemId);
+    }
+    if (_instance.itemTypeId) {
+      _writer.writeEnum(8, _instance.itemTypeId);
+    }
   }
 
   private _id: string;
@@ -17850,6 +18046,8 @@ export class APIItem implements GrpcMessage {
   private _nameText: string;
   private _nameHtml: string;
   private _descendantsCount: number;
+  private _engineItemId: string;
+  private _itemTypeId: ItemType;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17863,6 +18061,8 @@ export class APIItem implements GrpcMessage {
     this.nameText = _value.nameText;
     this.nameHtml = _value.nameHtml;
     this.descendantsCount = _value.descendantsCount;
+    this.engineItemId = _value.engineItemId;
+    this.itemTypeId = _value.itemTypeId;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -17901,6 +18101,18 @@ export class APIItem implements GrpcMessage {
   set descendantsCount(value: number) {
     this._descendantsCount = value;
   }
+  get engineItemId(): string {
+    return this._engineItemId;
+  }
+  set engineItemId(value: string) {
+    this._engineItemId = value;
+  }
+  get itemTypeId(): ItemType {
+    return this._itemTypeId;
+  }
+  set itemTypeId(value: ItemType) {
+    this._itemTypeId = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17922,7 +18134,9 @@ export class APIItem implements GrpcMessage {
       nameOnly: this.nameOnly,
       nameText: this.nameText,
       nameHtml: this.nameHtml,
-      descendantsCount: this.descendantsCount
+      descendantsCount: this.descendantsCount,
+      engineItemId: this.engineItemId,
+      itemTypeId: this.itemTypeId
     };
   }
 
@@ -17948,7 +18162,14 @@ export class APIItem implements GrpcMessage {
       nameOnly: this.nameOnly,
       nameText: this.nameText,
       nameHtml: this.nameHtml,
-      descendantsCount: this.descendantsCount
+      descendantsCount: this.descendantsCount,
+      engineItemId: this.engineItemId,
+      itemTypeId:
+        ItemType[
+          this.itemTypeId === null || this.itemTypeId === undefined
+            ? 0
+            : this.itemTypeId
+        ]
     };
   }
 }
@@ -17963,6 +18184,8 @@ export module APIItem {
     nameText: string;
     nameHtml: string;
     descendantsCount: number;
+    engineItemId: string;
+    itemTypeId: ItemType;
   }
 
   /**
@@ -17975,6 +18198,8 @@ export module APIItem {
     nameText: string;
     nameHtml: string;
     descendantsCount: number;
+    engineItemId: string;
+    itemTypeId: string;
   }
 }
 

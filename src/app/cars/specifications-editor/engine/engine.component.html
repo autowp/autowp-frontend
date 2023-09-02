@@ -8,7 +8,7 @@
   <div *ngIf="isAllowedEditEngine$ | async">
     <div *ngIf="engine$ | async as engine; else noengine">
       <p>
-        <a [routerLink]="['/moder/items/item', engine.id]" [innerHTML]="engine.name_html"></a>
+        <a [routerLink]="['/moder/items/item', engine.id]" [innerHTML]="engine.nameHtml"></a>
       </p>
       <ng-container *ngIf="item.engine_inherit">
         <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
@@ -41,7 +41,7 @@
   </div>
   <ng-container *ngIf="engine$ | async as engine">
     <div *ngIf="engine && (isAllowedEditEngine$ | async) === false">
-      <p [innerHTML]="engine.name_html"></p>
+      <p [innerHTML]="engine.nameHtml"></p>
       <ng-container *ngIf="item.engine_inherit">
         <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
               <em>

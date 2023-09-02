@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemService} from '@services/item';
+import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPictureGetResponse, PictureService} from '@services/picture';
-import {EMPTY, combineLatest, of} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
@@ -13,13 +15,13 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {
-  protected readonly id$ = this.route.parent.parent.paramMap.pipe(
-    map((params) => parseInt(params.get('group'), 10)),
+  protected readonly id$: Observable<string> = this.route.parent.parent.paramMap.pipe(
+    map((params) => params.get('group')),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  protected readonly group$ = this.id$.pipe(
+  protected readonly group$: Observable<APIItem> = this.id$.pipe(
     switchMap((group) => {
       if (!group) {
         this.router.navigate(['/error-404'], {
@@ -27,14 +29,23 @@ export class TwinsGroupPicturesListComponent {
         });
         return EMPTY;
       }
-      return this.itemService.getItem$(group, {fields: 'name_text,name_html'});
+      return this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          id: group,
+          language: this.languageService.language,
+        })
+      );
     }),
     tap((group) => {
       setTimeout(
         () =>
           this.pageEnv.set({
             pageId: 28,
-            title: $localize`All pictures of ${group.name_text}`,
+            title: $localize`All pictures of ${group.nameText}`,
           }),
         0
       );
@@ -51,7 +62,7 @@ export class TwinsGroupPicturesListComponent {
     switchMap(([page, groupId]) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        item_id: groupId,
+        item_id: +groupId,
         limit: 24,
         order: 16,
         page: page,
@@ -65,11 +76,12 @@ export class TwinsGroupPicturesListComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly pictureService: PictureService,
     private readonly toastService: ToastsService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 }

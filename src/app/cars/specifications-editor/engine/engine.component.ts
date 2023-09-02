@@ -1,8 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
-import {BehaviorSubject, of} from 'rxjs';
+import {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -21,13 +25,20 @@ export class CarsSpecificationsEditorEngineComponent {
   protected readonly isAllowedEditEngine$ = this.acl
     .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
     .pipe(shareReplay(1));
-  protected readonly engine$ = this.item$.pipe(
+
+  protected readonly engine$: Observable<GRPCAPIItem> = this.item$.pipe(
     switchMap((item) => {
       if (!item.engine_id) {
-        return of(null as APIItem);
+        return of(null as GRPCAPIItem);
       }
 
-      return this.itemService.getItem$(item.engine_id, {fields: 'name_html,name_text,engine_id'});
+      return this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({nameHtml: true}),
+          id: item.engine_id.toString(),
+          language: this.languageService.language,
+        })
+      );
     }),
     shareReplay(1)
   );
@@ -35,9 +46,10 @@ export class CarsSpecificationsEditorEngineComponent {
 
   constructor(
     private readonly acl: ACLService,
-    private readonly itemService: ItemService,
+    private readonly itemsClient: ItemsClient,
     private readonly api: APIService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly languageService: LanguageService
   ) {}
 
   private setEngineID(item: APIItem, value: string) {
