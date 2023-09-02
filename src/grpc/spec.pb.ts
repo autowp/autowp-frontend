@@ -17965,6 +17965,7 @@ export class APIItem implements GrpcMessage {
     _instance.isConcept = _instance.isConcept || false;
     _instance.isConceptInherit = _instance.isConceptInherit || false;
     _instance.specId = _instance.specId || '0';
+    _instance.fullText = _instance.fullText || '';
   }
 
   /**
@@ -18016,6 +18017,9 @@ export class APIItem implements GrpcMessage {
         case 12:
           _instance.specId = _reader.readInt64String();
           break;
+        case 13:
+          _instance.fullText = _reader.readString();
+          break;
         default:
           _reader.skipField();
       }
@@ -18066,6 +18070,9 @@ export class APIItem implements GrpcMessage {
     if (_instance.specId) {
       _writer.writeInt64String(12, _instance.specId);
     }
+    if (_instance.fullText) {
+      _writer.writeString(13, _instance.fullText);
+    }
   }
 
   private _id: string;
@@ -18080,6 +18087,7 @@ export class APIItem implements GrpcMessage {
   private _isConcept: boolean;
   private _isConceptInherit: boolean;
   private _specId: string;
+  private _fullText: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18099,6 +18107,7 @@ export class APIItem implements GrpcMessage {
     this.isConcept = _value.isConcept;
     this.isConceptInherit = _value.isConceptInherit;
     this.specId = _value.specId;
+    this.fullText = _value.fullText;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -18173,6 +18182,12 @@ export class APIItem implements GrpcMessage {
   set specId(value: string) {
     this._specId = value;
   }
+  get fullText(): string {
+    return this._fullText;
+  }
+  set fullText(value: string) {
+    this._fullText = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -18200,7 +18215,8 @@ export class APIItem implements GrpcMessage {
       description: this.description,
       isConcept: this.isConcept,
       isConceptInherit: this.isConceptInherit,
-      specId: this.specId
+      specId: this.specId,
+      fullText: this.fullText
     };
   }
 
@@ -18237,7 +18253,8 @@ export class APIItem implements GrpcMessage {
       description: this.description,
       isConcept: this.isConcept,
       isConceptInherit: this.isConceptInherit,
-      specId: this.specId
+      specId: this.specId,
+      fullText: this.fullText
     };
   }
 }
@@ -18258,6 +18275,7 @@ export module APIItem {
     isConcept: boolean;
     isConceptInherit: boolean;
     specId: string;
+    fullText: string;
   }
 
   /**
@@ -18276,6 +18294,7 @@ export module APIItem {
     isConcept: boolean;
     isConceptInherit: boolean;
     specId: string;
+    fullText: string;
   }
 }
 

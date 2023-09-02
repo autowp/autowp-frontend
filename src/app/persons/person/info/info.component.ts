@@ -1,9 +1,17 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIGetItemLinksRequest, APIItemLink, APIItemLinksResponse, ItemType} from '@grpc/spec.pb';
+import {
+  APIGetItemLinksRequest,
+  APIItem,
+  APIItemLink,
+  APIItemLinksResponse,
+  ItemFields,
+  ItemRequest,
+  ItemType,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -24,17 +32,24 @@ export class PersonsPersonInfoComponent {
     debounceTime(10)
   );
 
-  private readonly itemID$ = this.route.parent.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+  private readonly itemID$: Observable<string> = this.route.parent.paramMap.pipe(
+    map((params) => params.get('id')),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: ['name_text', 'description'].join(','),
-      })
+      this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            description: true,
+            nameText: true,
+          }),
+          id,
+          language: this.languageService.language,
+        })
+      )
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -44,7 +59,7 @@ export class PersonsPersonInfoComponent {
       return EMPTY;
     }),
     switchMap((item) => {
-      if (item.item_type_id !== ItemType.ITEM_TYPE_PERSON) {
+      if (item.itemTypeId !== ItemType.ITEM_TYPE_PERSON) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
@@ -56,7 +71,7 @@ export class PersonsPersonInfoComponent {
     tap((item) => {
       this.pageEnv.set({
         pageId: 213,
-        title: item.name_text,
+        title: item.nameText,
       });
     }),
     shareReplay(1)
@@ -74,7 +89,7 @@ export class PersonsPersonInfoComponent {
   protected readonly authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService.getPictures$({
-        exact_item_id: itemID,
+        exact_item_id: +itemID,
         exact_item_link_type: 2,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 12,
@@ -93,7 +108,7 @@ export class PersonsPersonInfoComponent {
     switchMap(([itemID, page]) =>
       this.pictureService
         .getPictures$({
-          exact_item_id: itemID,
+          exact_item_id: +itemID,
           exact_item_link_type: 1,
           fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
           limit: 12,
@@ -111,13 +126,13 @@ export class PersonsPersonInfoComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly itemsClient: ItemsClient,
     private readonly acl: ACLService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly languageService: LanguageService
   ) {}
 }
