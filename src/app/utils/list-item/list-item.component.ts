@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
 import {APIItem, APIItemChildsCounts} from '@services/item';
@@ -79,4 +80,6 @@ export class CatalogueListItemComponent {
 
     return 'col-6 col-lg-3';
   }
+
+  protected readonly ItemType = ItemType;
 }

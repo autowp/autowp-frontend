@@ -8,13 +8,17 @@
     </li>
     <ng-container *ngFor="let item of path$ | async; let last = last">
       <li class="breadcrumb-item" *ngIf="!last">
-        <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html" *ngIf="item.item.item_type_id !== 3"></a>
+        <a
+          [routerLink]="item.routerLink"
+          [innerHtml]="item.item.name_html"
+          *ngIf="item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY"
+        ></a>
         <div
           ngbDropdown
           class="d-inline-block"
           placement="bottom-right"
           (openChange)="dropdownOpenChange(item)"
-          *ngIf="item.item.item_type_id === 3"
+          *ngIf="item.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY"
         >
           <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
           <a ngbDropdownToggle style="cursor: pointer"></a>

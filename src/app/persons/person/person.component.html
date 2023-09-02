@@ -12,7 +12,7 @@
 <ng-container *ngIf="!(layoutParams$ | async).isGalleryPage">
   <ng-container *ngIf="item$ | async as item">
     <div class="page-header">
-      <h1 [innerHTML]="item.name_html"></h1>
+      <h1 [innerHTML]="item.nameHtml"></h1>
     </div>
 
     <p *ngIf="isModer$ | async">

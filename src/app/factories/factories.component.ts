@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -34,7 +35,7 @@ export class FactoryComponent {
       return EMPTY;
     }),
     switchMap((factory) => {
-      if (factory.item_type_id !== 6) {
+      if (factory.item_type_id !== ItemType.ITEM_TYPE_FACTORY) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });

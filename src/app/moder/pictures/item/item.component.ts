@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIIP} from '@grpc/spec.pb';
+import {APIIP, ItemType} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
 import {APIItem, ItemService} from '@services/item';
@@ -441,4 +441,6 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         this.change$.next(null);
       });
   }
+
+  protected readonly ItemType = ItemType;
 }

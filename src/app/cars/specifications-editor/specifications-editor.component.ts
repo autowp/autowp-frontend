@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
@@ -76,4 +77,6 @@ export class CarsSpecificationsEditorComponent {
       },
     });
   }
+
+  protected readonly ItemType = ItemType;
 }

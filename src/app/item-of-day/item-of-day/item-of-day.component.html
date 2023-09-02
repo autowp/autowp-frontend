@@ -1,8 +1,8 @@
 <h2 *ngIf="item$ | async as item; else h2Placeholder">
   <span [innerHtml]="item.name_html"></span>
   <small>
-    <span i18n *ngIf="item.item_type_id === 1">vehicle of the day</span>
-    <span i18n *ngIf="item.item_type_id !== 1">theme of the day</span>
+    <span i18n *ngIf="item.item_type_id === ItemType.ITEM_TYPE_VEHICLE">vehicle of the day</span>
+    <span i18n *ngIf="item.item_type_id !== ItemType.ITEM_TYPE_VEHICLE">theme of the day</span>
     <span *ngIf="user$ | async as user">
       <span class="text-nowrap">by <app-user2 [user]="user"></app-user2></span>
     </span>
@@ -72,7 +72,7 @@
 </ng-template>
 
 <p *ngIf="item$ | async as item">
-  <ng-container *ngIf="item.item_type_id === 3">
+  <ng-container *ngIf="item.item_type_id === ItemType.ITEM_TYPE_CATEGORY">
     <span>
       <span class="bi bi-text-left" aria-hidden="true"></span>
       <a [routerLink]="['/category', item.catname]" i18n>details</a>
@@ -86,7 +86,7 @@
     </span>
   </ng-container>
 
-  <span *ngIf="item.item_type_id === 5 && item.accepted_pictures_count > 6 && item.public_route">
+  <span *ngIf="item.item_type_id === ItemType.ITEM_TYPE_BRAND && item.accepted_pictures_count > 6 && item.public_route">
     <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
     <a [routerLink]="item.public_route"
       ><ng-container i18n>details</ng-container> ({{ item.accepted_pictures_count }})</a
@@ -94,7 +94,12 @@
   </span>
 
   <span
-    *ngIf="item.item_type_id !== 3 && item.item_type_id !== 5 && item.accepted_pictures_count > 6 && item.public_route"
+    *ngIf="
+      item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY &&
+      item.item_type_id !== ItemType.ITEM_TYPE_BRAND &&
+      item.accepted_pictures_count > 6 &&
+      item.public_route
+    "
   >
     <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
     <a [routerLink]="item.public_route"

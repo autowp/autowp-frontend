@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIUser} from '@grpc/spec.pb';
+import {APIUser, ItemType} from '@grpc/spec.pb';
 import {APIItemOfDayPicture, ItemOfDayItem} from '@services/item';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -35,4 +35,6 @@ export class ItemOfDayComponent {
     first: APIItemOfDayPicture[];
     others: APIItemOfDayPicture[];
   } | null>;
+
+  protected readonly ItemType = ItemType;
 }

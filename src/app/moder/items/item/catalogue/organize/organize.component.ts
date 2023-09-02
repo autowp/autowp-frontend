@@ -80,7 +80,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     shareReplay(1)
   );
 
-  protected readonly newItem$ = combineLatest([this.itemTypeID$, this.item$]).pipe(
+  protected readonly newItem$: Observable<APIItem> = combineLatest([this.itemTypeID$, this.item$]).pipe(
     map(([itemTypeID, item]) => {
       const newItem = Object.assign({}, item);
       newItem.item_type_id = itemTypeID;

@@ -113,6 +113,10 @@ interface Form {
   vehicle_type_id?: FormControl<string[]>;
 }
 
+export interface ParentIsConcept {
+  isConcept: boolean;
+}
+
 @Component({
   selector: 'app-item-meta-form',
   styleUrls: ['./styles.scss'],
@@ -128,10 +132,10 @@ export class ItemMetaFormComponent {
   }
   protected readonly disableIsGroup$ = new BehaviorSubject<boolean>(null);
 
-  @Input() set parent(parent: APIItem) {
-    this.parent$.next(parent);
+  @Input() set parentIsConcept(isConcept: ParentIsConcept) {
+    this.parentIsConcept$.next(isConcept);
   }
-  protected readonly parent$ = new BehaviorSubject<APIItem>(null);
+  protected readonly parentIsConcept$ = new BehaviorSubject<ParentIsConcept>(null);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -231,8 +235,8 @@ export class ItemMetaFormComponent {
     },
   ];
 
-  protected readonly isConceptOptions$ = this.parent$.pipe(
-    map((parent) => [
+  protected readonly isConceptOptions$ = this.parentIsConcept$.pipe(
+    map((parentIsConcept) => [
       {
         name: $localize`no`,
         value: false,
@@ -242,8 +246,8 @@ export class ItemMetaFormComponent {
         value: true,
       },
       {
-        name: parent
-          ? parent.is_concept
+        name: parentIsConcept
+          ? parentIsConcept.isConcept
             ? $localize`inherited (yes)`
             : $localize`inherited (no)`
           : $localize`inherited`,

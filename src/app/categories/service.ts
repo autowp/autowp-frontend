@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {ItemType} from '@grpc/spec.pb';
 import {APIItem, APIPathItem, ItemService} from '@services/item';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -50,7 +51,7 @@ export class CategoriesService {
       map((response) => {
         let category: APIItem;
         for (const item of response.path) {
-          if (item.item.item_type_id !== 3) {
+          if (item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
             break;
           }
           category = item.item;
@@ -60,10 +61,10 @@ export class CategoriesService {
         const pathCatnames: string[] = [];
         const pathItems: PathItem[] = [];
         for (const item of response.path) {
-          if (item.item.item_type_id === 3) {
+          if (item.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
             catname = item.item.catname;
           }
-          if (item.item.item_type_id !== 3) {
+          if (item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
             pathCatnames.push(item.catname);
           }
           pathItems.push({

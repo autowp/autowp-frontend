@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
@@ -63,7 +64,7 @@ export class CategoryGalleryComponent implements OnInit {
       return null;
     }
 
-    if (currentItem.item_type_id === 3) {
+    if (currentItem.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
       return ['/category', currentItem.catname];
     }
 

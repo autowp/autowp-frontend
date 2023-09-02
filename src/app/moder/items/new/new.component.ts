@@ -1,10 +1,11 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {APIGetItemVehicleTypesRequest, APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
@@ -12,7 +13,7 @@ import {EMPTY, Observable, forkJoin, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
-import {ItemMetaFormResult} from '../item-meta-form/item-meta-form.component';
+import {ItemMetaFormResult, ParentIsConcept} from '../item-meta-form/item-meta-form.component';
 
 interface NewAPIItem extends APIItem {
   is_concept_inherit: boolean;
@@ -72,22 +73,35 @@ export class ModerItemsNewComponent {
     shareReplay(1)
   );
 
-  private readonly parentID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('parent_id'), 10)),
-    distinctUntilChanged(),
-    debounceTime(10)
+  private readonly parentID$: Observable<string> = this.route.queryParamMap.pipe(
+    map((params) => params.get('parent_id')),
+    distinctUntilChanged()
   );
 
-  protected readonly parent$ = this.parentID$.pipe(
-    switchMap((parentID) =>
-      parentID ? this.itemService.getItem$(parentID, {fields: 'is_concept,name_html,spec_id'}) : of(null as APIItem)
-    ),
+  protected readonly parent$: Observable<GRPCAPIItem> = this.parentID$.pipe(
+    switchMap((parentID) => {
+      if (!parentID) {
+        return of(null as GRPCAPIItem);
+      }
+
+      return this.itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({nameHtml: true}),
+          id: parentID,
+          language: this.languageService.language,
+        })
+      );
+    }),
     shareReplay(1)
   );
 
-  protected readonly vehicleTypeIDs$ = this.parent$.pipe(
+  protected readonly parentIsConcept$: Observable<ParentIsConcept> = this.parent$.pipe(
+    map((parent) => (parent ? {isConcept: parent.isConcept} : null))
+  );
+
+  protected readonly vehicleTypeIDs$: Observable<string[]> = this.parent$.pipe(
     switchMap((item) => {
-      if (item && [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {
+      if (item && [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
         return this.itemsClient
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
@@ -107,7 +121,8 @@ export class ModerItemsNewComponent {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService
   ) {}
 
   protected submit(itemTypeID: number, event: ItemMetaFormResult) {

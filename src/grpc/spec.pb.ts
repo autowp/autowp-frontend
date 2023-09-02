@@ -17961,6 +17961,10 @@ export class APIItem implements GrpcMessage {
     _instance.descendantsCount = _instance.descendantsCount || 0;
     _instance.engineItemId = _instance.engineItemId || '0';
     _instance.itemTypeId = _instance.itemTypeId || 0;
+    _instance.description = _instance.description || '';
+    _instance.isConcept = _instance.isConcept || false;
+    _instance.isConceptInherit = _instance.isConceptInherit || false;
+    _instance.specId = _instance.specId || '0';
   }
 
   /**
@@ -18000,6 +18004,18 @@ export class APIItem implements GrpcMessage {
         case 8:
           _instance.itemTypeId = _reader.readEnum();
           break;
+        case 9:
+          _instance.description = _reader.readString();
+          break;
+        case 10:
+          _instance.isConcept = _reader.readBool();
+          break;
+        case 11:
+          _instance.isConceptInherit = _reader.readBool();
+          break;
+        case 12:
+          _instance.specId = _reader.readInt64String();
+          break;
         default:
           _reader.skipField();
       }
@@ -18038,6 +18054,18 @@ export class APIItem implements GrpcMessage {
     if (_instance.itemTypeId) {
       _writer.writeEnum(8, _instance.itemTypeId);
     }
+    if (_instance.description) {
+      _writer.writeString(9, _instance.description);
+    }
+    if (_instance.isConcept) {
+      _writer.writeBool(10, _instance.isConcept);
+    }
+    if (_instance.isConceptInherit) {
+      _writer.writeBool(11, _instance.isConceptInherit);
+    }
+    if (_instance.specId) {
+      _writer.writeInt64String(12, _instance.specId);
+    }
   }
 
   private _id: string;
@@ -18048,6 +18076,10 @@ export class APIItem implements GrpcMessage {
   private _descendantsCount: number;
   private _engineItemId: string;
   private _itemTypeId: ItemType;
+  private _description: string;
+  private _isConcept: boolean;
+  private _isConceptInherit: boolean;
+  private _specId: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18063,6 +18095,10 @@ export class APIItem implements GrpcMessage {
     this.descendantsCount = _value.descendantsCount;
     this.engineItemId = _value.engineItemId;
     this.itemTypeId = _value.itemTypeId;
+    this.description = _value.description;
+    this.isConcept = _value.isConcept;
+    this.isConceptInherit = _value.isConceptInherit;
+    this.specId = _value.specId;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -18113,6 +18149,30 @@ export class APIItem implements GrpcMessage {
   set itemTypeId(value: ItemType) {
     this._itemTypeId = value;
   }
+  get description(): string {
+    return this._description;
+  }
+  set description(value: string) {
+    this._description = value;
+  }
+  get isConcept(): boolean {
+    return this._isConcept;
+  }
+  set isConcept(value: boolean) {
+    this._isConcept = value;
+  }
+  get isConceptInherit(): boolean {
+    return this._isConceptInherit;
+  }
+  set isConceptInherit(value: boolean) {
+    this._isConceptInherit = value;
+  }
+  get specId(): string {
+    return this._specId;
+  }
+  set specId(value: string) {
+    this._specId = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -18136,7 +18196,11 @@ export class APIItem implements GrpcMessage {
       nameHtml: this.nameHtml,
       descendantsCount: this.descendantsCount,
       engineItemId: this.engineItemId,
-      itemTypeId: this.itemTypeId
+      itemTypeId: this.itemTypeId,
+      description: this.description,
+      isConcept: this.isConcept,
+      isConceptInherit: this.isConceptInherit,
+      specId: this.specId
     };
   }
 
@@ -18169,7 +18233,11 @@ export class APIItem implements GrpcMessage {
           this.itemTypeId === null || this.itemTypeId === undefined
             ? 0
             : this.itemTypeId
-        ]
+        ],
+      description: this.description,
+      isConcept: this.isConcept,
+      isConceptInherit: this.isConceptInherit,
+      specId: this.specId
     };
   }
 }
@@ -18186,6 +18254,10 @@ export module APIItem {
     descendantsCount: number;
     engineItemId: string;
     itemTypeId: ItemType;
+    description: string;
+    isConcept: boolean;
+    isConceptInherit: boolean;
+    specId: string;
   }
 
   /**
@@ -18200,6 +18272,10 @@ export module APIItem {
     descendantsCount: number;
     engineItemId: string;
     itemTypeId: string;
+    description: string;
+    isConcept: boolean;
+    isConceptInherit: boolean;
+    specId: string;
   }
 }
 

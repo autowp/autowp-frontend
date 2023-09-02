@@ -18,14 +18,14 @@
 
 <p *ngIf="parent$ | async as parent">
   <ng-container i18n>As submodel</ng-container>
-  <span [innerHTML]="parent.name_html"></span>
+  <span [innerHTML]="parent.nameHtml"></span>
 </p>
 
 <ng-container *ngIf="item$ | async as item">
   <app-item-meta-form
     [item]="item"
     (submitted)="submit(item.item_type_id, $event)"
-    [parent]="parent$ | async"
+    [parentIsConcept]="parentIsConcept$ | async"
     [vehicleTypeIDs]="vehicleTypeIDs$ | async"
     [invalidParams]="invalidParams"
     class="d-block mb-4"

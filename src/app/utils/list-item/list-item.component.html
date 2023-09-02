@@ -93,7 +93,10 @@
   </div>
 
   <ul class="list-inline" ngPreserveWhitespaces>
-    <li *ngIf="item.has_text || item.details.count || item.item_type_id === 8" class="list-inline-item">
+    <li
+      *ngIf="item.has_text || item.details.count || item.item_type_id === ItemType.ITEM_TYPE_PERSON"
+      class="list-inline-item"
+    >
       <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="item.details.routerLink">
         <ng-container i18n>details</ng-container>

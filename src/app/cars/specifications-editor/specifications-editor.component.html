@@ -51,7 +51,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
           <ng-container i18n>Info</ng-container>
         </a>
       </li>
-      <li class="nav-item" *ngIf="item.item_type_id === 1">
+      <li class="nav-item" *ngIf="item.item_type_id === ItemType.ITEM_TYPE_VEHICLE">
         <a
           routerLink="/cars/specifications-editor"
           [queryParams]="{item_id: item.id, tab: 'engine'}"
@@ -117,7 +117,11 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
 Все значения, которые здесь вводятся - отображаются на сайте, в характеристиках, используются в построении разделы "самые-самые", а также отображаются в некоторых других местах сайта.'
         ></app-markdown>
       </div>
-      <div class="tab-pane active" id="engine" *ngIf="tab === 'engine' && item && item.item_type_id === 1">
+      <div
+        class="tab-pane active"
+        id="engine"
+        *ngIf="tab === 'engine' && item && item.item_type_id === ItemType.ITEM_TYPE_VEHICLE"
+      >
         <app-cars-specifications-editor-engine
           [item]="item"
           (changed)="onEngineChanged()"

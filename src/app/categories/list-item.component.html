@@ -94,7 +94,10 @@
   </div>
 
   <ul class="list-inline" ngPreserveWhitespaces *ngIf="parentRouterLink$ | async as parentRouterLink">
-    <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id === 3" class="list-inline-item">
+    <li
+      *ngIf="(item.has_text || item.childs_count) && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY"
+      class="list-inline-item"
+    >
       <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="parentRouterLink">
         <ng-container i18n>details</ng-container>
@@ -102,7 +105,10 @@
       </a>
     </li>
 
-    <li *ngIf="(item.has_text || item.childs_count) && item.item_type_id !== 3" class="list-inline-item">
+    <li
+      *ngIf="(item.has_text || item.childs_count) && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY"
+      class="list-inline-item"
+    >
       <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="parentRouterLink">
         <ng-container i18n>details</ng-container>
@@ -110,19 +116,25 @@
       </a>
     </li>
 
-    <li *ngIf="item.item_type_id === 8" class="list-inline-item">
+    <li *ngIf="item.item_type_id === ItemType.ITEM_TYPE_PERSON" class="list-inline-item">
       <i class="bi bi-text-left me-1" aria-hidden="true"></i>
       <a [routerLink]="['/persons', item.id]" i18n>details</a>
     </li>
 
-    <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id === 3" class="list-inline-item">
+    <li
+      *ngIf="item.accepted_pictures_count > 4 && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY"
+      class="list-inline-item"
+    >
       <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
       <a [routerLink]="parentRouterLink.concat(['pictures'])"
         ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
       >
     </li>
 
-    <li *ngIf="item.accepted_pictures_count > 4 && item.item_type_id !== 3" class="list-inline-item">
+    <li
+      *ngIf="item.accepted_pictures_count > 4 && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY"
+      class="list-inline-item"
+    >
       <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
       <a [routerLink]="parentRouterLink.concat(['pictures'])"
         ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a

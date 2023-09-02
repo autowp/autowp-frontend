@@ -70,4 +70,6 @@ export class CategoriesListItemComponent {
     }
     return false;
   }
+
+  protected readonly ItemType = ItemType;
 }

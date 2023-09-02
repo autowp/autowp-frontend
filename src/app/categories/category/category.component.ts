@@ -83,4 +83,6 @@ export class CategoriesCategoryComponent {
   protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
+
+  protected readonly ItemType = ItemType;
 }
