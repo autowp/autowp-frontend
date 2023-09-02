@@ -742,7 +742,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/tree-item/tree-item.component.html</context>
@@ -806,11 +806,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/category.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">27</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/category.component.html</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">87</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/item/item.component.html</context>
@@ -2158,19 +2158,19 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/category.component.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">72</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">103</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">121</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.html</context>
@@ -2202,7 +2202,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">102</context>
         </context-group>
         <target state="translated">подробнее</target>
       </trans-unit>
@@ -2422,17 +2422,13 @@ All images are posted for educational purposes.
         </context-group>
         <target state="final">Не наследовать двигатель</target>
       </trans-unit>
-      <trans-unit id="20687baef6719afd2f23a431c6c81822a8f0e8ec" datatype="html">
-        <source>Specs editor of <x id="INTERPOLATION" equiv-text="{{ item.name_text }}"/></source>
+      <trans-unit id="396750979bb68ee23336178edcb40c5e6ed4712c" datatype="html">
+        <source>Specs editor of <x id="INTERPOLATION" equiv-text="{{ item.nameText }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.html</context>
           <context context-type="linenumber">7,9</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">15,18</context>
-        </context-group>
-        <target state="translated">Редактор характеристик <x id="INTERPOLATION" equiv-text="{{ item.name_text }}"/></target>
+        <target state="needs-translation">Specs editor of <x id="INTERPOLATION" equiv-text="{{ item.nameText }}"/></target>
       </trans-unit>
       <trans-unit id="9ca82952a6bc860b5391d5975322d8af8ceddfa4" datatype="html">
         <source>Select</source>
@@ -2450,7 +2446,7 @@ All images are posted for educational purposes.
         <source>Type to search …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">40</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item/select-parent/brands/brands.component.html</context>
@@ -2463,16 +2459,16 @@ All images are posted for educational purposes.
         <target state="translated">Введите для поиска…</target>
       </trans-unit>
       <trans-unit id="8787971127662853316" datatype="html">
-        <source>Specs editor of <x id="PH" equiv-text="item.name_text"/></source>
+        <source>Specs editor of <x id="PH" equiv-text="item.nameText"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/engine/select/select.component.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
-        <target state="translated">Редактор характеристик <x id="PH" equiv-text="item.name_text"/></target>
+        <target state="needs-translation">Specs editor of <x id="PH" equiv-text="item.nameText"/></target>
       </trans-unit>
       <trans-unit id="270715a9eece0f3748aaec0940560574342337c5" datatype="html">
         <source>Related</source>
@@ -2684,7 +2680,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">237</context>
+          <context context-type="linenumber">241</context>
         </context-group>
         <target state="translated">нет</target>
       </trans-unit>
@@ -2696,13 +2692,21 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">241</context>
+          <context context-type="linenumber">245</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/translations.ts</context>
           <context context-type="linenumber">675</context>
         </context-group>
         <target state="translated">да</target>
+      </trans-unit>
+      <trans-unit id="20687baef6719afd2f23a431c6c81822a8f0e8ec" datatype="html">
+        <source>Specs editor of <x id="INTERPOLATION" equiv-text="{{ item.name_text }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
+          <context context-type="linenumber">15,18</context>
+        </context-group>
+        <target state="translated">Редактор характеристик <x id="INTERPOLATION" equiv-text="{{ item.name_text }}"/></target>
       </trans-unit>
       <trans-unit id="a568d6cc7b8a3f14399663426bb1b4fc137b1a8d" datatype="html">
         <source>edit</source>
@@ -2724,11 +2728,11 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/category.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">54</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">147</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/factories/factories.component.html</context>
@@ -2764,7 +2768,7 @@ All images are posted for educational purposes.
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">152</context>
+          <context context-type="linenumber">155</context>
         </context-group>
         <target state="translated">редактировать</target>
       </trans-unit>
@@ -2840,7 +2844,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">134</context>
+          <context context-type="linenumber">138</context>
         </context-group>
         <target state="translated">Админ</target>
       </trans-unit>
@@ -2873,7 +2877,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         <source>Refresh inheritance</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cars/specifications-editor/specifications-editor.component.html</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">141</context>
         </context-group>
         <target state="translated">Обновить наследование</target>
       </trans-unit>
@@ -3195,11 +3199,11 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         <source>All pictures of <x id="PH" equiv-text="item.name_text"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/catalogue/vehicles/pictures/pictures.component.ts</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">72</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/pictures/list/list.component.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <target state="translated">Все изображения <x id="PH" equiv-text="item.name_text"/></target>
       </trans-unit>
@@ -3239,15 +3243,15 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/category/category.component.html</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">78</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">130</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">140</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.html</context>
@@ -3255,7 +3259,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.html</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">106</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/new/list-item/list-item.component.html</context>
@@ -3271,7 +3275,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">124</context>
         </context-group>
         <target state="translated">все картинки</target>
       </trans-unit>
@@ -3469,7 +3473,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         <source>edit specs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/categories/list-item.component.html</context>
-          <context context-type="linenumber">141</context>
+          <context context-type="linenumber">153</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
@@ -3493,7 +3497,7 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">146</context>
+          <context context-type="linenumber">149</context>
         </context-group>
         <target state="final">ввод ттх</target>
       </trans-unit>
@@ -4965,7 +4969,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>twins</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.html</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">113</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item/item/item.component.html</context>
@@ -4977,7 +4981,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">133</context>
+          <context context-type="linenumber">136</context>
         </context-group>
         <target state="translated">близнецы</target>
       </trans-unit>
@@ -4985,7 +4989,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>Want to choose next?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/item-of-day/item-of-day/item-of-day.component.html</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">126</context>
         </context-group>
         <target state="translated">Желаете выбрать следующий?</target>
       </trans-unit>
@@ -5009,7 +5013,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">130</context>
         </context-group>
         <target state="translated">технические характеристики</target>
       </trans-unit>
@@ -5909,7 +5913,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>ended</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">183</context>
         </context-group>
         <target state="translated">выпуск закончен</target>
       </trans-unit>
@@ -5917,7 +5921,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>continue in pr.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">187</context>
         </context-group>
         <target state="final">производится в н.в.</target>
       </trans-unit>
@@ -5925,7 +5929,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>about</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">190</context>
+          <context context-type="linenumber">194</context>
         </context-group>
         <target state="translated">примерно</target>
       </trans-unit>
@@ -5933,7 +5937,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>exactly</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">194</context>
+          <context context-type="linenumber">198</context>
         </context-group>
         <target state="translated">точно</target>
       </trans-unit>
@@ -5941,7 +5945,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>inherited (yes)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">247</context>
+          <context context-type="linenumber">251</context>
         </context-group>
         <target state="translated">унаследовано (да)</target>
       </trans-unit>
@@ -5949,7 +5953,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>inherited (no)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">248</context>
+          <context context-type="linenumber">252</context>
         </context-group>
         <target state="translated">унаследовано (нет)</target>
       </trans-unit>
@@ -5957,7 +5961,7 @@ If you are not registered yet, please do so now [on the registration page](/sign
         <source>inherited</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/moder/items/item-meta-form/item-meta-form.component.ts</context>
-          <context context-type="linenumber">249</context>
+          <context context-type="linenumber">253</context>
         </context-group>
         <target state="translated">унаследовано</target>
       </trans-unit>
@@ -8791,29 +8795,29 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         </context-group>
         <target state="translated">Вид сверху</target>
       </trans-unit>
-      <trans-unit id="36937d6d8fcd95a5416317096a76ab5f7666f8c0" datatype="html">
-        <source>All pictures of <x id="INTERPOLATION" equiv-text="{{ group.name_text }}"/></source>
+      <trans-unit id="e89d515793a3ffcab007f0782230c892a07015f6" datatype="html">
+        <source>All pictures of <x id="INTERPOLATION" equiv-text="{{ group.nameText }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/pictures/list/list.component.html</context>
           <context context-type="linenumber">3,6</context>
         </context-group>
-        <target state="translated">Все изображения <x id="INTERPOLATION" equiv-text="{{ group.name_text }}"/></target>
+        <target state="needs-translation">All pictures of <x id="INTERPOLATION" equiv-text="{{ group.nameText }}"/></target>
       </trans-unit>
-      <trans-unit id="5f8c859df5d1e579f3f19884720a76f7d7a960eb" datatype="html">
-        <source>Specifications of <x id="INTERPOLATION" equiv-text="{{ group.name_text }}"/></source>
+      <trans-unit id="3476954cf5dc090893b6e29623cfdc2f234c711f" datatype="html">
+        <source>Specifications of <x id="INTERPOLATION" equiv-text="{{ group.nameText }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/specifications/specifications.component.html</context>
           <context context-type="linenumber">2,5</context>
         </context-group>
-        <target state="translated">Технические характеристики <x id="INTERPOLATION" equiv-text="{{ group.name_text }}"/></target>
+        <target state="needs-translation">Specifications of <x id="INTERPOLATION" equiv-text="{{ group.nameText }}"/></target>
       </trans-unit>
       <trans-unit id="5525884622010514657" datatype="html">
-        <source>Specifications of <x id="PH" equiv-text="group.name_text"/></source>
+        <source>Specifications of <x id="PH" equiv-text="group.nameText"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/twins/twins-group/specifications/specifications.component.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">51</context>
         </context-group>
-        <target state="translated">Технические характеристики <x id="PH" equiv-text="group.name_text"/></target>
+        <target state="needs-translation">Specifications of <x id="PH" equiv-text="group.nameText"/></target>
       </trans-unit>
       <trans-unit id="67ce5b8eaae09ec957a9a9d08a1ba4a359fa81c6" datatype="html">
         <source>group</source>
@@ -8872,17 +8876,17 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         </context-group>
         <target state="translated">Только зарегистрированный пользователи могут загружать изображения</target>
       </trans-unit>
-      <trans-unit id="bc23857484d32bf837d29fff71651b6254cf94a5" datatype="html">
+      <trans-unit id="f5b185632610f2e461db393d246723c6e5037d19" datatype="html">
         <source>Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
 
 Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
 
 Требования, предъявляемые к добавляемым картинкам:
 
-* [JPEG](http://ru.wikipedia.org/wiki/JPEG) or [PNG](http://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
+* [JPEG](https://ru.wikipedia.org/wiki/JPEG) or [PNG](https://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
 * Изображение должно по возможности быть максимально доступного качества, не содержать различных артефактов изменения размера или компрессии (размытия, нечёткости, расплытия цветов, ребристости прямых линий и т.д.). Исключение составляют редкие фото(производителя), сканы из проспектов. Решение об оставлении такого фото на сайте принимает модераторский состав.
 * Отсутствие надписей и логотипов посторонних сайтов, нанесенных не авторами/владельцами материала.
-* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отстутвие изменений, связанных со старением автомобиля.
+* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отсутствие изменений, связанных со старением автомобиля.
 * Основной и единственной темой изображения должен являться автомобиль, двигатель, логотип автокомпании, автомобильный завод или музей. Наличие в кадре посторонних предметов или людей - нежелательно.
 * Любительские фотографии вашего автомобиля, автомобиля ваших друзей или любого другого, встретившегося вам на улице, а также фотографии с выставок - не будут приняты на сайт 100%. Если только вы не профессионал.
 * Для первых фотографий автомобиля возможны пониженные требования.
@@ -8894,21 +8898,22 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
           <context context-type="sourcefile">src/app/upload/index/index.component.html</context>
           <context context-type="linenumber">18,34</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/upload/index/index.component.html</context>
-          <context context-type="linenumber">118,134</context>
-        </context-group>
-        <target state="translated">Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+        <target state="needs-translation">Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+
 Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
+
 Требования, предъявляемые к добавляемым картинкам:
-* [JPEG](http://ru.wikipedia.org/wiki/JPEG) or [PNG](http://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
+
+* [JPEG](https://ru.wikipedia.org/wiki/JPEG) or [PNG](https://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
 * Изображение должно по возможности быть максимально доступного качества, не содержать различных артефактов изменения размера или компрессии (размытия, нечёткости, расплытия цветов, ребристости прямых линий и т.д.). Исключение составляют редкие фото(производителя), сканы из проспектов. Решение об оставлении такого фото на сайте принимает модераторский состав.
 * Отсутствие надписей и логотипов посторонних сайтов, нанесенных не авторами/владельцами материала.
-* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отстутвие изменений, связанных со старением автомобиля.
+* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отсутствие изменений, связанных со старением автомобиля.
 * Основной и единственной темой изображения должен являться автомобиль, двигатель, логотип автокомпании, автомобильный завод или музей. Наличие в кадре посторонних предметов или людей - нежелательно.
 * Любительские фотографии вашего автомобиля, автомобиля ваших друзей или любого другого, встретившегося вам на улице, а также фотографии с выставок - не будут приняты на сайт 100%. Если только вы не профессионал.
 * Для первых фотографий автомобиля возможны пониженные требования.
+
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
+
 Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта.</target>
       </trans-unit>
       <trans-unit id="3f59eb3b2f1985def97a8ef897b363e3ba784d1c" datatype="html">
@@ -8951,11 +8956,46 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         </context-group>
         <target state="translated">кадрировать</target>
       </trans-unit>
+      <trans-unit id="bc23857484d32bf837d29fff71651b6254cf94a5" datatype="html">
+        <source>Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+
+Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
+
+Требования, предъявляемые к добавляемым картинкам:
+
+* [JPEG](http://ru.wikipedia.org/wiki/JPEG) or [PNG](http://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
+* Изображение должно по возможности быть максимально доступного качества, не содержать различных артефактов изменения размера или компрессии (размытия, нечёткости, расплытия цветов, ребристости прямых линий и т.д.). Исключение составляют редкие фото(производителя), сканы из проспектов. Решение об оставлении такого фото на сайте принимает модераторский состав.
+* Отсутствие надписей и логотипов посторонних сайтов, нанесенных не авторами/владельцами материала.
+* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отстутвие изменений, связанных со старением автомобиля.
+* Основной и единственной темой изображения должен являться автомобиль, двигатель, логотип автокомпании, автомобильный завод или музей. Наличие в кадре посторонних предметов или людей - нежелательно.
+* Любительские фотографии вашего автомобиля, автомобиля ваших друзей или любого другого, встретившегося вам на улице, а также фотографии с выставок - не будут приняты на сайт 100%. Если только вы не профессионал.
+* Для первых фотографий автомобиля возможны пониженные требования.
+
+**Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
+
+Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/upload/index/index.component.html</context>
+          <context context-type="linenumber">118,134</context>
+        </context-group>
+        <target state="translated">Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
+Требования, предъявляемые к добавляемым картинкам:
+* [JPEG](http://ru.wikipedia.org/wiki/JPEG) or [PNG](http://ru.wikipedia.org/wiki/PNG) format. Resolution from  640×360 up to 10000×10000.
+* Изображение должно по возможности быть максимально доступного качества, не содержать различных артефактов изменения размера или компрессии (размытия, нечёткости, расплытия цветов, ребристости прямых линий и т.д.). Исключение составляют редкие фото(производителя), сканы из проспектов. Решение об оставлении такого фото на сайте принимает модераторский состав.
+* Отсутствие надписей и логотипов посторонних сайтов, нанесенных не авторами/владельцами материала.
+* Автомобиль должен иметь первоначальный вид как при выходе с завода. Не должны присутствовать признаки &lt;em&gt;самодельного тюнинга&lt;/em&gt;, желательно отстутвие изменений, связанных со старением автомобиля.
+* Основной и единственной темой изображения должен являться автомобиль, двигатель, логотип автокомпании, автомобильный завод или музей. Наличие в кадре посторонних предметов или людей - нежелательно.
+* Любительские фотографии вашего автомобиля, автомобиля ваших друзей или любого другого, встретившегося вам на улице, а также фотографии с выставок - не будут приняты на сайт 100%. Если только вы не профессионал.
+* Для первых фотографий автомобиля возможны пониженные требования.
+**Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
+Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта.</target>
+      </trans-unit>
       <trans-unit id="5867807574919375898" datatype="html">
         <source>cropped to <x id="PH" equiv-text="cropSize"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/upload/index/index.component.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">34</context>
         </context-group>
         <target state="translated">кадрировано <x id="PH" equiv-text="cropSize"/></target>
       </trans-unit>
@@ -9342,7 +9382,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <source>related</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">110</context>
         </context-group>
         <target state="translated">связанные</target>
       </trans-unit>
@@ -9350,7 +9390,7 @@ Where `ХХХХХХХХХХХХХХХХ` - code that will be sent to you via [th
         <source>sport</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/utils/list-item/list-item.component.html</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="linenumber">117</context>
         </context-group>
         <target state="translated">спорт</target>
       </trans-unit>
