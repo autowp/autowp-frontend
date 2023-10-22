@@ -1,9 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {AutowpClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  ItemFields,
+  ItemPicturesRequest,
+  ItemType,
+  ListItemsRequest,
+  PictureStatus,
+  PicturesRequest,
+} from '@grpc/spec.pb';
+import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {EMPTY, Observable} from 'rxjs';
@@ -34,49 +42,62 @@ export class UsersUserPicturesComponent implements OnInit {
     tap((icons) => {
       addCSS(icons.css);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
-  protected readonly user$ = this.route.paramMap.pipe(
+  protected readonly userId$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
+    shareReplay(1),
+  );
+
+  protected readonly user$ = this.userId$.pipe(
     switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
     map((user) => ({
       id: user.id,
       identity: user.identity ? user.identity : 'user' + user.id,
       name: user.name,
     })),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
-      this.itemService.getItems$({
-        descendant_pictures: {
-          owner_id: user.id,
-          status: 'accepted',
-        },
-        fields: 'name_only,catname,current_pictures_count',
-        limit: 3000,
-        order: 'name_nat',
-        type_id: ItemType.ITEM_TYPE_BRAND,
-      })
+      this.itemsClient.list(
+        new ListItemsRequest({
+          descendantPictures: new ItemPicturesRequest({
+            pictures: new PicturesRequest({
+              ownerId: '' + user.id,
+              status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+            }),
+          }),
+          fields: new ItemFields({
+            currentPicturesCount: true,
+            nameOnly: true,
+          }),
+          language: this.languageService.language,
+          limit: 3000,
+          order: ListItemsRequest.Order.NAME_NAT,
+          typeId: ItemType.ITEM_TYPE_BRAND,
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    map((brands) => brands.items)
+    map((brands) => brands.items),
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly grpc: AutowpClient,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {

@@ -22,8 +22,8 @@
       *ngIf="icons$ | async as icons"
     ></a>
     <h4 ngPreserveWhitespaces>
-      <a [routerLink]="['/users', user.identity, 'pictures', brand.catname]" [textContent]="brand.name_only"></a>
-      <small>({{ brand.current_pictures_count }})</small>
+      <a [routerLink]="['/users', user.identity, 'pictures', brand.catname]" [textContent]="brand.nameOnly"></a>
+      <small>({{ brand.currentPicturesCount }})</small>
     </h4>
   </div>
 </div>
