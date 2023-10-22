@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-md-2" *ngFor="let chunk of brands">
       <ng-container *ngFor="let brand of chunk">
-        <a routerLink="/upload/select" [queryParams]="{brand_id: brand.id}" [textContent]="brand.name_only"></a>
+        <a routerLink="/upload/select" [queryParams]="{brand_id: brand.id}" [textContent]="brand.nameOnly"></a>
         <br />
       </ng-container>
     </div>
@@ -33,7 +33,7 @@
     <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
   </span>
 
-  <div style="margin: 5px 0" *ngIf="brand.vehicles.length > 0">
+  <div class="my-1" *ngIf="brand.vehicles.length > 0">
     <div *ngFor="let item of brand.vehicles">
       <app-upload-select-tree-item [item]="item"> </app-upload-select-tree-item>
     </div>
@@ -41,7 +41,7 @@
 
   <div *ngIf="brand.engines.length > 0">
     <h5 i18n>Engines</h5>
-    <div style="margin: 5px 0">
+    <div class="my-1">
       <div *ngFor="let item of brand.engines">
         <app-upload-select-tree-item [item]="item"> </app-upload-select-tree-item>
       </div>
@@ -59,7 +59,7 @@
     </ul>
   </div>
 
-  <div style="margin: 5px 0">
+  <div class="my-1">
     <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: 22}" i18n>logotype</a>
     <br />
     <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: 25}" i18n

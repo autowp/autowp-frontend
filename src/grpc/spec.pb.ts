@@ -17351,6 +17351,8 @@ export class ListItemsRequest implements GrpcMessage {
     _instance.noParent = _instance.noParent || false;
     _instance.catname = _instance.catname || '';
     _instance.order = _instance.order || 0;
+    _instance.name = _instance.name || '';
+    _instance.page = _instance.page || 0;
   }
 
   /**
@@ -17404,6 +17406,12 @@ export class ListItemsRequest implements GrpcMessage {
           break;
         case 9:
           _instance.order = _reader.readEnum();
+          break;
+        case 10:
+          _instance.name = _reader.readString();
+          break;
+        case 11:
+          _instance.page = _reader.readUint32();
           break;
         default:
           _reader.skipField();
@@ -17461,6 +17469,12 @@ export class ListItemsRequest implements GrpcMessage {
     if (_instance.order) {
       _writer.writeEnum(9, _instance.order);
     }
+    if (_instance.name) {
+      _writer.writeString(10, _instance.name);
+    }
+    if (_instance.page) {
+      _writer.writeUint32(11, _instance.page);
+    }
   }
 
   private _language: string;
@@ -17472,6 +17486,8 @@ export class ListItemsRequest implements GrpcMessage {
   private _noParent: boolean;
   private _catname: string;
   private _order: ListItemsRequest.Order;
+  private _name: string;
+  private _page: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17492,6 +17508,8 @@ export class ListItemsRequest implements GrpcMessage {
     this.noParent = _value.noParent;
     this.catname = _value.catname;
     this.order = _value.order;
+    this.name = _value.name;
+    this.page = _value.page;
     ListItemsRequest.refineValues(this);
   }
   get language(): string {
@@ -17548,6 +17566,18 @@ export class ListItemsRequest implements GrpcMessage {
   set order(value: ListItemsRequest.Order) {
     this._order = value;
   }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17576,7 +17606,9 @@ export class ListItemsRequest implements GrpcMessage {
       limit: this.limit,
       noParent: this.noParent,
       catname: this.catname,
-      order: this.order
+      order: this.order,
+      name: this.name,
+      page: this.page
     };
   }
 
@@ -17615,7 +17647,9 @@ export class ListItemsRequest implements GrpcMessage {
       order:
         ListItemsRequest.Order[
           this.order === null || this.order === undefined ? 0 : this.order
-        ]
+        ],
+      name: this.name,
+      page: this.page
     };
   }
 }
@@ -17633,6 +17667,8 @@ export module ListItemsRequest {
     noParent: boolean;
     catname: string;
     order: ListItemsRequest.Order;
+    name: string;
+    page: number;
   }
 
   /**
@@ -17648,10 +17684,13 @@ export module ListItemsRequest {
     noParent: boolean;
     catname: string;
     order: string;
+    name: string;
+    page: number;
   }
   export enum Order {
     DEFAULT = 0,
-    NAME_NAT = 1
+    NAME_NAT = 1,
+    NAME = 2
   }
 }
 
@@ -18403,6 +18442,7 @@ export class APIItemList implements GrpcMessage {
    */
   static refineValues(_instance: APIItemList) {
     _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
   }
 
   /**
@@ -18425,6 +18465,13 @@ export class APIItemList implements GrpcMessage {
             APIItem.deserializeBinaryFromReader
           );
           (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -18450,9 +18497,17 @@ export class APIItemList implements GrpcMessage {
         APIItem.serializeBinaryToWriter
       );
     }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
   }
 
   private _items?: APIItem[];
+  private _paginator?: Pages;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18461,6 +18516,7 @@ export class APIItemList implements GrpcMessage {
   constructor(_value?: RecursivePartial<APIItemList.AsObject>) {
     _value = _value || {};
     this.items = (_value.items || []).map(m => new APIItem(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
     APIItemList.refineValues(this);
   }
   get items(): APIItem[] | undefined {
@@ -18468,6 +18524,12 @@ export class APIItemList implements GrpcMessage {
   }
   set items(value: APIItem[] | undefined) {
     this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
   }
 
   /**
@@ -18485,7 +18547,8 @@ export class APIItemList implements GrpcMessage {
    */
   toObject(): APIItemList.AsObject {
     return {
-      items: (this.items || []).map(m => m.toObject())
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
     };
   }
 
@@ -18506,7 +18569,8 @@ export class APIItemList implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): APIItemList.AsProtobufJSON {
     return {
-      items: (this.items || []).map(m => m.toProtobufJSON(options))
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
     };
   }
 }
@@ -18516,6 +18580,7 @@ export module APIItemList {
    */
   export interface AsObject {
     items?: APIItem.AsObject[];
+    paginator?: Pages.AsObject;
   }
 
   /**
@@ -18523,6 +18588,7 @@ export module APIItemList {
    */
   export interface AsProtobufJSON {
     items: APIItem.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
   }
 }
 
