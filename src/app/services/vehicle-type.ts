@@ -17,7 +17,7 @@ export interface APIVehicleType {
 export class VehicleTypeService {
   private readonly types$: Observable<VehicleType[]> = this.grpc.getVehicleTypes(new Empty()).pipe(
     map((data) => data.items),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(private readonly grpc: AutowpClient) {}
@@ -41,7 +41,7 @@ export class VehicleTypeService {
           result.push(type);
         });
         return result;
-      })
+      }),
     );
   }
 
@@ -58,7 +58,7 @@ export class VehicleTypeService {
           }
         });
         return result;
-      })
+      }),
     );
   }
 }

@@ -25,7 +25,7 @@
 </div>
 <a class="download carousel-control" role="button" [href]="item.sourceUrl" *ngIf="item">
   <i class="bi bi-download" aria-hidden="true"></i>
-  <div class="badge rounded-pill text-bg-info text-dark">{{ item.filesize | bytes : 2 }}</div>
+  <div class="badge rounded-pill text-bg-info text-dark">{{ item.filesize | bytes: 2 }}</div>
 </a>
 <a class="comments carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
   <i class="bi bi-chat-fill" aria-hidden="true"></i>

@@ -17,7 +17,7 @@ export class CatalogueConceptsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -37,7 +37,7 @@ export class CatalogueConceptsComponent {
           }),
           language: this.languageService.language,
           limit: 1,
-        })
+        }),
       );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
@@ -58,7 +58,7 @@ export class CatalogueConceptsComponent {
         });
       }
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
@@ -78,7 +78,7 @@ export class CatalogueConceptsComponent {
         order: 'age',
         page,
         route_brand_id: +brand.id,
-      })
+      }),
     ),
     map((response) => {
       const items: CatalogueListItem[] = response.items.map((item) => {
@@ -121,7 +121,7 @@ export class CatalogueConceptsComponent {
         items,
         paginator: response.paginator,
       };
-    })
+    }),
   );
 
   protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} concepts & prototypes`));
@@ -132,6 +132,6 @@ export class CatalogueConceptsComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

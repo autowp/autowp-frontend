@@ -28,7 +28,7 @@ export class ModerItemsItemLogoComponent {
   constructor(
     private readonly acl: ACLService,
     private readonly api: APIService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected onChange(event: Event) {
@@ -90,12 +90,12 @@ export class ModerItemsItemLogoComponent {
                 this.toastService.handleError(response);
 
                 return EMPTY;
-              })
+              }),
             );
           }
 
           return EMPTY;
-        })
+        }),
       )
       .subscribe();
   }

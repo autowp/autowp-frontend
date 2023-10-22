@@ -16,7 +16,7 @@ export class SpecService {
   constructor(private readonly grpc: AutowpClient) {
     this.specs$ = this.grpc.getSpecs(new Empty()).pipe(
       map((response) => response.items),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 

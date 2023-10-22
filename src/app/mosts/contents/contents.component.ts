@@ -42,8 +42,8 @@ export class MostsContentsComponent {
 
   protected readonly ratingCatnameNormalized$ = this.ratingCatname$.pipe(
     switchMap((ratingCatname) =>
-      this.menu$.pipe(map((menu) => (ratingCatname ? ratingCatname : menu.ratings[0].catname)))
-    )
+      this.menu$.pipe(map((menu) => (ratingCatname ? ratingCatname : menu.ratings[0].catname))),
+    ),
   );
 
   @Input() set typeCatname(typeCatname: string) {
@@ -65,7 +65,7 @@ export class MostsContentsComponent {
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((brandID) => this.mostsService.getMenu$(brandID)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly years$ = this.menu$.pipe(map((menu) => menu.years));
@@ -74,7 +74,7 @@ export class MostsContentsComponent {
 
   protected readonly vehicleTypes$ = this.menu$.pipe(
     map((menu) => vehicleTypesToList(menu.vehilce_types)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly defaultTypeCatname$ = this.vehicleTypes$.pipe(map((vehicleTypes) => vehicleTypes[0].catname));
@@ -95,14 +95,17 @@ export class MostsContentsComponent {
             rating_catname: ratingCatname,
             type_catname: typeCatname,
             years_catname: yearsCatname,
-          })
-        )
-      )
+          }),
+        ),
+      ),
     ),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
-  constructor(private readonly mostsService: MostsService, private readonly pageEnv: PageEnvService) {}
+  constructor(
+    private readonly mostsService: MostsService,
+    private readonly pageEnv: PageEnvService,
+  ) {}
 
   private initPageEnv() {
     this.pageEnv.set({pageId: 21});

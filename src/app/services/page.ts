@@ -64,7 +64,7 @@ export class PageService {
         }
 
         return this.isDescendantPrivate(id, parentID);
-      })
+      }),
     );
   }
 }

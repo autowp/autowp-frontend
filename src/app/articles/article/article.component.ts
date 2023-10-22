@@ -36,7 +36,7 @@ export class ArticlesArticleComponent {
         this.toastService.handleError(response);
       }
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -44,6 +44,6 @@ export class ArticlesArticleComponent {
     private readonly route: ActivatedRoute,
     private readonly articlesClient: ArticlesClient,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 }

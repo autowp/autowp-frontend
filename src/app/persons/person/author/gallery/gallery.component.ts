@@ -28,18 +28,18 @@ export class PersonsPersonAuthorGalleryComponent {
 
       return of(identity);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   constructor(
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected pictureSelected(item: APIGalleryItem) {

@@ -30,14 +30,14 @@ export class ModerTrafficComponent implements OnInit {
       response.items.map((item) => ({
         hostname$: this.ipService.getHostByAddr$(item.ip),
         item,
-      }))
-    )
+      })),
+    ),
   );
 
   constructor(
     private readonly trafficGrpc: TrafficClient,
     private readonly ipService: IpService,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class ModerTrafficComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 77,
         }),
-      0
+      0,
     );
   }
 
@@ -62,7 +62,7 @@ export class ModerTrafficComponent implements OnInit {
           ip: ip,
           period: 240,
           reason: '',
-        })
+        }),
       )
       .subscribe(() => this.change$.next(null));
   }

@@ -63,7 +63,7 @@ export class CommentsComponent {
                 new CommentsViewRequest({
                   itemId: '' + itemID,
                   typeId: typeID,
-                })
+                }),
               )
               .subscribe();
           }
@@ -71,9 +71,9 @@ export class CommentsComponent {
         map((response) => ({
           messages: response.items,
           paginator: response.paginator,
-        }))
-      )
-    )
+        })),
+      ),
+    ),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -82,7 +82,7 @@ export class CommentsComponent {
     private readonly router: Router,
     protected readonly auth: AuthService,
     private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient
+    private readonly commentsGrpc: CommentsClient,
   ) {}
 
   protected onSent(id: string) {
@@ -112,11 +112,11 @@ export class CommentsComponent {
                   } else {
                     this.reload$.next(null);
                   }
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-        })
+        }),
       )
       .subscribe();
   }
@@ -140,7 +140,7 @@ export class CommentsComponent {
         order: GetMessagesRequest.Order.DATE_ASC,
         page: page,
         typeId: typeID,
-      })
+      }),
     );
   }
 }

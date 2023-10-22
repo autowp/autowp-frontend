@@ -43,7 +43,7 @@ export class ModerItemsItemNameComponent {
       }
 
       return languages;
-    })
+    }),
   );
 
   protected readonly item$ = new BehaviorSubject<APIItem>(null);
@@ -54,7 +54,7 @@ export class ModerItemsItemNameComponent {
         of(item.id),
         this.itemsClient.getItemLanguages(new APIGetItemLanguagesRequest({itemId: '' + item.id})),
         this.languages$,
-      ])
+      ]),
     ),
     map(([itemId, {items}, languages]) => {
       for (const value of items) {
@@ -72,13 +72,13 @@ export class ModerItemsItemNameComponent {
         itemId: itemId,
         languages: Array.from(languages.values()),
       };
-    })
+    }),
   );
 
   constructor(
     private readonly api: APIService,
     private readonly contentLanguage: ContentLanguageService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
   ) {}
 
   protected saveLanguages(itemId: number, itemLanguages: ItemLanguage[]) {

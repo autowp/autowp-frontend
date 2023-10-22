@@ -26,7 +26,7 @@ export class AccountDeleteComponent implements OnInit {
     private readonly auth: AuthService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly usersGrpc: UsersClient
+    private readonly usersGrpc: UsersClient,
   ) {}
 
   ngOnInit(): void {
@@ -42,9 +42,9 @@ export class AccountDeleteComponent implements OnInit {
             new APIDeleteUserRequest({
               password: this.form.password_old,
               userId: user.id,
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
       .subscribe({
         error: (response: unknown) => {

@@ -36,7 +36,7 @@ export class CatalogueMixedPictureComponent {
           }),
           language: this.languageService.language,
           limit: 1,
-        })
+        }),
       );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
@@ -49,7 +49,7 @@ export class CatalogueMixedPictureComponent {
       }
       return of(brand);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(shareReplay(1));
@@ -66,7 +66,7 @@ export class CatalogueMixedPictureComponent {
         return EMPTY;
       }
       return of(identity);
-    })
+    }),
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([this.brand$, this.data$, this.identity$]).pipe(
@@ -94,7 +94,7 @@ export class CatalogueMixedPictureComponent {
             },
             perspective_exclude_id: data.perspective_exclude_id,
             perspective_id: data.perspective_id,
-          })
+          }),
         ),
         map((response) => (response && response.pictures.length ? response.pictures[0] : null)),
         switchMap((picture) => {
@@ -111,9 +111,9 @@ export class CatalogueMixedPictureComponent {
             pageId: data.picture_page.id,
             title: picture.name_text,
           });
-        })
+        }),
       );
-    })
+    }),
   );
 
   constructor(
@@ -122,7 +122,7 @@ export class CatalogueMixedPictureComponent {
     private readonly pictureService: PictureService,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected reloadPicture() {

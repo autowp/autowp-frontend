@@ -24,7 +24,7 @@ export class ModerItemsItemSelectParentFactoriesComponent {
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly factories$: Observable<{items: APIItem[]; paginator: APIPaginator}> = this.page$.pipe(
@@ -34,18 +34,18 @@ export class ModerItemsItemSelectParentFactoriesComponent {
         limit: 100,
         page,
         type_id: ItemType.ITEM_TYPE_FACTORY,
-      })
+      }),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected onSelect(item: APIItem) {

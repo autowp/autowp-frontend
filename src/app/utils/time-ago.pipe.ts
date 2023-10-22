@@ -13,7 +13,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
   constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly ngZone: NgZone,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   private format(time: Date) {

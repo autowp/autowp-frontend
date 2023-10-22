@@ -24,19 +24,19 @@ export class TopViewComponent implements OnInit {
         page,
         perspective_id: 18,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

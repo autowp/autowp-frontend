@@ -20,7 +20,7 @@ export class AccountEmailComponent implements OnInit {
         this.toastService.handleError(error);
         return EMPTY;
       }),
-      map((response) => response.email)
+      map((response) => response.email),
     );
 
   protected readonly changeEmailUrl =
@@ -29,7 +29,7 @@ export class AccountEmailComponent implements OnInit {
   constructor(
     private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

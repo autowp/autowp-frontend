@@ -11,8 +11,11 @@ export class IndexFactoriesComponent {
   protected readonly factories$ = this.items.getTopFactoriesList(
     new GetTopFactoriesListRequest({
       language: this.languageService.language,
-    })
+    }),
   );
 
-  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
+  constructor(
+    private readonly items: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 }

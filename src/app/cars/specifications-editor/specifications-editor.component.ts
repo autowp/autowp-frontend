@@ -31,9 +31,9 @@ export class CarsSpecificationsEditorComponent {
         switchMap(() =>
           this.itemService.getItem$(itemID, {
             fields: 'name_html,name_text,engine_id,attr_zone_id',
-          })
-        )
-      )
+          }),
+        ),
+      ),
     ),
     tap((item) => {
       if (!item) {
@@ -46,7 +46,7 @@ export class CarsSpecificationsEditorComponent {
         pageId: 102,
         title: $localize`Specs editor of ${item.name_text}`,
       });
-    })
+    }),
   );
 
   constructor(
@@ -57,7 +57,7 @@ export class CarsSpecificationsEditorComponent {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly auth: AuthService
+    private readonly auth: AuthService,
   ) {}
 
   protected onEngineChanged() {

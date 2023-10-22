@@ -26,7 +26,7 @@ export class CategoryPictureComponent {
         return EMPTY;
       }
       return of(identity);
-    })
+    }),
   );
 
   private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent.parent).pipe(
@@ -39,7 +39,7 @@ export class CategoryPictureComponent {
       }
       return of(data);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(
@@ -53,7 +53,7 @@ export class CategoryPictureComponent {
       }
 
       return ['/category', category.catname, ...pathCatnames, 'pictures'];
-    })
+    }),
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([this.categoryData$, this.identity$]).pipe(
@@ -77,9 +77,9 @@ export class CategoryPictureComponent {
             paginator: {
               item_id: current.id,
             },
-          })
+          }),
         ),
-        map((response) => (response.pictures.length ? response.pictures[0] : null))
+        map((response) => (response.pictures.length ? response.pictures[0] : null)),
       );
     }),
     switchMap((picture) => {
@@ -96,7 +96,7 @@ export class CategoryPictureComponent {
         pageId: 187,
         title: picture.name_text,
       });
-    })
+    }),
   );
 
   protected readonly currentRouterLinkGallery$ = combineLatest([this.categoryData$, this.identity$]).pipe(
@@ -110,7 +110,7 @@ export class CategoryPictureComponent {
       }
 
       return ['/category', category.catname, ...pathCatnames, 'gallery', identity];
-    })
+    }),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -120,7 +120,7 @@ export class CategoryPictureComponent {
     private readonly pageEnv: PageEnvService,
     private readonly pictureService: PictureService,
     private readonly router: Router,
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   protected reloadPicture() {

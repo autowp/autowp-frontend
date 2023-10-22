@@ -31,7 +31,7 @@
   </div>
   <div class="col-sm-6">
     <div *ngIf="item.item.ban">
-      <ng-container i18n>until</ng-container> {{ item.item.ban.until.toDate() | date : 'fullDate' }}
+      <ng-container i18n>until</ng-container> {{ item.item.ban.until.toDate() | date: 'fullDate' }}
       <span *ngIf="item.item.ban.byUser">
         by
         <app-user2 [user]="item.item.ban.byUser"></app-user2>

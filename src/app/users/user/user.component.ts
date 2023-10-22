@@ -57,7 +57,7 @@ export class UsersUserComponent {
       this.userService.getByIdentity$(identity, {
         fields:
           'identity,gravatar_hash,photo,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -77,12 +77,12 @@ export class UsersUserComponent {
             pageId: 62,
             title: user.name,
           }),
-        0
+        0,
       );
 
       return of(user);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$: Observable<APIPicture[]> = this.user$.pipe(
@@ -94,8 +94,8 @@ export class UsersUserComponent {
           order: 1,
           owner_id: user.id.toString(),
         })
-        .pipe(map((response) => response.pictures))
-    )
+        .pipe(map((response) => response.pictures)),
+    ),
   );
 
   protected readonly comments$: Observable<APICommentsMessage[]> = this.user$.pipe(
@@ -114,10 +114,10 @@ export class UsersUserComponent {
             limit: 15,
             order: GetMessagesRequest.Order.DATE_DESC,
             userId: user.id + '',
-          })
+          }),
         )
         .pipe(map((response) => response.items));
-    })
+    }),
   );
 
   private readonly ipChange$ = new BehaviorSubject<boolean>(true);
@@ -129,7 +129,7 @@ export class UsersUserComponent {
       }
 
       return this.ipService.getIp$(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
-    })
+    }),
   );
 
   protected readonly currentUser$ = this.auth.getUser$();
@@ -137,7 +137,7 @@ export class UsersUserComponent {
   protected readonly isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
     map(([user, currentUser]) => {
       return !currentUser || currentUser.id !== user.id.toString();
-    })
+    }),
   );
 
   private readonly inContactsChange$ = new BehaviorSubject<boolean>(true);
@@ -159,7 +159,7 @@ export class UsersUserComponent {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly userUserPreferencesChanged$ = new BehaviorSubject<boolean>(true);
@@ -181,7 +181,7 @@ export class UsersUserComponent {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
@@ -200,7 +200,7 @@ export class UsersUserComponent {
     private readonly contactsClient: ContactsClient,
     private readonly usersGrpc: UsersClient,
     private readonly trafficClient: TrafficClient,
-    private readonly commentsClient: CommentsClient
+    private readonly commentsClient: CommentsClient,
   ) {}
 
   protected openMessageForm(user: APIUser) {
@@ -259,7 +259,7 @@ export class UsersUserComponent {
       .deleteUser(
         new APIDeleteUserRequest({
           userId: user.id.toString(),
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
@@ -285,7 +285,7 @@ export class UsersUserComponent {
           ip,
           period: this.banPeriod,
           reason: this.banReason,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

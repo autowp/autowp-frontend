@@ -103,7 +103,10 @@ export class UserService {
 
   private cache2 = new Map<string, Observable<APIUser2>>();
 
-  constructor(private readonly api: APIService, private readonly usersClient: UsersClient) {}
+  constructor(
+    private readonly api: APIService,
+    private readonly usersClient: UsersClient,
+  ) {}
 
   private queryUsers$(ids: string[]): Observable<null> {
     const toRequest: string[] = [];
@@ -131,7 +134,7 @@ export class UserService {
             this.cache.set(item.id.toString(), item);
           }
         }),
-        map(() => null)
+        map(() => null),
       );
 
       waitFor.push(promise$);
@@ -160,7 +163,7 @@ export class UserService {
           result.push(user);
         }
         return result;
-      })
+      }),
     );
   }
 
@@ -176,7 +179,7 @@ export class UserService {
           result.set(id, user);
         }
         return result;
-      })
+      }),
     );
   }
 
@@ -195,7 +198,7 @@ export class UserService {
           return users[0];
         }
         return null as APIUser;
-      })
+      }),
     );
   }
 

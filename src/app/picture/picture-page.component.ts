@@ -62,7 +62,7 @@ export class PicturePageComponent {
                 fields,
                 identity,
                 limit: 1,
-              })
+              }),
             ),
             switchMap((response) => {
               if (response.pictures.length <= 0) {
@@ -72,9 +72,9 @@ export class PicturePageComponent {
                 return EMPTY;
               }
               return of(response.pictures[0]);
-            })
+            }),
           );
-        })
+        }),
       );
     }),
     tap((picture) => {
@@ -82,7 +82,7 @@ export class PicturePageComponent {
         pageId: 187,
         title: picture.name_text,
       });
-    })
+    }),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -91,7 +91,7 @@ export class PicturePageComponent {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected reloadPicture() {

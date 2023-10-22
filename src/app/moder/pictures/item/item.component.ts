@@ -60,7 +60,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly languageService: LanguageService,
-    private readonly ipService: IpService
+    private readonly ipService: IpService,
   ) {
     this.monthOptions = [
       {
@@ -105,7 +105,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       .pipe(
         map((params) => parseInt(params.get('id'), 10)),
         distinctUntilChanged(),
-        debounceTime(30)
+        debounceTime(30),
       )
       .pipe(
         tap((id) =>
@@ -113,7 +113,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
             layout: {isAdminPage: true},
             pageId: 72,
             title: $localize`Picture №${id}`,
-          })
+          }),
         ),
         switchMap((id) =>
           this.change$.pipe(
@@ -143,7 +143,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
                   'point',
                   'taken',
                 ].join(','),
-              })
+              }),
             ),
             switchMap((picture) => {
               if (!picture.ip) {
@@ -151,11 +151,11 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
               }
               return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(
                 catchError(() => of(null as APIIP)),
-                map((ip) => ({ip, picture}))
+                map((ip) => ({ip, picture})),
               );
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
       .subscribe(
         ({ip, picture}) => {
@@ -171,7 +171,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
-        }
+        },
       );
 
     if (localStorage) {
@@ -224,7 +224,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.pictureItemLoading = false;
-      }
+      },
     );
   }
 
@@ -238,7 +238,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.pictureItemLoading = false;
-      }
+      },
     );
   }
 
@@ -259,7 +259,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         },
         () => {
           this.specialNameLoading = false;
-        }
+        },
       );
   }
 
@@ -278,7 +278,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         },
         () => {
           this.copyrightsLoading = false;
-        }
+        },
       );
   }
 
@@ -291,7 +291,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.statusLoading = false;
-      }
+      },
     );
   }
 
@@ -320,7 +320,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.repairLoading = false;
-      }
+      },
     );
   }
 
@@ -333,7 +333,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.repairLoading = false;
-      }
+      },
     );
   }
 
@@ -346,7 +346,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.repairLoading = false;
-      }
+      },
     );
   }
 
@@ -359,7 +359,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.repairLoading = false;
-      }
+      },
     );
   }
 
@@ -372,7 +372,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.similarLoading = false;
-      }
+      },
     );
   }
 
@@ -385,7 +385,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.pictureItemLoading = false;
-      }
+      },
     );
   }
 
@@ -405,7 +405,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
         },
         () => {
           this.replaceLoading = false;
-        }
+        },
       );
   }
 
@@ -418,7 +418,7 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       },
       () => {
         this.replaceLoading = false;
-      }
+      },
     );
   }
 

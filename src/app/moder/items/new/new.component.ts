@@ -37,11 +37,11 @@ export class ModerItemsNewComponent {
         pageId: 163,
         title: getItemTypeTranslation(itemTypeID, 'new-item'),
       });
-    })
+    }),
   );
 
   protected readonly itemType$ = this.itemTypeID$.pipe(
-    map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item'))
+    map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item')),
   );
 
   protected readonly item$: Observable<NewAPIItem> = this.itemTypeID$.pipe(
@@ -68,14 +68,14 @@ export class ModerItemsNewComponent {
           produced_exactly: false,
           spec_id: 'inherited',
           today: undefined,
-        } as NewAPIItem)
+        }) as NewAPIItem,
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly parentID$: Observable<string> = this.route.queryParamMap.pipe(
     map((params) => params.get('parent_id')),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly parent$: Observable<GRPCAPIItem> = this.parentID$.pipe(
@@ -89,14 +89,14 @@ export class ModerItemsNewComponent {
           fields: new ItemFields({nameHtml: true}),
           id: parentID,
           language: this.languageService.language,
-        })
+        }),
       );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly parentIsConcept$: Observable<ParentIsConcept> = this.parent$.pipe(
-    map((parent) => (parent ? {isConcept: parent.isConcept} : null))
+    map((parent) => (parent ? {isConcept: parent.isConcept} : null)),
   );
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.parent$.pipe(
@@ -106,12 +106,12 @@ export class ModerItemsNewComponent {
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
               itemId: item.id.toString(),
-            })
+            }),
           )
           .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)));
       }
       return of([] as string[]);
-    })
+    }),
   );
 
   constructor(
@@ -122,7 +122,7 @@ export class ModerItemsNewComponent {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected submit(itemTypeID: number, event: ItemMetaFormResult) {
@@ -180,8 +180,8 @@ export class ModerItemsNewComponent {
                         },
                       })
                       .pipe(map(() => null))
-                  : of(null)
-              )
+                  : of(null),
+              ),
             ),
           ];
           if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(itemTypeID)) {
@@ -194,9 +194,9 @@ export class ModerItemsNewComponent {
                 localStorage.setItem('last_item', item.id.toString());
               }
               this.router.navigate(['/moder/items/item', item.id]);
-            })
+            }),
           );
-        })
+        }),
       )
       .subscribe();
   }

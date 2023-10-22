@@ -25,7 +25,7 @@
           [class.is-invalid]="invalidParams && invalidParams.password_old"
         />
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'password_old'"
+          *ngFor="let message of invalidParams | invalidParams: 'password_old'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>

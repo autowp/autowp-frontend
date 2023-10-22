@@ -30,7 +30,7 @@ export class UsersUserPicturesBrandComponent {
       }
       return of(user);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -48,9 +48,9 @@ export class UsersUserPicturesBrandComponent {
             language: this.languageService.language,
             limit: 1,
             typeId: ItemType.ITEM_TYPE_BRAND,
-          })
+          }),
         )
-        .pipe(map((response) => (response.items.length ? response.items[0] : null)))
+        .pipe(map((response) => (response.items.length ? response.items[0] : null))),
     ),
     tap((brand) => {
       if (!brand) {
@@ -65,7 +65,7 @@ export class UsersUserPicturesBrandComponent {
         title: $localize`${brand.nameOnly} pictures`,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} pictures`));
@@ -76,7 +76,7 @@ export class UsersUserPicturesBrandComponent {
     this.route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page'), 10)),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     ),
   ]).pipe(
     switchMap(([user, brand, page]) =>
@@ -88,12 +88,12 @@ export class UsersUserPicturesBrandComponent {
         owner_id: user.id.toString(),
         page,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -104,6 +104,6 @@ export class UsersUserPicturesBrandComponent {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

@@ -23,7 +23,7 @@ export class ItemOfDayComponent {
           first: item.item_of_day_pictures.slice(0, 1),
           others: item.item_of_day_pictures.slice(1, 5),
         };
-      })
+      }),
     );
   }
   public get item$() {

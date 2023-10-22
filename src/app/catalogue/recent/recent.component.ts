@@ -24,7 +24,7 @@ export class CatalogueRecentComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -45,7 +45,7 @@ export class CatalogueRecentComponent {
             }),
             language: this.languageService.language,
             limit: 1,
-          })
+          }),
         )
         .pipe(
           map((response) => (response && response.items.length ? response.items[0] : null)),
@@ -56,10 +56,10 @@ export class CatalogueRecentComponent {
                 title: $localize`Last pictures of ${brand.nameText}`,
               });
             }
-          })
+          }),
         );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
@@ -71,7 +71,7 @@ export class CatalogueRecentComponent {
         order: 15,
         page,
         status: 'accepted',
-      })
+      }),
     ),
     map((response) => {
       const pictures: PictureRoute[] = response.pictures.map((picture) => ({
@@ -82,7 +82,7 @@ export class CatalogueRecentComponent {
         paginator: response.paginator,
         pictures: chunkBy(pictures, 4),
       };
-    })
+    }),
   );
 
   constructor(
@@ -91,6 +91,6 @@ export class CatalogueRecentComponent {
     private readonly pictureService: PictureService,
     private readonly catalogue: CatalogueService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

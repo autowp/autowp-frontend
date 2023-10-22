@@ -25,14 +25,14 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     map((params) => parseInt(params.get('item_type_id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly childs$: Observable<APIItem[]> = combineLatest([
@@ -43,14 +43,16 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
           limit: 500,
           order: 'type_auto',
           parent_id: id,
-        })
-      )
+        }),
+      ),
     ),
     this.itemTypeID$,
   ]).pipe(
     map(([data, itemTypeID]) =>
-      data.items.filter((i) => allowedItemTypeCombinations[itemTypeID].includes(i.item.item_type_id)).map((i) => i.item)
-    )
+      data.items
+        .filter((i) => allowedItemTypeCombinations[itemTypeID].includes(i.item.item_type_id))
+        .map((i) => i.item),
+    ),
   );
 
   protected readonly item$ = this.itemID$.pipe(
@@ -75,9 +77,9 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
           'lat',
           'lng',
         ].join(','),
-      })
+      }),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly newItem$: Observable<APIItem> = combineLatest([this.itemTypeID$, this.item$]).pipe(
@@ -85,7 +87,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
       const newItem = Object.assign({}, item);
       newItem.item_type_id = itemTypeID;
       return newItem;
-    })
+    }),
   );
 
   protected readonly vehicleTypeIDs$ = this.item$.pipe(
@@ -95,11 +97,11 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
             .getItemVehicleTypes(
               new APIGetItemVehicleTypesRequest({
                 itemId: item.id.toString(),
-              })
+              }),
             )
             .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)))
-        : of([] as string[])
-    )
+        : of([] as string[]),
+    ),
   );
 
   constructor(
@@ -109,7 +111,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
   ) {}
 
   ngOnInit(): void {
@@ -180,12 +182,12 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
           for (const child of event.items) {
             promises.push(
-              this.api.request<void>('PUT', 'item-parent/' + child + '/' + item.id, {body: {parent_id: newItem.id}})
+              this.api.request<void>('PUT', 'item-parent/' + child + '/' + item.id, {body: {parent_id: newItem.id}}),
             );
           }
 
           return forkJoin(promises);
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => {

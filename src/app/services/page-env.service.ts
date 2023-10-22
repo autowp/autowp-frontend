@@ -27,7 +27,10 @@ export class PageEnvService {
     isGalleryPage: false,
   });
 
-  public constructor(private readonly pageService: PageService, private readonly titleService: Title) {
+  public constructor(
+    private readonly pageService: PageService,
+    private readonly titleService: Title,
+  ) {
     this.pageEnv$.subscribe((data) => {
       if (data) {
         this.layoutParams$.next({
@@ -53,7 +56,7 @@ export class PageEnvService {
           return of(false);
         }
         return this.pageService.isDescendant$(data.pageId, id);
-      })
+      }),
     );
   }
 }

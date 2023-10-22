@@ -19,7 +19,7 @@ export class PersonsPersonComponent {
 
   private readonly itemID$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('id')),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
@@ -32,8 +32,8 @@ export class PersonsPersonComponent {
           }),
           id,
           language: this.languageService.language,
-        })
-      )
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -58,7 +58,7 @@ export class PersonsPersonComponent {
         title: item.nameText,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
@@ -70,6 +70,6 @@ export class PersonsPersonComponent {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

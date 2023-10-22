@@ -24,12 +24,12 @@
   <tbody>
     <tr *ngFor="let item of items">
       <td>
-        <span [textContent]="item.date | timeAgo" [ngbTooltip]="item.date | date : 'medium'"></span>
+        <span [textContent]="item.date | timeAgo" [ngbTooltip]="item.date | date: 'medium'"></span>
       </td>
       <td>
         <app-user [user]="item.user" *ngIf="item.user"></app-user>
       </td>
-      <td>{{ item.sum | number : '2.0-2' }} {{ item.currency }}</td>
+      <td>{{ item.sum | number: '2.0-2' }} {{ item.currency }}</td>
     </tr>
   </tbody>
 </table>

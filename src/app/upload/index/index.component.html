@@ -89,7 +89,7 @@
                 <span class="d-inline percentage" [textContent]="p.percentage + '% '" *ngIf="p.percentage < 100"></span>
                 <span
                   class="d-inline"
-                  *ngFor="let message of p.invalidParams | invalidParams : 'file'"
+                  *ngFor="let message of p.invalidParams | invalidParams: 'file'"
                   [textContent]="message + ' '"
                 ></span>
               </div>

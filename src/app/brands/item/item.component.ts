@@ -22,8 +22,8 @@ export class BrandsItemComponent {
       this.api.request('GET', 'brands/' + brand.id + '/new-items', {
         observe: 'body',
         responseType: 'text',
-      })
-    )
+      }),
+    ),
   );
 
   constructor(private readonly api: APIService) {}

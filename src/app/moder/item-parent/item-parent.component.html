@@ -56,7 +56,7 @@
         [(ngModel)]="language.name"
       />
       <p
-        *ngFor="let message of language.invalidParams | invalidParams : 'name'"
+        *ngFor="let message of language.invalidParams | invalidParams: 'name'"
         [textContent]="message"
         class="invalid-feedback"
       ></p>

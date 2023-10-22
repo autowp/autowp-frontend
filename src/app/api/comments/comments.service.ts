@@ -22,12 +22,15 @@ export class APICommentsService {
             new GetMessagesRequest({
               limit: 0,
               moderatorAttention: ModeratorAttention.REQUIRED,
-            })
+            }),
           )
           .pipe(map((response) => response.paginator.totalItemCount));
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
 
-  constructor(private readonly acl: ACLService, private readonly commentsClient: CommentsClient) {}
+  constructor(
+    private readonly acl: ACLService,
+    private readonly commentsClient: CommentsClient,
+  ) {}
 }

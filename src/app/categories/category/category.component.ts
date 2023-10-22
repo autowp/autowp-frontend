@@ -35,22 +35,22 @@ export class CategoriesCategoryComponent {
         });
       }, 0);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
     map(({current}) => current),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly category$: Observable<APIItem> = this.categoryData$.pipe(
     map(({category}) => category),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly path$: Observable<PathItem[]> = this.categoryData$.pipe(
     map(({pathItems}) => pathItems),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
@@ -60,7 +60,7 @@ export class CategoriesCategoryComponent {
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly acl: ACLService,
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   protected dropdownOpenChange(item: PathItem) {

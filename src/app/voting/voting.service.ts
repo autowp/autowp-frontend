@@ -48,7 +48,7 @@ export class VotingService {
   public getVariantVotes$(
     votingId: number,
     variantId: number,
-    options: APIVotingVariantVotesGetOptions
+    options: APIVotingVariantVotesGetOptions,
   ): Observable<APIVotingVariantVotesGetResponse> {
     const params: {[param: string]: string} = {};
 
@@ -61,7 +61,7 @@ export class VotingService {
       'voting/' + votingId + '/variant/' + variantId + '/vote',
       {
         params,
-      }
+      },
     );
   }
 }

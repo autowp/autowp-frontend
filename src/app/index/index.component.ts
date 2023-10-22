@@ -44,10 +44,10 @@ export class IndexComponent implements OnInit {
         combineLatest([
           itemOfDay.user_id ? this.usersClient.getUser(new APIGetUserRequest({userId: itemOfDay.user_id})) : of(null),
           of(itemOfDay.item),
-        ])
+        ]),
       ),
       map(([user, item]) => ({item, user})),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   protected readonly itemOfDayItem$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.item));
@@ -57,13 +57,13 @@ export class IndexComponent implements OnInit {
     new GetTopPersonsListRequest({
       language: this.languageService.language,
       pictureItemType: PictureItemType.PICTURE_CONTENT,
-    })
+    }),
   );
   protected readonly authorPersons$ = this.items.getTopPersonsList(
     new GetTopPersonsListRequest({
       language: this.languageService.language,
       pictureItemType: PictureItemType.PICTURE_AUTHOR,
-    })
+    }),
   );
 
   constructor(
@@ -71,7 +71,7 @@ export class IndexComponent implements OnInit {
     private readonly api: APIService,
     private readonly items: ItemsClient,
     protected readonly languageService: LanguageService,
-    private readonly usersClient: UsersClient
+    private readonly usersClient: UsersClient,
   ) {}
 
   ngOnInit(): void {

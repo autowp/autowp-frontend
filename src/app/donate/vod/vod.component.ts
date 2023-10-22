@@ -22,23 +22,23 @@ export class DonateVodComponent implements OnInit {
   protected readonly anonymous$ = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => params.get('anonymous')),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     ),
     this.user$,
   ]).pipe(
     map(([anonymous, user]) => (user ? !!anonymous : true)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly date$ = this.route.queryParamMap.pipe(
     map((params) => params.get('date')),
     map((date) => (date ? date : null)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   private readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly itemSelected$ = this.itemID$.pipe(map((itemID) => !!itemID));
@@ -53,11 +53,11 @@ export class DonateVodComponent implements OnInit {
         fields: 'name_html,item_of_day_pictures',
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly itemOfDayUser$: Observable<APIUser | null> = this.anonymous$.pipe(
-    switchMap((anonymous) => (anonymous ? of(null) : this.user$))
+    switchMap((anonymous) => (anonymous ? of(null) : this.user$)),
   );
 
   protected readonly userID$ = this.user$.pipe(map((user) => (user ? user.id : null)));
@@ -75,8 +75,8 @@ export class DonateVodComponent implements OnInit {
           name: formatDate(date, 'longDate', this.locale, VOD_TIMEZONE),
           value,
         };
-      })
-    )
+      }),
+    ),
   );
 
   protected readonly formParams$ = combineLatest([
@@ -107,7 +107,7 @@ export class DonateVodComponent implements OnInit {
         {name: 'targets', value: $localize`Order ${label}`},
         {name: 'successURL', value: 'https://' + window.location.host + '/donate/vod/success'},
       ];
-    })
+    }),
   );
 
   constructor(
@@ -116,7 +116,7 @@ export class DonateVodComponent implements OnInit {
     protected readonly auth: AuthService,
     private readonly donateService: DonateService,
     private readonly pageEnv: PageEnvService,
-    @Inject(LOCALE_ID) protected readonly locale: string
+    @Inject(LOCALE_ID) protected readonly locale: string,
   ) {}
 
   ngOnInit(): void {

@@ -18,7 +18,7 @@ export class ModalMessageComponent {
   constructor(
     protected readonly activeModal: NgbActiveModal,
     private readonly messageService: MessageService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected send() {

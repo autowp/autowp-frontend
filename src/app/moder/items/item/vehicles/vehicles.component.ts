@@ -19,9 +19,9 @@ export class ModerItemsItemVehiclesComponent {
         engine_id: item.id,
         fields: 'name_html',
         limit: 100,
-      })
+      }),
     ),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   constructor(private readonly itemService: ItemService) {}

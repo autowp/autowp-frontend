@@ -27,7 +27,7 @@ export class CatalogueService {
   constructor(
     private readonly itemParentService: ItemParentService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
@@ -47,14 +47,14 @@ export class CatalogueService {
     return route.paramMap.pipe(
       map((params) => params.get('path')),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     );
   }
 
   public resolveCatalogue$(
     route: ActivatedRoute,
     isModer: boolean,
-    fields: string
+    fields: string,
   ): Observable<{brand: APIItem; path: APIItemParent[]; type: string}> {
     const pathPipeRecursive: ParentObservableFunc = () =>
       switchMap((parent: Parent) => {
@@ -95,7 +95,7 @@ export class CatalogueService {
 
               return obj;
             }),
-            pathPipeRecursive()
+            pathPipeRecursive(),
           );
       });
 
@@ -112,7 +112,7 @@ export class CatalogueService {
                 id: +brand.id,
                 items: [],
                 path: data ? data.split('/') : [],
-              } as Parent)
+              }) as Parent,
           ),
           pathPipeRecursive(),
           switchMap((parent) => {
@@ -129,13 +129,13 @@ export class CatalogueService {
                     brand: params.brand,
                     path: params.path,
                     type,
-                  }))
+                  })),
                 );
-              })
+              }),
             );
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -143,7 +143,7 @@ export class CatalogueService {
     return route.paramMap.pipe(
       map((paramMap) => paramMap.get('type')),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     );
   }
 
@@ -166,10 +166,10 @@ export class CatalogueService {
               }),
               language: this.languageService.language,
               limit: 1,
-            })
+            }),
           )
           .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
-      })
+      }),
     );
   }
 

@@ -39,11 +39,11 @@ export class CatalogueCarsComponent {
             }),
             language: this.languageService.language,
             limit: 1,
-          })
+          }),
         )
         .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly vehicleTypes$: Observable<BrandVehicleType[]> = this.brand$.pipe(
@@ -51,11 +51,11 @@ export class CatalogueCarsComponent {
       this.grpc.getBrandVehicleTypes(
         new GetBrandVehicleTypesRequest({
           brandId: +brand.id,
-        })
-      )
+        }),
+      ),
     ),
     map((vehicleTypes) => vehicleTypes.items),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly currentVehicleType$ = combineLatest([
@@ -64,7 +64,7 @@ export class CatalogueCarsComponent {
     this.route.paramMap.pipe(
       map((params) => params.get('vehicle_type')),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     ),
   ]).pipe(
     map(([brand, vehicleTypes, vehicleTypeCatname]) => {
@@ -85,7 +85,7 @@ export class CatalogueCarsComponent {
 
       return currentVehicleType;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(
@@ -93,7 +93,7 @@ export class CatalogueCarsComponent {
       const itemName =
         brand.nameOnly + (currentVehicleType ? ' ' + getVehicleTypeTranslation(currentVehicleType.name) : '');
       return $localize`${itemName} in chronological order`;
-    })
+    }),
   );
 
   protected readonly vehicleTypeOptions$: Observable<
@@ -112,8 +112,8 @@ export class CatalogueCarsComponent {
         itemsCount: t.itemsCount,
         name: getVehicleTypeTranslation(t.name),
         route: ['/', brand.catname, 'cars', t.catname],
-      }))
-    )
+      })),
+    ),
   );
 
   protected readonly result$ = combineLatest([
@@ -122,7 +122,7 @@ export class CatalogueCarsComponent {
     this.route.queryParamMap.pipe(
       map((params) => +params.get('page')),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     ),
   ]).pipe(
     switchMap(([brand, currentVehicleType, page]) =>
@@ -188,9 +188,9 @@ export class CatalogueCarsComponent {
               items,
               paginator: response.paginator,
             };
-          })
-        )
-    )
+          }),
+        ),
+    ),
   );
 
   constructor(
@@ -199,6 +199,6 @@ export class CatalogueCarsComponent {
     private readonly route: ActivatedRoute,
     private readonly grpc: AutowpClient,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

@@ -35,7 +35,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
             ).pipe(
               finalize(() => {
                 this.loading--;
-              })
+              }),
             ),
             (brandID
               ? this.itemsClient
@@ -92,23 +92,23 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                           limit: 500,
                           page: 1,
                         }),
-                      ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles})))
-                    )
+                      ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles}))),
+                    ),
                   )
               : of(
                   null as {
                     brand: GRPCAPIItem;
                     concepts: APIItemParentGetResponse;
                     vehicles: APIItemParentGetResponse;
-                  }
+                  },
                 )
             ).pipe(
               finalize(() => {
                 this.loading--;
-              })
+              }),
             ),
           ]);
-        })
+        }),
       )
       .subscribe(([items, brand]) => {
         if (brand) {

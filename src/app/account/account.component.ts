@@ -35,7 +35,7 @@ export class AccountComponent {
         }
         return this.forumsClient.getUserSummary(new Empty());
       }),
-      shareReplay(1)
+      shareReplay(1),
     ),
     this.messageService.getSummary$(),
     this.pictureService.getSummary$(),
@@ -146,7 +146,7 @@ export class AccountComponent {
         }
       }
       return items;
-    })
+    }),
   );
 
   constructor(
@@ -155,6 +155,6 @@ export class AccountComponent {
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly forumsClient: ForumsClient
+    private readonly forumsClient: ForumsClient,
   ) {}
 }

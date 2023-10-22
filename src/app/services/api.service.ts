@@ -69,7 +69,7 @@ export class AuthInterceptor implements HttpInterceptor {
         });
 
         return next.handle(authReq);
-      })
+      }),
     );
   }
 }
@@ -82,7 +82,7 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
-    next: GrpcHandler
+    next: GrpcHandler,
   ): Observable<GrpcEvent<S>> {
     const start = Date.now();
 
@@ -104,7 +104,7 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
         console.log('%c**', style, request.requestMetadata.toObject());
         console.log('%c<<', style, event instanceof GrpcDataEvent ? event.data.toObject() : event);
         console.groupEnd();
-      })
+      }),
     );
   }
 }
@@ -115,7 +115,7 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
-    next: GrpcHandler
+    next: GrpcHandler,
   ): Observable<GrpcEvent<S>> {
     const promise = this.keycloak.getToken();
 
@@ -134,7 +134,7 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
         request.requestMetadata.set('Authorization', 'Bearer ' + accessToken);
 
         return next.handle(request);
-      })
+      }),
     );
   }
 }
@@ -144,7 +144,7 @@ export class APIService {
   constructor(
     private readonly http: HttpClient,
     private readonly toasts: ToastsService,
-    private readonly language: LanguageService
+    private readonly language: LanguageService,
   ) {}
 
   /**
@@ -177,7 +177,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<string>;
 
   /**
@@ -210,7 +210,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<HttpEvent<string>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns the full event stream.
@@ -242,7 +242,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<HttpEvent<unknown>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns the full event stream.
@@ -274,7 +274,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<HttpEvent<R>>;
 
   /**
@@ -306,7 +306,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<HttpResponse<string>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns the full `HTTPResponse`.
@@ -338,7 +338,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<HttpResponse<object>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns
@@ -370,7 +370,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<HttpResponse<R>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns the full
@@ -402,7 +402,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<object>;
   /**
    * Constructs a request which interprets the body as a JSON object
@@ -434,7 +434,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<R>;
   /**
    * Constructs a request where response type and requested observable are not known statically.
@@ -465,7 +465,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json' | 'text';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<unknown>;
 
   // eslint-disable-next-line rxjs/finnish
@@ -488,7 +488,7 @@ export class APIService {
       reportProgress?: boolean;
       responseType?: 'json' | 'text';
       withCredentials?: boolean;
-    }
+    },
   ): Observable<unknown> {
     if (!options) {
       options = {};
@@ -510,7 +510,7 @@ export class APIService {
           this.toasts.handleError(response);
         }
         return throwError(() => response);
-      })
+      }),
     );
   }
 

@@ -13,7 +13,10 @@ export interface APIContactsGetOptions {
 
 @Injectable()
 export class ContactsService {
-  constructor(private readonly auth: AuthService, private readonly contactsClient: ContactsClient) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly contactsClient: ContactsClient,
+  ) {}
 
   public isInContacts$(userId: string): Observable<boolean> {
     return this.contactsClient.getContact(new GetContactRequest({userId})).pipe(
@@ -24,7 +27,7 @@ export class ContactsService {
         }
 
         return throwError(() => err);
-      })
+      }),
     );
   }
 

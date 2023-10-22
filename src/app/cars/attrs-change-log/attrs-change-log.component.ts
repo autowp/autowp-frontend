@@ -25,19 +25,19 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     map((params) => parseInt(params.get('user_id'), 10)),
     map((userID) => (userID ? userID : 0)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly items$ = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
@@ -47,14 +47,14 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
         item_id: itemID,
         page: page,
         user_id: userID ? userID : null,
-      })
+      }),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected userQuery = '';
   protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
-    text$: Observable<string>
+    text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
@@ -79,9 +79,9 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items)
+          map((response) => response.items),
         );
-      })
+      }),
     );
 
   constructor(
@@ -91,7 +91,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly acl: ACLService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

@@ -21,7 +21,7 @@ export class AccountAccountsComponent implements OnInit {
       this.toastService.handleError(error);
       return EMPTY;
     }),
-    map(([response]) => response.items)
+    map(([response]) => response.items),
   );
 
   protected disconnectFailed = false;
@@ -29,7 +29,7 @@ export class AccountAccountsComponent implements OnInit {
   constructor(
     private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

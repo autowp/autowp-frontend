@@ -26,7 +26,7 @@ export class MessageService {
   constructor(
     private readonly auth: AuthService,
     private readonly toasts: ToastsService,
-    private readonly messagingClient: MessagingClient
+    private readonly messagingClient: MessagingClient,
   ) {
     this.summary$ = combineLatest([this.deleted$, this.sent$, this.seen$, this.auth.getUser$()]).pipe(
       map(([, , , user]) => user),
@@ -38,7 +38,7 @@ export class MessageService {
 
         return this.messagingClient.getMessagesSummary(new Empty());
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
 
     this.new$ = combineLatest([this.auth.getUser$(), this.deleted$, this.seen$]).pipe(
@@ -55,7 +55,7 @@ export class MessageService {
         this.toasts.handleError(response);
         return of(null as APIMessageNewCount);
       }),
-      map((response) => (response ? response.count : null))
+      map((response) => (response ? response.count : null)),
     );
   }
 
@@ -83,7 +83,7 @@ export class MessageService {
       .deleteMessage(
         new MessagingDeleteMessage({
           messageId: id,
-        })
+        }),
       )
       .pipe(tap(() => this.deleted$.next(null)));
   }
@@ -102,7 +102,7 @@ export class MessageService {
         new MessagingCreateMessage({
           text: text,
           userId: userId,
-        })
+        }),
       )
       .pipe(tap(() => this.sent$.next(null)));
   }

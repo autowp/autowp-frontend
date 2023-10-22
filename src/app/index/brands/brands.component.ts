@@ -10,7 +10,10 @@ import {map} from 'rxjs/operators';
   templateUrl: './brands.component.html',
 })
 export class IndexBrandsComponent {
-  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
+  constructor(
+    private readonly items: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 
   protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5));
 
@@ -20,6 +23,6 @@ export class IndexBrandsComponent {
       map((response) => ({
         brands: response.brands,
         more: response.brands ? response.total - response.brands.length : 0,
-      }))
+      })),
     );
 }

@@ -20,7 +20,7 @@ export class FactoryItemsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly factory$ = this.route.paramMap.pipe(
@@ -30,7 +30,7 @@ export class FactoryItemsComponent {
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'lat', 'lng', 'description'].join(','),
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -51,7 +51,7 @@ export class FactoryItemsComponent {
 
       return of(factory);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(
@@ -67,7 +67,7 @@ export class FactoryItemsComponent {
         limit: 10,
         page,
         related_groups_of: factory.id,
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -110,7 +110,7 @@ export class FactoryItemsComponent {
         };
       }),
       paginator: data.paginator,
-    }))
+    })),
   );
 
   constructor(
@@ -119,6 +119,6 @@ export class FactoryItemsComponent {
     private readonly router: Router,
     private readonly acl: ACLService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 }

@@ -32,7 +32,10 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
     moderator_attention: false,
   };
 
-  constructor(private readonly comments: CommentsClient, private readonly toastService: ToastsService) {}
+  constructor(
+    private readonly comments: CommentsClient,
+    private readonly toastService: ToastsService,
+  ) {}
 
   protected sendMessage() {
     this.invalidParams = {};
@@ -49,9 +52,9 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
               parentId: this.parentID ? '' + this.parentID : '',
               resolve,
               typeId: this.typeID,
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
       .subscribe({
         error: (response: unknown) => {
@@ -82,7 +85,7 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
           if (resolve && this.form.message.length <= 0) {
             this.form.message = 'Fixed';
           }
-        })
+        }),
       )
       .subscribe();
   }

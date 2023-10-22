@@ -46,14 +46,14 @@ export class NewComponent implements OnInit {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly date$ = this.route.paramMap.pipe(
     map((params) => params.get('date')),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$: Observable<{
@@ -92,7 +92,7 @@ export class NewComponent implements OnInit {
             this.toastService.handleError(response);
             return EMPTY;
           }),
-          map((response) => ({date, response}))
+          map((response) => ({date, response})),
         );
     }),
     switchMap(({date, response}) => {
@@ -124,7 +124,7 @@ export class NewComponent implements OnInit {
       next: response.next,
       paginator: response.paginator,
       prev: response.prev,
-    }))
+    })),
   );
 
   constructor(
@@ -132,7 +132,7 @@ export class NewComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

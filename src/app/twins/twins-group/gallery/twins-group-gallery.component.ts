@@ -29,7 +29,7 @@ export class TwinsGroupGalleryComponent {
           }),
           id: groupID,
           language: this.languageService.language,
-        })
+        }),
       );
     }),
     switchMap((group) => {
@@ -49,14 +49,14 @@ export class TwinsGroupGalleryComponent {
             pageId: 28,
             title: group.nameText,
           }),
-        0
+        0,
       );
-    })
+    }),
   );
 
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   constructor(
@@ -64,7 +64,7 @@ export class TwinsGroupGalleryComponent {
     private readonly pageEnv: PageEnvService,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected pictureSelected(item: APIGalleryItem) {

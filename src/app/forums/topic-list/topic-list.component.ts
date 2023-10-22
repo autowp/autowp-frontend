@@ -56,7 +56,7 @@ export class ForumsTopicListComponent {
             }
             return throwError(() => error);
           }),
-          shareReplay(1)
+          shareReplay(1),
         );
         const lastMessageAuthor$ = lastMessage$.pipe(
           switchMap((msg) => {
@@ -64,7 +64,7 @@ export class ForumsTopicListComponent {
               return of(null);
             }
             return this.userService.getUser2$(msg.userId);
-          })
+          }),
         );
         return {
           author$: this.userService.getUser2$(topic.userId),
@@ -78,8 +78,8 @@ export class ForumsTopicListComponent {
           status: topic.status,
           userId: topic.userId,
         };
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -87,7 +87,7 @@ export class ForumsTopicListComponent {
     private readonly toastService: ToastsService,
     private readonly userService: UserService,
     private readonly grpc: ForumsClient,
-    private readonly acl: ACLService
+    private readonly acl: ACLService,
   ) {}
 
   protected unsubscribe(topic: Topic) {
@@ -96,7 +96,7 @@ export class ForumsTopicListComponent {
         new CommentsUnSubscribeRequest({
           itemId: topic.id,
           typeId: CommentsType.FORUMS_TYPE_ID,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

@@ -30,13 +30,13 @@ export class CategoriesCategoryItemComponent {
         title: current.name_text,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly itemParents$ = combineLatest([this.categoryData$, this.page$]).pipe(
@@ -67,10 +67,10 @@ export class CategoriesCategoryItemComponent {
               ],
             })),
             paginator: response.paginator,
-          }))
-        )
+          })),
+        ),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$: Observable<PictureRoute[]> = combineLatest([
@@ -99,10 +99,10 @@ export class CategoriesCategoryItemComponent {
                 'pictures',
                 picture.identity,
               ],
-            }))
-          )
+            })),
+          ),
         );
-    })
+    }),
   );
 
   protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(
@@ -116,7 +116,7 @@ export class CategoriesCategoryItemComponent {
       }
 
       return ['/category', category.catname, ...pathCatnames];
-    })
+    }),
   );
 
   protected readonly item$: Observable<APIItem> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
@@ -134,12 +134,12 @@ export class CategoriesCategoryItemComponent {
           'childs_count,total_pictures,preview_pictures.picture.name_text',
         ].join(','),
       });
-    })
+    }),
   );
 
   protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
     map(({current}) => current),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
@@ -149,6 +149,6 @@ export class CategoriesCategoryItemComponent {
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly acl: ACLService,
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
   ) {}
 }

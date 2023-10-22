@@ -21,19 +21,19 @@ export class CutawayComponent implements OnInit {
         page: parseInt(params.get('page'), 10),
         perspective_id: 9,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

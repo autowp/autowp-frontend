@@ -8,7 +8,10 @@ import * as showdown from 'showdown';
   templateUrl: './markdown2.component.html',
 })
 export class Markdown2Component implements AfterViewInit {
-  constructor(private readonly element: ElementRef, @Inject(PLATFORM_ID) private readonly platform: object) {}
+  constructor(
+    private readonly element: ElementRef,
+    @Inject(PLATFORM_ID) private readonly platform: object,
+  ) {}
 
   private decodeHtml(html: string): string {
     if (isPlatformBrowser(this.platform)) {

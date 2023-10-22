@@ -34,7 +34,7 @@ export class VotingComponent {
         pageId: 157,
         title: voting.name,
       });
-    })
+    }),
   );
   protected filter = false;
   protected selected: number;
@@ -50,7 +50,7 @@ export class VotingComponent {
     protected readonly auth: AuthService,
     private readonly pageEnv: PageEnvService,
     private readonly modalService: NgbModal,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected vote(voting: APIVoting) {

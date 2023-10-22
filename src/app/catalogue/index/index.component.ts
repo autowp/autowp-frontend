@@ -45,7 +45,7 @@ export class CatalogueIndexComponent {
     this.route.paramMap.pipe(
       map((params) => params.get('brand')),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     ),
   ]).pipe(
     switchMap(([isModer, catname]) => {
@@ -76,7 +76,7 @@ export class CatalogueIndexComponent {
               return EMPTY;
             }
             return of(response.items[0]);
-          })
+          }),
         );
     }),
     tap((brand) => {
@@ -85,7 +85,7 @@ export class CatalogueIndexComponent {
         title: brand.name_text,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$ = this.brand$.pipe(
@@ -96,7 +96,7 @@ export class CatalogueIndexComponent {
         limit: 12,
         order: 12,
         status: 'accepted',
-      })
+      }),
     ),
     map((response) => {
       const pictures: PictureRoute[] = response.pictures.map((pic) => ({
@@ -105,7 +105,7 @@ export class CatalogueIndexComponent {
       }));
 
       return chunkBy(pictures, 4);
-    })
+    }),
   );
 
   protected readonly links$ = this.brand$.pipe(
@@ -128,7 +128,7 @@ export class CatalogueIndexComponent {
         }
       });
       return {club, official, other};
-    })
+    }),
   );
 
   protected readonly factories$ = this.brand$.pipe(
@@ -138,9 +138,9 @@ export class CatalogueIndexComponent {
         fields: 'name_html,exact_picture.thumb_medium',
         limit: 4,
         type_id: ItemType.ITEM_TYPE_FACTORY,
-      })
+      }),
     ),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   protected readonly sections$: Observable<
@@ -152,8 +152,8 @@ export class CatalogueIndexComponent {
         halfChunks: chunk(section.groups, 2).map((halfChunk) => chunk(halfChunk, 2)),
         name: getCatalogueSectionsTranslation(section.name),
         routerLink: section.routerLink,
-      }))
-    )
+      })),
+    ),
   );
 
   constructor(
@@ -165,6 +165,6 @@ export class CatalogueIndexComponent {
     private readonly api: APIService,
     private readonly router: Router,
     private readonly catalogue: CatalogueService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
   ) {}
 }

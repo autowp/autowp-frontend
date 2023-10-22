@@ -159,7 +159,7 @@ export class ItemMetaFormComponent {
             pictureItem: p,
             selected: false,
           }))
-        : null
+        : null,
     );
   }
   protected readonly pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
@@ -169,9 +169,9 @@ export class ItemMetaFormComponent {
       types.map((type) => {
         type.name = getVehicleTypeTranslation(type.name);
         return type;
-      })
+      }),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly todayOptions = [
@@ -253,7 +253,7 @@ export class ItemMetaFormComponent {
           : $localize`inherited`,
         value: 'inherited',
       },
-    ])
+    ]),
   );
 
   protected readonly specs$ = this.specService.getSpecs$().pipe(
@@ -271,8 +271,8 @@ export class ItemMetaFormComponent {
             short_name: 'inherited',
           },
         ] as ItemMetaFormAPISpec[]
-      ).concat(specsToPlain(specs, 0))
-    )
+      ).concat(specsToPlain(specs, 0)),
+    ),
   );
 
   protected readonly form$: Observable<FormGroup<Form>> = combineLatest([
@@ -334,14 +334,14 @@ export class ItemMetaFormComponent {
         elements.pictures = new FormArray<FormControl<number>>([], {validators: Validators.required});
       }
       return new FormGroup<Form>(elements);
-    })
+    }),
   );
 
   constructor(
     private readonly specService: SpecService,
     private readonly vehicleTypeService: VehicleTypeService,
     private readonly languageService: LanguageService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
   ) {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
@@ -379,7 +379,7 @@ export class ItemMetaFormComponent {
       map((types) => {
         const type = types.find((t) => t.id.toString() === typeID);
         return type ? type.name : '#' + typeID;
-      })
+      }),
     );
   }
 

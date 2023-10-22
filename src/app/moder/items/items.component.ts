@@ -117,9 +117,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items)
+          map((response) => response.items),
         );
-      })
+      }),
     );
 
   protected listMode: boolean;
@@ -131,7 +131,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -141,7 +141,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           layout: {isAdminPage: true},
           pageId: 131,
         }),
-      0
+      0,
     );
 
     this.vehicleTypeSub = this.vehicleTypeService.getTypes$().subscribe((types) => {
@@ -223,7 +223,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             vehicle_type_id: params.vehicleTypeID,
           });
         }),
-        tap(() => (this.loading = 0))
+        tap(() => (this.loading = 0)),
       )
       .subscribe((response) => {
         this.items = response.items.map((item) => {

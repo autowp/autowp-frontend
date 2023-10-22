@@ -20,14 +20,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
   protected readonly tab$ = this.route.queryParamMap.pipe(
     map((params) => params.get('tab') || 'catalogue'),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly itemID$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     map((itemID) => (itemID ? itemID : '')),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly item$: Observable<GRPCAPIItem> = this.itemID$.pipe(
@@ -40,8 +40,8 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
           }),
           id: '' + itemID,
           language: this.languageService.language,
-        })
-      )
+        }),
+      ),
     ),
     catchError((error: unknown) => {
       if (error instanceof HttpErrorResponse && error.status === 404) {
@@ -53,22 +53,22 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
       this.toastService.handleError(error);
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly showCatalogueTab$ = this.item$.pipe(
     map((item) =>
-      [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)
-    )
+      [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId),
+    ),
   );
   protected readonly showBrandsTab$ = this.item$.pipe(
     map((item) =>
-      [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)
-    )
+      [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId),
+    ),
   );
   protected readonly showTwinsTab$ = this.item$.pipe(map((item) => item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE));
   protected readonly showFactoriesTab$ = this.item$.pipe(
-    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId))
+    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)),
   );
 
   constructor(
@@ -78,7 +78,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {

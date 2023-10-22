@@ -24,7 +24,7 @@ export class MessageDialogService {
         if (cancelCallback) {
           cancelCallback();
         }
-      }
+      },
     );
     modalRef.componentInstance.userId = userId;
   }

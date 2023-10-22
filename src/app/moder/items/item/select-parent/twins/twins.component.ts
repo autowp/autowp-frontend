@@ -25,14 +25,14 @@ export class ModerItemsItemSelectParentTwinsComponent {
     map((params) => parseInt(params.get('brand_id'), 10)),
     map((brandID) => (brandID ? brandID : 0)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly twinsBrands$: Observable<{brands: APIItem[][]; paginator: APIPaginator}> = this.brandID$.pipe(
@@ -47,7 +47,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
                 limit: 500,
                 page,
                 type_id: ItemType.ITEM_TYPE_BRAND,
-              })
+              }),
             ),
             catchError((error: unknown) => {
               this.toastService.handleError(error);
@@ -56,9 +56,9 @@ export class ModerItemsItemSelectParentTwinsComponent {
             map((response) => ({
               brands: chunk<APIItem>(response.items, 6),
               paginator: response.paginator,
-            }))
-          )
-    )
+            })),
+          ),
+    ),
   );
 
   protected readonly twins$: Observable<{items: APIItem[]; paginator: APIPaginator}> = this.brandID$.pipe(
@@ -72,21 +72,21 @@ export class ModerItemsItemSelectParentTwinsComponent {
                 limit: 100,
                 page,
                 type_id: ItemType.ITEM_TYPE_TWINS,
-              })
+              }),
             ),
             catchError((error: unknown) => {
               this.toastService.handleError(error);
               return EMPTY;
-            })
+            }),
           )
-        : of(null)
-    )
+        : of(null),
+    ),
   );
 
   constructor(
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected onSelect(item: APIItem) {

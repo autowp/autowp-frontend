@@ -100,9 +100,9 @@ export class AboutComponent implements OnInit {
             about,
             aboutText,
             users,
-          }))
+          })),
         );
-      })
+      }),
     )
     .pipe(
       map((data) => {
@@ -128,7 +128,7 @@ export class AboutComponent implements OnInit {
           '%users%': contributorsHtml.join(' '),
           '%zh-translator%': this.userHtml(data.users.get(data.about.zhTranslator)),
         });
-      })
+      }),
     );
 
   constructor(
@@ -137,7 +137,7 @@ export class AboutComponent implements OnInit {
     private readonly decimalPipe: DecimalPipe,
     private readonly bytesPipe: BytesPipe,
     private readonly pageEnv: PageEnvService,
-    private readonly statGrpc: StatisticsClient
+    private readonly statGrpc: StatisticsClient,
   ) {}
 
   ngOnInit(): void {
@@ -160,7 +160,7 @@ export class AboutComponent implements OnInit {
     const a = document.createElement('a');
     a.setAttribute(
       'href',
-      this.router.createUrlTree(['/users', user.identity ? user.identity : 'user' + user.id]).toString()
+      this.router.createUrlTree(['/users', user.identity ? user.identity : 'user' + user.id]).toString(),
     );
     a.innerText = user.name;
 

@@ -70,15 +70,15 @@ export class AccountMessagesComponent {
                 folder: this.folder,
                 page: params.page || 1,
                 userId: userID ? userID : null,
-              })
+              }),
             )
             .pipe(
               catchError((err: unknown) => {
                 this.toastService.handleError(err);
                 return EMPTY;
-              })
-            )
-        )
+              }),
+            ),
+        ),
       );
     }),
     tap((response) => {
@@ -95,7 +95,7 @@ export class AccountMessagesComponent {
         })),
         paginator: response.paginator,
       };
-    })
+    }),
   );
 
   constructor(
@@ -105,7 +105,7 @@ export class AccountMessagesComponent {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly messagingClient: MessagingClient,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   protected deleteMessage(id: string) {

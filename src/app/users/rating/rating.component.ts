@@ -45,7 +45,7 @@ export class UsersRatingComponent implements OnInit {
     debounceTime(30),
     distinctUntilChanged(),
     map((rating) => rating || 'specs'),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected loading = 0;
@@ -62,7 +62,7 @@ export class UsersRatingComponent implements OnInit {
           return $localize`Picture likes`;
       }
       return rating;
-    })
+    }),
   );
 
   protected readonly users$: Observable<APIRatingUser[]> = this.rating$.pipe(
@@ -75,14 +75,14 @@ export class UsersRatingComponent implements OnInit {
       this.toastService.handleError(err);
       return EMPTY;
     }),
-    map((response) => response.users)
+    map((response) => response.users),
   );
 
   constructor(
     private readonly api: APIService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

@@ -105,11 +105,11 @@ export class CarsSpecificationsEditorSpecComponent {
         catchError((response: unknown) => {
           this.toastService.handleError(response);
           return EMPTY;
-        })
-      )
+        }),
+      ),
     ),
     map((attributes) => this.toPlain(attributes, 0)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly AttrAttributeTypeId = AttrAttributeType.Id;
@@ -118,7 +118,7 @@ export class CarsSpecificationsEditorSpecComponent {
     private readonly api: APIService,
     private readonly attrsService: APIAttrsService,
     private readonly auth: AuthService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected readonly values$ = combineLatest([this.item$, this.change$]).pipe(
@@ -128,7 +128,7 @@ export class CarsSpecificationsEditorSpecComponent {
         item_id: item.id,
         limit: 500,
         zone_id: item.attr_zone_id,
-      })
+      }),
     ),
     map((response) => {
       const values = new Map<number, APIAttrValue>();
@@ -137,7 +137,7 @@ export class CarsSpecificationsEditorSpecComponent {
       }
       return values;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
@@ -150,7 +150,7 @@ export class CarsSpecificationsEditorSpecComponent {
           user_id: +user.id,
           zone_id: item.attr_zone_id,
         })
-        .pipe(map((response) => ({attributes, item, response, user})))
+        .pipe(map((response) => ({attributes, item, response, user}))),
     ),
     map(({attributes, item, response, user}) => {
       const currentUserValues: {[key: number]: APIAttrUserValue} = {};
@@ -189,7 +189,7 @@ export class CarsSpecificationsEditorSpecComponent {
       }
 
       return currentUserValues;
-    })
+    }),
   );
 
   protected readonly userValues$: Observable<Map<number, APIAttrUserValue[]>> = combineLatest([
@@ -205,7 +205,7 @@ export class CarsSpecificationsEditorSpecComponent {
           page: 1,
           zone_id: item.attr_zone_id,
         })
-        .pipe(map((response) => ({item, response})))
+        .pipe(map((response) => ({item, response}))),
     ),
     map(({item, response}) => {
       const uv = new Map<number, APIAttrUserValue[]>();
@@ -227,14 +227,14 @@ export class CarsSpecificationsEditorSpecComponent {
             .pipe(
               tap((subresponse) => {
                 applyUserValues(uv, subresponse.items);
-              })
-            )
+              }),
+            ),
         );
       }
 
       return (observables.length ? forkJoin(observables) : of(null)).pipe(map(() => uv));
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected saveSpecs(user: APIUser, item: APIItem, currentUserValues: {[p: number]: APIAttrUserValue}) {
@@ -315,9 +315,9 @@ export class CarsSpecificationsEditorSpecComponent {
       response.toObject().items.map((i) => ({
         ...i,
         name: getAttrListOptionsTranslation(i.name),
-      }))
+      })),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private listOptionsTree(items: AttrListOption.AsObject[], parentID: string): ListOption[] {
@@ -330,7 +330,7 @@ export class CarsSpecificationsEditorSpecComponent {
           ...this.listOptionsTree(items, i.id).map((i) => ({
             id: i.id,
             name: '…' + i.name,
-          }))
+          })),
         );
       });
 
@@ -353,10 +353,10 @@ export class CarsSpecificationsEditorSpecComponent {
             ].concat(
               this.listOptionsTree(
                 response.filter((o) => o.attributeId === item.id),
-                '0'
-              )
-            )
-          )
+                '0',
+              ),
+            ),
+          ),
         );
       }
 

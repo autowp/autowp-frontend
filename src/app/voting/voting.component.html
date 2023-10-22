@@ -53,7 +53,7 @@
   </p>-->
 
   <p *ngIf="voting" i18n>
-    Voting during {{ voting.begin_date | date : 'mediumDate' }} to {{ voting.end_date | date : 'mediumDate' }}
+    Voting during {{ voting.begin_date | date: 'mediumDate' }} to {{ voting.end_date | date: 'mediumDate' }}
   </p>
 
   <app-comments [itemID]="voting.id + ''" [typeID]="CommentsType.VOTINGS_TYPE_ID"></app-comments>

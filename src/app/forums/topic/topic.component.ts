@@ -27,7 +27,7 @@ export class ForumsTopicComponent {
   protected readonly user$ = this.auth.getUser$();
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -42,11 +42,11 @@ export class ForumsTopicComponent {
         title: topic.name,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly theme$ = this.topic$.pipe(
-    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId})))
+    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId}))),
   );
 
   constructor(
@@ -55,7 +55,7 @@ export class ForumsTopicComponent {
     protected readonly auth: AuthService,
     private readonly toastService: ToastsService,
     private readonly comments: CommentsClient,
-    private readonly grpc: ForumsClient
+    private readonly grpc: ForumsClient,
   ) {}
 
   protected subscribe(topic: APIForumsTopic) {
@@ -64,7 +64,7 @@ export class ForumsTopicComponent {
         new CommentsSubscribeRequest({
           itemId: topic.id,
           typeId: CommentsType.FORUMS_TYPE_ID,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
@@ -80,7 +80,7 @@ export class ForumsTopicComponent {
         new CommentsUnSubscribeRequest({
           itemId: topic.id,
           typeId: CommentsType.FORUMS_TYPE_ID,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

@@ -37,7 +37,7 @@ export class TwinsGroupPictureComponent {
       }
       return of(group);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly identity$ = this.route.paramMap.pipe(
@@ -51,7 +51,7 @@ export class TwinsGroupPictureComponent {
         return EMPTY;
       }
       return of(identity);
-    })
+    }),
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([
@@ -83,9 +83,9 @@ export class TwinsGroupPictureComponent {
             paginator: {
               item_id: group.id,
             },
-          })
+          }),
         ),
-        map((response) => (response.pictures.length ? response.pictures[0] : null))
+        map((response) => (response.pictures.length ? response.pictures[0] : null)),
       );
     }),
     switchMap((picture) => {
@@ -104,9 +104,9 @@ export class TwinsGroupPictureComponent {
             pageId: 28,
             title: picture.name_text,
           }),
-        0
+        0,
       );
-    })
+    }),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -118,7 +118,7 @@ export class TwinsGroupPictureComponent {
     private readonly acl: ACLService,
     private readonly pictureService: PictureService,
     private readonly auth: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected reloadPicture() {

@@ -24,14 +24,17 @@ export class UploadSelectTreeItemComponent {
         limit: 500,
         order: 'type_auto',
         parent_id: item.item_id,
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
-  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
+  constructor(
+    private readonly itemParentService: ItemParentService,
+    private readonly toastService: ToastsService,
+  ) {}
 }

@@ -51,25 +51,25 @@ export class UploadIndexComponent implements OnInit {
   protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('perspective_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly replace$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('replace'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly replacePicture$ = this.replace$.pipe(
     switchMap((replace) => {
       return replace ? this.pictureService.getPicture$(replace, {fields: 'name_html'}) : of(null as APIPicture);
-    })
+    }),
   );
 
   protected readonly itemID$: Observable<string> = this.route.queryParamMap.pipe(
     map((params) => params.get('item_id')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly item$: Observable<APIItem> = this.itemID$.pipe(
@@ -82,16 +82,16 @@ export class UploadIndexComponent implements OnInit {
           fields: new ItemFields({nameHtml: true}),
           id,
           language: this.languageService.language,
-        })
+        }),
       );
-    })
+    }),
   );
 
   protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
       name: replace ? replace.name_html : item ? item.nameHtml : '',
       selected: !!(replace || item),
-    }))
+    })),
   );
 
   constructor(
@@ -104,7 +104,7 @@ export class UploadIndexComponent implements OnInit {
     private readonly toastService: ToastsService,
     private readonly keycloak: KeycloakService,
     private readonly languageService: LanguageService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
   ) {}
 
   ngOnInit(): void {
@@ -184,7 +184,7 @@ export class UploadIndexComponent implements OnInit {
           body: formData,
           observe: 'events',
           reportProgress: true,
-        })
+        }),
       ),
       catchError((response: unknown) => {
         if (response instanceof HttpErrorResponse) {
@@ -231,12 +231,12 @@ export class UploadIndexComponent implements OnInit {
                   this.toastService.response(response);
                 }
                 return EMPTY;
-              })
+              }),
             );
         }
 
         return EMPTY;
-      })
+      }),
     );
   }
 
@@ -254,7 +254,7 @@ export class UploadIndexComponent implements OnInit {
             body: {
               crop: picture.crop,
             },
-          })
+          }),
         ),
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse) {
@@ -265,7 +265,7 @@ export class UploadIndexComponent implements OnInit {
         switchMap(() =>
           this.pictureService.getPicture$(picture.id, {
             fields: 'crop,thumb_medium',
-          })
+          }),
         ),
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse) {
@@ -277,7 +277,7 @@ export class UploadIndexComponent implements OnInit {
           picture.crop = response.crop;
           picture.cropTitle = cropTitle(response.crop);
           picture.thumb_medium = response.thumb_medium;
-        })
+        }),
       )
       .subscribe();
 

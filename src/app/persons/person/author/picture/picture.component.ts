@@ -25,20 +25,20 @@ export class PersonsPersonAuthorPictureComponent {
       }
       return of(identity);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly personID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly picturesRouterLink$ = this.personID$.pipe(
-    map((personID) => ['/persons', personID.toString(), 'author'])
+    map((personID) => ['/persons', personID.toString(), 'author']),
   );
 
   protected readonly galleryRouterLink$: Observable<string[]> = combineLatest([this.personID$, this.identity$]).pipe(
-    map(([personID, identity]) => ['/persons', personID.toString(), 'author', 'gallery', identity])
+    map(([personID, identity]) => ['/persons', personID.toString(), 'author', 'gallery', identity]),
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([this.identity$, this.personID$]).pipe(
@@ -61,8 +61,8 @@ export class PersonsPersonAuthorPictureComponent {
               exact_item_id: itemID,
               exact_item_link_type: 2,
             },
-          })
-        )
+          }),
+        ),
       );
     }),
     map((response) => (response.pictures.length ? response.pictures[0] : null)),
@@ -71,7 +71,7 @@ export class PersonsPersonAuthorPictureComponent {
         pageId: 34,
         title: picture ? picture.name_text : '',
       });
-    })
+    }),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -80,7 +80,7 @@ export class PersonsPersonAuthorPictureComponent {
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected reloadPicture() {

@@ -60,7 +60,7 @@ export class MapComponent implements OnInit {
     private readonly injector: Injector,
     private readonly appRef: ApplicationRef,
     private readonly toastService: ToastsService,
-    private readonly mapClient: MapClient
+    private readonly mapClient: MapClient,
   ) {}
 
   ngOnInit(): void {
@@ -79,10 +79,10 @@ export class MapComponent implements OnInit {
             new MapGetPointsRequest({
               bounds: bounds.toBBoxString(),
               pointsOnly: false,
-            })
+            }),
           );
         }),
-        map((response) => response.points)
+        map((response) => response.points),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

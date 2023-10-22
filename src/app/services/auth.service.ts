@@ -10,7 +10,10 @@ import {catchError, tap} from 'rxjs/operators';
 export class AuthService {
   private user$ = new ReplaySubject<APIUser>(1);
 
-  constructor(private readonly keycloak: KeycloakService, private readonly usersClient: UsersClient) {
+  constructor(
+    private readonly keycloak: KeycloakService,
+    private readonly usersClient: UsersClient,
+  ) {
     this.keycloak.getToken().then(
       (accessToken) => {
         if (accessToken) {
@@ -22,7 +25,7 @@ export class AuthService {
       (error) => {
         console.log('ERROR', error);
         this.setUser(null);
-      }
+      },
     );
   }
 
@@ -34,7 +37,7 @@ export class AuthService {
               id: value.id,
               username: value.name,
             }
-          : null
+          : null,
       );
     });
 
@@ -55,7 +58,7 @@ export class AuthService {
         this.setUser(null);
         return of(null);
       }),
-      tap((user) => this.setUser(user))
+      tap((user) => this.setUser(user)),
     );
   }
 }

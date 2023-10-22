@@ -28,14 +28,14 @@ export class TwinsComponent implements OnInit {
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly currentBrandCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly brand$: Observable<GRPCAPIItem | null> = this.currentBrandCatname$.pipe(
@@ -54,7 +54,7 @@ export class TwinsComponent implements OnInit {
             language: this.languageService.language,
             limit: 1,
             typeId: ItemType.ITEM_TYPE_BRAND,
-          })
+          }),
         )
         .pipe(map((response) => (response && response.items.length > 0 ? response.items[0] : null)));
     }),
@@ -70,7 +70,7 @@ export class TwinsComponent implements OnInit {
         }
       }, 0);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$: Observable<{
@@ -86,7 +86,7 @@ export class TwinsComponent implements OnInit {
         limit: 20,
         page: page,
         type_id: ItemType.ITEM_TYPE_TWINS,
-      })
+      }),
     ),
     map((response) => ({
       groups: response.items.map((group) => ({
@@ -95,7 +95,7 @@ export class TwinsComponent implements OnInit {
         item: group,
       })),
       paginator: response.paginator,
-    }))
+    })),
   );
 
   constructor(
@@ -104,7 +104,7 @@ export class TwinsComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly acl: ACLService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   private static hasMoreImages(group: APIItem): boolean {
@@ -125,7 +125,7 @@ export class TwinsComponent implements OnInit {
         this.pageEnv.set({
           pageId: 25,
         }),
-      0
+      0,
     );
   }
 }

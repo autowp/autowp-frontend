@@ -15,20 +15,20 @@ export class ModerAttrsComponent implements OnInit {
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   protected readonly zones$ = this.attrsService.zones$.pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly attrsService: APIAttrsService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class ModerAttrsComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 100,
         }),
-      0
+      0,
     );
   }
 }

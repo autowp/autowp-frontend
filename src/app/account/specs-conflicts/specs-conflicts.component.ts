@@ -26,23 +26,23 @@ export class AccountSpecsConflictsComponent implements OnInit {
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly filter$ = this.route.queryParamMap.pipe(
     map((params) => params.get('filter')),
     distinctUntilChanged(),
     debounceTime(10),
-    map((filter) => filter || '0')
+    map((filter) => filter || '0'),
   );
 
   protected readonly user$ = this.auth.getUser$().pipe(
     switchMap(() =>
       this.api.request<APIUser>('GET', 'user/me', {
         params: {fields: 'specs_weight'},
-      })
+      }),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$ = combineLatest([this.page$, this.filter$]).pipe(
@@ -54,7 +54,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
           page,
         }),
         this.user$,
-      ])
+      ]),
     ),
     map(([data, user]) => {
       const conflicts: APIAttrConflictInList[] = data.items;
@@ -70,7 +70,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
         conflicts,
         paginator: data.paginator,
       };
-    })
+    }),
   );
 
   constructor(
@@ -79,7 +79,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     protected readonly auth: AuthService,
     private readonly route: ActivatedRoute,
     private readonly attrService: APIAttrsService,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   ngOnInit(): void {

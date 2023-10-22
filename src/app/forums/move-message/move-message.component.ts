@@ -25,12 +25,12 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
 export class ForumsMoveMessageComponent implements OnInit {
   protected readonly messageID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('message_id'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly themeID$ = this.route.queryParamMap.pipe(
     map((params) => params.get('theme_id')),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly topics$: Observable<APIForumsTopic[]> = this.themeID$.pipe(
@@ -43,9 +43,9 @@ export class ForumsMoveMessageComponent implements OnInit {
           this.toastService.handleError(response);
           return EMPTY;
         }),
-        map((response) => response.items)
+        map((response) => response.items),
       );
-    })
+    }),
   );
 
   protected readonly themes$: Observable<APIForumsTheme[]> = this.grpc
@@ -55,7 +55,7 @@ export class ForumsMoveMessageComponent implements OnInit {
         this.toastService.handleError(response);
         return EMPTY;
       }),
-      map((response) => response.items)
+      map((response) => response.items),
     );
 
   constructor(
@@ -64,7 +64,7 @@ export class ForumsMoveMessageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly grpc: ForumsClient
+    private readonly grpc: ForumsClient,
   ) {}
 
   ngOnInit(): void {
@@ -78,12 +78,12 @@ export class ForumsMoveMessageComponent implements OnInit {
           commentId: messageId,
           itemId: topic.id,
           typeId: CommentsType.FORUMS_TYPE_ID,
-        })
+        }),
       )
       .pipe(
         switchMap(() =>
-          this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE}))
-        )
+          this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE})),
+        ),
       )
       .subscribe({
         error: (subresponse: unknown) => this.toastService.handleError(subresponse),

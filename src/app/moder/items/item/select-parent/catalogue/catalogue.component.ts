@@ -30,20 +30,20 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly search$ = this.route.queryParamMap.pipe(
     map((params) => params.get('search')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('brand_id'), 10)),
     map((brandID) => (brandID ? brandID : 0)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly catalogueBrands$ = this.brandID$.pipe(
@@ -59,7 +59,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
                 name: search ? '%' + search + '%' : null,
                 page,
                 type_id: ItemType.ITEM_TYPE_BRAND,
-              })
+              }),
             ),
             catchError((error: unknown) => {
               this.toastService.handleError(error);
@@ -68,9 +68,9 @@ export class ModerItemsItemSelectParentCatalogueComponent {
             map((response) => ({
               brands: chunk<APIItem>(response.items, 6),
               paginator: response.paginator,
-            }))
-          )
-    )
+            })),
+          ),
+    ),
   );
 
   protected readonly catalogueItems$ = combineLatest([this.itemTypeID$, this.brandID$, this.page$]).pipe(
@@ -84,8 +84,8 @@ export class ModerItemsItemSelectParentCatalogueComponent {
             page,
             parent_id: brandID,
           })
-        : of(null)
-    )
+        : of(null),
+    ),
   );
 
   constructor(
@@ -93,7 +93,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
     private readonly router: Router,
-    private readonly itemParentService: ItemParentService
+    private readonly itemParentService: ItemParentService,
   ) {}
 
   protected doSearch(search: string) {

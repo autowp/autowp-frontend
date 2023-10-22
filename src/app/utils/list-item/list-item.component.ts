@@ -29,7 +29,7 @@ export interface CatalogueListItem {
     {
       name_html: string;
       route: string[];
-    }
+    },
   ];
   has_text: boolean;
   id: number;

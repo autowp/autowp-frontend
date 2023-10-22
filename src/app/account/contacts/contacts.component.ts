@@ -25,7 +25,7 @@ export class AccountContactsComponent {
     private readonly auth: AuthService,
     private readonly contacts: ContactsClient,
     private readonly languageService: LanguageService,
-    private readonly keycloak: KeycloakService
+    private readonly keycloak: KeycloakService,
   ) {
     setTimeout(() => this.pageEnv.set({pageId: 198}), 0);
 
@@ -42,7 +42,7 @@ export class AccountContactsComponent {
           }
           return user;
         }),
-        switchMap(() => this.contactsService.getContacts$())
+        switchMap(() => this.contactsService.getContacts$()),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

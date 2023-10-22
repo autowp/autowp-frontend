@@ -25,7 +25,7 @@ export class ShareComponent {
     window.open(
       href,
       null,
-      'height=600,width=600,resizable=yes,scrollbars=no,status=no,toolbar=no,location=no,directories=no'
+      'height=600,width=600,resizable=yes,scrollbars=no,status=no,toolbar=no,location=no,directories=no',
     );
 
     return false;

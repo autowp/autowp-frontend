@@ -27,7 +27,7 @@ export class PictureComponent {
       .view(
         new PicturesViewRequest({
           pictureId: '' + picture.id,
-        })
+        }),
       )
       .subscribe();
   }
@@ -49,7 +49,7 @@ export class PictureComponent {
     private readonly router: Router,
     private readonly pictureItemService: PictureItemService,
     private readonly commentsGrpc: CommentsClient,
-    private readonly picturesClient: PicturesClient
+    private readonly picturesClient: PicturesClient,
   ) {
     this.location = location;
   }
@@ -73,13 +73,13 @@ export class PictureComponent {
           new CommentsSubscribeRequest({
             itemId: '' + picture.id,
             typeId: CommentsType.PICTURES_TYPE_ID,
-          })
+          }),
         )
       : this.commentsGrpc.unSubscribe(
           new CommentsUnSubscribeRequest({
             itemId: '' + picture.id,
             typeId: CommentsType.PICTURES_TYPE_ID,
-          })
+          }),
         )
     ).subscribe(() => {
       picture.subscribed = value;

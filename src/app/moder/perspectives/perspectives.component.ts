@@ -17,7 +17,7 @@ export class ModerPerspectivesComponent {
   constructor(
     private readonly grpc: AutowpClient,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {
     setTimeout(
       () =>
@@ -25,7 +25,7 @@ export class ModerPerspectivesComponent {
           layout: {isAdminPage: true},
           pageId: 202,
         }),
-      0
+      0,
     );
 
     this.grpc.getPerspectivePages(new Empty()).subscribe({

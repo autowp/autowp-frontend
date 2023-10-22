@@ -31,10 +31,10 @@ export class TwinsGroupComponent {
             pageId: 25,
             title: group.name_text,
           }),
-        0
+        0,
       );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly selectedBrands$ = this.group$.pipe(
@@ -47,7 +47,7 @@ export class TwinsGroupComponent {
       }
 
       return result;
-    })
+    }),
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
@@ -56,6 +56,6 @@ export class TwinsGroupComponent {
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 }

@@ -16,7 +16,10 @@ export class CarsSelectEngineTreeItemComponent {
   protected loading = false;
   protected childs: APIItemParent[] = [];
 
-  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
+  constructor(
+    private readonly itemParentService: ItemParentService,
+    private readonly toastService: ToastsService,
+  ) {}
 
   private loadChildCatalogues() {
     this.loading = true;

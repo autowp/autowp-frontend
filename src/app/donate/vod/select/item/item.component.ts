@@ -14,7 +14,10 @@ export class DonateVodSelectItemComponent {
   protected loading = false;
   @Input() item: APIItemParent;
 
-  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
+  constructor(
+    private readonly itemParentService: ItemParentService,
+    private readonly toastService: ToastsService,
+  ) {}
 
   protected toggleItem() {
     this.item.expanded = !this.item.expanded;

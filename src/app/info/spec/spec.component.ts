@@ -17,13 +17,13 @@ export class InfoSpecComponent implements OnInit {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    map((specs) => specs.items)
+    map((specs) => specs.items),
   );
 
   constructor(
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly grpc: AutowpClient
+    private readonly grpc: AutowpClient,
   ) {}
 
   ngOnInit(): void {

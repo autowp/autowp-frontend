@@ -24,13 +24,13 @@ export class ModerTrafficWhitelistComponent implements OnInit {
         skipLocationChange: true,
       });
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly grpc: TrafficClient,
     private readonly router: Router,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   protected deleteItem(item: APITrafficWhitelistItem) {
@@ -46,7 +46,7 @@ export class ModerTrafficWhitelistComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 77,
         }),
-      0
+      0,
     );
   }
 }

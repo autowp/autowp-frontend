@@ -44,21 +44,21 @@ export class BrandsComponent implements OnInit {
         }
       }
       return items;
-    })
+    }),
   );
 
   protected readonly icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
       addCSS(icons.css);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
     private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly grpc: AutowpClient
+    private readonly grpc: AutowpClient,
   ) {}
 
   ngOnInit(): void {

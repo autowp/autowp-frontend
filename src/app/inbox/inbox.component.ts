@@ -61,7 +61,7 @@ export class InboxComponent implements OnInit {
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
-          })
+          }),
         ),
         of(brandID),
       ]);
@@ -87,11 +87,11 @@ export class InboxComponent implements OnInit {
               order: 1,
               page: page,
               status: 'inbox',
-            })
-          )
+            }),
+          ),
         ),
       });
-    })
+    }),
   );
 
   protected brandID = 0;
@@ -105,7 +105,7 @@ export class InboxComponent implements OnInit {
     private readonly pictureService: PictureService,
     private readonly inboxService: InboxService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

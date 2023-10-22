@@ -18,7 +18,7 @@ export class ForumsSubscriptionsComponent implements OnInit {
   protected readonly data$: Observable<{items: APIForumsTopic[]; paginator: Pages}> = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page'), 10)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     ),
     this.reload$,
   ]).pipe(
@@ -26,14 +26,14 @@ export class ForumsSubscriptionsComponent implements OnInit {
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly grpc: ForumsClient
+    private readonly grpc: ForumsClient,
   ) {}
 
   ngOnInit(): void {

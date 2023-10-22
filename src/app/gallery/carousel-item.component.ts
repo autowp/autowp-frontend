@@ -136,7 +136,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           {
             height: crop.height,
             width: crop.width,
-          }
+          },
         );
 
         const offsetBounds = boundCenter(cSize, bounds);
@@ -171,7 +171,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           {
             height: full.height,
             width: full.width,
-          }
+          },
         );
         const offsetBounds = boundCenter(cSize, bounds);
         this.fullStyle = {
@@ -199,7 +199,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           {
             height: full.height,
             width: full.width,
-          }
+          },
         );
         const offsetBounds = boundCenter(cSize, bounds);
         this.fullStyle = {

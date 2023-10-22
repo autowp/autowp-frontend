@@ -86,7 +86,7 @@ export interface APIItem {
     {
       name_html: string;
       route: string[];
-    }
+    },
   ];
 
   engine_vehicles_count: number;
@@ -425,14 +425,17 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 
 @Injectable()
 export class ItemService {
-  constructor(private readonly api: APIService, private readonly itemsClient: ItemsClient) {}
+  constructor(
+    private readonly api: APIService,
+    private readonly itemsClient: ItemsClient,
+  ) {}
 
   public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<null> {
     return this.itemsClient
       .getItemVehicleTypes(
         new APIGetItemVehicleTypesRequest({
           itemId: itemId.toString(),
-        })
+        }),
       )
       .pipe(
         switchMap((response) => {
@@ -448,9 +451,9 @@ export class ItemService {
                     new APIItemVehicleTypeRequest({
                       itemId: itemId.toString(),
                       vehicleTypeId: itemVehicleType.vehicleTypeId,
-                    })
+                    }),
                   )
-                  .pipe(map(() => null))
+                  .pipe(map(() => null)),
               );
             }
           }
@@ -463,9 +466,9 @@ export class ItemService {
                     new APIItemVehicleType({
                       itemId: itemId.toString(),
                       vehicleTypeId,
-                    })
+                    }),
                   )
-                  .pipe(map(() => null))
+                  .pipe(map(() => null)),
               );
             }
           }
@@ -475,7 +478,7 @@ export class ItemService {
           }
 
           return forkJoin(promises).pipe(map(() => null));
-        })
+        }),
       );
   }
 

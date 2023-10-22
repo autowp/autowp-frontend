@@ -23,18 +23,18 @@ export class UsersUserCommentsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly order$ = this.route.queryParamMap
     .pipe(
       map((params) => params.get('order')),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     )
     .pipe(
       map((order) => order || 'date_desc'),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   protected readonly user$ = this.route.paramMap.pipe(
@@ -54,7 +54,7 @@ export class UsersUserCommentsComponent {
         return;
       }
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly comments$ = combineLatest([this.user$, this.page$, this.order$]).pipe(
@@ -73,13 +73,13 @@ export class UsersUserCommentsComponent {
           order: this.getOrderApiValue(order),
           page: page,
           userId: user.id + '',
-        })
-      )
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
-    })
+    }),
   );
 
   protected readonly orders: Order[] = [
@@ -95,7 +95,7 @@ export class UsersUserCommentsComponent {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly commentsClient: CommentsClient
+    private readonly commentsClient: CommentsClient,
   ) {}
 
   protected getOrderApiValue(order: string): GetMessagesRequest.Order {

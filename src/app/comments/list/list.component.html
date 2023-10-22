@@ -9,7 +9,7 @@
       class="float-end"
       *ngIf="message.message.createdAt"
       [textContent]="message.message.createdAt.toDate() | timeAgo"
-      [ngbTooltip]="message.message.createdAt.toDate() | date : 'medium'"
+      [ngbTooltip]="message.message.createdAt.toDate() | date: 'medium'"
     ></div>
     <app-user2 [user]="user" *ngIf="message.user$ | async as user; else nouser"></app-user2>
     <ng-template #nouser>

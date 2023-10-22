@@ -18,7 +18,7 @@ export class TwinsGroupPicturesListComponent {
   protected readonly id$: Observable<string> = this.route.parent.parent.paramMap.pipe(
     map((params) => params.get('group')),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly group$: Observable<APIItem> = this.id$.pipe(
@@ -37,7 +37,7 @@ export class TwinsGroupPicturesListComponent {
           }),
           id: group,
           language: this.languageService.language,
-        })
+        }),
       );
     }),
     tap((group) => {
@@ -47,15 +47,15 @@ export class TwinsGroupPicturesListComponent {
             pageId: 28,
             title: $localize`All pictures of ${group.nameText}`,
           }),
-        0
+        0,
       );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly data$ = combineLatest([this.page$, this.id$]).pipe(
@@ -67,12 +67,12 @@ export class TwinsGroupPicturesListComponent {
         order: 16,
         page: page,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return of(null as APIPictureGetResponse);
-    })
+    }),
   );
 
   constructor(
@@ -82,6 +82,6 @@ export class TwinsGroupPicturesListComponent {
     private readonly toastService: ToastsService,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

@@ -42,8 +42,8 @@
 
       <span i18n-title title="Views" *ngIf="picture.views > 0" class="text-nowrap me-2" ngPreserveWhitespaces>
         <i class="bi bi-eye" aria-hidden="true"></i>
-        <span *ngIf="picture.views >= 1000">{{ picture.views / 1000 | number : '1.0-1' }}K</span>
-        <span *ngIf="picture.views < 1000">{{ picture.views | number : '1.0-0' }}</span>
+        <span *ngIf="picture.views >= 1000">{{ picture.views / 1000 | number: '1.0-1' }}K</span>
+        <span *ngIf="picture.views < 1000">{{ picture.views | number: '1.0-0' }}</span>
       </span>
 
       <span class="text-nowrap me-2" *ngIf="picture.votes.positive > 0" ngPreserveWhitespaces>

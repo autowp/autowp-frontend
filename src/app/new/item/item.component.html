@@ -7,7 +7,7 @@
       <a routerLink="/new" i18n>New pictures</a>
     </li>
     <li class="breadcrumb-item" *ngIf="date$ | async as date">
-      <a [routerLink]="['/new', date]">{{ date | date : 'mediumDate' }}</a>
+      <a [routerLink]="['/new', date]">{{ date | date: 'mediumDate' }}</a>
     </li>
   </ol>
 </nav>

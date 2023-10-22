@@ -40,11 +40,11 @@
 
       <p *ngIf="user.reg_date">
         <ng-container i18n>Registration date</ng-container>
-        <strong [textContent]="user.reg_date | timeAgo" [ngbTooltip]="user.reg_date | date : 'fullDate'"></strong>
+        <strong [textContent]="user.reg_date | timeAgo" [ngbTooltip]="user.reg_date | date: 'fullDate'"></strong>
       </p>
       <p>
         <ng-container i18n>Last visited</ng-container>:
-        <strong [textContent]="user.last_online | timeAgo" [ngbTooltip]="user.last_online | date : 'medium'"></strong>
+        <strong [textContent]="user.last_online | timeAgo" [ngbTooltip]="user.last_online | date: 'medium'"></strong>
       </p>
 
       <p i18n>Database id: {{ user.id }}</p>
@@ -190,7 +190,7 @@
                 <ng-container i18n>That address is banned</ng-container>
                 <app-user2 *ngIf="ip.blacklist.byUser" [user]="ip.blacklist.byUser"></app-user2>
                 <span *ngIf="ip.blacklist.until">
-                  <ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date : 'medium' }}
+                  <ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date: 'medium' }}
                   <span *ngIf="ip.blacklist.reason"> ({{ ip.blacklist.reason }}) </span>
                 </span>
               </p>

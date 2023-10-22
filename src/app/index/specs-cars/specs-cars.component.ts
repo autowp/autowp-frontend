@@ -59,9 +59,9 @@ export class IndexSpecsCarsComponent {
             twins_groups: item.twins_groups,
           };
         }),
-        2
+        2,
       );
-    })
+    }),
   );
 
   constructor(private readonly api: APIService) {}

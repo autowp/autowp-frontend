@@ -29,13 +29,13 @@ export class PersonsPersonInfoComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly itemID$: Observable<string> = this.route.parent.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
@@ -48,8 +48,8 @@ export class PersonsPersonInfoComponent {
           }),
           id,
           language: this.languageService.language,
-        })
-      )
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -74,7 +74,7 @@ export class PersonsPersonInfoComponent {
         title: item.nameText,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly links$: Observable<APIItemLink[]> = this.itemID$.pipe(
@@ -83,7 +83,7 @@ export class PersonsPersonInfoComponent {
       this.toastService.handleError(err);
       return of({items: []} as APIItemLinksResponse);
     }),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   protected readonly authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
@@ -96,12 +96,12 @@ export class PersonsPersonInfoComponent {
         order: 12,
         page,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return of(null as APIPictureGetResponse);
-    })
+    }),
   );
 
   protected readonly contentPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
@@ -120,9 +120,9 @@ export class PersonsPersonInfoComponent {
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return of(null as APIPictureGetResponse);
-          })
-        )
-    )
+          }),
+        ),
+    ),
   );
 
   constructor(
@@ -133,6 +133,6 @@ export class PersonsPersonInfoComponent {
     private readonly acl: ACLService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

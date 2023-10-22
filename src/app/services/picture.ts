@@ -360,7 +360,7 @@ export class PictureService {
     private readonly api: APIService,
     private readonly auth: AuthService,
     private readonly acl: ACLService,
-    private readonly pictures: PicturesClient
+    private readonly pictures: PicturesClient,
   ) {
     this.summary$ = this.auth.getUser$().pipe(
       switchMap((user) => {
@@ -369,7 +369,7 @@ export class PictureService {
         }
         return this.api.request<APIPictureUserSummary>('GET', 'picture/user-summary');
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
 
     this.inboxSize$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(
@@ -383,7 +383,7 @@ export class PictureService {
           status: 'inbox',
         }).pipe(map((response) => response.paginator.totalItemCount));
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
@@ -422,7 +422,7 @@ export class PictureService {
       new PicturesVoteRequest({
         pictureId: pictureID.toString(),
         value,
-      })
+      }),
     );
   }
 

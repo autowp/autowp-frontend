@@ -33,20 +33,20 @@ export class ModerItemsItemMetaComponent {
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
               itemId: item.id.toString(),
-            })
+            }),
           )
           .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)));
       }
 
       return of([]);
-    })
+    }),
   );
 
   constructor(
     private readonly acl: ACLService,
     private readonly api: APIService,
     private readonly itemService: ItemService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
   ) {}
 
   protected saveMeta(item: APIItem, event: ItemMetaFormResult) {
@@ -84,7 +84,7 @@ export class ModerItemsItemMetaComponent {
           }
           return EMPTY;
         }),
-        tap(() => (this.invalidParams = {}))
+        tap(() => (this.invalidParams = {})),
       ),
     ];
     if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {

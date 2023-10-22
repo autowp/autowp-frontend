@@ -26,13 +26,13 @@ export class PersonsPersonPictureComponent {
 
       return of(identity);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([this.itemID$, this.identity$]).pipe(
@@ -53,9 +53,9 @@ export class PersonsPersonPictureComponent {
             paginator: {
               exact_item_id: itemID,
             },
-          })
+          }),
         ),
-        map((response) => (response.pictures.length ? response.pictures[0] : null))
+        map((response) => (response.pictures.length ? response.pictures[0] : null)),
       );
     }),
     tap((picture) => {
@@ -64,7 +64,7 @@ export class PersonsPersonPictureComponent {
         title: picture ? picture.name_text : '',
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -73,7 +73,7 @@ export class PersonsPersonPictureComponent {
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected reloadPicture() {

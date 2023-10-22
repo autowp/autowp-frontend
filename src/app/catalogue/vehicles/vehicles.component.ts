@@ -34,7 +34,7 @@ export class CatalogueVehiclesComponent {
       }
       return of(data);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
@@ -48,15 +48,15 @@ export class CatalogueVehiclesComponent {
       }
       return routerLink;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly menu$ = combineLatest([this.catalogue$, this.routerLink$]).pipe(
-    map(([{type}, routerLink]) => ({routerLink, type}))
+    map(([{type}, routerLink]) => ({routerLink, type})),
   );
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
-    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
   protected readonly item$ = this.catalogue$.pipe(
@@ -81,13 +81,13 @@ export class CatalogueVehiclesComponent {
         title: item.name_text,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly items$: Observable<{
@@ -117,8 +117,8 @@ export class CatalogueVehiclesComponent {
               page,
               parent_id: item.id,
               type_id: CatalogueVehiclesComponent.resolveTypeId(type),
-            })
-          )
+            }),
+          ),
         )
         .pipe(
           map((response) => ({
@@ -162,10 +162,10 @@ export class CatalogueVehiclesComponent {
               };
             }),
             paginator: response.paginator,
-          }))
+          })),
         );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly otherPictures$: Observable<{
@@ -195,7 +195,7 @@ export class CatalogueVehiclesComponent {
                   status: 'accepted',
                 }),
                 this.routerLink$,
-              ])
+              ]),
             ),
             map(([response, routerLink]) => {
               if (response.pictures.length <= 0) {
@@ -206,11 +206,11 @@ export class CatalogueVehiclesComponent {
                 pictures: response.pictures,
                 routerLink: routerLink.concat(['exact', 'pictures']),
               };
-            })
+            }),
           );
-        })
+        }),
       );
-    })
+    }),
   );
 
   constructor(
@@ -221,7 +221,7 @@ export class CatalogueVehiclesComponent {
     private readonly acl: ACLService,
     private readonly catalogueService: CatalogueService,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {

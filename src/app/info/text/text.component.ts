@@ -41,13 +41,13 @@ export class InfoTextComponent implements OnInit {
   private readonly id$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly revision$ = this.route.queryParamMap.pipe(
     map((params) => params.get('revision')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly data$: Observable<InfoText> = combineLatest([this.id$, this.revision$]).pipe(
@@ -56,8 +56,8 @@ export class InfoTextComponent implements OnInit {
         new APIGetTextRequest({
           id: id,
           revision: revision,
-        })
-      )
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -84,7 +84,7 @@ export class InfoTextComponent implements OnInit {
               user$: response.prev.userId ? this.userService.getUser$(+response.prev.userId, {}) : of(null),
             }
           : null,
-    }))
+    })),
   );
 
   constructor(
@@ -92,7 +92,7 @@ export class InfoTextComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly textClient: TextClient
+    private readonly textClient: TextClient,
   ) {}
 
   ngOnInit(): void {

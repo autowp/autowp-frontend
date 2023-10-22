@@ -70,14 +70,14 @@ export class LogComponent implements OnInit {
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly api: APIService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

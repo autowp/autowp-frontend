@@ -24,7 +24,10 @@ class Gallery {
     return this.items.length <= this.MAX_INDICATORS;
   }
 
-  constructor(public readonly filter: APIGalleryFilter, public readonly items: APIGalleryItem[]) {}
+  constructor(
+    public readonly filter: APIGalleryFilter,
+    public readonly items: APIGalleryItem[],
+  ) {}
 
   public filterParams(): {[key: string]: string} {
     const params: {[key: string]: string} = {};
@@ -111,7 +114,7 @@ export class GalleryComponent {
   protected readonly currentFilter$ = this.filter$.pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(50),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly identity$ = this.current$.pipe(distinctUntilChanged(), debounceTime(10), shareReplay(1));
@@ -128,7 +131,7 @@ export class GalleryComponent {
           tap((response) => {
             gallery.applyResponse(response);
           }),
-          map(() => ({gallery, identity}))
+          map(() => ({gallery, identity})),
         );
       }
       return of({gallery, identity});
@@ -140,17 +143,20 @@ export class GalleryComponent {
       this.pictureSelected.emit(currentItem);
     }),
     map(({gallery}) => gallery),
-    shareReplay(1)
+    shareReplay(1),
   );
 
-  constructor(private readonly api: APIService, private readonly router: Router) {}
+  constructor(
+    private readonly api: APIService,
+    private readonly router: Router,
+  ) {}
 
   @HostListener('document:keydown.escape')
   onKeydownHandler() {
     this.current$
       .pipe(
         take(1),
-        switchMap((current) => this.router.navigate(this.picturePrefix.concat([current])))
+        switchMap((current) => this.router.navigate(this.picturePrefix.concat([current]))),
       )
       .subscribe();
   }
@@ -180,7 +186,7 @@ export class GalleryComponent {
     return this.api.request<APIGallery>('GET', 'gallery', {params}).pipe(
       tap((response) => {
         gallery.applyResponse(response);
-      })
+      }),
     );
   }
 

@@ -35,33 +35,33 @@ export class CatalogueVehiclesPicturesComponent {
         }
         return of(data);
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly exact$ = this.route.data.pipe(
     map((params) => !!params.exact),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
 
   protected readonly breadcrumbs$: Observable<Breadcrumbs[]> = this.catalogue$.pipe(
-    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
   protected readonly routerLink$: Observable<string[]> = this.catalogue$.pipe(
-    map(({brand, path}) => ['/', brand.catname, ...path.map((node) => node.catname)])
+    map(({brand, path}) => ['/', brand.catname, ...path.map((node) => node.catname)]),
   );
 
   protected readonly picturesRouterLink$: Observable<string[]> = combineLatest([this.routerLink$, this.exact$]).pipe(
-    map(([routerLink, exact]) => [...routerLink, ...(exact ? ['exact'] : []), 'pictures'])
+    map(([routerLink, exact]) => [...routerLink, ...(exact ? ['exact'] : []), 'pictures']),
   );
 
   protected readonly item$: Observable<APIItem> = this.catalogue$.pipe(
@@ -71,7 +71,7 @@ export class CatalogueVehiclesPicturesComponent {
         pageId: 34,
         title: $localize`All pictures of ${item.name_text}`,
       });
-    })
+    }),
   );
 
   protected readonly pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
@@ -84,12 +84,12 @@ export class CatalogueVehiclesPicturesComponent {
         order: 16,
         page,
         status: 'accepted',
-      })
+      }),
     ),
     map((response) => ({
       paginator: response.paginator,
       pictures: chunkBy(response.pictures, 4),
-    }))
+    })),
   );
 
   constructor(
@@ -98,7 +98,7 @@ export class CatalogueVehiclesPicturesComponent {
     private readonly route: ActivatedRoute,
     private readonly catalogueService: CatalogueService,
     private readonly acl: ACLService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected getItemTypeTranslation(id: number, type: string) {

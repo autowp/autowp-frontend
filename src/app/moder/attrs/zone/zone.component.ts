@@ -17,7 +17,7 @@ export class ModerAttrsZoneComponent {
     map((params) => params.get('id')),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly zone$ = this.zoneID$.pipe(
@@ -29,7 +29,7 @@ export class ModerAttrsZoneComponent {
         title: zone.name,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly attributes$: Observable<AttrAttributeTreeItem[]> = this.attrsService.getAttributes$(null, null);
@@ -44,13 +44,13 @@ export class ModerAttrsZoneComponent {
         zoneAttribute[item.attributeId] = true;
       }
       return zoneAttribute;
-    })
+    }),
   );
 
   constructor(
     private readonly attrsService: APIAttrsService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly attrsClient: AttrsClient
+    private readonly attrsClient: AttrsClient,
   ) {}
 }

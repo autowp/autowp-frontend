@@ -28,7 +28,7 @@
         <p
           *ngIf="contact.user.lastOnline"
           [textContent]="contact.user.lastOnline.toDate() | timeAgo"
-          [ngbTooltip]="contact.user.lastOnline.toDate() | date : 'medium'"
+          [ngbTooltip]="contact.user.lastOnline.toDate() | date: 'medium'"
         ></p>
       </div>
     </div>

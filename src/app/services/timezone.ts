@@ -15,7 +15,7 @@ export class TimezoneService {
   constructor(private readonly api: APIService) {
     this.timezones$ = this.api.request<APITimezoneGetResponse>('GET', 'timezone').pipe(
       map((response) => response.items),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 

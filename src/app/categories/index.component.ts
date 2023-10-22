@@ -20,7 +20,10 @@ export class CategoriesIndexComponent implements OnInit {
     })
     .pipe(map((response) => chunkBy(response.items, 4)));
 
-  constructor(private readonly itemService: ItemService, private readonly pageEnv: PageEnvService) {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly pageEnv: PageEnvService,
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 22}), 0);

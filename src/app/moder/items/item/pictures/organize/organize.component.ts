@@ -25,7 +25,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
@@ -35,10 +35,10 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         item_id: itemID,
         limit: 500,
         order: 'status',
-      })
+      }),
     ),
     map((response) => response.items),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly item$ = this.itemID$.pipe(
@@ -64,8 +64,8 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
           'lat',
           'lng',
         ].join(','),
-      })
-    )
+      }),
+    ),
   );
 
   protected readonly vehicleTypeIDs$ = this.item$.pipe(
@@ -75,11 +75,11 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
             .getItemVehicleTypes(
               new APIGetItemVehicleTypesRequest({
                 itemId: item.id.toString(),
-              })
+              }),
             )
             .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)))
-        : of([] as string[])
-    )
+        : of([] as string[]),
+    ),
   );
 
   protected readonly newItem$ = this.item$.pipe(
@@ -87,7 +87,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
       const newItem = Object.assign({}, item);
       newItem.is_group = false;
       return newItem;
-    })
+    }),
   );
 
   constructor(
@@ -97,7 +97,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly pictureItemService: PictureItemService,
     private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient
+    private readonly itemsClient: ItemsClient,
   ) {}
 
   ngOnInit(): void {
@@ -174,13 +174,13 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
                 this.api.request<void>(
                   'PUT',
                   'picture-item/' + picture.picture_id + '/' + picture.item_id + '/' + picture.type,
-                  {body: {item_id: newItem.id}}
-                )
-              )
+                  {body: {item_id: newItem.id}},
+                ),
+              ),
           );
 
           return forkJoin(promises).pipe(map(() => newItem));
-        })
+        }),
       )
       .subscribe((item) => {
         this.loading--;

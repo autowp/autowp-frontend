@@ -17,7 +17,7 @@ export class AccountInboxPicturesComponent implements OnInit {
     this.route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page'), 10)),
       distinctUntilChanged(),
-      debounceTime(10)
+      debounceTime(10),
     ),
     this.auth.getUser$(),
   ]).pipe(
@@ -29,12 +29,12 @@ export class AccountInboxPicturesComponent implements OnInit {
         owner_id: user.id,
         page,
         status: 'inbox',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -42,7 +42,7 @@ export class AccountInboxPicturesComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

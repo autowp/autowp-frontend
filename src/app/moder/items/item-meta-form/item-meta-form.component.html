@@ -18,7 +18,7 @@
           required
         />
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'name'"
+          *ngFor="let message of invalidParams | invalidParams: 'name'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -37,7 +37,7 @@
           formControlName="full_name"
         />
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'full_name'"
+          *ngFor="let message of invalidParams | invalidParams: 'full_name'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -56,7 +56,7 @@
           formControlName="catname"
         />
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'catname'"
+          *ngFor="let message of invalidParams | invalidParams: 'catname'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -74,7 +74,7 @@
           formControlName="body"
         />
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'body'"
+          *ngFor="let message of invalidParams | invalidParams: 'body'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -97,7 +97,7 @@
           </option>
         </select>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'spec_id'"
+          *ngFor="let message of invalidParams | invalidParams: 'spec_id'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -195,12 +195,12 @@
           </div>
         </div>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'begin_model_year'"
+          *ngFor="let message of invalidParams | invalidParams: 'begin_model_year'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'end_model_year'"
+          *ngFor="let message of invalidParams | invalidParams: 'end_model_year'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -242,12 +242,12 @@
           </div>
         </div>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'begin_year'"
+          *ngFor="let message of invalidParams | invalidParams: 'begin_year'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'begin_month'"
+          *ngFor="let message of invalidParams | invalidParams: 'begin_month'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -301,17 +301,17 @@
           </div>
         </div>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'end_year'"
+          *ngFor="let message of invalidParams | invalidParams: 'end_year'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'end_month'"
+          *ngFor="let message of invalidParams | invalidParams: 'end_month'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'today'"
+          *ngFor="let message of invalidParams | invalidParams: 'today'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -351,12 +351,12 @@
           </div>
         </div>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'produced_count'"
+          *ngFor="let message of invalidParams | invalidParams: 'produced_count'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'produced_exactly'"
+          *ngFor="let message of invalidParams | invalidParams: 'produced_exactly'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -377,7 +377,7 @@
           <option *ngFor="let option of isConceptOptions$ | async" [ngValue]="option.value">{{ option.name }}</option>
         </select>
         <p
-          *ngFor="let message of invalidParams | invalidParams : 'is_concept'"
+          *ngFor="let message of invalidParams | invalidParams: 'is_concept'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>

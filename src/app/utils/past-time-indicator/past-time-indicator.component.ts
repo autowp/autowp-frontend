@@ -13,6 +13,6 @@ export class PastTimeIndicatorComponent {
   }
   protected readonly date$ = new BehaviorSubject<Date | string>(null);
   protected readonly past$ = this.date$.pipe(
-    map((date) => ({past: new Date(date).getTime() < new Date().getTime() - 86400 * 1000}))
+    map((date) => ({past: new Date(date).getTime() < new Date().getTime() - 86400 * 1000})),
   );
 }

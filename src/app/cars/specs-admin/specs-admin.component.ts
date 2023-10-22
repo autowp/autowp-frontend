@@ -23,13 +23,13 @@ export class CarsSpecsAdminComponent implements OnInit {
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly data$ = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
@@ -38,12 +38,12 @@ export class CarsSpecsAdminComponent implements OnInit {
         fields: 'user,path,unit',
         item_id: itemID,
         page: page,
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -51,7 +51,7 @@ export class CarsSpecsAdminComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly attrService: APIAttrsService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

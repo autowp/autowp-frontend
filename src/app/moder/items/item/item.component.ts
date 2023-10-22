@@ -87,7 +87,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -175,7 +175,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
               map((pictures) => ({
                 item,
                 pictures: pictures.pictures,
-              }))
+              })),
             );
         }),
         finalize(() => {
@@ -202,7 +202,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
               this.initTreeTab();
             }
           }
-        })
+        }),
       )
       .subscribe();
   }

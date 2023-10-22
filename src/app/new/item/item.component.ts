@@ -19,19 +19,19 @@ export class NewItemComponent {
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly date$ = this.route.paramMap.pipe(
     map((params) => params.get('date')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(30)
+    debounceTime(30),
   );
 
   protected readonly item$ = this.itemID$.pipe(
@@ -44,8 +44,8 @@ export class NewItemComponent {
           }),
           id: '' + itemID,
           language: this.languageService.language,
-        })
-      )
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -57,7 +57,7 @@ export class NewItemComponent {
         title: item.nameText,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
@@ -69,12 +69,12 @@ export class NewItemComponent {
         limit: 24,
         page,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -83,6 +83,6 @@ export class NewItemComponent {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

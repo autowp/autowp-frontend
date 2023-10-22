@@ -59,7 +59,7 @@ export class APIACL {
       map((response) => response.result),
       catchError(() => {
         return of(false);
-      })
+      }),
     );
   }
 }
@@ -68,7 +68,10 @@ export class APIACL {
 export class ACLService {
   private isAllowedCache = new Map<string, Observable<boolean>>();
 
-  constructor(private readonly apiACL: APIACL, private readonly auth: AuthService) {}
+  constructor(
+    private readonly apiACL: APIACL,
+    private readonly auth: AuthService,
+  ) {}
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     const key = resource + '/' + privilege;
@@ -79,7 +82,7 @@ export class ACLService {
 
     const o$ = this.auth.getUser$().pipe(
       switchMap(() => this.apiACL.isAllowed$(resource, privilege)),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.isAllowedCache.set(key, o$);
     return o$;

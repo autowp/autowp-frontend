@@ -25,19 +25,19 @@ export class CarsEngineSelectComponent {
     map((params) => parseInt(params.get('item_id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('brand_id'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly item$ = this.itemID$.pipe(
@@ -47,8 +47,8 @@ export class CarsEngineSelectComponent {
           fields: new ItemFields({nameText: true}),
           id: '' + itemID,
           language: this.languageService.language,
-        })
-      )
+        }),
+      ),
     ),
     tap((item) => {
       this.pageEnv.set({
@@ -56,7 +56,7 @@ export class CarsEngineSelectComponent {
         title: $localize`Specs editor of ${item.nameText}`,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly items$ = combineLatest([this.brandID$, this.page$]).pipe(
@@ -67,12 +67,12 @@ export class CarsEngineSelectComponent {
         limit: 500,
         page,
         parent_id: brandID,
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   protected readonly brands$ = this.search$.pipe(
@@ -87,7 +87,7 @@ export class CarsEngineSelectComponent {
         name: search ? '%' + search + '%' : null,
         order: 'name',
         type_id: ItemType.ITEM_TYPE_BRAND,
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -96,7 +96,7 @@ export class CarsEngineSelectComponent {
     map((response) => ({
       items: chunk<APIItem>(response.items, 6),
       paginator: response.paginator,
-    }))
+    })),
   );
 
   constructor(
@@ -108,7 +108,7 @@ export class CarsEngineSelectComponent {
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected onInput() {
@@ -126,7 +126,7 @@ export class CarsEngineSelectComponent {
         catchError((response: unknown) => {
           this.toastService.handleError(response);
           return EMPTY;
-        })
+        }),
       )
       .subscribe(() => {
         this.router.navigate(['/cars/specifications-editor'], {

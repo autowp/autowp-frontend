@@ -28,13 +28,13 @@ export class ModerStatComponent implements OnInit {
         this.toastService.handleError(response);
         return EMPTY;
       }),
-      map((response) => response.items)
+      map((response) => response.items),
     );
 
   constructor(
     private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class ModerStatComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 119,
         }),
-      0
+      0,
     );
   }
 }

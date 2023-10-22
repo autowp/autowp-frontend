@@ -29,19 +29,19 @@ export class ModerItemsItemCatalogueComponent {
   protected readonly canMove$ = this.acl.isAllowed$(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
 
   protected readonly organizeTypeId$ = this.item$.pipe(
-    map((item) => (item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id))
+    map((item) => (item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id)),
   );
 
   protected readonly canHaveParentBrand$ = this.item$.pipe(
-    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id))
+    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)),
   );
 
   protected readonly canHaveParents$ = this.item$.pipe(
-    map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id))
+    map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)),
   );
 
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
-    text$: Observable<string>
+    text$: Observable<string>,
   ) =>
     this.item$.pipe(
       switchMap((item) =>
@@ -64,9 +64,9 @@ export class ModerItemsItemCatalogueComponent {
                 parent_types_of: item.item_type_id,
               })
               .pipe(map((response) => response.items));
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
 
   protected readonly childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
@@ -76,9 +76,9 @@ export class ModerItemsItemCatalogueComponent {
         limit: 500,
         order: 'type_auto',
         parent_id: item.id,
-      })
+      }),
     ),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   protected readonly parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
@@ -87,9 +87,9 @@ export class ModerItemsItemCatalogueComponent {
         fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes',
         item_id: item.id,
         limit: 500,
-      })
+      }),
     ),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   protected readonly suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
@@ -98,16 +98,16 @@ export class ModerItemsItemCatalogueComponent {
         fields: 'name_text',
         limit: 3,
         suggestions_to: item.id,
-      })
+      }),
     ),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   constructor(
     private readonly acl: ACLService,
     private readonly api: APIService,
     private readonly itemService: ItemService,
-    private readonly itemParentService: ItemParentService
+    private readonly itemParentService: ItemParentService,
   ) {}
 
   protected itemFormatter(x: APIItem) {

@@ -15,7 +15,7 @@ export class ModerAttrsAttributeComponent {
   private readonly attributeID$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly attribute$ = this.attributeID$.pipe(
@@ -27,20 +27,20 @@ export class ModerAttrsAttributeComponent {
         title: getAttrsTranslation(attribute.name),
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly attributes$ = this.attributeID$.pipe(
-    switchMap((attributeID) => this.attrsService.getAttributes$(null, attributeID))
+    switchMap((attributeID) => this.attrsService.getAttributes$(null, attributeID)),
   );
 
   protected readonly listOptions$: Observable<string[]> = this.attributeID$.pipe(
     switchMap((attributeID) => this.attrsService.getListOptions$(attributeID)),
-    map((response) => response.toObject().items.map((l) => getAttrListOptionsTranslation(l.name)))
+    map((response) => response.toObject().items.map((l) => getAttrListOptionsTranslation(l.name))),
   );
 
   protected readonly typeOption$ = combineLatest([this.attribute$, this.attrsService.attributeTypes$]).pipe(
-    map(([attribute, options]) => options.find((o) => o.id === attribute.typeId))
+    map(([attribute, options]) => options.find((o) => o.id === attribute.typeId)),
   );
 
   protected readonly typeMap$: Observable<{[id: number]: string}> = this.attrsService.attributeTypes$.pipe(
@@ -50,13 +50,13 @@ export class ModerAttrsAttributeComponent {
         typeMap[item.id] = item.name;
       }
       return typeMap;
-    })
+    }),
   );
 
   constructor(
     private readonly attrsService: APIAttrsService,
     private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   protected getUnitTranslation(id: string, type: string): string {

@@ -43,7 +43,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       });
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly map$ = this.picture$.pipe(
@@ -72,7 +72,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       }
 
       return {center, leafletOptions, markers};
-    })
+    }),
   );
 
   constructor(
@@ -81,7 +81,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly zone: NgZone,
-    private readonly api: APIService
+    private readonly api: APIService,
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +91,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 72,
         }),
-      0
+      0,
     );
   }
 

@@ -20,19 +20,19 @@ export class ModerUsersComponent implements OnInit {
         fields: 'image,reg_date,last_online,email,login',
         limit: 30,
         page: parseInt(params.get('page'), 10),
-      })
+      }),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
     private readonly userService: UserService,
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class ModerUsersComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 203,
         }),
-      0
+      0,
     );
   }
 }

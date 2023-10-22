@@ -27,11 +27,7 @@
       <tr *ngFor="let event of response.items">
         <td>
           <app-user [user]="event.user" *ngIf="event.user"></app-user>
-          <div
-            *ngIf="event.date"
-            [textContent]="event.date | timeAgo"
-            [ngbTooltip]="event.date | date : 'medium'"
-          ></div>
+          <div *ngIf="event.date" [textContent]="event.date | timeAgo" [ngbTooltip]="event.date | date: 'medium'"></div>
         </td>
         <td [innerHTML]="event.desc"></td>
         <td>

@@ -34,7 +34,7 @@ export class FeedbackComponent implements OnInit {
     private readonly reCaptchaService: ReCaptchaService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {

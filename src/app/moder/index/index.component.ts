@@ -18,7 +18,7 @@ export class ModerIndexComponent implements AfterViewInit {
           layout: {isAdminPage: true},
           pageId: 67,
         }),
-      0
+      0,
     );
   }
 }

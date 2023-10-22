@@ -23,7 +23,7 @@ export class MuseumComponent {
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly links$ = this.itemID$.pipe(
@@ -31,7 +31,7 @@ export class MuseumComponent {
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return of(null);
-    })
+    }),
   );
 
   protected readonly pictures$ = this.itemID$.pipe(
@@ -42,19 +42,19 @@ export class MuseumComponent {
         limit: 20,
         order: 12,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
-    })
+    }),
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: ['name_text', 'lat', 'lng', 'description'].join(','),
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -78,7 +78,7 @@ export class MuseumComponent {
         title: item.name_text,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly map$ = this.item$.pipe(
@@ -109,7 +109,7 @@ export class MuseumComponent {
           zoom: 17,
         },
       };
-    })
+    }),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -122,6 +122,6 @@ export class MuseumComponent {
     private readonly pictureService: PictureService,
     private readonly itemsClient: ItemsClient,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 }

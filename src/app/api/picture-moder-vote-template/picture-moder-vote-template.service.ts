@@ -17,13 +17,16 @@ export interface APIPictureModerVoteTemplatePostData {
 export class APIPictureModerVoteTemplateService {
   private readonly change$ = new BehaviorSubject<null>(null);
 
-  constructor(private readonly auth: AuthService, private readonly pictures: PicturesClient) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly pictures: PicturesClient,
+  ) {}
 
   public getTemplates$(): Observable<ModerVoteTemplate[]> {
     return combineLatest([this.change$, this.auth.getUser$()]).pipe(
       switchMap(() => this.pictures.getModerVoteTemplates(new Empty({}))),
       map((response) => response.items),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
@@ -39,7 +42,7 @@ export class APIPictureModerVoteTemplateService {
         new ModerVoteTemplate({
           message: template.name,
           vote: template.vote,
-        })
+        }),
       )
       .pipe(tap(() => this.change$.next(null)));
   }

@@ -33,8 +33,8 @@ export class ListComponent {
         new ArticlesRequest({
           limit: '10',
           page: '' + page,
-        })
-      )
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       console.log(response);
@@ -51,7 +51,7 @@ export class ListComponent {
         routerLink: ['/articles', article.catname],
       })) as Article[],
       paginator: response.paginator,
-    }))
+    })),
   );
 
   constructor(
@@ -59,7 +59,7 @@ export class ListComponent {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly articlesClient: ArticlesClient,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {
     setTimeout(() => this.pageEnv.set({pageId: 31}), 0);
   }

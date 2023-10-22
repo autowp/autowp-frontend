@@ -18,8 +18,8 @@ export class CarsSpecificationsEditorResultComponent {
     switchMap((item) =>
       this.api.request('GET', 'item/' + item.id + '/specifications', {
         responseType: 'text',
-      })
-    )
+      }),
+    ),
   );
 
   constructor(private readonly api: APIService) {}

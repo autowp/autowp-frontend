@@ -29,7 +29,7 @@ export class ModerCommentsComponent implements OnInit {
   protected itemID: string;
   protected itemQuery = '';
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
-    text$: Observable<string>
+    text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
@@ -55,15 +55,15 @@ export class ModerCommentsComponent implements OnInit {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items)
+          map((response) => response.items),
         );
-      })
+      }),
     );
 
   private userID: string;
   protected userQuery = '';
   protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
-    text$: Observable<string>
+    text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
@@ -88,9 +88,9 @@ export class ModerCommentsComponent implements OnInit {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items)
+          map((response) => response.items),
         );
-      })
+      }),
     );
 
   protected readonly PictureStatus = PictureStatus;
@@ -98,26 +98,26 @@ export class ModerCommentsComponent implements OnInit {
   protected readonly userID$ = this.route.queryParamMap.pipe(
     map((params) => params.get('user_id')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly moderatorAttention$ = this.route.queryParamMap.pipe(
     map((params) => +params.get('moderator_attention') as ModeratorAttention),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly picturesOfItemID$ = this.route.queryParamMap.pipe(
     map((params) => params.get('pictures_of_item_id')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly data$: Observable<{
@@ -143,7 +143,7 @@ export class ModerCommentsComponent implements OnInit {
           page,
           picturesOfItemId: this.itemID,
           userId: this.userID,
-        })
+        }),
       );
     }),
     catchError((error: unknown) => {
@@ -157,7 +157,7 @@ export class ModerCommentsComponent implements OnInit {
         user$: this.userService.getUser2$(comment.authorId),
       })),
       paginator: response.paginator,
-    }))
+    })),
   );
 
   protected readonly ModeratorAttention = ModeratorAttention;
@@ -169,7 +169,7 @@ export class ModerCommentsComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly router: Router,
     private readonly toastService: ToastsService,
-    private readonly commentsClient: CommentsClient
+    private readonly commentsClient: CommentsClient,
   ) {}
 
   ngOnInit(): void {
@@ -179,7 +179,7 @@ export class ModerCommentsComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 110,
         }),
-      0
+      0,
     );
   }
 

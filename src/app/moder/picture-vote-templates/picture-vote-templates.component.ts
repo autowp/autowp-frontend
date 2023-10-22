@@ -15,7 +15,7 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
 
   constructor(
     private readonly voteTemplateService: APIPictureModerVoteTemplateService,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 212,
         }),
-      0
+      0,
     );
   }
 

@@ -28,14 +28,14 @@ export class CatalogueVehiclesPicturesPictureComponent {
         return EMPTY;
       }
       return of(identity);
-    })
+    }),
   );
 
   private readonly exact$ = this.route.data.pipe(
     map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
@@ -51,7 +51,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
       }
       return of(data);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
@@ -60,7 +60,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
       brand.catname,
       ...path.map((node) => node.catname),
       ...(exact ? ['exact'] : []),
-    ])
+    ]),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -68,13 +68,13 @@ export class CatalogueVehiclesPicturesPictureComponent {
   protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(map(({brand}) => brand));
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
-    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
   protected readonly picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
 
   protected readonly galleryPictureRouterLink$ = combineLatest([this.identity$, this.routerLink$]).pipe(
-    map(([identity, routerLink]) => [...routerLink, 'gallery', identity])
+    map(([identity, routerLink]) => [...routerLink, 'gallery', identity]),
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([this.catalogue$, this.identity$]).pipe(
@@ -100,9 +100,9 @@ export class CatalogueVehiclesPicturesPictureComponent {
             paginator: {
               item_id: itemID,
             },
-          })
+          }),
         ),
-        map((response) => (response.pictures.length ? response.pictures[0] : null))
+        map((response) => (response.pictures.length ? response.pictures[0] : null)),
       );
     }),
     switchMap((picture) => {
@@ -119,7 +119,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
         pageId: 34,
         title: picture.name_text,
       });
-    })
+    }),
   );
 
   constructor(
@@ -128,7 +128,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
     private readonly catalogueService: CatalogueService,
     private readonly acl: ACLService,
     private readonly pictureService: PictureService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected reloadPicture() {

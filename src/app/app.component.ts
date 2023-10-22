@@ -37,7 +37,7 @@ export class AppComponent {
       limit: 20,
       noParent: true,
       typeId: ItemType.ITEM_TYPE_CATEGORY,
-    })
+    }),
   );
   protected language: string;
   protected urlPath = '/';
@@ -54,7 +54,7 @@ export class AppComponent {
     private readonly renderer: Renderer2,
     private readonly keycloak: KeycloakService,
     private readonly itemsClient: ItemsClient,
-    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
+    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
   ) {
     this.language = this.languageService.language;
 

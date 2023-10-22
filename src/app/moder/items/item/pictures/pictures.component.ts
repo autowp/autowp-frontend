@@ -19,8 +19,8 @@ export class ModerItemsItemPicturesComponent {
 
   protected readonly canUseTurboGroupCreator$ = this.item$.pipe(
     map((item) =>
-      item ? [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].indexOf(item.item_type_id) !== -1 : false
-    )
+      item ? [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].indexOf(item.item_type_id) !== -1 : false,
+    ),
   );
 
   protected readonly picturesChunks$: Observable<APIPicture[][]> = this.item$.pipe(
@@ -30,9 +30,9 @@ export class ModerItemsItemPicturesComponent {
         fields: 'owner,thumb_medium,moder_vote,votes,similar,comments_count,perspective_item,name_html,name_text,views',
         limit: 500,
         order: 14,
-      })
+      }),
     ),
-    map((response) => chunkBy<APIPicture>(response.pictures, 6))
+    map((response) => chunkBy<APIPicture>(response.pictures, 6)),
   );
 
   constructor(private readonly pictureService: PictureService) {}

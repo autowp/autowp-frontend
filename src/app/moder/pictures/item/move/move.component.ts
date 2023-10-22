@@ -66,7 +66,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
-    private readonly pictureService: PictureService
+    private readonly pictureService: PictureService,
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +85,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             layout: {isAdminPage: true},
             pageId: 149,
           });
-        })
+        }),
       ),
       this.route.queryParamMap.pipe(
         map((params) => ({
@@ -129,7 +129,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 tap((response) => {
                   this.museums = response.items;
                   this.museumsPaginator = response.paginator;
-                })
+                }),
               );
           }
 
@@ -146,7 +146,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 tap((response) => {
                   this.factories = response.items;
                   this.factoriesPaginator = response.paginator;
-                })
+                }),
               );
           }
 
@@ -162,12 +162,12 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                   name: search ? '%' + search + '%' : null,
                   page: params.page,
                   type_id: ItemType.ITEM_TYPE_PERSON,
-                })
+                }),
               ),
               tap((response) => {
                 this.persons = response.items;
                 this.personsPaginator = response.paginator;
-              })
+              }),
             );
           }
 
@@ -183,12 +183,12 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                   name: search ? '%' + search + '%' : null,
                   page: params.page,
                   type_id: ItemType.ITEM_TYPE_PERSON,
-                })
+                }),
               ),
               tap((response) => {
                 this.authors = response.items;
                 this.authorsPaginator = response.paginator;
-              })
+              }),
             );
           }
 
@@ -205,7 +205,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 tap((response) => {
                   this.copyrights = response.items;
                   this.copyrightsPaginator = response.paginator;
-                })
+                }),
               );
           }
 
@@ -261,19 +261,19 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     name: search ? '%' + search + '%' : null,
                     page: params.page,
                     type_id: ItemType.ITEM_TYPE_BRAND,
-                  })
+                  }),
                 ),
                 tap((response) => {
                   this.brands = chunk<APIItem>(response.items, 6);
                   this.brandsPaginator = response.paginator;
                 }),
-                map(() => null)
+                map(() => null),
               );
             }
           }
 
           return combineLatest([museums$, factories$, persons$, authors$, copyrights$, brandItems$, brands$]);
-        })
+        }),
       ),
     ]).subscribe();
   }
@@ -296,7 +296,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             }
 
             return this.pictureItemService.setPerspective$(this.id, dstItemID, this.srcType, dstPerspectiveID);
-          })
+          }),
         )
         .subscribe(() => {
           if (localStorage) {

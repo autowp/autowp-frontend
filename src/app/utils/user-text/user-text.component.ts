@@ -45,10 +45,13 @@ export class UserTextComponent {
   protected readonly textPrepared$ = this.text$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((text) => this.prepareText$(text))
+    switchMap((text) => this.prepareText$(text)),
   );
 
-  constructor(private readonly userService: UserService, private readonly pictureService: PictureService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly pictureService: PictureService,
+  ) {}
 
   private prepareText$(text: string): Observable<CommentTextLine[]> {
     const lines = text.split(/\r?\n/);
@@ -59,8 +62,8 @@ export class UserTextComponent {
         this.prepareLine$(line).pipe(
           map((value) => ({
             elements: value,
-          }))
-        )
+          })),
+        ),
       );
     });
 
@@ -96,7 +99,7 @@ export class UserTextComponent {
         of({
           text: line.substring(0, linkPos),
           type: 'text',
-        })
+        }),
       );
 
       out.push(this.processHref$(url));
@@ -109,7 +112,7 @@ export class UserTextComponent {
         of({
           text: line,
           type: 'text',
-        })
+        }),
       );
     }
 
@@ -136,8 +139,8 @@ export class UserTextComponent {
             : {
                 type: 'a',
                 url,
-              }
-        )
+              },
+        ),
       );
     }
 
@@ -173,8 +176,8 @@ export class UserTextComponent {
                 type: 'user',
                 user,
               }
-            : null
-        )
+            : null,
+        ),
       );
     }
 
@@ -187,8 +190,8 @@ export class UserTextComponent {
                 type: 'user',
                 user,
               }
-            : null
-        )
+            : null,
+        ),
       );
     }
 
@@ -224,8 +227,8 @@ export class UserTextComponent {
                 picture,
                 type: 'picture',
               }
-            : null
-        )
+            : null,
+        ),
       );
     }
 
@@ -238,8 +241,8 @@ export class UserTextComponent {
                 picture: pictures.pictures[0],
                 type: 'picture',
               }
-            : null
-        )
+            : null,
+        ),
       );
     }
 

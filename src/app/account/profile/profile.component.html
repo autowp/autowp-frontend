@@ -13,7 +13,7 @@
   <div *ngIf="photo">
     <img alt="" [src]="photo.src" class="mb-4" />
     <p
-      *ngFor="let message of photoInvalidParams | invalidParams : 'file'"
+      *ngFor="let message of photoInvalidParams | invalidParams: 'file'"
       [textContent]="message"
       class="invalid-feedback"
       style="display: block"
@@ -50,7 +50,7 @@
           <option *ngFor="let language of languages" [value]="language.value">{{ language.name }}</option>
         </select>
         <p
-          *ngFor="let message of settingsInvalidParams | invalidParams : 'language'"
+          *ngFor="let message of settingsInvalidParams | invalidParams: 'language'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>
@@ -69,7 +69,7 @@
           <option *ngFor="let timezone of timezones$ | async" [value]="timezone">{{ timezone }}</option>
         </select>
         <p
-          *ngFor="let message of settingsInvalidParams | invalidParams : 'timezone'"
+          *ngFor="let message of settingsInvalidParams | invalidParams: 'timezone'"
           [textContent]="message"
           class="invalid-feedback"
         ></p>

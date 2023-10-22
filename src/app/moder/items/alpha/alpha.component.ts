@@ -26,7 +26,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
     private readonly api: APIService,
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {
     setTimeout(
       () =>
@@ -34,7 +34,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
           layout: {isAdminPage: true},
           pageId: 74,
         }),
-      0
+      0,
     );
   }
 
@@ -59,8 +59,8 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
                   items: [],
                   paginator: null,
                 } as APIItemsGetResponse),
-          ])
-        )
+          ]),
+        ),
       )
       .subscribe(([char, groups, items]) => {
         this.char = char;

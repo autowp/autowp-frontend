@@ -15,14 +15,14 @@ export class PersonsComponent implements OnInit {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly authors$ = this.route.data.pipe(
     map((params) => !!params.authors),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$ = combineLatest([this.page$, this.authors$]).pipe(
@@ -64,13 +64,13 @@ export class PersonsComponent implements OnInit {
     map((response) => ({
       items: this.prepareItems(response.items),
       paginator: response.paginator,
-    }))
+    })),
   );
 
   constructor(
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   ngOnInit(): void {

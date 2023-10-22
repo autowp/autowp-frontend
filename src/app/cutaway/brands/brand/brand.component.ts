@@ -32,11 +32,11 @@ export class CutawayBrandsBrandComponent implements OnInit {
           }),
           language: this.languageService.language,
           limit: 1,
-        })
+        }),
       );
     }),
     map((response) => (response.items.length > 0 ? response.items[0] : null)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
@@ -49,12 +49,12 @@ export class CutawayBrandsBrandComponent implements OnInit {
         page: parseInt(params.get('page'), 10),
         perspective_id: 9,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -63,7 +63,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {

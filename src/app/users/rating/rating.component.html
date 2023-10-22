@@ -68,13 +68,13 @@
             …
           </small>
         </td>
-        <td class="text-end" [textContent]="row.volume | number : '1.0-0'"></td>
+        <td class="text-end" [textContent]="row.volume | number: '1.0-0'"></td>
         <td
           class="text-end"
           [class.danger]="row.weight < 0.5"
           [class.warning]="row.weight >= 0.5 && row.weight < 1.5"
           *ngIf="rating === 'specs'"
-          [textContent]="row.weight | number : '1.2-2'"
+          [textContent]="row.weight | number: '1.2-2'"
         ></td>
       </tr>
     </tbody>

@@ -35,7 +35,7 @@ export class ForumsNewTopicComponent implements OnInit {
       });
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
   protected readonly user$ = this.auth.getUser$();
 
@@ -46,7 +46,7 @@ export class ForumsNewTopicComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly forums: ForumsClient,
-    private readonly grpc: ForumsClient
+    private readonly grpc: ForumsClient,
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +66,7 @@ export class ForumsNewTopicComponent implements OnInit {
           name: this.form.name,
           subscription: this.form.subscription,
           themeId: '' + theme.id,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => {

@@ -29,7 +29,7 @@ export class ThumbnailComponent {
   constructor(
     private readonly perspectiveService: APIPerspectiveService,
     private readonly pictureItemService: PictureItemService,
-    private readonly acl: ACLService
+    private readonly acl: ACLService,
   ) {}
 
   protected savePerspective() {
@@ -39,7 +39,7 @@ export class ThumbnailComponent {
           this.picture.id,
           this.picture.perspective_item.item_id,
           this.picture.perspective_item.type,
-          this.picture.perspective_item.perspective_id
+          this.picture.perspective_item.perspective_id,
         )
         .subscribe();
     }

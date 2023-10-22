@@ -25,7 +25,7 @@ export class FactoryComponent {
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: ['name_text', 'name_html', 'lat', 'lng', 'description', 'related_group_pictures'].join(','),
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -50,7 +50,7 @@ export class FactoryComponent {
         title: factory.name_text,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$ = this.item$.pipe(
@@ -60,12 +60,12 @@ export class FactoryComponent {
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 24,
         status: 'accepted',
-      })
+      }),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
-    })
+    }),
   );
 
   protected readonly map$ = this.item$.pipe(
@@ -96,7 +96,7 @@ export class FactoryComponent {
       };
 
       return {markers, options};
-    })
+    }),
   );
 
   constructor(
@@ -106,6 +106,6 @@ export class FactoryComponent {
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly acl: ACLService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 }

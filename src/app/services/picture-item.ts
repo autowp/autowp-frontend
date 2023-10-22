@@ -88,7 +88,7 @@ export class PictureItemService {
     pictureId: number,
     itemId: number,
     type: number,
-    options: APIPictureItemGetOptions
+    options: APIPictureItemGetOptions,
   ): Observable<APIPictureItem> {
     const params: {[param: string]: string} = {};
 

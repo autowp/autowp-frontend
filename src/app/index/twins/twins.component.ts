@@ -9,8 +9,11 @@ import {LanguageService} from '@services/language';
 })
 export class IndexTwinsComponent {
   protected readonly items$ = this.items.getTopTwinsBrandsList(
-    new GetTopTwinsBrandsListRequest({language: this.languageService.language})
+    new GetTopTwinsBrandsListRequest({language: this.languageService.language}),
   );
 
-  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
+  constructor(
+    private readonly items: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 }

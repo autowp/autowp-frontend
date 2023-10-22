@@ -40,8 +40,8 @@ export class CategoriesListItemComponent {
             ItemType.ITEM_TYPE_FACTORY,
             ItemType.ITEM_TYPE_MUSEUM,
           ].indexOf(item.item_type_id) !== -1
-        : false
-    )
+        : false,
+    ),
   );
 
   protected readonly pictures$: Observable<PictureThumbRoute[]> = combineLatest([
@@ -54,8 +54,8 @@ export class CategoriesListItemComponent {
         route:
           pic && pic.picture && parentRouterLink ? parentRouterLink.concat(['pictures', pic.picture.identity]) : null,
         thumb: pic ? pic.thumb : null,
-      }))
-    )
+      })),
+    ),
   );
 
   constructor(private readonly acl: ACLService) {}

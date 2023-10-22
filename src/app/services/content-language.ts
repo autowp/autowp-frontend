@@ -8,7 +8,7 @@ import {map, shareReplay} from 'rxjs/operators';
 export class ContentLanguageService {
   public readonly languages$: Observable<string[]> = this.itemClient.getContentLanguages(new Empty()).pipe(
     map((response) => response.languages),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(private readonly itemClient: ItemsClient) {}

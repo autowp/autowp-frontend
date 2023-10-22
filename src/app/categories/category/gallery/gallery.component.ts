@@ -25,7 +25,7 @@ export class CategoryGalleryComponent implements OnInit {
         return EMPTY;
       }
       return of(identity);
-    })
+    }),
   );
 
   protected readonly data$: Observable<CategoryPipeResult> = this.categoriesService
@@ -39,14 +39,14 @@ export class CategoryGalleryComponent implements OnInit {
           return EMPTY;
         }
         return of(data);
-      })
+      }),
     );
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly router: Router,
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   ngOnInit(): void {

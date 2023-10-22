@@ -35,7 +35,7 @@
                 formControlName="name"
               />
               <p
-                *ngFor="let message of invalidParams | invalidParams : 'name'"
+                *ngFor="let message of invalidParams | invalidParams: 'name'"
                 [textContent]="message"
                 class="invalid-feedback"
               ></p>
@@ -59,7 +59,7 @@
                 formControlName="email"
               />
               <p
-                *ngFor="let message of invalidParams | invalidParams : 'email'"
+                *ngFor="let message of invalidParams | invalidParams: 'email'"
                 [textContent]="message"
                 class="invalid-feedback"
               ></p>
@@ -80,7 +80,7 @@
                 formControlName="message"
               ></textarea>
               <p
-                *ngFor="let message of invalidParams | invalidParams : 'message'"
+                *ngFor="let message of invalidParams | invalidParams: 'message'"
                 [textContent]="message"
                 class="invalid-feedback"
               ></p>
@@ -90,7 +90,7 @@
             <div class="col-md-10 offset-md-2">
               <re-captcha [siteKey]="recaptchaKey" *ngIf="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
               <p
-                *ngFor="let message of invalidParams | invalidParams : 'captcha'"
+                *ngFor="let message of invalidParams | invalidParams: 'captcha'"
                 [textContent]="message"
                 class="invalid-feedback"
               ></p>

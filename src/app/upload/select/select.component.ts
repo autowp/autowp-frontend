@@ -40,7 +40,7 @@ export class UploadSelectComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected onSearchInput() {
@@ -54,13 +54,13 @@ export class UploadSelectComponent implements OnInit {
       this.search$.pipe(
         map((value) => value.trim()),
         distinctUntilChanged(),
-        debounceTime(50)
+        debounceTime(50),
       ),
       this.route.queryParamMap.pipe(
         map((params) => ({
           brand_id: parseInt(params.get('brand_id'), 10),
           page: parseInt(params.get('page'), 10),
-        }))
+        })),
       ),
     ])
       .pipe(
@@ -79,7 +79,7 @@ export class UploadSelectComponent implements OnInit {
             brandId ? of(null) : this.brandsObservable$(page, params.search),
           ]);
         }),
-        tap(() => (this.loading = 0))
+        tap(() => (this.loading = 0)),
       )
       .subscribe(([brand, brands]) => {
         if (brands) {
@@ -106,7 +106,7 @@ export class UploadSelectComponent implements OnInit {
         catchError((err: unknown) => {
           this.toastService.handleError(err);
           return EMPTY;
-        })
+        }),
       );
   }
 
@@ -124,7 +124,7 @@ export class UploadSelectComponent implements OnInit {
         return EMPTY;
       }),
       switchMap((item) => this.brandItemsObservable(item)),
-      map(([item, vehicles, engines, concepts]) => ({concepts, engines, item, vehicles}))
+      map(([item, vehicles, engines, concepts]) => ({concepts, engines, item, vehicles})),
     );
   }
 
@@ -145,7 +145,7 @@ export class UploadSelectComponent implements OnInit {
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
-          })
+          }),
         ),
       this.itemParentService
         .getItems$({
@@ -161,7 +161,7 @@ export class UploadSelectComponent implements OnInit {
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
-          })
+          }),
         ),
       this.itemParentService
         .getItems$({
@@ -176,7 +176,7 @@ export class UploadSelectComponent implements OnInit {
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
-          })
+          }),
         ),
     ]);
   }

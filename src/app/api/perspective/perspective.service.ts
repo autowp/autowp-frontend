@@ -11,7 +11,7 @@ import {map, shareReplay} from 'rxjs/operators';
 export class APIPerspectiveService {
   private readonly perspectives$: Observable<Perspective[]> = this.grpc.getPerspectives(new Empty()).pipe(
     map((response) => response.items),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(private readonly grpc: AutowpClient) {}

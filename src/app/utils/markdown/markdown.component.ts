@@ -17,6 +17,6 @@ export class MarkdownComponent {
   private readonly markdownConverter = new showdown.Converter({});
 
   protected readonly html$ = this.markdown$.pipe(
-    map((markdown) => (markdown ? this.markdownConverter.makeHtml(markdown) : ''))
+    map((markdown) => (markdown ? this.markdownConverter.makeHtml(markdown) : '')),
   );
 }

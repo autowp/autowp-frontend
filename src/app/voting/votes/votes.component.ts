@@ -27,12 +27,12 @@ export class VotingVotesComponent {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   constructor(
     protected readonly activeModal: NgbActiveModal,
     private readonly votingService: VotingService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 }

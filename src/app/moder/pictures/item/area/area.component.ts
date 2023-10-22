@@ -43,7 +43,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           layout: {isAdminPage: true},
           pageId: 148,
         }),
-      0
+      0,
     );
 
     this.sub = this.route.paramMap
@@ -64,7 +64,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         switchMap((id) =>
           this.pictureService.getPicture$(id, {
             fields: 'crop,image',
-          })
+          }),
         ),
         tap((picture) => {
           this.id = picture.id;
@@ -78,8 +78,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             })),
             distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
             debounceTime(30),
-            map((params) => ({params, picture}))
-          )
+            map((params) => ({params, picture})),
+          ),
         ),
         tap((data) => {
           this.itemID = data.params.item_id;
@@ -88,9 +88,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         switchMap((data) =>
           this.pictureItemService.get$(data.picture.id, data.params.item_id, data.params.type, {
             fields: 'area',
-          })
+          }),
         ),
-        switchMap((data) => this.img$.pipe(map((img) => ({img, pictureItem: data}))))
+        switchMap((data) => this.img$.pipe(map((img) => ({img, pictureItem: data})))),
       )
       .subscribe({
         error: () => {

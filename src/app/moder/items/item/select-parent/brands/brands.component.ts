@@ -20,13 +20,13 @@ export class ModerItemsItemSelectParentBrandsComponent {
     map((params) => parseInt(params.get('page'), 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly search$ = this.route.queryParamMap.pipe(
     map((params) => params.get('search')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brands$: Observable<{items: APIItem[][]; paginator: APIPaginator}> = combineLatest([
@@ -40,7 +40,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
         name: search ? '%' + search + '%' : null,
         page,
         type_id: ItemType.ITEM_TYPE_BRAND,
-      })
+      }),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
@@ -49,14 +49,14 @@ export class ModerItemsItemSelectParentBrandsComponent {
     map((response) => ({
       items: chunk<APIItem>(response.items, 6),
       paginator: response.paginator,
-    }))
+    })),
   );
 
   constructor(
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected doSearch(search: string) {

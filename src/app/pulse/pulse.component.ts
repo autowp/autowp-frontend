@@ -58,7 +58,7 @@ export class PulseComponent implements OnInit {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly legend$ = this.data$.pipe(
@@ -67,7 +67,7 @@ export class PulseComponent implements OnInit {
         color: item.color,
         user$: this.usersService.getUser$(parseInt(item.userId, 10), {}),
       }));
-    })
+    }),
   );
 
   protected readonly labels$ = this.data$.pipe(map((response) => response.labels));
@@ -76,23 +76,23 @@ export class PulseComponent implements OnInit {
     switchMap((response) =>
       combineLatest(
         response.grid.map((dataset) =>
-          combineLatest([this.usersService.getUser$(parseInt(dataset.userId, 10), {}), of(dataset)])
-        )
-      )
+          combineLatest([this.usersService.getUser$(parseInt(dataset.userId, 10), {}), of(dataset)]),
+        ),
+      ),
     ),
     map((response) => ({
       data: response.map(([user, dataset]) => ({
         data: dataset.line,
         label: user.name,
       })),
-    }))
+    })),
   );
 
   constructor(
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly grpc: StatisticsClient,
-    private readonly usersService: UserService
+    private readonly usersService: UserService,
   ) {}
 
   ngOnInit(): void {

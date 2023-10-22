@@ -35,16 +35,19 @@ export class ModerItemsItemSelectParentTreeItemComponent {
         limit: 100,
         order,
         parent_id: item.id,
-      })
+      }),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
       return EMPTY;
     }),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
-  constructor(private readonly itemParentService: ItemParentService, private readonly toastService: ToastsService) {}
+  constructor(
+    private readonly itemParentService: ItemParentService,
+    private readonly toastService: ToastsService,
+  ) {}
 
   protected isDisabled(item: APIItem): boolean {
     return item.id === this.disableItemID;

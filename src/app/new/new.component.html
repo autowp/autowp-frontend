@@ -19,7 +19,7 @@
     <div class="col-lg-4 col-md-4">
       <h3 class="text-start" *ngIf="data.prev && data.prev.date">
         &#x2190;
-        <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | date : 'mediumDate'"></a>
+        <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | date: 'mediumDate'"></a>
         <br />
         <small
           >(<span i18n="@@n-pictures"
@@ -30,7 +30,7 @@
     </div>
     <div class="col-lg-4 col-md-4">
       <h3 class="text-center" *ngIf="data.current">
-        <span [textContent]="data.current.date | date : 'mediumDate'"></span>
+        <span [textContent]="data.current.date | date: 'mediumDate'"></span>
         <br />
         <small
           >(<span i18n="@@n-pictures"
@@ -42,7 +42,7 @@
     </div>
     <div class="col-lg-4 col-md-4">
       <h3 class="text-end" *ngIf="data.next && data.next.date">
-        <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | date : 'mediumDate'"></a>
+        <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | date: 'mediumDate'"></a>
         <br />
         <small
           >(<span i18n="@@n-pictures"

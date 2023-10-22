@@ -40,7 +40,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           layout: {isAdminPage: true},
           pageId: 148,
         }),
-      0
+      0,
     );
     this.routeSub = this.route.paramMap
       .pipe(
@@ -60,9 +60,9 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
         switchMap((id) =>
           this.pictureService.getPicture$(id, {
             fields: 'crop,image',
-          })
+          }),
         ),
-        switchMap((picture) => this.img$.pipe(map((img) => ({img, picture}))))
+        switchMap((picture) => this.img$.pipe(map((img) => ({img, picture})))),
       )
       .subscribe((data) => {
         this.picture = data.picture;

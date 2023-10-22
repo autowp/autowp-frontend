@@ -32,13 +32,13 @@ export class ModerItemsItemLinksComponent {
   protected readonly links$: Observable<APIItemLink[]> = this.reload$.pipe(
     switchMap(() => this.item$),
     switchMap((item) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + item.id}))),
-    map((response) => response.items)
+    map((response) => response.items),
   );
 
   constructor(
     private readonly acl: ACLService,
     private readonly itemsClient: ItemsClient,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   protected saveLinks(itemId: number, links: APIItemLink[]) {
@@ -53,7 +53,7 @@ export class ModerItemsItemLinksComponent {
               name: this.newLink.name,
               type: this.newLink.type,
               url: this.newLink.url,
-            })
+            }),
           )
           .pipe(
             catchError((response: unknown) => {
@@ -67,8 +67,8 @@ export class ModerItemsItemLinksComponent {
                 this.newLink.type = 'default';
               }
             }),
-            map(() => null)
-          )
+            map(() => null),
+          ),
       );
     }
 
@@ -83,19 +83,19 @@ export class ModerItemsItemLinksComponent {
                 name: link.name,
                 type: link.type,
                 url: link.url,
-              })
+              }),
             )
             .pipe(
               catchError((response: unknown) => {
                 this.toastService.handleError(response);
                 return of(null);
               }),
-              map(() => null)
-            )
+              map(() => null),
+            ),
         );
       } else {
         promises.push(
-          this.itemsClient.deleteItemLink(new APIItemLinkRequest({id: '' + link.id})).pipe(map(() => null))
+          this.itemsClient.deleteItemLink(new APIItemLinkRequest({id: '' + link.id})).pipe(map(() => null)),
         );
       }
     }

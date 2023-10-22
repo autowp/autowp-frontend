@@ -52,7 +52,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 }),
                 id: '' + params.item_id,
                 language: this.languageService.language,
-              })
+              }),
             ),
             this.itemsClient.item(
               new ItemRequest({
@@ -85,17 +85,17 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 }),
                 id: '' + params.parent_id,
                 language: this.languageService.language,
-              })
+              }),
             ),
             this.ContentLanguage.languages$,
             this.itemsClient.getItemParentLanguages(
               new APIGetItemParentLanguagesRequest({
                 itemId: '' + params.item_id,
                 parentId: '' + params.parent_id,
-              })
+              }),
             ),
           ]);
-        })
+        }),
       )
       .subscribe(([itemParent, item, parent, languages, itemParentLanguage]) => {
         this.itemParent = itemParent;
@@ -162,7 +162,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
               body: {
                 name: language.name,
               },
-            }
+            },
           )
           .pipe(
             catchError((response: unknown) => {
@@ -170,8 +170,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
                 language.invalidParams = response.error.invalid_params;
               }
               return EMPTY;
-            })
-          )
+            }),
+          ),
       );
     }
 

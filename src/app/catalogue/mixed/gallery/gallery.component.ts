@@ -28,7 +28,7 @@ export class CatalogueMixedGalleryComponent {
       }
 
       return of(identity);
-    })
+    }),
   );
 
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -48,7 +48,7 @@ export class CatalogueMixedGalleryComponent {
           }),
           language: this.languageService.language,
           limit: 1,
-        })
+        }),
       );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
@@ -60,7 +60,7 @@ export class CatalogueMixedGalleryComponent {
         return EMPTY;
       }
       return of(brand);
-    })
+    }),
   );
 
   protected readonly data$ = this.route.data as Observable<BrandPerspectivePageData>;
@@ -70,7 +70,7 @@ export class CatalogueMixedGalleryComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem) {

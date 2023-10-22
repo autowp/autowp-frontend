@@ -15,7 +15,7 @@ export class DonateComponent implements OnInit {
   constructor(
     private readonly pageEnv: PageEnvService,
     private readonly languageService: LanguageService,
-    private readonly domSanitizer: DomSanitizer
+    private readonly domSanitizer: DomSanitizer,
   ) {
     /*const map = {
       account: '41001161017513',

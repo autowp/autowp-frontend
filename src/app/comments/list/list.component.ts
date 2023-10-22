@@ -46,7 +46,7 @@ export class CommentsListComponent {
         canVote$: this.user$.pipe(map((user) => user && user.id !== message.authorId)),
         message,
         user$: this.userService.getUser2$(message.authorId),
-      }))
+      })),
     );
   }
   protected readonly messages$ = new BehaviorSubject<
@@ -77,7 +77,7 @@ export class CommentsListComponent {
     private readonly modalService: NgbModal,
     private readonly toastService: ToastsService,
     private readonly commentsGrpc: CommentsClient,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   protected vote(message: APICommentsMessage, value: number) {
@@ -86,7 +86,7 @@ export class CommentsListComponent {
         new CommentsVoteCommentRequest({
           commentId: message.id,
           vote: value,
-        })
+        }),
       )
       .pipe(
         catchError((error: unknown) => {
@@ -98,9 +98,9 @@ export class CommentsListComponent {
 
           // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
           return this.commentsGrpc.getMessage(
-            new GetMessageRequest({fields: new CommentMessageFields({vote: true}), id: message.id})
+            new GetMessageRequest({fields: new CommentMessageFields({vote: true}), id: message.id}),
           );
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
@@ -116,7 +116,7 @@ export class CommentsListComponent {
         new CommentsSetDeletedRequest({
           commentId: message.id,
           deleted: value,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

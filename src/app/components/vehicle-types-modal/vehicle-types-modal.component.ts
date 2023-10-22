@@ -22,12 +22,12 @@ export class VehicleTypesModalComponent {
   @Output() changed = new EventEmitter<string[]>();
   protected readonly types$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => translateNames(types)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
     protected readonly activeModal: NgbActiveModal,
-    private readonly vehicleTypeService: VehicleTypeService
+    private readonly vehicleTypeService: VehicleTypeService,
   ) {}
 
   protected isActive(id: number): boolean {

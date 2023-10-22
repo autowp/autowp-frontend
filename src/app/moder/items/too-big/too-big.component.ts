@@ -10,7 +10,10 @@ export class ModerItemsTooBigComponent implements OnInit {
   protected loading = false;
   protected items: APIItem[];
 
-  constructor(private readonly itemService: ItemService, private readonly pageEnv: PageEnvService) {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly pageEnv: PageEnvService,
+  ) {}
 
   ngOnInit(): void {
     setTimeout(
@@ -19,7 +22,7 @@ export class ModerItemsTooBigComponent implements OnInit {
           layout: {isAdminPage: true},
           pageId: 131,
         }),
-      0
+      0,
     );
 
     this.loading = true;

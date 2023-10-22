@@ -16,15 +16,15 @@ export class TwinsGroupSpecificationsComponent {
   protected readonly id$: Observable<string> = this.route.parent.paramMap.pipe(
     map((params) => params.get('group')),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly html$: Observable<string> = this.id$.pipe(
     switchMap((id) =>
       this.api.request('GET', 'item/' + id + '/child-specifications', {
         responseType: 'text',
-      })
-    )
+      }),
+    ),
   );
 
   protected readonly group$: Observable<APIItem> = this.id$.pipe(
@@ -40,7 +40,7 @@ export class TwinsGroupSpecificationsComponent {
           fields: new ItemFields({nameText: true}),
           id,
           language: this.languageService.language,
-        })
+        }),
       );
     }),
     tap((group) => {
@@ -50,9 +50,9 @@ export class TwinsGroupSpecificationsComponent {
             pageId: 27,
             title: $localize`Specifications of ${group.nameText}`,
           }),
-        0
+        0,
       );
-    })
+    }),
   );
 
   constructor(
@@ -61,6 +61,6 @@ export class TwinsGroupSpecificationsComponent {
     private readonly api: APIService,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

@@ -45,7 +45,7 @@ export class UsersUserPicturesComponent implements OnInit {
     shareReplay(1),
   );
 
-  protected readonly userId$: Observable<string> = this.route.paramMap.pipe(
+  private readonly userId$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),

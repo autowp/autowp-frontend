@@ -52,7 +52,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private readonly auth: AuthService,
     private readonly pageEnv: PageEnvService,
     private readonly timezone: TimezoneService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -79,12 +79,12 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
             params: {
               fields: 'name,timezone,language,votes_per_day,votes_left,img',
             },
-          })
+          }),
         ),
         catchError((response: unknown) => {
           this.toastService.handleError(response);
           return EMPTY;
-        })
+        }),
       )
       .subscribe((user) => {
         this.settings.timezone = user.timezone;
@@ -166,7 +166,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
             params: {
               fields: 'img',
             },
-          })
+          }),
         ),
         catchError((response: unknown) => {
           this.toastService.handleError(response);
@@ -174,7 +174,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         }),
         tap((response) => {
           this.photo = response.img;
-        })
+        }),
       )
       .subscribe();
   }

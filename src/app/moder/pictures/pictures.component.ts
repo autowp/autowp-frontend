@@ -101,10 +101,10 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         perspectives.map((perspective) => ({
           name: getPerspectiveTranslation(perspective.name),
           value: perspective.id,
-        }))
-      )
+        })),
+      ),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected perspectiveID: 'null' | null | number;
@@ -225,7 +225,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   protected ownerID: number;
   protected ownerQuery = '';
   protected readonly ownersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
-    text$: Observable<string>
+    text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
@@ -250,15 +250,15 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items)
+          map((response) => response.items),
         );
-      })
+      }),
     );
 
   protected itemID: number;
   protected itemQuery = '';
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
-    text$: Observable<string>
+    text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
@@ -284,14 +284,14 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items)
+          map((response) => response.items),
         );
-      })
+      }),
     );
 
   protected readonly vehicleTypeOptions$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => this.defaultVehicleTypeOptions.concat(toPlainVehicleTypes(types, 0))),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly change$ = new BehaviorSubject<null>(null);
@@ -390,9 +390,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             catchError((response: unknown) => {
               this.toastService.handleError(response);
               return EMPTY;
-            })
-          )
-        )
+            }),
+          ),
+        ),
       );
     }),
     map((response) => ({
@@ -400,7 +400,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       paginator: response.paginator,
       pictures: response.pictures,
     })),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
@@ -417,7 +417,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService
+    private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
   ) {}
 
   ngOnInit(): void {
@@ -427,7 +427,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           layout: {isAdminPage: true},
           pageId: 73,
         }),
-      0
+      0,
     );
 
     this.addedFromSub = this.addedFrom$.pipe(distinctUntilChanged(), debounceTime(30)).subscribe((value) => {
@@ -551,7 +551,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
                   status: 'accepted',
                 },
               })
-              .pipe(tap(() => (picture.status = 'accepted')))
+              .pipe(tap(() => (picture.status = 'accepted'))),
           );
         }
       }

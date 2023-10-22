@@ -27,8 +27,8 @@ export class CommentsVotesComponent {
       this.commentsGrpc.getCommentVotes(
         new GetCommentVotesRequest({
           commentId: '' + messageID,
-        })
-      )
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -37,12 +37,12 @@ export class CommentsVotesComponent {
     map((votes) => ({
       negative: votes.items.filter((v) => v.value === CommentVote.VoteValue.NEGATIVE),
       positive: votes.items.filter((v) => v.value === CommentVote.VoteValue.POSITIVE),
-    }))
+    })),
   );
 
   constructor(
     protected readonly activeModal: NgbActiveModal,
     private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient
+    private readonly commentsGrpc: CommentsClient,
   ) {}
 }

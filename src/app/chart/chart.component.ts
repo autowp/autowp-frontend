@@ -61,7 +61,7 @@ export class ChartComponent {
   constructor(
     private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {
     setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
 

@@ -6,7 +6,7 @@
     fully advertising free in the future.
   </div>
   <div class="col-md-6">
-    <p i18n>Our goal is to cover {{ goal | currency : 'EUR' }} that is the cost of 1 year of website existence.</p>
+    <p i18n>Our goal is to cover {{ goal | currency: 'EUR' }} that is the cost of 1 year of website existence.</p>
     <div style="position: relative" *ngIf="state$ | async as state">
       <div class="progress" style="height: 10px; border-bottom-right-radius: 0; border-bottom-left-radius: 0">
         <div
@@ -14,7 +14,7 @@
           [style.min-width]="operation.percent + '%'"
           *ngFor="let operation of state.charges"
           placement="top"
-          ngbTooltip="{{ operation.sum | currency : operation.currency }}, {{ operation.purpose }}, {{
+          ngbTooltip="{{ operation.sum | currency: operation.currency }}, {{ operation.purpose }}, {{
             operation.date | timeAgo
           }}"
         ></div>
@@ -22,7 +22,7 @@
           class="progress-bar bg-warning"
           [style.width]="state.monthlyChargePercent + '%'"
           placement="top"
-          ngbTooltip="{{ state.monthlyCharge | currency : 'EUR' }} required for the next month"
+          ngbTooltip="{{ state.monthlyCharge | currency: 'EUR' }} required for the next month"
         ></div>
       </div>
       <div class="progress mb-4" style="height: 30px; border-top-right-radius: 0; border-top-left-radius: 0">
@@ -32,7 +32,7 @@
           [style.background-color]="i % 2 ? '#28a745' : 'rgb(97, 202, 91)'"
           [style.width]="operation.percent + '%'"
           placement="top"
-          ngbTooltip="{{ operation.sum | currency : operation.currency }} by {{ operation.contributor }}, {{
+          ngbTooltip="{{ operation.sum | currency: operation.currency }} by {{ operation.contributor }}, {{
             operation.date | timeAgo
           }}"
         ></div>

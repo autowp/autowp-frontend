@@ -19,7 +19,7 @@ export class PictureModerVoteModalComponent {
   constructor(
     protected readonly activeModal: NgbActiveModal,
     private readonly templateService: APIPictureModerVoteTemplateService,
-    private readonly moderVoteService: PictureModerVoteService
+    private readonly moderVoteService: PictureModerVoteService,
   ) {}
 
   protected ok() {

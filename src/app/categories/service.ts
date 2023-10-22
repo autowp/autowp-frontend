@@ -22,7 +22,7 @@ export class CategoriesService {
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
     const categoryPipe$ = route.paramMap.pipe(
       map((params) => params.get('category')),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     const pathPipe$ = route.paramMap.pipe(
@@ -30,7 +30,7 @@ export class CategoriesService {
         const path = params.get('path');
         return path ? path : '';
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     return categoryPipe$.pipe(
@@ -39,14 +39,14 @@ export class CategoriesService {
           map((path) => ({
             category,
             path,
-          }))
-        )
+          })),
+        ),
       ),
       switchMap((params) =>
         this.itemService.getPath$({
           catname: params.category,
           path: params.path,
-        })
+        }),
       ),
       map((response) => {
         let category: APIItem;
@@ -83,7 +83,7 @@ export class CategoriesService {
           pathCatnames,
           pathItems,
         };
-      })
+      }),
     );
   }
 }

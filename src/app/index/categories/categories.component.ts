@@ -8,11 +8,14 @@ import {LanguageService} from '@services/language';
   templateUrl: './categories.component.html',
 })
 export class IndexCategoriesComponent {
-  constructor(private readonly items: ItemsClient, private readonly languageService: LanguageService) {}
+  constructor(
+    private readonly items: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 
   protected readonly result$ = this.items.getTopCategoriesList(
     new GetTopCategoriesListRequest({
       language: this.languageService.language,
-    })
+    }),
   );
 }

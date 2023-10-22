@@ -35,12 +35,12 @@ interface Theme extends APIForumsTheme.AsObject {
 export class ForumsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   private readonly themeID$ = this.route.paramMap.pipe(
     map((params) => params.get('theme_id')),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly data$: Observable<{theme: APIForumsTheme | null; themes: Theme[]}> = this.themeID$.pipe(
@@ -50,7 +50,7 @@ export class ForumsComponent {
           map((response) => ({
             theme: null as APIForumsTheme,
             themes: response.items,
-          }))
+          })),
         );
       } else {
         return combineLatest([
@@ -60,7 +60,7 @@ export class ForumsComponent {
           map(([theme, themes]) => ({
             theme,
             themes: themes.items,
-          }))
+          })),
         );
       }
     }),
@@ -75,7 +75,7 @@ export class ForumsComponent {
               }
               return throwError(() => error);
             }),
-            shareReplay(1)
+            shareReplay(1),
           );
           const lastMessage$ = lastTopic$.pipe(
             switchMap((topic) => {
@@ -91,7 +91,7 @@ export class ForumsComponent {
               }
               return throwError(() => error);
             }),
-            shareReplay(1)
+            shareReplay(1),
           );
           const lastMessageAuthor$ = lastMessage$.pipe(
             switchMap((msg) => {
@@ -99,7 +99,7 @@ export class ForumsComponent {
                 return of(null);
               }
               return this.userService.getUser2$(msg.userId);
-            })
+            }),
           );
           return {
             ...theme.toObject(),
@@ -109,7 +109,7 @@ export class ForumsComponent {
             themes$: this.grpc.getThemes(
               new APIGetForumsThemesRequest({
                 themeId: theme.id,
-              })
+              }),
             ),
           };
         }),
@@ -125,7 +125,7 @@ export class ForumsComponent {
         this.pageEnv.set({pageId: 42});
       }
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly reloadTopics$ = new BehaviorSubject<boolean>(false);
@@ -140,7 +140,7 @@ export class ForumsComponent {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly grpc: ForumsClient,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   protected getForumsThemeTranslation(id: string): string {

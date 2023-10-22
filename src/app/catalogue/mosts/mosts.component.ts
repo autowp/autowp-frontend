@@ -15,17 +15,17 @@ export class CatalogueMostsComponent {
   protected readonly ratingCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('rating_catname')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
   protected readonly typeCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('type_catname')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
   protected readonly yearsCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('years_catname')),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -46,7 +46,7 @@ export class CatalogueMostsComponent {
             }),
             language: this.languageService.language,
             limit: 1,
-          })
+          }),
         )
         .pipe(
           switchMap((response) => {
@@ -57,7 +57,7 @@ export class CatalogueMostsComponent {
               return EMPTY;
             }
             return of(response.items[0]);
-          })
+          }),
         );
     }),
     tap((brand) => {
@@ -66,7 +66,7 @@ export class CatalogueMostsComponent {
         title: $localize`${brand.nameText} Engines`,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
@@ -74,6 +74,6 @@ export class CatalogueMostsComponent {
     private readonly router: Router,
     private readonly pageEnv: PageEnvService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

@@ -22,19 +22,19 @@ export class PersonsPersonGalleryComponent {
         return EMPTY;
       }
       return of(identity);
-    })
+    }),
   );
 
   protected readonly itemID$ = this.route.parent.paramMap.pipe(
     map((params) => parseInt(params.get('id'), 10)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected pictureSelected(item: APIGalleryItem) {

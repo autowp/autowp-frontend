@@ -187,19 +187,19 @@
             @ <strong>{{ picture.dpi_x + '×' + picture.dpi_y }}</strong>
             <a href="https://en.wikipedia.org/wiki/Dots_per_inch"><abbr title="Dots Per Inch">DPI</abbr></a>
             <ng-container *ngIf="picture.dpi_x > 0 && picture.dpi_y > 0">
-              {{ (2.54 * picture.width) / picture.dpi_x | number : '1.2-2' }}×{{
-                (2.54 * picture.height) / picture.dpi_y | number : '1.2-2'
+              {{ (2.54 * picture.width) / picture.dpi_x | number: '1.2-2' }}×{{
+                (2.54 * picture.height) / picture.dpi_y | number: '1.2-2'
               }}cm
             </ng-container>
           </ng-container>
         </li>
         <li>
-          <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.filesize | bytes : 2 }}</strong>
+          <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.filesize | bytes: 2 }}</strong>
         </li>
         <li *ngIf="picture.owner">
           <ng-container i18n>Added by:</ng-container>
           <app-user [user]="picture.owner"></app-user>,
-          <span [ngbTooltip]="picture.add_date | date : 'medium'">{{ picture.add_date | timeAgo }}</span>
+          <span [ngbTooltip]="picture.add_date | date: 'medium'">{{ picture.add_date | timeAgo }}</span>
         </li>
         <li *ngIf="picture.taken_date"><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
         <li *ngIf="picture.point">

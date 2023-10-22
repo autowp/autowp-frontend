@@ -35,10 +35,10 @@ export class TwinsGroupItemsComponent {
             pageId: 25,
             title: group.name_text,
           }),
-        0
+        0,
       );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly CommentsType = CommentsType;
@@ -46,6 +46,6 @@ export class TwinsGroupItemsComponent {
   constructor(
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService
+    private readonly pageEnv: PageEnvService,
   ) {}
 }

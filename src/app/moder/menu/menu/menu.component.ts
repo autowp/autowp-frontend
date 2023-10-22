@@ -57,13 +57,13 @@ export class MenuComponent {
           routerLink: ['/moder/items'],
         },
       ];
-    })
+    }),
   );
 
   constructor(
     protected readonly auth: AuthService,
     protected readonly acl: ACLService,
     private readonly pictureService: PictureService,
-    private readonly commentService: APICommentsService
+    private readonly commentService: APICommentsService,
   ) {}
 }

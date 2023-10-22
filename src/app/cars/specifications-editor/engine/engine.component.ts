@@ -37,10 +37,10 @@ export class CarsSpecificationsEditorEngineComponent {
           fields: new ItemFields({nameHtml: true}),
           id: item.engine_id.toString(),
           language: this.languageService.language,
-        })
+        }),
       );
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
   protected loading = 0;
 
@@ -49,7 +49,7 @@ export class CarsSpecificationsEditorEngineComponent {
     private readonly itemsClient: ItemsClient,
     private readonly api: APIService,
     private readonly toastService: ToastsService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   private setEngineID(item: APIItem, value: string) {

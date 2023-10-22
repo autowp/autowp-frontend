@@ -34,7 +34,7 @@ export class CutawayAuthorsComponent implements OnInit {
           type_id: 2,
         },
         type_id: ItemType.ITEM_TYPE_PERSON,
-      })
+      }),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -43,14 +43,14 @@ export class CutawayAuthorsComponent implements OnInit {
     map((response) => ({
       items: this.prepareItems(response.items),
       paginator: response.paginator,
-    }))
+    })),
   );
 
   constructor(
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {

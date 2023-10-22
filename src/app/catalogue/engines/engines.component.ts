@@ -17,7 +17,7 @@ export class CatalogueEnginesComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly brand$ = this.route.paramMap.pipe(
@@ -38,7 +38,7 @@ export class CatalogueEnginesComponent {
             }),
             language: this.languageService.language,
             limit: 1,
-          })
+          }),
         )
         .pipe(
           switchMap((response) => {
@@ -49,7 +49,7 @@ export class CatalogueEnginesComponent {
               return EMPTY;
             }
             return of(response.items[0]);
-          })
+          }),
         );
     }),
     tap((brand) => {
@@ -58,7 +58,7 @@ export class CatalogueEnginesComponent {
         title: $localize`${brand.nameOnly} Engines`,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
@@ -79,7 +79,7 @@ export class CatalogueEnginesComponent {
           parent_id: +brand.id,
         }),
         of(brand),
-      ])
+      ]),
     ),
     map(([response, brand]) => {
       const items: CatalogueListItem[] = response.items.map((item) => {
@@ -123,7 +123,7 @@ export class CatalogueEnginesComponent {
         items,
         paginator: response.paginator,
       };
-    })
+    }),
   );
 
   protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} Engines`));
@@ -134,6 +134,6 @@ export class CatalogueEnginesComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

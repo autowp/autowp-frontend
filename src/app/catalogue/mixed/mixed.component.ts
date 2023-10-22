@@ -36,7 +36,7 @@ export class CatalogueMixedComponent {
           }),
           language: this.languageService.language,
           limit: 1,
-        })
+        }),
       );
     }),
     map((response) => (response && response.items.length ? response.items[0] : null)),
@@ -49,13 +49,13 @@ export class CatalogueMixedComponent {
       }
       return of(brand);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page'), 10)),
     distinctUntilChanged(),
-    debounceTime(10)
+    debounceTime(10),
   );
 
   protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(
@@ -65,7 +65,7 @@ export class CatalogueMixedComponent {
         title: data.title,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
@@ -79,13 +79,13 @@ export class CatalogueMixedComponent {
         perspective_exclude_id: data.perspective_exclude_id,
         perspective_id: data.perspective_id,
         status: 'accepted',
-      })
+      }),
     ),
     map((response) => ({
       paginator: response.paginator,
       pictures: chunkBy(response.pictures, 4),
     })),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
@@ -94,6 +94,6 @@ export class CatalogueMixedComponent {
     private readonly pictureService: PictureService,
     private readonly router: Router,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 }

@@ -17,7 +17,10 @@ interface LogItem {
 export class DonateLogComponent implements OnInit {
   protected readonly items: LogItem[];
 
-  constructor(private readonly userService: UserService, private readonly pageEnv: PageEnvService) {
+  constructor(
+    private readonly userService: UserService,
+    private readonly pageEnv: PageEnvService,
+  ) {
     this.items = require('./data.json');
 
     for (const item of this.items) {

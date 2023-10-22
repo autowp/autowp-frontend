@@ -21,7 +21,7 @@ interface PictureRoute {
 export class CategoriesCategoryPicturesComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected readonly data$: Observable<{
@@ -49,18 +49,18 @@ export class CategoriesCategoryPicturesComponent {
               paginator,
               pictures: chunkBy(pics, 4),
             };
-          })
-        )
+          }),
+        ),
     ),
     tap(() => {
       this.pageEnv.set({pageId: 22});
-    })
+    }),
   );
 
   constructor(
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
   ) {}
 }

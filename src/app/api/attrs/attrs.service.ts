@@ -136,15 +136,18 @@ export class APIAttrsService {
     .getAttributeTypes(new Empty())
     .pipe(
       map((response) => response.items),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   public readonly zones$: Observable<AttrZone[]> = this.attrsClient.getZones(new Empty()).pipe(
     map((response) => response.items),
-    shareReplay(1)
+    shareReplay(1),
   );
 
-  constructor(private readonly api: APIService, private readonly attrsClient: AttrsClient) {}
+  constructor(
+    private readonly api: APIService,
+    private readonly attrsClient: AttrsClient,
+  ) {}
 
   public getZone$(id: string): Observable<AttrZone> {
     return this.zones$.pipe(
@@ -155,7 +158,7 @@ export class APIAttrsService {
           }
         }
         return null as AttrZone;
-      })
+      }),
     );
   }
 

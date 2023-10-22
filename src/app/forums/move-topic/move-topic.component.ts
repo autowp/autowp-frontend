@@ -28,7 +28,7 @@ export class ForumsMoveTopicComponent implements OnInit {
         this.toastService.handleError(response);
         return EMPTY;
       }),
-      map((response) => response.items)
+      map((response) => response.items),
     );
 
   protected readonly topic$ = this.route.queryParamMap.pipe(
@@ -41,11 +41,11 @@ export class ForumsMoveTopicComponent implements OnInit {
       });
       return EMPTY;
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly theme$ = this.topic$.pipe(
-    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId})))
+    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId}))),
   );
 
   constructor(
@@ -53,7 +53,7 @@ export class ForumsMoveTopicComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
-    private readonly grpc: ForumsClient
+    private readonly grpc: ForumsClient,
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +66,7 @@ export class ForumsMoveTopicComponent implements OnInit {
         new APIMoveTopicRequest({
           id: topic.id,
           themeId: theme.id,
-        })
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),

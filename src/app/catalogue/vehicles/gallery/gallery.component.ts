@@ -25,14 +25,14 @@ export class CatalogueVehiclesGalleryComponent {
         return;
       }
       return of(identity);
-    })
+    }),
   );
 
   private readonly exact$ = this.route.data.pipe(
     map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
@@ -48,7 +48,7 @@ export class CatalogueVehiclesGalleryComponent {
       }
       return of(data);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
@@ -57,7 +57,7 @@ export class CatalogueVehiclesGalleryComponent {
       brand.catname,
       ...path.map((node) => node.catname),
       ...(exact ? ['exact'] : []),
-    ])
+    ]),
   );
 
   protected readonly galleryRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'gallery']));
@@ -71,7 +71,7 @@ export class CatalogueVehiclesGalleryComponent {
         exactItemID: exact ? itemID : null,
         itemID: exact ? null : itemID,
       };
-    })
+    }),
   );
 
   constructor(
@@ -79,7 +79,7 @@ export class CatalogueVehiclesGalleryComponent {
     private readonly route: ActivatedRoute,
     private readonly catalogueService: CatalogueService,
     private readonly acl: ACLService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   protected pictureSelected(item: APIGalleryItem) {

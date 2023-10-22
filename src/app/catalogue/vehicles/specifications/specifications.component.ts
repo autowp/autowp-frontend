@@ -18,7 +18,7 @@ export class CatalogueVehiclesSpecificationsComponent {
 
   private catalogue$ = this.isModer$.pipe(
     switchMap((isModer) =>
-      this.catalogueService.resolveCatalogue$(this.route, isModer, 'item.has_specs,item.has_child_specs')
+      this.catalogueService.resolveCatalogue$(this.route, isModer, 'item.has_specs,item.has_child_specs'),
     ),
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
@@ -29,7 +29,7 @@ export class CatalogueVehiclesSpecificationsComponent {
       }
       return of(data);
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(
@@ -40,16 +40,16 @@ export class CatalogueVehiclesSpecificationsComponent {
         title: $localize`Specifications of` + ' ' + brand.nameHtml,
       });
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
-    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path))
+    map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
   protected readonly item$ = this.catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected readonly html$ = this.item$.pipe(
@@ -70,7 +70,7 @@ export class CatalogueVehiclesSpecificationsComponent {
         skipLocationChange: true,
       });
       return EMPTY;
-    })
+    }),
   );
 
   constructor(
@@ -79,6 +79,6 @@ export class CatalogueVehiclesSpecificationsComponent {
     private readonly catalogueService: CatalogueService,
     private readonly acl: ACLService,
     private readonly router: Router,
-    private readonly api: APIService
+    private readonly api: APIService,
   ) {}
 }

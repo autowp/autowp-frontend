@@ -65,7 +65,7 @@ export class IndexDonateComponent {
         monthlyCharge: this.monthlyCharge,
         monthlyChargePercent: (100 * this.monthlyCharge) / total,
       };
-    })
+    }),
   );
 
   constructor(protected readonly languageService: LanguageService) {}
