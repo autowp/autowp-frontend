@@ -1,5 +1,18 @@
 [
   {
+    "sum": 158.11,
+    "currency": "EUR",
+    "date": "2023-10-19T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "October/November hosting"
+  },
+  {
+    "sum": 1250,
+    "currency": "RUB",
+    "date": "2023-10-13T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
     "sum": 58.23,
     "currency": "RUB",
     "date": "2023-09-27T00:00:00+00:00",
