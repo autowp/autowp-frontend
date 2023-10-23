@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIPaginator} from '@services/api.service';
-import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
+import {APIItem, APIItemList, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {PictureItemService} from '@services/picture-item';
@@ -13,7 +13,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/oper
 import {chunk} from '../../../../chunk';
 
 export interface PictureItemMoveSelection {
-  itemId: number;
+  itemId: string;
   perspectiveId: number;
   type: number;
 }
@@ -33,24 +33,24 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
   protected showFactories: boolean;
   protected showPersons: boolean;
   protected showAuthors: boolean;
-  protected museumsPaginator: APIPaginator;
-  protected factoriesPaginator: APIPaginator;
-  protected brandsPaginator: APIPaginator;
-  protected authorsPaginator: APIPaginator;
-  protected brandID: number;
+  protected museumsPaginator: Pages;
+  protected factoriesPaginator: Pages;
+  protected brandsPaginator: Pages;
+  protected authorsPaginator: Pages;
+  protected brandID: string;
   protected museums: APIItem[] = [];
   protected factories: APIItem[] = [];
   protected vehicles: APIItemParent[] = [];
   protected engines: APIItemParent[] = [];
   protected authors: APIItem[] = [];
-  protected personsPaginator: APIPaginator;
+  protected personsPaginator: Pages;
   protected persons: APIItem[] = [];
   protected concepts: APIItemParent[] = [];
   protected brands: APIItem[][] = [];
 
   protected showCopyrights: boolean;
   protected copyrights: APIItem[] = [];
-  protected copyrightsPaginator: APIPaginator;
+  protected copyrightsPaginator: Pages;
 
   protected searchBrand: string;
   protected readonly searchBrand$ = new BehaviorSubject<string>('');
@@ -61,12 +61,13 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly pictureItemService: PictureItemService,
-    private readonly itemService: ItemService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
     private readonly pictureService: PictureService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +90,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
       ),
       this.route.queryParamMap.pipe(
         map((params) => ({
-          brand_id: parseInt(params.get('brand_id'), 10),
+          brand_id: params.get('brand_id'),
           page: parseInt(params.get('page'), 10),
           show_authors: !!params.get('show_authors'),
           show_copyrights: !!params.get('show_copyrights'),
@@ -116,15 +117,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             this.showAuthors = true;
           }
 
-          let museums$: Observable<APIItemsGetResponse> = of(null);
+          let museums$: Observable<APIItemList> = of(null);
           if (this.showMuseums) {
-            museums$ = this.itemService
-              .getItems$({
-                fields: 'name_html',
-                limit: 50,
-                page: params.page,
-                type_id: ItemType.ITEM_TYPE_MUSEUM,
-              })
+            museums$ = this.itemsClient
+              .list(
+                new ListItemsRequest({
+                  fields: new ItemFields({nameHtml: true}),
+                  language: this.languageService.language,
+                  limit: 50,
+                  page: params.page,
+                  typeId: ItemType.ITEM_TYPE_MUSEUM,
+                }),
+              )
               .pipe(
                 tap((response) => {
                   this.museums = response.items;
@@ -133,15 +137,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let factories$: Observable<APIItemsGetResponse> = of(null);
+          let factories$: Observable<APIItemList> = of(null);
           if (this.showFactories) {
-            factories$ = this.itemService
-              .getItems$({
-                fields: 'name_html',
-                limit: 50,
-                page: params.page,
-                type_id: ItemType.ITEM_TYPE_FACTORY,
-              })
+            factories$ = this.itemsClient
+              .list(
+                new ListItemsRequest({
+                  fields: new ItemFields({nameHtml: true}),
+                  language: this.languageService.language,
+                  limit: 50,
+                  page: params.page,
+                  typeId: ItemType.ITEM_TYPE_FACTORY,
+                }),
+              )
               .pipe(
                 tap((response) => {
                   this.factories = response.items;
@@ -150,19 +157,22 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
               );
           }
 
-          let persons$: Observable<APIItemsGetResponse> = of(null);
+          let persons$: Observable<APIItemList> = of(null);
           if (this.showPersons) {
             persons$ = this.searchPerson$.pipe(
               distinctUntilChanged(),
               debounceTime(30),
               switchMap((search) =>
-                this.itemService.getItems$({
-                  fields: 'name_html',
-                  limit: 50,
-                  name: search ? '%' + search + '%' : null,
-                  page: params.page,
-                  type_id: ItemType.ITEM_TYPE_PERSON,
-                }),
+                this.itemsClient.list(
+                  new ListItemsRequest({
+                    fields: new ItemFields({nameHtml: true}),
+                    language: this.languageService.language,
+                    limit: 50,
+                    name: search ? '%' + search + '%' : null,
+                    page: params.page,
+                    typeId: ItemType.ITEM_TYPE_PERSON,
+                  }),
+                ),
               ),
               tap((response) => {
                 this.persons = response.items;
@@ -171,19 +181,22 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             );
           }
 
-          let authors$: Observable<APIItemsGetResponse> = of(null);
+          let authors$: Observable<APIItemList> = of(null);
           if (this.showAuthors) {
             authors$ = this.searchAuthor$.pipe(
               distinctUntilChanged(),
               debounceTime(30),
               switchMap((search) =>
-                this.itemService.getItems$({
-                  fields: 'name_html',
-                  limit: 50,
-                  name: search ? '%' + search + '%' : null,
-                  page: params.page,
-                  type_id: ItemType.ITEM_TYPE_PERSON,
-                }),
+                this.itemsClient.list(
+                  new ListItemsRequest({
+                    fields: new ItemFields({nameHtml: true}),
+                    language: this.languageService.language,
+                    limit: 50,
+                    name: search ? '%' + search + '%' : null,
+                    page: params.page,
+                    typeId: ItemType.ITEM_TYPE_PERSON,
+                  }),
+                ),
               ),
               tap((response) => {
                 this.authors = response.items;
@@ -192,15 +205,18 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
             );
           }
 
-          let copyrights$: Observable<APIItemsGetResponse> = of(null);
+          let copyrights$: Observable<APIItemList> = of(null);
           if (this.showCopyrights) {
-            copyrights$ = this.itemService
-              .getItems$({
-                fields: 'name_html',
-                limit: 50,
-                page: params.page,
-                type_id: ItemType.ITEM_TYPE_COPYRIGHT,
-              })
+            copyrights$ = this.itemsClient
+              .list(
+                new ListItemsRequest({
+                  fields: new ItemFields({nameHtml: true}),
+                  language: this.languageService.language,
+                  limit: 50,
+                  page: params.page,
+                  typeId: ItemType.ITEM_TYPE_COPYRIGHT,
+                }),
+              )
               .pipe(
                 tap((response) => {
                   this.copyrights = response.items;
@@ -226,7 +242,7 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                     limit: 500,
                     page: 1,
-                    parent_id: this.brandID,
+                    parent_id: +this.brandID,
                   })
                   .pipe(tap((response) => (this.vehicles = response.items))),
                 this.itemParentService
@@ -235,13 +251,13 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                     item_type_id: ItemType.ITEM_TYPE_ENGINE,
                     limit: 500,
                     page: 1,
-                    parent_id: this.brandID,
+                    parent_id: +this.brandID,
                   })
                   .pipe(tap((response) => (this.engines = response.items))),
 
                 this.itemParentService
                   .getItems$({
-                    ancestor_id: this.brandID,
+                    ancestor_id: +this.brandID,
                     concept: true,
                     fields: 'item.name_html,item.childs_count',
                     item_type_id: ItemType.ITEM_TYPE_VEHICLE,
@@ -255,16 +271,19 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
                 distinctUntilChanged(),
                 debounceTime(30),
                 switchMap((search) =>
-                  this.itemService.getItems$({
-                    fields: 'name_html',
-                    limit: 200,
-                    name: search ? '%' + search + '%' : null,
-                    page: params.page,
-                    type_id: ItemType.ITEM_TYPE_BRAND,
-                  }),
+                  this.itemsClient.list(
+                    new ListItemsRequest({
+                      fields: new ItemFields({nameHtml: true}),
+                      language: this.languageService.language,
+                      limit: 200,
+                      name: search ? '%' + search + '%' : null,
+                      page: params.page,
+                      typeId: ItemType.ITEM_TYPE_BRAND,
+                    }),
+                  ),
                 ),
                 tap((response) => {
-                  this.brands = chunk<APIItem>(response.items, 6);
+                  this.brands = chunk(response.items, 6);
                   this.brandsPaginator = response.paginator;
                 }),
                 map(() => null),
@@ -288,19 +307,19 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
 
     if (this.srcItemID && this.srcType) {
       this.pictureItemService
-        .changeItem$(this.id, this.srcType, this.srcItemID, dstItemID)
+        .changeItem$(this.id, this.srcType, this.srcItemID, +dstItemID)
         .pipe(
           switchMap(() => {
             if (!dstPerspectiveID) {
               return of(null);
             }
 
-            return this.pictureItemService.setPerspective$(this.id, dstItemID, this.srcType, dstPerspectiveID);
+            return this.pictureItemService.setPerspective$(this.id, +dstItemID, this.srcType, dstPerspectiveID);
           }),
         )
         .subscribe(() => {
           if (localStorage) {
-            localStorage.setItem('last_item', dstItemID.toString());
+            localStorage.setItem('last_item', dstItemID);
           }
           this.router.navigate(['/moder/pictures', this.id]);
         });
@@ -309,9 +328,9 @@ export class ModerPicturesItemMoveComponent implements OnInit, OnDestroy {
         perspective_id: dstPerspectiveID ? dstPerspectiveID : null,
       };
 
-      this.pictureItemService.create$(this.id, dstItemID, selection.type, data).subscribe(() => {
+      this.pictureItemService.create$(this.id, +dstItemID, selection.type, data).subscribe(() => {
         if (localStorage) {
-          localStorage.setItem('last_item', dstItemID.toString());
+          localStorage.setItem('last_item', dstItemID);
         }
         this.router.navigate(['/moder/pictures', this.id]);
       });

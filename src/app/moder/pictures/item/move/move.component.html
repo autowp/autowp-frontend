@@ -119,7 +119,7 @@
 <div *ngIf="showMuseums && !srcItemID && (!srcType || srcType === 1)">
   <div class="card card-body">
     <ng-container *ngFor="let item of museums">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.name_html"></a>
+      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.nameHtml"></a>
       <br />
     </ng-container>
   </div>
@@ -130,7 +130,7 @@
 <div *ngIf="showFactories && !srcItemID && (!srcType || srcType === 1)">
   <div class="card card-body">
     <ng-container *ngFor="let item of factories">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.name_html"></a>
+      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.nameHtml"></a>
       <br />
     </ng-container>
   </div>
@@ -151,7 +151,7 @@
       />
     </div>
     <ng-container *ngFor="let item of persons">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.name_html"></a>
+      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.nameHtml"></a>
       <br />
     </ng-container>
   </div>
@@ -172,7 +172,7 @@
       />
     </div>
     <ng-container *ngFor="let item of authors">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 2})" [innerHTML]="item.name_html"></a>
+      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 2})" [innerHTML]="item.nameHtml"></a>
       <br />
     </ng-container>
   </div>
@@ -183,7 +183,7 @@
 <div *ngIf="showCopyrights && !srcItemID && (!srcType || srcType === 3)">
   <div class="card card-body">
     <ng-container *ngFor="let item of copyrights">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 3})" [innerHTML]="item.name_html"></a>
+      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 3})" [innerHTML]="item.nameHtml"></a>
       <br />
     </ng-container>
   </div>
@@ -215,7 +215,7 @@
               [routerLink]="[]"
               [queryParams]="{page: null, brand_id: item.id}"
               queryParamsHandling="merge"
-              [innerHTML]="item.name_html"
+              [innerHTML]="item.nameHtml"
             ></a>
             <br />
           </ng-container>
