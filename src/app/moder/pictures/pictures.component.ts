@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {VehicleType} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ListItemsRequest, VehicleType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem, GetItemsServiceOptions, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIGetPicturesOptions, APIPicture, PictureService} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
@@ -267,19 +268,24 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        const params: GetItemsServiceOptions = {
-          fields: 'name_text,name_html',
-          id: 0,
+        const params = new ListItemsRequest({
+          fields: new ItemFields({
+            nameHtml: true,
+            nameText: true,
+          }),
+          language: this.languageService.language,
           limit: 10,
-          name: '',
-        };
+        });
         if (query.substring(0, 1) === '#') {
-          params.id = parseInt(query.substring(1), 10);
+          const id = parseInt(query.substring(1), 10);
+          if (id) {
+            params.id = '' + id;
+          }
         } else {
           params.name = '%' + query + '%';
         }
 
-        return this.itemService.getItems$(params).pipe(
+        return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
@@ -410,7 +416,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly perspectiveService: APIPerspectiveService,
     private readonly moderVoteService: PictureModerVoteService,
     private readonly vehicleTypeService: VehicleTypeService,
-    private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
@@ -418,6 +423,8 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -457,7 +464,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   }
 
   protected itemFormatter(x: APIItem) {
-    return x.name_text;
+    return x.nameText;
   }
 
   protected ownerFormatter(x: APIUser) {

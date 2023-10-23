@@ -17353,6 +17353,7 @@ export class ListItemsRequest implements GrpcMessage {
     _instance.order = _instance.order || 0;
     _instance.name = _instance.name || '';
     _instance.page = _instance.page || 0;
+    _instance.id = _instance.id || '0';
   }
 
   /**
@@ -17412,6 +17413,9 @@ export class ListItemsRequest implements GrpcMessage {
           break;
         case 11:
           _instance.page = _reader.readUint32();
+          break;
+        case 12:
+          _instance.id = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -17475,6 +17479,9 @@ export class ListItemsRequest implements GrpcMessage {
     if (_instance.page) {
       _writer.writeUint32(11, _instance.page);
     }
+    if (_instance.id) {
+      _writer.writeInt64String(12, _instance.id);
+    }
   }
 
   private _language: string;
@@ -17488,6 +17495,7 @@ export class ListItemsRequest implements GrpcMessage {
   private _order: ListItemsRequest.Order;
   private _name: string;
   private _page: number;
+  private _id: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17510,6 +17518,7 @@ export class ListItemsRequest implements GrpcMessage {
     this.order = _value.order;
     this.name = _value.name;
     this.page = _value.page;
+    this.id = _value.id;
     ListItemsRequest.refineValues(this);
   }
   get language(): string {
@@ -17578,6 +17587,12 @@ export class ListItemsRequest implements GrpcMessage {
   set page(value: number) {
     this._page = value;
   }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17608,7 +17623,8 @@ export class ListItemsRequest implements GrpcMessage {
       catname: this.catname,
       order: this.order,
       name: this.name,
-      page: this.page
+      page: this.page,
+      id: this.id
     };
   }
 
@@ -17649,7 +17665,8 @@ export class ListItemsRequest implements GrpcMessage {
           this.order === null || this.order === undefined ? 0 : this.order
         ],
       name: this.name,
-      page: this.page
+      page: this.page,
+      id: this.id
     };
   }
 }
@@ -17669,6 +17686,7 @@ export module ListItemsRequest {
     order: ListItemsRequest.Order;
     name: string;
     page: number;
+    id: string;
   }
 
   /**
@@ -17686,6 +17704,7 @@ export module ListItemsRequest {
     order: string;
     name: string;
     page: number;
+    id: string;
   }
   export enum Order {
     DEFAULT = 0,
