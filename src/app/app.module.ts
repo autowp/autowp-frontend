@@ -4,12 +4,10 @@ import {APP_INITIALIZER, ErrorHandler, NgModule, Provider} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {Router} from '@angular/router';
 import {environment} from '@environment/environment';
 import {NgbCollapseModule, NgbDropdownModule, NgbModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
-import * as Sentry from '@sentry/angular-ivy';
 import {ACLService, APIACL} from '@services/acl.service';
 import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
@@ -122,7 +120,7 @@ const providers: Provider[] = [
   LanguageService,
   TimezoneService,
   IpService,
-  {
+  /*{
     provide: ErrorHandler,
     useValue: Sentry.createErrorHandler({
       showDialog: true,
@@ -138,7 +136,7 @@ const providers: Provider[] = [
     provide: APP_INITIALIZER,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     useFactory: () => () => {},
-  },
+  },*/
 ];
 if (environment.production) {
   providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
