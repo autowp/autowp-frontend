@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {
   NgbDropdownModule,
@@ -56,6 +56,7 @@ import {PicturesRoutingModule} from './pictures-routing.module';
     PictureModerVoteModule,
     APIPerspectiveModule,
     LeafletModule,
+    ReactiveFormsModule,
   ],
 })
 export class PicturesModule {}

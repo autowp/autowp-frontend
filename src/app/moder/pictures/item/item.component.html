@@ -152,12 +152,18 @@
               <i class="bi bi-arrow-right" aria-hidden="true"></i>
               <ng-container i18n>move to</ng-container> …
             </a>
-            <div class="btn-group" ngbDropdown role="group" placement="bottom-right">
-              <button class="btn btn-secondary" ngbDropdownToggle *ngIf="item.type === 1">
+            <div
+              class="btn-group"
+              ngbDropdown
+              role="group"
+              placement="bottom-right"
+              *ngIf="item.type === 1 && ((lastItem && !hasItem(lastItem.id)) || item.item.brands.length)"
+            >
+              <button class="btn btn-secondary" ngbDropdownToggle>
                 <span class="caret" aria-hidden="true"></span>
                 <span class="visually-hidden">Toggle Dropdown</span>
               </button>
-              <div class="dropdown-menu" *ngIf="item.type === 1" ngbDropdownMenu>
+              <div class="dropdown-menu" ngbDropdownMenu>
                 <button
                   class="dropdown-item"
                   (click)="moveItem(item.type, item.item_id, lastItem.id)"

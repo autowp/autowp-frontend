@@ -157,22 +157,18 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           ),
         ),
       )
-      .subscribe(
-        ({ip, picture}) => {
-          this.picture = picture;
-          this.ip = ip;
-          this.id = this.picture.id;
-
-          /*if (callback) {
-            callback();
-          }*/
-        },
-        () => {
+      .subscribe({
+        error: () => {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
         },
-      );
+        next: ({ip, picture}) => {
+          this.picture = picture;
+          this.ip = ip;
+          this.id = this.picture.id;
+        },
+      });
 
     if (localStorage) {
       const lastItemId = parseInt(localStorage.getItem('last_item'), 10);

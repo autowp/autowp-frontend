@@ -17354,6 +17354,8 @@ export class ListItemsRequest implements GrpcMessage {
     _instance.name = _instance.name || '';
     _instance.page = _instance.page || 0;
     _instance.id = _instance.id || '0';
+    _instance.ancestorId = _instance.ancestorId || '0';
+    _instance.isConcept = _instance.isConcept || false;
   }
 
   /**
@@ -17416,6 +17418,12 @@ export class ListItemsRequest implements GrpcMessage {
           break;
         case 12:
           _instance.id = _reader.readInt64String();
+          break;
+        case 13:
+          _instance.ancestorId = _reader.readInt64String();
+          break;
+        case 14:
+          _instance.isConcept = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -17482,6 +17490,12 @@ export class ListItemsRequest implements GrpcMessage {
     if (_instance.id) {
       _writer.writeInt64String(12, _instance.id);
     }
+    if (_instance.ancestorId) {
+      _writer.writeInt64String(13, _instance.ancestorId);
+    }
+    if (_instance.isConcept) {
+      _writer.writeBool(14, _instance.isConcept);
+    }
   }
 
   private _language: string;
@@ -17496,6 +17510,8 @@ export class ListItemsRequest implements GrpcMessage {
   private _name: string;
   private _page: number;
   private _id: string;
+  private _ancestorId: string;
+  private _isConcept: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17519,6 +17535,8 @@ export class ListItemsRequest implements GrpcMessage {
     this.name = _value.name;
     this.page = _value.page;
     this.id = _value.id;
+    this.ancestorId = _value.ancestorId;
+    this.isConcept = _value.isConcept;
     ListItemsRequest.refineValues(this);
   }
   get language(): string {
@@ -17593,6 +17611,18 @@ export class ListItemsRequest implements GrpcMessage {
   set id(value: string) {
     this._id = value;
   }
+  get ancestorId(): string {
+    return this._ancestorId;
+  }
+  set ancestorId(value: string) {
+    this._ancestorId = value;
+  }
+  get isConcept(): boolean {
+    return this._isConcept;
+  }
+  set isConcept(value: boolean) {
+    this._isConcept = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17624,7 +17654,9 @@ export class ListItemsRequest implements GrpcMessage {
       order: this.order,
       name: this.name,
       page: this.page,
-      id: this.id
+      id: this.id,
+      ancestorId: this.ancestorId,
+      isConcept: this.isConcept
     };
   }
 
@@ -17666,7 +17698,9 @@ export class ListItemsRequest implements GrpcMessage {
         ],
       name: this.name,
       page: this.page,
-      id: this.id
+      id: this.id,
+      ancestorId: this.ancestorId,
+      isConcept: this.isConcept
     };
   }
 }
@@ -17687,6 +17721,8 @@ export module ListItemsRequest {
     name: string;
     page: number;
     id: string;
+    ancestorId: string;
+    isConcept: boolean;
   }
 
   /**
@@ -17705,6 +17741,8 @@ export module ListItemsRequest {
     name: string;
     page: number;
     id: string;
+    ancestorId: string;
+    isConcept: boolean;
   }
   export enum Order {
     DEFAULT = 0,

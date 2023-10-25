@@ -9,8 +9,8 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/pictures" i18n>Pictures</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="picture">
-      <a [routerLink]="['/moder/pictures', picture.id]" i18n>Picture №{{ picture.id }}</a>
+    <li class="breadcrumb-item">
+      <a routerLink=".." i18n>Picture №{{ id$ | async }}</a>
     </li>
   </ol>
 </nav>
@@ -19,10 +19,10 @@
   <h1 i18n>Move picture</h1>
 </div>
 
-<div class="nav nav-pills" style="margin-bottom: 30px" *ngIf="!srcItemID">
+<div class="nav nav-pills mb-3" *ngIf="showTabBar$ | async">
   <a
-    [class.active]="!showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights"
-    *ngIf="!srcType || srcType === 1"
+    [class.active]="brandsActive$ | async"
+    *ngIf="showBrands$ | async"
     class="nav-link"
     routerLink="."
     [queryParams]="{
@@ -30,15 +30,16 @@
       show_museums: null,
       show_persons: null,
       show_authors: null,
-      show_copyrights: null
+      show_copyrights: null,
+      brand_id: null
     }"
     queryParamsHandling="merge"
     i18n
     >Brands</a
   >
   <a
-    [class.active]="showFactories"
-    *ngIf="!srcType || srcType === 1"
+    [class.active]="factoriesActive$ | async"
+    *ngIf="showFactories$ | async"
     class="nav-link"
     routerLink="."
     [queryParams]="{
@@ -46,15 +47,16 @@
       show_museums: null,
       show_persons: null,
       show_authors: null,
-      show_copyrights: null
+      show_copyrights: null,
+      brand_id: null
     }"
     queryParamsHandling="merge"
     i18n
     >Factories</a
   >
   <a
-    [class.active]="showMuseums"
-    *ngIf="!srcType || srcType === 1"
+    [class.active]="museumsActive$ | async"
+    *ngIf="showMuseums$ | async"
     class="nav-link"
     routerLink="."
     [queryParams]="{
@@ -62,15 +64,16 @@
       show_museums: 1,
       show_persons: null,
       show_authors: null,
-      show_copyrights: null
+      show_copyrights: null,
+      brand_id: null
     }"
     queryParamsHandling="merge"
     i18n
     >Museums</a
   >
   <a
-    [class.active]="showPersons"
-    *ngIf="!srcType || srcType === 1"
+    [class.active]="personsActive$ | async"
+    *ngIf="showPersons$ | async"
     class="nav-link"
     routerLink="."
     [queryParams]="{
@@ -78,14 +81,15 @@
       show_museums: null,
       show_persons: 1,
       show_authors: null,
-      show_copyrights: null
+      show_copyrights: null,
+      brand_id: null
     }"
     queryParamsHandling="merge"
     ><ng-container i18n>Persons</ng-container> (content)</a
   >
   <a
-    [class.active]="showAuthors"
-    *ngIf="!srcType || srcType === 2"
+    [class.active]="authorsActive$ | async"
+    *ngIf="showAuthors$ | async"
     class="nav-link"
     routerLink="."
     [queryParams]="{
@@ -93,14 +97,15 @@
       show_museums: null,
       show_persons: null,
       show_authors: 1,
-      show_copyrights: null
+      show_copyrights: null,
+      brand_id: null
     }"
     queryParamsHandling="merge"
-    ><ng-container i18n>Persons</ng-container>(author)</a
+    ><ng-container i18n>Persons</ng-container> (author)</a
   >
   <a
-    [class.active]="showCopyrights"
-    *ngIf="!srcType || srcType === 3"
+    [class.active]="copyrightsActive$ | async"
+    *ngIf="showCopyrights$ | async"
     class="nav-link"
     routerLink="."
     [queryParams]="{
@@ -108,7 +113,8 @@
       show_museums: null,
       show_persons: null,
       show_authors: null,
-      show_copyrights: 1
+      show_copyrights: 1,
+      brand_id: null
     }"
     queryParamsHandling="merge"
     i18n
@@ -116,161 +122,210 @@
   >
 </div>
 
-<div *ngIf="showMuseums && !srcItemID && (!srcType || srcType === 1)">
-  <div class="card card-body">
-    <ng-container *ngFor="let item of museums">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.nameHtml"></a>
-      <br />
+<ng-container *ngIf="src$ | async as src">
+  <ng-container *ngIf="museumsActive$ | async">
+    <ng-container *ngIf="museums$ | async as museums; else loading">
+      <div class="card card-body">
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="selectItem(item.selection)"
+          [innerHTML]="item.html"
+          *ngFor="let item of museums.items"
+        ></button>
+      </div>
+
+      <app-paginator [data]="museums.paginator" *ngIf="museums.paginator"></app-paginator>
     </ng-container>
-  </div>
+  </ng-container>
 
-  <app-paginator [data]="museumsPaginator" *ngIf="museumsPaginator"></app-paginator>
-</div>
+  <ng-container *ngIf="factoriesActive$ | async">
+    <ng-container *ngIf="factories$ | async as factories; else loading">
+      <div class="card card-body">
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="selectItem(item.selection)"
+          [innerHTML]="item.html"
+          *ngFor="let item of factories.items"
+        ></button>
+      </div>
 
-<div *ngIf="showFactories && !srcItemID && (!srcType || srcType === 1)">
-  <div class="card card-body">
-    <ng-container *ngFor="let item of factories">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.nameHtml"></a>
-      <br />
+      <app-paginator [data]="factories.paginator" *ngIf="factories.paginator"></app-paginator>
     </ng-container>
-  </div>
+  </ng-container>
 
-  <app-paginator [data]="factoriesPaginator" *ngIf="factoriesPaginator"></app-paginator>
-</div>
-
-<div *ngIf="showPersons && !srcItemID && (!srcType || srcType === 1)">
-  <div class="card card-body">
-    <div style="margin-bottom: 20px">
-      <input
-        type="text"
-        [(ngModel)]="searchPerson"
-        (input)="doSearchPerson()"
-        class="form-control"
-        placeholder="Type to search …"
-        autofocus
-      />
-    </div>
-    <ng-container *ngFor="let item of persons">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 1})" [innerHTML]="item.nameHtml"></a>
-      <br />
-    </ng-container>
-  </div>
-
-  <app-paginator [data]="personsPaginator" *ngIf="personsPaginator"></app-paginator>
-</div>
-
-<div *ngIf="showAuthors && !srcItemID && (!srcType || srcType === 2)">
-  <div class="card card-body">
-    <div style="margin-bottom: 20px">
-      <input
-        type="text"
-        [(ngModel)]="searchAuthor"
-        (input)="doSearchAuthor()"
-        class="form-control"
-        placeholder="Type to search …"
-        autofocus
-      />
-    </div>
-    <ng-container *ngFor="let item of authors">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 2})" [innerHTML]="item.nameHtml"></a>
-      <br />
-    </ng-container>
-  </div>
-
-  <app-paginator [data]="authorsPaginator" *ngIf="authorsPaginator"></app-paginator>
-</div>
-
-<div *ngIf="showCopyrights && !srcItemID && (!srcType || srcType === 3)">
-  <div class="card card-body">
-    <ng-container *ngFor="let item of copyrights">
-      <a href="#" (click)="selectItem({itemId: item.id, perspectiveId: 0, type: 3})" [innerHTML]="item.nameHtml"></a>
-      <br />
-    </ng-container>
-  </div>
-
-  <app-paginator [data]="copyrightsPaginator" *ngIf="copyrightsPaginator"></app-paginator>
-</div>
-
-<div
-  *ngIf="
-    !showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights && (!srcType || srcType === 1)
-  "
->
-  <div *ngIf="!brandID">
+  <ng-container *ngIf="personsActive$ | async">
     <div class="card card-body">
-      <div style="margin-bottom: 20px">
+      <div class="mb-3">
         <input
           type="text"
-          [(ngModel)]="searchBrand"
-          (input)="doSearchBrand()"
+          [formControl]="searchPersonControl"
           class="form-control"
+          i18n-placeholder
           placeholder="Type to search …"
           autofocus
         />
       </div>
-      <div class="row">
-        <div *ngFor="let chunk of brands" class="col-2">
-          <ng-container *ngFor="let item of chunk">
+      <ng-container *ngIf="persons$ | async as persons; else loading">
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="selectItem(item.selection)"
+          [innerHTML]="item.html"
+          *ngFor="let item of persons.items"
+        ></button>
+        <app-paginator [data]="persons.paginator" *ngIf="persons.paginator"></app-paginator>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="authorsActive$ | async">
+    <div class="card card-body">
+      <div class="mb-3">
+        <input
+          type="text"
+          [formControl]="searchAuthorControl"
+          class="form-control"
+          i18n-placeholder
+          placeholder="Type to search …"
+          autofocus
+        />
+      </div>
+      <ng-container *ngIf="authors$ | async as authors; else loading">
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="selectItem(item.selection)"
+          [innerHTML]="item.html"
+          *ngFor="let item of authors.items"
+        ></button>
+        <app-paginator [data]="authors.paginator" *ngIf="authors.paginator"></app-paginator>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="copyrightsActive$ | async">
+    <ng-container *ngIf="copyrights$ | async as copyrights; else loading">
+      <div class="card card-body">
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="selectItem(item.selection)"
+          [innerHTML]="item.html"
+          *ngFor="let item of copyrights.items"
+        ></button>
+      </div>
+
+      <app-paginator [data]="copyrights.paginator" *ngIf="copyrights.paginator"></app-paginator>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="brandsActive$ | async">
+    <div class="select-in-brand" *ngIf="brandId$ | async as brandId; else noBrand">
+      <div class="my-1" *ngIf="vehicles$ | async as vehicles; else loading">
+        <app-moder-picture-move-item
+          [item]="item"
+          (selected)="selectItem({src, selection: $event})"
+          *ngFor="let item of vehicles.items"
+        ></app-moder-picture-move-item>
+      </div>
+
+      <ng-container *ngIf="engines$ | async as engines; else loading">
+        <h5 *ngIf="engines && engines.items.length > 0" i18n>Engines</h5>
+        <div class="my-1" *ngIf="engines">
+          <app-moder-picture-move-item
+            [item]="item"
+            (selected)="selectItem({src, selection: $event})"
+            *ngFor="let item of engines.items"
+          ></app-moder-picture-move-item>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="concepts$ | async as concepts; else loading">
+        <div class="my-1" *ngIf="concepts.items.length > 0">
+          <button class="btn btn-link d-block text-start" (click)="toggleConcepts()">
+            <i class="bi me-1" [class.bi-plus-circle]="!conceptsExpanded" [class.bi-dash-circle]="conceptsExpanded"></i>
+            <ng-container i18n>Concepts & prototypes</ng-container>
+          </button>
+          <div class="mb-1 ms-4" *ngIf="conceptsExpanded">
+            <button
+              class="btn btn-link d-block text-start"
+              (click)="selectItem(item.selection)"
+              [innerHTML]="item.html"
+              *ngFor="let item of concepts.items"
+            ></button>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="my-1">
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="
+            selectItem({
+              src,
+              selection: {itemId: brandId, perspectiveId: 22, type: PictureItemType.PICTURE_CONTENT}
+            })
+          "
+          i18n
+        >
+          logotype
+        </button>
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="
+            selectItem({
+              src,
+              selection: {itemId: brandId, perspectiveId: 25, type: PictureItemType.PICTURE_CONTENT}
+            })
+          "
+          i18n
+        >
+          mixed (few vehicles on one picture)
+        </button>
+        <button
+          class="btn btn-link d-block text-start"
+          (click)="
+            selectItem({
+              src,
+              selection: {itemId: brandId, perspectiveId: 0, type: PictureItemType.PICTURE_CONTENT}
+            })
+          "
+          i18n
+        >
+          unsorted (not existent vehicle or engine)
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noBrand>
+    <div class="card card-body">
+      <div class="mb-3">
+        <input
+          type="text"
+          [formControl]="searchBrandControl"
+          class="form-control"
+          i18n-placeholder
+          placeholder="Type to search …"
+          autofocus
+        />
+      </div>
+      <ng-container *ngIf="brands$ | async as brands; else loading">
+        <div class="row">
+          <div *ngFor="let chunk of brands.items" class="col-2">
             <a
+              class="btn btn-link d-block text-start"
               [routerLink]="[]"
               [queryParams]="{page: null, brand_id: item.id}"
               queryParamsHandling="merge"
               [innerHTML]="item.nameHtml"
+              *ngFor="let item of chunk"
             ></a>
-            <br />
-          </ng-container>
+          </div>
         </div>
-      </div>
+        <app-paginator [data]="brands.paginator" *ngIf="brands.paginator"></app-paginator>
+      </ng-container>
     </div>
+  </ng-template>
+</ng-container>
 
-    <app-paginator [data]="brandsPaginator" *ngIf="brandsPaginator"></app-paginator>
-  </div>
-  <div *ngIf="brandID">
-    <div class="select-in-brand">
-      <div class="my-1" *ngIf="vehicles">
-        <app-moder-picture-move-item
-          [item]="item"
-          (selected)="selectItem($event)"
-          *ngFor="let item of vehicles"
-        ></app-moder-picture-move-item>
-      </div>
-
-      <h5 *ngIf="engines && engines.length > 0" i18n>Engines</h5>
-      <div class="my-1" *ngIf="engines">
-        <app-moder-picture-move-item
-          [item]="item"
-          (selected)="selectItem($event)"
-          *ngFor="let item of engines"
-        ></app-moder-picture-move-item>
-      </div>
-
-      <div class="my-1" *ngIf="concepts.length > 0">
-        <a href="" class="arrow" (click)="toggleConcepts()">
-          <i class="bi bi-plus-circle me-1" aria-hidden="true" [hidden]="conceptsExpanded"></i>
-          <i class="bi bi-dash-circle me-1" aria-hidden="true" [hidden]="!conceptsExpanded"></i>
-          <ng-container i18n>Concepts & prototypes</ng-container>
-        </a>
-        <div style="margin: 0 0 4px 18px" [hidden]="!conceptsExpanded">
-          <app-moder-picture-move-item
-            [item]="item"
-            (selected)="selectItem($event)"
-            *ngFor="let item of concepts"
-          ></app-moder-picture-move-item>
-        </div>
-      </div>
-
-      <div class="my-1">
-        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 22, type: 1})" i18n>logotype</a>
-        <br />
-        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 25, type: 1})" i18n
-          >mixed (few vehicles on one picture)</a
-        >
-        <br />
-        <a href="" (click)="selectItem({itemId: brandID, perspectiveId: 0, type: 1})" i18n
-          >unsorted (not existent vehicle or engine)</a
-        >
-        <br />
-      </div>
-    </div>
-  </div>
-</div>
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
