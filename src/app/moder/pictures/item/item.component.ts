@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIIP, ItemType} from '@grpc/spec.pb';
+import {APIIP, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {APIItem} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
-import {APIItem, ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
@@ -11,6 +12,7 @@ import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {BehaviorSubject, Subscription, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 @Component({
   selector: 'app-moder-pictures-item',
@@ -54,13 +56,13 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
   constructor(
     private readonly api: APIService,
     private readonly pictureItemService: PictureItemService,
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly languageService: LanguageService,
     private readonly ipService: IpService,
+    private readonly itemsClient: ItemsClient,
   ) {
     this.monthOptions = [
       {
@@ -171,17 +173,29 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
       });
 
     if (localStorage) {
-      const lastItemId = parseInt(localStorage.getItem('last_item'), 10);
+      const lastItemId = localStorage.getItem('last_item');
 
       if (lastItemId) {
-        this.lastItemSub = this.itemService
-          .getItems$({
-            fields: 'name_html',
-            id: lastItemId,
-            limit: 1,
-          })
-          .subscribe((response) => {
-            this.lastItem = response.items.length ? response.items[0] : null;
+        this.lastItemSub = this.itemsClient
+          .item(
+            new ItemRequest({
+              fields: new ItemFields({nameHtml: true}),
+              id: lastItemId,
+              language: this.languageService.language
+            }),
+          )
+          .subscribe({
+            next: (response) => {
+              this.lastItem = response;
+            },
+            error: (error) => {
+              if (error instanceof GrpcStatusEvent && error.statusCode == 5) {
+                // NOT_FOUND
+                this.lastItem = null;
+                return;
+              }
+              console.error(error)
+            }
           });
       }
     }
@@ -199,10 +213,10 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     this.change$.next(null);
   }
 
-  protected hasItem(itemId: number): boolean {
+  protected hasItem(itemId: string): boolean {
     let found = false;
     for (const item of this.picture.items) {
-      if (item.item_id === itemId) {
+      if (item.item_id === +itemId) {
         found = true;
       }
     }
@@ -224,18 +238,18 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected moveItem(type: number, srcItemId: number, dstItemId: number) {
+  protected moveItem(type: number, srcItemId: number, dstItemId: string) {
     this.pictureItemLoading = true;
-    this.pictureItemService.changeItem$(this.id, type, srcItemId, dstItemId).subscribe(
-      () => {
+    this.pictureItemService.changeItem$(this.id, type, srcItemId, dstItemId).subscribe({
+      next: () => {
         localStorage.setItem('last_item', dstItemId.toString());
         this.change$.next(null);
         this.pictureItemLoading = false;
       },
-      () => {
+      error: () => {
         this.pictureItemLoading = false;
       },
-    );
+    });
   }
 
   protected saveSpecialName() {
@@ -249,14 +263,14 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           taken_year: this.picture.taken_year,
         },
       })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.specialNameLoading = false;
         },
-        () => {
+        error: () => {
           this.specialNameLoading = false;
         },
-      );
+      });
   }
 
   protected saveCopyrights() {
@@ -268,14 +282,14 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           copyrights: this.picture.copyrights,
         },
       })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.copyrightsLoading = false;
         },
-        () => {
+        error: () => {
           this.copyrightsLoading = false;
         },
-      );
+      });
   }
 
   private setPictureStatus(status: string) {
@@ -309,80 +323,80 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
 
   protected normalizePicture() {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + this.id + '/normalize', {}).subscribe(
-      () => {
+    this.api.request<void>('PUT', 'picture/' + this.id + '/normalize', {}).subscribe({
+      next: () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
-      () => {
+      error: () => {
         this.repairLoading = false;
       },
-    );
+    });
   }
 
   protected flopPicture() {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + this.id + '/flop', {}).subscribe(
-      () => {
+    this.api.request<void>('PUT', 'picture/' + this.id + '/flop', {}).subscribe({
+      next: () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
-      () => {
+      error: () => {
         this.repairLoading = false;
       },
-    );
+    });
   }
 
   protected repairPicture() {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + this.id + '/repair', {}).subscribe(
-      () => {
+    this.api.request<void>('PUT', 'picture/' + this.id + '/repair', {}).subscribe({
+      next: () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
-      () => {
+      error: () => {
         this.repairLoading = false;
       },
-    );
+    });
   }
 
   protected correctFileNames() {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + this.id + '/correct-file-names', {}).subscribe(
-      () => {
+    this.api.request<void>('PUT', 'picture/' + this.id + '/correct-file-names', {}).subscribe({
+      next: () => {
         this.change$.next(null);
         this.repairLoading = false;
       },
-      () => {
+      error: () => {
         this.repairLoading = false;
       },
-    );
+    });
   }
 
   protected cancelSimilar() {
     this.similarLoading = true;
-    this.api.request<void>('DELETE', 'picture/' + this.id + '/similar/' + this.picture.similar.picture_id).subscribe(
-      () => {
+    this.api.request<void>('DELETE', 'picture/' + this.id + '/similar/' + this.picture.similar.picture_id).subscribe({
+      next: () => {
         this.change$.next(null);
         this.similarLoading = false;
       },
-      () => {
+      error: () => {
         this.similarLoading = false;
       },
-    );
+    });
   }
 
   protected deletePictureItem(item: APIPictureItem) {
     this.pictureItemLoading = true;
-    this.pictureItemService.remove$(item.picture_id, item.item_id, item.type).subscribe(
-      () => {
+    this.pictureItemService.remove$(item.picture_id, item.item_id, item.type).subscribe({
+      next: () => {
         this.change$.next(null);
         this.pictureItemLoading = false;
       },
-      () => {
+      error: () => {
         this.pictureItemLoading = false;
       },
-    );
+    });
   }
 
   protected cancelReplace() {
@@ -394,28 +408,28 @@ export class ModerPicturesItemComponent implements OnInit, OnDestroy {
           replace_picture_id: '',
         },
       })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.change$.next(null);
           this.replaceLoading = false;
         },
-        () => {
+        error: () => {
           this.replaceLoading = false;
         },
-      );
+      });
   }
 
   protected acceptReplace() {
     this.replaceLoading = true;
-    this.api.request<void>('PUT', 'picture/' + this.id + '/accept-replace', {body: {}}).subscribe(
-      () => {
+    this.api.request<void>('PUT', 'picture/' + this.id + '/accept-replace', {body: {}}).subscribe({
+      next: () => {
         this.change$.next(null);
         this.replaceLoading = false;
       },
-      () => {
+      error: () => {
         this.replaceLoading = false;
       },
-    );
+    });
   }
 
   protected removeFromBlacklist(ip: string) {

@@ -171,7 +171,7 @@
                 >
                   <i class="bi bi-arrow-right" aria-hidden="true"></i>
                   <ng-container i18n>move to</ng-container>
-                  <span [innerHTML]="lastItem.name_html"></span>
+                  <span [innerHTML]="lastItem.nameHtml"></span>
                 </button>
                 <a
                   *ngFor="let brand of item.item.brands"
@@ -196,25 +196,25 @@
     </tbody>
   </table>
   <div *ngIf="picture.rights.move">
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id !== ItemType.ITEM_TYPE_COPYRIGHT">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.itemTypeId !== ItemType.ITEM_TYPE_COPYRIGHT">
       <button class="btn btn-secondary" (click)="addItem(lastItem, 1)">
         <i class="bi bi-plus" aria-hidden="true"></i>
         <ng-container i18n>add to</ng-container> (content)
-        <span [innerHTML]="lastItem.name_html"></span>
+        <span [innerHTML]="lastItem.nameHtml"></span>
       </button>
     </div>
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id === ItemType.ITEM_TYPE_PERSON">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.itemTypeId === ItemType.ITEM_TYPE_PERSON">
       <button class="btn btn-secondary" (click)="addItem(lastItem, 2)">
         <i class="bi bi-plus" aria-hidden="true"></i>
         <ng-container i18n>add to</ng-container> (author)
-        <span [innerHTML]="lastItem.name_html"></span>
+        <span [innerHTML]="lastItem.nameHtml"></span>
       </button>
     </div>
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.item_type_id === ItemType.ITEM_TYPE_COPYRIGHT">
+    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.itemTypeId === ItemType.ITEM_TYPE_COPYRIGHT">
       <button class="btn btn-secondary" (click)="addItem(lastItem, 3)">
         <i class="bi bi-plus" aria-hidden="true"></i>
         <ng-container i18n>add to</ng-container> (copyrights)
-        <span [innerHTML]="lastItem.name_html"></span>
+        <span [innerHTML]="lastItem.nameHtml"></span>
       </button>
     </div>
     <div>

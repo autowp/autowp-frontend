@@ -347,7 +347,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
 
     if (srcItemID && srcType) {
       this.pictureItemService
-        .changeItem$(id, srcType, srcItemID, +dstItemID)
+        .changeItem$(id, srcType, srcItemID, dstItemID)
         .pipe(
           switchMap(() => {
             if (!dstPerspectiveID) {
@@ -368,7 +368,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
         perspective_id: dstPerspectiveID ? dstPerspectiveID : null,
       };
 
-      this.pictureItemService.create$(id, +dstItemID, selection.type, data).subscribe(() => {
+      this.pictureItemService.create$(id, dstItemID, selection.type, data).subscribe(() => {
         if (localStorage) {
           localStorage.setItem('last_item', dstItemID);
         }

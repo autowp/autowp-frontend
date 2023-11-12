@@ -67,7 +67,7 @@ export class PictureItemService {
     });
   }
 
-  public create$(pictureId: number, itemId: number, type: number, data: APIPictureItemPostData): Observable<void> {
+  public create$(pictureId: number, itemId: string, type: number, data: APIPictureItemPostData): Observable<void> {
     return this.api.request<void>('POST', 'picture-item/' + pictureId + '/' + itemId + '/' + type, {body: data});
   }
 
@@ -75,7 +75,7 @@ export class PictureItemService {
     return this.api.request<void>('DELETE', 'picture-item/' + pictureId + '/' + itemId + '/' + type);
   }
 
-  public changeItem$(pictureId: number, type: number, srcItemId: number, dstItemId: number): Observable<void> {
+  public changeItem$(pictureId: number, type: number, srcItemId: number, dstItemId: string): Observable<void> {
     const url = 'picture-item/' + pictureId + '/' + srcItemId + '/' + type;
     return this.api.request<void>('PUT', url, {
       body: {
