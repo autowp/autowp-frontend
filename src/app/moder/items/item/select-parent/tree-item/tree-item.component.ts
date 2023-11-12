@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIItem} from '@services/item';
+import {APIItem} from '@grpc/spec.pb';
 import {ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -21,20 +21,20 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   }
   protected readonly order$ = new BehaviorSubject<string>('type_auto');
 
-  @Input() disableItemID: number;
+  @Input() disableItemID: string;
   @Input() typeID: number;
-  @Output() selected = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<string>();
 
   protected open = false;
 
   protected readonly childs$ = combineLatest([this.item$, this.order$.pipe(distinctUntilChanged())]).pipe(
     switchMap(([item, order]) =>
       this.itemParentService.getItems$({
-        fields: 'item.name_html,item.childs_count',
+        fields: '',
         is_group: true,
         limit: 100,
         order,
-        parent_id: item.id,
+        parent_id: +item.id,
       }),
     ),
     catchError((error: unknown) => {
@@ -53,8 +53,8 @@ export class ModerItemsItemSelectParentTreeItemComponent {
     return item.id === this.disableItemID;
   }
 
-  protected onSelect(item: APIItem) {
-    this.selected.emit(item);
+  protected onSelect(itemID: string) {
+    this.selected.emit(itemID);
     return false;
   }
 

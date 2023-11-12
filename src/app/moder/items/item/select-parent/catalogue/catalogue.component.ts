@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIItem} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -16,12 +15,12 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemSelectParentCatalogueComponent {
-  @Output() selected = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<string>();
 
-  @Input() set itemID(value: number) {
+  @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<string>(null);
 
   @Input() set itemTypeID(value: number) {
     this.itemTypeID$.next(value);
@@ -85,7 +84,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     switchMap(([itemTypeID, brandID, page]) =>
       brandID
         ? this.itemParentService.getItems$({
-            fields: 'item.name_html,item.childs_count',
+            fields: '',
             is_group: true,
             item_type_id: itemTypeID,
             limit: 100,
@@ -112,8 +111,8 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     });
   }
 
-  protected onSelect(item: APIItem) {
-    this.selected.emit(item);
+  protected onSelect(itemID: string) {
+    this.selected.emit(itemID);
     return false;
   }
 }

@@ -1,21 +1,21 @@
 <ng-container *ngIf="item$ | async as item">
-  <div *ngIf="item.childs_count > 0">
+  <div *ngIf="item.childsCount > 0">
     <i class="bi bi-folder2" aria-hidden="true" [hidden]="open"></i>
     <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!open"></i>
     <span *ngIf="typeID === 1" i18n>Related</span>
     <span *ngIf="typeID === 2" i18n>Sport</span>
     <span *ngIf="typeID === 3" i18n>Design</span>
     <a href="#" class="toggle" (click)="toggle()">
-      <span [innerHTML]="item.name_html"></span>
+      <span [innerHTML]="item.nameHtml"></span>
     </a>
     <ul *ngIf="open">
       <li>
-        <a href="#" (click)="onSelect(item)" i18n>here</a>
+        <a href="#" (click)="onSelect(item.id)" i18n>here</a>
       </li>
       <ng-container *ngIf="childs$ | async as childs; else loading">
         <li class="car-node" *ngFor="let child of childs">
           <app-moder-items-item-select-parent-tree
-            [item]="child"
+            [itemParent]="child"
             (selected)="onSelect($event)"
             [disableItemID]="disableItemID"
           >
@@ -25,17 +25,17 @@
     </ul>
   </div>
 
-  <span *ngIf="(!item.childs_count || item.childs_count <= 0) && !isDisabled(item)">
+  <span *ngIf="(!item.childsCount || item.childsCount <= 0) && !isDisabled(item)">
     <span *ngIf="typeID === 1" i18n>Related</span>
     <span *ngIf="typeID === 2" i18n>Sport</span>
     <span *ngIf="typeID === 3" i18n>Design</span>
-    <a href="#" (click)="onSelect(item)" [innerHTML]="item.name_html"></a>
+    <a href="#" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
   </span>
   <span *ngIf="isDisabled(item)">
     <span *ngIf="typeID === 1" i18n>Related</span>
     <span *ngIf="typeID === 2" i18n>Sport</span>
     <span *ngIf="typeID === 3" i18n>Design</span>
-    <span class="text-muted" [innerHTML]="item.name_html"></span>
+    <span class="text-muted" [innerHTML]="item.nameHtml"></span>
   </span>
 </ng-container>
 

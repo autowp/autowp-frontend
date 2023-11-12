@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIPaginator} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -13,12 +13,12 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './factories.component.html',
 })
 export class ModerItemsItemSelectParentFactoriesComponent {
-  @Output() selected = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<string>();
 
-  @Input() set itemID(value: number) {
+  @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<string>(null);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -27,14 +27,17 @@ export class ModerItemsItemSelectParentFactoriesComponent {
     shareReplay(1),
   );
 
-  protected readonly factories$: Observable<{items: APIItem[]; paginator: APIPaginator}> = this.page$.pipe(
+  protected readonly factories$: Observable<{items: APIItem[]; paginator: Pages}> = this.page$.pipe(
     switchMap((page) =>
-      this.itemService.getItems$({
-        fields: 'name_html',
-        limit: 100,
-        page,
-        type_id: ItemType.ITEM_TYPE_FACTORY,
-      }),
+      this.itemsClient.list(
+        new ListItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.languageService.language,
+          limit: 100,
+          page,
+          typeId: ItemType.ITEM_TYPE_FACTORY,
+        }),
+      ),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
@@ -43,13 +46,14 @@ export class ModerItemsItemSelectParentFactoriesComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
-  protected onSelect(item: APIItem) {
-    this.selected.emit(item);
+  protected onSelect(itemID: string) {
+    this.selected.emit(itemID);
     return false;
   }
 }

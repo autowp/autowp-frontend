@@ -76,7 +76,7 @@
     <ng-container *ngIf="item$ | async as item">
       <app-moder-items-item-select-parent-catalogue
         *ngIf="tab === 'catalogue'"
-        [itemID]="+itemID"
+        [itemID]="itemID"
         [itemTypeID]="item.itemTypeId"
         (selected)="select(itemID, $event)"
       ></app-moder-items-item-select-parent-catalogue>
@@ -87,17 +87,17 @@
     ></app-moder-items-item-select-parent-brands>
     <app-moder-items-item-select-parent-categories
       *ngIf="tab === 'categories'"
-      [itemID]="+itemID"
+      [itemID]="itemID"
       (selected)="select(itemID, $event)"
     ></app-moder-items-item-select-parent-categories>
     <app-moder-items-item-select-parent-twins
       *ngIf="tab === 'twins'"
-      [itemID]="+itemID"
+      [itemID]="itemID"
       (selected)="select(itemID, $event)"
     ></app-moder-items-item-select-parent-twins>
     <app-moder-items-item-select-parent-factories
       *ngIf="tab === 'factories'"
-      [itemID]="+itemID"
+      [itemID]="itemID"
       (selected)="select(itemID, $event)"
     ></app-moder-items-item-select-parent-factories>
   </ng-container>

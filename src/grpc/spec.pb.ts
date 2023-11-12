@@ -16849,6 +16849,7 @@ export class ItemFields implements GrpcMessage {
     _instance.totalPictures = _instance.totalPictures || false;
     _instance.descendantsCount = _instance.descendantsCount || false;
     _instance.currentPicturesCount = _instance.currentPicturesCount || false;
+    _instance.childsCount = _instance.childsCount || false;
   }
 
   /**
@@ -16898,6 +16899,9 @@ export class ItemFields implements GrpcMessage {
         case 10:
           _instance.currentPicturesCount = _reader.readBool();
           break;
+        case 11:
+          _instance.childsCount = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -16946,6 +16950,9 @@ export class ItemFields implements GrpcMessage {
     if (_instance.currentPicturesCount) {
       _writer.writeBool(10, _instance.currentPicturesCount);
     }
+    if (_instance.childsCount) {
+      _writer.writeBool(11, _instance.childsCount);
+    }
   }
 
   private _nameOnly: boolean;
@@ -16958,6 +16965,7 @@ export class ItemFields implements GrpcMessage {
   private _totalPictures: boolean;
   private _descendantsCount: boolean;
   private _currentPicturesCount: boolean;
+  private _childsCount: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -16977,6 +16985,7 @@ export class ItemFields implements GrpcMessage {
     this.totalPictures = _value.totalPictures;
     this.descendantsCount = _value.descendantsCount;
     this.currentPicturesCount = _value.currentPicturesCount;
+    this.childsCount = _value.childsCount;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -17039,6 +17048,12 @@ export class ItemFields implements GrpcMessage {
   set currentPicturesCount(value: boolean) {
     this._currentPicturesCount = value;
   }
+  get childsCount(): boolean {
+    return this._childsCount;
+  }
+  set childsCount(value: boolean) {
+    this._childsCount = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17066,7 +17081,8 @@ export class ItemFields implements GrpcMessage {
         : undefined,
       totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
-      currentPicturesCount: this.currentPicturesCount
+      currentPicturesCount: this.currentPicturesCount,
+      childsCount: this.childsCount
     };
   }
 
@@ -17098,7 +17114,8 @@ export class ItemFields implements GrpcMessage {
         : null,
       totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
-      currentPicturesCount: this.currentPicturesCount
+      currentPicturesCount: this.currentPicturesCount,
+      childsCount: this.childsCount
     };
   }
 }
@@ -17117,6 +17134,7 @@ export module ItemFields {
     totalPictures: boolean;
     descendantsCount: boolean;
     currentPicturesCount: boolean;
+    childsCount: boolean;
   }
 
   /**
@@ -17133,6 +17151,7 @@ export module ItemFields {
     totalPictures: boolean;
     descendantsCount: boolean;
     currentPicturesCount: boolean;
+    childsCount: boolean;
   }
 }
 
@@ -17357,6 +17376,7 @@ export class ListItemsRequest implements GrpcMessage {
     _instance.ancestorId = _instance.ancestorId || '0';
     _instance.isConcept = _instance.isConcept || false;
     _instance.descendant = _instance.descendant || undefined;
+    _instance.parent = _instance.parent || undefined;
   }
 
   /**
@@ -17430,6 +17450,13 @@ export class ListItemsRequest implements GrpcMessage {
           _instance.descendant = new ListItemsRequest();
           _reader.readMessage(
             _instance.descendant,
+            ListItemsRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 16:
+          _instance.parent = new ListItemsRequest();
+          _reader.readMessage(
+            _instance.parent,
             ListItemsRequest.deserializeBinaryFromReader
           );
           break;
@@ -17511,6 +17538,13 @@ export class ListItemsRequest implements GrpcMessage {
         ListItemsRequest.serializeBinaryToWriter
       );
     }
+    if (_instance.parent) {
+      _writer.writeMessage(
+        16,
+        _instance.parent as any,
+        ListItemsRequest.serializeBinaryToWriter
+      );
+    }
   }
 
   private _language: string;
@@ -17528,6 +17562,7 @@ export class ListItemsRequest implements GrpcMessage {
   private _ancestorId: string;
   private _isConcept: boolean;
   private _descendant?: ListItemsRequest;
+  private _parent?: ListItemsRequest;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17555,6 +17590,9 @@ export class ListItemsRequest implements GrpcMessage {
     this.isConcept = _value.isConcept;
     this.descendant = _value.descendant
       ? new ListItemsRequest(_value.descendant)
+      : undefined;
+    this.parent = _value.parent
+      ? new ListItemsRequest(_value.parent)
       : undefined;
     ListItemsRequest.refineValues(this);
   }
@@ -17648,6 +17686,12 @@ export class ListItemsRequest implements GrpcMessage {
   set descendant(value: ListItemsRequest | undefined) {
     this._descendant = value;
   }
+  get parent(): ListItemsRequest | undefined {
+    return this._parent;
+  }
+  set parent(value: ListItemsRequest | undefined) {
+    this._parent = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17682,7 +17726,8 @@ export class ListItemsRequest implements GrpcMessage {
       id: this.id,
       ancestorId: this.ancestorId,
       isConcept: this.isConcept,
-      descendant: this.descendant ? this.descendant.toObject() : undefined
+      descendant: this.descendant ? this.descendant.toObject() : undefined,
+      parent: this.parent ? this.parent.toObject() : undefined
     };
   }
 
@@ -17729,7 +17774,8 @@ export class ListItemsRequest implements GrpcMessage {
       isConcept: this.isConcept,
       descendant: this.descendant
         ? this.descendant.toProtobufJSON(options)
-        : null
+        : null,
+      parent: this.parent ? this.parent.toProtobufJSON(options) : null
     };
   }
 }
@@ -17753,6 +17799,7 @@ export module ListItemsRequest {
     ancestorId: string;
     isConcept: boolean;
     descendant?: ListItemsRequest.AsObject;
+    parent?: ListItemsRequest.AsObject;
   }
 
   /**
@@ -17774,6 +17821,7 @@ export module ListItemsRequest {
     ancestorId: string;
     isConcept: boolean;
     descendant: ListItemsRequest.AsProtobufJSON | null;
+    parent: ListItemsRequest.AsProtobufJSON | null;
   }
   export enum Order {
     DEFAULT = 0,
@@ -18158,6 +18206,7 @@ export class APIItem implements GrpcMessage {
     _instance.specId = _instance.specId || '0';
     _instance.fullText = _instance.fullText || '';
     _instance.currentPicturesCount = _instance.currentPicturesCount || 0;
+    _instance.childsCount = _instance.childsCount || 0;
   }
 
   /**
@@ -18215,6 +18264,9 @@ export class APIItem implements GrpcMessage {
         case 14:
           _instance.currentPicturesCount = _reader.readInt32();
           break;
+        case 15:
+          _instance.childsCount = _reader.readInt32();
+          break;
         default:
           _reader.skipField();
       }
@@ -18271,6 +18323,9 @@ export class APIItem implements GrpcMessage {
     if (_instance.currentPicturesCount) {
       _writer.writeInt32(14, _instance.currentPicturesCount);
     }
+    if (_instance.childsCount) {
+      _writer.writeInt32(15, _instance.childsCount);
+    }
   }
 
   private _id: string;
@@ -18287,6 +18342,7 @@ export class APIItem implements GrpcMessage {
   private _specId: string;
   private _fullText: string;
   private _currentPicturesCount: number;
+  private _childsCount: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18308,6 +18364,7 @@ export class APIItem implements GrpcMessage {
     this.specId = _value.specId;
     this.fullText = _value.fullText;
     this.currentPicturesCount = _value.currentPicturesCount;
+    this.childsCount = _value.childsCount;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -18394,6 +18451,12 @@ export class APIItem implements GrpcMessage {
   set currentPicturesCount(value: number) {
     this._currentPicturesCount = value;
   }
+  get childsCount(): number {
+    return this._childsCount;
+  }
+  set childsCount(value: number) {
+    this._childsCount = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -18423,7 +18486,8 @@ export class APIItem implements GrpcMessage {
       isConceptInherit: this.isConceptInherit,
       specId: this.specId,
       fullText: this.fullText,
-      currentPicturesCount: this.currentPicturesCount
+      currentPicturesCount: this.currentPicturesCount,
+      childsCount: this.childsCount
     };
   }
 
@@ -18462,7 +18526,8 @@ export class APIItem implements GrpcMessage {
       isConceptInherit: this.isConceptInherit,
       specId: this.specId,
       fullText: this.fullText,
-      currentPicturesCount: this.currentPicturesCount
+      currentPicturesCount: this.currentPicturesCount,
+      childsCount: this.childsCount
     };
   }
 }
@@ -18485,6 +18550,7 @@ export module APIItem {
     specId: string;
     fullText: string;
     currentPicturesCount: number;
+    childsCount: number;
   }
 
   /**
@@ -18505,6 +18571,7 @@ export module APIItem {
     specId: string;
     fullText: string;
     currentPicturesCount: number;
+    childsCount: number;
   }
 }
 

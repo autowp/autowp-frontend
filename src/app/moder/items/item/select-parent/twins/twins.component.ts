@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIPaginator} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -14,16 +14,15 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './twins.component.html',
 })
 export class ModerItemsItemSelectParentTwinsComponent {
-  @Output() selected = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<string>();
 
-  @Input() set itemID(value: number) {
+  @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<string>(null);
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('brand_id'), 10)),
-    map((brandID) => (brandID ? brandID : 0)),
+    map((params) => params.get('brand_id')),
     distinctUntilChanged(),
     shareReplay(1),
   );
@@ -35,44 +34,60 @@ export class ModerItemsItemSelectParentTwinsComponent {
     shareReplay(1),
   );
 
-  protected readonly twinsBrands$: Observable<{brands: APIItem[][]; paginator: APIPaginator}> = this.brandID$.pipe(
+  protected readonly twinsBrands$: Observable<{brands: GRPCAPIItem[][]; paginator: Pages}> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
         : this.page$.pipe(
             switchMap((page) =>
-              this.itemService.getItems$({
-                fields: 'name_html',
-                have_childs_with_parent_of_type: 4,
-                limit: 500,
-                page,
-                type_id: ItemType.ITEM_TYPE_BRAND,
-              }),
+              this.itemsClient.list(
+                new ListItemsRequest({
+                  descendant: new ListItemsRequest({
+                    parent: new ListItemsRequest({
+                      typeId: ItemType.ITEM_TYPE_TWINS,
+                    }),
+                  }),
+                  fields: new ItemFields({nameHtml: true}),
+                  language: this.languageService.language,
+                  limit: 500,
+                  order: ListItemsRequest.Order.NAME,
+                  page,
+                  typeId: ItemType.ITEM_TYPE_BRAND,
+                }),
+              ),
             ),
             catchError((error: unknown) => {
               this.toastService.handleError(error);
               return EMPTY;
             }),
             map((response) => ({
-              brands: chunk<APIItem>(response.items, 6),
+              brands: chunk<GRPCAPIItem>(response.items, 6),
               paginator: response.paginator,
             })),
           ),
     ),
   );
 
-  protected readonly twins$: Observable<{items: APIItem[]; paginator: APIPaginator}> = this.brandID$.pipe(
+  protected readonly twins$: Observable<{items: GRPCAPIItem[]; paginator: Pages}> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? this.page$.pipe(
             switchMap((page) =>
-              this.itemService.getItems$({
-                fields: 'name_html',
-                have_common_childs_with: brandID,
-                limit: 100,
-                page,
-                type_id: ItemType.ITEM_TYPE_TWINS,
-              }),
+              this.itemsClient.list(
+                new ListItemsRequest({
+                  descendant: new ListItemsRequest({
+                    parent: new ListItemsRequest({
+                      id: brandID,
+                    }),
+                  }),
+                  fields: new ItemFields({nameHtml: true}),
+                  language: this.languageService.language,
+                  limit: 100,
+                  order: ListItemsRequest.Order.NAME,
+                  page,
+                  typeId: ItemType.ITEM_TYPE_TWINS,
+                }),
+              ),
             ),
             catchError((error: unknown) => {
               this.toastService.handleError(error);
@@ -84,13 +99,14 @@ export class ModerItemsItemSelectParentTwinsComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
-  protected onSelect(item: APIItem) {
-    this.selected.emit(item);
+  protected onSelect(itemID: string) {
+    this.selected.emit(itemID);
     return false;
   }
 }

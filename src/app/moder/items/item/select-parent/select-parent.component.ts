@@ -4,7 +4,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
@@ -90,12 +89,12 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
     }, 0);
   }
 
-  protected select(itemID: string, parent: APIItem) {
+  protected select(itemID: string, parentID: string) {
     this.api
       .request<void>('POST', 'item-parent', {
         body: {
           item_id: itemID,
-          parent_id: parent.id,
+          parent_id: parentID,
         },
       })
       .subscribe({

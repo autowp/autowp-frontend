@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIPaginator} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {EMPTY, Observable, combineLatest} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';
 import {ToastsService} from '../../../../../toasts/toasts.service';
@@ -14,7 +14,7 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './brands.component.html',
 })
 export class ModerItemsItemSelectParentBrandsComponent {
-  @Output() selected = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<string>();
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -29,18 +29,21 @@ export class ModerItemsItemSelectParentBrandsComponent {
     debounceTime(10),
   );
 
-  protected readonly brands$: Observable<{items: APIItem[][]; paginator: APIPaginator}> = combineLatest([
-    this.search$.pipe(tap((v) => console.log('search chnaged', v))),
-    this.page$.pipe(tap((v) => console.log('page chnaged', v))),
+  protected readonly brands$: Observable<{items: APIItem[][]; paginator: Pages}> = combineLatest([
+    this.search$,
+    this.page$,
   ]).pipe(
     switchMap(([search, page]) =>
-      this.itemService.getItems$({
-        fields: 'name_html',
-        limit: 500,
-        name: search ? '%' + search + '%' : null,
-        page,
-        type_id: ItemType.ITEM_TYPE_BRAND,
-      }),
+      this.itemsClient.list(
+        new ListItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.languageService.language,
+          limit: 500,
+          name: search ? '%' + search + '%' : null,
+          page,
+          typeId: ItemType.ITEM_TYPE_BRAND,
+        }),
+      ),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
@@ -53,10 +56,11 @@ export class ModerItemsItemSelectParentBrandsComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
     private readonly router: Router,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   protected doSearch(search: string) {
@@ -66,8 +70,8 @@ export class ModerItemsItemSelectParentBrandsComponent {
     });
   }
 
-  protected onSelect(item: APIItem) {
-    this.selected.emit(item);
+  protected onSelect(itemID: string) {
+    this.selected.emit(itemID);
     return false;
   }
 }

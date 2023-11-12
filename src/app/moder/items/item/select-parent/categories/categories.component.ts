@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIItem, ItemService} from '@services/item';
+import {ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -12,12 +13,12 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './categories.component.html',
 })
 export class ModerItemsItemSelectParentCategoriesComponent {
-  @Output() selected = new EventEmitter<APIItem>();
+  @Output() selected = new EventEmitter<string>();
 
-  @Input() set itemID(value: number) {
+  @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<number>(null);
+  protected readonly itemID$ = new BehaviorSubject<string>(null);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page'), 10)),
@@ -28,13 +29,16 @@ export class ModerItemsItemSelectParentCategoriesComponent {
 
   protected readonly categories$ = this.page$.pipe(
     switchMap((page) =>
-      this.itemService.getItems$({
-        fields: 'name_html,childs_count',
-        limit: 100,
-        no_parent: true,
-        page,
-        type_id: ItemType.ITEM_TYPE_CATEGORY,
-      }),
+      this.itemsClient.list(
+        new ListItemsRequest({
+          fields: new ItemFields({childsCount: true, nameHtml: true}),
+          language: this.languageService.language,
+          limit: 100,
+          noParent: true,
+          page,
+          typeId: ItemType.ITEM_TYPE_CATEGORY,
+        }),
+      ),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
@@ -43,13 +47,14 @@ export class ModerItemsItemSelectParentCategoriesComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
-  protected onSelect(item: APIItem) {
-    this.selected.emit(item);
+  protected onSelect(itemID: string) {
+    this.selected.emit(itemID);
     return false;
   }
 }

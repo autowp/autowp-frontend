@@ -28,7 +28,7 @@
     <ul>
       <li class="car-node" *ngFor="let item of response.items">
         <app-moder-items-item-select-parent-tree
-          [item]="item"
+          [itemParent]="item"
           order="type_auto"
           (selected)="onSelect($event)"
           [disableItemID]="itemID$ | async"
