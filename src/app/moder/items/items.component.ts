@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Spec, VehicleType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemFields, ListItemsRequest, Spec, VehicleType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIPaginator} from '@services/api.service';
-import {APIItem, GetItemsServiceOptions, ItemService} from '@services/item';
+import {ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
@@ -92,7 +94,9 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected ancestorID: number;
   protected ancestorQuery = '';
-  protected ancestorsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (text$: Observable<string>) =>
+  protected ancestorsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
+    text$: Observable<string>,
+  ) =>
     text$.pipe(
       debounceTime(200),
       switchMap((query) => {
@@ -100,19 +104,19 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        const params: GetItemsServiceOptions = {
-          fields: 'name_text,name_html',
-          id: 0,
+        const params = new ListItemsRequest({
+          fields: new ItemFields({nameHtml: true, nameText: true}),
+          language: this.languageService.language,
           limit: 10,
           name: '',
-        };
+        });
         if (query.substring(0, 1) === '#') {
-          params.id = parseInt(query.substring(1), 10);
+          params.id = query.substring(1);
         } else {
           params.name = '%' + query + '%';
         }
 
-        return this.itemService.getItems$(params).pipe(
+        return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
@@ -132,6 +136,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -272,8 +278,8 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     this.specsSub.unsubscribe();
   }
 
-  protected ancestorFormatter(x: APIItem) {
-    return x.name_text;
+  protected ancestorFormatter(x: GRPCAPIItem) {
+    return x.nameText;
   }
 
   protected ancestorOnSelect(e: NgbTypeaheadSelectItemEvent): void {
