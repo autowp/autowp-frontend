@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemRequest, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunk} from '../../../../chunk';
@@ -19,7 +18,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 })
 export class CarsEngineSelectComponent {
   protected search: string;
-  protected readonly search$ = new BehaviorSubject<string>('');
+  private readonly search$ = new BehaviorSubject<string>('');
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id'), 10)),
@@ -75,19 +74,24 @@ export class CarsEngineSelectComponent {
     }),
   );
 
-  protected readonly brands$ = this.search$.pipe(
+  protected readonly brands$: Observable<{items: APIItem[][]; paginator: Pages}> = this.search$.pipe(
     map((str) => str.trim()),
     distinctUntilChanged(),
     debounceTime(50),
     switchMap((search) =>
-      this.itemService.getItems$({
-        fields: 'name_only',
-        have_childs_of_type: ItemType.ITEM_TYPE_ENGINE,
-        limit: 500,
-        name: search ? '%' + search + '%' : null,
-        order: 'name',
-        type_id: ItemType.ITEM_TYPE_BRAND,
-      }),
+      this.itemsClient.list(
+        new ListItemsRequest({
+          descendant: new ListItemsRequest({
+            typeId: ItemType.ITEM_TYPE_ENGINE,
+          }),
+          fields: new ItemFields({nameOnly: true}),
+          language: this.languageService.language,
+          limit: 500,
+          name: search ? '%' + search + '%' : null,
+          order: ListItemsRequest.Order.NAME,
+          typeId: ItemType.ITEM_TYPE_BRAND,
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -101,7 +105,6 @@ export class CarsEngineSelectComponent {
 
   constructor(
     private readonly api: APIService,
-    private readonly itemService: ItemService,
     private readonly itemsClient: ItemsClient,
     private readonly router: Router,
     private readonly route: ActivatedRoute,

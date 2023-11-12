@@ -17356,6 +17356,7 @@ export class ListItemsRequest implements GrpcMessage {
     _instance.id = _instance.id || '0';
     _instance.ancestorId = _instance.ancestorId || '0';
     _instance.isConcept = _instance.isConcept || false;
+    _instance.descendant = _instance.descendant || undefined;
   }
 
   /**
@@ -17424,6 +17425,13 @@ export class ListItemsRequest implements GrpcMessage {
           break;
         case 14:
           _instance.isConcept = _reader.readBool();
+          break;
+        case 15:
+          _instance.descendant = new ListItemsRequest();
+          _reader.readMessage(
+            _instance.descendant,
+            ListItemsRequest.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -17496,6 +17504,13 @@ export class ListItemsRequest implements GrpcMessage {
     if (_instance.isConcept) {
       _writer.writeBool(14, _instance.isConcept);
     }
+    if (_instance.descendant) {
+      _writer.writeMessage(
+        15,
+        _instance.descendant as any,
+        ListItemsRequest.serializeBinaryToWriter
+      );
+    }
   }
 
   private _language: string;
@@ -17512,6 +17527,7 @@ export class ListItemsRequest implements GrpcMessage {
   private _id: string;
   private _ancestorId: string;
   private _isConcept: boolean;
+  private _descendant?: ListItemsRequest;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17537,6 +17553,9 @@ export class ListItemsRequest implements GrpcMessage {
     this.id = _value.id;
     this.ancestorId = _value.ancestorId;
     this.isConcept = _value.isConcept;
+    this.descendant = _value.descendant
+      ? new ListItemsRequest(_value.descendant)
+      : undefined;
     ListItemsRequest.refineValues(this);
   }
   get language(): string {
@@ -17623,6 +17642,12 @@ export class ListItemsRequest implements GrpcMessage {
   set isConcept(value: boolean) {
     this._isConcept = value;
   }
+  get descendant(): ListItemsRequest | undefined {
+    return this._descendant;
+  }
+  set descendant(value: ListItemsRequest | undefined) {
+    this._descendant = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17656,7 +17681,8 @@ export class ListItemsRequest implements GrpcMessage {
       page: this.page,
       id: this.id,
       ancestorId: this.ancestorId,
-      isConcept: this.isConcept
+      isConcept: this.isConcept,
+      descendant: this.descendant ? this.descendant.toObject() : undefined
     };
   }
 
@@ -17700,7 +17726,10 @@ export class ListItemsRequest implements GrpcMessage {
       page: this.page,
       id: this.id,
       ancestorId: this.ancestorId,
-      isConcept: this.isConcept
+      isConcept: this.isConcept,
+      descendant: this.descendant
+        ? this.descendant.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -17723,6 +17752,7 @@ export module ListItemsRequest {
     id: string;
     ancestorId: string;
     isConcept: boolean;
+    descendant?: ListItemsRequest.AsObject;
   }
 
   /**
@@ -17743,6 +17773,7 @@ export module ListItemsRequest {
     id: string;
     ancestorId: string;
     isConcept: boolean;
+    descendant: ListItemsRequest.AsProtobufJSON | null;
   }
   export enum Order {
     DEFAULT = 0,

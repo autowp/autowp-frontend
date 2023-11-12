@@ -1,9 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIItem} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
-import {BehaviorSubject, EMPTY, combineLatest, of} from 'rxjs';
+import {LanguageService} from '@services/language';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';
@@ -46,27 +48,33 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     shareReplay(1),
   );
 
-  protected readonly catalogueBrands$ = this.brandID$.pipe(
+  protected readonly catalogueBrands$: Observable<{brands: GRPCAPIItem[][]; paginator: Pages}> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
         : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
             switchMap(([itemTypeID, search, page]) =>
-              this.itemService.getItems$({
-                fields: 'name_html',
-                have_childs_of_type: itemTypeID,
-                limit: 500,
-                name: search ? '%' + search + '%' : null,
-                page,
-                type_id: ItemType.ITEM_TYPE_BRAND,
-              }),
+              this.itemsClient.list(
+                new ListItemsRequest({
+                  descendant: new ListItemsRequest({
+                    typeId: itemTypeID,
+                  }),
+                  fields: new ItemFields({nameHtml: true}),
+                  language: this.languageService.language,
+                  limit: 500,
+                  name: search ? '%' + search + '%' : null,
+                  order: ListItemsRequest.Order.NAME,
+                  page,
+                  typeId: ItemType.ITEM_TYPE_BRAND,
+                }),
+              ),
             ),
             catchError((error: unknown) => {
               this.toastService.handleError(error);
               return EMPTY;
             }),
             map((response) => ({
-              brands: chunk<APIItem>(response.items, 6),
+              brands: chunk<GRPCAPIItem>(response.items, 6),
               paginator: response.paginator,
             })),
           ),
@@ -89,11 +97,12 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   );
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
     private readonly router: Router,
     private readonly itemParentService: ItemParentService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   protected doSearch(search: string) {

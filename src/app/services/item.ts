@@ -181,7 +181,6 @@ export interface GetItemsServiceOptions {
   factories_of_brand?: number;
   fields: string;
   from_year?: number;
-  have_childs_of_type?: number;
   have_childs_with_parent_of_type?: number;
   have_common_childs_with?: number;
   id?: number;
@@ -293,10 +292,6 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 
   if (options.page) {
     params.page = options.page.toString();
-  }
-
-  if (options.have_childs_of_type) {
-    params.have_childs_of_type = options.have_childs_of_type.toString();
   }
 
   if (options.name) {
