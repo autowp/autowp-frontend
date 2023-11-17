@@ -2,16 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APICommentsMessage,
+  APIItem,
   APIUser as APIUser2,
   CommentMessageFields,
   GetMessagesRequest,
+  ItemFields,
+  ListItemsRequest,
   ModeratorAttention,
   Pages,
   PictureStatus,
 } from '@grpc/spec.pb';
-import {CommentsClient} from '@grpc/spec.pbsc';
+import {CommentsClient, ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {APIItem, GetItemsServiceOptions, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIUser, UserService} from '@services/user';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -38,19 +41,18 @@ export class ModerCommentsComponent implements OnInit {
           return of([]);
         }
 
-        const params: GetItemsServiceOptions = {
-          fields: 'name_text,name_html',
-          id: 0,
+        const params = new ListItemsRequest({
+          fields: new ItemFields({nameHtml: true, nameText: true}),
+          language: this.languageService.language,
           limit: 10,
-          name: '',
-        };
+        });
         if (query.substring(0, 1) === '#') {
-          params.id = parseInt(query.substring(1), 10);
+          params.id = query.substring(1);
         } else {
           params.name = '%' + query + '%';
         }
 
-        return this.itemService.getItems$(params).pipe(
+        return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
@@ -163,13 +165,14 @@ export class ModerCommentsComponent implements OnInit {
   protected readonly ModeratorAttention = ModeratorAttention;
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly router: Router,
     private readonly toastService: ToastsService,
     private readonly commentsClient: CommentsClient,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -194,7 +197,7 @@ export class ModerCommentsComponent implements OnInit {
   }
 
   protected itemFormatter(x: APIItem) {
-    return x.name_text;
+    return x.nameText;
   }
 
   protected itemOnSelect(e: NgbTypeaheadSelectItemEvent): void {
