@@ -1,10 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {APIItem, APIItemList, APIItem as GRPCAPIItem, ItemFields, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIPaginator} from '@services/api.service';
-import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
 import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -21,7 +20,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   private querySub: Subscription;
   protected page: number;
   protected brands: APIItem[][];
-  protected paginator: APIPaginator;
+  protected paginator: Pages;
   protected brand: GRPCAPIItem;
   protected vehicles: APIItemParent[];
   protected vehiclesPaginator: APIPaginator;
@@ -30,7 +29,6 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   protected conceptsExpanded = false;
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
     private readonly pageEnv: PageEnvService,
@@ -59,13 +57,16 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
           this.loading++;
           return combineLatest([
             (brandID
-              ? of(null as APIItemsGetResponse)
-              : this.itemService.getItems$({
-                  fields: 'name_only',
-                  limit: 500,
-                  page: this.page,
-                  type_id: ItemType.ITEM_TYPE_BRAND,
-                })
+              ? of(null as APIItemList)
+              : this.itemsClient.list(
+                  new ListItemsRequest({
+                    fields: new ItemFields({nameOnly: true}),
+                    language: this.languageService.language,
+                    limit: 500,
+                    page: this.page,
+                    typeId: ItemType.ITEM_TYPE_BRAND,
+                  }),
+                )
             ).pipe(
               finalize(() => {
                 this.loading--;
