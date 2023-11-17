@@ -35,7 +35,7 @@
       <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
     </span>
     <div *ngFor="let item of items">
-      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
     </div>
     <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
   </div>

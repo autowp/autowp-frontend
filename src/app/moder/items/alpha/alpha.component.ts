@@ -1,7 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem, APIItemsGetResponse, ItemService} from '@services/item';
+import {APIItem, APIItemList, ItemFields, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIService} from '@services/api.service';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {Subscription, combineLatest, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
@@ -18,15 +20,16 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   protected char: string;
   private querySub: Subscription;
   protected loading = 0;
-  protected paginator: APIPaginator | null = null;
+  protected paginator: Pages | null = null;
   protected groups: string[][];
   protected items: APIItem[];
 
   constructor(
     private readonly api: APIService,
-    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {
     setTimeout(
       () =>
@@ -49,16 +52,19 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
             of(query.get('char')),
             of(groups.groups),
             query.get('char')
-              ? this.itemService.getItems$({
-                  fields: 'name_html',
-                  limit: 10,
-                  name: query.get('char') + '%',
-                  page: parseInt(query.get('page'), 10),
-                })
+              ? this.itemsClient.list(
+                  new ListItemsRequest({
+                    fields: new ItemFields({nameHtml: true}),
+                    language: this.languageService.language,
+                    limit: 10,
+                    name: query.get('char') + '%',
+                    page: parseInt(query.get('page'), 10),
+                  }),
+                )
               : of({
                   items: [],
                   paginator: null,
-                } as APIItemsGetResponse),
+                } as APIItemList),
           ]),
         ),
       )
