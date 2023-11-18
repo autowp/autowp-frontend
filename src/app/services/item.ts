@@ -176,7 +176,6 @@ export interface GetItemsServiceOptions {
     status?: string;
     type_id?: number;
   };
-  engine_id?: number;
   exclude_self_and_childs?: number;
   factories_of_brand?: number;
   fields: string;
@@ -336,10 +335,6 @@ function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: 
 
   if (options.suggestions_to) {
     params.suggestions_to = options.suggestions_to.toString();
-  }
-
-  if (options.engine_id) {
-    params.engine_id = options.engine_id.toString();
   }
 
   if (options.exclude_self_and_childs) {

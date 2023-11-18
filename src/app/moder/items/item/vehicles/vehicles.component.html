@@ -1,8 +1,15 @@
 <div class="card card-body">
   <h4 class="mb-3" i18n>Vehicles with that engine</h4>
-  <ul>
-    <li *ngFor="let item of engineVehicles$ | async">
-      <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'meta'}" [innerHTML]="item.name_html"></a>
-    </li>
-  </ul>
+  <ng-container *ngIf="engineVehicles$ | async as engineVehicles; else loading">
+    <ul>
+      <li *ngFor="let item of engineVehicles">
+        <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'meta'}" [innerHTML]="item.nameHtml"></a>
+      </li>
+    </ul>
+    <p *ngIf="engineVehicles.length <= 0" i18n>Nothing found</p>
+  </ng-container>
 </div>
+
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>

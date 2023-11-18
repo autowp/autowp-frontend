@@ -192,7 +192,7 @@
   *ngIf="catalogueTab.visible && activeTab === 'catalogue' && item"
 ></app-moder-items-item-catalogue>
 <app-moder-items-item-vehicles
-  [item]="item"
+  [itemId]="'' + item.id"
   *ngIf="vehiclesTab.visible && activeTab === 'vehicles' && item"
 ></app-moder-items-item-vehicles>
 <div class="tree card card-body" *ngIf="treeTab.visible && activeTab === 'tree' && tree">

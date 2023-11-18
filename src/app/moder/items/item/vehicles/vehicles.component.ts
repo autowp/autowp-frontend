@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
@@ -8,21 +10,27 @@ import {map, switchMap} from 'rxjs/operators';
   templateUrl: './vehicles.component.html',
 })
 export class ModerItemsItemVehiclesComponent {
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
+  @Input() set itemId(item: string) {
+    this.itemId$.next(item);
   }
-  private readonly item$ = new BehaviorSubject<APIItem>(null);
+  private readonly itemId$ = new BehaviorSubject<string>(null);
 
-  protected readonly engineVehicles$: Observable<APIItem[]> = this.item$.pipe(
-    switchMap((item) =>
-      this.itemService.getItems$({
-        engine_id: item.id,
-        fields: 'name_html',
-        limit: 100,
-      }),
+  protected readonly engineVehicles$: Observable<APIItem[]> = this.itemId$.pipe(
+    switchMap((itemId) =>
+      this.itemsClient.list(
+        new ListItemsRequest({
+          engineId: itemId,
+          fields: new ItemFields({nameHtml: true}),
+          language: this.languageService.language,
+          limit: 100,
+        }),
+      ),
     ),
     map((response) => response.items),
   );
 
-  constructor(private readonly itemService: ItemService) {}
+  constructor(
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 }
