@@ -12,518 +12,542 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="picture">
-  <h1 i18n>Picture №{{ picture.id }}</h1>
+<div class="page-header" *ngIf="id$ | async as id">
+  <h1 i18n>Picture №{{ id }}</h1>
 </div>
 
-<div class="row mb-4" *ngIf="picture && picture.siblings">
-  <div class="col-md-3">
-    <a
-      [routerLink]="['/moder/pictures', picture.siblings.prev_new.id]"
-      [title]="picture.siblings.prev_new.name_text"
-      *ngIf="picture.siblings.prev_new"
-      i18n
-      ><< previous new</a
-    >
+<ng-container *ngIf="picture$ | async as picture">
+  <div class="row mb-4" *ngIf="picture.siblings">
+    <div class="col-md-3">
+      <a
+        [routerLink]="['/moder/pictures', picture.siblings.prev_new.id]"
+        [title]="picture.siblings.prev_new.name_text"
+        *ngIf="picture.siblings.prev_new"
+        i18n
+        ><< previous new</a
+      >
+    </div>
+    <div class="col-md-3 text-end">
+      <a
+        [routerLink]="['/moder/pictures', picture.siblings.prev.id]"
+        [title]="picture.siblings.prev.name_text"
+        *ngIf="picture.siblings.prev"
+        i18n
+        ><< previous</a
+      >
+    </div>
+    <div class="col-md-3">
+      <a
+        [routerLink]="['/moder/pictures', picture.siblings.next.id]"
+        [title]="picture.siblings.next.name_text"
+        *ngIf="picture.siblings.next"
+        i18n
+        >next >></a
+      >
+    </div>
+    <div class="col-md-3 text-end">
+      <a
+        [routerLink]="['/moder/pictures', picture.siblings.next_new.id]"
+        [title]="picture.siblings.next_new.name_text"
+        *ngIf="picture.siblings.next_new"
+        i18n
+        >next new >></a
+      >
+    </div>
   </div>
-  <div class="col-md-3 text-end">
-    <a
-      [routerLink]="['/moder/pictures', picture.siblings.prev.id]"
-      [title]="picture.siblings.prev.name_text"
-      *ngIf="picture.siblings.prev"
-      i18n
-      ><< previous</a
-    >
-  </div>
-  <div class="col-md-3">
-    <a
-      [routerLink]="['/moder/pictures', picture.siblings.next.id]"
-      [title]="picture.siblings.next.name_text"
-      *ngIf="picture.siblings.next"
-      i18n
-      >next >></a
-    >
-  </div>
-  <div class="col-md-3 text-end">
-    <a
-      [routerLink]="['/moder/pictures', picture.siblings.next_new.id]"
-      [title]="picture.siblings.next_new.name_text"
-      *ngIf="picture.siblings.next_new"
-      i18n
-      >next new >></a
-    >
-  </div>
-</div>
 
-<div class="row mb-4" *ngIf="picture">
-  <div class="col-md-2">
-    <img alt="" [src]="picture.thumb.src" *ngIf="picture.thumb" class="rounded border border-light w-100" />
+  <div class="row mb-4">
+    <div class="col-md-2">
+      <img alt="" [src]="picture.thumb.src" *ngIf="picture.thumb" class="rounded border border-light w-100" />
+    </div>
+    <div class="col-md-6">
+      <div class="card card-body">
+        <div>
+          <ng-container i18n>Public URL:</ng-container>
+          <a [routerLink]="['/picture', picture.identity]" [textContent]="'/picture/' + picture.identity"></a>
+        </div>
+        <div *ngIf="picture.image" style="overflow: hidden; text-overflow: ellipsis">
+          <ng-container i18n>Image:</ng-container>
+          <a [href]="picture.image.src" [textContent]="picture.image.src"></a>
+        </div>
+        <div>
+          <a routerLink="/log" [queryParams]="{picture_id: picture.id}" i18n>Log of events</a>
+        </div>
+        <div>
+          <a [routerLink]="['/moder/pictures', picture.id, 'place']">
+            <span class="bi bi-pin-map" aria-hidden="true"></span>
+            Location<span *ngIf="picture.point">: {{ picture.point.lat }},{{ picture.point.lng }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-body">
+        <div i18n>Database id: {{ picture.id }}</div>
+        <div>
+          <ng-container i18n>Resolution:</ng-container>
+          <strong>{{ picture.width }}×{{ picture.height }}</strong>
+        </div>
+        <div *ngIf="picture.dpi_x || picture.dpi_y">
+          DPI:
+          <strong>{{ picture.dpi_x }}×{{ picture.dpi_y }}</strong>
+        </div>
+        <div>
+          <ng-container i18n>File size:</ng-container>
+          <strong [textContent]="picture.filesize | bytes: 2"></strong>
+        </div>
+        <div>
+          <ng-container i18n>Upload date:</ng-container>
+          <strong [textContent]="picture.add_date | timeAgo" [ngbTooltip]="picture.add_date | date: 'medium'"></strong>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-6">
-    <div class="card card-body">
+
+  <div class="card card-body mb-4">
+    <table class="table" *ngIf="picture.items.length">
+      <caption i18n>
+        Catalogue
+      </caption>
+      <thead>
+        <tr>
+          <th i18n>Item</th>
+          <th i18n>Perspective</th>
+          <th i18n *ngIf="picture.rights.crop">Area</th>
+          <th i18n *ngIf="picture.rights.move">Move</th>
+          <th *ngIf="picture.rights.move"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of picture.items">
+          <td>
+            <a [routerLink]="['/moder/items/item', item.item_id]" [innerHTML]="item.item.name_html"></a>
+          </td>
+          <td>
+            <app-moder-pictures-perspective-picker
+              [perspectiveID]="item.perspective_id"
+              *ngIf="item.type === 1"
+              (perspectiveChanged)="savePerspective($event, item)"
+            ></app-moder-pictures-perspective-picker>
+          </td>
+          <td *ngIf="picture.rights.crop">
+            <a
+              class="btn btn-secondary"
+              [class.btn-success]="item.area"
+              [routerLink]="['/moder/pictures', picture.id, 'area']"
+              [queryParams]="{item_id: item.item_id, type: item.type}"
+              style="margin: 0"
+              *ngIf="item.type === 1"
+            >
+              <i class="bi bi-crop" aria-hidden="true"></i>
+              <ng-container i18n>Pick item area</ng-container>
+            </a>
+          </td>
+          <td *ngIf="picture.rights.move">
+            <div class="btn-group" style="white-space: nowrap">
+              <a
+                [routerLink]="['/moder/pictures', picture.id, 'move']"
+                [queryParams]="{src_item_id: item.item_id, src_type: item.type}"
+                class="btn btn-secondary"
+              >
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                <ng-container i18n>move to</ng-container> …
+              </a>
+              <ng-container *ngIf="lastItem$ | async as lastItem">
+                <div
+                  class="btn-group"
+                  ngbDropdown
+                  role="group"
+                  placement="bottom-right"
+                  *ngIf="item.type === 1 && ((lastItem.item && !lastItem.hasItem) || item.item.brands.length)"
+                >
+                  <button class="btn btn-secondary" ngbDropdownToggle>
+                    <span class="caret" aria-hidden="true"></span>
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu" ngbDropdownMenu>
+                    <button
+                      class="dropdown-item"
+                      (click)="moveItem(picture.id, item.type, item.item_id, lastItem.item.id)"
+                      *ngIf="lastItem.item && !lastItem.hasItem"
+                    >
+                      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                      <ng-container i18n>move to</ng-container>
+                      <span [innerHTML]="lastItem.item.nameHtml"></span>
+                    </button>
+                    <a
+                      *ngFor="let brand of item.item.brands"
+                      class="dropdown-item"
+                      [routerLink]="['/moder/pictures', picture.id, 'move']"
+                      [queryParams]="{src_item_id: item.item_id, src_type: item.type, brand_id: brand.id}"
+                    >
+                      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                      <ng-container i18n>move to</ng-container>
+                      <span [innerHTML]="brand.name_html"></span> …
+                    </a>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </td>
+          <td *ngIf="picture.rights.move">
+            <button class="btn btn-danger" (click)="deletePictureItem(item)" aria-label="Delete" style="margin: 0">
+              <span class="bi bi-x" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="picture.rights.move">
+      <ng-container *ngIf="lastItem$ | async as lastItem">
+        <div *ngIf="lastItem.item && !lastItem.hasItem && lastItem.item.itemTypeId !== ItemType.ITEM_TYPE_COPYRIGHT">
+          <button class="btn btn-secondary" (click)="addItem(picture.id, lastItem.item, 1)">
+            <i class="bi bi-plus" aria-hidden="true"></i>
+            <ng-container i18n>add to</ng-container> (content)
+            <span [innerHTML]="lastItem.item.nameHtml"></span>
+          </button>
+        </div>
+        <div *ngIf="lastItem.item && !lastItem.hasItem && lastItem.item.itemTypeId === ItemType.ITEM_TYPE_PERSON">
+          <button class="btn btn-secondary" (click)="addItem(picture.id, lastItem.item, 2)">
+            <i class="bi bi-plus" aria-hidden="true"></i>
+            <ng-container i18n>add to</ng-container> (author)
+            <span [innerHTML]="lastItem.item.nameHtml"></span>
+          </button>
+        </div>
+        <div *ngIf="lastItem.item && !lastItem.hasItem && lastItem.item.itemTypeId === ItemType.ITEM_TYPE_COPYRIGHT">
+          <button class="btn btn-secondary" (click)="addItem(picture.id, lastItem.item, 3)">
+            <i class="bi bi-plus" aria-hidden="true"></i>
+            <ng-container i18n>add to</ng-container> (copyrights)
+            <span [innerHTML]="lastItem.item.nameHtml"></span>
+          </button>
+        </div>
+      </ng-container>
       <div>
-        <ng-container i18n>Public URL:</ng-container>
-        <a [routerLink]="['/picture', picture.identity]" [textContent]="'/picture/' + picture.identity"></a>
-      </div>
-      <div *ngIf="picture.image" style="overflow: hidden; text-overflow: ellipsis">
-        <ng-container i18n>Image:</ng-container>
-        <a [href]="picture.image.src" [textContent]="picture.image.src"></a>
-      </div>
-      <div>
-        <a routerLink="/log" [queryParams]="{picture_id: picture.id}" i18n>Log of events</a>
-      </div>
-      <div>
-        <a [routerLink]="['/moder/pictures', picture.id, 'place']">
-          <span class="bi bi-pin-map" aria-hidden="true"></span>
-          Location<span *ngIf="picture.point">: {{ picture.point.lat }},{{ picture.point.lng }}</span>
+        <a class="btn btn-success" [routerLink]="['/moder/pictures', picture.id, 'move']">
+          <i class="bi bi-plus" aria-hidden="true"></i>
+          <ng-container i18n>add to</ng-container> …
         </a>
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card card-body">
-      <div i18n>Database id: {{ picture.id }}</div>
-      <div>
-        <ng-container i18n>Resolution:</ng-container>
-        <strong>{{ picture.width }}×{{ picture.height }}</strong>
-      </div>
-      <div *ngIf="picture.dpi_x || picture.dpi_y">
-        DPI:
-        <strong>{{ picture.dpi_x }}×{{ picture.dpi_y }}</strong>
-      </div>
-      <div>
-        <ng-container i18n>File size:</ng-container>
-        <strong [textContent]="picture.filesize | bytes: 2"></strong>
-      </div>
-      <div>
-        <ng-container i18n>Upload date:</ng-container>
-        <strong [textContent]="picture.add_date | timeAgo" [ngbTooltip]="picture.add_date | date: 'medium'"></strong>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="card card-body mb-4" *ngIf="picture">
-  <table class="table" *ngIf="picture.items.length">
-    <caption i18n>
-      Catalogue
-    </caption>
-    <thead>
-      <tr>
-        <th i18n>Item</th>
-        <th i18n>Perspective</th>
-        <th i18n *ngIf="picture.rights.crop">Area</th>
-        <th i18n *ngIf="picture.rights.move">Move</th>
-        <th *ngIf="picture.rights.move"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of picture.items">
-        <td>
-          <a [routerLink]="['/moder/items/item', item.item_id]" [innerHTML]="item.item.name_html"></a>
-        </td>
-        <td>
-          <app-moder-pictures-perspective-picker
-            [perspectiveID]="item.perspective_id"
-            *ngIf="item.type === 1"
-            (perspectiveChanged)="savePerspective($event, item)"
-          ></app-moder-pictures-perspective-picker>
-        </td>
-        <td *ngIf="picture.rights.crop">
-          <a
-            class="btn btn-secondary"
-            [class.btn-success]="item.area"
-            [routerLink]="['/moder/pictures', picture.id, 'area']"
-            [queryParams]="{item_id: item.item_id, type: item.type}"
-            style="margin: 0"
-            *ngIf="item.type === 1"
-          >
-            <i class="bi bi-crop" aria-hidden="true"></i>
-            <ng-container i18n>Pick item area</ng-container>
-          </a>
-        </td>
-        <td *ngIf="picture.rights.move">
-          <div class="btn-group" style="white-space: nowrap">
-            <a
-              [routerLink]="['/moder/pictures', picture.id, 'move']"
-              [queryParams]="{src_item_id: item.item_id, src_type: item.type}"
-              class="btn btn-secondary"
-            >
-              <i class="bi bi-arrow-right" aria-hidden="true"></i>
-              <ng-container i18n>move to</ng-container> …
-            </a>
-            <div
-              class="btn-group"
-              ngbDropdown
-              role="group"
-              placement="bottom-right"
-              *ngIf="item.type === 1 && ((lastItem && !hasItem(lastItem.id)) || item.item.brands.length)"
-            >
-              <button class="btn btn-secondary" ngbDropdownToggle>
-                <span class="caret" aria-hidden="true"></span>
-                <span class="visually-hidden">Toggle Dropdown</span>
-              </button>
-              <div class="dropdown-menu" ngbDropdownMenu>
-                <button
-                  class="dropdown-item"
-                  (click)="moveItem(item.type, item.item_id, lastItem.id)"
-                  *ngIf="lastItem && !hasItem(lastItem.id)"
-                >
-                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                  <ng-container i18n>move to</ng-container>
-                  <span [innerHTML]="lastItem.nameHtml"></span>
-                </button>
-                <a
-                  *ngFor="let brand of item.item.brands"
-                  class="dropdown-item"
-                  [routerLink]="['/moder/pictures', picture.id, 'move']"
-                  [queryParams]="{src_item_id: item.item_id, src_type: item.type, brand_id: brand.id}"
-                >
-                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                  <ng-container i18n>move to</ng-container>
-                  <span [innerHTML]="brand.name_html"></span> …
-                </a>
+    <ngb-progressbar
+      type="primary"
+      [striped]="true"
+      [animated]="true"
+      [value]="100"
+      [hidden]="!pictureItemLoading"
+    ></ngb-progressbar>
+  </div>
+
+  <div class="row" *ngIf="picture">
+    <div class="col-md-6">
+      <h3 i18n>Settings</h3>
+      <form class="card card-body form-vertical mb-4">
+        <div class="mb-3 row">
+          <label class="col-md-3 col-form-label" i18n>Date of photo</label>
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-3">
+                <input
+                  type="number"
+                  name="taken_year"
+                  [(ngModel)]="picture.taken_year"
+                  placeholder="Year"
+                  [min]="1800"
+                  [max]="2030"
+                  class="form-control"
+                  [attr.maxlength]="4"
+                />
+              </div>
+              <div class="col-6">
+                <select name="taken_month" [(ngModel)]="picture.taken_month" title="Month" class="form-select">
+                  <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
+                </select>
+              </div>
+              <div class="col-3">
+                <select name="taken_day" [(ngModel)]="picture.taken_day" title="Day" class="form-select">
+                  <option *ngFor="let day of dayOptions" [ngValue]="day.value">{{ day.name }}</option>
+                </select>
               </div>
             </div>
           </div>
-        </td>
-        <td *ngIf="picture.rights.move">
-          <button class="btn btn-danger" (click)="deletePictureItem(item)" aria-label="Delete" style="margin: 0">
-            <span class="bi bi-x" aria-hidden="true"></span>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div *ngIf="picture.rights.move">
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.itemTypeId !== ItemType.ITEM_TYPE_COPYRIGHT">
-      <button class="btn btn-secondary" (click)="addItem(lastItem, 1)">
-        <i class="bi bi-plus" aria-hidden="true"></i>
-        <ng-container i18n>add to</ng-container> (content)
-        <span [innerHTML]="lastItem.nameHtml"></span>
-      </button>
-    </div>
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.itemTypeId === ItemType.ITEM_TYPE_PERSON">
-      <button class="btn btn-secondary" (click)="addItem(lastItem, 2)">
-        <i class="bi bi-plus" aria-hidden="true"></i>
-        <ng-container i18n>add to</ng-container> (author)
-        <span [innerHTML]="lastItem.nameHtml"></span>
-      </button>
-    </div>
-    <div *ngIf="lastItem && !hasItem(lastItem.id) && lastItem.itemTypeId === ItemType.ITEM_TYPE_COPYRIGHT">
-      <button class="btn btn-secondary" (click)="addItem(lastItem, 3)">
-        <i class="bi bi-plus" aria-hidden="true"></i>
-        <ng-container i18n>add to</ng-container> (copyrights)
-        <span [innerHTML]="lastItem.nameHtml"></span>
-      </button>
-    </div>
-    <div>
-      <a class="btn btn-success" [routerLink]="['/moder/pictures', picture.id, 'move']">
-        <i class="bi bi-plus" aria-hidden="true"></i>
-        <ng-container i18n>add to</ng-container> …
-      </a>
-    </div>
-  </div>
-
-  <ngb-progressbar
-    type="primary"
-    [striped]="true"
-    [animated]="true"
-    [value]="100"
-    [hidden]="!pictureItemLoading"
-  ></ngb-progressbar>
-</div>
-
-<div class="row" *ngIf="picture">
-  <div class="col-md-6">
-    <h3 i18n>Settings</h3>
-    <form class="card card-body form-vertical mb-4">
-      <div class="mb-3 row">
-        <label class="col-md-3 col-form-label" i18n>Date of photo</label>
-        <div class="col-md-9">
-          <div class="row">
-            <div class="col-3">
-              <input
-                type="number"
-                name="taken_year"
-                [(ngModel)]="picture.taken_year"
-                placeholder="Year"
-                [min]="1800"
-                [max]="2030"
-                class="form-control"
-                [attr.maxlength]="4"
-              />
-            </div>
-            <div class="col-6">
-              <select name="taken_month" [(ngModel)]="picture.taken_month" title="Month" class="form-select">
-                <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
-              </select>
-            </div>
-            <div class="col-3">
-              <select name="taken_day" [(ngModel)]="picture.taken_day" title="Day" class="form-select">
-                <option *ngFor="let day of dayOptions" [ngValue]="day.value">{{ day.name }}</option>
-              </select>
-            </div>
-          </div>
         </div>
-      </div>
 
-      <div>
-        <p class="text-danger">Achtung! High Voltage! Ты сюда не ходи!</p>
-        <p class="text-danger">Поле использовать в ИСКЛЮЧИТЕЛЬНЫХ случаях. А лучше вообще никогда не использовать.</p>
-      </div>
+        <div>
+          <p class="text-danger">Achtung! High Voltage! Ты сюда не ходи!</p>
+          <p class="text-danger">Поле использовать в ИСКЛЮЧИТЕЛЬНЫХ случаях. А лучше вообще никогда не использовать.</p>
+        </div>
 
-      <div class="mb-3">
-        <label i18n>Special name</label>
-        <input
-          type="text"
-          class="form-control"
-          maxlength="255"
-          name="special_name"
-          [(ngModel)]="picture.special_name"
-        />
-      </div>
+        <div class="mb-3">
+          <label i18n>Special name</label>
+          <input
+            type="text"
+            class="form-control"
+            maxlength="255"
+            name="special_name"
+            [(ngModel)]="picture.special_name"
+          />
+        </div>
 
-      <div>
-        <button class="btn btn-primary" (click)="saveSpecialName()" i18n>Submit</button>
-      </div>
+        <div>
+          <button class="btn btn-primary" (click)="saveSpecialName(picture)" i18n>Submit</button>
+        </div>
 
-      <ngb-progressbar
-        type="primary"
-        [striped]="true"
-        [animated]="true"
-        [value]="100"
-        [hidden]="!specialNameLoading"
-      ></ngb-progressbar>
-    </form>
+        <ngb-progressbar
+          type="primary"
+          [striped]="true"
+          [animated]="true"
+          [value]="100"
+          [hidden]="!specialNameLoading"
+        ></ngb-progressbar>
+      </form>
 
-    <h3 i18n>Copyrights</h3>
-    <div class="card card-body mb-4">
-      <app-markdown
-        i18n-markdown
-        markdown="Markdown syntax.
+      <h3 i18n>Copyrights</h3>
+      <div class="card card-body mb-4">
+        <app-markdown
+          i18n-markdown
+          markdown="Markdown syntax.
 
-Few manuals:
-[1](https://en.wikipedia.org/wiki/Markdown),
-[2](https://guides.github.com/features/mastering-markdown/),
-[3](https://daringfireball.net/projects/markdown/basics),
+  Few manuals:
+  [1](https://en.wikipedia.org/wiki/Markdown),
+  [2](https://guides.github.com/features/mastering-markdown/),
+  [3](https://daringfireball.net/projects/markdown/basics),
 
-Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"
-      ></app-markdown>
-      <app-markdown-edit [(text)]="picture.copyrights"></app-markdown-edit>
-      <button class="btn btn-primary" (click)="saveCopyrights()" i18n>Submit</button>
-      <p *ngIf="picture.copyrights_text_id">
-        <a [routerLink]="['/info/text', picture.copyrights_text_id]" i18n>History</a>
-      </p>
-
-      <ngb-progressbar
-        type="primary"
-        [striped]="true"
-        [animated]="true"
-        [value]="100"
-        [hidden]="!copyrightsLoading"
-      ></ngb-progressbar>
-    </div>
-
-    <h3 *ngIf="picture.exif">EXIF</h3>
-    <div class="card card-body small mb-4" style="overflow: auto" *ngIf="picture.exif" [innerHTML]="picture.exif"></div>
-  </div>
-
-  <div class="col-md-6">
-    <h3 i18n *ngIf="picture.replaceable">Replacement</h3>
-    <div class="card card-body mb-4" *ngIf="picture.replaceable">
-      <div>
-        <p>
-          <ng-container i18n>Photo suggested to replace</ng-container>
-          <a [routerLink]="['/picture', picture.replaceable.identity]">/picture/{{ picture.replaceable.identity }}</a>
-        </p>
-        <button class="btn btn-success" *ngIf="picture.rights.accept" (click)="acceptReplace()">
-          <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
-          <ng-container i18n>Accept and remove double</ng-container>
-        </button>
-        <button class="btn btn-warning" *ngIf="picture.rights.accept" (click)="cancelReplace()">
-          <i class="bi bi-x" aria-hidden="true"></i>
-          <ng-container i18n>Cancel replacement</ng-container>
-        </button>
-      </div>
-
-      <ngb-progressbar
-        type="primary"
-        [striped]="true"
-        [animated]="true"
-        [value]="100"
-        [hidden]="!replaceLoading"
-      ></ngb-progressbar>
-    </div>
-
-    <h3 i18n>Status/Delete/Accept</h3>
-    <div class="card card-body mb-4">
-      <app-user [user]="picture.change_status_user" *ngIf="picture.change_status_user"></app-user>
-
-      <div *ngIf="picture.status === 'inbox'">
-        <p>
-          <strong class="badge text-bg-warning text-dark" i18n>Not accepted</strong>
+  Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"
+        ></app-markdown>
+        <app-markdown-edit [(text)]="picture.copyrights"></app-markdown-edit>
+        <button class="btn btn-primary" (click)="saveCopyrights(picture)" i18n>Submit</button>
+        <p *ngIf="picture.copyrights_text_id">
+          <a [routerLink]="['/info/text', picture.copyrights_text_id]" i18n>History</a>
         </p>
 
-        <button class="btn btn-success" (click)="acceptPicture()" *ngIf="picture.rights.accept" i18n>Accept</button>
-        <button class="btn btn-danger" (click)="deletePicture()" *ngIf="picture.rights.delete" i18n>Delete</button>
+        <ngb-progressbar
+          type="primary"
+          [striped]="true"
+          [animated]="true"
+          [value]="100"
+          [hidden]="!copyrightsLoading"
+        ></ngb-progressbar>
       </div>
 
-      <div *ngIf="picture.status === 'accepted'">
-        <p>
-          <strong class="badge text-bg-success" i18n>Accepted</strong>
-        </p>
-
-        <button class="btn btn-warning" (click)="unacceptPicture()" *ngIf="picture.rights.unaccept" i18n>
-          Unaccept
-        </button>
-      </div>
-
-      <div *ngIf="picture.status === 'removing'">
-        <p>
-          <strong class="badge text-bg-danger" i18n>In delete queue</strong>
-        </p>
-
-        <button class="btn btn-warning" (click)="restorePicture()" *ngIf="picture.rights.restore" i18n>Restore</button>
-      </div>
-
-      <div *ngIf="picture.status === 'removed'">
-        <p>
-          <strong class="badge text-bg-danger" i18n>Deleted</strong>
-        </p>
-      </div>
-
-      <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
-
-      <p *ngIf="picture.is_last">
-        <span class="badge text-bg-warning text-dark" i18n>That is single picture of that vehicle</span>
-      </p>
-      <p *ngIf="!picture.is_last && picture.accepted_count <= 4">
-        <span class="badge text-bg-warning text-dark" i18n
-          >Accepted pictures count still {{ picture.accepted_count }}</span
-        >
-      </p>
-
-      <ngb-progressbar
-        type="primary"
-        [striped]="true"
-        [animated]="true"
-        [value]="100"
-        [hidden]="!statusLoading"
-      ></ngb-progressbar>
+      <h3 *ngIf="picture.exif">EXIF</h3>
+      <div
+        class="card card-body small mb-4"
+        style="overflow: auto"
+        *ngIf="picture.exif"
+        [innerHTML]="picture.exif"
+      ></div>
     </div>
 
-    <h3 *ngIf="picture.rights.normalize || picture.rights.flop || picture.rights.crop" i18n>Edit and repair</h3>
-    <div class="card card-body mb-4" *ngIf="picture.rights.normalize || picture.rights.flop || picture.rights.crop">
-      <div>
-        <button
-          class="btn btn-warning"
-          (click)="normalizePicture()"
-          *ngIf="picture.rights.normalize"
-          [disabled]="repairLoading"
-        >
-          <i class="bi bi-reception-4" aria-hidden="true"></i>
-          <ng-container i18n>Normalize</ng-container>
-        </button>
-        <button class="btn btn-warning" (click)="flopPicture()" *ngIf="picture.rights.flop" [disabled]="repairLoading">
-          <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
-          <ng-container i18n>Flop</ng-container>
-        </button>
-        <a
-          class="btn btn-secondary"
-          [routerLink]="['/moder/pictures', picture.id, 'crop']"
-          *ngIf="picture.rights.crop"
-          [class.disabled]="repairLoading"
-        >
-          <i class="bi bi-crop" aria-hidden="true"></i>
-          <ng-container i18n>Crop area</ng-container>
-        </a>
+    <div class="col-md-6">
+      <h3 i18n *ngIf="picture.replaceable">Replacement</h3>
+      <div class="card card-body mb-4" *ngIf="picture.replaceable">
+        <div>
+          <p>
+            <ng-container i18n>Photo suggested to replace</ng-container>
+            <a [routerLink]="['/picture', picture.replaceable.identity]">/picture/{{ picture.replaceable.identity }}</a>
+          </p>
+          <button class="btn btn-success" *ngIf="picture.rights.accept" (click)="acceptReplace(picture.id)">
+            <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+            <ng-container i18n>Accept and remove double</ng-container>
+          </button>
+          <button class="btn btn-warning" *ngIf="picture.rights.accept" (click)="cancelReplace(picture.id)">
+            <i class="bi bi-x" aria-hidden="true"></i>
+            <ng-container i18n>Cancel replacement</ng-container>
+          </button>
+        </div>
+
+        <ngb-progressbar
+          type="primary"
+          [striped]="true"
+          [animated]="true"
+          [value]="100"
+          [hidden]="!replaceLoading"
+        ></ngb-progressbar>
       </div>
 
-      <div>
-        <button class="btn btn-secondary" (click)="repairPicture()" [disabled]="repairLoading">
-          <i class="bi bi-wrench" aria-hidden="true"></i>
-          <ng-container i18n>Repair all files</ng-container>
-        </button>
-        <button class="btn btn-secondary" (click)="correctFileNames()" [disabled]="repairLoading">
-          <i class="bi bi-wrench" aria-hidden="true"></i>
-          <ng-container i18n>Rebuild files names</ng-container>
-        </button>
-      </div>
+      <h3 i18n>Status/Delete/Accept</h3>
+      <div class="card card-body mb-4">
+        <app-user [user]="picture.change_status_user" *ngIf="picture.change_status_user"></app-user>
 
-      <ngb-progressbar
-        type="primary"
-        [striped]="true"
-        [animated]="true"
-        [value]="100"
-        [hidden]="!repairLoading"
-      ></ngb-progressbar>
-    </div>
+        <div *ngIf="picture.status === 'inbox'">
+          <p>
+            <strong class="badge text-bg-warning text-dark" i18n>Not accepted</strong>
+          </p>
 
-    <h3 *ngIf="picture.similar">Similar picture</h3>
-    <div class="card card-body mb-4" *ngIf="picture.similar">
-      <p class="alert alert-warning" role="alert" ngPreserveWhitespaces>
-        <span class="bi bi-file-earmark-image" aria-hidden="true"></span>
-        <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">
-          Similar picture: {{ picture.similar.distance }}
-        </a>
-      </p>
-      <p *ngIf="picture.similar.picture.thumb">
-        <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">
-          <img alt="" [src]="picture.similar.picture.thumb.src" class="rounded border border-light" />
-        </a>
-      </p>
-      <button (click)="cancelSimilar()" class="btn btn-warning">That is not similar</button>
+          <button class="btn btn-success" (click)="acceptPicture(picture.id)" *ngIf="picture.rights.accept" i18n>
+            Accept
+          </button>
+          <button class="btn btn-danger" (click)="deletePicture(picture.id)" *ngIf="picture.rights.delete" i18n>
+            Delete
+          </button>
+        </div>
 
-      <ngb-progressbar
-        type="primary"
-        [striped]="true"
-        [animated]="true"
-        [value]="100"
-        [hidden]="!similarLoading"
-      ></ngb-progressbar>
-    </div>
+        <div *ngIf="picture.status === 'accepted'">
+          <p>
+            <strong class="badge text-bg-success" i18n>Accepted</strong>
+          </p>
 
-    <h3 i18n>Uploader</h3>
-    <div class="card card-body mb-4">
-      <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
-      <span *ngIf="!picture.owner" i18n>Unknown</span>
-      <div *ngIf="ip && ip.address">
-        <ng-container i18n>IP-address of uploader:</ng-container>
-        <strong [textContent]="ip.address"></strong>
-        <br />
-        <p *ngIf="ip.blacklist">
-          <ng-container i18n>That address is banned</ng-container>
-          <app-user2 [user]="ip.blacklist.byUser" *ngIf="ip.blacklist.byUser"></app-user2>
-          <ng-container *ngIf="ip.blacklist.until"
-            ><ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date }}</ng-container
+          <button class="btn btn-warning" (click)="unacceptPicture(picture.id)" *ngIf="picture.rights.unaccept" i18n>
+            Unaccept
+          </button>
+        </div>
+
+        <div *ngIf="picture.status === 'removing'">
+          <p>
+            <strong class="badge text-bg-danger" i18n>In delete queue</strong>
+          </p>
+
+          <button class="btn btn-warning" (click)="restorePicture(picture.id)" *ngIf="picture.rights.restore" i18n>
+            Restore
+          </button>
+        </div>
+
+        <div *ngIf="picture.status === 'removed'">
+          <p>
+            <strong class="badge text-bg-danger" i18n>Deleted</strong>
+          </p>
+        </div>
+
+        <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+
+        <p *ngIf="picture.is_last">
+          <span class="badge text-bg-warning text-dark" i18n>That is single picture of that vehicle</span>
+        </p>
+        <p *ngIf="!picture.is_last && picture.accepted_count <= 4">
+          <span class="badge text-bg-warning text-dark" i18n
+            >Accepted pictures count still {{ picture.accepted_count }}</span
           >
-          <span *ngIf="ip.blacklist.reason" [textContent]="ip.blacklist.reason"></span>
         </p>
 
-        <button
-          *ngIf="ip.blacklist && ip.rights.removeFromBlacklist"
-          class="btn btn-success"
-          (click)="removeFromBlacklist(ip.address)"
-          i18n
-        >
-          unban
-        </button>
+        <ngb-progressbar
+          type="primary"
+          [striped]="true"
+          [animated]="true"
+          [value]="100"
+          [hidden]="!statusLoading"
+        ></ngb-progressbar>
+      </div>
 
-        <form class="form-vertical" *ngIf="!ip.blacklist && ip.rights.addToBlacklist">
-          <div class="mb-3">
-            <label i18n>For period</label>
-            <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
-              <option *ngFor="let period of banPeriods" [value]="period.value">{{ period.name }}</option>
-            </select>
+      <h3 *ngIf="picture.rights.normalize || picture.rights.flop || picture.rights.crop" i18n>Edit and repair</h3>
+      <div class="card card-body mb-4" *ngIf="picture.rights.normalize || picture.rights.flop || picture.rights.crop">
+        <div>
+          <button
+            class="btn btn-warning"
+            (click)="normalizePicture(picture.id)"
+            *ngIf="picture.rights.normalize"
+            [disabled]="repairLoading"
+          >
+            <i class="bi bi-reception-4" aria-hidden="true"></i>
+            <ng-container i18n>Normalize</ng-container>
+          </button>
+          <button
+            class="btn btn-warning"
+            (click)="flopPicture(picture.id)"
+            *ngIf="picture.rights.flop"
+            [disabled]="repairLoading"
+          >
+            <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+            <ng-container i18n>Flop</ng-container>
+          </button>
+          <a
+            class="btn btn-secondary"
+            [routerLink]="['/moder/pictures', picture.id, 'crop']"
+            *ngIf="picture.rights.crop"
+            [class.disabled]="repairLoading"
+          >
+            <i class="bi bi-crop" aria-hidden="true"></i>
+            <ng-container i18n>Crop area</ng-container>
+          </a>
+        </div>
+
+        <div>
+          <button class="btn btn-secondary" (click)="repairPicture(picture.id)" [disabled]="repairLoading">
+            <i class="bi bi-wrench" aria-hidden="true"></i>
+            <ng-container i18n>Repair all files</ng-container>
+          </button>
+          <button class="btn btn-secondary" (click)="correctFileNames(picture.id)" [disabled]="repairLoading">
+            <i class="bi bi-wrench" aria-hidden="true"></i>
+            <ng-container i18n>Rebuild files names</ng-container>
+          </button>
+        </div>
+
+        <ngb-progressbar
+          type="primary"
+          [striped]="true"
+          [animated]="true"
+          [value]="100"
+          [hidden]="!repairLoading"
+        ></ngb-progressbar>
+      </div>
+
+      <h3 *ngIf="picture.similar">Similar picture</h3>
+      <div class="card card-body mb-4" *ngIf="picture.similar">
+        <p class="alert alert-warning" role="alert" ngPreserveWhitespaces>
+          <span class="bi bi-file-earmark-image" aria-hidden="true"></span>
+          <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">
+            Similar picture: {{ picture.similar.distance }}
+          </a>
+        </p>
+        <p *ngIf="picture.similar.picture.thumb">
+          <a [routerLink]="['/moder/pictures', picture.similar.picture_id]">
+            <img alt="" [src]="picture.similar.picture.thumb.src" class="rounded border border-light" />
+          </a>
+        </p>
+        <button (click)="cancelSimilar(picture)" class="btn btn-warning">That is not similar</button>
+
+        <ngb-progressbar
+          type="primary"
+          [striped]="true"
+          [animated]="true"
+          [value]="100"
+          [hidden]="!similarLoading"
+        ></ngb-progressbar>
+      </div>
+
+      <h3 i18n>Uploader</h3>
+      <div class="card card-body mb-4">
+        <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
+        <span *ngIf="!picture.owner" i18n>Unknown</span>
+        <ng-container *ngIf="ip$ | async as ip">
+          <div *ngIf="ip.address">
+            <ng-container i18n>IP-address of uploader:</ng-container>
+            <strong [textContent]="ip.address"></strong>
+            <br />
+            <p *ngIf="ip.blacklist">
+              <ng-container i18n>That address is banned</ng-container>
+              <app-user2 [user]="ip.blacklist.byUser" *ngIf="ip.blacklist.byUser"></app-user2>
+              <ng-container *ngIf="ip.blacklist.until"
+                ><ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date }}</ng-container
+              >
+              <span *ngIf="ip.blacklist.reason" [textContent]="ip.blacklist.reason"></span>
+            </p>
+
+            <button
+              *ngIf="ip.blacklist && ip.rights.removeFromBlacklist"
+              class="btn btn-success"
+              (click)="removeFromBlacklist(ip.address)"
+              i18n
+            >
+              unban
+            </button>
+
+            <form class="form-vertical" *ngIf="!ip.blacklist && ip.rights.addToBlacklist">
+              <div class="mb-3">
+                <label i18n>For period</label>
+                <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
+                  <option *ngFor="let period of banPeriods" [value]="period.value">{{ period.name }}</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label i18n>Reason</label>
+                <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
+              </div>
+              <button class="btn btn-danger" (click)="addToBlacklist(picture.ip)" i18n>Ban</button>
+            </form>
           </div>
-          <div class="mb-3">
-            <label i18n>Reason</label>
-            <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
-          </div>
-          <button class="btn btn-danger" (click)="addToBlacklist(picture.ip)" i18n>Ban</button>
-        </form>
+        </ng-container>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
