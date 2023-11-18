@@ -3,20 +3,20 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {APIIP, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem, PictureItemService} from '@services/picture-item';
-import {BehaviorSubject, of, Observable, throwError, EMPTY, combineLatest} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
-import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 interface LastItemInfo {
-  item: APIItem;
   hasItem: boolean;
+  item: APIItem;
 }
 
 @Component({
@@ -34,63 +34,77 @@ export class ModerPicturesItemComponent {
 
   private readonly change$ = new BehaviorSubject<null>(null);
 
-  protected readonly id$ = this.route.paramMap
-    .pipe(
-      map((params) => parseInt(params.get('id'), 10)),
-      distinctUntilChanged(),
-      tap((id) => {
-        setTimeout(() => {
-          this.pageEnv.set({
-            layout: {isAdminPage: true},
-            pageId: 72,
-            title: $localize`Picture №${id}`,
-          });
+  protected readonly id$ = this.route.paramMap.pipe(
+    map((params) => parseInt(params.get('id'), 10)),
+    distinctUntilChanged(),
+    tap((id) => {
+      setTimeout(() => {
+        this.pageEnv.set({
+          layout: {isAdminPage: true},
+          pageId: 72,
+          title: $localize`Picture №${id}`,
         });
-      }),
-      shareReplay(1),
-    );
+      });
+    }),
+    shareReplay(1),
+  );
 
-  protected readonly picture$ = combineLatest([this.id$, this.change$])
-    .pipe(
-      switchMap(([id]) =>
-        this.pictureService.getPicture$(id, {
-          fields: [
-            'owner', 'thumb', 'add_date', 'exif', 'image', 'items.item.name_html', 'items.item.brands.name_html',
-            'items.area', 'special_name', 'copyrights', 'change_status_user', 'rights', 'moder_votes', 'moder_voted',
-            'is_last', 'views', 'accepted_count', 'similar.picture.thumb', 'replaceable', 'siblings.name_text', 'point',
-            'taken',
-          ].join(','),
-        }),
-      ),
-      catchError(() => {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
+  protected readonly picture$ = combineLatest([this.id$, this.change$]).pipe(
+    switchMap(([id]) =>
+      this.pictureService.getPicture$(id, {
+        fields: [
+          'owner',
+          'thumb',
+          'add_date',
+          'exif',
+          'image',
+          'items.item.name_html',
+          'items.item.brands.name_html',
+          'items.area',
+          'special_name',
+          'copyrights',
+          'change_status_user',
+          'rights',
+          'moder_votes',
+          'moder_voted',
+          'is_last',
+          'views',
+          'accepted_count',
+          'similar.picture.thumb',
+          'replaceable',
+          'siblings.name_text',
+          'point',
+          'taken',
+        ].join(','),
       }),
-      shareReplay(1),
-    );
+    ),
+    catchError(() => {
+      this.router.navigate(['/error-404'], {
+        skipLocationChange: true,
+      });
+      return EMPTY;
+    }),
+    shareReplay(1),
+  );
 
   protected readonly ip$ = this.picture$.pipe(
     switchMap((picture) => {
       if (!picture.ip) {
         return of(null as APIIP);
       }
-      return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(
-        catchError(() => of(null as APIIP)),
-      );
-    })
+      return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
+    }),
   );
 
   protected readonly lastItem$: Observable<LastItemInfo> = this.picture$.pipe(
     switchMap((picture) => {
       if (!localStorage) {
-        return of({item: null, hasItem: false});
+        return of({hasItem: false, item: null});
       }
 
       const lastItemId = localStorage.getItem('last_item');
       if (!lastItemId) {
-        return of({item: null, hasItem: false});
+        return of({hasItem: false, item: null});
       }
 
       return this.itemsClient
@@ -98,18 +112,19 @@ export class ModerPicturesItemComponent {
           new ItemRequest({
             fields: new ItemFields({nameHtml: true}),
             id: lastItemId,
-            language: this.languageService.language
+            language: this.languageService.language,
           }),
-        ).pipe(
-          catchError((error) => {
+        )
+        .pipe(
+          catchError((error: unknown) => {
             if (error instanceof GrpcStatusEvent && error.statusCode == 5) {
               // NOT_FOUND
               return of(null);
             }
-            console.error(error)
-            throwError(() => error)
+            console.error(error);
+            throwError(() => error);
           }),
-          map((item) => ({item, hasItem: this.hasItem(picture.items, item.id)}))
+          map((item) => ({hasItem: this.hasItem(picture.items, item.id), item})),
         );
     }),
     shareReplay(1),
@@ -185,7 +200,6 @@ export class ModerPicturesItemComponent {
     this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
   }
 
-
   protected pictureVoted() {
     this.change$.next(null);
   }
@@ -204,12 +218,12 @@ export class ModerPicturesItemComponent {
   protected addItem(id: number, item: APIItem, type: number) {
     this.pictureItemLoading = true;
     this.pictureItemService.create$(id, item.id, type, {}).subscribe({
+      error: () => {
+        this.pictureItemLoading = false;
+      },
       next: () => {
         localStorage.setItem('last_item', item.id.toString());
         this.change$.next(null);
-        this.pictureItemLoading = false;
-      },
-      error: () => {
         this.pictureItemLoading = false;
       },
     });
@@ -218,12 +232,12 @@ export class ModerPicturesItemComponent {
   protected moveItem(id: number, type: number, srcItemId: number, dstItemId: string) {
     this.pictureItemLoading = true;
     this.pictureItemService.changeItem$(id, type, srcItemId, dstItemId).subscribe({
+      error: () => {
+        this.pictureItemLoading = false;
+      },
       next: () => {
         localStorage.setItem('last_item', dstItemId.toString());
         this.change$.next(null);
-        this.pictureItemLoading = false;
-      },
-      error: () => {
         this.pictureItemLoading = false;
       },
     });
@@ -241,10 +255,10 @@ export class ModerPicturesItemComponent {
         },
       })
       .subscribe({
-        next: () => {
+        error: () => {
           this.specialNameLoading = false;
         },
-        error: () => {
+        next: () => {
           this.specialNameLoading = false;
         },
       });
@@ -260,10 +274,10 @@ export class ModerPicturesItemComponent {
         },
       })
       .subscribe({
-        next: () => {
+        error: () => {
           this.copyrightsLoading = false;
         },
-        error: () => {
+        next: () => {
           this.copyrightsLoading = false;
         },
       });
@@ -272,11 +286,11 @@ export class ModerPicturesItemComponent {
   private setPictureStatus(id: number, status: string) {
     this.statusLoading = true;
     this.pictureService.setPictureStatus$(id, status).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.statusLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.statusLoading = false;
       },
     });
@@ -301,11 +315,11 @@ export class ModerPicturesItemComponent {
   protected normalizePicture(id: number) {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + id + '/normalize', {}).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.repairLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.repairLoading = false;
       },
     });
@@ -314,11 +328,11 @@ export class ModerPicturesItemComponent {
   protected flopPicture(id: number) {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + id + '/flop', {}).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.repairLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.repairLoading = false;
       },
     });
@@ -327,11 +341,11 @@ export class ModerPicturesItemComponent {
   protected repairPicture(id: number) {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + id + '/repair', {}).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.repairLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.repairLoading = false;
       },
     });
@@ -340,11 +354,11 @@ export class ModerPicturesItemComponent {
   protected correctFileNames(id: number) {
     this.repairLoading = true;
     this.api.request<void>('PUT', 'picture/' + id + '/correct-file-names', {}).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.repairLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.repairLoading = false;
       },
     });
@@ -353,11 +367,11 @@ export class ModerPicturesItemComponent {
   protected cancelSimilar(picture: APIPicture) {
     this.similarLoading = true;
     this.api.request<void>('DELETE', 'picture/' + picture.id + '/similar/' + picture.similar.picture_id).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.similarLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.similarLoading = false;
       },
     });
@@ -366,11 +380,11 @@ export class ModerPicturesItemComponent {
   protected deletePictureItem(item: APIPictureItem) {
     this.pictureItemLoading = true;
     this.pictureItemService.remove$(item.picture_id, item.item_id, item.type).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.pictureItemLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.pictureItemLoading = false;
       },
     });
@@ -386,11 +400,11 @@ export class ModerPicturesItemComponent {
         },
       })
       .subscribe({
-        next: () => {
-          this.change$.next(null);
+        error: () => {
           this.replaceLoading = false;
         },
-        error: () => {
+        next: () => {
+          this.change$.next(null);
           this.replaceLoading = false;
         },
       });
@@ -399,11 +413,11 @@ export class ModerPicturesItemComponent {
   protected acceptReplace(id: number) {
     this.replaceLoading = true;
     this.api.request<void>('PUT', 'picture/' + id + '/accept-replace', {body: {}}).subscribe({
-      next: () => {
-        this.change$.next(null);
+      error: () => {
         this.replaceLoading = false;
       },
-      error: () => {
+      next: () => {
+        this.change$.next(null);
         this.replaceLoading = false;
       },
     });
