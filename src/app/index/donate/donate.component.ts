@@ -8,7 +8,7 @@ import data from './data.json';
 const rates = {
   'ETH': 1067.07,
   'EUR': 1,
-  'RUB': 0.009757,
+  'RUB': 0.001,
 };
 
 interface Donation {
@@ -26,11 +26,16 @@ interface Donation {
 })
 export class IndexDonateComponent {
   protected readonly goal = 2500;
-  private readonly monthlyCharge = 192.4;
+  private readonly monthlyCharge = 161.88;
 
   protected readonly state$ = of(data as Donation[]).pipe(
     map((operations) => {
-      operations = operations.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      const fromDate = new Date();
+      fromDate.setMonth(fromDate.getMonth() - 6);
+      console.log(fromDate);
+      operations = operations
+        .filter((o) => Date.parse(o.date) > fromDate.getTime())
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       const donations = operations
         .filter((d) => d.sum > 0)
         .map((d) => ({
