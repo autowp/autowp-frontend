@@ -24,8 +24,7 @@ export class CatalogueVehiclesPicturesComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: APIItemParent[]; type: string}> =
-    this.isModer$.pipe(
-      switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
+    this.catalogueService.resolveCatalogue$(this.route, '').pipe(
       switchMap((data) => {
         if (!data || !data.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {

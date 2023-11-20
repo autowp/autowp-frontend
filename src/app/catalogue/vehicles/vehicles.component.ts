@@ -23,8 +23,7 @@ export class CatalogueVehiclesComponent {
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
   protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
 
-  private readonly catalogue$ = this.isModer$.pipe(
-    switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
+  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem} from '@grpc/spec.pb';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
@@ -14,12 +13,7 @@ import {CatalogueService} from '../../catalogue-service';
   templateUrl: './specifications.component.html',
 })
 export class CatalogueVehiclesSpecificationsComponent {
-  private isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-
-  private catalogue$ = this.isModer$.pipe(
-    switchMap((isModer) =>
-      this.catalogueService.resolveCatalogue$(this.route, isModer, 'item.has_specs,item.has_child_specs'),
-    ),
+  private catalogue$ = this.catalogueService.resolveCatalogue$(this.route, 'item.has_specs,item.has_child_specs').pipe(
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -77,7 +71,6 @@ export class CatalogueVehiclesSpecificationsComponent {
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly catalogueService: CatalogueService,
-    private readonly acl: ACLService,
     private readonly router: Router,
     private readonly api: APIService,
   ) {}

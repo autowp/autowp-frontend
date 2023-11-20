@@ -53,7 +53,6 @@ export class CatalogueService {
 
   public resolveCatalogue$(
     route: ActivatedRoute,
-    isModer: boolean,
     fields: string,
   ): Observable<{brand: APIItem; path: APIItemParent[]; type: string}> {
     const pathPipeRecursive: ParentObservableFunc = () =>
@@ -67,10 +66,8 @@ export class CatalogueService {
         if (isLast) {
           totalFields +=
             ',item.inbox_pictures_count,item.comments_attentions_count,item.other_names,item.design,' +
-            'item.name_default,item.description,item.text,item.produced,item.specs_route,item.childs_counts,item.name_text';
-          if (isModer) {
-            totalFields += ',item.accepted_pictures_count';
-          }
+            'item.name_default,item.description,item.text,item.produced,item.specs_route,item.childs_counts,' +
+            'item.name_text,item.accepted_pictures_count';
         }
 
         return this.itemParentService

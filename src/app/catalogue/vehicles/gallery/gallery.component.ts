@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
@@ -35,10 +34,7 @@ export class CatalogueVehiclesGalleryComponent {
     shareReplay(1),
   );
 
-  private readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-
-  private readonly catalogue$ = this.isModer$.pipe(
-    switchMap((isModer) => this.catalogueService.resolveCatalogue$(this.route, isModer, '')),
+  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -78,7 +74,6 @@ export class CatalogueVehiclesGalleryComponent {
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly catalogueService: CatalogueService,
-    private readonly acl: ACLService,
     private readonly router: Router,
   ) {}
 
