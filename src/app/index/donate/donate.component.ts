@@ -8,7 +8,7 @@ import data from './data.json';
 const rates = {
   'ETH': 1067.07,
   'EUR': 1,
-  'RUB': 0.001,
+  'RUB': 0.01,
 };
 
 interface Donation {
