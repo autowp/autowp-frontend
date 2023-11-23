@@ -1,5 +1,11 @@
 [
   {
+    "sum": 155.64,
+    "currency": "EUR",
+    "date": "2023-11-23T00:00:00+00:00",
+    "contributor": "Mieke Stuart"
+  },
+  {
     "sum": -16200,
     "currency": "RUB",
     "date": "2023-11-19T00:00:00+00:00",
