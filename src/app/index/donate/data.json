@@ -1,5 +1,11 @@
 [
   {
+    "sum": 31.42,
+    "currency": "EUR",
+    "date": "2023-12-06T00:00:00+00:00",
+    "contributor": "Vasily Markin"
+  },
+  {
     "sum": 155.64,
     "currency": "EUR",
     "date": "2023-11-23T00:00:00+00:00",
