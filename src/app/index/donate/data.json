@@ -1,5 +1,23 @@
 [
   {
+    "sum": 1733,
+    "currency": "RUB",
+    "date": "2024-01-03T00:00:00+00:00",
+    "contributor": "WG kim"
+  },
+  {
+    "sum": 500,
+    "currency": "RUB",
+    "date": "2024-01-01T00:00:00+00:00",
+    "contributor": "Константин"
+  },
+  {
+    "sum": 1200,
+    "currency": "RUB",
+    "date": "2023-12-17T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
     "sum": 31.42,
     "currency": "EUR",
     "date": "2023-12-06T00:00:00+00:00",
