@@ -1,5 +1,11 @@
 [
   {
+    "sum": 52.12,
+    "currency": "EUR",
+    "date": "2024-01-06T00:00:00+00:00",
+    "contributor": "Jörg Kaczmarek"
+  },
+  {
     "sum": 1733,
     "currency": "RUB",
     "date": "2024-01-03T00:00:00+00:00",
@@ -10,6 +16,12 @@
     "currency": "RUB",
     "date": "2024-01-01T00:00:00+00:00",
     "contributor": "Константин"
+  },
+  {
+    "sum": 52.12,
+    "currency": "EUR",
+    "date": "2023-12-17T00:00:00+00:00",
+    "contributor": "Vitaly Plochotnikow"
   },
   {
     "sum": 1200,
