@@ -87,12 +87,13 @@ export class ForumsMoveMessageComponent implements OnInit {
       )
       .subscribe({
         error: (subresponse: unknown) => this.toastService.handleError(subresponse),
-        next: (params) =>
+        next: (params) => {
           this.router.navigate(['/forums/topic', params.itemId], {
             queryParams: {
               page: params.page,
             },
-          }),
+          });
+        },
       });
   }
 

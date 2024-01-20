@@ -53,37 +53,33 @@ import {UsersOnlineComponent} from './users/online/online.component';
 function initializeKeycloak(keycloak: KeycloakService) {
   return () => {
     return new Promise((resolve, reject) => {
-      try {
-        keycloak
-          .init({
-            config: environment.keycloak,
-            enableBearerInterceptor: false,
-            initOptions: {
-              enableLogging: !environment.production,
-              onLoad: 'check-sso',
-              silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      keycloak
+        .init({
+          config: environment.keycloak,
+          enableBearerInterceptor: false,
+          initOptions: {
+            enableLogging: !environment.production,
+            onLoad: 'check-sso',
+            silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+          },
+          loadUserProfileAtStartUp: false,
+        })
+        .then((res) => {
+          keycloak.keycloakEvents$.subscribe({
+            next: (e) => {
+              if (e.type == KeycloakEventType.OnTokenExpired) {
+                keycloak.updateToken().catch((error) => {
+                  console.error('Failed to refresh token', error);
+                });
+              }
             },
-            loadUserProfileAtStartUp: false,
-          })
-          .then((res) => {
-            keycloak.keycloakEvents$.subscribe({
-              next: (e) => {
-                if (e.type == KeycloakEventType.OnTokenExpired) {
-                  keycloak.updateToken().catch((error) => {
-                    console.error('Failed to refresh token', error);
-                  });
-                }
-              },
-            });
-
-            resolve(res);
-          })
-          .catch((error) => {
-            reject(error);
           });
-      } catch (error) {
-        reject(error);
-      }
+
+          resolve(res);
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
   };
 }

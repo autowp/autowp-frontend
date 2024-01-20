@@ -190,18 +190,19 @@ export class GalleryComponent {
     );
   }
 
-  protected navigateToIndex(index, gallery: Gallery): Promise<boolean> {
+  protected navigateToIndex(index: number, gallery: Gallery): void {
     const item = gallery.getItemByIndex(index);
-    if (!item) {
-      const page = gallery.getGalleryPageNumberByIndex(index);
-      this.loadPage$(page, gallery).subscribe(() => {
-        const sitem = gallery.getItemByIndex(index);
-        if (sitem) {
-          return this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
-        }
-      });
+    if (item) {
+      this.router.navigate(this.galleryPrefix.concat([item.identity]));
+      return;
     }
 
-    return this.router.navigate(this.galleryPrefix.concat([item.identity]));
+    const page = gallery.getGalleryPageNumberByIndex(index);
+    this.loadPage$(page, gallery).subscribe(() => {
+      const sitem = gallery.getItemByIndex(index);
+      if (sitem) {
+        this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
+      }
+    });
   }
 }
