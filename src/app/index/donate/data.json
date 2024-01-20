@@ -1,5 +1,12 @@
 [
   {
+    "sum": -12866,
+    "currency": "RUB",
+    "date": "2024-01-20T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "December/January hosting"
+  },
+  {
     "sum": 1200,
     "currency": "RUB",
     "date": "2024-01-12T00:00:00+00:00",
@@ -16,6 +23,13 @@
     "currency": "RUB",
     "date": "2024-01-03T00:00:00+00:00",
     "contributor": "WG kim"
+  },
+  {
+    "sum": -8876,
+    "currency": "RUB",
+    "date": "2024-01-01T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "New hosting"
   },
   {
     "sum": 500,
