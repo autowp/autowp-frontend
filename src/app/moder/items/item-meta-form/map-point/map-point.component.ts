@@ -22,8 +22,6 @@ const center = (lat: number | string, lng: number | string): LatLng => {
   lat = normalizeValue(lat);
   lng = normalizeValue(lng);
 
-  console.log('center', lat, lng);
-
   if (typeof lat != 'number' || typeof lng != 'number' || isNaN(lat) || isNaN(lng)) {
     return latLng(DEFAULT_LAT, DEFAULT_LNG);
   }
@@ -94,15 +92,12 @@ export class MapPointComponent implements ControlValueAccessor {
     const lat = normalizeValue(point.lat);
     const lng = normalizeValue(point.lng);
 
-    console.log('writeValue', lat, lng);
-
     this.lat = lat;
     this.lng = lng;
 
     let ll: LatLng = null;
     if (lat !== null && lng !== null) {
       ll = latLng(lat, lng);
-      console.log('this.center', this.center);
       this.center = ll;
       this.mapOptions.center = ll;
     }
@@ -145,7 +140,6 @@ export class MapPointComponent implements ControlValueAccessor {
           emitEvent: true
         });
         form.updateValueAndValidity();
-        console.log('form.value', form.value);
         // this.markerInput$.next(event.latlng);*/
       });
     });
@@ -169,7 +163,6 @@ export class MapPointComponent implements ControlValueAccessor {
 
     /*const lat = parseFloat(point.get('lat').value);
     const lng = parseFloat(point.get('lng').value);
-    console.log('coordsChanged', lat, lng);
     this.markerInput$.next(
       (isNaN(lat) || isNaN(lng)) ? null : latLng([lat, lng])
     );*/

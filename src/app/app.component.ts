@@ -98,7 +98,7 @@ export class AppComponent {
   protected signOut() {
     this.auth.signOut$().subscribe({
       error: (error: unknown) => {
-        console.log(error);
+        console.error(error);
       },
     });
 

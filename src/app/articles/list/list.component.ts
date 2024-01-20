@@ -37,7 +37,7 @@ export class ListComponent {
       ),
     ),
     catchError((response: unknown) => {
-      console.log(response);
+      console.error(response);
       this.toastService.handleError(response);
       return EMPTY;
     }),

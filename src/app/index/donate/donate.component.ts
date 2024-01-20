@@ -32,7 +32,6 @@ export class IndexDonateComponent {
     map((operations) => {
       const fromDate = new Date();
       fromDate.setMonth(fromDate.getMonth() - 6);
-      console.log(fromDate);
       operations = operations
         .filter((o) => Date.parse(o.date) > fromDate.getTime())
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());

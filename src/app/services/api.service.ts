@@ -52,7 +52,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     const promise = this.keycloak.getToken();
 
-    promise.catch((d) => console.log(d));
+    promise.catch((d) => console.error(d));
 
     return from(promise).pipe(
       catchError((e: unknown) => {
@@ -119,7 +119,7 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   ): Observable<GrpcEvent<S>> {
     const promise = this.keycloak.getToken();
 
-    promise.catch((d) => console.log(d));
+    promise.catch((d) => console.error(d));
 
     return from(promise).pipe(
       catchError((e: unknown) => {

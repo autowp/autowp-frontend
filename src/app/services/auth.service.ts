@@ -22,7 +22,7 @@ export class AuthService {
         }
       },
       (error) => {
-        console.log('ERROR', error);
+        console.error(error);
         this.setUser(null);
       },
     );

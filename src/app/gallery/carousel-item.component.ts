@@ -112,7 +112,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
   private fixSize() {
     if (!this.el) {
-      console.log('this.el is undefined', this.el);
+      console.debug('this.el is undefined', this.el);
     }
     const $inner = $(this.el.nativeElement);
     const w = $inner.width() || 0;
