@@ -164,7 +164,7 @@ export class ItemMetaFormComponent {
   }
   protected readonly pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
 
-  protected readonly vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
+  private readonly vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>
       types.map((type) => {
         type.name = getVehicleTypeTranslation(type.name);
@@ -368,6 +368,7 @@ export class ItemMetaFormComponent {
       size: 'lg',
     });
 
+    console.log('vehicleTypeIDs.value', vehicleTypeIDs.value);
     modalRef.componentInstance.ids = vehicleTypeIDs.value;
     modalRef.componentInstance.changed.subscribe((value: string[]) => {
       vehicleTypeIDs.setValue(value);

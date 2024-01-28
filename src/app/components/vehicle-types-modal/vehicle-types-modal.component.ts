@@ -31,17 +31,16 @@ export class VehicleTypesModalComponent {
   ) {}
 
   protected isActive(id: number): boolean {
-    return this.ids.indexOf(id.toString()) > -1;
+    return (this.ids || []).indexOf(id.toString()) > -1;
   }
 
   protected toggle(id: number) {
-    if (this.ids.indexOf(id.toString()) > -1) {
-      const index = this.ids.indexOf(id.toString(), 0);
-      if (index > -1) {
-        this.ids.splice(index, 1);
-      }
+    const idStr = id.toString();
+    const index = (this.ids || []).indexOf(idStr);
+    if (index > -1) {
+      this.ids.splice(index, 1);
     } else {
-      this.ids.push(id.toString());
+      this.ids.push(idStr);
     }
 
     this.changed.emit(this.ids);

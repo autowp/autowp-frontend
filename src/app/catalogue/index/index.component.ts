@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIGetItemLinksRequest, APIItemLink, ItemType} from '@grpc/spec.pb';
+import {APIGetItemLinksRequest, APIItem, APIItemLink, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {getCatalogueSectionsTranslation} from '@utils/translations';
@@ -40,7 +41,7 @@ export class CatalogueIndexComponent {
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
 
-  protected readonly brand$ = combineLatest([
+  protected readonly brand$: Observable<APIItem> = combineLatest([
     this.isModer$,
     this.route.paramMap.pipe(
       map((params) => params.get('brand')),
@@ -56,33 +57,43 @@ export class CatalogueIndexComponent {
         return EMPTY;
       }
 
-      let fields = 'description,full_name,logo120,descendant_twins_groups_count,name_text,name_only,mosts_active';
+      const fields = new ItemFields({
+        descendantTwinsGroupsCount: true,
+        description: true,
+        fullName: true,
+        logo120: true,
+        mostsActive: true,
+        nameOnly: true,
+        nameText: true,
+      });
       if (isModer) {
-        fields += ',inbox_pictures_count';
+        fields.inboxPicturesCount = true;
+        fields.commentsAttentionsCount = true;
       }
 
-      return this.itemService
-        .getItems$({
+      return this.itemsClient.list(
+        new ListItemsRequest({
           catname,
           fields,
+          language: this.languageService.language,
           limit: 1,
-        })
-        .pipe(
-          switchMap((response) => {
-            if (response.items.length <= 0) {
-              this.router.navigate(['/error-404'], {
-                skipLocationChange: true,
-              });
-              return EMPTY;
-            }
-            return of(response.items[0]);
-          }),
-        );
+        }),
+      );
+    }),
+    switchMap((response) => {
+      if (response.items.length <= 0) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+
+      return of(response.items[0]);
     }),
     tap((brand) => {
       this.pageEnv.set({
         pageId: 10,
-        title: brand.name_text,
+        title: brand.nameText,
       });
     }),
     shareReplay(1),
@@ -92,7 +103,7 @@ export class CatalogueIndexComponent {
     switchMap((brand) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-        item_id: brand.id,
+        item_id: +brand.id,
         limit: 12,
         order: 12,
         status: 'accepted',
@@ -134,7 +145,7 @@ export class CatalogueIndexComponent {
   protected readonly factories$ = this.brand$.pipe(
     switchMap((brand) =>
       this.itemService.getItems$({
-        factories_of_brand: brand.id,
+        factories_of_brand: +brand.id,
         fields: 'name_html,exact_picture.thumb_medium',
         limit: 4,
         type_id: ItemType.ITEM_TYPE_FACTORY,
@@ -166,5 +177,6 @@ export class CatalogueIndexComponent {
     private readonly router: Router,
     private readonly catalogue: CatalogueService,
     private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 }

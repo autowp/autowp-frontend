@@ -16850,6 +16850,14 @@ export class ItemFields implements GrpcMessage {
     _instance.descendantsCount = _instance.descendantsCount || false;
     _instance.currentPicturesCount = _instance.currentPicturesCount || false;
     _instance.childsCount = _instance.childsCount || false;
+    _instance.descendantTwinsGroupsCount =
+      _instance.descendantTwinsGroupsCount || false;
+    _instance.inboxPicturesCount = _instance.inboxPicturesCount || false;
+    _instance.fullName = _instance.fullName || false;
+    _instance.logo120 = _instance.logo120 || false;
+    _instance.mostsActive = _instance.mostsActive || false;
+    _instance.commentsAttentionsCount =
+      _instance.commentsAttentionsCount || false;
   }
 
   /**
@@ -16902,6 +16910,24 @@ export class ItemFields implements GrpcMessage {
         case 11:
           _instance.childsCount = _reader.readBool();
           break;
+        case 12:
+          _instance.descendantTwinsGroupsCount = _reader.readBool();
+          break;
+        case 13:
+          _instance.inboxPicturesCount = _reader.readBool();
+          break;
+        case 14:
+          _instance.fullName = _reader.readBool();
+          break;
+        case 15:
+          _instance.logo120 = _reader.readBool();
+          break;
+        case 16:
+          _instance.mostsActive = _reader.readBool();
+          break;
+        case 17:
+          _instance.commentsAttentionsCount = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -16953,6 +16979,24 @@ export class ItemFields implements GrpcMessage {
     if (_instance.childsCount) {
       _writer.writeBool(11, _instance.childsCount);
     }
+    if (_instance.descendantTwinsGroupsCount) {
+      _writer.writeBool(12, _instance.descendantTwinsGroupsCount);
+    }
+    if (_instance.inboxPicturesCount) {
+      _writer.writeBool(13, _instance.inboxPicturesCount);
+    }
+    if (_instance.fullName) {
+      _writer.writeBool(14, _instance.fullName);
+    }
+    if (_instance.logo120) {
+      _writer.writeBool(15, _instance.logo120);
+    }
+    if (_instance.mostsActive) {
+      _writer.writeBool(16, _instance.mostsActive);
+    }
+    if (_instance.commentsAttentionsCount) {
+      _writer.writeBool(17, _instance.commentsAttentionsCount);
+    }
   }
 
   private _nameOnly: boolean;
@@ -16966,6 +17010,12 @@ export class ItemFields implements GrpcMessage {
   private _descendantsCount: boolean;
   private _currentPicturesCount: boolean;
   private _childsCount: boolean;
+  private _descendantTwinsGroupsCount: boolean;
+  private _inboxPicturesCount: boolean;
+  private _fullName: boolean;
+  private _logo120: boolean;
+  private _mostsActive: boolean;
+  private _commentsAttentionsCount: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -16986,6 +17036,12 @@ export class ItemFields implements GrpcMessage {
     this.descendantsCount = _value.descendantsCount;
     this.currentPicturesCount = _value.currentPicturesCount;
     this.childsCount = _value.childsCount;
+    this.descendantTwinsGroupsCount = _value.descendantTwinsGroupsCount;
+    this.inboxPicturesCount = _value.inboxPicturesCount;
+    this.fullName = _value.fullName;
+    this.logo120 = _value.logo120;
+    this.mostsActive = _value.mostsActive;
+    this.commentsAttentionsCount = _value.commentsAttentionsCount;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -17054,6 +17110,42 @@ export class ItemFields implements GrpcMessage {
   set childsCount(value: boolean) {
     this._childsCount = value;
   }
+  get descendantTwinsGroupsCount(): boolean {
+    return this._descendantTwinsGroupsCount;
+  }
+  set descendantTwinsGroupsCount(value: boolean) {
+    this._descendantTwinsGroupsCount = value;
+  }
+  get inboxPicturesCount(): boolean {
+    return this._inboxPicturesCount;
+  }
+  set inboxPicturesCount(value: boolean) {
+    this._inboxPicturesCount = value;
+  }
+  get fullName(): boolean {
+    return this._fullName;
+  }
+  set fullName(value: boolean) {
+    this._fullName = value;
+  }
+  get logo120(): boolean {
+    return this._logo120;
+  }
+  set logo120(value: boolean) {
+    this._logo120 = value;
+  }
+  get mostsActive(): boolean {
+    return this._mostsActive;
+  }
+  set mostsActive(value: boolean) {
+    this._mostsActive = value;
+  }
+  get commentsAttentionsCount(): boolean {
+    return this._commentsAttentionsCount;
+  }
+  set commentsAttentionsCount(value: boolean) {
+    this._commentsAttentionsCount = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17082,7 +17174,13 @@ export class ItemFields implements GrpcMessage {
       totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
       currentPicturesCount: this.currentPicturesCount,
-      childsCount: this.childsCount
+      childsCount: this.childsCount,
+      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
+      inboxPicturesCount: this.inboxPicturesCount,
+      fullName: this.fullName,
+      logo120: this.logo120,
+      mostsActive: this.mostsActive,
+      commentsAttentionsCount: this.commentsAttentionsCount
     };
   }
 
@@ -17115,7 +17213,13 @@ export class ItemFields implements GrpcMessage {
       totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
       currentPicturesCount: this.currentPicturesCount,
-      childsCount: this.childsCount
+      childsCount: this.childsCount,
+      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
+      inboxPicturesCount: this.inboxPicturesCount,
+      fullName: this.fullName,
+      logo120: this.logo120,
+      mostsActive: this.mostsActive,
+      commentsAttentionsCount: this.commentsAttentionsCount
     };
   }
 }
@@ -17135,6 +17239,12 @@ export module ItemFields {
     descendantsCount: boolean;
     currentPicturesCount: boolean;
     childsCount: boolean;
+    descendantTwinsGroupsCount: boolean;
+    inboxPicturesCount: boolean;
+    fullName: boolean;
+    logo120: boolean;
+    mostsActive: boolean;
+    commentsAttentionsCount: boolean;
   }
 
   /**
@@ -17152,6 +17262,12 @@ export module ItemFields {
     descendantsCount: boolean;
     currentPicturesCount: boolean;
     childsCount: boolean;
+    descendantTwinsGroupsCount: boolean;
+    inboxPicturesCount: boolean;
+    fullName: boolean;
+    logo120: boolean;
+    mostsActive: boolean;
+    commentsAttentionsCount: boolean;
   }
 }
 
@@ -18226,6 +18342,13 @@ export class APIItem implements GrpcMessage {
     _instance.fullText = _instance.fullText || '';
     _instance.currentPicturesCount = _instance.currentPicturesCount || 0;
     _instance.childsCount = _instance.childsCount || 0;
+    _instance.descendantTwinsGroupsCount =
+      _instance.descendantTwinsGroupsCount || 0;
+    _instance.inboxPicturesCount = _instance.inboxPicturesCount || 0;
+    _instance.fullName = _instance.fullName || '';
+    _instance.logo120 = _instance.logo120 || undefined;
+    _instance.mostsActive = _instance.mostsActive || false;
+    _instance.commentsAttentionsCount = _instance.commentsAttentionsCount || 0;
   }
 
   /**
@@ -18286,6 +18409,28 @@ export class APIItem implements GrpcMessage {
         case 15:
           _instance.childsCount = _reader.readInt32();
           break;
+        case 16:
+          _instance.descendantTwinsGroupsCount = _reader.readInt32();
+          break;
+        case 17:
+          _instance.inboxPicturesCount = _reader.readInt32();
+          break;
+        case 18:
+          _instance.fullName = _reader.readString();
+          break;
+        case 19:
+          _instance.logo120 = new APIImage();
+          _reader.readMessage(
+            _instance.logo120,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
+        case 20:
+          _instance.mostsActive = _reader.readBool();
+          break;
+        case 21:
+          _instance.commentsAttentionsCount = _reader.readInt32();
+          break;
         default:
           _reader.skipField();
       }
@@ -18345,6 +18490,28 @@ export class APIItem implements GrpcMessage {
     if (_instance.childsCount) {
       _writer.writeInt32(15, _instance.childsCount);
     }
+    if (_instance.descendantTwinsGroupsCount) {
+      _writer.writeInt32(16, _instance.descendantTwinsGroupsCount);
+    }
+    if (_instance.inboxPicturesCount) {
+      _writer.writeInt32(17, _instance.inboxPicturesCount);
+    }
+    if (_instance.fullName) {
+      _writer.writeString(18, _instance.fullName);
+    }
+    if (_instance.logo120) {
+      _writer.writeMessage(
+        19,
+        _instance.logo120 as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
+    if (_instance.mostsActive) {
+      _writer.writeBool(20, _instance.mostsActive);
+    }
+    if (_instance.commentsAttentionsCount) {
+      _writer.writeInt32(21, _instance.commentsAttentionsCount);
+    }
   }
 
   private _id: string;
@@ -18362,6 +18529,12 @@ export class APIItem implements GrpcMessage {
   private _fullText: string;
   private _currentPicturesCount: number;
   private _childsCount: number;
+  private _descendantTwinsGroupsCount: number;
+  private _inboxPicturesCount: number;
+  private _fullName: string;
+  private _logo120?: APIImage;
+  private _mostsActive: boolean;
+  private _commentsAttentionsCount: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18384,6 +18557,12 @@ export class APIItem implements GrpcMessage {
     this.fullText = _value.fullText;
     this.currentPicturesCount = _value.currentPicturesCount;
     this.childsCount = _value.childsCount;
+    this.descendantTwinsGroupsCount = _value.descendantTwinsGroupsCount;
+    this.inboxPicturesCount = _value.inboxPicturesCount;
+    this.fullName = _value.fullName;
+    this.logo120 = _value.logo120 ? new APIImage(_value.logo120) : undefined;
+    this.mostsActive = _value.mostsActive;
+    this.commentsAttentionsCount = _value.commentsAttentionsCount;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -18476,6 +18655,42 @@ export class APIItem implements GrpcMessage {
   set childsCount(value: number) {
     this._childsCount = value;
   }
+  get descendantTwinsGroupsCount(): number {
+    return this._descendantTwinsGroupsCount;
+  }
+  set descendantTwinsGroupsCount(value: number) {
+    this._descendantTwinsGroupsCount = value;
+  }
+  get inboxPicturesCount(): number {
+    return this._inboxPicturesCount;
+  }
+  set inboxPicturesCount(value: number) {
+    this._inboxPicturesCount = value;
+  }
+  get fullName(): string {
+    return this._fullName;
+  }
+  set fullName(value: string) {
+    this._fullName = value;
+  }
+  get logo120(): APIImage | undefined {
+    return this._logo120;
+  }
+  set logo120(value: APIImage | undefined) {
+    this._logo120 = value;
+  }
+  get mostsActive(): boolean {
+    return this._mostsActive;
+  }
+  set mostsActive(value: boolean) {
+    this._mostsActive = value;
+  }
+  get commentsAttentionsCount(): number {
+    return this._commentsAttentionsCount;
+  }
+  set commentsAttentionsCount(value: number) {
+    this._commentsAttentionsCount = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -18506,7 +18721,13 @@ export class APIItem implements GrpcMessage {
       specId: this.specId,
       fullText: this.fullText,
       currentPicturesCount: this.currentPicturesCount,
-      childsCount: this.childsCount
+      childsCount: this.childsCount,
+      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
+      inboxPicturesCount: this.inboxPicturesCount,
+      fullName: this.fullName,
+      logo120: this.logo120 ? this.logo120.toObject() : undefined,
+      mostsActive: this.mostsActive,
+      commentsAttentionsCount: this.commentsAttentionsCount
     };
   }
 
@@ -18546,7 +18767,13 @@ export class APIItem implements GrpcMessage {
       specId: this.specId,
       fullText: this.fullText,
       currentPicturesCount: this.currentPicturesCount,
-      childsCount: this.childsCount
+      childsCount: this.childsCount,
+      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
+      inboxPicturesCount: this.inboxPicturesCount,
+      fullName: this.fullName,
+      logo120: this.logo120 ? this.logo120.toProtobufJSON(options) : null,
+      mostsActive: this.mostsActive,
+      commentsAttentionsCount: this.commentsAttentionsCount
     };
   }
 }
@@ -18570,6 +18797,12 @@ export module APIItem {
     fullText: string;
     currentPicturesCount: number;
     childsCount: number;
+    descendantTwinsGroupsCount: number;
+    inboxPicturesCount: number;
+    fullName: string;
+    logo120?: APIImage.AsObject;
+    mostsActive: boolean;
+    commentsAttentionsCount: number;
   }
 
   /**
@@ -18591,6 +18824,12 @@ export module APIItem {
     fullText: string;
     currentPicturesCount: number;
     childsCount: number;
+    descendantTwinsGroupsCount: number;
+    inboxPicturesCount: number;
+    fullName: string;
+    logo120: APIImage.AsProtobufJSON | null;
+    mostsActive: boolean;
+    commentsAttentionsCount: number;
   }
 }
 
