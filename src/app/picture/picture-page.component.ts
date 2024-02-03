@@ -8,7 +8,7 @@ import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
-import {PathItem} from '../categories/definitions';
+import {PathItem} from '../categories/service';
 
 @Component({
   selector: 'app-picture-page',
