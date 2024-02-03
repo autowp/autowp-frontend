@@ -87,10 +87,12 @@ export class CategoriesCategoryComponent {
             }),
             language: this.languageService.language,
             limit: 50,
-            noParent: item.parent_id ? null : true,
-            parent: new ListItemsRequest({
-              id: '' + item.parent_id,
-            }),
+            noParent: !item.parent_id,
+            parent: item.parent_id
+              ? new ListItemsRequest({
+                  id: '' + item.parent_id,
+                })
+              : undefined,
             typeId: ItemType.ITEM_TYPE_CATEGORY,
           }),
         )
