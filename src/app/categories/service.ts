@@ -5,7 +5,12 @@ import {APIItem, APIPathItem, ItemService} from '@services/item';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
-import {PathItem} from './definitions';
+export interface PathItem {
+  item: APIItem;
+  loaded: boolean;
+  parent_id: number;
+  routerLink: string[];
+}
 
 export interface CategoryPipeResult {
   category: APIItem;
@@ -68,7 +73,6 @@ export class CategoriesService {
             pathCatnames.push(item.catname);
           }
           pathItems.push({
-            childs: [],
             item: item.item,
             loaded: false,
             parent_id: item.parent_id,

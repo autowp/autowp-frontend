@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {ActivatedRoute, Params} from '@angular/router';
+import {ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
 import {Observable} from 'rxjs';
@@ -11,7 +13,7 @@ import {map, shareReplay, tap} from 'rxjs/operators';
 import {CategoriesService} from '../service';
 
 interface PathItem {
-  childs: APIItem[];
+  childs: {active: boolean; nameHtml: string; routerLink: string[]}[];
   item: APIItem;
   loaded: boolean;
   parent_id: number;
@@ -43,45 +45,64 @@ export class CategoriesCategoryComponent {
     shareReplay(1),
   );
 
-  protected readonly category$: Observable<APIItem> = this.categoryData$.pipe(
-    map(({category}) => category),
+  protected readonly category$: Observable<{queryParams: Params; title: string}> = this.categoryData$.pipe(
+    map(({category}) => ({
+      queryParams: {item_type_id: category.item_type_id, parent_id: category.id},
+      title: getItemTypeTranslation(category.item_type_id, 'add-sub-item'),
+    })),
     shareReplay(1),
   );
 
   protected readonly path$: Observable<PathItem[]> = this.categoryData$.pipe(
-    map(({pathItems}) => pathItems),
+    map(({pathItems}) =>
+      pathItems.map((pi) => ({
+        childs: [],
+        item: pi.item,
+        loaded: pi.loaded,
+        parent_id: pi.parent_id,
+        routerLink: pi.routerLink,
+      })),
+    ),
     shareReplay(1),
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly acl: ACLService,
     private readonly categoriesService: CategoriesService,
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   protected dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {
-      this.itemService
-        .getItems$({
-          fields: 'catname,name_html',
-          limit: 50,
-          no_parent: item.parent_id ? null : true,
-          parent_id: item.parent_id,
-          type_id: ItemType.ITEM_TYPE_CATEGORY,
-        })
+      this.itemsClient
+        .list(
+          new ListItemsRequest({
+            fields: new ItemFields({
+              nameHtml: true,
+            }),
+            language: this.languageService.language,
+            limit: 50,
+            noParent: item.parent_id ? null : true,
+            parent: new ListItemsRequest({
+              id: '' + item.parent_id,
+            }),
+            typeId: ItemType.ITEM_TYPE_CATEGORY,
+          }),
+        )
         .subscribe((response) => {
           item.loaded = true;
-          item.childs = response.items;
+          item.childs = response.items.map((i) => ({
+            active: i.id === item.item.id.toString(),
+            nameHtml: i.nameHtml,
+            routerLink: ['/category', i.catname],
+          }));
         });
     }
-  }
-
-  protected getItemTypeTranslation(id: number, type: string) {
-    return getItemTypeTranslation(id, type);
   }
 
   protected readonly ItemType = ItemType;

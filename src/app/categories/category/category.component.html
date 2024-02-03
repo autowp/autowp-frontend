@@ -27,10 +27,10 @@
               <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
             </div>
             <a
-              [routerLink]="['/category', child.catname]"
+              [routerLink]="child.routerLink"
               class="dropdown-item"
-              [class.active]="child.id === item.item.id"
-              [innerHTML]="child.name_html"
+              [class.active]="child.active"
+              [innerHTML]="child.nameHtml"
               *ngFor="let child of item.childs"
             ></a>
           </div>
@@ -55,11 +55,7 @@
 
         <span *ngIf="canAddCar$ | async">
           <i class="bi bi-plus" aria-hidden="true"></i>
-          <a
-            routerLink="/moder/items/new"
-            [queryParams]="{item_type_id: category.item_type_id, parent_id: category.id}"
-            >{{ getItemTypeTranslation(category.item_type_id, 'add-sub-item') }}</a
-          >
+          <a routerLink="/moder/items/new" [queryParams]="category.queryParams">{{ category.title }}</a>
         </span>
       </p>
     </ng-container>
