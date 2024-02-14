@@ -49,9 +49,10 @@
   </div>
 
   <div *ngIf="brand.concepts.length > 0">
-    <i class="bi bi-folder2" aria-hidden="true" [hidden]="conceptsOpen"></i>
-    <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!conceptsOpen"></i>
-    <a href="#" (click)="conceptsOpen = !conceptsOpen" i18n>Concepts & prototypes</a>
+    <button class="btn btn-link" (click)="conceptsOpen = !conceptsOpen">
+      <i class="bi" [class.bi-folder2]="!conceptsOpen" [class.bi-folder2-open]="conceptsOpen" aria-hidden="true"></i>
+      <ng-container i18n>Concepts & prototypes</ng-container>
+    </button>
     <ul class="list-unstyled" [hidden]="!conceptsOpen">
       <li *ngFor="let item of brand.concepts" style="margin-left: 16px">
         <app-upload-select-tree-item [item]="item"> </app-upload-select-tree-item>
