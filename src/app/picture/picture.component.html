@@ -184,7 +184,7 @@
         <li>
           <ng-container i18n>Resolution</ng-container>: <strong>{{ picture.width + '×' + picture.height }}</strong>
           <ng-container *ngIf="picture.dpi_x || picture.dpi_y">
-            @ <strong>{{ picture.dpi_x + '×' + picture.dpi_y }}</strong>
+            &#64; <strong>{{ picture.dpi_x + '×' + picture.dpi_y }}</strong>
             <a href="https://en.wikipedia.org/wiki/Dots_per_inch"><abbr title="Dots Per Inch">DPI</abbr></a>
             <ng-container *ngIf="picture.dpi_x > 0 && picture.dpi_y > 0">
               {{ (2.54 * picture.width) / picture.dpi_x | number: '1.2-2' }}×{{
