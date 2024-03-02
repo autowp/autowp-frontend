@@ -79,8 +79,4 @@ export const environment = {
     },
   ],
   production: false,
-  sentry: {
-    dsn: 'https://2903288a1e6441b88469dea7358c913a@sentry.pereslegin.ru/3',
-    environment: 'testing',
-  },
 };

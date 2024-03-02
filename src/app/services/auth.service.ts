@@ -29,17 +29,6 @@ export class AuthService {
   }
 
   private setUser(value: APIUser) {
-    // Sentry.configureScope((scope) => {
-    //   scope.setUser(
-    //     value
-    //       ? {
-    //           id: value.id,
-    //           username: value.name,
-    //         }
-    //       : null,
-    //   );
-    // });
-
     this.user$.next(value);
   }
 

@@ -116,23 +116,6 @@ const providers: Provider[] = [
   LanguageService,
   TimezoneService,
   IpService,
-  /*{
-    provide: ErrorHandler,
-    useValue: Sentry.createErrorHandler({
-      showDialog: true,
-    }),
-  },
-  {
-    deps: [Router],
-    provide: Sentry.TraceService,
-  },
-  {
-    deps: [Sentry.TraceService],
-    multi: true,
-    provide: APP_INITIALIZER,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    useFactory: () => () => {},
-  },*/
 ];
 if (environment.production) {
   providers.push({provide: ErrorHandler, useClass: GlobalErrorHandler});
