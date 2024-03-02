@@ -1,5 +1,23 @@
 [
   {
+    "sum": 20,
+    "currency": "EUR",
+    "date": "2024-02-29T00:00:00+00:00",
+    "contributor": "Elke Hobien"
+  },
+  {
+    "sum": 10,
+    "currency": "EUR",
+    "date": "2024-02-26T00:00:00+00:00",
+    "contributor": "Mingyuan Sun"
+  },
+  {
+    "sum": 500,
+    "currency": "RUB",
+    "date": "2024-02-25T00:00:00+00:00",
+    "contributor": "Андрей Егоров"
+  },
+  {
     "sum": 5.54,
     "currency": "EUR",
     "date": "2024-02-16T00:00:00+00:00",
