@@ -1,12 +1,13 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {NgChartsModule} from 'ng2-charts';
+import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 import {ChartComponent} from './chart.component';
 import {ChartRoutingModule} from './chart-routing.module';
 
 @NgModule({
   declarations: [ChartComponent],
-  imports: [CommonModule, ChartRoutingModule, NgChartsModule],
+  imports: [CommonModule, ChartRoutingModule, BaseChartDirective],
+  providers: [provideCharts(withDefaultRegisterables())],
 })
 export class ChartModule {}

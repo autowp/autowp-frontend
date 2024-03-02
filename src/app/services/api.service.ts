@@ -92,12 +92,11 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 
     return next.handle(request).pipe(
       tap((event) => {
-        const style =
-          event instanceof GrpcDataEvent
-            ? this.dataStyle
-            : event.statusCode !== 0
-            ? this.errorStyle
-            : this.statusOkStyle;
+        let style = this.dataStyle;
+        if (!(event instanceof GrpcDataEvent)) {
+          style = event.statusCode !== 0 ? this.errorStyle : this.statusOkStyle;
+        }
+
         console.groupCollapsed(`%c${Date.now() - start}ms -> ${request.path}`, style);
         console.log('%csc', style, request.client.getSettings());
         console.log('%c>>', style, request.requestData);

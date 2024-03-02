@@ -191,10 +191,10 @@
       <span [hidden]="loading <= 0">
         <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       </span>
-      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-items"
-        >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} item} other
-        {{{paginator.totalItemCount}} items}}</small
-      >
+      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-items">{paginator.totalItemCount, plural,
+        one {{{paginator.totalItemCount}} item}
+        other {{{paginator.totalItemCount}} items}
+      }</small>
     </h2>
 
     <div *ngIf="listMode">

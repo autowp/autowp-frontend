@@ -80,7 +80,7 @@
     "html-comment-regex": "^1.1.2",
     "jquery": "^3.6.3",
     "ngx-build-plus": "^17",
-    "prettier": "^3.0.3 && <3.1",
+    "prettier": "^3.2",
     "prettier-eslint": "^16.1.1",
     "showdown": "^2.1.0",
     "stylelint": "^16.2.1",

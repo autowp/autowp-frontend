@@ -339,10 +339,10 @@
 
       <ng-container *ngIf="data$ | async as data; else loading">
         <ng-container *ngIf="data.paginator as paginator">
-          <small *ngIf="paginator.totalItemCount" i18n="@@n-pictures"
-            >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} picture} other
-            {{{paginator.totalItemCount}} pictures}}</small
-          >
+          <small *ngIf="paginator.totalItemCount" i18n="@@n-pictures">{paginator.totalItemCount, plural,
+            one {{{paginator.totalItemCount}} picture}
+            other {{{paginator.totalItemCount}} pictures}
+          }</small>
         </ng-container>
       </ng-container>
       <ng-template #loading>

@@ -87,10 +87,10 @@
       <h2>
         <ng-container i18n>Comments</ng-container>
         <ng-container *ngIf="data.paginator as paginator">
-          <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments"
-            >{paginator.totalItemCount, plural, one {{{paginator.totalItemCount}} comment} other
-            {{{paginator.totalItemCount}} comments}}</small
-          >
+          <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments">{paginator.totalItemCount, plural,
+            one {{{paginator.totalItemCount}} comment}
+            other {{{paginator.totalItemCount}} comments}
+          }</small>
         </ng-container>
       </h2>
 

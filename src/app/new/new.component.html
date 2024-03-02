@@ -22,8 +22,10 @@
         <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | date: 'mediumDate'"></a>
         <br />
         <small
-          >(<span i18n="@@n-pictures"
-            >{data.prev.count, plural, one {{{data.prev.count}} picture} other {{{data.prev.count}} pictures}}</span
+          >(<span i18n="@@n-pictures">{data.prev.count, plural,
+            one {{{data.prev.count}} picture}
+            other {{{data.prev.count}} pictures}
+          }</span
           >)</small
         >
       </h3>
@@ -33,9 +35,10 @@
         <span [textContent]="data.current.date | date: 'mediumDate'"></span>
         <br />
         <small
-          >(<span i18n="@@n-pictures"
-            >{data.current.count, plural, one {{{data.current.count}} picture} other
-            {{{data.current.count}} pictures}}</span
+          >(<span i18n="@@n-pictures">{data.current.count, plural,
+            one {{{data.current.count}} picture}
+            other {{{data.current.count}} pictures}
+          }</span
           >)</small
         >
       </h3>
@@ -45,8 +48,10 @@
         <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | date: 'mediumDate'"></a>
         <br />
         <small
-          >(<span i18n="@@n-pictures"
-            >{data.next.count, plural, one {{{data.next.count}} picture} other {{{data.next.count}} pictures}}</span
+          >(<span i18n="@@n-pictures">{data.next.count, plural,
+            one {{{data.next.count}} picture}
+            other {{{data.next.count}} pictures}
+          }</span
           >)</small
         >
         &#x2192;
