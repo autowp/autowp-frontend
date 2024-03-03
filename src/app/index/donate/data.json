@@ -1,5 +1,11 @@
 [
   {
+    "sum": 10.71,
+    "currency": "EUR",
+    "date": "2024-03-02T00:00:00+00:00",
+    "contributor": "Alexender Biel"
+  },
+  {
     "sum": -15445,
     "currency": "RUB",
     "date": "2024-03-02T00:00:00+00:00",
