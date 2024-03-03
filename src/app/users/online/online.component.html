@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title" i18n>Online</h3>
-  <a class="close" (click)="activeModal.dismiss()">×</a>
+  <button class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <app-user2 [user]="user" *ngFor="let user of users$ | async"></app-user2>

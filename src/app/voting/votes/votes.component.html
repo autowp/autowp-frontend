@@ -4,7 +4,7 @@
 
 <div class="modal-header">
   <h3 class="modal-title" i18n>Who voted?</h3>
-  <a class="close" (click)="activeModal.dismiss()">×</a>
+  <button class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <ng-container *ngIf="votes$ | async as votes; else loading">
