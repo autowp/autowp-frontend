@@ -2,6 +2,11 @@
 @import './bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
+app-index {
+  display: block;
+  filter: grayscale(100%);
+}
+
 .navbar {
   margin-bottom: 1rem;
 }
