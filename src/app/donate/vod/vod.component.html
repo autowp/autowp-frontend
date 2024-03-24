@@ -106,7 +106,7 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 <form
   ngNoForm
   method="post"
-  action="https://yoomoney.ru/quickpay/confirm.xml"
+  action="https://yoomoney.ru/quickpay/confirm"
   (submit)="submit($event)"
   class="card card-body mb-4"
 >
@@ -135,24 +135,17 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
         <span class="bi bi-credit-card" aria-hidden="true"></span>
         <ng-container i18n>Credit card</ng-container>
       </label>
-      <input type="radio" class="btn-check" name="paymentType" value="MC" autocomplete="off" id="btn2" />
-      <label class="btn btn-secondary" for="btn2">
-        <span class="bi bi-phone" aria-hidden="true"></span>
-        <ng-container i18n>Mobile operator account</ng-container>
-      </label>
       <input type="radio" class="btn-check" name="paymentType" value="PC" autocomplete="off" id="btn3" />
       <label class="btn btn-secondary" for="btn3" i18n>YooMoney</label>
     </div>
-    <button type="submit" class="btn btn-primary" i18n>Pay</button>
+    <div>
+      <button type="submit" class="btn btn-primary" i18n>Pay</button>
+    </div>
   </div>
   <div *ngIf="(date$ | async) === null || (item$ | async) === null">
     <button class="btn btn-secondary" disabled>
       <span class="bi bi-credit-card" aria-hidden="true"></span>
       <ng-container i18n>Credit card</ng-container>
-    </button>
-    <button class="btn btn-secondary" disabled>
-      <span class="bi bi-phone" aria-hidden="true"></span>
-      <ng-container i18n>Mobile operator account</ng-container>
     </button>
     <button class="btn btn-secondary" disabled i18n>YooMoney</button>
   </div>
