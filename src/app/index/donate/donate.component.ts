@@ -3,12 +3,13 @@ import {LanguageService} from '@services/language';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
+import {ethToEur, eurToRub} from '../../currencies';
 import data from './data.json';
 
 const rates = {
-  'ETH': 1067.07,
+  'ETH': ethToEur,
   'EUR': 1,
-  'RUB': 0.01,
+  'RUB': 1 / eurToRub,
 };
 
 interface Donation {

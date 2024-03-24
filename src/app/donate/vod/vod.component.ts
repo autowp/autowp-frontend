@@ -8,6 +8,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {Observable, combineLatest, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {usdToRub} from '../../currencies';
 import {DonateService} from '../donate.service';
 
 const VOD_TIMEZONE = 'UTC';
@@ -128,4 +129,6 @@ export class DonateVodComponent implements OnInit {
       e.target.submit();
     }
   }
+
+  protected readonly usdToRub = usdToRub;
 }
