@@ -16858,6 +16858,7 @@ export class ItemFields implements GrpcMessage {
     _instance.mostsActive = _instance.mostsActive || false;
     _instance.commentsAttentionsCount =
       _instance.commentsAttentionsCount || false;
+    _instance.isCompilesItemOfDay = _instance.isCompilesItemOfDay || false;
   }
 
   /**
@@ -16928,6 +16929,9 @@ export class ItemFields implements GrpcMessage {
         case 17:
           _instance.commentsAttentionsCount = _reader.readBool();
           break;
+        case 18:
+          _instance.isCompilesItemOfDay = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -16997,6 +17001,9 @@ export class ItemFields implements GrpcMessage {
     if (_instance.commentsAttentionsCount) {
       _writer.writeBool(17, _instance.commentsAttentionsCount);
     }
+    if (_instance.isCompilesItemOfDay) {
+      _writer.writeBool(18, _instance.isCompilesItemOfDay);
+    }
   }
 
   private _nameOnly: boolean;
@@ -17016,6 +17023,7 @@ export class ItemFields implements GrpcMessage {
   private _logo120: boolean;
   private _mostsActive: boolean;
   private _commentsAttentionsCount: boolean;
+  private _isCompilesItemOfDay: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17042,6 +17050,7 @@ export class ItemFields implements GrpcMessage {
     this.logo120 = _value.logo120;
     this.mostsActive = _value.mostsActive;
     this.commentsAttentionsCount = _value.commentsAttentionsCount;
+    this.isCompilesItemOfDay = _value.isCompilesItemOfDay;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -17146,6 +17155,12 @@ export class ItemFields implements GrpcMessage {
   set commentsAttentionsCount(value: boolean) {
     this._commentsAttentionsCount = value;
   }
+  get isCompilesItemOfDay(): boolean {
+    return this._isCompilesItemOfDay;
+  }
+  set isCompilesItemOfDay(value: boolean) {
+    this._isCompilesItemOfDay = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17180,7 +17195,8 @@ export class ItemFields implements GrpcMessage {
       fullName: this.fullName,
       logo120: this.logo120,
       mostsActive: this.mostsActive,
-      commentsAttentionsCount: this.commentsAttentionsCount
+      commentsAttentionsCount: this.commentsAttentionsCount,
+      isCompilesItemOfDay: this.isCompilesItemOfDay
     };
   }
 
@@ -17219,7 +17235,8 @@ export class ItemFields implements GrpcMessage {
       fullName: this.fullName,
       logo120: this.logo120,
       mostsActive: this.mostsActive,
-      commentsAttentionsCount: this.commentsAttentionsCount
+      commentsAttentionsCount: this.commentsAttentionsCount,
+      isCompilesItemOfDay: this.isCompilesItemOfDay
     };
   }
 }
@@ -17245,6 +17262,7 @@ export module ItemFields {
     logo120: boolean;
     mostsActive: boolean;
     commentsAttentionsCount: boolean;
+    isCompilesItemOfDay: boolean;
   }
 
   /**
@@ -17268,6 +17286,7 @@ export module ItemFields {
     logo120: boolean;
     mostsActive: boolean;
     commentsAttentionsCount: boolean;
+    isCompilesItemOfDay: boolean;
   }
 }
 
@@ -18349,6 +18368,7 @@ export class APIItem implements GrpcMessage {
     _instance.logo120 = _instance.logo120 || undefined;
     _instance.mostsActive = _instance.mostsActive || false;
     _instance.commentsAttentionsCount = _instance.commentsAttentionsCount || 0;
+    _instance.isCompilesItemOfDay = _instance.isCompilesItemOfDay || false;
   }
 
   /**
@@ -18431,6 +18451,9 @@ export class APIItem implements GrpcMessage {
         case 21:
           _instance.commentsAttentionsCount = _reader.readInt32();
           break;
+        case 22:
+          _instance.isCompilesItemOfDay = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -18512,6 +18535,9 @@ export class APIItem implements GrpcMessage {
     if (_instance.commentsAttentionsCount) {
       _writer.writeInt32(21, _instance.commentsAttentionsCount);
     }
+    if (_instance.isCompilesItemOfDay) {
+      _writer.writeBool(22, _instance.isCompilesItemOfDay);
+    }
   }
 
   private _id: string;
@@ -18535,6 +18561,7 @@ export class APIItem implements GrpcMessage {
   private _logo120?: APIImage;
   private _mostsActive: boolean;
   private _commentsAttentionsCount: number;
+  private _isCompilesItemOfDay: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18563,6 +18590,7 @@ export class APIItem implements GrpcMessage {
     this.logo120 = _value.logo120 ? new APIImage(_value.logo120) : undefined;
     this.mostsActive = _value.mostsActive;
     this.commentsAttentionsCount = _value.commentsAttentionsCount;
+    this.isCompilesItemOfDay = _value.isCompilesItemOfDay;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -18691,6 +18719,12 @@ export class APIItem implements GrpcMessage {
   set commentsAttentionsCount(value: number) {
     this._commentsAttentionsCount = value;
   }
+  get isCompilesItemOfDay(): boolean {
+    return this._isCompilesItemOfDay;
+  }
+  set isCompilesItemOfDay(value: boolean) {
+    this._isCompilesItemOfDay = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -18727,7 +18761,8 @@ export class APIItem implements GrpcMessage {
       fullName: this.fullName,
       logo120: this.logo120 ? this.logo120.toObject() : undefined,
       mostsActive: this.mostsActive,
-      commentsAttentionsCount: this.commentsAttentionsCount
+      commentsAttentionsCount: this.commentsAttentionsCount,
+      isCompilesItemOfDay: this.isCompilesItemOfDay
     };
   }
 
@@ -18773,7 +18808,8 @@ export class APIItem implements GrpcMessage {
       fullName: this.fullName,
       logo120: this.logo120 ? this.logo120.toProtobufJSON(options) : null,
       mostsActive: this.mostsActive,
-      commentsAttentionsCount: this.commentsAttentionsCount
+      commentsAttentionsCount: this.commentsAttentionsCount,
+      isCompilesItemOfDay: this.isCompilesItemOfDay
     };
   }
 }
@@ -18803,6 +18839,7 @@ export module APIItem {
     logo120?: APIImage.AsObject;
     mostsActive: boolean;
     commentsAttentionsCount: number;
+    isCompilesItemOfDay: boolean;
   }
 
   /**
@@ -18830,6 +18867,7 @@ export module APIItem {
     logo120: APIImage.AsProtobufJSON | null;
     mostsActive: boolean;
     commentsAttentionsCount: number;
+    isCompilesItemOfDay: boolean;
   }
 }
 

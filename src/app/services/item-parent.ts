@@ -27,7 +27,7 @@ export interface APIItemParentGetItemsOptions {
   catname?: string;
   concept?: boolean;
   exclude_concept?: boolean;
-  fields: string;
+  fields?: string;
   is_group?: boolean;
   item_id?: number;
   item_type_id?: number;

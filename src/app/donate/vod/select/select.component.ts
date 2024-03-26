@@ -79,7 +79,6 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                     switchMap((brand) =>
                       combineLatest([
                         this.itemParentService.getItems$({
-                          fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
                           item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                           limit: 500,
                           page: 1,
@@ -88,7 +87,6 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                         this.itemParentService.getItems$({
                           ancestor_id: +brand.id,
                           concept: true,
-                          fields: 'item.name_html,item.childs_count,item.is_compiles_item_of_day',
                           item_type_id: ItemType.ITEM_TYPE_VEHICLE,
                           limit: 500,
                           page: 1,

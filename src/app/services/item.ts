@@ -100,7 +100,6 @@ export interface APIItem {
 
   inbox_pictures_count?: number;
 
-  is_compiles_item_of_day: boolean;
   is_concept: boolean;
   is_group: boolean;
   item_language_count: number;

@@ -1,36 +1,40 @@
-<div *ngIf="!item.item.childs_count">
-  <span class="text-muted" *ngIf="item.type_id === 1" i18n>Related</span>
-  <span class="text-muted" *ngIf="item.type_id === 2" i18n>Sport</span>
-  <a
-    *ngIf="item.item.is_compiles_item_of_day"
-    routerLink="/donate/vod"
-    [queryParams]="{item_id: item.item_id, brand_id: null}"
-    queryParamsHandling="merge"
-    [innerHTML]="item.item.name_html"
-  ></a>
-  <span *ngIf="!item.item.is_compiles_item_of_day" class="text-muted" [innerHTML]="item.item.name_html"></span>
+<div *ngIf="itemParent$ | async as itemParent">
+  <span class="text-muted" *ngIf="itemParent.type_id === 1" i18n>Related</span>
+  <span class="text-muted" *ngIf="itemParent.type_id === 2" i18n>Sport</span>
+  <ng-container *ngIf="item$ | async as item">
+    <ng-container *ngIf="!item.childsCount">
+      <a
+        *ngIf="item.isCompilesItemOfDay"
+        routerLink="/donate/vod"
+        [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
+        queryParamsHandling="merge"
+        [innerHTML]="item.nameHtml"
+      ></a>
+      <span *ngIf="!item.isCompilesItemOfDay" class="text-muted" [innerHTML]="item.nameHtml"></span>
+    </ng-container>
+    <ng-container *ngIf="item.childsCount">
+      <a href="" class="arrow" (click)="toggleItem()">
+        <i class="bi me-1" aria-hidden="true" [class.bi-plus-circle]="!expanded" [class.bi-dash-circle]="expanded"></i>
+        <span [innerHTML]="item.nameHtml"></span>
+      </a>
+      <a
+        routerLink="/donate/vod"
+        [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
+        queryParamsHandling="merge"
+        *ngIf="item.isCompilesItemOfDay"
+        class="mx-2"
+        i18n
+        >[select]</a
+      >
+      <div class="mb-1 ms-3" *ngIf="expanded">
+        <ng-container *ngIf="childs$ | async as childs; else loading">
+          <app-donate-vod-select-item [itemParent]="child" *ngFor="let child of childs"></app-donate-vod-select-item>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
 </div>
-<div *ngIf="item.item.childs_count">
-  <span class="text-muted" *ngIf="item.type_id === 1" i18n>Related</span>
-  <span class="text-muted" *ngIf="item.type_id === 2" i18n>Sport</span>
-  <a href="" class="arrow" (click)="toggleItem()">
-    <i class="bi bi-plus-circle me-1" aria-hidden="true" [hidden]="item.expanded"></i>
-    <i class="bi bi-dash-circle me-1" aria-hidden="true" [hidden]="!item.expanded"></i>
-    <span [innerHTML]="item.item.name_html"></span>
-  </a>
-  <a
-    routerLink="/donate/vod"
-    [queryParams]="{item_id: item.item_id, brand_id: null}"
-    queryParamsHandling="merge"
-    *ngIf="item.item.is_compiles_item_of_day"
-    class="mx-2"
-    i18n
-    >[select]</a
-  >
-  <div style="margin: 0 0 4px 18px" [hidden]="!item.expanded">
-    <app-donate-vod-select-item [item]="child" *ngFor="let child of childs"></app-donate-vod-select-item>
-    <span [hidden]="!loading">
-      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-    </span>
-  </div>
-</div>
+
+<ng-template #loading>
+  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+</ng-template>
