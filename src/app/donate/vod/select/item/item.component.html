@@ -26,7 +26,7 @@
         i18n
         >[select]</a
       >
-      <div class="mb-1 ms-3" *ngIf="expanded">
+      <div class="mb-1 ms-4" *ngIf="expanded">
         <ng-container *ngIf="childs$ | async as childs; else loading">
           <app-donate-vod-select-item [itemParent]="child" *ngFor="let child of childs"></app-donate-vod-select-item>
         </ng-container>
