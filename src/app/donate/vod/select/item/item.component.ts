@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
-import {LanguageService} from '@services/language';
 
 @Component({
   selector: 'app-donate-vod-select-item',
@@ -36,28 +36,27 @@ export class DonateVodSelectItemComponent {
     ),
   );
 
-  protected readonly childs$: Observable<APIItemParent[]> = this.itemParent$
-    .pipe(
-      switchMap((itemParent) =>
-        this.itemParentService.getItems$({
-          item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-          limit: 500,
-          parent_id: itemParent.item_id,
-        }),
-      ),
-      map((items) => items.items),
-      catchError(e => {
-        this.toastService.handleError(e);
-        return EMPTY;
+  protected readonly childs$: Observable<APIItemParent[]> = this.itemParent$.pipe(
+    switchMap((itemParent) =>
+      this.itemParentService.getItems$({
+        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
+        limit: 500,
+        parent_id: itemParent.item_id,
       }),
-      shareReplay(1),
-    );
+    ),
+    catchError((e: unknown) => {
+      this.toastService.handleError(e);
+      return EMPTY;
+    }),
+    map((items) => items.items),
+    shareReplay(1),
+  );
 
   constructor(
     private readonly itemParentService: ItemParentService,
     private readonly toastService: ToastsService,
     private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
   ) {}
 
   protected toggleItem() {
