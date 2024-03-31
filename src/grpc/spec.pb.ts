@@ -27987,6 +27987,325 @@ export module ItemParentLanguage {
 }
 
 /**
+ * Message implementation for goautowp.StatsResponse
+ */
+export class StatsResponse implements GrpcMessage {
+  static id = 'goautowp.StatsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new StatsResponse();
+    StatsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: StatsResponse) {
+    _instance.values = _instance.values || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: StatsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new StatsValue();
+          _reader.readMessage(
+            messageInitializer1,
+            StatsValue.deserializeBinaryFromReader
+          );
+          (_instance.values = _instance.values || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    StatsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: StatsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.values && _instance.values.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.values as any,
+        StatsValue.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _values?: StatsValue[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of StatsResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<StatsResponse.AsObject>) {
+    _value = _value || {};
+    this.values = (_value.values || []).map(m => new StatsValue(m));
+    StatsResponse.refineValues(this);
+  }
+  get values(): StatsValue[] | undefined {
+    return this._values;
+  }
+  set values(value: StatsValue[] | undefined) {
+    this._values = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    StatsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): StatsResponse.AsObject {
+    return {
+      values: (this.values || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): StatsResponse.AsProtobufJSON {
+    return {
+      values: (this.values || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module StatsResponse {
+  /**
+   * Standard JavaScript object representation for StatsResponse
+   */
+  export interface AsObject {
+    values?: StatsValue.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for StatsResponse
+   */
+  export interface AsProtobufJSON {
+    values: StatsValue.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.StatsValue
+ */
+export class StatsValue implements GrpcMessage {
+  static id = 'goautowp.StatsValue';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new StatsValue();
+    StatsValue.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: StatsValue) {
+    _instance.name = _instance.name || '';
+    _instance.total = _instance.total || 0;
+    _instance.value = _instance.value || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: StatsValue,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.name = _reader.readString();
+          break;
+        case 2:
+          _instance.total = _reader.readInt32();
+          break;
+        case 3:
+          _instance.value = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    StatsValue.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: StatsValue, _writer: BinaryWriter) {
+    if (_instance.name) {
+      _writer.writeString(1, _instance.name);
+    }
+    if (_instance.total) {
+      _writer.writeInt32(2, _instance.total);
+    }
+    if (_instance.value) {
+      _writer.writeInt32(3, _instance.value);
+    }
+  }
+
+  private _name: string;
+  private _total: number;
+  private _value: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of StatsValue to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<StatsValue.AsObject>) {
+    _value = _value || {};
+    this.name = _value.name;
+    this.total = _value.total;
+    this.value = _value.value;
+    StatsValue.refineValues(this);
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get total(): number {
+    return this._total;
+  }
+  set total(value: number) {
+    this._total = value;
+  }
+  get value(): number {
+    return this._value;
+  }
+  set value(value: number) {
+    this._value = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    StatsValue.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): StatsValue.AsObject {
+    return {
+      name: this.name,
+      total: this.total,
+      value: this.value
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): StatsValue.AsProtobufJSON {
+    return {
+      name: this.name,
+      total: this.total,
+      value: this.value
+    };
+  }
+}
+export module StatsValue {
+  /**
+   * Standard JavaScript object representation for StatsValue
+   */
+  export interface AsObject {
+    name: string;
+    total: number;
+    value: number;
+  }
+
+  /**
+   * Protobuf JSON representation for StatsValue
+   */
+  export interface AsProtobufJSON {
+    name: string;
+    total: number;
+    value: number;
+  }
+}
+
+/**
  * Message implementation for goautowp.AddCommentRequest
  */
 export class AddCommentRequest implements GrpcMessage {

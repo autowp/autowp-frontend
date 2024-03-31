@@ -1,40 +1,29 @@
 import {Component, OnInit} from '@angular/core';
-import {APIService} from '@services/api.service';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, Observable} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
-
-interface StatItem {
-  name: string;
-  total: number;
-  value: number;
-}
-
-interface APIStatGlobalSummary {
-  items: StatItem[];
-}
 
 @Component({
   selector: 'app-moder-stat',
   templateUrl: './stat.component.html',
 })
 export class ModerStatComponent implements OnInit {
-  protected readonly items$: Observable<StatItem[]> = this.api
-    .request<APIStatGlobalSummary>('GET', 'stat/global-summary')
-    .pipe(
-      catchError((response: unknown) => {
-        this.toastService.handleError(response);
-        return EMPTY;
-      }),
-      map((response) => response.items),
-    );
+  protected readonly items$ = this.itemsClient.getStats(new Empty()).pipe(
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
+      return EMPTY;
+    }),
+    map((response) => response.values),
+  );
 
   constructor(
-    private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
+    private readonly itemsClient: ItemsClient,
   ) {}
 
   ngOnInit(): void {

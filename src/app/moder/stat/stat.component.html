@@ -13,7 +13,7 @@
   <h1 i18n>Statistics</h1>
 </div>
 
-<ul *ngIf="items$ | async as items">
+<ul *ngIf="items$ | async as items; else loading">
   <li class="mb-3" *ngFor="let item of items">
     <h3 [ngSwitch]="item.name">
       <ng-container *ngSwitchCase="'moder/statistics/photos-with-copyrights'" i18n>Photos with copyrights</ng-container>
@@ -34,3 +34,7 @@
     <ngb-progressbar [striped]="true" type="primary" [value]="item.value" [max]="item.total"></ngb-progressbar>
   </li>
 </ul>
+
+<ng-template #loading>
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+</ng-template>
