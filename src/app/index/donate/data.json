@@ -1,5 +1,23 @@
 [
   {
+    "sum": 167.94,
+    "currency": "EUR",
+    "date": "2024-04-03T00:00:00+00:00",
+    "contributor": "Tom Stuart"
+  },
+  {
+    "sum": 969.03,
+    "currency": "RUB",
+    "date": "2024-04-02T00:00:00+00:00",
+    "contributor": null
+  },
+  {
+    "sum": 969.03,
+    "currency": "RUB",
+    "date": "2024-03-31T00:00:00+00:00",
+    "contributor": null
+  },
+  {
     "sum": 989.11,
     "currency": "RUB",
     "date": "2024-03-20T00:00:00+00:00",
@@ -23,6 +41,13 @@
     "date": "2024-03-02T00:00:00+00:00",
     "contributor": null,
     "purpose": "February/March hosting"
+  },
+  {
+    "sum": -15445,
+    "currency": "RUB",
+    "date": "2024-03-01T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "March hosting"
   },
   {
     "sum": 20,
