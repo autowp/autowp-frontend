@@ -1,5 +1,11 @@
 [
   {
+    "sum": 207.40,
+    "currency": "EUR",
+    "date": "2024-04-07T00:00:00+00:00",
+    "contributor": "Anonymous"
+  },
+  {
     "sum": 167.94,
     "currency": "EUR",
     "date": "2024-04-03T00:00:00+00:00",
@@ -9,13 +15,13 @@
     "sum": 969.03,
     "currency": "RUB",
     "date": "2024-04-02T00:00:00+00:00",
-    "contributor": null
+    "contributor": "Anonymous"
   },
   {
     "sum": 969.03,
     "currency": "RUB",
     "date": "2024-03-31T00:00:00+00:00",
-    "contributor": null
+    "contributor": "Anonymous"
   },
   {
     "sum": 989.11,
