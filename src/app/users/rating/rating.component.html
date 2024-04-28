@@ -63,7 +63,7 @@
           <app-user2 [user]="user" *ngIf="row.user$ | async as user"></app-user2>
         </td>
         <td>
-          <ng-container *ngIf="row.brands$">
+          <ng-container *ngIf="row.brands$ && i < 10">
             <div *ngIf="row.brands$ | async as brands; else loading">
               <ng-container *ngFor="let brand of brands.brands">
                 <a [routerLink]="brand.route" [textContent]="brand.name || 'unnamed'"></a>
@@ -72,7 +72,7 @@
               …
             </div>
           </ng-container>
-          <ng-container *ngIf="row.fans$">
+          <ng-container *ngIf="row.fans$ && i < 10">
             <div *ngIf="row.fans$ | async as fans; else loading">
               <ng-container *ngFor="let fan of fans">
                 <app-user2 [user]="user" *ngIf="fan.user$ | async as user"></app-user2>
