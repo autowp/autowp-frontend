@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {APIUsersRatingResponse, UserRatingDetailsRequest} from '@grpc/spec.pb';
 import {RatingClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {EMPTY, Observable} from 'rxjs';
@@ -82,10 +83,14 @@ export class UsersRatingComponent implements OnInit {
 
   private getRatingBrands$(rating: Rating, userId: string) {
     if (rating == Rating.PICTURES) {
-      return this.ratingClient.getUserPicturesRatingBrands(new UserRatingDetailsRequest({userId}));
+      return this.ratingClient.getUserPicturesRatingBrands(
+        new UserRatingDetailsRequest({language: this.languageService.language, userId}),
+      );
     }
     if (rating == Rating.SPECS) {
-      return this.ratingClient.getUserSpecsRatingBrands(new UserRatingDetailsRequest({userId}));
+      return this.ratingClient.getUserSpecsRatingBrands(
+        new UserRatingDetailsRequest({language: this.languageService.language, userId}),
+      );
     }
     return null;
   }
@@ -135,6 +140,7 @@ export class UsersRatingComponent implements OnInit {
     private readonly toastService: ToastsService,
     private readonly ratingClient: RatingClient,
     private readonly userService: UserService,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {

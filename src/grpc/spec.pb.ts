@@ -24679,6 +24679,7 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
   static refineValues(_instance: APIUsersRatingUserBrand) {
     _instance.name = _instance.name || '';
     _instance.route = _instance.route || [];
+    _instance.volume = _instance.volume || '0';
   }
 
   /**
@@ -24699,6 +24700,9 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
           break;
         case 2:
           (_instance.route = _instance.route || []).push(_reader.readString());
+          break;
+        case 3:
+          _instance.volume = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -24723,10 +24727,14 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
     if (_instance.route && _instance.route.length) {
       _writer.writeRepeatedString(2, _instance.route);
     }
+    if (_instance.volume) {
+      _writer.writeInt64String(3, _instance.volume);
+    }
   }
 
   private _name: string;
   private _route: string[];
+  private _volume: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -24736,6 +24744,7 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
     _value = _value || {};
     this.name = _value.name;
     this.route = (_value.route || []).slice();
+    this.volume = _value.volume;
     APIUsersRatingUserBrand.refineValues(this);
   }
   get name(): string {
@@ -24749,6 +24758,12 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
   }
   set route(value: string[]) {
     this._route = value;
+  }
+  get volume(): string {
+    return this._volume;
+  }
+  set volume(value: string) {
+    this._volume = value;
   }
 
   /**
@@ -24767,7 +24782,8 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
   toObject(): APIUsersRatingUserBrand.AsObject {
     return {
       name: this.name,
-      route: (this.route || []).slice()
+      route: (this.route || []).slice(),
+      volume: this.volume
     };
   }
 
@@ -24789,7 +24805,8 @@ export class APIUsersRatingUserBrand implements GrpcMessage {
   ): APIUsersRatingUserBrand.AsProtobufJSON {
     return {
       name: this.name,
-      route: (this.route || []).slice()
+      route: (this.route || []).slice(),
+      volume: this.volume
     };
   }
 }
@@ -24800,6 +24817,7 @@ export module APIUsersRatingUserBrand {
   export interface AsObject {
     name: string;
     route: string[];
+    volume: string;
   }
 
   /**
@@ -24808,6 +24826,7 @@ export module APIUsersRatingUserBrand {
   export interface AsProtobufJSON {
     name: string;
     route: string[];
+    volume: string;
   }
 }
 
@@ -25319,6 +25338,7 @@ export class UserRatingDetailsRequest implements GrpcMessage {
    */
   static refineValues(_instance: UserRatingDetailsRequest) {
     _instance.userId = _instance.userId || '0';
+    _instance.language = _instance.language || '';
   }
 
   /**
@@ -25336,6 +25356,9 @@ export class UserRatingDetailsRequest implements GrpcMessage {
       switch (_reader.getFieldNumber()) {
         case 1:
           _instance.userId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.language = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -25357,9 +25380,13 @@ export class UserRatingDetailsRequest implements GrpcMessage {
     if (_instance.userId) {
       _writer.writeInt64String(1, _instance.userId);
     }
+    if (_instance.language) {
+      _writer.writeString(2, _instance.language);
+    }
   }
 
   private _userId: string;
+  private _language: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25368,6 +25395,7 @@ export class UserRatingDetailsRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<UserRatingDetailsRequest.AsObject>) {
     _value = _value || {};
     this.userId = _value.userId;
+    this.language = _value.language;
     UserRatingDetailsRequest.refineValues(this);
   }
   get userId(): string {
@@ -25375,6 +25403,12 @@ export class UserRatingDetailsRequest implements GrpcMessage {
   }
   set userId(value: string) {
     this._userId = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
   }
 
   /**
@@ -25392,7 +25426,8 @@ export class UserRatingDetailsRequest implements GrpcMessage {
    */
   toObject(): UserRatingDetailsRequest.AsObject {
     return {
-      userId: this.userId
+      userId: this.userId,
+      language: this.language
     };
   }
 
@@ -25413,7 +25448,8 @@ export class UserRatingDetailsRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): UserRatingDetailsRequest.AsProtobufJSON {
     return {
-      userId: this.userId
+      userId: this.userId,
+      language: this.language
     };
   }
 }
@@ -25423,6 +25459,7 @@ export module UserRatingDetailsRequest {
    */
   export interface AsObject {
     userId: string;
+    language: string;
   }
 
   /**
@@ -25430,22 +25467,23 @@ export module UserRatingDetailsRequest {
    */
   export interface AsProtobufJSON {
     userId: string;
+    language: string;
   }
 }
 
 /**
- * Message implementation for goautowp.UserPicturesRatingBrandsResponse
+ * Message implementation for goautowp.UserRatingBrandsResponse
  */
-export class UserPicturesRatingBrandsResponse implements GrpcMessage {
-  static id = 'goautowp.UserPicturesRatingBrandsResponse';
+export class UserRatingBrandsResponse implements GrpcMessage {
+  static id = 'goautowp.UserRatingBrandsResponse';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new UserPicturesRatingBrandsResponse();
-    UserPicturesRatingBrandsResponse.deserializeBinaryFromReader(
+    const instance = new UserRatingBrandsResponse();
+    UserRatingBrandsResponse.deserializeBinaryFromReader(
       instance,
       new BinaryReader(bytes)
     );
@@ -25456,7 +25494,7 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: UserPicturesRatingBrandsResponse) {
+  static refineValues(_instance: UserRatingBrandsResponse) {
     _instance.brands = _instance.brands || [];
   }
 
@@ -25466,7 +25504,7 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
    * @param _reader binary reader instance
    */
   static deserializeBinaryFromReader(
-    _instance: UserPicturesRatingBrandsResponse,
+    _instance: UserRatingBrandsResponse,
     _reader: BinaryReader
   ) {
     while (_reader.nextField()) {
@@ -25486,7 +25524,7 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
       }
     }
 
-    UserPicturesRatingBrandsResponse.refineValues(_instance);
+    UserRatingBrandsResponse.refineValues(_instance);
   }
 
   /**
@@ -25495,7 +25533,7 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(
-    _instance: UserPicturesRatingBrandsResponse,
+    _instance: UserRatingBrandsResponse,
     _writer: BinaryWriter
   ) {
     if (_instance.brands && _instance.brands.length) {
@@ -25511,16 +25549,14 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of UserPicturesRatingBrandsResponse to deeply clone from
+   * @param _value initial values object or instance of UserRatingBrandsResponse to deeply clone from
    */
-  constructor(
-    _value?: RecursivePartial<UserPicturesRatingBrandsResponse.AsObject>
-  ) {
+  constructor(_value?: RecursivePartial<UserRatingBrandsResponse.AsObject>) {
     _value = _value || {};
     this.brands = (_value.brands || []).map(
       m => new APIUsersRatingUserBrand(m)
     );
-    UserPicturesRatingBrandsResponse.refineValues(this);
+    UserRatingBrandsResponse.refineValues(this);
   }
   get brands(): APIUsersRatingUserBrand[] | undefined {
     return this._brands;
@@ -25535,14 +25571,14 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    UserPicturesRatingBrandsResponse.serializeBinaryToWriter(this, writer);
+    UserRatingBrandsResponse.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): UserPicturesRatingBrandsResponse.AsObject {
+  toObject(): UserRatingBrandsResponse.AsObject {
     return {
       brands: (this.brands || []).map(m => m.toObject())
     };
@@ -25563,22 +25599,22 @@ export class UserPicturesRatingBrandsResponse implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): UserPicturesRatingBrandsResponse.AsProtobufJSON {
+  ): UserRatingBrandsResponse.AsProtobufJSON {
     return {
       brands: (this.brands || []).map(m => m.toProtobufJSON(options))
     };
   }
 }
-export module UserPicturesRatingBrandsResponse {
+export module UserRatingBrandsResponse {
   /**
-   * Standard JavaScript object representation for UserPicturesRatingBrandsResponse
+   * Standard JavaScript object representation for UserRatingBrandsResponse
    */
   export interface AsObject {
     brands?: APIUsersRatingUserBrand.AsObject[];
   }
 
   /**
-   * Protobuf JSON representation for UserPicturesRatingBrandsResponse
+   * Protobuf JSON representation for UserRatingBrandsResponse
    */
   export interface AsProtobufJSON {
     brands: APIUsersRatingUserBrand.AsProtobufJSON[] | null;

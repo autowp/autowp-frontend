@@ -67,6 +67,10 @@
             <div *ngIf="row.brands$ | async as brands; else loading">
               <ng-container *ngFor="let brand of brands.brands">
                 <a [routerLink]="brand.route" [textContent]="brand.name || 'unnamed'"></a>
+                <span
+                  class="badge rounded-pill text-bg-secondary"
+                  [textContent]="(brand.volume > 0 ? '+' : '') + brand.volume"
+                ></span>
                 <span>, </span>
               </ng-container>
               …

@@ -1736,12 +1736,12 @@ export class RatingClient {
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>>
+     * @returns Observable<GrpcEvent<thisProto.UserRatingBrandsResponse>>
      */
     getUserPicturesRatingBrands: (
       requestData: thisProto.UserRatingDetailsRequest,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>> => {
+    ): Observable<GrpcEvent<thisProto.UserRatingBrandsResponse>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
@@ -1749,7 +1749,7 @@ export class RatingClient {
         requestData,
         requestMetadata,
         requestClass: thisProto.UserRatingDetailsRequest,
-        responseClass: thisProto.UserPicturesRatingBrandsResponse
+        responseClass: thisProto.UserRatingBrandsResponse
       });
     },
     /**
@@ -1862,12 +1862,12 @@ export class RatingClient {
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>>
+     * @returns Observable<GrpcEvent<thisProto.UserRatingBrandsResponse>>
      */
     getUserSpecsRatingBrands: (
       requestData: thisProto.UserRatingDetailsRequest,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>> => {
+    ): Observable<GrpcEvent<thisProto.UserRatingBrandsResponse>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
@@ -1875,7 +1875,7 @@ export class RatingClient {
         requestData,
         requestMetadata,
         requestClass: thisProto.UserRatingDetailsRequest,
-        responseClass: thisProto.UserPicturesRatingBrandsResponse
+        responseClass: thisProto.UserRatingBrandsResponse
       });
     }
   };
@@ -1909,12 +1909,12 @@ export class RatingClient {
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.UserPicturesRatingBrandsResponse>
+   * @returns Observable<thisProto.UserRatingBrandsResponse>
    */
   getUserPicturesRatingBrands(
     requestData: thisProto.UserRatingDetailsRequest,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.UserPicturesRatingBrandsResponse> {
+  ): Observable<thisProto.UserRatingBrandsResponse> {
     return this.$raw
       .getUserPicturesRatingBrands(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
@@ -2005,12 +2005,12 @@ export class RatingClient {
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.UserPicturesRatingBrandsResponse>
+   * @returns Observable<thisProto.UserRatingBrandsResponse>
    */
   getUserSpecsRatingBrands(
     requestData: thisProto.UserRatingDetailsRequest,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.UserPicturesRatingBrandsResponse> {
+  ): Observable<thisProto.UserRatingBrandsResponse> {
     return this.$raw
       .getUserSpecsRatingBrands(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
