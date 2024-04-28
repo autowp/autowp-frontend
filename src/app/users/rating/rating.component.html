@@ -13,70 +13,92 @@
 <ng-container *ngIf="rating$ | async as rating">
   <ul class="nav nav-pills" style="margin-bottom: 10px">
     <li class="nav-item">
-      <a class="nav-link" [class.active]="rating === 'specs'" routerLink="/users/rating/specs" i18n>Specifications</a>
+      <a class="nav-link" [class.active]="rating === Rating.SPECS" [routerLink]="['/users/rating', Rating.SPECS]" i18n
+        >Specifications</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="rating === 'pictures'" routerLink="/users/rating/pictures" i18n>Pictures</a>
+      <a
+        class="nav-link"
+        [class.active]="rating === Rating.PICTURES"
+        [routerLink]="['/users/rating', Rating.PICTURES]"
+        i18n
+        >Pictures</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="rating === 'likes'" routerLink="/users/rating/likes" i18n>Likes</a>
+      <a
+        class="nav-link"
+        [class.active]="rating === Rating.COMMENT_LIKES"
+        [routerLink]="['/users/rating', Rating.COMMENT_LIKES]"
+        i18n
+        >Likes</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="rating === 'picture-likes'" routerLink="/users/rating/picture-likes" i18n
+      <a
+        class="nav-link"
+        [class.active]="rating === Rating.PICTURE_LIKES"
+        [routerLink]="['/users/rating', Rating.PICTURE_LIKES]"
+        i18n
         >Picture likes</a
       >
     </li>
   </ul>
 
-  <span [hidden]="loading <= 0">
-    <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-  </span>
-
-  <table class="table" aria-describedby="header">
+  <table class="table" aria-describedby="header" *ngIf="users$ | async as users; else loading">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col" class="text-end" [textContent]="valueTitle$ | async"></th>
-        <th scope="col" class="text-end" *ngIf="rating === 'specs'" i18n>Specs volume</th>
+        <th scope="col" class="text-end" *ngIf="rating === Rating.SPECS" i18n>Specs volume</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of users$ | async; let i = index">
+      <tr *ngFor="let row of users; let i = index">
         <td [textContent]="i + 1"></td>
         <td>
-          <app-user [user]="row.user"></app-user>
+          <app-user2 [user]="user" *ngIf="row.user$ | async as user"></app-user2>
         </td>
         <td>
-          <div *ngIf="row.brands.length > 0">
-            <ng-container *ngFor="let brand of row.brands">
-              <a [routerLink]="brand.route" [textContent]="brand.name"></a>
-              <span>, </span>
-            </ng-container>
-            …
-          </div>
-          <small *ngIf="row.fans && row.fans.length > 0">
-            <ng-container *ngFor="let fan of row.fans">
-              <app-user [user]="fan.user"></app-user>
-              <span
-                class="badge rounded-pill text-bg-secondary"
-                [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"
-              ></span>
-              <span>, </span>
-            </ng-container>
-            …
-          </small>
+          <ng-container *ngIf="row.brands$">
+            <div *ngIf="row.brands$ | async as brands; else loading">
+              <ng-container *ngFor="let brand of brands.brands">
+                <a [routerLink]="brand.route" [textContent]="brand.name || 'unnamed'"></a>
+                <span>, </span>
+              </ng-container>
+              …
+            </div>
+          </ng-container>
+          <ng-container *ngIf="row.fans$">
+            <div *ngIf="row.fans$ | async as fans; else loading">
+              <ng-container *ngFor="let fan of fans">
+                <app-user2 [user]="user" *ngIf="fan.user$ | async as user"></app-user2>
+                <span
+                  class="badge rounded-pill text-bg-secondary"
+                  [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"
+                ></span>
+                <span>, </span>
+              </ng-container>
+              …
+            </div>
+          </ng-container>
         </td>
         <td class="text-end" [textContent]="row.volume | number: '1.0-0'"></td>
         <td
           class="text-end"
           [class.danger]="row.weight < 0.5"
           [class.warning]="row.weight >= 0.5 && row.weight < 1.5"
-          *ngIf="rating === 'specs'"
+          *ngIf="rating === Rating.SPECS"
           [textContent]="row.weight | number: '1.2-2'"
         ></td>
       </tr>
     </tbody>
   </table>
 </ng-container>
+
+<ng-template #loading>
+  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+</ng-template>

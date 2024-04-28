@@ -55,6 +55,14 @@ export const GRPC_USERS_CLIENT_SETTINGS = new InjectionToken<any>(
 );
 
 /**
+ * Specific GrpcClientSettings for Rating.
+ * Use it only if your default settings are not set or the service requires other settings.
+ */
+export const GRPC_RATING_CLIENT_SETTINGS = new InjectionToken<any>(
+  'GRPC_RATING_CLIENT_SETTINGS'
+);
+
+/**
  * Specific GrpcClientSettings for Items.
  * Use it only if your default settings are not set or the service requires other settings.
  */

@@ -31,6 +31,7 @@ import {
   GRPC_TRAFFIC_CLIENT_SETTINGS,
   GRPC_CONTACTS_CLIENT_SETTINGS,
   GRPC_USERS_CLIENT_SETTINGS,
+  GRPC_RATING_CLIENT_SETTINGS,
   GRPC_ITEMS_CLIENT_SETTINGS,
   GRPC_COMMENTS_CLIENT_SETTINGS,
   GRPC_MAP_CLIENT_SETTINGS,
@@ -1693,6 +1694,325 @@ export class UsersClient {
   ): Observable<thisProto.APIUsersResponse> {
     return this.$raw
       .getUsers(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Rating
+ */
+@Injectable({ providedIn: 'any' })
+export class RatingClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Rating/GetUserPicturesRating
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUsersRatingResponse>>
+     */
+    getUserPicturesRating: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUsersRatingResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserPicturesRating',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIUsersRatingResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserPicturesRatingBrands
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>>
+     */
+    getUserPicturesRatingBrands: (
+      requestData: thisProto.UserRatingDetailsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserPicturesRatingBrands',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UserRatingDetailsRequest,
+        responseClass: thisProto.UserPicturesRatingBrandsResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserCommentsRating
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUsersRatingResponse>>
+     */
+    getUserCommentsRating: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUsersRatingResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserCommentsRating',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIUsersRatingResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserCommentsRatingFans
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.GetUserRatingFansResponse>>
+     */
+    getUserCommentsRatingFans: (
+      requestData: thisProto.UserRatingDetailsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.GetUserRatingFansResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserCommentsRatingFans',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UserRatingDetailsRequest,
+        responseClass: thisProto.GetUserRatingFansResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserPictureLikesRating
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUsersRatingResponse>>
+     */
+    getUserPictureLikesRating: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUsersRatingResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserPictureLikesRating',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIUsersRatingResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserPictureLikesRatingFans
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.GetUserRatingFansResponse>>
+     */
+    getUserPictureLikesRatingFans: (
+      requestData: thisProto.UserRatingDetailsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.GetUserRatingFansResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserPictureLikesRatingFans',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UserRatingDetailsRequest,
+        responseClass: thisProto.GetUserRatingFansResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserSpecsRating
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIUsersRatingResponse>>
+     */
+    getUserSpecsRating: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIUsersRatingResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserSpecsRating',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIUsersRatingResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Rating/GetUserSpecsRatingBrands
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>>
+     */
+    getUserSpecsRatingBrands: (
+      requestData: thisProto.UserRatingDetailsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.UserPicturesRatingBrandsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Rating/GetUserSpecsRatingBrands',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UserRatingDetailsRequest,
+        responseClass: thisProto.UserPicturesRatingBrandsResponse
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_RATING_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Rating', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserPicturesRating
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUsersRatingResponse>
+   */
+  getUserPicturesRating(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUsersRatingResponse> {
+    return this.$raw
+      .getUserPicturesRating(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserPicturesRatingBrands
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.UserPicturesRatingBrandsResponse>
+   */
+  getUserPicturesRatingBrands(
+    requestData: thisProto.UserRatingDetailsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.UserPicturesRatingBrandsResponse> {
+    return this.$raw
+      .getUserPicturesRatingBrands(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserCommentsRating
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUsersRatingResponse>
+   */
+  getUserCommentsRating(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUsersRatingResponse> {
+    return this.$raw
+      .getUserCommentsRating(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserCommentsRatingFans
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.GetUserRatingFansResponse>
+   */
+  getUserCommentsRatingFans(
+    requestData: thisProto.UserRatingDetailsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.GetUserRatingFansResponse> {
+    return this.$raw
+      .getUserCommentsRatingFans(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserPictureLikesRating
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUsersRatingResponse>
+   */
+  getUserPictureLikesRating(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUsersRatingResponse> {
+    return this.$raw
+      .getUserPictureLikesRating(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserPictureLikesRatingFans
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.GetUserRatingFansResponse>
+   */
+  getUserPictureLikesRatingFans(
+    requestData: thisProto.UserRatingDetailsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.GetUserRatingFansResponse> {
+    return this.$raw
+      .getUserPictureLikesRatingFans(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserSpecsRating
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIUsersRatingResponse>
+   */
+  getUserSpecsRating(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIUsersRatingResponse> {
+    return this.$raw
+      .getUserSpecsRating(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Rating/GetUserSpecsRatingBrands
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.UserPicturesRatingBrandsResponse>
+   */
+  getUserSpecsRatingBrands(
+    requestData: thisProto.UserRatingDetailsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.UserPicturesRatingBrandsResponse> {
+    return this.$raw
+      .getUserSpecsRatingBrands(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
