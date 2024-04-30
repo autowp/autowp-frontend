@@ -16,7 +16,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {
-  private readonly change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<void>(void 0);
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly isSpecsAdmin$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.ADMIN);
   protected readonly tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') || 'info'));
@@ -62,7 +62,7 @@ export class CarsSpecificationsEditorComponent {
   ) {}
 
   protected onEngineChanged() {
-    this.change$.next(null);
+    this.change$.next();
   }
 
   protected refreshInheritance(item: APIItem) {

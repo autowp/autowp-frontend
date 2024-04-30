@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
-import {getAttrsTranslation, getUnitTranslation} from '@utils/translations';
+import {getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
 import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ export class CarsSpecsAdminComponent implements OnInit {
   protected readonly move = {
     item_id: null,
   };
-  private readonly move$ = new BehaviorSubject<boolean>(false);
+  private readonly move$ = new BehaviorSubject<void>(void 0);
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_id') || '', 10)),
@@ -87,13 +87,13 @@ export class CarsSpecsAdminComponent implements OnInit {
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
-          this.move$.next(true);
+          this.move$.next();
         },
       });
   }
 
-  protected getUnitTranslation(id: string, type: string): string {
-    return getUnitTranslation(id, type);
+  protected getUnitNameTranslation(id: string): string {
+    return getUnitNameTranslation(id);
   }
 
   protected getAttrsTranslation(id: string): string {

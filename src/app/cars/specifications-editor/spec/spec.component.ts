@@ -8,7 +8,8 @@ import {
   getAttrDescriptionTranslation,
   getAttrListOptionsTranslation,
   getAttrsTranslation,
-  getUnitTranslation,
+  getUnitAbbrTranslation,
+  getUnitNameTranslation,
 } from '@utils/translations';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, forkJoin, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -97,7 +98,7 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected loading = 0;
   private readonly change$ = new BehaviorSubject<void>(void 0);
-  protected invalidParams: InvalidParams | null;
+  protected invalidParams: InvalidParams | null = null;
 
   protected readonly user$ = this.auth.getUser$();
 
@@ -314,8 +315,12 @@ export class CarsSpecificationsEditorSpecComponent {
     return result;
   }
 
-  protected getUnitTranslation(id: string, type: string): string {
-    return getUnitTranslation(id, type);
+  protected getUnitNameTranslation(id: string): string {
+    return getUnitNameTranslation(id);
+  }
+
+  protected getUnitAbbrTranslation(id: string): string {
+    return getUnitAbbrTranslation(id);
   }
 
   protected getAttrsTranslation(id: string): string {

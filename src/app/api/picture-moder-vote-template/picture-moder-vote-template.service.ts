@@ -15,7 +15,7 @@ export interface APIPictureModerVoteTemplatePostData {
   providedIn: 'root',
 })
 export class APIPictureModerVoteTemplateService {
-  private readonly change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<void>(void 0);
 
   constructor(
     private readonly auth: AuthService,
@@ -33,7 +33,7 @@ export class APIPictureModerVoteTemplateService {
   public deleteTemplate$(id: string): Observable<Empty | void> {
     return this.pictures
       .deleteModerVoteTemplate(new DeleteModerVoteTemplateRequest({id}))
-      .pipe(tap(() => this.change$.next(null)));
+      .pipe(tap(() => this.change$.next()));
   }
 
   public createTemplate$(template: APIPictureModerVoteTemplatePostData): Observable<ModerVoteTemplate> {
@@ -44,6 +44,6 @@ export class APIPictureModerVoteTemplateService {
           vote: template.vote,
         }),
       )
-      .pipe(tap(() => this.change$.next(null)));
+      .pipe(tap(() => this.change$.next()));
   }
 }

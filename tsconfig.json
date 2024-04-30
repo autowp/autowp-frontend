@@ -29,7 +29,8 @@
       "@services/*": ["app/services/*"],
       "@utils/*": ["app/utils/*"]
     },
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "strict": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true

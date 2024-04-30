@@ -16,8 +16,8 @@ export class ModerItemsItemSelectParentTreeComponent {
   }
   protected readonly itemParent$ = new BehaviorSubject<APIItemParent | null>(null);
 
-  @Input() order: string;
-  @Input() disableItemID: string;
+  @Input() order?: string;
+  @Input() disableItemID?: string;
   @Output() selected = new EventEmitter<string>();
 
   protected readonly item$ = this.itemParent$.pipe(

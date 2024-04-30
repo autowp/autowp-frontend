@@ -27,9 +27,9 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './comments.component.html',
 })
 export class ModerCommentsComponent implements OnInit {
-  protected moderatorAttention: ModeratorAttention;
+  protected moderatorAttention?: ModeratorAttention;
 
-  protected itemID: null | string;
+  protected itemID: null | string = null;
   protected itemQuery = '';
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[] | undefined> = (
     text$: Observable<string>,
@@ -62,7 +62,7 @@ export class ModerCommentsComponent implements OnInit {
       }),
     );
 
-  private userID: null | string;
+  private userID: null | string = null;
   protected userQuery = '';
   protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,

@@ -57,12 +57,12 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
   templateUrl: './carousel-item.component.html',
 })
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
-  @Input() item: APIGalleryItem;
+  @Input() item?: APIGalleryItem;
   @Input() prefix: string[] = [];
 
-  protected fullStyle;
+  protected fullStyle: {[key: string]: number} = {};
 
-  protected cropStyle;
+  protected cropStyle: {[key: string]: number} = {};
 
   protected cropMode = true;
 
@@ -114,6 +114,11 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
     if (!this.el) {
       console.debug('this.el is undefined', this.el);
     }
+
+    if (!this.item) {
+      return;
+    }
+
     const $inner = $(this.el.nativeElement);
     const w = $inner.width() || 0;
     const h = $inner.height() || 0;
@@ -215,13 +220,14 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   private areasToBounds(offsetBounds: Bounds) {
-    this.item.areas.forEach((area) => {
-      area.styles = {
-        'height.px': area.area.height * offsetBounds.height,
-        'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
-        'top.px': offsetBounds.top + area.area.top * offsetBounds.height,
-        'width.px': area.area.width * offsetBounds.width,
-      };
-    });
+    this.item &&
+      this.item.areas.forEach((area) => {
+        area.styles = {
+          'height.px': area.area.height * offsetBounds.height,
+          'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
+          'top.px': offsetBounds.top + area.area.top * offsetBounds.height,
+          'width.px': area.area.width * offsetBounds.width,
+        };
+      });
   }
 }

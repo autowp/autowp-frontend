@@ -33,7 +33,7 @@
         </div>
         <div class="mb-3" *ngIf="attribute.unitId !== '0'">
           <label i18n>Unit</label>
-          {{ getUnitTranslation(attribute.unitId, 'name') }}
+          {{ getUnitNameTranslation(attribute.unitId) }}
         </div>
         <div class="mb-3" *ngIf="attribute.description">
           <label i18n>Description</label>
@@ -71,7 +71,7 @@
               <span *ngIf="!attribute.typeId">—</span>
             </td>
             <td>
-              <span *ngIf="attribute.unitId" [textContent]="getUnitTranslation(attribute.unitId, 'name')"></span>
+              <span *ngIf="attribute.unitId" [textContent]="getUnitNameTranslation(attribute.unitId)"></span>
               <span *ngIf="!attribute.unitId">—</span>
             </td>
           </tr>

@@ -53,7 +53,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   protected hasSelectedItem = false;
   private selected: number[] = [];
 
-  protected status: null | string;
+  protected status: null | string = null;
   protected readonly statusOptions = [
     {
       name: $localize`any`,
@@ -84,7 +84,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: null,
     },
   ];
-  protected vehicleTypeID: null | number;
+  protected vehicleTypeID: null | number = null;
 
   private readonly defaultPerspectiveOptions: PerspectiveInList[] = [
     {
@@ -108,7 +108,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
-  protected perspectiveID: 'null' | null | number;
+  protected perspectiveID: 'null' | null | number = null;
 
   protected readonly commentsOptions = [
     {
@@ -124,7 +124,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  protected comments: boolean | null;
+  protected comments: boolean | null = null;
 
   protected readonly replaceOptions = [
     {
@@ -140,7 +140,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  protected replace: boolean | null;
+  protected replace: boolean | null = null;
 
   protected readonly requestsOptions = [
     {
@@ -164,7 +164,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 3,
     },
   ];
-  protected requests: null | number;
+  protected requests: null | number = null;
 
   protected readonly orderOptions = [
     {
@@ -216,14 +216,14 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       value: 13,
     },
   ];
-  protected order: number;
+  protected order: number = 0;
 
   protected similar = false;
   protected gps = false;
   protected lost = false;
   protected specialName = false;
 
-  protected ownerID: number;
+  protected ownerID: number = 0;
   protected ownerQuery = '';
   protected readonly ownersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,
@@ -261,7 +261,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       }),
     );
 
-  protected itemID: number;
+  protected itemID: number = 0;
   protected itemQuery = '';
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
@@ -305,13 +305,13 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
-  private readonly change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<void>(void 0);
 
-  protected addedFrom: null | string;
+  protected addedFrom: null | string = null;
   private readonly addedFrom$ = new BehaviorSubject<null | string>('');
-  private addedFromSub: Subscription;
+  private addedFromSub?: Subscription = undefined;
 
-  protected excludeItemID: number;
+  protected excludeItemID: number = 0;
   protected excludeItemQuery = '';
 
   protected readonly data$: Observable<{
@@ -453,7 +453,9 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.addedFromSub.unsubscribe();
+    if (this.addedFromSub) {
+      this.addedFromSub.unsubscribe();
+    }
   }
 
   protected onPictureSelect(active: boolean, picture: APIPicture) {
@@ -544,7 +546,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       }
 
       forkJoin(promises).subscribe(() => {
-        this.change$.next(null);
+        this.change$.next();
       });
     }
     this.selected = [];
@@ -569,7 +571,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       }
 
       forkJoin(promises).subscribe(() => {
-        this.change$.next(null);
+        this.change$.next();
       });
     }
     this.selected = [];

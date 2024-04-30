@@ -1,14 +1,14 @@
 import {ChangeDetectorRef, NgZone, OnDestroy, Pipe, PipeTransform} from '@angular/core';
 import {LanguageService} from '@services/language';
 
-const is = (interval, cycle) => (Math.abs(cycle) >= interval ? Math.round(cycle / interval) : 0);
+const is = (interval: number, cycle: number) => (Math.abs(cycle) >= interval ? Math.round(cycle / interval) : 0);
 
 @Pipe({name: 'timeAgo', pure: false})
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
-  private currentTimer: null | number;
-  private lastTime: number;
-  private lastValue: Date;
-  private lastText: string;
+  private currentTimer: null | number = null;
+  private lastTime: null | number = null;
+  private lastValue: Date | null = null;
+  private lastText: string = '';
 
   constructor(
     private readonly cdRef: ChangeDetectorRef,
@@ -92,19 +92,23 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
       return;
     }
 
-    const timeToUpdate = this.getSecondsUntilUpdate(this.lastValue) * 1000;
-    this.currentTimer = this.ngZone.runOutsideAngular(() => {
-      if (typeof window !== 'undefined') {
-        return window.setTimeout(() => {
-          this.lastText = this.format(this.lastValue);
+    if (this.lastValue) {
+      const timeToUpdate = this.getSecondsUntilUpdate(this.lastValue) * 1000;
+      this.currentTimer = this.ngZone.runOutsideAngular(() => {
+        if (typeof window !== 'undefined') {
+          return window.setTimeout(() => {
+            if (this.lastValue) {
+              this.lastText = this.format(this.lastValue);
+            }
 
-          this.currentTimer = null;
-          this.ngZone.run(() => this.cdRef.markForCheck());
-        }, timeToUpdate);
-      } else {
-        return null;
-      }
-    });
+            this.currentTimer = null;
+            this.ngZone.run(() => this.cdRef.markForCheck());
+          }, timeToUpdate);
+        } else {
+          return null;
+        }
+      });
+    }
   }
 
   private removeTimer() {

@@ -33,16 +33,16 @@ interface Tab {
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
+  private routeSub?: Subscription;
   protected loading = 0;
 
   protected item: APIItem | null = null;
   protected specsAllowed = false;
   protected readonly canEditSpecifications$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
 
-  protected tree: APIItemTreeItem;
+  protected tree?: APIItemTreeItem;
 
-  protected randomPicture: APIPicture;
+  protected randomPicture?: APIPicture;
 
   protected readonly metaTab: Tab = {
     count: 0,
@@ -217,7 +217,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub && this.routeSub.unsubscribe();
   }
 
   private initTreeTab() {

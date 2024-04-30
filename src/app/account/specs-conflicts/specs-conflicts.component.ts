@@ -4,7 +4,7 @@ import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
 import {APIUser, UserService} from '@services/user';
-import {getUnitTranslation} from '@utils/translations';
+import {getUnitAbbrTranslation} from '@utils/translations';
 import {Observable, combineLatest} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -86,7 +86,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 188}), 0);
   }
 
-  protected getUnitTranslation(id: string, type: string): string {
-    return getUnitTranslation(id, type);
+  protected getUnitAbbrTranslation(id: string): string {
+    return getUnitAbbrTranslation(id);
   }
 }

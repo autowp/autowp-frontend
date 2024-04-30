@@ -71,7 +71,7 @@ export class InfoTextComponent implements OnInit {
             user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
           }
         : null,
-      diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text) as Diff[],
+      diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text || '') as Diff[],
       next:
         response.next && response.next.revision !== '0'
           ? {

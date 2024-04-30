@@ -10,7 +10,7 @@ import {APIPerspectiveService} from '../../../api/perspective/perspective.servic
 export class ModerPicturesPerspectivePickerComponent {
   protected readonly perspectives$ = this.perspectiveService.getPerspectives$();
 
-  @Input() perspectiveID: number;
+  @Input() perspectiveID?: number;
   @Output() perspectiveChanged = new EventEmitter<number>();
 
   constructor(private readonly perspectiveService: APIPerspectiveService) {}

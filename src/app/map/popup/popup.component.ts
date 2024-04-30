@@ -6,5 +6,5 @@ import {MapPoint} from '@grpc/spec.pb';
   templateUrl: './popup.component.html',
 })
 export class MapPopupComponent {
-  @Input() item: MapPoint;
+  @Input() item?: MapPoint;
 }

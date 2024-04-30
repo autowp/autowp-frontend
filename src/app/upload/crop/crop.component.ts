@@ -4,6 +4,7 @@ import {APIPicture} from '@services/picture';
 import * as $ from 'jquery';
 import {BehaviorSubject, Subscription, combineLatest} from 'rxjs';
 
+// @ts-expect-error Legacy
 import Jcrop from '../../jcrop/jquery.Jcrop';
 
 interface JcropCrop {
@@ -28,8 +29,8 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   private readonly minSize = [400, 300];
 
   private jcrop: Jcrop = null;
-  protected aspect: string;
-  protected resolution: string;
+  protected aspect: string = '';
+  protected resolution: string = '';
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
   private currentCrop: JcropCrop = {
     h: 0,
@@ -37,7 +38,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     x: 0,
     y: 0,
   };
-  private sub: Subscription;
+  private sub?: Subscription;
 
   constructor(protected readonly activeModal: NgbActiveModal) {}
 
@@ -97,7 +98,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub && this.sub.unsubscribe();
   }
 
   protected selectAll(picture: APIPicture) {
@@ -116,8 +117,10 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     this.resolution = text;
   }
 
-  protected onLoad(e) {
-    this.img$.next(e.target);
+  protected onLoad(e: Event) {
+    if (e.target && e.target instanceof HTMLElement) {
+      this.img$.next(e.target);
+    }
   }
 
   protected onSave(picture: APIPicture) {

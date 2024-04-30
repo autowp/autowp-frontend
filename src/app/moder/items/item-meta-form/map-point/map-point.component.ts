@@ -83,9 +83,9 @@ export class MapPointComponent implements ControlValueAccessor {
     zoom: 8,
   };
 
-  private onChange: (_: Point) => void;
+  private onChange?: (_: Point) => void;
 
-  private onTouched: () => void;
+  private onTouched?: () => void;
 
   protected disabled = false;
 
@@ -133,7 +133,7 @@ export class MapPointComponent implements ControlValueAccessor {
         this.lng = event.latlng.lng;
 
         this.markAsTouched();
-        this.onChange({lat: event.latlng.lat, lng: event.latlng.lng});
+        this.onChange && this.onChange({lat: event.latlng.lat, lng: event.latlng.lng});
 
         /*form.patchValue({
           point: {
@@ -165,7 +165,7 @@ export class MapPointComponent implements ControlValueAccessor {
 
     this.markAsTouched();
     if (lat && lng) {
-      this.onChange({lat, lng});
+      this.onChange && this.onChange({lat, lng});
     }
 
     /*const lat = parseFloat(point.get('lat').value);
@@ -177,7 +177,7 @@ export class MapPointComponent implements ControlValueAccessor {
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched && this.onTouched();
       this.touched = true;
     }
   }

@@ -17,11 +17,11 @@ export interface APIItemAlphaGetResponse {
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
-  protected char: null | string;
-  private querySub: Subscription;
+  protected char: null | string = null;
+  private querySub?: Subscription;
   protected loading = 0;
   protected paginator?: Pages | null = null;
-  protected groups: string[][];
+  protected groups: string[][] = [];
   protected items?: APIItem[];
 
   constructor(
@@ -77,6 +77,6 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub.unsubscribe();
+    this.querySub && this.querySub.unsubscribe();
   }
 }

@@ -8,7 +8,7 @@ import {PageEnvService} from '@services/page-env.service';
 })
 export class ModerItemsTooBigComponent implements OnInit {
   protected loading = false;
-  protected items: APIItem[];
+  protected items: APIItem[] = [];
 
   constructor(
     private readonly itemService: ItemService,

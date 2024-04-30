@@ -13,7 +13,7 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   template: '<h2>Redirecting …</h2>',
 })
 export class MessageComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
+  private routeSub?: Subscription;
 
   constructor(
     private readonly router: Router,
@@ -49,6 +49,6 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub && this.routeSub.unsubscribe();
   }
 }

@@ -4,7 +4,7 @@
   </span>
   <div [innerHTML]="html"></div>
 </ng-template>
-<span>
+<span *ngIf="category">
   <a [routerLink]="['/category', category.catname]">{{ category.name }}</a>
   <span class="count"
     >({{ category.count - category.newCount

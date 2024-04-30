@@ -1,44 +1,46 @@
-<img
-  alt=""
-  [src]="item.full.src"
-  [class.crop-mode]="cropMode"
-  *ngIf="item.full"
-  class="full"
-  [ngStyle]="fullStyle"
-  (load)="fullLoaded()"
-/>
-<img
-  alt=""
-  [src]="item.crop.src"
-  [class.crop-mode]="cropMode"
-  *ngIf="item.crop"
-  class="crop"
-  [ngStyle]="cropStyle"
-  (load)="cropLoaded()"
-/>
 <ng-container *ngIf="item">
-  <app-gallery-carousel-item-area [area]="area" [styles]="area.styles" *ngFor="let area of item.areas">
-  </app-gallery-carousel-item-area>
-</ng-container>
-<div class="carousel-caption" *ngIf="item">
-  <h3 [innerHTML]="item.name"></h3>
-</div>
-<a class="download carousel-control" role="button" [href]="item.sourceUrl" *ngIf="item">
-  <i class="bi bi-download" aria-hidden="true"></i>
-  <div class="badge rounded-pill text-bg-info text-dark">{{ item.filesize | bytes: 2 }}</div>
-</a>
-<a class="comments carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
-  <i class="bi bi-chat-fill" aria-hidden="true"></i>
-  <div class="badge rounded-pill text-bg-info text-dark" *ngIf="item.messages">
-    {{ item.messages - item.newMessages }}<span *ngIf="item.newMessages">+{{ item.newMessages }}</span>
+  <img
+    alt=""
+    [src]="item.full.src"
+    [class.crop-mode]="cropMode"
+    *ngIf="item.full"
+    class="full"
+    [ngStyle]="fullStyle"
+    (load)="fullLoaded()"
+  />
+  <img
+    alt=""
+    [src]="item.crop.src"
+    [class.crop-mode]="cropMode"
+    *ngIf="item.crop"
+    class="crop"
+    [ngStyle]="cropStyle"
+    (load)="cropLoaded()"
+  />
+  <ng-container *ngIf="item">
+    <app-gallery-carousel-item-area [area]="area" [styles]="area.styles" *ngFor="let area of item.areas">
+    </app-gallery-carousel-item-area>
+  </ng-container>
+  <div class="carousel-caption" *ngIf="item">
+    <h3 [innerHTML]="item.name"></h3>
   </div>
-</a>
-<a class="details carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
-  <i class="bi bi-card-image" aria-hidden="true"></i>
-</a>
-<div class="loading-icon" *ngIf="cropLoading || fullLoading">
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</div>
-<span class="carousel-control-full" *ngIf="item && item.crop && !cropLoading && !fullLoading" (click)="toggleCrop()"
-  ><i class="bi bi-arrows-fullscreen" aria-hidden="true"></i
-></span>
+  <a class="download carousel-control" role="button" [href]="item.sourceUrl" *ngIf="item">
+    <i class="bi bi-download" aria-hidden="true"></i>
+    <div class="badge rounded-pill text-bg-info text-dark">{{ item.filesize | bytes: 2 }}</div>
+  </a>
+  <a class="comments carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
+    <i class="bi bi-chat-fill" aria-hidden="true"></i>
+    <div class="badge rounded-pill text-bg-info text-dark" *ngIf="item.messages">
+      {{ item.messages - item.newMessages }}<span *ngIf="item.newMessages">+{{ item.newMessages }}</span>
+    </div>
+  </a>
+  <a class="details carousel-control" role="button" [routerLink]="prefix.concat([item.identity])" *ngIf="item">
+    <i class="bi bi-card-image" aria-hidden="true"></i>
+  </a>
+  <div class="loading-icon" *ngIf="cropLoading || fullLoading">
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  </div>
+  <span class="carousel-control-full" *ngIf="item && item.crop && !cropLoading && !fullLoading" (click)="toggleCrop()"
+    ><i class="bi bi-arrows-fullscreen" aria-hidden="true"></i
+  ></span>
+</ng-container>

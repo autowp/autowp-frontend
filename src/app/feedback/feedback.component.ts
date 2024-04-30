@@ -18,8 +18,8 @@ const CAPTCHA = 'captcha';
   templateUrl: './feedback.component.html',
 })
 export class FeedbackComponent implements OnInit {
-  protected recaptchaKey: string;
-  protected invalidParams: InvalidParams;
+  protected recaptchaKey?: string;
+  protected invalidParams?: InvalidParams;
 
   protected readonly form = this.fb.group({
     captcha: '',

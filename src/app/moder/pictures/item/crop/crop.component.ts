@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+// @ts-expect-error Legacy
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 
 interface Crop {
@@ -21,7 +22,7 @@ interface Crop {
   templateUrl: './crop.component.html',
 })
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
+  private routeSub?: Subscription;
   protected aspect = '';
   protected resolution = '';
   private jcrop: Jcrop;
@@ -32,7 +33,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [400, 300];
-  protected picture: APIPicture;
+  protected picture?: APIPicture;
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
 
   constructor(
@@ -116,28 +117,29 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub && this.routeSub.unsubscribe();
   }
 
   protected selectAll() {
-    this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+    this.picture && this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
   }
 
   protected saveCrop() {
-    this.api
-      .request<void>('PUT', 'picture/' + this.picture.id, {
-        body: {
-          crop: {
-            height: Math.round(this.currentCrop.h),
-            left: Math.round(this.currentCrop.x),
-            top: Math.round(this.currentCrop.y),
-            width: Math.round(this.currentCrop.w),
+    this.picture &&
+      this.api
+        .request<void>('PUT', 'picture/' + this.picture.id, {
+          body: {
+            crop: {
+              height: Math.round(this.currentCrop.h),
+              left: Math.round(this.currentCrop.x),
+              top: Math.round(this.currentCrop.y),
+              width: Math.round(this.currentCrop.w),
+            },
           },
-        },
-      })
-      .subscribe(() => {
-        this.router.navigate(['/moder/pictures', this.picture.id]);
-      });
+        })
+        .subscribe(() => {
+          this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
+        });
   }
 
   private updateSelectionText() {
@@ -150,7 +152,9 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     this.resolution = text;
   }
 
-  protected onLoad(e) {
-    this.img$.next(e.target);
+  protected onLoad(e: Event) {
+    if (e.target instanceof HTMLElement) {
+      this.img$.next(e.target);
+    }
   }
 }

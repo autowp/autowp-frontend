@@ -18,10 +18,10 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
   templateUrl: './item-parent.component.html',
 })
 export class ModerItemParentComponent implements OnInit, OnDestroy {
-  private routeSub: Subscription;
-  protected item: APIItem;
-  protected parent: APIItem;
-  protected itemParent: APIItemParent;
+  private routeSub?: Subscription;
+  protected item?: APIItem;
+  protected parent?: APIItem;
+  protected itemParent?: APIItemParent;
   protected languages: {
     invalidParams: InvalidParams | null;
     language: string;
@@ -125,18 +125,22 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub && this.routeSub.unsubscribe();
   }
 
   protected reloadItemParent() {
-    this.api
-      .request<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
-      .subscribe((response) => {
-        this.itemParent = response;
-      });
+    this.itemParent &&
+      this.api
+        .request<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
+        .subscribe((response) => {
+          this.itemParent = response;
+        });
   }
 
   protected save() {
+    if (!this.itemParent) {
+      return;
+    }
     const promises: Observable<void>[] = [
       this.api.request<void>('PUT', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id, {
         body: {

@@ -9,7 +9,7 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class CarsSelectEngineTreeItemComponent {
-  @Input() item: APIItemParent;
+  @Input() item?: APIItemParent;
   @Output() selected = new EventEmitter<number>();
 
   protected open = false;
@@ -23,24 +23,25 @@ export class CarsSelectEngineTreeItemComponent {
 
   private loadChildCatalogues() {
     this.loading = true;
-    this.itemParentService
-      .getItems$({
-        fields: 'item.name_html,item.childs_count',
-        item_type_id: ItemType.ITEM_TYPE_ENGINE,
-        limit: 500,
-        order: 'type_auto',
-        parent_id: this.item.item_id,
-      })
-      .subscribe({
-        error: (response: unknown) => {
-          this.toastService.handleError(response);
-          this.loading = false;
-        },
-        next: (response) => {
-          this.childs = response.items;
-          this.loading = false;
-        },
-      });
+    this.item &&
+      this.itemParentService
+        .getItems$({
+          fields: 'item.name_html,item.childs_count',
+          item_type_id: ItemType.ITEM_TYPE_ENGINE,
+          limit: 500,
+          order: 'type_auto',
+          parent_id: this.item.item_id,
+        })
+        .subscribe({
+          error: (response: unknown) => {
+            this.toastService.handleError(response);
+            this.loading = false;
+          },
+          next: (response) => {
+            this.childs = response.items;
+            this.loading = false;
+          },
+        });
   }
 
   protected selectEngine(engineId: number) {

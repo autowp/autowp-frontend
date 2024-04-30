@@ -22,7 +22,7 @@ interface ListItem {
   templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {
-  private readonly change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<ListItem[]> = this.change$.pipe(
     switchMap(() => this.trafficGrpc.getTop(new Empty())),
@@ -52,7 +52,7 @@ export class ModerTrafficComponent implements OnInit {
   }
 
   protected addToWhitelist(ip: string) {
-    this.trafficGrpc.addToWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.change$.next(null));
+    this.trafficGrpc.addToWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.change$.next());
   }
 
   protected addToBlacklist(ip: string) {
@@ -64,12 +64,12 @@ export class ModerTrafficComponent implements OnInit {
           reason: '',
         }),
       )
-      .subscribe(() => this.change$.next(null));
+      .subscribe(() => this.change$.next());
   }
 
   protected removeFromBlacklist(ip: string) {
     this.trafficGrpc
       .deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip}))
-      .subscribe(() => this.change$.next(null));
+      .subscribe(() => this.change$.next());
   }
 }

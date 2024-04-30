@@ -3,7 +3,7 @@ import {BrandIcons} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APIService} from '@services/api.service';
-import {APIBrandsGetResponse, APIBrandsLines} from '@services/brands.service';
+import {APIBrandsChar, APIBrandsGetResponse, APIBrandsLines} from '@services/brands.service';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, map, shareReplay, tap} from 'rxjs/operators';
@@ -65,7 +65,7 @@ export class BrandsComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 61}), 0);
   }
 
-  protected scrollTo(info) {
+  protected scrollTo(info: APIBrandsChar) {
     const element = document.getElementById('char' + info.id);
     if (element) {
       element.scrollIntoView({behavior: 'smooth'});

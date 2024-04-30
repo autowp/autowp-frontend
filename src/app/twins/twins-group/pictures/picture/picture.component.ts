@@ -15,7 +15,7 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
 })
 export class TwinsGroupPictureComponent {
   protected readonly user$ = this.auth.getUser$();
-  private readonly changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   protected readonly group$: Observable<APIItem | null> = this.route.parent!.parent!.paramMap.pipe(
     map((route) => parseInt(route.get('group') || '', 10)),
@@ -122,6 +122,6 @@ export class TwinsGroupPictureComponent {
   ) {}
 
   protected reloadPicture() {
-    this.changed$.next(true);
+    this.changed$.next();
   }
 }

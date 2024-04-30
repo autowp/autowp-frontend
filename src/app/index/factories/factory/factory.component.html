@@ -4,7 +4,7 @@
   </span>
   <div [innerHTML]="html"></div>
 </ng-template>
-<span>
+<span *ngIf="factory">
   <a [routerLink]="['/factories', factory.id]">{{ factory.name }}</a>
   <span class="count"
     >({{ factory.count - factory.newCount

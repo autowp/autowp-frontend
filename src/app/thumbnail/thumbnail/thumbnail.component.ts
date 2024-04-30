@@ -18,8 +18,8 @@ interface ThumbnailAPIPicture extends APIPicture {
   templateUrl: './thumbnail.component.html',
 })
 export class ThumbnailComponent {
-  @Input() picture: ThumbnailAPIPicture;
-  @Input() route: string[];
+  @Input() picture: ThumbnailAPIPicture | null = null;
+  @Input() route: string[] = [];
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
@@ -33,7 +33,7 @@ export class ThumbnailComponent {
   ) {}
 
   protected savePerspective() {
-    if (this.picture.perspective_item) {
+    if (this.picture && this.picture.perspective_item) {
       this.pictureItemService
         .setPerspective$(
           this.picture.id,
@@ -46,8 +46,10 @@ export class ThumbnailComponent {
   }
 
   protected onPictureSelect() {
-    this.picture.selected = !this.picture.selected;
-    this.selected.emit(this.picture.selected);
+    if (this.picture) {
+      this.picture.selected = !this.picture.selected;
+      this.selected.emit(this.picture.selected);
+    }
   }
 
   protected getPerspectiveTranslation(id: string): string {

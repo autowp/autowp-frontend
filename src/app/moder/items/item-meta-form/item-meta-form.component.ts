@@ -123,8 +123,8 @@ export interface ParentIsConcept {
   templateUrl: './item-meta-form.component.html',
 })
 export class ItemMetaFormComponent {
-  @Input() submitNotify: () => void;
-  @Input() invalidParams: InvalidParams;
+  @Input() submitNotify: () => void = () => {};
+  @Input() invalidParams?: InvalidParams;
   @Output() submitted = new EventEmitter<ItemMetaFormResult>();
 
   @Input() set disableIsGroup(disableIsGroup: boolean) {

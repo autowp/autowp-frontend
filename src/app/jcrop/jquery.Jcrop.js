@@ -34,19 +34,9 @@ import {hasTouchSupport} from "./touch";
 
 // Global Defaults {{{
 const defaults = {
-  // Basic Settings
-  allowSelect: true,
-  allowMove: true,
-  allowResize: true,
-
-  trackDocument: true,
-
   // Styling Options
-  baseClass: 'jcrop',
   addClass: null,
-  bgColor: 'black',
   bgOpacity: 0.6,
-  bgFade: false,
   borderOpacity: 0.4,
   handleOpacity: 0.5,
   handleSize: null,
@@ -55,19 +45,11 @@ const defaults = {
   createHandles: ['n', 's', 'e', 'w', 'nw', 'ne', 'se', 'sw'],
   createDragbars: ['n', 's', 'e', 'w'],
   createBorders: ['n', 's', 'e', 'w'],
-  drawBorders: true,
-  dragEdges: true,
-  fixedSupport: true,
   touchSupport: null,
-
-  shade: null,
 
   boxWidth: 0,
   boxHeight: 0,
   boundary: 2,
-  fadeTime: 400,
-  animationDelay: 20,
-  swingSpeed: 3,
 
   minSelect: [0, 0],
   maxSize: [0, 0],
@@ -164,7 +146,7 @@ function Jcrop(obj, opt) {
       .addClass(cssClass('holder'))
       .css({
         position: 'relative',
-        backgroundColor: options.bgColor
+        backgroundColor: 'black'
       })
       .insertAfter($origimg)
       .append($img);
@@ -206,9 +188,6 @@ function Jcrop(obj, opt) {
       createDragger: function (ord) {
         return function (e) {
           if (options.disabled) {
-            return false;
-          }
-          if (ord === 'move' && !options.allowMove) {
             return false;
           }
           docOffset = getPos($img);
@@ -323,12 +302,10 @@ function Jcrop(obj, opt) {
     }
 
     function moveto(x, y) {
-      if (!options.shade) {
-        $img2.css({
-          top: px(-y),
-          left: px(-x)
-        });
-      }
+      $img2.css({
+        top: px(-y),
+        left: px(-x)
+      });
       $sel.css({
         top: px(y),
         left: px(x)
@@ -360,7 +337,6 @@ function Jcrop(obj, opt) {
 
       resize(c.w, c.h);
       moveto(c.x, c.y);
-      if (options.shade) Shade.updateRaw(c);
 
       awake || show();
 
@@ -369,28 +345,15 @@ function Jcrop(obj, opt) {
       }
     }
 
-    function setBgOpacity(opacity, force, now) {
+    function setBgOpacity(opacity, force) {
       if (!awake && !force) return;
-      if (options.bgFade && !now) {
-        $img.animate(
-          {
-            opacity: opacity
-          },
-          {
-            queue: false,
-            duration: options.fadeTime
-          }
-        );
-      } else {
-        $img.css('opacity', opacity);
-      }
+      $img.css('opacity', opacity);
     }
 
     function show() {
       $sel.show();
 
-      if (options.shade) Shade.opacity(bgopacity);
-      else setBgOpacity(bgopacity, true);
+      setBgOpacity(bgopacity, true);
 
       awake = true;
     }
@@ -399,17 +362,14 @@ function Jcrop(obj, opt) {
       disableHandles();
       $sel.hide();
 
-      if (options.shade) Shade.opacity(1);
-      else setBgOpacity(1);
+      setBgOpacity(1);
 
       awake = false;
     }
 
     function enableHandles() {
-      if (options.allowResize) {
-        $hdl_holder.show();
-        return true;
-      }
+      $hdl_holder.show();
+      return true;
     }
 
     function disableHandles() {
@@ -432,12 +392,12 @@ function Jcrop(obj, opt) {
     // Insert draggable elements {{{
     // Insert border divs for outline
 
-    if (options.dragEdges && Array.isArray(options.createDragbars))
+    if (Array.isArray(options.createDragbars))
       createDragbars(options.createDragbars);
 
     if (Array.isArray(options.createHandles)) createHandles(options.createHandles);
 
-    if (options.drawBorders && Array.isArray(options.createBorders))
+    if (Array.isArray(options.createBorders))
       createBorders(options.createBorders);
 
     // This is a hack for iOS5 to support drag/move touch functionality
@@ -490,10 +450,6 @@ function Jcrop(obj, opt) {
 
     focus: null,
 
-    getBounds: function() {
-      return [boundx * xscale, boundy * yscale];
-    },
-
     ui: {
       holder: $div,
       selection: $sel
@@ -505,8 +461,7 @@ function Jcrop(obj, opt) {
     let onMove = function () {
       },
       onDone = function () {
-      },
-      trackDoc = options.trackDocument;
+      };
 
     function toFront(touch) {
       $trk.css({
@@ -517,7 +472,7 @@ function Jcrop(obj, opt) {
         $(document)
           .on('touchmove.jcrop', trackTouchMove)
           .on('touchend.jcrop', trackTouchEnd);
-      else if (trackDoc)
+      else
         $(document)
           .on('mousemove.jcrop', trackMove)
           .on('mouseup.jcrop', trackUp);
@@ -575,13 +530,6 @@ function Jcrop(obj, opt) {
 
     function setCursor(t) {
       $trk.css('cursor', t);
-    }
-
-    if (!trackDoc) {
-      $trk
-        .on('mousemove', trackMove)
-        .on('mouseup', trackUp)
-        .on('mouseout', trackUp);
     }
 
     $img.before($trk);
@@ -859,10 +807,7 @@ function Jcrop(obj, opt) {
     return Math.round(n) + 'px';
   }
   function cssClass(cl) {
-    return options.baseClass + '-' + cl;
-  }
-  function supportsColorFade() {
-    return $.fx.step.hasOwnProperty('backgroundColor');
+    return 'jcrop-' + cl;
   }
   function getPos(obj) {
     const pos = $(obj).offset();
@@ -975,9 +920,6 @@ function Jcrop(obj, opt) {
       if (options.disabled) {
         return false;
       }
-      if (ord === 'move' && !options.allowMove) {
-        return false;
-      }
 
       // Fix position of crop area when dragged the very first time.
       // Necessary when crop image is in a hidden element when page is loaded.
@@ -1026,14 +968,11 @@ function Jcrop(obj, opt) {
     } else {
       Selection.release();
     }
-    Tracker.setCursor(options.allowSelect ? 'crosshair' : 'default');
+    Tracker.setCursor('crosshair');
   }
 
   function newSelection(e) {
     if (options.disabled) {
-      return false;
-    }
-    if (!options.allowSelect) {
       return false;
     }
     btndown = true;
@@ -1079,7 +1018,7 @@ function Jcrop(obj, opt) {
 
   /* }}} */
   // Set more variables {{{
-  let bgcolor = options.bgColor,
+  let bgcolor = 'black',
     bgopacity = options.bgOpacity,
     xlimit,
     ylimit,
@@ -1090,131 +1029,6 @@ function Jcrop(obj, opt) {
   // }}}
   // }}}
   // Internal Modules {{
-
-  // Shade Module {{{
-  const Shade = (function () {
-    let enabled = false,
-      holder = $('<div />').css({
-        position: 'absolute',
-        zIndex: 240,
-        opacity: 0
-      }),
-      shades = {
-        top: createShade(),
-        left: createShade().height(boundy),
-        right: createShade().height(boundy),
-        bottom: createShade()
-      };
-
-    function resizeShades(w, h) {
-      shades.left.css({height: px(h)});
-      shades.right.css({height: px(h)});
-    }
-
-    function updateAuto() {
-      return updateShade(Coords.getFixed());
-    }
-
-    function updateShade(c) {
-      shades.top.css({
-        left: px(c.x),
-        width: px(c.w),
-        height: px(c.y)
-      });
-      shades.bottom.css({
-        top: px(c.y2),
-        left: px(c.x),
-        width: px(c.w),
-        height: px(boundy - c.y2)
-      });
-      shades.right.css({
-        left: px(c.x2),
-        width: px(boundx - c.x2)
-      });
-      shades.left.css({
-        width: px(c.x)
-      });
-    }
-
-    function createShade() {
-      return $('<div />')
-        .css({
-          position: 'absolute',
-          backgroundColor: options.bgColor
-        })
-        .appendTo(holder);
-    }
-
-    function enableShade() {
-      if (!enabled) {
-        enabled = true;
-        holder.insertBefore($img);
-        updateAuto();
-        Selection.setBgOpacity(1, 0, 1);
-        $img2.hide();
-
-        setBgColor(options.bgColor, 1);
-        if (Selection.isAwake()) {
-          setOpacity(options.bgOpacity, 1);
-        } else setOpacity(1, 1);
-      }
-    }
-
-    function setBgColor(color, now) {
-      colorChangeMacro(getShades(), color, now);
-    }
-
-    function disableShade() {
-      if (enabled) {
-        holder.remove();
-        $img2.show();
-        enabled = false;
-        if (Selection.isAwake()) {
-          Selection.setBgOpacity(options.bgOpacity, 1, 1);
-        } else {
-          Selection.setBgOpacity(1, 1, 1);
-          Selection.disableHandles();
-        }
-        colorChangeMacro($div, 0, 1);
-      }
-    }
-
-    function setOpacity(opacity, now) {
-      if (enabled) {
-        if (options.bgFade && !now) {
-          holder.animate(
-            {
-              opacity: 1 - opacity
-            },
-            {
-              queue: false,
-              duration: options.fadeTime
-            }
-          );
-        } else holder.css({opacity: 1 - opacity});
-      }
-    }
-
-    function refreshAll() {
-      options.shade ? enableShade() : disableShade();
-      if (Selection.isAwake()) setOpacity(options.bgOpacity);
-    }
-
-    function getShades() {
-      return holder.children();
-    }
-
-    return {
-      update: updateAuto,
-      updateRaw: updateShade,
-      getShades: getShades,
-      enable: enableShade,
-      disable: disableShade,
-      resize: resizeShades,
-      refresh: refreshAll,
-      opacity: setOpacity
-    };
-  })();
 
   // }}}
   // API methods {{{
@@ -1265,37 +1079,17 @@ function Jcrop(obj, opt) {
     $(obj).removeData('Jcrop');
   }
 
-  function colorChangeMacro($obj, color, now) {
-    const mycolor = color || options.bgColor;
-    if (options.bgFade && supportsColorFade() && options.fadeTime && !now) {
-      $obj.animate(
-        {
-          backgroundColor: mycolor
-        },
-        {
-          queue: false,
-          duration: options.fadeTime
-        }
-      );
-    } else {
-      $obj.css('backgroundColor', mycolor);
-    }
-  }
   function interfaceUpdate(
     alt // This method tweaks the interface based on options object. // Called when options are changed and at end of initialization.
   ) {
-    if (options.allowResize) {
-      if (alt) {
-        Selection.enableOnly();
-      } else {
-        Selection.enableHandles();
-      }
+    if (alt) {
+      Selection.enableOnly();
     } else {
-      Selection.disableHandles();
+      Selection.enableHandles();
     }
 
-    Tracker.setCursor(options.allowSelect ? 'crosshair' : 'default');
-    Selection.setCursor(options.allowMove ? 'move' : 'default');
+    Tracker.setCursor('crosshair');
+    Selection.setCursor( 'move');
 
     if (options.hasOwnProperty('trueSize')) {
       xscale = options.trueSize[0] / boundx;
@@ -1308,20 +1102,14 @@ function Jcrop(obj, opt) {
       delete options.setSelect;
     }
 
-    Shade.refresh();
-
-    if (options.bgColor !== bgcolor) {
-      colorChangeMacro(
-        options.shade ? Shade.getShades() : $div,
-        options.bgColor
-      );
-      bgcolor = options.bgColor;
+    if ('black' !== bgcolor) {
+      $div.css('backgroundColor', 'black');
+      bgcolor = 'black';
     }
 
     if (bgopacity !== options.bgOpacity) {
       bgopacity = options.bgOpacity;
-      if (options.shade) Shade.refresh();
-      else Selection.setBgOpacity(bgopacity);
+      Selection.setBgOpacity(bgopacity);
     }
 
     xlimit = options.maxSize[0] || 0;

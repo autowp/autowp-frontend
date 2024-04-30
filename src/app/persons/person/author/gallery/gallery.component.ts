@@ -12,8 +12,8 @@ import {APIGalleryItem} from '../../../../gallery/definitions';
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonAuthorGalleryComponent {
-  protected paginator: APIPaginator;
-  protected picturesRouterLink: string[];
+  protected paginator: APIPaginator | null = null;
+  protected picturesRouterLink: string[] = [];
 
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),

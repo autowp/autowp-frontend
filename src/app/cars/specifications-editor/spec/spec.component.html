@@ -120,9 +120,9 @@
                 />
                 <span
                   *ngIf="attribute.unitId !== '0'"
-                  [title]="getUnitTranslation(attribute.unitId, 'name')"
+                  [title]="getUnitNameTranslation(attribute.unitId)"
                   class="unit input-group-text"
-                  [textContent]="getUnitTranslation(attribute.unitId, 'abbr')"
+                  [textContent]="getUnitAbbrTranslation(attribute.unitId)"
                 ></span>
               </div>
               <p
@@ -142,8 +142,8 @@
                     <span
                       *ngIf="attribute.unitId !== '0'"
                       class="unit"
-                      [title]="getUnitTranslation(attribute.unitId, 'name')"
-                      [textContent]="getUnitTranslation(attribute.unitId, 'abbr')"
+                      [title]="getUnitNameTranslation(attribute.unitId)"
+                      [textContent]="getUnitAbbrTranslation(attribute.unitId)"
                     ></span>
                   </span>
                 </div>

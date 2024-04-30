@@ -13,7 +13,7 @@ import {CategoriesService} from '../../service';
   templateUrl: './picture.component.html',
 })
 export class CategoryPictureComponent {
-  private readonly changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   private readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
@@ -124,6 +124,6 @@ export class CategoryPictureComponent {
   ) {}
 
   protected reloadPicture() {
-    this.changed$.next(true);
+    this.changed$.next();
   }
 }

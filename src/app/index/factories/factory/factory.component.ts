@@ -8,7 +8,7 @@ import {APIService} from '@services/api.service';
   templateUrl: './factory.component.html',
 })
 export class IndexFactoriesFactoryComponent {
-  @Input() factory: APITopFactoriesListItem;
+  @Input() factory?: APITopFactoriesListItem;
   protected loading = true;
   protected html = '';
 
@@ -17,14 +17,15 @@ export class IndexFactoriesFactoryComponent {
   protected shown() {
     this.loading = true;
 
-    this.api
-      .request('GET', 'item/' + this.factory.id + '/new-items', {
-        observe: 'body',
-        responseType: 'text',
-      })
-      .subscribe((html) => {
-        this.html = html;
-        this.loading = false;
-      });
+    this.factory &&
+      this.api
+        .request('GET', 'item/' + this.factory.id + '/new-items', {
+          observe: 'body',
+          responseType: 'text',
+        })
+        .subscribe((html) => {
+          this.html = html;
+          this.loading = false;
+        });
   }
 }

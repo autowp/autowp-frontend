@@ -4,6 +4,7 @@
   [class.long-away]="user.longAway"
   [class.green-man]="user.green"
   ngPreserveWhitespaces
+  *ngIf="user"
 >
   <i class="bi bi-person-fill" aria-hidden="true"></i>
   <span *ngIf="user.deleted" i18n>deleted user</span>

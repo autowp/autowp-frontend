@@ -1,4 +1,6 @@
-const translations = {
+const translations: {
+  [key: string]: {'add-sub-item': string; name: string; 'name-plural': string; 'new-item': string};
+} = {
   1: {
     'add-sub-item': $localize`Add sub-vehicle`,
     name: $localize`Vehicle`,
@@ -55,7 +57,9 @@ const translations = {
   },
 };
 
-const units = {
+const units: {
+  [key: string]: {abbr: string; name: string};
+} = {
   '1': {
     abbr: $localize`mm`,
     name: $localize`millimeter`,
@@ -138,7 +142,9 @@ const units = {
   },
 };
 
-const themes = {
+const themes: {
+  [key: string]: string;
+} = {
   'forums/theme/all-other': $localize`All other`,
   'forums/theme/american-cars': $localize`American cars`,
   'forums/theme/british-cars': $localize`British cars`,
@@ -156,7 +162,9 @@ const themes = {
   'forums/theme/this-cite': $localize`This website`,
 };
 
-const themesDescription = {
+const themesDescription: {
+  [key: string]: string;
+} = {
   'forums/theme/all-other/description': $localize`Other topics not included in the above sections`,
   'forums/theme/american-cars/description': $localize`Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …`,
   'forums/theme/british-cars/description': $localize`Aston Martin, Bentley, MG, Rover, …`,
@@ -169,7 +177,9 @@ const themesDescription = {
   'forums/theme/russian-cars/description': $localize`VAZ, GAZ, UAZ, …`,
 };
 
-const prespectives = {
+const prespectives: {
+  [key: string]: string;
+} = {
   'perspective/3/4-left': $localize`¾ left`,
   'perspective/3/4-right': $localize`¾ right`,
   'perspective/back': $localize`back`,
@@ -200,7 +210,9 @@ const prespectives = {
   'perspective/upper-strict': $localize`upper (strict)`,
 };
 
-const vehicleTypes = {
+const vehicleTypes: {
+  [key: string]: string;
+} = {
   'car-type/2-floor-bus': $localize`2-floor bus`,
   'car-type/2door-hardtop': $localize`2-door hardtop`,
   'car-type/4door-hardtop': $localize`4-door hardtop`,
@@ -242,7 +254,9 @@ const vehicleTypes = {
   'car-type/van': $localize`Van`,
 };
 
-const vehicleTypesRp = {
+const vehicleTypesRp: {
+  [key: string]: string;
+} = {
   'car-type-rp/2-floor-bus': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/2-floor-bus:2-floor buses`,
   'car-type-rp/2door-hardtop': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/2door-hardtop:2-door hardtops`,
   'car-type-rp/4door-hardtop': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/4door-hardtop:4-door hardtops`,
@@ -284,7 +298,9 @@ const vehicleTypesRp = {
   'car-type-rp/van': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/van:Vans`,
 };
 
-const attrs = {
+const attrs: {
+  [key: string]: string;
+} = {
   'specs/attrs/14': $localize`geometry`,
   'specs/attrs/14/4': $localize`wheel base`,
   'specs/attrs/14/17': $localize`dimensions`,
@@ -506,7 +522,9 @@ const attrs = {
   'specs/attrs/wheels/auto-pumping-tires': $localize`Auto pumping tires`,
 };
 
-const attrDescriptions = {
+const attrDescriptions: {
+  [key: string]: string;
+} = {
   'specs/attrs/14/17/description': $localize`external dimensions`,
   'specs/attrs/14/167/description': '',
   'specs/attrs/16/12/67/description': $localize`seating`,
@@ -523,7 +541,9 @@ const attrDescriptions = {
   'specs/attrs/54/195/197/description': '',
 };
 
-const attrListOptions = {
+const attrListOptions: {
+  [key: string]: string;
+} = {
   'specs/attrs/15/208/209/options/108': $localize`coil spring`,
   'specs/attrs/15/208/209/options/109': $localize`leaf spring`,
   'specs/attrs/15/208/209/options/110': $localize`pneumatic`,
@@ -744,7 +764,9 @@ const attrListOptions = {
   'specs/attrs/engine/turbo/options/x6': $localize`×6`,
 };
 
-const mostsRatings = {
+const mostsRatings: {
+  [key: string]: string;
+} = {
   'most/air': $localize`air`,
   'most/antiair': $localize`anti air`,
   'most/big-engine': $localize`big engine`,
@@ -776,7 +798,9 @@ const mostsRatings = {
   'most/widest': $localize`widest`,
 };
 
-const mostsRatingsParam = {
+const mostsRatingsParam: {
+  [key: string]: string;
+} = {
   'most/air/param': $localize`drag coefficients`,
   'most/antiair/param': $localize`drag coefficients`,
   'most/big-engine/param': $localize`engine volume`,
@@ -808,7 +832,9 @@ const mostsRatingsParam = {
   'most/widest/param': $localize`width`,
 };
 
-const mostsPeriods = {
+const mostsPeriods: {
+  [key: string]: string;
+} = {
   'mosts/period/1920-29': $localize`1920-29th`,
   'mosts/period/1930-39': $localize`1930-39th`,
   'mosts/period/1940-49': $localize`1940-49th`,
@@ -824,7 +850,9 @@ const mostsPeriods = {
   'mosts/period/present': $localize`present time`,
 };
 
-const catalogueSection = {
+const catalogueSection: {
+  [key: string]: string;
+} = {
   Other: $localize`Other`,
   'catalogue/section/buses': $localize`Buses`,
   'catalogue/section/engines': $localize`Engines`,
@@ -834,11 +862,26 @@ const catalogueSection = {
 };
 
 export function getItemTypeTranslation(id: number, type: string): string {
-  return translations[id] && translations[id][type] ? translations[id][type] : '-';
+  const translation = translations[id];
+  if (!translation) {
+    return '-';
+  }
+  switch (type) {
+    case 'add-sub-item':
+    case 'name-plural':
+    case 'new-item':
+    case 'name':
+      return translation[type];
+  }
+  return '-';
 }
 
-export function getUnitTranslation(id: string, type: string): string {
-  return units[id] && units[id][type] ? units[id][type] : id;
+export function getUnitAbbrTranslation(id: string): string {
+  return units[id] && units[id].abbr ? units[id].abbr : id;
+}
+
+export function getUnitNameTranslation(id: string): string {
+  return units[id] && units[id].name ? units[id].name : id;
 }
 
 export function getForumsThemeTranslation(id: string): string {

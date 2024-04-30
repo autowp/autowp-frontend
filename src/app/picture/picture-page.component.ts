@@ -15,10 +15,10 @@ import {PathItem} from '../categories/service';
   templateUrl: './picture-page.component.html',
 })
 export class PicturePageComponent {
-  protected category: APIItem;
-  protected current: APIItem;
-  protected path: PathItem[];
-  private readonly changed$ = new BehaviorSubject<boolean>(false);
+  protected category: APIItem | null = null;
+  protected current: APIItem | null = null;
+  protected path: PathItem[] = [];
+  private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   protected readonly picture$: Observable<APIPicture | null> = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
@@ -95,6 +95,6 @@ export class PicturePageComponent {
   ) {}
 
   protected reloadPicture() {
-    this.changed$.next(true);
+    this.changed$.next();
   }
 }

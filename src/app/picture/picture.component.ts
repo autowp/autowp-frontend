@@ -16,7 +16,7 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class PictureComponent {
   @Input() prefix: string[] = [];
-  @Input() galleryRoute: string[];
+  @Input() galleryRoute: string[] = [];
   @Input() h2 = false;
   @Output() changed = new EventEmitter<boolean>();
 
@@ -97,7 +97,7 @@ export class PictureComponent {
     window.open(picture.image.src);
   }
 
-  protected openGallery(picture: APIPicture, $event) {
+  protected openGallery(picture: APIPicture, $event: MouseEvent) {
     if ($event.ctrlKey) {
       this.openSource(picture);
       return;

@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {environment} from '@environment/environment';
 import {APIUser} from '@grpc/spec.pb';
 import {APIImage, APIService} from '@services/api.service';
@@ -20,7 +20,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {
-  protected user: APIUser;
+  protected user?: APIUser;
 
   protected readonly settings: {language: null | string; timezone: null | string} = {
     language: null,
@@ -30,10 +30,10 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   protected photoInvalidParams: InvalidParams = {};
   protected votesPerDay: number = 0;
   protected votesLeft: number = 0;
-  protected photo: APIImage | null;
-  private sub: Subscription;
+  protected photo: APIImage | null = null;
+  private sub?: Subscription;
 
-  @ViewChild('input') input;
+  @ViewChild('input') input?: ElementRef;
 
   protected readonly changeProfileUrl =
     environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
@@ -95,7 +95,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub && this.sub.unsubscribe();
   }
 
   private showSavedMessage() {
@@ -128,7 +128,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     this.api.request('DELETE', 'user/me/photo').subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
-        this.user.avatar = undefined;
+        if (this.user) {
+          this.user.avatar = undefined;
+        }
         this.photo = null;
       },
     });
@@ -149,7 +151,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .request('POST', 'user/me/photo', {body: formData})
       .pipe(
         catchError((response: unknown) => {
-          this.input.nativeElement.value = '';
+          if (this.input) {
+            this.input.nativeElement.value = '';
+          }
           if (response instanceof HttpErrorResponse && response.status === 400) {
             this.photoInvalidParams = response.error.invalid_params;
             return EMPTY;
@@ -159,7 +163,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           return EMPTY;
         }),
         tap(() => {
-          this.input.nativeElement.value = '';
+          if (this.input) {
+            this.input.nativeElement.value = '';
+          }
         }),
         switchMap(() =>
           this.api.request<RESTAPIUser>('GET', 'user/me', {

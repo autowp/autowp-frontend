@@ -8,8 +8,8 @@ import {APIItem} from '@services/item';
   templateUrl: './item.component.html',
 })
 export class TwinsItemComponent {
-  @Input() item: APIItem;
-  @Input() group: APIItem;
+  @Input() item: APIItem | null = null;
+  @Input() group: APIItem | null = null;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 

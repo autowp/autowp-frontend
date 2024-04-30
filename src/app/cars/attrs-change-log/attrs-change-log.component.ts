@@ -4,7 +4,7 @@ import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {PageEnvService} from '@services/page-env.service';
 import {APIUser, UserService} from '@services/user';
-import {getAttrsTranslation, getUnitTranslation} from '@utils/translations';
+import {getAttrsTranslation} from '@utils/translations';
 import {EMPTY, Observable, Subscription, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './attrs-change-log.component.html',
 })
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
+  private querySub?: Subscription;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -128,11 +128,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-  }
-
-  protected getUnitTranslation(id: string, type: string): string {
-    return getUnitTranslation(id, type);
+    this.querySub && this.querySub.unsubscribe();
   }
 
   protected getAttrsTranslation(id: string): string {

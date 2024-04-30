@@ -52,7 +52,7 @@ export interface CatalogueListItem {
   templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {
-  @Input() item: CatalogueListItem;
+  @Input() item: CatalogueListItem | null = null;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -74,7 +74,7 @@ export class CatalogueListItemComponent {
   }
 
   protected thumbnailColClass() {
-    if (this.item.preview_pictures.pictures.length === 3) {
+    if (this.item && this.item.preview_pictures.pictures.length === 3) {
       return 'col-sm-4';
     }
 

@@ -9,7 +9,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './modal-message.component.html',
 })
 export class ModalMessageComponent {
-  @Input() userId: string;
+  @Input() userId?: string;
 
   protected text = '';
   protected sending = false;
@@ -25,18 +25,19 @@ export class ModalMessageComponent {
     this.sending = true;
     this.sent = false;
 
-    this.messageService.send$(this.userId, this.text).subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
-      next: () => {
-        this.sending = false;
-        this.sent = true;
-        this.text = '';
+    this.userId &&
+      this.messageService.send$(this.userId, this.text).subscribe({
+        error: (response: unknown) => this.toastService.handleError(response),
+        next: () => {
+          this.sending = false;
+          this.sent = true;
+          this.text = '';
 
-        this.activeModal.close();
+          this.activeModal.close();
 
-        this.toastService.success('Ok');
-      },
-    });
+          this.toastService.success('Ok');
+        },
+      });
   }
 
   protected keypress() {

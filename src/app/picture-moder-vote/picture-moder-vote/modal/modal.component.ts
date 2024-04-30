@@ -9,8 +9,8 @@ import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vot
   templateUrl: './modal.component.html',
 })
 export class PictureModerVoteModalComponent {
-  @Input() pictureId: number;
-  @Input() vote: number;
+  @Input() pictureId?: number;
+  @Input() vote: number = 0;
   @Output() voted = new EventEmitter();
 
   protected reason = '';
@@ -24,15 +24,18 @@ export class PictureModerVoteModalComponent {
 
   protected ok() {
     if (this.save) {
-      this.templateService
-        .createTemplate$({
-          name: this.reason,
-          vote: this.vote,
-        })
-        .subscribe();
+      this.vote &&
+        this.templateService
+          .createTemplate$({
+            name: this.reason,
+            vote: this.vote,
+          })
+          .subscribe();
     }
 
-    this.moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+    this.pictureId &&
+      this.vote &&
+      this.moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
 
     this.activeModal.close();
   }

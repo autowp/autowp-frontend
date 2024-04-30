@@ -15,7 +15,7 @@ export class BrandsItemComponent {
   }
   protected readonly brand$ = new BehaviorSubject<APIBrandsBrand | null>(null);
 
-  @Input() icons: BrandIcons;
+  @Input() icons?: BrandIcons;
 
   protected readonly html$ = this.brand$.pipe(
     switchMap((brand) =>

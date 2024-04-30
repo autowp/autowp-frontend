@@ -17,5 +17,5 @@ export interface ItemHeader {
   templateUrl: './item-header.component.html',
 })
 export class ItemHeaderComponent {
-  @Input() item: ItemHeader;
+  @Input() item: ItemHeader | null = null;
 }

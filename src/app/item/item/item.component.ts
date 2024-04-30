@@ -8,10 +8,10 @@ import {APIItem} from '@services/item';
   templateUrl: './item.component.html',
 })
 export class ItemComponent {
-  @Input() item: APIItem;
-  @Input() disableTitle: boolean;
-  @Input() disableDescription: boolean;
-  @Input() disableDetailsLink: boolean;
+  @Input() item?: APIItem;
+  @Input() disableTitle: boolean = false;
+  @Input() disableDescription: boolean = false;
+  @Input() disableDetailsLink: boolean = false;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -33,7 +33,7 @@ export class ItemComponent {
   }
 
   protected thumbnailColClass() {
-    if (this.item.preview_pictures.pictures.length === 3) {
+    if (this.item && this.item.preview_pictures.pictures.length === 3) {
       return 'col-sm-4';
     }
 

@@ -1,4 +1,4 @@
-<div class="map-infowindow">
+<div class="map-infowindow" *ngIf="item">
   <h5 [textContent]="item.name"></h5>
   <p *ngIf="item.image">
     <img alt="" [src]="item.image.src" style="max-width: 100%" />

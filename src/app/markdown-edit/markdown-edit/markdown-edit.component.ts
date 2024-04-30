@@ -5,7 +5,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   templateUrl: './markdown-edit.component.html',
 })
 export class MarkdownEditComponent {
-  @Input() text: string;
+  @Input() text: string = '';
   @Output() textChange = new EventEmitter();
 
   protected onChange() {

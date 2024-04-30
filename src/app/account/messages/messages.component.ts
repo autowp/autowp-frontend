@@ -16,8 +16,8 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './messages.component.html',
 })
 export class AccountMessagesComponent {
-  protected folder: string;
-  private readonly change$ = new BehaviorSubject<null>(null);
+  protected folder: string = '';
+  private readonly change$ = new BehaviorSubject<void>(void 0);
 
   protected pageName = '';
 
@@ -112,7 +112,7 @@ export class AccountMessagesComponent {
     this.messageService.deleteMessage$(id).subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
       },
     });
 
@@ -123,7 +123,7 @@ export class AccountMessagesComponent {
     this.messageService.clearFolder$(folder).subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
       },
     });
   }
@@ -133,7 +133,7 @@ export class AccountMessagesComponent {
       switch (this.folder) {
         case 'sent':
         case 'dialog':
-          this.change$.next(null);
+          this.change$.next();
           break;
       }
     });

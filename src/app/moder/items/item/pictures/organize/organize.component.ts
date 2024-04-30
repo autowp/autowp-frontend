@@ -19,7 +19,7 @@ import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.compone
 })
 export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   protected loading = 0;
-  protected invalidParams: InvalidParams;
+  protected invalidParams?: InvalidParams;
 
   private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),

@@ -9,16 +9,18 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {ToastsService} from '../toasts/toasts.service';
 
+interface Period {
+  active: boolean;
+  name: string;
+  value: PulseRequest.Period;
+}
+
 @Component({
   selector: 'app-pulse',
   templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {
-  protected readonly periods: {
-    active: boolean;
-    name: string;
-    value: PulseRequest.Period;
-  }[] = [
+  protected readonly periods: Period[] = [
     {
       active: true,
       name: 'Day',
@@ -99,7 +101,7 @@ export class PulseComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 161}), 0);
   }
 
-  protected selectPeriod(period) {
+  protected selectPeriod(period: Period) {
     for (const p of this.periods) {
       p.active = false;
     }

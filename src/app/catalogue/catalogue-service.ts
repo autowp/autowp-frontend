@@ -20,7 +20,7 @@ export interface Breadcrumbs {
   routerLink: string[];
 }
 
-type ParentObservableFunc = () => OperatorFunction<Parent, Parent>;
+type ParentObservableFunc = () => OperatorFunction<Parent | null, Parent | null>;
 
 @Injectable()
 export class CatalogueService {
@@ -56,7 +56,7 @@ export class CatalogueService {
     fields: string,
   ): Observable<{brand: APIItem; path: APIItemParent[]; type: string} | null> {
     const pathPipeRecursive: ParentObservableFunc = () =>
-      switchMap((parent: Parent) => {
+      switchMap((parent: Parent | null) => {
         if (!parent || !parent.id || parent.path.length <= 0) {
           return of(parent);
         }
@@ -78,19 +78,17 @@ export class CatalogueService {
             parent_id: parent.id,
           })
           .pipe(
-            map((response) => {
+            map((response): Parent | null => {
               if (response.items.length <= 0) {
                 return null;
               }
               const parentItem = response.items[0];
 
-              const obj: Parent = {
+              return {
                 id: parentItem.item_id,
                 items: parent.items.concat([parentItem]),
                 path: parent.path.splice(1),
               };
-
-              return obj;
             }),
             pathPipeRecursive(),
           );

@@ -11,7 +11,7 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './picture.component.html',
 })
 export class PersonsPersonPictureComponent {
-  private readonly changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
@@ -77,6 +77,6 @@ export class PersonsPersonPictureComponent {
   ) {}
 
   protected reloadPicture() {
-    this.changed$.next(true);
+    this.changed$.next();
   }
 }

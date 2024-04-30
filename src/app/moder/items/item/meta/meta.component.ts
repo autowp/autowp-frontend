@@ -24,7 +24,7 @@ export class ModerItemsItemMetaComponent {
   protected loadingNumber = 0;
 
   protected readonly canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
-  protected invalidParams: InvalidParams;
+  protected invalidParams?: InvalidParams;
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {

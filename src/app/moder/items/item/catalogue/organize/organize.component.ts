@@ -19,9 +19,9 @@ import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.compone
 })
 export class ModerItemsItemOrganizeComponent implements OnInit {
   protected loading = 0;
-  protected invalidParams: InvalidParams;
+  protected invalidParams?: InvalidParams;
 
-  private readonly itemTypeID$ = this.route.queryParamMap.pipe(
+  private readonly itemTypeID$: Observable<number> = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
@@ -50,7 +50,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   ]).pipe(
     map(([data, itemTypeID]) =>
       data.items
-        .filter((i) => allowedItemTypeCombinations[itemTypeID].includes(i.item.item_type_id))
+        .filter((i) => allowedItemTypeCombinations[itemTypeID as ItemType].includes(i.item.item_type_id))
         .map((i) => i.item),
     ),
   );

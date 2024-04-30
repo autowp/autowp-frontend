@@ -14,9 +14,9 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './form.component.html',
 })
 export class CommentsFormComponent implements OnInit, OnDestroy {
-  @Input() parentID: string;
-  @Input() itemID: string;
-  @Input() typeID: CommentsType;
+  @Input() parentID?: string;
+  @Input() itemID?: string;
+  @Input() typeID?: CommentsType;
   @Output() sent = new EventEmitter<string>();
   @Output() canceled = new EventEmitter<null | string>();
 
@@ -24,7 +24,7 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
     this.resolve$.next(resolve);
   }
   private readonly resolve$ = new BehaviorSubject<boolean | null>(null);
-  private resolveSub: Subscription;
+  private resolveSub?: Subscription;
 
   protected invalidParams: InvalidParams = {};
   protected readonly form = {
@@ -91,6 +91,6 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.resolveSub.unsubscribe();
+    this.resolveSub && this.resolveSub.unsubscribe();
   }
 }

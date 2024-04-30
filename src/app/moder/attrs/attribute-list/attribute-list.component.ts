@@ -8,7 +8,7 @@ import {AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
   templateUrl: './attribute-list.component.html',
 })
 export class ModerAttrsAttributeListComponent {
-  @Input() attributes: AttrAttributeTreeItem[];
+  @Input() attributes: AttrAttributeTreeItem[] = [];
 
   protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);

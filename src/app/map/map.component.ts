@@ -17,7 +17,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators
 import {ToastsService} from '../toasts/toasts.service';
 import {MapPopupComponent} from './popup/popup.component';
 
-function createMarker(lat, lng): Marker {
+function createMarker(lat: number, lng: number): Marker {
   return marker([lat, lng], {
     icon: icon({
       iconAnchor: [13, 41],
@@ -34,7 +34,7 @@ function createMarker(lat, lng): Marker {
   templateUrl: './map.component.html',
 })
 export class MapComponent implements OnInit {
-  private compRef: ComponentRef<MapPopupComponent>;
+  private compRef?: ComponentRef<MapPopupComponent>;
   protected markers: Marker[] = [];
 
   private readonly bounds$ = new BehaviorSubject<LatLngBounds | null>(null);
@@ -132,7 +132,7 @@ export class MapComponent implements OnInit {
 
             this.appRef.attachView(this.compRef.hostView);
             this.compRef.onDestroy(() => {
-              this.appRef.detachView(this.compRef.hostView);
+              this.compRef && this.appRef.detachView(this.compRef.hostView);
             });
           });
         });

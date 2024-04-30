@@ -21,7 +21,7 @@ export class PageService {
   private pages = new Map<number, Page>();
   private parents = new Map<number, null | number>();
 
-  private pagesJson: Page[];
+  private pagesJson: Page[] = [];
 
   private walkPages(pages: Page[], parentID: null | number) {
     for (const page of pages) {

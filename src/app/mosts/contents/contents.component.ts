@@ -5,7 +5,8 @@ import {
   getMostsPeriodsTranslation,
   getMostsRatingParamsTranslation,
   getMostsRatingsTranslation,
-  getUnitTranslation,
+  getUnitAbbrTranslation,
+  getUnitNameTranslation,
   getVehicleTypeRpTranslation,
 } from '@utils/translations';
 import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
@@ -113,8 +114,12 @@ export class MostsContentsComponent {
     this.pageEnv.set({pageId: 21});
   }
 
-  protected getUnitTranslation(id: string, type: string): string {
-    return getUnitTranslation(id, type);
+  protected getUnitAbbrTranslation(id: string): string {
+    return getUnitAbbrTranslation(id);
+  }
+
+  protected getUnitNameTranslation(id: string): string {
+    return getUnitNameTranslation(id);
   }
 
   protected getMostsRatingsTranslation(id: string): string {

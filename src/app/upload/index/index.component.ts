@@ -1,5 +1,5 @@
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -40,13 +40,13 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
 })
 export class UploadIndexComponent implements OnInit {
   protected files: File[] | undefined;
-  protected note: string;
+  protected note: string = '';
   protected progress: UploadProgress[] = [];
   protected pictures: APIPictureUpload[] = [];
   protected formHidden = false;
   protected readonly user$ = this.auth.getUser$();
 
-  @ViewChild('input') public input;
+  @ViewChild('input') public input: ElementRef | null = null;
 
   protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('perspective_id') || '', 10)),
@@ -135,7 +135,9 @@ export class UploadIndexComponent implements OnInit {
 
     concat(...xhrs).subscribe({
       complete: () => {
-        this.input.nativeElement.value = '';
+        if (this.input) {
+          this.input.nativeElement.value = '';
+        }
         this.formHidden = false;
         this.files = undefined;
       },

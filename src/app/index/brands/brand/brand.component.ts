@@ -8,7 +8,7 @@ import {APIService} from '@services/api.service';
   templateUrl: './brand.component.html',
 })
 export class IndexBrandsBrandComponent {
-  @Input() brand: APITopBrandsListItem;
+  @Input() brand?: APITopBrandsListItem;
   protected loading = true;
   protected html = '';
 
@@ -17,14 +17,15 @@ export class IndexBrandsBrandComponent {
   protected shown() {
     this.loading = true;
 
-    this.api
-      .request('GET', 'brands/' + this.brand.id + '/new-items', {
-        observe: 'body',
-        responseType: 'text',
-      })
-      .subscribe((html) => {
-        this.html = html;
-        this.loading = false;
-      });
+    this.brand &&
+      this.api
+        .request('GET', 'brands/' + this.brand.id + '/new-items', {
+          observe: 'body',
+          responseType: 'text',
+        })
+        .subscribe((html) => {
+          this.html = html;
+          this.loading = false;
+        });
   }
 }

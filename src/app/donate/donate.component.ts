@@ -33,7 +33,9 @@ export class DonateComponent implements OnInit {
       successURL: 'https://' + window.location.host + '/donate/success'
     };*/
 
-    const map = {
+    const map: {
+      [key: string]: string;
+    } = {
       account: '41001161017513',
       'button-text': '14',
       comment: 'on',

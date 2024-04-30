@@ -6,5 +6,5 @@ import {APIUser} from '@services/user';
   templateUrl: './user.component.html',
 })
 export class UserComponent {
-  @Input() user: APIUser;
+  @Input() user: APIUser | null = null;
 }

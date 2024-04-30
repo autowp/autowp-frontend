@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
+// @ts-expect-error Legacy
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 
 interface Crop {
@@ -21,10 +22,10 @@ interface Crop {
   templateUrl: './area.component.html',
 })
 export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
-  private id: number;
-  private itemID: number;
-  private type: number;
-  private sub: Subscription;
+  private id: number = 0;
+  private itemID: number = 0;
+  private type: number = 0;
+  private sub?: Subscription;
   protected aspect = '';
   protected resolution = '';
   private jcrop: Jcrop;
@@ -35,7 +36,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [50, 50];
-  protected picture: APIPicture;
+  protected picture: APIPicture | null = null;
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
 
   constructor(
@@ -101,7 +102,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         next: (data) => {
           const area = data.pictureItem.area;
 
-          if (data.img) {
+          if (data.img && this.picture) {
             const $img = $(data.img);
             const $body = $img.parent();
 
@@ -156,11 +157,11 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub && this.sub.unsubscribe();
   }
 
   protected selectAll() {
-    this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+    this.picture && this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
   }
 
   private updateSelectionText() {
@@ -181,12 +182,15 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
       width: Math.round(this.currentCrop.w),
     };
 
-    this.pictureItemService.setArea$(this.id, this.itemID, this.type, area).subscribe(() => {
-      this.router.navigate(['/moder/pictures', this.picture.id]);
-    });
+    this.picture &&
+      this.pictureItemService.setArea$(this.id, this.itemID, this.type, area).subscribe(() => {
+        this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
+      });
   }
 
-  protected onLoad(e) {
-    this.img$.next(e.target);
+  protected onLoad(e: Event) {
+    if (e.target && e.target instanceof HTMLElement) {
+      this.img$.next(e.target);
+    }
   }
 }

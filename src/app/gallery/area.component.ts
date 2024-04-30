@@ -8,8 +8,8 @@ import {APIGalleryItemArea} from './definitions';
   templateUrl: './area.component.html',
 })
 export class AreaComponent {
-  @Input() styles = {};
-  @Input() area: APIGalleryItemArea;
+  @Input() styles: {[key: string]: number} = {};
+  @Input() area?: APIGalleryItemArea;
 
   protected placement(): string {
     const winHeight = window.innerHeight;

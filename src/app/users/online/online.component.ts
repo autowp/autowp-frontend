@@ -10,7 +10,7 @@ import {map, switchMap} from 'rxjs/operators';
   templateUrl: './online.component.html',
 })
 export class UsersOnlineComponent {
-  private readonly reload$ = new BehaviorSubject<boolean>(true);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly users$: Observable<APIUser[]> = this.reload$.pipe(
     switchMap(() => this.usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
     map((response) => (response.items ? response.items : [])),
@@ -22,6 +22,6 @@ export class UsersOnlineComponent {
   ) {}
 
   protected load() {
-    this.reload$.next(true);
+    this.reload$.next();
   }
 }

@@ -5,10 +5,10 @@ import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
 import {APIUser, UserService} from '@services/user';
-import * as escapeRegExp from 'lodash.escaperegexp';
+import {escapeRegExp} from 'lodash';
 import {BytesPipe} from 'ngx-pipes';
 import {map, switchMap} from 'rxjs/operators';
-import * as showdown from 'showdown';
+import showdown from 'showdown';
 
 function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);

@@ -3,7 +3,7 @@
 </div>
 
 <h2 i18n>Personal info</h2>
-<div class="card card-body mb-4">
+<div class="card card-body mb-4" *ngIf="user">
   <p>{{ user.name }} (<a [href]="changeProfileUrl" i18n>Change</a>)</p>
 </div>
 

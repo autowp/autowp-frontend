@@ -10,10 +10,10 @@ import {APIPicture} from '@services/picture';
 })
 export class NewListItemComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  @Input() item: APIItem;
-  @Input() pictures: APIPicture[];
-  @Input() totalPictures: number;
-  @Input() date: string;
+  @Input() item: APIItem | null = null;
+  @Input() pictures: APIPicture[] = [];
+  @Input() totalPictures: number = 0;
+  @Input() date: string = '';
 
   constructor(private readonly acl: ACLService) {}
 }

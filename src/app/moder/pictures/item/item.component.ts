@@ -32,7 +32,7 @@ export class ModerPicturesItemComponent {
   protected copyrightsLoading = false;
   protected specialNameLoading = false;
 
-  private readonly change$ = new BehaviorSubject<null>(null);
+  private readonly change$ = new BehaviorSubject<void>(void 0);
 
   protected readonly id$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
@@ -201,7 +201,7 @@ export class ModerPicturesItemComponent {
   }
 
   protected pictureVoted() {
-    this.change$.next(null);
+    this.change$.next();
   }
 
   private hasItem(items: APIPictureItem[], itemId: string): boolean {
@@ -223,7 +223,7 @@ export class ModerPicturesItemComponent {
       },
       next: () => {
         localStorage.setItem('last_item', item.id.toString());
-        this.change$.next(null);
+        this.change$.next();
         this.pictureItemLoading = false;
       },
     });
@@ -237,7 +237,7 @@ export class ModerPicturesItemComponent {
       },
       next: () => {
         localStorage.setItem('last_item', dstItemId.toString());
-        this.change$.next(null);
+        this.change$.next();
         this.pictureItemLoading = false;
       },
     });
@@ -290,7 +290,7 @@ export class ModerPicturesItemComponent {
         this.statusLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.statusLoading = false;
       },
     });
@@ -319,7 +319,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.repairLoading = false;
       },
     });
@@ -332,7 +332,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.repairLoading = false;
       },
     });
@@ -345,7 +345,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.repairLoading = false;
       },
     });
@@ -358,7 +358,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.repairLoading = false;
       },
     });
@@ -371,7 +371,7 @@ export class ModerPicturesItemComponent {
         this.similarLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.similarLoading = false;
       },
     });
@@ -384,7 +384,7 @@ export class ModerPicturesItemComponent {
         this.pictureItemLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.pictureItemLoading = false;
       },
     });
@@ -404,7 +404,7 @@ export class ModerPicturesItemComponent {
           this.replaceLoading = false;
         },
         next: () => {
-          this.change$.next(null);
+          this.change$.next();
           this.replaceLoading = false;
         },
       });
@@ -417,7 +417,7 @@ export class ModerPicturesItemComponent {
         this.replaceLoading = false;
       },
       next: () => {
-        this.change$.next(null);
+        this.change$.next();
         this.replaceLoading = false;
       },
     });
@@ -425,7 +425,7 @@ export class ModerPicturesItemComponent {
 
   protected removeFromBlacklist(ip: string) {
     this.api.request<void>('DELETE', 'traffic/blacklist/' + ip).subscribe(() => {
-      this.change$.next(null);
+      this.change$.next();
     });
   }
 
@@ -439,7 +439,7 @@ export class ModerPicturesItemComponent {
         },
       })
       .subscribe(() => {
-        this.change$.next(null);
+        this.change$.next();
       });
   }
 

@@ -1,4 +1,4 @@
-<div *ngIf="data.pageCount > 1">
+<div *ngIf="data && data.pageCount > 1">
   <p ngPreserveWhitespaces>
     <a routerLink="." [queryParams]="{page: data.previous}" queryParamsHandling="merge" *ngIf="data.previous"
       >←<ng-container i18n>previous</ng-container></a

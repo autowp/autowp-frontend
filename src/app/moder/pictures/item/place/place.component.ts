@@ -29,8 +29,8 @@ function createMarker(lat: number, lng: number): Marker {
   templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {
-  protected lat: number;
-  protected lng: number;
+  protected lat: number = NaN;
+  protected lng: number = NaN;
 
   protected readonly picture$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),

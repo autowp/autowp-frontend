@@ -32,8 +32,8 @@ export class UploadSelectComponent implements OnInit {
     engines: APIItemParent[];
     item: GRPCAPIItem;
     vehicles: APIItemParent[];
-  } | null;
-  protected brands: APIItem[][];
+  } | null = null;
+  protected brands: APIItem[][] = [];
   protected paginator: Pages | undefined;
   protected search = '';
   protected readonly search$ = new BehaviorSubject<string>('');

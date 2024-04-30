@@ -6,10 +6,10 @@ import {APIPicturePaginator} from '@services/picture';
   templateUrl: './paginator.component.html',
 })
 export class PicturePaginatorComponent {
-  @Input() paginator: APIPicturePaginator;
+  @Input() paginator: APIPicturePaginator | null = null;
   @Input() prefix: string[] = [];
 
-  protected format(page, count) {
+  protected format(page: number, count: number) {
     const size = Math.max(2, count.toString().length);
 
     return page.toString().padStart(size, '0');

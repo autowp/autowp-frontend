@@ -14,7 +14,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {
-  @Input() item: APIItem;
+  @Input() item?: APIItem;
 
   protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
   protected progress: {
@@ -49,64 +49,71 @@ export class ModerItemsItemLogoComponent {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    return this.api
-      .request('POST', 'item/' + this.item.id + '/logo', {
-        body: formData,
-        observe: 'events',
-        reportProgress: true,
-      })
-      .pipe(
-        catchError((response: unknown) => {
-          if (response instanceof HttpErrorResponse) {
-            if (this.progress) {
-              this.progress.percentage = 100;
-              this.progress.failed = true;
+    this.item &&
+      this.api
+        .request('POST', 'item/' + this.item.id + '/logo', {
+          body: formData,
+          observe: 'events',
+          reportProgress: true,
+        })
+        .pipe(
+          catchError((response: unknown) => {
+            if (response instanceof HttpErrorResponse) {
+              if (this.progress) {
+                this.progress.percentage = 100;
+                this.progress.failed = true;
 
-              this.progress.invalidParams = response.error.invalid_params;
+                this.progress.invalidParams = response.error.invalid_params;
+              }
             }
-          }
 
-          return EMPTY;
-        }),
-        switchMap((httpEvent) => {
-          if (httpEvent.type === HttpEventType.DownloadProgress) {
-            if (this.progress && httpEvent.total) {
-              this.progress.percentage = Math.round(50 + 25 * (httpEvent.loaded / httpEvent.total));
-            }
             return EMPTY;
-          }
-
-          if (httpEvent.type === HttpEventType.UploadProgress) {
-            if (this.progress && httpEvent.total) {
-              this.progress.percentage = Math.round(50 * (httpEvent.loaded / httpEvent.total));
-            }
-            return EMPTY;
-          }
-
-          if (httpEvent.type === HttpEventType.Response) {
-            if (this.progress) {
-              this.progress.percentage = 75;
-              this.progress.success = true;
+          }),
+          switchMap((httpEvent) => {
+            if (httpEvent.type === HttpEventType.DownloadProgress) {
+              if (this.progress && httpEvent.total) {
+                this.progress.percentage = Math.round(50 + 25 * (httpEvent.loaded / httpEvent.total));
+              }
+              return EMPTY;
             }
 
-            return this.api.request<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
-              tap((subresponse) => {
-                if (this.progress) {
-                  this.progress.percentage = 100;
-                }
-                this.item.logo = subresponse;
-              }),
-              catchError((response: unknown) => {
-                this.toastService.handleError(response);
+            if (httpEvent.type === HttpEventType.UploadProgress) {
+              if (this.progress && httpEvent.total) {
+                this.progress.percentage = Math.round(50 * (httpEvent.loaded / httpEvent.total));
+              }
+              return EMPTY;
+            }
 
+            if (httpEvent.type === HttpEventType.Response) {
+              if (this.progress) {
+                this.progress.percentage = 75;
+                this.progress.success = true;
+              }
+
+              if (!this.item) {
                 return EMPTY;
-              }),
-            );
-          }
+              }
 
-          return EMPTY;
-        }),
-      )
-      .subscribe();
+              return this.api.request<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
+                tap((subresponse) => {
+                  if (this.progress) {
+                    this.progress.percentage = 100;
+                  }
+                  if (this.item) {
+                    this.item.logo = subresponse;
+                  }
+                }),
+                catchError((response: unknown) => {
+                  this.toastService.handleError(response);
+
+                  return EMPTY;
+                }),
+              );
+            }
+
+            return EMPTY;
+          }),
+        )
+        .subscribe();
   }
 }

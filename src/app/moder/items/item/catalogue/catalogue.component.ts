@@ -20,9 +20,9 @@ export class ModerItemsItemCatalogueComponent {
 
   protected readonly ItemType: typeof ItemType = ItemType;
 
-  protected readonly reloadChilds$ = new BehaviorSubject<boolean>(false);
-  protected readonly reloadParents$ = new BehaviorSubject<boolean>(false);
-  protected readonly reloadSuggestions$ = new BehaviorSubject<boolean>(false);
+  protected readonly reloadChilds$ = new BehaviorSubject<void>(void 0);
+  protected readonly reloadParents$ = new BehaviorSubject<void>(void 0);
+  protected readonly reloadSuggestions$ = new BehaviorSubject<void>(void 0);
 
   protected itemQuery = '';
 
@@ -142,8 +142,8 @@ export class ModerItemsItemCatalogueComponent {
         },
       })
       .subscribe(() => {
-        this.reloadParents$.next(true);
-        this.reloadSuggestions$.next(true);
+        this.reloadParents$.next();
+        this.reloadSuggestions$.next();
       });
 
     return false;
@@ -151,9 +151,9 @@ export class ModerItemsItemCatalogueComponent {
 
   private deleteItemParent(itemID: number, parentID: number) {
     this.api.request<void>('DELETE', 'item-parent/' + itemID + '/' + parentID).subscribe(() => {
-      this.reloadChilds$.next(true);
-      this.reloadParents$.next(true);
-      this.reloadSuggestions$.next(true);
+      this.reloadChilds$.next();
+      this.reloadParents$.next();
+      this.reloadSuggestions$.next();
     });
   }
 

@@ -17,7 +17,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {
-  protected search: string;
+  protected search: string = '';
   private readonly search$ = new BehaviorSubject<string>('');
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(

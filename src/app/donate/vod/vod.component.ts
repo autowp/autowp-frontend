@@ -124,8 +124,8 @@ export class DonateVodComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
   }
 
-  protected submit(e) {
-    if (e.defaultPrevented) {
+  protected submit(e: Event) {
+    if (e.defaultPrevented && e.target && e.target instanceof HTMLFormElement) {
       e.target.submit();
     }
   }

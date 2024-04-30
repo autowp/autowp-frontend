@@ -6,7 +6,7 @@ import {map} from 'rxjs/operators';
 import {ethToEur, eurToRub} from '../../currencies';
 import data from './data.json';
 
-const rates = {
+const rates: {[key: string]: number} = {
   'ETH': ethToEur,
   'EUR': 1,
   'RUB': 1 / eurToRub,

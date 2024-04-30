@@ -7,9 +7,9 @@ import {ItemHeader} from '@utils/item-header/item-header.component';
   templateUrl: './item-menu.component.html',
 })
 export class CatalogueItemMenuComponent {
-  @Input() itemRouterLink: string[];
-  @Input() header: ItemHeader;
-  @Input() childsCounts: APIItemChildsCounts;
-  @Input() picturesCount: number;
+  @Input() itemRouterLink: string[] = [];
+  @Input() header?: ItemHeader;
+  @Input() childsCounts?: APIItemChildsCounts;
+  @Input() picturesCount: number = 0;
   @Input() active = 'default';
 }

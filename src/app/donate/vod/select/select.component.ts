@@ -17,14 +17,14 @@ import {chunk} from '../../../chunk';
   templateUrl: './select.component.html',
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
-  protected page: number;
-  protected brands: APIItem[][];
-  protected paginator: Pages | null;
-  protected brand: GRPCAPIItem | null;
-  protected vehicles: APIItemParent[];
-  protected vehiclesPaginator: APIPaginator | null;
-  protected concepts: APIItemParent[];
+  private querySub?: Subscription;
+  protected page: number = 0;
+  protected brands: APIItem[][] = [];
+  protected paginator: Pages | null = null;
+  protected brand: GRPCAPIItem | null = null;
+  protected vehicles: APIItemParent[] = [];
+  protected vehiclesPaginator: APIPaginator | null = null;
+  protected concepts: APIItemParent[] = [];
   protected loading = 0;
   protected conceptsExpanded = false;
 
@@ -124,6 +124,6 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub.unsubscribe();
+    this.querySub && this.querySub.unsubscribe();
   }
 }

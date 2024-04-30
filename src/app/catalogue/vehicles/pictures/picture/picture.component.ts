@@ -13,7 +13,7 @@ import {CatalogueService} from '../../../catalogue-service';
   templateUrl: './picture.component.html',
 })
 export class CatalogueVehiclesPicturesPictureComponent {
-  private readonly changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   private readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
@@ -127,6 +127,6 @@ export class CatalogueVehiclesPicturesPictureComponent {
   ) {}
 
   protected reloadPicture() {
-    this.changed$.next(true);
+    this.changed$.next();
   }
 }

@@ -24,7 +24,7 @@ export class ForumsNewTopicComponent implements OnInit {
     name: '',
     subscription: false,
   };
-  protected invalidParams: InvalidParams;
+  protected invalidParams?: InvalidParams;
   protected readonly theme$ = this.route.paramMap.pipe(
     map((params) => params.get('theme_id')),
     distinctUntilChanged(),

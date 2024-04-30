@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} from '@utils/translations';
+import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
@@ -54,7 +54,7 @@ export class ModerAttrsAttributeComponent {
 
   protected readonly typeMap$: Observable<{[id: number]: string}> = this.attrsService.attributeTypes$.pipe(
     map((types) => {
-      const typeMap = {};
+      const typeMap: {[key: string]: string} = {};
       for (const item of types) {
         typeMap[item.id] = item.name;
       }
@@ -69,8 +69,8 @@ export class ModerAttrsAttributeComponent {
     private readonly router: Router,
   ) {}
 
-  protected getUnitTranslation(id: string, type: string): string {
-    return getUnitTranslation(id, type);
+  protected getUnitNameTranslation(id: string): string {
+    return getUnitNameTranslation(id);
   }
 
   protected getAttrsTranslation(id: string): string {

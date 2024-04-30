@@ -213,13 +213,18 @@ export interface GetPathServiceOptions {
   path: string;
 }
 
-export const allowedItemTypeCombinations = {
+export const allowedItemTypeCombinations: {
+  [key in ItemType]: ItemType[];
+} = {
   [ItemType.ITEM_TYPE_BRAND]: [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
   [ItemType.ITEM_TYPE_CATEGORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_CATEGORY, ItemType.ITEM_TYPE_BRAND],
+  [ItemType.ITEM_TYPE_COPYRIGHT]: [],
   [ItemType.ITEM_TYPE_ENGINE]: [ItemType.ITEM_TYPE_ENGINE],
   [ItemType.ITEM_TYPE_FACTORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+  [ItemType.ITEM_TYPE_MUSEUM]: [],
   [ItemType.ITEM_TYPE_PERSON]: [ItemType.ITEM_TYPE_COPYRIGHT],
   [ItemType.ITEM_TYPE_TWINS]: [ItemType.ITEM_TYPE_VEHICLE],
+  [ItemType.ITEM_TYPE_UNKNOWN]: [],
   [ItemType.ITEM_TYPE_VEHICLE]: [ItemType.ITEM_TYPE_VEHICLE],
 };
 

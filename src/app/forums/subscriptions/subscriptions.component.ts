@@ -13,7 +13,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './subscriptions.component.html',
 })
 export class ForumsSubscriptionsComponent implements OnInit {
-  private readonly reload$ = new BehaviorSubject<boolean>(false);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly data$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
     this.route.queryParamMap.pipe(
@@ -41,6 +41,6 @@ export class ForumsSubscriptionsComponent implements OnInit {
   }
 
   protected reload() {
-    this.reload$.next(true);
+    this.reload$.next();
   }
 }

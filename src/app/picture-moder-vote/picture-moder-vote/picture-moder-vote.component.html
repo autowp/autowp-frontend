@@ -1,4 +1,4 @@
-<div class="btn-group mb-3">
+<div class="btn-group mb-3" *ngIf="picture">
   <div ngbDropdown *ngIf="!picture.moder_voted">
     <button class="btn btn-success" type="button" ngbDropdownToggle i18n>Want accept</button>
     <div ngbDropdownMenu>
@@ -36,7 +36,7 @@
   </button>
 </div>
 
-<div *ngIf="picture.moder_votes.length">
+<div *ngIf="picture && picture.moder_votes.length">
   <ng-container i18n>Already voted:</ng-container>
   <ul class="list-unstyled">
     <li *ngFor="let moder_vote of picture.moder_votes">

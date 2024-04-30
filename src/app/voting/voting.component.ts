@@ -17,7 +17,7 @@ import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {
-  private readonly reload$ = new BehaviorSubject<boolean>(true);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly voting$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
@@ -37,7 +37,7 @@ export class VotingComponent {
     }),
   );
   protected filter = false;
-  protected selected: number;
+  protected selected: number = 0;
   protected selectedMulti: {[key: number]: number} = {};
 
   protected readonly CommentsType = CommentsType;
@@ -58,7 +58,7 @@ export class VotingComponent {
 
     if (!voting.multivariant) {
       if (this.selected) {
-        ids.push(this.selected as number);
+        ids.push(this.selected);
       }
     } else {
       for (const key in this.selectedMulti) {
@@ -78,7 +78,7 @@ export class VotingComponent {
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
-          this.reload$.next(true);
+          this.reload$.next();
         },
       });
 

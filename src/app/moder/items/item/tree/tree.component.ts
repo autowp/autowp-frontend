@@ -7,5 +7,5 @@ import {APIItemTreeItem} from '../item.component';
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemTreeComponent {
-  @Input() item: APIItemTreeItem;
+  @Input() item?: APIItemTreeItem;
 }

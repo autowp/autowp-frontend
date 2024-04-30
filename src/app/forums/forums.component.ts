@@ -128,7 +128,7 @@ export class ForumsComponent {
     shareReplay(1),
   );
 
-  private readonly reloadTopics$ = new BehaviorSubject<boolean>(false);
+  private readonly reloadTopics$ = new BehaviorSubject<void>(void 0);
 
   protected readonly topics$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
     this.themeID$,
@@ -156,6 +156,6 @@ export class ForumsComponent {
   }
 
   protected reload() {
-    this.reloadTopics$.next(true);
+    this.reloadTopics$.next();
   }
 }

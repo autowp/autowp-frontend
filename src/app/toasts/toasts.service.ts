@@ -83,7 +83,7 @@ export class ToastsService {
     this.error(event.statusMessage);
   }
 
-  remove(toast) {
+  public remove(toast: Toast) {
     this.toasts = this.toasts.filter((t) => t !== toast);
   }
 }

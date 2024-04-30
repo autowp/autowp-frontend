@@ -18,8 +18,8 @@ class Gallery {
   private MAX_INDICATORS = 30;
   private PER_PAGE = 10;
 
-  public current: number;
-  public status: string;
+  public current: number = 0;
+  public status: string = '';
   public get useCircleIndicator(): boolean {
     return this.items.length <= this.MAX_INDICATORS;
   }
@@ -107,8 +107,8 @@ export class GalleryComponent {
   }
   public readonly current$ = new BehaviorSubject<null | string>(null);
 
-  @Input() galleryPrefix: string[];
-  @Input() picturePrefix: string[];
+  @Input() galleryPrefix: string[] = [];
+  @Input() picturePrefix: string[] = [];
   @Output() pictureSelected = new EventEmitter<APIGalleryItem | null>();
 
   protected readonly currentFilter$ = this.filter$.pipe(

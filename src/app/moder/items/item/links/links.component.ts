@@ -17,7 +17,7 @@ export class ModerItemsItemLinksComponent {
     this.item$.next(item);
   }
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
-  private readonly reload$ = new BehaviorSubject<null>(null);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected loadingNumber = 0;
 
@@ -105,7 +105,7 @@ export class ModerItemsItemLinksComponent {
     this.loadingNumber++;
     forkJoin(promises).subscribe({
       complete: () => this.loadingNumber--,
-      next: () => this.reload$.next(null),
+      next: () => this.reload$.next(),
     });
   }
 }

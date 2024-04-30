@@ -20,7 +20,7 @@ export class AccountDeleteComponent implements OnInit {
   protected readonly form = {
     password_old: '',
   };
-  protected invalidParams: InvalidParams;
+  protected invalidParams?: InvalidParams;
 
   constructor(
     private readonly router: Router,

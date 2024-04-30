@@ -120,7 +120,7 @@ export class UsersUserComponent {
     }),
   );
 
-  private readonly ipChange$ = new BehaviorSubject<boolean>(true);
+  private readonly ipChange$ = new BehaviorSubject<void>(void 0);
 
   protected readonly ip$: Observable<APIIP | null> = combineLatest([this.user$, this.ipChange$]).pipe(
     switchMap(([user]) => {
@@ -140,7 +140,7 @@ export class UsersUserComponent {
     }),
   );
 
-  private readonly inContactsChange$ = new BehaviorSubject<boolean>(true);
+  private readonly inContactsChange$ = new BehaviorSubject<void>(void 0);
 
   protected readonly inContacts$ = combineLatest([
     this.user$,
@@ -162,7 +162,7 @@ export class UsersUserComponent {
     shareReplay(1),
   );
 
-  private readonly userUserPreferencesChanged$ = new BehaviorSubject<boolean>(true);
+  private readonly userUserPreferencesChanged$ = new BehaviorSubject<void>(void 0);
 
   protected readonly userUserPreferences$ = combineLatest([
     this.user$,
@@ -211,13 +211,13 @@ export class UsersUserComponent {
   protected setInContacts(user: APIUser, value: boolean) {
     if (value) {
       this.contactsClient.createContact(new CreateContactRequest({userId: user.id.toString()})).subscribe(() => {
-        this.inContactsChange$.next(true);
+        this.inContactsChange$.next();
       });
       return;
     }
 
     this.contactsClient.deleteContact(new DeleteContactRequest({userId: user.id.toString()})).subscribe(() => {
-      this.inContactsChange$.next(true);
+      this.inContactsChange$.next();
     });
   }
 
@@ -226,7 +226,7 @@ export class UsersUserComponent {
       this.usersGrpc
         .disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
         .subscribe(() => {
-          this.userUserPreferencesChanged$.next(true);
+          this.userUserPreferencesChanged$.next();
         });
       return;
     }
@@ -234,7 +234,7 @@ export class UsersUserComponent {
     this.usersGrpc
       .enableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
       .subscribe(() => {
-        this.userUserPreferencesChanged$.next(true);
+        this.userUserPreferencesChanged$.next();
       });
   }
 
@@ -273,7 +273,7 @@ export class UsersUserComponent {
     this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
-        this.ipChange$.next(true);
+        this.ipChange$.next();
       },
     });
   }
@@ -290,7 +290,7 @@ export class UsersUserComponent {
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
-          this.ipChange$.next(true);
+          this.ipChange$.next();
         },
       });
   }

@@ -60,15 +60,15 @@ const DEFAULT_ORDER = 'id_desc';
   templateUrl: './items.component.html',
 })
 export class ModerItemsComponent implements OnInit, OnDestroy {
-  private querySub: Subscription;
+  private querySub?: Subscription;
 
   protected loading = 0;
   protected items: CatalogueListItem[] = [];
-  protected paginator: APIPaginator;
+  protected paginator?: APIPaginator;
   protected vehicleTypeOptions: APIVehicleTypeInItems[] = [];
   protected specOptions: APISpecInItems[] = [];
-  private vehicleTypeSub: Subscription;
-  private specsSub: Subscription;
+  private vehicleTypeSub?: Subscription;
+  private specsSub?: Subscription;
 
   protected name = '';
 
@@ -92,7 +92,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected order: string = DEFAULT_ORDER;
 
-  protected ancestorID: null | number;
+  protected ancestorID: null | number = null;
   protected ancestorQuery = '';
   protected ancestorsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
     text$: Observable<string>,
@@ -126,7 +126,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       }),
     );
 
-  protected listMode: boolean;
+  protected listMode: boolean = false;
 
   constructor(
     private readonly vehicleTypeService: VehicleTypeService,
@@ -275,9 +275,15 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-    this.vehicleTypeSub.unsubscribe();
-    this.specsSub.unsubscribe();
+    if (this.querySub) {
+      this.querySub.unsubscribe();
+    }
+    if (this.vehicleTypeSub) {
+      this.vehicleTypeSub.unsubscribe();
+    }
+    if (this.specsSub) {
+      this.specsSub.unsubscribe();
+    }
   }
 
   protected ancestorFormatter(x: GRPCAPIItem) {

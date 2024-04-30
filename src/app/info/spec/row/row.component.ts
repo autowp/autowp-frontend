@@ -6,6 +6,6 @@ import {Spec} from '@grpc/spec.pb';
   templateUrl: './row.component.html',
 })
 export class InfoSpecRowComponent {
-  @Input() row: Spec;
-  @Input() deep: number;
+  @Input() row?: Spec;
+  @Input() deep: number = 0;
 }

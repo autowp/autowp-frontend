@@ -10,7 +10,7 @@ import {map} from 'rxjs/operators';
   templateUrl: './item-of-day.component.html',
 })
 export class ItemOfDayComponent {
-  private _item$: Observable<ItemOfDayItem>;
+  private _item$?: Observable<ItemOfDayItem>;
 
   @Input() public set item$(item$: Observable<ItemOfDayItem>) {
     this._item$ = item$;
@@ -26,12 +26,12 @@ export class ItemOfDayComponent {
       }),
     );
   }
-  public get item$() {
+  public get item$(): Observable<ItemOfDayItem> | undefined {
     return this._item$;
   }
-  @Input() public user$: Observable<APIUser>;
+  @Input() public user$?: Observable<APIUser>;
 
-  protected itemOfDayPictures$: Observable<{
+  protected itemOfDayPictures$?: Observable<{
     first: APIItemOfDayPicture[];
     others: APIItemOfDayPicture[];
   } | null>;

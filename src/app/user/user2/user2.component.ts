@@ -6,5 +6,5 @@ import {APIUser} from '@grpc/spec.pb';
   templateUrl: './user2.component.html',
 })
 export class User2Component {
-  @Input() user: APIUser;
+  @Input() user: APIUser | null = null;
 }

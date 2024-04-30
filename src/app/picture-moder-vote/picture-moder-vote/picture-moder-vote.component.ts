@@ -12,8 +12,8 @@ import {PictureModerVoteModalComponent} from './modal/modal.component';
   templateUrl: './picture-moder-vote.component.html',
 })
 export class PictureModerVoteComponent {
-  @Input() picture: APIPicture;
-  @Output() changed = new EventEmitter();
+  @Input() picture: APIPicture | null = null;
+  @Output() changed = new EventEmitter<void>();
 
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
   protected vote: null | number = null;
@@ -27,11 +27,11 @@ export class PictureModerVoteComponent {
   ) {}
 
   protected votePicture(vote: number, reason: string): void {
-    this.moderVoteService.vote$(this.picture.id, vote, reason).subscribe(() => this.changed.emit());
+    this.picture && this.moderVoteService.vote$(this.picture.id, vote, reason).subscribe(() => this.changed.emit());
   }
 
   protected cancelVotePicture(): void {
-    this.moderVoteService.cancel$(this.picture.id).subscribe(() => this.changed.emit());
+    this.picture && this.moderVoteService.cancel$(this.picture.id).subscribe(() => this.changed.emit());
   }
 
   protected showCustomDialog(vote: number): void {
@@ -42,10 +42,12 @@ export class PictureModerVoteComponent {
       size: 'lg',
     });
 
-    modalRef.componentInstance.pictureId = this.picture.id;
-    modalRef.componentInstance.vote = vote;
-    modalRef.componentInstance.voted.subscribe(() => {
-      this.changed.emit();
-    });
+    if (this.picture) {
+      modalRef.componentInstance.pictureId = this.picture.id;
+      modalRef.componentInstance.vote = vote;
+      modalRef.componentInstance.voted.subscribe(() => {
+        this.changed.emit();
+      });
+    }
   }
 }

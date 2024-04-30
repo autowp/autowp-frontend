@@ -15,7 +15,7 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
   templateUrl: './picture.component.html',
 })
 export class CatalogueMixedPictureComponent {
-  private readonly changed$ = new BehaviorSubject<boolean>(false);
+  private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   protected readonly CommentsType = CommentsType;
 
@@ -126,6 +126,6 @@ export class CatalogueMixedPictureComponent {
   ) {}
 
   protected reloadPicture() {
-    this.changed$.next(true);
+    this.changed$.next();
   }
 }
