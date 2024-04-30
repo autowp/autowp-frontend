@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import * as showdown from 'showdown';
+import showdown from 'showdown';
 
 @Component({
   selector: 'app-markdown',

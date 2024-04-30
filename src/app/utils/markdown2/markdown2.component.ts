@@ -1,6 +1,6 @@
 import {isPlatformBrowser} from '@angular/common';
 import {AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID} from '@angular/core';
-import * as showdown from 'showdown';
+import showdown from 'showdown';
 
 @Component({
   selector: 'app-markdown2',
