@@ -14,12 +14,12 @@ import {APIGalleryItem} from '../../../gallery/definitions';
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {
-  protected readonly group$: Observable<APIItem> = this.route.parent.parent.paramMap.pipe(
+  protected readonly group$: Observable<APIItem | null> = this.route.parent!.parent!.paramMap.pipe(
     map((route) => route.get('group')),
     distinctUntilChanged(),
     switchMap((groupID) => {
       if (!groupID) {
-        return of(null as APIItem);
+        return of(null);
       }
       return this.itemsClient.item(
         new ItemRequest({
@@ -47,7 +47,7 @@ export class TwinsGroupGalleryComponent {
           this.pageEnv.set({
             layout: {isGalleryPage: true},
             pageId: 28,
-            title: group.nameText,
+            title: group ? group.nameText : '',
           }),
         0,
       );

@@ -6,7 +6,7 @@ import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {getItemTypeTranslation} from '@utils/translations';
-import {Subscription, of} from 'rxjs';
+import {EMPTY, Subscription, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -36,7 +36,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private routeSub: Subscription;
   protected loading = 0;
 
-  protected item: APIItem = null;
+  protected item: APIItem | null = null;
   protected specsAllowed = false;
   protected readonly canEditSpecifications$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
 
@@ -93,7 +93,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id'), 10)),
+        map((params) => parseInt(params.get('id') || '', 10)),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap((id) => {
@@ -139,6 +139,15 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
             skipLocationChange: true,
           });
           return of(null);
+        }),
+        switchMap((item) => {
+          if (!item) {
+            this.router.navigate(['/error-404'], {
+              skipLocationChange: true,
+            });
+            return EMPTY;
+          }
+          return of(item);
         }),
         tap((item) => {
           this.item = item;
@@ -212,24 +221,30 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   }
 
   private initTreeTab() {
-    this.api.request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
-      next: (response) => {
-        this.tree = response.item;
-      },
-    });
+    if (this.item) {
+      this.api.request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
+        next: (response) => {
+          this.tree = response.item;
+        },
+      });
+    }
   }
 
   protected toggleSubscription() {
-    const newValue = !this.item.subscription;
-    this.api
-      .request<void>('PUT', 'item/' + this.item.id, {
-        body: {
-          subscription: newValue ? 1 : 0,
-        },
-      })
-      .subscribe(() => {
-        this.item.subscription = newValue;
-      });
+    if (this.item) {
+      const newValue = !this.item.subscription;
+      this.api
+        .request<void>('PUT', 'item/' + this.item.id, {
+          body: {
+            subscription: newValue ? 1 : 0,
+          },
+        })
+        .subscribe(() => {
+          if (this.item) {
+            this.item.subscription = newValue;
+          }
+        });
+    }
   }
 
   protected getItemTypeTranslation(id: number, type: string) {

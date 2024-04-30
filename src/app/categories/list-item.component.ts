@@ -4,8 +4,8 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {APIPicture} from '@services/picture';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 interface PictureThumbRoute {
   picture: APIPicture | null;
@@ -21,12 +21,12 @@ export class CategoriesListItemComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   @Input() set parentRouterLink(parentRouterLink: string[]) {
     this.parentRouterLink$.next(parentRouterLink);
   }
-  protected readonly parentRouterLink$ = new BehaviorSubject<string[]>(null);
+  protected readonly parentRouterLink$ = new BehaviorSubject<null | string[]>(null);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));
@@ -45,15 +45,15 @@ export class CategoriesListItemComponent {
   );
 
   protected readonly pictures$: Observable<PictureThumbRoute[]> = combineLatest([
-    this.item$,
+    this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.parentRouterLink$,
   ]).pipe(
     map(([item, parentRouterLink]) =>
       item.preview_pictures.pictures.map((pic) => ({
-        picture: pic ? pic.picture : null,
+        picture: pic.picture ? pic.picture : null,
         route:
           pic && pic.picture && parentRouterLink ? parentRouterLink.concat(['pictures', pic.picture.identity]) : null,
-        thumb: pic ? pic.thumb : null,
+        thumb: pic.thumb ? pic.thumb : null,
       })),
     ),
   );

@@ -38,7 +38,7 @@ export class FeedbackComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form.removeControl(CAPTCHA);
+    this.form.removeControl(CAPTCHA as never);
 
     this.reCaptchaService.get$().subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
@@ -51,31 +51,41 @@ export class FeedbackComponent implements OnInit {
   }
 
   protected submit() {
-    this.grpc.createFeedback(new APICreateFeedbackRequest(this.form.value)).subscribe({
-      error: (response: unknown) => {
-        if (response instanceof GrpcStatusEvent) {
-          const fieldViolations = extractFieldViolations(response);
-          this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+    const formValue = this.form.value;
+    this.grpc
+      .createFeedback(
+        new APICreateFeedbackRequest({
+          captcha: formValue.captcha || undefined,
+          email: formValue.email || undefined,
+          message: formValue.message || undefined,
+          name: formValue.name || undefined,
+        }),
+      )
+      .subscribe({
+        error: (response: unknown) => {
+          if (response instanceof GrpcStatusEvent) {
+            const fieldViolations = extractFieldViolations(response);
+            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
 
-          if (this.invalidParams.captcha) {
-            if (!this.form.get(CAPTCHA)) {
-              const control = this.fb.control('', Validators.required);
-              this.form.addControl(CAPTCHA, control);
+            if (this.invalidParams.captcha) {
+              if (!this.form.get(CAPTCHA)) {
+                const control = this.fb.control('', Validators.required);
+                this.form.addControl(CAPTCHA, control);
+              }
+            } else {
+              this.form.removeControl(CAPTCHA as never);
             }
           } else {
-            this.form.removeControl(CAPTCHA);
+            this.toastService.handleError(response);
           }
-        } else {
-          this.toastService.handleError(response);
-        }
-      },
-      next: () => {
-        this.router.navigate(['/feedback/sent']);
-      },
-    });
+        },
+        next: () => {
+          this.router.navigate(['/feedback/sent']);
+        },
+      });
   }
 
   protected resolved(captchaResponse: string) {
-    this.form.get(CAPTCHA).setValue(captchaResponse);
+    this.form.get(CAPTCHA)?.setValue(captchaResponse);
   }
 }

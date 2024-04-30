@@ -24,7 +24,7 @@ export interface APIItemsGetResponse {
 }
 
 export interface APIPathItem {
-  catname: null | string;
+  catname: string;
   item: APIItem;
   parent_id: number;
 }
@@ -63,7 +63,7 @@ export interface APIItem {
   catname: string;
   childs?: APIItem[];
   childs_count: number;
-  childs_counts: APIItemChildsCounts;
+  childs_counts?: APIItemChildsCounts;
   comments_attentions_count?: number;
   comments_topic_stat?: {
     messages: number;
@@ -72,7 +72,7 @@ export interface APIItem {
   descendant_twins_groups_count?: number;
   descendants_count: number;
   description: string;
-  design: {
+  design?: {
     name: string;
     route: string[];
   };
@@ -108,7 +108,7 @@ export interface APIItem {
   lat: number;
   links_count: number;
   lng: number;
-  logo: APIImage;
+  logo?: APIImage;
   logo120?: APIImage;
   mosts_active?: boolean;
   name: string;
@@ -180,7 +180,7 @@ export interface GetItemsServiceOptions {
   fields: string;
   from_year?: number;
   have_childs_with_parent_of_type?: number;
-  have_common_childs_with?: number;
+  have_common_childs_with?: null | number | undefined;
   id?: number;
   is_group?: boolean;
   limit: number;
@@ -237,7 +237,7 @@ function convertItemOptions(options: GetItemServiceOptions): {[param: string]: s
   return params;
 }
 
-function converItemsOptions(options: GetItemsServiceOptions): {[param: string]: string} {
+function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 
   if (options.id) {
@@ -419,7 +419,7 @@ export class ItemService {
     private readonly itemsClient: ItemsClient,
   ) {}
 
-  public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<null> {
+  public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void> {
     return this.itemsClient
       .getItemVehicleTypes(
         new APIGetItemVehicleTypesRequest({
@@ -431,7 +431,7 @@ export class ItemService {
           const promises: Observable<null>[] = [];
 
           const currentIds: string[] = [];
-          for (const itemVehicleType of response.items) {
+          for (const itemVehicleType of response.items ? response.items : []) {
             currentIds.push(itemVehicleType.vehicleTypeId);
             if (ids.indexOf(itemVehicleType.vehicleTypeId) === -1) {
               promises.push(
@@ -466,7 +466,7 @@ export class ItemService {
             promises.push(of(null));
           }
 
-          return forkJoin(promises).pipe(map(() => null));
+          return forkJoin(promises).pipe(map(() => void 0));
         }),
       );
   }
@@ -477,18 +477,18 @@ export class ItemService {
     });
   }
 
-  public getItem$(id: number, options?: GetItemServiceOptions): Observable<APIItem> {
+  public getItem$(id: number, options?: GetItemServiceOptions): Observable<APIItem | null> {
     if (!id) {
-      return of(null as APIItem);
+      return of(null);
     }
     return this.api.request<APIItem>('GET', 'item/' + id, {
-      params: convertItemOptions(options),
+      params: convertItemOptions(options ? options : {}),
     });
   }
 
   public getItems$(options?: GetItemsServiceOptions): Observable<APIItemsGetResponse> {
     return this.api.request<APIItemsGetResponse>('GET', 'item', {
-      params: converItemsOptions(options),
+      params: convertItemsOptions(options ? options : ({} as GetItemsServiceOptions)),
     });
   }
 

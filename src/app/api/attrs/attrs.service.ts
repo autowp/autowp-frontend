@@ -79,14 +79,14 @@ export type APIAttrAttributeValue = number | string | string[];
 export interface APIAttrUserValue {
   attribute_id: number;
   empty: boolean;
-  item: APIItem;
+  item: APIItem | null;
   item_id: number;
-  path: string[];
-  unit: APIAttrUnit;
-  update_date: string;
-  user: APIUser;
+  path: null | string[];
+  unit: APIAttrUnit | null;
+  update_date: null | string;
+  user: APIUser | null;
   user_id: number;
-  value: APIAttrAttributeValue;
+  value: APIAttrAttributeValue | null;
   value_text: string;
 }
 
@@ -135,12 +135,12 @@ export class APIAttrsService {
   public readonly attributeTypes$: Observable<AttrAttributeType[]> = this.attrsClient
     .getAttributeTypes(new Empty())
     .pipe(
-      map((response) => response.items),
+      map((response) => (response.items ? response.items : [])),
       shareReplay(1),
     );
 
   public readonly zones$: Observable<AttrZone[]> = this.attrsClient.getZones(new Empty()).pipe(
-    map((response) => response.items),
+    map((response) => (response.items ? response.items : [])),
     shareReplay(1),
   );
 
@@ -149,7 +149,7 @@ export class APIAttrsService {
     private readonly attrsClient: AttrsClient,
   ) {}
 
-  public getZone$(id: string): Observable<AttrZone> {
+  public getZone$(id: string): Observable<AttrZone | null> {
     return this.zones$.pipe(
       map((zones) => {
         for (const zone of zones) {
@@ -157,7 +157,7 @@ export class APIAttrsService {
             return zone;
           }
         }
-        return null as AttrZone;
+        return null;
       }),
     );
   }
@@ -222,10 +222,12 @@ export class APIAttrsService {
     });
   }
 
-  public getAttributes$(zoneID: string, parentID: string): Observable<AttrAttributeTreeItem[]> {
+  public getAttributes$(zoneID: null | string, parentID: null | string): Observable<AttrAttributeTreeItem[]> {
     return this.attrsClient
-      .getAttributes(new AttrAttributesRequest({parentId: parentID, zoneId: zoneID}))
-      .pipe(map((response) => toTree(response.items, parentID ? parentID : '0')));
+      .getAttributes(
+        new AttrAttributesRequest({parentId: parentID ? parentID : undefined, zoneId: zoneID ? zoneID : undefined}),
+      )
+      .pipe(map((response) => toTree(response.items ? response.items : [], parentID ? parentID : '0')));
   }
 
   public getConflicts$(options: APIAttrConflictsGetOptions): Observable<APIAttrConflictsGetResponse> {
@@ -248,7 +250,7 @@ export class APIAttrsService {
     });
   }
 
-  public getListOptions$(attributeID: string): Observable<AttrListOptionsResponse> {
+  public getListOptions$(attributeID: string | undefined): Observable<AttrListOptionsResponse> {
     return this.attrsClient.getListOptions(new AttrListOptionsRequest({attributeId: attributeID}));
   }
 }

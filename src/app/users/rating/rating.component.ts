@@ -61,7 +61,7 @@ export class UsersRatingComponent implements OnInit {
     if (rating == Rating.PICTURE_LIKES) {
       return this.ratingClient.getUserPictureLikesRatingFans(new UserRatingDetailsRequest({userId})).pipe(
         map((response) =>
-          response.fans.map((fan) => ({
+          (response.fans ? response.fans : []).map((fan) => ({
             user$: this.userService.getUser2$(fan.userId),
             volume: fan.volume,
           })),
@@ -71,7 +71,7 @@ export class UsersRatingComponent implements OnInit {
     if (rating == Rating.COMMENT_LIKES) {
       return this.ratingClient.getUserCommentsRatingFans(new UserRatingDetailsRequest({userId})).pipe(
         map((response) =>
-          response.fans.map((fan) => ({
+          (response.fans ? response.fans : []).map((fan) => ({
             user$: this.userService.getUser2$(fan.userId),
             volume: fan.volume,
           })),
@@ -120,7 +120,7 @@ export class UsersRatingComponent implements OnInit {
           return EMPTY;
         }),
         map((response) =>
-          response.users.map((user) => ({
+          (response.users ? response.users : []).map((user) => ({
             brands$: this.getRatingBrands$(rating, user.userId),
             fans$: this.getRatingFans$(rating, user.userId),
             user$: this.userService.getUser2$(user.userId),

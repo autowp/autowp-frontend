@@ -63,7 +63,7 @@ export class PulseComponent implements OnInit {
 
   protected readonly legend$ = this.data$.pipe(
     map((response) => {
-      return response.legend.map((item) => ({
+      return (response.legend ? response.legend : []).map((item) => ({
         color: item.color,
         user$: this.usersService.getUser$(parseInt(item.userId, 10), {}),
       }));
@@ -75,7 +75,7 @@ export class PulseComponent implements OnInit {
   protected readonly gridData$ = this.data$.pipe(
     switchMap((response) =>
       combineLatest(
-        response.grid.map((dataset) =>
+        (response.grid ? response.grid : []).map((dataset) =>
           combineLatest([this.usersService.getUser$(parseInt(dataset.userId, 10), {}), of(dataset)]),
         ),
       ),
@@ -83,7 +83,7 @@ export class PulseComponent implements OnInit {
     map((response) => ({
       data: response.map(([user, dataset]) => ({
         data: dataset.line,
-        label: user.name,
+        label: user ? user.name : '',
       })),
     })),
   );

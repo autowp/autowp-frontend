@@ -15,21 +15,23 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class AccountInboxPicturesComponent implements OnInit {
   protected readonly data$ = combineLatest([
     this.route.queryParamMap.pipe(
-      map((params) => parseInt(params.get('page'), 10)),
+      map((params) => parseInt(params.get('page') || '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),
     this.auth.getUser$(),
   ]).pipe(
     switchMap(([page, user]) =>
-      this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        limit: 15,
-        order: 1,
-        owner_id: user.id,
-        page,
-        status: 'inbox',
-      }),
+      user
+        ? this.pictureService.getPictures$({
+            fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
+            limit: 15,
+            order: 1,
+            owner_id: user.id,
+            page,
+            status: 'inbox',
+          })
+        : EMPTY,
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);

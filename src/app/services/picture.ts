@@ -353,29 +353,22 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
 
 @Injectable()
 export class PictureService {
-  private readonly summary$: Observable<APIPictureUserSummary>;
-  private readonly inboxSize$: Observable<number>;
+  private readonly summary$: Observable<APIPictureUserSummary | null> = this.auth.getUser$().pipe(
+    switchMap((user) => {
+      if (!user) {
+        return of(null);
+      }
+      return this.api.request<APIPictureUserSummary>('GET', 'picture/user-summary');
+    }),
+    shareReplay(1),
+  );
 
-  constructor(
-    private readonly api: APIService,
-    private readonly auth: AuthService,
-    private readonly acl: ACLService,
-    private readonly pictures: PicturesClient,
-  ) {
-    this.summary$ = this.auth.getUser$().pipe(
-      switchMap((user) => {
-        if (!user) {
-          return of(null);
-        }
-        return this.api.request<APIPictureUserSummary>('GET', 'picture/user-summary');
-      }),
-      shareReplay(1),
-    );
-
-    this.inboxSize$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(
+  private readonly inboxSize$: Observable<null | number> = this.acl
+    .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
+    .pipe(
       switchMap((isModer) => {
         if (!isModer) {
-          return of(null as number);
+          return of(null);
         }
 
         return this.getPictures$({
@@ -385,17 +378,23 @@ export class PictureService {
       }),
       shareReplay(1),
     );
-  }
+
+  constructor(
+    private readonly api: APIService,
+    private readonly auth: AuthService,
+    private readonly acl: ACLService,
+    private readonly pictures: PicturesClient,
+  ) {}
 
   public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {
-      params: convertPictureOptions(options),
+      params: convertPictureOptions(options ? options : {}),
     });
   }
 
   public getPicture$(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', 'picture/' + id, {
-      params: convertPictureOptions(options),
+      params: convertPictureOptions(options ? options : {}),
     });
   }
 
@@ -405,15 +404,15 @@ export class PictureService {
 
   public getPictures$(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
     return this.api.request<APIPictureGetResponse>('GET', 'picture', {
-      params: converPicturesOptions(options),
+      params: converPicturesOptions(options ? options : {}),
     });
   }
 
-  public getSummary$(): Observable<APIPictureUserSummary> {
+  public getSummary$(): Observable<APIPictureUserSummary | null> {
     return this.summary$;
   }
 
-  public getInboxSize$(): Observable<number> {
+  public getInboxSize$(): Observable<null | number> {
     return this.inboxSize$;
   }
 

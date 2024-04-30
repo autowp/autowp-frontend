@@ -27,7 +27,7 @@ export class ModerTrafficComponent implements OnInit {
   protected readonly items$: Observable<ListItem[]> = this.change$.pipe(
     switchMap(() => this.trafficGrpc.getTop(new Empty())),
     map((response) =>
-      response.items.map((item) => ({
+      (response.items ? response.items : []).map((item) => ({
         hostname$: this.ipService.getHostByAddr$(item.ip),
         item,
       })),

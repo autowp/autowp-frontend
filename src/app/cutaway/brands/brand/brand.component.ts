@@ -5,7 +5,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
-import {EMPTY, Observable, combineLatest} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -35,7 +35,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
         }),
       );
     }),
-    map((response) => (response.items.length > 0 ? response.items[0] : null)),
+    switchMap((response) => (response.items && response.items.length > 0 ? of(response.items[0]) : EMPTY)),
     shareReplay(1),
   );
 
@@ -46,7 +46,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
         item_id: +brand.id,
         limit: 12,
         order: 15,
-        page: parseInt(params.get('page'), 10),
+        page: parseInt(params.get('page') || '', 10),
         perspective_id: 9,
         status: 'accepted',
       }),

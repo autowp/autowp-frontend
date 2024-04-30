@@ -3,7 +3,7 @@ import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '@grpc/spe
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
-import {BehaviorSubject, Observable, forkJoin, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, forkJoin, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
@@ -16,7 +16,7 @@ export class ModerItemsItemLinksComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
   private readonly reload$ = new BehaviorSubject<null>(null);
 
   protected loadingNumber = 0;
@@ -31,8 +31,10 @@ export class ModerItemsItemLinksComponent {
 
   protected readonly links$: Observable<APIItemLink[]> = this.reload$.pipe(
     switchMap(() => this.item$),
-    switchMap((item) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + item.id}))),
-    map((response) => response.items),
+    switchMap((item) =>
+      item ? this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + item.id})) : EMPTY,
+    ),
+    map((response) => (response.items ? response.items : [])),
   );
 
   constructor(

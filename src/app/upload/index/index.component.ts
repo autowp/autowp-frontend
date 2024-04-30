@@ -39,7 +39,7 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
-  protected files: File[];
+  protected files: File[] | undefined;
   protected note: string;
   protected progress: UploadProgress[] = [];
   protected pictures: APIPictureUpload[] = [];
@@ -49,33 +49,33 @@ export class UploadIndexComponent implements OnInit {
   @ViewChild('input') public input;
 
   protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('perspective_id'), 10)),
+    map((params) => parseInt(params.get('perspective_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly replace$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('replace'), 10)),
+    map((params) => parseInt(params.get('replace') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly replacePicture$ = this.replace$.pipe(
+  private readonly replacePicture$: Observable<APIPicture | null> = this.replace$.pipe(
     switchMap((replace) => {
-      return replace ? this.pictureService.getPicture$(replace, {fields: 'name_html'}) : of(null as APIPicture);
+      return replace ? this.pictureService.getPicture$(replace, {fields: 'name_html'}) : of(null);
     }),
   );
 
   protected readonly itemID$: Observable<string> = this.route.queryParamMap.pipe(
-    map((params) => params.get('item_id')),
+    map((params) => params.get('item_id') || ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly item$: Observable<APIItem> = this.itemID$.pipe(
+  private readonly item$: Observable<APIItem | null> = this.itemID$.pipe(
     switchMap((id) => {
       if (!id) {
-        return of(null as APIItem);
+        return of(null);
       }
       return this.itemsClient.item(
         new ItemRequest({
@@ -129,7 +129,7 @@ export class UploadIndexComponent implements OnInit {
 
     const xhrs: Observable<APIPicture>[] = [];
 
-    for (const file of this.files) {
+    for (const file of this.files ? this.files : []) {
       xhrs.push(this.uploadFile$(file));
     }
 
@@ -198,12 +198,16 @@ export class UploadIndexComponent implements OnInit {
       }),
       switchMap((event) => {
         if (event.type === HttpEventType.DownloadProgress) {
-          progress.percentage = Math.round(50 + 25 * (event.loaded / event.total));
+          if (event.total) {
+            progress.percentage = Math.round(50 + 25 * (event.loaded / event.total));
+          }
           return EMPTY;
         }
 
         if (event.type === HttpEventType.UploadProgress) {
-          progress.percentage = Math.round(50 * (event.loaded / event.total));
+          if (event.total) {
+            progress.percentage = Math.round(50 * (event.loaded / event.total));
+          }
           return EMPTY;
         }
 
@@ -211,7 +215,7 @@ export class UploadIndexComponent implements OnInit {
           progress.percentage = 75;
           progress.success = true;
 
-          const location = event.headers.get('Location');
+          const location = event.headers.get('Location') || '';
 
           return this.pictureService
             .getPictureByLocation$(location, {

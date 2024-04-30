@@ -20,17 +20,17 @@ interface InfoText {
   current: {
     revision: string;
     text: string;
-    user$: Observable<APIUser>;
-  };
+    user$: Observable<APIUser | null>;
+  } | null;
   diff: Diff[];
   next: {
     revision: string;
-  };
+  } | null;
   prev: {
     revision: string;
     text: string;
-    user$: Observable<APIUser>;
-  };
+    user$: Observable<APIUser | null>;
+  } | null;
 }
 
 @Component({
@@ -54,8 +54,8 @@ export class InfoTextComponent implements OnInit {
     switchMap(([id, revision]) =>
       this.textClient.getText(
         new APIGetTextRequest({
-          id: id,
-          revision: revision,
+          id: id ? id : undefined,
+          revision: revision ? revision : undefined,
         }),
       ),
     ),
@@ -64,20 +64,22 @@ export class InfoTextComponent implements OnInit {
       return EMPTY;
     }),
     map((response) => ({
-      current: {
-        revision: response.current.revision,
-        text: response.current.text,
-        user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
-      },
-      diff: JsDiff.diffChars(response.prev.text ? response.prev.text : '', response.current.text) as Diff[],
+      current: response.current
+        ? {
+            revision: response.current.revision,
+            text: response.current.text,
+            user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
+          }
+        : null,
+      diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text) as Diff[],
       next:
-        response.next.revision !== '0'
+        response.next && response.next.revision !== '0'
           ? {
               revision: response.next.revision,
             }
           : null,
       prev:
-        response.prev.revision !== '0'
+        response.prev && response.prev.revision !== '0'
           ? {
               revision: response.prev.revision,
               text: response.prev.text,

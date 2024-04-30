@@ -24,7 +24,7 @@ import {UsersOnlineComponent} from './users/online/online.component';
 export class AppComponent {
   protected languages: Language[] = [];
   protected readonly layoutParams$: Observable<LayoutParams>;
-  protected readonly user$: Observable<APIUser> = this.auth.getUser$();
+  protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
   protected readonly newPersonalMessages$ = this.messageService.getNew$().pipe(shareReplay(1));
   protected searchHostname: string;
   protected readonly categories$ = this.itemsClient.list(

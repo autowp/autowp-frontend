@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../../chunk';
@@ -15,7 +15,7 @@ export class ModerItemsItemPicturesComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected readonly canUseTurboGroupCreator$ = this.item$.pipe(
     map((item) =>
@@ -25,12 +25,15 @@ export class ModerItemsItemPicturesComponent {
 
   protected readonly picturesChunks$: Observable<APIPicture[][]> = this.item$.pipe(
     switchMap((item) =>
-      this.pictureService.getPictures$({
-        exact_item_id: item.id,
-        fields: 'owner,thumb_medium,moder_vote,votes,similar,comments_count,perspective_item,name_html,name_text,views',
-        limit: 500,
-        order: 14,
-      }),
+      item
+        ? this.pictureService.getPictures$({
+            exact_item_id: item.id,
+            fields:
+              'owner,thumb_medium,moder_vote,votes,similar,comments_count,perspective_item,name_html,name_text,views',
+            limit: 500,
+            order: 14,
+          })
+        : EMPTY,
     ),
     map((response) => chunkBy<APIPicture>(response.pictures, 6)),
   );

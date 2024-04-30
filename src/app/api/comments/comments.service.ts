@@ -9,12 +9,12 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class APICommentsService {
-  public readonly attentionCommentsCount$: Observable<number> = this.acl
+  public readonly attentionCommentsCount$: Observable<null | number> = this.acl
     .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
     .pipe(
       switchMap((isModer) => {
         if (!isModer) {
-          return of(null as number);
+          return of(null);
         }
 
         return this.commentsClient
@@ -24,7 +24,7 @@ export class APICommentsService {
               moderatorAttention: ModeratorAttention.REQUIRED,
             }),
           )
-          .pipe(map((response) => response.paginator.totalItemCount));
+          .pipe(map((response) => (response.paginator ? response.paginator.totalItemCount : null)));
       }),
       shareReplay(1),
     );

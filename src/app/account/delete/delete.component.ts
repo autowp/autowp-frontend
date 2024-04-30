@@ -6,6 +6,7 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
@@ -38,12 +39,14 @@ export class AccountDeleteComponent implements OnInit {
       .getUser$()
       .pipe(
         switchMap((user) =>
-          this.usersGrpc.deleteUser(
-            new APIDeleteUserRequest({
-              password: this.form.password_old,
-              userId: user.id,
-            }),
-          ),
+          user
+            ? this.usersGrpc.deleteUser(
+                new APIDeleteUserRequest({
+                  password: this.form.password_old,
+                  userId: user.id,
+                }),
+              )
+            : EMPTY,
         ),
       )
       .subscribe({

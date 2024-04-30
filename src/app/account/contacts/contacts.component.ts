@@ -47,7 +47,7 @@ export class AccountContactsComponent {
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: (response) => {
-          this.items = response.items;
+          this.items = response.items ? response.items : [];
         },
       });
   }

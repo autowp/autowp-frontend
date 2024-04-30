@@ -15,8 +15,8 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {
-  protected readonly id$: Observable<string> = this.route.parent.parent.paramMap.pipe(
-    map((params) => params.get('group')),
+  protected readonly id$: Observable<string> = this.route.parent!.parent!.paramMap.pipe(
+    map((params) => params.get('group') || ''),
     distinctUntilChanged(),
     shareReplay(1),
   );
@@ -54,11 +54,11 @@ export class TwinsGroupPicturesListComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
   );
 
-  protected readonly data$ = combineLatest([this.page$, this.id$]).pipe(
+  protected readonly data$: Observable<APIPictureGetResponse | null> = combineLatest([this.page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
       this.pictureService.getPictures$({
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
@@ -71,7 +71,7 @@ export class TwinsGroupPicturesListComponent {
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
-      return of(null as APIPictureGetResponse);
+      return of(null);
     }),
   );
 

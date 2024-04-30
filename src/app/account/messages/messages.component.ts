@@ -22,20 +22,20 @@ export class AccountMessagesComponent {
   protected pageName = '';
 
   protected readonly messages$: Observable<{
-    items: {author$: Observable<APIUser>; message: APIMessage}[];
-    paginator: Pages;
+    items: {author$: Observable<APIUser | null>; message: APIMessage}[];
+    paginator: Pages | undefined;
   }> = this.route.queryParamMap.pipe(
     map((params) => ({
       folder: params.get('folder'),
-      page: parseInt(params.get('page'), 10),
+      page: parseInt(params.get('page') || '', 10),
       user_id: params.get('user_id'),
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
     switchMap((params) => {
       this.folder = params.folder || 'inbox';
-      let pageId = null;
-      let userID: string = null;
+      let pageId: number = 0;
+      let userID: string = '';
 
       switch (this.folder) {
         case 'inbox':
@@ -53,7 +53,7 @@ export class AccountMessagesComponent {
         case 'dialog':
           pageId = 49;
           this.pageName = $localize`Personal messages`;
-          userID = params.user_id;
+          userID = params.user_id || '';
           break;
       }
 
@@ -69,7 +69,7 @@ export class AccountMessagesComponent {
               new MessagingGetMessagesRequest({
                 folder: this.folder,
                 page: params.page || 1,
-                userId: userID ? userID : null,
+                userId: userID ? userID : undefined,
               }),
             )
             .pipe(
@@ -82,15 +82,15 @@ export class AccountMessagesComponent {
       );
     }),
     tap((response) => {
-      this.messageService.seen(response.items);
+      if (response.items) {
+        this.messageService.seen(response.items);
+      }
     }),
     map((response) => {
       return {
-        items: response.items.map((msg) => ({
+        items: (response.items || []).map((msg) => ({
           author$:
-            msg.authorId !== '0'
-              ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'})
-              : of(null as APIUser),
+            msg.authorId !== '0' ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'}) : of(null),
           message: msg,
         })),
         paginator: response.paginator,

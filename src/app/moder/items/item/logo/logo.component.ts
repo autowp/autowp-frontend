@@ -23,7 +23,7 @@ export class ModerItemsItemLogoComponent {
     invalidParams: InvalidParams;
     percentage: number;
     success: boolean;
-  } = null;
+  } | null = null;
 
   constructor(
     private readonly acl: ACLService,
@@ -33,7 +33,7 @@ export class ModerItemsItemLogoComponent {
 
   protected onChange(event: Event) {
     const files = (event.target as HTMLInputElement).files;
-    if (files.length <= 0) {
+    if (!files || files.length <= 0) {
       return;
     }
     const file = files[0];
@@ -58,32 +58,42 @@ export class ModerItemsItemLogoComponent {
       .pipe(
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse) {
-            this.progress.percentage = 100;
-            this.progress.failed = true;
+            if (this.progress) {
+              this.progress.percentage = 100;
+              this.progress.failed = true;
 
-            this.progress.invalidParams = response.error.invalid_params;
+              this.progress.invalidParams = response.error.invalid_params;
+            }
           }
 
           return EMPTY;
         }),
         switchMap((httpEvent) => {
           if (httpEvent.type === HttpEventType.DownloadProgress) {
-            this.progress.percentage = Math.round(50 + 25 * (httpEvent.loaded / httpEvent.total));
+            if (this.progress && httpEvent.total) {
+              this.progress.percentage = Math.round(50 + 25 * (httpEvent.loaded / httpEvent.total));
+            }
             return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(50 * (httpEvent.loaded / httpEvent.total));
+            if (this.progress && httpEvent.total) {
+              this.progress.percentage = Math.round(50 * (httpEvent.loaded / httpEvent.total));
+            }
             return EMPTY;
           }
 
           if (httpEvent.type === HttpEventType.Response) {
-            this.progress.percentage = 75;
-            this.progress.success = true;
+            if (this.progress) {
+              this.progress.percentage = 75;
+              this.progress.success = true;
+            }
 
             return this.api.request<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
               tap((subresponse) => {
-                this.progress.percentage = 100;
+                if (this.progress) {
+                  this.progress.percentage = 100;
+                }
                 this.item.logo = subresponse;
               }),
               catchError((response: unknown) => {

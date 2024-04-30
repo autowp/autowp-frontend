@@ -8,7 +8,7 @@ import {
   getUnitTranslation,
   getVehicleTypeRpTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIMostsItem, MostsService} from '../mosts.service';
@@ -38,7 +38,7 @@ export class MostsContentsComponent {
   @Input() set ratingCatname(ratingCatname: string) {
     this.ratingCatname$.next(ratingCatname);
   }
-  protected readonly ratingCatname$ = new BehaviorSubject<string>(null);
+  protected readonly ratingCatname$ = new BehaviorSubject<null | string>(null);
 
   protected readonly ratingCatnameNormalized$ = this.ratingCatname$.pipe(
     switchMap((ratingCatname) =>
@@ -49,22 +49,22 @@ export class MostsContentsComponent {
   @Input() set typeCatname(typeCatname: string) {
     this.typeCatname$.next(typeCatname);
   }
-  protected readonly typeCatname$ = new BehaviorSubject<string>(null);
+  protected readonly typeCatname$ = new BehaviorSubject<null | string>(null);
 
   @Input() set yearsCatname(yearsCatname: string) {
     this.yearsCatname$.next(yearsCatname);
   }
-  protected readonly yearsCatname$ = new BehaviorSubject<string>(null);
+  protected readonly yearsCatname$ = new BehaviorSubject<null | string>(null);
 
   @Input() set brandID(brandID: number) {
     this.brandID$.next(brandID);
   }
-  protected readonly brandID$ = new BehaviorSubject<number>(null);
+  protected readonly brandID$ = new BehaviorSubject<null | number>(null);
 
   private readonly menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((brandID) => this.mostsService.getMenu$(brandID)),
+    switchMap((brandID) => (brandID ? this.mostsService.getMenu$(brandID) : EMPTY)),
     shareReplay(1),
   );
 
@@ -90,12 +90,14 @@ export class MostsContentsComponent {
     switchMap(([ratingCatname, typeCatname, yearsCatname]) =>
       this.brandID$.pipe(
         switchMap((brandID) =>
-          this.mostsService.getItems$({
-            brand_id: brandID,
-            rating_catname: ratingCatname,
-            type_catname: typeCatname,
-            years_catname: yearsCatname,
-          }),
+          brandID
+            ? this.mostsService.getItems$({
+                brand_id: brandID,
+                rating_catname: ratingCatname,
+                type_catname: typeCatname || '',
+                years_catname: yearsCatname || '',
+              })
+            : EMPTY,
         ),
       ),
     ),

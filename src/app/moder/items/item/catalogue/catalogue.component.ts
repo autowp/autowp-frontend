@@ -5,7 +5,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
-import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
@@ -16,7 +16,7 @@ export class ModerItemsItemCatalogueComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected readonly ItemType: typeof ItemType = ItemType;
 
@@ -29,14 +29,17 @@ export class ModerItemsItemCatalogueComponent {
   protected readonly canMove$ = this.acl.isAllowed$(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
 
   protected readonly organizeTypeId$ = this.item$.pipe(
+    switchMap((item) => (item ? of(item) : EMPTY)),
     map((item) => (item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id)),
   );
 
   protected readonly canHaveParentBrand$ = this.item$.pipe(
+    switchMap((item) => (item ? of(item) : EMPTY)),
     map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)),
   );
 
   protected readonly canHaveParents$ = this.item$.pipe(
+    switchMap((item) => (item ? of(item) : EMPTY)),
     map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)),
   );
 
@@ -44,6 +47,7 @@ export class ModerItemsItemCatalogueComponent {
     text$: Observable<string>,
   ) =>
     this.item$.pipe(
+      switchMap((item) => (item ? of(item) : EMPTY)),
       switchMap((item) =>
         text$.pipe(
           debounceTime(50),
@@ -69,7 +73,10 @@ export class ModerItemsItemCatalogueComponent {
       ),
     );
 
-  protected readonly childs$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadChilds$]).pipe(
+  protected readonly childs$: Observable<APIItemParent[]> = combineLatest([
+    this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
+    this.reloadChilds$,
+  ]).pipe(
     switchMap(([item]) =>
       this.itemParentService.getItems$({
         fields: 'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
@@ -81,7 +88,10 @@ export class ModerItemsItemCatalogueComponent {
     map((response) => response.items),
   );
 
-  protected readonly parents$: Observable<APIItemParent[]> = combineLatest([this.item$, this.reloadParents$]).pipe(
+  protected readonly parents$: Observable<APIItemParent[]> = combineLatest([
+    this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
+    this.reloadParents$,
+  ]).pipe(
     switchMap(([item]) =>
       this.itemParentService.getItems$({
         fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes',
@@ -92,7 +102,10 @@ export class ModerItemsItemCatalogueComponent {
     map((response) => response.items),
   );
 
-  protected readonly suggestions$: Observable<APIItem[]> = combineLatest([this.item$, this.reloadSuggestions$]).pipe(
+  protected readonly suggestions$: Observable<APIItem[]> = combineLatest([
+    this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
+    this.reloadSuggestions$,
+  ]).pipe(
     switchMap(([item]) =>
       this.itemService.getItems$({
         fields: 'name_text',

@@ -14,7 +14,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   @Input() set item(value: APIItem) {
     this.item$.next(value);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   @Input() set order(value: string) {
     this.order$.next(value);
@@ -29,13 +29,15 @@ export class ModerItemsItemSelectParentTreeItemComponent {
 
   protected readonly childs$ = combineLatest([this.item$, this.order$.pipe(distinctUntilChanged())]).pipe(
     switchMap(([item, order]) =>
-      this.itemParentService.getItems$({
-        fields: '',
-        is_group: true,
-        limit: 100,
-        order,
-        parent_id: +item.id,
-      }),
+      item
+        ? this.itemParentService.getItems$({
+            fields: '',
+            is_group: true,
+            limit: 100,
+            order,
+            parent_id: +item.id,
+          })
+        : EMPTY,
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);

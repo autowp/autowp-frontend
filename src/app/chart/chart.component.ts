@@ -35,7 +35,21 @@ export class ChartComponent {
     responsive: true,
   };
 
-  protected readonly chart = {
+  protected readonly chart: {
+    colors: {
+      backgroundColor: string;
+      borderColor: string;
+      pointBackgroundColor: string;
+      pointBorderColor: string;
+      pointHoverBackgroundColor: string;
+      pointHoverBorderColor: string;
+    }[];
+    data: {
+      data: number[];
+      label: string;
+    }[];
+    labels: number[];
+  } = {
     colors: [
       {
         backgroundColor: 'rgba(41,84,109,1)',

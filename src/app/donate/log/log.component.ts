@@ -6,7 +6,7 @@ interface LogItem {
   currency: string;
   date: string;
   sum: number;
-  user?: APIUser;
+  user?: APIUser | null;
   user_id: number;
 }
 

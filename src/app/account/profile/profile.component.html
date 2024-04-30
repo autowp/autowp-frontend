@@ -34,8 +34,8 @@
 
 <h2 i18n>Other</h2>
 <div class="card card-body mb-4">
-  <p [hidden]="votesLeft < 0"><ng-container i18n>Votes per day</ng-container>: {{ votesPerDay }}</p>
-  <p [hidden]="votesLeft < 0"><ng-container i18n>Votes left</ng-container>: {{ votesLeft }}</p>
+  <p *ngIf="votesLeft >= 0"><ng-container i18n>Votes per day</ng-container>: {{ votesPerDay }}</p>
+  <p *ngIf="votesLeft >= 0"><ng-container i18n>Votes left</ng-container>: {{ votesLeft }}</p>
   <form method="post" class="form-horizontal" (submit)="sendSettings()">
     <div class="mb-3 row">
       <label class="col-md-3 col-form-label" for="language" i18n>Language</label>

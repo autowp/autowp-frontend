@@ -38,7 +38,7 @@ export class CatalogueVehiclesPicturesComponent {
     );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -76,9 +76,9 @@ export class CatalogueVehiclesPicturesComponent {
   protected readonly pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
     switchMap(([exact, item, page]) =>
       this.pictureService.getPictures$({
-        exact_item_id: exact ? item.id : null,
+        exact_item_id: exact ? item.id : undefined,
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-        item_id: exact ? null : item.id,
+        item_id: exact ? undefined : item.id,
         limit: 20,
         order: 16,
         page,

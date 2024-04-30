@@ -34,7 +34,7 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
       id: item.id,
       name: getVehicleTypeTranslation(item.name),
     });
-    for (const subitem of toPlainVehicleType(item.childs, deep + 1)) {
+    for (const subitem of toPlainVehicleType(item.childs ? item.childs : [], deep + 1)) {
       result.push(subitem);
     }
   }
@@ -46,7 +46,7 @@ function toPlainSpec(options: APISpecInItems[], deep: number): APISpecInItems[] 
   for (const item of options) {
     item.deep = deep;
     result.push(item);
-    for (const subitem of toPlainSpec(item.childs, deep + 1)) {
+    for (const subitem of toPlainSpec(item.childs ? item.childs : [], deep + 1)) {
       result.push(subitem);
     }
   }
@@ -82,7 +82,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected specID: null | number = null;
 
-  protected noParent: boolean = null;
+  protected noParent: boolean | null = null;
 
   protected text = '';
 
@@ -92,7 +92,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected order: string = DEFAULT_ORDER;
 
-  protected ancestorID: number;
+  protected ancestorID: null | number;
   protected ancestorQuery = '';
   protected ancestorsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
     text$: Observable<string>,
@@ -121,7 +121,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items),
+          map((response) => (response.items ? response.items : [])),
         );
       }),
     );
@@ -161,21 +161,23 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     this.querySub = this.route.queryParamMap
       .pipe(
         map((params) => ({
-          ancestorID: parseInt(params.get('ancestor_id'), 10) || null,
-          fromYear: parseInt(params.get('from_year'), 10) || null,
-          itemTypeID: parseInt(params.get('item_type_id'), 10),
+          ancestorID: parseInt(params.get('ancestor_id') || '', 10) || null,
+          fromYear: parseInt(params.get('from_year') || '', 10) || null,
+          itemTypeID: parseInt(params.get('item_type_id') || '', 10),
           listMode: !!params.get('list_mode'),
           name: params.get('name') || '',
           nameExclude: params.get('name_exclude') || '',
           noParent: !!params.get('no_parent'),
           order: params.get('order') || DEFAULT_ORDER,
-          page: parseInt(params.get('page'), 10) || 1,
-          specID: parseInt(params.get('spec_id'), 10) || null,
+          page: parseInt(params.get('page') || '', 10) || 1,
+          specID: parseInt(params.get('spec_id') || '', 10) || null,
           text: params.get('text') || '',
-          toYear: parseInt(params.get('to_year'), 10) || null,
-          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id'), 10) || null,
+          toYear: parseInt(params.get('to_year') || '', 10) || null,
+          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id') || '', 10) || null,
           vehicleTypeID:
-            params.get('vehicle_type_id') === 'empty' ? 'empty' : parseInt(params.get('vehicle_type_id'), 10) || null,
+            params.get('vehicle_type_id') === 'empty'
+              ? 'empty'
+              : parseInt(params.get('vehicle_type_id') || '', 10) || null,
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
@@ -212,21 +214,21 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           }
 
           return this.itemService.getItems$({
-            ancestor_id: params.ancestorID ? params.ancestorID : null,
+            ancestor_id: params.ancestorID ? params.ancestorID : undefined,
             fields,
-            from_year: params.fromYear ? params.fromYear : null,
+            from_year: params.fromYear ? params.fromYear : undefined,
             limit,
             name: params.name ? params.name + '%' : null,
             name_exclude: params.nameExclude ? params.nameExclude + '%' : null,
-            no_parent: params.noParent ? true : null,
+            no_parent: params.noParent ? true : undefined,
             order: params.order,
             page: params.page,
-            spec: params.specID,
-            text: params.text ? params.text : null,
-            to_year: params.toYear ? params.toYear : null,
-            type_id: params.itemTypeID,
-            vehicle_childs_type_id: params.vehicleChildsTypeID,
-            vehicle_type_id: params.vehicleTypeID,
+            spec: params.specID ? params.specID : undefined,
+            text: params.text ? params.text : undefined,
+            to_year: params.toYear ? params.toYear : undefined,
+            type_id: params.itemTypeID ? params.itemTypeID : undefined,
+            vehicle_childs_type_id: params.vehicleChildsTypeID ? params.vehicleChildsTypeID : undefined,
+            vehicle_type_id: params.vehicleTypeID ? params.vehicleTypeID : undefined,
           });
         }),
         tap(() => (this.loading = 0)),
@@ -234,24 +236,24 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.items = response.items.map((item) => {
           const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-            picture: picture ? picture.picture : null,
-            routerLink: picture && picture.picture ? ['/picture', picture.picture.identity] : null,
-            thumb: picture ? picture.thumb : null,
+            picture: picture?.picture ? picture.picture : null,
+            routerLink: picture?.picture ? ['/picture', picture.picture.identity] : undefined,
+            thumb: picture ? picture.thumb : undefined,
           }));
 
           return {
             accepted_pictures_count: item.accepted_pictures_count,
-            can_edit_specs: item.can_edit_specs,
+            can_edit_specs: !!item.can_edit_specs,
             categories: item.categories,
-            childs_counts: item.childs_counts,
+            childs_counts: item.childs_counts ? item.childs_counts : null,
             description: item.description,
-            design: item.design,
+            design: item.design ? item.design : null,
             details: {
               count: item.childs_count,
               routerLink: item.route,
             },
             engine_vehicles: item.engine_vehicles,
-            has_text: item.has_text,
+            has_text: !!item.has_text,
             id: item.id,
             item_type_id: item.item_type_id,
             name_default: item.name_default,
@@ -263,7 +265,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
             },
             produced: item.produced,
             produced_exactly: item.produced_exactly,
-            specsRouterLink: item.has_specs || item.has_child_specs ? item.specs_route : null,
+            specsRouterLink: item.has_specs || item.has_child_specs ? item.specs_route || null : null,
             twins_groups: item.twins_groups,
           };
         });

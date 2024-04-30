@@ -8,7 +8,7 @@ import {map, shareReplay} from 'rxjs/operators';
 const translateNames = (types: VehicleType[]): VehicleType[] => {
   types.forEach((type) => {
     type.name = getVehicleTypeTranslation(type.name);
-    type.childs = translateNames(type.childs);
+    type.childs = translateNames(type.childs ? type.childs : []);
   });
   return types;
 };

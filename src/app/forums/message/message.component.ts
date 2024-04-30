@@ -28,7 +28,9 @@ export class MessageComponent implements OnInit, OnDestroy {
         map((params) => params.get('message_id')),
         distinctUntilChanged(),
         switchMap((messageId) =>
-          this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE})),
+          messageId
+            ? this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE}))
+            : EMPTY,
         ),
         catchError((response: unknown) => {
           this.toastService.handleError(response);

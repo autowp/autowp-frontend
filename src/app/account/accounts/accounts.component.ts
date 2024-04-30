@@ -12,7 +12,7 @@ import {APIAccount, APIAccountItemsGetResponse} from '../account.service';
   templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {
-  private readonly reload$ = new BehaviorSubject<void>(null);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly accounts$: Observable<APIAccount[]> = combineLatest([
     this.api.request<APIAccountItemsGetResponse>('GET', 'account'),
     this.reload$,

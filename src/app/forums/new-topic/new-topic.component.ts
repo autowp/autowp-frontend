@@ -28,7 +28,7 @@ export class ForumsNewTopicComponent implements OnInit {
   protected readonly theme$ = this.route.paramMap.pipe(
     map((params) => params.get('theme_id')),
     distinctUntilChanged(),
-    switchMap((themeID) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: themeID}))),
+    switchMap((themeID) => (themeID ? this.grpc.getTheme(new APIGetForumsThemeRequest({id: themeID})) : EMPTY)),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,

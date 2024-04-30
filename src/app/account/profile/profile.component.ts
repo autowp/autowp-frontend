@@ -22,15 +22,15 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class AccountProfileComponent implements OnInit, OnDestroy {
   protected user: APIUser;
 
-  protected readonly settings = {
+  protected readonly settings: {language: null | string; timezone: null | string} = {
     language: null,
     timezone: null,
   };
   protected settingsInvalidParams: InvalidParams = {};
   protected photoInvalidParams: InvalidParams = {};
-  protected votesPerDay: null | number = null;
-  protected votesLeft: null | number = null;
-  protected photo: APIImage;
+  protected votesPerDay: number = 0;
+  protected votesLeft: number = 0;
+  protected photo: APIImage | null;
   private sub: Subscription;
 
   @ViewChild('input') input;
@@ -89,8 +89,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.settings.timezone = user.timezone;
         this.settings.language = user.language;
-        this.votesPerDay = user.votes_per_day;
-        this.votesLeft = user.votes_left;
+        this.votesPerDay = user.votes_per_day || 0;
+        this.votesLeft = user.votes_left || 0;
         this.photo = user.img;
       });
   }
@@ -128,7 +128,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     this.api.request('DELETE', 'user/me/photo').subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
-        this.user.avatar = null;
+        this.user.avatar = undefined;
         this.photo = null;
       },
     });

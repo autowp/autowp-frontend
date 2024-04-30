@@ -44,7 +44,7 @@ interface APINewGetResponse {
 })
 export class NewComponent implements OnInit {
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -58,7 +58,7 @@ export class NewComponent implements OnInit {
 
   protected readonly data$: Observable<{
     current: DayCount;
-    groups: APINewGroupRepacked[];
+    groups: (APINewGroupRepacked | null)[];
     next: DayCount;
     paginator: APIPaginator;
     prev: DayCount;
@@ -104,23 +104,25 @@ export class NewComponent implements OnInit {
     }),
     map((response) => ({
       current: response.current,
-      groups: response.groups.map((group) => {
-        let repackedGroup: APINewGroupRepacked;
+      groups: response.groups
+        .filter((group) => group.type === 'item' || group.type === 'pictures')
+        .map((group) => {
+          let repackedGroup: APINewGroupRepacked | null = null;
 
-        switch (group.type) {
-          case 'item':
-            repackedGroup = group;
-            break;
-          case 'pictures':
-            repackedGroup = {
-              chunks: chunkBy(group.pictures, 6),
-              type: group.type,
-            };
-            break;
-        }
+          switch (group.type) {
+            case 'item':
+              repackedGroup = group;
+              break;
+            case 'pictures':
+              repackedGroup = {
+                chunks: chunkBy(group.pictures, 6),
+                type: group.type,
+              };
+              break;
+          }
 
-        return repackedGroup;
-      }),
+          return repackedGroup;
+        }),
       next: response.next,
       paginator: response.paginator,
       prev: response.prev,

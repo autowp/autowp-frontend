@@ -19,7 +19,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
   @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<string>(null);
+  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
     map((params) => params.get('brand_id')),
@@ -28,13 +28,13 @@ export class ModerItemsItemSelectParentTwinsComponent {
   );
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay(1),
   );
 
-  protected readonly twinsBrands$: Observable<{brands: GRPCAPIItem[][]; paginator: Pages}> = this.brandID$.pipe(
+  protected readonly twinsBrands$: Observable<{brands: GRPCAPIItem[][]; paginator?: Pages} | null> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
@@ -61,14 +61,14 @@ export class ModerItemsItemSelectParentTwinsComponent {
               return EMPTY;
             }),
             map((response) => ({
-              brands: chunk<GRPCAPIItem>(response.items, 6),
+              brands: chunk<GRPCAPIItem>(response.items ? response.items : [], 6),
               paginator: response.paginator,
             })),
           ),
     ),
   );
 
-  protected readonly twins$: Observable<{items: GRPCAPIItem[]; paginator: Pages}> = this.brandID$.pipe(
+  protected readonly twins$: Observable<{items?: GRPCAPIItem[]; paginator?: Pages} | null> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? this.page$.pipe(

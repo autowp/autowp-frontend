@@ -13,18 +13,20 @@ export class UploadSelectTreeItemComponent {
   @Input() set item(item: APIItemParent) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItemParent>(null);
+  protected readonly item$ = new BehaviorSubject<APIItemParent | null>(null);
 
   protected open = false;
 
   protected readonly childs$: Observable<APIItemParent[]> = this.item$.pipe(
     switchMap((item) =>
-      this.itemParentService.getItems$({
-        fields: 'item.name_html,item.childs_count',
-        limit: 500,
-        order: 'type_auto',
-        parent_id: item.item_id,
-      }),
+      item
+        ? this.itemParentService.getItems$({
+            fields: 'item.name_html,item.childs_count',
+            limit: 500,
+            order: 'type_auto',
+            parent_id: item.item_id,
+          })
+        : EMPTY,
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);

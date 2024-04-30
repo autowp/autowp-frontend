@@ -13,7 +13,7 @@ export class UsersOnlineComponent {
   private readonly reload$ = new BehaviorSubject<boolean>(true);
   protected readonly users$: Observable<APIUser[]> = this.reload$.pipe(
     switchMap(() => this.usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
-    map((response) => response.items),
+    map((response) => (response.items ? response.items : [])),
   );
 
   constructor(

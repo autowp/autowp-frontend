@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -14,20 +14,22 @@ export class VotingVotesComponent {
   @Input() set votingID(value: number) {
     this.votingID$.next(value);
   }
-  private readonly votingID$ = new BehaviorSubject<number>(null);
+  private readonly votingID$ = new BehaviorSubject<null | number>(null);
 
   @Input() set variantID(value: number) {
     this.variantID$.next(value);
   }
-  private readonly variantID$ = new BehaviorSubject<number>(null);
+  private readonly variantID$ = new BehaviorSubject<null | number>(null);
 
   protected readonly votes$: Observable<APIVotingVariantVote[]> = combineLatest([this.votingID$, this.variantID$]).pipe(
-    switchMap(([votingID, variantID]) => this.votingService.getVariantVotes$(votingID, variantID, {fields: 'user'})),
+    switchMap(([votingID, variantID]) =>
+      votingID && variantID ? this.votingService.getVariantVotes$(votingID, variantID, {fields: 'user'}) : of(null),
+    ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    map((response) => response.items),
+    map((response) => (response ? response.items : [])),
   );
 
   constructor(

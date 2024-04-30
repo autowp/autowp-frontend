@@ -9,8 +9,8 @@ import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
@@ -23,7 +23,7 @@ function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
       id: item.id,
       short_name: item.shortName,
     });
-    for (const subitem of specsToPlain(item.childs, deep + 1)) {
+    for (const subitem of specsToPlain(item.childs ? item.childs : [], deep + 1)) {
       result.push(subitem);
     }
   }
@@ -79,38 +79,38 @@ interface PicturesListItem {
 
 interface Form {
   begin?: FormGroup<{
-    month: FormControl<number>;
-    year: FormControl<number>;
+    month: FormControl<null | number>;
+    year: FormControl<null | number>;
   }>;
-  body?: FormControl<string>;
-  catname?: FormControl<string>;
+  body?: FormControl<null | string>;
+  catname?: FormControl<null | string>;
   end?: FormGroup<{
-    month: FormControl<number>;
-    today: FormControl<boolean>;
-    year: FormControl<number>;
+    month: FormControl<null | number>;
+    today: FormControl<boolean | null>;
+    year: FormControl<null | number>;
   }>;
-  full_name?: FormControl<string>;
-  is_concept?: FormControl<boolean>;
-  is_group?: FormControl<boolean>;
+  full_name?: FormControl<null | string>;
+  is_concept?: FormControl<boolean | null>;
+  is_group?: FormControl<boolean | null>;
   items?: FormArray<FormControl<string>>;
   model_years?: FormGroup<{
-    begin_year: FormControl<number>;
-    begin_year_fraction: FormControl<string>;
-    end_year: FormControl<number>;
-    end_year_fraction: FormControl<string>;
+    begin_year: FormControl<null | number>;
+    begin_year_fraction: FormControl<null | string>;
+    end_year: FormControl<null | number>;
+    end_year_fraction: FormControl<null | string>;
   }>;
-  name: FormControl<string>;
+  name: FormControl<null | string>;
   pictures?: FormArray<FormControl<number>>;
   point?: FormControl<{
     lat: number;
     lng: number;
-  }>;
+  } | null>;
   produced?: FormGroup<{
-    count: FormControl<number>;
-    exactly: FormControl<boolean>;
+    count: FormControl<null | number>;
+    exactly: FormControl<boolean | null>;
   }>;
-  spec_id?: FormControl<number | string>;
-  vehicle_type_id?: FormControl<string[]>;
+  spec_id?: FormControl<null | number | string>;
+  vehicle_type_id?: FormControl<null | string[]>;
 }
 
 export interface ParentIsConcept {
@@ -130,27 +130,27 @@ export class ItemMetaFormComponent {
   @Input() set disableIsGroup(disableIsGroup: boolean) {
     this.disableIsGroup$.next(disableIsGroup);
   }
-  protected readonly disableIsGroup$ = new BehaviorSubject<boolean>(null);
+  protected readonly disableIsGroup$ = new BehaviorSubject<boolean | null>(null);
 
   @Input() set parentIsConcept(isConcept: ParentIsConcept) {
     this.parentIsConcept$.next(isConcept);
   }
-  protected readonly parentIsConcept$ = new BehaviorSubject<ParentIsConcept>(null);
+  protected readonly parentIsConcept$ = new BehaviorSubject<ParentIsConcept | null>(null);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   @Input() set vehicleTypeIDs(vehicleTypeIDs: string[]) {
     this.vehicleTypeIDs$.next(vehicleTypeIDs);
   }
-  private readonly vehicleTypeIDs$ = new BehaviorSubject<string[]>(null);
+  private readonly vehicleTypeIDs$ = new BehaviorSubject<null | string[]>(null);
 
   @Input() set items(items: APIItem[]) {
     this.items$.next(items);
   }
-  protected readonly items$ = new BehaviorSubject<APIItem[]>(null);
+  protected readonly items$ = new BehaviorSubject<APIItem[] | null>(null);
 
   @Input() set pictures(pictures: APIPictureItem[]) {
     this.pictures$.next(
@@ -162,7 +162,7 @@ export class ItemMetaFormComponent {
         : null,
     );
   }
-  protected readonly pictures$ = new BehaviorSubject<PicturesListItem[]>(null);
+  protected readonly pictures$ = new BehaviorSubject<PicturesListItem[] | null>(null);
 
   private readonly vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>
@@ -227,7 +227,7 @@ export class ItemMetaFormComponent {
 
   protected readonly monthOptions: {
     name: string;
-    value: number;
+    value: null | number;
   }[] = [
     {
       name: '--',
@@ -276,7 +276,7 @@ export class ItemMetaFormComponent {
   );
 
   protected readonly form$: Observable<FormGroup<Form>> = combineLatest([
-    this.item$,
+    this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.vehicleTypeIDs$,
     this.disableIsGroup$,
     this.items$,
@@ -306,7 +306,10 @@ export class ItemMetaFormComponent {
           exactly: new FormControl(item.produced_exactly),
         });
         elements.is_concept = new FormControl(item.is_concept);
-        elements.is_group = new FormControl({disabled: item.childs_count > 0 || disableIsGroup, value: item.is_group});
+        elements.is_group = new FormControl({
+          disabled: !!(item.childs_count > 0 || disableIsGroup),
+          value: item.is_group,
+        });
       }
       if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {
         elements.vehicle_type_id = new FormControl(vehicleTypeIDs);
@@ -384,7 +387,7 @@ export class ItemMetaFormComponent {
     );
   }
 
-  protected onCheckboxChange(e: Event, ctrl: FormArray<FormControl<string>>) {
+  protected onCheckboxChange(e: Event, ctrl: FormArray<FormControl<null | string>>) {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
       ctrl.push(new FormControl<string>(target.value));
@@ -400,7 +403,7 @@ export class ItemMetaFormComponent {
     }
   }
 
-  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<number>>) {
+  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<null | number>>) {
     e.selected = !e.selected;
     if (e.selected) {
       ctrl.push(new FormControl<number>(e.pictureItem.picture_id));

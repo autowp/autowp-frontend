@@ -4,6 +4,8 @@ import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
 import {getPerspectiveTranslation} from '@utils/translations';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -12,7 +14,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './perspectives.component.html',
 })
 export class ModerPerspectivesComponent {
-  protected pages: PerspectivePage[];
+  protected readonly pages$: Observable<PerspectivePage[]> = this.grpc.getPerspectivePages(new Empty()).pipe(
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
+      return EMPTY;
+    }),
+    map((response) => (response.items ? response.items : [])),
+  );
 
   constructor(
     private readonly grpc: AutowpClient,
@@ -27,13 +35,6 @@ export class ModerPerspectivesComponent {
         }),
       0,
     );
-
-    this.grpc.getPerspectivePages(new Empty()).subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
-      next: (response) => {
-        this.pages = response.items;
-      },
-    });
   }
 
   protected getPerspectiveTranslation(id: string): string {

@@ -12,7 +12,7 @@ export class MarkdownComponent {
   @Input() set markdown(value: string) {
     this.markdown$.next(value);
   }
-  private readonly markdown$ = new BehaviorSubject<string>(null);
+  private readonly markdown$ = new BehaviorSubject<null | string>(null);
 
   private readonly markdownConverter = new showdown.Converter({});
 

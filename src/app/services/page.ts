@@ -19,11 +19,11 @@ export interface Page {
 @Injectable()
 export class PageService {
   private pages = new Map<number, Page>();
-  private parents = new Map<number, number>();
+  private parents = new Map<number, null | number>();
 
   private pagesJson: Page[];
 
-  private walkPages(pages: Page[], parentID: number) {
+  private walkPages(pages: Page[], parentID: null | number) {
     for (const page of pages) {
       this.parents.set(page.id, parentID);
       this.pages.set(page.id, page);
@@ -32,7 +32,7 @@ export class PageService {
   }
 
   private isDescendantPrivate(id: number, parentID: number): boolean {
-    let pageId: number = id;
+    let pageId: null | number | undefined = id;
     while (pageId) {
       if (this.parents.get(pageId) === parentID) {
         return true;

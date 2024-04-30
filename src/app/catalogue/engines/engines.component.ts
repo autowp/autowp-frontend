@@ -15,7 +15,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 })
 export class CatalogueEnginesComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -42,7 +42,7 @@ export class CatalogueEnginesComponent {
         )
         .pipe(
           switchMap((response) => {
-            if (response.items.length <= 0) {
+            if (!response.items || response.items.length <= 0) {
               this.router.navigate(['/error-404'], {
                 skipLocationChange: true,
               });
@@ -86,15 +86,15 @@ export class CatalogueEnginesComponent {
         const routerLink = ['/', brand.catname, item.catname];
 
         const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
-          picture: picture ? picture.picture : null,
+          picture: picture.picture ? picture.picture : null,
           routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
           thumb: picture ? picture.thumb : null,
         }));
 
         return {
           accepted_pictures_count: item.item.accepted_pictures_count,
-          can_edit_specs: item.item.can_edit_specs,
-          childs_counts: item.item.childs_counts,
+          can_edit_specs: !!item.item.can_edit_specs,
+          childs_counts: item.item.childs_counts ? item.item.childs_counts : null,
           description: item.item.description,
           design: null,
           details: {
@@ -102,7 +102,7 @@ export class CatalogueEnginesComponent {
             routerLink,
           },
           engine_vehicles: item.item.engine_vehicles,
-          has_text: item.item.has_text,
+          has_text: !!item.item.has_text,
           id: item.item.id,
           item_type_id: item.item.item_type_id,
           name_default: item.item.name_default,

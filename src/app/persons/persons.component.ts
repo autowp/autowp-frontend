@@ -13,7 +13,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
 })
 export class PersonsComponent implements OnInit {
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -82,8 +82,10 @@ export class PersonsComponent implements OnInit {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());
 
-      const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-        picture: picture ? picture.picture : null,
+      const pictures: CatalogueListItemPicture[] = (
+        item.preview_pictures?.pictures ? item.preview_pictures.pictures : []
+      ).map((picture) => ({
+        picture: picture?.picture ? picture.picture : null,
         routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
         thumb: picture ? picture.thumb : null,
       }));
@@ -98,15 +100,15 @@ export class PersonsComponent implements OnInit {
           count: item.childs_count,
           routerLink: itemRouterLink,
         },
-        engine_vehicles: null,
-        has_text: item.has_text,
+        engine_vehicles: undefined,
+        has_text: !!item.has_text,
         id: item.id,
         item_type_id: item.item_type_id,
         name_default: item.name_default,
         name_html: item.name_html,
         picturesRouterLink: itemRouterLink,
         preview_pictures: {
-          large_format: item.preview_pictures.large_format,
+          large_format: item.preview_pictures ? item.preview_pictures.large_format : false,
           pictures,
         },
         produced: null,

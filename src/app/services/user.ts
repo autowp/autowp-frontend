@@ -44,7 +44,7 @@ export interface APIUser {
   login: string;
   long_away: boolean;
   name: string;
-  photo: APIImage;
+  photo: APIImage | null;
   pictures_accepted_count: number;
   pictures_added: number;
   reg_date: string;
@@ -101,7 +101,7 @@ export class UserService {
   private cache: Map<string, APIUser> = new Map<string, APIUser>();
   private promises = new Map<string, Observable<null>>();
 
-  private cache2 = new Map<string, Observable<APIUser2>>();
+  private cache2 = new Map<string, Observable<APIUser2 | null>>();
 
   constructor(
     private readonly api: APIService,
@@ -183,7 +183,7 @@ export class UserService {
     );
   }
 
-  public getUser$(id: number, options: APIGetUserOptions): Observable<APIUser> {
+  public getUser$(id: number, options: APIGetUserOptions): Observable<APIUser | null> {
     const params = convertUserOptions(options);
 
     if (Object.keys(params).length) {
@@ -197,31 +197,37 @@ export class UserService {
         if (users.length > 0) {
           return users[0];
         }
-        return null as APIUser;
+        return null;
       }),
     );
   }
 
-  public getUser2$(id: string) {
+  public getUser2$(id: string): Observable<APIUser2 | null> {
     if (!id) {
       return of(null);
     }
 
-    if (!this.cache2.has(id)) {
-      const o$ = this.usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(shareReplay(1));
-      this.cache2.set(id, o$);
+    const cached$ = this.cache2.get(id);
+    if (cached$) {
+      return cached$;
     }
 
-    return this.cache2.get(id);
+    const o$ = this.usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(
+      map((user) => (user ? user : null)),
+      shareReplay(1),
+    );
+    this.cache2.set(id, o$);
+
+    return o$;
   }
 
   public get$(options?: APIGetUsersOptions): Observable<APIUserGetResponse> {
     return this.api.request<APIUserGetResponse>('GET', 'user', {
-      params: convertUsersOptions(options),
+      params: convertUsersOptions(options ? options : {}),
     });
   }
 
-  public getByIdentity$(identity: string, options: APIGetUserOptions): Observable<APIUser> {
+  public getByIdentity$(identity: string, options: APIGetUserOptions): Observable<APIUser | null> {
     const result = identity.match(/^user([0-9]+)$/);
 
     if (result) {

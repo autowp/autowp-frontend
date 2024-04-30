@@ -10,7 +10,7 @@ import {map, shareReplay} from 'rxjs/operators';
 })
 export class APIPerspectiveService {
   private readonly perspectives$: Observable<Perspective[]> = this.grpc.getPerspectives(new Empty()).pipe(
-    map((response) => response.items),
+    map((response) => (response.items ? response.items : [])),
     shareReplay(1),
   );
 

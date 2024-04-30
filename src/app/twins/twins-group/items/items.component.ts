@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
@@ -11,12 +11,12 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './items.component.html',
 })
 export class TwinsGroupItemsComponent {
-  protected readonly group$ = this.route.parent.paramMap.pipe(
-    map((params) => parseInt(params.get('group'), 10)),
+  protected readonly group$: Observable<APIItem | null> = this.route.parent!.paramMap.pipe(
+    map((params) => parseInt(params.get('group') || '', 10)),
     distinctUntilChanged(),
     switchMap((group) => {
       if (!group) {
-        return of(null as APIItem);
+        return of(null);
       }
       return this.itemService.getItem$(group, {
         fields:
@@ -33,7 +33,7 @@ export class TwinsGroupItemsComponent {
         () =>
           this.pageEnv.set({
             pageId: 25,
-            title: group.name_text,
+            title: group ? group.name_text : '',
           }),
         0,
       );

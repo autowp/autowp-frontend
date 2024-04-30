@@ -31,7 +31,7 @@ export class PictureComponent {
       )
       .subscribe();
   }
-  protected readonly picture$ = new BehaviorSubject<APIPicture>(null);
+  protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);

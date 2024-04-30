@@ -4,7 +4,7 @@ import {ArticleByCatnameRequest} from '@grpc/spec.pb';
 import {ArticlesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY} from 'rxjs';
+import {EMPTY, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -18,6 +18,15 @@ export class ArticlesArticleComponent {
     map((params) => params.get('catname')),
     distinctUntilChanged(),
     debounceTime(30),
+    switchMap((catname) => {
+      if (!catname) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(catname);
+    }),
     switchMap((catname) => this.articlesClient.getItemByCatname(new ArticleByCatnameRequest({catname}))),
     map((article) => {
       this.pageEnv.set({

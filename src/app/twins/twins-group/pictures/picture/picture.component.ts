@@ -17,12 +17,12 @@ export class TwinsGroupPictureComponent {
   protected readonly user$ = this.auth.getUser$();
   private readonly changed$ = new BehaviorSubject<boolean>(false);
 
-  protected readonly group$: Observable<APIItem> = this.route.parent.parent.paramMap.pipe(
-    map((route) => parseInt(route.get('group'), 10)),
+  protected readonly group$: Observable<APIItem | null> = this.route.parent!.parent!.paramMap.pipe(
+    map((route) => parseInt(route.get('group') || '', 10)),
     distinctUntilChanged(),
     switchMap((groupID) => {
       if (!groupID) {
-        return of(null as APIItem);
+        return of(null);
       }
       return this.itemService.getItem$(groupID, {
         fields: 'name_text,name_html,childs.brands',
@@ -75,13 +75,13 @@ export class TwinsGroupPictureComponent {
           this.pictureService.getPictures$({
             fields,
             identity: identity,
-            item_id: group.id,
+            item_id: group?.id,
             items: {
               type_id: 1,
             },
             limit: 1,
             paginator: {
-              item_id: group.id,
+              item_id: group?.id,
             },
           }),
         ),

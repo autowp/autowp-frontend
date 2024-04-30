@@ -23,14 +23,14 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   @Input() set picture(picture: APIPicture) {
     this.picture$.next(picture);
   }
-  protected readonly picture$ = new BehaviorSubject<APIPicture>(null);
+  protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
 
   private readonly minSize = [400, 300];
 
-  private jcrop = null;
+  private jcrop: Jcrop = null;
   protected aspect: string;
   protected resolution: string;
-  protected readonly img$ = new BehaviorSubject<HTMLElement>(null);
+  protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
   private currentCrop: JcropCrop = {
     h: 0,
     w: 0,
@@ -50,10 +50,10 @@ export class UploadCropComponent implements OnInit, OnDestroy {
         this.jcrop = null;
         if (picture.crop) {
           this.currentCrop = {
-            h: picture.crop.height,
-            w: picture.crop.width,
-            x: picture.crop.left,
-            y: picture.crop.top,
+            h: picture.crop.height || 0,
+            w: picture.crop.width || 0,
+            x: picture.crop.left || 0,
+            y: picture.crop.top || 0,
           };
         } else {
           this.currentCrop = {
@@ -101,7 +101,9 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   }
 
   protected selectAll(picture: APIPicture) {
-    this.jcrop.setSelect([0, 0, picture.width, picture.height]);
+    if (this.jcrop) {
+      this.jcrop.setSelect([0, 0, picture.width, picture.height]);
+    }
   }
 
   private updateSelectionText() {

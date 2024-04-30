@@ -11,7 +11,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
 import {APIAttrConflict, APIAttrConflictValue, APIAttrsService} from '../../api/attrs/attrs.service';
 
 interface APIAttrConflictValueInList extends APIAttrConflictValue {
-  user$?: Observable<APIUser>;
+  user$?: Observable<APIUser | null>;
 }
 
 interface APIAttrConflictInList extends APIAttrConflict {
@@ -24,7 +24,7 @@ interface APIAttrConflictInList extends APIAttrConflict {
 })
 export class AccountSpecsConflictsComponent implements OnInit {
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );

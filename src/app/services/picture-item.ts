@@ -13,7 +13,7 @@ export interface APIPictureItemAreaPostData {
 }
 
 export interface APIPictureItemPostData {
-  perspective_id?: number;
+  perspective_id?: null | number;
 }
 
 export interface APIPictureItemGetOptions {
@@ -50,7 +50,12 @@ export interface APIPictureItem {
 export class PictureItemService {
   constructor(private readonly api: APIService) {}
 
-  public setPerspective$(pictureId: number, itemId: number, type: number, perspectiveId: number): Observable<void> {
+  public setPerspective$(
+    pictureId: number,
+    itemId: number,
+    type: number,
+    perspectiveId: null | number,
+  ): Observable<void> {
     const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
     return this.api.request<void>('PUT', url, {
       body: {

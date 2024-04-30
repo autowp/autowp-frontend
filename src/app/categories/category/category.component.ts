@@ -7,8 +7,8 @@ import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
-import {Observable} from 'rxjs';
-import {map, shareReplay, tap} from 'rxjs/operators';
+import {EMPTY, Observable, of} from 'rxjs';
+import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CategoriesService} from '../service';
 
@@ -46,7 +46,8 @@ export class CategoriesCategoryComponent {
   );
 
   protected readonly category$: Observable<{queryParams: Params; title: string}> = this.categoryData$.pipe(
-    map(({category}) => ({
+    switchMap(({category}) => (category ? of(category) : EMPTY)),
+    map((category) => ({
       queryParams: {item_type_id: category.item_type_id, parent_id: category.id},
       title: getItemTypeTranslation(category.item_type_id, 'add-sub-item'),
     })),
@@ -98,7 +99,7 @@ export class CategoriesCategoryComponent {
         )
         .subscribe((response) => {
           item.loaded = true;
-          item.childs = response.items.map((i) => ({
+          item.childs = (response.items ? response.items : []).map((i) => ({
             active: i.id === item.item.id.toString(),
             nameHtml: i.nameHtml,
             routerLink: ['/category', i.catname],

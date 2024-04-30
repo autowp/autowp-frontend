@@ -18,12 +18,12 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
   @Input() itemID: string;
   @Input() typeID: CommentsType;
   @Output() sent = new EventEmitter<string>();
-  @Output() canceled = new EventEmitter<string>();
+  @Output() canceled = new EventEmitter<null | string>();
 
   @Input() set resolve(resolve: boolean) {
     this.resolve$.next(resolve);
   }
-  private readonly resolve$ = new BehaviorSubject<boolean>(null);
+  private readonly resolve$ = new BehaviorSubject<boolean | null>(null);
   private resolveSub: Subscription;
 
   protected invalidParams: InvalidParams = {};
@@ -50,7 +50,7 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
               message: this.form.message,
               moderatorAttention: !!this.form.moderator_attention,
               parentId: this.parentID ? '' + this.parentID : '',
-              resolve,
+              resolve: !!resolve,
               typeId: this.typeID,
             }),
           ),

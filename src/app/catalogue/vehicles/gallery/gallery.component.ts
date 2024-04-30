@@ -21,7 +21,7 @@ export class CatalogueVehiclesGalleryComponent {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
-        return;
+        return EMPTY;
       }
       return of(identity);
     }),

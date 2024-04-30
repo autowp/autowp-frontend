@@ -13,7 +13,7 @@ import {CatalogueService} from '../catalogue-service';
 
 interface PictureRoute {
   picture: APIPicture;
-  route: string[];
+  route: null | string[];
 }
 
 @Component({
@@ -22,12 +22,12 @@ interface PictureRoute {
 })
 export class CatalogueRecentComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((queryParams) => parseInt(queryParams.get('page'), 10)),
+    map((queryParams) => parseInt(queryParams.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem | null> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -48,7 +48,7 @@ export class CatalogueRecentComponent {
           }),
         )
         .pipe(
-          map((response) => (response && response.items.length ? response.items[0] : null)),
+          map((response) => (response.items && response.items.length ? response.items[0] : null)),
           tap((brand) => {
             if (brand) {
               this.pageEnv.set({
@@ -64,14 +64,16 @@ export class CatalogueRecentComponent {
 
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
-      this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-        item_id: +brand.id,
-        limit: 12,
-        order: 15,
-        page,
-        status: 'accepted',
-      }),
+      brand
+        ? this.pictureService.getPictures$({
+            fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
+            item_id: +brand.id,
+            limit: 12,
+            order: 15,
+            page,
+            status: 'accepted',
+          })
+        : EMPTY,
     ),
     map((response) => {
       const pictures: PictureRoute[] = response.pictures.map((picture) => ({

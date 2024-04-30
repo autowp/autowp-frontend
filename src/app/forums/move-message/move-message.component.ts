@@ -24,7 +24,7 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
 })
 export class ForumsMoveMessageComponent implements OnInit {
   protected readonly messageID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('message_id'), 10)),
+    map((params) => parseInt(params.get('message_id') || '', 10)),
     distinctUntilChanged(),
   );
 
@@ -43,7 +43,7 @@ export class ForumsMoveMessageComponent implements OnInit {
           this.toastService.handleError(response);
           return EMPTY;
         }),
-        map((response) => response.items),
+        map((response) => (response.items ? response.items : [])),
       );
     }),
   );
@@ -55,7 +55,7 @@ export class ForumsMoveMessageComponent implements OnInit {
         this.toastService.handleError(response);
         return EMPTY;
       }),
-      map((response) => response.items),
+      map((response) => (response.items ? response.items : [])),
     );
 
   constructor(

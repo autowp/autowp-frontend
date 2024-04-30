@@ -8,10 +8,10 @@ import {map} from 'rxjs/operators';
 import {APICommentsService} from '../../../api/comments/comments.service';
 
 interface MenuItem {
-  count?: number;
+  count?: null | number;
   icon: string;
   label: string;
-  queryParams?: {[key: string]: string};
+  queryParams?: {[key: string]: string | undefined};
   routerLink: string[];
 }
 
@@ -21,7 +21,7 @@ interface MenuItem {
   templateUrl: './menu.component.html',
 })
 export class MenuComponent {
-  protected readonly items$: Observable<MenuItem[]> = combineLatest([
+  protected readonly items$: Observable<MenuItem[] | null> = combineLatest([
     this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE),
     this.pictureService.getInboxSize$(),
     this.commentService.attentionCommentsCount$,

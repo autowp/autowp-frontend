@@ -33,7 +33,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   };
   private minSize = [400, 300];
   protected picture: APIPicture;
-  protected readonly img$ = new BehaviorSubject<HTMLElement>(null);
+  protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
 
   constructor(
     private readonly api: APIService,
@@ -54,7 +54,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     );
     this.routeSub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id'), 10)),
+        map((params) => parseInt(params.get('id') || '', 10)),
         distinctUntilChanged(),
         debounceTime(10),
         switchMap((id) =>
@@ -74,10 +74,10 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           this.jcrop = null;
           if (this.picture.crop) {
             this.currentCrop = {
-              h: this.picture.crop.height,
-              w: this.picture.crop.width,
-              x: this.picture.crop.left,
-              y: this.picture.crop.top,
+              h: this.picture.crop.height || 0,
+              w: this.picture.crop.width || 0,
+              x: this.picture.crop.left || 0,
+              y: this.picture.crop.top || 0,
             };
           } else {
             this.currentCrop = {

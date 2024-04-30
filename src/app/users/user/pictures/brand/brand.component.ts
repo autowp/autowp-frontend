@@ -7,7 +7,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
 import {UserService} from '@services/user';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
 
@@ -18,6 +18,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 export class UsersUserPicturesBrandComponent {
   protected readonly user$ = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
+    switchMap((identity) => (identity ? of(identity) : EMPTY)),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
@@ -34,7 +35,7 @@ export class UsersUserPicturesBrandComponent {
   );
 
   private readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
-    map((params) => params.get('brand')),
+    map((params) => params.get('brand') || ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((catname) =>
@@ -50,20 +51,22 @@ export class UsersUserPicturesBrandComponent {
             typeId: ItemType.ITEM_TYPE_BRAND,
           }),
         )
-        .pipe(map((response) => (response.items.length ? response.items[0] : null))),
+        .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null))),
     ),
-    tap((brand) => {
+    switchMap((brand) => {
       if (!brand) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
-        return;
+        return EMPTY;
       }
 
       this.pageEnv.set({
         pageId: 141,
         title: $localize`${brand.nameOnly} pictures`,
       });
+
+      return of(brand);
     }),
     shareReplay(1),
   );
@@ -74,7 +77,7 @@ export class UsersUserPicturesBrandComponent {
     this.user$,
     this.brand$,
     this.route.queryParamMap.pipe(
-      map((params) => parseInt(params.get('page'), 10)),
+      map((params) => parseInt(params.get('page') || '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),

@@ -101,7 +101,7 @@ export class UsersUserComponent {
   protected readonly comments$: Observable<APICommentsMessage[]> = this.user$.pipe(
     switchMap((user) => {
       if (user.deleted) {
-        return of([] as APICommentsMessage[]);
+        return of([]);
       }
 
       return this.commentsClient
@@ -116,19 +116,19 @@ export class UsersUserComponent {
             userId: user.id + '',
           }),
         )
-        .pipe(map((response) => response.items));
+        .pipe(map((response) => (response.items ? response.items : [])));
     }),
   );
 
   private readonly ipChange$ = new BehaviorSubject<boolean>(true);
 
-  protected readonly ip$ = combineLatest([this.user$, this.ipChange$]).pipe(
+  protected readonly ip$: Observable<APIIP | null> = combineLatest([this.user$, this.ipChange$]).pipe(
     switchMap(([user]) => {
       if (!user.last_ip) {
-        return of(null as APIIP);
+        return of(null);
       }
 
-      return this.ipService.getIp$(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
+      return this.ipService.getIp$(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null)));
     }),
   );
 
@@ -284,7 +284,7 @@ export class UsersUserComponent {
         new AddToTrafficBlacklistRequest({
           ip,
           period: this.banPeriod,
-          reason: this.banReason,
+          reason: this.banReason ? this.banReason : '',
         }),
       )
       .subscribe({

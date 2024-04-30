@@ -39,7 +39,7 @@ export class CatalogueMixedPictureComponent {
         }),
       );
     }),
-    map((response) => (response && response.items.length ? response.items[0] : null)),
+    map((response) => (response.items && response.items.length ? response.items[0] : null)),
     switchMap((brand) => {
       if (!brand) {
         this.router.navigate(['/error-404'], {

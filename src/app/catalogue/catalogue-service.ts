@@ -54,7 +54,7 @@ export class CatalogueService {
   public resolveCatalogue$(
     route: ActivatedRoute,
     fields: string,
-  ): Observable<{brand: APIItem; path: APIItemParent[]; type: string}> {
+  ): Observable<{brand: APIItem; path: APIItemParent[]; type: string} | null> {
     const pathPipeRecursive: ParentObservableFunc = () =>
       switchMap((parent: Parent) => {
         if (!parent || !parent.id || parent.path.length <= 0) {
@@ -138,13 +138,13 @@ export class CatalogueService {
 
   private getType$(route: ActivatedRoute): Observable<string> {
     return route.paramMap.pipe(
-      map((paramMap) => paramMap.get('type')),
+      map((paramMap) => paramMap.get('type') || 'default'),
       distinctUntilChanged(),
       debounceTime(10),
     );
   }
 
-  private getBrand$(route: ActivatedRoute): Observable<APIItem> {
+  private getBrand$(route: ActivatedRoute): Observable<APIItem | null> {
     return route.paramMap.pipe(
       map((params) => params.get('brand')),
       distinctUntilChanged(),
@@ -165,12 +165,12 @@ export class CatalogueService {
               limit: 1,
             }),
           )
-          .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
+          .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));
       }),
     );
   }
 
-  private pictureRouterLinkItem(parent: APIPathTreeItemParent): string[] {
+  private pictureRouterLinkItem(parent: APIPathTreeItemParent): null | string[] {
     switch (parent.item.item_type_id) {
       case ItemType.ITEM_TYPE_BRAND:
         return ['/', parent.item.catname, parent.catname];

@@ -23,7 +23,7 @@ interface PictureRoute {
 export class CategoriesCategoryItemComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent).pipe(
+  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent!).pipe(
     tap(({current}) => {
       this.pageEnv.set({
         pageId: 22,
@@ -34,7 +34,7 @@ export class CategoriesCategoryItemComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((query) => parseInt(query.get('page'), 10)),
+    map((query) => parseInt(query.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -63,7 +63,9 @@ export class CategoriesCategoryItemComponent {
                 '/category',
                 ...(itemParent.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY
                   ? [itemParent.item.catname]
-                  : [category.catname, ...pathCatnames, itemParent.catname]),
+                  : category
+                    ? [category.catname, ...pathCatnames, itemParent.catname]
+                    : []),
               ],
             })),
             paginator: response.paginator,
@@ -94,7 +96,7 @@ export class CategoriesCategoryItemComponent {
               picture,
               route: [
                 '/category',
-                category.catname,
+                category ? category.catname : '',
                 ...(current.item_type_id === ItemType.ITEM_TYPE_CATEGORY ? [] : pathCatnames),
                 'pictures',
                 picture.identity,
@@ -119,7 +121,7 @@ export class CategoriesCategoryItemComponent {
     }),
   );
 
-  protected readonly item$: Observable<APIItem> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
+  protected readonly item$: Observable<APIItem | null> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
     switchMap(([{current}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length > 0) {
         return of(null);

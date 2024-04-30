@@ -18,15 +18,20 @@ const normalizeValue = (value: null | number | string | undefined): null | numbe
   return isNaN(value) ? null : value;
 };
 
-const center = (lat: number | string, lng: number | string): LatLng => {
-  lat = normalizeValue(lat);
-  lng = normalizeValue(lng);
+const center = (lat: null | number | string, lng: null | number | string): LatLng => {
+  const normalizedLat = normalizeValue(lat);
+  const normalizedLng = normalizeValue(lng);
 
-  if (typeof lat != 'number' || typeof lng != 'number' || isNaN(lat) || isNaN(lng)) {
+  if (
+    typeof normalizedLat != 'number' ||
+    typeof normalizedLng != 'number' ||
+    isNaN(normalizedLat) ||
+    isNaN(normalizedLng)
+  ) {
     return latLng(DEFAULT_LAT, DEFAULT_LNG);
   }
 
-  return latLng(lat, lng);
+  return latLng(normalizedLat, normalizedLng);
 };
 
 @Component({
@@ -61,8 +66,8 @@ export class MapPointComponent implements ControlValueAccessor {
 
   protected markers: Layer[] = [];
 
-  protected lat: number = null;
-  protected lng: number = null;
+  protected lat: null | number = null;
+  protected lng: null | number = null;
   //protected  latLng: LatLng = latLng(54.5260, 15.2551);
 
   protected center = center(this.lat, this.lng);
@@ -95,7 +100,7 @@ export class MapPointComponent implements ControlValueAccessor {
     this.lat = lat;
     this.lng = lng;
 
-    let ll: LatLng = null;
+    let ll: LatLng | null = null;
     if (lat !== null && lng !== null) {
       ll = latLng(lat, lng);
       this.center = ll;
@@ -149,7 +154,7 @@ export class MapPointComponent implements ControlValueAccessor {
     const lat = normalizeValue(this.lat);
     const lng = normalizeValue(this.lng);
 
-    let ll = null;
+    let ll: LatLng | null = null;
     if (lat !== null && lng !== null) {
       ll = latLng(lat, lng);
       this.center = ll;
@@ -159,7 +164,9 @@ export class MapPointComponent implements ControlValueAccessor {
     this.setMarker(ll);
 
     this.markAsTouched();
-    this.onChange({lat, lng});
+    if (lat && lng) {
+      this.onChange({lat, lng});
+    }
 
     /*const lat = parseFloat(point.get('lat').value);
     const lng = parseFloat(point.get('lng').value);
@@ -175,7 +182,7 @@ export class MapPointComponent implements ControlValueAccessor {
     }
   }
 
-  protected setMarker(ll: LatLng) {
+  protected setMarker(ll: LatLng | null) {
     this.markers = ll
       ? [
           marker(ll, {

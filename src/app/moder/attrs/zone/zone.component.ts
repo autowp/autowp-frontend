@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AttrZoneAttributesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
@@ -21,7 +21,16 @@ export class ModerAttrsZoneComponent {
   );
 
   protected readonly zone$ = this.zoneID$.pipe(
-    switchMap((id) => this.attrsService.getZone$(id)),
+    switchMap((id) => (id ? this.attrsService.getZone$(id) : of(null))),
+    switchMap((zone) => {
+      if (!zone) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(zone);
+    }),
     tap((zone) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
@@ -35,12 +44,14 @@ export class ModerAttrsZoneComponent {
   protected readonly attributes$: Observable<AttrAttributeTreeItem[]> = this.attrsService.getAttributes$(null, null);
 
   protected readonly zoneAttributes$ = this.zoneID$.pipe(
-    switchMap((zoneID) => this.attrsClient.getZoneAttributes(new AttrZoneAttributesRequest({zoneId: zoneID}))),
+    switchMap((zoneID) =>
+      zoneID ? this.attrsClient.getZoneAttributes(new AttrZoneAttributesRequest({zoneId: zoneID})) : EMPTY,
+    ),
     map((zoneAttributes) => {
       const zoneAttribute: {
         [key: string]: boolean;
       } = {};
-      for (const item of zoneAttributes.items) {
+      for (const item of zoneAttributes.items ? zoneAttributes.items : []) {
         zoneAttribute[item.attributeId] = true;
       }
       return zoneAttribute;
@@ -52,5 +63,6 @@ export class ModerAttrsZoneComponent {
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly attrsClient: AttrsClient,
+    private readonly router: Router,
   ) {}
 }

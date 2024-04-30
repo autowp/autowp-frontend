@@ -80,7 +80,7 @@ export class PicturePageComponent {
     tap((picture) => {
       this.pageEnv.set({
         pageId: 187,
-        title: picture.name_text,
+        title: picture ? picture.name_text : '',
       });
     }),
   );

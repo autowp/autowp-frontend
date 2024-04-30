@@ -76,8 +76,9 @@ export class ACLService {
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     const key = resource + '/' + privilege;
 
-    if (this.isAllowedCache.has(key)) {
-      return this.isAllowedCache.get(key);
+    const cached$ = this.isAllowedCache.get(key);
+    if (cached$) {
+      return cached$;
     }
 
     const o$ = this.auth.getUser$().pipe(

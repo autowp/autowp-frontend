@@ -23,9 +23,9 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   protected parent: APIItem;
   protected itemParent: APIItemParent;
   protected languages: {
-    invalidParams: InvalidParams;
+    invalidParams: InvalidParams | null;
     language: string;
-    name: string;
+    name: null | string;
   }[] = [];
   protected readonly typeOptions = [
     {
@@ -59,8 +59,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.paramMap
       .pipe(
         map((params) => ({
-          item_id: parseInt(params.get('item_id'), 10),
-          parent_id: parseInt(params.get('parent_id'), 10),
+          item_id: parseInt(params.get('item_id') || '', 10),
+          parent_id: parseInt(params.get('parent_id') || '', 10),
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
@@ -105,10 +105,10 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         this.languages = languages.map((language) => ({
           invalidParams: null,
           language,
-          name: null as string,
+          name: null,
         }));
 
-        for (const languageData of itemParentLanguage.items) {
+        for (const languageData of itemParentLanguage.items ? itemParentLanguage.items : []) {
           for (const i of this.languages) {
             if (i.language === languageData.language) {
               i.name = languageData.name;

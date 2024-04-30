@@ -19,7 +19,7 @@ export class ModerItemsItemMetaComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected loadingNumber = 0;
 
@@ -28,14 +28,17 @@ export class ModerItemsItemMetaComponent {
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {
-      if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_TWINS) {
+      if (
+        item &&
+        (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_TWINS)
+      ) {
         return this.itemsClient
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
               itemId: item.id.toString(),
             }),
           )
-          .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)));
+          .pipe(map((response) => (response.items ? response.items : []).map((row) => row.vehicleTypeId)));
       }
 
       return of([]);

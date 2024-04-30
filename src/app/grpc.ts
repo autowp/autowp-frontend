@@ -29,13 +29,17 @@ export const extractFieldViolations = (response: GrpcStatusEvent): FieldViolatio
   const status = Status.deserializeBinary(statusDecoded);
 
   const fieldViolations: FieldViolation[] = [];
-  status.details.forEach((detail) => {
-    const deserialized = ErrorDetails.deserializeBinary(detail.serializeBinary());
-    deserialized.debugInfo.stackEntries.forEach((value) => {
-      const fieldViolation = FieldViolation.deserializeBinary(stringToUint8Array(value));
-      fieldViolations.push(fieldViolation);
+  if (status.details) {
+    status.details.forEach((detail) => {
+      const deserialized = ErrorDetails.deserializeBinary(detail.serializeBinary());
+      if (deserialized.debugInfo) {
+        deserialized.debugInfo.stackEntries.forEach((value) => {
+          const fieldViolation = FieldViolation.deserializeBinary(stringToUint8Array(value));
+          fieldViolations.push(fieldViolation);
+        });
+      }
     });
-  });
+  }
 
   return fieldViolations;
 };

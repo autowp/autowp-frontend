@@ -14,7 +14,7 @@ import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import {EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -46,7 +46,7 @@ export class UsersUserPicturesComponent implements OnInit {
   );
 
   private readonly userId$: Observable<string> = this.route.paramMap.pipe(
-    map((params) => params.get('identity')),
+    map((params) => params.get('identity') || ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
@@ -54,6 +54,12 @@ export class UsersUserPicturesComponent implements OnInit {
 
   protected readonly user$ = this.userId$.pipe(
     switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
+    switchMap((user) => {
+      if (!user) {
+        return EMPTY;
+      }
+      return of(user);
+    }),
     map((user) => ({
       id: user.id,
       identity: user.identity ? user.identity : 'user' + user.id,
@@ -87,7 +93,7 @@ export class UsersUserPicturesComponent implements OnInit {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    map((brands) => brands.items),
+    map((brands) => (brands.items ? brands.items : [])),
   );
 
   constructor(

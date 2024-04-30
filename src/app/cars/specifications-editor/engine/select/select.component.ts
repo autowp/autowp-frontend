@@ -21,20 +21,20 @@ export class CarsEngineSelectComponent {
   private readonly search$ = new BehaviorSubject<string>('');
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('brand_id'), 10)),
+    map((params) => parseInt(params.get('brand_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -74,7 +74,7 @@ export class CarsEngineSelectComponent {
     }),
   );
 
-  protected readonly brands$: Observable<{items: APIItem[][]; paginator: Pages}> = this.search$.pipe(
+  protected readonly brands$: Observable<{items: APIItem[][]; paginator?: Pages}> = this.search$.pipe(
     map((str) => str.trim()),
     distinctUntilChanged(),
     debounceTime(50),
@@ -87,7 +87,7 @@ export class CarsEngineSelectComponent {
           fields: new ItemFields({nameOnly: true}),
           language: this.languageService.language,
           limit: 500,
-          name: search ? '%' + search + '%' : null,
+          name: search ? '%' + search + '%' : undefined,
           order: ListItemsRequest.Order.NAME,
           typeId: ItemType.ITEM_TYPE_BRAND,
         }),
@@ -98,7 +98,7 @@ export class CarsEngineSelectComponent {
       return EMPTY;
     }),
     map((response) => ({
-      items: chunk<APIItem>(response.items, 6),
+      items: chunk<APIItem>(response.items ? response.items : [], 6),
       paginator: response.paginator,
     })),
   );

@@ -54,16 +54,19 @@ export class MostsService {
   constructor(private readonly api: APIService) {}
 
   public getMenu$(brandID: number): Observable<APIMostsMenuGetResponse> {
-    if (!this.menus$.has(brandID)) {
-      const o$ = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
-        params: {
-          brand_id: brandID ? brandID.toString() : null,
-        },
-      });
-      this.menus$.set(brandID, o$);
+    const cached$ = this.menus$.get(brandID);
+    if (cached$) {
+      return cached$;
     }
 
-    return this.menus$.get(brandID);
+    const o$ = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
+      params: {
+        brand_id: brandID.toString(),
+      },
+    });
+    this.menus$.set(brandID, o$);
+
+    return o$;
   }
 
   public getItems$(options: APIMostsItemsGetOptions): Observable<APIMostsItemsGetResponse> {

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {APIService} from '@services/api.service';
-import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {APIGallery, APIGalleryItem} from './definitions';
@@ -26,7 +26,7 @@ class Gallery {
 
   constructor(
     public readonly filter: APIGalleryFilter,
-    public readonly items: APIGalleryItem[],
+    public readonly items: (APIGalleryItem | null)[],
   ) {}
 
   public filterParams(): {[key: string]: string} {
@@ -53,7 +53,7 @@ class Gallery {
     return this.items.findIndex((item) => item && item.identity === identity);
   }
 
-  public getItemByIndex(index: number): APIGalleryItem {
+  public getItemByIndex(index: number): APIGalleryItem | null {
     if (index < 0 || index >= this.items.length) {
       return null;
     }
@@ -65,7 +65,7 @@ class Gallery {
     return this.items[index];
   }
 
-  public getGalleryItem(identity: string): APIGalleryItem {
+  public getGalleryItem(identity: string): APIGalleryItem | null {
     const index = this.getItemIndex(identity);
     if (index < 0) {
       return null;
@@ -100,16 +100,16 @@ export class GalleryComponent {
   @Input() set filter(filter: APIGalleryFilter) {
     this.filter$.next(filter);
   }
-  private readonly filter$ = new BehaviorSubject<APIGalleryFilter>(null);
+  private readonly filter$ = new BehaviorSubject<APIGalleryFilter | null>(null);
 
   @Input() set current(current: string) {
     this.current$.next(current);
   }
-  public readonly current$ = new BehaviorSubject<string>(null);
+  public readonly current$ = new BehaviorSubject<null | string>(null);
 
   @Input() galleryPrefix: string[];
   @Input() picturePrefix: string[];
-  @Output() pictureSelected = new EventEmitter<APIGalleryItem>();
+  @Output() pictureSelected = new EventEmitter<APIGalleryItem | null>();
 
   protected readonly currentFilter$ = this.filter$.pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
@@ -120,8 +120,8 @@ export class GalleryComponent {
   protected readonly identity$ = this.current$.pipe(distinctUntilChanged(), debounceTime(10), shareReplay(1));
 
   protected readonly gallery$: Observable<Gallery> = combineLatest([
-    this.currentFilter$.pipe(map((filter) => new Gallery(filter, [] as APIGalleryItem[]))),
-    this.identity$,
+    this.currentFilter$.pipe(switchMap((filter) => (filter ? of(new Gallery(filter, [] as APIGalleryItem[])) : EMPTY))),
+    this.identity$.pipe(switchMap((identity) => (identity ? of(identity) : EMPTY))),
   ]).pipe(
     switchMap(([gallery, identity]) => {
       if (!gallery.getGalleryItem(identity)) {
@@ -156,7 +156,7 @@ export class GalleryComponent {
     this.current$
       .pipe(
         take(1),
-        switchMap((current) => this.router.navigate(this.picturePrefix.concat([current]))),
+        switchMap((current) => (current ? this.router.navigate(this.picturePrefix.concat([current])) : EMPTY)),
       )
       .subscribe();
   }

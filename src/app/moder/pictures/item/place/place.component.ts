@@ -33,7 +33,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
   protected lng: number;
 
   protected readonly picture$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) => this.pictureService.getPicture$(id, {fields: 'point'})),

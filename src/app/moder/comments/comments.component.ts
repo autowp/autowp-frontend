@@ -29,9 +29,9 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class ModerCommentsComponent implements OnInit {
   protected moderatorAttention: ModeratorAttention;
 
-  protected itemID: string;
+  protected itemID: null | string;
   protected itemQuery = '';
-  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[] | undefined> = (
     text$: Observable<string>,
   ) =>
     text$.pipe(
@@ -62,7 +62,7 @@ export class ModerCommentsComponent implements OnInit {
       }),
     );
 
-  private userID: string;
+  private userID: null | string;
   protected userQuery = '';
   protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,
@@ -74,13 +74,13 @@ export class ModerCommentsComponent implements OnInit {
           return of([]);
         }
 
-        const params = {
+        const params: {id: number[]; limit: number; search: string} = {
           id: [],
           limit: 10,
           search: '',
         };
         if (query.substring(0, 1) === '#') {
-          params.id.push(parseInt(query.substring(1), 10));
+          params.id.push(parseInt(query.substring(1) || '', 10));
         } else {
           params.search = query;
         }
@@ -103,8 +103,8 @@ export class ModerCommentsComponent implements OnInit {
     debounceTime(10),
   );
 
-  private readonly moderatorAttention$ = this.route.queryParamMap.pipe(
-    map((params) => +params.get('moderator_attention') as ModeratorAttention),
+  private readonly moderatorAttention$: Observable<ModeratorAttention> = this.route.queryParamMap.pipe(
+    map((params) => parseInt(params.get('moderator_attention') || '', 10) as ModeratorAttention),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -116,15 +116,15 @@ export class ModerCommentsComponent implements OnInit {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly data$: Observable<{
-    comments: {comment: APICommentsMessage; user$: Observable<APIUser2>}[];
-    paginator: Pages;
+    comments: {comment: APICommentsMessage; user$: Observable<APIUser2 | null>}[];
+    paginator?: Pages;
   }> = combineLatest([this.userID$, this.moderatorAttention$, this.picturesOfItemID$, this.page$]).pipe(
     switchMap(([userID, moderatorAttention, picturesOfItemID, page]) => {
       this.userID = userID;
@@ -143,8 +143,8 @@ export class ModerCommentsComponent implements OnInit {
           moderatorAttention: this.moderatorAttention,
           order: GetMessagesRequest.Order.DATE_DESC,
           page,
-          picturesOfItemId: this.itemID,
-          userId: this.userID,
+          picturesOfItemId: this.itemID ? this.itemID : undefined,
+          userId: this.userID ? this.userID : undefined,
         }),
       );
     }),
@@ -154,7 +154,7 @@ export class ModerCommentsComponent implements OnInit {
       return EMPTY;
     }),
     map((response) => ({
-      comments: response.items.map((comment) => ({
+      comments: (response.items ? response.items : []).map((comment) => ({
         comment,
         user$: this.userService.getUser2$(comment.authorId),
       })),

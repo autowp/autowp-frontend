@@ -22,14 +22,14 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   protected invalidParams: InvalidParams;
 
   private readonly itemTypeID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_type_id'), 10)),
+    map((params) => parseInt(params.get('item_type_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay(1),
   );
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay(1),
@@ -80,6 +80,15 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
       }),
     ),
     shareReplay(1),
+    switchMap((item) => {
+      if (!item) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(item);
+    }),
   );
 
   protected readonly newItem$: Observable<APIItem> = combineLatest([this.itemTypeID$, this.item$]).pipe(
@@ -99,7 +108,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
                 itemId: item.id.toString(),
               }),
             )
-            .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)))
+            .pipe(map((response) => (response.items ? response.items : []).map((row) => row.vehicleTypeId)))
         : of([] as string[]),
     ),
   );
@@ -165,7 +174,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location'), {})),
+        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') || '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
             this.api.request<void>('POST', 'item-parent', {

@@ -38,16 +38,16 @@ export class DonateVodComponent implements OnInit {
   );
 
   private readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
   );
 
   protected readonly itemSelected$ = this.itemID$.pipe(map((itemID) => !!itemID));
 
-  protected readonly item$ = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem | null> = this.itemID$.pipe(
     switchMap((itemID) => {
       if (!itemID) {
-        return of(null as APIItem);
+        return of(null);
       }
 
       return this.itemService.getItem$(itemID, {
@@ -67,13 +67,13 @@ export class DonateVodComponent implements OnInit {
 
   protected readonly dates$ = combineLatest([this.vod$, this.date$]).pipe(
     map(([vod, currentDate]) =>
-      vod.dates.map((d) => {
-        const date = d.date.toDate();
-        const value = formatDate(date, 'yyyy-MM-dd', this.locale, VOD_TIMEZONE);
+      (vod.dates ? vod.dates : []).map((d) => {
+        const date = d.date?.toDate();
+        const value = date ? formatDate(date, 'yyyy-MM-dd', this.locale, VOD_TIMEZONE) : null;
         return {
           active: value === currentDate,
           free: d.free,
-          name: formatDate(date, 'longDate', this.locale, VOD_TIMEZONE),
+          name: date ? formatDate(date, 'longDate', this.locale, VOD_TIMEZONE) : null,
           value,
         };
       }),

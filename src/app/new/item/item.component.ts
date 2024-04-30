@@ -16,7 +16,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 })
 export class NewItemComponent {
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
@@ -29,7 +29,7 @@ export class NewItemComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((query) => parseInt(query.get('page'), 10)),
+    map((query) => parseInt(query.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
   );
@@ -63,7 +63,7 @@ export class NewItemComponent {
   protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
     switchMap(([itemID, date, page]) =>
       this.pictureService.getPictures$({
-        accept_date: date,
+        accept_date: date ? date : undefined,
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
         item_id: itemID,
         limit: 24,

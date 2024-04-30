@@ -3,7 +3,7 @@ import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent} from '@services/item-parent';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
@@ -14,7 +14,7 @@ export class ModerItemsItemSelectParentTreeComponent {
   @Input() set itemParent(value: APIItemParent) {
     this.itemParent$.next(value);
   }
-  protected readonly itemParent$ = new BehaviorSubject<APIItemParent>(null);
+  protected readonly itemParent$ = new BehaviorSubject<APIItemParent | null>(null);
 
   @Input() order: string;
   @Input() disableItemID: string;
@@ -22,13 +22,15 @@ export class ModerItemsItemSelectParentTreeComponent {
 
   protected readonly item$ = this.itemParent$.pipe(
     switchMap((item) =>
-      this.itemsClient.item(
-        new ItemRequest({
-          fields: new ItemFields({childsCount: true, nameHtml: true}),
-          id: '' + item.item_id,
-          language: this.languageService.language,
-        }),
-      ),
+      item
+        ? this.itemsClient.item(
+            new ItemRequest({
+              fields: new ItemFields({childsCount: true, nameHtml: true}),
+              id: '' + item.item_id,
+              language: this.languageService.language,
+            }),
+          )
+        : EMPTY,
     ),
   );
 

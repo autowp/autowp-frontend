@@ -18,16 +18,16 @@ export class ModerItemsItemSelectParentFactoriesComponent {
   @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<string>(null);
+  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay(1),
   );
 
-  protected readonly factories$: Observable<{items: APIItem[]; paginator: Pages}> = this.page$.pipe(
+  protected readonly factories$: Observable<{items?: APIItem[]; paginator?: Pages}> = this.page$.pipe(
     switchMap((page) =>
       this.itemsClient.list(
         new ListItemsRequest({

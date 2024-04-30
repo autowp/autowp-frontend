@@ -6,8 +6,8 @@ import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -23,7 +23,7 @@ export class CarsSpecificationsEditorComponent {
   protected readonly user$ = this.auth.getUser$();
 
   protected readonly data$: Observable<APIItem> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((itemID) =>
@@ -35,17 +35,18 @@ export class CarsSpecificationsEditorComponent {
         ),
       ),
     ),
-    tap((item) => {
+    switchMap((item) => {
       if (!item) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
-        return;
+        return EMPTY;
       }
       this.pageEnv.set({
         pageId: 102,
         title: $localize`Specs editor of ${item.name_text}`,
       });
+      return of(item);
     }),
   );
 

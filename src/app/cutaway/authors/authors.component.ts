@@ -15,7 +15,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 })
 export class CutawayAuthorsComponent implements OnInit {
   protected readonly query$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
@@ -63,7 +63,7 @@ export class CutawayAuthorsComponent implements OnInit {
       itemRouterLink.push(item.id.toString());
 
       const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-        picture: picture ? picture.picture : null,
+        picture: picture.picture ? picture.picture : null,
         routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
         thumb: picture ? picture.thumb : null,
       }));
@@ -78,8 +78,8 @@ export class CutawayAuthorsComponent implements OnInit {
           count: item.childs_count,
           routerLink: itemRouterLink,
         },
-        engine_vehicles: null,
-        has_text: item.has_text,
+        engine_vehicles: undefined,
+        has_text: !!item.has_text,
         id: item.id,
         item_type_id: item.item_type_id,
         name_default: item.name_default,

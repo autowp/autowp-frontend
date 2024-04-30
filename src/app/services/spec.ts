@@ -15,7 +15,7 @@ export class SpecService {
 
   constructor(private readonly grpc: AutowpClient) {
     this.specs$ = this.grpc.getSpecs(new Empty()).pipe(
-      map((response) => response.items),
+      map((response) => (response.items ? response.items : [])),
       shareReplay(1),
     );
   }
@@ -24,18 +24,18 @@ export class SpecService {
     return this.specs$;
   }
 
-  public getSpec$(id: number): Observable<Spec> {
+  public getSpec$(id: number): Observable<Spec | null> {
     return this.getSpecs$().pipe(map((specs) => this.findSpec(specs, id)));
   }
 
   private findSpec(specs: Spec[], id: number): Spec | null {
-    let spec = null;
+    let spec: Spec | null = null;
     for (const s of specs) {
       if (s.id === id) {
         spec = s;
         break;
       }
-      spec = this.findSpec(s.childs, id);
+      spec = this.findSpec(s.childs ? s.childs : [], id);
       if (spec) {
         break;
       }

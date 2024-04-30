@@ -16,7 +16,7 @@ export class PictureModerVoteComponent {
   @Output() changed = new EventEmitter();
 
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
-  protected vote: number = null;
+  protected vote: null | number = null;
   protected reason = '';
   protected save = false;
 

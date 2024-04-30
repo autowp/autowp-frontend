@@ -15,7 +15,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 })
 export class CatalogueConceptsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((queryParams) => parseInt(queryParams.get('page'), 10)),
+    map((queryParams) => parseInt(queryParams.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -40,7 +40,7 @@ export class CatalogueConceptsComponent {
         }),
       );
     }),
-    map((response) => (response && response.items.length ? response.items[0] : null)),
+    map((response) => (response.items && response.items.length ? response.items[0] : null)),
     switchMap((brand) => {
       if (!brand) {
         this.router.navigate(['/error-404'], {
@@ -83,7 +83,7 @@ export class CatalogueConceptsComponent {
     map((response) => {
       const items: CatalogueListItem[] = response.items.map((item) => {
         const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-          picture: picture ? picture.picture : null,
+          picture: picture.picture ? picture.picture : null,
           routerLink:
             item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
           thumb: picture ? picture.thumb : null,
@@ -91,17 +91,17 @@ export class CatalogueConceptsComponent {
 
         return {
           accepted_pictures_count: item.accepted_pictures_count,
-          can_edit_specs: item.can_edit_specs,
+          can_edit_specs: !!item.can_edit_specs,
           categories: item.categories,
           childs_counts: null,
           description: item.description,
-          design: item.design,
+          design: item.design ? item.design : null,
           details: {
             count: item.childs_count,
             routerLink: item.route,
           },
           engine_vehicles: item.engine_vehicles,
-          has_text: item.has_text,
+          has_text: !!item.has_text,
           id: item.id,
           item_type_id: item.item_type_id,
           name_default: item.name_default,

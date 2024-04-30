@@ -28,7 +28,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     const years = is(12, months);
 
     let amt;
-    let cycle: Intl.RelativeTimeFormatUnit;
+    let cycle: Intl.RelativeTimeFormatUnit | null;
 
     if (years > 0 || years < 0) {
       amt = years;

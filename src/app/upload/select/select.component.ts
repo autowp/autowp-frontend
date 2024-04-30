@@ -32,9 +32,9 @@ export class UploadSelectComponent implements OnInit {
     engines: APIItemParent[];
     item: GRPCAPIItem;
     vehicles: APIItemParent[];
-  };
+  } | null;
   protected brands: APIItem[][];
-  protected paginator: Pages;
+  protected paginator: Pages | undefined;
   protected search = '';
   protected readonly search$ = new BehaviorSubject<string>('');
   protected loading = 0;
@@ -66,7 +66,7 @@ export class UploadSelectComponent implements OnInit {
       this.route.queryParamMap.pipe(
         map((params) => ({
           brandId: params.get('brand_id'),
-          page: parseInt(params.get('page'), 10),
+          page: parseInt(params.get('page') || '', 10),
         })),
       ),
     ])
@@ -90,7 +90,7 @@ export class UploadSelectComponent implements OnInit {
       )
       .subscribe(([brand, brands]) => {
         if (brands) {
-          this.brands = chunk(brands.items, 6);
+          this.brands = chunk(brands.items ? brands.items : [], 6);
           this.paginator = brands.paginator;
         }
         if (brand) {
@@ -108,7 +108,7 @@ export class UploadSelectComponent implements OnInit {
           }),
           language: this.languageService.language,
           limit: 500,
-          name: search ? '%' + search + '%' : null,
+          name: search ? '%' + search + '%' : undefined,
           order: Order.NAME,
           page,
           typeId: ItemType.ITEM_TYPE_BRAND,

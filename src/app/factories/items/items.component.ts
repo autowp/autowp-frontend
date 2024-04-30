@@ -18,13 +18,13 @@ export class FactoryItemsComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly factory$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
@@ -40,7 +40,7 @@ export class FactoryItemsComponent {
       return EMPTY;
     }),
     switchMap((factory) => {
-      if (factory.item_type_id !== ItemType.ITEM_TYPE_FACTORY) {
+      if (!factory || factory.item_type_id !== ItemType.ITEM_TYPE_FACTORY) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
@@ -76,7 +76,7 @@ export class FactoryItemsComponent {
     map((data) => ({
       items: data.items.map((item) => {
         const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-          picture: picture ? picture.picture : null,
+          picture: picture.picture ? picture.picture : null,
           routerLink:
             item.route && picture && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
           thumb: picture ? picture.thumb : null,

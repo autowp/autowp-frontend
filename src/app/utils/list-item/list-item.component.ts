@@ -6,21 +6,21 @@ import {APIItem, APIItemChildsCounts} from '@services/item';
 import {APIPicture} from '@services/picture';
 
 export interface CatalogueListItemPicture {
-  picture: APIPicture;
-  routerLink: string[];
-  thumb?: APIImage;
+  picture: APIPicture | null;
+  routerLink?: string[];
+  thumb?: APIImage | null;
 }
 
 export interface CatalogueListItem {
-  accepted_pictures_count: number;
+  accepted_pictures_count: number | undefined;
   can_edit_specs: boolean;
   categories?: APIItem[];
-  childs_counts: APIItemChildsCounts;
-  description: string;
+  childs_counts: APIItemChildsCounts | null;
+  description: null | string;
   design: {
     name: string;
     route: string[];
-  };
+  } | null;
   details: {
     count: number;
     routerLink: string[];
@@ -36,14 +36,14 @@ export interface CatalogueListItem {
   item_type_id: number;
   name_default: string;
   name_html: string;
-  picturesRouterLink: string[];
+  picturesRouterLink: null | string[];
   preview_pictures: {
     large_format: boolean;
     pictures: CatalogueListItemPicture[];
   };
-  produced: number;
-  produced_exactly: boolean;
-  specsRouterLink: string[];
+  produced: null | number;
+  produced_exactly: boolean | null;
+  specsRouterLink: null | string[];
   twins_groups?: APIItem[];
 }
 

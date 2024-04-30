@@ -14,6 +14,7 @@ import {BehaviorSubject, EMPTY, Observable, combineLatest, forkJoin, of} from 'r
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {
+  APIAttrAttributeValue,
   APIAttrUserValue,
   APIAttrUserValueGetResponse,
   APIAttrValue,
@@ -70,7 +71,10 @@ function applyUserValues(userValues: Map<number, APIAttrUserValue[]>, items: API
   }
 }
 
-function getAttribute(attributes: APIAttrAttributeInSpecEditor[], id: string): APIAttrAttributeInSpecEditor {
+function getAttribute(
+  attributes: APIAttrAttributeInSpecEditor[],
+  id: string,
+): APIAttrAttributeInSpecEditor | undefined {
   for (const attribute of attributes) {
     if (attribute.id === id) {
       return attribute;
@@ -89,25 +93,22 @@ export class CarsSpecificationsEditorSpecComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected loading = 0;
-  private readonly change$ = new BehaviorSubject<null>(null);
-  protected invalidParams: InvalidParams;
+  private readonly change$ = new BehaviorSubject<void>(void 0);
+  protected invalidParams: InvalidParams | null;
 
   protected readonly user$ = this.auth.getUser$();
 
   // fields: 'options,childs.options',
   protected readonly attributes$ = this.item$.pipe(
     distinctUntilChanged(),
-    switchMap((item) =>
-      this.attrsService.getAttributes$(item.attr_zone_id + '', null).pipe(
-        catchError((response: unknown) => {
-          this.toastService.handleError(response);
-          return EMPTY;
-        }),
-      ),
-    ),
+    switchMap((item) => (item ? this.attrsService.getAttributes$(item.attr_zone_id + '', null) : EMPTY)),
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
+      return EMPTY;
+    }),
     map((attributes) => this.toPlain(attributes, 0)),
     shareReplay(1),
   );
@@ -123,12 +124,14 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly values$ = combineLatest([this.item$, this.change$]).pipe(
     switchMap(([item]) =>
-      this.attrsService.getValues$({
-        fields: 'value,value_text',
-        item_id: item.id,
-        limit: 500,
-        zone_id: item.attr_zone_id,
-      }),
+      item
+        ? this.attrsService.getValues$({
+            fields: 'value,value_text',
+            item_id: item.id,
+            limit: 500,
+            zone_id: item.attr_zone_id,
+          })
+        : EMPTY,
     ),
     map((response) => {
       const values = new Map<number, APIAttrValue>();
@@ -142,28 +145,33 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
     switchMap(([item, user, attributes]) =>
-      this.attrsService
-        .getUserValues$({
-          fields: 'value',
-          item_id: item.id,
-          limit: 500,
-          user_id: +user.id,
-          zone_id: item.attr_zone_id,
-        })
-        .pipe(map((response) => ({attributes, item, response, user}))),
+      item && user
+        ? this.attrsService
+            .getUserValues$({
+              fields: 'value',
+              item_id: item.id,
+              limit: 500,
+              user_id: +user.id,
+              zone_id: item.attr_zone_id,
+            })
+            .pipe(map((response) => ({attributes, item, response, user})))
+        : EMPTY,
     ),
     map(({attributes, item, response, user}) => {
       const currentUserValues: {[key: number]: APIAttrUserValue} = {};
       for (const value of response.items) {
         const attribute = getAttribute(attributes, value.attribute_id + '');
-        if (attribute.typeId === AttrAttributeType.Id.INTEGER || attribute.typeId === AttrAttributeType.Id.FLOAT) {
+        if (
+          attribute &&
+          (attribute.typeId === AttrAttributeType.Id.INTEGER || attribute.typeId === AttrAttributeType.Id.FLOAT)
+        ) {
           if (value.value !== null) {
             value.value = +value.value;
           }
         }
-        if (attribute.isMultiple) {
+        if (attribute && attribute.isMultiple) {
           if (!(value.value instanceof Array)) {
-            value.value = [value.value.toString()];
+            value.value = [value.value ? value.value.toString() : ''];
           }
         }
         currentUserValues[value.attribute_id] = value;
@@ -197,15 +205,17 @@ export class CarsSpecificationsEditorSpecComponent {
     this.change$,
   ]).pipe(
     switchMap(([item]) =>
-      this.attrsService
-        .getUserValues$({
-          fields: 'value_text,user',
-          item_id: item.id,
-          limit: 500,
-          page: 1,
-          zone_id: item.attr_zone_id,
-        })
-        .pipe(map((response) => ({item, response}))),
+      item
+        ? this.attrsService
+            .getUserValues$({
+              fields: 'value_text,user',
+              item_id: item.id,
+              limit: 500,
+              page: 1,
+              zone_id: item.attr_zone_id,
+            })
+            .pipe(map((response) => ({item, response})))
+        : EMPTY,
     ),
     map(({item, response}) => {
       const uv = new Map<number, APIAttrUserValue[]>();
@@ -232,13 +242,19 @@ export class CarsSpecificationsEditorSpecComponent {
         );
       }
 
-      return (observables.length ? forkJoin(observables) : of(null)).pipe(map(() => uv));
+      return observables.length ? forkJoin(observables).pipe(map(() => uv)) : of(uv);
     }),
     shareReplay(1),
   );
 
   protected saveSpecs(user: APIUser, item: APIItem, currentUserValues: {[p: number]: APIAttrUserValue}) {
-    const items = [];
+    const items: {
+      attribute_id: string;
+      empty: boolean;
+      item_id: number;
+      user_id: string;
+      value: APIAttrAttributeValue | null;
+    }[] = [];
     for (const attributeID in currentUserValues) {
       items.push({
         attribute_id: attributeID,
@@ -267,7 +283,7 @@ export class CarsSpecificationsEditorSpecComponent {
           this.loading--;
         },
         next: () => {
-          this.change$.next(null);
+          this.change$.next();
           this.loading--;
         },
       });
@@ -288,7 +304,7 @@ export class CarsSpecificationsEditorSpecComponent {
       return [];
     }
 
-    const result = [];
+    const result: string[] = [];
     for (const field in items[id]) {
       for (const code in items[id][field]) {
         result.push(items[id][field][code]);
@@ -310,15 +326,16 @@ export class CarsSpecificationsEditorSpecComponent {
     return getAttrDescriptionTranslation(id);
   }
 
-  private listOptions$ = this.attrsService.getListOptions$(null).pipe(
-    map((response) =>
-      response.toObject().items.map((i) => ({
-        ...i,
-        name: getAttrListOptionsTranslation(i.name),
-      })),
-    ),
-    shareReplay(1),
-  );
+  private listOptions$: Observable<{attributeId: string; id: string; name: string; parentId: string}[]> =
+    this.attrsService.getListOptions$(undefined).pipe(
+      map((response) =>
+        (response.items ? response.items : []).map((i) => ({
+          ...i.toObject(),
+          name: getAttrListOptionsTranslation(i.name),
+        })),
+      ),
+      shareReplay(1),
+    );
 
   private listOptionsTree(items: AttrListOption.AsObject[], parentID: string): ListOption[] {
     const result: ListOption[] = [];
@@ -344,19 +361,18 @@ export class CarsSpecificationsEditorSpecComponent {
 
       if (item.typeId === AttrAttributeType.Id.LIST || item.typeId === AttrAttributeType.Id.TREE) {
         options$ = this.listOptions$.pipe(
-          map((response) =>
-            [
+          map((response) => {
+            const opts: ListOption[] = this.listOptionsTree(
+              response.filter((o) => o.attributeId === item.id),
+              '0',
+            );
+            return [
               {
                 id: null,
                 name: '—',
-              },
-            ].concat(
-              this.listOptionsTree(
-                response.filter((o) => o.attributeId === item.id),
-                '0',
-              ),
-            ),
-          ),
+              } as ListOption,
+            ].concat(opts);
+          }),
         );
       }
 

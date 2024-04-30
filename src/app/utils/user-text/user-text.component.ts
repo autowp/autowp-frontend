@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIPicture, APIPictureGetResponse, PictureService} from '@services/picture';
+import {APIPicture, PictureService} from '@services/picture';
 import {APIUser, UserService} from '@services/user';
 import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class UserTextComponent {
   @Input() set text(text: string) {
     this.text$.next(text);
   }
-  private readonly text$ = new BehaviorSubject<string>(null);
+  private readonly text$ = new BehaviorSubject<null | string>(null);
 
   private readonly parseUrlHosts = [
     'www.autowp.ru',
@@ -45,7 +45,7 @@ export class UserTextComponent {
   protected readonly textPrepared$ = this.text$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((text) => this.prepareText$(text)),
+    switchMap((text) => this.prepareText$(text ? text : '')),
   );
 
   constructor(
@@ -75,7 +75,7 @@ export class UserTextComponent {
 
     const re = new RegExp(/(https?:\/\/[\w:.,/?&_=~+%#'!|()-]{3,})|(www.[\w.,/?&_=~+%#'!|()-]{3,})/i, 'i');
 
-    let res = null;
+    let res: RegExpExecArray | null = null;
     let umatch: string;
     let url;
 
@@ -157,8 +157,8 @@ export class UserTextComponent {
       return of(null);
     }
 
-    let userId = null;
-    let userIdentity = matches[1];
+    let userId: null | number = null;
+    let userIdentity: null | string = matches[1];
 
     const re2 = new RegExp(/^user([0-9]+)$/i, 'i');
     const match = re2.exec(userIdentity);
@@ -206,14 +206,14 @@ export class UserTextComponent {
       return of(null);
     }
 
-    let pictureId = null;
-    let pictureIdentity = matches[1];
+    let pictureId: null | number = null;
+    let pictureIdentity: null | string = matches[1];
 
     const re2 = new RegExp(/^([0-9]+)$/i, 'i');
     const match = re2.exec(pictureIdentity);
     if (match) {
       pictureIdentity = null;
-      pictureId = parseInt(matches[1], 10);
+      pictureId = parseInt(matches[1] || '', 10);
     }
 
     const fields = 'owner,thumb,votes,views,comments_count,name_html,name_text';
@@ -234,7 +234,7 @@ export class UserTextComponent {
 
     if (pictureIdentity) {
       return this.pictureService.getPictures$({fields, identity: pictureIdentity}).pipe(
-        catchError(() => of(null as APIPictureGetResponse)),
+        catchError(() => of(null)),
         map((pictures) =>
           pictures && pictures.pictures.length > 0
             ? {

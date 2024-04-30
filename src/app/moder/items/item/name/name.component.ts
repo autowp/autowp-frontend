@@ -4,16 +4,16 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
 import {APIItem} from '@services/item';
-import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 export interface ItemLanguage {
-  fullText: string;
-  fullTextId: string;
+  fullText: null | string;
+  fullTextId: null | string;
   language: string;
-  name: string;
-  text: string;
-  textId: string;
+  name: null | string;
+  text: null | string;
+  textId: null | string;
 }
 
 @Component({
@@ -46,18 +46,20 @@ export class ModerItemsItemNameComponent {
     }),
   );
 
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected readonly data$: Observable<{itemId: number; languages: ItemLanguage[]}> = this.item$.pipe(
     switchMap((item) =>
-      combineLatest([
-        of(item.id),
-        this.itemsClient.getItemLanguages(new APIGetItemLanguagesRequest({itemId: '' + item.id})),
-        this.languages$,
-      ]),
+      item
+        ? combineLatest([
+            of(item.id),
+            this.itemsClient.getItemLanguages(new APIGetItemLanguagesRequest({itemId: '' + item.id})),
+            this.languages$,
+          ])
+        : EMPTY,
     ),
     map(([itemId, {items}, languages]) => {
-      for (const value of items) {
+      for (const value of items ? items : []) {
         languages.set(value.language, {
           fullText: value.fullText,
           fullTextId: value.fullTextId === '0' ? null : value.fullTextId,

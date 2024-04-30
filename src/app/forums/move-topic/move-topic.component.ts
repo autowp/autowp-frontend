@@ -11,7 +11,7 @@ import {
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {getForumsThemeTranslation} from '@utils/translations';
-import {EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -28,13 +28,13 @@ export class ForumsMoveTopicComponent implements OnInit {
         this.toastService.handleError(response);
         return EMPTY;
       }),
-      map((response) => response.items),
+      map((response) => (response.items ? response.items : [])),
     );
 
   protected readonly topic$ = this.route.queryParamMap.pipe(
     map((params) => params.get('topic_id')),
     distinctUntilChanged(),
-    switchMap((topicID) => this.grpc.getTopic(new APIGetForumsTopicRequest({id: topicID}))),
+    switchMap((topicID) => (topicID ? this.grpc.getTopic(new APIGetForumsTopicRequest({id: topicID})) : of(null))),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
@@ -45,7 +45,9 @@ export class ForumsMoveTopicComponent implements OnInit {
   );
 
   protected readonly theme$ = this.topic$.pipe(
-    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId}))),
+    switchMap((topic) =>
+      topic?.themeId ? this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId})) : of(null),
+    ),
   );
 
   constructor(

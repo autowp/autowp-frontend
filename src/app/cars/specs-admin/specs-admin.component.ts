@@ -20,14 +20,14 @@ export class CarsSpecsAdminComponent implements OnInit {
   private readonly move$ = new BehaviorSubject<boolean>(false);
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );

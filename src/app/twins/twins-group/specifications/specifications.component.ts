@@ -5,7 +5,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
@@ -13,10 +13,19 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './specifications.component.html',
 })
 export class TwinsGroupSpecificationsComponent {
-  protected readonly id$: Observable<string> = this.route.parent.paramMap.pipe(
+  protected readonly id$: Observable<string> = this.route.parent!.paramMap.pipe(
     map((params) => params.get('group')),
     distinctUntilChanged(),
     shareReplay(1),
+    switchMap((id) => {
+      if (!id) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(id);
+    }),
   );
 
   protected readonly html$: Observable<string> = this.id$.pipe(
@@ -28,21 +37,15 @@ export class TwinsGroupSpecificationsComponent {
   );
 
   protected readonly group$: Observable<APIItem> = this.id$.pipe(
-    switchMap((id) => {
-      if (!id) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
-      }
-      return this.itemsClient.item(
+    switchMap((id) =>
+      this.itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameText: true}),
           id,
           language: this.languageService.language,
         }),
-      );
-    }),
+      ),
+    ),
     tap((group) => {
       setTimeout(
         () =>

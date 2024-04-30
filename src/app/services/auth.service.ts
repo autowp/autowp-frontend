@@ -7,7 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-  private user$ = new ReplaySubject<APIUser>(1);
+  private user$ = new ReplaySubject<APIUser | null>(1);
 
   constructor(
     private readonly keycloak: KeycloakService,
@@ -28,11 +28,11 @@ export class AuthService {
     );
   }
 
-  private setUser(value: APIUser) {
+  private setUser(value: APIUser | null) {
     this.user$.next(value);
   }
 
-  public getUser$(): Observable<APIUser> {
+  public getUser$(): Observable<APIUser | null> {
     return this.user$;
   }
 
@@ -40,7 +40,7 @@ export class AuthService {
     return from(this.keycloak.logout(window.location.href)).pipe(tap(() => this.setUser(null)));
   }
 
-  public loadMe$(): Observable<APIUser> {
+  public loadMe$(): Observable<APIUser | null> {
     return this.usersClient.me(new APIMeRequest({})).pipe(
       catchError(() => {
         this.setUser(null);

@@ -20,7 +20,7 @@ export class MuseumComponent {
   protected readonly museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
@@ -64,7 +64,7 @@ export class MuseumComponent {
       return EMPTY;
     }),
     switchMap((item) => {
-      if (item.item_type_id !== ItemType.ITEM_TYPE_MUSEUM) {
+      if (!item || item.item_type_id !== ItemType.ITEM_TYPE_MUSEUM) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });

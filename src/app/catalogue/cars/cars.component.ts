@@ -14,7 +14,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {EMPTY, Observable, combineLatest} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
@@ -41,8 +41,9 @@ export class CatalogueCarsComponent {
             limit: 1,
           }),
         )
-        .pipe(map((response) => (response && response.items.length ? response.items[0] : null)));
+        .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));
     }),
+    switchMap((brand) => (brand ? of(brand) : EMPTY)),
     shareReplay(1),
   );
 
@@ -54,7 +55,7 @@ export class CatalogueCarsComponent {
         }),
       ),
     ),
-    map((vehicleTypes) => vehicleTypes.items),
+    map((vehicleTypes) => (vehicleTypes.items ? vehicleTypes.items : [])),
     shareReplay(1),
   );
 
@@ -107,7 +108,7 @@ export class CatalogueCarsComponent {
   > = combineLatest([this.vehicleTypes$, this.currentVehicleType$, this.brand$]).pipe(
     map(([types, current, brand]) =>
       types.map((t) => ({
-        active: current && t.id === current.id,
+        active: !!(current && t.id === current.id),
         id: t.id,
         itemsCount: t.itemsCount,
         name: getVehicleTypeTranslation(t.name),
@@ -120,7 +121,7 @@ export class CatalogueCarsComponent {
     this.brand$,
     this.currentVehicleType$,
     this.route.queryParamMap.pipe(
-      map((params) => +params.get('page')),
+      map((params) => parseInt(params.get('page') || '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),
@@ -148,7 +149,7 @@ export class CatalogueCarsComponent {
           map((response) => {
             const items: CatalogueListItem[] = response.items.map((item) => {
               const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-                picture: picture ? picture.picture : null,
+                picture: picture.picture ? picture.picture : null,
                 routerLink:
                   item.route && picture && picture.picture
                     ? item.route.concat(['pictures', picture.picture.identity])
@@ -158,17 +159,17 @@ export class CatalogueCarsComponent {
 
               return {
                 accepted_pictures_count: item.accepted_pictures_count,
-                can_edit_specs: item.can_edit_specs,
+                can_edit_specs: !!item.can_edit_specs,
                 categories: item.categories,
-                childs_counts: item.childs_counts,
+                childs_counts: item.childs_counts ? item.childs_counts : null,
                 description: item.description,
-                design: item.design,
+                design: item.design ? item.design : null,
                 details: {
                   count: item.childs_count,
                   routerLink: item.route,
                 },
                 engine_vehicles: item.engine_vehicles,
-                has_text: item.has_text,
+                has_text: !!item.has_text,
                 id: item.id,
                 item_type_id: item.item_type_id,
                 name_default: item.name_default,

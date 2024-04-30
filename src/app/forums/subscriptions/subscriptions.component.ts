@@ -15,9 +15,9 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class ForumsSubscriptionsComponent implements OnInit {
   private readonly reload$ = new BehaviorSubject<boolean>(false);
 
-  protected readonly data$: Observable<{items: APIForumsTopic[]; paginator: Pages}> = combineLatest([
+  protected readonly data$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
     this.route.queryParamMap.pipe(
-      map((params) => parseInt(params.get('page'), 10)),
+      map((params) => parseInt(params.get('page') || '', 10)),
       distinctUntilChanged(),
     ),
     this.reload$,

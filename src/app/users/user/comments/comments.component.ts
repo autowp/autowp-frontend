@@ -4,7 +4,7 @@ import {CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import {EMPTY, combineLatest} from 'rxjs';
+import {EMPTY, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -21,7 +21,7 @@ interface Order {
 })
 export class UsersUserCommentsComponent {
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -41,18 +41,19 @@ export class UsersUserCommentsComponent {
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
+    switchMap((identity) => (identity ? this.userService.getByIdentity$(identity, {fields: 'identity'}) : EMPTY)),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
     }),
-    tap((user) => {
+    switchMap((user) => {
       if (!user) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
-        return;
+        return EMPTY;
       }
+      return of(user);
     }),
     shareReplay(1),
   );
@@ -98,8 +99,8 @@ export class UsersUserCommentsComponent {
     private readonly commentsClient: CommentsClient,
   ) {}
 
-  protected getOrderApiValue(order: string): GetMessagesRequest.Order {
+  protected getOrderApiValue(order: string): GetMessagesRequest.Order | undefined {
     const o = this.orders.find((o) => o.value === order);
-    return o ? o.apiValue : null;
+    return o ? o.apiValue : undefined;
   }
 }

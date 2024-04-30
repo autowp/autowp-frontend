@@ -19,7 +19,7 @@ export class ModerUsersComponent implements OnInit {
       this.userService.get$({
         fields: 'image,reg_date,last_online,email,login',
         limit: 30,
-        page: parseInt(params.get('page'), 10),
+        page: parseInt(params.get('page') || '', 10),
       }),
     ),
     catchError((error: unknown) => {

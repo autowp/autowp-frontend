@@ -22,31 +22,31 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './comments.component.html',
 })
 export class CommentsComponent {
-  private readonly reload$ = new BehaviorSubject<null>(null);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
   }
-  protected readonly itemID$ = new BehaviorSubject<string>(null);
+  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
   @Input() set typeID(typeID: CommentsType) {
     this.typeID$.next(typeID);
   }
-  protected readonly typeID$ = new BehaviorSubject<CommentsType>(null);
+  protected readonly typeID$ = new BehaviorSubject<CommentsType | null>(null);
 
   @Input() set limit(limit: number) {
     this.limit$.next(limit);
   }
-  protected readonly limit$ = new BehaviorSubject<number>(null);
+  protected readonly limit$ = new BehaviorSubject<null | number>(null);
 
   @Input() set page(page: number) {
     this.page$.next(page);
   }
-  protected readonly page$ = new BehaviorSubject<number>(null);
+  protected readonly page$ = new BehaviorSubject<null | number>(null);
 
   protected readonly user$ = this.auth.getUser$();
 
-  protected readonly data$: Observable<{messages: APICommentsMessage[]; paginator: Pages}> = combineLatest([
+  protected readonly data$: Observable<{messages: APICommentsMessage[]; paginator?: Pages}> = combineLatest([
     this.user$,
     this.itemID$.pipe(debounceTime(10), distinctUntilChanged()),
     this.typeID$.pipe(debounceTime(10), distinctUntilChanged()),
@@ -55,24 +55,26 @@ export class CommentsComponent {
     this.reload$,
   ]).pipe(
     switchMap(([user, itemID, typeID, limit, page]) =>
-      this.load$(itemID, typeID, limit, page).pipe(
-        tap(() => {
-          if (user) {
-            this.commentsGrpc
-              .view(
-                new CommentsViewRequest({
-                  itemId: '' + itemID,
-                  typeId: typeID,
-                }),
-              )
-              .subscribe();
-          }
-        }),
-        map((response) => ({
-          messages: response.items,
-          paginator: response.paginator,
-        })),
-      ),
+      typeID && itemID
+        ? this.load$(itemID, typeID, limit, page).pipe(
+            tap(() => {
+              if (user) {
+                this.commentsGrpc
+                  .view(
+                    new CommentsViewRequest({
+                      itemId: '' + itemID,
+                      typeId: typeID ? typeID : undefined,
+                    }),
+                  )
+                  .subscribe();
+              }
+            }),
+            map((response) => ({
+              messages: response.items ? response.items : [],
+              paginator: response.paginator,
+            })),
+          )
+        : EMPTY,
     ),
   );
 
@@ -91,7 +93,7 @@ export class CommentsComponent {
         take(1),
         switchMap((limit) => {
           if (!limit) {
-            this.reload$.next(null);
+            this.reload$.next();
             return EMPTY;
           }
 
@@ -110,7 +112,7 @@ export class CommentsComponent {
                       queryParamsHandling: 'merge',
                     });
                   } else {
-                    this.reload$.next(null);
+                    this.reload$.next();
                   }
                 }),
               ),
@@ -121,11 +123,12 @@ export class CommentsComponent {
       .subscribe();
   }
 
-  protected load$(itemID: string, typeID: CommentsType, limit: number, page: number): Observable<APICommentsMessages> {
-    if (!typeID || !itemID) {
-      return EMPTY;
-    }
-
+  protected load$(
+    itemID: string,
+    typeID: CommentsType,
+    limit: null | number | undefined,
+    page: null | number | undefined,
+  ): Observable<APICommentsMessages> {
     return this.commentsGrpc.getMessages(
       new GetMessagesRequest({
         fields: new CommentMessageFields({
@@ -135,10 +138,10 @@ export class CommentsComponent {
           vote: true,
         }),
         itemId: itemID,
-        limit: limit ? limit : null,
+        limit: limit ? limit : undefined,
         noParents: true,
         order: GetMessagesRequest.Order.DATE_ASC,
-        page: page,
+        page: page ? page : undefined,
         typeId: typeID,
       }),
     );

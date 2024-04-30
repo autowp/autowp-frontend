@@ -21,7 +21,7 @@ export interface PageEnv {
 
 @Injectable()
 export class PageEnvService {
-  public readonly pageEnv$ = new BehaviorSubject<PageEnv>(null);
+  public readonly pageEnv$ = new BehaviorSubject<PageEnv | null>(null);
   public readonly layoutParams$ = new BehaviorSubject<LayoutParams>({
     isAdminPage: false,
     isGalleryPage: false,
@@ -34,8 +34,8 @@ export class PageEnvService {
     this.pageEnv$.subscribe((data) => {
       if (data) {
         this.layoutParams$.next({
-          isAdminPage: data.layout?.isAdminPage,
-          isGalleryPage: data.layout?.isGalleryPage,
+          isAdminPage: !!data.layout?.isAdminPage,
+          isGalleryPage: !!data.layout?.isGalleryPage,
         });
 
         if (data.title) {

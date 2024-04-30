@@ -16,7 +16,7 @@ export interface APIVehicleType {
 @Injectable()
 export class VehicleTypeService {
   private readonly types$: Observable<VehicleType[]> = this.grpc.getVehicleTypes(new Empty()).pipe(
-    map((data) => data.items),
+    map((data) => (data.items ? data.items : [])),
     shareReplay(1),
   );
 
@@ -25,7 +25,7 @@ export class VehicleTypeService {
   private walkTypes(types: VehicleType[], callback: (type: VehicleType) => void) {
     for (const type of types) {
       callback(type);
-      this.walkTypes(type.childs, callback);
+      this.walkTypes(type.childs ? type.childs : [], callback);
     }
   }
 

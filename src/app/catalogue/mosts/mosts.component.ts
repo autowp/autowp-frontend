@@ -50,7 +50,7 @@ export class CatalogueMostsComponent {
         )
         .pipe(
           switchMap((response) => {
-            if (response.items.length <= 0) {
+            if (!response.items || response.items.length <= 0) {
               this.router.navigate(['/error-404'], {
                 skipLocationChange: true,
               });

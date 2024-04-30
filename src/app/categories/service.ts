@@ -13,7 +13,7 @@ export interface PathItem {
 }
 
 export interface CategoryPipeResult {
-  category: APIItem;
+  category: APIItem | null;
   current: APIItem;
   path: APIPathItem[];
   pathCatnames: string[];
@@ -26,15 +26,12 @@ export class CategoriesService {
 
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
     const categoryPipe$ = route.paramMap.pipe(
-      map((params) => params.get('category')),
+      map((params) => params.get('category') || ''),
       distinctUntilChanged(),
     );
 
     const pathPipe$ = route.paramMap.pipe(
-      map((params) => {
-        const path = params.get('path');
-        return path ? path : '';
-      }),
+      map((params) => params.get('path') || ''),
       distinctUntilChanged(),
     );
 
@@ -54,7 +51,7 @@ export class CategoriesService {
         }),
       ),
       map((response) => {
-        let category: APIItem;
+        let category: APIItem | null = null;
         for (const item of response.path) {
           if (item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
             break;

@@ -20,15 +20,15 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   @Input() set itemID(value: string) {
     this.itemID$.next(value);
   }
-  protected readonly itemID$ = new BehaviorSubject<string>(null);
+  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
   @Input() set itemTypeID(value: number) {
     this.itemTypeID$.next(value);
   }
-  protected readonly itemTypeID$ = new BehaviorSubject<number>(null);
+  protected readonly itemTypeID$ = new BehaviorSubject<null | number>(null);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay(1),
@@ -41,44 +41,45 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('brand_id'), 10)),
+    map((params) => parseInt(params.get('brand_id') || '', 10)),
     map((brandID) => (brandID ? brandID : 0)),
     distinctUntilChanged(),
     shareReplay(1),
   );
 
-  protected readonly catalogueBrands$: Observable<{brands: GRPCAPIItem[][]; paginator: Pages}> = this.brandID$.pipe(
-    switchMap((brandID) =>
-      brandID
-        ? of(null)
-        : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
-            switchMap(([itemTypeID, search, page]) =>
-              this.itemsClient.list(
-                new ListItemsRequest({
-                  descendant: new ListItemsRequest({
-                    typeId: itemTypeID,
+  protected readonly catalogueBrands$: Observable<{brands: GRPCAPIItem[][]; paginator?: Pages} | null> =
+    this.brandID$.pipe(
+      switchMap((brandID) =>
+        brandID
+          ? of(null)
+          : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
+              switchMap(([itemTypeID, search, page]) =>
+                this.itemsClient.list(
+                  new ListItemsRequest({
+                    descendant: new ListItemsRequest({
+                      typeId: itemTypeID ? itemTypeID : undefined,
+                    }),
+                    fields: new ItemFields({nameHtml: true}),
+                    language: this.languageService.language,
+                    limit: 500,
+                    name: search ? '%' + search + '%' : undefined,
+                    order: ListItemsRequest.Order.NAME,
+                    page,
+                    typeId: ItemType.ITEM_TYPE_BRAND,
                   }),
-                  fields: new ItemFields({nameHtml: true}),
-                  language: this.languageService.language,
-                  limit: 500,
-                  name: search ? '%' + search + '%' : null,
-                  order: ListItemsRequest.Order.NAME,
-                  page,
-                  typeId: ItemType.ITEM_TYPE_BRAND,
-                }),
+                ),
               ),
+              catchError((error: unknown) => {
+                this.toastService.handleError(error);
+                return EMPTY;
+              }),
+              map((response) => ({
+                brands: chunk<GRPCAPIItem>(response.items ? response.items : [], 6),
+                paginator: response.paginator,
+              })),
             ),
-            catchError((error: unknown) => {
-              this.toastService.handleError(error);
-              return EMPTY;
-            }),
-            map((response) => ({
-              brands: chunk<GRPCAPIItem>(response.items, 6),
-              paginator: response.paginator,
-            })),
-          ),
-    ),
-  );
+      ),
+    );
 
   protected readonly catalogueItems$ = combineLatest([this.itemTypeID$, this.brandID$, this.page$]).pipe(
     switchMap(([itemTypeID, brandID, page]) =>
@@ -86,7 +87,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         ? this.itemParentService.getItems$({
             fields: '',
             is_group: true,
-            item_type_id: itemTypeID,
+            item_type_id: itemTypeID ? itemTypeID : undefined,
             limit: 100,
             page,
             parent_id: brandID,

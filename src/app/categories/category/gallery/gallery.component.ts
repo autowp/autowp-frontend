@@ -29,7 +29,7 @@ export class CategoryGalleryComponent implements OnInit {
   );
 
   protected readonly data$: Observable<CategoryPipeResult> = this.categoriesService
-    .categoryPipe$(this.route.parent)
+    .categoryPipe$(this.route.parent!)
     .pipe(
       switchMap((data) => {
         if (!data.current) {
@@ -59,7 +59,7 @@ export class CategoryGalleryComponent implements OnInit {
     }, 0);
   }
 
-  protected currentRouterLinkPrefix(category: APIItem, currentItem: APIItem, pathCatnames: string[]): string[] {
+  protected currentRouterLinkPrefix(category: APIItem, currentItem: APIItem, pathCatnames: string[]): null | string[] {
     if (!category) {
       return null;
     }

@@ -29,7 +29,7 @@ interface APIBrandSection {
 
 interface PictureRoute {
   picture: APIPicture;
-  route: string[];
+  route: null | string[];
 }
 
 @Component({
@@ -81,7 +81,7 @@ export class CatalogueIndexComponent {
       );
     }),
     switchMap((response) => {
-      if (response.items.length <= 0) {
+      if (!response.items || response.items.length <= 0) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
@@ -125,7 +125,7 @@ export class CatalogueIndexComponent {
       const official: APIItemLink[] = [];
       const club: APIItemLink[] = [];
       const other: APIItemLink[] = [];
-      response.items.forEach((item) => {
+      (response.items ? response.items : []).forEach((item) => {
         switch (item.type) {
           case 'official':
             official.push(item);

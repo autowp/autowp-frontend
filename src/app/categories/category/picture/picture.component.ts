@@ -29,7 +29,7 @@ export class CategoryPictureComponent {
     }),
   );
 
-  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent.parent).pipe(
+  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent!.parent!).pipe(
     switchMap((data) => {
       if (!data.current) {
         this.router.navigate(['/error-404'], {

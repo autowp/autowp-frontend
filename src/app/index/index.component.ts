@@ -37,7 +37,7 @@ export class IndexComponent implements OnInit {
     },
   ];
 
-  protected readonly itemOfDay$: Observable<{item: APIItem; user: APIUser}> = this.api
+  protected readonly itemOfDay$: Observable<{item: APIItem; user: APIUser | null}> = this.api
     .request<APIIndexItemOfDay>('GET', 'index/item-of-day')
     .pipe(
       switchMap((itemOfDay) =>

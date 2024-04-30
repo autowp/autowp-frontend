@@ -17,32 +17,36 @@ export class DonateVodSelectItemComponent {
   @Input() set itemParent(itemParent: APIItemParent) {
     this.itemParent$.next(itemParent);
   }
-  protected readonly itemParent$ = new BehaviorSubject<APIItemParent>(null);
+  protected readonly itemParent$ = new BehaviorSubject<APIItemParent | null>(null);
   protected expanded = false;
 
   protected readonly item$: Observable<APIItem> = this.itemParent$.pipe(
     switchMap((itemParent) =>
-      this.itemsClient.item(
-        new ItemRequest({
-          fields: new ItemFields({
-            childsCount: true,
-            isCompilesItemOfDay: true,
-            nameHtml: true,
-          }),
-          id: itemParent.item_id.toString(),
-          language: this.languageService.language,
-        }),
-      ),
+      itemParent
+        ? this.itemsClient.item(
+            new ItemRequest({
+              fields: new ItemFields({
+                childsCount: true,
+                isCompilesItemOfDay: true,
+                nameHtml: true,
+              }),
+              id: itemParent.item_id.toString(),
+              language: this.languageService.language,
+            }),
+          )
+        : EMPTY,
     ),
   );
 
   protected readonly childs$: Observable<APIItemParent[]> = this.itemParent$.pipe(
     switchMap((itemParent) =>
-      this.itemParentService.getItems$({
-        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-        limit: 500,
-        parent_id: itemParent.item_id,
-      }),
+      itemParent
+        ? this.itemParentService.getItems$({
+            item_type_id: ItemType.ITEM_TYPE_VEHICLE,
+            limit: 500,
+            parent_id: itemParent.item_id,
+          })
+        : EMPTY,
     ),
     catchError((e: unknown) => {
       this.toastService.handleError(e);

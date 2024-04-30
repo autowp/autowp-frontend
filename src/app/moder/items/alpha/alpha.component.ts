@@ -17,12 +17,12 @@ export interface APIItemAlphaGetResponse {
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
-  protected char: string;
+  protected char: null | string;
   private querySub: Subscription;
   protected loading = 0;
-  protected paginator: Pages | null = null;
+  protected paginator?: Pages | null = null;
   protected groups: string[][];
-  protected items: APIItem[];
+  protected items?: APIItem[];
 
   constructor(
     private readonly api: APIService,
@@ -58,12 +58,12 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
                     language: this.languageService.language,
                     limit: 10,
                     name: query.get('char') + '%',
-                    page: parseInt(query.get('page'), 10),
+                    page: parseInt(query.get('page') || '', 10),
                   }),
                 )
               : of({
-                  items: [],
-                  paginator: null,
+                  items: [] as APIItem[],
+                  paginator: undefined,
                 } as APIItemList),
           ]),
         ),

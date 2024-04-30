@@ -13,7 +13,7 @@ import {ToastsService} from '../toasts/toasts.service';
 })
 export class TopViewComponent implements OnInit {
   protected readonly data$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((page) =>

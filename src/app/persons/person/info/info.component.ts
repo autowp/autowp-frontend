@@ -1,14 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  APIGetItemLinksRequest,
-  APIItem,
-  APIItemLink,
-  APIItemLinksResponse,
-  ItemFields,
-  ItemRequest,
-  ItemType,
-} from '@grpc/spec.pb';
+import {APIGetItemLinksRequest, APIItem, APIItemLink, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
@@ -27,13 +19,13 @@ export class PersonsPersonInfoComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly itemID$: Observable<string> = this.route.parent.paramMap.pipe(
-    map((params) => params.get('id')),
+  private readonly itemID$: Observable<string> = this.route.parent!.paramMap.pipe(
+    map((params) => params.get('id') || ''),
     distinctUntilChanged(),
     shareReplay(1),
   );
@@ -81,12 +73,15 @@ export class PersonsPersonInfoComponent {
     switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
-      return of({items: []} as APIItemLinksResponse);
+      return of({items: []});
     }),
-    map((response) => response.items),
+    map((response) => (response.items ? response.items : [])),
   );
 
-  protected readonly authorPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
+  protected readonly authorPictures$: Observable<APIPictureGetResponse | null> = combineLatest([
+    this.itemID$,
+    this.page$,
+  ]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService.getPictures$({
         exact_item_id: +itemID,
@@ -100,11 +95,14 @@ export class PersonsPersonInfoComponent {
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
-      return of(null as APIPictureGetResponse);
+      return of(null);
     }),
   );
 
-  protected readonly contentPictures$ = combineLatest([this.itemID$, this.page$]).pipe(
+  protected readonly contentPictures$: Observable<APIPictureGetResponse | null> = combineLatest([
+    this.itemID$,
+    this.page$,
+  ]).pipe(
     switchMap(([itemID, page]) =>
       this.pictureService
         .getPictures$({
@@ -119,7 +117,7 @@ export class PersonsPersonInfoComponent {
         .pipe(
           catchError((err: unknown) => {
             this.toastService.handleError(err);
-            return of(null as APIPictureGetResponse);
+            return of(null);
           }),
         ),
     ),

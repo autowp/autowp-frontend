@@ -28,7 +28,8 @@
       "@environment/*": ["environments/*"],
       "@services/*": ["app/services/*"],
       "@utils/*": ["app/utils/*"]
-    }
+    },
+    "strictNullChecks": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true

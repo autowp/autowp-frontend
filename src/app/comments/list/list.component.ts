@@ -33,17 +33,17 @@ export class CommentsListComponent {
   @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
   }
-  protected readonly itemID$ = new BehaviorSubject<string>(null);
+  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
   @Input() set typeID(typeID: CommentsType) {
     this.typeID$.next(typeID);
   }
-  protected readonly typeID$ = new BehaviorSubject<CommentsType>(null);
+  protected readonly typeID$ = new BehaviorSubject<CommentsType | null>(null);
 
   @Input() set messages(messages: APICommentInList[]) {
     this.messages$.next(
       messages.map((message) => ({
-        canVote$: this.user$.pipe(map((user) => user && user.id !== message.authorId)),
+        canVote$: this.user$.pipe(map((user) => !!(user && user.id !== message.authorId))),
         message,
         user$: this.userService.getUser2$(message.authorId),
       })),
@@ -53,14 +53,14 @@ export class CommentsListComponent {
     {
       canVote$: Observable<boolean>;
       message: APICommentInList;
-      user$: Observable<APIUser>;
+      user$: Observable<APIUser | null>;
     }[]
   >([]);
 
   @Input() set deep(deep: number) {
     this.deep$.next(deep);
   }
-  protected readonly deep$ = new BehaviorSubject<number>(null);
+  protected readonly deep$ = new BehaviorSubject<null | number>(null);
 
   @Output() sent = new EventEmitter<string>();
 

@@ -12,13 +12,13 @@ import {catchError, map} from 'rxjs/operators';
   templateUrl: './whitelist.component.html',
 })
 export class ModerTrafficWhitelistComponent implements OnInit {
-  private readonly reload$ = new BehaviorSubject<void>(null);
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<APITrafficWhitelistItem[]> = combineLatest([
     this.grpc.getWhitelist(new Empty()),
     this.reload$,
   ]).pipe(
-    map(([response]) => response.items),
+    map(([response]) => (response.items ? response.items : [])),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,

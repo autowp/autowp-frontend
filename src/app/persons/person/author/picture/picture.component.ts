@@ -28,8 +28,8 @@ export class PersonsPersonAuthorPictureComponent {
     shareReplay(1),
   );
 
-  protected readonly personID$ = this.route.parent.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+  protected readonly personID$ = this.route.parent!.paramMap.pipe(
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
   );
 
@@ -41,7 +41,7 @@ export class PersonsPersonAuthorPictureComponent {
     map(([personID, identity]) => ['/persons', personID.toString(), 'author', 'gallery', identity]),
   );
 
-  protected readonly picture$: Observable<APIPicture> = combineLatest([this.identity$, this.personID$]).pipe(
+  protected readonly picture$: Observable<APIPicture | null> = combineLatest([this.identity$, this.personID$]).pipe(
     switchMap(([identity, itemID]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,' +

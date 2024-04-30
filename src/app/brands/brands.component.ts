@@ -67,7 +67,9 @@ export class BrandsComponent implements OnInit {
 
   protected scrollTo(info) {
     const element = document.getElementById('char' + info.id);
-    element.scrollIntoView({behavior: 'smooth'});
+    if (element) {
+      element.scrollIntoView({behavior: 'smooth'});
+    }
     return false;
   }
 }

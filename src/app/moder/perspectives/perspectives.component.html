@@ -14,7 +14,7 @@
 </div>
 
 <ul>
-  <li *ngFor="let page of pages">
+  <li *ngFor="let page of pages$ | async">
     [{{ page.id }}] {{ page.name }}
     <div class="mb-4 row">
       <div class="col-4" *ngFor="let group of page.groups">

@@ -29,13 +29,13 @@ export class PersonsPersonPictureComponent {
     shareReplay(1),
   );
 
-  protected readonly itemID$ = this.route.parent.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+  protected readonly itemID$ = this.route.parent!.paramMap.pipe(
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     shareReplay(1),
   );
 
-  protected readonly picture$: Observable<APIPicture> = combineLatest([this.itemID$, this.identity$]).pipe(
+  protected readonly picture$: Observable<APIPicture | null> = combineLatest([this.itemID$, this.identity$]).pipe(
     switchMap(([itemID, identity]) => {
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +

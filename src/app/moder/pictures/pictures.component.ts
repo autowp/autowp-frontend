@@ -22,7 +22,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 interface VehicleTypeInPictures {
   deep: number;
   name: string;
-  value: number;
+  value: null | number;
 }
 
 interface PerspectiveInList {
@@ -38,7 +38,7 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
       name: getVehicleTypeTranslation(item.name),
       value: item.id,
     });
-    for (const subitem of toPlainVehicleTypes(item.childs, deep + 1)) {
+    for (const subitem of toPlainVehicleTypes(item.childs ? item.childs : [], deep + 1)) {
       result.push(subitem);
     }
   }
@@ -235,13 +235,18 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        const params = {
+        const params: {
+          id: number[];
+          limit: number;
+          search: string;
+        } = {
           id: [],
           limit: 10,
           search: '',
         };
         if (query.substring(0, 1) === '#') {
-          params.id.push(parseInt(query.substring(1), 10));
+          const v = parseInt(query.substring(1) || '', 10);
+          params.id.push(v);
         } else {
           params.search = query;
         }
@@ -290,7 +295,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items),
+          map((response) => (response.items ? response.items : [])),
         );
       }),
     );
@@ -302,8 +307,8 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   private readonly change$ = new BehaviorSubject<null>(null);
 
-  protected addedFrom: string;
-  private readonly addedFrom$ = new BehaviorSubject<string>('');
+  protected addedFrom: null | string;
+  private readonly addedFrom$ = new BehaviorSubject<null | string>('');
   private addedFromSub: Subscription;
 
   protected excludeItemID: number;
@@ -319,17 +324,17 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     switchMap((params) => {
       this.addedFrom = params.get('added_from') ? params.get('added_from') : null;
       this.status = params.get('status') ? params.get('status') : null;
-      this.vehicleTypeID = params.get('vehicle_type_id') ? parseInt(params.get('vehicle_type_id'), 10) : null;
+      this.vehicleTypeID = params.get('vehicle_type_id') ? parseInt(params.get('vehicle_type_id') || '', 10) : null;
       this.perspectiveID = params.get('perspective_id')
         ? params.get('perspective_id') === 'null'
           ? 'null'
-          : parseInt(params.get('perspective_id'), 10)
+          : parseInt(params.get('perspective_id') || '', 10)
         : null;
-      this.itemID = params.get('item_id') ? parseInt(params.get('item_id'), 10) : 0;
+      this.itemID = params.get('item_id') ? parseInt(params.get('item_id') || '', 10) : 0;
       if (this.itemID && !this.itemQuery) {
         this.itemQuery = '#' + this.itemID;
       }
-      this.excludeItemID = params.get('exclude_item_id') ? parseInt(params.get('exclude_item_id'), 10) : 0;
+      this.excludeItemID = params.get('exclude_item_id') ? parseInt(params.get('exclude_item_id') || '', 10) : 0;
       if (this.excludeItemID && !this.excludeItemQuery) {
         this.excludeItemQuery = '#' + this.excludeItemID;
       }
@@ -344,7 +349,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           this.comments = null;
           break;
       }
-      this.ownerID = parseInt(params.get('owner_id'), 10);
+      this.ownerID = parseInt(params.get('owner_id') || '', 10);
       if (this.ownerID && !this.ownerQuery) {
         this.ownerQuery = '#' + this.ownerID;
       }
@@ -359,19 +364,19 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           this.replace = null;
           break;
       }
-      this.requests = params.get('requests') ? parseInt(params.get('requests'), 10) : null;
+      this.requests = params.get('requests') ? parseInt(params.get('requests') || '', 10) : null;
       this.specialName = !!params.get('special_name');
       this.lost = !!params.get('lost');
       this.gps = !!params.get('gps');
       this.similar = !!params.get('similar');
-      this.order = params.get('order') ? parseInt(params.get('order'), 10) : 1;
+      this.order = params.get('order') ? parseInt(params.get('order') || '', 10) : 1;
       this.addedFrom = params.get('added_from') || '';
 
       this.selected = [];
       this.hasSelectedItem = false;
       const qParams: APIGetPicturesOptions = {
-        added_from: this.addedFrom ? this.addedFrom : null,
-        car_type_id: this.vehicleTypeID,
+        added_from: this.addedFrom ? this.addedFrom : undefined,
+        car_type_id: this.vehicleTypeID ? this.vehicleTypeID : undefined,
         comments: this.comments,
         exclude_item_id: this.excludeItemID,
         fields: 'owner,thumb_medium,moder_vote,votes,similar,views,comments_count,perspective_item,name_html,name_text',
@@ -380,14 +385,14 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         limit: 18,
         lost: this.lost,
         order: this.order,
-        owner_id: this.ownerID ? this.ownerID.toString() : null,
-        page: parseInt(params.get('page'), 10),
+        owner_id: this.ownerID ? this.ownerID.toString() : undefined,
+        page: parseInt(params.get('page') || '', 10),
         perspective_id: this.perspectiveID,
         replace: this.replace,
         requests: this.requests,
         similar: this.similar,
         special_name: this.specialName,
-        status: this.status,
+        status: this.status ? this.status : undefined,
       };
 
       return this.change$.pipe(

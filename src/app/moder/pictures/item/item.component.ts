@@ -16,7 +16,7 @@ import {sprintf} from 'sprintf-js';
 
 interface LastItemInfo {
   hasItem: boolean;
-  item: APIItem;
+  item: APIItem | null;
 }
 
 @Component({
@@ -35,7 +35,7 @@ export class ModerPicturesItemComponent {
   private readonly change$ = new BehaviorSubject<null>(null);
 
   protected readonly id$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     tap((id) => {
       setTimeout(() => {
@@ -87,12 +87,12 @@ export class ModerPicturesItemComponent {
     shareReplay(1),
   );
 
-  protected readonly ip$ = this.picture$.pipe(
+  protected readonly ip$: Observable<APIIP | null> = this.picture$.pipe(
     switchMap((picture) => {
       if (!picture.ip) {
-        return of(null as APIIP);
+        return of(null);
       }
-      return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(catchError(() => of(null as APIIP)));
+      return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(catchError(() => of(null)));
     }),
   );
 
@@ -122,9 +122,9 @@ export class ModerPicturesItemComponent {
               return of(null);
             }
             console.error(error);
-            throwError(() => error);
+            return throwError(() => error);
           }),
-          map((item) => ({hasItem: this.hasItem(picture.items, item.id), item})),
+          map((item) => ({hasItem: item ? this.hasItem(picture.items, item.id) : false, item})),
         );
     }),
     shareReplay(1),
@@ -144,11 +144,11 @@ export class ModerPicturesItemComponent {
 
   protected monthOptions: {
     name: string;
-    value: number;
+    value: null | number;
   }[];
   protected dayOptions: {
     name: string;
-    value: number;
+    value: null | number;
   }[];
 
   constructor(
@@ -204,7 +204,7 @@ export class ModerPicturesItemComponent {
     this.change$.next(null);
   }
 
-  private hasItem(items, itemId: string): boolean {
+  private hasItem(items: APIPictureItem[], itemId: string): boolean {
     let found = false;
     for (const item of items) {
       if (item.item_id === +itemId) {

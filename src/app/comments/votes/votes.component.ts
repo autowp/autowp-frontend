@@ -15,7 +15,7 @@ export class CommentsVotesComponent {
   @Input() set messageID(item: number) {
     this.messageID$.next(item);
   }
-  private readonly messageID$ = new BehaviorSubject<number>(null);
+  private readonly messageID$ = new BehaviorSubject<null | number>(null);
 
   protected readonly votes$: Observable<{
     negative: CommentVote[];
@@ -35,8 +35,8 @@ export class CommentsVotesComponent {
       return EMPTY;
     }),
     map((votes) => ({
-      negative: votes.items.filter((v) => v.value === CommentVote.VoteValue.NEGATIVE),
-      positive: votes.items.filter((v) => v.value === CommentVote.VoteValue.POSITIVE),
+      negative: (votes.items ? votes.items : []).filter((v) => v.value === CommentVote.VoteValue.NEGATIVE),
+      positive: (votes.items ? votes.items : []).filter((v) => v.value === CommentVote.VoteValue.POSITIVE),
     })),
   );
 

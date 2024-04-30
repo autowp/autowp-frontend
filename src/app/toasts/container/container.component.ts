@@ -10,7 +10,7 @@ import {ToastsService} from '../toasts.service';
 export class ContainerComponent {
   constructor(public readonly toastService: ToastsService) {}
 
-  protected typeToClass(type: string): string {
+  protected typeToClass(type: string): null | string {
     switch (type) {
       case 'success':
         return 'bg-success text-light';

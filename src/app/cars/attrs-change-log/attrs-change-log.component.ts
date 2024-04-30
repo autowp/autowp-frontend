@@ -22,20 +22,20 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly userID$: Observable<number> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('user_id'), 10)),
+    map((params) => parseInt(params.get('user_id') || '', 10)),
     map((userID) => (userID ? userID : 0)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id'), 10)),
+    map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10)),
+    map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -46,7 +46,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
         fields: 'user,item.name_html,path,unit,value_text',
         item_id: itemID,
         page: page,
-        user_id: userID ? userID : null,
+        user_id: userID ? userID : undefined,
       }),
     ),
     shareReplay(1),
@@ -63,7 +63,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        const params = {
+        const params: {id: number[]; limit: number; search: string} = {
           id: [],
           limit: 10,
           search: '',

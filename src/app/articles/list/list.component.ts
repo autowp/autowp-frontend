@@ -25,7 +25,7 @@ interface Article {
 })
 export class ListComponent {
   protected readonly articles$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page'), 10) || 1),
+    map((params) => parseInt(params.get('page') || '', 10) || 1),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
@@ -42,9 +42,9 @@ export class ListComponent {
       return EMPTY;
     }),
     map((response) => ({
-      articles: response.items.map((article) => ({
-        author$: article.authorId !== '0' ? this.userService.getUser$(+article.authorId, {}) : of(null as APIUser),
-        date: article.date.toDate(),
+      articles: (response.items ? response.items : []).map((article) => ({
+        author$: article.authorId !== '0' ? this.userService.getUser$(+article.authorId, {}) : of(null),
+        date: article.date?.toDate(),
         description: article.description,
         name: article.name,
         previewUrl: article.previewUrl,

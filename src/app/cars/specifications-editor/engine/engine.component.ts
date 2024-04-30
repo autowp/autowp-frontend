@@ -19,17 +19,17 @@ export class CarsSpecificationsEditorEngineComponent {
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   @Output() changed = new EventEmitter<void>();
   protected readonly isAllowedEditEngine$ = this.acl
     .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
     .pipe(shareReplay(1));
 
-  protected readonly engine$: Observable<GRPCAPIItem> = this.item$.pipe(
+  protected readonly engine$: Observable<GRPCAPIItem | null> = this.item$.pipe(
     switchMap((item) => {
-      if (!item.engine_id) {
-        return of(null as GRPCAPIItem);
+      if (!item?.engine_id) {
+        return of(null);
       }
 
       return this.itemsClient.item(

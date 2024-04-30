@@ -37,7 +37,7 @@ export class MapComponent implements OnInit {
   private compRef: ComponentRef<MapPopupComponent>;
   protected markers: Marker[] = [];
 
-  private readonly bounds$ = new BehaviorSubject<LatLngBounds>(null);
+  private readonly bounds$ = new BehaviorSubject<LatLngBounds | null>(null);
 
   public readonly options: MapOptions = {
     center: latLng(50, 20),
@@ -82,7 +82,7 @@ export class MapComponent implements OnInit {
             }),
           );
         }),
-        map((response) => response.points),
+        map((response) => (response.points ? response.points : [])),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
@@ -111,34 +111,36 @@ export class MapComponent implements OnInit {
     this.markers = [];
 
     for (const item of data) {
-      const m = createMarker(item.location.lat, item.location.lng);
+      if (item.location) {
+        const m = createMarker(item.location.lat, item.location.lng);
 
-      const popup = new Popup();
-      m.on('click', () => {
-        this.zone.run(() => {
-          if (this.compRef) {
-            this.compRef.destroy();
-          }
+        const popup = new Popup();
+        m.on('click', () => {
+          this.zone.run(() => {
+            if (this.compRef) {
+              this.compRef.destroy();
+            }
 
-          const compFactory = this.resolver.resolveComponentFactory(MapPopupComponent);
-          this.compRef = compFactory.create(this.injector);
-          this.compRef.instance.item = item;
+            const compFactory = this.resolver.resolveComponentFactory(MapPopupComponent);
+            this.compRef = compFactory.create(this.injector);
+            this.compRef.instance.item = item;
 
-          const div = document.createElement('div');
-          div.appendChild(this.compRef.location.nativeElement);
+            const div = document.createElement('div');
+            div.appendChild(this.compRef.location.nativeElement);
 
-          popup.setContent(div);
+            popup.setContent(div);
 
-          this.appRef.attachView(this.compRef.hostView);
-          this.compRef.onDestroy(() => {
-            this.appRef.detachView(this.compRef.hostView);
+            this.appRef.attachView(this.compRef.hostView);
+            this.compRef.onDestroy(() => {
+              this.appRef.detachView(this.compRef.hostView);
+            });
           });
         });
-      });
 
-      m.bindPopup(popup);
+        m.bindPopup(popup);
 
-      this.markers.push(m);
+        this.markers.push(m);
+      }
     }
 
     /*const points: any[] = [];

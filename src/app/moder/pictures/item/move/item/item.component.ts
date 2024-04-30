@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PictureItemType} from '@grpc/spec.pb';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 import {PictureItemMoveSelection} from '../move.component';
@@ -21,17 +21,19 @@ export class ModerPictureMoveItemComponent {
   @Input() set item(item: APIItemParent) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItemParent>(null);
+  protected readonly item$ = new BehaviorSubject<APIItemParent | null>(null);
 
   @Output() readonly selected = new EventEmitter<PictureItemMoveSelection>();
 
   protected readonly childs$ = this.item$.pipe(
     switchMap((item) =>
-      this.itemParentService.getItems$({
-        fields: 'item.name_html,item.childs_count',
-        limit: 500,
-        parent_id: item.item_id,
-      }),
+      item
+        ? this.itemParentService.getItems$({
+            fields: 'item.name_html,item.childs_count',
+            limit: 500,
+            parent_id: item.item_id,
+          })
+        : EMPTY,
     ),
   );
 

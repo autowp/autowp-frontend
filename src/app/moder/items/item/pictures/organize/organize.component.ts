@@ -22,7 +22,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   protected invalidParams: InvalidParams;
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id'), 10)),
+    map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay(1),
@@ -66,6 +66,15 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         ].join(','),
       }),
     ),
+    switchMap((item) => {
+      if (!item) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(item);
+    }),
   );
 
   protected readonly vehicleTypeIDs$ = this.item$.pipe(
@@ -77,7 +86,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
                 itemId: item.id.toString(),
               }),
             )
-            .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)))
+            .pipe(map((response) => (response.items ? response.items : []).map((row) => row.vehicleTypeId)))
         : of([] as string[]),
     ),
   );
@@ -152,7 +161,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
           this.loading--;
           return EMPTY;
         }),
-        switchMap((responses) => this.itemService.getItemByLocation$(responses[0].headers.get('Location'), {})),
+        switchMap((responses) => this.itemService.getItemByLocation$(responses[0].headers.get('Location') || '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
             this.api.request<void>('POST', 'item-parent', {

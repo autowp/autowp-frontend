@@ -27,7 +27,7 @@ export class ModerItemsNewComponent {
   protected invalidParams: InvalidParams;
 
   private readonly itemTypeID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_type_id'), 10)),
+    map((params) => parseInt(params.get('item_type_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
@@ -48,40 +48,73 @@ export class ModerItemsNewComponent {
     map(
       (itemTypeID) =>
         ({
-          begin_model_year: undefined,
-          begin_month: undefined,
-          begin_year: undefined,
-          body: undefined,
-          catname: undefined,
-          end_model_year: undefined,
-          end_month: undefined,
-          end_year: undefined,
-          full_name: undefined,
+          alt_names: [],
+          attr_zone_id: 0,
+          begin_model_year: 0,
+          begin_model_year_fraction: '',
+          begin_month: 0,
+          begin_year: 0,
+          body: '',
+          brands: [],
+          catname: '',
+          childs_count: 0,
+          childs_counts: undefined,
+          descendants_count: 0,
+          description: '',
+          design: undefined,
+          end_model_year: 0,
+          end_model_year_fraction: '',
+          end_month: 0,
+          end_year: 0,
+          engine_id: null,
+          engine_inherit: null,
+          engine_vehicles_count: 0,
+          full_name: '',
+          id: 0,
           is_concept: false,
           is_concept_inherit: true,
           is_group: false,
+          item_language_count: 0,
+          item_of_day_pictures: [],
           item_type_id: itemTypeID,
-          lat: null,
-          lng: null,
-          name: undefined,
-          produced: undefined,
+          lat: 0,
+          links_count: 0,
+          lng: 0,
+          logo: undefined,
+          name: '',
+          name_default: '',
+          name_html: '',
+          name_only: '',
+          name_text: '',
+          parents_count: 0,
+          pictures_count: 0,
+          preview_pictures: {
+            large_format: false,
+            pictures: [],
+          },
+          produced: 0,
           produced_exactly: false,
+          related_group_pictures: [],
+          route: [],
           spec_id: 'inherited',
-          today: undefined,
+          subscription: false,
+          text: '',
+          today: null,
+          twins_groups: [],
         }) as NewAPIItem,
     ),
     shareReplay(1),
   );
 
   private readonly parentID$: Observable<string> = this.route.queryParamMap.pipe(
-    map((params) => params.get('parent_id')),
+    map((params) => params.get('parent_id') || ''),
     distinctUntilChanged(),
   );
 
-  protected readonly parent$: Observable<GRPCAPIItem> = this.parentID$.pipe(
+  protected readonly parent$: Observable<GRPCAPIItem | null> = this.parentID$.pipe(
     switchMap((parentID) => {
       if (!parentID) {
-        return of(null as GRPCAPIItem);
+        return of(null);
       }
 
       return this.itemsClient.item(
@@ -95,7 +128,7 @@ export class ModerItemsNewComponent {
     shareReplay(1),
   );
 
-  protected readonly parentIsConcept$: Observable<ParentIsConcept> = this.parent$.pipe(
+  protected readonly parentIsConcept$: Observable<ParentIsConcept | null> = this.parent$.pipe(
     map((parent) => (parent ? {isConcept: parent.isConcept} : null)),
   );
 
@@ -108,7 +141,7 @@ export class ModerItemsNewComponent {
               itemId: item.id.toString(),
             }),
           )
-          .pipe(map((response) => response.items.map((row) => row.vehicleTypeId)));
+          .pipe(map((response) => (response.items ? response.items : []).map((row) => row.vehicleTypeId)));
       }
       return of([] as string[]);
     }),
@@ -165,7 +198,7 @@ export class ModerItemsNewComponent {
           }
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location'), {})),
+        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') || '', {})),
         switchMap((item) => {
           const pipes: Observable<null>[] = [
             this.parent$.pipe(
@@ -185,7 +218,7 @@ export class ModerItemsNewComponent {
             ),
           ];
           if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(itemTypeID)) {
-            pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));
+            pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id).pipe(map(() => null)));
           }
 
           return forkJoin(pipes).pipe(

@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitTranslation} from '@utils/translations';
-import {Observable, combineLatest} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../../api/attrs/attrs.service';
@@ -19,7 +19,16 @@ export class ModerAttrsAttributeComponent {
   );
 
   protected readonly attribute$ = this.attributeID$.pipe(
-    switchMap((id) => this.attrsService.getAttribute$(id)),
+    switchMap((id) => (id ? this.attrsService.getAttribute$(id) : of(null))),
+    switchMap((attribute) => {
+      if (!attribute) {
+        this.router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(attribute);
+    }),
     tap((attribute) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
@@ -35,8 +44,8 @@ export class ModerAttrsAttributeComponent {
   );
 
   protected readonly listOptions$: Observable<string[]> = this.attributeID$.pipe(
-    switchMap((attributeID) => this.attrsService.getListOptions$(attributeID)),
-    map((response) => response.toObject().items.map((l) => getAttrListOptionsTranslation(l.name))),
+    switchMap((attributeID) => (attributeID ? this.attrsService.getListOptions$(attributeID) : EMPTY)),
+    map((response) => (response.items ? response.items : []).map((l) => getAttrListOptionsTranslation(l.name))),
   );
 
   protected readonly typeOption$ = combineLatest([this.attribute$, this.attrsService.attributeTypes$]).pipe(
@@ -57,6 +66,7 @@ export class ModerAttrsAttributeComponent {
     private readonly attrsService: APIAttrsService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
+    private readonly router: Router,
   ) {}
 
   protected getUnitTranslation(id: string, type: string): string {
