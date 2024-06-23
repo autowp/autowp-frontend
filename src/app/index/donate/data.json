@@ -1,5 +1,37 @@
 [
   {
+    "sum": 50,
+    "currency": "EUR",
+    "date": "2024-06-23T00:00:00+00:00",
+    "contributor": "Anton Trunov"
+  },
+  {
+    "sum": 1200,
+    "currency": "RUB",
+    "date": "2024-06-14T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
+    "sum": -154.45,
+    "currency": "EUR",
+    "date": "2024-06-11T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "June hosting"
+  },
+  {
+    "sum": -154.45,
+    "currency": "EUR",
+    "date": "2024-05-10T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "May hosting"
+  },
+  {
+    "sum": 1200,
+    "currency": "RUB",
+    "date": "2024-04-14T00:00:00+00:00",
+    "contributor": "Владимир Беляев"
+  },
+  {
     "sum": 52.12,
     "currency": "EUR",
     "date": "2024-04-15T00:00:00+00:00",
