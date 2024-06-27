@@ -1,5 +1,17 @@
 [
   {
+    "sum": 46.95,
+    "currency": "EUR",
+    "date": "2024-06-24T00:00:00+00:00",
+    "contributor": "Sergio Oliveira de Melo"
+  },
+  {
+    "sum": 47.95,
+    "currency": "EUR",
+    "date": "2024-06-23T00:00:00+00:00",
+    "contributor": "Anton Trunov"
+  },
+  {
     "sum": 50,
     "currency": "EUR",
     "date": "2024-06-23T00:00:00+00:00",
