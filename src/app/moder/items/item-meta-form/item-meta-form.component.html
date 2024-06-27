@@ -14,7 +14,7 @@
           [class.is-invalid]="(name.invalid && (name.dirty || name.touched)) || (invalidParams && invalidParams.name)"
           name="name"
           class="form-control"
-          formControlName="name"
+          [formControl]="name"
           required
         />
         <p
@@ -34,7 +34,7 @@
           type="text"
           name="full_name"
           class="form-control"
-          formControlName="full_name"
+          [formControl]="fullName"
         />
         <p
           *ngFor="let message of invalidParams | invalidParams: 'full_name'"
@@ -53,7 +53,7 @@
           type="text"
           name="catname"
           class="form-control"
-          formControlName="catname"
+          [formControl]="catname"
         />
         <p
           *ngFor="let message of invalidParams | invalidParams: 'catname'"
@@ -71,7 +71,7 @@
           name="body"
           style="width: 30%"
           class="form-control"
-          formControlName="body"
+          [formControl]="body"
         />
         <p
           *ngFor="let message of invalidParams | invalidParams: 'body'"
@@ -90,7 +90,7 @@
           name="spec_id"
           style="width: 30%"
           class="form-select"
-          formControlName="spec_id"
+          [formControl]="specID"
         >
           <option *ngFor="let spec of specs$ | async" [ngValue]="spec.id">
             {{ '…'.repeat(spec.deep) + spec.short_name }}
@@ -107,13 +107,7 @@
       <label class="col-md-2 col-form-label" i18n>Type</label>
       <div class="col-md-10">
         <ng-container *ngFor="let typeID of vehicleTypeID.value">
-          <input
-            type="checkbox"
-            name="vehicle_type_id"
-            formControlName="vehicle_type_id"
-            [value]="typeID"
-            class="d-none"
-          />
+          <input type="checkbox" name="vehicle_type_id" [formControl]="vehicleTypeID" [value]="typeID" class="d-none" />
           <button class="btn btn-sm btn-info" type="button" (click)="showVehicleTypesModal(vehicleTypeID)">
             {{ vehicleTypeName$(typeID) | async }}
           </button>
@@ -144,7 +138,7 @@
               placeholder="from"
               i18n-placeholder
               class="form-control"
-              formControlName="begin_year"
+              [formControl]="beginYear"
               maxlength="4"
             />
           </div>
@@ -156,7 +150,7 @@
                 (invalidParams && invalidParams.begin_model_year_fraction)
               "
               name="begin_model_year_fraction"
-              formControlName="begin_year_fraction"
+              [formControl]="beginYearFraction"
             >
               <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">
                 {{ option.name }}
@@ -174,7 +168,7 @@
               placeholder="to"
               i18n-placeholder
               class="form-control"
-              formControlName="end_year"
+              [formControl]="endYear"
               maxlength="4"
             />
           </div>
@@ -186,7 +180,7 @@
                 (invalidParams && invalidParams.end_model_year_fraction)
               "
               name="end_model_year_fraction"
-              formControlName="end_year_fraction"
+              [formControl]="endYearFraction"
             >
               <option *ngFor="let option of modelYearFractionOptions" [ngValue]="option.value">
                 {{ option.name }}
@@ -222,7 +216,7 @@
               i18n-placeholder
               class="form-control"
               [attr.maxlength]="4"
-              formControlName="year"
+              [formControl]="beginYear"
             />
           </div>
           <div class="col-md-4 col-sm-7 mb-0" *ngIf="begin.controls.month as beginMonth">
@@ -235,7 +229,7 @@
               title="month"
               i18n-title
               class="form-select"
-              formControlName="month"
+              [formControl]="beginMonth"
             >
               <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
             </select>
@@ -268,7 +262,7 @@
               i18n-placeholder
               class="form-control"
               maxlength="4"
-              formControlName="year"
+              [formControl]="endYear"
             />
           </div>
           <div class="col-md-4 col-sm-7 mb-0" *ngIf="end.controls.month as endMonth">
@@ -280,7 +274,7 @@
               title="month"
               i18n-title
               class="form-select"
-              formControlName="month"
+              [formControl]="endMonth"
             >
               <option *ngFor="let month of monthOptions" [ngValue]="month.value">{{ month.name }}</option>
             </select>
@@ -291,7 +285,7 @@
               [class.is-invalid]="
                 (today.invalid && (today.dirty || today.touched)) || (invalidParams && invalidParams.today)
               "
-              formControlName="today"
+              [formControl]="today"
               title="today"
               i18n-title
               class="form-select"
@@ -333,7 +327,7 @@
               class="form-control"
               title="number"
               i18n-title
-              formControlName="count"
+              [formControl]="count"
             />
           </div>
           <div class="col-md-4 col-sm-4 mb-0" *ngIf="produced.controls.exactly as exactly">
@@ -344,7 +338,7 @@
                 (invalidParams && invalidParams.produced_exactly)
               "
               class="form-select"
-              formControlName="exactly"
+              [formControl]="exactly"
             >
               <option *ngFor="let option of producedOptions" [ngValue]="option.value">{{ option.name }}</option>
             </select>
@@ -372,7 +366,7 @@
           "
           style="width: 20%"
           class="form-select"
-          formControlName="is_concept"
+          [formControl]="isConcept"
         >
           <option *ngFor="let option of isConceptOptions$ | async" [ngValue]="option.value">{{ option.name }}</option>
         </select>
@@ -395,7 +389,7 @@
                 (isGroup.invalid && (isGroup.dirty || isGroup.touched)) || (invalidParams && invalidParams.is_group)
               "
               value="1"
-              formControlName="is_group"
+              [formControl]="isGroup"
             />
             <ng-container i18n>Group</ng-container>
           </label>
@@ -405,7 +399,7 @@
     <div class="mb-3 row" *ngIf="form.controls.point as point">
       <label class="col-md-2 col-form-label">Point</label>
       <div class="col-md-10 coords">
-        <app-map-point formControlName="point"></app-map-point>
+        <app-map-point [formControl]="point"></app-map-point>
       </div>
     </div>
     <div class="mb-3 row" *ngIf="form.controls.items as control">

@@ -63,7 +63,7 @@ export class CutawayAuthorsComponent implements OnInit {
       itemRouterLink.push(item.id.toString());
 
       const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-        picture: picture.picture ? picture.picture : null,
+        picture: picture?.picture ? picture.picture : null,
         routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
         thumb: picture ? picture.thumb : null,
       }));

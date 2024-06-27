@@ -62,7 +62,7 @@ export class CutawayBrandsComponent implements OnInit {
       const itemRouterLink = ['/cutaway/brands', item.catname];
 
       const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-        picture: picture.picture ? picture.picture : null,
+        picture: picture?.picture ? picture.picture : null,
         routerLink: picture.picture ? ['/picture', picture.picture.identity] : undefined,
         thumb: picture ? picture.thumb : null,
       }));

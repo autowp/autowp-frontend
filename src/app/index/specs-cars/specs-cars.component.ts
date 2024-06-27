@@ -25,7 +25,7 @@ export class IndexSpecsCarsComponent {
       return chunkBy(
         response.items.map((item) => {
           const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-            picture: picture.picture ? picture.picture : null,
+            picture: picture?.picture ? picture.picture : null,
             routerLink: picture && picture.picture ? [...item.route, 'pictures', picture.picture.identity] : [],
             thumb: picture ? picture.thumb : null,
           }));

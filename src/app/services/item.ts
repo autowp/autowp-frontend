@@ -100,7 +100,7 @@ export interface APIItem {
 
   inbox_pictures_count?: number;
 
-  is_concept: boolean;
+  is_concept: 'inherited' | boolean | null;
   is_group: boolean;
   item_language_count: number;
   item_of_day_pictures: APIItemOfDayPicture[];
@@ -129,7 +129,7 @@ export interface APIItem {
     }[];
   };
 
-  produced: number;
+  produced: null | number;
 
   produced_exactly: boolean;
 

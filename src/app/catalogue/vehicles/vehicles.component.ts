@@ -134,7 +134,7 @@ export class CatalogueVehiclesComponent {
               const itemRouterLink = [...routerLink, item.catname];
 
               const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
-                picture: picture.picture ? picture.picture : null,
+                picture: picture?.picture ? picture.picture : null,
                 routerLink:
                   picture && picture.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : [],
                 thumb: picture ? picture.thumb : null,
@@ -234,7 +234,7 @@ export class CatalogueVehiclesComponent {
 
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
     const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-      picture: picture.picture ? picture.picture : null,
+      picture: picture?.picture ? picture.picture : null,
       routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
       thumb: picture ? picture.thumb : null,
     }));

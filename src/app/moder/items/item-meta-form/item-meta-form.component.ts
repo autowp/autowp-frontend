@@ -90,7 +90,7 @@ interface Form {
     year: FormControl<null | number>;
   }>;
   full_name?: FormControl<null | string>;
-  is_concept?: FormControl<boolean | null>;
+  is_concept?: FormControl<'inherited' | boolean | null>;
   is_group?: FormControl<boolean | null>;
   items?: FormArray<FormControl<string>>;
   model_years?: FormGroup<{
@@ -283,6 +283,7 @@ export class ItemMetaFormComponent {
     this.pictures$,
   ]).pipe(
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
+      console.log(item);
       const elements: Form = {
         name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]),
       };
@@ -296,9 +297,15 @@ export class ItemMetaFormComponent {
         elements.body = new FormControl(item.body, Validators.maxLength(this.bodyMaxlength));
         elements.spec_id = new FormControl(item.spec_id);
         elements.model_years = new FormGroup({
-          begin_year: new FormControl(item.begin_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]),
+          begin_year: new FormControl(item.begin_model_year > 0 ? item.begin_model_year : null, [
+            Validators.min(1800),
+            Validators.max(this.modelYearMax),
+          ]),
           begin_year_fraction: new FormControl(item.begin_model_year_fraction),
-          end_year: new FormControl(item.end_model_year, [Validators.min(1800), Validators.max(this.modelYearMax)]),
+          end_year: new FormControl(item.end_model_year > 0 ? item.end_model_year : null, [
+            Validators.min(1800),
+            Validators.max(this.modelYearMax),
+          ]),
           end_year_fraction: new FormControl(item.end_model_year_fraction),
         });
         elements.produced = new FormGroup({
@@ -316,13 +323,19 @@ export class ItemMetaFormComponent {
       }
       if (item.item_type_id !== ItemType.ITEM_TYPE_COPYRIGHT) {
         elements.begin = new FormGroup({
-          month: new FormControl(item.begin_month),
-          year: new FormControl(item.begin_year, [Validators.min(1800), Validators.max(this.yearMax)]),
+          month: new FormControl(item.begin_month > 0 ? item.begin_month : null),
+          year: new FormControl(item.begin_year > 0 ? item.begin_year : null, [
+            Validators.min(1800),
+            Validators.max(this.yearMax),
+          ]),
         });
         elements.end = new FormGroup({
-          month: new FormControl(item.end_month),
+          month: new FormControl(item.end_month > 0 ? item.end_month : null),
           today: new FormControl(item.today),
-          year: new FormControl(item.end_year, [Validators.min(1800), Validators.max(this.yearMax)]),
+          year: new FormControl(item.end_year > 0 ? item.end_year : null, [
+            Validators.min(1800),
+            Validators.max(this.yearMax),
+          ]),
         });
       }
       if ([ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_MUSEUM].includes(item.item_type_id)) {
