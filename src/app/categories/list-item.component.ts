@@ -50,7 +50,7 @@ export class CategoriesListItemComponent {
   ]).pipe(
     map(([item, parentRouterLink]) =>
       item.preview_pictures.pictures.map((pic) => ({
-        picture: pic.picture ? pic.picture : null,
+        picture: pic?.picture ? pic.picture : null,
         route:
           pic && pic.picture && parentRouterLink ? parentRouterLink.concat(['pictures', pic.picture.identity]) : null,
         thumb: pic.thumb ? pic.thumb : null,

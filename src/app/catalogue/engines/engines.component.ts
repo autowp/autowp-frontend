@@ -87,7 +87,7 @@ export class CatalogueEnginesComponent {
 
         const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
           picture: picture?.picture ? picture.picture : null,
-          routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
+          routerLink: picture?.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
           thumb: picture ? picture.thumb : null,
         }));
 
