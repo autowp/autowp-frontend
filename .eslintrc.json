@@ -67,10 +67,6 @@
       "rules": {
         "prettier/prettier": ["error", { "parser": "angular" }]
       }
-    },
-    {
-      "files": ["*.json"],
-      "extends": ["plugin:json/recommended"]
     }
   ]
 }

@@ -283,7 +283,6 @@ export class ItemMetaFormComponent {
     this.pictures$,
   ]).pipe(
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
-      console.log(item);
       const elements: Form = {
         name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]),
       };
@@ -384,7 +383,6 @@ export class ItemMetaFormComponent {
       size: 'lg',
     });
 
-    console.log('vehicleTypeIDs.value', vehicleTypeIDs.value);
     modalRef.componentInstance.ids = vehicleTypeIDs.value;
     modalRef.componentInstance.changed.subscribe((value: string[]) => {
       vehicleTypeIDs.setValue(value);

@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UtilsModule} from '@utils/utils.module';
-import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
+import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha-2';
 
 import {ToastsModule} from '../toasts/toasts.module';
 import {FeedbackComponent} from './feedback.component';

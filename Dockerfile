@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1-alpine
+FROM docker.io/nginxinc/nginx-unprivileged:1-alpine
 
 LABEL app_name="autowp-frontend" \
       maintainer="dmitry@pereslegin.ru"

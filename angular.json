@@ -53,7 +53,7 @@
       },
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
@@ -168,7 +168,7 @@
           }
         },
         "serve": {
-          "builder": "ngx-build-plus:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "wheelsage:build"
           },
@@ -192,9 +192,6 @@
               "src/**/*.html"
             ]
           }
-        },
-        "test": {
-          "builder": "ngx-build-plus:karma"
         }
       }
     }
