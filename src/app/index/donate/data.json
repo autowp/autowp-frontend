@@ -1,5 +1,30 @@
 [
   {
+    "sum": 300,
+    "currency": "RUB",
+    "date": "2024-07-10T00:00:00+00:00",
+    "contributor": "Alexander"
+  },
+  {
+    "sum": -154.45,
+    "currency": "EUR",
+    "date": "2024-07-10T00:00:00+00:00",
+    "contributor": null,
+    "purpose": "July hosting"
+  },
+  {
+    "sum": 5.54,
+    "currency": "EUR",
+    "date": "2024-07-10T00:00:00+00:00",
+    "contributor": "Christopher Partridge"
+  },
+  {
+    "sum": 100,
+    "currency": "RUB",
+    "date": "2024-07-07T00:00:00+00:00",
+    "contributor": "Василий Пупкин"
+  },
+  {
     "sum": 46.95,
     "currency": "EUR",
     "date": "2024-06-24T00:00:00+00:00",
