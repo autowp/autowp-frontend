@@ -1,24 +1,16 @@
 import {Component} from '@angular/core';
+import {DonationsClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
-import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {ethToEur, eurToRub} from '../../currencies';
-import data from './data.json';
 
 const rates: {[key: string]: number} = {
   'ETH': ethToEur,
   'EUR': 1,
   'RUB': 1 / eurToRub,
 };
-
-interface Donation {
-  contributor: null | string;
-  currency: string;
-  date: string;
-  purpose: null | string;
-  sum: number;
-}
 
 @Component({
   selector: 'app-index-donate',
@@ -29,22 +21,18 @@ export class IndexDonateComponent {
   protected readonly goal = 2500;
   private readonly monthlyCharge = 161.88;
 
-  protected readonly state$ = of(data as Donation[]).pipe(
-    map((operations) => {
-      const fromDate = new Date();
-      fromDate.setMonth(fromDate.getMonth() - 6);
-      operations = operations
-        .filter((o) => Date.parse(o.date) > fromDate.getTime())
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  protected readonly state$ = this.donations.getTransactions(new Empty()).pipe(
+    map((res) => {
+      const operations = res.items || [];
       const donations = operations
         .filter((d) => d.sum > 0)
         .map((d) => ({
           contributor: d.contributor,
           currency: d.currency,
-          date: new Date(d.date),
-          normalizedSum: rates[d.currency] * d.sum,
+          date: d.date?.toDate(),
+          normalizedSum: (rates[d.currency] * d.sum) / 100,
           purpose: d.purpose,
-          sum: d.sum,
+          sum: d.sum / 100,
         }));
       const charges = operations.filter((d) => d.sum < 0);
       const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
@@ -73,5 +61,8 @@ export class IndexDonateComponent {
     }),
   );
 
-  constructor(protected readonly languageService: LanguageService) {}
+  constructor(
+    protected readonly languageService: LanguageService,
+    private readonly donations: DonationsClient,
+  ) {}
 }

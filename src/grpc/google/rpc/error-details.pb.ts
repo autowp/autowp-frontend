@@ -12,6 +12,368 @@ import {
 import { BinaryReader, BinaryWriter, ByteSource } from 'google-protobuf';
 import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 /**
+ * Message implementation for google.rpc.ErrorInfo
+ */
+export class ErrorInfo implements GrpcMessage {
+  static id = 'google.rpc.ErrorInfo';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ErrorInfo();
+    ErrorInfo.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ErrorInfo) {
+    _instance.reason = _instance.reason || '';
+    _instance.domain = _instance.domain || '';
+    _instance.metadata = _instance.metadata || {};
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ErrorInfo,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.reason = _reader.readString();
+          break;
+        case 2:
+          _instance.domain = _reader.readString();
+          break;
+        case 3:
+          const msg_3 = {} as any;
+          _reader.readMessage(
+            msg_3,
+            ErrorInfo.MetadataEntry.deserializeBinaryFromReader
+          );
+          _instance.metadata = _instance.metadata || {};
+          _instance.metadata[msg_3.key] = msg_3.value;
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ErrorInfo.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: ErrorInfo, _writer: BinaryWriter) {
+    if (_instance.reason) {
+      _writer.writeString(1, _instance.reason);
+    }
+    if (_instance.domain) {
+      _writer.writeString(2, _instance.domain);
+    }
+    if (!!_instance.metadata) {
+      const keys_3 = Object.keys(_instance.metadata as any);
+
+      if (keys_3.length) {
+        const repeated_3 = keys_3
+          .map(key => ({ key: key, value: (_instance.metadata as any)[key] }))
+          .reduce((r, v) => [...r, v], [] as any[]);
+
+        _writer.writeRepeatedMessage(
+          3,
+          repeated_3,
+          ErrorInfo.MetadataEntry.serializeBinaryToWriter
+        );
+      }
+    }
+  }
+
+  private _reason: string;
+  private _domain: string;
+  private _metadata: { [prop: string]: string };
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ErrorInfo to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ErrorInfo.AsObject>) {
+    _value = _value || {};
+    this.reason = _value.reason;
+    this.domain = _value.domain;
+    (this.metadata = _value!.metadata
+      ? Object.keys(_value!.metadata).reduce(
+          (r, k) => ({ ...r, [k]: _value!.metadata![k] }),
+          {}
+        )
+      : {}),
+      ErrorInfo.refineValues(this);
+  }
+  get reason(): string {
+    return this._reason;
+  }
+  set reason(value: string) {
+    this._reason = value;
+  }
+  get domain(): string {
+    return this._domain;
+  }
+  set domain(value: string) {
+    this._domain = value;
+  }
+  get metadata(): { [prop: string]: string } {
+    return this._metadata;
+  }
+  set metadata(value: { [prop: string]: string }) {
+    this._metadata = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ErrorInfo.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ErrorInfo.AsObject {
+    return {
+      reason: this.reason,
+      domain: this.domain,
+      metadata: this.metadata
+        ? Object.keys(this.metadata).reduce(
+            (r, k) => ({ ...r, [k]: this.metadata![k] }),
+            {}
+          )
+        : {}
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ErrorInfo.AsProtobufJSON {
+    return {
+      reason: this.reason,
+      domain: this.domain,
+      metadata: this.metadata
+        ? Object.keys(this.metadata).reduce(
+            (r, k) => ({ ...r, [k]: this.metadata![k] }),
+            {}
+          )
+        : {}
+    };
+  }
+}
+export module ErrorInfo {
+  /**
+   * Standard JavaScript object representation for ErrorInfo
+   */
+  export interface AsObject {
+    reason: string;
+    domain: string;
+    metadata: { [prop: string]: string };
+  }
+
+  /**
+   * Protobuf JSON representation for ErrorInfo
+   */
+  export interface AsProtobufJSON {
+    reason: string;
+    domain: string;
+    metadata: { [prop: string]: string };
+  }
+
+  /**
+   * Message implementation for google.rpc.ErrorInfo.MetadataEntry
+   */
+  export class MetadataEntry implements GrpcMessage {
+    static id = 'google.rpc.ErrorInfo.MetadataEntry';
+
+    /**
+     * Deserialize binary data to message
+     * @param instance message instance
+     */
+    static deserializeBinary(bytes: ByteSource) {
+      const instance = new MetadataEntry();
+      MetadataEntry.deserializeBinaryFromReader(
+        instance,
+        new BinaryReader(bytes)
+      );
+      return instance;
+    }
+
+    /**
+     * Check all the properties and set default protobuf values if necessary
+     * @param _instance message instance
+     */
+    static refineValues(_instance: MetadataEntry) {
+      _instance.key = _instance.key || '';
+      _instance.value = _instance.value || '';
+    }
+
+    /**
+     * Deserializes / reads binary message into message instance using provided binary reader
+     * @param _instance message instance
+     * @param _reader binary reader instance
+     */
+    static deserializeBinaryFromReader(
+      _instance: MetadataEntry,
+      _reader: BinaryReader
+    ) {
+      while (_reader.nextField()) {
+        if (_reader.isEndGroup()) break;
+
+        switch (_reader.getFieldNumber()) {
+          case 1:
+            _instance.key = _reader.readString();
+            break;
+          case 2:
+            _instance.value = _reader.readString();
+            break;
+          default:
+            _reader.skipField();
+        }
+      }
+
+      MetadataEntry.refineValues(_instance);
+    }
+
+    /**
+     * Serializes a message to binary format using provided binary reader
+     * @param _instance message instance
+     * @param _writer binary writer instance
+     */
+    static serializeBinaryToWriter(
+      _instance: MetadataEntry,
+      _writer: BinaryWriter
+    ) {
+      if (_instance.key) {
+        _writer.writeString(1, _instance.key);
+      }
+      if (_instance.value) {
+        _writer.writeString(2, _instance.value);
+      }
+    }
+
+    private _key: string;
+    private _value: string;
+
+    /**
+     * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+     * @param _value initial values object or instance of MetadataEntry to deeply clone from
+     */
+    constructor(_value?: RecursivePartial<MetadataEntry.AsObject>) {
+      _value = _value || {};
+      this.key = _value.key;
+      this.value = _value.value;
+      MetadataEntry.refineValues(this);
+    }
+    get key(): string {
+      return this._key;
+    }
+    set key(value: string) {
+      this._key = value;
+    }
+    get value(): string {
+      return this._value;
+    }
+    set value(value: string) {
+      this._value = value;
+    }
+
+    /**
+     * Serialize message to binary data
+     * @param instance message instance
+     */
+    serializeBinary() {
+      const writer = new BinaryWriter();
+      MetadataEntry.serializeBinaryToWriter(this, writer);
+      return writer.getResultBuffer();
+    }
+
+    /**
+     * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+     */
+    toObject(): MetadataEntry.AsObject {
+      return {
+        key: this.key,
+        value: this.value
+      };
+    }
+
+    /**
+     * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+     */
+    toJSON() {
+      return this.toObject();
+    }
+
+    /**
+     * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+     * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+     * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+     */
+    toProtobufJSON(
+      // @ts-ignore
+      options?: ToProtobufJSONOptions
+    ): MetadataEntry.AsProtobufJSON {
+      return {
+        key: this.key,
+        value: this.value
+      };
+    }
+  }
+  export module MetadataEntry {
+    /**
+     * Standard JavaScript object representation for MetadataEntry
+     */
+    export interface AsObject {
+      key: string;
+      value: string;
+    }
+
+    /**
+     * Protobuf JSON representation for MetadataEntry
+     */
+    export interface AsProtobufJSON {
+      key: string;
+      value: string;
+    }
+  }
+}
+
+/**
  * Message implementation for google.rpc.RetryInfo
  */
 export class RetryInfo implements GrpcMessage {
@@ -610,368 +972,6 @@ export module QuotaFailure {
     export interface AsProtobufJSON {
       subject: string;
       description: string;
-    }
-  }
-}
-
-/**
- * Message implementation for google.rpc.ErrorInfo
- */
-export class ErrorInfo implements GrpcMessage {
-  static id = 'google.rpc.ErrorInfo';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new ErrorInfo();
-    ErrorInfo.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: ErrorInfo) {
-    _instance.reason = _instance.reason || '';
-    _instance.domain = _instance.domain || '';
-    _instance.metadata = _instance.metadata || {};
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: ErrorInfo,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.reason = _reader.readString();
-          break;
-        case 2:
-          _instance.domain = _reader.readString();
-          break;
-        case 3:
-          const msg_3 = {} as any;
-          _reader.readMessage(
-            msg_3,
-            ErrorInfo.MetadataEntry.deserializeBinaryFromReader
-          );
-          _instance.metadata = _instance.metadata || {};
-          _instance.metadata[msg_3.key] = msg_3.value;
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    ErrorInfo.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(_instance: ErrorInfo, _writer: BinaryWriter) {
-    if (_instance.reason) {
-      _writer.writeString(1, _instance.reason);
-    }
-    if (_instance.domain) {
-      _writer.writeString(2, _instance.domain);
-    }
-    if (!!_instance.metadata) {
-      const keys_3 = Object.keys(_instance.metadata as any);
-
-      if (keys_3.length) {
-        const repeated_3 = keys_3
-          .map(key => ({ key: key, value: (_instance.metadata as any)[key] }))
-          .reduce((r, v) => [...r, v], [] as any[]);
-
-        _writer.writeRepeatedMessage(
-          3,
-          repeated_3,
-          ErrorInfo.MetadataEntry.serializeBinaryToWriter
-        );
-      }
-    }
-  }
-
-  private _reason: string;
-  private _domain: string;
-  private _metadata: { [prop: string]: string };
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of ErrorInfo to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<ErrorInfo.AsObject>) {
-    _value = _value || {};
-    this.reason = _value.reason;
-    this.domain = _value.domain;
-    (this.metadata = _value!.metadata
-      ? Object.keys(_value!.metadata).reduce(
-          (r, k) => ({ ...r, [k]: _value!.metadata![k] }),
-          {}
-        )
-      : {}),
-      ErrorInfo.refineValues(this);
-  }
-  get reason(): string {
-    return this._reason;
-  }
-  set reason(value: string) {
-    this._reason = value;
-  }
-  get domain(): string {
-    return this._domain;
-  }
-  set domain(value: string) {
-    this._domain = value;
-  }
-  get metadata(): { [prop: string]: string } {
-    return this._metadata;
-  }
-  set metadata(value: { [prop: string]: string }) {
-    this._metadata = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    ErrorInfo.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): ErrorInfo.AsObject {
-    return {
-      reason: this.reason,
-      domain: this.domain,
-      metadata: this.metadata
-        ? Object.keys(this.metadata).reduce(
-            (r, k) => ({ ...r, [k]: this.metadata![k] }),
-            {}
-          )
-        : {}
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): ErrorInfo.AsProtobufJSON {
-    return {
-      reason: this.reason,
-      domain: this.domain,
-      metadata: this.metadata
-        ? Object.keys(this.metadata).reduce(
-            (r, k) => ({ ...r, [k]: this.metadata![k] }),
-            {}
-          )
-        : {}
-    };
-  }
-}
-export module ErrorInfo {
-  /**
-   * Standard JavaScript object representation for ErrorInfo
-   */
-  export interface AsObject {
-    reason: string;
-    domain: string;
-    metadata: { [prop: string]: string };
-  }
-
-  /**
-   * Protobuf JSON representation for ErrorInfo
-   */
-  export interface AsProtobufJSON {
-    reason: string;
-    domain: string;
-    metadata: { [prop: string]: string };
-  }
-
-  /**
-   * Message implementation for google.rpc.ErrorInfo.MetadataEntry
-   */
-  export class MetadataEntry implements GrpcMessage {
-    static id = 'google.rpc.ErrorInfo.MetadataEntry';
-
-    /**
-     * Deserialize binary data to message
-     * @param instance message instance
-     */
-    static deserializeBinary(bytes: ByteSource) {
-      const instance = new MetadataEntry();
-      MetadataEntry.deserializeBinaryFromReader(
-        instance,
-        new BinaryReader(bytes)
-      );
-      return instance;
-    }
-
-    /**
-     * Check all the properties and set default protobuf values if necessary
-     * @param _instance message instance
-     */
-    static refineValues(_instance: MetadataEntry) {
-      _instance.key = _instance.key || '';
-      _instance.value = _instance.value || '';
-    }
-
-    /**
-     * Deserializes / reads binary message into message instance using provided binary reader
-     * @param _instance message instance
-     * @param _reader binary reader instance
-     */
-    static deserializeBinaryFromReader(
-      _instance: MetadataEntry,
-      _reader: BinaryReader
-    ) {
-      while (_reader.nextField()) {
-        if (_reader.isEndGroup()) break;
-
-        switch (_reader.getFieldNumber()) {
-          case 1:
-            _instance.key = _reader.readString();
-            break;
-          case 2:
-            _instance.value = _reader.readString();
-            break;
-          default:
-            _reader.skipField();
-        }
-      }
-
-      MetadataEntry.refineValues(_instance);
-    }
-
-    /**
-     * Serializes a message to binary format using provided binary reader
-     * @param _instance message instance
-     * @param _writer binary writer instance
-     */
-    static serializeBinaryToWriter(
-      _instance: MetadataEntry,
-      _writer: BinaryWriter
-    ) {
-      if (_instance.key) {
-        _writer.writeString(1, _instance.key);
-      }
-      if (_instance.value) {
-        _writer.writeString(2, _instance.value);
-      }
-    }
-
-    private _key: string;
-    private _value: string;
-
-    /**
-     * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-     * @param _value initial values object or instance of MetadataEntry to deeply clone from
-     */
-    constructor(_value?: RecursivePartial<MetadataEntry.AsObject>) {
-      _value = _value || {};
-      this.key = _value.key;
-      this.value = _value.value;
-      MetadataEntry.refineValues(this);
-    }
-    get key(): string {
-      return this._key;
-    }
-    set key(value: string) {
-      this._key = value;
-    }
-    get value(): string {
-      return this._value;
-    }
-    set value(value: string) {
-      this._value = value;
-    }
-
-    /**
-     * Serialize message to binary data
-     * @param instance message instance
-     */
-    serializeBinary() {
-      const writer = new BinaryWriter();
-      MetadataEntry.serializeBinaryToWriter(this, writer);
-      return writer.getResultBuffer();
-    }
-
-    /**
-     * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-     */
-    toObject(): MetadataEntry.AsObject {
-      return {
-        key: this.key,
-        value: this.value
-      };
-    }
-
-    /**
-     * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-     */
-    toJSON() {
-      return this.toObject();
-    }
-
-    /**
-     * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-     * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-     * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-     */
-    toProtobufJSON(
-      // @ts-ignore
-      options?: ToProtobufJSONOptions
-    ): MetadataEntry.AsProtobufJSON {
-      return {
-        key: this.key,
-        value: this.value
-      };
-    }
-  }
-  export module MetadataEntry {
-    /**
-     * Standard JavaScript object representation for MetadataEntry
-     */
-    export interface AsObject {
-      key: string;
-      value: string;
-    }
-
-    /**
-     * Protobuf JSON representation for MetadataEntry
-     */
-    export interface AsProtobufJSON {
-      key: string;
-      value: string;
     }
   }
 }

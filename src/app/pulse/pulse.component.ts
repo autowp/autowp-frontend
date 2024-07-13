@@ -67,7 +67,7 @@ export class PulseComponent implements OnInit {
     map((response) => {
       return (response.legend ? response.legend : []).map((item) => ({
         color: item.color,
-        user$: this.usersService.getUser$(parseInt(item.userId, 10), {}),
+        user$: this.usersService.getUser2$(item.userId),
       }));
     }),
   );
@@ -78,7 +78,7 @@ export class PulseComponent implements OnInit {
     switchMap((response) =>
       combineLatest(
         (response.grid ? response.grid : []).map((dataset) =>
-          combineLatest([this.usersService.getUser$(parseInt(dataset.userId, 10), {}), of(dataset)]),
+          combineLatest([this.usersService.getUser2$(dataset.userId), of(dataset)]),
         ),
       ),
     ),

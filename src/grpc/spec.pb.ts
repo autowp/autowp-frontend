@@ -23360,6 +23360,400 @@ export module Pages {
 }
 
 /**
+ * Message implementation for goautowp.DonationsTransaction
+ */
+export class DonationsTransaction implements GrpcMessage {
+  static id = 'goautowp.DonationsTransaction';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DonationsTransaction();
+    DonationsTransaction.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DonationsTransaction) {
+    _instance.sum = _instance.sum || 0;
+    _instance.currency = _instance.currency || '';
+    _instance.date = _instance.date || undefined;
+    _instance.contributor = _instance.contributor || '';
+    _instance.purpose = _instance.purpose || '';
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DonationsTransaction,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.sum = _reader.readInt32();
+          break;
+        case 2:
+          _instance.currency = _reader.readString();
+          break;
+        case 3:
+          _instance.date = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.date,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.contributor = _reader.readString();
+          break;
+        case 5:
+          _instance.purpose = _reader.readString();
+          break;
+        case 6:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DonationsTransaction.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DonationsTransaction,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.sum) {
+      _writer.writeInt32(1, _instance.sum);
+    }
+    if (_instance.currency) {
+      _writer.writeString(2, _instance.currency);
+    }
+    if (_instance.date) {
+      _writer.writeMessage(
+        3,
+        _instance.date as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.contributor) {
+      _writer.writeString(4, _instance.contributor);
+    }
+    if (_instance.purpose) {
+      _writer.writeString(5, _instance.purpose);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(6, _instance.userId);
+    }
+  }
+
+  private _sum: number;
+  private _currency: string;
+  private _date?: googleProtobuf002.Timestamp;
+  private _contributor: string;
+  private _purpose: string;
+  private _userId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DonationsTransaction to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DonationsTransaction.AsObject>) {
+    _value = _value || {};
+    this.sum = _value.sum;
+    this.currency = _value.currency;
+    this.date = _value.date
+      ? new googleProtobuf002.Timestamp(_value.date)
+      : undefined;
+    this.contributor = _value.contributor;
+    this.purpose = _value.purpose;
+    this.userId = _value.userId;
+    DonationsTransaction.refineValues(this);
+  }
+  get sum(): number {
+    return this._sum;
+  }
+  set sum(value: number) {
+    this._sum = value;
+  }
+  get currency(): string {
+    return this._currency;
+  }
+  set currency(value: string) {
+    this._currency = value;
+  }
+  get date(): googleProtobuf002.Timestamp | undefined {
+    return this._date;
+  }
+  set date(value: googleProtobuf002.Timestamp | undefined) {
+    this._date = value;
+  }
+  get contributor(): string {
+    return this._contributor;
+  }
+  set contributor(value: string) {
+    this._contributor = value;
+  }
+  get purpose(): string {
+    return this._purpose;
+  }
+  set purpose(value: string) {
+    this._purpose = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DonationsTransaction.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DonationsTransaction.AsObject {
+    return {
+      sum: this.sum,
+      currency: this.currency,
+      date: this.date ? this.date.toObject() : undefined,
+      contributor: this.contributor,
+      purpose: this.purpose,
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DonationsTransaction.AsProtobufJSON {
+    return {
+      sum: this.sum,
+      currency: this.currency,
+      date: this.date ? this.date.toProtobufJSON(options) : null,
+      contributor: this.contributor,
+      purpose: this.purpose,
+      userId: this.userId
+    };
+  }
+}
+export module DonationsTransaction {
+  /**
+   * Standard JavaScript object representation for DonationsTransaction
+   */
+  export interface AsObject {
+    sum: number;
+    currency: string;
+    date?: googleProtobuf002.Timestamp.AsObject;
+    contributor: string;
+    purpose: string;
+    userId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DonationsTransaction
+   */
+  export interface AsProtobufJSON {
+    sum: number;
+    currency: string;
+    date: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    contributor: string;
+    purpose: string;
+    userId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DonationsTransactionsResponse
+ */
+export class DonationsTransactionsResponse implements GrpcMessage {
+  static id = 'goautowp.DonationsTransactionsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DonationsTransactionsResponse();
+    DonationsTransactionsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DonationsTransactionsResponse) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DonationsTransactionsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new DonationsTransaction();
+          _reader.readMessage(
+            messageInitializer1,
+            DonationsTransaction.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DonationsTransactionsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DonationsTransactionsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        DonationsTransaction.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: DonationsTransaction[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DonationsTransactionsResponse to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<DonationsTransactionsResponse.AsObject>
+  ) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new DonationsTransaction(m));
+    DonationsTransactionsResponse.refineValues(this);
+  }
+  get items(): DonationsTransaction[] | undefined {
+    return this._items;
+  }
+  set items(value: DonationsTransaction[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DonationsTransactionsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DonationsTransactionsResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DonationsTransactionsResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module DonationsTransactionsResponse {
+  /**
+   * Standard JavaScript object representation for DonationsTransactionsResponse
+   */
+  export interface AsObject {
+    items?: DonationsTransaction.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for DonationsTransactionsResponse
+   */
+  export interface AsProtobufJSON {
+    items: DonationsTransaction.AsProtobufJSON[] | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.VODDataResponse
  */
 export class VODDataResponse implements GrpcMessage {

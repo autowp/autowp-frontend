@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ArticlesRequest} from '@grpc/spec.pb';
+import {APIUser, ArticlesRequest} from '@grpc/spec.pb';
 import {ArticlesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -43,7 +43,7 @@ export class ListComponent {
     }),
     map((response) => ({
       articles: (response.items ? response.items : []).map((article) => ({
-        author$: article.authorId !== '0' ? this.userService.getUser$(+article.authorId, {}) : of(null),
+        author$: article.authorId !== '0' ? this.userService.getUser2$(article.authorId) : of(null),
         date: article.date?.toDate(),
         description: article.description,
         name: article.name,

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIGetTextRequest} from '@grpc/spec.pb';
+import {APIGetTextRequest, APIUser} from '@grpc/spec.pb';
 import {TextClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import * as JsDiff from 'diff';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -68,7 +68,7 @@ export class InfoTextComponent implements OnInit {
         ? {
             revision: response.current.revision,
             text: response.current.text,
-            user$: response.current.userId ? this.userService.getUser$(+response.current.userId, {}) : of(null),
+            user$: response.current.userId ? this.userService.getUser2$(response.current.userId) : of(null),
           }
         : null,
       diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text || '') as Diff[],
@@ -83,7 +83,7 @@ export class InfoTextComponent implements OnInit {
           ? {
               revision: response.prev.revision,
               text: response.prev.text,
-              user$: response.prev.userId ? this.userService.getUser$(+response.prev.userId, {}) : of(null),
+              user$: response.prev.userId ? this.userService.getUser2$(response.prev.userId) : of(null),
             }
           : null,
     })),

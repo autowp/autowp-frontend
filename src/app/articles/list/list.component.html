@@ -29,7 +29,7 @@
         <a [routerLink]="article.routerLink" i18n>details</a>
       </p>
       <p>
-        <app-user *ngIf="article.author$ | async as author" [user]="author"></app-user>
+        <app-user2 *ngIf="article.author$ | async as author" [user]="author"></app-user2>
         <span
           class="date"
           *ngIf="article.date"

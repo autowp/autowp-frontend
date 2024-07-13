@@ -26,7 +26,7 @@
       <h3 *ngIf="data.prev.revision">
         <ng-container i18n>Revision {{ data.prev.revision }}</ng-container>
         <small *ngIf="data.prev.user$ | async as user">
-          <app-user [user]="user"></app-user>
+          <app-user2 [user]="user"></app-user2>
         </small>
       </h3>
       <pre [hidden]="!data.prev.revision" [textContent]="data.prev.text"></pre>
@@ -35,7 +35,7 @@
       <h3>
         <ng-container i18n>Revision {{ data.current.revision }}</ng-container>
         <small *ngIf="data.current.user$ | async as user">
-          <app-user [user]="user"></app-user>
+          <app-user2 [user]="user"></app-user2>
         </small>
       </h3>
       <pre

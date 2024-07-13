@@ -3926,6 +3926,27 @@ export class DonationsClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.VODDataResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Donations/GetTransactions
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.DonationsTransactionsResponse>>
+     */
+    getTransactions: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.DonationsTransactionsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Donations/GetTransactions',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.DonationsTransactionsResponse
+      });
     }
   };
 
@@ -3950,6 +3971,22 @@ export class DonationsClient {
   ): Observable<thisProto.VODDataResponse> {
     return this.$raw
       .getVODData(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Donations/GetTransactions
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.DonationsTransactionsResponse>
+   */
+  getTransactions(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.DonationsTransactionsResponse> {
+    return this.$raw
+      .getTransactions(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
