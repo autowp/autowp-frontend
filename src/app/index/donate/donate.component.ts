@@ -35,7 +35,7 @@ export class IndexDonateComponent {
           sum: d.sum / 100,
         }));
       const charges = operations.filter((d) => d.sum < 0);
-      const totalChargesSum = charges.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
+      const totalChargesSum = charges.reduce((sum, d) => sum + (d.sum * rates[d.currency]) / 100, 0);
       const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
       const total = Math.max(-totalChargesSum + this.monthlyCharge, totalDonationsSum);
@@ -44,9 +44,9 @@ export class IndexDonateComponent {
         charges: charges.map((o) => ({
           currency: o.currency,
           date: o.date,
-          percent: (-100 * o.sum * rates[o.currency]) / total,
+          percent: (-100 * o.sum * rates[o.currency]) / 100 / total,
           purpose: o.purpose,
-          sum: o.sum,
+          sum: o.sum / 100,
         })),
         donations: donations.map((o) => ({
           contributor: o.contributor,
