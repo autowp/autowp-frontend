@@ -78,6 +78,7 @@ You can support our project by [finances](/donate) or [moral](/feedback).
 Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.`;
 
 @Component({
+  providers: [BytesPipe],
   selector: 'app-about',
   templateUrl: './about.component.html',
 })
