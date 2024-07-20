@@ -63,7 +63,7 @@ export class LogComponent implements OnInit {
             }),
           ),
         ),
-        pictures: event.items.map((item) => this.pictureService.getPicture$(+item, {fields: 'name_html'})),
+        pictures: event.pictures.map((item) => this.pictureService.getPicture$(+item, {fields: 'name_html'})),
         user$: this.userService.getUser2$(event.userId),
       })),
       paginator: response.paginator,
