@@ -79,6 +79,14 @@ export const GRPC_COMMENTS_CLIENT_SETTINGS = new InjectionToken<any>(
 );
 
 /**
+ * Specific GrpcClientSettings for Log.
+ * Use it only if your default settings are not set or the service requires other settings.
+ */
+export const GRPC_LOG_CLIENT_SETTINGS = new InjectionToken<any>(
+  'GRPC_LOG_CLIENT_SETTINGS'
+);
+
+/**
  * Specific GrpcClientSettings for Map.
  * Use it only if your default settings are not set or the service requires other settings.
  */

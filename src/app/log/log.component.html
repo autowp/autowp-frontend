@@ -26,18 +26,30 @@
     <tbody>
       <tr *ngFor="let event of response.items">
         <td>
-          <app-user [user]="event.user" *ngIf="event.user"></app-user>
-          <div *ngIf="event.date" [textContent]="event.date | timeAgo" [ngbTooltip]="event.date | date: 'medium'"></div>
+          <app-user [user]="user" *ngIf="event.user$ | async as user"></app-user>
+          <div
+            *ngIf="event.createdAt"
+            [textContent]="event.createdAt | timeAgo"
+            [ngbTooltip]="event.createdAt | date: 'medium'"
+          ></div>
         </td>
-        <td [innerHTML]="event.desc"></td>
+        <td [innerHTML]="event.description"></td>
         <td>
-          <div *ngFor="let item of event.items">
+          <div *ngFor="let item$ of event.items">
             Item:
-            <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+            <a
+              [routerLink]="['/moder/items/item', item.id]"
+              [innerHTML]="item.nameHtml"
+              *ngIf="item$ | async as item"
+            ></a>
           </div>
-          <div *ngFor="let picture of event.pictures">
+          <div *ngFor="let picture$ of event.pictures">
             Picture:
-            <a [routerLink]="['/moder/pictures', picture.id]" [innerHTML]="picture.name_html"></a>
+            <a
+              [routerLink]="['/moder/pictures', picture.id]"
+              [innerHTML]="picture.name_html"
+              *ngIf="picture$ | async as picture"
+            ></a>
           </div>
         </td>
       </tr>

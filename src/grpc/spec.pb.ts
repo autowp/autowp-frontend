@@ -20301,6 +20301,613 @@ export module CommentsVoteCommentResponse {
 }
 
 /**
+ * Message implementation for goautowp.LogEventsRequest
+ */
+export class LogEventsRequest implements GrpcMessage {
+  static id = 'goautowp.LogEventsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new LogEventsRequest();
+    LogEventsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: LogEventsRequest) {
+    _instance.articleId = _instance.articleId || '0';
+    _instance.itemId = _instance.itemId || '0';
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.userId = _instance.userId || '0';
+    _instance.page = _instance.page || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: LogEventsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.articleId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 4:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 5:
+          _instance.page = _reader.readUint32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    LogEventsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: LogEventsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.articleId) {
+      _writer.writeInt64String(1, _instance.articleId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.pictureId) {
+      _writer.writeInt64String(3, _instance.pictureId);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(4, _instance.userId);
+    }
+    if (_instance.page) {
+      _writer.writeUint32(5, _instance.page);
+    }
+  }
+
+  private _articleId: string;
+  private _itemId: string;
+  private _pictureId: string;
+  private _userId: string;
+  private _page: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of LogEventsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<LogEventsRequest.AsObject>) {
+    _value = _value || {};
+    this.articleId = _value.articleId;
+    this.itemId = _value.itemId;
+    this.pictureId = _value.pictureId;
+    this.userId = _value.userId;
+    this.page = _value.page;
+    LogEventsRequest.refineValues(this);
+  }
+  get articleId(): string {
+    return this._articleId;
+  }
+  set articleId(value: string) {
+    this._articleId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get pictureId(): string {
+    return this._pictureId;
+  }
+  set pictureId(value: string) {
+    this._pictureId = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    LogEventsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): LogEventsRequest.AsObject {
+    return {
+      articleId: this.articleId,
+      itemId: this.itemId,
+      pictureId: this.pictureId,
+      userId: this.userId,
+      page: this.page
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): LogEventsRequest.AsProtobufJSON {
+    return {
+      articleId: this.articleId,
+      itemId: this.itemId,
+      pictureId: this.pictureId,
+      userId: this.userId,
+      page: this.page
+    };
+  }
+}
+export module LogEventsRequest {
+  /**
+   * Standard JavaScript object representation for LogEventsRequest
+   */
+  export interface AsObject {
+    articleId: string;
+    itemId: string;
+    pictureId: string;
+    userId: string;
+    page: number;
+  }
+
+  /**
+   * Protobuf JSON representation for LogEventsRequest
+   */
+  export interface AsProtobufJSON {
+    articleId: string;
+    itemId: string;
+    pictureId: string;
+    userId: string;
+    page: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.LogEvents
+ */
+export class LogEvents implements GrpcMessage {
+  static id = 'goautowp.LogEvents';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new LogEvents();
+    LogEvents.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: LogEvents) {
+    _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: LogEvents,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new LogEvent();
+          _reader.readMessage(
+            messageInitializer1,
+            LogEvent.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    LogEvents.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: LogEvents, _writer: BinaryWriter) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        LogEvent.serializeBinaryToWriter
+      );
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: LogEvent[];
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of LogEvents to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<LogEvents.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new LogEvent(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    LogEvents.refineValues(this);
+  }
+  get items(): LogEvent[] | undefined {
+    return this._items;
+  }
+  set items(value: LogEvent[] | undefined) {
+    this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    LogEvents.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): LogEvents.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): LogEvents.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module LogEvents {
+  /**
+   * Standard JavaScript object representation for LogEvents
+   */
+  export interface AsObject {
+    items?: LogEvent.AsObject[];
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for LogEvents
+   */
+  export interface AsProtobufJSON {
+    items: LogEvent.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.LogEvent
+ */
+export class LogEvent implements GrpcMessage {
+  static id = 'goautowp.LogEvent';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new LogEvent();
+    LogEvent.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: LogEvent) {
+    _instance.createdAt = _instance.createdAt || undefined;
+    _instance.description = _instance.description || '';
+    _instance.userId = _instance.userId || '0';
+    _instance.pictures = _instance.pictures || [];
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: LogEvent,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.createdAt,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.description = _reader.readString();
+          break;
+        case 3:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 4:
+          (_instance.pictures = _instance.pictures || []).push(
+            ...(_reader.readPackedInt64String() || [])
+          );
+          break;
+        case 5:
+          (_instance.items = _instance.items || []).push(
+            ...(_reader.readPackedInt64String() || [])
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    LogEvent.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: LogEvent, _writer: BinaryWriter) {
+    if (_instance.createdAt) {
+      _writer.writeMessage(
+        1,
+        _instance.createdAt as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.description) {
+      _writer.writeString(2, _instance.description);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(3, _instance.userId);
+    }
+    if (_instance.pictures && _instance.pictures.length) {
+      _writer.writePackedInt64String(4, _instance.pictures);
+    }
+    if (_instance.items && _instance.items.length) {
+      _writer.writePackedInt64String(5, _instance.items);
+    }
+  }
+
+  private _createdAt?: googleProtobuf002.Timestamp;
+  private _description: string;
+  private _userId: string;
+  private _pictures: string[];
+  private _items: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of LogEvent to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<LogEvent.AsObject>) {
+    _value = _value || {};
+    this.createdAt = _value.createdAt
+      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      : undefined;
+    this.description = _value.description;
+    this.userId = _value.userId;
+    this.pictures = (_value.pictures || []).slice();
+    this.items = (_value.items || []).slice();
+    LogEvent.refineValues(this);
+  }
+  get createdAt(): googleProtobuf002.Timestamp | undefined {
+    return this._createdAt;
+  }
+  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+    this._createdAt = value;
+  }
+  get description(): string {
+    return this._description;
+  }
+  set description(value: string) {
+    this._description = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+  get pictures(): string[] {
+    return this._pictures;
+  }
+  set pictures(value: string[]) {
+    this._pictures = value;
+  }
+  get items(): string[] {
+    return this._items;
+  }
+  set items(value: string[]) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    LogEvent.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): LogEvent.AsObject {
+    return {
+      createdAt: this.createdAt ? this.createdAt.toObject() : undefined,
+      description: this.description,
+      userId: this.userId,
+      pictures: (this.pictures || []).slice(),
+      items: (this.items || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): LogEvent.AsProtobufJSON {
+    return {
+      createdAt: this.createdAt ? this.createdAt.toProtobufJSON(options) : null,
+      description: this.description,
+      userId: this.userId,
+      pictures: (this.pictures || []).slice(),
+      items: (this.items || []).slice()
+    };
+  }
+}
+export module LogEvent {
+  /**
+   * Standard JavaScript object representation for LogEvent
+   */
+  export interface AsObject {
+    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    description: string;
+    userId: string;
+    pictures: string[];
+    items: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for LogEvent
+   */
+  export interface AsProtobufJSON {
+    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    description: string;
+    userId: string;
+    pictures: string[];
+    items: string[];
+  }
+}
+
+/**
  * Message implementation for goautowp.MapGetPointsRequest
  */
 export class MapGetPointsRequest implements GrpcMessage {

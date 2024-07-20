@@ -34,6 +34,7 @@ import {
   GRPC_RATING_CLIENT_SETTINGS,
   GRPC_ITEMS_CLIENT_SETTINGS,
   GRPC_COMMENTS_CLIENT_SETTINGS,
+  GRPC_LOG_CLIENT_SETTINGS,
   GRPC_MAP_CLIENT_SETTINGS,
   GRPC_PICTURES_CLIENT_SETTINGS,
   GRPC_MESSAGING_CLIENT_SETTINGS,
@@ -3280,6 +3281,66 @@ export class CommentsClient {
   ): Observable<thisProto.APICommentsMessages> {
     return this.$raw
       .getMessages(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Log
+ */
+@Injectable({ providedIn: 'any' })
+export class LogClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Log/GetEvents
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.LogEvents>>
+     */
+    getEvents: (
+      requestData: thisProto.LogEventsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.LogEvents>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Log/GetEvents',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.LogEventsRequest,
+        responseClass: thisProto.LogEvents
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_LOG_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Log', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Log/GetEvents
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.LogEvents>
+   */
+  getEvents(
+    requestData: thisProto.LogEventsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.LogEvents> {
+    return this.$raw
+      .getEvents(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

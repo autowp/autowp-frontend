@@ -1,34 +1,31 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
+import {APIItem, APIUser, ItemFields, ItemRequest, LogEventsRequest, Pages} from '@grpc/spec.pb';
+import {ItemsClient, LogClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture} from '@services/picture';
-import {APIUser} from '@services/user';
-import {EMPTY} from 'rxjs';
+import {APIPicture, PictureService} from '@services/picture';
+import {UserService} from '@services/user';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
-
-export interface APILog {
-  date: string;
-  desc: string;
-  items: APIItem[];
-  pictures: APIPicture[];
-  user: APIUser;
-}
-
-export interface APILogGetResponse {
-  items: APILog[];
-  paginator: APIPaginator;
-}
 
 @Component({
   selector: 'app-log',
   templateUrl: './log.component.html',
 })
 export class LogComponent implements OnInit {
-  protected readonly response$ = this.route.queryParamMap.pipe(
+  protected readonly response$: Observable<{
+    items: {
+      createdAt: Date | undefined;
+      description: string;
+      items: Observable<APIItem | null>[];
+      pictures: Observable<APIPicture>[];
+      user$: Observable<APIUser | null>;
+    }[];
+    paginator: Pages | undefined;
+  }> = this.route.queryParamMap.pipe(
     map((params) => ({
       article_id: params.get('article_id'),
       item_id: params.get('item_id'),
@@ -38,46 +35,50 @@ export class LogComponent implements OnInit {
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
-    switchMap((params) => {
-      const qParams: {[param: string]: string} = {
-        fields: 'pictures.name_html,items.name_html,user',
-      };
-
-      if (params.article_id) {
-        qParams.article_id = params.article_id;
-      }
-
-      if (params.item_id) {
-        qParams.item_id = params.item_id;
-      }
-
-      if (params.picture_id) {
-        qParams.picture_id = params.picture_id;
-      }
-
-      if (params.page) {
-        qParams.page = params.page;
-      }
-
-      if (params.user_id) {
-        qParams.user_id = params.user_id;
-      }
-
-      return this.api.request<APILogGetResponse>('GET', 'log', {
-        params: qParams,
-      });
-    }),
+    switchMap((params) =>
+      this.logClient.getEvents(
+        new LogEventsRequest({
+          articleId: params.article_id || undefined,
+          itemId: params.item_id || undefined,
+          page: +(params.page || 0),
+          pictureId: params.picture_id || undefined,
+          userId: params.user_id || undefined,
+        }),
+      ),
+    ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
     }),
+    map((response) => ({
+      items: (response.items || []).map((event) => ({
+        createdAt: event.createdAt?.toDate(),
+        description: event.description,
+        items: event.items.map((item) =>
+          this.itemsClient.item(
+            new ItemRequest({
+              fields: new ItemFields({nameHtml: true}),
+              id: item,
+              language: this.languageService.language,
+            }),
+          ),
+        ),
+        pictures: event.items.map((item) => this.pictureService.getPicture$(+item, {fields: 'name_html'})),
+        user$: this.userService.getUser2$(event.userId),
+      })),
+      paginator: response.paginator,
+    })),
   );
 
   constructor(
-    private readonly api: APIService,
     private readonly route: ActivatedRoute,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
+    private readonly logClient: LogClient,
+    private readonly userService: UserService,
+    private readonly itemsClient: ItemsClient,
+    private readonly pictureService: PictureService,
+    private readonly languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
