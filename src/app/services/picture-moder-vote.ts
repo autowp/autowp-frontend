@@ -1,22 +1,18 @@
 import {Injectable} from '@angular/core';
+import {DeleteModerVoteRequest, UpdateModerVoteRequest} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable} from 'rxjs';
-
-import {APIService} from './api.service';
 
 @Injectable()
 export class PictureModerVoteService {
-  constructor(private readonly api: APIService) {}
+  constructor(private readonly picturesClient: PicturesClient) {}
 
-  public vote$(pictureId: number, vote: number, reason: string): Observable<void> {
-    return this.api.request<void>('PUT', 'picture-moder-vote/' + pictureId, {
-      body: {
-        reason,
-        vote,
-      },
-    });
+  public vote$(pictureId: string, vote: number, reason: string): Observable<Empty> {
+    return this.picturesClient.updateModerVote(new UpdateModerVoteRequest({pictureId, reason, vote}));
   }
 
-  public cancel$(pictureId: number): Observable<void> {
-    return this.api.request<void>('DELETE', 'picture-moder-vote/' + pictureId);
+  public cancel$(pictureId: string): Observable<Empty> {
+    return this.picturesClient.deleteModerVote(new DeleteModerVoteRequest({pictureId}));
   }
 }

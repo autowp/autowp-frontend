@@ -35,7 +35,7 @@ export class PictureModerVoteModalComponent {
 
     this.pictureId &&
       this.vote &&
-      this.moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+      this.moderVoteService.vote$('' + this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
 
     this.activeModal.close();
   }

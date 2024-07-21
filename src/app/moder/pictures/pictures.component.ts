@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ListItemsRequest, VehicleType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {APIPaginator, APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -537,10 +538,10 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   protected votePictures(pictures: APIPicture[], vote: number, reason: string) {
     for (const id of this.selected) {
-      const promises: Observable<void>[] = [];
+      const promises: Observable<Empty>[] = [];
       for (const picture of pictures) {
         if (picture.id === id) {
-          const q$ = this.moderVoteService.vote$(picture.id, vote, reason);
+          const q$ = this.moderVoteService.vote$('' + picture.id, vote, reason);
           promises.push(q$);
         }
       }

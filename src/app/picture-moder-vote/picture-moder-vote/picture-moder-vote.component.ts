@@ -27,11 +27,12 @@ export class PictureModerVoteComponent {
   ) {}
 
   protected votePicture(vote: number, reason: string): void {
-    this.picture && this.moderVoteService.vote$(this.picture.id, vote, reason).subscribe(() => this.changed.emit());
+    this.picture &&
+      this.moderVoteService.vote$('' + this.picture.id, vote, reason).subscribe(() => this.changed.emit());
   }
 
   protected cancelVotePicture(): void {
-    this.picture && this.moderVoteService.cancel$(this.picture.id).subscribe(() => this.changed.emit());
+    this.picture && this.moderVoteService.cancel$('' + this.picture.id).subscribe(() => this.changed.emit());
   }
 
   protected showCustomDialog(vote: number): void {

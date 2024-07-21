@@ -3558,6 +3558,48 @@ export class PicturesClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.ModerVoteTemplates
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/DeleteModerVote
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteModerVote: (
+      requestData: thisProto.DeleteModerVoteRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/DeleteModerVote',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteModerVoteRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/UpdateModerVote
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updateModerVote: (
+      requestData: thisProto.UpdateModerVoteRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/UpdateModerVote',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UpdateModerVoteRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -3646,6 +3688,38 @@ export class PicturesClient {
   ): Observable<thisProto.ModerVoteTemplates> {
     return this.$raw
       .getModerVoteTemplates(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/DeleteModerVote
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteModerVote(
+    requestData: thisProto.DeleteModerVoteRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteModerVote(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/UpdateModerVote
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  updateModerVote(
+    requestData: thisProto.UpdateModerVoteRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .updateModerVote(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
