@@ -2472,6 +2472,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/SetItemParentLanguage
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setItemParentLanguage: (
+      requestData: thisProto.ItemParentLanguage,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/SetItemParentLanguage',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ItemParentLanguage,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/GetStats
      *
      * @param requestMessage Request message
@@ -2835,6 +2856,22 @@ export class ItemsClient {
   ): Observable<thisProto.ItemParentLanguages> {
     return this.$raw
       .getItemParentLanguages(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/SetItemParentLanguage
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  setItemParentLanguage(
+    requestData: thisProto.ItemParentLanguage,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .setItemParentLanguage(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

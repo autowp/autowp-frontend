@@ -1,8 +1,9 @@
-import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIGetItemParentLanguagesRequest, APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {APIGetItemParentLanguagesRequest, APIItem, ItemFields, ItemParentLanguage, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
 import {APIItemParent} from '@services/item-parent';
@@ -12,6 +13,9 @@ import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
 import {EMPTY, Observable, Subscription, combineLatest, forkJoin} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   selector: 'app-moder-item-parent',
@@ -53,6 +57,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     private readonly pageEnv: PageEnvService,
     private readonly itemsClient: ItemsClient,
     private readonly languageService: LanguageService,
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -141,37 +146,38 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     if (!this.itemParent) {
       return;
     }
-    const promises: Observable<void>[] = [
-      this.api.request<void>('PUT', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id, {
-        body: {
-          catname: this.itemParent.catname,
-          type_id: this.itemParent.type_id,
+    const promises: Observable<Empty | void>[] = [
+      this.api.request<Empty | void>(
+        'PUT',
+        'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id,
+        {
+          body: {
+            catname: this.itemParent.catname,
+            type_id: this.itemParent.type_id,
+          },
         },
-      }),
+      ),
     ];
 
     for (const language of this.languages) {
       language.invalidParams = null;
       promises.push(
-        this.api
-          .request<void>(
-            'PUT',
-            'item-parent/' +
-              this.itemParent.item_id +
-              '/' +
-              this.itemParent.parent_id +
-              '/language/' +
-              language.language,
-            {
-              body: {
-                name: language.name,
-              },
-            },
+        this.itemsClient
+          .setItemParentLanguage(
+            new ItemParentLanguage({
+              itemId: '' + this.itemParent.item_id,
+              language: language.language,
+              name: language.name || undefined,
+              parentId: '' + this.itemParent.parent_id,
+            }),
           )
           .pipe(
             catchError((response: unknown) => {
-              if (response instanceof HttpErrorResponse) {
-                language.invalidParams = response.error.invalid_params;
+              if (response instanceof GrpcStatusEvent) {
+                const fieldViolations = extractFieldViolations(response);
+                language.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+              } else {
+                this.toastService.handleError(response);
               }
               return EMPTY;
             }),
