@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
 import {chunkBy} from '../../chunk';
 
 interface APIIndexSpecItemsItem extends APIItem {
-  contributors: string[];
+  contributors: number[];
 }
 
 interface APIIndexSpecItemsResponse {
@@ -35,7 +35,7 @@ export class IndexSpecsCarsComponent {
             can_edit_specs: item.can_edit_specs,
             categories: item.categories,
             childs_counts: item.childs_counts,
-            contributors: item.contributors.map((contributor) => this.userService.getUser$(contributor)),
+            contributors: item.contributors.map((contributor) => this.userService.getUser$('' + contributor)),
             description: item.description,
             design: item.design,
             details: {
