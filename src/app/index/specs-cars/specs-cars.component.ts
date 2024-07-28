@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
-import {APIUser} from '@services/user';
+import {UserService} from '@services/user';
 import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {map} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
 
 interface APIIndexSpecItemsItem extends APIItem {
-  contributors: APIUser[];
+  contributors: string[];
 }
 
 interface APIIndexSpecItemsResponse {
@@ -35,7 +35,7 @@ export class IndexSpecsCarsComponent {
             can_edit_specs: item.can_edit_specs,
             categories: item.categories,
             childs_counts: item.childs_counts,
-            contributors: item.contributors,
+            contributors: item.contributors.map((contributor) => this.userService.getUser$(contributor)),
             description: item.description,
             design: item.design,
             details: {
@@ -64,5 +64,8 @@ export class IndexSpecsCarsComponent {
     }),
   );
 
-  constructor(private readonly api: APIService) {}
+  constructor(
+    private readonly api: APIService,
+    private readonly userService: UserService,
+  ) {}
 }

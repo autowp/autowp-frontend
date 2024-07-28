@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, APIUser, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -16,12 +16,12 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './brand.component.html',
 })
 export class UsersUserPicturesBrandComponent {
-  protected readonly user$ = this.route.paramMap.pipe(
+  protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     switchMap((identity) => (identity ? of(identity) : EMPTY)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
+    switchMap((identity) => this.userService.getByIdentity$(identity, undefined)),
     switchMap((user) => {
       if (!user || user.deleted) {
         this.router.navigate(['/error-404'], {
@@ -88,7 +88,7 @@ export class UsersUserPicturesBrandComponent {
         item_id: +brand.id,
         limit: 30,
         order: 1,
-        owner_id: user.id.toString(),
+        owner_id: user.id,
         page,
         status: 'accepted',
       }),

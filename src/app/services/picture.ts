@@ -9,7 +9,6 @@ import {APIImage, APIPaginator, APIService} from './api.service';
 import {AuthService} from './auth.service';
 import {APIItem, APIPathTreeItem} from './item';
 import {APIPictureItem} from './picture-item';
-import {APIUser} from './user';
 
 export interface APIPictureGetResponse {
   paginator: APIPaginator;
@@ -36,7 +35,7 @@ export interface APIPicture {
     name: string;
   }[];
   categories?: APIItem[];
-  change_status_user: APIUser;
+  change_status_user_id: null | string;
   comments_count: {
     new: number;
     total: number;
@@ -80,7 +79,7 @@ export interface APIPicture {
     type_id: string;
     url: string;
   }[];
-  owner: APIUser;
+  owner_id: null | string;
   paginator?: APIPicturePaginator;
   path: APIPathTreePictureItem[];
   perspective_item: {
@@ -154,7 +153,7 @@ export interface APIPicturePaginator {
 
 export interface APIPictureModerVote {
   reason: string;
-  user: APIUser;
+  user_id: string;
   vote: number;
 }
 

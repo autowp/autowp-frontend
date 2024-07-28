@@ -37,7 +37,7 @@
 
     <p *ngIf="legend$ | async as legend">
       <span *ngFor="let item of legend; let i = index">
-        <app-user2 [user]="user" *ngIf="item.user$ | async as user"></app-user2>
+        <app-user [user]="user" *ngIf="item.user$ | async as user"></app-user>
       </span>
     </p>
   </ng-container>

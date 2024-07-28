@@ -8,7 +8,9 @@
 </div>
 <div class="modal-body">
   <ng-container *ngIf="votes$ | async as votes; else loading">
-    <app-user [user]="vote.user" *ngFor="let vote of votes"></app-user>
+    <ng-container *ngFor="let user$ of votes">
+      <app-user [user]="user" *ngIf="user$ | async as user"></app-user>
+    </ng-container>
   </ng-container>
 </div>
 <div class="modal-footer">

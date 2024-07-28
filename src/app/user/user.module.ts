@@ -3,11 +3,10 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 import {UserComponent} from './user/user.component';
-import {User2Component} from './user2/user2.component';
 
 @NgModule({
-  declarations: [UserComponent, User2Component],
-  exports: [UserComponent, User2Component],
+  declarations: [UserComponent],
+  exports: [UserComponent],
   imports: [CommonModule, RouterModule.forChild([])],
 })
 export class UserModule {}

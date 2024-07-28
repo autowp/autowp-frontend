@@ -154,7 +154,7 @@
                 <div *ngFor="let value of userValues.get(+attribute.id)">
                   <em *ngIf="value.value_text === null" i18n>none</em>
                   <span *ngIf="value.value_text !== null" [textContent]="value.value_text"></span>
-                  <app-user [user]="value.user" *ngIf="value.user"></app-user>
+                  <app-user [user]="user" *ngIf="value.user$ | async as user"></app-user>
                   <span class="date" *ngIf="value.update_date"
                     >[<span
                       [textContent]="value.update_date | timeAgo"

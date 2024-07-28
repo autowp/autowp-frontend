@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {APIService} from '@services/api.service';
-import {APIUser} from '@services/user';
 import {Observable} from 'rxjs';
 
 export interface APIVotingVariant {
@@ -24,13 +23,9 @@ export interface APIVoting {
   variants: APIVotingVariant[];
 }
 
-export interface APIVotingVariantVotesGetOptions {
-  fields: string;
-}
-
 export interface APIVotingVariantVote {
   id: number;
-  user: APIUser;
+  user_id: string;
 }
 
 export interface APIVotingVariantVotesGetResponse {
@@ -45,23 +40,10 @@ export class VotingService {
     return this.api.request<APIVoting>('GET', 'voting/' + id);
   }
 
-  public getVariantVotes$(
-    votingId: number,
-    variantId: number,
-    options: APIVotingVariantVotesGetOptions,
-  ): Observable<APIVotingVariantVotesGetResponse> {
-    const params: {[param: string]: string} = {};
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
+  public getVariantVotes$(votingId: number, variantId: number): Observable<APIVotingVariantVotesGetResponse> {
     return this.api.request<APIVotingVariantVotesGetResponse>(
       'GET',
       'voting/' + votingId + '/variant/' + variantId + '/vote',
-      {
-        params,
-      },
     );
   }
 }

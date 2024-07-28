@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {APIUsersRequest, APIUsersResponse, UserFields} from '@grpc/spec.pb';
+import {UsersClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {UserService} from '@services/user';
-import {EMPTY} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -12,15 +13,23 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './users.component.html',
 })
 export class ModerUsersComponent implements OnInit {
-  protected readonly users$ = this.route.queryParamMap.pipe(
+  protected readonly users$: Observable<APIUsersResponse> = this.route.queryParamMap.pipe(
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((params) =>
-      this.userService.get$({
-        fields: 'image,reg_date,last_online,email,login',
-        limit: 30,
-        page: parseInt(params.get('page') || '', 10),
-      }),
+      this.usersClient.getUsers(
+        new APIUsersRequest({
+          fields: new UserFields({
+            email: true,
+            lastOnline: true,
+            login: true,
+            photo: true,
+            regDate: true,
+          }),
+          limit: '30',
+          page: params.get('page') || undefined,
+        }),
+      ),
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
@@ -29,10 +38,10 @@ export class ModerUsersComponent implements OnInit {
   );
 
   constructor(
-    private readonly userService: UserService,
     private readonly pageEnv: PageEnvService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastsService,
+    private readonly usersClient: UsersClient,
   ) {}
 
   ngOnInit(): void {

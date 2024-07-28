@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
+import {APIUser} from '@grpc/spec.pb';
 import {APIPicture, PictureService} from '@services/picture';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import * as URLParse from 'url-parse';
@@ -157,32 +158,10 @@ export class UserTextComponent {
       return of(null);
     }
 
-    let userId: null | number = null;
-    let userIdentity: null | string = matches[1];
-
-    const re2 = new RegExp(/^user([0-9]+)$/i, 'i');
-    const match = re2.exec(userIdentity);
-    if (match) {
-      userIdentity = null;
-      userId = parseInt(matches[1], 10);
-    }
-
-    if (userId) {
-      return this.userService.getUser$(userId, {}).pipe(
-        catchError(() => of(null)),
-        map((user) =>
-          user
-            ? {
-                type: 'user',
-                user,
-              }
-            : null,
-        ),
-      );
-    }
+    const userIdentity: null | string = matches[1];
 
     if (userIdentity) {
-      return this.userService.getByIdentity$(userIdentity, {}).pipe(
+      return this.userService.getByIdentity$(userIdentity, undefined).pipe(
         catchError(() => of(null)),
         map((user) =>
           user

@@ -28,7 +28,7 @@
         <span [textContent]="item.date | timeAgo" [ngbTooltip]="item.date | date: 'medium'"></span>
       </td>
       <td>
-        <app-user2 [user]="user" *ngIf="item.user$ | async as user"></app-user2>
+        <app-user [user]="user" *ngIf="item.user$ | async as user"></app-user>
       </td>
       <td>{{ item.sum | currency: item.currency }}</td>
       <td>{{ item.purpose }}</td>

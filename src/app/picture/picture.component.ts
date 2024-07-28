@@ -1,13 +1,21 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import {CommentsSubscribeRequest, CommentsType, CommentsUnSubscribeRequest, PicturesViewRequest} from '@grpc/spec.pb';
+import {
+  APIUser,
+  CommentsSubscribeRequest,
+  CommentsType,
+  CommentsUnSubscribeRequest,
+  PicturesViewRequest,
+} from '@grpc/spec.pb';
 import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem, PictureItemService} from '@services/picture-item';
-import {BehaviorSubject} from 'rxjs';
+import {UserService} from '@services/user';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-picture',
@@ -33,6 +41,20 @@ export class PictureComponent {
   }
   protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
 
+  protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
+    switchMap((picture) => (picture?.owner_id ? this.userService.getUser$(picture.owner_id) : of(null))),
+  );
+
+  protected readonly moderVotes$ = this.picture$.pipe(
+    map((picture) =>
+      picture?.moder_votes.map((vote) => ({
+        reason: vote.reason,
+        user$: this.userService.getUser$(vote.user_id),
+        vote: vote.vote,
+      })),
+    ),
+  );
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
   protected showShareDialog = false;
@@ -50,6 +72,7 @@ export class PictureComponent {
     private readonly pictureItemService: PictureItemService,
     private readonly commentsGrpc: CommentsClient,
     private readonly picturesClient: PicturesClient,
+    private readonly userService: UserService,
   ) {
     this.location = location;
   }

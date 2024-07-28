@@ -62,7 +62,7 @@ export class UsersRatingComponent implements OnInit {
       return this.ratingClient.getUserPictureLikesRatingFans(new UserRatingDetailsRequest({userId})).pipe(
         map((response) =>
           (response.fans ? response.fans : []).map((fan) => ({
-            user$: this.userService.getUser2$(fan.userId),
+            user$: this.userService.getUser$(fan.userId),
             volume: fan.volume,
           })),
         ),
@@ -72,7 +72,7 @@ export class UsersRatingComponent implements OnInit {
       return this.ratingClient.getUserCommentsRatingFans(new UserRatingDetailsRequest({userId})).pipe(
         map((response) =>
           (response.fans ? response.fans : []).map((fan) => ({
-            user$: this.userService.getUser2$(fan.userId),
+            user$: this.userService.getUser$(fan.userId),
             volume: fan.volume,
           })),
         ),
@@ -123,7 +123,7 @@ export class UsersRatingComponent implements OnInit {
           (response.users ? response.users : []).map((user) => ({
             brands$: this.getRatingBrands$(rating, user.userId),
             fans$: this.getRatingFans$(rating, user.userId),
-            user$: this.userService.getUser2$(user.userId),
+            user$: this.userService.getUser$(user.userId),
             volume: user.volume,
             weight: user.weight,
           })),

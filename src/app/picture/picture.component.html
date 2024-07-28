@@ -196,9 +196,9 @@
         <li>
           <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.filesize | bytes: 2 }}</strong>
         </li>
-        <li *ngIf="picture.owner">
+        <li *ngIf="owner$ | async as owner">
           <ng-container i18n>Added by:</ng-container>
-          <app-user [user]="picture.owner"></app-user>,
+          <app-user [user]="owner"></app-user>,
           <span [ngbTooltip]="picture.add_date | date: 'medium'">{{ picture.add_date | timeAgo }}</span>
         </li>
         <li *ngIf="picture.taken_date"><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
@@ -390,23 +390,25 @@
     </div>
   </div>
 
-  <div *ngIf="picture.moder_votes.length > 0">
-    <p i18n>Moderators about this picture:</p>
-    <ul class="list-unstyled">
-      <li *ngFor="let moderVote of picture.moder_votes">
-        <span *ngIf="moderVote.vote">
-          <i style="color: green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
-          <app-user [user]="moderVote.user"></app-user>
-          <span style="color: green">{{ moderVote.reason }}</span>
-        </span>
-        <span *ngIf="!moderVote.vote">
-          <i style="color: red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
-          <app-user [user]="moderVote.user"></app-user>
-          <span style="color: red">{{ moderVote.reason }}</span>
-        </span>
-      </li>
-    </ul>
-  </div>
+  <ng-container *ngIf="moderVotes$ | async as votes">
+    <div *ngIf="votes.length > 0">
+      <p i18n>Moderators about this picture:</p>
+      <ul class="list-unstyled">
+        <li *ngFor="let moderVote of votes">
+          <span *ngIf="moderVote.vote">
+            <i style="color: green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
+            <app-user [user]="user" *ngIf="moderVote.user$ | async as user"></app-user>
+            <span style="color: green">{{ moderVote.reason }}</span>
+          </span>
+          <span *ngIf="!moderVote.vote">
+            <i style="color: red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
+            <app-user [user]="user" *ngIf="moderVote.user$ | async as user"></app-user>
+            <span style="color: red">{{ moderVote.reason }}</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </ng-container>
 
   <ng-container *ngIf="isModer$ | async as isModer">
     <div *ngIf="isModer && picture">

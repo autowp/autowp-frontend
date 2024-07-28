@@ -4,6 +4,7 @@ import {APIUser, AttrAttributeType, AttrListOption} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
+import {UserService} from '@services/user';
 import {
   getAttrDescriptionTranslation,
   getAttrListOptionsTranslation,
@@ -16,6 +17,7 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from
 
 import {
   APIAttrAttributeValue,
+  APIAttrUnit,
   APIAttrUserValue,
   APIAttrUserValueGetResponse,
   APIAttrValue,
@@ -45,6 +47,20 @@ interface ListOption {
   name: string;
 }
 
+interface AttrUserValueWithUser {
+  attribute_id: number;
+  empty: boolean;
+  item: APIItem | null;
+  item_id: number;
+  path: null | string[];
+  unit: APIAttrUnit | null;
+  update_date: null | string;
+  user$: Observable<APIUser | null>;
+  user_id: string;
+  value: APIAttrAttributeValue | null;
+  value_text: string;
+}
+
 const booleanOptions: ListOption[] = [
   {
     id: null,
@@ -59,18 +75,6 @@ const booleanOptions: ListOption[] = [
     name: $localize`yes`,
   },
 ];
-
-function applyUserValues(userValues: Map<number, APIAttrUserValue[]>, items: APIAttrUserValue[]) {
-  for (const value of items) {
-    const values = userValues.get(value.attribute_id);
-    if (values === undefined) {
-      userValues.set(value.attribute_id, [value]);
-    } else {
-      values.push(value);
-      userValues.set(value.attribute_id, values);
-    }
-  }
-}
 
 function getAttribute(
   attributes: APIAttrAttributeInSpecEditor[],
@@ -121,7 +125,21 @@ export class CarsSpecificationsEditorSpecComponent {
     private readonly attrsService: APIAttrsService,
     private readonly auth: AuthService,
     private readonly toastService: ToastsService,
+    private readonly userService: UserService,
   ) {}
+
+  private applyUserValues(userValues: Map<number, AttrUserValueWithUser[]>, items: APIAttrUserValue[]) {
+    for (const value of items) {
+      const v: AttrUserValueWithUser = {...value, user$: this.userService.getUser$(value.user_id)};
+      const values = userValues.get(value.attribute_id);
+      if (values === undefined) {
+        userValues.set(value.attribute_id, [v]);
+      } else {
+        values.push(v);
+        userValues.set(value.attribute_id, values);
+      }
+    }
+  }
 
   protected readonly values$ = combineLatest([this.item$, this.change$]).pipe(
     switchMap(([item]) =>
@@ -144,7 +162,12 @@ export class CarsSpecificationsEditorSpecComponent {
     shareReplay(1),
   );
 
-  protected readonly currentUserValues$ = combineLatest([this.item$, this.user$, this.attributes$, this.change$]).pipe(
+  protected readonly currentUserValues$: Observable<{[p: number]: APIAttrUserValue}> = combineLatest([
+    this.item$,
+    this.user$,
+    this.attributes$,
+    this.change$,
+  ]).pipe(
     switchMap(([item, user, attributes]) =>
       item && user
         ? this.attrsService
@@ -189,8 +212,7 @@ export class CarsSpecificationsEditorSpecComponent {
             path: null,
             unit: null,
             update_date: null,
-            user: null,
-            user_id: +user.id,
+            user_id: user.id,
             value: null,
             value_text: '',
           };
@@ -209,7 +231,7 @@ export class CarsSpecificationsEditorSpecComponent {
       item
         ? this.attrsService
             .getUserValues$({
-              fields: 'value_text,user',
+              fields: 'value_text',
               item_id: item.id,
               limit: 500,
               page: 1,
@@ -219,8 +241,8 @@ export class CarsSpecificationsEditorSpecComponent {
         : EMPTY,
     ),
     map(({item, response}) => {
-      const uv = new Map<number, APIAttrUserValue[]>();
-      applyUserValues(uv, response.items);
+      const uv = new Map<number, AttrUserValueWithUser[]>();
+      this.applyUserValues(uv, response.items);
       return {item, paginator: response.paginator, uv};
     }),
     switchMap(({item, paginator, uv}) => {
@@ -229,7 +251,7 @@ export class CarsSpecificationsEditorSpecComponent {
         observables.push(
           this.attrsService
             .getUserValues$({
-              fields: 'value_text,user',
+              fields: 'value_text',
               item_id: item.id,
               limit: 500,
               page: i,
@@ -237,7 +259,7 @@ export class CarsSpecificationsEditorSpecComponent {
             })
             .pipe(
               tap((subresponse) => {
-                applyUserValues(uv, subresponse.items);
+                this.applyUserValues(uv, subresponse.items);
               }),
             ),
         );

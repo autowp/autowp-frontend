@@ -68,7 +68,7 @@ export class InfoTextComponent implements OnInit {
         ? {
             revision: response.current.revision,
             text: response.current.text,
-            user$: response.current.userId ? this.userService.getUser2$(response.current.userId) : of(null),
+            user$: response.current.userId ? this.userService.getUser$(response.current.userId) : of(null),
           }
         : null,
       diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text || '') as Diff[],
@@ -83,7 +83,7 @@ export class InfoTextComponent implements OnInit {
           ? {
               revision: response.prev.revision,
               text: response.prev.text,
-              user$: response.prev.userId ? this.userService.getUser2$(response.prev.userId) : of(null),
+              user$: response.prev.userId ? this.userService.getUser$(response.prev.userId) : of(null),
             }
           : null,
     })),

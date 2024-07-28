@@ -1,12 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIService} from '@services/api.service';
+import {APIUser} from '@grpc/spec.pb';
+import {APIPaginator, APIService} from '@services/api.service';
+import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
+import {UserService} from '@services/user';
 import {getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
-import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIAttrUserValue, APIAttrsService} from '../../api/attrs/attrs.service';
+import {APIAttrAttributeValue, APIAttrUnit, APIAttrUserValue, APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -32,10 +35,25 @@ export class CarsSpecsAdminComponent implements OnInit {
     debounceTime(10),
   );
 
-  protected readonly data$ = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
+  protected readonly data$: Observable<{
+    items: {
+      attribute_id: number;
+      empty: boolean;
+      item: APIItem | null;
+      item_id: number;
+      path: null | string[];
+      unit: APIAttrUnit | null;
+      update_date: null | string;
+      user$: Observable<APIUser | null>;
+      user_id: string;
+      value: APIAttrAttributeValue | null;
+      value_text: string;
+    }[];
+    paginator: APIPaginator;
+  }> = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
     switchMap(([itemID, page]) =>
       this.attrService.getUserValues$({
-        fields: 'user,path,unit',
+        fields: 'path,unit',
         item_id: itemID,
         page: page,
       }),
@@ -44,6 +62,10 @@ export class CarsSpecsAdminComponent implements OnInit {
       this.toastService.handleError(err);
       return EMPTY;
     }),
+    map((response) => ({
+      items: response.items.map((item) => ({...item, user$: this.userService.getUser$(item.user_id)})),
+      paginator: response.paginator,
+    })),
   );
 
   constructor(
@@ -52,6 +74,7 @@ export class CarsSpecsAdminComponent implements OnInit {
     private readonly attrService: APIAttrsService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
+    private readonly userService: UserService,
   ) {}
 
   ngOnInit(): void {

@@ -2,8 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APICommentsMessage,
+  APIGetUserRequest,
   APIItem,
+  APIUser,
   APIUser as APIUser2,
+  APIUsersRequest,
   CommentMessageFields,
   GetMessagesRequest,
   ItemFields,
@@ -12,11 +15,11 @@ import {
   Pages,
   PictureStatus,
 } from '@grpc/spec.pb';
-import {CommentsClient, ItemsClient} from '@grpc/spec.pbsc';
+import {CommentsClient, ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -74,24 +77,30 @@ export class ModerCommentsComponent implements OnInit {
           return of([]);
         }
 
-        const params: {id: number[]; limit: number; search: string} = {
-          id: [],
-          limit: 10,
-          search: '',
-        };
         if (query.substring(0, 1) === '#') {
-          params.id.push(parseInt(query.substring(1) || '', 10));
-        } else {
-          params.search = query;
+          return this.usersClient.getUser(new APIGetUserRequest({userId: query.substring(1) || ''})).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
+              return EMPTY;
+            }),
+            map((user) => [user]),
+          );
         }
 
-        return this.userService.get$(params).pipe(
-          catchError((err: unknown) => {
-            this.toastService.handleError(err);
-            return EMPTY;
-          }),
-          map((response) => response.items),
-        );
+        return this.usersClient
+          .getUsers(
+            new APIUsersRequest({
+              limit: '10',
+              search: query,
+            }),
+          )
+          .pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
+              return EMPTY;
+            }),
+            map((response) => response.items || []),
+          );
       }),
     );
 
@@ -156,7 +165,7 @@ export class ModerCommentsComponent implements OnInit {
     map((response) => ({
       comments: (response.items ? response.items : []).map((comment) => ({
         comment,
-        user$: this.userService.getUser2$(comment.authorId),
+        user$: this.userService.getUser$(comment.authorId),
       })),
       paginator: response.paginator,
     })),
@@ -173,6 +182,7 @@ export class ModerCommentsComponent implements OnInit {
     private readonly commentsClient: CommentsClient,
     private readonly itemsClient: ItemsClient,
     private readonly languageService: LanguageService,
+    private readonly usersClient: UsersClient,
   ) {}
 
   ngOnInit(): void {

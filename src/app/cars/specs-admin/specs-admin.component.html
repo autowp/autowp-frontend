@@ -18,7 +18,7 @@
           <span [textContent]="value.update_date | timeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
         </td>
         <td>
-          <app-user [user]="value.user" *ngIf="value.user"></app-user>
+          <app-user [user]="user" *ngIf="value.user$ | async as user"></app-user>
         </td>
         <td>
           <span *ngFor="let node of value.path; let i = index">

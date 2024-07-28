@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIService} from '@services/api.service';
+import {APIUser} from '@grpc/spec.pb';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {getUnitAbbrTranslation} from '@utils/translations';
 import {Observable, combineLatest} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {APIAttrConflict, APIAttrConflictValue, APIAttrsService} from '../../api/attrs/attrs.service';
 
@@ -36,14 +36,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     map((filter) => filter || '0'),
   );
 
-  protected readonly user$ = this.auth.getUser$().pipe(
-    switchMap(() =>
-      this.api.request<APIUser>('GET', 'user/me', {
-        params: {fields: 'specs_weight'},
-      }),
-    ),
-    shareReplay(1),
-  );
+  protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
 
   protected readonly data$ = combineLatest([this.page$, this.filter$]).pipe(
     switchMap(([page, filter]) =>
@@ -60,8 +53,8 @@ export class AccountSpecsConflictsComponent implements OnInit {
       const conflicts: APIAttrConflictInList[] = data.items;
       for (const conflict of conflicts) {
         for (const value of conflict.values) {
-          if (user.id !== value.user_id) {
-            value.user$ = this.userService.getUser$(value.user_id, {});
+          if (user && user.id !== '' + value.user_id) {
+            value.user$ = this.userService.getUser$('' + value.user_id);
           }
         }
       }
@@ -74,7 +67,6 @@ export class AccountSpecsConflictsComponent implements OnInit {
   );
 
   constructor(
-    private readonly api: APIService,
     private readonly userService: UserService,
     protected readonly auth: AuthService,
     private readonly route: ActivatedRoute,

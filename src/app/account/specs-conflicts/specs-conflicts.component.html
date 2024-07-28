@@ -7,8 +7,8 @@
 </ng-template>
 
 <ng-container *ngIf="user$ | async as user; else loading">
-  <p class="float-end" *ngIf="user.specs_weight !== null">
-    <ng-container i18n>Weight</ng-container>: {{ user.specs_weight.toFixed(2) }}
+  <p class="float-end" *ngIf="user.specsWeight !== null">
+    <ng-container i18n>Weight</ng-container>: {{ user.specsWeight.toFixed(2) }}
   </p>
 </ng-container>
 

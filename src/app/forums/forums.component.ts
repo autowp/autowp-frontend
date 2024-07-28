@@ -98,7 +98,7 @@ export class ForumsComponent {
               if (!msg) {
                 return of(null);
               }
-              return this.userService.getUser2$(msg.userId);
+              return this.userService.getUser$(msg.userId);
             }),
           );
           return {

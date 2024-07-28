@@ -1,7 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ListItemsRequest, VehicleType} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIGetUserRequest,
+  APIItem,
+  APIUser,
+  APIUsersRequest,
+  ItemFields,
+  ListItemsRequest,
+  VehicleType,
+} from '@grpc/spec.pb';
+import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APIPaginator, APIService} from '@services/api.service';
@@ -9,7 +17,6 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIGetPicturesOptions, APIPicture, PictureService} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
-import {APIUser, UserService} from '@services/user';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {getPerspectiveTranslation, getVehicleTypeTranslation} from '@utils/translations';
 import {BehaviorSubject, EMPTY, Observable, Subscription, forkJoin, of} from 'rxjs';
@@ -236,29 +243,30 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        const params: {
-          id: number[];
-          limit: number;
-          search: string;
-        } = {
-          id: [],
-          limit: 10,
-          search: '',
-        };
         if (query.substring(0, 1) === '#') {
-          const v = parseInt(query.substring(1) || '', 10);
-          params.id.push(v);
-        } else {
-          params.search = query;
+          return this.usersClient.getUser(new APIGetUserRequest({userId: query.substring(1) || ''})).pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
+              return EMPTY;
+            }),
+            map((user) => [user]),
+          );
         }
 
-        return this.userService.get$(params).pipe(
-          catchError((err: unknown) => {
-            this.toastService.handleError(err);
-            return EMPTY;
-          }),
-          map((response) => response.items),
-        );
+        return this.usersClient
+          .getUsers(
+            new APIUsersRequest({
+              limit: '10',
+              search: query,
+            }),
+          )
+          .pipe(
+            catchError((err: unknown) => {
+              this.toastService.handleError(err);
+              return EMPTY;
+            }),
+            map((response) => response.items || []),
+          );
       }),
     );
 
@@ -422,7 +430,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly perspectiveService: APIPerspectiveService,
     private readonly moderVoteService: PictureModerVoteService,
     private readonly vehicleTypeService: VehicleTypeService,
-    private readonly userService: UserService,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly router: Router,
@@ -431,6 +438,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
     private readonly itemsClient: ItemsClient,
     private readonly languageService: LanguageService,
+    private readonly usersClient: UsersClient,
   ) {}
 
   ngOnInit(): void {

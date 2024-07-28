@@ -368,7 +368,7 @@
 
       <h3 i18n>Status/Delete/Accept</h3>
       <div class="card card-body mb-4">
-        <app-user [user]="picture.change_status_user" *ngIf="picture.change_status_user"></app-user>
+        <app-user [user]="user" *ngIf="changeStatusUser$ | async as user"></app-user>
 
         <div *ngIf="picture.status === 'inbox'">
           <p>
@@ -507,8 +507,10 @@
 
       <h3 i18n>Uploader</h3>
       <div class="card card-body mb-4">
-        <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
-        <span *ngIf="!picture.owner" i18n>Unknown</span>
+        <app-user [user]="owner" *ngIf="owner$ | async as owner; else loadingOwner"></app-user>
+        <ng-template #loadingOwner>
+          <span i18n>Unknown</span>
+        </ng-template>
         <ng-container *ngIf="ip$ | async as ip">
           <div *ngIf="ip.address">
             <ng-container i18n>IP-address of uploader:</ng-container>
@@ -516,7 +518,7 @@
             <br />
             <p *ngIf="ip.blacklist">
               <ng-container i18n>That address is banned</ng-container>
-              <app-user2 [user]="ip.blacklist.byUser" *ngIf="ip.blacklist.byUser"></app-user2>
+              <app-user [user]="ip.blacklist.byUser" *ngIf="ip.blacklist.byUser"></app-user>
               <ng-container *ngIf="ip.blacklist.until"
                 ><ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date }}</ng-container
               >

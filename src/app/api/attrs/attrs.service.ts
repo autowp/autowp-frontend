@@ -12,7 +12,6 @@ import {AttrsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APIPaginator, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
-import {APIUser} from '@services/user';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
@@ -38,7 +37,6 @@ export interface APIAttrConflict {
   item_id: number;
   object: string;
   unit: APIAttrUnit;
-  user?: APIUser; // TODO: remove
 
   values: APIAttrConflictValue[];
 }
@@ -84,8 +82,7 @@ export interface APIAttrUserValue {
   path: null | string[];
   unit: APIAttrUnit | null;
   update_date: null | string;
-  user: APIUser | null;
-  user_id: number;
+  user_id: string;
   value: APIAttrAttributeValue | null;
   value_text: string;
 }

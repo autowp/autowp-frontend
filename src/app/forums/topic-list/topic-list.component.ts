@@ -18,11 +18,11 @@ import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 interface Topic {
-  author$: Observable<APIUser>;
-  createdAt: Date;
+  author$: Observable<APIUser | null>;
+  createdAt: Date | undefined;
   id: string;
-  lastMessage$: Observable<APICommentMessage>;
-  lastMessageAuthor$: Observable<APIUser>;
+  lastMessage$: Observable<APICommentMessage | null>;
+  lastMessageAuthor$: Observable<APIUser | null>;
   name: string;
   newMessages: number;
   oldMessages: number;
@@ -46,7 +46,7 @@ export class ForumsTopicListComponent {
 
   protected readonly forumAdmin$ = this.acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
 
-  protected readonly list$ = this.topics$.pipe(
+  protected readonly list$: Observable<Topic[]> = this.topics$.pipe(
     map((topics) =>
       topics.map((topic) => {
         const lastMessage$ = this.grpc.getLastMessage(new APIGetForumsTopicRequest({id: topic.id})).pipe(
@@ -63,11 +63,11 @@ export class ForumsTopicListComponent {
             if (!msg) {
               return of(null);
             }
-            return this.userService.getUser2$(msg.userId);
+            return this.userService.getUser$(msg.userId);
           }),
         );
         return {
-          author$: this.userService.getUser2$(topic.userId),
+          author$: this.userService.getUser$(topic.userId),
           createdAt: topic.createdAt?.toDate(),
           id: topic.id,
           lastMessage$,

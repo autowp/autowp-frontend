@@ -19,12 +19,7 @@
     <div class="col-md-6">
       <div class="user-photo">
         <img alt="" *ngIf="user.photo" [src]="user.photo.src" loading="lazy" />
-        <img
-          *ngIf="!user.photo && user.gravatar_hash"
-          [src]="'https://www.gravatar.com/avatar/' + user.gravatar_hash + '?s=270&d=https://www.autowp.ru/_.gif&r=g'"
-          alt=""
-          loading="lazy"
-        />
+        <img *ngIf="!user.photo && user.gravatarLarge" [src]="user.gravatarLarge" alt="" loading="lazy" />
       </div>
 
       <p>
@@ -34,17 +29,23 @@
 
       <p>
         <ng-container i18n>Account type:</ng-container>
-        <strong *ngIf="user.is_moder" i18n>Moderator</strong>
-        <strong *ngIf="!user.is_moder" i18n>Visitor</strong>
+        <strong *ngIf="user.isModer" i18n>Moderator</strong>
+        <strong *ngIf="!user.isModer" i18n>Visitor</strong>
       </p>
 
       <p *ngIf="user.reg_date">
         <ng-container i18n>Registration date</ng-container>
-        <strong [textContent]="user.reg_date | timeAgo" [ngbTooltip]="user.reg_date | date: 'fullDate'"></strong>
+        <strong
+          [textContent]="user.regDate.toDate() | timeAgo"
+          [ngbTooltip]="user.regDate.toDate() | date: 'fullDate'"
+        ></strong>
       </p>
       <p>
         <ng-container i18n>Last visited</ng-container>:
-        <strong [textContent]="user.last_online | timeAgo" [ngbTooltip]="user.last_online | date: 'medium'"></strong>
+        <strong
+          [textContent]="user.lastOnline.toDate() | timeAgo"
+          [ngbTooltip]="user.lastOnline.toDate() | date: 'medium'"
+        ></strong>
       </p>
 
       <p i18n>Database id: {{ user.id }}</p>
@@ -54,22 +55,22 @@
         <a href="#" (click)="openMessageForm(user)" i18n>Send personal message</a>
       </p>
 
-      <p *ngFor="let account of user.accounts" ngPreserveWhitespaces>
-        <i class="{{ account.icon }}" aria-hidden="true"></i>
-        <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
-        <span *ngIf="!account.link" [textContent]="account.name"></span>
-      </p>
+      <!--      <p *ngFor="let account of user.accounts" ngPreserveWhitespaces>-->
+      <!--        <i class="{{ account.icon }}" aria-hidden="true"></i>-->
+      <!--        <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>-->
+      <!--        <span *ngIf="!account.link" [textContent]="account.name"></span>-->
+      <!--      </p>-->
 
       <h2 i18n>Recent activity</h2>
       <div class="card card-body mb-4">
-        <div *ngIf="user.pictures_added > 0">
+        <div *ngIf="user.picturesAdded > 0">
           <p>
             <ng-container i18n>Images uploaded:</ng-container>
-            <strong [textContent]="user.pictures_added"></strong>
+            <strong [textContent]="user.picturesAdded"></strong>
           </p>
-          <p *ngIf="user.pictures_accepted_count < user.pictures_added">
+          <p *ngIf="user.picturesAcceptedCount < user.picturesAdded">
             <ng-container i18n>left on site:</ng-container>
-            <strong [textContent]="user.pictures_accepted_count"></strong>
+            <strong [textContent]="user.picturesAcceptedCount"></strong>
           </p>
 
           <p>
@@ -78,7 +79,7 @@
             >
           </p>
         </div>
-        <p i18n *ngIf="user.pictures_added <= 0">Not upload pictures</p>
+        <p i18n *ngIf="user.picturesAdded <= 0">Not upload pictures</p>
 
         <p *ngIf="isModer$ | async">
           <a routerLink="/log" [queryParams]="{user_id: user.id}" i18n>User's log</a>
@@ -182,13 +183,13 @@
             </p>
           </ng-container>
 
-          <p><ng-container i18n>Last visit fom IP-address:</ng-container> {{ user.last_ip }}</p>
+          <p><ng-container i18n>Last visit fom IP-address:</ng-container> {{ user.lastIp }}</p>
 
           <ng-container *ngIf="ip$ | async as ip; else loading">
             <div *ngIf="ip && ip.blacklist">
               <p>
                 <ng-container i18n>That address is banned</ng-container>
-                <app-user2 *ngIf="ip.blacklist.byUser" [user]="ip.blacklist.byUser"></app-user2>
+                <app-user *ngIf="ip.blacklist.byUser" [user]="ip.blacklist.byUser"></app-user>
                 <span *ngIf="ip.blacklist.until">
                   <ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date: 'medium' }}
                   <span *ngIf="ip.blacklist.reason"> ({{ ip.blacklist.reason }}) </span>

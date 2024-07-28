@@ -60,7 +60,7 @@
       <tr *ngFor="let row of users; let i = index">
         <td [textContent]="i + 1"></td>
         <td>
-          <app-user2 [user]="user" *ngIf="row.user$ | async as user"></app-user2>
+          <app-user [user]="user" *ngIf="row.user$ | async as user"></app-user>
         </td>
         <td>
           <ng-container *ngIf="row.brands$ && i < 10">
@@ -79,7 +79,7 @@
           <ng-container *ngIf="row.fans$ && i < 10">
             <div *ngIf="row.fans$ | async as fans; else loading">
               <ng-container *ngFor="let fan of fans">
-                <app-user2 [user]="user" *ngIf="fan.user$ | async as user"></app-user2>
+                <app-user [user]="user" *ngIf="fan.user$ | async as user"></app-user>
                 <span
                   class="badge rounded-pill text-bg-secondary"
                   [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"

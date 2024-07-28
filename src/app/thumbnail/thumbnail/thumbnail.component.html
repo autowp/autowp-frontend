@@ -1,5 +1,5 @@
 <div
-  *ngIf="picture"
+  *ngIf="picture$ | async as picture"
   class="card mb-4"
   [class.vote-accept]="picture.moder_vote && picture.moder_vote.vote > 0"
   [class.vote-remove]="picture.moder_vote && picture.moder_vote.vote < 0"
@@ -69,15 +69,17 @@
         </a>
       </span>
 
-      <br *ngIf="picture.owner" />
-      <app-user [user]="picture.owner" *ngIf="picture.owner"></app-user>
+      <ng-container *ngIf="owner$ | async as owner">
+        <br />
+        <app-user [user]="owner"></app-user>
+      </ng-container>
     </p>
 
     <label
       class="btn btn-sm float-start me-1 mb-2"
       [class.btn-primary]="picture.selected"
       [class.btn-secondary]="!picture.selected"
-      (click)="onPictureSelect()"
+      (click)="onPictureSelect(picture)"
       *ngIf="selectable"
     >
       <i class="bi bi-check" aria-hidden="true"></i>
@@ -96,7 +98,7 @@
       *ngIf="picture.perspective_item"
       class="form-select form-select-sm me-1 mb-2"
       [(ngModel)]="picture.perspective_item.perspective_id"
-      (change)="savePerspective()"
+      (change)="savePerspective(picture)"
     >
       <option [ngValue]="null">--</option>
       <option *ngFor="let item of perspectiveOptions$ | async" [ngValue]="item.id">

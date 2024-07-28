@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIMessage, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
+import {APIMessage, APIUser, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
 import {MessagingClient} from '@grpc/spec.pbsc';
 import {MessageService} from '@services/message';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
@@ -89,8 +89,7 @@ export class AccountMessagesComponent {
     map((response) => {
       return {
         items: (response.items || []).map((msg) => ({
-          author$:
-            msg.authorId !== '0' ? this.userService.getUser$(parseInt(msg.authorId, 10), {fields: 'avatar'}) : of(null),
+          author$: msg.authorId !== '0' ? this.userService.getUser$(msg.authorId) : of(null),
           message: msg,
         })),
         paginator: response.paginator,

@@ -45,7 +45,7 @@ export class CommentsListComponent {
       messages.map((message) => ({
         canVote$: this.user$.pipe(map((user) => !!(user && user.id !== message.authorId))),
         message,
-        user$: this.userService.getUser2$(message.authorId),
+        user$: this.userService.getUser$(message.authorId),
       })),
     );
   }

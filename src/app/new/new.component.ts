@@ -70,7 +70,7 @@ export class NewComponent implements OnInit {
         page?: string;
       } = {
         fields:
-          'pictures.owner,pictures.thumb_medium,pictures.votes,pictures.views,' +
+          'pictures.thumb_medium,pictures.votes,pictures.views,' +
           'pictures.comments_count,pictures.name_html,pictures.name_text,' +
           'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
           'item.name_html,item.name_default,item.description,item.produced,' +

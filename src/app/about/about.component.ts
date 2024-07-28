@@ -1,10 +1,11 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {APIUser} from '@grpc/spec.pb';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {escapeRegExp} from 'lodash';
 import {BytesPipe} from 'ngx-pipes';
 import {map, switchMap} from 'rxjs/operators';
@@ -154,7 +155,7 @@ export class AboutComponent implements OnInit {
     if (user.deleted) {
       classes.push('muted');
     }
-    if (user.long_away) {
+    if (user.longAway) {
       classes.push('long-away');
     }
     if (user.green) {

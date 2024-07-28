@@ -104,7 +104,7 @@
             <span class="badge text-bg-danger" *ngIf="s === PictureStatus.PICTURE_STATUS_REMOVING" i18n>Deleting</span>
           </ng-container>
           <a [routerLink]="comment.comment.route" [textContent]="comment.comment.preview"></a>
-          <app-user2 [user]="user" *ngIf="comment.user$ | async as user"></app-user2>
+          <app-user [user]="user" *ngIf="comment.user$ | async as user"></app-user>
         </li>
       </ul>
       <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>

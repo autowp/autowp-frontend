@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
+import {APIUser, CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import {EMPTY, combineLatest, of} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -37,11 +37,11 @@ export class UsersUserCommentsComponent {
       shareReplay(1),
     );
 
-  protected readonly user$ = this.route.paramMap.pipe(
+  protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => (identity ? this.userService.getByIdentity$(identity, {fields: 'identity'}) : EMPTY)),
+    switchMap((identity) => (identity ? this.userService.getByIdentity$(identity, undefined) : EMPTY)),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
@@ -73,7 +73,7 @@ export class UsersUserCommentsComponent {
           limit: 30,
           order: this.getOrderApiValue(order),
           page: page,
-          userId: user.id + '',
+          userId: user.id,
         }),
       ),
     ),

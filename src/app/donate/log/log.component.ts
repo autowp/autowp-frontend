@@ -17,7 +17,7 @@ export class DonateLogComponent implements OnInit {
         date: item.date?.toDate(),
         purpose: item.purpose,
         sum: item.sum / 100,
-        user$: this.userService.getUser2$(item.userId),
+        user$: this.userService.getUser$(item.userId),
       })),
     ),
   );

@@ -43,7 +43,7 @@ export class ListComponent {
     }),
     map((response) => ({
       articles: (response.items ? response.items : []).map((article) => ({
-        author$: article.authorId !== '0' ? this.userService.getUser2$(article.authorId) : of(null),
+        author$: article.authorId !== '0' ? this.userService.getUser$(article.authorId) : of(null),
         date: article.date?.toDate(),
         description: article.description,
         name: article.name,

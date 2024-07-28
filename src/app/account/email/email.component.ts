@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from '@environment/environment';
-import {APIService} from '@services/api.service';
+import {APIMeRequest, UserFields} from '@grpc/spec.pb';
+import {UsersClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {APIUser} from '@services/user';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
@@ -13,8 +13,8 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './email.component.html',
 })
 export class AccountEmailComponent implements OnInit {
-  protected readonly email$: Observable<null | string> = this.api
-    .request<APIUser>('GET', 'user/me', {params: {fields: 'email'}})
+  protected readonly email$: Observable<null | string> = this.usersClient
+    .me(new APIMeRequest({fields: new UserFields({email: true})}))
     .pipe(
       catchError((error: unknown) => {
         this.toastService.handleError(error);
@@ -27,9 +27,9 @@ export class AccountEmailComponent implements OnInit {
     environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
   constructor(
-    private readonly api: APIService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
+    private readonly usersClient: UsersClient,
   ) {}
 
   ngOnInit(): void {

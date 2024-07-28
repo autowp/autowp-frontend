@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIIP, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {APIIP, APIUser, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -10,6 +10,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {UserService} from '@services/user';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
@@ -63,7 +64,6 @@ export class ModerPicturesItemComponent {
           'items.area',
           'special_name',
           'copyrights',
-          'change_status_user',
           'rights',
           'moder_votes',
           'moder_voted',
@@ -85,6 +85,16 @@ export class ModerPicturesItemComponent {
       return EMPTY;
     }),
     shareReplay(1),
+  );
+
+  protected readonly changeStatusUser$: Observable<APIUser | null> = this.picture$.pipe(
+    switchMap((picture) =>
+      picture.change_status_user_id ? this.userService.getUser$(picture.change_status_user_id) : of(null),
+    ),
+  );
+
+  protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
+    switchMap((picture) => (picture.owner_id ? this.userService.getUser$(picture.owner_id) : of(null))),
   );
 
   protected readonly ip$: Observable<APIIP | null> = this.picture$.pipe(
@@ -161,6 +171,7 @@ export class ModerPicturesItemComponent {
     private readonly languageService: LanguageService,
     private readonly ipService: IpService,
     private readonly itemsClient: ItemsClient,
+    private readonly userService: UserService,
   ) {
     this.monthOptions = [
       {

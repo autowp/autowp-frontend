@@ -53,7 +53,7 @@ export class UsersUserPicturesComponent implements OnInit {
   );
 
   protected readonly user$ = this.userId$.pipe(
-    switchMap((identity) => this.userService.getByIdentity$(identity, {fields: 'identity'})),
+    switchMap((identity) => this.userService.getByIdentity$(identity, undefined)),
     switchMap((user) => {
       if (!user) {
         return EMPTY;

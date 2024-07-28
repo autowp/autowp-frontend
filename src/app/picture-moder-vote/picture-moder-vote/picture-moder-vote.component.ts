@@ -2,7 +2,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
-import {shareReplay} from 'rxjs/operators';
+import {UserService} from '@services/user';
+import {BehaviorSubject} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {PictureModerVoteModalComponent} from './modal/modal.component';
@@ -12,8 +14,22 @@ import {PictureModerVoteModalComponent} from './modal/modal.component';
   templateUrl: './picture-moder-vote.component.html',
 })
 export class PictureModerVoteComponent {
-  @Input() picture: APIPicture | null = null;
+  @Input() set picture(picture: APIPicture | null) {
+    this.picture$.next(picture);
+  }
+  protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
+
   @Output() changed = new EventEmitter<void>();
+
+  protected readonly votes$ = this.picture$.pipe(
+    map((picture) =>
+      picture?.moder_votes.map((vote) => ({
+        reason: vote.reason,
+        user$: this.userService.getUser$(vote.user_id),
+        vote: vote.vote,
+      })),
+    ),
+  );
 
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
   protected vote: null | number = null;
@@ -24,18 +40,18 @@ export class PictureModerVoteComponent {
     private readonly moderVoteService: PictureModerVoteService,
     private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
     private readonly modalService: NgbModal,
+    private readonly userService: UserService,
   ) {}
 
-  protected votePicture(vote: number, reason: string): void {
-    this.picture &&
-      this.moderVoteService.vote$('' + this.picture.id, vote, reason).subscribe(() => this.changed.emit());
+  protected votePicture(picture: APIPicture, vote: number, reason: string): void {
+    this.moderVoteService.vote$('' + picture.id, vote, reason).subscribe(() => this.changed.emit());
   }
 
-  protected cancelVotePicture(): void {
-    this.picture && this.moderVoteService.cancel$('' + this.picture.id).subscribe(() => this.changed.emit());
+  protected cancelVotePicture(picture: APIPicture): void {
+    this.moderVoteService.cancel$('' + picture.id).subscribe(() => this.changed.emit());
   }
 
-  protected showCustomDialog(vote: number): void {
+  protected showCustomDialog(picture: APIPicture, vote: number): void {
     this.vote = vote;
 
     const modalRef = this.modalService.open(PictureModerVoteModalComponent, {
@@ -43,8 +59,8 @@ export class PictureModerVoteComponent {
       size: 'lg',
     });
 
-    if (this.picture) {
-      modalRef.componentInstance.pictureId = this.picture.id;
+    if (picture) {
+      modalRef.componentInstance.pictureId = picture.id;
       modalRef.componentInstance.vote = vote;
       modalRef.componentInstance.voted.subscribe(() => {
         this.changed.emit();

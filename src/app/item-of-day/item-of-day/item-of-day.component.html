@@ -4,7 +4,7 @@
     <span i18n *ngIf="item.item_type_id === ItemType.ITEM_TYPE_VEHICLE">vehicle of the day</span>
     <span i18n *ngIf="item.item_type_id !== ItemType.ITEM_TYPE_VEHICLE">theme of the day</span>
     <span *ngIf="user$ | async as user">
-      <span class="text-nowrap">by <app-user2 [user]="user"></app-user2></span>
+      <span class="text-nowrap">by <app-user [user]="user"></app-user></span>
     </span>
   </small>
 </h2>

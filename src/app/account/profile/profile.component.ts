@@ -1,13 +1,13 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {environment} from '@environment/environment';
-import {APIUser} from '@grpc/spec.pb';
-import {APIImage, APIService} from '@services/api.service';
+import {APIImage, APIMeRequest, APIUser, UserFields} from '@grpc/spec.pb';
+import {UsersClient} from '@grpc/spec.pbsc';
+import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {TimezoneService} from '@services/timezone';
-import {APIUser as RESTAPIUser} from '@services/user';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {KeycloakService} from 'keycloak-angular';
 import {EMPTY, Subscription, of} from 'rxjs';
@@ -30,7 +30,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   protected photoInvalidParams: InvalidParams = {};
   protected votesPerDay: number = 0;
   protected votesLeft: number = 0;
-  protected photo: APIImage | null = null;
+  protected photo: APIImage | undefined = undefined;
   private sub?: Subscription;
 
   @ViewChild('input') input?: ElementRef;
@@ -53,6 +53,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     private readonly pageEnv: PageEnvService,
     private readonly timezone: TimezoneService,
     private readonly toastService: ToastsService,
+    private readonly usersClient: UsersClient,
   ) {}
 
   ngOnInit(): void {
@@ -75,11 +76,17 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
           return of(user);
         }),
         switchMap(() =>
-          this.api.request<RESTAPIUser>('GET', 'user/me', {
-            params: {
-              fields: 'name,timezone,language,votes_per_day,votes_left,img',
-            },
-          }),
+          this.usersClient.me(
+            new APIMeRequest({
+              fields: new UserFields({
+                img: true,
+                language: true,
+                timezone: true,
+                votesLeft: true,
+                votesPerDay: true,
+              }),
+            }),
+          ),
         ),
         catchError((response: unknown) => {
           this.toastService.handleError(response);
@@ -89,8 +96,8 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.settings.timezone = user.timezone;
         this.settings.language = user.language;
-        this.votesPerDay = user.votes_per_day || 0;
-        this.votesLeft = user.votes_left || 0;
+        this.votesPerDay = +user.votesPerDay || 0;
+        this.votesLeft = +user.votesLeft || 0;
         this.photo = user.img;
       });
   }
@@ -131,7 +138,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
         if (this.user) {
           this.user.avatar = undefined;
         }
-        this.photo = null;
+        this.photo = undefined;
       },
     });
   }
@@ -167,13 +174,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
             this.input.nativeElement.value = '';
           }
         }),
-        switchMap(() =>
-          this.api.request<RESTAPIUser>('GET', 'user/me', {
-            params: {
-              fields: 'img',
-            },
-          }),
-        ),
+        switchMap(() => this.usersClient.me(new APIMeRequest({fields: new UserFields({img: true})}))),
         catchError((response: unknown) => {
           this.toastService.handleError(response);
           return EMPTY;

@@ -15,7 +15,9 @@
         <p *ngIf="item.contributors">
           <ng-container *ngIf="item.contributors.length > 1" i18n>contributors</ng-container>
           <ng-container *ngIf="item.contributors.length <= 1" i18n>contributor</ng-container>
-          <app-user [user]="contributor" *ngFor="let contributor of item.contributors"></app-user>
+          <ng-container *ngFor="let contributor$ of item.contributors">
+            <app-user [user]="user" *ngIf="contributor$ | async as user"></app-user>
+          </ng-container>
         </p>
       </div>
     </div>

@@ -6903,6 +6903,20 @@ export class APIUser implements GrpcMessage {
     _instance.gravatar = _instance.gravatar || '';
     _instance.lastOnline = _instance.lastOnline || undefined;
     _instance.specsWeight = _instance.specsWeight || 0;
+    _instance.email = _instance.email || '';
+    _instance.timezone = _instance.timezone || '';
+    _instance.language = _instance.language || '';
+    _instance.votesPerDay = _instance.votesPerDay || '0';
+    _instance.votesLeft = _instance.votesLeft || '0';
+    _instance.img = _instance.img || undefined;
+    _instance.gravatarLarge = _instance.gravatarLarge || '';
+    _instance.photo = _instance.photo || undefined;
+    _instance.isModer = _instance.isModer || false;
+    _instance.regDate = _instance.regDate || undefined;
+    _instance.picturesAdded = _instance.picturesAdded || '0';
+    _instance.picturesAcceptedCount = _instance.picturesAcceptedCount || '0';
+    _instance.lastIp = _instance.lastIp || '';
+    _instance.login = _instance.login || '';
   }
 
   /**
@@ -6959,6 +6973,60 @@ export class APIUser implements GrpcMessage {
         case 11:
           _instance.specsWeight = _reader.readDouble();
           break;
+        case 12:
+          _instance.email = _reader.readString();
+          break;
+        case 13:
+          _instance.timezone = _reader.readString();
+          break;
+        case 14:
+          _instance.language = _reader.readString();
+          break;
+        case 15:
+          _instance.votesPerDay = _reader.readInt64String();
+          break;
+        case 16:
+          _instance.votesLeft = _reader.readInt64String();
+          break;
+        case 17:
+          _instance.img = new APIImage();
+          _reader.readMessage(
+            _instance.img,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
+        case 18:
+          _instance.gravatarLarge = _reader.readString();
+          break;
+        case 19:
+          _instance.photo = new APIImage();
+          _reader.readMessage(
+            _instance.photo,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
+        case 20:
+          _instance.isModer = _reader.readBool();
+          break;
+        case 21:
+          _instance.regDate = new googleProtobuf002.Timestamp();
+          _reader.readMessage(
+            _instance.regDate,
+            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+          );
+          break;
+        case 23:
+          _instance.picturesAdded = _reader.readInt64String();
+          break;
+        case 24:
+          _instance.picturesAcceptedCount = _reader.readInt64String();
+          break;
+        case 25:
+          _instance.lastIp = _reader.readString();
+          break;
+        case 26:
+          _instance.login = _reader.readString();
+          break;
         default:
           _reader.skipField();
       }
@@ -7014,6 +7082,60 @@ export class APIUser implements GrpcMessage {
     if (_instance.specsWeight) {
       _writer.writeDouble(11, _instance.specsWeight);
     }
+    if (_instance.email) {
+      _writer.writeString(12, _instance.email);
+    }
+    if (_instance.timezone) {
+      _writer.writeString(13, _instance.timezone);
+    }
+    if (_instance.language) {
+      _writer.writeString(14, _instance.language);
+    }
+    if (_instance.votesPerDay) {
+      _writer.writeInt64String(15, _instance.votesPerDay);
+    }
+    if (_instance.votesLeft) {
+      _writer.writeInt64String(16, _instance.votesLeft);
+    }
+    if (_instance.img) {
+      _writer.writeMessage(
+        17,
+        _instance.img as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
+    if (_instance.gravatarLarge) {
+      _writer.writeString(18, _instance.gravatarLarge);
+    }
+    if (_instance.photo) {
+      _writer.writeMessage(
+        19,
+        _instance.photo as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
+    if (_instance.isModer) {
+      _writer.writeBool(20, _instance.isModer);
+    }
+    if (_instance.regDate) {
+      _writer.writeMessage(
+        21,
+        _instance.regDate as any,
+        googleProtobuf002.Timestamp.serializeBinaryToWriter
+      );
+    }
+    if (_instance.picturesAdded) {
+      _writer.writeInt64String(23, _instance.picturesAdded);
+    }
+    if (_instance.picturesAcceptedCount) {
+      _writer.writeInt64String(24, _instance.picturesAcceptedCount);
+    }
+    if (_instance.lastIp) {
+      _writer.writeString(25, _instance.lastIp);
+    }
+    if (_instance.login) {
+      _writer.writeString(26, _instance.login);
+    }
   }
 
   private _id: string;
@@ -7027,6 +7149,20 @@ export class APIUser implements GrpcMessage {
   private _gravatar: string;
   private _lastOnline?: googleProtobuf002.Timestamp;
   private _specsWeight: number;
+  private _email: string;
+  private _timezone: string;
+  private _language: string;
+  private _votesPerDay: string;
+  private _votesLeft: string;
+  private _img?: APIImage;
+  private _gravatarLarge: string;
+  private _photo?: APIImage;
+  private _isModer: boolean;
+  private _regDate?: googleProtobuf002.Timestamp;
+  private _picturesAdded: string;
+  private _picturesAcceptedCount: string;
+  private _lastIp: string;
+  private _login: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -7047,6 +7183,22 @@ export class APIUser implements GrpcMessage {
       ? new googleProtobuf002.Timestamp(_value.lastOnline)
       : undefined;
     this.specsWeight = _value.specsWeight;
+    this.email = _value.email;
+    this.timezone = _value.timezone;
+    this.language = _value.language;
+    this.votesPerDay = _value.votesPerDay;
+    this.votesLeft = _value.votesLeft;
+    this.img = _value.img ? new APIImage(_value.img) : undefined;
+    this.gravatarLarge = _value.gravatarLarge;
+    this.photo = _value.photo ? new APIImage(_value.photo) : undefined;
+    this.isModer = _value.isModer;
+    this.regDate = _value.regDate
+      ? new googleProtobuf002.Timestamp(_value.regDate)
+      : undefined;
+    this.picturesAdded = _value.picturesAdded;
+    this.picturesAcceptedCount = _value.picturesAcceptedCount;
+    this.lastIp = _value.lastIp;
+    this.login = _value.login;
     APIUser.refineValues(this);
   }
   get id(): string {
@@ -7115,6 +7267,90 @@ export class APIUser implements GrpcMessage {
   set specsWeight(value: number) {
     this._specsWeight = value;
   }
+  get email(): string {
+    return this._email;
+  }
+  set email(value: string) {
+    this._email = value;
+  }
+  get timezone(): string {
+    return this._timezone;
+  }
+  set timezone(value: string) {
+    this._timezone = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+  get votesPerDay(): string {
+    return this._votesPerDay;
+  }
+  set votesPerDay(value: string) {
+    this._votesPerDay = value;
+  }
+  get votesLeft(): string {
+    return this._votesLeft;
+  }
+  set votesLeft(value: string) {
+    this._votesLeft = value;
+  }
+  get img(): APIImage | undefined {
+    return this._img;
+  }
+  set img(value: APIImage | undefined) {
+    this._img = value;
+  }
+  get gravatarLarge(): string {
+    return this._gravatarLarge;
+  }
+  set gravatarLarge(value: string) {
+    this._gravatarLarge = value;
+  }
+  get photo(): APIImage | undefined {
+    return this._photo;
+  }
+  set photo(value: APIImage | undefined) {
+    this._photo = value;
+  }
+  get isModer(): boolean {
+    return this._isModer;
+  }
+  set isModer(value: boolean) {
+    this._isModer = value;
+  }
+  get regDate(): googleProtobuf002.Timestamp | undefined {
+    return this._regDate;
+  }
+  set regDate(value: googleProtobuf002.Timestamp | undefined) {
+    this._regDate = value;
+  }
+  get picturesAdded(): string {
+    return this._picturesAdded;
+  }
+  set picturesAdded(value: string) {
+    this._picturesAdded = value;
+  }
+  get picturesAcceptedCount(): string {
+    return this._picturesAcceptedCount;
+  }
+  set picturesAcceptedCount(value: string) {
+    this._picturesAcceptedCount = value;
+  }
+  get lastIp(): string {
+    return this._lastIp;
+  }
+  set lastIp(value: string) {
+    this._lastIp = value;
+  }
+  get login(): string {
+    return this._login;
+  }
+  set login(value: string) {
+    this._login = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -7141,7 +7377,21 @@ export class APIUser implements GrpcMessage {
       avatar: this.avatar ? this.avatar.toObject() : undefined,
       gravatar: this.gravatar,
       lastOnline: this.lastOnline ? this.lastOnline.toObject() : undefined,
-      specsWeight: this.specsWeight
+      specsWeight: this.specsWeight,
+      email: this.email,
+      timezone: this.timezone,
+      language: this.language,
+      votesPerDay: this.votesPerDay,
+      votesLeft: this.votesLeft,
+      img: this.img ? this.img.toObject() : undefined,
+      gravatarLarge: this.gravatarLarge,
+      photo: this.photo ? this.photo.toObject() : undefined,
+      isModer: this.isModer,
+      regDate: this.regDate ? this.regDate.toObject() : undefined,
+      picturesAdded: this.picturesAdded,
+      picturesAcceptedCount: this.picturesAcceptedCount,
+      lastIp: this.lastIp,
+      login: this.login
     };
   }
 
@@ -7174,7 +7424,21 @@ export class APIUser implements GrpcMessage {
       lastOnline: this.lastOnline
         ? this.lastOnline.toProtobufJSON(options)
         : null,
-      specsWeight: this.specsWeight
+      specsWeight: this.specsWeight,
+      email: this.email,
+      timezone: this.timezone,
+      language: this.language,
+      votesPerDay: this.votesPerDay,
+      votesLeft: this.votesLeft,
+      img: this.img ? this.img.toProtobufJSON(options) : null,
+      gravatarLarge: this.gravatarLarge,
+      photo: this.photo ? this.photo.toProtobufJSON(options) : null,
+      isModer: this.isModer,
+      regDate: this.regDate ? this.regDate.toProtobufJSON(options) : null,
+      picturesAdded: this.picturesAdded,
+      picturesAcceptedCount: this.picturesAcceptedCount,
+      lastIp: this.lastIp,
+      login: this.login
     };
   }
 }
@@ -7194,6 +7458,20 @@ export module APIUser {
     gravatar: string;
     lastOnline?: googleProtobuf002.Timestamp.AsObject;
     specsWeight: number;
+    email: string;
+    timezone: string;
+    language: string;
+    votesPerDay: string;
+    votesLeft: string;
+    img?: APIImage.AsObject;
+    gravatarLarge: string;
+    photo?: APIImage.AsObject;
+    isModer: boolean;
+    regDate?: googleProtobuf002.Timestamp.AsObject;
+    picturesAdded: string;
+    picturesAcceptedCount: string;
+    lastIp: string;
+    login: string;
   }
 
   /**
@@ -7211,6 +7489,20 @@ export module APIUser {
     gravatar: string;
     lastOnline: googleProtobuf002.Timestamp.AsProtobufJSON | null;
     specsWeight: number;
+    email: string;
+    timezone: string;
+    language: string;
+    votesPerDay: string;
+    votesLeft: string;
+    img: APIImage.AsProtobufJSON | null;
+    gravatarLarge: string;
+    photo: APIImage.AsProtobufJSON | null;
+    isModer: boolean;
+    regDate: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    picturesAdded: string;
+    picturesAcceptedCount: string;
+    lastIp: string;
+    login: string;
   }
 }
 
@@ -13115,7 +13407,9 @@ export class APIMeRequest implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: APIMeRequest) {}
+  static refineValues(_instance: APIMeRequest) {
+    _instance.fields = _instance.fields || undefined;
+  }
 
   /**
    * Deserializes / reads binary message into message instance using provided binary reader
@@ -13130,6 +13424,13 @@ export class APIMeRequest implements GrpcMessage {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.fields = new UserFields();
+          _reader.readMessage(
+            _instance.fields,
+            UserFields.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -13146,7 +13447,17 @@ export class APIMeRequest implements GrpcMessage {
   static serializeBinaryToWriter(
     _instance: APIMeRequest,
     _writer: BinaryWriter
-  ) {}
+  ) {
+    if (_instance.fields) {
+      _writer.writeMessage(
+        1,
+        _instance.fields as any,
+        UserFields.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _fields?: UserFields;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -13154,7 +13465,14 @@ export class APIMeRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<APIMeRequest.AsObject>) {
     _value = _value || {};
+    this.fields = _value.fields ? new UserFields(_value.fields) : undefined;
     APIMeRequest.refineValues(this);
+  }
+  get fields(): UserFields | undefined {
+    return this._fields;
+  }
+  set fields(value: UserFields | undefined) {
+    this._fields = value;
   }
 
   /**
@@ -13171,7 +13489,9 @@ export class APIMeRequest implements GrpcMessage {
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
   toObject(): APIMeRequest.AsObject {
-    return {};
+    return {
+      fields: this.fields ? this.fields.toObject() : undefined
+    };
   }
 
   /**
@@ -13190,19 +13510,25 @@ export class APIMeRequest implements GrpcMessage {
     // @ts-ignore
     options?: ToProtobufJSONOptions
   ): APIMeRequest.AsProtobufJSON {
-    return {};
+    return {
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null
+    };
   }
 }
 export module APIMeRequest {
   /**
    * Standard JavaScript object representation for APIMeRequest
    */
-  export interface AsObject {}
+  export interface AsObject {
+    fields?: UserFields.AsObject;
+  }
 
   /**
    * Protobuf JSON representation for APIMeRequest
    */
-  export interface AsProtobufJSON {}
+  export interface AsProtobufJSON {
+    fields: UserFields.AsProtobufJSON | null;
+  }
 }
 
 /**
@@ -13230,6 +13556,8 @@ export class APIGetUserRequest implements GrpcMessage {
    */
   static refineValues(_instance: APIGetUserRequest) {
     _instance.userId = _instance.userId || '0';
+    _instance.identity = _instance.identity || '';
+    _instance.fields = _instance.fields || undefined;
   }
 
   /**
@@ -13247,6 +13575,16 @@ export class APIGetUserRequest implements GrpcMessage {
       switch (_reader.getFieldNumber()) {
         case 1:
           _instance.userId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.identity = _reader.readString();
+          break;
+        case 2:
+          _instance.fields = new UserFields();
+          _reader.readMessage(
+            _instance.fields,
+            UserFields.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -13268,9 +13606,21 @@ export class APIGetUserRequest implements GrpcMessage {
     if (_instance.userId) {
       _writer.writeInt64String(1, _instance.userId);
     }
+    if (_instance.identity) {
+      _writer.writeString(3, _instance.identity);
+    }
+    if (_instance.fields) {
+      _writer.writeMessage(
+        2,
+        _instance.fields as any,
+        UserFields.serializeBinaryToWriter
+      );
+    }
   }
 
   private _userId: string;
+  private _identity: string;
+  private _fields?: UserFields;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -13279,6 +13629,8 @@ export class APIGetUserRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<APIGetUserRequest.AsObject>) {
     _value = _value || {};
     this.userId = _value.userId;
+    this.identity = _value.identity;
+    this.fields = _value.fields ? new UserFields(_value.fields) : undefined;
     APIGetUserRequest.refineValues(this);
   }
   get userId(): string {
@@ -13286,6 +13638,18 @@ export class APIGetUserRequest implements GrpcMessage {
   }
   set userId(value: string) {
     this._userId = value;
+  }
+  get identity(): string {
+    return this._identity;
+  }
+  set identity(value: string) {
+    this._identity = value;
+  }
+  get fields(): UserFields | undefined {
+    return this._fields;
+  }
+  set fields(value: UserFields | undefined) {
+    this._fields = value;
   }
 
   /**
@@ -13303,7 +13667,9 @@ export class APIGetUserRequest implements GrpcMessage {
    */
   toObject(): APIGetUserRequest.AsObject {
     return {
-      userId: this.userId
+      userId: this.userId,
+      identity: this.identity,
+      fields: this.fields ? this.fields.toObject() : undefined
     };
   }
 
@@ -13324,7 +13690,9 @@ export class APIGetUserRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): APIGetUserRequest.AsProtobufJSON {
     return {
-      userId: this.userId
+      userId: this.userId,
+      identity: this.identity,
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null
     };
   }
 }
@@ -13334,6 +13702,8 @@ export module APIGetUserRequest {
    */
   export interface AsObject {
     userId: string;
+    identity: string;
+    fields?: UserFields.AsObject;
   }
 
   /**
@@ -13341,6 +13711,407 @@ export module APIGetUserRequest {
    */
   export interface AsProtobufJSON {
     userId: string;
+    identity: string;
+    fields: UserFields.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.UserFields
+ */
+export class UserFields implements GrpcMessage {
+  static id = 'goautowp.UserFields';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new UserFields();
+    UserFields.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: UserFields) {
+    _instance.email = _instance.email || false;
+    _instance.timezone = _instance.timezone || false;
+    _instance.language = _instance.language || false;
+    _instance.votesPerDay = _instance.votesPerDay || false;
+    _instance.votesLeft = _instance.votesLeft || false;
+    _instance.img = _instance.img || false;
+    _instance.gravatarLarge = _instance.gravatarLarge || false;
+    _instance.photo = _instance.photo || false;
+    _instance.isModer = _instance.isModer || false;
+    _instance.regDate = _instance.regDate || false;
+    _instance.picturesAdded = _instance.picturesAdded || false;
+    _instance.picturesAcceptedCount = _instance.picturesAcceptedCount || false;
+    _instance.lastIp = _instance.lastIp || false;
+    _instance.lastOnline = _instance.lastOnline || false;
+    _instance.login = _instance.login || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: UserFields,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.email = _reader.readBool();
+          break;
+        case 3:
+          _instance.timezone = _reader.readBool();
+          break;
+        case 4:
+          _instance.language = _reader.readBool();
+          break;
+        case 5:
+          _instance.votesPerDay = _reader.readBool();
+          break;
+        case 6:
+          _instance.votesLeft = _reader.readBool();
+          break;
+        case 7:
+          _instance.img = _reader.readBool();
+          break;
+        case 8:
+          _instance.gravatarLarge = _reader.readBool();
+          break;
+        case 9:
+          _instance.photo = _reader.readBool();
+          break;
+        case 10:
+          _instance.isModer = _reader.readBool();
+          break;
+        case 11:
+          _instance.regDate = _reader.readBool();
+          break;
+        case 14:
+          _instance.picturesAdded = _reader.readBool();
+          break;
+        case 15:
+          _instance.picturesAcceptedCount = _reader.readBool();
+          break;
+        case 16:
+          _instance.lastIp = _reader.readBool();
+          break;
+        case 17:
+          _instance.lastOnline = _reader.readBool();
+          break;
+        case 18:
+          _instance.login = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    UserFields.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: UserFields, _writer: BinaryWriter) {
+    if (_instance.email) {
+      _writer.writeBool(1, _instance.email);
+    }
+    if (_instance.timezone) {
+      _writer.writeBool(3, _instance.timezone);
+    }
+    if (_instance.language) {
+      _writer.writeBool(4, _instance.language);
+    }
+    if (_instance.votesPerDay) {
+      _writer.writeBool(5, _instance.votesPerDay);
+    }
+    if (_instance.votesLeft) {
+      _writer.writeBool(6, _instance.votesLeft);
+    }
+    if (_instance.img) {
+      _writer.writeBool(7, _instance.img);
+    }
+    if (_instance.gravatarLarge) {
+      _writer.writeBool(8, _instance.gravatarLarge);
+    }
+    if (_instance.photo) {
+      _writer.writeBool(9, _instance.photo);
+    }
+    if (_instance.isModer) {
+      _writer.writeBool(10, _instance.isModer);
+    }
+    if (_instance.regDate) {
+      _writer.writeBool(11, _instance.regDate);
+    }
+    if (_instance.picturesAdded) {
+      _writer.writeBool(14, _instance.picturesAdded);
+    }
+    if (_instance.picturesAcceptedCount) {
+      _writer.writeBool(15, _instance.picturesAcceptedCount);
+    }
+    if (_instance.lastIp) {
+      _writer.writeBool(16, _instance.lastIp);
+    }
+    if (_instance.lastOnline) {
+      _writer.writeBool(17, _instance.lastOnline);
+    }
+    if (_instance.login) {
+      _writer.writeBool(18, _instance.login);
+    }
+  }
+
+  private _email: boolean;
+  private _timezone: boolean;
+  private _language: boolean;
+  private _votesPerDay: boolean;
+  private _votesLeft: boolean;
+  private _img: boolean;
+  private _gravatarLarge: boolean;
+  private _photo: boolean;
+  private _isModer: boolean;
+  private _regDate: boolean;
+  private _picturesAdded: boolean;
+  private _picturesAcceptedCount: boolean;
+  private _lastIp: boolean;
+  private _lastOnline: boolean;
+  private _login: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of UserFields to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<UserFields.AsObject>) {
+    _value = _value || {};
+    this.email = _value.email;
+    this.timezone = _value.timezone;
+    this.language = _value.language;
+    this.votesPerDay = _value.votesPerDay;
+    this.votesLeft = _value.votesLeft;
+    this.img = _value.img;
+    this.gravatarLarge = _value.gravatarLarge;
+    this.photo = _value.photo;
+    this.isModer = _value.isModer;
+    this.regDate = _value.regDate;
+    this.picturesAdded = _value.picturesAdded;
+    this.picturesAcceptedCount = _value.picturesAcceptedCount;
+    this.lastIp = _value.lastIp;
+    this.lastOnline = _value.lastOnline;
+    this.login = _value.login;
+    UserFields.refineValues(this);
+  }
+  get email(): boolean {
+    return this._email;
+  }
+  set email(value: boolean) {
+    this._email = value;
+  }
+  get timezone(): boolean {
+    return this._timezone;
+  }
+  set timezone(value: boolean) {
+    this._timezone = value;
+  }
+  get language(): boolean {
+    return this._language;
+  }
+  set language(value: boolean) {
+    this._language = value;
+  }
+  get votesPerDay(): boolean {
+    return this._votesPerDay;
+  }
+  set votesPerDay(value: boolean) {
+    this._votesPerDay = value;
+  }
+  get votesLeft(): boolean {
+    return this._votesLeft;
+  }
+  set votesLeft(value: boolean) {
+    this._votesLeft = value;
+  }
+  get img(): boolean {
+    return this._img;
+  }
+  set img(value: boolean) {
+    this._img = value;
+  }
+  get gravatarLarge(): boolean {
+    return this._gravatarLarge;
+  }
+  set gravatarLarge(value: boolean) {
+    this._gravatarLarge = value;
+  }
+  get photo(): boolean {
+    return this._photo;
+  }
+  set photo(value: boolean) {
+    this._photo = value;
+  }
+  get isModer(): boolean {
+    return this._isModer;
+  }
+  set isModer(value: boolean) {
+    this._isModer = value;
+  }
+  get regDate(): boolean {
+    return this._regDate;
+  }
+  set regDate(value: boolean) {
+    this._regDate = value;
+  }
+  get picturesAdded(): boolean {
+    return this._picturesAdded;
+  }
+  set picturesAdded(value: boolean) {
+    this._picturesAdded = value;
+  }
+  get picturesAcceptedCount(): boolean {
+    return this._picturesAcceptedCount;
+  }
+  set picturesAcceptedCount(value: boolean) {
+    this._picturesAcceptedCount = value;
+  }
+  get lastIp(): boolean {
+    return this._lastIp;
+  }
+  set lastIp(value: boolean) {
+    this._lastIp = value;
+  }
+  get lastOnline(): boolean {
+    return this._lastOnline;
+  }
+  set lastOnline(value: boolean) {
+    this._lastOnline = value;
+  }
+  get login(): boolean {
+    return this._login;
+  }
+  set login(value: boolean) {
+    this._login = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    UserFields.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): UserFields.AsObject {
+    return {
+      email: this.email,
+      timezone: this.timezone,
+      language: this.language,
+      votesPerDay: this.votesPerDay,
+      votesLeft: this.votesLeft,
+      img: this.img,
+      gravatarLarge: this.gravatarLarge,
+      photo: this.photo,
+      isModer: this.isModer,
+      regDate: this.regDate,
+      picturesAdded: this.picturesAdded,
+      picturesAcceptedCount: this.picturesAcceptedCount,
+      lastIp: this.lastIp,
+      lastOnline: this.lastOnline,
+      login: this.login
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): UserFields.AsProtobufJSON {
+    return {
+      email: this.email,
+      timezone: this.timezone,
+      language: this.language,
+      votesPerDay: this.votesPerDay,
+      votesLeft: this.votesLeft,
+      img: this.img,
+      gravatarLarge: this.gravatarLarge,
+      photo: this.photo,
+      isModer: this.isModer,
+      regDate: this.regDate,
+      picturesAdded: this.picturesAdded,
+      picturesAcceptedCount: this.picturesAcceptedCount,
+      lastIp: this.lastIp,
+      lastOnline: this.lastOnline,
+      login: this.login
+    };
+  }
+}
+export module UserFields {
+  /**
+   * Standard JavaScript object representation for UserFields
+   */
+  export interface AsObject {
+    email: boolean;
+    timezone: boolean;
+    language: boolean;
+    votesPerDay: boolean;
+    votesLeft: boolean;
+    img: boolean;
+    gravatarLarge: boolean;
+    photo: boolean;
+    isModer: boolean;
+    regDate: boolean;
+    picturesAdded: boolean;
+    picturesAcceptedCount: boolean;
+    lastIp: boolean;
+    lastOnline: boolean;
+    login: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for UserFields
+   */
+  export interface AsProtobufJSON {
+    email: boolean;
+    timezone: boolean;
+    language: boolean;
+    votesPerDay: boolean;
+    votesLeft: boolean;
+    img: boolean;
+    gravatarLarge: boolean;
+    photo: boolean;
+    isModer: boolean;
+    regDate: boolean;
+    picturesAdded: boolean;
+    picturesAcceptedCount: boolean;
+    lastIp: boolean;
+    lastOnline: boolean;
+    login: boolean;
   }
 }
 
@@ -25664,6 +26435,9 @@ export class APIUsersRequest implements GrpcMessage {
     _instance.isOnline = _instance.isOnline || false;
     _instance.limit = _instance.limit || '0';
     _instance.page = _instance.page || '0';
+    _instance.fields = _instance.fields || undefined;
+    _instance.search = _instance.search || '';
+    _instance.id = _instance.id || [];
   }
 
   /**
@@ -25687,6 +26461,21 @@ export class APIUsersRequest implements GrpcMessage {
           break;
         case 4:
           _instance.page = _reader.readUint64String();
+          break;
+        case 5:
+          _instance.fields = new UserFields();
+          _reader.readMessage(
+            _instance.fields,
+            UserFields.deserializeBinaryFromReader
+          );
+          break;
+        case 6:
+          _instance.search = _reader.readString();
+          break;
+        case 7:
+          (_instance.id = _instance.id || []).push(
+            ...(_reader.readPackedInt64String() || [])
+          );
           break;
         default:
           _reader.skipField();
@@ -25714,11 +26503,27 @@ export class APIUsersRequest implements GrpcMessage {
     if (_instance.page) {
       _writer.writeUint64String(4, _instance.page);
     }
+    if (_instance.fields) {
+      _writer.writeMessage(
+        5,
+        _instance.fields as any,
+        UserFields.serializeBinaryToWriter
+      );
+    }
+    if (_instance.search) {
+      _writer.writeString(6, _instance.search);
+    }
+    if (_instance.id && _instance.id.length) {
+      _writer.writePackedInt64String(7, _instance.id);
+    }
   }
 
   private _isOnline: boolean;
   private _limit: string;
   private _page: string;
+  private _fields?: UserFields;
+  private _search: string;
+  private _id: string[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25729,6 +26534,9 @@ export class APIUsersRequest implements GrpcMessage {
     this.isOnline = _value.isOnline;
     this.limit = _value.limit;
     this.page = _value.page;
+    this.fields = _value.fields ? new UserFields(_value.fields) : undefined;
+    this.search = _value.search;
+    this.id = (_value.id || []).slice();
     APIUsersRequest.refineValues(this);
   }
   get isOnline(): boolean {
@@ -25749,6 +26557,24 @@ export class APIUsersRequest implements GrpcMessage {
   set page(value: string) {
     this._page = value;
   }
+  get fields(): UserFields | undefined {
+    return this._fields;
+  }
+  set fields(value: UserFields | undefined) {
+    this._fields = value;
+  }
+  get search(): string {
+    return this._search;
+  }
+  set search(value: string) {
+    this._search = value;
+  }
+  get id(): string[] {
+    return this._id;
+  }
+  set id(value: string[]) {
+    this._id = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25767,7 +26593,10 @@ export class APIUsersRequest implements GrpcMessage {
     return {
       isOnline: this.isOnline,
       limit: this.limit,
-      page: this.page
+      page: this.page,
+      fields: this.fields ? this.fields.toObject() : undefined,
+      search: this.search,
+      id: (this.id || []).slice()
     };
   }
 
@@ -25790,7 +26619,10 @@ export class APIUsersRequest implements GrpcMessage {
     return {
       isOnline: this.isOnline,
       limit: this.limit,
-      page: this.page
+      page: this.page,
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null,
+      search: this.search,
+      id: (this.id || []).slice()
     };
   }
 }
@@ -25802,6 +26634,9 @@ export module APIUsersRequest {
     isOnline: boolean;
     limit: string;
     page: string;
+    fields?: UserFields.AsObject;
+    search: string;
+    id: string[];
   }
 
   /**
@@ -25811,6 +26646,9 @@ export module APIUsersRequest {
     isOnline: boolean;
     limit: string;
     page: string;
+    fields: UserFields.AsProtobufJSON | null;
+    search: string;
+    id: string[];
   }
 }
 

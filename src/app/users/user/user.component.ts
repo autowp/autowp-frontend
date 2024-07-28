@@ -4,6 +4,7 @@ import {
   APICommentsMessage,
   APIDeleteUserRequest,
   APIIP,
+  APIUser,
   APIUserPreferencesRequest,
   AddToTrafficBlacklistRequest,
   CommentMessageFields,
@@ -11,6 +12,7 @@ import {
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest,
   GetMessagesRequest,
+  UserFields,
 } from '@grpc/spec.pb';
 import {CommentsClient, ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -20,7 +22,7 @@ import {ContactsService} from '@services/contacts';
 import {IpService} from '@services/ip';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {APIUser, UserService} from '@services/user';
+import {UserService} from '@services/user';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -54,10 +56,19 @@ export class UsersUserComponent {
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((identity) =>
-      this.userService.getByIdentity$(identity, {
-        fields:
-          'identity,gravatar_hash,photo,is_moder,reg_date,last_online,accounts,pictures_added,pictures_accepted_count,last_ip',
-      }),
+      this.userService.getByIdentity$(
+        identity,
+        new UserFields({
+          gravatarLarge: true,
+          isModer: true,
+          lastIp: true,
+          lastOnline: true,
+          photo: true,
+          picturesAcceptedCount: true,
+          picturesAdded: true,
+          regDate: true,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -124,11 +135,11 @@ export class UsersUserComponent {
 
   protected readonly ip$: Observable<APIIP | null> = combineLatest([this.user$, this.ipChange$]).pipe(
     switchMap(([user]) => {
-      if (!user.last_ip) {
+      if (!user.lastIp) {
         return of(null);
       }
 
-      return this.ipService.getIp$(user.last_ip, ['blacklist', 'rights']).pipe(catchError(() => of(null)));
+      return this.ipService.getIp$(user.lastIp, ['blacklist', 'rights']).pipe(catchError(() => of(null)));
     }),
   );
 
@@ -246,7 +257,7 @@ export class UsersUserComponent {
     this.api.request<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
-        user.photo = null;
+        user.photo = undefined;
       },
     });
   }

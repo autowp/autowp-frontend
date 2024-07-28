@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIUser} from '@services/user';
+import {APIUser} from '@grpc/spec.pb';
 
 @Component({
   selector: 'app-user',
