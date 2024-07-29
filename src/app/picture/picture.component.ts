@@ -49,7 +49,7 @@ export class PictureComponent {
     map((picture) =>
       picture?.moder_votes.map((vote) => ({
         reason: vote.reason,
-        user$: this.userService.getUser$(vote.user_id),
+        user$: this.userService.getUser$('' + vote.user_id),
         vote: vote.vote,
       })),
     ),

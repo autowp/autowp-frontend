@@ -153,7 +153,7 @@ export interface APIPicturePaginator {
 
 export interface APIPictureModerVote {
   reason: string;
-  user_id: string;
+  user_id: number;
   vote: number;
 }
 
