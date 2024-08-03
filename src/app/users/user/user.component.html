@@ -33,7 +33,7 @@
         <strong *ngIf="!user.isModer" i18n>Visitor</strong>
       </p>
 
-      <p *ngIf="user.reg_date">
+      <p *ngIf="user.regDate">
         <ng-container i18n>Registration date</ng-container>
         <strong
           [textContent]="user.regDate.toDate() | timeAgo"
