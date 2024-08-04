@@ -23527,6 +23527,461 @@ export module UpdateModerVoteRequest {
 }
 
 /**
+ * Message implementation for goautowp.PicturesUserSummary
+ */
+export class PicturesUserSummary implements GrpcMessage {
+  static id = 'goautowp.PicturesUserSummary';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PicturesUserSummary();
+    PicturesUserSummary.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PicturesUserSummary) {
+    _instance.inboxCount = _instance.inboxCount || 0;
+    _instance.acceptedCount = _instance.acceptedCount || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PicturesUserSummary,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.inboxCount = _reader.readInt32();
+          break;
+        case 2:
+          _instance.acceptedCount = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PicturesUserSummary.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PicturesUserSummary,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.inboxCount) {
+      _writer.writeInt32(1, _instance.inboxCount);
+    }
+    if (_instance.acceptedCount) {
+      _writer.writeInt32(2, _instance.acceptedCount);
+    }
+  }
+
+  private _inboxCount: number;
+  private _acceptedCount: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PicturesUserSummary to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PicturesUserSummary.AsObject>) {
+    _value = _value || {};
+    this.inboxCount = _value.inboxCount;
+    this.acceptedCount = _value.acceptedCount;
+    PicturesUserSummary.refineValues(this);
+  }
+  get inboxCount(): number {
+    return this._inboxCount;
+  }
+  set inboxCount(value: number) {
+    this._inboxCount = value;
+  }
+  get acceptedCount(): number {
+    return this._acceptedCount;
+  }
+  set acceptedCount(value: number) {
+    this._acceptedCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PicturesUserSummary.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PicturesUserSummary.AsObject {
+    return {
+      inboxCount: this.inboxCount,
+      acceptedCount: this.acceptedCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PicturesUserSummary.AsProtobufJSON {
+    return {
+      inboxCount: this.inboxCount,
+      acceptedCount: this.acceptedCount
+    };
+  }
+}
+export module PicturesUserSummary {
+  /**
+   * Standard JavaScript object representation for PicturesUserSummary
+   */
+  export interface AsObject {
+    inboxCount: number;
+    acceptedCount: number;
+  }
+
+  /**
+   * Protobuf JSON representation for PicturesUserSummary
+   */
+  export interface AsProtobufJSON {
+    inboxCount: number;
+    acceptedCount: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PictureIDRequest
+ */
+export class PictureIDRequest implements GrpcMessage {
+  static id = 'goautowp.PictureIDRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PictureIDRequest();
+    PictureIDRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PictureIDRequest) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PictureIDRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PictureIDRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PictureIDRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PictureIDRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PictureIDRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    PictureIDRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PictureIDRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PictureIDRequest.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PictureIDRequest.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module PictureIDRequest {
+  /**
+   * Standard JavaScript object representation for PictureIDRequest
+   */
+  export interface AsObject {
+    id: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PictureIDRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteSimilarRequest
+ */
+export class DeleteSimilarRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteSimilarRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteSimilarRequest();
+    DeleteSimilarRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteSimilarRequest) {
+    _instance.id = _instance.id || '0';
+    _instance.similarPictureId = _instance.similarPictureId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteSimilarRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.similarPictureId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteSimilarRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteSimilarRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.similarPictureId) {
+      _writer.writeInt64String(2, _instance.similarPictureId);
+    }
+  }
+
+  private _id: string;
+  private _similarPictureId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteSimilarRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DeleteSimilarRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.similarPictureId = _value.similarPictureId;
+    DeleteSimilarRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get similarPictureId(): string {
+    return this._similarPictureId;
+  }
+  set similarPictureId(value: string) {
+    this._similarPictureId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteSimilarRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteSimilarRequest.AsObject {
+    return {
+      id: this.id,
+      similarPictureId: this.similarPictureId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteSimilarRequest.AsProtobufJSON {
+    return {
+      id: this.id,
+      similarPictureId: this.similarPictureId
+    };
+  }
+}
+export module DeleteSimilarRequest {
+  /**
+   * Standard JavaScript object representation for DeleteSimilarRequest
+   */
+  export interface AsObject {
+    id: string;
+    similarPictureId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteSimilarRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    similarPictureId: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.DeleteModerVoteRequest
  */
 export class DeleteModerVoteRequest implements GrpcMessage {

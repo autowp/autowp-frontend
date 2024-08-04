@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIIP, APIUser, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {APIIP, APIUser, DeleteSimilarRequest, ItemFields, ItemRequest, ItemType, PictureIDRequest} from '@grpc/spec.pb';
 import {APIItem} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
@@ -172,6 +172,7 @@ export class ModerPicturesItemComponent {
     private readonly ipService: IpService,
     private readonly itemsClient: ItemsClient,
     private readonly userService: UserService,
+    private readonly picturesClient: PicturesClient,
   ) {
     this.monthOptions = [
       {
@@ -323,9 +324,9 @@ export class ModerPicturesItemComponent {
     this.setPictureStatus(id, 'inbox');
   }
 
-  protected normalizePicture(id: number) {
+  protected normalizePicture(id: string) {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + id + '/normalize', {}).subscribe({
+    this.picturesClient.normalize(new PictureIDRequest({id})).subscribe({
       error: () => {
         this.repairLoading = false;
       },
@@ -336,9 +337,9 @@ export class ModerPicturesItemComponent {
     });
   }
 
-  protected flopPicture(id: number) {
+  protected flopPicture(id: string) {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + id + '/flop', {}).subscribe({
+    this.picturesClient.flop(new PictureIDRequest({id})).subscribe({
       error: () => {
         this.repairLoading = false;
       },
@@ -377,15 +378,17 @@ export class ModerPicturesItemComponent {
 
   protected cancelSimilar(picture: APIPicture) {
     this.similarLoading = true;
-    this.api.request<void>('DELETE', 'picture/' + picture.id + '/similar/' + picture.similar.picture_id).subscribe({
-      error: () => {
-        this.similarLoading = false;
-      },
-      next: () => {
-        this.change$.next();
-        this.similarLoading = false;
-      },
-    });
+    this.picturesClient
+      .deleteSimilar(new DeleteSimilarRequest({id: '' + picture.id, similarPictureId: '' + picture.similar.picture_id}))
+      .subscribe({
+        error: () => {
+          this.similarLoading = false;
+        },
+        next: () => {
+          this.change$.next();
+          this.similarLoading = false;
+        },
+      });
   }
 
   protected deletePictureItem(item: APIPictureItem) {

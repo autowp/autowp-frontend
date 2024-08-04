@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {PicturesVoteRequest, PicturesVoteSummary} from '@grpc/spec.pb';
+import {PicturesUserSummary, PicturesVoteRequest, PicturesVoteSummary} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -200,11 +201,6 @@ export interface APIGetPicturesOptions {
   status?: string;
 }
 
-export interface APIPictureUserSummary {
-  acceptedCount: number;
-  inboxCount: number;
-}
-
 function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 
@@ -352,12 +348,12 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
 
 @Injectable()
 export class PictureService {
-  private readonly summary$: Observable<APIPictureUserSummary | null> = this.auth.getUser$().pipe(
+  public readonly summary$: Observable<PicturesUserSummary | null> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         return of(null);
       }
-      return this.api.request<APIPictureUserSummary>('GET', 'picture/user-summary');
+      return this.pictures.getUserSummary(new Empty());
     }),
     shareReplay(1),
   );
@@ -405,10 +401,6 @@ export class PictureService {
     return this.api.request<APIPictureGetResponse>('GET', 'picture', {
       params: converPicturesOptions(options ? options : {}),
     });
-  }
-
-  public getSummary$(): Observable<APIPictureUserSummary | null> {
-    return this.summary$;
   }
 
   public getInboxSize$(): Observable<null | number> {

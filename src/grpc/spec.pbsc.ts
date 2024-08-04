@@ -3600,6 +3600,90 @@ export class PicturesClient {
         requestClass: thisProto.UpdateModerVoteRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/GetUserSummary
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.PicturesUserSummary>>
+     */
+    getUserSummary: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.PicturesUserSummary>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetUserSummary',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.PicturesUserSummary
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/Normalize
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    normalize: (
+      requestData: thisProto.PictureIDRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/Normalize',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PictureIDRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/Flop
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    flop: (
+      requestData: thisProto.PictureIDRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/Flop',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PictureIDRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/DeleteSimilar
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteSimilar: (
+      requestData: thisProto.DeleteSimilarRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/DeleteSimilar',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteSimilarRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -3720,6 +3804,70 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .updateModerVote(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetUserSummary
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.PicturesUserSummary>
+   */
+  getUserSummary(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.PicturesUserSummary> {
+    return this.$raw
+      .getUserSummary(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/Normalize
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  normalize(
+    requestData: thisProto.PictureIDRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .normalize(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/Flop
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  flop(
+    requestData: thisProto.PictureIDRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .flop(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/DeleteSimilar
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteSimilar(
+    requestData: thisProto.DeleteSimilarRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteSimilar(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

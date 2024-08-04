@@ -38,7 +38,7 @@ export class AccountComponent {
       shareReplay(1),
     ),
     this.messageService.getSummary$(),
-    this.pictureService.getSummary$(),
+    this.pictureService.summary$,
   ]).pipe(
     map(([user, forumSummary, messageSummary, picturesSummary]) => {
       if (!user) {
@@ -76,14 +76,14 @@ export class AccountComponent {
           routerLink: ['/account/accounts'],
         },
         {
-          count: picturesSummary ? picturesSummary.acceptedCount : undefined,
+          count: picturesSummary?.acceptedCount,
           icon: 'bi-grid-3x2-gap-fill',
           name: $localize`My pictures`,
           pageId: 130,
           routerLink: ['/users', user.identity ? user.identity : 'user' + user.id, 'pictures'],
         },
         {
-          count: picturesSummary ? picturesSummary.inboxCount : undefined,
+          count: picturesSummary?.inboxCount,
           icon: 'bi-grid-3x2-gap-fill',
           name: $localize`Unmoderated`,
           pageId: 94,

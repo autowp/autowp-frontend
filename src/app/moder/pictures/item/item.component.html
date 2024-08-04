@@ -434,7 +434,7 @@
         <div>
           <button
             class="btn btn-warning"
-            (click)="normalizePicture(picture.id)"
+            (click)="normalizePicture('' + picture.id)"
             *ngIf="picture.rights.normalize"
             [disabled]="repairLoading"
           >
@@ -443,7 +443,7 @@
           </button>
           <button
             class="btn btn-warning"
-            (click)="flopPicture(picture.id)"
+            (click)="flopPicture('' + picture.id)"
             *ngIf="picture.rights.flop"
             [disabled]="repairLoading"
           >
