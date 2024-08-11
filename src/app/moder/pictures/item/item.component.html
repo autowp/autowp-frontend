@@ -462,7 +462,7 @@
         </div>
 
         <div>
-          <button class="btn btn-secondary" (click)="repairPicture(picture.id)" [disabled]="repairLoading">
+          <button class="btn btn-secondary" (click)="repairPicture(picture.id + '')" [disabled]="repairLoading">
             <i class="bi bi-wrench" aria-hidden="true"></i>
             <ng-container i18n>Repair all files</ng-container>
           </button>

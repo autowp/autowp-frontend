@@ -350,9 +350,9 @@ export class ModerPicturesItemComponent {
     });
   }
 
-  protected repairPicture(id: number) {
+  protected repairPicture(id: string) {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + id + '/repair', {}).subscribe({
+    this.picturesClient.repair(new PictureIDRequest({id})).subscribe({
       error: () => {
         this.repairLoading = false;
       },

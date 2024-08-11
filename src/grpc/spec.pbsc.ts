@@ -3684,6 +3684,27 @@ export class PicturesClient {
         requestClass: thisProto.DeleteSimilarRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/Repair
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    repair: (
+      requestData: thisProto.PictureIDRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/Repair',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PictureIDRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -3868,6 +3889,22 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .deleteSimilar(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/Repair
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  repair(
+    requestData: thisProto.PictureIDRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .repair(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
