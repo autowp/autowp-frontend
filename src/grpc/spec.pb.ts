@@ -25321,6 +25321,7 @@ export class Pages implements GrpcMessage {
     _instance.lastPageInRange = _instance.lastPageInRange || 0;
     _instance.pagesInRange = _instance.pagesInRange || [];
     _instance.totalItemCount = _instance.totalItemCount || 0;
+    _instance.last = _instance.last || 0;
   }
 
   /**
@@ -25361,6 +25362,9 @@ export class Pages implements GrpcMessage {
           break;
         case 10:
           _instance.totalItemCount = _reader.readInt32();
+          break;
+        case 11:
+          _instance.last = _reader.readInt32();
           break;
         default:
           _reader.skipField();
@@ -25403,6 +25407,9 @@ export class Pages implements GrpcMessage {
     if (_instance.totalItemCount) {
       _writer.writeInt32(10, _instance.totalItemCount);
     }
+    if (_instance.last) {
+      _writer.writeInt32(11, _instance.last);
+    }
   }
 
   private _pageCount: number;
@@ -25414,6 +25421,7 @@ export class Pages implements GrpcMessage {
   private _lastPageInRange: number;
   private _pagesInRange: number[];
   private _totalItemCount: number;
+  private _last: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25430,6 +25438,7 @@ export class Pages implements GrpcMessage {
     this.lastPageInRange = _value.lastPageInRange;
     this.pagesInRange = (_value.pagesInRange || []).slice();
     this.totalItemCount = _value.totalItemCount;
+    this.last = _value.last;
     Pages.refineValues(this);
   }
   get pageCount(): number {
@@ -25486,6 +25495,12 @@ export class Pages implements GrpcMessage {
   set totalItemCount(value: number) {
     this._totalItemCount = value;
   }
+  get last(): number {
+    return this._last;
+  }
+  set last(value: number) {
+    this._last = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25510,7 +25525,8 @@ export class Pages implements GrpcMessage {
       firstPageInRange: this.firstPageInRange,
       lastPageInRange: this.lastPageInRange,
       pagesInRange: (this.pagesInRange || []).slice(),
-      totalItemCount: this.totalItemCount
+      totalItemCount: this.totalItemCount,
+      last: this.last
     };
   }
 
@@ -25539,7 +25555,8 @@ export class Pages implements GrpcMessage {
       firstPageInRange: this.firstPageInRange,
       lastPageInRange: this.lastPageInRange,
       pagesInRange: (this.pagesInRange || []).slice(),
-      totalItemCount: this.totalItemCount
+      totalItemCount: this.totalItemCount,
+      last: this.last
     };
   }
 }
@@ -25557,6 +25574,7 @@ export module Pages {
     lastPageInRange: number;
     pagesInRange: number[];
     totalItemCount: number;
+    last: number;
   }
 
   /**
@@ -25572,6 +25590,7 @@ export module Pages {
     lastPageInRange: number;
     pagesInRange: number[];
     totalItemCount: number;
+    last: number;
   }
 }
 
